@@ -251,7 +251,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		pre.bDoubleSided = bDoubleSided;
 		pre.dBrightness = dBrightness;
 		pre.bBehind = bBehind;
-
+		pre.setEnable( this.bEnabled );
 		return pre;
 	}
 

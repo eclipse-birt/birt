@@ -16,9 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
-import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.GObjectFactory;
 import org.eclipse.birt.chart.computation.IGObjectFactory;
+import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Point;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints3D;
@@ -50,7 +50,9 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.render.AxesRenderHelper;
 import org.eclipse.birt.chart.render.CurveRenderer;
+import org.eclipse.birt.chart.render.DeferredCache;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.FillUtil;
@@ -1394,6 +1396,8 @@ public class Area extends Line
 
 		private int findex;
 
+		private DeferredCache subDeferredCache;
+		
 		AreaDataPointsRenderer3D( Context context, Location[] loa, double dTapeWidth )
 				throws ChartException
 		{
@@ -1439,9 +1443,12 @@ public class Area extends Line
 			return y;
 		}
 
-		private void fillBackPlane( int pindex, int index )
-				throws ChartException
+		private void fillBackPlane( int pindex, int index,
+				DataPointsSeeker seeker ) throws ChartException
 		{
+			// Because chart use Painter's algorithm to compute the polygons
+			// Z-order, if the polygon is not convex hull, it needs to separate
+			// the polygon to multiple convex polygon.
 			double x0 = loa3d[pindex].getX( );
 			double y0 = shear( plotBaseLocation,
 					plotHeight,
@@ -1454,27 +1461,81 @@ public class Area extends Line
 					loa3d[index].getY( ) );
 			double z1 = loa3d[index].getZ( );
 
+			Double pValue = Methods.asDouble( seeker.getDataPointHints( pindex )
+					.getOrthogonalValue( ) );
+			Double value = Methods.asDouble( seeker.getDataPointHints( index )
+					.getOrthogonalValue( ) );
+			Object source = createDataPointSource( index );
 			if ( zeroLocation <= y0 )
 			{
-				loaPlane3d[0].set( x0, y0, z0 - dTapeWidth );
-				loaPlane3d[1].set( x1, y1, z1 - dTapeWidth );
-				loaPlane3d[2].set( x1, zeroLocation, z1 - dTapeWidth );
-				loaPlane3d[3].set( x0, zeroLocation, z0 - dTapeWidth );
+				if ( pValue != null
+						&& value != null
+						&& ( pValue.doubleValue( ) * value.doubleValue( ) ) < 0 )
+				{
+					double rate = ( 0 - pValue.doubleValue( ) )
+							/ ( value.doubleValue( ) - pValue.doubleValue( ) );
+					double midX = x0 + ( x1 - x0 ) * rate;
+					double midY = y0 + ( y1 - y0 ) * rate;
+
+					Location3D[] loc = createLocation3DArray( 3 );
+					loc[0].set( x0, y0, z0 - dTapeWidth );
+					loc[1].set( midX, midY, z0 - dTapeWidth );
+					loc[2].set( x0, midY, z0 - dTapeWidth );
+					fill3DPlane( fillColor, source, loc, false );
+
+					loc[0].set( midX, midY, z1 - dTapeWidth );
+					loc[1].set( x1, midY, z1 - dTapeWidth );
+					loc[2].set( x1, y1, z1 - dTapeWidth );
+					fill3DPlane( fillColor, source, loc, false );
+				}
+				else
+				{
+					loaPlane3d[0].set( x0, y0, z0 - dTapeWidth );
+					loaPlane3d[1].set( x1, y1, z1 - dTapeWidth );
+					loaPlane3d[2].set( x1, zeroLocation, z1 - dTapeWidth );
+					loaPlane3d[3].set( x0, zeroLocation, z0 - dTapeWidth );
+					fill3DPlane( fillColor, source, false );
+				}
 			}
 			else
 			{
-				loaPlane3d[0].set( x0, zeroLocation, z0 - dTapeWidth );
-				loaPlane3d[1].set( x1, zeroLocation, z1 - dTapeWidth );
-				loaPlane3d[2].set( x1, y1, z1 - dTapeWidth );
-				loaPlane3d[3].set( x0, y0, z0 - dTapeWidth );
-			}
+				if ( pValue != null
+						&& value != null
+						&& ( pValue.doubleValue( ) * value.doubleValue( ) ) < 0 )
+				{
+					double rate = ( 0 - pValue.doubleValue( ) )
+							/ ( value.doubleValue( ) - pValue.doubleValue( ) );
+					double midX = x0 + ( x1 - x0 ) * rate;
+					double midY = y0 + ( y1 - y0 ) * rate;
 
-			fill3DPlane( fillColor, createDataPointSource( index ), false );
+					Location3D[] loc = createLocation3DArray( 3 );
+					loc[0].set( x0, midY, z0 - dTapeWidth );
+					loc[1].set( midX, midY, z0 - dTapeWidth );
+					loc[2].set( x0, y0, z0 - dTapeWidth );
+					fill3DPlane( fillColor, source, loc, false );
+
+					loc[0].set( midX, midY, z1 - dTapeWidth );
+					loc[1].set( x1, y1, z1 - dTapeWidth );
+					loc[2].set( x1, midY, z1 - dTapeWidth );
+					fill3DPlane( fillColor, source, loc, false );
+				}
+				else
+				{
+					loaPlane3d[0].set( x0, zeroLocation, z0 - dTapeWidth );
+					loaPlane3d[1].set( x1, zeroLocation, z1 - dTapeWidth );
+					loaPlane3d[2].set( x1, y1, z1 - dTapeWidth );
+					loaPlane3d[3].set( x0, y0, z0 - dTapeWidth );
+					fill3DPlane( fillColor, source, false );
+				}
+			}
 		}
 
-		private Object fillFrontPlane( int pindex, int index )
-				throws ChartException
+		private Object fillFrontPlane( int pindex, int index,
+				DataPointsSeeker seeker ) throws ChartException
 		{
+			// Because chart use Painter's algorithm to compute the polygons
+			// Z-order, if the polygon is not convex hull, it needs to separate
+			// the polygon to multiple convex polygon.
 			double x0 = loa3d[pindex].getX( );
 			double y0 = shear( plotBaseLocation,
 					plotHeight,
@@ -1487,25 +1548,73 @@ public class Area extends Line
 					loa3d[index].getY( ) );
 			double z1 = loa3d[index].getZ( );
 
-			if ( zeroLocation <= shear( plotBaseLocation,
-					plotHeight,
-					loa3d[pindex].getY( ) ) )
+			Double pValue = Methods.asDouble( seeker.getDataPointHints( pindex )
+					.getOrthogonalValue( ) );
+			Double value = Methods.asDouble( seeker.getDataPointHints( index )
+					.getOrthogonalValue( ) );
+			Object source = createDataPointSource( index );
+			if ( zeroLocation <= y0 )
 			{
-				loaPlane3d[0].set( x0, y0, z0 );
-				loaPlane3d[1].set( x0, zeroLocation, z0 );
-				loaPlane3d[2].set( x1, zeroLocation, z1 );
-				loaPlane3d[3].set( x1, y1, z1 );
+				if ( pValue != null
+						&& value != null
+						&& ( pValue.doubleValue( ) * value.doubleValue( ) ) < 0 )
+				{
+					double rate = ( 0 - pValue.doubleValue( ) )
+							/ ( value.doubleValue( ) - pValue.doubleValue( ) );
+					double midX = x0 + ( x1 - x0 ) * rate;
+					double midY = y0 + ( y1 - y0 ) * rate;
+
+					Location3D[] loc = createLocation3DArray( 3 );
+					loc[0].set( x0, y0, z0 );
+					loc[1].set( midX + 1, midY, z0 );
+					loc[2].set( x0, midY, z0 );
+					fill3DPlane( fillColor, source, loc, true );
+
+					loc[0].set( midX, midY, z1 );
+					loc[1].set( x1, midY, z1 );
+					loc[2].set( x1, y1, z1 );
+					return fill3DPlane( fillColor, source, loc, true );
+				}
+				else
+				{
+					loaPlane3d[0].set( x0, y0, z0 );
+					loaPlane3d[1].set( x0, zeroLocation, z0 );
+					loaPlane3d[2].set( x1, zeroLocation, z1 );
+					loaPlane3d[3].set( x1, y1, z1 );
+					return fill3DPlane( fillColor, source, false );
+				}
 			}
 			else
 			{
-				loaPlane3d[0].set( x0, zeroLocation, z0 );
-				loaPlane3d[1].set( x0, y0, z0 );
-				loaPlane3d[2].set( x1, y1, z1 );
-				loaPlane3d[3].set( x1, zeroLocation, z1 );
+				if ( pValue != null
+						&& value != null
+						&& ( pValue.doubleValue( ) * value.doubleValue( ) ) < 0 )
+				{
+					double rate = ( 0 - pValue.doubleValue( ) )
+							/ ( value.doubleValue( ) - pValue.doubleValue( ) );
+					double midX = x0 + ( x1 - x0 ) * rate;
+					double midY = y0 + ( y1 - y0 ) * rate;
+
+					Location3D[] loc = createLocation3DArray( 3 );
+					loc[0].set( x0, midY, z0 );
+					loc[1].set( midX + 1, midY, z0 );
+					loc[2].set( x0, y0, z0 );
+					fill3DPlane( fillColor, source, loc, true );
+
+					loc[0].set( midX, midY, z1 );
+					loc[1].set( x1, y1, z1 );
+					loc[2].set( x1, midY, z1 );
+					return fill3DPlane( fillColor, source, loc, true );
+				}
+				else
+				{
+					loaPlane3d[0].set( x0, zeroLocation, z0 );
+					loaPlane3d[1].set( x0, y0, z0 );
+					loaPlane3d[2].set( x1, y1, z1 );
+					loaPlane3d[3].set( x1, zeroLocation, z1 );
+					return fill3DPlane( fillColor, source, false );
+				}
 			}
-			return fill3DPlane( fillColor,
-					createDataPointSource( index ),
-					false );
 		}
 
 		private void fillLeftSidePlane( int findex ) throws ChartException
@@ -1561,46 +1670,149 @@ public class Area extends Line
 
 		}
 
-		private void fillBottomPlane( int findex, int lindex )
+		private void fillBottomPlane( int findex, int lindex, DataPointsSeeker seeker )
 				throws ChartException
 		{
-			double x0 = loa3d[findex].getX( );
-			double z0 = loa3d[findex].getZ( );
+			// Different polygons of chart might be crossing with each other, in order to avoid
+			// polygon overlay, here must divide bottom polygon to multiple polygons
+			// according to every data point on series.
+			Double pValue = Methods.asDouble( seeker.getDataPointHints( findex ).getOrthogonalValue( ) );
+			Double value = Methods.asDouble( seeker.getDataPointHints( lindex ).getOrthogonalValue( ) );
+			
+			if ( pValue != null
+					&& value != null
+					&& ( pValue.doubleValue( ) * value.doubleValue( ) ) < 0 )
+			{
+				double x0 = loa3d[findex].getX( );
+				double y0 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[findex].getY( ) );
+				double z0 = loa3d[findex].getZ( );
 
-			double x1 = loa3d[lindex].getX( );
-			double z1 = loa3d[lindex].getZ( );
+				double x1 = loa3d[lindex].getX( );
+				double y1 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[lindex].getY( ) );
+				double z1 = loa3d[lindex].getZ( );
+				boolean up = ( y0 < y1 );
+				double rate = ( 0 - pValue.doubleValue( ) ) / ( value.doubleValue( ) - pValue.doubleValue( ) );
+				x1 = x0 + ( x1 - x0 ) * rate; 
+				y1 = y0 + ( y1 - y0 ) * rate;
 
+				fillBottomPlane( x0, z0, x1, z1, up );
+
+				x0 = x1;
+				y0 = y1;
+				z0 = loa3d[findex].getZ( );
+
+				x1 = loa3d[lindex].getX( );
+				y1 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[lindex].getY( ) );
+				z1 = loa3d[lindex].getZ( );
+
+				fillBottomPlane( x0, z0, x1, z1, !up );
+			}
+			else
+			{
+				double x0 = loa3d[findex].getX( );
+				double z0 = loa3d[findex].getZ( );
+
+				double x1 = loa3d[lindex].getX( );
+				double z1 = loa3d[lindex].getZ( );
+
+				fillBottomPlane( x0, z0, x1, z1, true );
+			}
+		}
+
+		private void fillBottomPlane( double x0, double z0, double x1, double z1, boolean bDoubleSided  )
+				throws ChartException
+		{
 			loaPlane3d[0].set( x0, zeroLocation, z0 );
 			loaPlane3d[1].set( x0, zeroLocation, z0 - dTapeWidth );
 			loaPlane3d[2].set( x1, zeroLocation, z1 - dTapeWidth );
 			loaPlane3d[3].set( x1, zeroLocation, z1 );
 
-			fill3DPlane( fillColor, createSeriesSource( ), true );
+			fill3DPlane( fillColor, createSeriesSource( ), bDoubleSided );
 		}
 
-		private void fillTopPlane( int pindex, int index )
-				throws ChartException
+		private void fillTopPlane( int pindex, int index,
+				DataPointsSeeker seeker ) throws ChartException
 		{
-			double x0 = loa3d[pindex].getX( );
-			double y0 = shear( plotBaseLocation,
-					plotHeight,
-					loa3d[pindex].getY( ) );
-			double z0 = loa3d[pindex].getZ( );
+			// Different polygons of chart might be crossing with each other, in
+			// order to avoid
+			// polygon overlay, here must divide bottom polygon to multiple
+			// polygons
+			// according to every data point on series.
+			Double pValue = Methods.asDouble( seeker.getDataPointHints( pindex )
+					.getOrthogonalValue( ) );
+			Double value = Methods.asDouble( seeker.getDataPointHints( index )
+					.getOrthogonalValue( ) );
 
-			double x1 = loa3d[index].getX( );
-			double y1 = shear( plotBaseLocation,
-					plotHeight,
-					loa3d[index].getY( ) );
-			double z1 = loa3d[index].getZ( );
+			if ( pValue != null
+					&& value != null
+					&& ( pValue.doubleValue( ) * value.doubleValue( ) ) < 0 )
+			{
+				double x0 = loa3d[pindex].getX( );
+				double y0 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[pindex].getY( ) );
+				double z0 = loa3d[pindex].getZ( );
 
-			loaPlane3d[0].set( x0, y0, z0 );
-			loaPlane3d[1].set( x1, y1, z1 );
-			loaPlane3d[2].set( x1, y1, z1 - dTapeWidth );
-			loaPlane3d[3].set( x0, y0, z0 - dTapeWidth );
+				double x1 = loa3d[index].getX( );
+				double y1 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[index].getY( ) );
+				double z1 = loa3d[index].getZ( );
 
-			fill3DPlane( tapeColor, createDataPointSource( index ), false );
+				double rate = ( 0 - pValue.doubleValue( ) )
+						/ ( value.doubleValue( ) - pValue.doubleValue( ) );
+				x1 = x0 + ( x1 - x0 ) * rate;
+				y1 = y0 + ( y1 - y0 ) * rate;
+
+				loaPlane3d[0].set( x0, y0, z0 );
+				loaPlane3d[1].set( x1, y1, z1 );
+				loaPlane3d[2].set( x1, y1, z1 - dTapeWidth );
+				loaPlane3d[3].set( x0, y0, z0 - dTapeWidth );
+				fill3DPlane( tapeColor, createDataPointSource( index ), true );
+
+				x0 = x1;
+				y0 = y1;
+				z0 = loa3d[findex].getZ( );
+
+				x1 = loa3d[index].getX( );
+				y1 = shear( plotBaseLocation, plotHeight, loa3d[index].getY( ) );
+				z1 = loa3d[index].getZ( );
+
+				loaPlane3d[0].set( x0, y0, z0 );
+				loaPlane3d[1].set( x1, y1, z1 );
+				loaPlane3d[2].set( x1, y1, z1 - dTapeWidth );
+				loaPlane3d[3].set( x0, y0, z0 - dTapeWidth );
+				fill3DPlane( tapeColor, createDataPointSource( index ), true );
+			}
+			else
+			{
+				double x0 = loa3d[pindex].getX( );
+				double y0 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[pindex].getY( ) );
+				double z0 = loa3d[pindex].getZ( );
+
+				double x1 = loa3d[index].getX( );
+				double y1 = shear( plotBaseLocation,
+						plotHeight,
+						loa3d[index].getY( ) );
+				double z1 = loa3d[index].getZ( );
+
+				loaPlane3d[0].set( x0, y0, z0 );
+				loaPlane3d[1].set( x1, y1, z1 );
+				loaPlane3d[2].set( x1, y1, z1 - dTapeWidth );
+				loaPlane3d[3].set( x0, y0, z0 - dTapeWidth );
+
+				fill3DPlane( tapeColor, createDataPointSource( index ), false );
+			}
 		}
-
+		
 		private Object fill3DPlane( Fill fillColor, Object sourceObj,
 				boolean bDoubleSided ) throws ChartException
 		{
@@ -1609,11 +1821,24 @@ public class Area extends Line
 			pre3d.setPoints3D( loaPlane3d );
 			pre3d.setBackground( fillColor );
 			pre3d.setSourceObject( sourceObj );
-			Object event = dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+			Object event = subDeferredCache.addPlane( pre3d, PrimitiveRenderEvent.FILL );
 			pre3d.setDoubleSided( false );
 			return event;
 		}
 
+		private Object fill3DPlane( Fill fillColor, Object sourceObj,
+				Location3D[] loc, boolean bDoubleSided ) throws ChartException
+		{
+			pre3d.setDoubleSided( bDoubleSided );
+			pre3d.setOutline( null );
+			pre3d.setPoints3D( loc );
+			pre3d.setBackground( fillColor );
+			pre3d.setSourceObject( sourceObj );
+			Object event = subDeferredCache.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+			pre3d.setDoubleSided( false );
+			return event;
+		}
+		
 		private void drawFrontLine( int pindex, int index, Object eventFront )
 		{
 			if ( !lia.isVisible( ) )
@@ -1638,8 +1863,7 @@ public class Area extends Line
 
 			lre3d.setStart3D( loStart );
 			lre3d.setEnd3D( loEnd );
-			lre3d.setObject3DParent( Engine3D.getObjectFromEvent( eventFront ) );
-			dc.addLine( lre3d );
+			AxesRenderHelper.addLine3DEvent( lre3d, eventFront, dc );
 		}
 
 		@Override
@@ -1657,7 +1881,6 @@ public class Area extends Line
 				throws ChartException
 		{
 			int lindex = seeker.getIndex( );
-			fillBottomPlane( findex, lindex );
 			fillRightSidePlane( lindex );
 		}
 
@@ -1665,12 +1888,68 @@ public class Area extends Line
 		protected void beforeLoop( DataPointsSeeker seeker )
 				throws ChartException
 		{
-			findex = seeker.getIndex( );
+			if ( subDeferredCache == null )
+			{
+				// In order to simplify the computation of rendering order of
+				// planes in 3D space, here we create a plane and add it into
+				// current deferred cache, it is used as a delegate of all planes of
+				// current series to take part in the sorting of planes in 3D space,
+				// the order of this plane will determine the rendering order of
+				// current series in 3D space. Also we create a sub deferred cache
+				// instead of current deferred cache to store all planes of current
+				// series, and add the sub-deferred cache as a child of this plane
+				// event, all planes in sub-deferred cache will be processed and
+				// rendered after this plane is processed.
+				addComparsionPlane( );
+			}
 
+			findex = seeker.getIndex( );
 			if ( findex >= 0 )
 			{
 				fillLeftSidePlane( findex );
 			}
+		}
+
+		private void addComparsionPlane( ) throws ChartException
+		{
+			subDeferredCache = dc.deriveNewDeferredCache( );
+
+			// Create location 3d of a plane.
+			Location3D[] l3d = createLocation3DArray( 4 );
+			double x0 = loa3d[0].getX( );
+			double x1 = loa3d[loa3d.length - 1].getX( );
+			double minY = loa3d[0].getY( );
+			double maxY = loa3d[0].getY( );
+			double maxZ = loa3d[0].getZ( );
+			for ( int i = 0; i < loa3d.length; i++ )
+			{
+				if ( minY > loa3d[i].getY( ) )
+					minY = loa3d[i].getY( );
+				if ( maxY < loa3d[i].getY( ) )
+					maxY = loa3d[i].getY( );
+				if ( maxZ < loa3d[i].getZ( ) )
+					maxZ = loa3d[i].getZ( );
+			}
+			l3d[0].set( x0, maxY, maxZ );
+			l3d[1].set( x1, maxY, maxZ );
+			l3d[2].set( x1, minY, maxZ );
+			l3d[3].set( x0, minY, maxZ );
+
+			Object sourceObj = createDataPointSource( 0 );
+			pre3d.setEnable( false );
+			pre3d.setDoubleSided( true );
+			pre3d.setOutline( null );
+			pre3d.setPoints3D( l3d );
+			pre3d.setBackground( fillColor );
+			pre3d.setSourceObject( sourceObj );
+			Object event = dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+			if ( event instanceof WrappedInstruction )
+			{
+				( (WrappedInstruction) event ).setSubDeferredCache( subDeferredCache );
+			}
+			// Restore the default value.
+			pre3d.setDoubleSided( false );
+			pre3d.setEnable( true );
 		}
 
 		@Override
@@ -1679,9 +1958,10 @@ public class Area extends Line
 		{
 			int index = seeker.getIndex( );
 			int pindex = seeker.getPrevIndex( );
-			fillBackPlane( pindex, index );
-			fillTopPlane( pindex, index );
-			Object eventFront = fillFrontPlane( pindex, index );
+			fillBackPlane( pindex, index, seeker );
+			fillTopPlane( pindex, index, seeker );
+			fillBottomPlane( pindex, index, seeker );
+			Object eventFront = fillFrontPlane( pindex, index, seeker );
 			drawFrontLine( pindex, index, eventFront );
 		}
 

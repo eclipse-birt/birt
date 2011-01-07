@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.computation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -584,13 +583,18 @@ public final class Engine3D implements IConstants
 
 			object3D.prepareZSort( );
 
-			boolean behind = checkBehindFace( p3dre );
-			p3dre.setBehind( behind );
-
-			if ( p3dre.isBehind( ) )
+			// The disabled 3d render event is just used to determine the
+			// rendering order of polygons, can't be removed.
+			if ( p3dre.isEnabled( ) )
 			{
-				// optimize for culling face.
-				return false;
+				boolean behind = checkBehindFace( p3dre );
+				p3dre.setBehind( behind );
+
+				if ( p3dre.isBehind( ) )
+				{
+					// optimize for culling face.
+					return false;
+				}
 			}
 
 			double cosValue = object3D.getNormal( ).cosineValue( LDR );
@@ -849,6 +853,11 @@ public final class Engine3D implements IConstants
 				assert !wi.isModel( );
 				
 				obj = wi.getEvent( );
+				
+				// The render events in sub-deferred cache should be processed too.
+				if ( wi.getSubDeferredCache( ) != null ) {
+					wi.getSubDeferredCache( ).process3DEvent( this, xOffset, yOffset );
+				}
 			}
 
 			if ( translate3DEvent( obj, transMatrix, xOffset, yOffset ) )
@@ -983,72 +992,78 @@ public final class Engine3D implements IConstants
 
 		return wi;
 	}
-	
-	protected void overlapSwap( List rtList )
+
+	/**
+	 * This method uses <a
+	 * href='http://en.wikipedia.org/wiki/Painter%27s_algorithm'>Painter's
+	 * Algorithm</a> to determine the orders of the polygons in current 3D
+	 * space.
+	 * <P>
+	 * Painter's Algorithm:<br>
+	 * Let's say there are two polygons P and Q. Supposing Zmin(P) < Zmin(Q), if
+	 * Zmax(P) < Zmax(Q) then P doesn't overlay Q, if Zmax(P) > Zmax(Q) then we
+	 * must check five cases below: <br>
+	 * 1. The shadow bounding(s) of P and Q on OXY plane haven't intersectant
+	 * part on X direction.<br>
+	 * 2. The shadow bounding(s) of P and Q on OXY plane haven't intersectant
+	 * part on Y direction.<br>
+	 * 3. The shadows of P and Q on OXY plane haven't intersection.<br>
+	 * 4. All points of P lie in one side of Q and view point lies in opposite
+	 * side of Q.<br>
+	 * 5. All points of Q and view point lie in the same side of P.<br>
+	 * Considering above 5 cases, anyone case is true, P won't overlay Q.
+	 * Otherwise, if all 5 cases are false, we must compute the intersection of
+	 * P and Q's shadow polygons on XY plane, it doesn't need to compute
+	 * concrete overlay part, just do the Z depth comparison on the crosspoint
+	 * to know the painting order of P and Q. If polygons have loop
+	 * intersections, it must first separate the polygons from intersection and
+	 * then compute crosspoints.<br>
+	 * Note: Painter's algorithm can just be applied to convex polygon, and
+	 * polygons in 3D space can't be intersection.
+	 * 
+	 * @param rtList
+	 */
+	protected void overlapSwap( List<Object> rtList )
 	{
-		HashSet<Object> hs = new HashSet<Object>( );
-
-		for ( int i = 0; i < rtList.size( ); i++ )
+		if ( rtList.size( ) == 0 )
 		{
-			long max_loop = rtList.size( ) - i;
-			int n = -1;
-			boolean restart = true;
-			while ( restart && n < max_loop )
+			return;
+		}
+		List<Object> tmpList = new ArrayList<Object>( rtList );
+		while ( !tmpList.isEmpty( ) )
+		{
+			Object event = tmpList.remove( 0 );
+			Object3D far = getObjectFromEvent( event );
+			int idx = rtList.indexOf( event );
+			boolean shouldSwap = false;
+
+			for ( int i = idx + 1; i < rtList.size( ); i++ )
 			{
-				restart = false;
-				n++;
-
-				Object event = rtList.get( i );
-				Object3D far = getObjectFromEvent( event, true );
-
-				for ( int j = i + 1; j < rtList.size( ); j++ )
+				Object event2 = rtList.get( i );
+				Object3D near = getObjectFromEvent( event2 );
+				if ( far == near )
+					continue;
+				if ( far.testZOverlap( near ) )
 				{
-					Object event2 = rtList.get( j );
-					Object3D near = getObjectFromEvent( event2, true );
-					Object3D nearParent = getParentObject( event2 );
-					
-					if (far==near)
+					if ( far.testSwap( near, this ) )
 					{
-						if (nearParent==null) // near is parent
-						{
-							rtList.set( i, event2 );
-							rtList.set( j, event );
-
-							restart = true;
-							break;
-						}
-						else
-						{
-							continue;
-						}
-					}
-
-					// far != near
-					if ( far.testZOverlap( near ) )
-					{
-						boolean bSwap = far.testSwap( near, this );
-
-						if ( bSwap )
-						{
-							boolean bSwapedFromFront = hs.contains( event );
-							bSwap = !bSwapedFromFront;
-
-							if ( bSwap )
-							{
-								hs.add( event2 );
-							}
-						}
-
-						if ( bSwap )
-						{
-							rtList.set( i, event2 );
-							rtList.set( j, event );
-
-							restart = true;
-							break;
-						}
+						shouldSwap = true;
+						continue;
 					}
 				}
+				if ( shouldSwap )
+				{
+					rtList.add( i, event );
+					rtList.remove( idx );
+					shouldSwap = false;
+					break;
+				}
+			}
+			if ( shouldSwap )
+			{
+				// It means the swapped element is the last element in list.
+				rtList.add( event );
+				rtList.remove( idx );
 			}
 		}
 	}
@@ -1063,6 +1078,13 @@ public final class Engine3D implements IConstants
 		return getObjectFromEvent( event, false );
 	}
 	
+	/**
+	 * Since 2.6.2, the parent object isn't use anymore, this method is deprecated.
+	 * 
+	 * @param event
+	 * @return
+	 * @deprecated
+	 */
 	public static Object3D getParentObject( Object event )
 	{
 		if ( event instanceof Line3DRenderEvent )
@@ -1110,8 +1132,8 @@ public final class Engine3D implements IConstants
 
 			public int compare( Object o1, Object o2 )
 			{
-				Object3D obj1 = getObjectFromEvent( o1, true );
-				Object3D obj2 = getObjectFromEvent( o2, true );
+				Object3D obj1 = getObjectFromEvent( o1 );
+				Object3D obj2 = getObjectFromEvent( o2 );
 
 				if ( obj1.getZMax( ) > obj2.getZMax( ) )
 				{

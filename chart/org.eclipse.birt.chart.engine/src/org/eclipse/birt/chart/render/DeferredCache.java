@@ -64,6 +64,7 @@ public final class DeferredCache
 	public List al3D = new ArrayList( 16 );
 
 	private final boolean bTransposed;
+	private Chart cm;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
 
@@ -73,6 +74,7 @@ public final class DeferredCache
 	public DeferredCache( IDeviceRenderer idr, Chart c )
 	{
 		this.idr = idr;
+		cm = c;
 		bTransposed = ( c instanceof ChartWithAxes && ( (ChartWithAxes) c ).isTransposed( ) );
 	}
 
@@ -346,6 +348,13 @@ public final class DeferredCache
 							wi.getEvent( ).draw( _idr );
 							break;
 					}
+				}
+			
+				if ( wi instanceof WrappedInstruction
+						&& ( (WrappedInstruction) wi ).getSubDeferredCache( ) != null )
+				{
+					( (WrappedInstruction) wi ).getSubDeferredCache( )
+							.flushOptions( FLUSH_3D );
 				}
 			}
 			else if ( obj instanceof LineRenderEvent )
@@ -622,5 +631,16 @@ public final class DeferredCache
 	public void setPlanesComparator( Comparator<?> cp )
 	{
 		this.cpPlanes = cp;
+	}
+
+	/**
+	 * Create a new instance of <code>DeverredCache</code> according to currnet
+	 * device render and chart model.
+	 * 
+	 * @return
+	 * @since 2.6.2
+	 */
+	public DeferredCache deriveNewDeferredCache() {
+		return new DeferredCache( this.idr, this.cm );
 	}
 }

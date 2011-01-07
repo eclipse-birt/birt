@@ -1197,6 +1197,11 @@ public class Line extends AxesRenderer
 			return false;
 		}
 
+		public DataPointHints getDataPointHints(int index )
+		{
+			return dpha[index];
+		}
+		
 		public DataPointHints getDataPointHints( )
 		{
 			return dpha[index];

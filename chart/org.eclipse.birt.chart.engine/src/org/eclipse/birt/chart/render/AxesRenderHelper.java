@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.TransformationEvent;
+import org.eclipse.birt.chart.event.WrappedInstruction;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -1330,20 +1331,17 @@ public final class AxesRenderHelper
 					// center
 					l3dre.setStart3D( context.dX, dStart, dZ );
 					l3dre.setEnd3D( context.dX, dEnd, dZ );
-					l3dre.setObject3DParent( renderer.getRightWall( ) );
-					dc.addLine( l3dre );
+					addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
 
 					// left
 					l3dre.setStart3D( context.dX, dStart, dZEnd );
 					l3dre.setEnd3D( context.dX, dEnd, dZEnd );
-					l3dre.setObject3DParent( renderer.getLeftWall( ) );
-					dc.addLine( l3dre );
+					addLine3DEvent( l3dre, renderer.getLeftWallEvent( ), dc );
 
 					// right
 					l3dre.setStart3D( dXEnd, dStart, dZ );
 					l3dre.setEnd3D( dXEnd, dEnd, dZ );
-					l3dre.setObject3DParent( renderer.getRightWall( ) );
-					dc.addLine( l3dre );
+					addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
 
 					if ( renderer.isInteractivityEnabled( ) )
 					{
@@ -1946,8 +1944,7 @@ public final class AxesRenderHelper
 					l3dre.setLineAttributes( lia );
 					l3dre.setStart3D( dStart, context.dY, dZ );
 					l3dre.setEnd3D( dEnd, context.dY, dZ );
-					l3dre.setObject3DParent( renderer.getRightWall( ) );
-					dc.addLine( l3dre );
+					addLine3DEvent( l3dre, renderer.getRightWallEvent( ), dc );
 
 					if ( renderer.isInteractivityEnabled( ) )
 					{
@@ -2009,8 +2006,7 @@ public final class AxesRenderHelper
 					l3dre.setLineAttributes( lia );
 					l3dre.setStart3D( dX, context.dY, dStart );
 					l3dre.setEnd3D( dX, context.dY, dEnd );
-					l3dre.setObject3DParent( renderer.getLeftWall( ) );
-					dc.addLine( l3dre );
+					addLine3DEvent( l3dre, renderer.getLeftWallEvent( ), dc );
 
 					if ( renderer.isInteractivityEnabled( ) )
 					{
@@ -2439,6 +2435,34 @@ public final class AxesRenderHelper
 						/ 72
 						* xs.getDpiResolution( );
 			}
+		}
+	}
+
+	/**
+	 * Adds Line2D event to deferred cache, if parent event is specified, this
+	 * event should be added into parent event.
+	 * 
+	 * @param lre3d
+	 * @param parentEvent
+	 * @param dc
+	 */
+	public static void addLine3DEvent( Line3DRenderEvent lre3d, Object parentEvent, 
+			DeferredCache dc )
+	{
+		if ( parentEvent != null && parentEvent instanceof WrappedInstruction )
+		{
+			if ( ( (WrappedInstruction) parentEvent ).getSubDeferredCache( ) == null )
+			{
+				( (WrappedInstruction) parentEvent ).setSubDeferredCache( dc.deriveNewDeferredCache( ) );
+			}
+			( (WrappedInstruction) parentEvent ).getSubDeferredCache( )
+					.addLine( lre3d );
+		}
+		else
+		{
+			if ( parentEvent != null )
+				lre3d.setObject3DParent( Engine3D.getObjectFromEvent( parentEvent ) );
+			dc.addLine( lre3d );
 		}
 	}
 }
