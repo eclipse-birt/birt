@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.data.impl.NullDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.util.Calendar;
 
@@ -74,7 +75,7 @@ public class UserDataSetProcessor
 						break;
 
 					case IConstants.NUMERICAL :
-						final Double[] doaDataSet = new Double[(int) lRowCount];
+						final Number[] doaDataSet = new Number[(int) lRowCount];
 						ds[k] = NumberDataSetImpl.create( doaDataSet );
 						break;
 						
@@ -131,7 +132,7 @@ public class UserDataSetProcessor
 							break;
 
 						case IConstants.NUMERICAL :
-							value = Methods.asDouble( row[k] );
+							value = NumberUtil.convertNumber( row[k] );
 							break;
 							
 						case IConstants.BOOLEAN :
