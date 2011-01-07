@@ -47,6 +47,12 @@ public final class WrappedInstruction implements IRenderInstruction
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
+	 * The cache stores render events which lie within the same plane with
+	 * current render event.
+	 */
+	private DeferredCache subDeferredCache = null;
+	
+	/**
 	 * The constructor.
 	 */
 	public WrappedInstruction( DeferredCache dc, ArrayList alEvents,
@@ -266,5 +272,24 @@ public final class WrappedInstruction implements IRenderInstruction
 		}
 	}
 
+	/**
+	 * Set sub-deferred cache instance.
+	 * 
+	 * @param dc 
+	 */
+	public void setSubDeferredCache( DeferredCache dc )
+	{
+		this.subDeferredCache = dc;
+	}
+	
+	/**
+	 * Returns instance of sub-deferred cache.
+	 * 
+	 * @return
+	 */
+	public DeferredCache getSubDeferredCache(  )
+	{
+		return subDeferredCache;
+	}
 }
 

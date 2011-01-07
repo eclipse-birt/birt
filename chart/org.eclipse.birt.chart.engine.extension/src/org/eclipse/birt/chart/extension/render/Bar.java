@@ -64,6 +64,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin;
 import org.eclipse.birt.chart.render.AxesRenderer;
+import org.eclipse.birt.chart.render.DeferredCache;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
@@ -172,6 +173,7 @@ public final class Bar extends AxesRenderer
 	public final void renderSeries( IPrimitiveRenderer ipr, Plot p,
 			ISeriesRenderingHints isrh ) throws ChartException
 	{
+		DeferredCache subDeferredCache = null;
 		// VALIDATE CONSISTENT DATASET COUNT BETWEEN BASE AND ORTHOGONAL
 		try
 		{
@@ -1213,6 +1215,51 @@ public final class Bar extends AxesRenderer
 				// Do not render the bar when height is 0. Still keep the label.
 				if ( bRendering3D )
 				{
+					// In order to simplify the computation of rendering order of
+					// planes in 3D space, here we create a plane and add it into
+					// current deferred cache, it is used as a delegate of all planes of
+					// current series to take part in the sorting of planes in 3D space,
+					// the order of this plane will determine the rendering order of
+					// current series in 3D space. Also we create a sub deferred cache
+					// instead of current deferred cache to store all planes of current
+					// series, and add the sub-deferred cache as a child of this plane
+					// event, all planes in sub-deferred cache will be processed and
+					// rendered after this plane is processed.
+					if ( subDeferredCache == null )
+					{
+						subDeferredCache = dc.deriveNewDeferredCache( );
+						// Create location 3d of a plane.
+						Location3D[] l3d = new Location3D[4];
+						for ( int k = 0; k < 4; k++ )
+						{
+							l3d[k] = goFactory.createLocation3D( 0, 0, 0 );
+						}
+						double x0 = dpha[0].getLocation3D( ).getX( );
+						double x1 = dpha[dpha.length - 1 ].getLocation3D( ).getX( ) + dSpacing * 2;
+						double z = dZ + dWidthZ;
+						l3d[0].set( x0, dY, z);
+						l3d[1].set( x0, dY + boClientArea.getHeight( ), z );
+						l3d[2].set( x1, dY + boClientArea.getHeight( ), z );
+						l3d[3].set( x1, dY, z );
+
+						Polygon3DRenderEvent pre3d = ( (EventObjectCache) ipr ).getEventObject( dpha[i],
+								Polygon3DRenderEvent.class );
+						pre3d.setEnable( false );
+						pre3d.setDoubleSided( false );
+						pre3d.setOutline( null );
+						pre3d.setPoints3D( l3d );
+						pre3d.setBackground( fixedFill );
+						Object event = dc.addPlane( pre3d,
+								PrimitiveRenderEvent.FILL );
+						if ( event instanceof WrappedInstruction )
+						{
+							( (WrappedInstruction) event ).setSubDeferredCache( subDeferredCache );
+						}
+						// Restore the default value.
+						pre3d.setDoubleSided( false );
+						pre3d.setEnable( true );
+					}
+					
 					if ( rt.getValue( ) == RiserType.TUBE )
 					{
 						renderRiserTube3D( ipr,
@@ -1221,7 +1268,8 @@ public final class Bar extends AxesRenderer
 								loa3dFace,
 								fixedFill,
 								lia,
-								dpha[i] );
+								dpha[i],
+								subDeferredCache );
 					}
 					else if ( rt.getValue( ) == RiserType.CONE )
 					{
@@ -1231,7 +1279,8 @@ public final class Bar extends AxesRenderer
 								loa3dFace,
 								fixedFill,
 								lia,
-								dpha[i] );
+								dpha[i],
+								subDeferredCache );
 					}
 					else
 					{
@@ -1240,7 +1289,8 @@ public final class Bar extends AxesRenderer
 										dpha[i] ),
 								loa3dFace,
 								fixedFill,
-								lia );
+								lia,
+								subDeferredCache );
 					}
 				}
 				else
@@ -3460,7 +3510,7 @@ public final class Bar extends AxesRenderer
 	 * @throws ChartException
 	 */
 	private void renderRiserTube3D( IPrimitiveRenderer ipr, Object oSource,
-			List loaFace, Fill f, LineAttributes lia, DataPointHints dpha )
+			List loaFace, Fill f, LineAttributes lia, DataPointHints dpha, DeferredCache dcache )
 			throws ChartException
 	{
 		if ( loaFace == null || loaFace.size( ) != 2 )
@@ -3525,7 +3575,7 @@ public final class Bar extends AxesRenderer
 			} );
 			pre.setBackground( f );
 			pre.setDoubleSided( false );
-			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			dcache.addPlane( pre, PrimitiveRenderEvent.FILL );
 		}
 
 		// Fill the top face
@@ -3534,14 +3584,14 @@ public final class Bar extends AxesRenderer
 		pre.setPoints3D( topPoints, yBottom < yTop );
 		pre.setOutline( lia );
 		pre.setBackground( f );
-		dc.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
+		dcache.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
 
 		// Fill the bottom face
 		pre.setDoubleSided( false );
 		pre.setPoints3D( bottomPoints, yBottom > yTop );
 		pre.setOutline( lia );
 		pre.setBackground( f );
-		dc.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
+		dcache.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
 
 		// Add interactivity support for Tube body. Support for Tube top/bottom
 		// face have been added in main renderSeries method
@@ -3594,7 +3644,7 @@ public final class Bar extends AxesRenderer
 	 * @throws ChartException
 	 */
 	private void renderRiserCone3D( IPrimitiveRenderer ipr, Object oSource,
-			List loaFace, Fill f, LineAttributes lia, DataPointHints dpha )
+			List loaFace, Fill f, LineAttributes lia, DataPointHints dpha, DeferredCache dcache )
 			throws ChartException
 	{
 		if ( loaFace == null || loaFace.size( ) != 2 )
@@ -3643,7 +3693,7 @@ public final class Bar extends AxesRenderer
 			}
 			pre.setBackground( f );
 			pre.setDoubleSided( false );
-			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			dcache.addPlane( pre, PrimitiveRenderEvent.FILL );
 		}
 
 		// Fill the bottom face
@@ -3651,7 +3701,7 @@ public final class Bar extends AxesRenderer
 		pre.setPoints3D( bottomPoints, pTop.getY( ) - yBottom < 0 );
 		pre.setOutline( lia );
 		pre.setBackground( f );
-		dc.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
+		dcache.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
 
 		// Add interactivity support for Core body. Support for Tube top/bottom
 		// face have been added in main renderSeries method

@@ -54,6 +54,8 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 
 	private double dDepth = 0;
 
+	protected boolean bEnabled = true;
+
 	/**
 	 * Creates a Primitive Render Event from a source object. The source can be
 	 * of any type. Inside the chart engine, it is a StructureSource object
@@ -325,5 +327,11 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		return null;
 	}
 	
-
+	public void setEnable(boolean enabled) {
+		this.bEnabled = enabled;
+	}
+	
+	public boolean isEnabled() {
+		return this.bEnabled;
+	}
 }

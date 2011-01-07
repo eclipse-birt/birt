@@ -127,6 +127,12 @@ public abstract class AxesRenderer extends BaseRenderer
 	private Object3D o3dLeftWall = null;
 	private Object3D o3dRightWall = null;
 	private Object3D o3dFloor = null;
+
+	private Object o3dLeftWallEvent;
+
+	private Object o3dRightWallEvent;
+
+	private Object o3dFloorEvent;
 	
 	/**
 	 * The constructor.
@@ -141,16 +147,31 @@ public abstract class AxesRenderer extends BaseRenderer
 		return o3dLeftWall;
 	}
 
+	public Object getLeftWallEvent()
+	{
+		return o3dLeftWallEvent;
+	}
+	
 	public Object3D getRightWall()
 	{
 		return o3dRightWall;
 	}
 
+	public Object getRightWallEvent()
+	{
+		return o3dRightWallEvent;
+	}
+	
 	public Object3D getFloor()
 	{
 		return o3dFloor;
 	}
-
+	
+	public Object getFloorEvent()
+	{
+		return o3dFloorEvent;
+	}
+	
 	/**
 	 * Overridden behavior for graphic element series that are plotted along
 	 * axes
@@ -1424,6 +1445,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
 			
 			o3dLeftWall = Engine3D.getObjectFromEvent( event_new );
+			o3dLeftWallEvent = event_new;
 
 			// Right Wall
 			loa[0] = goFactory.createLocation3D( dXStart, dYStart, dZStart );
@@ -1438,6 +1460,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
 
 			o3dRightWall = Engine3D.getObjectFromEvent( event_new );
+			o3dRightWallEvent = event_new;
 				
 			if ( ( cwa.getWallFill( ) instanceof ColorDefinition && ( (ColorDefinition) cwa.getWallFill( ) ).getTransparency( ) > 0 )
 			|| ( !( cwa.getWallFill( ) instanceof ColorDefinition ) && cwa.getWallFill( ) != null ) )
@@ -1459,6 +1482,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					PrimitiveRenderEvent.DRAW | PrimitiveRenderEvent.FILL );
 
 			o3dFloor = Engine3D.getObjectFromEvent( event_new );
+			o3dFloorEvent = event_new;
 			if ( ( cwa.getFloorFill( ) instanceof ColorDefinition && ( (ColorDefinition) cwa.getFloorFill( ) ).getTransparency( ) > 0 )
 					|| ( !( cwa.getFloorFill( ) instanceof ColorDefinition ) && cwa.getFloorFill( ) != null ) )
 			{
@@ -1546,10 +1570,9 @@ public abstract class AxesRenderer extends BaseRenderer
 												dZStart
 													+ ( ancillaryTickCount - 1 )
 													* zStep ) );
-										
-										lre3d.setObject3DParent( o3dFloor );
-										
-										getDeferredCache( ).addLine( lre3d );
+									AxesRenderHelper.addLine3DEvent( lre3d,
+											o3dFloorEvent,
+											getDeferredCache( ) );
 								}
 							}
 						}
@@ -1578,10 +1601,9 @@ public abstract class AxesRenderer extends BaseRenderer
 													+ ( orthogonalTickCount - 1 )
 													* yStep,
 												dZStart ) );
-
-										lre3d.setObject3DParent( o3dRightWall );
-
-										getDeferredCache( ).addLine( lre3d );
+									AxesRenderHelper.addLine3DEvent( lre3d,
+											o3dRightWallEvent,
+											getDeferredCache( ) );
 								}
 							}
 						}
@@ -1610,10 +1632,9 @@ public abstract class AxesRenderer extends BaseRenderer
 												dZStart
 													+ ( ancillaryTickCount - 1 )
 													* zStep ) );
-
-									lre3d.setObject3DParent( o3dLeftWall );
-
-									getDeferredCache( ).addLine( lre3d );
+									AxesRenderHelper.addLine3DEvent( lre3d,
+											o3dLeftWallEvent,
+											getDeferredCache( ) );
 								}
 							}
 						}
@@ -1640,10 +1661,9 @@ public abstract class AxesRenderer extends BaseRenderer
 											* xStep,
 											ya.getCoordinate( k ) + doaMinor[j],
 												dZStart ) );
-
-										lre3d.setObject3DParent( o3dRightWall );
-
-										getDeferredCache( ).addLine( lre3d );
+									AxesRenderHelper.addLine3DEvent( lre3d,
+											o3dRightWallEvent,
+											getDeferredCache( ) );
 								}
 							}
 						}
@@ -1672,10 +1692,9 @@ public abstract class AxesRenderer extends BaseRenderer
 													+ ( orthogonalTickCount - 1 )
 													* yStep,
 												za.getCoordinate( k ) + doaMinor[j] ) );
-
-										lre3d.setObject3DParent( o3dLeftWall );
-
-										getDeferredCache( ).addLine( lre3d );
+									AxesRenderHelper.addLine3DEvent( lre3d,
+											o3dLeftWallEvent,
+											getDeferredCache( ) );
 								}
 							}
 						}
@@ -1702,10 +1721,9 @@ public abstract class AxesRenderer extends BaseRenderer
 											* xStep,
 												dYStart,
 												za.getCoordinate( k ) + doaMinor[j] ) );
-
-										lre3d.setObject3DParent( o3dFloor );
-
-										getDeferredCache( ).addLine( lre3d );
+									AxesRenderHelper.addLine3DEvent( lre3d,
+											o3dFloorEvent,
+											getDeferredCache( ) );
 								}
 							}
 						}
@@ -1928,10 +1946,9 @@ public abstract class AxesRenderer extends BaseRenderer
 										dZStart
 												+ ( ancillaryTickCount - 1 )
 												* zStep ) );
-
-								lre3d.setObject3DParent( o3dFloor );
-
-								getDeferredCache( ).addLine( lre3d );
+								AxesRenderHelper.addLine3DEvent( lre3d,
+										o3dFloorEvent,
+										getDeferredCache( ) );
 							}
 						}
 
@@ -1947,10 +1964,9 @@ public abstract class AxesRenderer extends BaseRenderer
 												+ ( orthogonalTickCount - 1 )
 												* yStep,
 										dZStart ) );
-
-								lre3d.setObject3DParent( o3dRightWall );
-
-								getDeferredCache( ).addLine( lre3d );
+								AxesRenderHelper.addLine3DEvent( lre3d,
+										o3dRightWallEvent,
+										getDeferredCache( ) );
 							}
 						}
 						break;
@@ -1968,10 +1984,9 @@ public abstract class AxesRenderer extends BaseRenderer
 										dZStart
 												+ ( ancillaryTickCount - 1 )
 												* zStep ) );
-								
-								lre3d.setObject3DParent( o3dLeftWall );
-
-								getDeferredCache( ).addLine( lre3d );
+								AxesRenderHelper.addLine3DEvent( lre3d,
+										o3dLeftWallEvent,
+										getDeferredCache( ) );
 							}
 						}
 
@@ -1987,11 +2002,9 @@ public abstract class AxesRenderer extends BaseRenderer
 										* xStep,
 											ya.getCoordinate( k ),
 											dZStart ) );
-
-								lre3d.setObject3DParent( o3dRightWall );
-
-								getDeferredCache( ).addLine( lre3d );
-
+								AxesRenderHelper.addLine3DEvent( lre3d,
+										o3dRightWallEvent,
+										getDeferredCache( ) );
 							}
 						}
 						break;
@@ -2009,10 +2022,9 @@ public abstract class AxesRenderer extends BaseRenderer
 												+ ( orthogonalTickCount - 1 )
 												* yStep,
 										za.getCoordinate( k ) ) );
-
-								lre3d.setObject3DParent( o3dLeftWall );
-
-								getDeferredCache( ).addLine( lre3d );
+								AxesRenderHelper.addLine3DEvent( lre3d,
+										o3dLeftWallEvent,
+										getDeferredCache( ) );
 							}
 						}
 
@@ -2026,10 +2038,9 @@ public abstract class AxesRenderer extends BaseRenderer
 								lre3d.setEnd3D( goFactory.createLocation3D( dXStart
 										+ ( baseTickCount - 1 )
 										* xStep, dYStart, za.getCoordinate( k ) ) );
-
-								lre3d.setObject3DParent( o3dFloor );
-
-								getDeferredCache( ).addLine( lre3d );
+								AxesRenderHelper.addLine3DEvent( lre3d,
+										o3dFloorEvent,
+										getDeferredCache( ) );
 							}
 						}
 						break;

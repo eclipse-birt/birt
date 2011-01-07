@@ -140,7 +140,10 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final void draw( IDeviceRenderer idr ) throws ChartException
 	{
-		idr.drawPolygon( this );
+		if ( bEnabled )
+		{
+			idr.drawPolygon( this );
+		}
 	}
 
 	/*
@@ -150,7 +153,10 @@ public class PolygonRenderEvent extends PrimitiveRenderEvent
 	 */
 	public final void fill( IDeviceRenderer idr ) throws ChartException
 	{
-		idr.fillPolygon( this );
+		if ( bEnabled )
+		{
+			idr.fillPolygon( this );
+		}
 	}
 
 	/*
