@@ -451,4 +451,9 @@ public class MeterChart extends DefaultChartTypeImpl
 	{
 		return DialSeriesImpl.create( );
 	}
+	
+	public String getValueDefinitionName( )
+	{
+		return Messages.getString( "DialBottomAreaComponent.Label.GaugeValueDefinition" ); //$NON-NLS-1$
+	}
 }

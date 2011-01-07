@@ -487,5 +487,10 @@ public class PieChart extends DefaultChartTypeImpl
 	{
 		return Messages.getString( "PieChart.SubType.Standard" ); //$NON-NLS-1$
 	}
+	
+	public String getValueDefinitionName( )
+	{
+		return Messages.getString("PieLeftAreaComponent.Label.SliceSizeDefinition"); //$NON-NLS-1$
+	}
 
 }
