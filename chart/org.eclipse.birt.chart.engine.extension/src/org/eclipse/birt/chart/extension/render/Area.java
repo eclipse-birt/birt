@@ -52,7 +52,6 @@ import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.render.AxesRenderHelper;
 import org.eclipse.birt.chart.render.CurveRenderer;
-import org.eclipse.birt.chart.render.DeferredCache;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.FillUtil;
@@ -1395,8 +1394,6 @@ public class Area extends Line
 		private final double plotHeight;
 
 		private int findex;
-
-		private DeferredCache subDeferredCache;
 		
 		AreaDataPointsRenderer3D( Context context, Location[] loa, double dTapeWidth )
 				throws ChartException
@@ -1821,7 +1818,7 @@ public class Area extends Line
 			pre3d.setPoints3D( loaPlane3d );
 			pre3d.setBackground( fillColor );
 			pre3d.setSourceObject( sourceObj );
-			Object event = subDeferredCache.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+			Object event = dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
 			pre3d.setDoubleSided( false );
 			return event;
 		}
@@ -1834,7 +1831,7 @@ public class Area extends Line
 			pre3d.setPoints3D( loc );
 			pre3d.setBackground( fillColor );
 			pre3d.setSourceObject( sourceObj );
-			Object event = subDeferredCache.addPlane( pre3d, PrimitiveRenderEvent.FILL );
+			Object event = dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
 			pre3d.setDoubleSided( false );
 			return event;
 		}
@@ -1888,68 +1885,11 @@ public class Area extends Line
 		protected void beforeLoop( DataPointsSeeker seeker )
 				throws ChartException
 		{
-			if ( subDeferredCache == null )
-			{
-				// In order to simplify the computation of rendering order of
-				// planes in 3D space, here we create a plane and add it into
-				// current deferred cache, it is used as a delegate of all planes of
-				// current series to take part in the sorting of planes in 3D space,
-				// the order of this plane will determine the rendering order of
-				// current series in 3D space. Also we create a sub deferred cache
-				// instead of current deferred cache to store all planes of current
-				// series, and add the sub-deferred cache as a child of this plane
-				// event, all planes in sub-deferred cache will be processed and
-				// rendered after this plane is processed.
-				addComparsionPlane( );
-			}
-
 			findex = seeker.getIndex( );
 			if ( findex >= 0 )
 			{
 				fillLeftSidePlane( findex );
 			}
-		}
-
-		private void addComparsionPlane( ) throws ChartException
-		{
-			subDeferredCache = dc.deriveNewDeferredCache( );
-
-			// Create location 3d of a plane.
-			Location3D[] l3d = createLocation3DArray( 4 );
-			double x0 = loa3d[0].getX( );
-			double x1 = loa3d[loa3d.length - 1].getX( );
-			double minY = loa3d[0].getY( );
-			double maxY = loa3d[0].getY( );
-			double maxZ = loa3d[0].getZ( );
-			for ( int i = 0; i < loa3d.length; i++ )
-			{
-				if ( minY > loa3d[i].getY( ) )
-					minY = loa3d[i].getY( );
-				if ( maxY < loa3d[i].getY( ) )
-					maxY = loa3d[i].getY( );
-				if ( maxZ < loa3d[i].getZ( ) )
-					maxZ = loa3d[i].getZ( );
-			}
-			l3d[0].set( x0, maxY, maxZ );
-			l3d[1].set( x1, maxY, maxZ );
-			l3d[2].set( x1, minY, maxZ );
-			l3d[3].set( x0, minY, maxZ );
-
-			Object sourceObj = createDataPointSource( 0 );
-			pre3d.setEnable( false );
-			pre3d.setDoubleSided( true );
-			pre3d.setOutline( null );
-			pre3d.setPoints3D( l3d );
-			pre3d.setBackground( fillColor );
-			pre3d.setSourceObject( sourceObj );
-			Object event = dc.addPlane( pre3d, PrimitiveRenderEvent.FILL );
-			if ( event instanceof WrappedInstruction )
-			{
-				( (WrappedInstruction) event ).setSubDeferredCache( subDeferredCache );
-			}
-			// Restore the default value.
-			pre3d.setDoubleSided( false );
-			pre3d.setEnable( true );
 		}
 
 		@Override

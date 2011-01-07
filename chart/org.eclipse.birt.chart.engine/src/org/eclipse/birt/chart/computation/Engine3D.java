@@ -1029,41 +1029,75 @@ public final class Engine3D implements IConstants
 		{
 			return;
 		}
+		// According to the Z-depth order of polygons, check the polygon overlay
+		// case. If two polygons are overlay then adjust the correct rendering
+		// order for these two polygons, else it should still keep the Z-depth
+		// order of these two polygons and their contiguous polygons.
 		List<Object> tmpList = new ArrayList<Object>( rtList );
+		rtList.clear( );
+		rtList.add( tmpList.remove( 0 ) );
 		while ( !tmpList.isEmpty( ) )
 		{
 			Object event = tmpList.remove( 0 );
-			Object3D far = getObjectFromEvent( event );
-			int idx = rtList.indexOf( event );
+			Object3D near = getObjectFromEvent( event );
 			boolean shouldSwap = false;
+			boolean processed = false;
+			int idx = -1;
+			int idx2 = -1;
 
-			for ( int i = idx + 1; i < rtList.size( ); i++ )
+			for ( int i = 0; i < rtList.size( ) ; i++ )
 			{
 				Object event2 = rtList.get( i );
-				Object3D near = getObjectFromEvent( event2 );
+				Object3D far = getObjectFromEvent( event2 );
 				if ( far == near )
 					continue;
+				
+				// Iterator to check all continuous swapped polygons. 
 				if ( far.testZOverlap( near ) )
 				{
 					if ( far.testSwap( near, this ) )
 					{
+						if ( idx == -1 ) idx = i;
 						shouldSwap = true;
 						continue;
 					}
 				}
 				if ( shouldSwap )
 				{
-					rtList.add( i, event );
-					rtList.remove( idx );
+					idx2 = i;
+					int k = idx;
+					// According to Z-Depth, add other polygons to correct
+					// position to ensure correct Z-Depth order.
+					for ( int j = rtList.size( ) - 1; j >= idx2; j-- )
+					{
+						Object e = rtList.get( j );
+						if ( zSortComparator( event, e ) >= 0 )
+						{
+							rtList.remove( j );
+							rtList.add( k++, e );
+						}
+						else
+						{
+							break;
+						}
+					}
+					// Add current polygon to correct position.
+					rtList.add( k, event );
+					processed = true;
 					shouldSwap = false;
 					break;
 				}
 			}
+			// If it is not processed in polygons iteration, process it finally.
 			if ( shouldSwap )
 			{
 				// It means the swapped element is the last element in list.
+				rtList.add( idx, event );
+			}
+			else if ( !processed )
+			{
+				// It means the swapped element is the last element in list.
 				rtList.add( event );
-				rtList.remove( idx );
 			}
 		}
 	}
@@ -1125,31 +1159,36 @@ public final class Engine3D implements IConstants
 			throw new IllegalArgumentException( );
 		}
 	}
-	// z-sort
-	protected void zsort( List rtList )
+	
+	private int zSortComparator( Object o1, Object o2 )
 	{
-		Collections.sort( rtList, new Comparator( ) {
+		Object3D obj1 = getObjectFromEvent( o1 );
+		Object3D obj2 = getObjectFromEvent( o2 );
+
+		if ( obj1.getZMax( ) > obj2.getZMax( ) )
+		{
+			return -1;
+		}
+		else if ( obj1.getZMax( ) < obj2.getZMax( ) )
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+	}
+	
+	// z-sort
+	protected void zsort( List<Object> rtList )
+	{
+		Collections.sort( rtList, new Comparator<Object>( ) {
 
 			public int compare( Object o1, Object o2 )
 			{
-				Object3D obj1 = getObjectFromEvent( o1 );
-				Object3D obj2 = getObjectFromEvent( o2 );
-
-				if ( obj1.getZMax( ) > obj2.getZMax( ) )
-				{
-					return -1;
-				}
-				else if ( obj1.getZMax( ) < obj2.getZMax( ) )
-				{
-					return 1;
-				}
-				else
-				{
-					return 0;
-				}
-
+				return zSortComparator( o1, o2 );
 			}
-
 		} );
 	}
 }
