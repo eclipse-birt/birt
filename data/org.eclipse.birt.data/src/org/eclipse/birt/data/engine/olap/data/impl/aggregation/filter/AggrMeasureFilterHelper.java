@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
@@ -155,7 +156,7 @@ public class AggrMeasureFilterHelper
 	/**
 	 * to indicate whether the specified <code>resultSet</code> has
 	 * aggregation definition for any one of the <code>aggregationNames</code>.
-	 * 
+	 * //TODO Currently we do not support the filter on drilled aggregate result. 
 	 * @param resultSet
 	 * @param aggregationNames
 	 * @return
@@ -166,7 +167,8 @@ public class AggrMeasureFilterHelper
 	{
 		for ( int j = 0; j < aggregationNames.length; j++ )
 		{
-			if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0 )
+			if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0
+					&& !( resultSet.getAggregationDefinition( ) instanceof DrilledAggregationDefinition ) )
 			{
 				return true;
 			}
