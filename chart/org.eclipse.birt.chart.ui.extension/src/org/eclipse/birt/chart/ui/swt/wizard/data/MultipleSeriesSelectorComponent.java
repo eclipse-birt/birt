@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
@@ -47,7 +48,7 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 
 	private ISelectDataCustomizeUI selectDataUI = null;
 
-	private String areaTitle = Messages.getString( "SelectDataChartWithAxisUI.Label.ValueYSeries" ); //$NON-NLS-1$
+	private String areaTitle = null;
 
 	public MultipleSeriesSelectorComponent(
 			EList<SeriesDefinition>[] seriesDefnsArray,
@@ -59,8 +60,10 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 		this.wizardContext = wizardContext;
 		this.sTitle = sTitle;
 		this.selectDataUI = selectDataUI;
+		this.areaTitle = ChartUIUtil.getChartType( wizardContext.getModel( )
+				.getType( ) ).getValueDefinitionName( );
 	}
-	
+
 	protected DataDefinitionSelector createDataDefinitionSelector(
 			int axisIndex, EList<SeriesDefinition> seriesDefns,
 			ChartWizardContext wizardContext, String sTitle,
@@ -88,9 +91,10 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 			gridLayout.marginHeight = 0;
 			cmpLeft.setLayout( gridLayout );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-//			gd.minimumWidth = 150;
+			// gd.minimumWidth = 150;
 			cmpLeft.setLayoutData( gd );
-			if ( FieldAssistHelper.getInstance( ).isShowingRequiredFieldIndicator( ) )
+			if ( FieldAssistHelper.getInstance( )
+					.isShowingRequiredFieldIndicator( ) )
 			{
 				cmpLeft.setText( areaTitle.concat( "*" ) ); //$NON-NLS-1$
 			}
@@ -162,10 +166,4 @@ public class MultipleSeriesSelectorComponent extends DefaultSelectDataComponent
 		}
 		super.dispose( );
 	}
-
-	public void setAreaTitle( String areaTitle )
-	{
-		this.areaTitle = areaTitle;
-	}
-
 }

@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -95,6 +96,7 @@ public class DefaultChartTypeImpl implements IChartType
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
 	 * .birt.chart.model.Chart, java.util.Hashtable)
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
 	{
 		return false;
@@ -404,5 +406,10 @@ public class DefaultChartTypeImpl implements IChartType
 					.setLegendBehavior( oldChart.getInteractivity( )
 							.getLegendBehavior( ) );
 		}
+	}
+
+	public String getValueDefinitionName( )
+	{
+		return Messages.getString( "DefaultChartTypeImpl.Label.ValueDefinitionName" ); //$NON-NLS-1$
 	}
 }

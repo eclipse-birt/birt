@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -153,6 +152,7 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 				this );
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createLeftBindingArea( Composite parent )
 	{
 		cmpLeftArea = ChartUIUtil.createCompositeWrapper( parent );
@@ -190,19 +190,13 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 					getContext( ),
 					"", //$NON-NLS-1$
 					this );
-			if ( getChartModel( ) instanceof DialChart )
-			{
-				component.setAreaTitle( Messages.getString( "DialBottomAreaComponent.Label.GaugeValueDefinition" ) ); //$NON-NLS-1$
-			}
-			else
-			{
-				component.setAreaTitle( Messages.getString( "PieLeftAreaComponent.Label.SliceSizeDefinition" ) ); //$NON-NLS-1$
-			}
+
 			component.createArea( cmpLeftArea );
 			subLeftAreas.add( component );
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createRightBindingArea( Composite parent )
 	{
 		cmpRightArea = ChartUIUtil.createCompositeWrapper( parent );

@@ -472,4 +472,10 @@ public class RadarChart extends DefaultChartTypeImpl
 	{
 		return RadarSeriesImpl.create( );
 	}
+		
+	public String getValueDefinitionName( )
+	{
+		return Messages.getString( "RadarSeriesUIProvider.Label.ValueDefinition" ); //$NON-NLS-1$
+	}
+
 }

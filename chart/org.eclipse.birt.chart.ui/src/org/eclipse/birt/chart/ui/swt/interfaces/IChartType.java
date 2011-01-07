@@ -89,7 +89,9 @@ public interface IChartType
 	 *         type. false if it cannot.
 	 * @deprecated do not use any more
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"rawtypes"
+	})
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints );
 
 	/**
@@ -207,4 +209,12 @@ public interface IChartType
 	 * @since 2.6
 	 */
 	boolean canExpand( );
+	
+	/**
+	 * Returns value definition name in data sheet.
+	 * 
+	 * @return value definition name
+	 * @since 4.0
+	 */
+	String getValueDefinitionName( );
 }
