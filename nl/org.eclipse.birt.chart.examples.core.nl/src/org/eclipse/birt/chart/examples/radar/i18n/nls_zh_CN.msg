@@ -49,6 +49,7 @@ RadarSeriesMarkerSheet.Label.CatLabel=配置类别标签
 RadarSeriesUIProvider..Title.RadarLine=雷达线
 RadarSeriesUIProvider.Label.CategoryLabels=类别标签(&G)
 RadarSeriesUIProvider.Label.RadarLine=雷达线(&D)
+RadarSeriesUIProvider.Label.ValueDefinition=Radar Value Definition:
 RadarSeriesUIProvider.Label.WebLabels=Web 标签(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=类别标签
 RadarSeriesUIProvider.Title.WebLabels=Web 标签

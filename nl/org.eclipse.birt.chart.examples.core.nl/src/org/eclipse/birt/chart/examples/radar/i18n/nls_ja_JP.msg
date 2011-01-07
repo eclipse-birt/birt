@@ -49,6 +49,7 @@ RadarSeriesMarkerSheet.Label.CatLabel=カテゴリラベルの設定
 RadarSeriesUIProvider..Title.RadarLine=レーダーの線
 RadarSeriesUIProvider.Label.CategoryLabels=カテゴリラベル(&G)
 RadarSeriesUIProvider.Label.RadarLine=レーダーの線(&D)
+RadarSeriesUIProvider.Label.ValueDefinition=Radar Value Definition:
 RadarSeriesUIProvider.Label.WebLabels=Web ラベル(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=カテゴリラベル
 RadarSeriesUIProvider.Title.WebLabels=Web ラベル

@@ -49,6 +49,7 @@ RadarSeriesMarkerSheet.Label.CatLabel=범주 레이블 구성
 RadarSeriesUIProvider..Title.RadarLine=방사형 선
 RadarSeriesUIProvider.Label.CategoryLabels=범주 레이블(&G)
 RadarSeriesUIProvider.Label.RadarLine=방사형 선(&D)
+RadarSeriesUIProvider.Label.ValueDefinition=Radar Value Definition:
 RadarSeriesUIProvider.Label.WebLabels=웹 레이블(&W)
 RadarSeriesUIProvider.Title.CategoryLabels=범주 레이블
 RadarSeriesUIProvider.Title.WebLabels=웹 레이블
