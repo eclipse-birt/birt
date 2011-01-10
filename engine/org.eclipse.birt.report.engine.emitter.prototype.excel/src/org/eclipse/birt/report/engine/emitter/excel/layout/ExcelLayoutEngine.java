@@ -657,9 +657,9 @@ public class ExcelLayoutEngine
 		}
 
 		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( imageWidth );
-		splitColumns( imageColumnsInfo, parentSizeInfo );
-		ContainerSizeInfo imageSize = new ContainerSizeInfo( parentSizeInfo
-				.getStartCoordinate( ), imageColumnsInfo.getTotalWidth( ) );
+		int[] imageCoordinates = splitColumns( imageColumnsInfo, parentSizeInfo );
+		ContainerSizeInfo imageSize = new ContainerSizeInfo(
+				imageCoordinates[0], imageColumnsInfo.getTotalWidth( ) );
 		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
 				getParentStyle( container ) );
 		setlinkStyle( entry, link );
