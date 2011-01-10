@@ -193,6 +193,7 @@
 	<!-- Generate the JavaDoc.
 	 -->
 	<target name="Javadoc">
+		<echo message="generating javadoc for chart"/>
     	<antcall target = "chartJavadoc"/>
     	<antcall target = "chartuiJavadoc"/>
 		<antcall target = "chartscriptJavadoc"/>
@@ -237,6 +238,7 @@
 			</fileset>
 		</copy>
 		<javadoc access="public" author="true" overview="overview.html" 
+			useexternalfile="yes"
 			doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v ${doc.version}" 
 			windowtitle="BIRT Chart Engine API" 
 			destdir="${chartengine.javadoc.dir}" 
@@ -291,6 +293,7 @@
 		<delete dir="${chartui.javadoc.dir}" failonerror="false"/>
 		<mkdir dir="${chartui.javadoc.dir}" />
 		<javadoc destdir="${chartui.javadoc.dir}"
+				 useexternalfile="yes"
 				 author="true" 
 				 version="true" 
 				 use="true" 
@@ -309,6 +312,7 @@
 		<delete dir="${chartscript.javadoc.dir}" failonerror="false"/>
 		<mkdir dir="${chartscript.javadoc.dir}" />
 		<javadoc destdir="${chartscript.javadoc.dir}"
+				 useexternalfile="yes"
 				 author="true" 
 				 version="true" 
 				 use="true" 

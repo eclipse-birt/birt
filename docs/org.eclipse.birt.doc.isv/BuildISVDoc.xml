@@ -189,7 +189,7 @@
 	<!-- Generate the JavaDoc.
 	 -->
 	<target name="Javadoc">
-		<echo message="generating javadoc"/>
+		<echo message="generating javadoc for birt"/>
 	    <antcall target = "engineJavadoc"/>
 	    <antcall target = "engineScriptJavadoc"/>
     	<antcall target = "modelJavadoc"/>
@@ -242,6 +242,7 @@
 		<delete dir="${engine.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${engine.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${engine.javadoc.dir}"
+        				 useexternalfile="yes"
                          author="true"
                          version="true"
                          use="true"
@@ -264,6 +265,7 @@
 		<delete dir="${engine.script.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${engine.script.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${engine.script.javadoc.dir}"
+        				 useexternalfile="yes"
                          author="true"
                          version="true"
                          use="true"
@@ -284,6 +286,7 @@
         <delete dir="${model.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${model.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${model.javadoc.dir}"
+        				 useexternalfile="yes"
                          author="true"
                          version="true"
                          use="true"
@@ -303,6 +306,7 @@
 		<delete dir="${data.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${data.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${data.javadoc.dir}"
+        				useexternalfile="yes"
                         author="true"
                         version="true"
                         use="true"
@@ -322,6 +326,7 @@
 		<delete dir="${core.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${core.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${core.javadoc.dir}"
+        				useexternalfile="yes"
                         author="true"
                         version="true"
                         use="true"
@@ -354,6 +359,7 @@
 		<delete dir="${core.ui.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${core.ui.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${core.ui.javadoc.dir}"
+        				useexternalfile="yes"
                         author="true"
                         version="true"
                         use="true"
