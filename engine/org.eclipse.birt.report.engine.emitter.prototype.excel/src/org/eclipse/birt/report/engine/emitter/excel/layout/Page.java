@@ -146,7 +146,7 @@ public class Page
 
 			int currentColumnCount = columnStartCoordinates.length;
 			while ( index < currentColumnCount
-			        && columnStartCoordinates[index] <= endCoordinate )
+			        && AxisProcessor.round( columnStartCoordinates[index] ) <= endCoordinate )
 			{
 				index++;
 			}
@@ -379,9 +379,10 @@ public class Page
 		int count = 0;
 		for ( int i = 0; i < range.length; i++ )
 		{
-			if ( ( data[i] > start ) && ( data[i] < end ) )
+			int value = AxisProcessor.round( data[i] );
+			if ( ( value > start ) && ( value < end ) )
 			{
-				range[count++] = data[i];
+				range[count++] = value;
 			}
 		}
 		int[] result = new int[count];
@@ -1069,4 +1070,5 @@ public class Page
 		caches = null;
 		bookmarks = null;
 	}
+	
 } 
