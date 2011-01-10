@@ -189,7 +189,7 @@
 	<!-- Generate the JavaDoc.
 	 -->
 	<target name="Javadoc">
-		<echo message="generating javadoc"/>
+		<echo message="generating javadoc for birt"/>
 	    <antcall target = "engineJavadoc"/>
 	    <antcall target = "engineScriptJavadoc"/>
     	<antcall target = "modelJavadoc"/>
@@ -242,6 +242,7 @@
 		<delete dir="${engine.javadoc.dir}" failonerror="false"/>
         <mkdir dir="${engine.javadoc.dir}" />
         <javadoc destdir="../${module.name}/${engine.javadoc.dir}"
+        				 useexternalfile="yes"
                          author="true"
                          version="true"
                          use="true"
