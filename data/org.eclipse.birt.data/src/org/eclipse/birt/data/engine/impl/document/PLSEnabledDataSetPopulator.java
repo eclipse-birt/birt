@@ -34,7 +34,7 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
  * This class is an implementation of IDataSetPopulator. It wrapped a document.ResultIterator.
  * 
  * The wrapping is executed by following means:
- * 1.For all the columns in ResultIterator's enclosed DataSetResultSet (which reprensents the data from a data set),
+ * 1.For all the columns in ResultIterator's enclosed DataSetResultSet (which represents the data from a data set),
  * the ResultClass provided by this class will include them.
  * 2.For all the non-aggr bindings that not directly referred a data set column, the ResultClass provide access to them 
  * as well. The names of those bindings in ResultClass are specified in constructNonReCalBindingDataSetName() method.
@@ -46,10 +46,9 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 {
 
 	//
-	private PLSDataPopulator populator = null;
+	private IPLSDataPopulator populator = null;
 	private IResultClass resultClass;
 	private List<String> originalBindingNames;
-	private IQueryDefinition query;
 
 	/**
 	 * Constructor
@@ -63,9 +62,14 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 			List<IGroupInstanceInfo> targetGroups, ResultIterator docIt )
 			throws DataException
 	{
-
-		this.populator = new PLSDataPopulator( targetGroups, docIt );
-		this.query = query;
+		if( query.isSummaryQuery( ) )
+		{
+			this.populator = new PLSDataPopulator2(  targetGroups, docIt );
+		}
+		else
+		{
+			this.populator = new PLSDataPopulator( targetGroups, docIt );			
+		}
 		try
 		{
 			assert docIt.getExprResultSet( ).getDataSetResultSet( ) != null;
@@ -89,13 +93,6 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	{
 		if( !this.populator.next( ) )
 			return null;
-		if ( this.query.isSummaryQuery( ) )
-		{
-			this.populator.getDocumentIterator( )
-					.getExprResultSet( )
-					.getDataSetResultSet( )
-					.next( );
-		}
 		Object[] field = new Object[this.resultClass.getFieldCount( )];
 		IResultObject curr = this.populator.getDocumentIterator( )
 				.getExprResultSet( )
