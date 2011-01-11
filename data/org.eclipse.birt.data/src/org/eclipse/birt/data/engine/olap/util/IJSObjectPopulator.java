@@ -446,7 +446,14 @@ public interface IJSObjectPopulator
 				{
 					find = true;
 					if( OlapExpressionUtil.isAggregationBinding( binding ) )
+					{
 						return true;
+					}
+					//to optimize the derived measure execution, do not fetch the data from value fetcher.
+					if( OlapExpressionUtil.isDirectRerenrence( binding.getExpression( ), bindings ) )
+					{
+						return false;
+					}
 					List refBindingName = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
 					for( int j = 0; j < refBindingName.size( ); j++ )
 					{
