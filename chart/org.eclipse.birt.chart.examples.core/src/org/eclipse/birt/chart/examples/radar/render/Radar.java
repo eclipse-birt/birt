@@ -417,7 +417,7 @@ public class Radar extends BaseRenderer
 		}
 	}
 
-	private void renderPolys( IDeviceRenderer idr, Location[] prelo, Series se,
+	private void renderPolys( IDeviceRenderer idr, Location[] prelo, RadarSeries se,
 			SeriesDefinition sd ) throws ChartException
 	{
 
@@ -428,7 +428,7 @@ public class Radar extends BaseRenderer
 		Fill fPaletteEntry = FillUtil.getPaletteFill( elPalette,
 				iThisSeriesIndex );
 
-		LineAttributes llia = ( (RadarSeries) se ).getLineAttributes( );
+		LineAttributes llia = se.getLineAttributes( );
 
 		final PolygonRenderEvent pre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
 				PolygonRenderEvent.class );
@@ -443,7 +443,7 @@ public class Radar extends BaseRenderer
 			}
 		}
 		// Disconnected Lines
-		if ( !( (RadarSeries) se ).isFillPolys( ) )
+		if ( !se.isFillPolys( ) || !se.isConnectEndpoints( ) )
 		{
 			lre.setLineAttributes( llia );
 			for ( int i = 0; i < ( prelo.length - 1 ); i++ )
@@ -458,7 +458,8 @@ public class Radar extends BaseRenderer
 
 				idr.drawLine( lre );
 			}
-			if ( ( (RadarSeries) se ).isConnectEndpoints( ) )
+			// Connect the first and last point
+			if ( se.isConnectEndpoints( ) )
 			{
 				if ( prelo[0] != null && prelo[prelo.length - 1] != null )
 				{
