@@ -3937,7 +3937,7 @@ Error.MetaDataReaderException.META_DATA_ERROR=메타데이터가 잘못되었습니다.
 Error.LibraryException.LIBRARY_NOT_FOUND=네임스페이스가 "{0}"인 라이브러리를 찾을 수 없습니다.
 Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=라이브러리 네임스페이스 "{0}"이(가) 이미 있습니다.
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=네임스페이스가 "{0}"인 라이브러리가 반복 포함됩니다.
-Error.LibraryException.LIBRARY_HAS_DESCENDENTS=현재 모듈에 파생물 "{1}"이(가) 있으므로 라이브러리 "{0}"을(를) 삭제할 수 없습니다.
+Error.LibraryException.LIBRARY_HAS_DESCENDENTS=현재 모듈에 하위 항목 "{1}"이(가) 있으므로 라이브러리 "{0}"을(를) 삭제할 수 없습니다.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=라이브러리 "{0}"이(가) 이미 포함되어 있으며 라이브러리는 두 번 추가할 수 없습니다.
 Error.LibraryException.INVALID_LIBRARY_NAMESPACE=라이브러리의 네임스페이스 "{0}"이(가) 잘못되었습니다. 비어 있거나 잘못된 문자를 포함하고 있습니다.
 
