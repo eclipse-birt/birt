@@ -129,7 +129,7 @@ public class LayoutUtil
 	}
 
 	public static ColumnsInfo createTable( ITableContent table, int width,
-			int dpi )
+	        int dpi, boolean autoExtend )
 	{
 		int tableWidth = getElementWidth( table, width, dpi );
 
@@ -160,7 +160,10 @@ public class LayoutUtil
 		}
 
 		int leftWidth = tableWidth - totalAssigned;
-		if ( leftWidth > 0 && unassignedCount == 0 && table.getWidth( ) != null )
+		// If autoExtend, don't adjust column width when the total column width
+		// exceed the width of parent table.
+		if ( ( leftWidth > 0 || !autoExtend && leftWidth < 0 )
+		        && unassignedCount == 0 && table.getWidth( ) != null )
 		{
 			int totalResized = 0;
 			for ( int i = 0; i < columnCount - 1; i++ )
@@ -180,7 +183,7 @@ public class LayoutUtil
 				{
 					columns[i] = 0;
 				}
-				else
+				else if ( !autoExtend )
 				{
 					columns[i] = resize( columns[i], totalAssigned, leftWidth );
 					lastAssignedIndex = i;
