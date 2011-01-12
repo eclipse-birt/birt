@@ -3937,7 +3937,7 @@ Error.MetaDataReaderException.META_DATA_ERROR=Les métadonnées sont incorrectes.
 Error.LibraryException.LIBRARY_NOT_FOUND=La bibliothèque avec l''espace nom "{0}" est introuvable.
 Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=L''espace nom de bibliothèque "{0}" existe déjà.
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=La bibliothèque avec le nom d''espace "{0}" est incluse de façon récurrente.
-Error.LibraryException.LIBRARY_HAS_DESCENDENTS=La bibliothèque "{0}" ne peut pas être supprimée, car elle possède des descendants "{1}" dans le module en cours.
+Error.LibraryException.LIBRARY_HAS_DESCENDENTS=La bibliothèque "{0}" ne peut pas être supprimée car elle possède des descendants "{1}" dans le module en cours.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=La bibliothèque "{0}" a déjà été incluse, une bibliothèque ne peut pas être ajoutée deux fois.
 Error.LibraryException.INVALID_LIBRARY_NAMESPACE=L'espace nom "{0}" de la bibliothèque n'est pas correct car il n'est pas renseigné ou contient des caractères non valides.
 

@@ -3937,7 +3937,7 @@ Error.MetaDataReaderException.META_DATA_ERROR=元数据无效。
 Error.LibraryException.LIBRARY_NOT_FOUND=未找到具有名称空间 "{0}" 的库。
 Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=库名称空间 "{0}" 已存在。
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=递归包括具有名称空间 "{0}" 的库。
-Error.LibraryException.LIBRARY_HAS_DESCENDENTS=由于库 "{0}" 在当前模块中具有附属项 "{1}"，不能删除。
+Error.LibraryException.LIBRARY_HAS_DESCENDENTS=由于库“{0}”在当前模块中具有附属项“{1}”，不能删除。
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=已包括库 "{0}"，一个库不能添加两次。
 Error.LibraryException.INVALID_LIBRARY_NAMESPACE=库的名称空间“{0}”无效，因为它为空或包含非法字符。
 

@@ -3937,7 +3937,7 @@ Error.MetaDataReaderException.META_DATA_ERROR=Die Metadaten sind ungültig.
 Error.LibraryException.LIBRARY_NOT_FOUND=Die Bibliothek mit dem Namespace "{0}" wurde nicht gefunden.
 Error.LibraryException.DUPLICATE_LIBRARY_NAMESPACE=Der Bibliothek-Namespace "{0}" ist bereits vorhanden.
 Error.LibraryException.LIBRARY_INCLUDED_RECURSIVELY=Die Bibliothek mit dem Namespace "{0}" ist rekursiv einbezogen.
-Error.LibraryException.LIBRARY_HAS_DESCENDENTS=Die Bibliothek "{0}" kann nicht abgelegt werden, da sie im aktuellen Modul untergeordnete Elemente "{1}" aufweist.
+Error.LibraryException.LIBRARY_HAS_DESCENDENTS=Die Bibliothek '{0}' kann nicht abgelegt werden, da sie im aktuellen Modul untergeordnete Elemente '{1}' aufweist.
 Error.LibraryException.LIBRARY_ALREADY_INCLUDED=Die Bibliothek "{0}" ist bereits enthalten. Bibliotheken können nicht doppelt hinzugefügt werden.
 Error.LibraryException.INVALID_LIBRARY_NAMESPACE=Der Namespace "{0}" der Bibliothek ist ungültig, da er leer ist oder ungültige Zeichen enthält.
 
