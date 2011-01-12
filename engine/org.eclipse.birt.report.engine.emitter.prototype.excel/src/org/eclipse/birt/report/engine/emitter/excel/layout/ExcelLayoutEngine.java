@@ -243,9 +243,9 @@ public class ExcelLayoutEngine
 		int width = sizeInfo.getWidth( );
 		ColumnsInfo info = null;
 		int dpi = context.getDpi( );
-		if ( autoExtend( ) )
+		if ( context.isAutoLayout( ) )
 		{
-			info = LayoutUtil.createTable( table, width, dpi );
+			info = LayoutUtil.createTable( table, width, dpi, autoExtend( ) );
 		}
 		else
 		{
