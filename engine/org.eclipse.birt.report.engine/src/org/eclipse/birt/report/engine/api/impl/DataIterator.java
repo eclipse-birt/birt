@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -22,6 +25,8 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 public class DataIterator implements IDataIterator
 {
 
+	protected static Logger logger = Logger.getLogger( DataIterator.class.getName( ) );
+
 	protected IExtractionResults results;
 	protected IResultIterator iterator;
 	protected int startRow = -1;
@@ -29,6 +34,8 @@ public class DataIterator implements IDataIterator
 	protected int rowCount;
 	private boolean beforeFirstRow = true;
 
+	private boolean invalidStartRow = false;
+	
 	DataIterator( IExtractionResults results, IResultIterator iterator,
 			int startRow, int maxRows ) throws BirtException
 	{
@@ -40,7 +47,17 @@ public class DataIterator implements IDataIterator
 		beforeFirstRow = true;
 		if(startRow > 0 )
 		{
-			iterator.moveTo( startRow - 1 );
+			try
+			{
+				iterator.moveTo( startRow - 1 );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.WARNING,
+						"The specified startRow value is out of range of the result set!",
+						e );
+				invalidStartRow = true;
+			}
 		}
 	}
 
@@ -61,7 +78,7 @@ public class DataIterator implements IDataIterator
 			beforeFirstRow = false;
 		}
 		rowCount++;
-		if ( maxRows >= 0 && rowCount > maxRows )
+		if ( invalidStartRow || maxRows >= 0 && rowCount > maxRows )
 		{
 			return false;
 		}
