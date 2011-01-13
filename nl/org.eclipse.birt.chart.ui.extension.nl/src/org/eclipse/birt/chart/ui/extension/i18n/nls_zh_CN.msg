@@ -647,12 +647,12 @@ PaletteEditorComposite.Lbl.Add=添加(&A)
 PaletteEditorComposite.Lbl.Remove=删除(&R)
 PaletteEditorComposite.Lbl.Up=上移
 PaletteEditorComposite.Lbl.Down=下移
-PatternImageEditorDialog.Button.Cancel=&Cancel
-PatternImageEditorDialog.Button.OK=&OK
+PatternImageEditorDialog.Button.Cancel=取消(&C)
+PatternImageEditorDialog.Button.OK=确定(&O)
 PatternImageEditorDialog.Group.Color=颜色:
 PatternImageEditorDialog.Group.Pattern=模式:
 PatternImageEditorDialog.Label.Background=背景(&B):
-PatternImageEditorDialog.Label.Foreground=&Foreground:
+PatternImageEditorDialog.Label.Foreground=前景(&F):
 PatternImageEditorDialog.Title.PatternFillEditor=模式图像编辑器
 
 LabelAttributesComposite.Lbl.Label=标签

@@ -25,7 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=输出多页
 OptionDisplayValue.ENLARGE_PAGE_SIZE=扩大页面大小
 OptionDisplayValue.FontSubstitution=字体替代
 OptionDisplayValue.EmbeddedFont=嵌入字体
-OptionDisplayValue.ChartDpi=图表 DPI 
+OptionDisplayValue.ChartDpi=图表 DPI
 OptionDisplayValue.RenderChartInSVG=以向量图形呈现图表
 
 ###########################################################

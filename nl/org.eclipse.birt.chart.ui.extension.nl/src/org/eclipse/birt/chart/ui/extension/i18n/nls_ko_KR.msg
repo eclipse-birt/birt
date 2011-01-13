@@ -647,12 +647,12 @@ PaletteEditorComposite.Lbl.Add=추가(&A)
 PaletteEditorComposite.Lbl.Remove=제거(&R)
 PaletteEditorComposite.Lbl.Up=위로
 PaletteEditorComposite.Lbl.Down=아래로
-PatternImageEditorDialog.Button.Cancel=&Cancel
-PatternImageEditorDialog.Button.OK=&OK
+PatternImageEditorDialog.Button.Cancel=취소(&C)
+PatternImageEditorDialog.Button.OK=확인(&O)
 PatternImageEditorDialog.Group.Color=색:
 PatternImageEditorDialog.Group.Pattern=패턴:
 PatternImageEditorDialog.Label.Background=배경(&B):
-PatternImageEditorDialog.Label.Foreground=&Foreground:
+PatternImageEditorDialog.Label.Foreground=전경(&F):
 PatternImageEditorDialog.Title.PatternFillEditor=패턴 이미지 편집기
 
 LabelAttributesComposite.Lbl.Label=레이블

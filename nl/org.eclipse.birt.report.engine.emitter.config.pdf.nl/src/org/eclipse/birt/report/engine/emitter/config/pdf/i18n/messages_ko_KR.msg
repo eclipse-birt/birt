@@ -25,7 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=여러 페이지로 출력
 OptionDisplayValue.ENLARGE_PAGE_SIZE=페이지 크기 확대
 OptionDisplayValue.FontSubstitution=글꼴 대체
 OptionDisplayValue.EmbeddedFont=포함 글꼴
-OptionDisplayValue.ChartDpi=차트 DPI 
+OptionDisplayValue.ChartDpi=차트 DPI
 OptionDisplayValue.RenderChartInSVG=벡터 그래픽 차트 렌더링
 
 ###########################################################
