@@ -25,7 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=複数ページに出力
 OptionDisplayValue.ENLARGE_PAGE_SIZE=ページサイズを大きくする
 OptionDisplayValue.FontSubstitution=フォントの置き換え
 OptionDisplayValue.EmbeddedFont=埋め込みフォント
-OptionDisplayValue.ChartDpi=グラフの DPI 
+OptionDisplayValue.ChartDpi=グラフの DPI
 OptionDisplayValue.RenderChartInSVG=ベクターグラフィックでグラフをレンダリング
 
 ###########################################################

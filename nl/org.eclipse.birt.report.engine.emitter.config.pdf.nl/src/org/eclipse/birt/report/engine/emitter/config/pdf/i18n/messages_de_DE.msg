@@ -25,7 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Mehrere Seiten ausgeben
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Seite vergrößern
 OptionDisplayValue.FontSubstitution=Schriftart ersetzen
 OptionDisplayValue.EmbeddedFont=Eingebettete Schriftart
-OptionDisplayValue.ChartDpi=Diagramm-DPI 
+OptionDisplayValue.ChartDpi=Diagramm-DPI
 OptionDisplayValue.RenderChartInSVG=Diagramm in Vektorgrafiken rendern
 
 ###########################################################

@@ -25,7 +25,7 @@ OptionDisplayValue.OUTPUT_TO_MULTIPLE_PAGES=Salida de varias páginas
 OptionDisplayValue.ENLARGE_PAGE_SIZE=Aumentar tamaño de página
 OptionDisplayValue.FontSubstitution=Sustitución de fuente
 OptionDisplayValue.EmbeddedFont=Fuente incrustada
-OptionDisplayValue.ChartDpi=Diagrama DPI 
+OptionDisplayValue.ChartDpi=Diagrama DPI
 OptionDisplayValue.RenderChartInSVG=Procesar diagrama en los gráficos vectoriales
 
 ###########################################################
