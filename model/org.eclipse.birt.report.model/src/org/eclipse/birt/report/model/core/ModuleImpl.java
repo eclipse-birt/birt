@@ -849,6 +849,8 @@ public abstract class ModuleImpl extends DesignElement
 			while ( iter.hasNext( ) )
 			{
 				DesignElement innerElement = iter.next( );
+				if ( innerElement instanceof ContentElement )
+					continue;
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
 		}
