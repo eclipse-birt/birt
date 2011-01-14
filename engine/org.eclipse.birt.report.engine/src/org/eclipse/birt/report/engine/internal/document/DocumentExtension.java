@@ -114,7 +114,7 @@ public class DocumentExtension
 		}
 		else
 		{
-			if ( ext.contentId == latest.endId + 1 )
+			if ( latest != null && ext.contentId == latest.endId + 1 )
 			{
 				ext.setPrevious( latest.endIndex );
 				if ( latest.next != null )
