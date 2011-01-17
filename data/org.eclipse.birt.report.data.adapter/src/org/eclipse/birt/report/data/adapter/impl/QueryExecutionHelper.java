@@ -18,31 +18,26 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -163,7 +158,7 @@ class QueryExecutionHelper
 				}
 			}
 			major = handle;
-			defineDataSet( handle, keepDataSetFilter, allowAggregation );
+			defineDataSet( handle, new DataSetHandleProcessContext(major, useResultHints, keepDataSetFilter, allowAggregation) );
 		}
 	}
 
@@ -323,7 +318,7 @@ class QueryExecutionHelper
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	private void defineDataSet( DataSetHandle handle, boolean keepDataSetFilter, boolean disAllowAggregation ) throws AdapterException,
+	private void defineDataSet( DataSetHandle handle, DataSetHandleProcessContext procesCtx ) throws AdapterException,
 			BirtException
 	{
 
@@ -332,73 +327,77 @@ class QueryExecutionHelper
 			return;
 			//throw new AdapterException( ResourceConstants.DATASETHANDLE_NULL_ERROR );
 		}
-		
-		DataSourceHandle dataSourceHandle = handle.getDataSource( );
-		if ( dataSourceHandle != null )
+
+		DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle,
+				this.dataEngine,
+				this.modelAdaptor,
+				procesCtx );
+	}
+	
+	static class DataSetHandleProcessContext
+	{
+
+		private DataSetHandle root;
+		private boolean useResultHints;
+		private boolean keepDataSetFilters;
+		private boolean allowAggregations;
+
+		public DataSetHandleProcessContext( DataSetHandle handle,
+				boolean useResultHints, boolean keepDataSetFilters,
+				boolean allowAggregations )
 		{
-			IBaseDataSourceDesign dsourceDesign = this.modelAdaptor.adaptDataSource( dataSourceHandle );
-			dataEngine.defineDataSource( dsourceDesign );
+			root = handle;
+			this.useResultHints = useResultHints;
+			this.keepDataSetFilters = keepDataSetFilters;
+			this.allowAggregations = allowAggregations;
 		}
-		if ( handle instanceof JointDataSetHandle )
+
+		public void process( IBaseDataSetDesign baseDataSetDesign,
+				DataSetHandle current )
 		{
-			defineSourceDataSets( (JointDataSetHandle) handle );
+			processUseResultHints( baseDataSetDesign, current );
+			processFilters( baseDataSetDesign, current );
+			processAggregations( baseDataSetDesign, current );
 		}
-		if( handle instanceof DerivedDataSetHandle )
+
+		protected void processUseResultHints(
+				IBaseDataSetDesign baseDataSetDesign, DataSetHandle current )
 		{
-			List inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
-			for ( int i = 0; i < inputDataSet.size( ); i++ )
+			if ( useResultHints == false && current.equals( root ) )
 			{
-				defineDataSet( (DataSetHandle) inputDataSet.get( i ),
-						keepDataSetFilter,
-						disAllowAggregation );
+				baseDataSetDesign.getResultSetHints( ).clear( );
 			}
 		}
 
-		BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
-		if ( useResultHints == false && handle.equals( major ))
+		protected void processFilters( IBaseDataSetDesign baseDataSetDesign,
+				DataSetHandle current )
 		{
-			baseDS.getResultSetHints( ).clear( );
-		}
-		
-		if ( !keepDataSetFilter )
-		{
-			if ( baseDS.getFilters( ) != null )
-				baseDS.getFilters( ).clear( );
-		}
-		
-		if ( disAllowAggregation )
-		{
-			List computedColumns = baseDS.getComputedColumns();
-			if ( computedColumns != null && computedColumns.size()!= 0)
+			if ( !keepDataSetFilters )
 			{
-				for( int i = 0; i < computedColumns.size( ); i++ )
+				if ( baseDataSetDesign.getFilters( ) != null )
+					baseDataSetDesign.getFilters( ).clear( );
+			}
+		}
+
+		protected void processAggregations(
+				IBaseDataSetDesign baseDataSetDesign, DataSetHandle current )
+		{
+			if ( allowAggregations )
+			{
+				List computedColumns = baseDataSetDesign.getComputedColumns( );
+				if ( computedColumns != null && computedColumns.size( ) != 0 )
 				{
-					IComputedColumn computedColumn = (IComputedColumn)computedColumns.get( i );
-					if( computedColumn.getAggregateFunction() != null )
+					for ( int i = 0; i < computedColumns.size( ); i++ )
 					{
-						computedColumns.set( i, new ComputedColumn( computedColumn.getName( ), "null") );
+						IComputedColumn computedColumn = (IComputedColumn) computedColumns.get( i );
+						if ( computedColumn.getAggregateFunction( ) != null )
+						{
+							computedColumns.set( i,
+									new ComputedColumn( computedColumn.getName( ),
+											"null" ) );
+						}
 					}
 				}
-			}
-		}
-		session.defineDataSet( baseDS );
-	}
-
-	/**
-	 * @param dataSet
-	 * @param dataSetDesign
-	 * @throws BirtException
-	 */
-	private void defineSourceDataSets( JointDataSetHandle jointDataSetHandle )
-			throws BirtException
-	{
-		Iterator iter = ( (JointDataSetHandle) jointDataSetHandle ).dataSetsIterator();
-		while (iter.hasNext( ))
-		{
-			DataSetHandle dsHandle = (DataSetHandle) iter.next( ); 
-			if ( dsHandle != null )
-			{
-				defineDataSet( dsHandle, true, false );
 			}
 		}
 	}

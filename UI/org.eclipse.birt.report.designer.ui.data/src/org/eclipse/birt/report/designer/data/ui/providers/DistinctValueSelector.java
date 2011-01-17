@@ -92,7 +92,7 @@ public class DistinctValueSelector
 
 				engineTask = new DummyEngineTask( engine,
 						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
-						copy );
+						copy, dataSetHandle );
 				session = engineTask.getDataSession( );
 
 				engineTask.run( );
@@ -132,17 +132,16 @@ public class DistinctValueSelector
 			handle.setExpression( ExpressionUtil.createJSDataSetRowExpression( dataSetColumnName ) );
 			handle.setName( columnName );
 			String dataType = null;
-			if ( dataSetHandle != null )
-				dataType = findColumnDataType( dataSetHandle, dataSetColumnName );
 			
+			if( dataSetHandle == null )
+				return Collections.EMPTY_LIST;
+			
+			dataType = findColumnDataType( dataSetHandle, dataSetColumnName );
 			if ( dataType != null )
 				handle.setDataType( dataType );
 
 			bindingList.add( handle );
 			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
-
-			if( dataSetHandle == null )
-				return Collections.EMPTY_LIST;
 			
 			Collection result = session.getColumnValueSet( dataSetHandle,
 					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
@@ -239,7 +238,7 @@ public class DistinctValueSelector
 
 			DummyEngineTask engineTask = new DummyEngineTask( engine,
 					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
-					copy );
+					copy, dataSetHandle );
 
 			session = engineTask.getDataSession( );
 

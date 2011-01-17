@@ -1816,7 +1816,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					break;
 				}
 			}
-			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor );
+			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor, null );
 		}
 	}
 	
