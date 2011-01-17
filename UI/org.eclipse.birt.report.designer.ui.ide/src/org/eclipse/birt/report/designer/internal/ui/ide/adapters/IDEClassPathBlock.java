@@ -860,10 +860,12 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 			else if ( type == PROJECT_TYPE )
 			{
 				IResource resource = root.findMember( path );
-				
-				retValue.add( new IDECPListElement( IClasspathEntry.CPE_PROJECT,
-						resource.getFullPath( ),
-						resource ) );
+				if (resource != null)
+				{
+					retValue.add( new IDECPListElement( IClasspathEntry.CPE_PROJECT,
+							resource.getFullPath( ),
+							resource ) );
+				}
 			}
 		}
 
