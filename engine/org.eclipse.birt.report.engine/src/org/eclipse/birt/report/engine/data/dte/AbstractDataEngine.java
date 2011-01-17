@@ -82,7 +82,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	/**
 	 * An adapter class used to define data set and data source objects for DTE.
 	 */
-	private ModelDteApiAdapter adapter = null;
+	protected ModelDteApiAdapter adapter = null;
 
 	/**
 	 * holding the query and prepared query relation. need not be stored in
