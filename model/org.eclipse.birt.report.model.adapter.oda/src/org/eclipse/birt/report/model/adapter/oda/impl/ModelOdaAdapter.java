@@ -200,10 +200,16 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			OdaDataSetHandle setHandle, boolean isSourceChanged )
 			throws SemanticException
 	{
-		new DataSetAdapter( ).updateDataSetHandle( setDesign, setHandle,
-				isSourceChanged );
+		updateDataSetHandle( setDesign, setHandle, isSourceChanged, false );
 	}
 
+	void updateDataSetHandle( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, boolean isSourceChanged,
+			boolean isLinkedParameter )	throws SemanticException
+	{
+		new DataSetAdapter( ).updateDataSetHandle( setDesign, setHandle,
+				isSourceChanged, isLinkedParameter );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
