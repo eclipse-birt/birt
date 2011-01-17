@@ -37,7 +37,6 @@ import org.mozilla.javascript.Scriptable;
  */
 public class OdaDataSourceAdapter extends OdaDataSourceDesign
 {
-	private Scriptable bindingScope;
 	
 	/**
 	 * Creates adaptor based on Model OdaDataSourceHandle.
@@ -50,7 +49,6 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 		throws BirtException
 	{
 		super( source.getQualifiedName( ) );
-		bindingScope = propBindingScope;
 
 		// Adapt base class properties
 		DataAdapterUtil.adaptBaseDataSource( source, this );
@@ -82,12 +80,12 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 				Expression expression = source.getPropertyBindingExpression( propName );
 				org.eclipse.birt.data.engine.api.querydefn.ScriptExpression script = adapter.adaptExpression( expression );			
 				
-				if ( bindingScope != null
+				if ( propBindingScope != null
 						&& script != null
 						&& DataSessionContext.MODE_UPDATE != dtCotnext.getMode( ) )
 				{
 					Object value = JavascriptEvalUtil.evaluateScript( null,
-									bindingScope,
+									propBindingScope,
 									script.getText( ),
 									ScriptExpression.defaultID,
 									0 );
