@@ -7,12 +7,19 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.eclipse.birt.core.btree.BTreeSerializer;
+import org.eclipse.birt.core.i18n.CoreMessages;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class BTreeSerializerUtil
 {
@@ -54,8 +61,49 @@ public class BTreeSerializerUtil
 		{
 			return new BooleanSerializer( );
 		}
-		return null;
+		return new JavaSerializer( );
 	}	
+}
+
+class JavaSerializer implements BTreeSerializer<Object>
+{
+	ClassLoader classLoader = null;
+	
+	public void setClassLoader( ClassLoader classLoader )
+	{
+		this.classLoader = classLoader;
+	}
+	
+	public byte[] getBytes( Object object ) throws IOException
+	{
+		if( ! ( object instanceof Serializable ) )
+		{
+			throw new NotSerializableException(
+					CoreMessages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
+		}
+		ByteArrayOutputStream buff = new ByteArrayOutputStream( );
+		ObjectOutputStream oo = new ObjectOutputStream( buff );
+		oo.writeObject( object );
+		oo.close( );
+		return buff.toByteArray( );
+	}
+
+	public Object getObject( byte[] bytes ) throws IOException,
+			ClassNotFoundException
+	{
+		final ClassLoader loader = classLoader;
+		ObjectInputStream oo = new ObjectInputStream(
+					new ByteArrayInputStream( bytes ) ) {
+
+				protected Class resolveClass( ObjectStreamClass desc )
+						throws IOException, ClassNotFoundException
+				{
+					return Class.forName( desc.getName( ), false,
+							loader );
+				}
+			};
+		return oo.readObject( );
+	}
 }
 
 class BooleanSerializer implements BTreeSerializer<Boolean>

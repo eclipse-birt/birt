@@ -54,9 +54,13 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		this.memoryBufferSize = memoryBufferSize;
 	}
 
-	public BTreeIndex( String indexName, IDocArchiveReader reader, Class keyDataType ) throws DataException
+	public BTreeIndex( String indexName, IDocArchiveReader reader, Class keyDataType, ClassLoader classLoader ) throws DataException
 	{
 		serializer = BTreeSerializerUtil.createSerializer( keyDataType );
+		if( serializer instanceof JavaSerializer )
+		{
+			( ( JavaSerializer )serializer ).setClassLoader( classLoader );
+		}
 		try
 		{
 			inputFile = new ArchiveInputFile( reader, indexName );
