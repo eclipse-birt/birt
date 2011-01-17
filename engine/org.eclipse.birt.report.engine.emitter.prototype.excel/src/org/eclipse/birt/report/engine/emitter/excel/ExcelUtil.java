@@ -1000,7 +1000,7 @@ public class ExcelUtil
 					{
 						returnStr.append( "\\" ).append( temp );
 					}
-					else if ( temp == 'Â¤' )
+					else if ( temp == '\u00a4' ) // this corresponds to symbol '¤'
 					{
 						String symbol = getCurrencySymbol( locale );
 						returnStr.append( symbol );
