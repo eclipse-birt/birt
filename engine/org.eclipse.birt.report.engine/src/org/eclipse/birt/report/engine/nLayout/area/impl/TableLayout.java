@@ -14,14 +14,11 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea.TableLayoutInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
@@ -437,7 +434,7 @@ public class TableLayout
 		return area.getWidth( );
 	}
 
-	protected void verticalAlign( CellArea cell )
+	protected void align( CellArea cell )
 	{
 		IContent content = cell.getContent( );
 		if ( content == null )
@@ -588,13 +585,13 @@ public class TableLayout
 				{
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
 						refCell.setHeight( delta + height );
-						verticalAlign( refCell );
+						align( refCell );
 				}
 				else
 				{
 					CellArea refCell = ( (DummyCell) cell ).getCell( );
 					refCell.setHeight( delta + height );
-					verticalAlign( refCell );
+					align( refCell );
 				}
 			}
 			else
@@ -603,7 +600,7 @@ public class TableLayout
 				cell.setHeight( height );
 				if ( oh != height )
 				{
-					verticalAlign( cell );
+					align( cell );
 				}
 			}
 			i = i + cell.getColSpan( ) - 1;
@@ -1015,13 +1012,13 @@ public class TableLayout
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
 						int delta = ( (DummyCell) cell ).getDelta( );
 						refCell.setHeight( delta + height );
-						verticalAlign( refCell );
+						align( refCell );
 					}
 					else
 					{
 						int cellHeight = cell.getHeight( );
 						cell.setHeight( height );
-						verticalAlign( cell );
+						align( cell );
 						if ( isFixedLayout && cellHeight > height )
 						{
 							cell.setNeedClip( true );
