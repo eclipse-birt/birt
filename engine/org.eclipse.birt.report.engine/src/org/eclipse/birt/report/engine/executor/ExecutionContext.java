@@ -439,6 +439,18 @@ public class ExecutionContext
 		return bookmarkManager;
 	}
 	
+	protected void unRegisterDataObject( )
+	{
+		try
+		{
+			DataAdapterUtil.unRegisterDataObject( scriptContext );
+		}
+		catch ( AdapterException e )
+		{
+			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+		}
+	}
+	
 	/**
 	 * Clean up the execution context before finishing using it
 	 */
@@ -458,6 +470,7 @@ public class ExecutionContext
 
 		if ( scriptContext != null )
 		{
+			unRegisterDataObject( );
 			scriptContext.close( );
 			scriptContext = null;
 		}
