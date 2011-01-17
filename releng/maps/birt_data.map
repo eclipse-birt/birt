@@ -1,7 +1,7 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=r262_v20110113,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.data=r262_v20110117,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=r262_v20110113,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
-plugin@org.eclipse.birt.report.data.adapter=r262_v20110113,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.adapter=r262_v20110117,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
 plugin@org.eclipse.birt.core.script.function=r262_v20110113,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.script.function
 plugin@org.eclipse.birt.report.data.bidi.utils=r262_v20110113,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils
 plugin@org.eclipse.birt.report.data.bidi.utils.ui=r262_v20110113,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.bidi.utils.ui
