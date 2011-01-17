@@ -663,9 +663,8 @@ public class NumberFormatter implements IFormatter
 		int precision = numberFormat.getMaximumFractionDigits( );
 		if ( numberFormat instanceof DecimalFormat )
 		{
-			int formatMultiplier = ( (DecimalFormat) numberFormat )
-					.getMultiplier( );
-			precision += formatMultiplier / 10;
+			int formatMultiplier = ( (DecimalFormat) numberFormat ).getMultiplier( );
+			precision += (int) Math.log10( formatMultiplier );
 		}
 		
 		return precision;
