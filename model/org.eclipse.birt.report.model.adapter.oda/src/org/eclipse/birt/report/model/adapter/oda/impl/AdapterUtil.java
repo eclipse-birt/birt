@@ -344,7 +344,7 @@ public class AdapterUtil
 			if ( target instanceof OdaDataSetHandle && target != setHandle )
 				new ModelOdaAdapter( ).updateDataSetHandle(
 						valueQuery.getDataSetDesign( ),
-						(OdaDataSetHandle) target, false );
+						(OdaDataSetHandle) target, false, true );
 
 			// if there is no corresponding data set, creates a new one.
 

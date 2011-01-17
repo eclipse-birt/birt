@@ -379,6 +379,23 @@ class DataSetAdapter extends AbstractDataAdapter
 			OdaDataSetHandle setHandle, boolean isSourceChanged )
 			throws SemanticException
 	{
+		updateDataSetHandle( setDesign, setHandle, isSourceChanged, false );
+	}
+	
+	/**
+	 * Updates the data set handle
+	 * @param setDesign
+	 * @param setHandle
+	 * @param isSourceChanged
+	 * @param isLinkedParameter
+	 *            the flag indicates if it is for a linked parameter. If it
+	 *            true, the data source name will not be checked.
+	 * @throws SemanticException
+	 */
+	void updateDataSetHandle( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, boolean isSourceChanged,
+			boolean isLinkedParameter )	throws SemanticException
+	{
 		if ( setDesign == null || setHandle == null )
 			return;
 
@@ -403,7 +420,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		}
 
 		updateDataSetHandle( setDesign, setHandle, isSourceChanged,
-				requestParameters, requestResultSets );
+				isLinkedParameter, requestParameters, requestResultSets );
 	}
 
 	/**
@@ -423,7 +440,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		DataSetDesign requestDesign = completedSession
 				.getRequestDataSetDesign( );
 
-		updateDataSetHandle( responseDesign, dataSetHandle, false,
+		updateDataSetHandle( responseDesign, dataSetHandle, false, false,
 				SchemaConversionUtil.convertToAdapterParameters( requestDesign
 						.getParameters( ) ), requestDesign.getResultSets( ) );
 
@@ -808,8 +825,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 	private void updateDataSetHandle( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle, boolean isSourceChanged,
-			DataSetParameters requestParameters, ResultSets requestResultSets )
-			throws SemanticException
+			boolean isLinkedParameter, DataSetParameters requestParameters,
+			ResultSets requestResultSets ) throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
 			return;
@@ -895,7 +912,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
 						.getDataSource( );
 
-				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( );
+				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( isLinkedParameter );
 
 				// only the local data source can be used.
 
