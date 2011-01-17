@@ -39,7 +39,7 @@ public class AggrSortHelper
 	public static void sort( List sorts, IAggregationResultSet[] resultSet, IBindingValueFetcher fetcher )
 			throws DataException
 	{
-		assert sorts != null && sorts.size( ) > 1;
+		assert sorts != null && sorts.size( ) > 0;
 		try
 		{
 			ITargetSort[] targetSorts = new ITargetSort[sorts.size( )];

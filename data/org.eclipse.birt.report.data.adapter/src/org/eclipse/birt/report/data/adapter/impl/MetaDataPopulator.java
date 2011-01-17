@@ -103,10 +103,10 @@ public class MetaDataPopulator
 					columnDef.setNativeDataType( resultSetColumn.getNativeDataType( )
 							.intValue( ) );
 
-				if ( findColumnHint( dataSetHandle, resultSetColumn.getColumnName( ) ) != null )
+				ColumnHintHandle columnHint = findColumnHint( dataSetHandle,
+						resultSetColumn.getColumnName( ) );
+				if ( columnHint != null )
 				{
-					ColumnHintHandle columnHint = findColumnHint( dataSetHandle,
-							resultSetColumn.getColumnName( ) );
 					columnDef.setAlias( columnHint.getAlias( ) );
 					columnDef.setLableName( columnHint.getDisplayName( ) );
 				}

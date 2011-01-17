@@ -258,9 +258,6 @@ public class CubeQueryDefinitionIOUtil
 			IOUtil.writeInt( dos, CUBE_OPERATION_FLAG_ADDING_NEST_AGGRS );
 			saveBindings( dos, Arrays.asList( co.getNewBindings( ) ));
 		}
-		
-		//Currently, only adding nest aggregations operation is supported
-		assert false;
 	}
 	
 	private static ICubeOperation loadCubeOperation( DataInputStream dis ) throws DataException, IOException
