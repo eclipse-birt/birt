@@ -434,7 +434,7 @@ public class TableLayout
 		return area.getWidth( );
 	}
 
-	protected void verticalAlign( CellArea cell )
+	protected void align( CellArea cell )
 	{
 		IContent content = cell.getContent( );
 		if ( content == null )
@@ -585,13 +585,13 @@ public class TableLayout
 				{
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
 						refCell.setHeight( delta + height );
-						verticalAlign( refCell );
+						align( refCell );
 				}
 				else
 				{
 					CellArea refCell = ( (DummyCell) cell ).getCell( );
 					refCell.setHeight( delta + height );
-					verticalAlign( refCell );
+					align( refCell );
 				}
 			}
 			else
@@ -600,7 +600,7 @@ public class TableLayout
 				cell.setHeight( height );
 				if ( oh != height )
 				{
-					verticalAlign( cell );
+					align( cell );
 				}
 			}
 			i = i + cell.getColSpan( ) - 1;
@@ -1012,13 +1012,13 @@ public class TableLayout
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
 						int delta = ( (DummyCell) cell ).getDelta( );
 						refCell.setHeight( delta + height );
-						verticalAlign( refCell );
+						align( refCell );
 					}
 					else
 					{
 						int cellHeight = cell.getHeight( );
 						cell.setHeight( height );
-						verticalAlign( cell );
+						align( cell );
 						if ( isFixedLayout && cellHeight > height )
 						{
 							cell.setNeedClip( true );

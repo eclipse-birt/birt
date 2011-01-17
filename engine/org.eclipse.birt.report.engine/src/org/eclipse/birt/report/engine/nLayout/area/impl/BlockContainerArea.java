@@ -24,6 +24,8 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
+import org.w3c.dom.css.CSSValue;
 
 public class BlockContainerArea extends ContainerArea implements IContainerArea
 {
@@ -548,9 +550,48 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 			children.remove( child );
 		}
 		newContainer.updateContentHeight( newHeight );
+		applyAlignment( newContainer );
 		return newContainer;
 	}
 	
+	private void applyAlignment( BlockContainerArea area )
+	{
+		IContent content = area.getContent( );
+		if ( content == null )
+		{
+			return;
+		}
+		CSSValue align = content.getComputedStyle( ).getProperty(
+				IStyle.STYLE_TEXT_ALIGN );
+
+		// bidi_hcg: handle empty or justify align in RTL direction as right
+		// alignment
+		boolean isRightAligned = BidiAlignmentResolver.isRightAligned( content,
+				align, false );
+
+		// single line
+		if ( isRightAligned || IStyle.CENTER_VALUE.equals( align ) )
+		{
+			Iterator iter = area.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea child = (AbstractArea) iter.next( );
+				int spacing = area.getContentWidth( )
+						- child.getAllocatedWidth( );
+				if ( spacing > 0 )
+				{
+					if ( isRightAligned )
+					{
+						child.setAllocatedX( spacing + area.getOffsetX( ) );
+					}
+					else if ( IStyle.CENTER_VALUE.equals( align ) )
+					{
+						child.setAllocatedX( spacing / 2 + area.getOffsetX( ) );
+					}
+				}
+			}
+		}
+	}
 	
 	protected void addRepeatedItem( ) throws BirtException
 	{
