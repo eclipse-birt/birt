@@ -13,13 +13,17 @@ package org.eclipse.birt.report.designer.data.ui.util;
 
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
@@ -29,11 +33,19 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 public class DummyEngineTask extends RunAndRenderTask
 {	
+	private DataSetHandle dataSetHandle;
+	
 	public DummyEngineTask( ReportEngine engine, IReportRunnable runnable, ModuleHandle moduleHandle )
+	{
+		this( engine, runnable, moduleHandle, null);
+	}
+	
+	public DummyEngineTask( ReportEngine engine, IReportRunnable runnable, ModuleHandle moduleHandle, DataSetHandle handle )
 	{
 		super( engine, runnable );
 		setEngineTaskParameters( this, moduleHandle );
 		this.taskType = IEngineTask.TASK_UNKNOWN;
+		this.dataSetHandle = handle;
 	}
 	
 	public void run() throws EngineException
@@ -41,6 +53,27 @@ public class DummyEngineTask extends RunAndRenderTask
 		usingParameterValues( );
 		loadDesign( );
 
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.impl.EngineTask#getDataSession()
+	 */
+	public DataRequestSession getDataSession( ) throws EngineException
+	{
+		DataRequestSession session = super.getDataSession( );
+		if ( dataSetHandle != null )
+		{
+			try
+			{
+				ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter( executionContext );
+				apiAdapter.defineDataSet( dataSetHandle, session );
+			}
+			catch ( BirtException ex )
+			{
+				throw new EngineException( ex );
+			}
+		}
+		return session;
 	}
 
 	public ExecutionContext getExecutionContext( )

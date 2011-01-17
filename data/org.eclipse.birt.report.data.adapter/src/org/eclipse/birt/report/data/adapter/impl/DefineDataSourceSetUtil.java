@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -75,7 +76,9 @@ public class DefineDataSourceSetUtil
 	}
 
 	public static void defineDataSourceAndDataSet( DataSetHandle dataSet,
-			DataEngine dataEngine, IModelAdapter modelAdaptor ) throws BirtException
+			DataEngine dataEngine, IModelAdapter modelAdaptor,
+			QueryExecutionHelper.DataSetHandleProcessContext context )
+			throws BirtException
 	{
 
 		if ( dataSet == null )
@@ -101,7 +104,7 @@ public class DefineDataSourceSetUtil
 					{
 						dataEngine.defineDataSource( modelAdaptor.adaptDataSource( childDataSource ) );
 					}
-					defineDataSourceAndDataSet( childDataSet, dataEngine, modelAdaptor );
+					defineDataSourceAndDataSet( childDataSet, dataEngine, modelAdaptor, context );
 				}
 			}
 
@@ -113,11 +116,19 @@ public class DefineDataSourceSetUtil
 			{
 				defineDataSourceAndDataSet( (DataSetHandle) inputDataSet.get( i ),
 						dataEngine,
-						modelAdaptor );
+						modelAdaptor, context );
 			}
 		}
-		if(  ( (DataEngineImpl) dataEngine ).getDataSetDesign( dataSet.getQualifiedName( ) ) == null )
-			dataEngine.defineDataSet( modelAdaptor.adaptDataSet( dataSet ) );
+		
+		IBaseDataSetDesign design = ( (DataEngineImpl) dataEngine ).getDataSetDesign( dataSet.getQualifiedName( ) );
+		if ( design == null )
+		{
+			design = modelAdaptor.adaptDataSet( dataSet );
+			dataEngine.defineDataSet( design );
+		}
+
+		if ( context != null )
+			context.process( design, dataSet );
 	}
 
 }

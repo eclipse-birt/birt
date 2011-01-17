@@ -234,7 +234,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 			
 			DummyEngineTask engineTask = new DummyEngineTask( engine,
 					new ReportEngineHelper( engine ).openReportDesign( copiedReport ),
-					copiedReport );
+					copiedReport, dsHandle );
 			
 			Map appContext = new HashMap( );
 			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,

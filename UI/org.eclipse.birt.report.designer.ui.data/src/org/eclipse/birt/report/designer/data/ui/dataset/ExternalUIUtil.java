@@ -84,7 +84,7 @@ public class ExternalUIUtil
 
 			DummyEngineTask engineTask = new DummyEngineTask( engine,
 					new ReportEngineHelper( engine ).openReportDesign( copy ),
-					copy );
+					copy, dataSetHandle );
 
 			DataRequestSession session = engineTask.getDataSession( );
 
