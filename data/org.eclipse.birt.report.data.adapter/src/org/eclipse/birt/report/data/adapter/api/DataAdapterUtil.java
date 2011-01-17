@@ -222,6 +222,31 @@ public class DataAdapterUtil
 	}
 	
 	/**
+	 * 
+	 * @param context
+	 * @throws AdapterException
+	 */
+	public static void unRegisterDataObject( ScriptContext context ) throws AdapterException
+	{
+		Scriptable targetScope;
+		try
+		{
+			if( context!= null )
+			{
+				targetScope = ( (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( context );
+				targetScope.delete( "row" );
+				targetScope.delete( "dimension" );
+				targetScope.delete( "measure" );
+				targetScope.delete( "data" );				
+			}
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getErrorCode( ), e );
+		}
+	}
+	
+	/**
 	 * Adapts a Model data type (string) to Data Engine data type constant
 	 * (integer) on column
 	 */
