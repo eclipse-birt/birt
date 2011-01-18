@@ -77,7 +77,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 	}
 
 	protected ScriptStatus handleJS( Scriptable scope,
-			String type, String name, String method, String script )
+			String type, String name, String method, String script, String id )
 	{
 		if ( script == null || type == null || name == null || method == null )
 			return ScriptStatus.NO_RUN;
@@ -87,7 +87,7 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 		try
 		{
 			JSMethodRunner jsr = getRunner( scope, type, name );
-			result = jsr.runScript( method, script );
+			result = jsr.runScript( method, script, id );
 		} catch ( Exception e )
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
@@ -99,6 +99,6 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 	}
 
 	protected abstract ScriptStatus handleJS( Scriptable scope, String name, String method,
-			String script );
+			String script, String id );
 
 }

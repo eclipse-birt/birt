@@ -14,12 +14,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSourceInstance;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 import org.mozilla.javascript.Scriptable;
 
 public class DataSourceScriptExecutor extends DtEScriptExecutor implements
@@ -34,6 +35,8 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 	private boolean useBeforeOpenEventHandler = false;
 	private boolean useAfterOpenEventHandler = false;
 	private boolean useAfterCloseEventHandler = false;
+	
+	private final String beforeOpenMethodID, beforeCloseMethodID, afterOpenMethodID, afterCloseMethodID;
 
 	public DataSourceScriptExecutor( DataSourceHandle dataSourceHandle,
 			ExecutionContext context ) throws BirtException
@@ -46,7 +49,11 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		this.useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeClose( ) );
 		this.useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterOpen( ) );
 		this.useAfterCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterClose( ) );
-
+		
+		beforeOpenMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.BEFORE_OPEN_METHOD ) );
+		beforeCloseMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.BEFORE_CLOSE_METHOD ) );
+		afterOpenMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.AFTER_OPEN_METHOD ) );
+		afterCloseMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.AFTER_CLOSE_METHOD ) );
 	}
 
 	protected void initEventHandler( String className )
@@ -79,7 +86,8 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						BEFORE_OPEN,
-						dataSourceHandle.getBeforeOpen( ) );
+						dataSourceHandle.getBeforeOpen( ),
+						beforeOpenMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -103,7 +111,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						BEFORE_CLOSE,
-						dataSourceHandle.getBeforeClose( ) );
+						dataSourceHandle.getBeforeClose( ), beforeCloseMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -127,7 +135,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						AFTER_OPEN,
-						dataSourceHandle.getAfterOpen( ) );
+						dataSourceHandle.getAfterOpen( ), afterOpenMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -151,7 +159,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 						dataSource.getName( ),
 						AFTER_CLOSE,
-						dataSourceHandle.getAfterClose( ) );
+						dataSourceHandle.getAfterClose( ), afterCloseMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -164,9 +172,9 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 	}
 
 	protected ScriptStatus handleJS( Scriptable scope, String name,
-			String method, String script )
+			String method, String script, String id )
 	{
-		return handleJS( scope, DATA_SOURCE, name, method, script );
+		return handleJS( scope, DATA_SOURCE, name, method, script, id );
 	}
 
 }
