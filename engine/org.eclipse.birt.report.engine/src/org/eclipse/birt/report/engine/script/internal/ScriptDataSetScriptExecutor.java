@@ -22,7 +22,9 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -47,6 +49,9 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	
 	private String fetchScript = null;
 	private HashMap<IDataSetInstanceHandle, Scriptable> sharedScopes = new HashMap<IDataSetInstanceHandle,Scriptable>();
+	
+	private final String openMethodID, closeMethodID, fetchMethodID, describeMethodID;
+	
 	public ScriptDataSetScriptExecutor( ScriptDataSetHandle dataSetHandle,
 			ExecutionContext context ) throws BirtException
 	{
@@ -59,7 +64,11 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 		useCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getClose( ) );
 		useDescribeEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getDescribe( ) );
 		 
-			
+		openMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.OPEN_METHOD ) );
+		closeMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.CLOSE_METHOD ) );
+		fetchMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.FETCH_METHOD ) );
+		describeMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.DESCRIBE_METHOD ) );
+
 	}
 
 	protected void initEventHandler( String className )
@@ -88,7 +97,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						OPEN,
-						( (ScriptDataSetHandle) dataSetHandle ).getOpen( ) );
+						( (ScriptDataSetHandle) dataSetHandle ).getOpen( ), openMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -109,7 +118,8 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						CLOSE,
-						( (ScriptDataSetHandle) dataSetHandle ).getClose( ) );
+						( (ScriptDataSetHandle) dataSetHandle ).getClose( ),
+						closeMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -130,7 +140,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						FETCH,
-						this.fetchScript );
+						this.fetchScript, fetchMethodID );
 				if ( status.didRun( ) )
 				{
 					Object result = status.result( );
@@ -164,7 +174,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 				ScriptStatus status = handleJS( getScriptScope( dataSet ),
 						dataSet.getName( ),
 						DESCRIBE,
-						( (ScriptDataSetHandle) dataSetHandle ).getDescribe( ) );
+						( (ScriptDataSetHandle) dataSetHandle ).getDescribe( ), describeMethodID );
 				if ( status.didRun( ) )
 				{
 					Object result = status.result( );

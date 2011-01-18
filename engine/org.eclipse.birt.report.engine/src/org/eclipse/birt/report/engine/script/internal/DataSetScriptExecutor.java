@@ -24,6 +24,8 @@ import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEv
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -34,7 +36,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	private static final String ON_FETCH = "onFetch";
 
 	protected DataSetHandle dataSetHandle;
-
+	
 	protected IDataSetEventHandler eventHandler;
 	
 	private boolean useOnFetchEventHandler = false;
@@ -42,9 +44,12 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	private boolean useAfterOpenEventHandler = false;
 	private boolean useBeforeOpenEventHandler = false;
 	private boolean useBeforeCloseEventHandler = false;
+	
+	private final String beforeOpenMethodID, beforeCloseMethodID,
+			afterOpenMethodID, afterCloseMethodID, onFetchMethodID;
 
 	private static Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<IDataSetInstanceHandle, Scriptable>( );
-	
+
 	public DataSetScriptExecutor( DataSetHandle dataSetHandle,
 			ExecutionContext context ) throws BirtException
 	{
@@ -57,6 +62,12 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getAfterOpen( ) );
 		useBeforeOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getBeforeOpen( ) );
 		useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getBeforeClose( ) );
+		
+		beforeOpenMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( ISimpleDataSetModel.BEFORE_OPEN_METHOD ) );
+		beforeCloseMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( ISimpleDataSetModel.BEFORE_CLOSE_METHOD ) );
+		afterOpenMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( ISimpleDataSetModel.AFTER_OPEN_METHOD ) );
+		afterCloseMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( ISimpleDataSetModel.AFTER_CLOSE_METHOD ) );
+		onFetchMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( ISimpleDataSetModel.ON_FETCH_METHOD ) );
 	}
 
 	protected void initEventHandler( String className )
@@ -90,7 +101,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						BEFORE_OPEN,
-						dataSetHandle.getBeforeOpen( ) );
+						dataSetHandle.getBeforeOpen( ),
+						beforeOpenMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -115,7 +127,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						BEFORE_CLOSE,
-						dataSetHandle.getBeforeClose( ) );
+						dataSetHandle.getBeforeClose( ) , beforeCloseMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -140,7 +152,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS(  scope ,
 						dataSet.getName( ),
 						AFTER_OPEN,
-						dataSetHandle.getAfterOpen( ) );
+						dataSetHandle.getAfterOpen( ), afterOpenMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -190,7 +202,8 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						AFTER_CLOSE,
-						dataSetHandle.getAfterClose( ) );
+						dataSetHandle.getAfterClose( ),
+						afterCloseMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -214,7 +227,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 				ScriptStatus status = handleJS( scope,
 						dataSet.getName( ),
 						ON_FETCH,
-						dataSetHandle.getOnFetch( ) );
+						dataSetHandle.getOnFetch( ), onFetchMethodID );
 				if ( status.didRun( ) )
 					return;
 			}
@@ -228,9 +241,9 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	}
 
 	protected ScriptStatus handleJS( Scriptable scope, String name,
-			String method, String script )
+			String method, String script, String id )
 	{
-		return handleJS( scope, DATA_SET, name, method, script );
+		return handleJS( scope, DATA_SET, name, method, script, id );
 	}
 
 }

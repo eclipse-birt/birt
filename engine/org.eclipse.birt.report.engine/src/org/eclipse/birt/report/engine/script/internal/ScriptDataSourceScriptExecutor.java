@@ -17,7 +17,9 @@ import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEv
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSourceEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSourceInstance;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
 
 public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 		implements IScriptDataSourceEventHandler
@@ -55,9 +57,10 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 	{
 		try
 		{
+			String id = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IScriptDataSourceModel.OPEN_METHOD ) );
 			ScriptStatus status = super.handleJS( dataSource.getScriptScope( ),
 					dataSource.getName( ), OPEN,
-					( ( ScriptDataSourceHandle ) dataSourceHandle ).getOpen( ) );
+					( ( ScriptDataSourceHandle ) dataSourceHandle ).getOpen( ), id );
 			if ( status.didRun( ) )
 				return;
 			if ( scriptedEventHandler != null )
@@ -73,9 +76,10 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 	{
 		try
 		{
+			String id = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IScriptDataSourceModel.CLOSE_METHOD ) );
 			ScriptStatus status = handleJS( dataSource.getScriptScope( ),
 					dataSource.getName( ), CLOSE,
-					( ( ScriptDataSourceHandle ) dataSourceHandle ).getClose( ) );
+					( ( ScriptDataSourceHandle ) dataSourceHandle ).getClose( ), id );
 			if ( status.didRun( ) )
 				return;
 			if ( scriptedEventHandler != null )

@@ -100,4 +100,56 @@ public class JSMethodRunner
 		}
 	}
 	
+	
+	/**
+	 * Executes a method script. Each script should be identified with a unique
+	 * name within the scope (such as "afterOpen", "onFetch" etc.). This class 
+	 * assumes that the content of a named method script is immutable, therefore
+	 * it defines each named script only once.
+	 * @param methodName Identification of the script
+	 * @param script Script text
+	 * @param id script id using in debug mode
+	 * @return Return value from the script
+	 */
+	public Object runScript( String methodName, String script, String id ) throws BirtException
+	{
+		// Add a prefix to the method name so it has less chance of conflict with regular functions
+		methodName = METHOD_NAME_PREFIX + methodName;
+		
+		try
+		{
+			// Check if method already defined in scope
+			if ( !scope.has( methodName, scope ) )
+			{
+
+				// Define the method for the first time
+				String scriptText = "function "
+						+ methodName + "() {\n" + script + "\n} ";
+				ScriptEvalUtil.evaluateJSAsExpr( cx,
+						scope,
+						scriptText,
+						id,
+						1 );
+
+			}
+
+			// Call pre-defined method
+			String callScriptText = methodName + "()";
+			Object result = ScriptEvalUtil.evaluateJSAsExpr( cx,
+					scope,
+					callScriptText,
+					id,
+					1 );
+			return result;
+		}
+		catch ( DataException e )
+		{
+			throw new DataException( ResourceConstants.SCIRPT_FUNCTION_EXECUTION_FAIL,
+					e,
+					new Object[]{
+							methodName, script
+					} );
+		}
+	}
+	
 }

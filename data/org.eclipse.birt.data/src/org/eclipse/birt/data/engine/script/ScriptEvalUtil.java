@@ -998,7 +998,7 @@ public class ScriptEvalUtil
 		Object result;
 		try
 		{
-			result = JavascriptEvalUtil.evaluateScript( Context.getCurrentContext( ), scope, scriptText, "", 0 );
+			result = JavascriptEvalUtil.evaluateScript( Context.getCurrentContext( ), scope, scriptText, source, 0 );
 		}
 		catch ( BirtException e )
 		{
