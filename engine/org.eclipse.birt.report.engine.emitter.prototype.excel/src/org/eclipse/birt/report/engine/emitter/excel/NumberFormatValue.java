@@ -42,7 +42,7 @@ public class NumberFormatValue
 			if ( matcher.matches( ) )
 			{
 				String f = matcher.group( 1 );
-				if ( f != null )
+				if ( f != null && f.length( ) > 0 )
 				{
 					value.format = f;
 					int index = f.lastIndexOf( '.' );
@@ -58,6 +58,19 @@ public class NumberFormatValue
 							}
 						}
 						value.fractionDigits = end - 1 - index;
+					}
+					char lastChar = f.charAt( f.length( ) - 1 );
+					switch ( lastChar )
+					{
+						case '%' :
+							value.fractionDigits += 2;
+							break;
+						case '‰' :
+							value.fractionDigits += 3;
+							break;
+						case '‱' :
+							value.fractionDigits += 4;
+							break;
 					}
 				}
 				String m = matcher.group( 2 );
