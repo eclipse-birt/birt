@@ -68,7 +68,9 @@ public class ExcelUtil
 	private static final long BASE_DATE_TIME;
 	private static final String validStr = "#.0<>()%_";
 	private static final String specialStr = "mMdDyYhHsSeEbBgGnN/*\"@";
-	private static final String currencySymbol = "£¢€￥¥";
+	
+	// for unicode currency symbols : "£¢€￥¥"
+	private static final String currencySymbol = "\u00a3\u00a2\u20ac\uffe5\u00a5";
 	protected static Logger logger = Logger.getLogger( ExcelUtil.class
 			.getName( ) );
 
@@ -136,7 +138,9 @@ public class ExcelUtil
 		return val;
 	}
 
-	private static String invalidBookmarkChars = "`~!@#$%^&*()-=+\\|[]{};:'\",./?>< \t\n\r！￥（）：；，";
+	//For unicode characters: "`~!@#$%^&*()-=+\\|[]{};:'\",./?>< \t\n\r\！￥（）：；，"
+	
+	private static String invalidBookmarkChars = "`~!@#$%^&*()-=+\\|[]{};:'\",./?>< \t\n\r\uff01\uffe5\uff08\uff09\uff1a\uff1b\uff0c";
 
 	// This check can not cover all cases, cause we do not know exactly the
 	// excel range name restraint.
@@ -1000,7 +1004,7 @@ public class ExcelUtil
 					{
 						returnStr.append( "\\" ).append( temp );
 					}
-					else if ( temp == '\u00a4' ) // this corresponds to symbol '�'
+					else if ( temp == '\u00a4' ) // this corresponds to symbol '¤'
 					{
 						String symbol = getCurrencySymbol( locale );
 						returnStr.append( symbol );
@@ -1043,15 +1047,15 @@ public class ExcelUtil
 			String symbol = currency.getSymbol( locale );
 			if ( symbol.equals( "EUR" ) )
 			{
-				symbol = "€";
+				symbol = "\u20ac"; // "€";
 			}
 			else if ( symbol.equals( "GBP" ) )
 			{
-				symbol = "£";
+				symbol = "\u00a3"; // "£";
 			}
 			else if ( symbol.equals( "XXX" ) )
 			{
-				symbol = "¤";
+				symbol = "\u00a4"; // "¤";
 			}
 			return symbol;
 		}
