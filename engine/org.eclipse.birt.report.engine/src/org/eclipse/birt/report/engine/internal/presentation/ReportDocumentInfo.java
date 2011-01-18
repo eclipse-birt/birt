@@ -23,11 +23,13 @@ import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 /**
  * the report document information given out by the report document builder
@@ -85,32 +87,28 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 				documentName = documentName + File.separatorChar;
 			}
 		}
-		if ( !finished )
+		IDocArchiveWriter arcWriter = writer.getArchive( );
+		if ( arcWriter instanceof ArchiveWriter )
 		{
-			IDocArchiveWriter arcWriter = writer.getArchive( );
-			if ( arcWriter instanceof ArchiveWriter )
+			IArchiveFile archive = ( (ArchiveWriter) arcWriter )
+					.getArchive( );
+			try
 			{
-				IArchiveFile archive = ( (ArchiveWriter) arcWriter )
-						.getArchive( );
-				try
-				{
-					IDocArchiveReader arcReader = new ArchiveReader( archive );
-					IReportDocument document = engine.openReportDocument(
-							documentName, arcReader, new HashMap( ) );
-					return new TransientReportDocument( document, context,
-							pageNumber, params, parameterDisplayTexts, beans,
-							finished );
-				}
-				catch ( IOException ex )
-				{
-					return null;
-				}
+				IDocArchiveReader arcReader = new ArchiveReader( archive );
+				IReportDocument document = engine.openReportDocument(
+						documentName, arcReader, new HashMap( ) );
+				return new TransientReportDocument( document, context,
+						pageNumber, params, parameterDisplayTexts, beans,
+						finished );
+			}
+			catch ( IOException ex )
+			{
+				throw new EngineException(
+						MessageConstants.REPORT_DOCUMENT_OPEN_ERROR, ex );
 			}
 		}
-		IReportDocument document = engine.openReportDocument( documentName );
-
-		return new TransientReportDocument( document, context, pageNumber,
-				params, parameterDisplayTexts, beans, finished );
+		throw new EngineException(
+				MessageConstants.REPORT_DOCUMENT_OPEN_ERROR );
 	}
 
 	public List getErrors( )
