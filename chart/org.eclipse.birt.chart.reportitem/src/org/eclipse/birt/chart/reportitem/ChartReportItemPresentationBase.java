@@ -75,6 +75,8 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -596,12 +598,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 						modelHandle );
 			}
 
-			// Sharing case/Multiple view case/in xtab
+			// Sharing case/Multiple view case/in xtab header cell
 			ReportItemHandle itemHandle = ChartItemUtil.getReportItemReference( modelHandle );
 			boolean isChartCubeReference = ChartItemUtil.isChartReportItemHandle( itemHandle );
+			CrosstabCellHandle xtabCell = ChartCubeUtil.getXtabContainerCell( modelHandle, false );
 			if ( itemHandle != null
 					&& !isChartCubeReference
-					|| ChartCubeUtil.getXtabContainerCell( modelHandle, false ) != null )
+					|| xtabCell != null
+					&& !( xtabCell instanceof AggregationCellHandle ) )
 			{
 				return new SharedCubeResultSetEvaluator( (ICubeResultSet) set,
 						cm );
