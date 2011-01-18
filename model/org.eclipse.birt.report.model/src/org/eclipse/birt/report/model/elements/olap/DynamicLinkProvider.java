@@ -17,6 +17,8 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -26,9 +28,11 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.namespace.DimensionNameHelper;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.extension.ExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ElementFactoryUtil;
@@ -128,6 +132,51 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 		{
 			infor = new LayoutInfor( );
 			duplicateStructure( target, element, module );
+		}
+		
+		// rebuild the joint condition
+		updateDimensionConditions( module );
+	}
+	
+	private void updateDimensionConditions( Module module )
+	{
+		TabularCube cube = null;
+		if ( element instanceof Dimension )
+		{
+			cube = (TabularCube) element.getContainer();
+		}
+		else if ( element instanceof TabularCube)
+		{
+			cube = (TabularCube) element;
+		}
+		if ( cube != null )
+		{
+			List dimensionConditions = (List) cube.getLocalProperty( module, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+			if ( dimensionConditions != null )
+			{
+				for ( int i = 0 ; i < dimensionConditions.size( ); i++ )
+				{
+					DimensionCondition dimensionCond = (DimensionCondition) dimensionConditions.get( i );
+					ElementRefValue refValue = (ElementRefValue) dimensionCond.getLocalProperty( module, DimensionCondition.HIERARCHY_MEMBER );
+					if ( refValue != null && refValue.isResolved( ) )
+					{
+						refValue.unresolved( refValue.getName( ) );
+					}
+					List joinConditions = (List) dimensionCond.getProperty( module, DimensionCondition.JOIN_CONDITIONS_MEMBER );
+					if ( joinConditions != null )
+					{
+						for ( int j = 0; j < joinConditions.size( ); j++ )
+						{
+							DimensionJoinCondition joinCond = (DimensionJoinCondition) joinConditions.get( j );
+							refValue = (ElementRefValue) joinCond.getLocalProperty( module, DimensionJoinCondition.LEVEL_MEMBER );
+							if ( refValue != null && refValue.isResolved( ) )
+							{
+								refValue.unresolved( refValue.getName( ) );
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
