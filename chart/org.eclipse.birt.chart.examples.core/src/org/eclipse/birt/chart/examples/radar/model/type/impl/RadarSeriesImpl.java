@@ -268,7 +268,7 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean RADAR_AUTO_SCALE_EDEFAULT = false;
+	protected static final boolean RADAR_AUTO_SCALE_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isRadarAutoScale()
