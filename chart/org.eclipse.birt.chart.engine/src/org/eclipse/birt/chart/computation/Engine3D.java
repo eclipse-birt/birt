@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2010 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1033,71 +1034,69 @@ public final class Engine3D implements IConstants
 		// case. If two polygons are overlay then adjust the correct rendering
 		// order for these two polygons, else it should still keep the Z-depth
 		// order of these two polygons and their contiguous polygons.
-		List<Object> tmpList = new ArrayList<Object>( rtList );
-		rtList.clear( );
-		rtList.add( tmpList.remove( 0 ) );
-		while ( !tmpList.isEmpty( ) )
-		{
-			Object event = tmpList.remove( 0 );
-			Object3D near = getObjectFromEvent( event );
-			boolean shouldSwap = false;
-			boolean processed = false;
-			int idx = -1;
-			int idx2 = -1;
+		HashSet<Object> hs = new HashSet<Object>( );
 
-			for ( int i = 0; i < rtList.size( ) ; i++ )
+		for ( int i = 0; i < rtList.size( ); i++ )
+		{
+			long max_loop = rtList.size( ) - i;
+			int n = -1;
+			boolean restart = true;
+			while ( restart && n < max_loop )
 			{
-				Object event2 = rtList.get( i );
-				Object3D far = getObjectFromEvent( event2 );
-				if ( far == near )
-					continue;
-				
-				// Iterator to check all continuous swapped polygons. 
-				if ( far.testZOverlap( near ) )
+				restart = false;
+				n++;
+
+				Object event = rtList.get( i );
+				Object3D far = getObjectFromEvent( event, true );
+
+				for ( int j = i + 1; j < rtList.size( ); j++ )
 				{
-					if ( far.testSwap( near, this ) )
+					Object event2 = rtList.get( j );
+					Object3D near = getObjectFromEvent( event2, true );
+					Object3D nearParent = getParentObject( event2 );
+					
+					if (far==near)
 					{
-						if ( idx == -1 ) idx = i;
-						shouldSwap = true;
-						continue;
-					}
-				}
-				if ( shouldSwap )
-				{
-					idx2 = i;
-					int k = idx;
-					// According to Z-Depth, add other polygons to correct
-					// position to ensure correct Z-Depth order.
-					for ( int j = rtList.size( ) - 1; j >= idx2; j-- )
-					{
-						Object e = rtList.get( j );
-						if ( zSortComparator( event, e ) >= 0 )
+						if (nearParent==null) // near is parent
 						{
-							rtList.remove( j );
-							rtList.add( k++, e );
+							rtList.set( i, event2 );
+							rtList.set( j, event );
+
+							restart = true;
+							break;
 						}
 						else
 						{
+							continue;
+						}
+					}
+
+					// far != near
+					if ( far.testZOverlap( near ) )
+					{
+						boolean bSwap = far.testSwap( near, this );
+
+						if ( bSwap )
+						{
+							boolean bSwapedFromFront = hs.contains( event );
+							bSwap = !bSwapedFromFront;
+
+							if ( bSwap )
+							{
+								hs.add( event );
+							}
+						}
+
+						if ( bSwap )
+						{
+							rtList.set( i, event2 );
+							rtList.set( j, event );
+
+							restart = true;
 							break;
 						}
 					}
-					// Add current polygon to correct position.
-					rtList.add( k, event );
-					processed = true;
-					shouldSwap = false;
-					break;
 				}
-			}
-			// If it is not processed in polygons iteration, process it finally.
-			if ( shouldSwap )
-			{
-				// It means the swapped element is the last element in list.
-				rtList.add( idx, event );
-			}
-			else if ( !processed )
-			{
-				// It means the swapped element is the last element in list.
-				rtList.add( event );
 			}
 		}
 	}
