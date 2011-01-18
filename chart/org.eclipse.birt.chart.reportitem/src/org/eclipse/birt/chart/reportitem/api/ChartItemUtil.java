@@ -1359,32 +1359,40 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		double dHeightInPoints = defaultBounds.getHeight( );
 		double dWidthInPoints = defaultBounds.getWidth( );
 
-		if ( sHeightUnits != null )
+		try
 		{
-			// Convert from pixels to points first...since DimensionUtil
-			// does not provide conversion services to and from Pixels
-			if ( sHeightUnits == DesignChoiceConstants.UNITS_PX )
+			if ( sHeightUnits != null )
 			{
-				dOriginalHeight = ( dOriginalHeight * 72d ) / dpi;
-				sHeightUnits = DesignChoiceConstants.UNITS_PT;
+				// Convert from pixels to points first...since DimensionUtil
+				// does not provide conversion services to and from Pixels
+				if ( sHeightUnits == DesignChoiceConstants.UNITS_PX )
+				{
+					dOriginalHeight = ( dOriginalHeight * 72d ) / dpi;
+					sHeightUnits = DesignChoiceConstants.UNITS_PT;
+				}
+				dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
+						sHeightUnits,
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
 			}
-			dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
-					sHeightUnits,
-					DesignChoiceConstants.UNITS_PT ).getMeasure( );
-		}
 
-		if ( sWidthUnits != null )
-		{
-			// Convert from pixels to points first...since DimensionUtil
-			// does not provide conversion services to and from Pixels
-			if ( sWidthUnits == DesignChoiceConstants.UNITS_PX )
+			if ( sWidthUnits != null )
 			{
-				dOriginalWidth = ( dOriginalWidth * 72d ) / dpi;
-				sWidthUnits = DesignChoiceConstants.UNITS_PT;
+				// Convert from pixels to points first...since DimensionUtil
+				// does not provide conversion services to and from Pixels
+				if ( sWidthUnits == DesignChoiceConstants.UNITS_PX )
+				{
+					dOriginalWidth = ( dOriginalWidth * 72d ) / dpi;
+					sWidthUnits = DesignChoiceConstants.UNITS_PT;
+				}
+				dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
+						sWidthUnits,
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
 			}
-			dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
-					sWidthUnits,
-					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			// Catch exception here to avoid invalid units
+			logger.log( e );
 		}
 
 		return BoundsImpl.create( 0, 0, dWidthInPoints, dHeightInPoints );
