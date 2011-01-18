@@ -5,9 +5,9 @@
     modelPluginID="org.eclipse.birt.chart.examples.core" templateDirectory="/org.eclipse.birt.chart.engine/templates"
     dynamicTemplates="true" redirection="" modelName="Radar" rootExtendsInterface="org.eclipse.birt.chart.model.IChartObject"
     rootImplementsInterface="" featureMapWrapperInternalInterface="" codeFormatting="true"
-    importerID="org.eclipse.xsd.ecore.importer" complianceLevel="5.0" copyrightFields="false"
-    usedGenPackages="../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//attribute ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//component ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//data ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//type ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//layout ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//model">
-  <foreignModel>radar.xsd</foreignModel>
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    usedGenPackages="../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//attribute ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//component ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//data ../../../../../../../../../org.eclipse.birt.chart.engine/src/model/model.genmodel#//layout">
+  <foreignModel>radar.ecore</foreignModel>
   <genPackages prefix="RadarType" basePackage="org.eclipse.birt.chart.examples.radar.model"
       resource="XML" disposableProviderFactory="true" ecorePackage="radar.ecore#/">
     <genClasses ecoreClass="radar.ecore#//RadarSeries">

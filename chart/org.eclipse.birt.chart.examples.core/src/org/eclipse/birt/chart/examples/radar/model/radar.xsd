@@ -74,7 +74,7 @@ holds the value for each data point in the line.  When rendered, a line connects
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>					
-					<xsd:element name="RadarAutoScale"
+					<xsd:element default="true" name="RadarAutoScale"
 						type="xsd:boolean">
 						<xsd:annotation>
 							<xsd:documentation>
