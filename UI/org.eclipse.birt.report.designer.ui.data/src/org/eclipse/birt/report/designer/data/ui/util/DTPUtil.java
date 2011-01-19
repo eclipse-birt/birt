@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.PromptParameterDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.DateSetPreferencePage;
@@ -360,7 +361,8 @@ public class DTPUtil
 		try
 		{
 			return new URI( encode( ReportPlugin.getDefault( )
-					.getResourceFolder( ) ) );
+					.getResourceFolder( UIUtil.getCurrentProject( ),
+							(ModuleHandle) null ) ) );
 		}
 		catch ( URISyntaxException e )
 		{
