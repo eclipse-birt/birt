@@ -23,10 +23,10 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ParameterHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
@@ -217,7 +217,7 @@ public class ExpressionUtility
 	public static String getFilterExpression( Object model, String value,
 			IExpressionConverter converter )
 	{
-		if ( model instanceof CubeHandle )
+		if ( model instanceof CubeHandle || model instanceof HierarchyHandle)
 		{
 			return getDataSetRowExpression( value, converter );
 		}
