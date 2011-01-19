@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">ElementExporterTest4Lib.xml</property>
+            <property name="namespace">theme</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+    <body>
+        <table name="table">
+            <property name="theme">theme.TableTheme</property>
+            <header>
+                <row>
+                    <cell/>
+                </row>
+            </header>
+            <detail>
+                <row>
+                    <cell/>
+                </row>
+            </detail>
+        </table>
+    </body>
+</report>

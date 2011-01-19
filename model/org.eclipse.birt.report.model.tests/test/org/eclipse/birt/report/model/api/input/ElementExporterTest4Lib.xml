@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22">
+    <themes>
+        <report-item-theme type="Table" name="TableTheme">
+            <styles>
+                <style name="table">
+                    <property name="fontFamily">"Times New Roman"</property>
+                </style>
+            </styles>
+        </report-item-theme>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage"/>
+    </page-setup>
+</library>

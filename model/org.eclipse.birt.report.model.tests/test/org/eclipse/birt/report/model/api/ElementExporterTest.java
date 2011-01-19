@@ -1133,4 +1133,25 @@ public class ElementExporterTest extends BaseTestCase
 		save( libraryHandle );
 		assertTrue( compareFile( "ExportCubeWithDuplicatedNameTestLib_2_golden.xml" ) ); //$NON-NLS-1$		
 	}
+	
+	/**
+	 * Tests exporting table with a theme to library file.
+	 * 
+	 * @throws Exception
+	 *             if any exception.
+	 */
+
+	public void testExportingTableWithTheme( ) throws Exception
+	{
+		openDesign( "ElementExporterTest4.xml" ); //$NON-NLS-1$
+		createLibrary( );
+
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "table" ); //$NON-NLS-1$
+
+		ElementExportUtil.exportElement( tableHandle, libraryHandle, false );
+
+		saveLibrary( );		
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_17.xml" ) ); //$NON-NLS-1$
+	}
 }

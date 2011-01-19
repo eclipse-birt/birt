@@ -53,6 +53,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
+import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
@@ -575,7 +577,7 @@ class ElementExporterImpl
 			return;
 
 		DesignElementHandle newElementHandle = duplicateElement(
-				elementToExport, false );
+				elementToExport, false );		
 
 		// if canOverride, we must firstly drop the elements whose name are
 		// duplicate with the exported element and its contents
@@ -889,7 +891,10 @@ class ElementExporterImpl
 
 		ModelUtil.duplicateProperties( elementHandle, newElementHandle,
 				onlyFactoryProperty, true );
-
+				
+		if ( newElementHandle.getElement( ) instanceof ISupportThemeElement )
+			newElementHandle.setProperty( ISupportThemeElementConstants.THEME_PROP, null );		
+			
 		// Duplicate all contents in the original element to new one.
 
 		duplicateSlots( elementHandle, newElementHandle );
