@@ -688,9 +688,10 @@ public final class ExpressionUtil
 			return "new java.math.BigDecimal(\"" + input + "\")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		if ( dataType == DataType.STRING_TYPE
-				|| dataType == DataType.DATE_TYPE 
-				|| dataType == DataType.SQL_DATE_TYPE 
-				|| dataType == DataType.SQL_TIME_TYPE )
+				|| dataType == DataType.DATE_TYPE
+				|| dataType == DataType.SQL_DATE_TYPE
+				|| dataType == DataType.SQL_TIME_TYPE
+				|| dataType == DataType.JAVA_OBJECT_TYPE )
 		{
 			return JavascriptEvalUtil.transformToJsExpression( input );
 		}
