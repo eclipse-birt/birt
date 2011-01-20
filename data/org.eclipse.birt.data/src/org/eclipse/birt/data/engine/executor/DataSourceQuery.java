@@ -878,7 +878,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
 
-    	if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
+		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
 		{
 			int fetchRowLimit = 0;
 			if ( design != null )
@@ -887,9 +887,31 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						.getCurrentDataSetDesign( )
 						.getRowFetchLimit( );
 			}
-			if ( fetchRowLimit != 0 )
+
+			int cacheCountConfig = 0;
+			if ( design.getFilters( ).isEmpty( ) )
 			{
-				odaStatement.setMaxRows( fetchRowLimit );
+				cacheCountConfig = session.getDataSetCacheManager( )
+						.getCacheCountConfig( );
+			}
+			if ( cacheCountConfig != 0 )
+			{
+				if ( fetchRowLimit != 0 && fetchRowLimit < cacheCountConfig )
+				{
+
+					odaStatement.setMaxRows( fetchRowLimit );
+				}
+				else
+				{
+					odaStatement.setMaxRows( cacheCountConfig );
+				}
+			}
+			else
+			{
+				if ( fetchRowLimit != 0 )
+				{
+					odaStatement.setMaxRows( fetchRowLimit );
+				}
 			}
 		}
 		
