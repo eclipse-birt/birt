@@ -73,9 +73,8 @@ public class ExcelContext
 		if ( reportContext != null )
 		{
 			Locale locale = reportContext.getLocale( );
-			this.locale = locale == null
-					? ULocale.forLocale( locale )
-					: ULocale.getDefault( );
+			this.locale = locale == null ? ULocale.getDefault( ) : ULocale
+					.forLocale( locale );
 		}
 		IRenderOption renderOption = service.getRenderOption( );
 		Object option = renderOption
