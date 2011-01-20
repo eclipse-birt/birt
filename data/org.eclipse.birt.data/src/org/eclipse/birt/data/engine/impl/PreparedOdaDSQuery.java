@@ -222,14 +222,21 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			ValidationContext validationContext = null;
 			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				int memorySize = 0;
+				int cacheSize = 0;
 				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
 				{
-					memorySize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
+					cacheSize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
 							.toString( ) )
 							.intValue( );
 				}
-				if ( memorySize <= 0 )
+				if ( cacheSize <= 0
+						&& appContext.containsKey( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) )
+				{
+					cacheSize = Integer.valueOf( appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT )
+							.toString( ) )
+							.intValue( );
+				}
+				if ( cacheSize <= 0 )
 				{
 					validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 					if ( validationContext != null )
@@ -297,14 +304,21 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			
 			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				int memorySize = 0;
+				int cacheSize = 0;
 				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
 				{
-					memorySize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
+					cacheSize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
 							.toString( ) )
 							.intValue( );
 				}
-				if ( memorySize <= 0 )
+				if ( cacheSize <= 0
+						&& appContext.containsKey( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) )
+				{
+					cacheSize = Integer.valueOf( appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT )
+							.toString( ) )
+							.intValue( );
+				}
+				if ( cacheSize <= 0 )
 				{
 					ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
 
