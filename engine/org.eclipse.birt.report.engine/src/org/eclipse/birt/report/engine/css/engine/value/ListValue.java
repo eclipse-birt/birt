@@ -135,6 +135,7 @@ public class ListValue extends Value implements CSSValueList
 				case ';':
 				case '!':
 				case ',':
+				case '.':
 				case '\\':
 					needQuote = true;
 					break;

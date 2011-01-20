@@ -518,8 +518,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				// result is not hidden, then ignore it.
 				if ( isHidden )
 				{
+					String format = rule.getFormat( );
+					//escape "." in css text
+					if ( format != null && format.indexOf( "." ) > 0 )
+					{
+						format = "\"" + format + "\"";
+					}
 					// we should use rule as the string as
-					buffer.append( rule.getFormat( ) );
+					buffer.append( format );
 					buffer.append( "," ); //$NON-NLS-1$
 				}
 			}
