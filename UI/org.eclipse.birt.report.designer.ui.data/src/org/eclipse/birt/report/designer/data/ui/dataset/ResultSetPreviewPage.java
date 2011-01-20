@@ -373,7 +373,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 					needsUpdateUI = false;
 				}
 
-			}.run( true, true, runnable );
+			}.run( false, true, runnable );
 		}
 		catch ( InvocationTargetException e )
 		{
