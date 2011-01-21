@@ -86,7 +86,13 @@ class CacheMapManager
 			IDataSetCacheObject cacheObject = (IDataSetCacheObject)cacheMap.get( dsAndDs );
 			if (cacheObject != null)
 			{
-				return cacheObject.isCachedDataReusable( requiredCapability );
+				boolean reusable = cacheObject.isCachedDataReusable( requiredCapability );
+				if ( !reusable )
+				{
+					cacheObject.release( );
+					cacheMap.remove( dsAndDs );
+				}
+				return reusable;
 			}
 			else
 			{
