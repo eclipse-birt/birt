@@ -168,6 +168,8 @@ public abstract class AbstractEmitterImpl
 	private IReportContext reportContext;
 	
 	private String messageFlashObjectNotSupported;
+	
+	private String messageReportItemNotSupported;
 
 	private String layoutPreference = null;
 
@@ -198,6 +200,8 @@ public abstract class AbstractEmitterImpl
 					locale );
 			messageFlashObjectNotSupported = resourceHandle
 					.getMessage( MessageConstants.FLASH_OBJECT_NOT_SUPPORTED_PROMPT );
+			messageReportItemNotSupported = resourceHandle
+					.getMessage( MessageConstants.REPORT_ITEM_NOT_SUPPORTED_PROMPT );
 			IRenderOption renderOption = service.getRenderOption( );
 			if ( renderOption != null )
 			{
@@ -730,8 +734,12 @@ public abstract class AbstractEmitterImpl
 			byte[] data = imageInfo.getData( );
 			if ( data == null || data.length == 0 )
 			{
+				if(imageInfo.getFormat( ) < 0 && altText == null)
+				{
+					altText = messageReportItemNotSupported;
+				}
 				wordWriter.drawImage( null, 0.0, 0.0, null, style, inlineFlag,
-						altText, uri );
+							altText, uri );
 				return;
 			}
 
