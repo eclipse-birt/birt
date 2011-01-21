@@ -894,7 +894,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				cacheCountConfig = session.getDataSetCacheManager( )
 						.getCacheCountConfig( );
 			}
-			if ( cacheCountConfig != 0 )
+			if ( cacheCountConfig > 0 )
 			{
 				if ( fetchRowLimit != 0 && fetchRowLimit < cacheCountConfig )
 				{

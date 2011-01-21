@@ -1330,10 +1330,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 			try
 			{
 				sl.process( dim );
-				// always remove cache limit for dimension data set
-				originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
-				originalRowLimit = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
-
+				if ( !( cubeHandle.getDataSet( )
+								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ))
+				{
+					//remove cache limit for dimension data set
+					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
+					originalRowLimit = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
+				}
 				IDatasetIterator valueIt = null;
 				String[] timeType = getTimeLevelType( hierhandle );
 				for( int i = 0; i < timeType.length; i++ )
