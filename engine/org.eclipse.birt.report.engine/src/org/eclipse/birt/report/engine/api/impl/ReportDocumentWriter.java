@@ -103,6 +103,24 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		return this.archive;
 	}
 
+	protected boolean finished = false;
+	
+	public void finish()
+	{
+		try
+		{
+			checkpoint = CHECKPOINT_END;
+			saveCoreStreams( );
+			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
+			archive.flush( );
+			finished = true;
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, "Failed in flush the archive", e );
+		}
+	}
+	
 	public void close( )
 	{
 		if ( indexWriter != null )
@@ -117,17 +135,20 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			}
 			indexWriter = null;
 		}
+		if ( !finished )
+		{
+			finish();
+		}
 		try
 		{
-			checkpoint = CHECKPOINT_END;
-			saveCoreStreams( );
-			archive.setStreamSorter( new ReportDocumentStreamSorter( ) );
+			// close the archive;
 			archive.finish( );
 		}
 		catch ( Exception e )
 		{
 			logger.log( Level.SEVERE, "Failed in close the archive", e );
 		}
+		
 	}
 
 	public String getName( )

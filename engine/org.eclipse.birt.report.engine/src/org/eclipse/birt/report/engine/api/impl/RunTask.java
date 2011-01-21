@@ -286,7 +286,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			documentBuilder = null;
 			closeFactory();
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
-			closeReportDocument();
+			writer.finish( );
 
 			// notify that the document has been finished
 			if ( pageHandler != null && !executionContext.isCanceled( ) )
@@ -300,6 +300,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			{
 				progressMonitor.onProgress( IProgressMonitor.END_TASK, TASK_RUN );
 			}
+			closeReportDocument();
 		}
 	}
 
