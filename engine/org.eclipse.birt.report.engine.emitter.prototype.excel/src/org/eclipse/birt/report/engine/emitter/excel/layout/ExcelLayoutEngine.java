@@ -342,7 +342,9 @@ public class ExcelLayoutEngine
 		XlsContainer currentContainer = getCurrentContainer( );
 		if ( table == null )
 		{
-			return new int[0];
+			return new int[]{
+				startCoordinate
+			};
 		}
 		int columnCount = table.getColumnCount( );
 		int totalWidth = 0;
