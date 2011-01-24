@@ -212,7 +212,7 @@ public class NewJointDataSetAction extends Action
 		}
 		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), dataSetHandle , false );
+				.getActiveShell( ), dataSetHandle , false, true );
 		return ( dialog.open( ) == Window.OK );
 	}
 

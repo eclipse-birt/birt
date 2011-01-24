@@ -234,9 +234,7 @@ public final class DataSetProvider
 				{
 					if ( !items[i].isComputedColumn( ) )
 					{
-						items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
-								items[i].getDataTypeName( ),
-								hint.getAnalysis( ) ) );
+						items[i].setAnalysis( hint.getAnalysis( ) );
 						if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( hint.getAnalysis( ) ) )
 						{
 							items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
@@ -275,14 +273,10 @@ public final class DataSetProvider
 					}
 					else
 					{
-						items[i].setAnalysis( getDefaultAnalysisType( items[i].getName( ),
-								items[i].getDataTypeName( ),
-								null ) );
 						items[i].setAnalysisColumn( null );
 					}
 				}
 			}
-			updateModel( dataSetHandle, items );
 			return items;
 		}
 		finally
@@ -291,50 +285,6 @@ public final class DataSetProvider
 		}
 	}
 
-	public String getDefaultAnalysisType( String columnName, String dataType,
-			String originalAnalysis )
-	{
-		String defaultAnalysisType = null;
-
-		if ( originalAnalysis != null )
-			return originalAnalysis;
-
-		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;
-		}
-		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
-		}
-		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-		}
-
-		if ( columnName.length( ) >= 3 )
-		{
-			String lastThreeLetters = columnName.substring( columnName.length( ) - 3 );
-			if ( lastThreeLetters.equalsIgnoreCase( "key" ) )
-			{
-				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-			}
-		}
-		if ( columnName.length( ) >= 2 )
-		{
-			String lastTwoLetters = columnName.substring( columnName.length( ) - 2 );
-			if ( lastTwoLetters.equalsIgnoreCase( "id" ) )
-			{
-				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-			}
-		}
-
-		return defaultAnalysisType;
-	}
 
 	/**
 	 * get Cached metadata
@@ -365,9 +315,7 @@ public final class DataSetProvider
 			{
 				if ( !items[i].isComputedColumn( ) )
 				{
-					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ),
-							items[i].getDataTypeName( ),
-							hint.getAnalysis( ) ) );
+					items[i].setAnalysis( hint.getAnalysis( ) );
 					if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( items[i].getAnalysis( ) ) )
 					{
 						items[i].setAnalysisColumn( hint.getAnalysisColumn( ) );
@@ -406,9 +354,7 @@ public final class DataSetProvider
 				}
 				else
 				{
-					items[i].setAnalysis( this.getDefaultAnalysisType( items[i].getName( ),
-							items[i].getDataTypeName( ),
-							null ) );
+					items[i].setAnalysis( null );
 					items[i].setAnalysisColumn( null );
 				}
 			}
@@ -972,15 +918,14 @@ public final class DataSetProvider
 						columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
 						columns[n].setAlias( hint.getAlias( ) );
 						columns[n].setHelpText( hint.getHelpText( ) );
-						columns[n].setAnalysis( getDefaultAnalysisType( columns[n].getName( ),
-								columns[n].getDataTypeName( ),
-								hint.getAnalysis( ) ) );
+						columns[n].setAnalysis( hint.getAnalysis( ) );
 						if ( DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( columns[n].getAnalysis( ) ) )
 						{
 							columns[n].setAnalysisColumn( hint.getAnalysis( ) );
 						}
 						else
 						{
+							columns[n].setAnalysis( null );
 							columns[n].setAnalysisColumn( null );
 						}
 						columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );

@@ -97,7 +97,7 @@ public class EditableDataSetNodeProvider extends DataSetNodeProvider
 		}
 		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), (DataSetHandle) handle, false );
+				.getActiveShell( ), (DataSetHandle) handle, false, false );
 
 		return dialog.open( ) == Dialog.OK;
 	}

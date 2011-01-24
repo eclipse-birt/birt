@@ -18,9 +18,9 @@ public class AdvancedDataSetEditor extends DataSetEditor
 {
 
 	public AdvancedDataSetEditor( Shell parentShell, DataSetHandle ds,
-			boolean needToFocusOnOutput )
+			boolean needToFocusOnOutput, boolean isNewlyCreated )
 	{
-		super( parentShell, ds, needToFocusOnOutput );
+		super( parentShell, ds, needToFocusOnOutput, isNewlyCreated );
 
 	}
 

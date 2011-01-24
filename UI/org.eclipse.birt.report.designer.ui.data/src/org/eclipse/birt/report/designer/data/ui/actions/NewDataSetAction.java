@@ -233,7 +233,7 @@ public class NewDataSetAction extends Action implements UpdateAction
 		}
 		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), dataSetHandle, true );
+				.getActiveShell( ), dataSetHandle, true, true );
 		return ( dialog.open( ) == Window.OK );
 	}
 }

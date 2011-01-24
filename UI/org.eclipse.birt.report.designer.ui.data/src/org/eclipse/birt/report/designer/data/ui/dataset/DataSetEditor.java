@@ -85,6 +85,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	protected boolean includeInputParameterPage = false;
 	protected boolean includeOutputParameterPage = false;
 	protected boolean needToFocusOnOutput = false;
+	protected static boolean isNewlyCreated = false;
 
 	private transient HistoryToolBar historyBar;
 
@@ -133,10 +134,12 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 	 * @param parentShell
 	 */
 	public DataSetEditor( Shell parentShell, DataSetHandle ds,
-			boolean needToFocusOnOutput )
+			boolean needToFocusOnOutput, boolean isNewlyCreated )
 	{
 		super( parentShell, ds );
 
+		this.isNewlyCreated = isNewlyCreated;
+		
 		ExternalUIUtil.validateDataSetHandle( ds );
 		initModelManager( );
 		
