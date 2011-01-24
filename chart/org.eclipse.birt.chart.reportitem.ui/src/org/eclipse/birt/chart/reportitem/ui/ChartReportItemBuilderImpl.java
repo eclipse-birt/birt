@@ -41,11 +41,13 @@ import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ChartExpressionButton;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -751,6 +753,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					{
 						Listener listener = (Listener) inData[4];
 						ceb.addListener( listener );
+					}
+					if ( inData.length > 5 && ceb instanceof ChartExpressionButton )
+					{
+						IExpressionValidator ev = (IExpressionValidator)inData[5];
+						( (ChartExpressionButton) ceb ).getExpressionHelper( )
+								.setExpressionValidator( ev );
 					}
 
 					outData = ceb;

@@ -22,8 +22,10 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
+import org.eclipse.birt.chart.ui.swt.DefaultExpressionValidator;
 import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
+import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil.ComboProxy;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil.EAttributeAccessor;
@@ -507,6 +509,14 @@ public class ChartExpressionButtonUtil
 			return set;
 		}
 
+		/**
+		 * Returns the handle of expression helper.
+		 * 
+		 * @return
+		 */
+		public ChartExpressionHelper getExpressionHelper() {
+			return this.eHelper;
+		}
 	}
 
 	/**
@@ -519,6 +529,8 @@ public class ChartExpressionButtonUtil
 		protected IAssistField assistField;
 		protected Set<IExpressionDescriptor> predefinedQuerys = new LinkedHashSet<IExpressionDescriptor>( );
 
+		private IExpressionValidator exprValidator = new DefaultExpressionValidator();
+		
 		public ChartExpressionHelper( boolean isCube )
 		{
 			this.isCube = isCube;
@@ -587,7 +599,12 @@ public class ChartExpressionButtonUtil
 			{
 				return ""; //$NON-NLS-1$
 			}
-			return ChartUIUtil.getText( control ).trim( );
+			String expr = ChartUIUtil.getText( control ).trim( );
+			if ( exprValidator.isReservedString( expr ) )
+			{
+				return ""; //$NON-NLS-1$
+			}
+			return expr;
 		}
 
 		@Override
@@ -620,6 +637,13 @@ public class ChartExpressionButtonUtil
 			updateAssistFieldContents( );
 		}
 
+		/**
+		 * Sets expression validator.
+		 * @param exprValidator
+		 */
+		public void setExpressionValidator(IExpressionValidator exprValidator) {
+			this.exprValidator = exprValidator;
+		}
 	}
 
 	static class ChartExpressionComboHelper extends ChartExpressionHelper
