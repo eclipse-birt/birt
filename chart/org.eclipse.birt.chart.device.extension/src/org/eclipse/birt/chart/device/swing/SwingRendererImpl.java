@@ -282,7 +282,6 @@ public class SwingRendererImpl extends G2dRendererBase
 			return new ShapedAction( iev.getStructureSource( ), loa, clipping );
 
 		}
-		assert false;
 		return null;
 	}
 
