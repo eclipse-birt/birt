@@ -110,11 +110,12 @@ public final class MetaDataReader
 
 		assert MetaDataDictionary.getInstance( ).isEmpty( );
 		MetaDataHandler handler = new MetaDataHandler( );
+		
+		SAXParser parser = null; 
 		try
 		{
-			SAXParser parser = ParserFactory.getInstance( ).getParser( null );
-			parser.parse( internalStream, handler );
-			ParserFactory.getInstance( ).releaseParser( parser, null );
+			parser = ParserFactory.getInstance( ).getParser( null );
+			parser.parse( internalStream, handler );			
 		}
 		catch ( Exception e )
 		{
@@ -122,6 +123,18 @@ public final class MetaDataReader
 			MetaLogManager.log( "Metadata parsing error", e ); //$NON-NLS-1$
 			throw new MetaDataParserException( e,
 					MetaDataParserException.DESIGN_EXCEPTION_PARSER_ERROR );
+		}
+		finally
+		{
+			// even there is XML exception, need to release the resource. 
+			try
+			{
+				ParserFactory.getInstance( ).releaseParser( parser, null );				
+			}
+			catch ( Exception e1 )
+			{
+				
+			}
 		}
 
 	}

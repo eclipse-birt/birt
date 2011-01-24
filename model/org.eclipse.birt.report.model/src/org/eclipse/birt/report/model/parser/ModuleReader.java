@@ -80,6 +80,8 @@ public abstract class ModuleReader
 		assert internalStream.markSupported( );
 
 		String signature = null;
+		SAXParser parser = null;
+
 		try
 		{
 			signature = checkUTFSignature( internalStream,
@@ -87,13 +89,11 @@ public abstract class ModuleReader
 			Map<String, Object> properties = new HashMap<String, Object>( 2 );
 			properties.put( "http://xml.org/sax/properties/lexical-handler", //$NON-NLS-1$
 					new ModuleParserHandler.ModuleLexicalHandler( handler ) );
-			
-			SAXParser parser = ParserFactory.getInstance( ).getParser( properties );
+
+			parser = ParserFactory.getInstance( ).getParser( properties );
 			InputSource inputSource = new InputSource( internalStream );
 			inputSource.setEncoding( signature );
 			parser.parse( inputSource, handler );
-
-			ParserFactory.getInstance( ).releaseParser( parser, properties );
 		}
 		catch ( SAXException e )
 		{
@@ -130,6 +130,18 @@ public abstract class ModuleReader
 
 			throw new DesignFileException( handler.getFileName( ), handler
 					.getErrorHandler( ).getErrors( ), e );
+		}
+		finally
+		{
+			// even there is XML exception, need to release the resource. 
+			try
+			{
+				ParserFactory.getInstance( ).releaseParser( parser, null );				
+			}
+			catch ( Exception e1 )
+			{
+				
+			}
 		}
 
 		Module module = handler.getModule( );
