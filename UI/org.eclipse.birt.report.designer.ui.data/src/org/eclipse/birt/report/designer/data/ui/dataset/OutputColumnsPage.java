@@ -92,6 +92,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	protected transient PropertyHandleTableViewer viewer = null;
 	// to indicate the status of dataset handle
 	private transient boolean modelChanged = true;
+	protected boolean isNewlyCreated = false;
 
 	protected String originalAlias = ""; //$NON-NLS-1$
 	protected String originalDisplayName = ""; //$NON-NLS-1$
@@ -122,12 +123,19 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
 	
-	/**
-	 * The constructor.
-	 */
 	public OutputColumnsPage( )
 	{
 		super( );
+		this.isNewlyCreated = false;
+	}
+
+	/**
+	 * The constructor.
+	 */
+	public OutputColumnsPage( boolean isNewlyCreated )
+	{
+		super( );
+		this.isNewlyCreated = isNewlyCreated;
 	}
 
 	/*
@@ -387,6 +395,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							false );
 				}
 				
+				if( isNewlyCreated )
+				{
+					updateAnalysisTypes( viewDatas );
+				}
+				
 				if ( ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof JointDataSetHandle )
 				{
 					PropertyHandle properyHandle = ( (DataSetEditor) getContainer( ) ).getHandle( )
@@ -439,6 +452,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
 							false );
 				}
+				if( isNewlyCreated )
+				{
+					updateAnalysisTypes( viewDatas );
+				}
+				
 				viewer.getViewer( ).setInput( viewDatas );
 			}
 			finally
@@ -450,6 +468,69 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 	}
 	
+	private void updateAnalysisTypes( DataSetViewData[] viewDatas )
+	{
+		for ( int i = 0; i < viewDatas.length; i++ )
+		{
+			DataSetViewData item = viewDatas[i];
+			ColumnHintHandle hint = findColumnHint( item );
+			if ( hint.getAnalysis( ) == null )
+			{
+				try
+				{
+					hint.setAnalysis( getDefaultAnalysisType( item.getName( ),
+							item.getDataTypeName( ) ) );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+				item.setAnalysis( hint.getAnalysis( ) );
+			}
+		}
+	}
+	
+	public String getDefaultAnalysisType( String columnName, String dataType )
+	{
+		String defaultAnalysisType = null;
+
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;
+		}
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
+		}
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+		}
+
+		if ( columnName.length( ) >= 3 )
+		{
+			String lastThreeLetters = columnName.substring( columnName.length( ) - 3 );
+			if ( lastThreeLetters.equalsIgnoreCase( "key" ) )
+			{
+				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+			}
+		}
+		if ( columnName.length( ) >= 2 )
+		{
+			String lastTwoLetters = columnName.substring( columnName.length( ) - 2 );
+			if ( lastTwoLetters.equalsIgnoreCase( "id" ) )
+			{
+				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+			}
+		}
+
+		return defaultAnalysisType;
+	}
+	
 	/**
 	 * clear output columns table viewer
 	 * 
@@ -457,6 +538,22 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	protected final void clearOutputColumns( )
 	{
 		viewer.getViewer( ).getTable( ).removeAll( );
+	}
+
+	protected ColumnHintHandle findColumnHint( DataSetViewData viewData )
+	{
+		PropertyHandle properyHandle = ( (DataSetEditor) getContainer( ) ).getHandle( )
+				.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+
+		for ( Iterator columns = properyHandle.iterator( ); columns.hasNext( ); )
+		{
+			ColumnHintHandle column = (ColumnHintHandle) columns.next( );
+			if ( viewData.getName( ).equals( column.getColumnName( ) ) )
+			{
+				return column;
+			}
+		}
+		return null;
 	}
 
 	protected void saveOutputColumns( )

@@ -101,7 +101,7 @@ public class EditDataSetAction extends AbstractElementAction
 		}
 		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), dsHandle, false );
+				.getActiveShell( ), dsHandle, false, false );
 		return ( dialog.open( ) == IDialogConstants.OK_ID );
 	}
 
