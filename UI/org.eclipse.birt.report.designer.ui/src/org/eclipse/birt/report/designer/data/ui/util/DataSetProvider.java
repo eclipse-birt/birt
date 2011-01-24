@@ -277,7 +277,6 @@ public final class DataSetProvider
 					}
 				}
 			}
-			updateModel( dataSetHandle, items );
 			return items;
 		}
 		finally
