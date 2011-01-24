@@ -105,7 +105,10 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		getDataSheet( ).setChartModel( getChartModel( ) );
 		getDataSheet( ).addListener( this );
-
+		
+		// Initialize chart types first.
+		ChartUIUtil.populateTypeTable( getContext( ) );
+		
 		if ( topControl == null || topControl.isDisposed( ) )
 		{
 			topControl = new Composite( parent, SWT.NONE );
