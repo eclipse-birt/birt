@@ -20,7 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+
+import org.eclipse.birt.report.model.util.ParserFactory;
 
 /**
  * Reads the meta-data definition file. The parser populates the singleton
@@ -111,9 +112,9 @@ public final class MetaDataReader
 		MetaDataHandler handler = new MetaDataHandler( );
 		try
 		{
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
+			SAXParser parser = ParserFactory.getInstance( ).getParser( null );
 			parser.parse( internalStream, handler );
+			ParserFactory.getInstance( ).releaseParser( parser, null );
 		}
 		catch ( Exception e )
 		{

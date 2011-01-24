@@ -16,21 +16,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 /**
  * This class provides the reader for the design file, library file and template
@@ -81,17 +82,18 @@ public abstract class ModuleReader
 		String signature = null;
 		try
 		{
-			signature = checkUTFSignature( internalStream, handler
-					.getFileName( ) );
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
-			XMLReader xmlReader = parser.getXMLReader( );
-			xmlReader.setProperty(
-					"http://xml.org/sax/properties/lexical-handler", //$NON-NLS-1$
+			signature = checkUTFSignature( internalStream,
+					handler.getFileName( ) );
+			Map<String, Object> properties = new HashMap<String, Object>( 2 );
+			properties.put( "http://xml.org/sax/properties/lexical-handler", //$NON-NLS-1$
 					new ModuleParserHandler.ModuleLexicalHandler( handler ) );
+			
+			SAXParser parser = ParserFactory.getInstance( ).getParser( properties );
 			InputSource inputSource = new InputSource( internalStream );
 			inputSource.setEncoding( signature );
 			parser.parse( inputSource, handler );
+
+			ParserFactory.getInstance( ).releaseParser( parser, properties );
 		}
 		catch ( SAXException e )
 		{
@@ -123,8 +125,7 @@ public abstract class ModuleReader
 		catch ( IOException e )
 		{
 			logger.log( Level.SEVERE, "IO error occurs " //$NON-NLS-1$
-					+ e.getLocalizedMessage( )
-					+ " on line " //$NON-NLS-1$
+					+ e.getLocalizedMessage( ) + " on line " //$NON-NLS-1$
 					+ handler.getCurrentLineNo( ) );
 
 			throw new DesignFileException( handler.getFileName( ), handler

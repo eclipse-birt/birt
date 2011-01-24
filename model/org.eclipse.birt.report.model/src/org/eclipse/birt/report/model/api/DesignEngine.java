@@ -54,6 +54,12 @@ public final class DesignEngine implements IDesignEngine
 			.getLogger( DesignEngine.class.getName( ) );
 
 	/**
+	 * 
+	 */
+	
+	protected static IDesignEngineFactory cachedFactory;
+
+	/**
 	 * The implementation of the design engine.
 	 */
 
@@ -78,13 +84,19 @@ public final class DesignEngine implements IDesignEngine
 					"Error occurs while start the platform", e ); //$NON-NLS-1$
 		}
 
-		Object factory = Platform
-				.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
-		if ( factory instanceof IDesignEngineFactory )
+		if ( cachedFactory == null )
 		{
-			engine = ( (IDesignEngineFactory) factory )
-					.createDesignEngine( config );
+			Object factory = Platform
+					.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+			if ( factory instanceof IDesignEngineFactory )
+			{
+				cachedFactory = (IDesignEngineFactory) factory;
+			}
 		}
+
+		if ( cachedFactory != null )
+			engine = cachedFactory.createDesignEngine( config );
+
 		if ( engine == null )
 		{
 			errorLogger.log( Level.INFO, "Can not start the design engine." ); //$NON-NLS-1$
