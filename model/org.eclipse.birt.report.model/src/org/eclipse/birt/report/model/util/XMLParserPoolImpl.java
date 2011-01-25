@@ -145,6 +145,10 @@ class XMLParserPoolImpl implements XMLParserPool
 	private SAXParser createParser( Map<String, ?> properties )
 			throws ParserConfigurationException, SAXException
 	{
+	    
+	    ClassLoader savedClassloader = Thread.currentThread().getContextClassLoader();
+	    Thread.currentThread().setContextClassLoader( this.getClass().getClassLoader() );
+	    
 		SAXParser parser = factory.newSAXParser( );
 
 		if ( properties != null )
@@ -155,6 +159,9 @@ class XMLParserPoolImpl implements XMLParserPool
 						entry.getValue( ) );
 			}
 		}
+		
+		Thread.currentThread().setContextClassLoader( savedClassloader );
+		
 		return parser;
 	}
 }
