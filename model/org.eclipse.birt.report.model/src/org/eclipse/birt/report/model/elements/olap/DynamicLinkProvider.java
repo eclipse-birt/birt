@@ -132,43 +132,53 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 		{
 			infor = new LayoutInfor( );
 			duplicateStructure( target, element, module );
+
+			// rebuild the joint condition
+			updateDimensionConditions( module );
 		}
-		
-		// rebuild the joint condition
-		updateDimensionConditions( module );
 	}
-	
+
 	private void updateDimensionConditions( Module module )
 	{
 		TabularCube cube = null;
 		if ( element instanceof Dimension )
 		{
-			cube = (TabularCube) element.getContainer();
+			DesignElement container = element.getContainer( );
+			if ( container instanceof TabularCube )
+				cube = (TabularCube) container;
 		}
-		else if ( element instanceof TabularCube)
+		else if ( element instanceof TabularCube )
 		{
 			cube = (TabularCube) element;
 		}
 		if ( cube != null )
 		{
-			List dimensionConditions = (List) cube.getLocalProperty( module, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
+			List dimensionConditions = (List) cube.getLocalProperty( module,
+					ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 			if ( dimensionConditions != null )
 			{
-				for ( int i = 0 ; i < dimensionConditions.size( ); i++ )
+				for ( int i = 0; i < dimensionConditions.size( ); i++ )
 				{
-					DimensionCondition dimensionCond = (DimensionCondition) dimensionConditions.get( i );
-					ElementRefValue refValue = (ElementRefValue) dimensionCond.getLocalProperty( module, DimensionCondition.HIERARCHY_MEMBER );
+					DimensionCondition dimensionCond = (DimensionCondition) dimensionConditions
+							.get( i );
+					ElementRefValue refValue = (ElementRefValue) dimensionCond
+							.getLocalProperty( module,
+									DimensionCondition.HIERARCHY_MEMBER );
 					if ( refValue != null && refValue.isResolved( ) )
 					{
 						refValue.unresolved( refValue.getName( ) );
 					}
-					List joinConditions = (List) dimensionCond.getProperty( module, DimensionCondition.JOIN_CONDITIONS_MEMBER );
+					List joinConditions = (List) dimensionCond.getProperty(
+							module, DimensionCondition.JOIN_CONDITIONS_MEMBER );
 					if ( joinConditions != null )
 					{
 						for ( int j = 0; j < joinConditions.size( ); j++ )
 						{
-							DimensionJoinCondition joinCond = (DimensionJoinCondition) joinConditions.get( j );
-							refValue = (ElementRefValue) joinCond.getLocalProperty( module, DimensionJoinCondition.LEVEL_MEMBER );
+							DimensionJoinCondition joinCond = (DimensionJoinCondition) joinConditions
+									.get( j );
+							refValue = (ElementRefValue) joinCond
+									.getLocalProperty( module,
+											DimensionJoinCondition.LEVEL_MEMBER );
 							if ( refValue != null && refValue.isResolved( ) )
 							{
 								refValue.unresolved( refValue.getName( ) );
