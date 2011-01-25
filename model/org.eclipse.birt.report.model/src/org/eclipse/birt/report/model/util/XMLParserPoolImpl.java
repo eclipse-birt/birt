@@ -38,14 +38,8 @@ class XMLParserPoolImpl implements XMLParserPool
 	/**
 	 * 
 	 */
-	
+
 	private final static int SAXPARSER_DEFAULT_SIZE = 300;
-
-	/**
-	 * Cache the factory to reduce time to create factory.
-	 */
-
-	private final SAXParserFactory factory = SAXParserFactory.newInstance( );
 
 	/**
 	 * Map to save cached parsers. The key is the parser properties key sets.
@@ -145,10 +139,8 @@ class XMLParserPoolImpl implements XMLParserPool
 	private SAXParser createParser( Map<String, ?> properties )
 			throws ParserConfigurationException, SAXException
 	{
-	    
-	    ClassLoader savedClassloader = Thread.currentThread().getContextClassLoader();
-	    Thread.currentThread().setContextClassLoader( this.getClass().getClassLoader() );
-	    
+
+		SAXParserFactory factory = SAXParserFactory.newInstance( );
 		SAXParser parser = factory.newSAXParser( );
 
 		if ( properties != null )
@@ -159,9 +151,7 @@ class XMLParserPoolImpl implements XMLParserPool
 						entry.getValue( ) );
 			}
 		}
-		
-		Thread.currentThread().setContextClassLoader( savedClassloader );
-		
+
 		return parser;
 	}
 }
