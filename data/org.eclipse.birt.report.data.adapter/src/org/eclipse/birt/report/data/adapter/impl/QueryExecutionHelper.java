@@ -29,15 +29,19 @@ import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -332,6 +336,42 @@ class QueryExecutionHelper
 				this.dataEngine,
 				this.modelAdaptor,
 				procesCtx );
+		
+		preDefineDataSet( handle );
+	}
+
+	private void preDefineDataSet( DataSetHandle handle ) throws BirtException
+	{
+		if ( handle instanceof JointDataSetHandle )
+		{
+			Iterator iter = ( (JointDataSetHandle) handle ).dataSetsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DataSetHandle dsHandle = (DataSetHandle) iter.next( );
+				if ( dsHandle != null )
+				{
+					preDefineDataSet( dsHandle );
+				}
+			}
+		}
+		if ( handle instanceof DerivedDataSetHandle )
+		{
+			List inputDataSet = ( (DerivedDataSetHandle) handle ).getInputDataSets( );
+			for ( int i = 0; i < inputDataSet.size( ); i++ )
+			{
+				preDefineDataSet( (DataSetHandle) inputDataSet.get( i ) );
+			}
+		}
+
+		IBaseDataSetDesign baseDS = ( (DataEngineImpl) dataEngine ).getDataSetDesign( handle.getQualifiedName( ) );
+		IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( baseDS );
+		if ( dataSetInterceptor != null )
+		{
+			dataSetInterceptor.preDefineDataSet( sessionContext,
+					( (DataEngineImpl) dataEngine ).getDataSourceDesign( baseDS.getDataSourceName( ) ),
+					baseDS,
+					sessionContext.getModuleHandle( ) );
+		}
 	}
 	
 	static class DataSetHandleProcessContext
