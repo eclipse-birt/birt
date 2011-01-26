@@ -2090,11 +2090,6 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 									expr,
 									dataProvider.isSharedBinding( )
 											|| dataProvider.isInheritColumnsGroups( ) );
-			// The menu item must be disabled against inheriting groups
-			// case.(#35992)
-			boolean inheritGroups = context.getDataServiceProvider( )
-					.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS );
-			enabled = enabled && !inheritGroups;
 			setEnabled( enabled );
 		}
 
