@@ -1009,6 +1009,10 @@ public class ExcelUtil
 						String symbol = getCurrencySymbol( locale );
 						returnStr.append( symbol );
 					}
+					else if ( temp == '\u2030' ) //‰
+					{
+						returnStr.append( '%' );
+					}
 					else if ( currencySymbol.indexOf( temp ) != -1 )
 					{
 						returnStr.append( temp );
