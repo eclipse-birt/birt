@@ -152,6 +152,13 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 		}
 		if ( bindingName == null )
 			return null;
+		
+		return getAggregateOnLevels( bindingName );
+	}
+
+	private DimLevel[] getAggregateOnLevels( String bindingName )
+			throws DataException
+	{
 		for ( Iterator it = queryDefn.getBindings( ).iterator( ); it.hasNext( ); )
 		{
 			IBinding binding = (IBinding) it.next( );
@@ -163,6 +170,12 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 					if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
 							ScriptConstants.DIMENSION_SCRIPTABLE ) != null )
 						return null;
+					
+					IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding( binding, queryDefn.getBindings( ) );
+					if ( directReferenceBinding != null )
+					{
+						return getAggregateOnLevels( directReferenceBinding.getBindingName( ) );
+					}
 					// get all level names in the query definition
 					List levelList = new ArrayList( );
 					// get all levels from the row edge and column edge
