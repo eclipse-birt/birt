@@ -472,7 +472,7 @@ public class PostscriptWriter
 		{
 			int resolutionX = image.getPhysicalWidthDpi( );
 			int resolutionY = image.getPhysicalHeightDpi( );
-			if ( 0 == resolutionX || 0 == resolutionY )
+			if ( resolutionX <= 0 || resolutionY <= 0 )
 			{
 				resolutionX = 96;
 				resolutionY = 96;
