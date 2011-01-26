@@ -912,7 +912,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
 						.getDataSource( );
 
-				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( isLinkedParameter );
+				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( !isLinkedParameter );
 
 				// only the local data source can be used.
 
