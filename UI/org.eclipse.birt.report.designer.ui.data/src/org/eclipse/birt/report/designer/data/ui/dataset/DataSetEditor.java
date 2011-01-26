@@ -821,7 +821,7 @@ public class DataSetEditor extends AbstractPropertyDialog implements
 			}
 			else if ( getCurrentNode( ).getPage( ) instanceof WizardPage )
 			{
-				getOkButton( ).setEnabled( ( (WizardPage) getCurrentNode( ).getPage( ) ).canFlipToNextPage( ) );
+				getOkButton( ).setEnabled( ( (WizardPage) getCurrentNode( ).getPage( ) ).isPageComplete( ) );
 			}
 		}
 	}
