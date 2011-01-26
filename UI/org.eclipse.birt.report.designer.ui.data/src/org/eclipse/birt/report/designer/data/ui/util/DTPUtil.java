@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.PromptParameterDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -358,6 +359,21 @@ public class DTPUtil
 	 */
 	public URI getBIRTResourcePath( )
 	{
+		if ( UIUtil.getCurrentProject( ) == null )
+		{
+			try
+			{
+				ModuleHandle handle = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
+				if ( handle != null )
+				{
+					return new URI( encode( handle.getResourceFolder( ) ) );
+				}
+			}
+			catch ( URISyntaxException e )
+			{
+			}
+		}
 		try
 		{
 			return new URI( encode( ReportPlugin.getDefault( )
