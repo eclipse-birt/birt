@@ -237,6 +237,17 @@ public class SizeOfUtil
 			return 0;
 		return POINTER_SIZE * 2 + 8 + ( POINTER_SIZE + length * 4 - 1 ) / 8 * 8;
 	}
+	
+	public static int getObjectSize( int[] dataType) {
+		int size = 0;
+		for( int i = 0; i < dataType.length; i++ )
+		{
+			size += SizeOfUtil.sizeOf( dataType[i] );
+		}
+		size += SizeOfUtil.getArraySize( dataType.length );
+		
+		return size;
+	}
 
 	/**
 	 * Return the size of memory occupied by variable size class object.

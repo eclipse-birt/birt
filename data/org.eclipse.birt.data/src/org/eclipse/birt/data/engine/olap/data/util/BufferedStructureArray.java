@@ -31,7 +31,8 @@ public class BufferedStructureArray implements IDiskArray
 	private Object[] buffer = null;
 	private int bufferPos = 0;
 	private static Logger logger = Logger.getLogger( BufferedStructureArray.class.getName( ) );
-
+	private boolean useMemoryOnly = false;
+	
 	public BufferedStructureArray( IStructureCreator creator, int bufferSize )
 	{
 		if ( bufferSize <= 0 )
@@ -58,6 +59,15 @@ public class BufferedStructureArray implements IDiskArray
 			bufferPos++;
 			return true;
 		}
+		else if( useMemoryOnly )
+		{
+			Object tempBuffer[] = new Object[buffer.length*2];
+			System.arraycopy( buffer, 0, tempBuffer, 0, buffer.length );
+			buffer = tempBuffer;
+			buffer[bufferPos] = o;
+			bufferPos++;
+			return true;
+		}
 		if ( diskList == null )
 		{
 			diskList = new StructureDiskArray( creator );
@@ -66,6 +76,11 @@ public class BufferedStructureArray implements IDiskArray
 		return false;
 	}
 
+	public void setUseMemoryOnly( boolean useMemoryOnly )
+	{
+		this.useMemoryOnly = useMemoryOnly;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.util.IDiskArray#close()

@@ -1476,10 +1476,57 @@ public class ViewingTest extends RDTestCase
 		myGenDataEngine.shutdown( );
 	}
 	
-	public void testSourceQueryWithDistinctAndAutoBinding( ) throws BirtException
+	public void testSourceQueryWithDistinctAndAutoBinding1( ) throws BirtException
 	{
 		QueryDefinition sourceQuery = newReportQuery( );
 		sourceQuery.setAutoBinding( true );
+		
+		QueryDefinition qd = new QueryDefinition( );
+		qd.setDistinctValue( true );
+		qd.addBinding( new Binding( "CITY", new ScriptExpression( "dataSetRow[\"CITY\"]" ) ) );
+		IFilterDefinition[] filters = new IFilterDefinition[1];
+		List<String> operandList = new ArrayList<String>( );
+		operandList.add( "\"CHINA\"" );
+		filters[0] = new FilterDefinition( new ConditionalExpression( "dataSetRow[\"COUNTRY\"]",
+		IConditionalExpression.OP_IN, operandList ) );
+		for ( IFilterDefinition df : filters )
+		{
+		   qd.addFilter( df );
+		}
+		qd.setSourceQuery( sourceQuery );
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd )
+			.execute( scope );
+
+		// important step
+		queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		List<String> cities = new ArrayList<String>( );
+		while ( ri.next( ) )
+		{
+			cities.add( ri.getString( "CITY" ) );
+		}
+		assertTrue( Arrays.deepEquals( new String[]{"Beijing", "Shanghai"}, 
+				cities.toArray( new String[0]) ));
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
+	public void testSourceQueryWithDistinctAndAutoBinding( ) throws BirtException
+	{
+		QueryDefinition sourceQuery = newReportQuery( );
+//		sourceQuery.setAutoBinding( true );
+		sourceQuery.addBinding( new Binding( "CITY", new ScriptExpression( "dataSetRow[\"CITY\"]" ) ) );
+		sourceQuery.addBinding( new Binding( "COUNTRY", new ScriptExpression( "dataSetRow[\"COUNTRY\"]" ) ) );
+		
+		GroupDefinition gd = new GroupDefinition( "COUNTRY");
+		gd.setKeyColumn( "COUNTRY" );
+		sourceQuery.addGroup( gd );
+		gd = new GroupDefinition( "CITY");
+		gd.setKeyColumn( "CITY" );
+		sourceQuery.addGroup( gd );
 		
 		QueryDefinition qd = new QueryDefinition( );
 		qd.setDistinctValue( true );

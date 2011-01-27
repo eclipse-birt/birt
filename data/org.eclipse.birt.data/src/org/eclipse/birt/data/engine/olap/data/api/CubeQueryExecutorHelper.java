@@ -202,7 +202,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public static IAggregationResultSet[] loadAggregationResultSet( IDocArchiveReader reader, String name ) throws IOException
 	{
-		return AggregationResultSetSaveUtil.load( name, reader, VersionManager.getLatestVersion( ) );
+		return AggregationResultSetSaveUtil.load( name, reader, VersionManager.getLatestVersion( ), 5*1024*1024  );
 	}
 	
 	/**
@@ -218,7 +218,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				name ) );
 		IAggregationResultSet[] result = AggregationResultSetSaveUtil.load( name,
 				reader,
-				VersionManager.getLatestVersion( ) );
+				VersionManager.getLatestVersion( ),
+				5*1024*1024 );
 		reader.close( );
 		return result;
 	}
@@ -744,10 +745,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				computedMeasureHelper );
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( new CubeDimensionReader( cube ),
 				dataSet4Aggregation,
-				aggregations );
+				aggregations,
+				memoryCacheSize );
 		
 		aggregationCalculatorExecutor.setMaxDataObjectRows( maxDataObjectRows );
-		aggregationCalculatorExecutor.setMemoryCacheSize( memoryCacheSize );
 		
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}

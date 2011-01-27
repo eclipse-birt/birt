@@ -69,7 +69,8 @@ public class AggregationExecutor
 	public AggregationExecutor(
 			ICubeDimensionReader cubeDimensionReader, 
 			IDataSet4Aggregation dataSet4Aggregation,
-			AggregationDefinition[] aggregations ) throws IOException, DataException
+			AggregationDefinition[] aggregations,
+			long memoryCacheSize ) throws IOException, DataException
 	{
 		Object[] params = {
 				dataSet4Aggregation, aggregations
@@ -78,14 +79,33 @@ public class AggregationExecutor
 				"AggregationExecutor",
 				params );
 		this.dataSet4Aggregation = dataSet4Aggregation;
-		
+		this.memoryCacheSize = memoryCacheSize;
 		getParameterColIndex( aggregations );
 	
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
+		int detailAggregationIndex = -1;
+		int detailLevelNum = 0;
+		if( aggregations.length > 2 )
+		{
+			for( int i = 0; i < aggregations.length; i++ )
+			{
+				if( aggregations[i].getLevels( ) != null && aggregations[i].getLevels( ).length > detailLevelNum )
+				{
+					detailLevelNum = aggregations[i].getLevels( ).length;
+					detailAggregationIndex = i;
+				}
+			}
+		}
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
-			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
-					dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader );
+			if( i == detailAggregationIndex )
+				this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
+						dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader, 
+						this.memoryCacheSize / 10 );
+			else
+				this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
+					dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader, 
+					this.memoryCacheSize / 5 / this.aggregationCalculators.length );
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
 		
@@ -375,7 +395,7 @@ public class AggregationExecutor
 		if ( memoryCacheSize > 0 )
 		{
 			int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
-			int bufferSize = (int) (this.memoryCacheSize / rowSize);
+			int bufferSize = (int) (this.memoryCacheSize*4/5/rowSize);
 
 			for (int i = 0; i < allSortedFactRows.size( ); i++)
 			{
@@ -396,20 +416,9 @@ public class AggregationExecutor
 		{
 			dataType[i] = measureInfo[i].getDataType( );
 		}
-		return getObjectSize( dataType);
+		return SizeOfUtil.getObjectSize( dataType);
 	}
 
-	private static int getObjectSize( int[] dataType) {
-		int size = 0;
-		for( int i = 0; i < dataType.length; i++ )
-		{
-			size += SizeOfUtil.sizeOf( dataType[i] );
-		}
-		size += SizeOfUtil.getArraySize( dataType.length );
-		
-		return size;
-	}
-	
 	
 	private int getLevelSize( DimLevel[] dimLevel ) throws DataException
 	{
@@ -425,7 +434,7 @@ public class AggregationExecutor
 			ColumnInfo columnInfo = ( dataSet4Aggregation.getMetaInfo( ) ).getColumnInfo( dimColumn ); 
 			dataType[i] = columnInfo.getDataType( );
 		}
-		return getObjectSize( dataType);
+		return SizeOfUtil.getObjectSize( dataType );
 	}
 
 	/**

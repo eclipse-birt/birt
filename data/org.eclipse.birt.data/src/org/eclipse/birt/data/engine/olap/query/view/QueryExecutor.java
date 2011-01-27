@@ -165,7 +165,8 @@ public class QueryExecutor
 					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ) );
+							new VersionManager( executor.getContext( ) ).getVersion( ),
+							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					initLoadedAggregationResultSets( rs, finalAggregation );
 
 					rs = processOperationOnQuery( view,
@@ -218,7 +219,8 @@ public class QueryExecutor
 					//increment execute the query based on the saved aggregation result sets.
 					rs = AggregationResultSetSaveUtil.load( id,
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ) );
+							new VersionManager( executor.getContext( ) ).getVersion( ),
+							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					
 					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
 					initLoadedAggregationResultSets( rs, finalAggregation );
@@ -534,7 +536,9 @@ public class QueryExecutor
 			//If query definition has query result id, that means a cached document has been saved.
 			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
 			rs = AggregationResultSetSaveUtil.load( id,
-					new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
+					new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ),
+					VersionManager.getLatestVersion( ),
+					cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 			initLoadedAggregationResultSets( rs, aggrDefns );
 			//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists
 		}
