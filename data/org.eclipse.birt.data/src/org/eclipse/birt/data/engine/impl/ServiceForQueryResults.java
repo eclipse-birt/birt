@@ -596,7 +596,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				
 					
 					Set aggrRefList = new HashSet();
-					boolean use0AggrLevel = this.popAggrRefFromExprs( aggrRefList, exprs, nameMap );
+					boolean use0AggrLevel = this.popAggrRefFromExprs( aggrRefList, exprs, nameMap, aggrDefn );
 					
 					if( aggrRefList.size( ) > 0)
 					{
@@ -605,7 +605,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 					
 					int groupLevel = 0;
 					
-					int groupLevelInAggr = getGroupLevel( aggrRefs );
+					int groupLevelInAggr = getGroupLevel( aggrRefs, aggrDefn );
 					
 					if ( !use0AggrLevel )
 						groupLevel = groupLevelInAggr;
@@ -630,7 +630,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			}
 		}
 
-		private int getGroupLevel( Set aggrRefs ) throws DataException
+		private int getGroupLevel( Set aggrRefs, IAggrInfo aggrInfo ) throws DataException
 		{
 			Iterator it = aggrRefs.iterator( );
 			int groupLevel = -1;
@@ -640,7 +640,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				if ( groupLevel == -1 )
 					groupLevel = aggr.getGroupLevel( );
 				if( groupLevel!= aggr.getGroupLevel( ))
-					throw new DataException( ResourceConstants.INVALID_AGGR_PARAMETER, aggr.getName( ));
+					throw new DataException( ResourceConstants.INVALID_NESTED_AGGR_GROUP, aggrInfo.getName( ) );
 			}
 			return groupLevel;
 		}
@@ -748,7 +748,8 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @return
 		 * @throws DataException
 		 */
-		private boolean popAggrRefFromExprs( Set aggrReferences, List exprs, Map aggrMap ) throws DataException
+		private boolean popAggrRefFromExprs( Set aggrReferences, List exprs,
+				Map aggrMap, IAggrInfo aggrInfo ) throws DataException
 		{
 			boolean[] result = new boolean[exprs.size( )];
 			for( int i = 0; i < exprs.size( ); i++ )
@@ -776,7 +777,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				}
 				
 				if( result[i] != base )
-					throw new DataException( ResourceConstants.INVALID_NESTED_AGGR_GROUP );
+					throw new DataException( ResourceConstants.INVALID_NESTED_AGGR_GROUP, aggrInfo.getName( ) );
 			}
 			return result.length == 0?false:base;
 		}
