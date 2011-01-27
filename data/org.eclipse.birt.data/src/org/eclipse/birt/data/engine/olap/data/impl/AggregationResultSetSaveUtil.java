@@ -20,6 +20,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -69,7 +70,7 @@ public class AggregationResultSetSaveUtil
 	 * @param reader
 	 * @throws IOException
 	 */
-	public static IAggregationResultSet[] load( String name, IDocArchiveReader reader, int version ) throws IOException
+	public static IAggregationResultSet[] load( String name, IDocArchiveReader reader, int version, long memoryCacheSize ) throws IOException
 	{
 		DataInputStream dataInputStream = null;
 		try
@@ -93,7 +94,12 @@ public class AggregationResultSetSaveUtil
 				else
 					inputStream = reader.getStream( name + i );
 				dataInputStream = new DataInputStream( inputStream );
-				result[i] = loadOneResultSet( dataInputStream );
+				if( size < 3 )
+					result[i] = loadOneResultSet( dataInputStream, memoryCacheSize / size );
+				else if( size >= 3 && size < 5 )
+					result[i] = loadOneResultSet( dataInputStream, memoryCacheSize * 2 / size );
+				else if( size > 5 )
+					result[i] = loadOneResultSet( dataInputStream, memoryCacheSize * 3 / size );
 				dataInputStream.close( );
 			}
 			return result;
@@ -110,7 +116,7 @@ public class AggregationResultSetSaveUtil
 	}
 
 	private static IAggregationResultSet loadOneResultSet(
-			DataInputStream dataInputStream ) throws IOException
+			DataInputStream dataInputStream, long memoryCacheSize ) throws IOException
 	{
 		//read level
 		String[] dimNames = convertToStringArray( readObjectArray( dataInputStream ) );
@@ -139,7 +145,36 @@ public class AggregationResultSetSaveUtil
 		
 		//read row size
 		int size = IOUtil.readInt( dataInputStream );
-		
+		int keySize = 0;
+		if( keyDataTypes != null )
+		{
+			for( int i = 0; i < keyDataTypes.length; i++ )
+			{
+				if( keyDataTypes[i] != null )
+				{
+					keySize += SizeOfUtil.getObjectSize( keyDataTypes[i] );
+				}
+			}
+		}
+		int attributeSize = 0;
+		if( attributeDataTypes != null )
+		{
+			for( int i = 0; i < attributeDataTypes.length; i++ )
+			{
+				if( attributeDataTypes[i] != null )
+				{
+					attributeSize += SizeOfUtil.getObjectSize( attributeDataTypes[i] );
+				}
+			}
+		}
+		int aggregationSize = 0;
+		if( aggregationDataType != null )
+		{
+			aggregationSize += SizeOfUtil.getObjectSize( aggregationDataType );
+		}
+		int rowSize = 16 + ( 4 + ( keySize + attributeSize + aggregationSize ) - 1 ) / 8 * 8;
+		int bufferSize = (int) ( memoryCacheSize / rowSize );
+				
 		return new CachedAggregationResultSet( dataInputStream,
 				size,
 				levels,
@@ -149,7 +184,8 @@ public class AggregationResultSetSaveUtil
 				keyDataTypes,
 				attributeDataTypes,
 				aggregationNames,
-				aggregationDataType );
+				aggregationDataType,
+				bufferSize );
 	}	
 
 	/**

@@ -53,7 +53,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			DimLevel[] levels, int[] sortTypes, String[][] keyNames,
 			String[][] attributeNames, int[][] keyDataTypes,
 			int[][] attributeDataTypes, String[] aggregationNames,
-			int[] aggregationDataType ) throws IOException
+			int[] aggregationDataType, int bufferSize ) throws IOException
 	{
 		Object[] params = {
 				inputStream,
@@ -90,7 +90,13 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 						Integer.valueOf( i ) );
 			}
 		}
-		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		if( bufferSize != 0 )
+			aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), bufferSize );
+		else
+		{
+			aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), 1000 );
+			( ( BufferedStructureArray )aggregationResultRow ).setUseMemoryOnly( true );
+		}
 		for ( int i = 0; i < length; i++ )
 		{
 			aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );

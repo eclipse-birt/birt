@@ -524,7 +524,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 			new AggregationExecutor( null, dataSet4Aggregation,
-					aggregations );
+					aggregations,
+					10*1024*1024 );
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
@@ -997,7 +998,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( null, dataSet4Aggregation,
-						aggregations );
+						aggregations
+						, 10*1024*1024);
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 1 );
 		
@@ -1134,7 +1136,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 			= new DataSetFromOriginalCube( facttableRowIterator, dimesionResultSets, null );
 		AggregationExecutor aggregationCalculatorExecutor = 
 				new AggregationExecutor( null, dataSet4Aggregation,
-						aggregations );
+						aggregations, 10*1024*1024 );
 		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 6 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );

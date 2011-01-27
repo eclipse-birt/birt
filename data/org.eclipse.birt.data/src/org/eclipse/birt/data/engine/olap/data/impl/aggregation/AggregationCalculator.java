@@ -20,8 +20,10 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
@@ -60,7 +62,8 @@ public class AggregationCalculator
 	AggregationCalculator( AggregationDefinition aggregationDef, 
 			DimColumn[] parameterColNames, //the parameter sequence corresponding with <code>Row4Aggregation.getParameterValues()</code>  
 			IDataSet4Aggregation.MetaInfo metaInfo,
-			ICubeDimensionReader cubeDimensionReader ) throws IOException, DataException
+			ICubeDimensionReader cubeDimensionReader,
+			long memoryCacheSize ) throws IOException, DataException
 	{
 		Object[] params = {
 				aggregationDef, parameterColNames, metaInfo
@@ -111,11 +114,46 @@ public class AggregationCalculator
 				}
 			}
 		}
-		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		int levelSize = 0;
+		if( levelCount != 0 )
+		{
+			levelSize = getLevelSize( metaInfo, aggregationDef.getLevels( ) );
+		}
+		int measureSize = 0;
+		if( aggregationFunction != null && aggregationFunction.length > 0 )
+		{
+			measureSize = aggregationFunction.length * 64;
+		}
+		int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
+		int bufferSize = (int) ( memoryCacheSize / rowSize );
+		if( bufferSize != 0 )
+			result = new BufferedStructureArray( AggregationResultRow.getCreator( ), bufferSize );
+		else
+		{
+			result = new BufferedStructureArray( AggregationResultRow.getCreator( ), 1000 );
+			( ( BufferedStructureArray )result ).setUseMemoryOnly( true );
+		}
 		measureInfos = metaInfo.getMeasureInfos( );
 		facttableRow = new FacttableRow( measureInfos, cubeDimensionReader, metaInfo );
 		logger.exiting( AggregationCalculator.class.getName( ),
 				"AggregationCalculator" );
+	}
+	
+	private int getLevelSize( IDataSet4Aggregation.MetaInfo metaInfo, DimLevel[] dimLevel ) throws DataException
+	{
+		if( dimLevel == null || dimLevel.length == 0 )
+		{
+			return 0;
+		}
+		int[] dataType = new int[dimLevel.length];
+		for( int i = 0; i < dimLevel.length; i++ )
+		{
+			DimColumn dimColumn = new DimColumn( 
+					dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getLevelName( ) );
+			ColumnInfo columnInfo = metaInfo.getColumnInfo( dimColumn ); 
+			dataType[i] = columnInfo.getDataType( );
+		}
+		return SizeOfUtil.getObjectSize( dataType);
 	}
 	
 	/**
