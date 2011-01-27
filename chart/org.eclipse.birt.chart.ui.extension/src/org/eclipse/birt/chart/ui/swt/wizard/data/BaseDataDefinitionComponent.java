@@ -414,8 +414,24 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				btnGroup.setEnabled( false );
 			}
 		}
-
-		if ( cmbDefinition != null
+		
+		// If current is 'Inherit columns & groups' and there is no group
+		// defined in table, this case the Optional Y group UI should be
+		// disabled.
+		boolean disableOptionalY = context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
+				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
+				&& ( predefinedQuery == null || predefinedQuery.length == 0 );
+		if ( disableOptionalY )
+		{
+			getInputControl( ).setEnabled( false );
+			btnBuilder.setEnabled( false );
+			if ( btnGroup != null )
+			{
+				btnGroup.setEnabled( false );
+			}
+		}
+		else if ( cmbDefinition != null
 				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
 				&& isCubeNoMultiDimensions )
 		{
