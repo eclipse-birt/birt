@@ -79,6 +79,12 @@ public class CubeQueryUtil
 			{
 				isMeasure = getReferencedScriptObject( binding.getExpression( ),
 						"measure" ) != null;
+				if ( !isMeasure )
+				{
+					// is derived measure?
+					isMeasure = getReferencedScriptObject( binding.getExpression( ),
+							"data" ) != null;
+				}
 			}
 
 			int candidateEdge = getAxisQualifierEdgeType( rowEdgeExprList,

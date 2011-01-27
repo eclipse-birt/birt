@@ -87,17 +87,23 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
 
 			List result = new ArrayList( );
+			Set<String> derivedBindings =OlapExpressionUtil.getDerivedMeasureNames( bindings );
 
 			for ( int i = 0; i < bindings.size( ); i++ )
 			{
 				IBinding binding = (IBinding) bindings.get( i );
-				if ( isNestAggregation( binding ))
+				if ( isNestAggregation( binding ) )
 				{
-					//just skip nest aggregation bindings
+					result.add( new BindingMetaInfo( binding.getBindingName( ),
+							IBindingMetaInfo.MEASURE_TYPE ) );
 					continue;
 				}
 				if ( !OlapExpressionUtil.isDirectRerenrence( binding.getExpression( ),
-						bindings ) )
+						bindings )
+						|| derivedBindings.contains( binding.getBindingName( ) )
+						|| !ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+								"data" )
+								.isEmpty( ) )
 				{
 					result.add( new BindingMetaInfo( binding.getBindingName( ),
 							IBindingMetaInfo.OTHER_TYPE ) );
