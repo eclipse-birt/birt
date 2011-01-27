@@ -1628,7 +1628,7 @@ public class InsertInLayoutUtil
 								}
 							}
 						}
-						else if (!type.equals( "" )) //$NON-NLS-1$
+						else if (type != null && !type.equals( "" )) //$NON-NLS-1$
 						{
 							SlotHandle slotHandle = cellHandle.getContainer( ).getContainerSlotHandle( );
 							if (slotHandle.equals( tableHandle.getHeader( )) || slotHandle.equals( tableHandle.getFooter( ) ) )
