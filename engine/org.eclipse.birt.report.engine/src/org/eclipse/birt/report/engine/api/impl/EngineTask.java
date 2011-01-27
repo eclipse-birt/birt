@@ -773,7 +773,7 @@ public abstract class EngineTask implements IEngineTask
 		Object paramValue = runValues.get( paramName );
 
 		// Handle null parameter values
-		if ( paramValue == null )
+		if ( !runValues.containsKey( paramName ) )
 		{
 			if ( !paramHandle.isRequired( ) )
 				return true;
@@ -834,8 +834,11 @@ public abstract class EngineTask implements IEngineTask
 				}
 				throw new ParameterValidationException(
 						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-						new String[]{paramName, "Object[]",
-								paramValue.getClass( ).getName( )} );
+						new String[]{
+								paramName,
+								"Object[]",
+								paramValue != null ? paramValue.getClass( )
+										.getName( ) : "NULL"} );
 			}
 			return validateParameterValueType( paramName, paramValue, type,
 					paramHandle );
@@ -867,7 +870,11 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
+					new String[]{
+							paramName,
+							type,
+							paramValue != null ? paramValue.getClass( )
+									.getName( ) : "NULL"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
@@ -875,7 +882,11 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
+					new String[]{
+							paramName,
+							type,
+							paramValue != null ? paramValue.getClass( )
+									.getName( ) : "NULL"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
 		{
@@ -883,7 +894,11 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
+					new String[]{
+							paramName,
+							type,
+							paramValue != null ? paramValue.getClass( )
+									.getName( ) : "NULL"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 		{
@@ -891,15 +906,22 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
+					new String[]{
+							paramName,
+							type,
+							paramValue != null ? paramValue.getClass( )
+									.getName( ) : "NULL"} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
 			if ( !( paramValue instanceof String ) )
 				throw new ParameterValidationException(
 						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-						new String[]{paramName, type,
-								paramValue.getClass( ).getName( )} );
+						new String[]{
+								paramName,
+								type,
+								paramValue != null ? paramValue.getClass( )
+										.getName( ) : "NULL"} );
 			validateStringParameter( paramName, paramValue, paramHandle );
 			return true;
 		}
@@ -909,7 +931,11 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
-					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
+					new String[]{
+							paramName,
+							type,
+							paramValue != null ? paramValue.getClass( )
+									.getName( ) : "NULL"} );
 		}
 		return true;
 	}
