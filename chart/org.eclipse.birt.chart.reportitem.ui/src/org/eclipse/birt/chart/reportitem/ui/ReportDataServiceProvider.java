@@ -2530,6 +2530,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							{
 								g.add( groups.get( 0 ) );
 							}
+							else if ( ( (ListingHandle) deh ).getFooter( )
+									.findPosn( reh.getContainer( ) ) >= 0 )
+							{
+								g.add( groups.get( 0 ) );
+							}
 						}
 						break;
 					}
