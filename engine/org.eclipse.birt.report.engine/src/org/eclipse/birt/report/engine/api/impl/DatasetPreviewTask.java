@@ -114,7 +114,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected IExtractionResults doRun( ) throws EngineException
 	{
 		IExtractionResults result = null;
-		doValidateParameters( );
+		usingParameterValues( );
 		initReportVariable( );
 		loadDesign( );
 		prepareDesign( );
