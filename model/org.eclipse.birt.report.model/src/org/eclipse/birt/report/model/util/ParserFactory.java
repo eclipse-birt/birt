@@ -25,13 +25,6 @@ import org.xml.sax.SAXException;
 
 public class ParserFactory
 {
-
-	/**
-	 * The default pool size.
-	 */
-
-	private static final int POOL_SIZE = 50;
-
 	/**
 	 * Single instance.
 	 */
@@ -45,13 +38,7 @@ public class ParserFactory
 
 	private ParserFactory( )
 	{
-		this( POOL_SIZE );
-
-	}
-
-	private ParserFactory( int poolSize )
-	{
-		pool = new XMLParserPoolImpl( poolSize );
+		pool = new XMLParserPoolImpl( );
 	}
 
 	/**

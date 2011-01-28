@@ -81,12 +81,13 @@ public abstract class ModuleReader
 
 		String signature = null;
 		SAXParser parser = null;
+		Map<String, Object> properties = null;
 
 		try
 		{
 			signature = checkUTFSignature( internalStream,
 					handler.getFileName( ) );
-			Map<String, Object> properties = new HashMap<String, Object>( 2 );
+			properties = new HashMap<String, Object>( 2 );
 			properties.put( "http://xml.org/sax/properties/lexical-handler", //$NON-NLS-1$
 					new ModuleParserHandler.ModuleLexicalHandler( handler ) );
 
@@ -133,15 +134,18 @@ public abstract class ModuleReader
 		}
 		finally
 		{
-			// even there is XML exception, need to release the resource. 
-			try
-			{
-				ParserFactory.getInstance( ).releaseParser( parser, null );				
-			}
-			catch ( Exception e1 )
-			{
-				
-			}
+			// the parser may be null in checkUTFSignature call.
+			if ( parser != null )
+				// even there is XML exception, need to release the resource.
+				try
+				{
+					ParserFactory.getInstance( ).releaseParser( parser,
+							properties );
+				}
+				catch ( Exception e1 )
+				{
+
+				}
 		}
 
 		Module module = handler.getModule( );
