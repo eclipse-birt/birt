@@ -1278,7 +1278,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 				// {
 				if ( handle != null )
 				{
-					if ( handle.getValue1ExpressionList( ) != null
+					if ( handle.getValue1ExpressionList( ).getListValue( ) != null
 							&& handle.getValue1ExpressionList( )
 									.getListValue( )
 									.size( ) > 0 )
@@ -2433,7 +2433,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 			int ret = create2ValueComposite( operator.getParent( ) );
 			if ( ret != 0 && handle != null )
 			{
-				if ( handle.getValue1ExpressionList( ) != null
+				if ( handle.getValue1ExpressionList( ).getListValue( ) != null
 						&& handle.getValue1ExpressionList( )
 								.getListValue( )
 								.size( ) > 0 )
