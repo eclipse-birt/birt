@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -42,24 +44,25 @@ class XMLParserPoolImpl implements XMLParserPool
 	private final static int SAXPARSER_DEFAULT_SIZE = 300;
 
 	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( XMLParserPoolImpl.class
+			.getName( ) );
+
+	/**
 	 * Map to save cached parsers. The key is the parser properties key sets.
 	 * The value is the parser.
 	 */
 
 	private final Map<Set<?>, List<SAXParser>> parserCache = new HashMap<Set<?>, List<SAXParser>>( );
 
-	private int sizeLimit;
-
 	/**
 	 * Creates an instance that caches parsers and caches handlers as specified.
 	 * 
-	 * @param size
-	 *            indicates the maximum number of instances parser or handler
-	 *            instances that will be cached.
 	 */
-	public XMLParserPoolImpl( int size )
+	public XMLParserPoolImpl( )
 	{
-		this.sizeLimit = size;
 	}
 
 	/*
@@ -68,36 +71,28 @@ class XMLParserPoolImpl implements XMLParserPool
 	 * @see org.eclipse.birt.report.model.util.XMLParserPool#get(java.util.Map)
 	 */
 
-	public synchronized SAXParser get( Map<String, ?> properties )
+	public SAXParser get( Map<String, ?> properties )
 			throws ParserConfigurationException, SAXException
 	{
-		Map<Object, Object> map = new HashMap<Object, Object>( );
+		Set<String> keys = null;
 		if ( properties != null )
-			map.putAll( properties );
+			keys = properties.keySet( );
 
-		// if exceeds the limit size, increase the size automatically
-		if ( parserCache.size( ) > sizeLimit )
+		synchronized ( this )
 		{
-			parserCache.clear( );
-		}
-
-		Set<Object> keys = null;
-		if ( map != null )
-			keys = map.keySet( );
-
-		List<SAXParser> list = parserCache.get( keys );
-		if ( list != null )
-		{
-			int size = list.size( );
-			if ( size > 0 )
+			List<SAXParser> list = parserCache.get( keys );
+			if ( list != null )
 			{
-				return list.remove( size - 1 );
+				int size = list.size( );
+				if ( size > 0 )
+				{
+					return list.remove( size - 1 );
+				}
 			}
-
-			return createParser( properties );
+			else
+				parserCache.put( keys, new ArrayList<SAXParser>( ) );
 		}
 
-		parserCache.put( keys, new ArrayList<SAXParser>( ) );
 		return createParser( properties );
 	}
 
@@ -112,20 +107,21 @@ class XMLParserPoolImpl implements XMLParserPool
 	public synchronized void release( SAXParser parser,
 			Map<String, ?> properties )
 	{
-		Map<Object, Object> map = new HashMap<Object, Object>( );
+		assert parser != null;
+
+		Set<String> keys = null;
 		if ( properties != null )
-			map.putAll( properties );
+			keys = properties.keySet( );
 
-		Set<Object> keys = null;
-		if ( map != null )
-			keys = map.keySet( );
-
-		List<SAXParser> list = parserCache.get( keys );
-		int currentSize = list.size( );
-
-		if ( currentSize < SAXPARSER_DEFAULT_SIZE )
+		synchronized ( this )
 		{
-			list.add( parser );
+			List<SAXParser> list = parserCache.get( keys );
+			int currentSize = list.size( );
+
+			if ( currentSize < SAXPARSER_DEFAULT_SIZE )
+			{
+				list.add( parser );
+			}
 		}
 	}
 
@@ -152,6 +148,7 @@ class XMLParserPoolImpl implements XMLParserPool
 			}
 		}
 
+		logger.log( Level.FINEST, "created a new SAX parser" ); //$NON-NLS-1$
 		return parser;
 	}
 }
