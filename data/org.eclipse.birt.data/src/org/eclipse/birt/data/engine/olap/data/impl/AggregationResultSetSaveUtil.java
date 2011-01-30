@@ -98,7 +98,7 @@ public class AggregationResultSetSaveUtil
 					result[i] = loadOneResultSet( dataInputStream, memoryCacheSize / size );
 				else if( size >= 3 && size < 5 )
 					result[i] = loadOneResultSet( dataInputStream, memoryCacheSize * 2 / size );
-				else if( size > 5 )
+				else if( size >= 5 )
 					result[i] = loadOneResultSet( dataInputStream, memoryCacheSize * 3 / size );
 				dataInputStream.close( );
 			}
