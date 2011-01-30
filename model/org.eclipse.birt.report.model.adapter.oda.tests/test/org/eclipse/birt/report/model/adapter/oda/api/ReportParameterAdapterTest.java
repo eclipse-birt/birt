@@ -251,7 +251,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		checkUpdateParameterDefinition3( param );
 
 		dataSetToDelete = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
-		assertNotNull( dataSetToDelete );
+		assertNull( dataSetToDelete );
 
 	}
 
@@ -267,7 +267,10 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		dataAttrs.setNullability( ElementNullability
 				.get( ElementNullability.NOT_NULLABLE ) );
 
-		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
+		DataElementUIHints dataUIHints = DesignFactory.eINSTANCE
+				.createDataElementUIHints( );
+		dataAttrs.setUiHints( dataUIHints );
+
 		dataUIHints.setDisplayName( "new prompt text for report param 1" ); //$NON-NLS-1$
 		dataUIHints.setDisplayNameKey( "newPromptTextKeyParam1" ); //$NON-NLS-1$
 		dataUIHints.setDescription( "new help text for report param 1" ); //$NON-NLS-1$
@@ -335,7 +338,16 @@ public class ReportParameterAdapterTest extends BaseTestCase
 	{
 		DynamicValuesQuery dynamicValue = param.getInputAttributes( )
 				.getElementAttributes( ).getDynamicValueChoices( );
-
+		if ( dynamicValue == null )
+		{
+			dynamicValue = DesignFactory.eINSTANCE.createDynamicValuesQuery( );
+			dynamicValue.setValueColumn( "new value column 1" ); //$NON-NLS-1$
+			dynamicValue.setDisplayNameColumn( "new lable column 1" ); //$NON-NLS-1$
+			dynamicValue.setDataSetDesign( OdaDataSetAdapterTest
+					.createDataSetDesign( ) );
+			param.getInputAttributes( ).getElementAttributes( )
+					.setDynamicValueChoices( dynamicValue );
+		}
 		DataSetDesign setDesign = dynamicValue.getDataSetDesign( );
 		setDesign.setDisplayName( "new display name" ); //$NON-NLS-1$
 
@@ -354,7 +366,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 				.getElementAttributes( ).getDynamicValueChoices( );
 
 		DataSetDesign setDesign = dynamicValue.getDataSetDesign( );
-		assertEquals( "Data Set", setDesign.getName( ) ); //$NON-NLS-1$
+		assertEquals( "myDataSet1", setDesign.getName( ) ); //$NON-NLS-1$
 		assertEquals( "new display name", setDesign.getDisplayName( ) ); //$NON-NLS-1$
 
 		assertEquals( "select * from CLASSICMODELS.CUSTOMERS", setDesign //$NON-NLS-1$
