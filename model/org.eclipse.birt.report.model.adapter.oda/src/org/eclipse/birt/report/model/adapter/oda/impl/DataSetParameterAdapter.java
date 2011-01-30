@@ -152,14 +152,14 @@ class DataSetParameterAdapter
 			return paramDefn;
 		}
 
-		ModuleHandle module = paramHandle.getElementHandle( ).getModuleHandle( );
-		ScalarParameterHandle reportParam = (ScalarParameterHandle) module
-				.findParameter( rptParamName );
-
-		if ( reportParam != null )
-			paramDefn = new ReportParameterAdapter( )
-					.updateParameterDefinitionFromReportParam( paramDefn,
-							reportParam, setDesign );
+//		ModuleHandle module = paramHandle.getElementHandle( ).getModuleHandle( );
+//		ScalarParameterHandle reportParam = (ScalarParameterHandle) module
+//				.findParameter( rptParamName );
+//
+//		if ( reportParam != null )
+//			paramDefn = new ReportParameterAdapter( )
+//					.updateParameterDefinitionFromReportParam( paramDefn,
+//							reportParam, setDesign );
 
 		return paramDefn;
 	}
@@ -513,11 +513,7 @@ class DataSetParameterAdapter
 		if ( defaultValue != null && !defaultValue.isEmpty( ) )
 			newValue = defaultValue.getValues( ).get( 0 );
 
-		boolean withLinkedParameter = !StringUtil.isBlank( setParam
-				.getParamName( ) );
-
-		if ( !CompareUtil.isEquals( oldValue, newValue )
-				&& !withLinkedParameter )
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
 			setROMDefaultValue( setParam, newValue );
 
 		oldValue = cachedElementAttrs == null ? null : Boolean
@@ -529,7 +525,7 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Updates values related to a linked paraemter in the oda data set
+	 * Updates values related to a linked parameter in the oda data set
 	 * parameters.
 	 * 
 	 * @param odaParamDefn
@@ -546,34 +542,34 @@ class DataSetParameterAdapter
 			ParameterDefinition cachedParamDefn, String dataType )
 			throws SemanticException
 	{
-		DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
-
-		if ( dataAttrs == null )
-		{
-			return;
-		}
-
-		ModuleHandle module = setHandle.getModuleHandle( );
-
-		OdaDataSetParameterHandle paramDefn = findDataSetParameterByName(
-				dataAttrs.getName( ),
-				Integer.valueOf( dataAttrs.getPosition( ) ),
-				Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
-				setDefinedParams.iterator( ) );
-		if ( paramDefn != null )
-		{
-			String reportParamName = paramDefn.getParamName( );
-			if ( !StringUtil.isBlank( reportParamName ) )
-			{
-				ScalarParameterHandle paramHandle = (ScalarParameterHandle) module
-						.findParameter( reportParamName );
-
-				if ( paramHandle != null )
-					new ReportParameterAdapter( ).updateLinkedReportParameter(
-							paramHandle, odaParamDefn, null, dataType,
-							setHandle );
-			}
-		}
+//		DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
+//
+//		if ( dataAttrs == null )
+//		{
+//			return;
+//		}
+//
+//		ModuleHandle module = setHandle.getModuleHandle( );
+//
+//		OdaDataSetParameterHandle paramDefn = findDataSetParameterByName(
+//				dataAttrs.getName( ),
+//				Integer.valueOf( dataAttrs.getPosition( ) ),
+//				Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
+//				setDefinedParams.iterator( ) );
+//		if ( paramDefn != null )
+//		{
+//			String reportParamName = paramDefn.getParamName( );
+//			if ( !StringUtil.isBlank( reportParamName ) )
+//			{
+//				ScalarParameterHandle paramHandle = (ScalarParameterHandle) module
+//						.findParameter( reportParamName );
+//
+//				if ( paramHandle != null )
+//					new ReportParameterAdapter( ).updateLinkedReportParameter(
+//							paramHandle, odaParamDefn, null, dataType,
+//							setHandle );
+//			}
+//		}
 	}
 
 	/**
@@ -1687,24 +1683,24 @@ class DataSetParameterAdapter
 			OdaDataSetParameterHandle odaParamHandle, DataSetDesign setDesign,
 			DynamicList cachedDynamic )
 	{
-		String parameterName = odaParamHandle.getParamName( );
-		if ( parameterName != null )
-		{
-			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-			ParameterHandle paramHandle = moduleHandle
-					.findParameter( parameterName );
-
-			// if can find the corresponding parameter, then update to latest
-			// values. Otherwise, not.
-			if ( paramHandle instanceof ScalarParameterHandle )
-			{
-				ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
-				ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
-
-				tmpAdapter.updateInputElementAttrs( inputParamAttrs,
-						scalarParamHandle, setDesign );
-			}
-		}
+//		String parameterName = odaParamHandle.getParamName( );
+//		if ( parameterName != null )
+//		{
+//			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
+//			ParameterHandle paramHandle = moduleHandle
+//					.findParameter( parameterName );
+//
+//			// if can find the corresponding parameter, then update to latest
+//			// values. Otherwise, not.
+//			if ( paramHandle instanceof ScalarParameterHandle )
+//			{
+//				ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
+//				ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
+//
+//				tmpAdapter.updateInputElementAttrs( inputParamAttrs,
+//						scalarParamHandle, setDesign );
+//			}
+//		}
 
 		if ( cachedDynamic == null )
 			return;
@@ -1715,28 +1711,28 @@ class DataSetParameterAdapter
 		// value in the new data set design. See
 		// DataSetAdapter.clearReportParameterRelatedValues
 
-		ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
+//		ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
+//
+//		ModuleHandle moduleHandle = setHandle.getModuleHandle( );
+//		DataSetHandle tmpSetHandle = moduleHandle.findDataSet( cachedDynamic
+//				.getDataSetName( ) );
+//		DynamicValuesQuery tmpDynamicQuery = tmpAdapter
+//				.updateDynamicValueQuery( tmpSetHandle,
+//						cachedDynamic.getValueColumn( ),
+//						cachedDynamic.getLabelColumn( ), setDesign, true );
 
-		ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-		DataSetHandle tmpSetHandle = moduleHandle.findDataSet( cachedDynamic
-				.getDataSetName( ) );
-		DynamicValuesQuery tmpDynamicQuery = tmpAdapter
-				.updateDynamicValueQuery( tmpSetHandle,
-						cachedDynamic.getValueColumn( ),
-						cachedDynamic.getLabelColumn( ), setDesign, true );
-
-		if ( tmpDynamicQuery == null )
-			return;
-
-		InputElementAttributes tmpInputParamAttrs = inputParamAttrs
-				.getElementAttributes( );
-		if ( tmpInputParamAttrs == null )
-		{
-			tmpInputParamAttrs = designFactory.createInputElementAttributes( );
-			inputParamAttrs.setElementAttributes( tmpInputParamAttrs );
-		}
-
-		tmpInputParamAttrs.setDynamicValueChoices( tmpDynamicQuery );
+//		if ( tmpDynamicQuery == null )
+//			return;
+//
+//		InputElementAttributes tmpInputParamAttrs = inputParamAttrs
+//				.getElementAttributes( );
+//		if ( tmpInputParamAttrs == null )
+//		{
+//			tmpInputParamAttrs = designFactory.createInputElementAttributes( );
+//			inputParamAttrs.setElementAttributes( tmpInputParamAttrs );
+//		}
+//
+//		tmpInputParamAttrs.setDynamicValueChoices( tmpDynamicQuery );
 
 	}
 

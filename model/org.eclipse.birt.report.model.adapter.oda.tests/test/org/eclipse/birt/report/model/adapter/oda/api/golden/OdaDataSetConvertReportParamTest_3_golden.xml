@@ -3,17 +3,16 @@
     <parameters>
         <scalar-parameter name="Param 1" id="5">
             <property name="hidden">true</property>
-            <text-property name="helpText">scalar para help</text-property>
+            <text-property name="helpText" key="help">scalar para help</text-property>
             <method name="validate"><![CDATA[the validation test]]></method>
-            <text-property name="promptText">param1 prompt text</text-property>
+            <text-property name="promptText">not updated prompt text</text-property>
             <property name="valueType">static</property>
-            <property name="isRequired">false</property>
             <property name="dataSetName">myDataSet2</property>
-            <expression name="valueExpr" type="javascript">dataSetRow["value column"]</expression>
-            <expression name="labelExpr" type="javascript">dataSetRow["label column"]</expression>
+            <expression name="valueExpr">value column</expression>
+            <expression name="labelExpr">label column</expression>
             <property name="dataType">decimal</property>
             <simple-property-list name="defaultValue">
-                <value type="constant">State</value>
+                <value type="constant">not updated default value</value>
             </simple-property-list>
             <list-property name="selectionList">
                 <structure>
@@ -32,7 +31,6 @@
             </list-property>
             <property name="concealValue">true</property>
             <property name="controlType">check-box</property>
-            <property name="autoSuggestThreshold">1</property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="6">
             <text-property name="promptText" key="ResourceKey.Parameter.PromptText">City</text-property>
@@ -87,7 +85,6 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">2</property>
                     <property name="position">1</property>
-                    <expression name="defaultValue">not updated default value</expression>
                     <property name="isOptional">false</property>
                     <property name="isInput">false</property>
                     <property name="isOutput">true</property>
@@ -99,8 +96,8 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">0</property>
                     <property name="position">2</property>
-                    <expression name="defaultValue">param["Param 2"]</expression>
-                    <property name="isOptional">false</property>
+                    <expression name="defaultValue" type="javascript">param["Param 2"]</expression>
+                    <property name="isOptional">true</property>
                     <property name="isOutput">true</property>
                 </structure>
                 <structure>
@@ -110,14 +107,13 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">0</property>
                     <property name="position">3</property>
-                    <expression name="defaultValue">data set param default value 3</expression>
-                    <property name="isOptional">false</property>                    
+                    <expression name="defaultValue" type="javascript">data set param default value 3</expression>
                     <property name="isInput">true</property>
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>
             <property name="dataSource">myDataSource1</property>
-            <xml-property name="queryText"><![CDATA[select test]]></xml-property>            
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -140,24 +136,8 @@
         </design:attributes>
         <design:inputAttributes>
           <design:elementAttributes>
-            <design:defaultValues>
-              <design:values>State</design:values>
-            </design:defaultValues>
             <design:optional>false</design:optional>
             <design:masksValue>true</design:masksValue>
-            <design:staticValueChoices>
-              <design:scalarValues>
-                <design:value>option 1</design:value>
-                <design:displayName>%key1forlabel1 option 1 label</design:displayName>
-              </design:scalarValues>
-              <design:scalarValues>
-                <design:value>option 2</design:value>
-                <design:displayName>%key2forlabel1 option 2 label</design:displayName>
-              </design:scalarValues>
-              <design:scalarValues>
-                <design:value>option 3</design:value>
-              </design:scalarValues>
-            </design:staticValueChoices>
             <design:uiHints>
               <design:promptStyle>CheckBox</design:promptStyle>
             </design:uiHints>
@@ -168,7 +148,7 @@
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>label column</labelColumn>
         <valueColumn>value column</valueColumn>
-      </dynamicList>      
+      </dynamicList>
     </parameter>
     <parameter>
       <design:ParameterDefinition>
@@ -185,7 +165,10 @@
         </design:attributes>
         <design:inputAttributes>
           <design:elementAttributes>
-            <design:optional>false</design:optional>
+            <design:defaultValues>
+              <design:values>CustomData value: param[&amp;quot;Param 2&amp;quot;], displayValue: null</design:values>
+            </design:defaultValues>
+            <design:optional>true</design:optional>
             <design:masksValue>false</design:masksValue>
             <design:uiHints>
               <design:promptStyle>SelectableList</design:promptStyle>
@@ -196,8 +179,8 @@
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>test</valueColumn>
-      </dynamicList>      
+        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
+      </dynamicList>
     </parameter>
     <parameter>
       <design:ParameterDefinition>
@@ -215,12 +198,12 @@
         <design:inputAttributes>
           <design:elementAttributes>
             <design:defaultValues>
-              <design:values>default value param 3</design:values>
+              <design:values>CustomData value: data set param default value 3, displayValue: null</design:values>
             </design:defaultValues>
-            <design:optional>false</design:optional>
+            <design:optional>true</design:optional>
             <design:masksValue>false</design:masksValue>
             <design:uiHints>
-              <design:promptStyle>SelectableList</design:promptStyle>
+              <design:promptStyle>SelectableListWithTextField</design:promptStyle>
             </design:uiHints>
           </design:elementAttributes>
         </design:inputAttributes>
@@ -228,8 +211,8 @@
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>test</valueColumn>
-      </dynamicList>      
+        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
+      </dynamicList>
     </parameter>
   </DataSetParameters>
 </model:DesignValues>]]></xml-property>
@@ -243,7 +226,7 @@
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet2" id="4">
             <property name="dataSource">myDataSource1</property>
-            <xml-property name="queryText"><![CDATA[select test]]></xml-property>            
+            <xml-property name="queryText"><![CDATA[select test]]></xml-property>
         </oda-data-set>
     </data-sets>
 </report>
