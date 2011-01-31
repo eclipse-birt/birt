@@ -79,7 +79,6 @@ public class DataSetCacheTest extends APITestCase
 
 		expectedValue = new ArrayList( );
 		appContextMap.put( DataEngine.DATASET_CACHE_OPTION, "true" );
-		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, null);
 		myDataEngine = newDataEngine( );
 	}
 
