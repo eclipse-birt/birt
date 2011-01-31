@@ -172,7 +172,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 						return null;
 					
 					IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding( binding, queryDefn.getBindings( ) );
-					if ( directReferenceBinding != null )
+					if ( directReferenceBinding != null && directReferenceBinding!= binding )
 					{
 						return getAggregateOnLevels( directReferenceBinding.getBindingName( ) );
 					}
