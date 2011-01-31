@@ -148,8 +148,11 @@ public class AggregationCalculator
 		int[] dataType = new int[dimLevel.length];
 		for( int i = 0; i < dimLevel.length; i++ )
 		{
-			DimColumn dimColumn = new DimColumn( 
-					dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getLevelName( ) );
+			DimColumn dimColumn = null;
+			if( dimLevel[i].getAttrName( ) == null )
+				dimColumn = new DimColumn( dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getLevelName( ) );
+			else
+				dimColumn = new DimColumn( dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getAttrName( ) );
 			ColumnInfo columnInfo = metaInfo.getColumnInfo( dimColumn ); 
 			dataType[i] = columnInfo.getDataType( );
 		}
