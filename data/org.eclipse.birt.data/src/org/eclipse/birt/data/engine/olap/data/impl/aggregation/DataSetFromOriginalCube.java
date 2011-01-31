@@ -112,8 +112,15 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 						isKey = true;
 						break;
 					}
+					else if( levelInfo.getName( ).equals( columnName ) )
+					{
+						columnIndex = i;
+						dataType = levelInfo.getKeyDataType( levelInfo.getKeyNames( )[0] );
+						isKey = true;
+						break;
+					}
 				}
-				if ( !isKey )
+				if ( !isKey && levelInfo.getAttributeNames( ) != null )
 				{
 					for ( int i = 0; i < levelInfo.getAttributeNames( ).length; i++ )
 					{
