@@ -417,23 +417,26 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			if ( iter != null )
 			{
 				IResultMetaData meta = iter.getResultMetaData( );
-				while ( iter.next( ) )
+				if( meta.getColumnCount( )>0 )
 				{
-					CellValue[] record = new CellValue[meta.getColumnCount( )];
-					for ( int n = 0; n < record.length; n++ )
+					while ( iter.next( ) )
 					{
-						CellValue cv = new CellValue( );
-						Object value = iter.getValue( meta.getColumnName( n+1 ) );
-						String disp = null;
-						if( value instanceof Number )
-							disp = value.toString( );
-						else
-							disp = iter.getString( meta.getColumnName( n+1 )  );
-						cv.setDisplayValue( disp );
-						cv.setRealValue( value );
-						record[n] = cv;
-					}
-					recordList.add( record );
+						CellValue[] record = new CellValue[meta.getColumnCount( )];
+						for ( int n = 0; n < record.length; n++ )
+						{
+							CellValue cv = new CellValue( );
+							Object value = iter.getValue( meta.getColumnName( n+1 ) );
+							String disp = null;
+							if( value instanceof Number )
+								disp = value.toString( );
+							else
+								disp = iter.getString( meta.getColumnName( n+1 )  );
+							cv.setDisplayValue( disp );
+							cv.setRealValue( value );
+							record[n] = cv;
+						}
+						recordList.add( record );
+					}					
 				}
 				setPromptLabelText( );
 				iter.close( );
