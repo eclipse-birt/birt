@@ -30,7 +30,7 @@ data.engine.EndOfGroupOnly=Cette expression d'agrégats n'est disponible qu'à la 
 data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=Niveau de regroupement incorrect pour la fonction d'agrégation : {0}.
 data.engine.WrongNumAggrArgs=Nombre d'arguments incorrect pour la fonction d'agrégation : {0}.
-data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
+data.engine.AggrParamGroupLevelInconsistent=Dans l'agrégation imbriquée "{0}", toutes les expressions non constantes doivent avoir le même niveau de groupe.
 data.engine.DupPropertyName=Nom de propriété en double trouvé : {0}.
 data.engine.NoSubQueryName=Impossible de trouver une sous-requête portant le nom : {0}.
 

@@ -30,7 +30,7 @@ data.engine.EndOfGroupOnly=Esta expresión de agregación sólo está disponible al 
 data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=Nivel de agrupación no válido para la función de agregación: {0}.
 data.engine.WrongNumAggrArgs=Número de argumentos incorrecto para la función de agregación: {0}.
-data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
+data.engine.AggrParamGroupLevelInconsistent=En la agregación anidada "{0}", todas las expresiones no constantes deben tener el mismo nivel de grupo.
 data.engine.DupPropertyName=Se ha encontrado un nombre de propiedad duplicado: {0}.
 data.engine.NoSubQueryName=No se puede encontrar la subconsulta con el nombre: {0}.
 

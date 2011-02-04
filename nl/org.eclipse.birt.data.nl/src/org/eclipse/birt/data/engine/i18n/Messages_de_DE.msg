@@ -30,7 +30,7 @@ data.engine.EndOfGroupOnly=Dieser Aggregatausdruck ist nur am Ende einer Gruppe 
 data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=Ungültige Gruppierungsebene für Aggregatfunktion: {0}.
 data.engine.WrongNumAggrArgs=Falsche Anzahl von Argumenten für Aggregatfunktion: {0}.
-data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
+data.engine.AggrParamGroupLevelInconsistent=In verschachtelten Aggregaten '{0}' müssen alle nicht konstanten Ausdrücke derselben Gruppenebene angehören.
 data.engine.DupPropertyName=Doppelter Eigenschaftsname gefunden: {0}.
 data.engine.NoSubQueryName=Teilabfrage mit Namen konnte nicht gefunden werden: {0}.
 
