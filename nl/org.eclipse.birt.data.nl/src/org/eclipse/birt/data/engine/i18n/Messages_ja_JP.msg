@@ -30,7 +30,7 @@ data.engine.EndOfGroupOnly=この集計式は、グループの最後でしか使用できません。
 data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=集計関数のグループレベルが無効です : {0}
 data.engine.WrongNumAggrArgs=集計関数の引数の数が正しくありません : {0}
-data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
+data.engine.AggrParamGroupLevelInconsistent=ネストされた集計 "{0}" では、定数以外のすべての式が同じグループレベルでなければなりません。
 data.engine.DupPropertyName=プロパティ名が重複しています : {0}
 data.engine.NoSubQueryName={0} という名前のサブクエリが見つかりません。
 

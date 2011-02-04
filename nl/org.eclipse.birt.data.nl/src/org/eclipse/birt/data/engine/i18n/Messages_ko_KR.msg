@@ -30,7 +30,7 @@ data.engine.EndOfGroupOnly=이 집계식은 그룹의 끝에서만 사용할 수 있습니다.
 data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=집계 함수에 대한 잘못된 그룹화 수준: {0}.
 data.engine.WrongNumAggrArgs=집계 함수에 대한 잘못된 인수의 수: {0}.
-data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
+data.engine.AggrParamGroupLevelInconsistent=중첩된 집계 "{0}"에서 상수가 아닌 식은 그룹 수준이 모두 동일해야 합니다.
 data.engine.DupPropertyName=중복된 속성 이름: {0}.
 data.engine.NoSubQueryName=하위 쿼리를 찾을 수 없습니다: {0}.
 
