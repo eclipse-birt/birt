@@ -12,16 +12,21 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.eclipse.birt.core.archive.cache.SystemCacheManager;
 import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
+import org.eclipse.birt.core.util.IOUtil;
 
 /**
  * change the default format to ext2.
@@ -44,6 +49,9 @@ public class ArchiveFile implements IArchiveFile
 	protected String archiveName;
 
 	protected String systemId;
+
+	protected boolean zipOnClose;
+	protected String tmpFileName;
 
 	protected IArchiveFile af;
 
@@ -73,6 +81,15 @@ public class ArchiveFile implements IArchiveFile
 		{
 			openArchiveForAppending( );
 		}
+		else if ( "rwz".equals( mode ) )
+		{
+			// create a zip file
+			zipOnClose = true;
+			tmpFileName = getTmpFileName( );
+			ArchiveFileV3 f3 = new ArchiveFileV3( tmpFileName, "rw" );
+			f3.setSystemId( systemId );
+			this.af = f3;
+		}
 		else
 		{
 			// rwt, rw mode
@@ -99,6 +116,13 @@ public class ArchiveFile implements IArchiveFile
 			{
 				ArchiveFileV3 fs = new ArchiveFileV3( archiveName, rf, "r" );
 				upgradeSystemId( fs );
+				af = fs;
+			}
+			else if ( isZipFile( magicTag ) )
+			{
+				tmpFileName = getTmpFileName( );
+				unzip( archiveName, tmpFileName );
+				ArchiveFileV3 fs = new ArchiveFileV3( tmpFileName, "r" );
 				af = fs;
 			}
 			else
@@ -134,6 +158,15 @@ public class ArchiveFile implements IArchiveFile
 				else if ( magicTag == ARCHIVE_V3_TAG )
 				{
 					af = new ArchiveFileV3( archiveName, rf, "rw+" );
+				}
+				else if ( isZipFile( magicTag ) )
+				{
+					rf.close( );
+					zipOnClose = true;
+					tmpFileName = getTmpFileName( );
+					unzip( archiveName, tmpFileName );
+					ArchiveFileV3 fs = new ArchiveFileV3( tmpFileName, "rw+" );
+					af = fs;
 				}
 				else
 				{
@@ -191,6 +224,15 @@ public class ArchiveFile implements IArchiveFile
 		{
 			af.close( );
 			af = null;
+			if ( tmpFileName != null )
+			{
+				if ( zipOnClose )
+				{
+					zip( tmpFileName, archiveName );
+				}
+				new File( tmpFileName ).delete( );
+				tmpFileName = null;
+			}
 		}
 	}
 
@@ -424,10 +466,8 @@ public class ArchiveFile implements IArchiveFile
 		ArchiveFileV1 reader = new ArchiveFileV1( archiveName );
 		try
 		{
-			File tempFile = File.createTempFile( "temp_", ".archive" );
-			tempFile.deleteOnExit( );
-			ArchiveFile writer = new ArchiveFile( tempFile.getAbsolutePath( ),
-					"rwt" );
+			String tempFileName = getTmpFileName( );
+			ArchiveFile writer = new ArchiveFile( tempFileName, "rwt" );
 			List streams = reader.listEntries( "" );
 			Iterator iter = streams.iterator( );
 			while ( iter.hasNext( ) )
@@ -453,6 +493,7 @@ public class ArchiveFile implements IArchiveFile
 			}
 			writer.saveAs( archiveName );
 			writer.close( );
+			new File( tempFileName ).delete( );
 		}
 		finally
 		{
@@ -481,5 +522,79 @@ public class ArchiveFile implements IArchiveFile
 	private boolean isArchiveFileAvailable( IArchiveFile af )
 	{
 		return af != null;
+	}
+
+	private String getTmpFileName( ) throws IOException
+	{
+		return File.createTempFile( "temp_", ".archive" ).getCanonicalPath( );
+	}
+
+	private boolean isZipFile( long magic )
+	{
+		byte[] bytes = new byte[8];
+		IOUtil.longToBytes( magic, bytes );
+		if ( bytes[0] == 31 && bytes[1] == -117 )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private void zip( String src, String tgt ) throws IOException
+	{
+		FileInputStream fi = new FileInputStream( src );
+		try
+		{
+			FileOutputStream fo = new FileOutputStream( tgt );
+			try
+			{
+				GZIPOutputStream gzip = new GZIPOutputStream( fo );
+				byte[] bytes = new byte[4096];
+				int size = fi.read( bytes );
+				while ( size >= 0 )
+				{
+					gzip.write( bytes, 0, size );
+					size = fi.read( bytes );
+				}
+				gzip.close( );
+			}
+			finally
+			{
+				fo.close( );
+			}
+		}
+		finally
+		{
+			fi.close( );
+		}
+	}
+
+	protected void unzip( String src, String tgt ) throws IOException
+	{
+		FileInputStream fi = new FileInputStream( src );
+		try
+		{
+			FileOutputStream fo = new FileOutputStream( tgt );
+			try
+			{
+				GZIPInputStream gzip = new GZIPInputStream( fi );
+				byte[] bytes = new byte[4096];
+				int size = gzip.read( bytes );
+				while ( size >= 0 )
+				{
+					fo.write( bytes, 0, size );
+					size = gzip.read( bytes );
+				}
+				gzip.close( );
+			}
+			finally
+			{
+				fo.close( );
+			}
+		}
+		finally
+		{
+			fi.close( );
+		}
 	}
 }
