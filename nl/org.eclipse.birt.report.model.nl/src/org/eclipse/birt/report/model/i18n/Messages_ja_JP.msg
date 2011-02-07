@@ -3702,7 +3702,7 @@ New.ReportItemTheme=レポート項目テーマの新規作成
 
 ###########################################################
 #Default theme name.
-Theme.defaultThemeName=ディフォルトのテーマ
+Theme.defaultThemeName=defaultTheme
 
 ###########################################################
 # Error Messages
