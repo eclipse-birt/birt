@@ -1094,7 +1094,7 @@ Backslash (\) Comma (,) Exclamation point (!) Period (.) Semicolon (;) Slash (/)
 </context>
 
 <context id="NewTheme_ID" title="New Theme">
-<!--  Added dpeh 20100830 TED 29901 -->
+<!--  Added dpeh 20100830 -->
 <description>Specify a name for the theme. A theme is a collection of styles.
 </description>
 </context>
