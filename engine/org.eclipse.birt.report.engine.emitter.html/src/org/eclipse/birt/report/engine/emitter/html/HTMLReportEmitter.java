@@ -2434,9 +2434,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		DimensionType width = text.getWidth( );
 		DimensionType height = text.getHeight( );
 		String textValue = text.getText( );
+		boolean isBlank = false;
 		if ( textValue == null || "".equals( textValue ) ) //$NON-NLS-1$
 		{
 			textValue = " "; //$NON-NLS-1$
+			isBlank = true;
 		}
 
 		int display = htmlEmitter.getTextElementType( x, y, width, height, mergedStyle );
@@ -2479,7 +2481,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.handleVerticalAlignBegin( text );
 		
 		String url = validate( text.getHyperlinkAction( ) );
-		if ( url != null )
+		if ( url != null && !isBlank )
 		{
 			outputAction( text.getHyperlinkAction( ), url );
 			String strColor = mergedStyle.getColor( );
