@@ -569,7 +569,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( isDocumentExist && !isReportExist )
 		{
 			// check if document file path is valid
-			boolean isValidDocument = ParameterAccessor.isValidFilePath( ParameterAccessor.getParameter( request,
+			boolean isValidDocument = ParameterAccessor.isValidFilePath( request, ParameterAccessor.getParameter( request,
 					ParameterAccessor.PARAM_REPORT_DOCUMENT ) );
 
 			if ( isValidDocument )
@@ -610,7 +610,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		else if ( isReportExist )
 		{
 			if ( isDocumentExist
-					&& !ParameterAccessor.isValidFilePath( ParameterAccessor.getParameter( request,
+					&& !ParameterAccessor.isValidFilePath( request, ParameterAccessor.getParameter( request,
 							ParameterAccessor.PARAM_REPORT_DOCUMENT ) ) )
 			{
 				throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
@@ -632,7 +632,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 
 			// try to get runnable from design file
-			if ( ParameterAccessor.isValidFilePath( ParameterAccessor.getParameter( request,
+			if ( ParameterAccessor.isValidFilePath( request, ParameterAccessor.getParameter( request,
 					ParameterAccessor.PARAM_REPORT ) ) )
 			{
 				try
