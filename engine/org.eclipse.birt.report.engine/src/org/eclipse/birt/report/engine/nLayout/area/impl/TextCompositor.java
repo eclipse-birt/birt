@@ -57,6 +57,8 @@ public class TextCompositor
 	
 	private boolean isNewLine = true;
 	
+	private boolean blankText = false;
+	
 	// for no wrap text, the first exceed word should also been add into text area.
 	private boolean insertFirstExceedWord = false;
 	
@@ -85,6 +87,14 @@ public class TextCompositor
 						.getProperty( StyleConstants.STYLE_WHITE_SPACE ) );
 		remainChunks = new ChunkGenerator( fontManager, textContent, context
 				.getBidiProcessing( ), context.getFontSubstitution( ) );
+	}
+	
+	public TextCompositor( ITextContent textContent,
+			FontMappingManager fontManager, LayoutContext context,
+			boolean blankText )
+	{
+		this( textContent, fontManager, context );
+		this.blankText = blankText;
 	}
 
 	public boolean hasNextArea( )
@@ -191,6 +201,10 @@ public class TextCompositor
 		{
 			textStyle = TextAreaLayout.buildTextStyle( textContent,
 					fontInfo );
+			if ( blankText )
+			{
+				textStyle.setHasHyperlink( false );
+			}
 		}
 		TextArea area = new TextArea( /*textContent.getText( ),*/ textStyle );
 		area.setOffset( offset );
@@ -214,9 +228,16 @@ public class TextCompositor
 		{
 			textStyle = TextAreaLayout.buildTextStyle( textContent,
 					fontInfo );
+			if ( blankText )
+			{
+				textStyle.setHasHyperlink( false );
+			}
 		}
 		TextArea area = new TextArea( textContent.getText( ), textStyle );
-		area.setAction( textContent.getHyperlinkAction( ) );
+		if ( !blankText )
+		{
+			area.setAction( textContent.getHyperlinkAction( ) );
+		}
 		area.setOffset( offset );
 		area.setRunLevel( runLevel );
 		area.setVerticalAlign( textContent.getComputedStyle( ).getProperty( IStyle.STYLE_VERTICAL_ALIGN ) );

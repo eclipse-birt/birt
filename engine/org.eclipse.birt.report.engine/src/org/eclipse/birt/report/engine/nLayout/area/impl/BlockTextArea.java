@@ -57,20 +57,30 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 	
 	public void layout( ) throws BirtException
 	{
-		initialize();
-		TextLineArea line = new TextLineArea(this, context);
+		initialize( );
+		removeHyperlinkForBlankText( );
+		TextLineArea line = new TextLineArea( this, context );
 		line.initialize( );
-		line.setTextIndent( (ITextContent)content );
-		TextAreaLayout text = new TextAreaLayout( line, context, content);
+		line.setTextIndent( (ITextContent) content );
+		TextAreaLayout text = new TextAreaLayout( line, context, content );
 		text.initialize( );
-		if( context.isInHtmlRender( ) )
+		if ( context.isInHtmlRender( ) )
 		{
-			text.addListener( listener );	
+			text.addListener( listener );
 		}
 		text.layout( );
 		text.close( );
 		line.close( );
 		close( );
+	}
+	
+	private void removeHyperlinkForBlankText( )
+	{
+		String text = ( (ITextContent) content ).getText( );
+		if ( text == null || text.length( ) == 0 )
+		{
+			setAction( null );
+		}
 	}
 	
 	protected BlockTextArea getSplitArea( ArrayList ablatedChildren,
