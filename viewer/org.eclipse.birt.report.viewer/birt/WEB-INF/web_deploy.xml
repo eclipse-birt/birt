@@ -51,6 +51,22 @@
 	</context-param>
 
 	<!--
+		Settings for how to deal with the url report path. e.g. "http://host/repo/test.rptdesign". 
+		
+		Following values are supported:
+		
+		<all> 		- All paths.
+		<domain>	- Only the paths with host matches current domain. Note the comparison is literal, "127.0.0.1" and "localhost" are considered as different hosts.
+		<none> 		- URL paths are not supported.
+		
+		Defaults to "domain".
+	-->
+	<context-param>
+		<param-name>URL_REPORT_PATH_POLICY</param-name>
+		<param-value>domain</param-value>
+	</context-param>
+
+	<!--
 		Temporary image/chart directory. Defaults to ${birt home}/report/images
 	-->
 	<context-param>
