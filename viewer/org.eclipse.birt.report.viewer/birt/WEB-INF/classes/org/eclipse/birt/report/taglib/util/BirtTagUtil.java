@@ -178,7 +178,7 @@ public class BirtTagUtil
 				viewer.getReportDocument( ), false );
 
 		// check if document file path is valid
-		boolean isValidDocument = ParameterAccessor.isValidFilePath( viewer
+		boolean isValidDocument = ParameterAccessor.isValidFilePath( request, viewer
 				.getReportDocument( ) );
 		if ( documentFile != null && isValidDocument )
 		{
@@ -218,7 +218,7 @@ public class BirtTagUtil
 			}
 
 			// check if the report file path is valid
-			if ( !ParameterAccessor.isValidFilePath( viewer.getReportDesign( ) ) )
+			if ( !ParameterAccessor.isValidFilePath( request, viewer.getReportDesign( ) ) )
 			{
 				throw new ViewerException(
 						ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,

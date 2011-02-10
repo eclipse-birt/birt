@@ -408,6 +408,12 @@ public class ParameterAccessor
 	public static final String INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
 
 	/**
+	 * Context parameter name that specifies the policy to handle url report
+	 * paths.
+	 */
+	public static final String INIT_PARAM_URL_REPORT_PATH_POLICY = "URL_REPORT_PATH_POLICY"; //$NON-NLS-1$
+
+	/**
 	 * The parameter name that gives the repository location to put the created
 	 * documents and report design files.
 	 */
@@ -551,6 +557,18 @@ public class ParameterAccessor
 	 * Overwrite flag
 	 */
 	public static boolean isOverWrite;
+
+	/**
+	 * URL report paths policy constants
+	 */
+	public static final String POLICY_ALL = "all"; //$NON-NLS-1$
+	public static final String POLICY_DOMAIN = "domain"; //$NON-NLS-1$
+	public static final String POLICY_NONE = "none"; //$NON-NLS-1$
+
+	/**
+	 * Indicats the url report paths accessing policy
+	 */
+	public static String urlReportPathPolicy = POLICY_DOMAIN;
 
 	/**
 	 * Application Context Attribute Name
@@ -1068,12 +1086,12 @@ public class ParameterAccessor
 	 * 
 	 * @param request
 	 * @param filePath
-	 * @param isCreated
+	 * @param isCreate
 	 * @return
 	 * @throws ViewerException
 	 */
 	public static String getReportDocument( HttpServletRequest request,
-			String filePath, boolean isCreated ) throws ViewerException
+			String filePath, boolean isCreate ) throws ViewerException
 	{
 		if ( filePath == null )
 		{
@@ -1083,7 +1101,7 @@ public class ParameterAccessor
 		filePath = decodeFilePath( request, filePath );
 
 		// don't need create the document file from report
-		if ( filePath.length( ) <= 0 && !isCreated )
+		if ( filePath.length( ) <= 0 && !isCreate )
 			return null;
 
 		if ( filePath.length( ) <= 0 )
@@ -1519,6 +1537,8 @@ public class ParameterAccessor
 		isWorkingFolderAccessOnly = Boolean.valueOf( context.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
 
+		urlReportPathPolicy = context.getInitParameter( INIT_PARAM_URL_REPORT_PATH_POLICY );
+
 		// Get preview report max rows parameter from ServletContext
 		String s_maxRows = context.getInitParameter( INIT_PARAM_VIEWER_MAXROWS );
 		try
@@ -1947,10 +1967,43 @@ public class ParameterAccessor
 	 * @return boolean
 	 */
 
-	public static boolean isValidFilePath( String filePath )
+	public static boolean isValidFilePath( HttpServletRequest request,
+			String filePath )
 	{
 		if ( filePath == null )
 			return false;
+
+		// check and aply url report path policy
+		if ( !POLICY_ALL.equalsIgnoreCase( urlReportPathPolicy ) )
+		{
+			File f = new File( filePath );
+
+			if ( !f.isAbsolute( ) )
+			{
+				try
+				{
+					URL url = new URL( filePath );
+
+					if ( POLICY_DOMAIN.equalsIgnoreCase( urlReportPathPolicy ) )
+					{
+						String dm = request.getServerName( );
+
+						if ( !dm.equals( url.getHost( ) ) )
+						{
+							return false;
+						}
+					}
+					else
+					{
+						return false;
+					}
+				}
+				catch ( MalformedURLException e )
+				{
+					// ignore
+				}
+			}
+		}
 
 		if ( isWorkingFolderAccessOnly )
 		{
@@ -2227,6 +2280,14 @@ public class ParameterAccessor
 	public static boolean isWorkingFolderAccessOnly( )
 	{
 		return isWorkingFolderAccessOnly;
+	}
+
+	/**
+	 * @return the url report path accessing policy
+	 */
+	public static String getUrlReportPathPolicy( )
+	{
+		return urlReportPathPolicy;
 	}
 
 	/**
