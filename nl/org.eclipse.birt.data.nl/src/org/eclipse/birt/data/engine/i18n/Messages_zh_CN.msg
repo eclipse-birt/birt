@@ -30,7 +30,7 @@ data.engine.EndOfGroupOnly=此聚合表达式仅可用于组结尾。
 data.engine.InvalidAggregation=The aggregation definition is invalid:{0}.
 data.engine.InvalidAggrGroup=无效的聚合函数分组级别: {0}。
 data.engine.WrongNumAggrArgs=错误的聚合函数参数数: {0}。
-data.engine.AggrParamGroupLevelInconsistent=In nested aggregation, all the non-constant expression must have same group level.
+data.engine.AggrParamGroupLevelInconsistent=In nested aggregation "{0}", all the non-constant expression must have same group level.
 data.engine.DupPropertyName=找到重复属性名称: {0}。
 data.engine.NoSubQueryName=无法找到具有以下名称的子查询: {0}。
 
