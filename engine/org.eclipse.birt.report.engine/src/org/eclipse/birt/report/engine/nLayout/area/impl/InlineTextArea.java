@@ -55,6 +55,7 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 	public void layout( ) throws BirtException
 	{
 		initialize( );
+		removeHyperlinkForBlankText( );
 		TextAreaLayout inlineText = new TextAreaLayout( this, context, content );
 		inlineText.initialize( );
 		if ( context.isInHtmlRender( ) )
@@ -65,6 +66,15 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 		inlineText.close( );
 		updateTextContent( );
 		close( );
+	}
+	
+	private void removeHyperlinkForBlankText( )
+	{
+		String text = ( (ITextContent) content ).getText( );
+		if ( text == null || text.length( ) == 0 )
+		{
+			setAction( null );
+		}
 	}
 	
 	public InlineTextArea cloneArea( )

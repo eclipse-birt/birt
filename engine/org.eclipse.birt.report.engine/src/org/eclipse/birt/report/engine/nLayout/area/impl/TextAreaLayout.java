@@ -48,11 +48,13 @@ public class TextAreaLayout implements ILayout
 	
 	private ArrayList<ITextListener> listenerList = null;
 	
+	private boolean blankText = false;
+	
 	static 
 	{
 		splitChar.add( Character.valueOf( ' ' ) );
-		splitChar.add( Character.valueOf( '\r') );
-		splitChar.add( Character.valueOf( '\n') );
+		splitChar.add( Character.valueOf( '\r' ) );
+		splitChar.add( Character.valueOf( '\n' ) );
 	};
 
 	public TextAreaLayout( ContainerArea parent, LayoutContext context,
@@ -65,11 +67,14 @@ public class TextAreaLayout implements ILayout
 		if ( text != null && text.length( ) != 0 )
 			transform( textContent );
 		else
+		{
 			textContent.setText( " " );
+			blankText = true;
+		}
 		
 		this.textContent = textContent;
 		comp = new TextCompositor( textContent, context.getFontManager( ),
-				context );
+				context, blankText );
 		// checks whether the current line is empty or not.
 		boolean isEmptyLine = isEmptyLine( );
 		comp.setNewLineStatus( isEmptyLine );
@@ -161,7 +166,6 @@ public class TextAreaLayout implements ILayout
 			textStyle.setHasHyperlink( true );
 		}
 		return textStyle;
-
 	}
 
 	public void layout( ) throws BirtException
