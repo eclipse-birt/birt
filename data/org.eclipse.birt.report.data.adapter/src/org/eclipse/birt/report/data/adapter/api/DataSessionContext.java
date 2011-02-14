@@ -76,6 +76,8 @@ public class DataSessionContext
 	private Map appContext;
 	private ScriptContext sContext;
 	private ClassLoader appClassLoader;
+	private boolean isDteScriptContext = false;
+	
 	/**
 	 * Constructs a context in the provided mode. A context created using this
 	 * constructor has no associated report design, and no externally defined top
@@ -157,9 +159,12 @@ public class DataSessionContext
 			this.mode = mode;
 			this.moduleHandle = moduleHandle;
 			this.appClassLoader = classLoader;
+			ScriptContext internalScriptContext = null;
 			if ( scriptContext == null )
 			{
-				scriptContext = new ScriptContext( ).newContext( this.getTopScope( ) );
+				internalScriptContext = new ScriptContext( );
+				scriptContext = internalScriptContext.newContext( this.getTopScope( ) );
+				isDteScriptContext = true;
 			}
 			this.sContext = scriptContext;
 			this.topScope = ( (IDataScriptEngine) scriptContext.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( scriptContext );
@@ -222,7 +227,7 @@ public class DataSessionContext
 			return this.context;
 		this.context = DataEngineContext.newInstance(
 				mode, sContext, docReader, docWriter, appClassLoader );
-		
+		this.context.setDteScriptContext( this.isDteScriptContext );
 		if ( cacheSet )
 			this.context.setCacheOption( cacheOption, cacheCount);
 		return this.context;

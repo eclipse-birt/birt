@@ -152,7 +152,9 @@ public class DataEngineContext
 	
 	private ScriptContext scriptContext;
 	private TimeZone currentTimeZone;
+	private boolean isDteScriptContext;
 	
+
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
 	 * When mode is MODE_PRESENTATION, the reader stream of archive will be used.
@@ -246,6 +248,7 @@ public class DataEngineContext
 		this.scriptContext = context;
 		this.currentLocale = ULocale.getDefault( );
 		this.currentTimeZone = TimeZone.getDefault( );
+		this.isDteScriptContext = false;
 		logger.exiting( DataEngineContext.class.getName( ), "DataEngineContext" ); //$NON-NLS-1$
 	}
 
@@ -681,5 +684,15 @@ public class DataEngineContext
 		if ( this.scriptContext == null )
 			this.scriptContext = new ScriptContext( );
 		return this.scriptContext;
+	}
+	
+	public boolean isDteScriptContext( )
+	{
+		return isDteScriptContext;
+	}
+
+	public void setDteScriptContext( boolean isDteScriptContext )
+	{
+		this.isDteScriptContext = isDteScriptContext;
 	}
 }
