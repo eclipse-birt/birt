@@ -17,7 +17,7 @@ plugin@org.eclipse.birt.report.engine.fonts=r262_v20110127,:ext:xgu@dev.eclipse.
 plugin@org.eclipse.birt.report.engine.script.javascript=r262_v20110127,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.script.javascript
 plugin@org.eclipse.birt.report.engine.emitter.postscript=r262_v20110127,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript
 plugin@org.eclipse.birt.report.engine.emitter.wpml=r262_v20110127,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.wpml
-plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=r262_v20110127,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
+plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=r262_v20110215,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
 plugin@org.eclipse.birt.report.engine.emitter.ppt=r262_v20110127,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ppt
 
 plugin@org.eclipse.birt.report.engine.dataextraction=r262_v20110127,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction
