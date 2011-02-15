@@ -1009,30 +1009,41 @@ public class ExcelLayoutEngine
 
 	public void complete( Page page )
 	{
-		engine.applyContainerBottomStyle( page.getPageContainer( ), page );
+		XlsContainer pageContainer = page.getPageContainer( );
+		engine.applyContainerBottomStyle( pageContainer, page );
 		Iterator<SheetData[]> iterator = page.getRowIterator( );
-		while ( iterator.hasNext( ) )
+		if ( iterator.hasNext( ) )
 		{
-			SheetData[] rowData = iterator.next( );
-
-			for ( int j = 0; j < rowData.length; j++ )
+			while ( iterator.hasNext( ) )
 			{
-				SheetData data = rowData[j];
-				if ( data == null || data.isBlank( ) )
-				{
-					continue;
-				}
+				SheetData[] rowData = iterator.next( );
 
-				HyperlinkDef hyperLink = data.getHyperlinkDef( );
-				if ( hyperLink != null )
+				for ( int j = 0; j < rowData.length; j++ )
 				{
-					if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+					SheetData data = rowData[j];
+					if ( data == null || data.isBlank( ) )
 					{
-						setLinkedBookmark( data, hyperLink );
+						continue;
+					}
+
+					HyperlinkDef hyperLink = data.getHyperlinkDef( );
+					if ( hyperLink != null )
+					{
+						if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+						{
+							setLinkedBookmark( data, hyperLink );
+						}
 					}
 				}
+				page.calculateRowHeight( rowData, context.isRTL( ) );
 			}
-			page.calculateRowHeight( rowData, context.isRTL( ) );
+		}
+		else
+		{
+			ContainerSizeInfo containerSize = pageContainer.getSizeInfo( );
+			page.addEmptyDataToContainer( pageContainer.getStyle( ),
+					pageContainer, containerSize.getStartCoordinate( ),
+					containerSize.getWidth( ) );
 		}
 	}
 
