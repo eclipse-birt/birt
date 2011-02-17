@@ -18,13 +18,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-
 import java.text.ParseException;
-import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -37,11 +31,16 @@ import javax.sql.rowset.serial.SerialBlob;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -1181,15 +1180,15 @@ public final class DataTypeUtil
 	 */
 	private static String toString( Number source, ULocale locale )
 	{
-		NumberFormat nf = (NumberFormat)nfMap.get( locale );
-		if( nf == null )
+		NumberFormatter nf = (NumberFormatter) nfMap.get( locale );
+		if ( nf == null )
 		{
-			synchronized( nfMap )
+			synchronized ( nfMap )
 			{
-				nf = (NumberFormat)nfMap.get( locale );
-				if( nf == null )
+				nf = (NumberFormatter) nfMap.get( locale );
+				if ( nf == null )
 				{
-					nf = NumberFormat.getInstance( locale );
+					nf = new NumberFormatter( locale );
 					nfMap.put( locale, nf );
 				}
 			}
