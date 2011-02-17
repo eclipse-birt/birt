@@ -731,10 +731,4 @@ You can also define the behavior of the content assist tool as the developer sel
 <!-- link updated JAHT 20090608  No available topic -->
 </context>
 
-<context id="Chart_Pattern_Editor_ID" title="Pattern Image Editor">
-<!-- Added dpeh 20100830 TED 27838 -->
-<description>Select a pattern and set its foreground and background colors.
-</description>
-</context>
-
 </contexts>
