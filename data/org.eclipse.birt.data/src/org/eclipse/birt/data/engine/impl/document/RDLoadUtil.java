@@ -58,13 +58,20 @@ public class RDLoadUtil
 						* IOUtil.INT_LENGTH * asize;
 				
 				stream.seek( nextOffset );
-			}
-
-			stream.close( );
+			}			
 		}
 		catch ( IOException e )
+		{	
+		}
+		finally
 		{
-			// ignore it
+			try
+			{
+				stream.close( );
+			}
+			catch (IOException e)
+			{
+			}
 		}
 		return new RDGroupUtil( tempDir, gNumber, groupStreams );
 	}

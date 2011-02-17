@@ -260,6 +260,16 @@ public class ExprResultSet implements IExprResultSet
 				rowInfoRAIs.close( );
 				rowInfoRAIs = null;
 			}
+			if( dataSetResultSet != null )
+			{
+				dataSetResultSet.close( );
+				dataSetResultSet = null;
+			}
+			if( rdGroupUtil != null )
+			{
+				rdGroupUtil.close( );
+				rdGroupUtil = null;
+			}
 		}
 		catch ( IOException e )
 		{

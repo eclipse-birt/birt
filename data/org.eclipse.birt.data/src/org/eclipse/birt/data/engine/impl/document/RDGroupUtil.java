@@ -67,6 +67,8 @@ public final class RDGroupUtil
 	
 	private Map<Integer,int[]> groupStartEndIndexCache = new HashMap<Integer,int[]>();
 	
+	private RAInputStream[] inputStreams;
+	
 	/**
 	 * @param inputStream
 	 * @param cacheProvider
@@ -82,6 +84,7 @@ public final class RDGroupUtil
 			this.groups[i] = new GroupCachedList( inputStreams[i]);
 		}
 		this.cacheProvider = cacheProvider;
+		this.inputStreams = inputStreams;
 	}
 	
 	/**
@@ -120,6 +123,18 @@ public final class RDGroupUtil
 	public void setGroups( List[] groups )
 	{
 		this.groups = groups;
+	}
+	
+	public void close( ) throws IOException
+	{
+		if( this.inputStreams != null )
+		{
+			for( int i = 0; i < this.inputStreams.length; i++ )
+			{
+				this.inputStreams[i].close( );
+			}
+			inputStreams = null;
+		}
 	}
 	
 	// Helper function to find information about a group, given the group level
