@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -367,6 +368,12 @@ public class GroupDialog extends TitleAreaDialog
 								.getContainer( ) ).getDataSet( );
 					}
 					level.setDataType( dataField.getDataType( ) );
+					ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
+					if ( column != null )
+					{
+						level.setAlignment( column.getHorizontalAlign( ) );
+						level.setFormat( column.getValueFormat( ) );
+					}
 					hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
 				}
 			}
