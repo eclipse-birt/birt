@@ -170,8 +170,10 @@ class ResultSetsAdapter
 
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
 		OutputElementAttributes outputAttrs = columnDefn.getUsageHints( );
+		AxisAttributes axisAttrs = columnDefn.getMultiDimensionAttributes( );
 
-		boolean hasValue = hasColumnHintValue( dataUIHints, outputAttrs );
+		boolean hasValue = hasColumnHintValue( dataUIHints, outputAttrs,
+				axisAttrs );
 		if ( !hasValue )
 		{
 			if ( oldHint == null )
@@ -186,7 +188,8 @@ class ResultSetsAdapter
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
 				cachedDataAttrs, newHint );
-		updateColumnHintFromUsageHints( outputAttrs,
+		updateColumnHintFromUsageHints(
+				outputAttrs,
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
 						.getUsageHints( ), newHint, resultSetColumn );
 		updateColumnHintFromAxisAttrs(
@@ -214,9 +217,9 @@ class ResultSetsAdapter
 	 */
 
 	private static boolean hasColumnHintValue( DataElementUIHints dataUIHints,
-			OutputElementAttributes outputAttrs )
+			OutputElementAttributes outputAttrs, AxisAttributes axisAttrs )
 	{
-		if ( dataUIHints == null && outputAttrs == null )
+		if ( dataUIHints == null && outputAttrs == null && axisAttrs == null )
 			return false;
 
 		boolean isValueSet = false;
@@ -240,6 +243,16 @@ class ResultSetsAdapter
 
 		}
 
+		if ( !isValueSet && axisAttrs != null )
+		{
+			isValueSet = axisAttrs.isSetAxisType( );
+
+			if ( !isValueSet )
+			{
+				isValueSet = axisAttrs.isSetOnColumnLayout( );
+			}
+
+		}
 		return isValueSet;
 	}
 
@@ -534,7 +547,7 @@ class ResultSetsAdapter
 		{
 			newHint.setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, newValue );
 		}
-		
+
 		newValue = axisAttributes.getRelatedColumns( );
 		oldValue = cachedAxisAttributes == null ? null : cachedAxisAttributes
 				.getRelatedColumns( );
@@ -544,7 +557,8 @@ class ResultSetsAdapter
 			DataElementIdentifiers columns = ( (ResultSubset) newValue )
 					.getColumnIdentifiers( );
 			if ( columns != null && !columns.getIdentifiers( ).isEmpty( ) )
-				analysisColumnName = columns.getIdentifiers( ).get( 0 ).getName( );
+				analysisColumnName = columns.getIdentifiers( ).get( 0 )
+						.getName( );
 			newHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
 					analysisColumnName );
 		}
@@ -595,7 +609,8 @@ class ResultSetsAdapter
 		if ( columnDefn == null )
 			return;
 
-		updateResultSetColumnFromDataAttrs( columnDefn.getAttributes( ),
+		updateResultSetColumnFromDataAttrs(
+				columnDefn.getAttributes( ),
 				cachedColumnDefn == null ? null : cachedColumnDefn
 						.getAttributes( ), setColumn, dataSourceId, dataSetId );
 	}
@@ -850,9 +865,9 @@ class ResultSetsAdapter
 				cachedColumnDefn = findColumnDefinition( cachedSetColumns,
 						nativeName, position );
 
-				oldColumn = findOdaResultSetColumn( setDefinedResults
-						.iterator( ), nativeName, position, Integer
-						.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
+				oldColumn = findOdaResultSetColumn(
+						setDefinedResults.iterator( ), nativeName, position,
+						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
@@ -872,9 +887,9 @@ class ResultSetsAdapter
 						.copy( );
 
 			updateROMOdaResultSetColumnFromColumnDefinition( columnDefn,
-					cachedColumnDefn, newColumn, setDesign
-							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ) );
+					cachedColumnDefn, newColumn,
+					setDesign.getOdaExtensionDataSourceId( ),
+					setDesign.getOdaExtensionDataSetId( ) );
 
 			ColumnHint oldHint = null;
 			ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(
@@ -1155,9 +1170,9 @@ class ResultSetsAdapter
 			if ( column == null )
 				continue;
 
-			ColumnDefinition odaColumn = findColumnDefinition( columnDefns
-					.getResultSetColumns( ), column.getNativeName( ), column
-					.getPosition( ) );
+			ColumnDefinition odaColumn = findColumnDefinition(
+					columnDefns.getResultSetColumns( ),
+					column.getNativeName( ), column.getPosition( ) );
 
 			if ( odaColumn == null )
 				continue;
@@ -1274,7 +1289,7 @@ class ResultSetsAdapter
 
 		String analysisType = hint.getAnalysis( );
 		AxisType axisType = convertAnalysisTypeToAxisType( analysisType );
-		
+
 		if ( axisType != null )
 		{
 			axisAttrs = designFactory.createAxisAttributes( );
@@ -1283,7 +1298,8 @@ class ResultSetsAdapter
 			String analysisColumnName = hint.getColumnName( );
 			if ( !StringUtil.isBlank( analysisColumnName ) )
 			{
-				ResultSubset relatedColumns = designFactory.createResultSubset( );
+				ResultSubset relatedColumns = designFactory
+						.createResultSubset( );
 				relatedColumns.addColumnIdentifier( analysisColumnName );
 				axisAttrs.setRelatedColumns( relatedColumns );
 			}
