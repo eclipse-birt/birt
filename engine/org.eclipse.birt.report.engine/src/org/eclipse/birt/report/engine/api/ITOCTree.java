@@ -38,16 +38,8 @@ public interface ITOCTree
 	List findTOCByValue( Object tocValue );
 
 	/**
-	 * Gets a TOC tree with specified format and locale. The returned tree
-	 * contains all the TOC nodes which are visible under the specified
-	 * format and the display string are localized using the specified locale.
-	 * When <code>null</code> is provided as format, the returned TOCs will
-	 * includes all the TOCs.
+	 * Gets the root node of a TOC tree. 
 	 * 
-	 * @param format
-	 *            the format, "pdf", e.g..
-	 * @param locale
-	 *            the locale.
 	 * @return a TOCNode tree root.
 	 */
 	TOCNode getRoot( );
