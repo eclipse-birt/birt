@@ -166,9 +166,7 @@ public interface IReportDocument extends IDocument
 	 *     IReportDocument document = ...
 	 *     RenderTask renderTask = engine.createRenderTask( document );
 	 *     ITOCTree tocTree = renderTask.getTOCTree( );
-	 *     ITOCTree tocView = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), ULocale.getDefault( ),
-	 *	                     TimeZone.getDefault( ), "viewer" );
-	 *     TOCNode node = tocView.findTOC(tocNodeId);
+	 *     TOCNode node = tocTree.findTOC(tocNodeId);
 	 *     List result = node.getChildren( );
 	 * </pre></code>
 	 */
@@ -185,9 +183,7 @@ public interface IReportDocument extends IDocument
 	 *     IReportDocument document = ...
 	 *     RenderTask renderTask = engine.createRenderTask( document );
 	 *     ITOCTree tocTree = renderTask.getTOCTree( );
-	 *     ITOCTree tocView = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), ULocale.getDefault( ),
-	 *	                     TimeZone.getDefault( ), "viewer" );
-	 *     TOCNode result = tocView.findTOC(tocNodeId);
+	 *     TOCNode result = tocTree.findTOC(tocNodeId);
 	 * </pre></code>
 	 */
 	public abstract TOCNode findTOC( String tocNodeId );
@@ -203,9 +199,7 @@ public interface IReportDocument extends IDocument
 	 *     IReportDocument document = ...
 	 *     RenderTask renderTask = engine.createRenderTask( document );
 	 *     ITOCTree tocTree = renderTask.getTOCTree( );
-	 *     ITOCTree tocView = new TOCView( tocTree.getRoot( ), document.getReportDesgin( ), ULocale.getDefault( ),
-	 *	                     TimeZone.getDefault( ), "viewer" );
-	 *     List result = tocView.findTOCByValue(tocName);
+	 *     List result = tocTree.findTOCByValue(tocName);
 	 * </pre></code>
 	 */
 	public abstract List findTOCByName( String tocName );
