@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -157,10 +158,30 @@ public class HTMLActionHandler implements IHTMLActionHandler
 						Object valueObj = entry.getValue( );
 						if ( valueObj != null )
 						{
-							String value = getDisplayValue( valueObj );
-							link
-									.append( "&" + URLEncoder.encode( key, "UTF-8" ) //$NON-NLS-1$ //$NON-NLS-2$
-											+ "=" + URLEncoder.encode( value, "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+							Object[] values;
+							if ( valueObj instanceof List )
+							{
+								valueObj = ( (List) valueObj ).toArray( );
+								values = (Object[]) valueObj;
+							}
+							else
+							{
+								values = new Object[1];
+								values[0] = valueObj;
+							}
+
+							for ( int i = 0; i < values.length; i++ )
+							{
+								String value = getDisplayValue( values[i] );
+
+								if ( value != null )
+								{
+									link.append( "&"
+											+ URLEncoder.encode( key, "UTF-8" )
+											+ "="
+											+ URLEncoder.encode( value, "UTF-8" ) );
+								}
+							}
 						}
 					}
 					catch ( UnsupportedEncodingException e )
