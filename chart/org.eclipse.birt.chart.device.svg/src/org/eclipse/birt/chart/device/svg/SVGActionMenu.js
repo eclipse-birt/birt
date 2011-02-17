@@ -480,8 +480,8 @@ function resizeSVG(e) {
 		var root = e.target.ownerDocument.documentElement;
 		var hotSpot = e.target.ownerDocument.getElementById('hotSpots');
 		var g = e.target.ownerDocument.getElementById('outerG');
-		xScale = (innerWidth) / root.getAttribute('initialWidth');
-		yScale = (innerHeight) / root.getAttribute('initialHeight');
+		xScale = innerWidth>0 ? innerWidth / root.getAttribute('initialWidth') : 1;
+		yScale = innerHeight>0 ? innerHeight / root.getAttribute('initialHeight') : 1;
 		root.setAttribute('width', xScale * root.getAttribute('initialWidth'));
 		root
 				.setAttribute('height', yScale
