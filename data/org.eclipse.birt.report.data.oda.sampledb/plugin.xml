@@ -136,6 +136,11 @@
                     	 defaultDisplayName="%dataset.property.queryTimeOut"
                      	canInherit="true"
                      	name="queryTimeOut"/>
+                     <property
+                    	 type="string"
+                     	defaultDisplayName="%dataset.property.rowFetchSize"
+                     	canInherit="false"
+                     	name="rowFetchSize"/>
            		 </propertyGroup>
          	</properties>
       </dataSet>
