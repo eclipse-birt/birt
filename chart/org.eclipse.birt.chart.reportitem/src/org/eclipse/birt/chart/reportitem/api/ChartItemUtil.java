@@ -1353,7 +1353,17 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		double dOriginalWidth = dhWidth.getMeasure( );
 		String sWidthUnits = dhWidth.getUnits( );
 
+		Bounds cmBounds = ( cm.getBlock( ) != null ) ? cm.getBlock( )
+				.getBounds( ) : null;
 		Bounds defaultBounds = ChartItemUtil.createDefaultChartBounds( eih, cm );
+		if ( cmBounds != null && cmBounds.getWidth( ) > 0 )
+		{
+			defaultBounds.setWidth( cmBounds.getWidth( ) );
+		}
+		if ( cmBounds != null && cmBounds.getHeight( ) > 0 )
+		{
+			defaultBounds.setHeight( cmBounds.getHeight( ) );
+		}
 
 		// Default size for null dimension
 		double dHeightInPoints = defaultBounds.getHeight( );
