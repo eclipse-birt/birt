@@ -10,6 +10,7 @@ datasource.name=Classic Models Inc. のサンプルデータベース
 select.dataset.name=SQL Select クエリ
 jdbc.driver.name=Classic Models Inc. SampleDB Driver
 dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
+dataset.property.rowFetchSize=&Row Fetch Size
 #
 oda.data.source.name=Classic Models Inc. のサンプルデータベース
 connection.profile.name=BIRT サンプルデータベースのデータソース接続プロファイル

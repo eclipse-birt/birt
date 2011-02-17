@@ -10,6 +10,7 @@ datasource.name=Base de données exemple Classic Models Inc.
 select.dataset.name=Requête de sélection SQL
 jdbc.driver.name=Pilote de la base de données exemple Classic Models Inc.
 dataset.property.queryTimeOut=Délai d'expiration de re&quête (en secondes)
+dataset.property.rowFetchSize=&Row Fetch Size
 #
 oda.data.source.name=Base de données exemple Classic Models Inc.
 connection.profile.name=Profil de connexion à la source de données de la BD exemple BIRT
