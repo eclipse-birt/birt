@@ -445,17 +445,25 @@ public class Connection implements IConnection
 			if ( jdbcConn.isClosed( ) == false )
 			{
 				jdbcConn.close( );
-				logger.log( Level.FINER,
-						"JDBC connection: " + jdbcConn + " is closed" ); //$NON-NLS-1$//$NON-NLS-2$
+				logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is closed");
 			}
 			else
 			{
-				logger.log( Level.FINER,
-						"JDBC connection: " + jdbcConn + " is already closed outside of JDBC ODA driver" ); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is already closed outside of JDBC ODA driver");
 			}
 		}
 		catch ( SQLException e )
 		{
+			try 
+			{
+				if (DBConfig.getInstance().qualifyPolicy(
+						jdbcConn.getMetaData().getDriverName(),
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+					return;
+			} 
+			catch (SQLException e1) {
+
+			}
 			throw new JDBCException( ResourceConstants.CONN_CANNOT_CLOSE, e );
 		}
 		jdbcConn = null;

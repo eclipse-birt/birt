@@ -39,7 +39,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.ResultSetMetaDataTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.ResultSetTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.StatementTest.class );
-		
+		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.DBConfigTest.class );
 		return suite;
 	}
 }

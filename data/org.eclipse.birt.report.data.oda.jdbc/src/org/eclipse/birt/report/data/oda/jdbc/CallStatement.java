@@ -273,6 +273,16 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
+			try 
+			{
+				if (DBConfig.getInstance().qualifyPolicy(
+						this.callStat.getConnection().getMetaData().getDriverName(),
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+					return;
+			} 
+			catch (SQLException e1) {
+
+			}
 			throw new JDBCException( ResourceConstants.PREPAREDSTATEMENT_CANNOT_CLOSE,
 					e );
 		}

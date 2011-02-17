@@ -11,19 +11,12 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,11 +29,6 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
@@ -71,7 +59,7 @@ public class Statement implements IQuery
 	private IResultSetMetaData cachedResultMetaData;
 	private IResultSet cachedResultSet;
 	
-	private static DBConfig config = new DBConfig();
+	
 	/**
 	 * assertNull(Object o)
 	 * 
@@ -244,6 +232,16 @@ public class Statement implements IQuery
 		}
 		catch ( SQLException e )
 		{
+			try 
+			{
+				if (DBConfig.getInstance().qualifyPolicy(
+						preStat.getConnection().getMetaData().getDriverName(),
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+					return;
+			} 
+			catch (SQLException e1) {
+
+			}
 			throw new JDBCException( ResourceConstants.PREPAREDSTATEMENT_CANNOT_CLOSE , e );
 		}
 		this.cachedResultMetaData = null;
@@ -292,28 +290,23 @@ public class Statement implements IQuery
 
 		if ( this.cachedResultMetaData != null )
 			return this.cachedResultMetaData;
-		
-		int policy = DBConfig.DEFAULT_POLICY;
-		
-		try
-		{
-			policy = config.getPolicy( preStat.getConnection( ).getMetaData( ).getDriverName( ) );
-		}
-		catch ( SQLException e1 )
-		{
-		}
-		
-		switch( policy )
-		{
-			case DBConfig.NORMAL:
-				getMetaUsingPolicy0( );
-				break;
-			case DBConfig.EXEC_QUERY_AND_CACHE:
-				getMetaUsingPolicy1( );
-				break;
-			case DBConfig.EXEC_QUERY_WITHOUT_CACHE:
-				getMetaUsingPolicy2( );
-				break;
+		DBConfig config = DBConfig.getInstance();
+		try {
+			String driverName = preStat.getConnection().getMetaData().getDriverName();
+
+			if( config.qualifyPolicy(driverName, DBConfig.NORMAL))
+			{
+				getMetaUsingPolicy0();
+			}
+			else if( config.qualifyPolicy(driverName, DBConfig.EXEC_QUERY_AND_CACHE))
+			{
+				getMetaUsingPolicy1();
+			}	
+			else if( config.qualifyPolicy(driverName, DBConfig.EXEC_QUERY_WITHOUT_CACHE))
+			{
+				getMetaUsingPolicy2();
+			}
+		} catch (SQLException e1) {
 		}
 		
 		if( this.cachedResultMetaData == null )
@@ -464,7 +457,6 @@ public class Statement implements IQuery
 				maxRowsUpToDate = true;
 			}
 			/* redirect the call to JDBC preparedStatement.executeQuery() */
-			System.out.println( "execute is called" );
 			return new ResultSet( this.preStat.executeQuery( ) );
 		}
 		catch ( SQLException e )
@@ -1014,269 +1006,4 @@ public class Statement implements IQuery
 				"No named Parameter supported.",
 				e );
 	}	
-}
-
-/**
- * This class fetch the DBConfig from config.xml file.
- * 
- *
- */
-class DBConfig
-{
-	private static final String CONFIG_XML = "config.xml";
-	public static final int NORMAL = 0;
-	public static final int EXEC_QUERY_AND_CACHE = 1;
-	public static final int EXEC_QUERY_WITHOUT_CACHE = 2;
-	public static final int DEFAULT_POLICY = -1;
-	private HashMap driverPolicy = null;
-	
-	//
-	DBConfig()
-	{
-		driverPolicy = new HashMap();
-		new SaxParser( this ).parse( );				
-	}
-	
-	/**
-	 * 
-	 * @param driverName
-	 * @return
-	 */
-	public int getPolicy( String driverName )
-	{
-		
-		if( driverPolicy.get( driverName ) == null )
-			return DEFAULT_POLICY;
-		
-		return Integer.parseInt( driverPolicy.get( driverName ).toString( ) );
-	}
-	
-	/**
-	 * 
-	 * @param driverName
-	 * @param policy
-	 */
-	public void putPolicy( String driverName, int policy )
-	{
-		driverPolicy.put(driverName, Integer.valueOf( policy));
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public URL getConfigURL()
-	{
-		URL u = this.getClass( ).getResource( CONFIG_XML );
-		return u;
-	}
-	
-}
-
-/**
- * 
- * @author Administrator
- *
- */
-class SaxParser extends DefaultHandler
-{
-	//
-	private static final String TYPE = "type";
-	private static final String POLICY = "Policy";
-	private static final String NAME = "name";
-	private static final String DRIVER = "Driver";
-	private int currentPolicy = DBConfig.DEFAULT_POLICY;
-	private DBConfig dbConfig;
-	
-	/**
-	 * Constructor
-	 * @param config
-	 */
-	public SaxParser( DBConfig config )
-	{
-		this.dbConfig = config;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String,
-	 *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
-	 */
-	public void startElement( String uri, String name, String qName,
-			Attributes atts )
-	{
-		String elementName = qName;
-		if ( elementName.equals( DRIVER ) )
-		{
-			dbConfig.putPolicy( atts.getValue( NAME ),
-					currentPolicy );
-		}
-		else if ( elementName.equals( POLICY ) )
-		{
-			String type = atts.getValue( TYPE );
-			try
-			{
-				currentPolicy = Integer.parseInt( type );
-			}
-			catch ( NumberFormatException e )
-			{
-				currentPolicy = DBConfig.DEFAULT_POLICY;
-			}
-		} 
-	}
-	
-	/**
-	 * 
-	 */
-	public void parse()
-	{
-		Object xmlReader;
-		try
-		{
-			if( this.dbConfig.getConfigURL( ) == null )
-				return;
-			xmlReader = createXMLReader( );
-
-			setContentHandler( xmlReader );
-
-			setErrorHandler( xmlReader );
-
-			parse( xmlReader );
-
-		}
-		catch ( Exception e )
-		{}
-	}
-	
-	/**
-	 * 
-	 * @param xmlReader
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void parse( Object xmlReader ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-	{
-		Method parse = this.getMethod( "parse",
-				xmlReader.getClass( ),
-				new Class[]{
-					InputSource.class
-				} );
-		InputStream is;
-		try
-		{
-			is = new BufferedInputStream( this.dbConfig.getConfigURL( )
-					.openStream( ) );
-			InputSource source = new InputSource( is );
-			source.setEncoding( source.getEncoding( ) );
-			parse.invoke( xmlReader, new Object[]{
-				source
-			} );
-			is.close( );
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param xmlReader
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void setErrorHandler( Object xmlReader ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-	{
-		Method setErrorHandler = this.getMethod( "setErrorHandler",
-				xmlReader.getClass( ),
-				new Class[]{
-					ErrorHandler.class
-				} );
-		this.invokeMethod( setErrorHandler, xmlReader, new Object[]{this} );
-	}
-
-	/**
-	 * 
-	 * @param xmlReader
-	 * @throws NoSuchMethodException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void setContentHandler( Object xmlReader ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
-	{
-		Method setContentHandler = this.getMethod( "setContentHandler",
-				xmlReader.getClass( ),
-				new Class[]{
-					ContentHandler.class
-				} );
-		
-		this.invokeMethod( setContentHandler, xmlReader, new Object[]{
-				this
-			} );
-	}
-
-	/**
-	 * 
-	 * @return
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws ClassNotFoundException
-	 */
-	private Object createXMLReader( ) throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException
-	{
-		try
-		{
-			Object xmlReader = Thread.currentThread( )
-					.getContextClassLoader( )
-					.loadClass( "org.apache.xerces.parsers.SAXParser" )
-					.newInstance( );
-			return xmlReader;
-		}
-		catch ( ClassNotFoundException e )
-		{
-			return Class.forName( "org.apache.xerces.parsers.SAXParser" )
-					.newInstance( );
-		}
-
-	}
-
-	/**
-	 * Return a method using reflect.
-	 * 
-	 * @param methodName
-	 * @param targetClass
-	 * @param argument
-	 * @return
-	 * @throws SecurityException
-	 * @throws NoSuchMethodException
-	 */
-	private Method getMethod(String methodName, Class targetClass, Class[] argument) throws SecurityException, NoSuchMethodException
-	{
-		assert methodName != null;
-		assert targetClass != null;
-		assert argument != null;
-		
-		return targetClass.getMethod( methodName, argument );
-	}
-	
-	/**
-	 * Invoke a method.
-	 * 
-	 * @param method
-	 * @param targetObject
-	 * @param argument
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 */
-	private void invokeMethod( Method method, Object targetObject, Object[] argument ) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
-	{
-		method.invoke( targetObject, argument );
-	}
 }

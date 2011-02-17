@@ -128,6 +128,16 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
+			try 
+			{
+				if (DBConfig.getInstance().qualifyPolicy(
+						this.rs.getStatement().getConnection().getMetaData().getDriverName(),
+						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
+					return;
+			} 
+			catch (SQLException e1) {
+
+			}
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_CLOSE,
 					e );
 		}
