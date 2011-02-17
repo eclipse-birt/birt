@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.report.data.adapter.api;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -20,6 +21,8 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
+import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.report.data.adapter.api.script.DataAdapterTopLevelScope;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -76,7 +79,6 @@ public class DataSessionContext
 	private Map appContext;
 	private ScriptContext sContext;
 	private ClassLoader appClassLoader;
-	private boolean isDteScriptContext = false;
 	
 	/**
 	 * Constructs a context in the provided mode. A context created using this
@@ -164,7 +166,8 @@ public class DataSessionContext
 			{
 				internalScriptContext = new ScriptContext( );
 				scriptContext = internalScriptContext.newContext( this.getTopScope( ) );
-				isDteScriptContext = true;
+				DataEngineThreadLocal.getInstance( ).getCloseListener( )
+						.add( new ScriptContextCloser( internalScriptContext ) );
 			}
 			this.sContext = scriptContext;
 			this.topScope = ( (IDataScriptEngine) scriptContext.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( scriptContext );
@@ -227,7 +230,6 @@ public class DataSessionContext
 			return this.context;
 		this.context = DataEngineContext.newInstance(
 				mode, sContext, docReader, docWriter, appClassLoader );
-		this.context.setDteScriptContext( this.isDteScriptContext );
 		if ( cacheSet )
 			this.context.setCacheOption( cacheOption, cacheCount);
 		return this.context;
@@ -288,4 +290,20 @@ public class DataSessionContext
 	{
 		return this.appContext;
 	}
+	
+	class ScriptContextCloser implements ICloseListener
+	{
+		private ScriptContext scriptContext;
+		
+		ScriptContextCloser( ScriptContext scriptContext )
+		{
+			this.scriptContext = scriptContext;
+		}
+		
+		public void close() throws IOException
+		{
+			this.scriptContext.close( );
+		}
+	}
 }
+

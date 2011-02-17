@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
-import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 
 /**
  * 

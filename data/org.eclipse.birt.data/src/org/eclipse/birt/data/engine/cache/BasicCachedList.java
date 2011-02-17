@@ -32,7 +32,6 @@ import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 
 /**
  * A List class providing the service of reading/writing objects from one file

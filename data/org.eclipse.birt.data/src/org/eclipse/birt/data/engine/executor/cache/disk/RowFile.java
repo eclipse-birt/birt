@@ -14,11 +14,11 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.api.ICloseListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
-import org.eclipse.birt.data.engine.impl.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**

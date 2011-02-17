@@ -25,9 +25,9 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.DataEngineThreadLocal;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -535,17 +535,7 @@ public class DataEngineImpl extends DataEngine
 			logger.fine( "The data engine has already been shutdown" );
 			return;
 		}
-		if( this.context != null && this.context.isDteScriptContext( ) )
-		{
-			ScriptContext sContext = this.context.getScriptContext( );
-			ScriptContext pContext = sContext.getParent( );
-			while( pContext != null )
-			{
-				sContext = pContext;
-				pContext = sContext.getParent( );
-			}
-			sContext.close( );
-		}
+		
 		// Close all open data sources
 		Collection col = dataSources.values( );
 		Iterator it = col.iterator( );
