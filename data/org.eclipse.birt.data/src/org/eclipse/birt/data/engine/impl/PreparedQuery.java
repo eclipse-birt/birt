@@ -90,7 +90,7 @@ public final class PreparedQuery
 			IBaseQueryDefinition queryDefn, IPreparedQueryService queryService,
 			Map appContext ) throws DataException
 	{
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				PreparedQuery.class.getName( ),
 				"PreparedQuery",
 				"PreparedQuery starts up." );

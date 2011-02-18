@@ -69,7 +69,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		props.put( "user", SampleDBConstants.SAMPLE_DB_SCHEMA);
 		props.put( "password", "" );
 		
-		if ( logger.isLoggable( Level.FINE ))
+		if ( logger.isLoggable( Level.FINER ))
 		{
 			logger.fine( "Getting Sample DB JDBC connection. DriverClass=" + 
 					SampleDBConstants.DERBY_DRIVER_CLASS + ", Url=" + dbUrl);

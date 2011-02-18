@@ -69,7 +69,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterCount( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"getParameterCount",
 				"ParameterMetaData.getParameterCount( )" );
@@ -99,7 +99,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterMode( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"getParameterMode",
 				"ParameterMetaData.getParameterMode( )" );
@@ -144,7 +144,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterType( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"getParameterType",
 				"ParameterMetaData.getParameterType( )" );
@@ -173,7 +173,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public String getParameterTypeName( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"getParameterTypeName",
 				"ParameterMetaData.getParameterTypeName( )" );
@@ -206,7 +206,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getPrecision( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"getPrecision",
 				"ParameterMetaData.getPrecision( )" );
@@ -236,7 +236,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getScale( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"getScale",
 				"ParameterMetaData.getScale( )" );
@@ -266,7 +266,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int isNullable( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ParameterMetaData.class.getName( ),
 				"isNullable",
 				"ParameterMetaData.isNullable( )" );

@@ -69,7 +69,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getColumnCount( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getColumnCount",
 				"ResultSetMetaData.getColumnCount( )" );
@@ -92,7 +92,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public String getColumnName( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getColumnName",
 				"ResultSetMetaData.getColumnName( )" );
@@ -123,7 +123,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public String getColumnLabel( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getColumnLabel",
 				"ResultSetMetaData.getColumnLabel( )" );
@@ -146,7 +146,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getColumnType( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getColumnType",
 				"ResultSetMetaData.getColumnType( )" );
@@ -227,7 +227,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public String getColumnTypeName( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getColumnTypeName",
 				"ResultSetMetaData.getColumnTypeName( )" );
@@ -253,7 +253,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getColumnDisplayLength( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getColumnDisplayLength",
 				"ResultSetMetaData.getColumnDisplayLength( )" );
@@ -279,7 +279,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getPrecision( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getPrecision",
 				"ResultSetMetaData.getPrecision( )" );
@@ -306,7 +306,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int getScale( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"getScale",
 				"ResultSetMetaData.getScale( )" );
@@ -333,7 +333,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 	 */
 	public int isNullable( int index ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSetMetaData.class.getName( ),
 				"isNullable",
 				"ResultSetMetaData.isNullable( )" );

@@ -65,9 +65,9 @@ public class SampleDBDriver extends OdaJdbcDriver
 			props.setProperty( Connection.Constants.ODAURL, url);
 			props.setProperty( Connection.Constants.ODAUser, user);
 			
-			if ( logger.isLoggable(Level.FINE ))
+			if ( logger.isLoggable(Level.FINER ))
 			{
-				logger.log( Level.FINE, "Opening SampleDB connection. DriverClass="
+				logger.log( Level.FINER, "Opening SampleDB connection. DriverClass="
 						+ driverClass + "; url=" + url );
 			}
 			

@@ -69,7 +69,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterCount( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getParameterCount",
 				"SPParameterMetaData.getParameterCount( )" );
@@ -83,7 +83,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterMode( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getParameterMode",
 				"SPParameterMetaData.getParameterMode( )" );
@@ -106,7 +106,7 @@ public class SPParameterMetaData implements IParameterMetaData
      */
     public String getParameterName( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getParameterName",
 				"SPParameterMetaData.getParameterName( )" );
@@ -121,7 +121,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterType( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getParameterType",
 				"SPParameterMetaData.getParameterType( )" );
@@ -136,7 +136,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public String getParameterTypeName( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getParameterTypeName",
 				"SPParameterMetaData.getParameterTypeName( )" );
@@ -151,7 +151,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public int getPrecision( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getPrecision",
 				"SPParameterMetaData.getPrecision( )" );
@@ -166,7 +166,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public int getScale( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"getScale",
 				"SPParameterMetaData.getScale( )" );
@@ -181,7 +181,7 @@ public class SPParameterMetaData implements IParameterMetaData
 	 */
 	public int isNullable( int param ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				SPParameterMetaData.class.getName( ),
 				"isNullable",
 				"SPParameterMetaData.isNullable( )" );

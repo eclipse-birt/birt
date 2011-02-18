@@ -57,7 +57,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public IConnection getConnection( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getConnection",
 				"DataSourceMetaData.getConnection( )" );
@@ -73,7 +73,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	public IResultSet getDataSourceObjects( String catalog, String schema,
 			String object, String version ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getDataSourceObjects",
 				"DataSourceMetaData.getDataSourceObjects( )" );
@@ -87,7 +87,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getDataSourceMajorVersion( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getDataSourceMajorVersion",
 				"DataSourceMetaData.getDataSourceMajorVersion( )" );
@@ -109,7 +109,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getDataSourceMinorVersion( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getDataSourceMinorVersion",
 				"DataSourceMetaData.getDataSourceMinorVersion( )" );
@@ -131,7 +131,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public String getDataSourceProductName( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getDataSourceProductName",
 				"DataSourceMetaData.getDataSourceProductName( )" );
@@ -153,7 +153,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public String getDataSourceProductVersion( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getDataSourceProductVersion",
 				"DataSourceMetaData.getDataSourceProductVersion( )" );
@@ -175,7 +175,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getSQLStateType( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getSQLStateType",
 				"DataSourceMetaData.getSQLStateType( )" );
@@ -208,7 +208,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsMultipleOpenResults( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"supportsMultipleOpenResults",
 				"DataSourceMetaData.supportsMultipleOpenResults( )" );
@@ -222,7 +222,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsMultipleResultSets( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"supportsMultipleResultSets",
 				"DataSourceMetaData.supportsMultipleResultSets( )" );
@@ -236,7 +236,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsNamedResultSets( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"supportsNamedResultSets",
 				"DataSourceMetaData.supportsNamedResultSets( )" );
@@ -250,7 +250,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsNamedParameters( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"supportsNamedParameters",
 				"DataSourceMetaData.supportsNamedParameters( )" );
@@ -264,7 +264,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsInParameters( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"supportsInParameters",
 				"DataSourceMetaData.supportsInParameters( )" );
@@ -278,7 +278,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public boolean supportsOutParameters( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"supportsOutParameters",
 				"DataSourceMetaData.supportsOutParameters( )" );
@@ -292,7 +292,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 	 */
 	public int getSortMode( )
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				DataSourceMetaData.class.getName( ),
 				"getSortMode",
 				"DataSourceMetaData.getSortMode( )" );

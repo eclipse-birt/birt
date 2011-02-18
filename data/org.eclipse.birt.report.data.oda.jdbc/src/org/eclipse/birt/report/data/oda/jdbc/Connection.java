@@ -74,7 +74,7 @@ public class Connection implements IConnection
 			if ( value != null && ( value instanceof java.sql.Connection ) )
 			{
 				jdbcConn = (java.sql.Connection) value;
-				logger.logp( Level.FINE,
+				logger.logp( Level.FINER,
 						Connection.class.getName( ),
 						"open",
 						jdbcConn.toString( ) );
@@ -297,7 +297,7 @@ public class Connection implements IConnection
 	public IDataSetMetaData getMetaData( String dataSetType )
 			throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Connection.class.getName( ),
 				"getMetaData",
 				"Connection.getMetaData(" + dataSetType + ")" );
@@ -323,7 +323,7 @@ public class Connection implements IConnection
 	 */
 	public IQuery newQuery( String dataSourceType ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINER,
 				Connection.class.getName( ),
 				"createStatement",
 				"Connection.createStatement(" + dataSourceType + ")" );
@@ -362,7 +362,7 @@ public class Connection implements IConnection
 	 */
 	public void commit( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Connection.class.getName( ),
 				"commit",
 				"Connection.commit()" );
@@ -382,7 +382,7 @@ public class Connection implements IConnection
 	 */
 	public void rollback( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Connection.class.getName( ),
 				"rollback",
 				"Connection.rollback()" );
@@ -423,7 +423,7 @@ public class Connection implements IConnection
 	 */
 	public void close( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Connection.class.getName( ),
 				"close", //$NON-NLS-1$
 				"Connection closed." ); //$NON-NLS-1$

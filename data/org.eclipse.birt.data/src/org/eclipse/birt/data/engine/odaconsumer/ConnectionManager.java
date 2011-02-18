@@ -211,8 +211,8 @@ public class ConnectionManager
         {
             providerAppContext.put( IPropertyProvider.ODA_CONSUMER_ID, 
                                     DTP_CONN_PROFILE_APPL_ID );
-            if( getLogger().isLoggable( Level.FINE ) )
-                getLogger().logp( Level.FINE, sm_className, "addProfileProviderService( Map )",  //$NON-NLS-1$
+            if( getLogger().isLoggable( Level.FINER ) )
+                getLogger().logp( Level.FINER, sm_className, "addProfileProviderService( Map )",  //$NON-NLS-1$
                     "Added default property service: " + DTP_CONN_PROFILE_APPL_ID ); //$NON-NLS-1$
         }
 

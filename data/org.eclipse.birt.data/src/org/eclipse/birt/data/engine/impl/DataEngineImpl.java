@@ -113,7 +113,7 @@ public class DataEngineImpl extends DataEngine
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineStart( );
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
-		logger.log( Level.FINE, "Data Engine starts up" );
+		logger.log( Level.FINER, "Data Engine starts up" );
 	}
 
 	/**
@@ -192,8 +192,8 @@ public class DataEngineImpl extends DataEngine
 			throw e; 
 		}
 
-		if ( logger.isLoggable( Level.FINE ) )
-			logger.logp( Level.FINE,
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.logp( Level.FINER,
 					DataEngineImpl.class.getName( ),
 					"defineDataSource",
 					"DataEngine.defineDataSource: "
@@ -259,8 +259,8 @@ public class DataEngineImpl extends DataEngine
 			throw e; 
 		}
 
-		if ( logger.isLoggable( Level.FINE ) )
-			logger.logp( Level.FINE,
+		if ( logger.isLoggable( Level.FINER ) )
+			logger.logp( Level.FINER,
 					DataEngineImpl.class.getName( ),
 					"defineDataSet",
 					"DataEngine.defineDataSet: " + LogUtil.toString( dataSet ) );
@@ -394,7 +394,7 @@ public class DataEngineImpl extends DataEngine
 			throw e;
 		}
 
-		if ( logger.isLoggable( Level.FINE ) )
+		if ( logger.isLoggable( Level.FINER ) )
 			logger.fine( "Start to prepare query: "
 					+ LogUtil.toString( querySpec ) );
 
@@ -439,7 +439,7 @@ public class DataEngineImpl extends DataEngine
 			throw e;
 		}
 
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				DataEngineImpl.class.getName( ),
 				"closeDataSource",
 				"Close DataSource :" + dataSourceName );
@@ -548,8 +548,8 @@ public class DataEngineImpl extends DataEngine
 			}
 			catch ( DataException e )
 			{
-				if ( logger.isLoggable( Level.FINE ) )
-					logger.log( Level.FINE, "The data source ("
+				if ( logger.isLoggable( Level.FINER ) )
+					logger.log( Level.FINER, "The data source ("
 							+ ds + ") fails to shut down", e );
 			}
 		}

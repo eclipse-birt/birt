@@ -908,7 +908,7 @@ public class ResultIterator implements IResultIterator
 		{
 			((QueryResults) results).setID( this.resultService.getQueryResults( ).getID( ) );
 		}
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"getSecondaryIterator",
 				"Returns the secondary result specified by a SubQuery" );
@@ -945,7 +945,7 @@ public class ResultIterator implements IResultIterator
 		}
 		finally
 		{
-			logger.logp( Level.FINE,
+			logger.logp( Level.FINER,
 					ResultIterator.class.getName( ),
 					"getResultMetaData",
 					"Returns the result metadata" );
@@ -982,7 +982,7 @@ public class ResultIterator implements IResultIterator
 
 		odiResult = null;
 		resultService = null;
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"close",
 				"a ResultIterator is closed" );

@@ -89,7 +89,7 @@ public class ResultSet implements IResultSet
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"getMetaData", //$NON-NLS-1$
 				"ResultSet.getMetaData( )" ); //$NON-NLS-1$
@@ -115,7 +115,7 @@ public class ResultSet implements IResultSet
 	 */
 	public void close( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"close", //$NON-NLS-1$
 				"ResultSet.close()" );		 //$NON-NLS-1$
@@ -150,7 +150,7 @@ public class ResultSet implements IResultSet
 	 */
 	public void setMaxRows( int max )
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"setMaxRows", //$NON-NLS-1$
 				"ResultSet.setMaxRows( " + max + " )" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -170,7 +170,7 @@ public class ResultSet implements IResultSet
 	 */
 	public boolean next( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"next", //$NON-NLS-1$
 				"ResultSet.next( )" ); //$NON-NLS-1$
@@ -199,7 +199,7 @@ public class ResultSet implements IResultSet
 	 */
 	public int getRow( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"getRow", //$NON-NLS-1$
 				"ResultSet.getRow( )" ); //$NON-NLS-1$
@@ -751,7 +751,7 @@ public class ResultSet implements IResultSet
 	 */
 	public boolean wasNull( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"getMetaData", //$NON-NLS-1$
 				"ResultSet.wasNull( )" ); //$NON-NLS-1$
@@ -775,7 +775,7 @@ public class ResultSet implements IResultSet
 	 */
 	public int findColumn( String columnName ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				ResultSet.class.getName( ),
 				"findColumn", //$NON-NLS-1$
 				"ResultSet.findColumn( \"" + columnName + "\" )" ); //$NON-NLS-1$ //$NON-NLS-2$

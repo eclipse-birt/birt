@@ -221,7 +221,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		{
 			throw DataException.wrap( e );
 		}
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				QueryResults.class.getName( ),
 				"getResultIterator",
 				"finished" );
@@ -268,7 +268,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	    
 		queryService.close( );
 		queryService = null;
-		logger.logp( Level.FINE,
+		logger.logp( Level.FINER,
 				QueryResults.class.getName( ),
 				"close",
 				"QueryResults is closed" );

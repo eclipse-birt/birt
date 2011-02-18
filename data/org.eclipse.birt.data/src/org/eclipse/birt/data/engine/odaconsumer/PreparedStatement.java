@@ -1121,7 +1121,7 @@ public class PreparedStatement extends ExceptionHandler
 			// referring to the same hint, just update the existing one with 
 			// the new info
 			existingParamHint.updateHint( newParameterHint );
-            getLogger().logp( Level.FINE, sm_className, methodName, 
+            getLogger().logp( Level.FINER, sm_className, methodName, 
                     "Updating parameter hint with attributes in another hint that has the same name ({0}).",  //$NON-NLS-1$
                     existingParamHintName );
 			
@@ -4782,7 +4782,7 @@ public class PreparedStatement extends ExceptionHandler
                 return;     // exists
             
             // no native name available, log info
-            getLogger().logp( Level.FINE, sm_className + ".ParameterName",  //$NON-NLS-1$
+            getLogger().logp( Level.FINER, sm_className + ".ParameterName",  //$NON-NLS-1$
                     "logNullNativeName()",  //$NON-NLS-1$
                     "No native name available for parameter " + getRomName() + "." ); //$NON-NLS-1$  //$NON-NLS-2$
         }

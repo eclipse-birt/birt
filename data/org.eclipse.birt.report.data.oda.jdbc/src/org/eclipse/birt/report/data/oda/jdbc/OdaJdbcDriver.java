@@ -65,7 +65,7 @@ public class OdaJdbcDriver implements IDriver
 	public IConnection getConnection( String connectionClassName )
 			throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 		        className,
 				"getConnection",
 				"JDBCConnectionFactory.getConnection( ) connectionClassName=" + connectionClassName);

@@ -152,7 +152,7 @@ public class JDBCDriverManager
 			Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
 		validateConnectionProperties( driverClass, url, null );
-		if ( logger.isLoggable( Level.FINE ) )
+		if ( logger.isLoggable( Level.FINEST ) )
 		{
 			logger.fine( "Request JDBC Connection: driverClass="
 					+ ( driverClass == null ? "" : driverClass ) + "; url="
@@ -174,7 +174,7 @@ public class JDBCDriverManager
 			String user, String password, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
 		validateConnectionProperties( driverClass, url, null );
-		if ( logger.isLoggable( Level.FINE ) )
+		if ( logger.isLoggable( Level.FINEST ) )
 			logger.fine( "Request JDBC Connection: driverClass="
 					+ ( driverClass == null ? "" : driverClass ) + "; url="
 					+ LogUtil.encryptURL( url ) + "; user="
@@ -204,7 +204,7 @@ public class JDBCDriverManager
         throws SQLException, OdaException
     {
 		validateConnectionProperties( driverClass, url, jndiNameUrl );
-        if ( logger.isLoggable( Level.FINE ) )
+        if ( logger.isLoggable( Level.FINEST ) )
             logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
                         "; url=" + LogUtil.encryptURL( url )+            //$NON-NLS-1$
                         "; jndi name url=" + jndiNameUrl );  //$NON-NLS-1$
@@ -858,7 +858,7 @@ public class JDBCDriverManager
 		}
 		if ( logger.isLoggable( Level.FINE ))
 		{
-			logger.info( "Loading JDBC driver class: " + className );
+			logger.fine( "Loading JDBC driver class: " + className );
 		}		
 		registerDriver( className, driverClassPath, false, false );
 	}
