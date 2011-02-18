@@ -726,6 +726,10 @@ Choices.nullsOrdering.excludeNulls=널(Null) 제외
 Choices.filterConditionType.slicer=슬라이서
 Choices.filterConditionType.simple=기본
 
+#93 flyoutPosition
+Choices.flyoutPosition.left=왼쪽
+Choices.flyoutPosition.right=오른쪽
+
 ###########################################################
 # Classes
 

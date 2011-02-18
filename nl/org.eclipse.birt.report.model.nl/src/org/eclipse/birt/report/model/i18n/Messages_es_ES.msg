@@ -726,6 +726,10 @@ Choices.nullsOrdering.excludeNulls=Excluir nulos
 Choices.filterConditionType.slicer=Cortadora
 Choices.filterConditionType.simple=Simple
 
+#93 flyoutPosition
+Choices.flyoutPosition.left=Izquierda
+Choices.flyoutPosition.right=Derecha
+
 ###########################################################
 # Classes
 

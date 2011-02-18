@@ -726,6 +726,10 @@ Choices.nullsOrdering.excludeNulls=Null を除外する
 Choices.filterConditionType.slicer=スライサ
 Choices.filterConditionType.simple=簡易
 
+#93 flyoutPosition
+Choices.flyoutPosition.left=左揃え
+Choices.flyoutPosition.right=右揃え
+
 ###########################################################
 # Classes
 

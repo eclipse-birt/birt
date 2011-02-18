@@ -726,6 +726,10 @@ Choices.nullsOrdering.excludeNulls=ÅÅ³ý¿ÕÖµ
 Choices.filterConditionType.slicer=ÏÞÖÆÆ÷
 Choices.filterConditionType.simple=¼òµ¥
 
+#93 flyoutPosition
+Choices.flyoutPosition.left=¿¿×ó
+Choices.flyoutPosition.right=¿¿ÓÒ
+
 ###########################################################
 # Classes
 
