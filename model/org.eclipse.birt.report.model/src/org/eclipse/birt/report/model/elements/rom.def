@@ -665,6 +665,10 @@
   	<Choice displayNameID="Choices.filterConditionType.slicer" name="slicer"/>
   	<Choice displayNameID="Choices.filterConditionType.simple" name="simple"/>
   </ChoiceType>
+  <ChoiceType name="flyoutPosition">
+  	<Choice displayNameID="Choices.flyoutPosition.left" name="left"/>
+  	<Choice displayNameID="Choices.flyoutPosition.right" name="right"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>

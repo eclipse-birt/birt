@@ -1056,4 +1056,7 @@ public interface DesignChoiceConstants
 	public static final String FILTER_CONDITION_TYPE_SLICER="slicer"; //$NON-NLS-1$
 	public static final String FILTER_CONDITION_TYPE_SIMPLE="simple"; //$NON-NLS-1$
 
+	public static final String CHOICE_FLYOUT_POSITION = "flyoutPosition"; //$NON-NLS-1$
+	public static final String FLYOUT_POSITION_LEFT = "left"; //$NON-NLS-1$
+	public static final String FLYOUT_POSITION_RIGHT = "right"; //$NON-NLS-1$
 }
