@@ -1,7 +1,6 @@
 package org.eclipse.birt.data.engine.api;
 
-import org.eclipse.birt.data.engine.impl.CloseListenerManager;
-import org.eclipse.birt.data.engine.olap.data.util.TempPathManager;
+import org.eclipse.birt.data.engine.core.security.TempPathManager;
 
 
 
