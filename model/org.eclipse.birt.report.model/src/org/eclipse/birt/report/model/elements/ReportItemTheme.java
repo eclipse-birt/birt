@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -123,4 +124,21 @@ public class ReportItemTheme extends AbstractTheme
 	{
 		return getStringProperty( module, TYPE_PROP );
 	}
+
+  
+    /* (non-Javadoc)
+     * @see org.eclipse.birt.report.model.core.ReferenceableElement#dropClient(org.eclipse.birt.report.model.core.DesignElement)
+     */
+    public  synchronized void dropClient( DesignElement client )
+    {     
+       adapter.dropClient( client, (String) null );      
+    }
+
+
+    public synchronized void dropClient( DesignElement client, String propName )
+    {
+       adapter.dropClient( client, propName );
+    }
+	
+	
 }
