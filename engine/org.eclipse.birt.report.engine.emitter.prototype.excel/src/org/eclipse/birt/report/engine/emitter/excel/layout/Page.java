@@ -233,7 +233,7 @@ public class Page
 			if ( value >= 0 )
 			{
 				buffer.append( "&K" );
-				buffer.append( Integer.toHexString( value ) );
+				buffer.append( Integer.toHexString( 0x1000000 | value).substring(1) );
 			}
 		}
 	}
@@ -1070,4 +1070,5 @@ public class Page
 		caches = null;
 		bookmarks = null;
 	}
+	
 } 
