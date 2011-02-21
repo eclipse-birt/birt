@@ -34,6 +34,7 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -575,6 +576,21 @@ public class DataSetMetaDataHelper
 				}
 			}
 		}
+		else if ( dsHandle instanceof DerivedDataSetHandle )
+		{
+			List<DataSetHandle> dataSets = ( (DerivedDataSetHandle) dsHandle ).getInputDataSets( );
+			if ( dataSets != null && dataSets.size( ) != 0 )
+			{
+				for ( int i = 0; i < dataSets.size( ); i++ )
+				{
+					DataSetHandle ds = dataSets.get( i );
+					if ( dsHandle != null )
+					{
+						clearPropertyBindingMap( ds, dataSetMap, dataSourceMap );
+					}
+				}
+			}
+		}
 		else if ( dsHandle instanceof OdaDataSetHandle )
 		{
 			List dataSetBindingList = dsHandle.getPropertyBindings( );
@@ -630,6 +646,21 @@ public class DataSetMetaDataHelper
 				if ( dsHandle != null )
 				{
 					resetPropertyBinding( ds, dataSetMap, dataSourceMap );
+				}
+			}
+		}
+		else if ( dsHandle instanceof DerivedDataSetHandle )
+		{
+			List<DataSetHandle> dataSets = ( (DerivedDataSetHandle) dsHandle ).getInputDataSets( );
+			if ( dataSets != null && dataSets.size( ) != 0 )
+			{
+				for ( int i = 0; i < dataSets.size( ); i++ )
+				{
+					DataSetHandle ds = dataSets.get( i );
+					if ( dsHandle != null )
+					{
+						resetPropertyBinding( ds, dataSetMap, dataSourceMap );
+					}
 				}
 			}
 		}
