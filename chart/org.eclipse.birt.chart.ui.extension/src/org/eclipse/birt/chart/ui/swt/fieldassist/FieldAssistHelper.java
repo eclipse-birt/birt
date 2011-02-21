@@ -82,11 +82,11 @@ public final class FieldAssistHelper
 		{
 			if ( ChartUIExtensionPlugin.getDefault( ) == null )
 			{
-				soPreferenceStore = new PreferenceStore();
+				soPreferenceStore = new PreferenceStore( );
 				FieldAssistPreferenceInitializer.setDefaultPreferences( soPreferenceStore );
 				return;
 			}
-			
+
 			soPreferenceStore = ChartUIExtensionPlugin.getDefault( )
 					.getPreferenceStore( );
 		}
@@ -110,7 +110,7 @@ public final class FieldAssistHelper
 		{
 			return getPreferenceStore( ).getString( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY );
 		}
-		
+
 		return triggerKey;
 	}
 
@@ -127,10 +127,10 @@ public final class FieldAssistHelper
 		{
 			return getPreferenceStore( ).getString( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY );
 		}
-		
+
 		return triggerKey;
 	}
-	
+
 	private int getMarginWidth( )
 	{
 		IPreferenceStore store = getPreferenceStore( );
@@ -420,24 +420,6 @@ public final class FieldAssistHelper
 		}
 	}
 
-	private void showRequiredFieldDecoration( AssistField smartField,
-			boolean show )
-	{
-		FieldDecoration dec = getRequiredFieldDecoration( );
-		ControlDecoration cd = smartField.controlDecoration;
-		if ( show )
-		{
-			cd.setImage( dec.getImage( ) );
-			cd.setDescriptionText( dec.getDescription( ) );
-			cd.setShowOnlyOnFocus( false );
-			cd.show( );
-		}
-		else
-		{
-			cd.hide( );
-		}
-	}
-
 	private void showError( AssistField smartField )
 	{
 		showErrorDecoration( smartField, true );
@@ -468,12 +450,6 @@ public final class FieldAssistHelper
 		return ( getDecorationLocationBits( ) & SWT.LEFT ) == SWT.LEFT;
 	}
 
-	private FieldDecoration getRequiredFieldDecoration( )
-	{
-		return FieldDecorationRegistry.getDefault( )
-				.getFieldDecoration( FieldDecorationRegistry.DEC_REQUIRED );
-	}
-
 	private FieldDecoration getCueDecoration( )
 	{
 		// We use our own decoration which is based on the JFace version.
@@ -485,14 +461,14 @@ public final class FieldAssistHelper
 			// text.
 			FieldDecoration standardDecoration = registry.getFieldDecoration( FieldDecorationRegistry.DEC_CONTENT_PROPOSAL );
 			registry.registerFieldDecoration( DEC_CONTENTASSIST_ID,
-					NLS.bind( Messages.getString( "ssDecoratorContentAssist" ), //$NON-NLS-1$
+					Messages.getFormattedString( "ssDecoratorContentAssist", //$NON-NLS-1$
 							getTriggerKeyText( ) ),
 					standardDecoration.getImage( ) );
 			dec = registry.getFieldDecoration( DEC_CONTENTASSIST_ID );
 		}
 		else
 		{
-			dec.setDescription( NLS.bind( Messages.getString( "ssDecoratorContentAssist" ), //$NON-NLS-1$
+			dec.setDescription( Messages.getFormattedString( Messages.getString( "ssDecoratorContentAssist" ), //$NON-NLS-1$
 					getTriggerKeyText( ) ) );
 		}
 		return dec;
@@ -524,7 +500,7 @@ public final class FieldAssistHelper
 		gl.horizontalSpacing = 0;
 		gl.verticalSpacing = 0;
 	}
-	
+
 	/**
 	 * Add a required field indicator to related label component.
 	 * 
@@ -533,15 +509,16 @@ public final class FieldAssistHelper
 	 */
 	public void addRequiredFieldIndicator( AssistField assistField, Label label )
 	{
-		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator();
-		if (showRequiredFieldLabelIndicator && assistField.isRequiredField()) {
-			String text = label.getText();
+		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator( );
+		if ( showRequiredFieldLabelIndicator && assistField.isRequiredField( ) )
+		{
+			String text = label.getText( );
 			// This concatenation could be done by a field assist helper.
-			text = text.concat("*"); //$NON-NLS-1$
-			label.setText(text);
+			text = text.concat( "*" ); //$NON-NLS-1$
+			label.setText( text );
 		}
 	}
-	
+
 	/**
 	 * Add a required field indicator to related label component.
 	 * 
@@ -550,17 +527,18 @@ public final class FieldAssistHelper
 	 */
 	public void addRequiredFieldIndicator( Label label )
 	{
-		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator();
-		if (showRequiredFieldLabelIndicator ) {
-			String text = label.getText();
+		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator( );
+		if ( showRequiredFieldLabelIndicator )
+		{
+			String text = label.getText( );
 			// This concatenation could be done by a field assist helper.
-			text = text.concat("*"); //$NON-NLS-1$
-			label.setText(text);
+			text = text.concat( "*" ); //$NON-NLS-1$
+			label.setText( text );
 		}
 	}
-	
-	public boolean isShowingRequiredFieldIndicator()
+
+	public boolean isShowingRequiredFieldIndicator( )
 	{
-		return getPreferenceStore().getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR );
+		return getPreferenceStore( ).getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR );
 	}
 }
