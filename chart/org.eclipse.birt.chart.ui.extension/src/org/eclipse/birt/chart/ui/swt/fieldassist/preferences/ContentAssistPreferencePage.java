@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistMessages;
 import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -48,7 +45,7 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 		super( GRID );
 		setPreferenceStore( ChartUIExtensionPlugin.getDefault( )
 				.getPreferenceStore( ) );
-		setDescription( FieldAssistMessages.ssPreferencesContentAssistDescription );
+		setDescription( Messages.getString( "ssPreferencesContentAssistDescription" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -60,22 +57,22 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 	{
 		CustomKeyRadioGroupFieldEditor rgfe = new CustomKeyRadioGroupFieldEditor( PreferenceConstants.PREF_CONTENTASSISTKEY,
 				PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY,
-				FieldAssistMessages.ssPreferencesContentAssistKey,
+				Messages.getString( "ssPreferencesContentAssistKey" ), //$NON-NLS-1$
 				new String[][]{
 						{
-								FieldAssistMessages.ssPreferencesContentAssistKeyCtlSpace,
+								Messages.getString( "ssPreferencesContentAssistKeyCtlSpace" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTKEY1
 						},
 						{
-								FieldAssistMessages.ssPreferencesContentAssistKeyAsterisk,
+								Messages.getString( "ssPreferencesContentAssistKeyAsterisk" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTKEY2
 						},
 						{
-								FieldAssistMessages.ssPreferencesContentAssistKeyAnyKey,
+								Messages.getString( "ssPreferencesContentAssistKeyAnyKey" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTKEYAUTO
 						},
 						{
-								FieldAssistMessages.ssPreferencesContentAssistKeyCustom,
+								Messages.getString( "ssPreferencesContentAssistKeyCustom" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM
 						}
 				},
@@ -83,44 +80,44 @@ public class ContentAssistPreferencePage extends FieldEditorPreferencePage imple
 		addField( rgfe );
 
 		IntegerFieldEditor editor = new IntegerFieldEditor( PreferenceConstants.PREF_CONTENTASSISTDELAY,
-				FieldAssistMessages.ssPreferencesContentAssistDelay,
+				Messages.getString( "ssPreferencesContentAssistDelay" ), //$NON-NLS-1$
 				getFieldEditorParent( ) );
 		editor.setValidRange( 0, 10000 );
 		addField( editor );
 
 		addField( new BooleanFieldEditor( PreferenceConstants.PREF_CONTENTASSISTKEY_PROPAGATE,
-				FieldAssistMessages.ssPreferencesContentAssistKeyPropagate,
+				Messages.getString( "ssPreferencesContentAssistKeyPropagate" ), //$NON-NLS-1$
 				getFieldEditorParent( ) ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_CONTENTASSISTRESULT,
-				FieldAssistMessages.ssPreferencesContentAssistResult,
+				Messages.getString( "ssPreferencesContentAssistResult" ), //$NON-NLS-1$
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.ssPreferencesContentAssistResultReplace,
+								Messages.getString( "ssPreferencesContentAssistResultReplace" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTRESULT_REPLACE
 						},
 						{
-								FieldAssistMessages.ssPreferencesContentAssistResultInsert,
+								Messages.getString( "ssPreferencesContentAssistResultInsert" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTRESULT_INSERT
 						}
 				},
 				getFieldEditorParent( ) ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_CONTENTASSISTFILTER,
-				FieldAssistMessages.ssPreferencesContentAssistFilter,
+				Messages.getString( "ssPreferencesContentAssistFilter" ), //$NON-NLS-1$
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.ssPreferencesContentAssistFilterCharacter,
+								Messages.getString( "ssPreferencesContentAssistFilterCharacter" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTFILTER_CHAR
 						},
 						{
-								FieldAssistMessages.ssPreferencesContentAssistFilterCumulative,
+								Messages.getString( "ssPreferencesContentAssistFilterCumulative" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTFILTER_CUMULATIVE
 						},
 						{
-								FieldAssistMessages.ssPreferencesContentAssistFilterNone,
+								Messages.getString( "ssPreferencesContentAssistFilterNone" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_CONTENTASSISTFILTER_NONE
 						}
 				},

@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistMessages;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -50,7 +50,7 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 		super( GRID );
 		setPreferenceStore( ChartUIExtensionPlugin.getDefault( )
 				.getPreferenceStore( ) );
-		setDescription( FieldAssistMessages.ssPreferencesDescription );
+		setDescription( Messages.getString( "ssPreferencesDescription" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -60,59 +60,57 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public void createFieldEditors( )
 	{
-		addField(new BooleanFieldEditor(
-				PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
-				FieldAssistMessages.ssPreferencesShowRequiredFieldLabelIndicator,
-				getFieldEditorParent()));
-				
-		Group g = new Group( getFieldEditorParent(), SWT.NONE );
-		g.setText( FieldAssistMessages.ssPreferencesAssistSymbol );
+		addField( new BooleanFieldEditor( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
+				Messages.getString( "ssPreferencesShowRequiredFieldLabelIndicator" ), //$NON-NLS-1$
+				getFieldEditorParent( ) ) );
+
+		Group g = new Group( getFieldEditorParent( ), SWT.NONE );
+		g.setText( Messages.getString( "ssPreferencesAssistSymbol" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		g.setLayoutData( gd );
-		
-		
+
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION,
-				FieldAssistMessages.ssPreferencesDecoratorVert,
+				Messages.getString( "ssPreferencesDecoratorVert" ), //$NON-NLS-1$
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.ssPreferencesDecoratorTop,
+								Messages.getString( "ssPreferencesDecoratorTop" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_TOP
 						},
 						{
-								FieldAssistMessages.ssPreferencesDecoratorCenter,
+								Messages.getString( "ssPreferencesDecoratorCenter" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_CENTER
 						},
 						{
-								FieldAssistMessages.ssPreferencesDecoratorBottom,
+								Messages.getString( "ssPreferencesDecoratorBottom" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM
 						}
 				},
 				g ) );
 
 		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION,
-				FieldAssistMessages.ssPreferencesDecoratorHorz,
+				Messages.getString( "ssPreferencesDecoratorHorz" ), //$NON-NLS-1$
 				1,
 				new String[][]{
 						{
-								FieldAssistMessages.ssPreferencesDecoratorLeft,
+								Messages.getString( "ssPreferencesDecoratorLeft" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_LEFT
 						},
 						{
-								FieldAssistMessages.ssPreferencesDecoratorRight,
+								Messages.getString( "ssPreferencesDecoratorRight" ), //$NON-NLS-1$
 								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT
 						}
 				},
 				g ) );
 
 		IntegerFieldEditor editor = new IntegerFieldEditor( PreferenceConstants.PREF_DECORATOR_MARGINWIDTH,
-				FieldAssistMessages.ssPreferencesDecoratorMargin,
+				Messages.getString( "ssPreferencesDecoratorMargin" ), //$NON-NLS-1$
 				g );
 		editor.setValidRange( 0, 10 );
 		addField( editor );
 
 		g.setLayout( new GridLayout( ) );
-		
+
 		Dialog.applyDialogFont( getFieldEditorParent( ) );
 	}
 

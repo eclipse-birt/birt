@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.fieldassist;
 
+import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.fieldassist.preferences.FieldAssistPreferenceInitializer;
 import org.eclipse.birt.chart.ui.swt.fieldassist.preferences.PreferenceConstants;
@@ -351,7 +352,7 @@ public final class FieldAssistHelper
 	{
 		Menu newMenu = new Menu( field.control );
 		MenuItem item = new MenuItem( newMenu, SWT.PUSH );
-		item.setText( FieldAssistMessages.ssDecorationMenuItem );
+		item.setText( Messages.getString( "ssDecorationMenuItem" ) ); //$NON-NLS-1$
 		item.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -484,14 +485,14 @@ public final class FieldAssistHelper
 			// text.
 			FieldDecoration standardDecoration = registry.getFieldDecoration( FieldDecorationRegistry.DEC_CONTENT_PROPOSAL );
 			registry.registerFieldDecoration( DEC_CONTENTASSIST_ID,
-					NLS.bind( FieldAssistMessages.ssDecoratorContentAssist,
+					NLS.bind( Messages.getString( "ssDecoratorContentAssist" ), //$NON-NLS-1$
 							getTriggerKeyText( ) ),
 					standardDecoration.getImage( ) );
 			dec = registry.getFieldDecoration( DEC_CONTENTASSIST_ID );
 		}
 		else
 		{
-			dec.setDescription( NLS.bind( FieldAssistMessages.ssDecoratorContentAssist,
+			dec.setDescription( NLS.bind( Messages.getString( "ssDecoratorContentAssist" ), //$NON-NLS-1$
 					getTriggerKeyText( ) ) );
 		}
 		return dec;
