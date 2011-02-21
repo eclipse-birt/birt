@@ -468,7 +468,7 @@ public final class FieldAssistHelper
 		}
 		else
 		{
-			dec.setDescription( Messages.getFormattedString( Messages.getString( "ssDecoratorContentAssist" ), //$NON-NLS-1$
+			dec.setDescription( Messages.getFormattedString( "ssDecoratorContentAssist", //$NON-NLS-1$
 					getTriggerKeyText( ) ) );
 		}
 		return dec;
