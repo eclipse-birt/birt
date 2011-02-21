@@ -1039,7 +1039,7 @@ public abstract class AbstractEmitterImpl
 		// use the user specified font family at first
 		if ( c_style != null && c_style.getFontFamily( ) != null )
 		{
-			fontFamily = c_style.getFontFamily( );
+			fontFamily = mapGenericFont( c_style.getFontFamily( ) );
 		}
 		else
 		{
@@ -1047,6 +1047,21 @@ public abstract class AbstractEmitterImpl
 			fontFamily = info.getFontName( );
 		}
 		return fontFamily;
+	}
+	
+	private String mapGenericFont( String font )
+	{
+		if ( font.equals( "sans-serif" ) )
+			return "Arial";
+		if ( font.equals( "serif" ) )
+			return "Times New Roman";
+		if ( font.equals( "monospace" ) )
+			return "Courier New";
+		if ( font.equals( "cursive" ) )
+			return "Comic Sans MS";
+		if ( font.equals( "fantasy" ) )
+			return "Blackadder ITC";
+		return font;
 	}
 
 	private FontSplitter getFontSplitter( IContent content, String text )
@@ -1057,7 +1072,7 @@ public abstract class AbstractEmitterImpl
 		FontSplitter fontSplitter = new FontSplitter( fontManager,
 				new Chunk( text ),
 				(TextContent) content,
-				true,
+				false,
 				false );
 		return fontSplitter;
 	}
