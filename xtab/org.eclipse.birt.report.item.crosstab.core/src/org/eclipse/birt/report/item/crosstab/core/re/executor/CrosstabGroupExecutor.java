@@ -142,9 +142,9 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		}
 	}
 
-	private boolean isCurrentLevelLeafGroup( ) throws OLAPException
+	private boolean isCurrentLevelLeafOrDummyGroup( ) throws OLAPException
 	{
-		return GroupUtil.isLeafGroup( rowCursor.getDimensionCursor( ),
+		return GroupUtil.isLeafOrDummyGroup( rowCursor.getDimensionCursor( ),
 				currentGroupIndex );
 	}
 
@@ -272,7 +272,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			if ( totalMeasureCount > 0
 					|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
 			{
-				if ( !isCurrentLevelLeafGroup( )
+				if ( !isCurrentLevelLeafOrDummyGroup( )
 						&& currentLevel != null
 						&& currentLevel.getAggregationHeader( ) != null
 						&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( currentLevel.getAggregationHeaderLocation( ) ) )
@@ -315,7 +315,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			if ( totalMeasureCount > 0
 					|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
 			{
-				if ( !isCurrentLevelLeafGroup( )
+				if ( !isCurrentLevelLeafOrDummyGroup( )
 						&& currentLevel != null
 						&& currentLevel.getAggregationHeader( ) != null
 						&& AGGREGATION_HEADER_LOCATION_AFTER.equals( currentLevel.getAggregationHeaderLocation( ) ) )
@@ -375,7 +375,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 						if ( totalMeasureCount > 0
 								|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE )
 						{
-							if ( !isCurrentLevelLeafGroup( )
+							if ( !isCurrentLevelLeafOrDummyGroup( )
 									&& currentLevel != null
 									&& currentLevel.getAggregationHeader( ) != null
 									&& AGGREGATION_HEADER_LOCATION_AFTER.equals( currentLevel.getAggregationHeaderLocation( ) ) )

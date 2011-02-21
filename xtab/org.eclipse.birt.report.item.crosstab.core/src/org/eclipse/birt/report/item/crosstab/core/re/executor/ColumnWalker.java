@@ -193,7 +193,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 							{
 								EdgeGroup group = (EdgeGroup) columnGroups.get( i );
 
-								if ( !GroupUtil.isLeafGroup( columnDimensionCursors,
+								if ( !GroupUtil.isLeafOrDummyGroup( columnDimensionCursors,
 										i ) )
 								{
 									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i );
@@ -298,7 +298,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 							{
 								EdgeGroup group = (EdgeGroup) columnGroups.get( i );
 
-								if ( !GroupUtil.isLeafGroup( columnDimensionCursors,
+								if ( !GroupUtil.isLeafOrDummyGroup( columnDimensionCursors,
 										i ) )
 								{
 									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i );

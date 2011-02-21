@@ -460,6 +460,23 @@ public class GroupUtil implements ICrosstabConstants
 	}
 
 	/**
+	 * Check if this group is a leaf or dummy group.
+	 */
+	public static boolean isLeafOrDummyGroup(
+			List<DimensionCursor> groupCursors, int groupIndex )
+			throws OLAPException
+	{
+		DimensionCursor dc = groupCursors.get( groupIndex );
+
+		if ( isDummyGroup( dc ) )
+		{
+			return true;
+		}
+
+		return isLeafGroup( groupCursors, groupIndex );
+	}
+
+	/**
 	 * Returns the previous group on specific axis
 	 */
 	public static EdgeGroup getPreviousGroup( List<EdgeGroup> groups,
@@ -901,12 +918,14 @@ public class GroupUtil implements ICrosstabConstants
 		{
 			DimensionCursor dc = groupCursors.get( i );
 
-			if ( GroupUtil.isDummyGroup( dc ) )
-			{
-				// if first level is dummy, we still return the first index,
-				// otherwise, we return the previous index
-				return i == 0 ? 1 : i;
-			}
+			// !no need to check dummy group any more, they also hold valid edge
+			// start/end now.
+			// if ( GroupUtil.isDummyGroup( dc ) )
+			// {
+			// // if first level is dummy, we still return the first index,
+			// // otherwise, we return the previous index
+			// return i == 0 ? 1 : i;
+			// }
 
 			if ( dc.getEdgeStart( ) == edgeCursor.getPosition( ) )
 			{
@@ -932,12 +951,14 @@ public class GroupUtil implements ICrosstabConstants
 		{
 			DimensionCursor dc = groupCursors.get( i );
 
-			if ( GroupUtil.isDummyGroup( dc ) )
-			{
-				// if first level is dummy, we still return the first index,
-				// otherwise, we return the previous index
-				return i == 0 ? 1 : i;
-			}
+			// !no need to check dummy group any more, they also hold valid edge
+			// start/end now.
+			// if ( GroupUtil.isDummyGroup( dc ) )
+			// {
+			// // if first level is dummy, we still return the first index,
+			// // otherwise, we return the previous index
+			// return i == 0 ? 1 : i;
+			// }
 
 			if ( dc.getEdgeEnd( ) == edgeCursor.getPosition( ) )
 			{
