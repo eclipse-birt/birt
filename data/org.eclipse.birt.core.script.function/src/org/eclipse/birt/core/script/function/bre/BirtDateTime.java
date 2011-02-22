@@ -925,12 +925,27 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 		}
 		long diff = d2.getTime( ) - d1.getTime( );
-		
-		if( timeZone != null && timeZone.inDaylightTime( d1 ) )
-			diff -= timeZone.getDSTSavings( );
-		if( timeZone != null && timeZone.inDaylightTime( d2 ) )
-			diff += timeZone.getDSTSavings( );
-		
+		try
+		{
+			if( timeZone != null && timeZone.inDaylightTime( d1 ) )
+				diff -= timeZone.getDSTSavings( );
+			if( timeZone != null && timeZone.inDaylightTime( d2 ) )
+				diff += timeZone.getDSTSavings( );
+		}
+		catch( NullPointerException ne )
+		{
+			// ICU TimeZone.inDaylightTime( ) may throw NPE in some case.
+			// This is ICU bug. We use java.util.TimeZone to fix this bug. 
+			if( timeZone != null )
+			{
+				java.util.TimeZone jTimeZone = java.util.TimeZone.getTimeZone( timeZone.getID( ) );
+				jTimeZone.setRawOffset( timeZone.getRawOffset( ) );
+				if( timeZone != null && jTimeZone.inDaylightTime( d1 ) )
+					diff -= jTimeZone.getDSTSavings( );
+				if( timeZone != null && jTimeZone.inDaylightTime( d2 ) )
+					diff += jTimeZone.getDSTSavings( );
+			}
+		}
 		return   diff / 1000l ;
 	}
 
