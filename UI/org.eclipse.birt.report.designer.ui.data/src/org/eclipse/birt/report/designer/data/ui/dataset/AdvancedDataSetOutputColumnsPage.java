@@ -19,4 +19,10 @@ public class AdvancedDataSetOutputColumnsPage extends OutputColumnsPage
 	{
 		super( );
 	}
+	
+	public AdvancedDataSetOutputColumnsPage( boolean newlyCreated )
+	{
+		super( );
+		isNewlyCreated = newlyCreated;
+	}
 }
