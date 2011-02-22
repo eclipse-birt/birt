@@ -29,9 +29,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -136,11 +134,48 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 	public boolean postHandleCreation( )
 	{
 		Object model = getModel();
+		boolean isMove = false;
 		if (needProcessDataItem( model ))
 		{
 			if (MessageDialog.openConfirm( UIUtil.getDefaultShell( ),Messages.getString("LibraryElementsToolHandleExtends_question"), Messages.getString("LibraryElementsToolHandleExtends_message"))) //$NON-NLS-1$ //$NON-NLS-2$
 			{
 				moveBindToHost( (DataItemHandle)model );
+				isMove = true;
+			}
+		}
+		if (!isMove && model instanceof DataItemHandle)
+		{
+			DataItemHandle dataHandle = (DataItemHandle)model;
+			Iterator iter = dataHandle.columnBindingsIterator( );
+			String resultColumnName = dataHandle.getResultSetColumn( );
+			ComputedColumnHandle activeBinding = null;
+			while(iter.hasNext( ))
+			{
+				ComputedColumnHandle computedColumnHandle = (ComputedColumnHandle)iter.next( );
+				if (computedColumnHandle.getName( ).equals( resultColumnName ))
+				{
+					Expression newExpression = (Expression) computedColumnHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER ).getValue( );
+					if (newExpression == null || newExpression.getExpression( ) == null)
+					{
+						activeBinding = computedColumnHandle;
+					}
+					else if  (newExpression.getExpression( ) instanceof String && ((String)newExpression.getExpression( )).length( ) == 0)
+					{
+						activeBinding = computedColumnHandle;	
+					}
+					break;
+				}
+			}
+			if (activeBinding != null)
+			{
+				DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
+				dialog.setNeedPrompt( false );
+				dialog.setInput( dataHandle, activeBinding );
+
+				if ( dialog.open( ) == Dialog.OK )
+				{
+					//do nothing now
+				}
 			}
 		}
 		return super.postHandleCreation( );
@@ -194,7 +229,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 			
 			try
 			{
-				ComputedColumnHandle newComputedColumnHandle = hostHnadle.addColumnBinding( bindingColumn, false );
+				ComputedColumnHandle newComputedColumnHandle = hostHnadle.addColumnBinding( bindingColumn, true );
 				if (isDataBinding && !newComputedColumnHandle.getName( ).equals( name ))
 				{
 					dataHandle.setResultSetColumn( newComputedColumnHandle.getName( ) );
