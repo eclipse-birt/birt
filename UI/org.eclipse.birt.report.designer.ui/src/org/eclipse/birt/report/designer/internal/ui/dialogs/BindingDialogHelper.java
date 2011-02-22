@@ -44,6 +44,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -52,6 +53,7 @@ import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -1053,8 +1055,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						.trim( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
-			dialog.setCanFinish( false );
-			return;
+			//This is a special calse if the item is data item,and the container is LibraryHandle,allow the empty expression
+			if (!isAllowEmyptExpression( ))
+			{
+				dialog.setCanFinish( false );
+				return;
+			}
 		}
 
 		// check non optional parameter is not empty
@@ -1099,10 +1105,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		dialogCanFinish( );
 	}
+	
+	private boolean isAllowEmyptExpression()
+	{
+		ReportItemHandle itemHandle = getBindingHolder( );
+		return itemHandle instanceof DataItemHandle && itemHandle.getDataSet( ) == null && itemHandle.getContainer( ) instanceof LibraryHandle;
+	}
 
 	private void dialogCanFinish( )
 	{
-		if ( !hasModified && isEditModal( ) )
+		if ( !isAllowEmyptExpression( ) && !hasModified && isEditModal( ) )
 			dialog.setCanFinish( false );
 		else
 			dialog.setCanFinish( true );

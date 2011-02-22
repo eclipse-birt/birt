@@ -54,6 +54,20 @@ public class DataColumnBindingDialog extends BaseDialog
 	private ExpressionProvider expressionProvider;
 
 	private boolean isAggregate;
+	
+	private boolean needPrompt = true;
+
+	
+	public boolean isNeedPrompt( )
+	{
+		return needPrompt;
+	}
+
+	
+	public void setNeedPrompt( boolean needPrompt )
+	{
+		this.needPrompt = needPrompt;
+	}
 
 	private boolean bindSelf = false;
 
@@ -211,7 +225,7 @@ public class DataColumnBindingDialog extends BaseDialog
 			{
 				if ( dialogHelper.differs( bindingColumn ) )
 				{
-					if ( isBindingMultipleReferenced( ) )
+					if (isNeedPrompt( ) && isBindingMultipleReferenced( ) )
 					{
 						MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "DataColumnBindingDialog.NewBindingDialogTitle" ), //$NON-NLS-1$
