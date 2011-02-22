@@ -475,9 +475,9 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 
 	private static int getLargerFontSizeIntValue( DesignElementHandle handle )
 	{
-		if ( handle == null )
+		if ( handle == null || handle.getPrivateStyle( ) == null )
 		{
-			// defulat Medium size + 1.
+			// default Medium size + 1.
 			return 10 + 1;
 		}
 
@@ -534,9 +534,9 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 
 	private static int getSmallerFontSizeIntValue( DesignElementHandle handle )
 	{
-		if ( handle == null )
+		if ( handle == null || handle.getPrivateStyle( ) == null )
 		{
-			// defulat Medium size - 1.
+			// default Medium size - 1.
 			return 10 - 1;
 		}
 
