@@ -3406,7 +3406,7 @@ Element.DataMart.slot.parameters=参数
 Element.DataMart.slot.dimensions=共享维
 Element.DataMart.enableACL=启用数据安全性
 Element.DataMart.ACLExpression=ACL 表达式
-Element.DataMart.enableIncremetalUpdate=启用增量更新
+Element.DataMart.enableIncrementalUpdate=启用增量更新
 
 #79 DataMartDataSource ( prefix Element.DataMartDataSource )
 Element.DataMartDataSource.datamartURL = Data mart URL
