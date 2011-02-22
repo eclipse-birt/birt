@@ -161,6 +161,8 @@ public class RDAggrUtil
 		}
 		catch ( BirtException e )
 		{
+			if( e instanceof DataException )
+				throw new DataException( e.getErrorCode( ), ( (DataException)e ).getArgument( ) );
 			throw new DataException( e.getErrorCode( ), e );
 		}
 	}

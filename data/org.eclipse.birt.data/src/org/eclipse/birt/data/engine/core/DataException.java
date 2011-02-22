@@ -88,6 +88,11 @@ public class DataException extends BirtException
 	{
 		return getMessage( );
 	}
+	
+	public Object[] getArgument( )
+	{
+		return this.oaMessageArguments;
+	}
     
 	/*
 	 * @see java.lang.Throwable#getMessage()
