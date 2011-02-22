@@ -1487,6 +1487,8 @@ ExportToCPSouceAction.action.text=接続プロファイルへの外部化(&O)...
 
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
+LibraryElementsToolHandleExtends_message=The element contains local bindings without explicit data set specified, this may result in low performance at run time. Do you want to move the local bindings to the parent for better performance?
+LibraryElementsToolHandleExtends_question=確認する 
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=アウトラインビューへドラッグ＆ドロップ
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=レイアウトエディタへドラッグ＆ドロップ
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=アウトラインビューまたはレイアウトエディタへドラッグ＆ドロップ

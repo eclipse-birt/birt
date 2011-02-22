@@ -1487,6 +1487,8 @@ ExportToCPSouceAction.action.text=Externalizar a p&erfil de conexión...
 
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
+LibraryElementsToolHandleExtends_message=The element contains local bindings without explicit data set specified, this may result in low performance at run time. Do you want to move the local bindings to the parent for better performance?
+LibraryElementsToolHandleExtends_question=Solicitar 
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Arrastrar y colocar en la vista de contorno
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Arrastrar y colocar en el editor de diseños
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Arrastrar y colocar en la vista de contorno o en el editor de diseños

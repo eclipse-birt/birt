@@ -1487,6 +1487,8 @@ ExportToCPSouceAction.action.text=An Verbindungspr&ofil externalisieren...
 
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
+LibraryElementsToolHandleExtends_message=The element contains local bindings without explicit data set specified, this may result in low performance at run time. Do you want to move the local bindings to the parent for better performance?
+LibraryElementsToolHandleExtends_question=Eingabeaufforderung 
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Mit Drag & Drop in Gliederungsansicht
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Mit Drag & Drop in Layout-Editor
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Mit Drag & Drop in Gliederungsansicht oder Layout-Editor
