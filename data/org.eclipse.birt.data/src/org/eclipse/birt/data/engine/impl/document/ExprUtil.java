@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -288,7 +289,8 @@ public class ExprUtil
 		else if ( se == null || se2 == null )
 			return false;
 
-		return se.getDataType( ) == se2.getDataType( )
+		return ( se.getDataType( ) == se2.getDataType( )
+				|| ( se.getDataType( ) == DataType.ANY_TYPE && se2.getDataType( ) == DataType.UNKNOWN_TYPE ) || ( se.getDataType( ) == DataType.UNKNOWN_TYPE && se2.getDataType( ) == DataType.ANY_TYPE ) )
 				&& isEqualObject( se.getText( ), se2.getText( ) );
 	}
 	

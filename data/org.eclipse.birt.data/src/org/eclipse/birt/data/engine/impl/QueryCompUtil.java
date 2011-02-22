@@ -228,7 +228,9 @@ public class QueryCompUtil
 			IInputParameterBinding binding1 = (IInputParameterBinding) it1.next();
 			IInputParameterBinding binding2 = (IInputParameterBinding) it2.next();
 			
-			if( !isTwoExpressionEqual( binding1.getExpr( ), binding2.getExpr( )))
+			if ( !isTwoExpressionEqual( binding1.getExpr( ),
+					binding2.getExpr( ),
+					false ) )
 				return false;
 			if( !isEqualString( binding1.getName( ), binding2.getName( )))
 				return false;
@@ -357,13 +359,13 @@ public class QueryCompUtil
 	public static boolean isTwoBindingEqual( IBinding b1, IBinding b2 )
 			throws DataException
 	{
-		if ( !isTwoExpressionEqual( b1.getExpression( ), b2.getExpression( ) ) )
+		if ( b1.getDataType( ) != b2.getDataType( ) )
+			return false;
+		if ( !isTwoExpressionEqual( b1.getExpression( ), b2.getExpression( ), true ) )
 			return false;
 		if ( !isEqualString( b1.getAggrFunction( ), b2.getAggrFunction( ) ) )
 			return false;
-		if ( b1.getDataType( ) != b2.getDataType( ) )
-			return false;
-		if ( !isTwoExpressionEqual( b1.getFilter( ), b2.getFilter( ) ) )
+		if ( !isTwoExpressionEqual( b1.getFilter( ), b2.getFilter( ), true ) )
 			return false;
 		if ( b1.getAggregatOns( ).size( ) != b2.getAggregatOns( ).size( ) )
 			return false;
@@ -378,7 +380,7 @@ public class QueryCompUtil
 		for ( int i = 0; i < b1.getArguments( ).size( ); i++ )
 		{
 			if ( !isTwoExpressionEqual( (IBaseExpression) b1.getArguments( )
-					.get( i ), (IBaseExpression) b2.getArguments( ).get( i ) ) )
+					.get( i ), (IBaseExpression) b2.getArguments( ).get( i ), true ) )
 				return false;
 		}
 		return true;
@@ -390,7 +392,7 @@ public class QueryCompUtil
 	 * @param obj2
 	 * @return
 	 */
-	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2 )
+	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2, boolean ignoreDataType )
 	{
 		if( obj1 == null && obj2!= null )
 			return false;
@@ -401,10 +403,10 @@ public class QueryCompUtil
 		
 		if( obj1 instanceof IScriptExpression )
 		{
-			return isTwoExpressionEqual( (IScriptExpression)obj1, (IScriptExpression)obj2 );
+			return isTwoExpressionEqual( (IScriptExpression)obj1, (IScriptExpression)obj2, ignoreDataType );
 		}else if ( obj1 instanceof IConditionalExpression )
 		{
-			return isTwoExpressionEqual( (IConditionalExpression)obj1, (IConditionalExpression)obj2 );
+			return isTwoExpressionEqual( (IConditionalExpression)obj1, (IConditionalExpression)obj2, ignoreDataType );
 		}
 		return false;
 	}
@@ -415,7 +417,7 @@ public class QueryCompUtil
 	 * @param obj2
 	 * @return
 	 */
-	private static boolean isTwoExpressionEqual( IScriptExpression obj1, IScriptExpression obj2 )
+	private static boolean isTwoExpressionEqual( IScriptExpression obj1, IScriptExpression obj2, boolean ignoreDataType )
 	{
 		if ( obj1 == null && obj2 != null )
 			return false;
@@ -423,11 +425,22 @@ public class QueryCompUtil
 			return false;
 		if ( obj1 == null && obj2 == null )
 			return true;
-		return isEqualString( obj1.getText( ), obj2.getText( ) )
-				&& isEqualString( obj1.getGroupName( ), obj2.getGroupName( ) )
-				&& isEqualString( obj1.getText( ), obj2.getText( ) )
-				&& ( ( obj1.getDataType( ) == obj2.getDataType( ) )
-						|| isUnknowOrAny( obj1, obj2 ) || isUnknowOrAny( obj2, obj1 ) );
+		if ( ignoreDataType )
+		{
+			return isEqualString( obj1.getText( ), obj2.getText( ) )
+					&& isEqualString( obj1.getGroupName( ), obj2.getGroupName( ) )
+					&& isEqualString( obj1.getText( ), obj2.getText( ) );
+
+		}
+		else
+		{
+			return isEqualString( obj1.getText( ), obj2.getText( ) )
+			&& isEqualString( obj1.getGroupName( ), obj2.getGroupName( ) )
+			&& isEqualString( obj1.getText( ), obj2.getText( ) )
+			&& ( ( obj1.getDataType( ) == obj2.getDataType( ) )
+					|| isUnknowOrAny( obj1, obj2 ) || isUnknowOrAny( obj2,
+					obj1 ) );			
+		}
 	}
 
 	private static boolean isUnknowOrAny( IScriptExpression obj1,
@@ -442,15 +455,15 @@ public class QueryCompUtil
 	 * @param obj2
 	 * @return
 	 */
-	private static boolean isTwoExpressionEqual( IConditionalExpression obj1, IConditionalExpression obj2 )
+	private static boolean isTwoExpressionEqual( IConditionalExpression obj1, IConditionalExpression obj2, boolean ignoreDataTypes )
 	{
 		if( obj1.getOperator( ) != obj2.getOperator( ) )
 			return false;
 		
 		return isEqualString( obj1.getGroupName( ), obj2.getGroupName( ))
-			 	&& isTwoExpressionEqual( obj1.getExpression( ), obj2.getExpression( ))
-			 	&& isTwoExpressionEqual( obj1.getOperand1( ), obj2.getOperand1( ))
-			 	&& isTwoExpressionEqual( obj1.getOperand2( ), obj2.getOperand2( ));
+			 	&& isTwoExpressionEqual( obj1.getExpression( ), obj2.getExpression( ), ignoreDataTypes )
+			 	&& isTwoExpressionEqual( obj1.getOperand1( ), obj2.getOperand1( ), ignoreDataTypes )
+			 	&& isTwoExpressionEqual( obj1.getOperand2( ), obj2.getOperand2( ), ignoreDataTypes );
 	}
 
 	/**
