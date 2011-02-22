@@ -229,7 +229,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 			
 			try
 			{
-				ComputedColumnHandle newComputedColumnHandle = hostHnadle.addColumnBinding( bindingColumn, true );
+				ComputedColumnHandle newComputedColumnHandle = hostHnadle.addColumnBinding( bindingColumn, false );
 				if (isDataBinding && !newComputedColumnHandle.getName( ).equals( name ))
 				{
 					dataHandle.setResultSetColumn( newComputedColumnHandle.getName( ) );
