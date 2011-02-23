@@ -954,6 +954,10 @@ public abstract class AbstractEmitterImpl
 			String fontFamily = null;
 			if ( "".equals( txt ) || txt == null || WordUtil.isField( content ) )
 			{
+				if ( computedStyle != null && computedStyle.getFontFamily( ) != null )
+				{
+					fontFamily = mapGenericFont( computedStyle.getFontFamily( ) );
+				}
 				wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
 						fontFamily, hyper, inlineFlag, textFlag,
 						paragraphWidth, rtl );
