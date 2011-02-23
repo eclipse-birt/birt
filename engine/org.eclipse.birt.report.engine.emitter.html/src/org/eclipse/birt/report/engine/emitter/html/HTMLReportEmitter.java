@@ -3658,6 +3658,7 @@ class IDGenerator
 	protected String generateUniqueID( )
 	{
 		bookmarkId ++;
-		return "AUTOGENBOOKMARK_" + bookmarkId;
+		//Ted issue 37427 Proj 1336: in IV failed to drill-down from the second level in a chart in Safari browser
+		return "AUTOGENBOOKMARK_" + bookmarkId + "_" + java.util.UUID.randomUUID( ).toString( );
 	}
 }
