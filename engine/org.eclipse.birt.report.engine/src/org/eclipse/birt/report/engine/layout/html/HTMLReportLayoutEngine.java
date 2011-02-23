@@ -16,6 +16,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -137,6 +138,20 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		return factory.createLayoutManager( parent, content, executor, emitter );
 	}
 	
+	protected boolean isIE7( String userAgent )
+	{
+		if ( userAgent != null )
+		{
+			if ( userAgent.contains( "; MSIE 5" )
+					|| userAgent.contains( "; MSIE 6" )
+					|| userAgent.contains( "; MSIE 7" ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	protected void setupLayoutOptions( )
 	{
 		Object outputDisplayNone = options
@@ -146,6 +161,16 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 			if ( ( (Boolean) outputDisplayNone ).booleanValue( ) )
 			{
 				context.setOutputDisplayNone( true );
+			}
+		}
+		
+		Object userAgent = options.get( IHTMLRenderOption.USER_AGENT );
+		if ( userAgent != null )
+		{
+			//IE 7 can not support display=none on table column
+			if ( isIE7( userAgent.toString( ) ) )
+			{
+				context.setOutputDisplayNone( false );
 			}
 		}
 		

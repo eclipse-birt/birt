@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IProgressMonitor;
@@ -1687,6 +1688,13 @@ public abstract class EngineTask implements IEngineTask
 				layoutEngine.setOption(
 						IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS,
 						reserveDocumentPageNumbers );
+			}
+			
+			Object userAgent = renderOptions.getOption( IHTMLRenderOption.USER_AGENT );
+			if ( userAgent != null )
+			{
+				layoutEngine
+						.setOption( IHTMLRenderOption.USER_AGENT, userAgent );
 			}
 
 		}
