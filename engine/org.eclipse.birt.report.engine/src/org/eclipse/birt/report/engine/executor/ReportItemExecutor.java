@@ -304,6 +304,20 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return null;
 	}
 
+	protected String evaluateBookmark( Expression expr )
+	{
+		try
+		{
+			Object value = context.evaluate( expr );
+			return value != null ? value.toString( ) : null;
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
+		return null;
+	}
+
 	protected Boolean evaluateBoolean( Expression expr )
 	{
 		try
@@ -424,7 +438,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					break;
 				case ActionDesign.ACTION_BOOKMARK :
 					assert action.getBookmark( ) != null;
-					String bookmark = evaluateString( action.getBookmark( ) );
+					String bookmark = evaluateBookmark( action.getBookmark( ) );
 					if ( bookmark != null && !bookmark.equals( "" ) )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
@@ -436,7 +450,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				case ActionDesign.ACTION_DRILLTHROUGH :
 					assert action.getDrillThrough( ) != null;
 					DrillThroughActionDesign drill = action.getDrillThrough( );
-					bookmark = evaluateString( drill.getBookmark( ) );
+					bookmark = evaluateBookmark( drill.getBookmark( ) );
 					boolean isBookmark = drill.getBookmarkType( );
 					Map<String, List<Object>> paramsVal = new HashMap<String, List<Object>>( );
 					Map<String, List<Expression>> params = drill.getParameters( );
