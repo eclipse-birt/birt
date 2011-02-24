@@ -124,21 +124,4 @@ public class ReportItemTheme extends AbstractTheme
 	{
 		return getStringProperty( module, TYPE_PROP );
 	}
-
-  
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.model.core.ReferenceableElement#dropClient(org.eclipse.birt.report.model.core.DesignElement)
-     */
-    public  synchronized void dropClient( DesignElement client )
-    {     
-       adapter.dropClient( client, (String) null );      
-    }
-
-
-    public synchronized void dropClient( DesignElement client, String propName )
-    {
-       adapter.dropClient( client, propName );
-    }
-	
-	
 }
