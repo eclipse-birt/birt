@@ -2481,6 +2481,7 @@ Element.ReportDesign.slot.body=正文
 Element.ReportDesign.slot.scratchPad=便笺簿
 Element.ReportDesign.slot.templateParameterDefinitions=模板参数定义
 Element.ReportDesign.slot.cubes=多维数据集元素
+Element.ReportDesign.slot.themes=布景主题
 Element.ReportDesign.initialize=初始化
 Element.ReportDesign.initialize.toolTip=开始执行报表时调用。
 Element.ReportDesign.initialize.reportContext=报表上下文

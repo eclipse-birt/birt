@@ -2481,6 +2481,7 @@ Element.ReportDesign.slot.body=本文
 Element.ReportDesign.slot.scratchPad=スクラッチパッド
 Element.ReportDesign.slot.templateParameterDefinitions=テンプレートのパラメタの定義
 Element.ReportDesign.slot.cubes=キューブ要素
+Element.ReportDesign.slot.themes=テーマ
 Element.ReportDesign.initialize=初期化
 Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト

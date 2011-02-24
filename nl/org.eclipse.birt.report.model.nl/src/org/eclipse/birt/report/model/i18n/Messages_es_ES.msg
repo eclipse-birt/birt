@@ -2481,6 +2481,7 @@ Element.ReportDesign.slot.body=Texto
 Element.ReportDesign.slot.scratchPad=Bloc de notas
 Element.ReportDesign.slot.templateParameterDefinitions=Definiciones de parámetro de plantilla
 Element.ReportDesign.slot.cubes=Elementos de cubo
+Element.ReportDesign.slot.themes=Temas
 Element.ReportDesign.initialize=Inicializar
 Element.ReportDesign.initialize.toolTip=Llamado al iniciar la ejecución del informe.
 Element.ReportDesign.initialize.reportContext=Contexto de informe

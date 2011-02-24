@@ -2481,6 +2481,7 @@ Element.ReportDesign.slot.body=Corps
 Element.ReportDesign.slot.scratchPad=Zone de travail
 Element.ReportDesign.slot.templateParameterDefinitions=Définitions de paramètre de modèle
 Element.ReportDesign.slot.cubes=Eléments de cube
+Element.ReportDesign.slot.themes=Thèmes
 Element.ReportDesign.initialize=Initialiser
 Element.ReportDesign.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.ReportDesign.initialize.reportContext=Contexte d'état

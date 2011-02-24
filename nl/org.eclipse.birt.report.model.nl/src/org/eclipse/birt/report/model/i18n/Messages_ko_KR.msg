@@ -2481,6 +2481,7 @@ Element.ReportDesign.slot.body=본문
 Element.ReportDesign.slot.scratchPad=스크래치 패드
 Element.ReportDesign.slot.templateParameterDefinitions=템플릿 매개 변수 정의
 Element.ReportDesign.slot.cubes=큐브 요소
+Element.ReportDesign.slot.themes=테마
 Element.ReportDesign.initialize=초기화
 Element.ReportDesign.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.ReportDesign.initialize.reportContext=보고서 컨텍스트

@@ -2481,6 +2481,7 @@ Element.ReportDesign.slot.body=Text
 Element.ReportDesign.slot.scratchPad=Skizzenblock
 Element.ReportDesign.slot.templateParameterDefinitions=Parameterdefinitionen für Vorlage
 Element.ReportDesign.slot.cubes=Quaderelemente
+Element.ReportDesign.slot.themes=Designs
 Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
