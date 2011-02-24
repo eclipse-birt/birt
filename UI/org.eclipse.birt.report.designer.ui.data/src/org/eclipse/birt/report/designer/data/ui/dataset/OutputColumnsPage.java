@@ -474,7 +474,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		{
 			DataSetViewData item = viewDatas[i];
 			ColumnHintHandle hint = findColumnHint( item );
-			if ( hint.getAnalysis( ) == null )
+			if ( hint != null && hint.getAnalysis( ) == null )
 			{
 				try
 				{
