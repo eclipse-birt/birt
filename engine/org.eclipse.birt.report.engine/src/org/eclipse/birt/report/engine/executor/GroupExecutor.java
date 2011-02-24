@@ -238,6 +238,11 @@ abstract public class GroupExecutor extends ReportItemExecutor
 					content.getStyle( )
 							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
 									IStyle.ALWAYS_VALUE );
+					//remove soft page break which is caused by page-break-interval, or empty page should be generated.
+					if(listingExecutor.softBreakBefore)
+					{
+						listingExecutor.softBreakBefore = false;
+					}
 				}
 			}
 		}
