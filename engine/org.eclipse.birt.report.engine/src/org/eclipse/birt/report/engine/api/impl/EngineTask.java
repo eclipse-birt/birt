@@ -633,7 +633,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
-			return DataTypeUtil.toString( value );
+			return DataTypeUtil.toLocaleNeutralString( value );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{

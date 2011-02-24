@@ -194,8 +194,13 @@ public class ParameterHelper
 		org.eclipse.birt.report.model.api.Expression mexpr = (org.eclipse.birt.report.model.api.Expression) parameter
 				.getExpressionProperty( AbstractScalarParameter.VALUE_EXPR_PROP )
 				.getValue( );
-		ScriptExpression dexpr = adapter.adaptExpression( mexpr, parameter
-				.getDataType( ) );
+
+		String dataType = parameter.getDataType( );
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
+		{
+			dataType = DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT;
+		}
+		ScriptExpression dexpr = adapter.adaptExpression( mexpr, dataType );
 		addBinding( queryDefn, valueColumnName, dexpr );
 	}
 
