@@ -626,6 +626,10 @@ public interface DesignChoiceConstants
 	public static final String QUERY_CHOICE_TYPE_SCRIPT = "script"; //$NON-NLS-1$
 
 	/**
+	 * Common format type "Custom"
+	 */
+	public static final String VALUE_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	/**
 	 * numberFormat -- the number format The first constant is the name of
 	 * numberFormat choice. The followed constants are valid choice values of
 	 * numberFormat.
@@ -639,7 +643,7 @@ public interface DesignChoiceConstants
 	public static final String NUMBER_FORMAT_TYPE_PERCENT = "Percent"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_SCIENTIFIC = "Scientific"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_STANDARD = "Standard"; //$NON-NLS-1$
-	public static final String NUMBER_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	public static final String NUMBER_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
 
 	/**
 	 * dateTimeFormat -- the date/time format The first constant is the name of
@@ -656,7 +660,7 @@ public interface DesignChoiceConstants
 	public static final String DATETIEM_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
-	public static final String DATETIEM_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	public static final String DATETIEM_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
 
 	/**
 	 * dateFormat choice.
@@ -668,7 +672,7 @@ public interface DesignChoiceConstants
 	public static final String DATE_FORMAT_TYPE_LONG_DATE = "Long Date"; //$NON-NLS-1$
 	public static final String DATE_FORMAT_TYPE_MUDIUM_DATE = "Medium Date"; //$NON-NLS-1$
 	public static final String DATE_FORMAT_TYPE_SHORT_DATE = "Short Date"; //$NON-NLS-1$
-	public static final String DATE_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
 
 	/**
 	 * timeFormat choice
@@ -678,7 +682,7 @@ public interface DesignChoiceConstants
 	public static final String TIME_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$
 	public static final String TIME_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
 	public static final String TIME_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
-	public static final String TIME_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	public static final String TIME_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
 
 	/**
 	 * stringFormat -- the string format The first constant is the name of
@@ -690,7 +694,7 @@ public interface DesignChoiceConstants
 	public static final String STRING_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_UPPERCASE = ">"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_LOWERCASE = "<"; //$NON-NLS-1$
-	public static final String STRING_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	public static final String STRING_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
 	public static final String STRING_FORMAT_TYPE_ZIP_CODE = "Zip Code"; //$NON-NLS-1$	
 	public static final String STRING_FORMAT_TYPE_ZIP_CODE_4 = "Zip Code + 4"; //$NON-NLS-1$	
 	public static final String STRING_FORMAT_TYPE_PHONE_NUMBER = "Phone Number"; //$NON-NLS-1$

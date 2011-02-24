@@ -397,7 +397,7 @@ class ResultSetsAdapter
 				format = StructureFactory.newFormatValue( );
 				newHint.setProperty( ColumnHint.VALUE_FORMAT_MEMBER, format );
 			}
-
+			
 			// add logic to fix 32742: if the column is date-time, then do some
 			// special handle for the format string in IO
 			if ( newValue != null
@@ -408,7 +408,10 @@ class ResultSetsAdapter
 				newValue = formatValue.replaceFirst( "mm/", "MM/" ); //$NON-NLS-1$//$NON-NLS-2$
 			}
 			if ( format != null )
+			{
 				format.setPattern( (String) newValue );
+				format.setCategory( DesignChoiceConstants.VALUE_FORMAT_TYPE_CUSTOM );
+			}
 		}
 
 		// not support display length

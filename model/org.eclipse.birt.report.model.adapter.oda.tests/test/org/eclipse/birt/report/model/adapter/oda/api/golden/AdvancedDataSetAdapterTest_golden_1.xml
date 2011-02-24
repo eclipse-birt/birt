@@ -43,6 +43,7 @@
                     <text-property name="helpText" key="helpTextForUserNameKey">help text for user name</text-property>
                     <property name="onColumnLayout">true</property>
                     <structure name="valueFormat">
+                    	<property name="category">Custom</property>
                         <property name="pattern">##.#</property>
                     </structure>
 </structure>
@@ -53,6 +54,7 @@
                     <text-property name="helpText" key="helpTextForCreditKey">help text for credit</text-property>
                     <property name="onColumnLayout">true</property>
                     <structure name="valueFormat">
+                    	<property name="category">Custom</property>
                         <property name="pattern">#.##</property>
                     </structure>
 </structure>

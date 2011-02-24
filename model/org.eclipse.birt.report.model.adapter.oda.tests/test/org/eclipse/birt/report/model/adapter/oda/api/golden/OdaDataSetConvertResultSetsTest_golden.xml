@@ -35,6 +35,7 @@
 					<text-property name="displayName">new display name for column 2</text-property>
 					<text-property name="helpText">new help text for column 2</text-property>
 					<structure name="valueFormat">
+						<property name="category">Custom</property>
 						<property name="pattern">new format for column 2</property>
 					</structure>
 				</structure>
