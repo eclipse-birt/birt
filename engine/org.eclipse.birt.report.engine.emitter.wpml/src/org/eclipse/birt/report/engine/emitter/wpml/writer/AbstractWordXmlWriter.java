@@ -590,6 +590,17 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:fldChar" );
 		writer.closeTag( "w:r" );
 	}
+	
+	protected void writeField( boolean isStart, IStyle style, String fontName )
+	{
+		String fldCharType = isStart ? "begin" : "end";
+		writer.openTag( "w:r" );
+		writeFieldRunProperties( style, fontName );
+		writer.openTag( "w:fldChar" );
+		writer.attribute( "w:fldCharType", fldCharType );
+		writer.closeTag( "w:fldChar" );
+		writer.closeTag( "w:r" );
+	}
 
 	public void writeColumn( int[] cols )
 	{
@@ -946,7 +957,7 @@ public abstract class AbstractWordXmlWriter
 
 		if ( isField )
 		{
-			writeField( true );
+			writeField( true, style, fontFamily );
 		}
 		writer.openTag( "w:r" );
 		writer.openTag( "w:rPr" );
@@ -977,7 +988,7 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:r" );
 		if ( isField )
 		{
-			writeField( false );
+			writeField( false, style, fontFamily );
 		}
 		closeHyperlink( info );
 	}
@@ -1000,6 +1011,16 @@ public abstract class AbstractWordXmlWriter
 			HyperlinkInfo info )
 	{
 		writeHyperlinkStyle( info, style );
+		writeFont( fontFamily );
+		writeFontSize( style );
+		writeLetterSpacing( style );
+		writeTextLineThrough( style );
+		writeFontStyle( style );
+		writeFontWeight( style );
+	}
+	
+	protected void writeFieldRunProperties( IStyle style, String fontFamily )
+	{
 		writeFont( fontFamily );
 		writeFontSize( style );
 		writeLetterSpacing( style );
