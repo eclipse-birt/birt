@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.util.ColumnBindingUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.Assert;
@@ -229,19 +230,22 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 			
 			try
 			{
-				ComputedColumnHandle newComputedColumnHandle = hostHnadle.addColumnBinding( bindingColumn, false );
+				ComputedColumnHandle newComputedColumnHandle = ColumnBindingUtil.addColumnBinding( hostHnadle, bindingColumn );
 				if (isDataBinding && !newComputedColumnHandle.getName( ).equals( name ))
 				{
 					dataHandle.setResultSetColumn( newComputedColumnHandle.getName( ) );
 				}
-				Expression newExpression = (Expression) newComputedColumnHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER ).getValue( );
-				if (newExpression == null || newExpression.getExpression( ) == null)
+				if (isDataBinding)
 				{
-					activeBinding = newComputedColumnHandle;
-				}
-				else if  (newExpression.getExpression( ) instanceof String && ((String)newExpression.getExpression( )).length( ) == 0)
-				{
-					activeBinding = newComputedColumnHandle;	
+					Expression newExpression = (Expression) newComputedColumnHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER ).getValue( );
+					if (newExpression == null || newExpression.getExpression( ) == null)
+					{
+						activeBinding = newComputedColumnHandle;
+					}
+					else if  (newExpression.getExpression( ) instanceof String && ((String)newExpression.getExpression( )).length( ) == 0)
+					{
+						activeBinding = newComputedColumnHandle;	
+					}
 				}
 			}
 			catch ( SemanticException e )
