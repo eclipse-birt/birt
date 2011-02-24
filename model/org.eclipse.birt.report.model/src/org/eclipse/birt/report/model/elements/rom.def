@@ -1911,6 +1911,9 @@
     <Slot displayNameID="Element.ReportDesign.slot.cubes" multipleCardinality="true" name="cubes" since="2.2" xmlName="cubes">
       <Type name="Cube"/>
     </Slot>
+    <Slot displayNameID="Element.ReportDesign.slot.themes" multipleCardinality="true" name="themes" since="4.0" xmlName="themes">
+      <Type name="ReportItemTheme"/>
+    </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" designClass="ElementDefn" displayNameID="Element.DesignElement" hasStyle="false" isAbstract="true" name="DesignElement" nameSpace="none" since="1.0" stateClass="ElementState">
     <Property displayNameID="Element.DesignElement.customXml" name="customXml" runtimeSettable="false" since="1.0" type="xml"/>

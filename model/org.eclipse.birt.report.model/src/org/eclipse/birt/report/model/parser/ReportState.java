@@ -91,6 +91,8 @@ public class ReportState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
 			return new CubesState( handler, getElement( ),
 					IReportDesignModel.CUBE_SLOT );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEMES_TAG ))
+			return new ThemeState( handler, getElement( ), IReportDesignModel.THEMES_SLOT );
 		return super.startElement( tagName );
 	}
 

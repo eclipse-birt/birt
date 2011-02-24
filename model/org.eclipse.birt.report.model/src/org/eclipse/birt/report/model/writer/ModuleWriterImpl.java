@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.AbstractScalarParameter;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -89,6 +90,7 @@ import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.RectangleItem;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.ScriptDataSource;
@@ -109,6 +111,7 @@ import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -146,6 +149,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaOlapElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
@@ -4314,6 +4318,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 	/**
 	 * Lazy initialize the bound column writer manager.
+	 * 
 	 * @return the manager
 	 */
 	protected void initBoundColumnsMgr( )
@@ -4321,6 +4326,42 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( boundColumnsMgr == null )
 			boundColumnsMgr = new BoundColumnsWriterMgr( getModule( )
 					.getVersionManager( ).getVersion( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
+	 * visitReportItemTheme
+	 * (org.eclipse.birt.report.model.elements.ReportItemTheme)
+	 */
+	public void visitReportItemTheme( ReportItemTheme obj )
+	{
+		writer.startElement( DesignSchemaConstants.REPORT_ITEM_THEME_TAG );
+
+		attribute( obj, DesignSchemaConstants.TYPE_ATTRIB,
+				IReportItemThemeModel.TYPE_PROP );
+
+		super.visitReportItemTheme( obj );
+
+		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
+				DesignSchemaConstants.STYLES_TAG );
+		writer.endElement( );
+	}
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitorImpl#visitAbstractTheme
+	 * (org.eclipse.birt.report.model.elements.AbstractTheme)
+	 */
+	public void visitAbstractTheme( AbstractTheme obj )
+	{
+		super.visitAbstractTheme( obj );
+
+		writeStructureList( obj, IAbstractThemeModel.CSSES_PROP );
 	}
 
 }

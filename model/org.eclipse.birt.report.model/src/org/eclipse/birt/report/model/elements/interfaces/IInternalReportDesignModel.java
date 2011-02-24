@@ -121,12 +121,18 @@ public interface IInternalReportDesignModel
 	 */
 
 	public static final int CUBE_SLOT = 9;
+	
+	/**
+	 * Identifier of the slot that holds themes.
+	 */
+
+	public static final int THEMES_SLOT = 10;
 
 	/**
 	 * Number of slots in the report design element.
 	 */
 
-	public static final int SLOT_COUNT = 10;
+	public static final int SLOT_COUNT = 11;
 
 	/**
 	 * bidi_hcg: Bidi orientation property

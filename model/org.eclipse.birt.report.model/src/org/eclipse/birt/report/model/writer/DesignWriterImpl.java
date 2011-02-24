@@ -167,10 +167,12 @@ class DesignWriterImpl extends ModuleWriter
 
 		writeContents( obj, IReportDesignModel.STYLE_SLOT,
 				DesignSchemaConstants.STYLES_TAG );
+		writeContents( obj, IReportDesignModel.THEMES_SLOT,
+				DesignSchemaConstants.THEMES_TAG );
 		writeArrangedContents( obj, IModuleModel.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );
 		writeContents( obj, IModuleModel.PAGE_SLOT,
-				DesignSchemaConstants.PAGE_SETUP_TAG );
+				DesignSchemaConstants.PAGE_SETUP_TAG );		
 		writeContents( obj, IReportDesignModel.BODY_SLOT,
 				DesignSchemaConstants.BODY_TAG );
 		writeContents( obj, IReportDesignModel.SCRATCH_PAD_SLOT,

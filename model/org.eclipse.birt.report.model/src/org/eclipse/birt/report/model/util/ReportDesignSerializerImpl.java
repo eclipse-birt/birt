@@ -19,22 +19,20 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -43,7 +41,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -56,7 +53,6 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
-import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -71,7 +67,6 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
-import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -84,6 +79,7 @@ import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.MemberValue;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableColumn;
@@ -97,7 +93,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementConstants;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
@@ -192,6 +187,13 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 */
 
 	private List<PropertyBinding> propertyBindings = new ArrayList<PropertyBinding>( );
+
+	/**
+	 * Map to store the pairs of localization report item theme. Key is the
+	 * qualified name of old ReportItemTheme instance in the source design while
+	 * value is the new created local reportItemThem in the target design.
+	 */
+	private Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>( );
 
 	/**
 	 * Returns the newly created report design.
@@ -705,8 +707,19 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		// manage element name: the inserted content and all its children
 		if ( context.isManagedByNameSpace( ) )
-			module.rename( context.getElement( ), content );
+		{
+			// for ReportItemTheme, only need make sure the unique name of theme
+			// itself, need not check the styles in the theme: TODO: revise
+			// logic of makeUniqueName of NameHelper to ensure the style in the
+			// report item theme will not be added into style name context in
+			// the report design, and then remove this patch
+			if ( content instanceof ReportItemTheme )
+				module.makeUniqueName( content );
+			else
+				module.rename( context.getElement( ), content );
+		}
 		addElement2NameSpace( content );
+
 		ContentIterator iter = new ContentIterator( module, content );
 		while ( iter.hasNext( ) )
 		{
@@ -820,30 +833,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		localizeStyle( (StyledElement) currentNewElement, obj );
 
-		localizeReportItemTheme( (StyledElement) currentNewElement, obj );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
-	 * visitTabularDimension
-	 * (org.eclipse.birt.report.model.elements.olap.TabularDimension)
-	 */
-	public void visitTabularDimension( TabularDimension obj )
-	{
-		if ( obj.getSharedDimension( sourceDesign ) != null )
-		{
-			TabularDimension newElement = (TabularDimension) localize( obj );
-
-			newElement.updateLayout( targetDesign );
-
-			targetDesign.manageId( newElement, true );
-
-			currentNewElement = newElement;
-		}
-		else
-			super.visitTabularDimension( obj );
+		localizeReportItemThemeProperty( (StyledElement) currentNewElement, obj );
 	}
 
 	/**
@@ -874,146 +864,50 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		notEmptyProperties.clear( );
 	}
 
-	private void localizeReportItemTheme( StyledElement target,
+	private void localizeReportItemThemeProperty( StyledElement target,
 			StyledElement source )
 	{
-		DesignElement element = source;
-		AbstractTheme reportItemTheme = null;
-		boolean hasSetTheme = false;
-		int level = 0;
-		while ( element != null )
+		// update the report item theme reference
+		if ( source instanceof ReportItem )
 		{
-			if ( element instanceof ReportItem
-					&& element instanceof ISupportThemeElement )
+			ReportItem sourceItem = (ReportItem) source;
+			ReportItem targetItem = (ReportItem) target;
+
+			ReportItemTheme sourceTheme = (ReportItemTheme) sourceItem
+					.getTheme( sourceDesign );
+			if ( sourceTheme != null )
 			{
-				ReportItem item = (ReportItem) element;
-				if ( item.getLocalProperty( item.getRoot( ),
-						IReportItemModel.THEME_PROP ) != null )
-				{
-					if ( !hasSetTheme )
-						hasSetTheme = true;
-					AbstractTheme theme = item.getTheme( sourceDesign );
-					if ( theme != null )
-						reportItemTheme = theme;
-					break;
-				}
-			}
-
-			element = element.getContainer( );
-			level++;
-		}
-
-		if ( !hasSetTheme || reportItemTheme == null )
-			return;
-
-		if ( reportItemTheme.getRoot( ) != target.getRoot( ) )
-		{
-			// Do not flatten report item theme in library
-			if ( reportItemTheme.getRoot( ) instanceof Library )
-			{
-				Library library = (Library) reportItemTheme.getRoot( );
-				LibraryCommand cmd = null;
-				String namespace = library.getNamespace( );
-				if ( targetDesign.getLibraryWithNamespace( namespace ) == null )
-				{
-					List<IncludedLibrary> libraries = (List) sourceDesign
-							.getProperty( sourceDesign,
-									IModuleModel.LIBRARIES_PROP );
-					for ( IncludedLibrary lib : libraries )
-					{
-						if ( lib.getNamespace( ).equals( namespace ) )
-						{
-							if ( cmd == null )
-								cmd = new LibraryCommand( targetDesign );
-
-							try
-							{
-								cmd.addLibrary( lib.getFileName( ), namespace );
-							}
-							catch ( DesignFileException e )
-							{ // Not expected
-								assert false;
-							}
-							catch ( SemanticException e )
-							{ // Not expected
-								assert false;
-							}
-							break;
-						}
-					}
-				}
-				DesignElement elementWithTheme = target;
-				for ( int i = 0; i < level; i++ )
-					elementWithTheme = elementWithTheme.getContainer( );
-				elementWithTheme.setProperty( IReportItemModel.THEME_PROP,
-						new ElementRefValue( namespace, reportItemTheme ) );
-			}
-			return;
-		}
-
-		List<IElementPropertyDefn> propDefns = source.getDefn( )
-				.getProperties( );
-		for ( IElementPropertyDefn prop : propDefns )
-		{
-			// the property may be user-defined property. So, the value may be
-			// null.
-			if ( prop == null || !prop.isStyleProperty( ) )
-				continue;
-
-			String propName = prop.getName( );
-			ElementPropertyDefn targetProp = target.getPropertyDefn( propName );
-			if ( targetProp == null )
-				continue;
-
-			// if target has local value, do nothing
-			if ( target.getLocalProperty( targetDesign, targetProp ) != null )
-				continue;
-
-			StyleElement style = target.getStyle( targetDesign );
-			if ( style != null
-					&& style.getLocalProperty( targetDesign, targetProp ) != null )
-				continue;
-
-			// if source has no value, do nothing
-			List<String> selectos = new ArrayList<String>( );
-			List<String> tmpSelectors = source.getElementSelectors( );
-			if ( tmpSelectors != null )
-				selectos.addAll( tmpSelectors );
-
-			String tmpSelector = source.getContainerInfo( ).getSelector( );
-			if ( tmpSelector != null )
-				selectos.add( tmpSelector );
-
-			for ( String selector : selectos )
-			{
-				style = reportItemTheme.findStyle( selector );
-				if ( style == null )
-					continue;
-				Object value = style.getLocalProperty( sourceDesign,
-						(ElementPropertyDefn) prop );
-				if ( value == null )
-					continue;
-
-				if ( target.getLocalProperty( targetDesign, targetProp ) == null )
-				{
-
-					switch ( targetProp.getTypeCode( ) )
-					{
-						case IPropertyType.LIST_TYPE :
-							target.setProperty( targetProp, ModelUtil
-									.copyValue( targetProp, value ) );
-							break;
-						case IPropertyType.STRUCT_TYPE :
-							handleStructureValue( target, targetProp, value );
-							break;
-						default :
-							target.setProperty( targetProp, ModelUtil
-									.copyValue( targetProp, value ) );
-					}
-				}
+				ReportItemTheme targetTheme = reportItemThemes.get( sourceTheme
+						.getHandle( sourceDesign ).getQualifiedName( ) );
+				assert targetTheme != null;
+				targetItem.setProperty( IReportItemModel.THEME_PROP,
+						new ElementRefValue( null, targetTheme.getName( ) ) );
 			}
 
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
+	 * visitTabularDimension
+	 * (org.eclipse.birt.report.model.elements.olap.TabularDimension)
+	 */
+	public void visitTabularDimension( TabularDimension obj )
+	{
+		if ( obj.getSharedDimension( sourceDesign ) != null )
+		{
+			TabularDimension newElement = (TabularDimension) localize( obj );
+
+			newElement.updateLayout( targetDesign );
+
+			targetDesign.manageId( newElement, true );
+
+			currentNewElement = newElement;
+		}
+		else
+			super.visitTabularDimension( obj );
 	}
 
 	/**
@@ -1377,8 +1271,13 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		newElement.setID( element.getID( ) );
 		addElement( targetDesign, containment, newElement );
+
+		// in localizeDesign, we localize all the report item themes in the
+		// included libraries so that the theme ID may duplicate the elements in
+		// the original design, therefore we must mange element ID to ensure it
+		// is unique.
 		if ( !( newElement instanceof ContentElement ) )
-			targetDesign.addElementID( newElement );
+			targetDesign.manageId( newElement, true );
 		return newElement;
 	}
 
@@ -1496,6 +1395,60 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		// elements and property values.
 
 		visitCssStyleSheets( source, targetDesign );
+
+		// localize all the library reportItemTheme
+		localizeReportItemThemes( source, targetDesign );
+	}
+
+	private void localizeReportItemThemes( ReportDesign source,
+			ReportDesign target )
+	{
+		List<Library> libraries = source.getLibraries( );
+		if ( libraries == null || libraries.isEmpty( ) )
+			return;
+
+		for ( Library lib : libraries )
+		{
+			List<DesignElement> themes = lib
+					.getSlot( ILibraryModel.THEMES_SLOT ).getContents( );
+			if ( themes == null || themes.isEmpty( ) )
+				continue;
+
+			for ( DesignElement theme : themes )
+			{
+				if ( theme instanceof ReportItemTheme )
+				{
+					ReportItemTheme reportItemTheme = (ReportItemTheme) theme;
+					localizeReportItemTheme( reportItemTheme );
+				}
+			}
+		}
+	}
+
+	private void localizeReportItemTheme( ReportItemTheme sourceTheme )
+	{
+		assert sourceTheme != null;
+
+		// make a copy of the source theme
+		ReportItemTheme newTheme = null;
+		try
+		{
+			newTheme = (ReportItemTheme) sourceTheme.clone( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			// do nothing
+		}
+		if ( newTheme == null )
+			return;
+
+		reportItemThemes.put( sourceTheme.getHandle( sourceDesign )
+				.getQualifiedName( ), newTheme );
+
+		ContainerContext context = new ContainerContext( targetDesign,
+				IReportDesignModel.THEMES_SLOT );
+		addElement( targetDesign, context, newTheme );
+		targetDesign.manageId( newTheme, true );
 	}
 
 	/**
