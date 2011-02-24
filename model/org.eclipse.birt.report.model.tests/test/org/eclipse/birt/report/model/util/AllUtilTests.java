@@ -41,6 +41,7 @@ public class AllUtilTests
 		test.addTestSuite( VersionUtilTest.class );
 		test.addTestSuite( XPathUtilTest.class );
 		test.addTestSuite( CopyUtilTest.class );
+		test.addTestSuite( ColumnBindingUtilTest.class );
 
 		// add all test classes here
 
