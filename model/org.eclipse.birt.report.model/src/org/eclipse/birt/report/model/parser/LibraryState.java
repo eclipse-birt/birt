@@ -110,7 +110,8 @@ public class LibraryState extends ModuleState
 			return new DataSetsState( handler, getElement( ),
 					IModuleModel.DATA_SET_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEMES_TAG ) )
-			return new ThemesState( );
+			return new ThemesState( handler, getElement( ),
+					ILibraryModel.THEMES_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG )
 				&& handler.versionNumber < VersionUtil.VERSION_3_0_0 )
 			return new CompatibleLibraryStylesState( handler, getElement( ),
@@ -128,35 +129,5 @@ public class LibraryState extends ModuleState
 					ILibraryModel.CUBE_SLOT );
 		return super.startElement( tagName );
 
-	}
-
-	/**
-	 * Parses the contents of the body tag that contains the list of top-level
-	 * sections.
-	 */
-
-	class ThemesState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
-		 * (java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			int tagValue = tagName.toLowerCase( ).hashCode( );
-			if ( ParserSchemaConstants.THEME_TAG == tagValue )
-				return new ThemeState( handler, module,
-						ILibraryModel.THEMES_SLOT );
-			if ( ParserSchemaConstants.REPORT_ITEM_THEME_TAG == tagValue )
-				return new ReportItemThemeState( handler, module,
-						ILibraryModel.THEMES_SLOT );
-
-			return super.startElement( tagName );
-		}
 	}
 }

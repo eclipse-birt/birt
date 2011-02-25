@@ -91,8 +91,9 @@ public class ReportState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
 			return new CubesState( handler, getElement( ),
 					IReportDesignModel.CUBE_SLOT );
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEMES_TAG ))
-			return new ThemeState( handler, getElement( ), IReportDesignModel.THEMES_SLOT );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEMES_TAG ) )
+			return new ThemesState( handler, getElement( ),
+					IReportDesignModel.THEMES_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -216,10 +217,9 @@ public class ReportState extends ModuleState
 					propDefn );
 			if ( layoutPreference == null )
 			{
-				module
-						.setProperty(
-								propDefn,
-								DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
+				module.setProperty(
+						propDefn,
+						DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
 			}
 		}
 	}

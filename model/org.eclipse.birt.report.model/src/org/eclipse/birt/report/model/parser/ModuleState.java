@@ -310,8 +310,7 @@ public abstract class ModuleState extends DesignParseState
 
 			if ( StringUtil.isEmpty( key ) )
 			{
-				handler
-						.getErrorHandler( )
+				handler.getErrorHandler( )
 						.semanticError(
 								new DesignParserException(
 										DesignParserException.DESIGN_EXCEPTION_MESSAGE_KEY_REQUIRED ) );
@@ -373,8 +372,7 @@ public abstract class ModuleState extends DesignParseState
 
 			if ( module.findTranslation( resourceKey, locale ) != null )
 			{
-				handler
-						.getErrorHandler( )
+				handler.getErrorHandler( )
 						.semanticError(
 								new DesignParserException(
 										DesignParserException.DESIGN_EXCEPTION_DUPLICATE_TRANSLATION_LOCALE ) );
@@ -558,6 +556,48 @@ public abstract class ModuleState extends DesignParseState
 			return super.startElement( tagName );
 		}
 
+	}
+
+	/**
+	 * Parses the contents of the body tag that contains the list of top-level
+	 * sections.
+	 */
+
+	class ThemesState extends SlotState
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
+		 */
+
+		public ThemesState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
+		 */
+
+		public AbstractParseState startElement( String tagName )
+		{
+			int tagValue = tagName.toLowerCase( ).hashCode( );
+			if ( ParserSchemaConstants.THEME_TAG == tagValue )
+				return new ThemeState( handler, container, slotID );
+			if ( ParserSchemaConstants.REPORT_ITEM_THEME_TAG == tagValue )
+				return new ReportItemThemeState( handler, container, slotID );
+
+			return super.startElement( tagName );
+		}
 	}
 
 }
