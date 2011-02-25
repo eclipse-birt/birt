@@ -10,7 +10,7 @@ datasource.name=Beispieldatenbank "Classic Models Inc."
 select.dataset.name=SQL-Auswahlabfrage
 jdbc.driver.name=Treiber für Beispieldatenbank Classic Models Inc.
 dataset.property.queryTimeOut=Zeitüberschreitung für Ab&frage (in Sekunden)
-dataset.property.rowFetchSize=&Row Fetch Size
+dataset.property.rowFetchSize=&Abzurufende Zeilenanzahl
 #
 oda.data.source.name=Beispieldatenbank "Classic Models Inc."
 connection.profile.name=Verbindungsprofil für BIRT-Beispieldatenbank-Datenquelle

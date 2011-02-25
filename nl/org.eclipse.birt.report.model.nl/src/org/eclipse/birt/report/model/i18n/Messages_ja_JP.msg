@@ -727,8 +727,8 @@ Choices.filterConditionType.slicer=スライサ
 Choices.filterConditionType.simple=簡易
 
 #93 flyoutPosition
-Choices.flyoutPosition.left=左揃え
-Choices.flyoutPosition.right=右揃え
+Choices.flyoutPosition.left=左
+Choices.flyoutPosition.right=右
 
 ###########################################################
 # Classes

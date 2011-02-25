@@ -10,7 +10,7 @@ datasource.name=Base de datos de muestra Classic Models Inc.
 select.dataset.name=Consulta de selección de SQL
 jdbc.driver.name=Controlador de bases de datos de muestra Classic Models Inc.
 dataset.property.queryTimeOut=Tiem&po límite de consulta (en segundos)
-dataset.property.rowFetchSize=&Row Fetch Size
+dataset.property.rowFetchSize=Tamaño de recuperación de &fila
 #
 oda.data.source.name=Base de datos de muestra Classic Models Inc.
 connection.profile.name=Perfil de conexión de fuente de datos de base de datos de muestra BIRT

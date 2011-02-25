@@ -727,7 +727,7 @@ Choices.filterConditionType.slicer=Slicer
 Choices.filterConditionType.simple=Einfach
 
 #93 flyoutPosition
-Choices.flyoutPosition.left=Links
+Choices.flyoutPosition.left=Nach-links
 Choices.flyoutPosition.right=Rechts
 
 ###########################################################

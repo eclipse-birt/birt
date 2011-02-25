@@ -727,8 +727,8 @@ Choices.filterConditionType.slicer=Trancheuse
 Choices.filterConditionType.simple=Simple
 
 #93 flyoutPosition
-Choices.flyoutPosition.left=Alignement à gauche
-Choices.flyoutPosition.right=Alignement à droite
+Choices.flyoutPosition.left=Gauche
+Choices.flyoutPosition.right=Droite
 
 ###########################################################
 # Classes
