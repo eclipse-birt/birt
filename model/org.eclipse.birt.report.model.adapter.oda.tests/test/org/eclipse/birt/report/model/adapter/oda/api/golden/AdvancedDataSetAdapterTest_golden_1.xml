@@ -43,10 +43,9 @@
                     <text-property name="helpText" key="helpTextForUserNameKey">help text for user name</text-property>
                     <property name="onColumnLayout">true</property>
                     <structure name="valueFormat">
-                    	<property name="category">Custom</property>
                         <property name="pattern">##.#</property>
                     </structure>
-</structure>
+				</structure>
                 <structure>
                     <property name="columnName">credit</property>
                     <property name="analysis">measure</property>
@@ -54,10 +53,9 @@
                     <text-property name="helpText" key="helpTextForCreditKey">help text for credit</text-property>
                     <property name="onColumnLayout">true</property>
                     <structure name="valueFormat">
-                    	<property name="category">Custom</property>
                         <property name="pattern">#.##</property>
                     </structure>
-</structure>
+				</structure>
                 <structure>
                     <property name="columnName">column1</property>
                     <property name="alias">user name</property>

@@ -408,10 +408,7 @@ class ResultSetsAdapter
 				newValue = formatValue.replaceFirst( "mm/", "MM/" ); //$NON-NLS-1$//$NON-NLS-2$
 			}
 			if ( format != null )
-			{
 				format.setPattern( (String) newValue );
-				format.setCategory( DesignChoiceConstants.VALUE_FORMAT_TYPE_CUSTOM );
-			}
 		}
 
 		// not support display length
