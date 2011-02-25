@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.awt.Toolkit;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -69,6 +70,7 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -80,6 +82,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -115,6 +118,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private Bounds boundsRuntime = null;
+	
+	protected int renderDpi = 96;
 	
 	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
 			.createExpressionCodec( );
@@ -795,6 +800,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		{
 			return null;
 		}
+		
+		renderDpi = getRenderDpi( );
 
 		try
 		{
@@ -1203,8 +1210,40 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		}
 		
 		// Update bounds from handle
+		// Here use render dpi to convert pixels since it's used to locate in
+		// report.
 		cm.getBlock( )
-				.setBounds( ChartItemUtil.computeChartBounds( modelHandle, dpi ) );
+				.setBounds( ChartItemUtil.computeChartBounds( modelHandle,
+						renderDpi ) );
+	}
+	
+	/**
+	 * Gets render dpi which is used to locate and size in report.
+	 * 
+	 * @return render dpi
+	 */
+	protected int getRenderDpi( )
+	{
+		Object renderDpi = context.getRenderOption( )
+				.getOption( IRenderOption.RENDER_DPI );
+		if ( renderDpi instanceof Integer )
+		{
+			return (Integer) renderDpi;
+		}
+		if ( modelHandle.getRoot( ) instanceof ReportDesignHandle )
+		{
+			int imageDpi = ( (ReportDesignHandle) modelHandle.getRoot( ) ).getImageDPI( );
+			if ( imageDpi > 0 )
+			{
+				return imageDpi;
+			}
+		}
+		int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
+		if ( screenDpi > 0 )
+		{
+			return screenDpi;
+		}
+		return 96;
 	}
 	
 	protected boolean isAutoHide( )

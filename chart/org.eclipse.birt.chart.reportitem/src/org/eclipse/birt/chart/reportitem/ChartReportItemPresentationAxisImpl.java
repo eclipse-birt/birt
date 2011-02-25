@@ -114,7 +114,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 					// If user specifies column cell width manually, set the
 					// width to chart model
 					double dWidth = ChartReportItemPresentationPlotImpl.getColumnCellWidth( xtabCell.getCrosstab( ),
-							dpi );
+							renderDpi );
 					if ( !ChartUtil.mathEqual( dWidth, 0 )
 							&& !ChartUtil.mathEqual( dWidth,
 									ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) ) )
@@ -134,7 +134,7 @@ public final class ChartReportItemPresentationAxisImpl extends
 					// If user specifies row cell height manually, set the
 					// height to chart model
 					double dHeight = ChartReportItemPresentationPlotImpl.getRowCellHeight( xtabCell.getCrosstab( ),
-							dpi );
+							renderDpi );
 					if ( !ChartUtil.mathEqual( dHeight, 0 )
 							&& !ChartUtil.mathEqual( dHeight,
 									ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) ) )

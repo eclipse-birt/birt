@@ -49,7 +49,7 @@ public final class ChartReportItemPresentationPlotImpl extends
 					// Horizontal direction
 					// Get the column width plus border
 					double dWidth = getColumnCellWidth( xtabCell.getCrosstab( ),
-							dpi );
+							renderDpi );
 					if ( ChartUtil.mathEqual( dWidth, 0 ) )
 					{
 						dWidth = ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
@@ -57,9 +57,9 @@ public final class ChartReportItemPresentationPlotImpl extends
 					StyleHandle style = xtabCell.getModelHandle( )
 							.getPrivateStyle( );
 					double dLeftBorder = ChartItemUtil.convertToPoints( style.getBorderLeftWidth( ),
-							dpi );
+							renderDpi );
 					double dRightBorder = ChartItemUtil.convertToPoints( style.getBorderRightWidth( ),
-							dpi );
+							renderDpi );
 					// Set negative size to be replaced by actual size
 					// In IE, cell size doesn't include padding, but FF and PDF
 					// includes padding. To avoid this computation conflict, set
@@ -71,7 +71,7 @@ public final class ChartReportItemPresentationPlotImpl extends
 					// If user specifies row cell height manually, set the
 					// height to chart model
 					double dHeight = getRowCellHeight( xtabCell.getCrosstab( ),
-							dpi );
+							renderDpi );
 					if ( !ChartUtil.mathEqual( dHeight, 0 )
 							&& !ChartUtil.mathEqual( dHeight,
 									ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( ) ) )
@@ -88,7 +88,7 @@ public final class ChartReportItemPresentationPlotImpl extends
 				{
 					// Vertical direction plus border
 					double dHeight = getRowCellHeight( xtabCell.getCrosstab( ),
-							dpi );
+							renderDpi );
 					if ( ChartUtil.mathEqual( dHeight, 0 ) )
 					{
 						dHeight = ChartCubeUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
@@ -96,9 +96,9 @@ public final class ChartReportItemPresentationPlotImpl extends
 					StyleHandle style = xtabCell.getModelHandle( )
 							.getPrivateStyle( );
 					double dTopBorder = ChartItemUtil.convertToPoints( style.getBorderTopWidth( ),
-							dpi );
+							renderDpi );
 					double dBottomBorder = ChartItemUtil.convertToPoints( style.getBorderBottomWidth( ),
-							dpi );
+							renderDpi );
 					// Set negative size to be replaced by actual size
 					// In IE, cell size doesn't include padding, but FF and PDF
 					// includes padding. To avoid this computation conflict, set
@@ -110,7 +110,7 @@ public final class ChartReportItemPresentationPlotImpl extends
 					// If user specifies column cell width manually, set the
 					// width to chart model
 					double dWidth = getColumnCellWidth( xtabCell.getCrosstab( ),
-							dpi );
+							renderDpi );
 					if ( !ChartUtil.mathEqual( dWidth, 0 )
 							&& !ChartUtil.mathEqual( dWidth,
 									ChartCubeUtil.DEFAULT_COLUMN_WIDTH.getMeasure( ) ) )
