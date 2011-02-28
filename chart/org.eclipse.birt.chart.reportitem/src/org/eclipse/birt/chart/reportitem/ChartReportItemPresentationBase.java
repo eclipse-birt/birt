@@ -1238,10 +1238,20 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 				return imageDpi;
 			}
 		}
-		int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
-		if ( screenDpi > 0 )
+		try
 		{
-			return screenDpi;
+			int screenDpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
+			if ( screenDpi > 0 )
+			{
+				return screenDpi;
+			}
+		}
+		catch ( Exception e )
+		{
+			// Since there isn't related display device under some cases, the calling
+			// 'Toolkit.getDefaultToolkit( ).getScreenResolution( );' will throw
+			// HeadlessException. Here we just catch this exception to avoid
+			// breaking program, and still return 96 as default DPI.
 		}
 		return 96;
 	}
