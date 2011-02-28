@@ -91,7 +91,7 @@ public class ThemeCommand extends AbstractElementCommand
 		if ( theme != null )
 			name = ReferenceValueUtil
 					.needTheNamespacePrefix( theme.getElement( ),
-							theme.getModule( ), element.getRoot( ) );
+							theme.getModule( ), module );
 
 		Object retValue = doValidateValue( name );
 
