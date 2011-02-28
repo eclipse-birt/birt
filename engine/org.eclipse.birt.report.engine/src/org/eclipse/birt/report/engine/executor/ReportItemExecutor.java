@@ -396,11 +396,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		if ( tocExpr != null )
 		{
 			Object toc = evaluate( tocExpr );
-			if ( toc == null )
+			if ( toc != null )
 			{
-				toc = "";
+				itemContent.setTOC( toc );
 			}
-			itemContent.setTOC( toc );
 		}
 	}
 
