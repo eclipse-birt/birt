@@ -134,6 +134,7 @@ public class ReportRunnable extends DesignRunnable implements IReportRunnable
 		newDesign.setFileName( getReportName( ) );
 		ReportRunnable newRunnable = new ReportRunnable( engine, newDesign );
 		newRunnable.setReportName( reportName );
+		newRunnable.setPrepared( prepared );
 		return newRunnable;
 	}
 }
