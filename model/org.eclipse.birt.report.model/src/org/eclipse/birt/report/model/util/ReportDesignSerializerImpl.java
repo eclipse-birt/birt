@@ -877,11 +877,14 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					.getTheme( sourceDesign );
 			if ( sourceTheme != null )
 			{
-				ReportItemTheme targetTheme = reportItemThemes.get( sourceTheme
-						.getHandle( sourceDesign ).getQualifiedName( ) );
+
+				ReportItemTheme targetTheme = reportItemThemes
+						.get( sourceTheme.getHandle( sourceTheme.getRoot( ) )
+								.getQualifiedName( ) );
 				assert targetTheme != null;
 				targetItem.setProperty( IReportItemModel.THEME_PROP,
 						new ElementRefValue( null, targetTheme.getName( ) ) );
+
 			}
 
 		}
@@ -1185,7 +1188,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	{
 		elements.push( newElement );
 		for ( int i = 0; i < slotCount; i++ )
+		{
+			// report item theme slot has serialized in localizeReportItemThemes
+			if ( obj == sourceDesign && i == IReportDesignModel.THEMES_SLOT )
+				continue;
 			visitContents( sourceDesign, new ContainerContext( obj, i ) );
+		}
 		elements.pop( );
 	}
 
@@ -1403,6 +1411,15 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void localizeReportItemThemes( ReportDesign source,
 			ReportDesign target )
 	{
+		// first, export all the local report item theme elements in the report
+		// design itself
+		elements.push( target );
+		visitContents( source, new ContainerContext( source,
+				IReportDesignModel.THEMES_SLOT ) );
+		elements.pop( );
+
+		// second, copy all the external report item themes in the libraries
+		// whether it is referred or not
 		List<Library> libraries = source.getLibraries( );
 		if ( libraries == null || libraries.isEmpty( ) )
 			return;
@@ -1442,7 +1459,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( newTheme == null )
 			return;
 
-		reportItemThemes.put( sourceTheme.getHandle( sourceDesign )
+		reportItemThemes.put( sourceTheme.getHandle( sourceTheme.getRoot( ) )
 				.getQualifiedName( ), newTheme );
 
 		ContainerContext context = new ContainerContext( targetDesign,
@@ -3056,4 +3073,21 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	{
 		visitDesignElement( obj );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitorImpl#
+	 * visitReportItemTheme
+	 * (org.eclipse.birt.report.model.elements.ReportItemTheme)
+	 */
+	public void visitReportItemTheme( ReportItemTheme obj )
+	{
+		visitDesignElement( obj );
+		ReportItemTheme newTheme = (ReportItemTheme) currentNewElement;
+		reportItemThemes.put( obj.getHandle( obj.getRoot( ) )
+				.getQualifiedName( ), newTheme );
+
+	}
+
 }
