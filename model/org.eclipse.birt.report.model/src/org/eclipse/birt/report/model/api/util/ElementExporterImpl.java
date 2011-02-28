@@ -371,7 +371,8 @@ class ElementExporterImpl
 	protected void findAndDropDuplicatedElement( DesignElementHandle handle )
 			throws SemanticException
 	{
-		if ( handle.getName( ) != null && dropDuplicatedElement( handle.getElement( ) ) )
+		if ( handle.getName( ) != null
+				&& dropDuplicatedElement( handle.getElement( ) ) )
 			return;
 
 		ContentIterator iter = new ContentIterator( handle.getModule( ), handle
@@ -391,7 +392,7 @@ class ElementExporterImpl
 	 * 
 	 * @param handle
 	 *            the design element
-	 * @return true if the duplicated element is dropped, otherwise false.          
+	 * @return true if the duplicated element is dropped, otherwise false.
 	 * @throws SemanticException
 	 */
 	protected final boolean dropDuplicatedElement( DesignElement element )
@@ -403,7 +404,8 @@ class ElementExporterImpl
 		NameSpace nameSpace = targetModule.getNameHelper( ).getNameSpace(
 				nameSpaceID );
 
-		DesignElement duplicateElement = nameSpace.getElement( element.getName( ) );
+		DesignElement duplicateElement = nameSpace.getElement( element
+				.getName( ) );
 
 		if ( duplicateElement == null )
 		{
@@ -445,7 +447,8 @@ class ElementExporterImpl
 		// check this element with duplicate name can be dropped or not
 		if ( !canDropInContext( targetElement ) )
 		{
-			throw new SemanticException( element, new String[]{element.getName( )},
+			throw new SemanticException( element, new String[]{element
+					.getName( )},
 					SemanticException.DESIGN_EXCEPTION__EXPORT_ELEMENT_FAIL );
 		}
 
@@ -455,10 +458,8 @@ class ElementExporterImpl
 
 	private boolean isOLAPElement( DesignElement element )
 	{
-		if ( element instanceof Dimension
-				|| element instanceof Hierarchy
-				|| element instanceof Level
-				|| element instanceof MeasureGroup
+		if ( element instanceof Dimension || element instanceof Hierarchy
+				|| element instanceof Level || element instanceof MeasureGroup
 				|| element instanceof Measure )
 			return true;
 		return false;
@@ -577,7 +578,7 @@ class ElementExporterImpl
 			return;
 
 		DesignElementHandle newElementHandle = duplicateElement(
-				elementToExport, false );		
+				elementToExport, false );
 
 		// if canOverride, we must firstly drop the elements whose name are
 		// duplicate with the exported element and its contents
@@ -891,10 +892,16 @@ class ElementExporterImpl
 
 		ModelUtil.duplicateProperties( elementHandle, newElementHandle,
 				onlyFactoryProperty, true );
-				
+
+		// if 'theme' property is defined, then clear it; otherwise do nothing
 		if ( newElementHandle.getElement( ) instanceof ISupportThemeElement )
-			newElementHandle.setProperty( ISupportThemeElementConstants.THEME_PROP, null );		
-			
+		{
+			PropertyHandle propHandle = newElementHandle
+					.getPropertyHandle( ISupportThemeElementConstants.THEME_PROP );
+			if ( propHandle != null )
+				propHandle.clearValue( );
+		}
+
 		// Duplicate all contents in the original element to new one.
 
 		duplicateSlots( elementHandle, newElementHandle );
