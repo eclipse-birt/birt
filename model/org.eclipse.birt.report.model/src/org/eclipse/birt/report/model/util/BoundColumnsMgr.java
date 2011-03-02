@@ -292,7 +292,8 @@ public abstract class BoundColumnsMgr
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				FilterCondition struct = (FilterCondition) values.get( i );
-				handleBoundsForValue( element, module, struct.getExpr( ) );
+				handleBoundsForExpression( element, module, struct
+						.getExpressionProperty( FilterCondition.EXPR_MEMBER ) );
 				handleBoundsForValue( element, module, struct.getValue1( ) );
 				handleBoundsForValue( element, module, struct.getValue2( ) );
 			}
@@ -365,7 +366,7 @@ public abstract class BoundColumnsMgr
 				element, 1 );
 		while ( contents.hasNext( ) )
 		{
-			DesignElement child = (DesignElement) contents.next( );
+			DesignElement child = contents.next( );
 			if ( child instanceof ListGroup )
 			{
 				dealListingGroup( (ListGroup) child, module );
@@ -373,8 +374,7 @@ public abstract class BoundColumnsMgr
 						module, child, 1 );
 				while ( grandChildren.hasNext( ) )
 				{
-					DesignElement grandChild = (DesignElement) grandChildren
-							.next( );
+					DesignElement grandChild = grandChildren.next( );
 					if ( grandChild instanceof ListingElement )
 						dealListing( (ListingElement) grandChild, module );
 					else
@@ -423,8 +423,7 @@ public abstract class BoundColumnsMgr
 							module, child, 3 );
 					while ( grandChildren.hasNext( ) )
 					{
-						DesignElement grandChild = (DesignElement) grandChildren
-								.next( );
+						DesignElement grandChild = grandChildren.next( );
 						if ( grandChild instanceof TableRow )
 						{
 							dealRow( (TableRow) grandChild, module );
@@ -808,6 +807,24 @@ public abstract class BoundColumnsMgr
 
 	abstract protected void handleBoundsForValue( DesignElement element,
 			Module module, String propValue );
+
+	/**
+	 * Handles the expression that uses column. For different script type, we
+	 * will do different handling. By default, we handle javascript type.
+	 * 
+	 * @param element
+	 * @param module
+	 * @param propValue
+	 */
+
+	protected void handleBoundsForExpression( DesignElement element,
+			Module module, Expression propValue )
+	{
+		if ( propValue == null )
+			return;
+		String expr = propValue.getStringExpression( );
+		handleBoundsForValue( element, module, expr );
+	}
 
 	/**
 	 * Creates bound columns for the given value of the given element.
