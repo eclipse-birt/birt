@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -216,9 +216,10 @@ public class GroupDialog extends BaseDialog implements Listener
 
 	private Group sortingGroup;
 
-	NumberFormatter formatter = new NumberFormatter( SessionHandleAdapter.getInstance( )
+	NumberFormat format = NumberFormat.getNumberInstance( SessionHandleAdapter.getInstance( )
 			.getSessionHandle( )
-			.getULocale( ) );
+			.getULocale( )
+			.toLocale( ) );
 
 	/**
 	 * Constructor.
@@ -676,7 +677,7 @@ public class GroupDialog extends BaseDialog implements Listener
 
 				try
 				{
-					double value = formatter.parse( newString ).doubleValue( );
+					double value = format.parse( newString ).doubleValue( );
 					if ( value >= 0 )
 					{
 						event.doit = true;
@@ -1351,8 +1352,9 @@ public class GroupDialog extends BaseDialog implements Listener
 				{
 					if ( intervalRange.getText( ).trim( ).length( ) > 0 )
 					{
-						inputGroup.setIntervalRange( formatter.parse( intervalRange.getText( ) )
+						inputGroup.setIntervalRange( format.parse( intervalRange.getText( ) )
 								.doubleValue( ) );
+						
 					}
 					else
 					{
@@ -1415,7 +1417,7 @@ public class GroupDialog extends BaseDialog implements Listener
 					inputGroup.setPageBreakInside( choice );
 				}
 			}
-			
+
 			if ( inputGroup.repeatHeader( ) != repeatHeaderButton.getSelection( ) )
 			{
 				inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
