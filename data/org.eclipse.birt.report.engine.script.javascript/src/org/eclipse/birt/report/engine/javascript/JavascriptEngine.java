@@ -64,6 +64,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 	protected Context context;
 
 	protected ImporterTopLevel global;
+	
+	protected ScriptableObject root;
 
 	private Map<String, Object> propertyMap = new HashMap<String, Object>( );
 
@@ -93,7 +95,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		try
 		{
 			this.context = Context.enter( );
-			global = new ImporterTopLevel( );
+			this.global = new ImporterTopLevel( );
+			this.root = root;
 			if ( root != null )
 			{
 				// can not put this object to root, because this object will
@@ -183,6 +186,11 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 	 */
 	public void close( )
 	{
+		if ( root != null )
+		{
+			factory.releaseRootScope( root );
+			root = null;
+		}
 		if ( context != null )
 		{
 			Context.exit( );

@@ -12,12 +12,14 @@
 package org.eclipse.birt.report.engine.javascript;
 
 import java.lang.reflect.Field;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.IScriptEngine;
 import org.eclipse.birt.core.script.IScriptEngineFactory;
+import org.mozilla.javascript.ClassCache;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ScriptableObject;
@@ -34,9 +36,7 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 	/**
 	 * root script scope. contains objects shared by the whole engine.
 	 */
-	protected ScriptableObject rootScope;
-
-	private Context context;
+	private LinkedList<ScriptableObject> rootScopes = new LinkedList<ScriptableObject>( );
 
 	public static void initMyFactory( )
 	{
@@ -58,7 +58,11 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 
 	public JavascriptEngineFactory( )
 	{
-		context = Context.enter( );
+	}
+
+	protected ScriptableObject createRootScope( ) throws BirtException
+	{
+		Context context = Context.enter( );
 		try
 		{
 			try
@@ -69,7 +73,7 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 			catch ( Throwable throwable )
 			{
 			}
-			rootScope = context.initStandardObjects( );
+			ScriptableObject rootScope = context.initStandardObjects( );
 			context
 					.evaluateString(
 							rootScope,
@@ -80,12 +84,13 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 							rootScope,
 							"function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }",
 							"<inline>", 0, null );
+			return rootScope;
 		}
 		catch ( Exception ex )
 		{
-			rootScope = null;
-			logger.log( Level.INFO,
+			logger.log( Level.WARNING,
 					"Error occurs while initialze script scope", ex );
+			return null;
 		}
 		finally
 		{
@@ -93,8 +98,32 @@ public class JavascriptEngineFactory implements IScriptEngineFactory
 		}
 	}
 
+	synchronized protected ScriptableObject getRootScope( )
+			throws BirtException
+	{
+		if ( !rootScopes.isEmpty( ) )
+		{
+			return rootScopes.remove( );
+		}
+		return createRootScope( );
+	}
+
+	synchronized protected void releaseRootScope( ScriptableObject rootScope )
+	{
+		if ( rootScope != null )
+		{
+			ClassCache classCache = ClassCache.get( rootScope );
+			if ( classCache != null )
+			{
+				classCache.clearCaches( );
+			}
+			rootScopes.add( rootScope );
+		}
+	}
+
 	public IScriptEngine createScriptEngine( ) throws BirtException
 	{
+		ScriptableObject rootScope = getRootScope( );
 		return new JavascriptEngine( this, rootScope );
 	}
 
