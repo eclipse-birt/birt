@@ -1010,10 +1010,12 @@ public class Line extends AxesRenderer
 			list.add( loa[dpSeeker.getIndex( )] );
 		}
 		
+		Location[] newLoa = isDimension3D( ) ? list.toArray( new Location3D[list.size( )] )
+				: list.toArray( new Location[list.size( )] ); 
 		final CurveRenderer cr = new CurveRenderer( ( (ChartWithAxes) getModel( ) ),
 				this,
 				lia,
-				list.toArray( new Location[list.size( )] ),
+				newLoa,
 				bShowAsTape,
 				tapeWidth,
 				true,
