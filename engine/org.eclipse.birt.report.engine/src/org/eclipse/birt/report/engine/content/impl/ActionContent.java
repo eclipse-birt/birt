@@ -192,7 +192,6 @@ public class ActionContent implements IHyperlinkAction
 	 */
 	public Map getParameterBindings( )
 	{
-		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		if ( isDrillThrough( ) )
 		{
 			return drillThrough.getParameterBindings( );
@@ -445,7 +444,6 @@ public class ActionContent implements IHyperlinkAction
 
 	public String getFormat( )
 	{
-		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		if ( isDrillThrough( ) )
 		{
 			return drillThrough.getFormat( );
