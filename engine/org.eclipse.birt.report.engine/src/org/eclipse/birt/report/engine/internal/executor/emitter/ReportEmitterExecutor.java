@@ -66,12 +66,6 @@ public class ReportEmitterExecutor extends WrappedReportExecutor
 		super.close( );
 	}
 
-	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign ) throws BirtException
-	{
-		return reportExecutor.createPageExecutor( pageNumber, pageDesign );
-	}
-
 	public IReportContent execute( ) throws BirtException
 	{
 		report = super.execute( );

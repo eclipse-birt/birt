@@ -318,19 +318,6 @@ public class ReportDocumentBuilder
 		return writer.writeContent( content );
 	}
 
-	long writeFullContent( IReportContentWriter writer, IContent content )
-			throws IOException
-	{
-		long offset = writeContent( writer, content );
-		Iterator iter = content.getChildren( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IContent child = (IContent) iter.next( );
-			writeFullContent( writer, child );
-		}
-		return offset;
-	}
-
 	private boolean needSave( IContent content )
 	{
 		InstanceID id = content.getInstanceID( );
@@ -366,6 +353,11 @@ public class ReportDocumentBuilder
 	{
 
 		ReportContentWriterV3 writer;
+		ReportContentWriterV3 pageWriter;
+		RAOutputStream indexStream;
+		HashSet<String> savedMasterPages = new HashSet<String>( );
+		private boolean inMasterPage;
+		private boolean writePage;
 
 		protected void open( IReportContent report )
 		{
@@ -374,6 +366,11 @@ public class ReportDocumentBuilder
 				writer = new ReportContentWriterV3( document.getArchive( ),
 						ReportDocumentConstants.CONTENT_STREAM );
 				writer.writeReport( report );
+
+				pageWriter = new ReportContentWriterV3( document.getArchive( ),
+						ReportDocumentConstants.PAGE_STREAM );
+				indexStream = document.getArchive( ).createRandomAccessStream(
+						ReportDocumentConstants.PAGE_INDEX_STREAM );
 			}
 			catch ( IOException ex )
 			{
@@ -388,8 +385,27 @@ public class ReportDocumentBuilder
 			if ( writer != null )
 			{
 				writer.close( );
+				writer = null;
 			}
-			writer = null;
+			if ( pageWriter != null )
+			{
+				pageWriter.close( );
+				pageWriter = null;
+			}
+			if ( indexStream != null )
+			{
+
+				try
+				{
+					indexStream.close( );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.SEVERE,
+							"failed to close the index stream", ex );
+				}
+				indexStream = null;
+			}
 		}
 
 		public void start( IReportContent report )
@@ -402,8 +418,68 @@ public class ReportDocumentBuilder
 			close( );
 		}
 
+		public void startPage( IPageContent page )
+		{
+			inMasterPage = true;
+			String masterPageName = null;
+			Object generateBy = page.getGenerateBy( );
+			if ( generateBy != null && generateBy instanceof MasterPageDesign )
+			{
+				masterPageName = ( (MasterPageDesign) generateBy ).getName( );
+			}
+
+			if ( !savedMasterPages.contains( masterPageName ) )
+			{
+				writePage = true;
+				try
+				{
+					long pageOffset = writeContent( pageWriter, page );
+					ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream(
+							128 );
+					DataOutputStream indexBuffer = new DataOutputStream(
+							writeBuffer );
+					IOUtil.writeString( indexBuffer, masterPageName );
+					IOUtil.writeLong( indexBuffer, pageOffset );
+					indexStream.write( writeBuffer.toByteArray( ) );
+					savedMasterPages.add( masterPageName );
+				}
+				catch ( IOException ex )
+				{
+					logger.log( Level.SEVERE, "write page content failed", ex );
+					close( );
+				}
+			}
+		}
+		
+		public void endPage(IPageContent pageContent)
+		{
+			inMasterPage = false;
+			writePage = false;
+		}
+
 		public void startContent( IContent content )
 		{
+			if ( inMasterPage )
+			{
+				if ( writePage && pageWriter != null )
+				{
+					if ( !needSave( content ) )
+					{
+						return;
+					}
+					try
+					{
+						writeContent( pageWriter, content );
+					}
+					catch ( IOException ex )
+					{
+						logger.log( Level.SEVERE, "Write content error", ex );
+						close( );
+					}
+				}
+				return;
+			}
+
 			if ( writer != null )
 			{
 				if ( !needSave( content ) )
@@ -449,60 +525,6 @@ public class ReportDocumentBuilder
 	class PageEmitter extends ContentEmitterAdapter
 	{
 
-		IReportContentWriter pageWriter;
-		RAOutputStream indexStream;
-		HashSet<String> savedMasterPages = new HashSet<String>( );
-
-		protected void open( )
-		{
-			try
-			{
-				pageWriter = new ReportContentWriterV3( document.getArchive( ),
-						ReportDocumentConstants.PAGE_STREAM );
-				indexStream = document.getArchive( ).createRandomAccessStream(
-						ReportDocumentConstants.PAGE_INDEX_STREAM );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.SEVERE, "failed to open the content writers",
-						ex );
-				close( );
-			}
-		}
-
-		protected void close( )
-		{
-			if ( pageWriter != null )
-			{
-				pageWriter.close( );
-			}
-			pageWriter = null;
-			if ( indexStream != null )
-			{
-				try
-				{
-					indexStream.close( );
-				}
-				catch ( IOException e )
-				{
-
-				}
-			}
-			indexStream = null;
-		}
-
-		public void start( IReportContent report )
-		{
-			open( );
-		}
-
-		public void end( IReportContent report )
-		{
-			close( );
-		}
-
-		private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream( );
-
 		public void startPage( IPageContent page )
 		{
 			// write the page content into the disk
@@ -510,35 +532,6 @@ public class ReportDocumentBuilder
 
 			executionContext.getProgressMonitor( ).onProgress(
 					IProgressMonitor.START_PAGE, (int) pageNumber );
-			// write the page contents
-			try
-			{
-				String masterPageName = null;
-				Object generateBy = page.getGenerateBy( );
-				if ( generateBy != null
-						&& generateBy instanceof MasterPageDesign )
-				{
-					masterPageName = ( (MasterPageDesign) generateBy )
-							.getName( );
-				}
-
-				if ( !savedMasterPages.contains( masterPageName ) )
-				{
-					long pageOffset = writeFullContent( pageWriter, page );
-					writeBuffer.reset( );
-					DataOutputStream indexBuffer = new DataOutputStream(
-							writeBuffer );
-					IOUtil.writeString( indexBuffer, masterPageName );
-					IOUtil.writeLong( indexBuffer, pageOffset );
-					indexStream.write( writeBuffer.toByteArray( ) );
-					savedMasterPages.add( masterPageName );
-				}
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.SEVERE, "write page content failed", ex );
-				close( );
-			}
 			// collection the bookmarks defined in the page content
 			IArea pageArea = (IArea) page
 					.getExtension( IContent.LAYOUT_EXTENSION );
