@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.ColumnBindingUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.Assert;
@@ -258,6 +259,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 		try
 		{
 			dataHandle.removedColumnBindings( list );
+			dataHandle.setProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP, new ArrayList( ) );
 		}
 		catch ( SemanticException e )
 		{
