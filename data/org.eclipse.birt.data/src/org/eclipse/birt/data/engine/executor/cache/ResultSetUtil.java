@@ -143,7 +143,17 @@ public class ResultSetUtil
 
 			for ( i = 0; i < count; i++ )
 			{
-				if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class
+				if( rsMeta.isIndexColumn( i + 1 ) )
+				{
+					obs[i] = IOUtil.readObject( dis,
+							DataEngineSession.getCurrentClassLoader( ) );
+					if ( index.containsKey( rsMeta.getFieldName( i + 1 ) ) )
+					{
+						obs[i] = index.get( rsMeta.getFieldName( i + 1 ) )
+								.getKeyValue( obs[i] );
+					}
+				}
+				else if( rsMeta.getFieldMetaData( i + 1 ).getDataType( ) == String.class
 						&& rsMeta.isCompressedColumn( i + 1 ) )
 				{
 					StringTable stringTable = null;
