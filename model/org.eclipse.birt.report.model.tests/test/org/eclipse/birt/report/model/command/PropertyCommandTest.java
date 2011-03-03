@@ -1058,7 +1058,7 @@ public class PropertyCommandTest extends BaseTestCase
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ), null ), 0 );
 
 		list = propHandle.getListValue( );
-		assertEquals( 0, list.size( ) );
+		assertNull( list );
 
 		try
 		{
@@ -1069,9 +1069,11 @@ public class PropertyCommandTest extends BaseTestCase
 							.getPropertyDefn( ), null ), 4 );
 			fail( );
 		}
-		catch ( IndexOutOfBoundsException e )
+		catch ( PropertyValueException e )
 		{
-
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND, e
+							.getErrorCode( ) );
 		}
 	}
 
@@ -1112,7 +1114,7 @@ public class PropertyCommandTest extends BaseTestCase
 				(MapRule) list.get( 0 ) );
 
 		list = propHandle.getListValue( );
-		assertEquals( 0, list.size( ) );
+		assertNull( list );
 
 		try
 		{

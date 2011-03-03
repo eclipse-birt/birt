@@ -96,7 +96,7 @@ public class PropertyListRecord extends SimpleRecord
 
 		this.context = context;
 		this.value = toRemove;
-		this.propDefn = (ElementPropertyDefn) context.getElementProp( );
+		this.propDefn = context.getElementProp( );
 
 		// ensure the top of the context is just the element itself
 		assert element == context.getElement( );
@@ -259,6 +259,14 @@ public class PropertyListRecord extends SimpleRecord
 			}
 
 			context.remove( posn );
+			// if the structure list is empty now, then clear value
+			Object localValue = context.getLocalValue( element.getRoot( ) );
+			if ( localValue instanceof List )
+			{
+				List listValue = (List) localValue;
+				if ( listValue.isEmpty( ) )
+					context.clearValue( );
+			}
 		}
 	}
 

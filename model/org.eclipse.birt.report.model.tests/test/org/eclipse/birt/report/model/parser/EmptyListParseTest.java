@@ -48,10 +48,11 @@ public class EmptyListParseTest extends BaseTestCase
 		SharedStyleHandle style = designHandle.findStyle( "style1" ); //$NON-NLS-1$ 	
 		List lightRule = style
 				.getListProperty( IStyleModel.HIGHLIGHT_RULES_PROP );
-		assertNull( lightRule );
+		assertNotNull( lightRule );
+		assertEquals( 0, lightRule.size( ) );
 
 		List mapRule = style.getListProperty( IStyleModel.MAP_RULES_PROP );
-		assertNull( mapRule );
+		assertNotNull( mapRule );
 
 		style = designHandle.findStyle( "style2" ); //$NON-NLS-1$ 
 		lightRule = style.getListProperty( IStyleModel.HIGHLIGHT_RULES_PROP );
@@ -64,13 +65,13 @@ public class EmptyListParseTest extends BaseTestCase
 
 		List scripts = designHandle
 				.getListProperty( IModuleModel.INCLUDE_SCRIPTS_PROP );
-		assertNull( scripts );
+		assertNotNull( scripts );
 
 		List libs = designHandle.getListProperty( IModuleModel.LIBRARIES_PROP );
 		assertNull( libs );
 
 		List css = designHandle.getListProperty( IReportDesignModel.CSSES_PROP );
-		assertNull( css );
+		assertNotNull( css );
 
 		SlotHandle params = designHandle.getSlot( ReportDesign.PARAMETER_SLOT );
 		assertEquals( 2, params.getCount( ) );
@@ -79,7 +80,7 @@ public class EmptyListParseTest extends BaseTestCase
 
 		List selectionList = handle
 				.getListProperty( IAbstractScalarParameterModel.SELECTION_LIST_PROP );
-		assertNull( selectionList );
+		assertNotNull( selectionList );
 
 		List valueList = handle.getDefaultValueList( );
 		assertNull( valueList );
@@ -103,7 +104,7 @@ public class EmptyListParseTest extends BaseTestCase
 
 		List arguemnts = (List) columnBinding
 				.getProperty( ComputedColumn.ARGUMENTS_MEMBER );
-		assertNull( arguemnts );
+		assertNotNull( arguemnts );
 
 		List aggregrateOn = (List) columnBinding
 				.getProperty( ComputedColumn.AGGREGATEON_MEMBER );
@@ -114,7 +115,7 @@ public class EmptyListParseTest extends BaseTestCase
 
 		arguemnts = (List) columnBinding
 				.getProperty( ComputedColumn.ARGUMENTS_MEMBER );
-		assertNull( arguemnts );
+		assertNotNull( arguemnts );
 
 		aggregrateOn = (List) columnBinding
 				.getProperty( ComputedColumn.AGGREGATEON_MEMBER );
@@ -123,14 +124,14 @@ public class EmptyListParseTest extends BaseTestCase
 		dataHandle = (DataItemHandle) designHandle.findElement( "data2" ); //$NON-NLS-1$
 		List columns = dataHandle
 				.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		assertNull( columns );
+		assertNotNull( columns );
 
 		lightRule = dataHandle
 				.getListProperty( IStyleModel.HIGHLIGHT_RULES_PROP );
-		assertNull( lightRule );
+		assertNotNull( lightRule );
 
 		mapRule = dataHandle.getListProperty( IStyleModel.MAP_RULES_PROP );
-		assertNull( mapRule );
+		assertNotNull( mapRule );
 
 		dataHandle = (DataItemHandle) designHandle.findElement( "data3" ); //$NON-NLS-1$
 		columns = dataHandle
@@ -148,8 +149,7 @@ public class EmptyListParseTest extends BaseTestCase
 		assertEquals( 0, mapRule.size( ) );
 
 		save( );
-		// TODO: the golden file will be checked in.
-		//assertTrue( compareFile( "ParseEmptyListProperty_golden.xml" ) ); //$NON-NLS-1$
+		assertTrue( compareFile( "ParseEmptyListProperty_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

@@ -1487,8 +1487,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 
 		// The include library structure has been removed.
 
-		assertEquals( 0, designHandle.getListProperty( Module.LIBRARIES_PROP )
-				.size( ) );
+		assertNull( designHandle.getListProperty( Module.LIBRARIES_PROP ) );
 
 		save( );
 		compareFile( "TestDropLibrary_golden1.xml" ); //$NON-NLS-1$
@@ -1534,8 +1533,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 				"First Page", myLabel.getLocalProperty( designHandle.getModule( ), Label.TEXT_PROP ) ); //$NON-NLS-1$
 
 		// The include library structure has been removed.
-		assertEquals( 0, designHandle.getListProperty( Module.LIBRARIES_PROP )
-				.size( ) );
+		assertNull( designHandle.getListProperty( Module.LIBRARIES_PROP ) );
 
 		save( );
 		compareFile( "TestDropLibrary_golden2.xml" ); //$NON-NLS-1$
@@ -1582,8 +1580,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 
 		// The include library structure has been removed.
 
-		assertEquals( 0, designHandle.getListProperty( Module.LIBRARIES_PROP )
-				.size( ) );
+		assertNull( designHandle.getListProperty( Module.LIBRARIES_PROP ) );
 
 	}
 
@@ -1613,8 +1610,7 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		StyleHandle style = library1.findStyle( "style1" ); //$NON-NLS-1$
 		try
 		{
-			style
-					.setFontVariant( DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS );
+			style.setFontVariant( DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS );
 			fail( );
 		}
 		catch ( Exception e )
@@ -1912,9 +1908,8 @@ public class DesignLoadLibraryTest extends BaseTestCase
 		assertEquals( "Lib.base", childLabel.getExtends( ).getQualifiedName( ) ); //$NON-NLS-1$		
 		NameSpace ns = ( (Module) includeLib.getElement( ) ).getNameHelper( )
 				.getNameSpace( Module.ELEMENT_NAME_SPACE );
-		ns
-				.rename(
-						includeLib.findElement( "base" ).getElement( ), "base", "newBase" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		ns.rename(
+				includeLib.findElement( "base" ).getElement( ), "base", "newBase" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		includeLib.findElement( "newBase" ).getElement( ).setName( "newBase" ); //$NON-NLS-1$ //$NON-NLS-2$
 		childLabel = null;
 		childLabel = (LabelHandle) designHandle.getElementFactory( )

@@ -815,7 +815,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		image2 = (EmbeddedImageHandle) images.getAt( 1 );
 
 		design.getActivityStack( ).redo( );
-		assertEquals( 0, images.getListValue( ).size( ) );
+		assertNull( images.getListValue( ) );
 		try
 		{
 			designHandle.dropImage( image1Name );

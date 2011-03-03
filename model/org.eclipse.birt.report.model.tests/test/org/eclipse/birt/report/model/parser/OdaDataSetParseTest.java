@@ -110,7 +110,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 	static final String queryTextGoldenFileName2 = "OdaDataSetParseTest_golden_3.xml";//$NON-NLS-1$
 
 	static final String extendedPropertyInput = "OdaDataSetParseTest_4.xml";//$NON-NLS-1$
-	
+
 	static final String anyDataTypeInput = "OdaDataSetParseTest_5.xml";//$NON-NLS-1$
 
 	/*
@@ -270,7 +270,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		numberFormat
 				.setCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM );
 		numberFormat.setPattern( "test number pattern" ); //$NON-NLS-1$
-		columnHintHandle.setValueFormat( numberFormat );		
+		columnHintHandle.setValueFormat( numberFormat );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -1065,10 +1065,10 @@ public class OdaDataSetParseTest extends BaseTestCase
 		// Remove parameter name and parameter bindings are updated
 
 		parameterHandle.removeItem( 0 );
-		assertEquals( 0, dataSetBindingHandle.getListValue( ).size( ) );
-		assertEquals( 0, tableBindingHandle.getListValue( ).size( ) );
-		assertEquals( 0, actionHandle.getMember( Action.PARAM_BINDINGS_MEMBER )
-				.getListValue( ).size( ) );
+		assertNull( dataSetBindingHandle.getListValue( ) );
+		assertNull( tableBindingHandle.getListValue( ) );
+		assertNull( actionHandle.getMember( Action.PARAM_BINDINGS_MEMBER )
+				.getListValue( ) );
 	}
 
 	/**
@@ -1133,11 +1133,11 @@ public class OdaDataSetParseTest extends BaseTestCase
 				.privateDriverPropertiesIterator( );
 		assertNotNull( iter1.next( ) );
 	}
-	
+
 	public void testAnyDataType( ) throws Exception
 	{
 		openDesign( anyDataTypeInput );
 		assertTrue( designHandle.getWarningList( ).isEmpty( ) );
-		assertTrue( designHandle.getErrorList( ).isEmpty( ) ) ;
+		assertTrue( designHandle.getErrorList( ).isEmpty( ) );
 	}
 }

@@ -252,6 +252,21 @@ public class ListPropertyState extends AbstractPropertyState
 				}
 			}
 		}
+
+		if ( valid && propDefn != null )
+		{
+			if ( struct != null )
+			{
+
+				struct.setProperty( propDefn, new ArrayList( ) );
+			}
+			else
+			{
+				if ( !IDesignElementModel.USER_PROPERTIES_PROP.equals( propDefn
+						.getName( ) ) )
+					element.setProperty( propDefn, new ArrayList( ) );
+			}
+		}
 	}
 
 	/*

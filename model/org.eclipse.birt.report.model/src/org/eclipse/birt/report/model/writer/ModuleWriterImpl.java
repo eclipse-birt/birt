@@ -1190,7 +1190,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				&& prop.isList( );
 
 		List list = (List) obj.getLocalProperty( getModule( ), propName );
-		if ( list == null || list.size( ) == 0 )
+		// now support write out empty structure list
+		if ( list == null )
 			return;
 
 		writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
@@ -1284,7 +1285,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		assert obj instanceof Structure;
 		List list = (List) ( (Structure) obj ).getLocalProperty( getModule( ),
 				prop );
-		if ( list == null || list.size( ) == 0 )
+		// now support to write out empty structure list
+		if ( list == null )
 			return;
 
 		writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
@@ -2758,7 +2760,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		List list = (ArrayList) obj.getLocalProperty( getModule( ),
 				IStyleModel.HIGHLIGHT_RULES_PROP );
-		if ( list != null && list.size( ) > 0 )
+		if ( list != null )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
@@ -2830,7 +2832,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		list = (ArrayList) obj.getLocalProperty( getModule( ),
 				IStyleModel.MAP_RULES_PROP );
-		if ( list != null && list.size( ) > 0 )
+		if ( list != null )
 		{
 			writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
@@ -4348,7 +4350,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				DesignSchemaConstants.STYLES_TAG );
 		writer.endElement( );
 	}
-	
 
 	/*
 	 * (non-Javadoc)

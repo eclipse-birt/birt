@@ -212,6 +212,14 @@ public class StructureContext
 	}
 
 	/**
+	 * Clears the local value set in this structure context.
+	 */
+	public void clearValue( )
+	{
+		containerInfo.setValue( null );
+	}
+
+	/**
 	 * Removes the structure from the context.
 	 * 
 	 * @param index
@@ -588,7 +596,7 @@ public class StructureContext
 			{
 				logger.warning( "cannot get property definition " + propDefn //$NON-NLS-1$
 						+ " for element " + container.getName( ) ); //$NON-NLS-1$
- 
+
 				throw new IllegalArgumentException( );
 			}
 
@@ -597,7 +605,7 @@ public class StructureContext
 				logger.warning( "property definitions: " //$NON-NLS-1$
 						+ this.propDefn.getName( ) + " and " //$NON-NLS-1$
 						+ tmpPropDefn.getName( ) + " are different. " ); //$NON-NLS-1$
-				
+
 				throw new IllegalArgumentException( "property definitions: " //$NON-NLS-1$
 						+ this.propDefn.getName( ) + " and " //$NON-NLS-1$
 						+ tmpPropDefn.getName( ) + " are different. " ); //$NON-NLS-1$

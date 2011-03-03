@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <list-property name="cssStyleSheets"/>
+    <parameters>
+        <scalar-parameter name="Param 1" id="2">
+            <list-property name="selectionList"/>
+        </scalar-parameter>
+        <scalar-parameter name="Param 2" id="3">
+            <list-property name="selectionList"/>
+        </scalar-parameter>
+    </parameters>
+    <styles>
+        <style name="style1" id="4">
+            <list-property name="highlightRules"/>
+            <list-property name="mapRules"/>
+        </style>
+        <style name="style2" id="5">
+            <list-property name="highlightRules"/>
+            <list-property name="mapRules"/>
+        </style>
+    </styles>
+    <body>
+        <data name="data1" id="6">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">First data value</property>
+                    <list-property name="arguments"/>
+                </structure>
+                <structure>
+                    <property name="name">Second data value</property>
+                    <list-property name="arguments"/>
+                </structure>
+            </list-property>
+        </data>
+        <data name="data2" id="7">
+            <list-property name="highlightRules"/>
+            <list-property name="mapRules"/>
+            <list-property name="boundDataColumns"/>
+        </data>
+        <data name="data3" id="8">
+            <list-property name="highlightRules"/>
+            <list-property name="mapRules"/>
+            <list-property name="boundDataColumns"/>
+        </data>
+    </body>
+</report>

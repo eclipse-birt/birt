@@ -306,7 +306,7 @@ public class CopyUtilTest extends BaseTestCase
 		// drop filter in the new chart.
 		propHandle.removeItem( 0 );
 		list = handle.getListProperty( "filter" ); //$NON-NLS-1$
-		assertEquals( 0, list.size( ) );
+		assertNull( list );
 	}
 
 	/**

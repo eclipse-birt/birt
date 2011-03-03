@@ -152,7 +152,7 @@ public class ActionHandleTest extends BaseTestCase
 				"exp0", ( (ParamBindingHandle) memberHandle.getAt( 0 ) ).getExpression( ) ); //$NON-NLS-1$
 
 		memberHandle.removeItem( 0 );
-		assertEquals( 0, memberHandle.getListValue( ).size( ) );
+		assertNull( memberHandle.getListValue( ) );
 
 		Action action = StructureFactory.createAction( );
 		actionHandle = imageHandle.setAction( action );

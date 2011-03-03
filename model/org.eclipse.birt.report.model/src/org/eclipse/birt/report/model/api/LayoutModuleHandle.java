@@ -330,6 +330,8 @@ abstract class LayoutModuleHandle extends ModuleHandle
 	private int findImagePos( String name )
 	{
 		List images = (List) module.getLocalProperty( module, IMAGES_PROP );
+		if ( images == null || images.isEmpty( ) )
+			return -1;
 
 		int i = 0;
 		for ( Iterator iter = images.iterator( ); iter.hasNext( ); i++ )

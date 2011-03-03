@@ -234,10 +234,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		localizeDefaultHierarchy( );
 
 		// add property bindings to the design, do this after external elements
-		// have been added to the target design
-
-		targetDesign.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP,
-				propertyBindings );
+		// have been added to the target design: support empty list now
+		if ( propertyBindings != null && !propertyBindings.isEmpty( ) )
+			targetDesign.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP,
+					propertyBindings );
 
 		// do some memory release
 		release( );
