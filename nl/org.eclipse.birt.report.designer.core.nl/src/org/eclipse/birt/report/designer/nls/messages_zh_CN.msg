@@ -1487,8 +1487,8 @@ ExportToCPSouceAction.action.text=外部化连接配置文件(&O)...
 
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
-LibraryElementsToolHandleExtends_message=The element contains local bindings without explicit data set specified, this may result in low performance at run time. Do you want to move the local bindings to the parent for better performance?
-LibraryElementsToolHandleExtends_question=提示 
+LibraryElementsToolHandleExtends_message=元素包含本地绑定而未指定显式数据集，这可能导致运行时性能低。 是否要将本地绑定移动到父层以获得更好的性能?
+LibraryElementsToolHandleExtends_question=提示
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=拖放到“大纲”视图
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=拖放到“布局”编辑器
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=拖放到“大纲”视图或“布局”编辑器

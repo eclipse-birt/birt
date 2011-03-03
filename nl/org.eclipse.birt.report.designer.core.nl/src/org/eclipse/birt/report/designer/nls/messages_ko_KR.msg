@@ -1487,8 +1487,8 @@ ExportToCPSouceAction.action.text=연결 프로필로 외부화(&O)...
 
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
-LibraryElementsToolHandleExtends_message=The element contains local bindings without explicit data set specified, this may result in low performance at run time. Do you want to move the local bindings to the parent for better performance?
-LibraryElementsToolHandleExtends_question=묻기 
+LibraryElementsToolHandleExtends_message=요소가 지정된 명시적 데이터 집합이 없는 로컬 바인딩을 포함합니다. 이로 인해 실행 시 성능이 저하될 수 있습니다. 성능 향상을 위해 로컬 바인딩을 상위로 이동하시겠습니까?
+LibraryElementsToolHandleExtends_question=확인
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=윤곽선 보기로 끌어서 놓기
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=레이아웃 편집기로 끌어서 놓기
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=윤곽선 보기 또는 레이아웃 편집기로 끌어서 놓기

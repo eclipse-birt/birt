@@ -117,7 +117,7 @@ CrosstabReportItemHandle.error.set.row.height=Erreur lors de la définition de la
 CrosstabReportItemHandle.msg.change.measure.direction=Modifier la direction de la mesure
 CrosstabReportItemHandle.msg.insert.measure=Insérer une mesure
 CrosstabReportItemHandle.exception.name.blank=Le nom de la mesure calculée est requis.
-CrosstabReportItemHandle.exception.name.duplicate=Le nom de mesure indiqué est déjà utilisé et ne peut pas être dupliqué.
+CrosstabReportItemHandle.exception.name.duplicate=Le nom de mesure indiqué est déjà utilisé. Deux noms ne peuvent pas être identiques.
 
 MeasureViewHandle.info.aggregation.already.exist=L'agrégation requise existe déjà.
 MeasureViewHandle.msg.add.aggregation=Ajouter l'agrégation

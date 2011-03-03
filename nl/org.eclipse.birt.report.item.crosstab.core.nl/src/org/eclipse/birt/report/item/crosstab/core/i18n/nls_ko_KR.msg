@@ -117,7 +117,7 @@ CrosstabReportItemHandle.error.set.row.height=크로스 탭 행 높이 설정 중 오류 발�
 CrosstabReportItemHandle.msg.change.measure.direction=측정값 방향 변경
 CrosstabReportItemHandle.msg.insert.measure=측정값 삽입
 CrosstabReportItemHandle.exception.name.blank=ComputedMeasure에 이름이 필요합니다.
-CrosstabReportItemHandle.exception.name.duplicate=지정한 측정값 이름이 이미 사용되고 있으므로 중복 사용할 수 없습니다.
+CrosstabReportItemHandle.exception.name.duplicate=지정된 측정값 이름이 이미 사용 중이며 중복될 수 없습니다.
 
 MeasureViewHandle.info.aggregation.already.exist=요청된 집계가 이미 있습니다.
 MeasureViewHandle.msg.add.aggregation=집계 추가

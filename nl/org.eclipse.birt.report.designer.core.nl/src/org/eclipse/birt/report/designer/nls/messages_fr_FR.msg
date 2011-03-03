@@ -1487,8 +1487,8 @@ ExportToCPSouceAction.action.text=Externaliser vers le profil de c&onnexion...
 
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
-LibraryElementsToolHandleExtends_message=The element contains local bindings without explicit data set specified, this may result in low performance at run time. Do you want to move the local bindings to the parent for better performance?
-LibraryElementsToolHandleExtends_question=Invite 
+LibraryElementsToolHandleExtends_message=L'élément contient des liaisons locales sans jeu de données explicite spécifié. Cela peut ralentir les performances lors de l'exécution. Souhaitez-vous déplacer les liaisons locales vers le parent pour améliorer les performances ?
+LibraryElementsToolHandleExtends_question=Invite
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Glisser-déplacer vers la vue de contour
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Glisser-déplacer vers l'éditeur de présentation
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Glisser-déplacer vers la vue de contour ou l'éditeur de présentation
