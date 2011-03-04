@@ -14,8 +14,10 @@ package org.eclipse.birt.report.designer.ui.parameters;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -48,6 +50,7 @@ public abstract class ScalarParameter implements IParameter
 	 */
 	protected IEngineTask engineTask;
 	private Object oriDefaultValue;
+	private Map taskContext;
 
 	/**
 	 * Constructor
@@ -62,6 +65,7 @@ public abstract class ScalarParameter implements IParameter
 	{
 		this.handle = handle;
 		this.engineTask = engineTask;
+		taskContext = engineTask.getAppContext( );
 	}
 
 	/**
@@ -111,6 +115,30 @@ public abstract class ScalarParameter implements IParameter
 	{
 		return oriDefaultValue;
 	}
+	
+	public IGetParameterDefinitionTask createParameterDefinitionTask()
+	{
+		IGetParameterDefinitionTask task = null;
+		if (engineTask != null)
+		{
+			task = engineTask.getEngine( )
+				.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+		}
+		if (taskContext != null)
+		{
+		
+			Map context = new HashMap( );
+			Iterator itor = taskContext.keySet( ).iterator( );
+			while(itor.hasNext( ))
+			{
+				Object obj = itor.next( );
+				context.put( obj, taskContext.get( obj ) );
+			}
+			task.setAppContext( context );
+			
+		}
+		return task;
+	}
 	/**
 	 * Gets default value.
 	 * 
@@ -119,8 +147,7 @@ public abstract class ScalarParameter implements IParameter
 
 	public String getDefaultValue( )
 	{
-		IGetParameterDefinitionTask task = engineTask.getEngine( )
-			.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
 		Object obj = task.getDefaultValue( handle.getName( ) );
 		if (obj == null)
 		{
@@ -157,8 +184,7 @@ public abstract class ScalarParameter implements IParameter
 	
 	public List getDefaultValues( )
 	{
-		IGetParameterDefinitionTask task = engineTask.getEngine( )
-		.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
 
 		Object obj =  task.getDefaultValue( handle.getName( ) );
 		List retValue = new ArrayList();

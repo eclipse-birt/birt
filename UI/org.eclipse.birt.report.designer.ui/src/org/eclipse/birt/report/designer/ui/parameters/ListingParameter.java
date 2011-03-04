@@ -60,8 +60,7 @@ public abstract class ListingParameter extends ScalarParameter
 		boolean isCascading = isCascadingParameter( );
 
 		String name = handle.getName( );
-		IGetParameterDefinitionTask task = engineTask.getEngine( )
-				.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
 
 		if ( isCascading )
 		{
