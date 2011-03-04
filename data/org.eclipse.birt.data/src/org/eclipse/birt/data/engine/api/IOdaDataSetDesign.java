@@ -21,7 +21,7 @@ import java.util.Map;
  * The data set is to be retrieved by a query and/or properties 
  * defined in this specialized interface.
  */
-public interface IOdaDataSetDesign extends IBaseDataSetDesign 
+public interface IOdaDataSetDesign extends IBaseDataSetDesign, ICacheable
 {
     /**
      * Gets the static query text of the data set.

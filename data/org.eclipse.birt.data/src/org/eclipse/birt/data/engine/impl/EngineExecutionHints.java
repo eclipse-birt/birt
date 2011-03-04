@@ -18,11 +18,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.ICacheable;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
-import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -62,8 +61,7 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					if( dataSetName != null )
 					{
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign( dataSetName );
-						//The data set cache is not necessary be done in data object.
-						if( design instanceof IOdaDataSetDesign  || design instanceof IScriptDataSetDesign )
+						if( design instanceof ICacheable  )
 							this.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp );
 					}
 				} 

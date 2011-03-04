@@ -19,7 +19,7 @@ package org.eclipse.birt.data.engine.api;
  * The data set is to be retrieved by user-defined scripts 
  * defined in this specialized interface.
  */
-public interface IScriptDataSetDesign extends IBaseDataSetDesign 
+public interface IScriptDataSetDesign extends IBaseDataSetDesign, ICacheable 
 {
     /**
      * Gets the Open script for opening the data set.
