@@ -370,4 +370,10 @@ public interface IHelpContextIds
 			+ "RenameInputDialog_ID"; //$NON-NLS-1$
 
 	public static final String NEW_THEME_DIALOG_ID = PREFIX + "NewTheme_ID"; //$NON-NLS-1$
+
+	public static final String PREF_PAGE_EXPRESSION_SYNTAX = PREFIX
+			+ "Preference_BIRT_ExpressionSyntax_ID"; //$NON-NLS-1$
+
+	public static final String PREF_PAGE_CLASSPATH = PREFIX
+			+ "Preference_Classpath_ID"; //$NON-NLS-1$
 }

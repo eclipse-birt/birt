@@ -13,9 +13,11 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionSupportManager;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionSupport;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.PixelConverter;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -78,6 +80,8 @@ public class ExpressionBuilderConfigurationBlock extends
 		othersComposite.setLayoutData( gridData );
 
 		validateSettings( null, null, null );
+
+		UIUtil.bindHelp( parent, IHelpContextIds.PREF_PAGE_EXPRESSION_SYNTAX );
 
 		return mainComp;
 	}
