@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -21,9 +22,11 @@ import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class represents a field assist preference page. By subclassing
@@ -53,12 +56,23 @@ public class FieldAssistPreferencePage extends FieldEditorPreferencePage impleme
 		setDescription( Messages.getString( "ssPreferencesDescription" ) ); //$NON-NLS-1$
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
+	public void createControl(Composite parent) {
+		super.createControl( parent );
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl(),
+				ChartHelpContextIds.PREFERENCE_CHART_FIELD_ASSIST );
+	}
+	
 	/**
 	 * Creates the field editors. Field editors are abstractions of the common
 	 * GUI blocks needed to manipulate various types of preferences. Each field
 	 * editor knows how to save and
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
 	 */
-	public void createFieldEditors( )
+	protected void createFieldEditors( )
 	{
 		addField( new BooleanFieldEditor( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
 				Messages.getString( "ssPreferencesShowRequiredFieldLabelIndicator" ), //$NON-NLS-1$

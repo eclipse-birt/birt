@@ -183,6 +183,12 @@ public class ChartHelpContextIds
 	public static final String PREFERENCE_CHART = PREFIX
 			+ "Preferences_BIRTChart_ID"; //$NON-NLS-1$
 	
+	public static final String PREFERENCE_CHART_FIELD_ASSIST = PREFIX
+			+ "Preference_Chart_Field_Assist_ID"; //$NON-NLS-1$
+
+	public static final String PREFERENCE_CHART_CONTENT_ASSIST = PREFIX
+			+ "Preference_Chart_Content_Assist_ID"; //$NON-NLS-1$
+	
 	/*----------VIEW----------*/
 	public static final String VIEW_CHART_EXAMPLE = PREFIX + "ChartExamples_ID"; //$NON-NLS-1$
 
