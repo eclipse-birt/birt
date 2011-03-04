@@ -653,7 +653,17 @@ public class BirtComp implements IScriptFunctionExecutor
 							return Boolean.FALSE;
 						}
 					case MODE_NOT_EQUAL :
-						return new Boolean( compare( args[0], args[1] ) != 0 );
+						try
+						{
+							return new Boolean( compare( args[0], args[1] ) != 0 );
+						}
+						catch( BirtException e )
+						{
+							if( e.getErrorCode( ).equals( ResourceConstants.CONVERT_FAILS ) )
+								return Boolean.TRUE;
+							else
+								return Boolean.FALSE;
+						}	
 					case MODE_GREATERTHAN :
 						return new Boolean( compare( args[0], args[1] ) > 0 );
 					case MODE_LESSTHAN :
