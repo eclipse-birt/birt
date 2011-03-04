@@ -376,4 +376,7 @@ public interface IHelpContextIds
 
 	public static final String PREF_PAGE_CLASSPATH = PREFIX
 			+ "Preference_Classpath_ID"; //$NON-NLS-1$
+
+	public static final String PREF_PAGE_RESOURCE_VARIABLES_DIALOG_ID = PREFIX
+			+ "ResourceVariablesDialog_ID"; //$NON-NLS-1$
 }

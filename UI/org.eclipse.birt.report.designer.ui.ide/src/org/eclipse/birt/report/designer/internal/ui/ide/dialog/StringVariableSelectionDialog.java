@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.dialog;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.PixelConverter;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.variables.IStringVariable;
 import org.eclipse.core.variables.VariablesPlugin;
@@ -110,6 +112,8 @@ public class StringVariableSelectionDialog extends ElementListSelectionDialog
 	{
 		Control control = super.createDialogArea( parent );
 		createArgumentArea( (Composite) control );
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.PREF_PAGE_RESOURCE_VARIABLES_DIALOG_ID );
 		return control;
 	}
 
