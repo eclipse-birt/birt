@@ -93,6 +93,10 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	// to indicate the status of dataset handle
 	private transient boolean modelChanged = true;
 	protected boolean isNewlyCreated = false;
+	private boolean pageActivated = false;
+	
+	protected String sourceQueryText = null;
+	protected boolean getDefaultAnalysisForNullValue = true;
 
 	protected String originalAlias = ""; //$NON-NLS-1$
 	protected String originalDisplayName = ""; //$NON-NLS-1$
@@ -127,6 +131,8 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	{
 		super( );
 		this.isNewlyCreated = false;
+		pageActivated = false;
+		
 	}
 
 	/**
@@ -136,6 +142,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	{
 		super( );
 		this.isNewlyCreated = isNewlyCreated;
+		pageActivated = false;
 	}
 
 	/*
@@ -241,6 +248,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		getContainer( ).setMessage( Messages.getString( "dataset.editor.outputColumns" ), //$NON-NLS-1$
 				IMessageProvider.NONE );
 		viewer.getViewer( ).getTable( ).select( 0 );
+		pageActivated = true;
 	}
 
 	protected void setPageProperties( )
@@ -274,6 +282,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				( (DataSetEditor) this.getContainer( ) ).updateDataSetDesign( this );
 				this.modelChanged = false;
 			}
+			this.pageActivated = false;
 			return super.canLeave( );
 		}
 		else
@@ -296,6 +305,8 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				( (DataSetEditor) this.getContainer( ) ).updateDataSetDesign( this );
 				this.modelChanged = false;
 			}
+			if( !pageActivated )
+				this.setAnalysisTypeForColumn( );
 			return super.performOk( );
 		}
 		else
@@ -395,9 +406,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							false );
 				}
 				
+				updateDefaultAnalysisEnablement( viewDatas );
+
 				if( isNewlyCreated )
 				{
-					updateAnalysisTypes( viewDatas );
+					updateAnalysisTypes( viewDatas, true );
 				}
 				
 				if ( ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof JointDataSetHandle )
@@ -452,9 +465,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					viewDatas = ( (DataSetEditor) getContainer( ) ).getCurrentItemModel( false,
 							false );
 				}
-				if( isNewlyCreated )
+				
+				updateDefaultAnalysisEnablement( viewDatas );
+
+				if ( isNewlyCreated )
 				{
-					updateAnalysisTypes( viewDatas );
+					updateAnalysisTypes( viewDatas, true );
 				}
 				
 				viewer.getViewer( ).setInput( viewDatas );
@@ -468,18 +484,51 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 	}
 	
-	private void updateAnalysisTypes( DataSetViewData[] viewDatas )
+	private void updateDefaultAnalysisEnablement( DataSetViewData[] viewDatas )
+	{
+		DataSetHandle ds = ( (DataSetEditor) getContainer( ) ).getHandle( );
+		if ( ds instanceof OdaDataSetHandle )
+		{
+			String queryText = ( (OdaDataSetHandle) ds ).getQueryText( );
+			if ( queryText != null && ( !queryText.equals( sourceQueryText ) ) )
+			{
+				if ( sourceQueryText == null )
+					getDefaultAnalysisForNullValue = false;
+				else
+					getDefaultAnalysisForNullValue = true;
+				sourceQueryText = queryText;
+
+				if ( isNewlyCreated )
+					getDefaultAnalysisForNullValue = true;
+				else
+					updateAnalysisTypes( viewDatas , true );
+			}
+			
+			if( !isNewlyCreated && modelChanged )
+			{
+				getDefaultAnalysisForNullValue = true;
+				updateAnalysisTypes ( viewDatas , false );
+			}
+		}
+	}
+	
+	private void updateAnalysisTypes( DataSetViewData[] viewDatas , boolean updateFlag )
 	{
 		for ( int i = 0; i < viewDatas.length; i++ )
 		{
 			DataSetViewData item = viewDatas[i];
 			ColumnHintHandle hint = findColumnHint( item );
-			if ( hint != null && hint.getAnalysis( ) == null )
+			if ( hint != null )
 			{
 				try
 				{
-					hint.setAnalysis( getDefaultAnalysisType( item.getName( ),
-							item.getDataTypeName( ) ) );
+					String analysis = hint.getAnalysis( );
+					String defaultAnalysis = getDefaultAnalysisType( item.getName( ),
+							item.getDataTypeName( ) );
+					if ( analysis== null && getDefaultAnalysisForNullValue && updateFlag )
+					{
+						hint.setAnalysis( defaultAnalysis );
+					}
 				}
 				catch ( SemanticException e )
 				{
@@ -556,6 +605,48 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		return null;
 	}
 
+	protected void setAnalysisTypeForColumn(  )
+	{
+		if ( !isNewlyCreated )
+		{
+			DataSetHandle ds = ( (DataSetEditor) getContainer( ) ).getHandle( );
+			DataSetViewData[] viewData = DataSetProvider.getCurrentInstance( )
+					.getColumns( ds, true );
+
+			
+			PropertyHandle handle = ds.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
+			Iterator iter = handle.iterator( );
+			if ( iter != null )
+			{
+				while ( iter.hasNext( ) )
+				{
+					ColumnHintHandle hint = (ColumnHintHandle) iter.next( );
+
+					for ( int i = 0; i < viewData.length; i++ )
+					{
+						if ( viewData[i].getName( )
+								.equals( hint.getColumnName( ) ) )
+						{
+							if ( hint.getAnalysis( ) == null )
+							{
+								try
+								{
+									hint.setAnalysis( getDefaultAnalysisType( viewData[i].getName( ),
+											viewData[i].getDataTypeName( ) ) );
+								}
+								catch ( SemanticException e )
+								{
+									// TODO Auto-generated catch block
+								}
+							}
+							continue;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	protected void saveOutputColumns( )
 	{
 		PropertyHandle handle = ( (DataSetHandle) getContainer( ).getModel( ) ).getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
