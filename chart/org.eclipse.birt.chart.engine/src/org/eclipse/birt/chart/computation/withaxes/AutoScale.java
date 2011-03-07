@@ -902,7 +902,12 @@ public final class AutoScale extends Methods implements Cloneable
 
 	public final boolean isTickLabelStaggered( int index )
 	{
-		assert staggeredHelper != null;
+		if ( staggeredHelper == null )
+		{
+			staggeredHelper = StaggeredHelper.createInstance( isAxisLabelStaggered( ),
+					atcTickCoordinates.size( ),
+					info.iLabelShowingInterval );
+		}
 		return staggeredHelper.isTickLabelStaggered( index );
 	}
 
@@ -1732,12 +1737,6 @@ public final class AutoScale extends Methods implements Cloneable
 			// chart
 			vis = true;
 		}
-
-		// initialize stagger state.
-		boolean staggerEnabled = isAxisLabelStaggered( );
-		this.staggeredHelper = StaggeredHelper.createInstance( staggerEnabled,
-				atcTickCoordinates.size( ),
-				info.iLabelShowingInterval );
 
 		this.labelVisHelper = LabelVisibleHelper.createInstance( vis,
 				isCategoryScale( ),
@@ -4505,7 +4504,7 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			return iLastVisibleIndex;
 		}
-
+		
 		public static LabelVisibleHelper createInstance( boolean bLabelVisible,
 				boolean bCategory, final int iTickCount, final int iShowIterval )
 		{
