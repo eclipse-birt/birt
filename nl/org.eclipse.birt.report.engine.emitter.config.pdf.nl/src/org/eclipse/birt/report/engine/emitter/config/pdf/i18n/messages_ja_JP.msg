@@ -18,6 +18,7 @@ PDFEmitter.DisplayName=PDF
 #Option Display Value
 OptionDisplayValue.BidiProcessing=双方向テキストの処理
 OptionDisplayValue.TextWrapping=文字列の折り返し
+OptionDisplayValue.TextHyphenation=Text hyphenation
 OptionDisplayValue.PageOverFlow=オーバーフローしているページの処理
 OptionDisplayValue.CLIP_CONTENT=コンテンツの切り抜き
 OptionDisplayValue.FIT_TO_PAGE_SIZE=ページサイズに合わせる
@@ -31,6 +32,7 @@ OptionDisplayValue.RenderChartInSVG=ベクターグラフィックでグラフをレンダリング
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=双方向テキストをサポートします。
+OptionDescription.TextHyphenation=Support text hyphenation.
 OptionDescription.TextWrapping=文字列を折り返すかどうかを示します。
 OptionDescription.PageOverFlow=コンテンツの出力方法を制御します。
 OptionDescription.FontSubstitution=指定されたフォントで表示できない文字がある場合は、フォントを自動的に選択します。

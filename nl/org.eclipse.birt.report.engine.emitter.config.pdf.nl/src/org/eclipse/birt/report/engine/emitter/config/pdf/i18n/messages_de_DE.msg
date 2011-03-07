@@ -18,6 +18,7 @@ PDFEmitter.DisplayName=PDF
 #Option Display Value
 OptionDisplayValue.BidiProcessing=BIDI-Verarbeitung
 OptionDisplayValue.TextWrapping=Zeilenumbruch
+OptionDisplayValue.TextHyphenation=Text hyphenation
 OptionDisplayValue.PageOverFlow=Seitenüberlauf-Verarbeitung
 OptionDisplayValue.CLIP_CONTENT=Inhalt zuschneiden
 OptionDisplayValue.FIT_TO_PAGE_SIZE=An Seitengröße anpassen
@@ -31,6 +32,7 @@ OptionDisplayValue.RenderChartInSVG=Diagramm in Vektorgrafiken rendern
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Unterstützt bidirektionalen Text.
+OptionDescription.TextHyphenation=Support text hyphenation.
 OptionDescription.TextWrapping=Gibt an, ob der Text Zeilenumbrüche enthält.
 OptionDescription.PageOverFlow=Legt fest, wie der Inhalt ausgegeben wird.
 OptionDescription.FontSubstitution=Wählt Schriftarten automatisch aus, wenn die angegebene Schriftart das Zeichen nicht darstellen kann.
