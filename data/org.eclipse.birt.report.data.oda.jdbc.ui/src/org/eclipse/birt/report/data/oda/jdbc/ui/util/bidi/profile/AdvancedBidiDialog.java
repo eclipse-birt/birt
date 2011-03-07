@@ -15,8 +15,8 @@ import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
 import org.eclipse.birt.report.data.bidi.utils.core.BidiFormat;
 import org.eclipse.birt.report.data.bidi.utils.i18n.Messages;
 import org.eclipse.birt.report.data.bidi.utils.ui.BidiGUIUtility;
-import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.preference.JDBCDataSourcePreferencePage;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -136,6 +136,9 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 			}
 		} );
 
+		Utility.setSystemHelp( area,
+				IHelpConstants.CONEXT_ID_PREFERENCE_DATASET_JDBC_BIDI );
+		
 		return area;
 	}
 
