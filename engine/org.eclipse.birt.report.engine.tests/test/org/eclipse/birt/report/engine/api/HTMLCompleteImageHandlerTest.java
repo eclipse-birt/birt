@@ -83,6 +83,10 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			int availableBytes = inputStream.available( );
 			assert ( availableBytes > 0 );
 		}
+		catch ( java.net.ConnectException ce )
+		{
+			ce.printStackTrace( );
+		}
 		catch ( Exception ex )
 		{
 			ex.printStackTrace( );
