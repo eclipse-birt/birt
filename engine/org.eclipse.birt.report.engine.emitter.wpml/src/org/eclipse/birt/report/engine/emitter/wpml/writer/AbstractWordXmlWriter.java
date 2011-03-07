@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml.writer;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -27,6 +24,7 @@ import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo.Line;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
+import java.util.regex.*;
 
 public abstract class AbstractWordXmlWriter
 {
@@ -520,7 +518,7 @@ public abstract class AbstractWordXmlWriter
 		}
 
 		writer.openTag( "w:t" );
-
+		
 		Pattern p = Pattern.compile( "\r|\n" );
 		Matcher m = p.matcher( txt );
 		int length = txt.length( );
@@ -545,7 +543,7 @@ public abstract class AbstractWordXmlWriter
 		{
 			writer.cdata("<![CDATA[" +  txt.substring( index ) + "]]>");
 		}
-		
+
 		writer.closeTag( "w:t" );
 	}
 
@@ -825,39 +823,51 @@ public abstract class AbstractWordXmlWriter
 	
 	private void writeCellPadding( IStyle style )
 	{
+		int bottomPadding = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) );
+		int leftPadding = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_PADDING_LEFT ) );
+		int topPadding = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_PADDING_TOP ) );
+		int rightPadding = PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
+		if ( bottomPadding == 0 && leftPadding == 0 && topPadding == 0
+				&& rightPadding == 0 )
+		{
+			return;
+		}
 		// the cell padding in DOC is tcMar
 		writer.openTag( "w:tcMar" );
-		
-		//bottom
-		writer.openTag( "w:" + BOTTOM );
-		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
-				.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) ) ) );
-		writer.attribute( "w:type", "dxa" );
-		writer.closeTag( "w:" + BOTTOM );
-		//left
-		writer.openTag( "w:" + LEFT );
-		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
-				.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) ) ) );
-		writer.attribute( "w:type", "dxa" );
-		writer.closeTag( "w:" + LEFT );
-		//top
-		writer.openTag( "w:" + TOP );
-		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
-				.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_TOP ) ) ) );
-		writer.attribute( "w:type", "dxa" );
-		writer.closeTag( "w:" + TOP );
-		//right
-		writer.openTag( "w:" + RIGHT );
-		writer.attribute( "w:w", WordUtil.milliPt2Twips( PropertyUtil
-				.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) ) ) );
-		writer.attribute( "w:type", "dxa" );
-		writer.closeTag( "w:" + RIGHT );
-		
+		if ( bottomPadding !=0 )
+		{
+			writeCellPadding( bottomPadding, BOTTOM );
+		}
+		if ( leftPadding !=0 )
+		{
+			writeCellPadding( leftPadding, LEFT );
+		}
+		if ( topPadding !=0 )
+		{
+			writeCellPadding( topPadding, TOP );
+		}
+		if ( rightPadding !=0 )
+		{
+			writeCellPadding( rightPadding, RIGHT );
+		}
 		writer.closeTag( "w:tcMar" );
+	}
+	
+	/**
+	 * 
+	 * @param padding  milliPoint
+	 * @param position top/right/bottom/left
+	 */
+	private void writeCellPadding( int padding, String position )
+	{
+		writer.openTag( "w:" + position );
+		writer.attribute( "w:w", WordUtil.milliPt2Twips( padding ) );
+		writer.attribute( "w:type", "dxa" );
+		writer.closeTag( "w:" + position );
 	}
 
 	protected void writeAttrTag( String name, String val )
