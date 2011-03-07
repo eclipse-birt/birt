@@ -34,6 +34,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String FONT_SUBSTITUTION = "FontSubstitution";
 	private static final String BIDI_PROCESSING = "BIDIProcessing";
 	private static final String TEXT_WRAPPING = "TextWrapping";
+	private static final String TEXT_HYPHENATION = "TextHyphenation";
 	private static final String EMBEDDED_FONT = "EmbeddedFont";
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
@@ -68,6 +69,18 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		bidiProcessing.setToolTip( null );
 		bidiProcessing
 				.setDescription( getMessage( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
+		
+		// Initializes the option for TextHyphenation.
+		ConfigurableOption textHyphenation = new ConfigurableOption(
+				TEXT_HYPHENATION );
+		textHyphenation
+				.setDisplayName( getMessage( "OptionDisplayValue.TextHyphenation" ) ); //$NON-NLS-1$
+		textHyphenation.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		textHyphenation.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		textHyphenation.setDefaultValue( Boolean.FALSE );
+		textHyphenation.setToolTip( null );
+		textHyphenation
+				.setDescription( getMessage( "OptionDescription.TextHyphenation" ) ); //$NON-NLS-1$
 
 		// Initializes the option for TextWrapping.
 		ConfigurableOption textWrapping = new ConfigurableOption( TEXT_WRAPPING );
@@ -153,7 +166,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		renderChartInSVG
 				.setDescription( getMessage( "OptionDescription.RenderChartInSVG" ) ); //$NON-NLS-1$
 
-		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
+		options = new IConfigurableOption[]{bidiProcessing, textWrapping, textHyphenation,
 				fontSubstitution, pageOverFlow, embeddedFont, chartDpi,
 				renderChartInSVG};
 
@@ -213,6 +226,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		if ( BIDI_PROCESSING.equals( name ) )
 		{
 			return IPDFRenderOption.PDF_BIDI_PROCESSING;
+		}
+		if ( TEXT_HYPHENATION.equals( name ) )
+		{
+			return IPDFRenderOption.PDF_HYPHENATION;
 		}
 		if ( FONT_SUBSTITUTION.equals( name ) )
 		{
