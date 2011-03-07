@@ -250,6 +250,10 @@ public class EngineLogger
 			{
 				logMaxBackupIndex = 1;
 			}
+			if ( rollingSize < 0 )
+			{
+				rollingSize = 0;
+			}
 			FileHandler logFileHandler = new FileHandler( fileName,
 					rollingSize, logMaxBackupIndex, true );
 			// In BIRT log, we should always use the simple format.
