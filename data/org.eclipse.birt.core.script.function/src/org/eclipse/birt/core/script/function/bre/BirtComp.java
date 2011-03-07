@@ -644,14 +644,7 @@ public class BirtComp implements IScriptFunctionExecutor
 				switch ( this.mode )
 				{
 					case MODE_EQUAL :
-						try
-						{
-							return new Boolean( compare( args[0], args[1] ) == 0 );
-						}
-						catch( BirtException e )
-						{
-							return Boolean.FALSE;
-						}
+						return new Boolean( compare( args[0], args[1] ) == 0 );						
 					case MODE_NOT_EQUAL :
 						try
 						{
@@ -692,7 +685,10 @@ public class BirtComp implements IScriptFunctionExecutor
 			}
 			catch ( BirtException e )
 			{
-				throw new IllegalArgumentException( e.getLocalizedMessage( ) );
+				if( e.getErrorCode( ).equals( ResourceConstants.CONVERT_FAILS ) )
+					return false;
+				else
+					throw new IllegalArgumentException( e.getLocalizedMessage( ) );
 			}
 		}
 	}
