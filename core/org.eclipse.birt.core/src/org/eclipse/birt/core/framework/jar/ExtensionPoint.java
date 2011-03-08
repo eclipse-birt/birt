@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Actuate Corporation.
+ * Copyright (c) 2010, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,8 @@
  *******************************************************************************/
 
 package org.eclipse.birt.core.framework.jar;
+
+import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
@@ -26,7 +28,7 @@ public class ExtensionPoint implements IExtensionPoint
 	protected String uniqueId;
 	protected String namespace;
 	protected String name;
-	protected ConfigurationElement[] configuration;
+	protected ConfigurationElement[] allExtConfigurations;
 	protected String schema;
 
 	ExtensionPoint( Bundle bundle, String id )
@@ -52,7 +54,23 @@ public class ExtensionPoint implements IExtensionPoint
 
 	public IConfigurationElement[] getConfigurationElements( )
 	{
-		return configuration;
+	    if( allExtConfigurations == null )
+	    {
+	        ArrayList<IConfigurationElement> extConfigList = new ArrayList<IConfigurationElement>( );
+	        IExtension[] extensions = getExtensions();
+	        for( int i= 0; i < extensions.length; i++ )
+	        {
+	            IConfigurationElement[] extConfigurations = extensions[i].getConfigurationElements();
+	            for( int j= 0; j < extConfigurations.length; j++ )
+	            {
+	                extConfigList.add( extConfigurations[j] );
+	            }
+	        }
+	        
+	        allExtConfigurations = extConfigList.toArray( new ConfigurationElement[extConfigList.size( )] );
+	    }
+	    
+		return allExtConfigurations;
 	}
 
 	public String getLabel( )

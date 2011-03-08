@@ -45,7 +45,7 @@ public class PlatformFileContext implements IPlatformContext
 	{
 		assert config != null;
 		root = config.getBIRTHome( );
-		if ( root == null )
+		if ( root == null || "".equals( root ) )
 		{
 			root = getSystemBirtHome( );
 		}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Actuate Corporation.
+ * Copyright (c) 2010, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,8 +27,8 @@ import org.eclipse.core.runtime.IRegistryEventListener;
 
 public class ExtensionRegistry implements IExtensionRegistry
 {
-
-	protected ArrayList<Bundle> bundles = new ArrayList<Bundle>( );
+    // use HashMap to ensure no duplicated entries are registered
+	protected HashMap<String, Bundle> bundles = new HashMap<String, Bundle>( );
 	protected HashMap<String, ExtensionPoint> extensionPoints = new HashMap<String, ExtensionPoint>( );
 	protected HashMap<String, Extension> extensions = new HashMap<String, Extension>( );
 
@@ -38,7 +38,7 @@ public class ExtensionRegistry implements IExtensionRegistry
 
 	public void addBundle( Bundle bundle )
 	{
-		this.bundles.add( bundle );
+		this.bundles.put( bundle.getSymbolicName(), bundle );
 		Extension[] extensions = bundle.getExtensions( );
 		for ( Extension extension : extensions )
 		{
@@ -84,7 +84,7 @@ public class ExtensionRegistry implements IExtensionRegistry
 	public IExtension[] getExtensions( String extensionPointId )
 	{
 		ArrayList<IExtension> extensions = new ArrayList<IExtension>( );
-		for ( Bundle bundle : bundles )
+		for ( Bundle bundle : bundles.values() )
 		{
 			Extension[] bundleExtensions = bundle.getExtensions( );
 			for ( Extension extension : bundleExtensions )
@@ -208,7 +208,7 @@ public class ExtensionRegistry implements IExtensionRegistry
 
 	public IExtensionPoint[] getExtensionPoints( IContributor contributor )
 	{
-		for ( Bundle bundle : bundles )
+		for ( Bundle bundle : bundles.values() )
 		{
 			if ( bundle.getContributor( ) == contributor )
 			{
@@ -220,7 +220,7 @@ public class ExtensionRegistry implements IExtensionRegistry
 
 	public IExtension[] getExtensions( IContributor contributor )
 	{
-		for ( Bundle bundle : bundles )
+		for ( Bundle bundle : bundles.values() )
 		{
 			if ( bundle.getContributor( ) == contributor )
 			{
@@ -232,13 +232,7 @@ public class ExtensionRegistry implements IExtensionRegistry
 
 	public String[] getNamespaces( )
 	{
-		String[] namespaces = new String[bundles.size( )];
-		for ( int i = 0; i < namespaces.length; i++ )
-		{
-			Bundle bundle = bundles.get( i );
-			namespaces[i] = bundle.getSymbolicName( );
-		}
-		return namespaces;
+		return bundles.keySet().toArray( new String[bundles.size( )] );
 	}
 
 	public boolean isMultiLanguage( )

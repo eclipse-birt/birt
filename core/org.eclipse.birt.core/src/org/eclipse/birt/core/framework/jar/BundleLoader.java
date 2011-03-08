@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Actuate Corporation.
+ * Copyright (c) 2010, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -200,21 +200,6 @@ public class BundleLoader
 
 		ExtensionPoint point = new ExtensionPoint( bundle, id );
 		point.schema = schema;
-
-		ArrayList<IConfigurationElement> configurations = new ArrayList<IConfigurationElement>( );
-		NodeList children = element.getChildNodes( );
-		for ( int i = 0; i < children.getLength( ); i++ )
-		{
-			Node node = children.item( i );
-			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
-			{
-				IConfigurationElement config = parseConfiguration( point,
-						(Element) node );
-				configurations.add( config );
-			}
-		}
-		point.configuration = configurations
-				.toArray( new ConfigurationElement[configurations.size( )] );
 
 		return point;
 	}

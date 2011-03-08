@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Actuate Corporation.
+ * Copyright (c) 2010, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -86,7 +86,13 @@ public class ConfigurationElement implements IConfigurationElement
 
 	public IExtension getDeclaringExtension( )
 	{
-		return extension;
+	    if( extension != null )
+	        return extension;
+        if( parent instanceof IExtension )
+            return (IExtension)parent;
+	    if( parent instanceof ConfigurationElement )
+	        return ((ConfigurationElement)parent).getDeclaringExtension();
+	    return null;
 	}
 
 	public String getName( )
@@ -116,6 +122,14 @@ public class ConfigurationElement implements IConfigurationElement
 
 	public IContributor getContributor( ) throws InvalidRegistryObjectException
 	{
+        if( bundle == null )
+        {
+            IExtension declaringExtn = getDeclaringExtension();
+            if( declaringExtn != null )
+                return declaringExtn.getContributor();
+            return null;
+        }
+        
 		return bundle.getContributor( );
 	}
 
