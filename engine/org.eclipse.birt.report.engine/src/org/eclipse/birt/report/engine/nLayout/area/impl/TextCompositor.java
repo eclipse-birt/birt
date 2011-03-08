@@ -124,7 +124,10 @@ public class TextCompositor
 			throw new RuntimeException( "No more text." );
 		}
 		TextArea textArea = getNextTextArea( maxLineWidth );
-		offset += textArea.getTextLength( );
+		if ( textArea != null )
+		{
+			offset += textArea.getTextLength( );
+		}
 		if( lineBreakCollapse == LINE_BREAK_COLLAPSE_OCCUPIED )
 		{
 			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
@@ -132,19 +135,41 @@ public class TextCompositor
 		}
 		return textArea;
 	}
+	
+	protected boolean isEmptyWordVestige( Word wordVestige )
+	{
+		String value = wordVestige.getValue( );
+		for ( int i = 0; i < value.length( ); i++ )
+		{
+			if ( value.charAt( i ) != ' ' )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 
 	private TextArea getNextTextArea( int maxLineWidth )
 	{
 		// the hyphenation vestige
 		if ( null != wordVestige )
 		{
-			lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
-			TextArea textArea = createTextArea( textContent, offset, runLevel,
-					fontInfo );
-			textArea.setMaxWidth( maxLineWidth );
-			textArea.setWidth( 0 );
-			addWordIntoTextArea( textArea, wordVestige );
-			return textArea;
+			if ( isEmptyWordVestige( wordVestige ) )
+			{
+				offset += wordVestige.getLength( );
+				wordVestige = null;
+				return null;
+			}
+			else
+			{
+				lineBreakCollapse = LINE_BREAK_COLLAPSE_FREE;
+				TextArea textArea = createTextArea( textContent, offset, runLevel,
+						fontInfo );
+				textArea.setMaxWidth( maxLineWidth );
+				textArea.setWidth( 0 );
+				addWordIntoTextArea( textArea, wordVestige );
+				return textArea;
+			}
 		}
 		if ( null != remainWord )
 		{
