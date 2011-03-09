@@ -43,6 +43,8 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
+import org.eclipse.birt.report.model.writer.DesignWriter;
+import org.eclipse.birt.report.model.writer.DesignWriterUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -129,7 +131,7 @@ public abstract class BaseTestCase extends TestCase
 	protected static final String GOLDEN_FOLDER = "golden/"; //$NON-NLS-1$
 
 	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
-	
+
 	protected ReportDesignHandle beforeSerializedDesignHandle = null;
 
 	/*
@@ -178,9 +180,9 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void tearDown( ) throws Exception
 	{
-		if ( beforeSerializedDesignHandle != null )			
+		if ( beforeSerializedDesignHandle != null )
 			designHandle = beforeSerializedDesignHandle;
-			
+
 		if ( designHandle != null )
 			designHandle.close( );
 
@@ -1067,6 +1069,18 @@ public abstract class BaseTestCase extends TestCase
 
 	protected void serializeDocument( ) throws Exception
 	{
+		serializeDocument( false );
+	}
+
+	/**
+	 * Writes the document to the internal output stream.
+	 * 
+	 * @throws Exception
+	 */
+
+	protected void serializeDocument( boolean enableExternalDataMart )
+			throws Exception
+	{
 		ReportDesignHandle beforeSerializedDesignHandle = designHandle;
 		os = new ByteArrayOutputStream( );
 
@@ -1076,8 +1090,18 @@ public abstract class BaseTestCase extends TestCase
 		design = visitor.getTarget( );
 		designHandle = (ReportDesignHandle) design.getHandle( design );
 
-		designHandle.serialize( os );
-		
+		if ( enableExternalDataMart )
+		{
+			design.prepareToSave( );
+			DesignWriter writer = (DesignWriter) design.getWriter( );
+			DesignWriterUtil.enableExternalDataMarts( writer );
+			writer.write( os );
+			design.onSave( );
+
+		}
+		else
+			designHandle.serialize( os );
+
 		this.beforeSerializedDesignHandle = beforeSerializedDesignHandle;
 	}
 }

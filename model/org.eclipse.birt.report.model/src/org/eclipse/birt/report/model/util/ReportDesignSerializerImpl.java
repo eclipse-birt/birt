@@ -193,7 +193,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * qualified name of old ReportItemTheme instance in the source design while
 	 * value is the new created local reportItemThem in the target design.
 	 */
-	private Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>( );
+	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>( );
 
 	/**
 	 * Returns the newly created report design.
