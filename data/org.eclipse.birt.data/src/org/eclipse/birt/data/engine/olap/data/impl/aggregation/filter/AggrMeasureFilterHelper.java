@@ -114,9 +114,13 @@ public class AggrMeasureFilterHelper
 						if ( resultSet[i].getAggregationIndex( aggregationNames[j] ) >= 0 )
 						{
 							IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper.get( j );
-							if ( !filterHelper.evaluateFilter( rowAccessor ) )
+							if ( !isTopBottomNConditionalExpression( filterHelper.getExpression( ) ) )
 							{
-								return null;
+								//For grand total, the top/bottom filter is meaningless. Simply ignore.
+								if ( !filterHelper.evaluateFilter( rowAccessor ) )
+								{
+									return null;
+								}
 							}
 						}
 					}
