@@ -58,21 +58,25 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 class DataSetAdapter extends AbstractDataAdapter
 {
 
-	private final boolean createNewDataSource;
-
+	private String defaultDataSourceName = null;
+	private boolean isLinkedParameter = false;
 	/**
 	 * 
 	 */
 
 	DataSetAdapter( )
 	{
-		this( false );
+		super( );
 	}
 
-	DataSetAdapter( boolean createNewDataSource )
+	DataSetAdapter( DataSourceHandle defaultDataSource )
 	{
 		super( );
-		this.createNewDataSource = createNewDataSource;
+		if ( defaultDataSource != null )
+		{
+			defaultDataSourceName = defaultDataSource.getName( );
+			isLinkedParameter = true;
+		}
 	}
 
 	/**
@@ -379,23 +383,6 @@ class DataSetAdapter extends AbstractDataAdapter
 			OdaDataSetHandle setHandle, boolean isSourceChanged )
 			throws SemanticException
 	{
-		updateDataSetHandle( setDesign, setHandle, isSourceChanged, false );
-	}
-	
-	/**
-	 * Updates the data set handle
-	 * @param setDesign
-	 * @param setHandle
-	 * @param isSourceChanged
-	 * @param isLinkedParameter
-	 *            the flag indicates if it is for a linked parameter. If it
-	 *            true, the data source name will not be checked.
-	 * @throws SemanticException
-	 */
-	void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged,
-			boolean isLinkedParameter )	throws SemanticException
-	{
 		if ( setDesign == null || setHandle == null )
 			return;
 
@@ -420,7 +407,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		}
 
 		updateDataSetHandle( setDesign, setHandle, isSourceChanged,
-				isLinkedParameter, requestParameters, requestResultSets );
+				requestParameters, requestResultSets );
 	}
 
 	/**
@@ -440,7 +427,7 @@ class DataSetAdapter extends AbstractDataAdapter
 		DataSetDesign requestDesign = completedSession
 				.getRequestDataSetDesign( );
 
-		updateDataSetHandle( responseDesign, dataSetHandle, false, false,
+		updateDataSetHandle( responseDesign, dataSetHandle, false,
 				SchemaConversionUtil.convertToAdapterParameters( requestDesign
 						.getParameters( ) ), requestDesign.getResultSets( ) );
 
@@ -506,47 +493,40 @@ class DataSetAdapter extends AbstractDataAdapter
 		updateROMPublicProperties( setDesign.getPublicProperties( ), setHandle );
 
 		DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
-
+		String dataSourceName = null;
 		if ( sourceDesign != null )
 		{
-			String dataSourceName = sourceDesign.getName( );
+			dataSourceName = sourceDesign.getName( );
 			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-			DataSourceHandle sourceHandle = null;
-
-			// for the data set in the linked report parameter, a new data
-			// source is required.
-
-			if ( !createNewDataSource )
-			{
-				sourceHandle = moduleHandle.findDataSource( dataSourceName );
-			}
-			else
+			DataSourceHandle sourceHandle = null;			
+			if ( isLinkedParameter )
 			{
 				sourceHandle = moduleHandle.getElementFactory( )
 						.newOdaDataSource( dataSourceName,
-								sourceDesign.getOdaExtensionDataSourceId( ) );
+						sourceDesign.getOdaExtensionDataSourceId( ) );
 				moduleHandle.getDataSources( ).add( sourceHandle );
 			}
-
+			else
+				sourceHandle = moduleHandle.findDataSource( dataSourceName );
 			if ( sourceHandle != null
 					&& sourceHandle instanceof OdaDataSourceHandle )
 			{
-				new DataSourceAdapter( false ).updateDataSourceHandle(
-						sourceDesign, (OdaDataSourceHandle) sourceHandle );
+				new DataSourceAdapter( ).updateDataSourceHandle( sourceDesign,
+						(OdaDataSourceHandle) sourceHandle );
 				dataSourceName = sourceHandle.getName( );
-			}
-			
-			setHandle.getElement( )
-					.setProperty(
-							OdaDataSetHandle.DATA_SOURCE_PROP,
-							PropertyValueValidationUtil.validateProperty(
-									setHandle,
-									OdaDataSetHandle.DATA_SOURCE_PROP,
-									dataSourceName ) );
+			}			
 		}
-		else
-			setHandle.getElement( ).clearProperty(
-					OdaDataSetHandle.DATA_SOURCE_PROP );
+		else 
+			dataSourceName = defaultDataSourceName;
+		
+		setHandle.getElement( ).setProperty(
+					OdaDataSetHandle.DATA_SOURCE_PROP,
+					PropertyValueValidationUtil.validateProperty(
+							setHandle,
+							OdaDataSetHandle.DATA_SOURCE_PROP,
+							dataSourceName ) );
+
+			
 
 		// set the data set parameter list.
 
@@ -767,7 +747,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
 						.getDataSource( );
 
-				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( );
+				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( !isLinkedParameter );
 
 				// only the local data source can be used.
 
@@ -796,7 +776,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				}
 			}
 			else
-				setHandle.setDataSource( null );
+				setHandle.setDataSource( defaultDataSourceName );
 
 			updateDesignerValue( setDesign, setHandle, requestParameters,
 					dataParamAdapter.getUserDefinedParams( ), requestResultSets );
@@ -825,8 +805,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 	private void updateDataSetHandle( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle, boolean isSourceChanged,
-			boolean isLinkedParameter, DataSetParameters requestParameters,
-			ResultSets requestResultSets ) throws SemanticException
+			DataSetParameters requestParameters, ResultSets requestResultSets )
+			throws SemanticException
 	{
 		if ( setDesign == null || setHandle == null )
 			return;
@@ -912,7 +892,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
 						.getDataSource( );
 
-				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( !isLinkedParameter );
+				DataSourceAdapter dataSourceAdapter = new DataSourceAdapter( );
 
 				// only the local data source can be used.
 
@@ -941,7 +921,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				}
 			}
 			else
-				setHandle.setDataSource( null );
+				setHandle.setDataSource( defaultDataSourceName );
 
 			updateDesignerValue( setDesign, setHandle, requestParameters,
 					dataParamAdapter.getUserDefinedParams( ), requestResultSets );
@@ -1086,7 +1066,7 @@ class DataSetAdapter extends AbstractDataAdapter
 				// the relationship between data set parameter and report
 				// parameter. This cached value is used to update the dynamic
 				// value in the new data set design
-
+				
 				DynamicList cachedDynamic = ModelFactory.eINSTANCE
 						.createDynamicList( );
 				cachedDynamic.setDataSetName( setName );

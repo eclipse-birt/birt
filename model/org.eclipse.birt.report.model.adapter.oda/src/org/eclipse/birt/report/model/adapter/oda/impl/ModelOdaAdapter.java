@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IAmbiguousOption;
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
@@ -90,23 +91,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	{
 		return new DataSetAdapter( ).createDataSetHandle( setDesign, module );
 	}
-
-	/**
-	 * @param setDesign
-	 * @param module
-	 * @return
-	 * @throws SemanticException
-	 * @throws IllegalStateException
-	 */
-
-	public OdaDataSetHandle createLinkedParameterDataSetHandle(
-			DataSetDesign setDesign, ModuleHandle module )
-			throws SemanticException, IllegalStateException
-	{
-		return new DataSetAdapter( true ).createDataSetHandle( setDesign,
-				module );
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -200,16 +185,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			OdaDataSetHandle setHandle, boolean isSourceChanged )
 			throws SemanticException
 	{
-		updateDataSetHandle( setDesign, setHandle, isSourceChanged, false );
+		new DataSetAdapter( ).updateDataSetHandle( setDesign, setHandle,
+				isSourceChanged );
 	}
 
-	void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged,
-			boolean isLinkedParameter )	throws SemanticException
-	{
-		new DataSetAdapter( ).updateDataSetHandle( setDesign, setHandle,
-				isSourceChanged, isLinkedParameter );
-	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -373,4 +352,29 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		new AdvancedDataSetAdapter( ).updateDataSetHandle( setHandle,
 				completedSession, parameterList, resultSetList );
 	}
+
+	/**
+	 * 
+	 * @param setDesign
+	 * @param setHandle
+	 * @param isSourceChanged
+	 * @param defaultDataSource
+	 * @throws SemanticException
+	 */
+	void updateLinkedParameterDataSetHandle( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, boolean isSourceChanged,
+			DataSourceHandle defaultDataSource ) throws SemanticException
+	{
+		new DataSetAdapter( defaultDataSource ).updateDataSetHandle( setDesign,
+				setHandle,
+				isSourceChanged );
+	}
+	
+	public OdaDataSetHandle createLinkedParameterDataSetHandle( DataSetDesign setDesign,
+			ModuleHandle module,DataSourceHandle defaultDataSource ) throws SemanticException,
+			IllegalStateException
+	{
+		return new DataSetAdapter( defaultDataSource ).createDataSetHandle( setDesign, module );
+	}
+
 }
