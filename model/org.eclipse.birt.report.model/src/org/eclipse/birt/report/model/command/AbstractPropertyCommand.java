@@ -391,7 +391,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			StructureContext memberContext )
 	{
 		IStructureDefn structDefn = referred.getDefn( );
-		Iterator<IPropertyDefn> memberDefns = structDefn.getPropertyIterator( );
+		Iterator<IPropertyDefn> memberDefns = structDefn.propertiesIterator( );
 
 		while ( memberDefns.hasNext( ) )
 		{

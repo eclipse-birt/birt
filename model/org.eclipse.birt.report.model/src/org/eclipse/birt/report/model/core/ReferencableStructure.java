@@ -346,7 +346,7 @@ public abstract class ReferencableStructure extends Structure
 
 		// retrieve the member value from the lib reference
 
-		Iterator<IPropertyDefn> propIter = getDefn( ).getPropertyIterator( );
+		Iterator<IPropertyDefn> propIter = getDefn( ).propertiesIterator( );
 		while ( propIter.hasNext( ) )
 		{
 			PropertyDefn prop = (PropertyDefn) propIter.next( );

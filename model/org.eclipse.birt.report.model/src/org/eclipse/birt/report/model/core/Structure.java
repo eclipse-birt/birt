@@ -59,7 +59,7 @@ public abstract class Structure implements IStructure
 		if ( struct.getDefn( ) != getDefn( ) )
 			return false;
 
-		Iterator<IPropertyDefn> iter = getDefn( ).getPropertyIterator( );
+		Iterator<IPropertyDefn> iter = getDefn( ).propertiesIterator( );
 		while ( iter.hasNext( ) )
 		{
 			PropertyDefn defn = (PropertyDefn) iter.next( );

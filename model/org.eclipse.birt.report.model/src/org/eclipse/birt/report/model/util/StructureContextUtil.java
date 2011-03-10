@@ -26,6 +26,10 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
+/**
+ *
+ */
+
 public class StructureContextUtil
 {
 
@@ -87,7 +91,7 @@ public class StructureContextUtil
 		if ( struct == null )
 			return;
 		Iterator<IPropertyDefn> members = struct.getDefn( )
-				.getPropertyIterator( );
+				.propertiesIterator( );
 		while ( members.hasNext( ) )
 		{
 			PropertyDefn member = (PropertyDefn) members.next( );

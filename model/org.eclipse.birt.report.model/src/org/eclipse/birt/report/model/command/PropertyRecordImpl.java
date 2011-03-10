@@ -363,8 +363,7 @@ class PropertyRecordImpl extends SimpleRecord
 
 	private void adjustReferredClients( Structure struct )
 	{
-		Iterator<IPropertyDefn> propDefns = struct.getDefn( )
-				.getPropertyIterator( );
+		Iterator<IPropertyDefn> propDefns = struct.getDefn( ).propertiesIterator( );
 
 		while ( propDefns.hasNext( ) )
 		{
