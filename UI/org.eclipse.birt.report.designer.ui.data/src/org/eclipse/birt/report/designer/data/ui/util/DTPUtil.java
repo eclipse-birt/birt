@@ -204,7 +204,14 @@ public class DTPUtil
 				modelOdaAdapter.updateDataSetHandle( design,
 						dataSetHandle,
 						isSourceChanged );
-				DataSetUIUtil.updateColumnCacheAfterCleanRs( dataSetHandle );
+				//update cached meta data
+				if ( dataSetHandle.getCachedMetaDataHandle( ) != null
+						&& dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ) != null )
+					dataSetHandle.getCachedMetaDataHandle( )
+							.getResultSet( )
+							.clearValue( );
+
+				DataSetUIUtil.updateColumnCache( dataSetHandle );
 			}
 			catch ( SemanticException e )
 			{
