@@ -81,6 +81,7 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 
 		IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( crosstabItem,
 				parent,
+				context.getDataRequestSession( ).getModelAdaptor( ),
 				true,
 				true,
 				true,

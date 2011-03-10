@@ -102,12 +102,45 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		return factory;
 	}
 
+	/**
+	 * @deprecated please use
+	 *             {@link #createCubeQuery(CrosstabReportItemHandle, IDataQueryDefinition, IModelAdapter, boolean, boolean, boolean, boolean, boolean, boolean)}
+	 */
 	public static ICubeQueryDefinition createCubeQuery(
 			CrosstabReportItemHandle crosstabItem,
 			IDataQueryDefinition parentQuery, boolean needMeasure,
 			boolean needRowDimension, boolean needColumnDimension,
 			boolean needBinding, boolean needSorting, boolean needFilter )
 			throws BirtException
+	{
+		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+		try
+		{
+			IModelAdapter modelAdapter = session.getModelAdaptor( );
+
+			return createCubeQuery( crosstabItem,
+					parentQuery,
+					modelAdapter,
+					needMeasure,
+					needRowDimension,
+					needColumnDimension,
+					needBinding,
+					needSorting,
+					needFilter );
+		}
+		finally
+		{
+			session.shutdown( );
+		}
+	}
+
+	public static ICubeQueryDefinition createCubeQuery(
+			CrosstabReportItemHandle crosstabItem,
+			IDataQueryDefinition parentQuery, IModelAdapter modelAdapter,
+			boolean needMeasure, boolean needRowDimension,
+			boolean needColumnDimension, boolean needBinding,
+			boolean needSorting, boolean needFilter ) throws BirtException
 	{
 		ICubeQueryDefinition cubeQuery = getCubeElementFactory( ).createCubeQuery( crosstabItem.getCubeName( ) );
 
@@ -117,158 +150,147 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		List<LevelViewHandle> levelViewList = new ArrayList<LevelViewHandle>( );
 		Map<LevelHandle, ILevelDefinition> levelMapping = new HashMap<LevelHandle, ILevelDefinition>( );
 
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-
-		try
+		if ( needMeasure )
 		{
-			IModelAdapter modelAdapter = session.getModelAdaptor( );
-
-			if ( needMeasure )
+			// add measure definitions
+			for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 			{
-				// add measure definitions
-				for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
-				{
-					// TODO check visibility?
-					MeasureViewHandle mv = crosstabItem.getMeasure( i );
+				// TODO check visibility?
+				MeasureViewHandle mv = crosstabItem.getMeasure( i );
 
-					// add measure filters
-					addFactTableOrMeasureFilter( mv.filtersIterator( ),
-							cubeQuery,
-							modelAdapter );
-
-					if ( mv instanceof ComputedMeasureViewHandle )
-					{
-						continue;
-					}
-
-					if ( mv.getCubeMeasure( ) == null )
-					{
-						throw new CrosstabException( Messages.getString( "CrosstabQueryHelper.error.invalid.measure", //$NON-NLS-1$
-								mv.getCubeMeasureName( ) ) );
-					}
-
-					IMeasureDefinition mDef = cubeQuery.createMeasure( mv.getCubeMeasure( )
-							.getName( ) );
-					mDef.setAggrFunction( mv.getCubeMeasure( ).getFunction( ) == null ? null
-							: DataAdapterUtil.getRollUpAggregationName( mv.getCubeMeasure( )
-									.getFunction( ) ) );
-				}
-			}
-
-			// add row edge
-			if ( needRowDimension
-					&& crosstabItem.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
-			{
-				addEdgeDefinition( cubeQuery,
-						crosstabItem,
-						ROW_AXIS_TYPE,
-						rowLevelNameList,
-						levelViewList,
-						levelMapping,
-						modelAdapter );
-			}
-
-			// add column edge
-			if ( needColumnDimension
-					&& crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
-			{
-				addEdgeDefinition( cubeQuery,
-						crosstabItem,
-						COLUMN_AXIS_TYPE,
-						columnLevelNameList,
-						levelViewList,
-						levelMapping,
-						modelAdapter );
-			}
-
-			// add fact table filters on Crosstab
-			addFactTableOrMeasureFilter( crosstabItem.filtersIterator( ),
-					cubeQuery,
-					modelAdapter );
-
-			// add sorting/filter
-			if ( needSorting )
-			{
-				addLevelSorting( levelViewList,
-						levelMapping,
+				// add measure filters
+				addFactTableOrMeasureFilter( mv.filtersIterator( ),
 						cubeQuery,
 						modelAdapter );
-			}
 
-			if ( needFilter )
-			{
-				addLevelFilter( levelViewList,
-						levelMapping,
-						cubeQuery,
-						modelAdapter );
-			}
-
-			if ( needBinding )
-			{
-				// add column binding
-				Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
-				ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
-
-				if ( bindingItr != null )
+				if ( mv instanceof ComputedMeasureViewHandle )
 				{
-					Map<String, String> cache = new HashMap<String, String>( );
-
-					while ( bindingItr.hasNext( ) )
-					{
-						ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
-
-						Binding binding = new Binding( column.getName( ) );
-						binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-								: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-						binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
-								.getValue( ),
-								ExpressionLocation.CUBE ) );
-						binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-
-						if ( column.getFilterExpression( ) != null )
-						{
-							binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
-									.getValue( ),
-									ExpressionLocation.CUBE ) );
-						}
-
-						for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-						{
-							AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-							if ( aah.getValue( ) != null )
-							{
-								binding.addArgument( aah.getName( ),
-										modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-												.getValue( ),
-												ExpressionLocation.CUBE ) );
-							}
-						}
-
-						List aggrList = column.getAggregateOnList( );
-
-						if ( aggrList != null )
-						{
-							for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
-							{
-								String baseLevel = (String) aggrItr.next( );
-
-								CrosstabUtil.addHierachyAggregateOn( module,
-										binding,
-										baseLevel,
-										rowLevelNameList,
-										columnLevelNameList,
-										cache );
-							}
-						}
-
-						cubeQuery.addBinding( binding );
-					}
+					continue;
 				}
+
+				if ( mv.getCubeMeasure( ) == null )
+				{
+					throw new CrosstabException( Messages.getString( "CrosstabQueryHelper.error.invalid.measure", //$NON-NLS-1$
+							mv.getCubeMeasureName( ) ) );
+				}
+
+				IMeasureDefinition mDef = cubeQuery.createMeasure( mv.getCubeMeasure( )
+						.getName( ) );
+				mDef.setAggrFunction( mv.getCubeMeasure( ).getFunction( ) == null ? null
+						: DataAdapterUtil.getRollUpAggregationName( mv.getCubeMeasure( )
+								.getFunction( ) ) );
 			}
 		}
-		finally
+
+		// add row edge
+		if ( needRowDimension
+				&& crosstabItem.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
 		{
-			session.shutdown( );
+			addEdgeDefinition( cubeQuery,
+					crosstabItem,
+					ROW_AXIS_TYPE,
+					rowLevelNameList,
+					levelViewList,
+					levelMapping,
+					modelAdapter );
+		}
+
+		// add column edge
+		if ( needColumnDimension
+				&& crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
+		{
+			addEdgeDefinition( cubeQuery,
+					crosstabItem,
+					COLUMN_AXIS_TYPE,
+					columnLevelNameList,
+					levelViewList,
+					levelMapping,
+					modelAdapter );
+		}
+
+		// add fact table filters on Crosstab
+		addFactTableOrMeasureFilter( crosstabItem.filtersIterator( ),
+				cubeQuery,
+				modelAdapter );
+
+		// add sorting/filter
+		if ( needSorting )
+		{
+			addLevelSorting( levelViewList,
+					levelMapping,
+					cubeQuery,
+					modelAdapter );
+		}
+
+		if ( needFilter )
+		{
+			addLevelFilter( levelViewList,
+					levelMapping,
+					cubeQuery,
+					modelAdapter );
+		}
+
+		if ( needBinding )
+		{
+			// add column binding
+			Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
+			ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
+
+			if ( bindingItr != null )
+			{
+				Map<String, String> cache = new HashMap<String, String>( );
+
+				while ( bindingItr.hasNext( ) )
+				{
+					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
+
+					Binding binding = new Binding( column.getName( ) );
+					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
+							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+							.getValue( ),
+							ExpressionLocation.CUBE ) );
+					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+
+					if ( column.getFilterExpression( ) != null )
+					{
+						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
+								.getValue( ),
+								ExpressionLocation.CUBE ) );
+					}
+
+					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+					{
+						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+						if ( aah.getValue( ) != null )
+						{
+							binding.addArgument( aah.getName( ),
+									modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+											.getValue( ),
+											ExpressionLocation.CUBE ) );
+						}
+					}
+
+					List aggrList = column.getAggregateOnList( );
+
+					if ( aggrList != null )
+					{
+						for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
+						{
+							String baseLevel = (String) aggrItr.next( );
+
+							CrosstabUtil.addHierachyAggregateOn( module,
+									binding,
+									baseLevel,
+									rowLevelNameList,
+									columnLevelNameList,
+									cache );
+						}
+					}
+
+					cubeQuery.addBinding( binding );
+				}
+			}
 		}
 
 		return cubeQuery;
