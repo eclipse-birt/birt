@@ -525,6 +525,7 @@ public class DataEngineContext
 	public void setTmpdir( String tmpdir )
 	{
 		this.tmpDir = tmpdir;
+		DataEngineThreadLocal.getInstance( ).getPathManager( ).setTempPath( getTmpdir( ) );
 	}
 
 	public void setDataEngineOption( int option )
