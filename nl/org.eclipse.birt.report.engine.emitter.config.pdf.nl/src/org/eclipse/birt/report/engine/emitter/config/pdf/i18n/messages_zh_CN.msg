@@ -18,7 +18,7 @@ PDFEmitter.DisplayName=PDF
 #Option Display Value
 OptionDisplayValue.BidiProcessing=BIDI 处理
 OptionDisplayValue.TextWrapping=自动换行
-OptionDisplayValue.TextHyphenation=Text hyphenation
+OptionDisplayValue.TextHyphenation=文本连接
 OptionDisplayValue.PageOverFlow=页面溢出处理
 OptionDisplayValue.CLIP_CONTENT=剪裁内容
 OptionDisplayValue.FIT_TO_PAGE_SIZE=适合大小
@@ -32,7 +32,7 @@ OptionDisplayValue.RenderChartInSVG=以向量图形呈现图表
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=支持双向文本。
-OptionDescription.TextHyphenation=Support text hyphenation.
+OptionDescription.TextHyphenation=支持文本连接。
 OptionDescription.TextWrapping=表示文本是否可自动换行。
 OptionDescription.PageOverFlow=控制如何输出内容。
 OptionDescription.FontSubstitution=指定的字体无法显示该字符时自动选择字体。

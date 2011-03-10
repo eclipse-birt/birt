@@ -18,7 +18,7 @@ PDFEmitter.DisplayName=PDF
 #Option Display Value
 OptionDisplayValue.BidiProcessing=Procesamiento de BIDI
 OptionDisplayValue.TextWrapping=Autoajuste de texto
-OptionDisplayValue.TextHyphenation=Text hyphenation
+OptionDisplayValue.TextHyphenation=Separación con guión de texto
 OptionDisplayValue.PageOverFlow=Procesamiento del desbordamiento de página
 OptionDisplayValue.CLIP_CONTENT=Cortar contenido
 OptionDisplayValue.FIT_TO_PAGE_SIZE=Ajustar a tamaño de página
@@ -32,7 +32,7 @@ OptionDisplayValue.RenderChartInSVG=Procesar diagrama en los gráficos vectoriale
 ###########################################################
 #Option Description
 OptionDescription.BidiProcessing=Admite texto bidireccional.
-OptionDescription.TextHyphenation=Support text hyphenation.
+OptionDescription.TextHyphenation=Compatible con la separación con guión de texto.
 OptionDescription.TextWrapping=Indica si el texto se puede autoajustar.
 OptionDescription.PageOverFlow=Controla cómo se va a mostrar el contenido.
 OptionDescription.FontSubstitution=Selecciona fuentes automáticamente cuando la fuente especificada no puede mostrar el carácter.
