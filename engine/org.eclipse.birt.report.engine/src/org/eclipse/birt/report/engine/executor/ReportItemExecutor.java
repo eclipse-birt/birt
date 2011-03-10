@@ -765,6 +765,22 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 						tocEntry = tocBuilder.startDummyEntry( parentTOCEntry,
 								hiddenFormats );
 					}
+					else
+					{
+						Object design = content.getGenerateBy( );
+						if ( design != null
+								&& design instanceof ReportItemDesign )
+						{
+							Expression expr = ( (ReportItemDesign) design )
+									.getTOC( );
+							if ( expr != null )
+							{
+								TOCEntry parentTOCEntry = getParentTOCEntry( );
+								tocEntry = tocBuilder.startDummyEntry(
+										parentTOCEntry, hiddenFormats );
+							}
+						}
+					}
 				}
 			}
 		}

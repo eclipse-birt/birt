@@ -168,6 +168,7 @@ public class TOCBuilder implements ITOCConstants
 		TOCEntry parent = entry.getParent( );
 		while ( parent != null && parent.getTreeNode( ) == null )
 		{
+			parent.setTOCValue( "" );
 			writeTOCEntry( parent );
 		}
 
