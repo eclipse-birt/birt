@@ -214,7 +214,7 @@ public final class DataSetProvider
 		{
 			DataService.getInstance( ).registerSession( dataSetHandle, session );
 			IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
-					false );
+					true );
 			if ( metaData == null )
 				return new DataSetViewData[0];
 			DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
@@ -263,6 +263,7 @@ public final class DataSetProvider
 					items[i].setWordWrap( hint.wordWrap( ) );
 					items[i].setIndexColumn( hint.isIndexColumn( ) );
 					items[i].setRemoveDuplicateValues( hint.isCompressed( ) );
+					items[i].setAlias( hint.getAlias( ) );
 				}
 				else
 				{
