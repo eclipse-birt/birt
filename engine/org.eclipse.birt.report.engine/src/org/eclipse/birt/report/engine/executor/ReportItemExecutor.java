@@ -775,10 +775,18 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 									.getTOC( );
 							if ( expr != null )
 							{
+								String bookmark = content.getBookmark( );
 								TOCEntry parentTOCEntry = getParentTOCEntry( );
-								tocEntry = tocBuilder.startDummyEntry(
-										parentTOCEntry, hiddenFormats );
+								long elementId = getElementId( );
+								tocEntry = tocBuilder.startEntry(
+										parentTOCEntry, null, bookmark,
+										hiddenFormats, elementId );
+								if ( bookmark == null )
+								{
+									content.setBookmark( tocEntry.getNodeId( ) );
+								}
 							}
+							
 						}
 					}
 				}
