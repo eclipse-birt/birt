@@ -1737,6 +1737,12 @@ public final class AutoScale extends Methods implements Cloneable
 			// chart
 			vis = true;
 		}
+		
+		// initialize stagger state.
+		boolean staggerEnabled = isAxisLabelStaggered( );
+		this.staggeredHelper = StaggeredHelper.createInstance( staggerEnabled,
+				atcTickCoordinates.size( ),
+				info.iLabelShowingInterval );
 
 		this.labelVisHelper = LabelVisibleHelper.createInstance( vis,
 				isCategoryScale( ),
