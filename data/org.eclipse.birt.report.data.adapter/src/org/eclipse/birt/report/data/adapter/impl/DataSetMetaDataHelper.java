@@ -230,9 +230,10 @@ public class DataSetMetaDataHelper
 			computedColumnNameSet.add( handle.getName( ) );
 		}
 
-		List columnList = new ArrayList( );
 		HashSet orgColumnNameSet = new HashSet( );
 		HashSet uniqueColumnNameSet = new HashSet( );
+
+		PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
 		for ( int i = 1; i <= meta.getColumnCount( ); i++ )
 		{
 			OdaResultSetColumn rsColumn = new OdaResultSetColumn( );
@@ -251,14 +252,10 @@ public class DataSetMetaDataHelper
 				rsColumn.setNativeName( meta.getColumnName( i ) );
 				rsColumn.setPosition( Integer.valueOf( i ) );
 
-				columnList.add( rsColumn );
-
+				handle.addItem( rsColumn );
 				uniqueColumnNameSet.add( uniqueName );
 			}
 		}
-
-		// holdEvent
-		CompatibilityUtil.addResultSetColumn( dataSetHandle, columnList );
 	}
 
 	/**

@@ -214,7 +214,7 @@ public final class DataSetProvider
 		{
 			DataService.getInstance( ).registerSession( dataSetHandle, session );
 			IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
-					true );
+					false );
 			if ( metaData == null )
 				return new DataSetViewData[0];
 			DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
