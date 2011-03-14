@@ -199,11 +199,59 @@ Then, in Slice Label, type text to use as the category label for the combined sl
 <!-- link updated JAHT 20090614  No available topic -->
 </context>
 
+<context id="FormatRadarChartSeries_ID" title="Format Chart: Value Series, Radar Charts">
+<!-- SEQUENCE: On chart wizard for a radar chart, Format Chart, then on left, expand Series, then select Value Series JAHT 20110313 -->
+<description>
+The spokes of a radar chart display values for a value series. The values must be of numeric, date, or date-and-time types.
+Use this page to format the lines joining the values in the chart.
+You can add labels and fill the polygons between values in the value series for this chart type.
+Use <b>Labels</b>, <b>Interactivity</b>, <b>Radar Line</b>, <b>Web Labels</b>, and <b>Category Labels</b> to refine the appearance and behavior of the value series.
+</description>
+
+<!-- link updated JAHT 20090608  No available topic -->
+</context>
+
 <context id="FormatBarChartYSeries_ID" title="Format Chart: Value (Y) Series, Bar Charts">
 <!-- SEQUENCE: On chart wizard for a bar chart, Format Chart, then on left, expand Series, then select Value (Y) Series JAHT 20090615 -->
 <description>
 The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
 Use this page to format the bar outlines in the chart.
+You can add labels and a curve-fitting line to value series for this chart type.
+Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
+</description>
+
+<!-- link updated JAHT 20090608  No available topic -->
+</context>
+
+<context id="FormatConeChartYSeries_ID" title="Format Chart: Value (Y) Series, Cone Charts">
+<!-- SEQUENCE: On chart wizard for a cone chart, Format Chart, then on left, expand Series, then select Value (Y) Series JAHT 20110313 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
+Use this page to format the cone outlines in the chart.
+You can add labels and a curve-fitting line to value series for this chart type.
+Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
+</description>
+
+<!-- link updated JAHT 20090608  No available topic -->
+</context>
+
+<context id="FormatPyramidChartYSeries_ID" title="Format Chart: Value (Y) Series, Pyramid Charts">
+<!-- SEQUENCE: On chart wizard for a pyramid chart, Format Chart, then on left, expand Series, then select Value (Y) Series JAHT 20110313 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
+Use this page to format the pyramid outlines in the chart.
+You can add labels and a curve-fitting line to value series for this chart type.
+Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
+</description>
+
+<!-- link updated JAHT 20090608  No available topic -->
+</context>
+
+<context id="FormatTubeChartYSeries_ID" title="Format Chart: Value (Y) Series, Tube Charts">
+<!-- SEQUENCE: On chart wizard for a tube chart, Format Chart, then on left, expand Series, then select Value (Y) Series JAHT 20110313 -->
+<description>
+The y-axis displays values for a value series. Its values must be of numeric, date, or date-and-time types.
+Use this page to format the tube outlines in the chart.
 You can add labels and a curve-fitting line to value series for this chart type.
 Use <b>Labels</b>, <b>Curve Fitting Line</b>, and <b>Interactivity</b> to refine the appearance and behavior of the value series.
 </description>
@@ -723,6 +771,15 @@ You can also specify the position of the symbol relative to the field.
 </context>
 
 <context id="Preference_Chart_Content_Assist_ID" title="Chart Content Assist">
+<!-- SEQUENCE: From main menu, choose Window, then Preferences. On left, expand Report Design, then expand Chart, then expand Chart Field Assist, then select Chart Content Assist JAHT 20090616 -->
+<description>The content assist tool in the chart builder displays available values for fields for which you supply an expression.
+You can define the gesture that the chart developer makes to display the content assist tool. The default gesture is to type the ctrl-space character.
+You can also define the behavior of the content assist tool as the developer selects a value from the list or types characters.
+</description>
+<!-- link updated JAHT 20090608  No available topic -->
+</context>
+
+<context id="Preference_Chart_Context_Assist_ID" title="Chart Content Assist">
 <!-- SEQUENCE: From main menu, choose Window, then Preferences. On left, expand Report Design, then expand Chart, then expand Chart Field Assist, then select Chart Content Assist JAHT 20090616 -->
 <description>The content assist tool in the chart builder displays available values for fields for which you supply an expression.
 You can define the gesture that the chart developer makes to display the content assist tool. The default gesture is to type the ctrl-space character.
