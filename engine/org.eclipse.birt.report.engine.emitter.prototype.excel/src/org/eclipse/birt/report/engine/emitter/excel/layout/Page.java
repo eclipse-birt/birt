@@ -764,9 +764,12 @@ public class Page
 		}
 		rowContainer.setRowIndex( maxRowIndex );
 		float resize = height / ( maxRowIndex - startRowIndex );
-		for ( int i = startRowIndex; i < maxRowIndex; i++ )
+		if ( resize == 0 || resize > ExcelLayoutEngine.DEFAULT_ROW_HEIGHT )
 		{
-			currentCache.setRowHeight( i, resize );
+			for ( int i = startRowIndex; i < maxRowIndex; i++ )
+			{
+				currentCache.setRowHeight( i, resize );
+			}
 		}
 
 		// for each column, process the cells and update the rowspan according to the situation
