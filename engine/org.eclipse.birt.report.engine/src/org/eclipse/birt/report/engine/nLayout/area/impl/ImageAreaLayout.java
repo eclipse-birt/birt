@@ -691,7 +691,7 @@ public class ImageAreaLayout implements ILayout
 		private void createImageMap( int[] area, IImageArea imageArea,
 				String url, String targetWindow )
 		{
-			if ( url == null )
+			if ( url == null || url.length( ) == 0 )
 			{
 				return;
 			}
