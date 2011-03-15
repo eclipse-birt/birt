@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -94,6 +95,7 @@ class ContentUtil
 		// highlight here
 
 		Iterator<HighlightRuleHandle> highlightRules = null;
+		Iterator<IConditionalExpression> highlightCondExprs = null;
 
 		if ( styleCache != null )
 		{
@@ -102,21 +104,28 @@ class ContentUtil
 			if ( cachedData != null )
 			{
 				List<HighlightRuleHandle> rules = (List<HighlightRuleHandle>) cachedData[0];
-
 				if ( rules != null )
 				{
 					highlightRules = rules.iterator( );
+				}
+
+				List<IConditionalExpression> exprs = (List<IConditionalExpression>) cachedData[1];
+				if ( exprs != null )
+				{
+					highlightCondExprs = exprs.iterator( );
 				}
 			}
 			else
 			{
 				List<HighlightRuleHandle> rules = null;
+				List<IConditionalExpression> exprs = null;
 
 				StyleHandle privateStyle = modelHandle.getPrivateStyle( );
 
 				if ( privateStyle != null )
 				{
 					rules = new ArrayList<HighlightRuleHandle>( );
+					exprs = new ArrayList<IConditionalExpression>( );
 
 					Iterator itr = privateStyle.highlightRulesIterator( );
 
@@ -131,12 +140,15 @@ class ContentUtil
 					}
 					else
 					{
+						exprs = setupHighlightExprs( rules );
+
 						highlightRules = rules.iterator( );
+						highlightCondExprs = exprs.iterator( );
 					}
 				}
 
 				styleCache.put( modelHandle, new Object[]{
-					rules
+						rules, exprs
 				} );
 			}
 		}
@@ -159,6 +171,7 @@ class ContentUtil
 
 		setupHighlightStyle( modelHandle,
 				highlightRules,
+				highlightCondExprs,
 				highlightStyle,
 				evaluator );
 
@@ -170,10 +183,113 @@ class ContentUtil
 		return null;
 	}
 
-	private static void setupHighlightStyle( ReportElementHandle handle,
-			Iterator<HighlightRuleHandle> highlightRules, IStyle style,
-			IBaseResultSet evaluator ) throws BirtException
+	private static List<IConditionalExpression> setupHighlightExprs(
+			List<HighlightRuleHandle> rules ) throws BirtException
 	{
+		List<IConditionalExpression> exprs = new ArrayList<IConditionalExpression>( );
+
+		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+		try
+		{
+			IModelAdapter modelAdapter = session.getModelAdaptor( );
+
+			for ( HighlightRuleHandle rule : rules )
+			{
+				IConditionalExpression expression = convertHighlightExpression( rule,
+						modelAdapter );
+
+				exprs.add( expression );
+			}
+		}
+		finally
+		{
+			session.shutdown( );
+		}
+
+		return exprs;
+	}
+
+	private static IConditionalExpression convertHighlightExpression(
+			HighlightRuleHandle rule, IModelAdapter modelAdapter )
+	{
+		ConditionalExpression condExpr = null;
+
+		if ( ModuleUtil.isListStyleRuleValue( rule ) )
+		{
+			List<ScriptExpression> vals = null;
+
+			List<Expression> val1list = rule.getValue1ExpressionList( )
+					.getListValue( );
+
+			if ( val1list != null )
+			{
+				vals = new ArrayList<ScriptExpression>( );
+
+				for ( Expression expr : val1list )
+				{
+					vals.add( modelAdapter.adaptExpression( expr,
+							ExpressionLocation.CUBE ) );
+				}
+			}
+
+			condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
+					.getValue( ),
+					ExpressionLocation.CUBE ),
+					DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
+					vals );
+		}
+		else
+		{
+			Expression value1 = null;
+
+			List<Expression> val1list = rule.getValue1ExpressionList( )
+					.getListValue( );
+
+			if ( val1list != null && val1list.size( ) > 0 )
+			{
+				value1 = val1list.get( 0 );
+			}
+
+			condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
+					.getValue( ),
+					ExpressionLocation.CUBE ),
+					DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
+					modelAdapter.adaptExpression( value1,
+							ExpressionLocation.CUBE ),
+					modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( StyleRule.VALUE2_MEMBER )
+							.getValue( ),
+							ExpressionLocation.CUBE ) );
+		}
+
+		return ExpressionUtil.transformConditionalExpression( condExpr );
+	}
+
+	private static void setupHighlightStyle( ReportElementHandle handle,
+			Iterator<HighlightRuleHandle> highlightRules,
+			Iterator<IConditionalExpression> cachedHighlightCondExprs,
+			IStyle style, IBaseResultSet evaluator ) throws BirtException
+	{
+		if ( cachedHighlightCondExprs != null )
+		{
+			while ( highlightRules.hasNext( ) )
+			{
+				HighlightRuleHandle rule = highlightRules.next( );
+
+				IConditionalExpression expression = cachedHighlightCondExprs.next( );
+
+				Object value = evaluator.evaluate( expression );
+
+				if ( value instanceof Boolean
+						&& ( (Boolean) value ).booleanValue( ) )
+				{
+					setupRuleStyle( rule, style );
+				}
+			}
+
+			return;
+		}
+
 		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 
 		try
@@ -184,40 +300,8 @@ class ContentUtil
 			{
 				HighlightRuleHandle rule = highlightRules.next( );
 
-				ConditionalExpression condExpr = null;
-
-				if ( ModuleUtil.isListStyleRuleValue( rule ) )
-				{
-					condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
-							.getValue( ),
-							ExpressionLocation.CUBE ),
-							DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-							rule.getValue1ExpressionList( ).getListValue( ) );
-				}
-				else
-				{
-					Expression value1 = null;
-
-					List<Expression> val1list = rule.getValue1ExpressionList( )
-							.getListValue( );
-
-					if ( val1list != null && val1list.size( ) > 0 )
-					{
-						value1 = val1list.get( 0 );
-					}
-
-					condExpr = new ConditionalExpression( modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( HighlightRule.TEST_EXPR_MEMBER )
-							.getValue( ),
-							ExpressionLocation.CUBE ),
-							DataAdapterUtil.adaptModelFilterOperator( rule.getOperator( ) ),
-							modelAdapter.adaptExpression( value1,
-									ExpressionLocation.CUBE ),
-							modelAdapter.adaptExpression( (Expression) rule.getExpressionProperty( StyleRule.VALUE2_MEMBER )
-									.getValue( ),
-									ExpressionLocation.CUBE ) );
-				}
-
-				IConditionalExpression expression = ExpressionUtil.transformConditionalExpression( condExpr );
+				IConditionalExpression expression = convertHighlightExpression( rule,
+						modelAdapter );
 
 				Object value = evaluator.evaluate( expression );
 
@@ -232,7 +316,6 @@ class ContentUtil
 		{
 			session.shutdown( );
 		}
-
 	}
 
 	static void processVisibility( IExecutorContext context, IContent content,
