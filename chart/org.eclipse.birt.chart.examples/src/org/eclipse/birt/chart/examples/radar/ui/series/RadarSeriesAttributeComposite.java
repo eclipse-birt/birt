@@ -57,7 +57,10 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	private LineAttributesComposite liacLine = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/swt.series" ); //$NON-NLS-1$
-
+	
+	public static final String SUBTASK_YSERIES_RADAR = ChartHelpContextIds.PREFIX
+			+ "FormatRadarChartSeries_ID"; //$NON-NLS-1$
+	
 	/**
 	 * @param parent
 	 * @param style
@@ -87,7 +90,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		init( );
 		placeComponents( );
 
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_LINE );
+		ChartUIUtil.bindHelp( parent, SUBTASK_YSERIES_RADAR );
 	}
 
 	private void init( )

@@ -50,6 +50,15 @@ public class ChartHelpContextIds
 	public static final String SUBTASK_YSERIES_BAR = PREFIX
 			+ "FormatBarChartYSeries_ID"; //$NON-NLS-1$
 
+	public static final String SUBTASK_YSERIES_TUBE = PREFIX
+	+ "FormatTubeChartYSeries_ID"; //$NON-NLS-1$
+	
+	public static final String SUBTASK_YSERIES_PYRAMID = PREFIX
+	+ "FormatPyramidChartYSeries_ID"; //$NON-NLS-1$
+	
+	public static final String SUBTASK_YSERIES_CONE = PREFIX
+	+ "FormatConeChartYSeries_ID"; //$NON-NLS-1$
+	
 	public static final String SUBTASK_YSERIES_LINE = PREFIX
 			+ "FormatLineChartYSeries_ID"; //$NON-NLS-1$
 

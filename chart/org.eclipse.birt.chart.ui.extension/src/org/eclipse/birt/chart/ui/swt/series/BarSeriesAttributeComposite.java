@@ -20,6 +20,10 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
+import org.eclipse.birt.chart.ui.swt.type.ConeChart;
+import org.eclipse.birt.chart.ui.swt.type.PyramidChart;
+import org.eclipse.birt.chart.ui.swt.type.TubeChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -74,7 +78,27 @@ public class BarSeriesAttributeComposite extends Composite
 		this.context = context;
 		init( );
 		placeComponents( );
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_YSERIES_BAR );
+
+		initContextHelp( parent, context );
+	}
+
+	private void initContextHelp( Composite parent, ChartWizardContext context )
+	{
+		String contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_BAR;
+		IChartType ct = context.getChartType( );
+		if ( ct instanceof TubeChart )
+		{
+			contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_TUBE;
+		}
+		else if ( ct instanceof PyramidChart )
+		{
+			contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_PYRAMID;
+		}
+		else if ( ct instanceof ConeChart )
+		{
+			contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_CONE;
+		}
+		ChartUIUtil.bindHelp( parent, contextHelpID );
 	}
 
 	private void init( )
