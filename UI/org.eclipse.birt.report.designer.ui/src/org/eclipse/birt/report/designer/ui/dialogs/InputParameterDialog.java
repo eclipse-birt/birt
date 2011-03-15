@@ -23,6 +23,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
@@ -222,6 +223,9 @@ public class InputParameterDialog extends BaseDialog
 
 		createParameters( );
 		performed = true;
+
+		UIUtil.bindHelp( parent, IHelpContextIds.INPUT_PARAMETERS_DIALOG_ID );
+
 		return composite;
 	}
 
