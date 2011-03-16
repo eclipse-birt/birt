@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,9 @@ class XMLParserPoolImpl implements XMLParserPool
 	{
 		Set<String> keys = null;
 		if ( properties != null )
-			keys = properties.keySet( );
+		{
+			keys = new HashSet<String>( properties.keySet( ) );
+		}
 
 		synchronized ( this )
 		{
