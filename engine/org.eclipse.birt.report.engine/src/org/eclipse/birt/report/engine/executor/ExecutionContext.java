@@ -1075,8 +1075,10 @@ public class ExecutionContext
 			log.log( Level.SEVERE,
 					"Failed to execute script " + fileName + ".", //$NON-NLS-1$ //$NON-NLS-2$
 					e );
-			addException( new EngineException(
-					MessageConstants.SCRIPT_EVALUATION_ERROR, fileName,
+			addException( new EngineException( MessageConstants.SCRIPT_EVALUATION_ERROR,
+					new Object[]{
+							fileName, e.toString( )
+					},
 					e ) ); //$NON-NLS-1$
 		}
 	}
