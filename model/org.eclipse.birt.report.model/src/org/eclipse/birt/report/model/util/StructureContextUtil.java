@@ -51,7 +51,7 @@ public class StructureContextUtil
 
 		if ( tmpValue == null )
 			return;
-		
+
 		// only handle the case that this is a structure or structure list.
 
 		if ( propDefn.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
@@ -65,15 +65,13 @@ public class StructureContextUtil
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				Structure item = (Structure) values.get( i );
-				item
-						.setContext( new StructureContext( element, propDefn,
-								item ) );
+				item.setContext( new StructureContext( element, propDefn, item ) );
 			}
 		}
 		else if ( tmpValue instanceof Structure )
 		{
-			( (Structure) tmpValue ).setContext( new StructureContext(
-					element, propDefn, (Structure) tmpValue ) );
+			( (Structure) tmpValue ).setContext( new StructureContext( element,
+					propDefn, (Structure) tmpValue ) );
 		}
 	}
 
@@ -98,8 +96,7 @@ public class StructureContextUtil
 			if ( member.getTypeCode( ) != IPropertyType.STRUCT_TYPE )
 				continue;
 
-			Object tmpValue = struct.getLocalProperty( null,
-					(PropertyDefn) member );
+			Object tmpValue = struct.getLocalProperty( null, member );
 			if ( tmpValue == null )
 				continue;
 			if ( tmpValue instanceof List )
@@ -168,6 +165,9 @@ public class StructureContextUtil
 			return context;
 
 		ElementPropertyDefn propDefn = context.getElementProp( );
+		// for overridden property case, we should get definition locally
+		propDefn = target.getPropertyDefn( propDefn.getName( ) );
+
 		// if target has no local value, return directly
 		if ( target.getLocalProperty( targetModule, propDefn ) == null )
 			return context;

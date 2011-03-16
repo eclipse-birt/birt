@@ -445,6 +445,9 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 
 		// make local composite value from the top level element property
 		ElementPropertyDefn propDefn = context.getElementProp( );
+		// for there is overridden property definition case, we should get
+		// definition locally
+		propDefn = element.getPropertyDefn( propDefn.getName( ) );
 
 		if ( propDefn.isListType( ) )
 		{
