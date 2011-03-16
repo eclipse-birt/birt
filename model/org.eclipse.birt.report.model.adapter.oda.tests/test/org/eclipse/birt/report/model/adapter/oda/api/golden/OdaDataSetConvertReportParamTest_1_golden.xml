@@ -97,8 +97,8 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">0</property>
                     <property name="position">2</property>
-                    <expression name="defaultValue" type="javascript">param["Param 2"]</expression>
-                    <property name="isOptional">true</property>
+                    <expression name="defaultValue">param["Param 2"]</expression>
+                    <property name="isOptional">false</property>
                     <property name="isOutput">true</property>
                 </structure>
                 <structure>
@@ -108,7 +108,8 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">0</property>
                     <property name="position">3</property>
-                    <expression name="defaultValue" type="javascript">data set param default value 3</expression>
+                    <expression name="defaultValue">data set param default value 3</expression>
+                    <property name="isOptional">false</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">true</property>
                 </structure>
@@ -176,10 +177,7 @@
         </design:attributes>
         <design:inputAttributes>
           <design:elementAttributes>
-            <design:defaultValues>
-              <design:values>CustomData value: param[&amp;quot;Param 2&amp;quot;], displayValue: null</design:values>
-            </design:defaultValues>
-            <design:optional>true</design:optional>
+            <design:optional>false</design:optional>
             <design:masksValue>false</design:masksValue>
             <design:uiHints>
               <design:promptStyle>SelectableList</design:promptStyle>
@@ -190,7 +188,7 @@
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
+        <valueColumn>test</valueColumn>
       </dynamicList>
     </parameter>
     <parameter>
@@ -209,12 +207,12 @@
         <design:inputAttributes>
           <design:elementAttributes>
             <design:defaultValues>
-              <design:values>CustomData value: data set param default value 3, displayValue: null</design:values>
+              <design:values>default value param 3</design:values>
             </design:defaultValues>
-            <design:optional>true</design:optional>
+            <design:optional>false</design:optional>
             <design:masksValue>false</design:masksValue>
             <design:uiHints>
-              <design:promptStyle>SelectableListWithTextField</design:promptStyle>
+              <design:promptStyle>SelectableList</design:promptStyle>
             </design:uiHints>
           </design:elementAttributes>
         </design:inputAttributes>
@@ -222,7 +220,7 @@
       <dynamicList>
         <dataSetName>myDataSet2</dataSetName>
         <labelColumn>test column</labelColumn>
-        <valueColumn>row[&amp;quot;test&amp;quot;]</valueColumn>
+        <valueColumn>test</valueColumn>
       </dynamicList>
     </parameter>
   </DataSetParameters>

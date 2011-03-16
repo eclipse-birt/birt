@@ -1618,13 +1618,13 @@ class DataSetParameterAdapter
 	 * @throws SemanticException
 	 */
 
-	void updateDriverDefinedParameter( DataSetParameters driverDefineParams,
+	void updateDriverDefinedParameter( DataSetParameters driverDefinedParams,
 			List<DynamicList> cachedDynamicList )
 	{
-		if ( driverDefineParams == null )
+		if ( driverDefinedParams == null )
 			return;
 
-		List<ParameterDefinition> tmpParams = driverDefineParams
+		List<ParameterDefinition> tmpParams = driverDefinedParams
 				.getParameterDefinitions( );
 		for ( int i = 0; i < tmpParams.size( ); i++ )
 		{
@@ -1663,9 +1663,6 @@ class DataSetParameterAdapter
 					tmpROMParam.getParameterDataType( ),
 					tmpROMParam.getExpressionProperty(
 							DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
-
-			restoreReportParameterRelatedValues( inputParamAttrs, tmpROMParam,
-					setDesign, cachedDynamicList.get( i ) );
 		}
 	}
 
@@ -1673,67 +1670,68 @@ class DataSetParameterAdapter
 	 * Restores ODA data set parameter information that relates to the report
 	 * parameter. In the design value, these values were not saved.
 	 * 
-	 * @param inputElementAttrs
-	 *            the input element attributes of the ODA data set parameter
-	 * @param odaParamHandle
-	 *            the ROM data set parameter
+	 * @param driverDefinedParams 
 	 */
-	private void restoreReportParameterRelatedValues(
-			InputParameterAttributes inputParamAttrs,
-			OdaDataSetParameterHandle odaParamHandle, DataSetDesign setDesign,
-			DynamicList cachedDynamic )
-	{
-//		String parameterName = odaParamHandle.getParamName( );
-//		if ( parameterName != null )
-//		{
-//			ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-//			ParameterHandle paramHandle = moduleHandle
-//					.findParameter( parameterName );
-//
-//			// if can find the corresponding parameter, then update to latest
-//			// values. Otherwise, not.
-//			if ( paramHandle instanceof ScalarParameterHandle )
-//			{
-//				ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
-//				ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
-//
-//				tmpAdapter.updateInputElementAttrs( inputParamAttrs,
-//						scalarParamHandle, setDesign );
-//			}
-//		}
 
-		if ( cachedDynamic == null )
+	
+	void restoreReportParameterRelatedValues( DataSetParameters driverDefinedParams )
+	{
+		if ( driverDefinedParams == null )
 			return;
 
-		// If the user breaks
-		// the relationship between data set parameter and report
-		// parameter. This cached value is used to update the dynamic
-		// value in the new data set design. See
-		// DataSetAdapter.clearReportParameterRelatedValues
+		List<ParameterDefinition> tmpParams = driverDefinedParams
+				.getParameterDefinitions( );
+		for ( int i = 0; i < tmpParams.size( ); i++ )
+		{
+			ParameterDefinition tmpParam = tmpParams.get( i );
 
-//		ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
-//
-//		ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-//		DataSetHandle tmpSetHandle = moduleHandle.findDataSet( cachedDynamic
-//				.getDataSetName( ) );
-//		DynamicValuesQuery tmpDynamicQuery = tmpAdapter
-//				.updateDynamicValueQuery( tmpSetHandle,
-//						cachedDynamic.getValueColumn( ),
-//						cachedDynamic.getLabelColumn( ), setDesign, true );
+			DataElementAttributes tmpAttrs = tmpParam.getAttributes( );
+			OdaDataSetParameterHandle tmpROMParam = findDataSetParameterByName(
+					tmpAttrs.getName( ),
+					Integer.valueOf( tmpAttrs.getPosition( ) ),
+					Integer.valueOf( tmpAttrs.getNativeDataTypeCode( ) ),
+					setDefinedParams.iterator( ) );
 
-//		if ( tmpDynamicQuery == null )
-//			return;
-//
-//		InputElementAttributes tmpInputParamAttrs = inputParamAttrs
-//				.getElementAttributes( );
-//		if ( tmpInputParamAttrs == null )
-//		{
-//			tmpInputParamAttrs = designFactory.createInputElementAttributes( );
-//			inputParamAttrs.setElementAttributes( tmpInputParamAttrs );
-//		}
-//
-//		tmpInputParamAttrs.setDynamicValueChoices( tmpDynamicQuery );
+			if ( tmpROMParam == null )
+				continue;
 
+			InputParameterAttributes inputParamAttrs = tmpParam
+					.getInputAttributes( );
+			if ( inputParamAttrs == null )
+			{
+				inputParamAttrs = designFactory
+						.createInputParameterAttributes( );
+				tmpParam.setInputAttributes( inputParamAttrs );
+			}
+
+			InputElementAttributes inputElementAttrs = inputParamAttrs
+					.getElementAttributes( );
+			if ( inputElementAttrs == null )
+			{
+				inputElementAttrs = designFactory
+						.createInputElementAttributes( );
+				inputParamAttrs.setElementAttributes( inputElementAttrs );
+			}
+			
+			String parameterName = tmpROMParam.getParamName( );
+			if ( parameterName != null )
+			{
+				ModuleHandle moduleHandle = setHandle.getModuleHandle( );
+				ParameterHandle paramHandle = moduleHandle
+						.findParameter( parameterName );
+	
+				// if can find the corresponding parameter, then update to latest
+				// values. Otherwise, not.
+				if ( paramHandle instanceof ScalarParameterHandle )
+				{
+					ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
+					ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
+	
+					tmpAdapter.updateInputElementAttrs( inputParamAttrs,
+							scalarParamHandle, setDesign );
+				}
+			}
+		}
 	}
 
 	/**

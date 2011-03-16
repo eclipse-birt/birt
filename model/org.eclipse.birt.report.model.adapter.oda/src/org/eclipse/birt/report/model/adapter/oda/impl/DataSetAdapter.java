@@ -90,7 +90,7 @@ class DataSetAdapter extends AbstractDataAdapter
 			return null;
 
 		DataSetDesign setDesign = designFactory.createDataSetDesign( );
-		updateDataSetDesign( setHandle, setDesign );
+		doUpdateDataSetDesign( setHandle, setDesign, true );
 		return setDesign;
 	}
 
@@ -101,6 +101,16 @@ class DataSetAdapter extends AbstractDataAdapter
 
 	void updateDataSetDesign( OdaDataSetHandle setHandle,
 			DataSetDesign setDesign )
+	{
+		doUpdateDataSetDesign( setHandle, setDesign, false );
+	}
+	/**
+	 * @param setHandle
+	 * @param setDesign
+	 */
+
+	private void doUpdateDataSetDesign( OdaDataSetHandle setHandle,
+			DataSetDesign setDesign, boolean restoreParameterValues )
 	{
 		// properties on ReportElement, like name, displayNames, etc.
 
@@ -182,6 +192,9 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams,
 					SchemaConversionUtil.getCachedDynamicList( cachedParams ) );
+			
+			if ( restoreParameterValues )
+				dataParamAdapter.restoreReportParameterRelatedValues( designDefinedParams );
 		}
 
 		// if there is no driver defined parameters, update parameters with set
@@ -560,6 +573,8 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
 					columns, hints );
+			if ( hints.isEmpty( ) )
+				hints = null;
 
 			PropertyValueValidationUtil.validateProperty( setHandle,
 					OdaDataSetHandle.RESULT_SET_PROP, columns );
@@ -979,7 +994,7 @@ class DataSetAdapter extends AbstractDataAdapter
 					.getDriverDefinedParameters(
 							setDefinedParams.getParameterDefinitions( ),
 							userDefinedList );
-
+			
 			if ( driverParams.getParameterDefinitions( ).size( ) > 0 )
 			{
 				designerValues = ModelFactory.eINSTANCE.createDesignValues( );
@@ -1105,8 +1120,7 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		PropertyHandle propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-
-		propHandle.setValue( new ArrayList( ) );
+		propHandle.clearValue( );
 
 		if ( !columns.isEmpty( ) )
 		{
@@ -1116,9 +1130,9 @@ class DataSetAdapter extends AbstractDataAdapter
 
 		propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
-		propHandle.setValue( new ArrayList( ) );
+		propHandle.clearValue( );
 		if ( !hints.isEmpty( ) )
-		{
+		{			
 			for ( int i = 0; i < hints.size( ); i++ )
 			{
 				ColumnHint hint = (ColumnHint) hints.get( i );
@@ -1143,7 +1157,7 @@ class DataSetAdapter extends AbstractDataAdapter
 							ColumnHint.FORMAT_MEMBER ) );
 				}
 			}
-		}
+		}		
 
 		// add column hints for the computed column
 
