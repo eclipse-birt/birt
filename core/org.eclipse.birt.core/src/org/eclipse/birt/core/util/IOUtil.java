@@ -54,6 +54,8 @@ public class IOUtil
 {
 
 	public static final int INT_LENGTH = 4;
+	
+	public static final int LONG_LENGTH = 8;
 
 	public static final int RA_STREAM_BUFFER_LENGTH = 8192;
 

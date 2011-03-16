@@ -15,9 +15,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -63,7 +62,7 @@ public class DataEngineSession
 	
 	private Timer currentTimer;
 	
-	private List<String> acls;
+	private Map<String, Integer> acls;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
@@ -151,7 +150,7 @@ public class DataEngineSession
 	private void loadGeneralACL( )
 			throws DataException
 	{
-		this.acls = new ArrayList<String>();
+		this.acls = new LinkedHashMap<String, Integer>( );
 		if( !engine.getContext( ).hasInStream( "DataEngine",
 						null,
 						DataEngineContext.ACL_COLLECTION_STREAM ))
@@ -167,7 +166,7 @@ public class DataEngineSession
 		{
 			int count = IOUtil.readInt( aclCollectionStream );
 			for ( int i = 0; i < count; i++ )
-				acls.add( IOUtil.readString( aclCollectionStream ) );
+				acls.put( IOUtil.readString( aclCollectionStream ), i );
 			aclCollectionStream.close( );
 		}
 		catch ( IOException e )
@@ -196,7 +195,7 @@ public class DataEngineSession
 							DataEngineContext.ACL_COLLECTION_STREAM ));
 			
 			IOUtil.writeInt( aclCollectionStream, acls.size( ) );
-			for ( String acl : acls )
+			for ( String acl : acls.keySet( ) )
 			{
 				IOUtil.writeString( aclCollectionStream, acl );
 			}
@@ -360,7 +359,7 @@ public class DataEngineSession
 		}
 	}
 	
-	public List<String> getACLs( )
+	public Map<String, Integer> getACLs( )
 	{
 		return this.acls;
 	}

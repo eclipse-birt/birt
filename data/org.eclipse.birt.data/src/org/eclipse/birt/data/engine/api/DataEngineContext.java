@@ -146,6 +146,9 @@ public class DataEngineContext
 	public final static int CUBE_META_SECURITY_STREAM = 112;
 	
 	public final static int DIMENSION_META_SECURITY_STREAM = 114;
+	
+	public final static int ROW_SECURITY_STREAM_INDEX = 115;
+	
 	public final static String QUERY_STARTING_ID = "/dataEngine/queryStartingID";
 	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
@@ -653,6 +656,9 @@ public class DataEngineContext
 				break;
 			case ROW_SECURITY_STREAM:
 				relativePath = "RowSecurity";
+				break;
+			case ROW_SECURITY_STREAM_INDEX:
+				relativePath = "RowSecurityIndex";
 				break;
 			case CUBE_META_SECURITY_STREAM:
 				relativePath ="CubeMetaSecurity";
