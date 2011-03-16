@@ -146,6 +146,10 @@ public abstract class ModuleReader
 				{
 
 				}
+
+			// clear lexical handler
+			if ( properties != null )
+				properties.clear( );
 		}
 
 		Module module = handler.getModule( );

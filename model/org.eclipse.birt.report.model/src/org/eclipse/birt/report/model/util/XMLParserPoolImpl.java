@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +25,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 /**
  * This is the thread safe implementation of XMLParserPool. This implementation
@@ -113,6 +115,28 @@ class XMLParserPoolImpl implements XMLParserPool
 		if ( properties != null )
 			keys = properties.keySet( );
 
+		try
+		{			
+			// release lexical handler
+			XMLReader reader = parser.getXMLReader( );
+			if ( keys != null && reader != null )
+			{
+				for ( Iterator<String> iterator = keys.iterator( ); iterator
+						.hasNext( ); )
+				{
+					String key = iterator.next( );
+					reader.setProperty( key, null );
+				}
+			}
+		}
+		catch ( SAXException e )
+		{
+			// ignore any exception
+		}
+		
+		// reset the parser so that make sure no memory leak
+		parser.reset( );
+		
 		synchronized ( this )
 		{
 			List<SAXParser> list = parserCache.get( keys );
