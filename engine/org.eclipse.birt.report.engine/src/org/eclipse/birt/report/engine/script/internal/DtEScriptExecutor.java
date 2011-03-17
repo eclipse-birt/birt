@@ -92,8 +92,11 @@ public abstract class DtEScriptExecutor extends ScriptExecutor
 		{
 			log.log( Level.WARNING, e.getMessage( ), e );
 			if ( context != null )
-				context.addException( new EngineException(
-						MessageConstants.SCRIPT_EVALUATION_ERROR, script, e ) );
+				context.addException( new EngineException( MessageConstants.SCRIPT_EVALUATION_ERROR,
+						new Object[]{
+								script, e.getMessage( )
+						},
+						e ) );
 		}
 		return new ScriptStatus( true, result );
 	}
