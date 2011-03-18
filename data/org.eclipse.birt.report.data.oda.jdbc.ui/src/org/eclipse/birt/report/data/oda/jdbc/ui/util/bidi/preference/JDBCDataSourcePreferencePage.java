@@ -15,6 +15,8 @@ import org.eclipse.birt.report.data.bidi.utils.core.BidiFormat;
 import org.eclipse.birt.report.data.bidi.utils.i18n.Messages;
 import org.eclipse.birt.report.data.bidi.utils.ui.BidiGUIUtility;
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -49,11 +51,14 @@ public class JDBCDataSourcePreferencePage extends PreferencePage implements
 		twoColLayout.marginWidth = 10;
 		twoColLayout.marginHeight = 10;
 		mainComposite.setLayout( twoColLayout );
-		
-		externalBiDiFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame(
-								mainComposite, Messages.getString("preference.bidiframe.title"), new BidiFormat(externalBiDiFormatStr) );
 
-		return  mainComposite;
+		externalBiDiFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame( mainComposite,
+				Messages.getString( "preference.bidiframe.title" ),
+				new BidiFormat( externalBiDiFormatStr ) );
+		
+		Utility.setSystemHelp( getControl( ),
+				IHelpConstants.CONEXT_ID_PREFERENCE_JDBC_BIDI );
+		return mainComposite;
 	}
 	
 	public void init( IWorkbench workbench ){

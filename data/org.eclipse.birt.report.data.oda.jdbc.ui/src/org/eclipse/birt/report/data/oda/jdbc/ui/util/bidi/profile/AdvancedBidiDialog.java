@@ -137,8 +137,8 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 		} );
 
 		Utility.setSystemHelp( area,
-				IHelpConstants.CONEXT_ID_PREFERENCE_DATASET_JDBC_BIDI );
-		
+				IHelpConstants.CONEXT_ID_DATASOURCE_JDBC_BIDI_SETTING );
+
 		return area;
 	}
 
