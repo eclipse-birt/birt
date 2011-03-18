@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import org.eclipse.birt.report.designer.internal.ui.preferences.ClassPathBlock;
 import org.eclipse.birt.report.designer.internal.ui.preferences.IClassPathHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
@@ -62,6 +64,8 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 					getProject( ) );
 		}
 		super.createControl( parent );
+
+		UIUtil.bindHelp( parent, IHelpContextIds.PREF_PAGE_CLASSPATH );
 	}
 
 	@Override

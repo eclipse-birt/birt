@@ -20,14 +20,12 @@ import java.util.StringTokenizer;
 import org.eclipse.birt.report.designer.internal.ui.preferences.ITreeListAdapter;
 import org.eclipse.birt.report.designer.internal.ui.preferences.LayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.preferences.TreeListDialogField;
-import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.DialogField;
 import org.eclipse.birt.report.designer.ui.preferences.IDialogFieldListener;
 import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
 import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -157,8 +155,6 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 		fLibrariesList.setButtonsMinWidth( buttonBarWidth );
 
 		//fSWTControl = composite;
-
-		UIUtil.bindHelp( parent, IHelpContextIds.PREF_PAGE_CLASSPATH );
 
 		return composite;
 	}

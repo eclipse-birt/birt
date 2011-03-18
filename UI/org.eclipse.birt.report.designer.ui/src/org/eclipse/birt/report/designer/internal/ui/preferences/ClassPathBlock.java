@@ -16,14 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.DialogField;
 import org.eclipse.birt.report.designer.ui.preferences.IDialogFieldListener;
 import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
 import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -119,8 +117,6 @@ public class ClassPathBlock extends OptionsConfigurationBlock
 
 		int buttonBarWidth = converter.convertWidthInCharsToPixels( 24 );
 		fLibrariesList.setButtonsMinWidth( buttonBarWidth );
-
-		UIUtil.bindHelp( parent, IHelpContextIds.PREF_PAGE_CLASSPATH );
 
 		return composite;
 	}
