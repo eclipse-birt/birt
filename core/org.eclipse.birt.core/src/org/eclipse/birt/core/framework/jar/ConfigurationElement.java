@@ -17,6 +17,7 @@ import java.util.HashMap;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
@@ -34,7 +35,6 @@ public class ConfigurationElement implements IConfigurationElement
 	protected HashMap<String, String> attributes;
 	protected ConfigurationElement[] children;
 
-	@SuppressWarnings("unchecked")
 	public Object createExecutableExtension( String propertyName )
 			throws CoreException
 	{
@@ -43,13 +43,20 @@ public class ConfigurationElement implements IConfigurationElement
 		{
 			try
 			{
-				Class clazz = Class.forName( value );
-				return clazz.newInstance( );
+				Class<?> clazz = Class.forName( value );
+				Object inst = clazz.newInstance( );
+
+				if( inst instanceof IExecutableExtension )
+				{
+				    ((IExecutableExtension)inst).setInitializationData( 
+				            this, propertyName, null ); // TODO support adapter data
+				}
+				return inst;
 			}
 			catch ( Exception e )
 			{
 				throw new CoreException( new Status( IStatus.ERROR,
-						"org.eclipse.birt.core", 0, e.getMessage( ), e ) );
+						"org.eclipse.birt.core", 0, e.getMessage( ), e ) ); //$NON-NLS-1$
 			}
 		}
 		return null;
