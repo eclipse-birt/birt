@@ -120,6 +120,22 @@ Follow on-screen prompts, which vary by data source type, to edit the data sourc
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/connecting.2.1.html" label="Connecting to a Data Source"/>
 </context>
 
+<context id="Dialog_JDBC_BIDISetting_ID" title="Advanced Bidi Data Source Settings">
+<!--  SEQUENCE: Create a data source. Select JDBC. Choose Next. Choose Bidi Settings. Created 20110318 JAHT No relevant link -->
+<description>
+Specify the bi-directional text settings for the metadata and content of the data source.
+
+Alternatively, to perform no interpretation of bi-directional text, select Disable Bidi Transformation.
+</description>
+</context>
+
+<context id="DataSourceSelectionDialog_ID" title="Link with Data Source">
+<!--  SEQUENCE: Create data sources a and b. Create a data set on data source a. Delete data source a. Double click to edit data set. Created 20100524 JAHT No relevant link -->
+<description>
+Select a data source for the data set. The data source previously defined for the data set is unavailable.
+</description>
+</context>
+
 <context id="DataSourceSelectionDialog_ID" title="Link with Data Source">
 <!--  SEQUENCE: New a data source a and b. New a data set link on data source a. Delete data source a. Double click to edit data set. Created 20100524 JAHT No relevant link -->
 <description>
