@@ -145,7 +145,7 @@ public class FunctionProviderImpl implements IFunctionProvider
 	 * 
 	 * @return
 	 */
-	private Map<String, Category> getCategoryMap( )
+	private synchronized Map<String, Category> getCategoryMap( )
 	{
 		if ( categories != null )
 			return categories;
