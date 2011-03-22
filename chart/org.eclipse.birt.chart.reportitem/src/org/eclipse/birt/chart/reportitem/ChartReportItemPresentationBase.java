@@ -1072,9 +1072,17 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 
 		if ( getOutputType( ) == OUTPUT_AS_IMAGE_WITH_MAP )
 		{
-			imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
+			imageMap = getImageMap();
 		}
 
+	}
+	
+	/**
+	 * Returns the HTML <area> contents of image hotspots.
+	 * @return
+	 */
+	protected String getImageMap( ) throws ChartException {
+		return ( (IImageMapEmitter) idr ).getImageMap( );
 	}
 
 	private boolean isNoDataException( BirtException birtException )
