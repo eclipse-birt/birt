@@ -2541,7 +2541,9 @@ public class CubeGroupContent extends Composite implements Listener
 		}
 
 		if ( tempDimension != null
-				&& ( !( tempDimension.getContainer( ) instanceof CubeHandle ) || ( tempDimension instanceof TabularDimensionHandle && ( (TabularDimensionHandle) tempDimension ).getSharedDimension( ) != null ) ) )
+				&& ( !( tempDimension.getContainer( ) instanceof CubeHandle )
+						|| ( tempDimension instanceof TabularDimensionHandle && ( ( (TabularDimensionHandle) tempDimension ).getSharedDimension( ) != null || ( (TabularDimensionHandle) tempDimension ).getContent( DimensionHandle.HIERARCHIES_PROP,
+								0 ) == null ) ) ) )
 		{
 			return true;
 		}

@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -33,6 +34,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 
 /**
  * 
@@ -78,7 +80,13 @@ public class CubeLabelProvider extends LabelProvider
 	 */
 	public Image getImage( Object element )
 	{
-		if ( element instanceof DataSourceHandle )
+		if ( element instanceof DesignElementHandle
+				&& ( (DesignElementHandle) element ).getSemanticErrors( )
+						.size( ) > 0 )
+		{
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+		}
+		else if ( element instanceof DataSourceHandle )
 		{
 			return IMG_DATASOURCE;
 		}
@@ -86,13 +94,13 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return IMG_DATASET;
 		}
-		if ( element instanceof VirtualField
+		else if ( element instanceof VirtualField
 				&& ( (VirtualField) element ).getType( )
 						.equals( VirtualField.TYPE_OTHER_DATASETS ) )
 		{
 			return IMG_OTHER_DATASETS;
 		}
-		if ( element instanceof VirtualField
+		else if ( element instanceof VirtualField
 				&& ( (VirtualField) element ).getType( )
 						.equals( VirtualField.TYPE_SHARED_DIMENSIONS ) )
 		{
@@ -133,7 +141,7 @@ public class CubeLabelProvider extends LabelProvider
 					.getName( )
 					.equals( ICubeModel.DIMENSIONS_PROP ) )
 				return IMG_DIMENSION_FOLDER;
-			else if ( model.getPropertyDefn( )
+			if ( model.getPropertyDefn( )
 					.getName( )
 					.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				return IMG_MEASUREGROUP_FOLDER;
@@ -168,7 +176,7 @@ public class CubeLabelProvider extends LabelProvider
 				&& ( (VirtualField) element ).getType( )
 						.equals( VirtualField.TYPE_SHARED_DIMENSIONS ) )
 		{
-			return Messages.getString("CubeLabelProvider.SharedDimensions"); //$NON-NLS-1$
+			return Messages.getString( "CubeLabelProvider.SharedDimensions" ); //$NON-NLS-1$
 		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{

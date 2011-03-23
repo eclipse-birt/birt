@@ -44,10 +44,16 @@ public class CubeContentProvider implements ITreeContentProvider
 		{
 			HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) parentElement ).getContent( DimensionHandle.HIERARCHIES_PROP,
 					0 );
-			if ( hierarchy.getLevelCount( ) > 0 )
+			if ( hierarchy == null )
+			{
+				return new Object[0];
+			}
+			else if ( hierarchy.getLevelCount( ) > 0 )
+			{
 				return new Object[]{
 					hierarchy.getLevel( 0 )
 				};
+			}
 			else
 			{
 				VirtualField virtualLevel = new VirtualField( VirtualField.TYPE_LEVEL );
@@ -128,7 +134,9 @@ public class CubeContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
+	 * )
 	 */
 	public Object getParent( Object element )
 	{
@@ -172,7 +180,9 @@ public class CubeContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * Object)
 	 */
 	public boolean hasChildren( Object element )
 	{
@@ -182,6 +192,12 @@ public class CubeContentProvider implements ITreeContentProvider
 		}
 		if ( element instanceof DimensionHandle )
 		{
+			HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) element ).getContent( DimensionHandle.HIERARCHIES_PROP,
+					0 );
+			if ( hierarchy == null )
+			{
+				return false;
+			}
 			return true;
 		}
 		if ( element instanceof LevelHandle )
@@ -253,7 +269,9 @@ public class CubeContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
 	 */
 	public Object[] getElements( Object inputElement )
 	{
