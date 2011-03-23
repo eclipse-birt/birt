@@ -14,9 +14,12 @@ package org.eclipse.birt.report.model.api.metadata;
 import java.text.NumberFormat;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.DimensionValueUtil;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Representation of a dimension property value. A dimension has two parts: the
@@ -86,6 +89,37 @@ public class DimensionValue
 	private static final int MAX_FORMAT_NUMBER = 18;
 
 	/**
+	 * For multiple thread safety, we should initialize the format with the
+	 * specified pattern and locale when class is loaded.
+	 */
+
+	private static final NumberFormatter formatter;
+
+	static
+	{
+		formatter = new NumberFormatter( ULocale.ENGLISH );
+		String pattern = null;
+		int fNumber = MAX_FORMAT_NUMBER;
+		switch ( fNumber )
+		{
+			case 0 :
+				pattern = "#0"; //$NON-NLS-1$
+				break;
+			default :
+				pattern = "#0."; //$NON-NLS-1$
+				StringBuffer b = new StringBuffer( pattern );
+				for ( int i = 0; i < fNumber; i++ )
+				{
+					b.append( '#' );
+				}
+				pattern = b.toString( );
+				break;
+
+		}
+		formatter.applyPattern( pattern );
+	}
+
+	/**
 	 * Constructs a DimensionValue given its measure and unit.
 	 * 
 	 * @param theMeasure
@@ -149,8 +183,8 @@ public class DimensionValue
 	 * Parses a dimension string in locale-independent way. The input string
 	 * must match the following:
 	 * <ul>
-	 * <li>null</li> <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]
-	 * </li>
+	 * <li>null</li>
+	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
 	 * </ul>
 	 * 
 	 * @param value
@@ -208,7 +242,7 @@ public class DimensionValue
 		// ".0", ".00" or ".000" that tacks onto the end of integers is
 		// eliminate.
 
-		String value = StringUtil.doubleToString( measure, MAX_FORMAT_NUMBER );
+		String value = formatter.format( measure );
 
 		return value + units;
 	}
@@ -309,11 +343,6 @@ public class DimensionValue
 	 * </blockquote> where <code>m</code> is defined by: <blockquote>
 	 * 
 	 * <pre>
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
 	 * 
 	 * long m = Double.doubleToLongBits( this.getMeasure( ) );
 	 * </pre>
