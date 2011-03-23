@@ -18,7 +18,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -905,36 +904,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 		// Do not copy model for axis chart since it uses reference
 		if ( !ChartCubeUtil.isAxisChart( handle ) )
 		{
-			if ( cm == null )
-			{
-				crii.cm = null;
-			}
-			else
-			{
-				// Add lock to avoid concurrent exception from EMF. IReportItem
-				// has one
-				// design time chart model that could be shared by multiple
-				// presentation instance, but only allows one copy per item
-				// concurrently.
-				synchronized ( this )
-				{
-					// Must copy model here to generate runtime data later
-					try
-					{
-						crii.cm = cm.copyInstance( );
-					}
-					catch ( ConcurrentModificationException e )
-					{
-						// Once concurrent exception is thrown, try again.
-						crii.cm = cm.copyInstance( );
-					}
-					catch ( NullPointerException e )
-					{
-						// Once NPE is thrown in concurrent case, try again.
-						crii.cm = cm.copyInstance( );
-					}
-				}
-			}
+			crii.cm = cm == null ? null : cm.copyInstance( );
 		}
 		return crii;
 	}
