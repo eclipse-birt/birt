@@ -3,6 +3,8 @@
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=보고서 보기
 designer.preview.previewcascadingmenugroup.label=보고서 보기(&R)
+document.preview.previewtoolbarmenuaction.label=View Document
+document.preview.previewmenugroup.label=View &Document
 ActionSet.Preview=미리 보기
 Action.GenDocument=문서 생성(&D)
 

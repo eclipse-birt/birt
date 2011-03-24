@@ -3,6 +3,8 @@
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Afficher l'état
 designer.preview.previewcascadingmenugroup.label=Affiche&r l'état
+document.preview.previewtoolbarmenuaction.label=View Document
+document.preview.previewmenugroup.label=View &Document
 ActionSet.Preview=Aperçu
 Action.GenDocument=Générer le &document
 

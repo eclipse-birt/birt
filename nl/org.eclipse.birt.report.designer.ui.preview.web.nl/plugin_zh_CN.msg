@@ -3,6 +3,8 @@
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=查看报表
 designer.preview.previewcascadingmenugroup.label=查看报表(&R)
+document.preview.previewtoolbarmenuaction.label=View Document
+document.preview.previewmenugroup.label=View &Document
 ActionSet.Preview=预览
 Action.GenDocument=生成文档(&D)
 

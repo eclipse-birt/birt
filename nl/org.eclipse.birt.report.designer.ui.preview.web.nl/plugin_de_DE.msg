@@ -3,6 +3,8 @@
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Bericht anzeigen
 designer.preview.previewcascadingmenugroup.label=&Bericht anzeigen
+document.preview.previewtoolbarmenuaction.label=View Document
+document.preview.previewmenugroup.label=View &Document
 ActionSet.Preview=Vorschau
 Action.GenDocument=&Dokument erstellen
 
