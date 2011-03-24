@@ -19,11 +19,14 @@ import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
  * The action to view report document in navigator view
  */
-public class ViewDocumentAction extends AbstractViewAction
+public class ViewDocumentAction extends AbstractViewAction implements
+		IWorkbenchWindowActionDelegate
 {
 
 	protected boolean prePreview( )
@@ -65,6 +68,18 @@ public class ViewDocumentAction extends AbstractViewAction
 		{
 			action.setEnabled( false );
 		}
+	}
+
+	public void dispose( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void init( IWorkbenchWindow window )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }
