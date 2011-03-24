@@ -111,6 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL ‚ª NULL ‚È‚Ì‚ÅAƒtƒ@ƒCƒ‹‚É•ÏŠ·‚Å‚«‚Ü‚
 ResourceAction.FileRemoveFailure=ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 LibraryNotExist.Dialog.Title=ƒ‰ƒCƒuƒ‰ƒŠ‚ğŠJ‚­
 LibraryNotExist.Dialog.Message=ƒ‰ƒCƒuƒ‰ƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñBƒŠƒ\[ƒXƒGƒNƒXƒvƒ[ƒ‰‚ğƒŠƒtƒŒƒbƒVƒ…‚µ‚Ü‚·‚© ? 
+DesignerNotExist.Dialog.Title=Open Report Designer
+DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=ƒtƒBƒ‹ƒ^...

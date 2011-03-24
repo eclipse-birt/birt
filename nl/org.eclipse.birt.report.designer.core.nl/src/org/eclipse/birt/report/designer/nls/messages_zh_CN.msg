@@ -111,6 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL 为空，无法转换成文件。
 ResourceAction.FileRemoveFailure=文件删除失败。
 LibraryNotExist.Dialog.Title=打开库
 LibraryNotExist.Dialog.Message=库不存在，要刷新资源管理器吗? 
+DesignerNotExist.Dialog.Title=Open Report Designer
+DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=筛选...

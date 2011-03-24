@@ -111,6 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL ist Null, Konvertierung in Datei nich
 ResourceAction.FileRemoveFailure=Fehler beim Entfernen von Datei(en).
 LibraryNotExist.Dialog.Title=Bibliothek öffnen
 LibraryNotExist.Dialog.Message=Die Bibliothek existiert nicht. Möchten Sie den Ressourcen-Explorer aktualisieren? 
+DesignerNotExist.Dialog.Title=Open Report Designer
+DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filter...

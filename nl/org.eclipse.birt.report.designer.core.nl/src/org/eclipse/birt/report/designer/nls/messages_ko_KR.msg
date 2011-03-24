@@ -111,6 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL이 널(null)이므로 파일로 변환할 수 없�
 ResourceAction.FileRemoveFailure=파일 제거에 실패했습니다.
 LibraryNotExist.Dialog.Title=라이브러리 열기
 LibraryNotExist.Dialog.Message=라이브러리가 없습니다. 리소스 탐색기를 새로 고치시겠습니까? 
+DesignerNotExist.Dialog.Title=Open Report Designer
+DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=필터...
