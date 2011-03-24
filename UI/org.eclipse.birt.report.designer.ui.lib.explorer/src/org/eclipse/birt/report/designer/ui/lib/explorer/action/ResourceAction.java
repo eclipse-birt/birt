@@ -680,6 +680,42 @@ public abstract class ResourceAction extends Action
 	public static void openLibrary( final LibraryExplorerTreeViewPage viewer,
 			final File file, final boolean forceRefresh )
 	{
+		openEditor( viewer,
+				file,
+				forceRefresh,
+				IReportEditorContants.LIBRARY_EDITOR_ID );
+	}
+
+	/**
+	 * Opens an editor on the specified designer file, and refresh the specified
+	 * library explorer page.
+	 * 
+	 * @param viewer
+	 *            the designer explorer page
+	 * @param file
+	 *            the specified designer to open.
+	 */
+	public static void openDesigner( final LibraryExplorerTreeViewPage viewer,
+			final File file, final boolean forceRefresh )
+	{
+		openEditor( viewer,
+				file,
+				forceRefresh,
+				IReportEditorContants.DESIGN_EDITOR_ID );
+	}
+
+	/**
+	 * Opens an editor on the specified file, and refresh the specified library
+	 * explorer page.
+	 * 
+	 * @param viewer
+	 *            the designer explorer page
+	 * @param file
+	 *            the specified file to open.
+	 */
+	public static void openEditor( final LibraryExplorerTreeViewPage viewer,
+			final File file, final boolean forceRefresh, final String editorId )
+	{
 		if ( file == null || !file.exists( ) || !file.isFile( ) )
 		{
 			return;
@@ -724,16 +760,17 @@ public abstract class ResourceAction extends Action
 						if ( adapter instanceof IPathEditorInputFactory )
 						{
 							input = ( (IPathEditorInputFactory) adapter ).create( new Path( file.getAbsolutePath( ) ) );
-							IFile file= (IFile)input.getAdapter( IFile.class );
-							if (file != null)
+							IFile file = (IFile) input.getAdapter( IFile.class );
+							if ( file != null )
 							{
 								try
 								{
-									file.refreshLocal( IResource.DEPTH_INFINITE, null );
+									file.refreshLocal( IResource.DEPTH_INFINITE,
+											null );
 								}
 								catch ( CoreException e )
 								{
-									//do nothing now
+									// do nothing now
 								}
 							}
 						}
@@ -743,9 +780,7 @@ public abstract class ResourceAction extends Action
 							input = new ReportEditorInput( file );
 						}
 
-						page.openEditor( input,
-								IReportEditorContants.LIBRARY_EDITOR_ID,
-								true );
+						page.openEditor( input, editorId, true );
 					}
 				}
 				catch ( PartInitException e )

@@ -371,6 +371,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		{
 			switch ( ( (ResourceEntryWrapper) element ).getType( ) )
 			{
+				case ResourceEntryWrapper.RPTDESIGN :
 				case ResourceEntryWrapper.LIBRARY :
 					File file = null;
 					URL url = ( (ResourceEntryWrapper) element ).getURL( );
@@ -387,15 +388,34 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 					if ( file != null && file.exists( ) && file.isFile( ) )
 					{
-						ResourceAction.openLibrary( this, file, false );
+						if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
+						{
+							ResourceAction.openLibrary( this, file, false );
+						}
+						else if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
+						{
+							ResourceAction.openDesigner( this, file, false );
+						}
 					}
 					else
 					{
-						if ( MessageDialog.openConfirm( getSite( ).getShell( ),
-								Messages.getString( "LibraryNotExist.Dialog.Title" ), //$NON-NLS-1$
-								Messages.getString( "LibraryNotExist.Dialog.Message" ) ) ) //$NON-NLS-1$
+						if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
 						{
-							refreshRoot( );
+							if ( MessageDialog.openConfirm( getSite( ).getShell( ),
+									Messages.getString( "LibraryNotExist.Dialog.Title" ), //$NON-NLS-1$
+									Messages.getString( "LibraryNotExist.Dialog.Message" ) ) ) //$NON-NLS-1$
+							{
+								refreshRoot( );
+							}
+						}
+						else if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
+						{
+							if ( MessageDialog.openConfirm( getSite( ).getShell( ),
+									Messages.getString( "DesignerNotExist.Dialog.Title" ), //$NON-NLS-1$
+									Messages.getString( "DesignerNotExist.Dialog.Message" ) ) ) //$NON-NLS-1$
+							{
+								refreshRoot( );
+							}
 						}
 					}
 					break;
@@ -745,8 +765,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 			if ( file.exists( )
 					&& resource.exists( )
-					&& file.toURI( ).toString( ).indexOf( resource.toURI( )
-							.toString( ) ) > -1 )
+					&& file.toURI( )
+							.toString( )
+							.indexOf( resource.toURI( ).toString( ) ) > -1 )
 			{
 				refreshRoot( );
 			}

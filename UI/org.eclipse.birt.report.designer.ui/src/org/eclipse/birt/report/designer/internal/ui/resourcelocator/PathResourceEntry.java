@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IActionFilter;
@@ -357,6 +358,11 @@ public class PathResourceEntry extends BaseResourceEntity
 				}
 			}
 			return library;
+		}
+		else if ( adapter == ReportDesignHandle.class
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( "rptdesign" ) )
+		{
+			return getPath( );
 		}
 		else if ( adapter == CssStyleSheetHandle.class
 				&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) ) //$NON-NLS-1$

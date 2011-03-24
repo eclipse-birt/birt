@@ -24,6 +24,8 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.EmbeddedImagesEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.LibraryNodeEntry;
@@ -190,8 +192,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 		{
 			if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
 			{
-				Object object = ( (ResourceEntryWrapper) element ).getAdapter( ReportDesignHandle.class );
-				return super.getImage( object );
+				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_REPORT_FILE );
 			}
 			else if ( ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
 			{
@@ -224,11 +225,12 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 		if ( element instanceof ResourceEntryWrapper
 				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.RPTDESIGN )
 		{
-			ReportDesignHandle rptdesign = (ReportDesignHandle) ( (ResourceEntryWrapper) element ).getAdapter( ReportDesignHandle.class );
-			// fileName of the LibraryHandle is a relative path.
-			String fileName = rptdesign.getFileName( );
-			// fileName is a URL string.
-			return new File( fileName ).getName( );
+			String rptdesignPath = (String) ( (ResourceEntryWrapper) element ).getAdapter( ReportDesignHandle.class );
+			File file = new File( rptdesignPath );
+			if ( file.exists( ) )
+				return new File( rptdesignPath ).getName( );
+			else
+				return rptdesignPath;
 		}
 		else if ( element instanceof ResourceEntryWrapper
 				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.LIBRARY )
