@@ -26,7 +26,10 @@ public class OdsTable extends OdsContainer
 			ContainerSizeInfo sizeInfo, OdsContainer parent )
 	{
 		this( entry, sizeInfo, parent );
-		columnWidths = table.getColumns( );
+		if(table != null)
+		{
+			columnWidths = table.getColumns( );
+		}
 	}
 	
 	public OdsTable( ColumnsInfo table, OdsContainer container )

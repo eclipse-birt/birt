@@ -318,8 +318,6 @@ public class OdsEmitter extends AbstractOdfEmitter
 					.getElementWidth( table, width, reportDpi ), reportDpi );
 			info = new ColumnsInfo( columns );
 		}
-		if ( info == null )
-			return;
 		String caption = table.getCaption( );
 		if(caption != null) 
 		{			

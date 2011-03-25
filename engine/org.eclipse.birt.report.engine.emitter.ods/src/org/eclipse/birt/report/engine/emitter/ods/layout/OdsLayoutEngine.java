@@ -214,6 +214,12 @@ public class OdsLayoutEngine
 			int startCoordinate,
 			int endCoordinate )
 	{
+		if ( table == null )
+		{
+			return new int[]{
+				startCoordinate
+			};
+		}
 		int columnCount = table.getColumnCount( );
 		int[] columnStartCoordinates = new int[ columnCount + 1 ];
 		columnStartCoordinates[0] = startCoordinate;
