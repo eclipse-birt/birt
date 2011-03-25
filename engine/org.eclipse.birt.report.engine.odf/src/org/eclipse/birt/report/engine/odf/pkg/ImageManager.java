@@ -51,7 +51,11 @@ public class ImageManager
 		{
 			contentType = EXTENSION_TO_MIME.get( extension.substring( 1 ) );
 		}
-		
+		else
+		{
+			//There has to be a contentType (MIMEtype) as required field for manifest.xml
+			contentType = EXTENSION_TO_MIME.get( fileName.substring( fileName.lastIndexOf('.') + 1) );
+		}
 		ImageEntry entry = new ImageEntry(pkg, fileName, contentType, null, extension);
 		processEntry(entry, data);
 		return entry;

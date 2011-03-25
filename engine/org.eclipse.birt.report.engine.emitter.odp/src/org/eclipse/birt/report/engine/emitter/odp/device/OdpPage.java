@@ -127,12 +127,8 @@ public class OdpPage extends AbstractPage
 			String extension, float imageX, float imageY, float height,
 			float width, String helpText, Map params ) throws Exception
 	{
-		if ( imageId == null )
-		{
-			return;
-		}
 		
-		if ( extension == null )
+		if ( extension == null && imageId != null)
 		{
 			extension = "." + ImageManager.getImageExtension( imageId ); //$NON-NLS-1$
 		}
