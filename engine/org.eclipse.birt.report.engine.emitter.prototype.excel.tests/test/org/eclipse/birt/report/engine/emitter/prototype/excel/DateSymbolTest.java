@@ -22,22 +22,22 @@ public class DateSymbolTest extends TestCase
 
 	public void testParse( )
 	{
-		assertEquals( "'a", ExcelUtil.parse( null, "'''a'", ULocale
-				.getDefault( ) ) );
-		assertEquals( "M/d/yy", ExcelUtil.parse( null, "Short Date", ULocale
-				.getDefault( ) ) );
-		assertEquals( "MMM d, yyyy h:mm AM/PM", ExcelUtil.parse( null, null,
-				ULocale.getDefault( ) ) );
+		assertEquals( "'a", ExcelUtil.parse( null, "'''a'", ULocale.US ) );
+		assertEquals( "M/d/yy",
+				ExcelUtil.parse( null, "Short Date", ULocale.US ) );
+		// .getDefault( ) ) );
+		assertEquals( "MMM d, yyyy h:mm AM/PM",
+				ExcelUtil.parse( null, null, ULocale.US ) );
 		assertEquals( "yyyy.MM.dd  at HH:mm:ss ", ExcelUtil.parse( null,
-				"yyyy.MM.dd G 'at' HH:mm:ss z", ULocale.getDefault( ) ) );
-		assertEquals( "hh o'clock AM/PM ", ExcelUtil.parse( null,
-				"hh 'o''clock' a z", ULocale.getDefault( ) ) );
+				"yyyy.MM.dd G 'at' HH:mm:ss z", ULocale.US ) );
+		assertEquals( "hh o'clock AM/PM ",
+				ExcelUtil.parse( null, "hh 'o''clock' a z", ULocale.US ) );
 		assertEquals( "yyyy-MM-ddTHH:mm:ss.SSS", ExcelUtil.parse( null,
-				"yyyy-MM-dd'T'HH:mm:ss.SSSZ", ULocale.getDefault( ) ) );
-		assertEquals( " d MMM yyyy HH:mm:ss ", ExcelUtil.parse( null,
-				"EEE d MMM yyyy HH:mm:ss Z", ULocale.getDefault( ) ) );
-		assertEquals( " MMM d, 'yy", ExcelUtil.parse( null, "EEE MMM d, ''yy",
-				ULocale.getDefault( ) ) );
+				"yyyy-MM-dd'T'HH:mm:ss.SSSZ", ULocale.US ) );
+		assertEquals( "ddd d MMM yyyy HH:mm:ss ",
+				ExcelUtil.parse( null, "EEE d MMM yyyy HH:mm:ss Z", ULocale.US ) );
+		assertEquals( "ddd MMM d, 'yy",
+				ExcelUtil.parse( null, "EEE MMM d, ''yy", ULocale.US ) );
 	}
 	public void testFormatNumberPattern()
 	{
