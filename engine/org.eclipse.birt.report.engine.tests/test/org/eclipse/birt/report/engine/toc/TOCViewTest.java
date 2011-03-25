@@ -28,7 +28,7 @@ public class TOCViewTest extends TOCTestCase
 		TOCView view = new TOCView( tree, null, ULocale.ENGLISH, TimeZone
 				.getTimeZone( "GMT+08:00" ), "html" );
 		
-		checkTocNode(view, "/", null, 4);
+		checkTocNode(view, "/", null, 3);
 		checkTocNode(view, "__TOC_0", "report header", 0);
 		checkTocNode(view, "__TOC_1", "table", 2);
 		checkTocNode(view, "__TOC_1_0", "group 1", 2);
@@ -66,8 +66,8 @@ public class TOCViewTest extends TOCTestCase
 	}
 
 	static final String TOC_NORMAL_GOLDEN = "<toc nodeId=\"/\">"
-			+ "    <toc nodeId=\"__TOC_0\" displayText=\"report header\"/>"
-			+ "    <toc nodeId=\"__TOC_1\" displayText=\"table\">"
+			+ "		<toc nodeId=\"__TOC_0\" displayText=\"report header\"/>"
+			+ "    	<toc nodeId=\"__TOC_1\" displayText=\"table\">"
 			+ "        <toc nodeId=\"__TOC_1_0\" displayText=\"group 1\">"
 			+ "            <toc nodeId=\"__TOC_1_0_0\" displayText=\"detail 1\"/>"
 			+ "            <toc nodeId=\"__TOC_1_0_1\" displayText=\"detail 2\"/>"
@@ -76,9 +76,11 @@ public class TOCViewTest extends TOCTestCase
 			+ "            <toc nodeId=\"__TOC_1_1_0\" displayText=\"detail 3\"/>"
 			+ "            <toc nodeId=\"__TOC_1_1_1\" displayText=\"detail 4\"/>"
 			+ "        </toc>" + "    </toc>"
-			+ "    <toc nodeId=\"__TOC_2_0\" displayText=\"chart 1\"/>"
-			+ "    <toc nodeId=\"__TOC_2_1\" displayText=\"chart 2\"/>"
-			+ "</toc>";
+			+ "		<toc nodeId=\"__TOC_2\" displayText=\"\">"
+			+ "			<toc nodeId=\"__TOC_2_0\" displayText=\"chart 1\"/>"
+			+ "			<toc nodeId=\"__TOC_2_1\" displayText=\"chart 2\"/>"
+			+ "		</toc>"
+			+ "		</toc>";
 
 	protected ITreeNode createTocNormal( )
 	{
@@ -166,16 +168,16 @@ public class TOCViewTest extends TOCTestCase
 	static final String TOC_WITH_EMPTY_GROUP_GOLDEN = "<toc nodeId=\"/\">"
 			+ "    <toc nodeId=\"__TOC_0\" displayText=\"report header\"/>"
 			+ "    <toc nodeId=\"__TOC_1\" displayText=\"table\">"
-			+ "        <toc nodeId=\"__TOC_1_0\" displayText=\"header\">"
+			+ "        <toc nodeId=\"__TOC_1_0\" displayText=\"\">"
 			+ "            <toc nodeId=\"__TOC_1_0_0\" displayText=\"header\"/>"
-			+ "            <toc nodeId=\"__TOC_1_0_1\" displayText=\"detail 1\">"
+			+ "            <toc nodeId=\"__TOC_1_0_1\" displayText=\"\">"
 			+ "                <toc nodeId=\"__TOC_1_0_1_0\" displayText=\"detail 1\"/>"
 			+ "                <toc nodeId=\"__TOC_1_0_1_1\" displayText=\"detail 2\"/>"
 			+ "            </toc>"
 			+ "        </toc>"
-			+ "        <toc nodeId=\"__TOC_1_1\" displayText=\"header 2\">"
+			+ "    <toc nodeId=\"__TOC_1_1\" displayText=\"\">"
 			+ "            <toc nodeId=\"__TOC_1_1_0\" displayText=\"header 2\"/>"
-			+ "            <toc nodeId=\"__TOC_1_1_1\" displayText=\"detail 3\">"
+			+ "            <toc nodeId=\"__TOC_1_1_1\" displayText=\"\">"
 			+ "                <toc nodeId=\"__TOC_1_1_1_0\" displayText=\"detail 3\"/>"
 			+ "                <toc nodeId=\"__TOC_1_1_1_1\" displayText=\"detail 4\"/>"
 			+ "            </toc>" + "        </toc>" + "    </toc>" + "</toc>";

@@ -43,9 +43,9 @@ public class TOCReadWriteTest extends TOCTestCase
 
 	final static String GOLDEN_TOC_TEST = "<entry nodeId=\"/\">"
 			+ "    <entry nodeId=\"__TOC_0\" tocValue=\"report-header\"/>"
-			+ "    <group nodeId=\"__TOC_1\">"
-			+ "        <entry nodeId=\"__TOC_1_0\" hiddenFormats=\"html\">"
-			+ "            <entry nodeId=\"__TOC_1_0_1\" hiddenFormats=\"pdf\">"
+			+ "    <group nodeId=\"__TOC_1\" tocValue=\"\">"
+			+ "        <entry nodeId=\"__TOC_1_0\" tocValue=\"\" hiddenFormats=\"html\">"
+			+ "            <entry nodeId=\"__TOC_1_0_1\" tocValue=\"\" hiddenFormats=\"pdf\">"
 			+ "                <entry nodeId=\"__TOC_1_0_1_0\" tocValue=\"label\"/>"
 			+ "            </entry>" + "        </entry>" + "    </group>"
 			+ "</entry>";

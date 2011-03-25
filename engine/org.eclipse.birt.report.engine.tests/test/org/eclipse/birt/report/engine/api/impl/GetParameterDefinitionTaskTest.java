@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
+import com.ibm.icu.util.ULocale;
+
 public class GetParameterDefinitionTaskTest extends EngineCase
 {
 
@@ -57,6 +59,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		parameter2.setDataSetName( "Data Set" ); //$NON-NLS-1$
 		IGetParameterDefinitionTask task = engine
 				.createGetParameterDefinitionTask( report );
+		task.setLocale( ULocale.US );
 		
 		IParameterDefnBase defn = task.getParameterDefn( "ParamCountry" );
 		String name = defn.getName( );
@@ -65,7 +68,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		Collection list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[0] ); //$NON-NLS-1$
 		Object[] content = list.toArray( );
-		assertEquals( "1,002", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
+		assertEquals( "1002", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 		list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[]{"1002"} ); //$NON-NLS-1$ //$NON-NLS-2$
 		content = list.toArray( );

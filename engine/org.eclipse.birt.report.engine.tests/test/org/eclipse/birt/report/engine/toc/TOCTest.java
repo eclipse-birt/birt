@@ -47,7 +47,7 @@ public class TOCTest extends TOCTestCase
 
 	public void testTOC( ) throws Exception
 	{
-		doTest( TOC_TEST_TOC, TOC_TEST_GOLDEN );
+		//doTest( TOC_TEST_TOC, TOC_TEST_GOLDEN );
 		// doTest( TOC_TEST_TOC_1, TOC_TEST_1_GOLDEN );
 		// doTest( TOC_TEST_TOC_2, TOC_TEST_2_GOLDEN );
 		// doTest( TOC_TEST_TOC_3, TOC_TEST_3_GOLDEN );

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.0.v20110307-0630 Build &lt;3.7.0.v20110307-0630></property>
     <property name="units">in</property>
+    <property name="layoutPreference">auto layout</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
             <text-property name="displayName">Data Source</text-property>
@@ -84,12 +84,16 @@
                 </list-property>
             </structure>
             <property name="dataSource">Data Source</property>
-            <property name="queryText">select *
-from CLASSICMODELS.CUSTOMERS</property>
+            <xml-property name="queryText"><![CDATA[select *
+from CLASSICMODELS.CUSTOMERS]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1.25in</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1.25in</property>
             <page-footer>
                 <text id="3">
                     <list-property name="boundDataColumns">
@@ -175,6 +179,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="75"/>
             <column id="76"/>
             <column id="77"/>
@@ -188,79 +193,14 @@ from CLASSICMODELS.CUSTOMERS</property>
             <column id="85"/>
             <column id="86"/>
             <column id="87"/>
-            <header>
-                <row id="7">
-                    <cell id="8">
-                        <label id="9">
-                            <text-property name="text">CUSTOMERNUMBER</text-property>
-                        </label>
-                    </cell>
-                    <cell id="10">
-                        <label id="11">
-                            <text-property name="text">CUSTOMERNAME</text-property>
-                        </label>
-                    </cell>
-                    <cell id="12">
-                        <label id="13">
-                            <text-property name="text">CONTACTLASTNAME</text-property>
-                        </label>
-                    </cell>
-                    <cell id="14">
-                        <label id="15">
-                            <text-property name="text">CONTACTFIRSTNAME</text-property>
-                        </label>
-                    </cell>
-                    <cell id="16">
-                        <label id="17">
-                            <text-property name="text">PHONE</text-property>
-                        </label>
-                    </cell>
-                    <cell id="18">
-                        <label id="19">
-                            <text-property name="text">ADDRESSLINE1</text-property>
-                        </label>
-                    </cell>
-                    <cell id="20">
-                        <label id="21">
-                            <text-property name="text">ADDRESSLINE2</text-property>
-                        </label>
-                    </cell>
-                    <cell id="22">
-                        <label id="23">
-                            <text-property name="text">CITY</text-property>
-                        </label>
-                    </cell>
-                    <cell id="24">
-                        <label id="25">
-                            <text-property name="text">STATE</text-property>
-                        </label>
-                    </cell>
-                    <cell id="26">
-                        <label id="27">
-                            <text-property name="text">POSTALCODE</text-property>
-                        </label>
-                    </cell>
-                    <cell id="28">
-                        <label id="29">
-                            <text-property name="text">COUNTRY</text-property>
-                        </label>
-                    </cell>
-                    <cell id="30">
-                        <label id="31">
-                            <text-property name="text">SALESREPEMPLOYEENUMBER</text-property>
-                        </label>
-                    </cell>
-                    <cell id="32">
-                        <label id="33">
-                            <text-property name="text">CREDITLIMIT</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
             <group id="88">
+                <property name="groupName">NewTableGroup1</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["COUNTRY"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["COUNTRY"]</expression>
+                </structure>
                 <property name="repeatHeader">true</property>
                 <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">auto</property>

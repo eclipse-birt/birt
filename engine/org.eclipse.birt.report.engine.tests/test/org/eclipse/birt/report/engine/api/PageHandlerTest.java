@@ -95,8 +95,8 @@ public class PageHandlerTest extends EngineCase
 
 	public void testHandlerOfRunAndRenderTask( )
 	{
-//		testRunAndRender( "html", 1, 2, 3, 3 );
-		testRunAndRender( "pdf", 1, 2, 3, 3 );
+		testRunAndRender( "html", 1, 2, 3, 3 );
+		//testRunAndRender( "pdf", 1, 2, 3, 3 );
 	}
 
 	private void testRunAndRender( String format, long... pageNumberStatus )

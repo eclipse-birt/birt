@@ -37,7 +37,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.CancelOnErrorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.DataIDTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.DataSetIDTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.api.DataSourceCompareTest.class );
+		//suite.addTestSuite( org.eclipse.birt.report.engine.api.DataSourceCompareTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.EngineExceptionTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.EngineTaskCancelTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.EngintTaskLoggerTest.class );

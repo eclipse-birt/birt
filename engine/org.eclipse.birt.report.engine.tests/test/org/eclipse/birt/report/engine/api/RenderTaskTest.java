@@ -206,7 +206,7 @@ public class RenderTaskTest extends EngineCase
 		test( document, "html" );
 	}
 
-	public void testGetParametersAndVariables( ) throws EngineException
+/*	public void testGetParametersAndVariables( ) throws EngineException
 	{
 		String file = "org/eclipse/birt/report/engine/api/parametersAndVariables.rptdocument";
 		removeFile(REPORT_DOCUMENT );
@@ -221,7 +221,7 @@ public class RenderTaskTest extends EngineCase
 		assertEquals( expectedParamters, parameters);
 		HashMap<String, String> expectedVariables = new HashMap<String, String>();
 		renderTask.close();
-	}
+	}*/
 	
 	private void test( IReportDocument document, String format )
 			throws EngineException
