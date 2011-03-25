@@ -394,4 +394,18 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "EncryptionExtensionTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * Tests the encryption in the generated document.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDocumentSerialize( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+		serializeDocument( );
+		save( );
+
+		assertTrue( compareFile( "EncryptionExtensionTest_golden_2.xml" ) ); //$NON-NLS-1$
+	}
 }
