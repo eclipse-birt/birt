@@ -92,8 +92,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		final int COLUMN_CONTENT = 4;
 
 		cTypes = ChartUIExtensionsImpl.instance( )
-				.getUIChartTypeExtensions( getContext( ).getClass( )
-						.getSimpleName( ) );
+				.getUIChartTypeExtensions( getContext( ).getIdentifier( ) );
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		{

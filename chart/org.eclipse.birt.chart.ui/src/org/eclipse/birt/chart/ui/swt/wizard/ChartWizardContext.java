@@ -54,18 +54,18 @@ public class ChartWizardContext implements IChartWizardContext
 	private Map<String, Object[]> mQueries;
 	private IResourceFinder resourceFinder = null;
 	private IExternalizer externalizer = null;
-	
+
 	private Boolean isShowingDataPreview = null;
 	private IActionEvaluator actionEvaluator;
-	
+
 	/**
 	 * The thread is responsible to manage live preview.
 	 */
 	private Thread livePreviewThread = null;
-	
+
 	// Default implementation of UI factory
 	private IChartUIFactory uiFactory = new ChartUIFactoryBase( );
-	
+
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
 	{
@@ -82,26 +82,28 @@ public class ChartWizardContext implements IChartWizardContext
 	 * @param thread
 	 * @since 2.5.2
 	 */
-	public void setLivePreviewThread(Thread thread )
+	public void setLivePreviewThread( Thread thread )
 	{
 		livePreviewThread = thread;
 	}
-	
+
 	/**
 	 * Returns reference of live preview thread.
 	 * 
 	 * @return thread
 	 * @since 2.5.2
 	 */
-	public Thread getLivePreviewThread()
+	public Thread getLivePreviewThread( )
 	{
 		return this.livePreviewThread;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext#getWizardID()
+	 * @see
+	 * org.eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext#getWizardID
+	 * ()
 	 */
 	public String getWizardID( )
 	{
@@ -171,7 +173,7 @@ public class ChartWizardContext implements IChartWizardContext
 			// If chart type is not set, fetch the value from the model
 			LinkedHashMap<String, IChartType> htTypes = new LinkedHashMap<String, IChartType>( );
 			Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
-					.getUIChartTypeExtensions( getClass( ).getSimpleName( ) );
+					.getUIChartTypeExtensions( getIdentifier( ) );
 			Iterator<IChartType> iterTypes = cTypes.iterator( );
 			while ( iterTypes.hasNext( ) )
 			{
@@ -181,6 +183,18 @@ public class ChartWizardContext implements IChartWizardContext
 			chartType = htTypes.get( chartModel.getType( ) );
 		}
 		return chartType;
+	}
+
+	/**
+	 * Returns identifier for current context implementation. This is usually
+	 * used to register extensions for chart types, series UI provider, and etc.
+	 * 
+	 * @return identifier
+	 * @since 3.7
+	 */
+	public String getIdentifier( )
+	{
+		return getClass( ).getSimpleName( );
 	}
 
 	/**
@@ -237,7 +251,7 @@ public class ChartWizardContext implements IChartWizardContext
 	{
 		this.isRtL = isRtL;
 	}
-	
+
 	/**
 	 * Returns if text direction is right to left.
 	 * 
@@ -340,7 +354,6 @@ public class ChartWizardContext implements IChartWizardContext
 		return dataSheet;
 	}
 
-	
 	/**
 	 * @return Returns the resourceFinder.
 	 */
@@ -358,7 +371,6 @@ public class ChartWizardContext implements IChartWizardContext
 		this.resourceFinder = resourceFinder;
 	}
 
-	
 	/**
 	 * @return Returns the externalizer.
 	 */
@@ -392,7 +404,7 @@ public class ChartWizardContext implements IChartWizardContext
 	{
 		return isInheritColumnsOnly;
 	}
-	
+
 	public boolean isShowingDataPreview( )
 	{
 		if ( isShowingDataPreview == null )
@@ -401,12 +413,12 @@ public class ChartWizardContext implements IChartWizardContext
 		}
 		return isShowingDataPreview.booleanValue( );
 	}
-	
+
 	public void setShowingDataPreview( Boolean isShowingDataPreview )
 	{
 		this.isShowingDataPreview = isShowingDataPreview;
 	}
-	
+
 	public boolean isSetShowingDataPreview( )
 	{
 		return this.isShowingDataPreview != null;
@@ -416,12 +428,12 @@ public class ChartWizardContext implements IChartWizardContext
 	{
 		actionEvaluator = birtActionEvaluator;
 	}
-	
+
 	public IActionEvaluator getActionEvaluator( )
 	{
 		return actionEvaluator;
 	}
-	
+
 	/**
 	 * Returns current UI factory class. The default UI factory is
 	 * <code>ChartUIFactoryBase</code>.

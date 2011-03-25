@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.core.ui">
+<schema targetNamespace="org.eclipse.birt.core.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.core.ui" id="tasks" name="Task to be used in a Task-oriented Wizard"/>
@@ -67,6 +67,13 @@
             <annotation>
                <documentation>
                   A short string describing this task.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string">
+            <annotation>
+               <documentation>
+                  A priority index for multiple tasks with the same task id. Default value is zero. Task with the highest priority will be used.
                </documentation>
             </annotation>
          </attribute>

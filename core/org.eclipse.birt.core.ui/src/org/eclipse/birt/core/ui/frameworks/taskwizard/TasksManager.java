@@ -18,14 +18,14 @@ public class TasksManager
 {
 
 	// Hashmap of registered tasks...sequence of registration is maintained
-	private transient LinkedHashMap registeredTasks = null;
+	private transient LinkedHashMap<String, TaskRegistrationEntry> registeredTasks = null;
 
 	// Hashtable of registered wizards...sequence of registration is NOT
 	// maintained
-	private transient Hashtable registeredWizards = null;
+	private transient Hashtable<String, Vector<String>> registeredWizards = null;
 
 	// Collection of registered event listeners (WizardBase implementations)
-	private transient Vector registeredListeners = null;
+	private transient Vector<IRegistrationListener> registeredListeners = null;
 
 	// Singleton Instance of TasksManager
 	private static TasksManager thisInstance = null;
@@ -48,9 +48,9 @@ public class TasksManager
 	// PRIVATE CONSTRUCTOR OF A SINGLETON
 	private TasksManager( )
 	{
-		registeredTasks = new LinkedHashMap( );
-		registeredWizards = new Hashtable( );
-		registeredListeners = new Vector( );
+		registeredTasks = new LinkedHashMap<String, TaskRegistrationEntry>( );
+		registeredWizards = new Hashtable<String, Vector<String>>( );
+		registeredListeners = new Vector<IRegistrationListener>( );
 		processExtensions( );
 	}
 
@@ -70,9 +70,31 @@ public class TasksManager
 				{
 					try
 					{
-						String sID = elements[i].getAttribute( "taskID" ); //$NON-NLS-1$
-						ITask task = (ITask) elements[i].createExecutableExtension( "classDefinition" ); //$NON-NLS-1$
-						registeredTasks.put( sID, task );
+						String sID = elements[i].getAttribute( "taskID" ); //$NON-NLS-1$						
+						String strPriority = elements[i].getAttribute( "priority" ); //$NON-NLS-1$
+						int priority = 0;
+						try
+						{
+							priority = Integer.valueOf( strPriority );
+						}
+						catch ( NumberFormatException ex )
+						{
+							priority = 0;
+						}
+						if ( registeredTasks.containsKey( sID ) )
+						{
+							TaskRegistrationEntry entry = registeredTasks.get( sID );
+							if ( entry.getPriority( ) >= priority )
+							{
+								// Always use the higher priority
+								continue;
+							}
+						}
+						ITask task = (ITask) elements[i].createExecutableExtension( "classDefinition" ); //$NON-NLS-1$	
+						TaskRegistrationEntry entry = new TaskRegistrationEntry( sID,
+								task,
+								priority );
+						registeredTasks.put( sID, entry );
 					}
 					catch ( FrameworkException e )
 					{
@@ -99,12 +121,13 @@ public class TasksManager
 					if ( registeredWizards.containsKey( sID ) )
 					{
 						String sInsertionKey = elements[i].getAttribute( "positionBefore" ); //$NON-NLS-1$
-						Vector vTemp = (Vector) registeredWizards.get( sID );
+						Vector<String> vTemp = registeredWizards.get( sID );
 						// IF INSERTION KEY IS SPECIFIED
 						if ( sInsertionKey != null
 								&& sInsertionKey.trim( ).length( ) > 0 )
 						{
-							int iInsertionPosition = ( (Vector) registeredWizards.get( sID ) ).indexOf( sInsertionKey );
+							int iInsertionPosition = registeredWizards.get( sID )
+									.indexOf( sInsertionKey );
 							// IF INSERTION KEY MATCHES A LOCATION IN WIZARD'S
 							// EXISTING TASK LIST
 							if ( iInsertionPosition != -1 )
@@ -125,11 +148,11 @@ public class TasksManager
 								&& sTaskList.trim( ).length( ) > 0 )
 						{
 							registeredWizards.put( sID,
-									addAllTasks( new Vector( ), sTasks ) );
+									addAllTasks( new Vector<String>( ), sTasks ) );
 						}
 						else
 						{
-							registeredWizards.put( sID, new Vector( ) );
+							registeredWizards.put( sID, new Vector<String>( ) );
 						}
 					}
 				}
@@ -142,7 +165,7 @@ public class TasksManager
 		}
 	}
 
-	private Vector addAllTasks( Vector vTemp, String[] sTasks )
+	private Vector<String> addAllTasks( Vector<String> vTemp, String[] sTasks )
 	{
 		// IF INSERTION KEY IS NOT SPECIFIED OR IS NOT FOUND...ADD ALL TASKS TO
 		// THE END OF EXISTING TASK LIST
@@ -155,10 +178,10 @@ public class TasksManager
 
 	private void updateWizard( String sWizardID, String sTasks, String sPosition )
 	{
-		Vector vTaskList = new Vector( );
+		Vector<String> vTaskList = new Vector<String>( );
 		if ( registeredWizards.containsKey( sWizardID ) )
 		{
-			vTaskList = (Vector) registeredWizards.get( sWizardID );
+			vTaskList = registeredWizards.get( sWizardID );
 		}
 		if ( sTasks != null && sTasks.trim( ).length( ) > 0 )
 		{
@@ -189,7 +212,9 @@ public class TasksManager
 	{
 		if ( !registeredTasks.containsKey( sTaskID ) && task != null )
 		{
-			registeredTasks.put( sTaskID, task );
+			registeredTasks.put( sTaskID, new TaskRegistrationEntry( sTaskID,
+					task,
+					0 ) );
 			fireTaskRegisteredEvent( sTaskID );
 		}
 		else
@@ -264,7 +289,7 @@ public class TasksManager
 		{
 			return null;
 		}
-		return (ITask) registeredTasks.get( sTaskID );
+		return registeredTasks.get( sTaskID ).getClassDefinition( );
 	}
 
 	/**
@@ -282,11 +307,11 @@ public class TasksManager
 	{
 		if ( registeredWizards.containsKey( sWizardID ) )
 		{
-			Vector vTemp = (Vector) registeredWizards.get( sWizardID );
+			Vector<String> vTemp = registeredWizards.get( sWizardID );
 			String[] sTasks = new String[vTemp.size( )];
 			for ( int iTaskCount = 0; iTaskCount < vTemp.size( ); iTaskCount++ )
 			{
-				sTasks[iTaskCount] = vTemp.get( iTaskCount ).toString( );
+				sTasks[iTaskCount] = vTemp.get( iTaskCount );
 			}
 			return sTasks;
 		}
@@ -338,7 +363,7 @@ public class TasksManager
 	{
 		for ( int i = 0; i < registeredListeners.size( ); i++ )
 		{
-			( (IRegistrationListener) registeredListeners.get( i ) ).taskRegistered( sTaskID );
+			registeredListeners.get( i ).taskRegistered( sTaskID );
 		}
 	}
 
@@ -347,7 +372,7 @@ public class TasksManager
 	{
 		for ( int i = 0; i < registeredListeners.size( ); i++ )
 		{
-			( (IRegistrationListener) registeredListeners.get( i ) ).taskDeregistered( sTaskID );
+			registeredListeners.get( i ).taskDeregistered( sTaskID );
 		}
 	}
 }

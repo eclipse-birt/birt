@@ -433,7 +433,7 @@ public class ChartUIUtil
 			}
 
 			// Only check valid index
-			int[] validIndex = getSeriesUIProvider( series ).validationIndex( series );
+			int[] validIndex = series.getDefinedDataDefinitionIndex( );
 			for ( int j = 0; j < validIndex.length; j++ )
 			{
 				int vi = validIndex[j];
@@ -1888,7 +1888,7 @@ public class ChartUIUtil
 		htTypes.clear( );
 
 		Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
-				.getUIChartTypeExtensions( context.getClass( ).getSimpleName( ) );
+				.getUIChartTypeExtensions( ( (ChartWizardContext) context ).getIdentifier( ) );
 		Iterator<IChartType> iterTypes = cTypes.iterator( );
 		boolean needExpand = ( (ChartWizardContext) context ).getDataServiceProvider( )
 				.checkState( IDataServiceProvider.PART_CHART );
@@ -2174,10 +2174,10 @@ public class ChartUIUtil
 	}
 
 	/**
-	 * Check for if current aggregation function supports datetime data or not.
+	 * Checks if current aggregation function supports datetime data or not.
 	 * 
 	 * @param aggFunc
-	 * @return
+	 * @return supported or not
 	 */
 	public static boolean isDataTimeSupportedAgg( String aggFunc )
 	{

@@ -562,8 +562,7 @@ public class TaskSelectData extends SimpleTask implements
 		}
 
 		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( getContext( ).getClass( )
-						.getSimpleName( ) );
+				.getSeriesUIComponents( ( (ChartWizardContext) getContext( ) ).getIdentifier( ) );
 		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 
 		String sSeries = null;
@@ -612,10 +611,10 @@ public class TaskSelectData extends SimpleTask implements
 					{
 						AxisType[] axisTypes = provider.getCompatibleAxisType( series );
 						// do not check bubble size query for axis type
-						int[] validationIndex = provider instanceof BubbleSeriesUIProvider
-								? new int[]{
-									0
-								} : provider.validationIndex( series );
+						int[] validationIndex = provider instanceof BubbleSeriesUIProvider ? new int[]{
+							0
+						}
+								: series.getDefinedDataDefinitionIndex( );
 						boolean needValidate = false;
 						for ( int i = 0; i < validationIndex.length; i++ )
 						{

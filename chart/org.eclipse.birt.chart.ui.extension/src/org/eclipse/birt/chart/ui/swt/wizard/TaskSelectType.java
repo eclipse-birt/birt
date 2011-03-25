@@ -156,16 +156,20 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected Orientation orientation = null;
 
-	private Label lblOrientation = null;
-	private Button cbOrientation = null;
+	protected Label lblOrientation = null;
+	protected Button cbOrientation = null;
 
-	private Label lblMultipleY = null;
+	protected Label lblMultipleY = null;
 	protected Combo cbMultipleY = null;
 
-	private Label lblSeriesType = null;
-	private Combo cbSeriesType = null;
+	protected Label lblSeriesType = null;
+	protected Combo cbSeriesType = null;
 
+	protected Label lblDimension;
 	protected Combo cbDimension = null;
+	
+	protected Label lblOutput;
+	protected Combo cbOutput;
 
 	private SashForm foSashForm;
 
@@ -233,7 +237,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Update dimension combo and related sub-types in case of axes changed
 		// outside
 		updateDimensionCombo( sType );
-		if ( ( (ChartWizardContext) getContext( ) ).isMoreAxesSupported( ) )
+		if ( getContext( ).isMoreAxesSupported( ) )
 		{
 			createAndDisplayTypesSheet( sType );
 			setDefaultSubtypeSelection( );
@@ -349,7 +353,7 @@ public class TaskSelectType extends SimpleTask implements
 
 			public void createControl( Composite parent )
 			{
-				Label lblDimension = new Label( parent, SWT.WRAP );
+				lblDimension = new Label( parent, SWT.WRAP );
 				{
 					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 					lblDimension.setLayoutData( gd );
@@ -781,7 +785,7 @@ public class TaskSelectType extends SimpleTask implements
 
 			Axis xAxis = ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 );
 
-			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
+			getContext( ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
 
 			if ( chartModel instanceof ChartWithoutAxes )
 			{
@@ -1139,8 +1143,9 @@ public class TaskSelectType extends SimpleTask implements
 		if ( getCurrentChartType( ).canCombine( ) )
 		{
 			populateSeriesTypes( ChartUIExtensionsImpl.instance( )
-					.getUIChartTypeExtensions( getContext( ).getClass( )
-							.getSimpleName( ) ), series, this.orientation );
+					.getUIChartTypeExtensions( getContext( ).getIdentifier( ) ),
+					series,
+					this.orientation );
 		}
 		else
 		{
@@ -1205,7 +1210,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * @param sSelectedType
 	 *            Type from Type List
 	 */
-	private void createAndDisplayTypesSheet( String sSelectedType )
+	protected void createAndDisplayTypesSheet( String sSelectedType )
 	{
 		IChartType chartType = ChartUIUtil.getChartType( sSelectedType );
 		if ( cbOrientation != null )
@@ -1452,7 +1457,7 @@ public class TaskSelectType extends SimpleTask implements
 			if ( cbMultipleY != null )
 			{
 				cbMultipleY.select( 0 );
-				( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( false );
+				getContext( ).setMoreAxesSupported( false );
 				lblMultipleY.setEnabled( false );
 				cbMultipleY.setEnabled( false );
 			}
@@ -1474,7 +1479,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * 
 	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getContext()
 	 */
-	public IWizardContext getContext( )
+	public ChartWizardContext getContext( )
 	{
 		ChartWizardContext context = (ChartWizardContext) super.getContext( );
 		context.setModel( this.chartModel );
@@ -1521,7 +1526,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void selectMultipleAxis( int yAxisNum )
 	{
-		if ( ( (ChartWizardContext) getContext( ) ).isMoreAxesSupported( ) )
+		if ( getContext( ).isMoreAxesSupported( ) )
 		{
 			cbMultipleY.select( 2 );
 		}
@@ -1530,7 +1535,7 @@ public class TaskSelectType extends SimpleTask implements
 			if ( yAxisNum > 2 )
 			{
 				cbMultipleY.select( 2 );
-				( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( true );
+				getContext( ).setMoreAxesSupported( true );
 			}
 			else
 			{
@@ -1574,7 +1579,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected IDataServiceProvider getDataServiceProvider( )
 	{
-		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
+		return getContext( ).getDataServiceProvider( );
 	}
 
 	private String getSubtypeFromButton( Control button )
@@ -1609,7 +1614,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( getContext( ).getClass( ).getSimpleName( ) );
+				.getSeriesUIComponents( getContext( ).getIdentifier( ) );
 		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 
 		String sSeries = null;
@@ -1866,7 +1871,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	public IChartPreviewPainter createPreviewPainter( )
 	{
-		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
+		ChartPreviewPainter painter = new ChartPreviewPainter( getContext( ) );
 		getPreviewCanvas( ).addPaintListener( painter );
 		getPreviewCanvas( ).addControlListener( painter );
 		painter.setPreview( getPreviewCanvas( ) );
@@ -1948,7 +1953,7 @@ public class TaskSelectType extends SimpleTask implements
 		return ChartUIUtil.getChartType( sType );
 	}
 
-	private void createUIDescriptors( Composite parent )
+	protected void createUIDescriptors( Composite parent )
 	{
 		for ( TaskSelectTypeUIDescriptor descriptor : lstDescriptor )
 		{
@@ -1994,7 +1999,7 @@ public class TaskSelectType extends SimpleTask implements
 
 			public void createControl( Composite parent )
 			{
-				Label lblOutput = new Label( parent, SWT.WRAP );
+				lblOutput = new Label( parent, SWT.WRAP );
 				{
 					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 					gd.horizontalIndent = 10;
@@ -2003,7 +2008,7 @@ public class TaskSelectType extends SimpleTask implements
 				}
 
 				// Add the ComboBox for Output Format
-				final Combo cbOutput = new Combo( parent, SWT.DROP_DOWN
+				cbOutput = new Combo( parent, SWT.DROP_DOWN
 						| SWT.READ_ONLY );
 				{
 					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -2013,7 +2018,7 @@ public class TaskSelectType extends SimpleTask implements
 						public void handleEvent( Event event )
 						{
 							String outputFormat = outputFormats[cbOutput.getSelectionIndex( )];
-							( (ChartWizardContext) getContext( ) ).setOutputFormat( outputFormat );
+							getContext( ).setOutputFormat( outputFormat );
 							
 							// Update apply button
 							if ( container != null && container instanceof ChartWizard )
@@ -2026,7 +2031,7 @@ public class TaskSelectType extends SimpleTask implements
 
 				cbOutput.setItems( outputDisplayNames );
 
-				String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
+				String sCurrentFormat = getContext( ).getOutputFormat( );
 				for ( int index = 0; index < outputFormats.length; index++ )
 				{
 					if ( outputFormats[index].equals( sCurrentFormat ) )
