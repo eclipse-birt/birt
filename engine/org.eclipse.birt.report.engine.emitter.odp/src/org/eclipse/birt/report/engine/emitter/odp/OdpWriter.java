@@ -105,6 +105,7 @@ public class OdpWriter extends AbstractOdfWriter
 		}
 
 		writer.openTag("draw:page");
+		writer.attribute("draw:name", "Slide" + currentPageNum);
 		if ( mpName != null )
 		{
 			writer.attribute( "draw:master-page-name", mpName );
