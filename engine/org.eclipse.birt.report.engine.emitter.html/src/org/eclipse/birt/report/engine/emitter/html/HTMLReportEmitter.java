@@ -3420,7 +3420,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			try
 			{
-				byte[] buffer = SvgFile.transSvgToArray( uri );
+				byte[] buffer = EmitterUtil.getImageData( uri );
 				image = new Image( buffer, uri, ".jpg" );
 			}
 			catch ( Exception e )
