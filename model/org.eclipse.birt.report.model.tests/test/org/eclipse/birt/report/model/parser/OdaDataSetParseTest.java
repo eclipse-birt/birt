@@ -256,6 +256,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		columnHintHandle.setDisplayLength( 10 ); //$NON-NLS-1$
 		columnHintHandle
 				.setHorizontalAlign( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY );
+		assertTrue( columnHintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ) );
 		columnHintHandle.setWordWrap( false );
 		columnHintHandle
 				.setTextFormat( DesignChoiceConstants.STRING_FORMAT_TYPE_LOWERCASE );
@@ -884,6 +885,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		assertTrue( columnHint.isOnColumnLayout( ) );
 
 		assertEquals( "Test Column", columnHint.getAnalysisColumn( ) ); //$NON-NLS-1$
+		assertFalse( columnHint.isLocal( ColumnHint.WORD_WRAP_MEMBER ) );
 
 		// Test "filter" on DataSet
 
