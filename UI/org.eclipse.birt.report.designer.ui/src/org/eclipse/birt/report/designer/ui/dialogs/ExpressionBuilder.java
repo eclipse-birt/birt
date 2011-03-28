@@ -1063,7 +1063,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 
 		handleDefaultSelection( );
 
-		getShell( ).setDefaultButton( null );
+		//getShell( ).setDefaultButton( null );
 		sourceViewer.getTextWidget( ).setFocus( );
 		return control;
 	}
