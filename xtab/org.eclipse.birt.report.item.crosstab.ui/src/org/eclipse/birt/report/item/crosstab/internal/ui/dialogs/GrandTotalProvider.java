@@ -26,7 +26,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -41,8 +40,10 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Shell;
 
 public class GrandTotalProvider extends TotalProvider implements
 		ITableLabelProvider,
@@ -66,7 +67,7 @@ public class GrandTotalProvider extends TotalProvider implements
 	{
 		choiceSet = ChoiceSetFactory.getElementChoiceSet( ICrosstabConstants.CROSSTAB_VIEW_EXTENSION_NAME,
 				ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP );
-		
+
 		IChoice[] choices = choiceSet.getChoices( new AlphabeticallyComparator( ) );
 
 		positionItems = new String[choices.length];
@@ -75,16 +76,18 @@ public class GrandTotalProvider extends TotalProvider implements
 		{
 			positionValues[i] = choices[i].getName( );
 			positionItems[i] = choices[i].getDisplayName( );
-		}		
+		}
 
 	}
+
 	private void initializeItems( GrandTotalInfo grandTotalInfo )
 	{
 		List<String> viewNameList = new ArrayList<String>( );
 		List<String> itemList = new ArrayList<String>( );
 
 		AggregationCellHandle cell = getAggregationCell( grandTotalInfo );
-		if ( cell != null && cellProviderWrapper.getMatchProvider( cell ) == null)
+		if ( cell != null
+				&& cellProviderWrapper.getMatchProvider( cell ) == null )
 		{
 			itemList.add( "" );
 			viewNameList.add( "" ); //$NON-NLS-1$
@@ -109,7 +112,7 @@ public class GrandTotalProvider extends TotalProvider implements
 			viewNameList.add( tmp.getViewName( ) );
 			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
 					new String[]{
-					displayName
+						displayName
 					} ) );
 		}
 		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
@@ -141,9 +144,11 @@ public class GrandTotalProvider extends TotalProvider implements
 		ComboBoxCellEditor comboCell = new ComboBoxCellEditor( viewer.getTable( ),
 				new String[0],
 				SWT.READ_ONLY );
-		ComboBoxCellEditor positionCell = new ComboBoxCellEditor(viewer.getTable( ),positionItems,SWT.READ_ONLY);
+		ComboBoxCellEditor positionCell = new ComboBoxCellEditor( viewer.getTable( ),
+				positionItems,
+				SWT.READ_ONLY );
 		cellEditor = new CellEditor[]{
-				null, null, comboCell,positionCell
+				null, null, comboCell, positionCell
 		};
 		return cellEditor;
 	}
@@ -151,8 +156,8 @@ public class GrandTotalProvider extends TotalProvider implements
 	// private CellEditor[] editors;
 	private String[] columnNames = new String[]{
 			"", Messages.getString( "GrandTotalProvider.Column.AggregateOn" ),// Messages.getString("GrandTotalProvider.Column.Function")
-																		// //$NON-NLS-1$
-																			// //$NON-NLS-2$
+			// //$NON-NLS-1$
+			// //$NON-NLS-2$
 			// //$NON-NLS-1$
 			// //$NON-NLS-2$
 			// //$NON-NLS-3$
@@ -191,14 +196,15 @@ public class GrandTotalProvider extends TotalProvider implements
 					info.setExpectedView( viewNames[index] );
 				}
 				return comboItems[index];
-			case 3:
+			case 3 :
 				String position = info.getPosition( );
-				if(position == null)
+				if ( position == null )
 				{
 					position = "";
 				}
-				int posIndex = Arrays.asList( positionValues ).indexOf( position );
-				if(posIndex < 0)
+				int posIndex = Arrays.asList( positionValues )
+						.indexOf( position );
+				if ( posIndex < 0 )
 				{
 					info.setPosition( positionValues[0] );
 				}
@@ -223,15 +229,25 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	public int[] columnWidths( )
 	{
+		Shell shell = new Shell( );
+		GC gc = new GC( shell );
+		int height = gc.stringExtent( "" ).y;
+		gc.dispose( );
+		shell.dispose( );
+
 		return new int[]{
-				20, 210, 120,120
+				height + (int) ( ( ( (float) height ) / 12 ) * 8 ),
+				210,
+				120,
+				120
 		};
 	}
 
 	public boolean canModify( Object element, String property )
 	{
 		// TODO Auto-generated method stub
-		if ( Arrays.asList( columnNames ).indexOf( property ) == 2 || Arrays.asList( columnNames ).indexOf( property ) == 3)
+		if ( Arrays.asList( columnNames ).indexOf( property ) == 2
+				|| Arrays.asList( columnNames ).indexOf( property ) == 3 )
 		{
 			if ( viewer instanceof CheckboxTableViewer )
 			{
@@ -315,8 +331,8 @@ public class GrandTotalProvider extends TotalProvider implements
 					( (GrandTotalInfo) element ).setExpectedView( viewNames[sel] );
 				}
 				break;
-			case 3:
-				int posIndex = ((Integer)value).intValue( );
+			case 3 :
+				int posIndex = ( (Integer) value ).intValue( );
 				( (GrandTotalInfo) element ).setPosition( positionValues[posIndex] );
 				break;
 			default :
