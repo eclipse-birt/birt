@@ -394,7 +394,16 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	private String getMetaDataPattern( String bookmark, String type )
 	{
 		String[] patternStrings = getMetadataString( type );
-		String resultPattern = patternStrings[0] + bookmark + patternStrings[1];
+		String resultPattern = null;
+		if ( bookmark.startsWith( "AUTOGENBOOKMARK_" ) )
+		{
+			resultPattern = patternStrings[0] + bookmark
+					+ "_.{8}-.{4}-.{4}-.{4}-.{12}" + patternStrings[1];
+		}
+		else
+		{
+			resultPattern = patternStrings[0] + bookmark + patternStrings[1];
+		}
 		return resultPattern;
 	}
 	
@@ -420,13 +429,33 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 			{
 				return 0;
 			}
-			if ( bookmark.equals( fields[0] ) && type.equals( fields[1] )
+			if ( isSameBookmark( bookmark, fields[0] )
+					&& type.equals( fields[1] )
 					&& ( id == null || fields[2].equals( id ) ) )
 			{
 				++count;
 			}
 		}
 		return count;
+	}
+	
+	private boolean isSameBookmark( String golden, String bookmark )
+	{
+		if ( golden.startsWith( "AUTOGENBOOKMARK_" )
+				&& bookmark.startsWith( "AUTOGENBOOKMARK_" ) )
+		{
+			int cutPoint = bookmark.lastIndexOf( '_' );
+			if ( golden.equals( bookmark.substring( 0, cutPoint ) ) )
+			{
+				return true;
+			}
+		}
+		if ( bookmark.equals( golden ) )
+		{
+			return true;
+		}
+
+		return false;
 	}
 	
 	private String[] getMetadataString( String type )
