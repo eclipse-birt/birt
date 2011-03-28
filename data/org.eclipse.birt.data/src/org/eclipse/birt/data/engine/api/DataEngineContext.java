@@ -384,8 +384,9 @@ public class DataEngineContext
 
 		if ( reader != null )
 			return reader.exists( relativePath );
-		else
-			return false;
+		else if ( writer!= null && writer.exists( relativePath ))
+			return true;
+		return false;
 	}
 	
 	/**
