@@ -202,7 +202,7 @@ public class ChartExpressionUtilTest extends TestCase
 				exprCodec.getFullBindingName( "row[\"abc\"] + 100" ) ); //$NON-NLS-1$
 		
 		// Constant
-		assertEquals( "\"abc\"", //$NON-NLS-1$
+		assertEquals( "abc", //$NON-NLS-1$
 				exprCodec.getFullBindingName( "\"abc\"" ) ); //$NON-NLS-1$
 		assertEquals( "100", //$NON-NLS-1$
 				exprCodec.getFullBindingName( "100" ) ); //$NON-NLS-1$
