@@ -10,15 +10,25 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.model;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 
 
 public class FilterConfig
 {
 	public static enum Type{ ALL, TABLE, VIEW, PROCEDURE };
+	public final static String JDBC_TYPE_TABLE = "TABLE";
+	public final static String JDBC_TYPE_VIEW = "VIEW";
+	public final static String JDBC_TYPE_SYSTEM_TABLE = "SYSTEM TABLE";
+	public final static String JDBC_TYPE_GLOBAL_TEMPORARY = "GLOBAL TEMPORARY";
+	public final static String JDBC_TYPE_LOCAL_TEMPORARY = "LOCAL TEMPORARY";
+	public final static String JDBC_TYPE_ALIAS = "ALIAS";
+	public final static String JDBC_TYPE_SYNONYM = "SYNONYM";
 	
 	private Type type;
 	private boolean isShowSystemTable;
+	private boolean isShowAlias;
 	private String schemaName; //null if no schema specified
 	private String namePattern;
 	
@@ -26,7 +36,7 @@ public class FilterConfig
 	private int maxTableCountPerSchema;
 	
 	public FilterConfig( String schemaName, Type type, String namePattern,
-			 boolean isShowSystemTable,
+			 boolean isShowSystemTable, boolean isShowAlias,
 			 int maxSchemaCount, 
 			 int maxTableCountPerSchema )
 	{
@@ -34,6 +44,7 @@ public class FilterConfig
 		this.schemaName = schemaName;
 		this.type = type;
 		this.isShowSystemTable = isShowSystemTable;
+		this.isShowAlias = isShowAlias;
 		this.namePattern = generatePattern( namePattern );
 		this.maxSchemaCount = maxSchemaCount;
 		this.maxTableCountPerSchema = maxTableCountPerSchema;
@@ -47,6 +58,11 @@ public class FilterConfig
 	public boolean isShowSystemTable( )
 	{
 		return isShowSystemTable;
+	}
+	
+	public boolean isShowAlias( )
+	{
+		return isShowAlias;
 	}
 	
 	public String getNamePattern( )
@@ -76,34 +92,48 @@ public class FilterConfig
 	 */
 	public String[] getTableTypesForJDBC( )
 	{
+		ArrayList<String> types = new ArrayList<String>();
 		switch ( type )
 		{
 			case PROCEDURE:
-				return null;
+				break;
 			case TABLE:
-				if ( isShowSystemTable( ) )
-				{
-					return new String[]{ "TABLE", "SYSTEM TABLE" };
-				}
-				else
-				{
-					return new String[]{ "TABLE" };
-				}
+				types.add( JDBC_TYPE_TABLE );
+				populateSystemTableOption( types );
+				populateAliasOption( types );
+				break;
 			case VIEW:
-				return new String[]{ "VIEW" };
+				types.add( JDBC_TYPE_VIEW );
+				populateAliasOption( types );
+				break;
 			case ALL:
-				if ( isShowSystemTable( ) )
-				{
-					return new String[]{ "TABLE", "VIEW", "SYSTEM TABLE" };
-				}
-				else
-				{
-					return new String[]{ "TABLE", "VIEW" };
-				}
+				types.add( JDBC_TYPE_TABLE );
+				types.add( JDBC_TYPE_VIEW );
+				populateSystemTableOption( types );
+				populateAliasOption( types );
+				break;
 			default:
 				//should never goes here
 				assert false;
-				return null;
+				break;
+		}
+		return types.isEmpty( ) ? null : types.toArray( new String[]{} );
+	}
+	
+	private void populateSystemTableOption( final ArrayList<String> types )
+	{
+		if ( isShowSystemTable( ) )
+		{
+			types.add( JDBC_TYPE_SYSTEM_TABLE );
+		}
+	}
+	
+	private void populateAliasOption( final ArrayList<String> types )
+	{
+		if ( isShowAlias( ) )
+		{
+			types.add( JDBC_TYPE_ALIAS );
+			types.add( JDBC_TYPE_SYNONYM );
 		}
 	}
 	

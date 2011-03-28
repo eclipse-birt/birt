@@ -118,6 +118,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Tree availableDbObjectsTree = null;
 	private Button identifierQuoteStringCheckBox = null;
 	private Button showSystemTableCheckBox = null;
+	private Button showAliasCheckBox = null;
 	private Button includeSchemaCheckBox = null;
 	private DataSetDesign dataSetDesign;
 
@@ -471,6 +472,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		filterComboViewer.getControl( ).setLayoutData( filterData );
 
 		setupShowSystemTableCheckBox( selectTableGroup );
+		setupShowAliasCheckBox( selectTableGroup);
 
 		// Find Button
 		Button findButton = new Button( selectTableGroup, SWT.NONE );
@@ -578,11 +580,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 		Type type = getSelectedFilterType( );
 		String namePattern = searchTxt.getText( );
-		boolean isShowSystemTable = showSystemTableCheckBox.getSelection( );
+		boolean isShowSystemTable = showSystemTableCheckBox.isEnabled( )
+				? showSystemTableCheckBox.getSelection( ) : false;
+		boolean isShowAlias = showAliasCheckBox.isEnabled( )
+				? showAliasCheckBox.getSelection( ) : false;
 		FilterConfig result = new FilterConfig( schemaName,
 				type,
 				namePattern,
 				isShowSystemTable,
+				isShowAlias,
 				maxSchemaCount,
 				maxTableCountPerSchema );
 		return result;
@@ -644,7 +650,18 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		showSystemTableCheckBox.setLayoutData( layoutData );
 		showSystemTableCheckBox.setEnabled( true );
 	}
-
+	
+	private void setupShowAliasCheckBox(Group group)
+	{
+		GridData layoutData = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+		layoutData.horizontalSpan = 2;
+		showAliasCheckBox = new Button( group, SWT.CHECK );
+		showAliasCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.showAlias" ) ); //$NON-NLS-1$
+		showAliasCheckBox.setSelection( true );
+		showAliasCheckBox.setLayoutData( layoutData );
+		showAliasCheckBox.setEnabled( true );
+	}
+	
 	/**
 	 * 
 	 * @param group
@@ -673,7 +690,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		}
 
 		List<FilterConfig.Type> types = new ArrayList<FilterConfig.Type>( );
-
+		
 		// Populate the Types of Data bases objects which can be retrieved
 		types.add( Type.ALL );
 		types.add( Type.TABLE );
@@ -724,10 +741,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 						if ( type == Type.ALL || type == Type.TABLE )
 						{
 							showSystemTableCheckBox.setEnabled( true );
+							showAliasCheckBox.setEnabled( true );
 						}
 						else
 						{
 							showSystemTableCheckBox.setEnabled( false );
+							showAliasCheckBox.setEnabled( false );
 						}
 					}
 				} );
@@ -795,7 +814,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 					{
 						item.removeAll( );
 						// bidi_hcg: pass value of metadataBidiFormatStr
-						parent.prepareChildren( fc,
+						parent.prepareChildren( fc, 
 								SQLDataSetEditorPage.this.timeOutLimit * 1000 );
 						if ( parent.getChildren( ) != null )
 						{
