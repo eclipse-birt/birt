@@ -17,14 +17,17 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 
 public class FilterConfig
 {
-	public static enum Type{ ALL, TABLE, VIEW, PROCEDURE };
-	public final static String JDBC_TYPE_TABLE = "TABLE";
-	public final static String JDBC_TYPE_VIEW = "VIEW";
-	public final static String JDBC_TYPE_SYSTEM_TABLE = "SYSTEM TABLE";
-	public final static String JDBC_TYPE_GLOBAL_TEMPORARY = "GLOBAL TEMPORARY";
-	public final static String JDBC_TYPE_LOCAL_TEMPORARY = "LOCAL TEMPORARY";
-	public final static String JDBC_TYPE_ALIAS = "ALIAS";
-	public final static String JDBC_TYPE_SYNONYM = "SYNONYM";
+
+	public static enum Type {
+		ALL, TABLE, VIEW, PROCEDURE
+	};
+	public final static String JDBC_TYPE_TABLE = "TABLE"; //$NON-NLS-1$
+	public final static String JDBC_TYPE_VIEW = "VIEW"; //$NON-NLS-1$
+	public final static String JDBC_TYPE_SYSTEM_TABLE = "SYSTEM TABLE"; //$NON-NLS-1$
+	public final static String JDBC_TYPE_GLOBAL_TEMPORARY = "GLOBAL TEMPORARY"; //$NON-NLS-1$
+	public final static String JDBC_TYPE_LOCAL_TEMPORARY = "LOCAL TEMPORARY"; //$NON-NLS-1$
+	public final static String JDBC_TYPE_ALIAS = "ALIAS"; //$NON-NLS-1$
+	public final static String JDBC_TYPE_SYNONYM = "SYNONYM"; //$NON-NLS-1$
 	
 	private Type type;
 	private boolean isShowSystemTable;
@@ -143,12 +146,12 @@ public class FilterConfig
 		{
 			if ( input.lastIndexOf( '%' ) == -1 )
 			{
-				input = input + "%";
+				input = input + "%"; //$NON-NLS-1$
 			}
 		}
 		else
 		{
-			input = "%";
+			input = "%"; //$NON-NLS-1$
 		}
 		return input;
 	}
@@ -159,17 +162,17 @@ public class FilterConfig
 		switch ( type )
 		{
 			case PROCEDURE:
-				return JdbcPlugin.getResourceString( "tablepage.text.procedure" );
+				return JdbcPlugin.getResourceString( "tablepage.text.procedure" ); //$NON-NLS-1$
 			case TABLE:
-				return JdbcPlugin.getResourceString( "tablepage.text.tabletype" );
+				return JdbcPlugin.getResourceString( "tablepage.text.tabletype" ); //$NON-NLS-1$
 			case VIEW:	
-				return JdbcPlugin.getResourceString( "tablepage.text.viewtype" );
+				return JdbcPlugin.getResourceString( "tablepage.text.viewtype" ); //$NON-NLS-1$
 			case ALL:
-				return JdbcPlugin.getResourceString( "tablepage.text.All" );
+				return JdbcPlugin.getResourceString( "tablepage.text.All" ); //$NON-NLS-1$
 			default:
 				//should never goes here
 				assert false;
-				return "";
+				return ""; //$NON-NLS-1$
 		}
 	}
 }
