@@ -602,8 +602,7 @@ public class ImageBuilder extends BaseDialog
 		{
 			inputButton = new Button( inputArea, SWT.PUSH );
 			inputButton.setText( BUTTON_SELECT_IMAGE_DATA );
-			inputButton.setEnabled( !getModuleHandle( ).getVisibleDataSets( )
-					.isEmpty( ) );
+			// inputButton.setEnabled( !getModuleHandle( ).getVisibleDataSets( ).isEmpty( ) );
 			inputButton.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent event )
