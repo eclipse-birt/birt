@@ -493,4 +493,27 @@ public class StructureHandle extends ValueHandle
 
 		return null;
 	}
+
+	/**
+	 * Determines whether this value is set locally for the given member in this
+	 * structure. It is set if and only if it is defined on this structure local
+	 * property.
+	 * 
+	 * @return <code>true</code> if the local value is set, otherwise
+	 *         <code>false</code>.
+	 * 
+	 */
+
+	public boolean isLocal( String memberName )
+	{
+		StructPropertyDefn memberDefn = (StructPropertyDefn) getDefn( )
+				.getMember( memberName );
+		if ( memberDefn == null )
+			return false;
+		Structure struct = (Structure) getStructure( );
+		if ( struct == null )
+			return false;
+		Object localValue = struct.getLocalProperty( getModule( ), memberDefn );
+		return localValue == null ? false : true;
+	}
 }
