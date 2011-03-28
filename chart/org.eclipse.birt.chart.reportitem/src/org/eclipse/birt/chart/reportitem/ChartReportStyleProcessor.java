@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
@@ -1035,6 +1036,14 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					yAxis.setFormatSpecifier( createFormatSpecifier( measure ) );
 				}
 			}
+		} else {
+			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
+			if ( cwa.getSeriesDefinitions( ).get( 0 ).getFormatSpecifier( ) == null )
+			{
+				cwa.getSeriesDefinitions( )
+						.get( 0 )
+						.setFormatSpecifier( createFormatSpecifier( category ) );
+			}
 		}
 	}
 	
@@ -1100,8 +1109,19 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	{
 		if ( levelHandle != null )
 		{
-			return convertToFormatSpecifier( levelHandle.getFormat( ),
-					levelHandle.getDataType( ) );
+			if ( levelHandle.getFormat( ) == null
+					&& ( (org.eclipse.birt.report.model.api.olap.DimensionHandle) levelHandle.getContainer( )
+							.getContainer( ) ).isTimeType( )
+					&& levelHandle.getDateTimeFormat( ) != null )
+			{
+				// Create format specifier for date time type.
+				return JavaDateFormatSpecifierImpl.create( new DateFormatter( levelHandle.getDateTimeFormat( ) ).getFormatCode( ) );
+			}
+			else
+			{
+				return convertToFormatSpecifier( levelHandle.getFormat( ),
+						levelHandle.getDataType( ) );
+			}
 		}
 		return null;
 	}

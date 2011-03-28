@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -812,7 +813,26 @@ public final class LegendBuilder implements IConstants
 			dsiBase = createDataSetIterator( seBase, lgData.cm );
 
 			fs = lgData.cm.getLegend( ).getFormatSpecifier( );
-
+			if ( fs == null )
+			{
+				// Get pre-defined format specifier, this format specifier might
+				// inherit and copy from container.
+				if ( lgData.cm instanceof ChartWithAxes )
+				{
+					ChartWithAxes cwa = (ChartWithAxes) lgData.cm;
+					Axis xAxis = cwa.getAxes( ).get( 0 );
+					fs = xAxis.getFormatSpecifier( );
+				}
+				else
+				{
+					ChartWithoutAxes cwa = (ChartWithoutAxes) lgData.cm;
+					fs = cwa.getSeriesDefinitions( )
+							.get( 0 )
+							.getFormatSpecifier( );
+				}
+			}
+			
+			// Get default formatter.
 			int iDateTimeUnit = ChartUtil.computeDateTimeCategoryUnit( lgData.cm,
 					dsiBase );
 
