@@ -78,6 +78,7 @@ class XMLParserPoolImpl implements XMLParserPool
 			throws ParserConfigurationException, SAXException
 	{
 		Set<String> keys = null;
+		SAXParser parser = null;
 		if ( properties != null )
 		{
 			keys = new HashSet<String>( properties.keySet( ) );
@@ -91,14 +92,25 @@ class XMLParserPoolImpl implements XMLParserPool
 				int size = list.size( );
 				if ( size > 0 )
 				{
-					return list.remove( size - 1 );
+					parser = list.remove( size - 1 );
 				}
 			}
 			else
 				parserCache.put( keys, new ArrayList<SAXParser>( ) );
 		}
-
-		return createParser( properties );
+		if ( parser == null )
+			parser = createParser( properties );
+		
+		if ( properties != null )
+		{
+			for ( Map.Entry<String, ?> entry : properties.entrySet( ) )
+			{
+				parser.getXMLReader( ).setProperty( entry.getKey( ),
+						entry.getValue( ) );
+			}
+		}
+		
+		return parser;
 	}
 
 	/*
@@ -165,16 +177,7 @@ class XMLParserPoolImpl implements XMLParserPool
 
 		SAXParserFactory factory = SAXParserFactory.newInstance( );
 		SAXParser parser = factory.newSAXParser( );
-
-		if ( properties != null )
-		{
-			for ( Map.Entry<String, ?> entry : properties.entrySet( ) )
-			{
-				parser.getXMLReader( ).setProperty( entry.getKey( ),
-						entry.getValue( ) );
-			}
-		}
-
+		
 		logger.log( Level.FINEST, "created a new SAX parser" ); //$NON-NLS-1$
 		return parser;
 	}
