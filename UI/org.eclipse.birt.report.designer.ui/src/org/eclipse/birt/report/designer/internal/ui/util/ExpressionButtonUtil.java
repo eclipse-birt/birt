@@ -186,6 +186,20 @@ public class ExpressionButtonUtil
 	}
 
 	public static ExpressionButton createExpressionButton( Composite parent,
+			Control control, IExpressionProvider provider,
+			Object contextObject, ExpressionHelper helper )
+	{
+		return createExpressionButton( parent,
+				control,
+				provider,
+				contextObject,
+				null,
+				false,
+				SWT.PUSH,
+				helper );
+	}
+
+	public static ExpressionButton createExpressionButton( Composite parent,
 			final Control control, final IExpressionProvider provider,
 			Object contextObject, Listener listener )
 	{
@@ -415,4 +429,5 @@ public class ExpressionButtonUtil
 		}
 		return null;
 	}
+
 }

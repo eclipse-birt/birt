@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -70,6 +71,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyAdapter;
@@ -930,10 +932,38 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 		} );
 
+		ExpressionHelper displayKeyHelper = new ExpressionHelper( ) {
+
+			public String getExpression( )
+			{
+				if ( control instanceof Combo )
+				{
+					String text = ( (Combo) control ).getText( );
+					if ( !Messages.getString( "LevelPropertyDialog.None" )
+							.equals( text ) )
+						return text;
+				}
+				return ""; //$NON-NLS-1$
+			}
+
+			public void setExpression( String expression )
+			{
+				if ( control instanceof Combo )
+				{
+					if ( "".equals( DEUtil.resolveNull( expression ) ) )
+						( (Combo) control ).setText( Messages.getString( "LevelPropertyDialog.None" ) );
+					else
+						( (Combo) control ).setText( DEUtil.resolveNull( expression ) );
+				}
+
+			}
+		};
+
 		ExpressionButtonUtil.createExpressionButton( groupGroup,
 				displayKeyCombo,
 				new CubeExpressionProvider( input ),
-				input );
+				input,
+				displayKeyHelper );
 
 		new Label( groupGroup, SWT.NONE ).setText( Messages.getString( "LevelPropertyDialog.DataType" ) ); //$NON-NLS-1$
 		dynamicDataTypeCombo = new Combo( groupGroup, SWT.BORDER
