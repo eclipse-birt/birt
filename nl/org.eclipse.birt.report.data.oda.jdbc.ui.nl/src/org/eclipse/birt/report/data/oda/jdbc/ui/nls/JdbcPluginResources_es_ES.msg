@@ -30,6 +30,7 @@ tablepage.label.queryText=Texto de cons&ulta:
 tablepage.button.filter=&Aplicar filtro
 tablepage.button.dnd=&Entrecomillar todos los identificadores
 tablepage.button.showSystemTables=M&ostrar las tablas del sistema
+tablepage.button.showAlias=Show alias
 tablepage.button.includeSchemaInfo=&Incluir esquema en nombre de elemento
 tablepage.label.filterNote=(Utilice '%' para que coincida con cualquier string que tenga varios caracteres o ninguno y '-' para que coincida con un carácter)
 tablepage.title=Seleccione las tablas que aparecerán en el conjunto de datos.

@@ -30,6 +30,7 @@ tablepage.label.queryText=クエリテキスト(&U) :
 tablepage.button.filter=フィルタの適用(&A)
 tablepage.button.dnd=すべての識別子に引用符をつける(&Q)
 tablepage.button.showSystemTables=システムテーブルを表示する(&H)
+tablepage.button.showAlias=Show alias
 tablepage.button.includeSchemaInfo=項目名にスキーマを含める(&I)
 tablepage.label.filterNote=(0 文字以上の任意の文字列を検索するには '%' を、任意の 1 文字を検索するには '-' を使用します)
 tablepage.title=データセットに表示するテーブルを選択してください。

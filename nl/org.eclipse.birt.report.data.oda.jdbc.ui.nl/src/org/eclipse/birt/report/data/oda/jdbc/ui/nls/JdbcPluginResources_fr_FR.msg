@@ -30,6 +30,7 @@ tablepage.label.queryText=Texte de la re&quête :
 tablepage.button.filter=&Appliquer le filtre
 tablepage.button.dnd=Indi&quer tous les identificateurs
 tablepage.button.showSystemTables=Affic&her les tables systèmes
+tablepage.button.showAlias=Show alias
 tablepage.button.includeSchemaInfo=&Inclure le schéma dans le nom
 tablepage.label.filterNote=(Utilisez '%' pour faire correspondre toutes les chaînes contenant zéro caractère ou plus, utilisez '-' pour faire correspondre un caractère)
 tablepage.title=Sélectionnez les tables à faire apparaître dans le jeu de données.
