@@ -2965,9 +2965,10 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 
 	public final int getLineNo( Object obj )
 	{
-		if ( obj instanceof EmbeddedImageHandle )
+		if ( obj instanceof EmbeddedImageHandle 
+				|| obj instanceof ResultSetColumnHandle )
 		{
-			return module.getLineNo( ( (EmbeddedImageHandle) obj )
+			return module.getLineNo( ( (StructureHandle) obj )
 					.getStructure( ) );
 		}
 		else if ( obj instanceof DesignElementHandle )
@@ -2980,7 +2981,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 			SlotHandle slot = (SlotHandle) obj;
 			return module.getLineNo( new ContainerContext( slot.getElement( ),
 					slot.getSlotID( ) ) );
-		}
+		}		
 		else
 			return 1;
 	}

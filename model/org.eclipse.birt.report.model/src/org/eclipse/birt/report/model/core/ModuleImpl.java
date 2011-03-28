@@ -553,6 +553,24 @@ public abstract class ModuleImpl extends DesignElement
 
 		lineNoInfo.put( obj, lineNo );
 	}
+	
+	/**
+	 * Adds an object's line number info.
+	 * @param element
+	 *            the element
+	 * @param obj
+	 *            the object
+	 * @param lineNo
+	 *            the line number
+	 */
+
+	public final void addLineNo( DesignElement element, Object obj, Integer lineNo )
+	{
+		if ( lineNoInfo == null )
+			return;
+
+		lineNoInfo.put( element, obj, lineNo );
+	}
 
 	/**
 	 * Returns the undo/redo stack for this module.

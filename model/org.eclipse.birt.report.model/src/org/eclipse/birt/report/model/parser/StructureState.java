@@ -345,8 +345,9 @@ public class StructureState extends AbstractPropertyState
 
 	public void end( ) throws SAXException
 	{
-		if ( handler.markLineNumber && struct instanceof EmbeddedImage )
-			handler.module.addLineNo( struct, Integer.valueOf( lineNumber ) );
+		if ( handler.markLineNumber && 
+				( struct instanceof EmbeddedImage || struct instanceof ResultSetColumn ) )
+			handler.module.addLineNo( element, struct, Integer.valueOf( lineNumber ) );
 
 		if ( struct != null )
 		{

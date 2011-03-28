@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -68,6 +69,13 @@ public class LineNumberInfo
 	private HashMap<String, Integer> includedCssStyleSheetStructMap = null;
 
 	/**
+	 * The hash map for the <code>ResultSetColumn</code> structures
+	 * name-to-lineNumber lookup. Key is the name of the data set name and
+	 * column name.
+	 */
+	private HashMap<String, Integer> resultSetColumnStructMap = null;
+
+	/**
 	 * The line number for theme property in report design.
 	 */
 
@@ -86,6 +94,7 @@ public class LineNumberInfo
 		embeddedImageStructMap = new HashMap<String, Integer>( );
 		includedCssStyleSheetStructMap = new HashMap<String, Integer>( );
 		slotMap = new HashMap<String, Integer>( );
+		resultSetColumnStructMap = new HashMap<String, Integer>( );
 	}
 
 	/**
@@ -140,6 +149,30 @@ public class LineNumberInfo
 		else
 			return;
 	}
+	
+	/**
+	 * Puts the line number of the object.
+	 * 
+	 * Note: currently, only support put line number of DesignElement,
+	 * ResultSetColumn EmbeddedImage, IncludeLibrary property and theme
+	 * property.
+	 * 
+	 * @param element
+	 *            the element
+	 * @param obj
+	 *            the object
+	 * @param lineNo
+	 *            line number
+	 */
+	
+	public void put( DesignElement element, Object obj, Integer lineNo )
+	{
+		if ( obj instanceof ResultSetColumn )
+			resultSetColumnStructMap.put( getColumnKey( (ResultSetColumn) obj, element ),
+					lineNo );
+		else
+			put( obj, lineNo );
+	}
 
 	/**
 	 * Gets the line number of object.
@@ -182,11 +215,15 @@ public class LineNumberInfo
 		{
 			return getElementLineNo( ( (DesignElement) obj ).getID( ) );
 		}
+		else if ( obj instanceof ResultSetColumn )
+		{			
+			return intValue( resultSetColumnStructMap.get( getColumnKey( (ResultSetColumn) obj ) ) );			
+		}
 		else if ( obj instanceof ContainerContext )
 		{
 			return getSlotLineNo( (ContainerContext) obj );
 		}
-
+		
 		else
 			return 1;
 
@@ -240,6 +277,35 @@ public class LineNumberInfo
 	}
 
 	/**
+	 * Gets the key for the given column.
+	 * 
+	 * @param column
+	 *            the column
+	 * @return the key for the column
+	 */
+	
+	private String getColumnKey( ResultSetColumn column )
+	{		
+		return getColumnKey( column, column.getElement( ) );
+	}
+
+	/**
+	 * Gets the key for the given column in the given element.
+	 * 
+	 * @param column
+	 *            the column
+	 * @param element
+	 *            the element
+	 * @return the key for the column
+	 */
+	
+	private String getColumnKey( ResultSetColumn column, DesignElement element )
+	{
+		assert element != null;
+		return column.getColumnName( ) + "@" + element.getName( ); //$NON-NLS-1$
+	}
+	
+	/**
 	 * @param context
 	 * @param module
 	 * @return the xpath string of the container context
@@ -255,4 +321,5 @@ public class LineNumberInfo
 				module ), context.getSlotID( ) );
 		return XPathUtil.getXPath( slot );
 	}
+	
 }

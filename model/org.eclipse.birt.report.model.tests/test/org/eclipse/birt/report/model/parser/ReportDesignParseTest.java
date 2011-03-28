@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
@@ -46,6 +48,7 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -991,6 +994,11 @@ public class ReportDesignParseTest extends BaseTestCase
 		SlotHandle pageFooter = page.getPageFooter( );
 		assertEquals( 367, designHandle.getLineNo( pageFooter ) );
 
+		// test result set column
+		DataSetHandle dataSetHandle = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
+		ResultSetColumnHandle resultSetColumnHandle = (ResultSetColumnHandle) dataSetHandle
+				.getCachedMetaDataHandle( ).getResultSet( ).getAt( 0 );
+		assertEquals( 73, designHandle.getLineNo( resultSetColumnHandle ) );		
 	}
 
 	/**
