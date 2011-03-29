@@ -960,6 +960,17 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		return super.performCancel( );
 	}
 
+	protected boolean checkDisplayNameKey( String displayNameKey )
+	{
+		boolean result = true ;
+		
+		if ( displayNameKey.trim( ).indexOf( ' ' ) != -1 )
+		{
+			result = false ;
+		}
+		return result;
+	}
+	
 	protected String[] getCompatibleDataTypes ( String dataType )
 	{
 		String[] compatibleTypes = null;
@@ -1265,6 +1276,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 						Utility.setProperty( data,
 								cellProperties[index],
 								tx.getText( ) );
+						
+						boolean check = checkDisplayNameKey( tx.getText( ) );
+						if ( !check )
+						{
+							updateStatus( getMiscStatus( IStatus.ERROR, Messages.getString( "ResourceKey.invalid.containSpace" ) ) );
+						}
 					}
 					catch ( Exception e1 )
 					{
