@@ -31,6 +31,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
@@ -300,5 +301,11 @@ public class GroupHandleProvider implements IFormHandleProvider
 	public boolean isEditable( )
 	{
 		return true;
+	}
+
+	public Image getImage( Object element, int columnIndex )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

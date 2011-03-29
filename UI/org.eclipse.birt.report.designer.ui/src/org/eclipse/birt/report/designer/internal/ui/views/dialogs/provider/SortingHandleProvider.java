@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -290,5 +291,11 @@ public class SortingHandleProvider implements IFormHandleProvider
 	public boolean isEditable( )
 	{
 		return true;
+	}
+
+	public Image getImage( Object element, int columnIndex )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

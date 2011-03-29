@@ -42,6 +42,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -58,7 +59,7 @@ public class FilterHandleProvider implements IFormHandleProvider
 	/**
 	 * Column properties.
 	 */
-	private String[] columnKeys = new String[]{
+	protected String[] columnKeys = new String[]{
 			FilterCondition.EXPR_MEMBER,
 			FilterCondition.OPERATOR_MEMBER,
 			FilterCondition.VALUE1_MEMBER,
@@ -287,6 +288,11 @@ public class FilterHandleProvider implements IFormHandleProvider
 	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
 	public String getImagePath( Object element, int columnIndex )
+	{
+		return null;
+	}
+	
+	public Image getImage( Object element, int columnIndex )
 	{
 		return null;
 	}

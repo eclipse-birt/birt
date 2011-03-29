@@ -398,7 +398,7 @@ public class FilterListDialog extends BaseDialog implements Listener
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			return null;
+			return provider.getImage( element, columnIndex );
 		}
 
 		public String getColumnText( Object element, int columnIndex )

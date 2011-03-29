@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 
 /**
@@ -115,6 +116,19 @@ public interface IFormHandleProvider
 	 */
 	String getImagePath( Object element, int columnIndex );
 
+	/**
+	 * Gets the image for the element under given index.
+	 * 
+	 * @param element
+	 *            The data object.
+	 * @param columnIndex
+	 *            The table column index.
+	 * @return The image for the element under given index
+	 * 
+	 * @since 2.6.2
+	 */
+	Image getImage(Object element, int columnIndex);
+	
 	/**
 	 * Gets all elements of the given input.
 	 * 
