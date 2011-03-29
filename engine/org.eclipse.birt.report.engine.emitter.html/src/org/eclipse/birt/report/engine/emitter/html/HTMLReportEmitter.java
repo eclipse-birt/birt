@@ -2496,6 +2496,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.text( textValue );
 			writer.closeTag( HTMLTags.TAG_A );
 		}
+		else if ( isBlank )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+			writer.attribute( HTMLTags.ATTR_STYLE, "visibility:hidden" );
+			writer.text( textValue );
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
 		else
 		{
 			writer.text( textValue );

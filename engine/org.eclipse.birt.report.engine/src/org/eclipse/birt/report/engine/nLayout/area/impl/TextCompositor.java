@@ -256,6 +256,8 @@ public class TextCompositor
 			if ( blankText )
 			{
 				textStyle.setHasHyperlink( false );
+				textStyle.setLineThrough( false );
+				textStyle.setUnderLine( false );
 			}
 		}
 		TextArea area = new TextArea( textContent.getText( ), textStyle );
