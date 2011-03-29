@@ -217,7 +217,8 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			String fname = removeQuotes(style.getFontFamilyHandle( ).getStringValue( ));
 			int fsize = getFontSizeIntValue( handle );
 			boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
-			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) );
+			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) )
+					|| isItalicFont( style.getFontStyle( ) );
 			boolean funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( style.getTextUnderline( ) );
 			boolean fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( style.getTextLineThrough( ) );
 
