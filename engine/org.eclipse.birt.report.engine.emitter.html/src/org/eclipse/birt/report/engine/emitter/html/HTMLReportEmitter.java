@@ -2836,8 +2836,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				mergedStyle, styleBuffer );
 
 		// In HTML the default display value of image is inline. We use the tag
-		// <div> to implement the block of the image.
-		String tag = openTagByType( display, DISPLAY_BLOCK );
+		// <div> to implement the block of the image. For inline elements, we
+		// need the <span> tag to make them work well.
+		String tag = openTagByType( display, DISPLAY_FLAG_ALL );
 
 		// action
 		boolean hasAction = handleAction( image.getHyperlinkAction( ) );
