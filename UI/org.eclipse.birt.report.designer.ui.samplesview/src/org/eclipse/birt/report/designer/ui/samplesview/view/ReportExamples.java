@@ -222,11 +222,15 @@ public class ReportExamples
 					else if ( item.getText( ).equals( CONTRIBUTION_ITEM_TEXT ) )
 					{
 						description.setText( DescriptionMessages.getDescription( "Contribute_Samples" ) ); //$NON-NLS-1$
+						previewCanvas.setSampleImage( null );
+						previewCanvas.redraw( );
 						setSelectedElement( item );
 					}
 					else
 					{
 						description.setText( Messages.getString( "SampleReportsView.defautDescription" ) ); //$NON-NLS-1$
+						previewCanvas.setSampleImage( null );
+						previewCanvas.redraw( );
 						setSelectedElement( item );
 					}
 				}
