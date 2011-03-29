@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -20,9 +21,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Com
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComplexUnitSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
@@ -103,7 +107,7 @@ public class MasterPageGeneralPage extends GeneralPage
 				SWT.HORIZONTAL );
 		addSection( PageSectionId.MASTER_PAGE_SEPERATOR_1, seperatorSection1 );
 
-		UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.WIDTH_PROP,
+		final UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.WIDTH_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
 		widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
 				container,
@@ -113,8 +117,32 @@ public class MasterPageGeneralPage extends GeneralPage
 		widthSection.setLayoutNum( 2 );
 		addSection( PageSectionId.MASTER_PAGE_WIDTH, widthSection );
 
-		typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
+		final UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.HEIGHT_PROP,
 				ReportDesignConstants.MASTER_PAGE_ELEMENT );
+
+		typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
+				ReportDesignConstants.MASTER_PAGE_ELEMENT ) {
+
+			public void save( Object value ) throws SemanticException
+			{
+				if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equals( getSaveValue( value ) ) )
+				{
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( Messages.getString( "MasterPageGeneralPage.Trans.SetType" ) ); //$NON-NLS-1$
+					Object width = widthProvider.load( );
+					Object height = heightProvider.load( );
+					super.save( value );
+					widthProvider.save( width );
+					heightProvider.save( height );
+					stack.commit( );
+				}
+				else
+				{
+					super.save( value );
+				}
+			}
+		};
 		ComboSection typeSection = new ComboSection( typeProvider.getDisplayName( ),
 				container,
 				true );
@@ -124,8 +152,6 @@ public class MasterPageGeneralPage extends GeneralPage
 		typeSection.setWidth( 200 );
 		addSection( PageSectionId.MASTER_PAGE_TYPE, typeSection );
 
-		UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.HEIGHT_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT );
 		heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
 				container,
 				true );
@@ -141,7 +167,7 @@ public class MasterPageGeneralPage extends GeneralPage
 		// WidgetUtil.buildGridControl( container, propertiesMap,
 		// ReportDesignConstants.STYLE_ELEMENT,
 		// StyleHandle.BACKGROUND_COLOR_PROP, 1, false );
-		//		
+		//
 		// WidgetUtil.createGridPlaceholder( container, 1, true );
 
 		/*
@@ -217,6 +243,5 @@ public class MasterPageGeneralPage extends GeneralPage
 		super.postElementEvent( );
 		resetCustomStyle( );
 	}
-
 
 }
