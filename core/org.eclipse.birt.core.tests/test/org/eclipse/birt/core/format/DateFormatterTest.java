@@ -231,7 +231,7 @@ public class DateFormatterTest extends TestCase
 		java.sql.Time sqlTime = new java.sql.Time( dateTime.getTime( ) );
 
 		String utcDate = "13 Sep 1998 12:01";
-		String utcTime = "20:01:44";
+		String utcTime = "12:01:44";
 		TimeZone UTCTimeZone = TimeZone.getTimeZone( "UTC" );
 		df = new DateFormatter( ULocale.UK, UTCTimeZone );
 		result = df.format( dateTime );
@@ -240,7 +240,7 @@ public class DateFormatterTest extends TestCase
 		assertTrue( utcTime.equalsIgnoreCase( result ) );
 
 		String japanDate = "1998/09/13 21:01";
-		String japanTime = "20:01:44";
+		String japanTime = "21:01:44";
 		TimeZone japanTimeZone = TimeZone.getTimeZone( "Japan" );
 		df = new DateFormatter( ULocale.JAPAN, japanTimeZone );
 		result = df.format( dateTime );
