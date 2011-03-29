@@ -2601,6 +2601,10 @@ MasterPageGenerator.List.Header&Footer=ヘッダ/フッタ
 MasterPageGenerator.List.Margins=余白
 
 ###########################################################
+#MasterPageGeneralPage properties
+MasterPageGeneralPage.Trans.SetType=Set Type
+
+###########################################################
 #MasterPagePaletteFactory properties
 
 MasterPagePaletteFactory.Autotext.TotalPageCount=合計ページ数
@@ -3434,6 +3438,7 @@ ResourceKeyDescriptor.text.Reset.Alt=リセット(&E)
 ResourceKeyDescriptor.title.SelectKey=キーの選択
 ResourceKeyDescriptor.button.reset.tooltip=キーのリセット
 ResourceKeyDescriptor.button.browse.tooltip=参照してキーを選択
+ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4491,7 +4496,7 @@ TabbedPropertyList.properties.not.available=プロパティがありません。
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=サンプルレポートをカテゴリから選択してください。
+SampleReportsView.defautDescription=Please select a sample report from the categories
 SampleReportsView.Text.Explorer=サンプルレポート
 SampleReportsView.Text.Preview=プレビュー
 SampleReportsView.Text.Description=説明

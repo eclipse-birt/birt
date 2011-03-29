@@ -2601,6 +2601,10 @@ MasterPageGenerator.List.Header&Footer=Kopfzeile/Fußzeile
 MasterPageGenerator.List.Margins=Seitenrand
 
 ###########################################################
+#MasterPageGeneralPage properties
+MasterPageGeneralPage.Trans.SetType=Set Type
+
+###########################################################
 #MasterPagePaletteFactory properties
 
 MasterPagePaletteFactory.Autotext.TotalPageCount=Gesamt-Seitenzähler
@@ -3434,6 +3438,7 @@ ResourceKeyDescriptor.text.Reset.Alt=Zurücks&etzen:
 ResourceKeyDescriptor.title.SelectKey=Schlüssel auswählen
 ResourceKeyDescriptor.button.reset.tooltip=Schlüssel zurücksetzen
 ResourceKeyDescriptor.button.browse.tooltip=Durchsuchen und Schlüssel auswählen
+ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4491,7 +4496,7 @@ TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Wählen Sie aus den Kategorien einen Beispielbericht aus
+SampleReportsView.defautDescription=Please select a sample report from the categories
 SampleReportsView.Text.Explorer=Beispielberichte
 SampleReportsView.Text.Preview=Vorschau
 SampleReportsView.Text.Description=Beschreibung

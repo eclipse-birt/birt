@@ -2601,6 +2601,10 @@ MasterPageGenerator.List.Header&Footer=머리글/바닥글
 MasterPageGenerator.List.Margins=여백
 
 ###########################################################
+#MasterPageGeneralPage properties
+MasterPageGeneralPage.Trans.SetType=Set Type
+
+###########################################################
 #MasterPagePaletteFactory properties
 
 MasterPagePaletteFactory.Autotext.TotalPageCount=전체 페이지 수
@@ -3434,6 +3438,7 @@ ResourceKeyDescriptor.text.Reset.Alt=재설정(&E)
 ResourceKeyDescriptor.title.SelectKey=키 선택
 ResourceKeyDescriptor.button.reset.tooltip=키를 재설정합니다.
 ResourceKeyDescriptor.button.browse.tooltip=키를 찾아보고 선택합니다.
+ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4491,7 +4496,7 @@ TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=범주에서 샘플 보고서를 선택하십시오.
+SampleReportsView.defautDescription=Please select a sample report from the categories
 SampleReportsView.Text.Explorer=샘플 보고서
 SampleReportsView.Text.Preview=미리 보기
 SampleReportsView.Text.Description=설명

@@ -2601,6 +2601,10 @@ MasterPageGenerator.List.Header&Footer=页眉/页脚
 MasterPageGenerator.List.Margins=边距
 
 ###########################################################
+#MasterPageGeneralPage properties
+MasterPageGeneralPage.Trans.SetType=Set Type
+
+###########################################################
 #MasterPagePaletteFactory properties
 
 MasterPagePaletteFactory.Autotext.TotalPageCount=总页数
@@ -3434,6 +3438,7 @@ ResourceKeyDescriptor.text.Reset.Alt=重置(&E)
 ResourceKeyDescriptor.title.SelectKey=选择关键字
 ResourceKeyDescriptor.button.reset.tooltip=重置按键
 ResourceKeyDescriptor.button.browse.tooltip=浏览和选择按键
+ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4491,7 +4496,7 @@ TabbedPropertyList.properties.not.available=属性不可用。
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=请从类别中选择一个示例报表
+SampleReportsView.defautDescription=Please select a sample report from the categories
 SampleReportsView.Text.Explorer=示例报表
 SampleReportsView.Text.Preview=预览
 SampleReportsView.Text.Description=说明
