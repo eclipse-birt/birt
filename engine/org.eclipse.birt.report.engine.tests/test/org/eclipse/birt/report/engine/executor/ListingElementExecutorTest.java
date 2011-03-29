@@ -40,13 +40,12 @@ public class ListingElementExecutorTest extends EngineCase
 		String[] pageContents = htmlResult.split( "page header" );
 		
 		String key = "outer table";
-		// Check page 8, 14, 18, 20, 25, 28, if page broken after desired
+		// Check page 8, 14, 18, 20, 28, if page broken after desired
 		// interval 5.
 		assertEquals(5, getCount( pageContents[8], key));
 		assertEquals(5, getCount( pageContents[14], key));
 		assertEquals(5, getCount( pageContents[18], key));
 		assertEquals(5, getCount( pageContents[20], key));
-		assertEquals(5, getCount( pageContents[25], key));
 		assertEquals(5, getCount( pageContents[28], key));
 	}
 

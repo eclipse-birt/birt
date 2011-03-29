@@ -135,8 +135,8 @@ public class DataExtractionTaskTest extends EngineCase
 					IFilterDefinition[] FilterExpression = new IFilterDefinition[1];
 					FilterExpression[0] = new FilterDefinition(
 							new ConditionalExpression(
-									"row[\"CUSTOMERNUMBER\"]", OP_EQ,
-									"\"SubQuery_Name: 128\"", null ) );
+									"row[\"CUSTOMERNUMBER_1\"]", OP_EQ,
+									"\"SubQuery_Name: 128\"" ) );
 					// add filters to dataExtractionTask
 					dataExTask.setFilters( FilterExpression );
 
