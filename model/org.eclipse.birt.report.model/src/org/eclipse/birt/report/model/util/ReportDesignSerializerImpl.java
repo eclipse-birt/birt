@@ -2640,8 +2640,15 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		{
 			Module root = element.getRoot( );
 
-			// now, we only support export external element from library
-			if ( root != sourceDesign && root instanceof Library )
+			// now, we only support export external element from library and it
+			// is not virtual element; there are two kinds of virtual element:
+			// first, content in the children element by "extends" property;
+			// second, content in the children element by dynamic linker, such
+			// as "internalRef" in Dimension and so on; whatever kind of virtual
+			// element, we should not add it to externalelement map, for it can
+			// not be generated without the root parent.
+			if ( root != sourceDesign && root instanceof Library
+					&& !element.isVirtualElement( ) )
 			{
 				return true;
 			}
