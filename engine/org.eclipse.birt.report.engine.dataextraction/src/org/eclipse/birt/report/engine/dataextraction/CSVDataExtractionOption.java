@@ -49,4 +49,15 @@ public class CSVDataExtractionOption extends CommonDataExtractionOption
 	{
 		setOption( OUTPUT_SEPARATOR, sep );
 	}
+	
+	public boolean getAddCR( )
+	{
+		return getBooleanOption( ADD_CR_LINE_BREAK, false );
+	}
+
+	public void setAddCR( boolean addCR )
+	{
+		setOption( ADD_CR_LINE_BREAK, addCR );
+	}
+	
 }

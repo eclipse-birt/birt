@@ -28,6 +28,11 @@ public interface ICSVDataExtractionOption extends ICommonDataExtractionOption
 	 * the separator
 	 */
 	public static final String OUTPUT_SEPARATOR = "Separator"; //$NON-NLS-1$
+	
+	/**
+	 * the option checks if using CR + LF as the line separator.
+	 */
+	public static final String ADD_CR_LINE_BREAK = "AddCR";
 
 	/**
 	 * Sets the output separator
@@ -42,4 +47,8 @@ public interface ICSVDataExtractionOption extends ICommonDataExtractionOption
 	 * @return String
 	 */
 	String getSeparator( );
+	
+	boolean getAddCR( );
+
+	void setAddCR( boolean addCR );
 }

@@ -15,7 +15,8 @@ package org.eclipse.birt.report.engine.dataextraction.csv;
  */
 public class CSVUtil
 {
-	public static final String NEWLINE = "\n"; //$NON-NLS-1$ 
+	public static final String CR = "\r";
+	public static final String LF = "\n"; 
 	public static final String QUOTE = "\""; //$NON-NLS-1$
 
 	/**
@@ -70,9 +71,9 @@ public class CSVUtil
 	 * @param sep separator to use
 	 * @return CSV-formatted row using the given separator and values
 	 */
-	public static String makeCSVRow( String[] values, String sep )
+	public static String makeCSVRow( String[] values, String sep, boolean addCR )
 	{
-		StringBuffer buf = new StringBuffer(values.length * 10);
+		StringBuffer buf = new StringBuffer( values.length * 10 );
 		for ( int i = 0; i < values.length; i++ )
 		{
 			if ( i > 0 )
@@ -86,8 +87,12 @@ public class CSVUtil
 				buf.append( value );
 			}
 		}
-		buf.append( CSVUtil.NEWLINE );
-		return buf.toString();
+		if ( addCR )
+		{
+			buf.append( CR );
+		}
+		buf.append( LF );
+		return buf.toString( );
 	}
 
 }

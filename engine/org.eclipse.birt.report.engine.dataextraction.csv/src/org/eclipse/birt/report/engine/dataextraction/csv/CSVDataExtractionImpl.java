@@ -40,6 +40,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	private OutputStream outputStream;	
 	private String encoding;
 	private String sep;
+	private boolean addCR;
 	private boolean isExportDataType;
 	private boolean isExportColumnHeader;
 	private String[] selectedColumnNames;
@@ -91,9 +92,10 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		sep = csvOptions.getSeparator();
 		if ( sep == null || "".equals(sep) ) //$NON-NLS-1$
 		{
-			sep = ICSVDataExtractionOption.SEPARATOR_COMMA;
+			sep = ICSVDataExtractionOption.SEPARATOR_COMMA; 
 		}
 		
+		addCR = csvOptions.getAddCR( );
 		isExportDataType = csvOptions.isExportDataType( );
 		isExportColumnHeader = csvOptions.isExportColumnHeader( );
 		selectedColumnNames = csvOptions.getSelectedColumns( );
@@ -134,7 +136,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 				{
 					if ( isExportColumnHeader )
 					{
-						output( CSVUtil.makeCSVRow( columnNames, sep ) );
+						output( CSVUtil.makeCSVRow( columnNames, sep, addCR ) );
 					}
 
 					int[] columnTypes = getColumnTypes( columnNames, results );
@@ -161,7 +163,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 							}
 						}
 						
-						output( CSVUtil.makeCSVRow( values, sep ) );
+						output( CSVUtil.makeCSVRow( values, sep, addCR ) );
 					}
 				}
 			}
@@ -187,7 +189,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		{
 			values[i] = DataType.getName( types[i] );
 		}
-		return CSVUtil.makeCSVRow( values, sep );
+		return CSVUtil.makeCSVRow( values, sep, addCR );
 	}
 	
 	/**

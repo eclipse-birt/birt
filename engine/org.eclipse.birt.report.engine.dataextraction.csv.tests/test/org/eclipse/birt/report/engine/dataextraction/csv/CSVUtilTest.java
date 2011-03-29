@@ -163,20 +163,20 @@ public class CSVUtilTest extends TestCase
 	{
 		String sep = ICSVDataExtractionOption.SEPARATOR_COMMA;
 		String[] values = {"one column only"};
-		String row = CSVUtil.makeCSVRow( values, sep );
+		String row = CSVUtil.makeCSVRow( values, sep, false );
 		assertRowValues(row, values, sep);
 	}
 	
 	public void testMakeCSVRowWithNulls( )
 	{
 		String sep = ICSVDataExtractionOption.SEPARATOR_COMMA;		
-		String row = CSVUtil.makeCSVRow( new String[] {null,null,"a", null}, sep );
+		String row = CSVUtil.makeCSVRow( new String[] {null,null,"a", null}, sep, false );
 		assertRowValues(row, new String[] {"", "", "a", ""}, sep);
 	}
 	
 	private void subtestMakeCSVRow( String[] input, String[] output, String sep )
 	{
-		String row = CSVUtil.makeCSVRow( GENERAL_VALUES_INPUT, sep );
+		String row = CSVUtil.makeCSVRow( GENERAL_VALUES_INPUT, sep, false );
 		assertRowValues(row, GENERAL_VALUES_OUTPUT, sep);
 	}
 	
