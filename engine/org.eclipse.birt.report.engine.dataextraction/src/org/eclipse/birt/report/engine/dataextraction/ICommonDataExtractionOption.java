@@ -25,6 +25,16 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 {
 
 	/**
+	 * constants to indicate whether to output the column name, column display
+	 * name or both of them.
+	 */
+	public static final int OPTION_COLUMN_NAME = 1;
+
+	public static final int OPTION_COLUMN_DISPLAY_NAME = 2;
+
+	public static final int OPTION_BOTH = 3;
+
+	/**
 	 * output locale
 	 */
 	public static final String OUTPUT_LOCALE = "Locale"; //$NON-NLS-1$
@@ -53,6 +63,12 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 * indicates whether to export column header
 	 */
 	public static final String OUTPUT_EXPORT_COLUMN_HEADER = "ExportColumnHeader"; //$NON-NLS-1$
+
+	/**
+	 * indicates in what way the column name is outputted. It can be column id,
+	 * column display name or both of them.
+	 */
+	public static final String LOCALIZE_COLUMN_NAME = "LocalizeColumnName";
 
 	/**
 	 * indicates whether export the locale neutral format value
@@ -211,4 +227,18 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 * @return Map
 	 */
 	Map getUserParameters( );
+	
+	/**
+	 * Sets the localize option for the columns.
+	 * 
+	 * @param option
+	 */
+	void setColumnLocalizeOption( int option );
+
+	/**
+	 * Returns the localize option for the columns
+	 * 
+	 * @return
+	 */
+	int getColumnLocalizeOption( );
 }

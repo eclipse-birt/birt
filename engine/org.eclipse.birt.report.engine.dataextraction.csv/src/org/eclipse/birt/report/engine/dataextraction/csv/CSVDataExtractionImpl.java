@@ -23,9 +23,11 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.i18n.Messages;
 import org.eclipse.birt.report.engine.dataextraction.impl.CommonDataExtractionImpl;
 
@@ -44,6 +46,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 	private boolean isExportDataType;
 	private boolean isExportColumnHeader;
 	private String[] selectedColumnNames;
+	private int columnLocalizeOption;
 	
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext,
@@ -99,6 +102,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		isExportDataType = csvOptions.isExportDataType( );
 		isExportColumnHeader = csvOptions.isExportColumnHeader( );
 		selectedColumnNames = csvOptions.getSelectedColumns( );
+		columnLocalizeOption = csvOptions.getColumnLocalizeOption( );
 	}
 
 	/**
@@ -115,16 +119,37 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		try
 		{
 			String[] columnNames = selectedColumnNames;
+			String[] columnLabels = null;
+
+			IResultMetaData metaData = results.getResultMetaData( );
+			int count = metaData.getColumnCount( );
+
 			// if selected columns are null or empty, returns all columns
 			if ( selectedColumnNames == null || selectedColumnNames.length <= 0 )
 			{
-				int count = results.getResultMetaData( ).getColumnCount( );
 				columnNames = new String[count];
+				columnLabels = new String[count];
 				for ( int i = 0; i < count; i++ )
 				{
-					String colName = results.getResultMetaData( )
-							.getColumnName( i );
+					String colName = metaData.getColumnName( i );
 					columnNames[i] = colName;
+					columnLabels[i] = metaData.getColumnLabel( i );
+				}
+			}
+			else
+			{
+				Map<String, String> nameLabelMap = new HashMap<String, String>( );
+				for ( int i = 0; i < count; i++ )
+				{
+					String colName = metaData.getColumnName( i );
+					String colLabel = metaData.getColumnLabel( i );
+					nameLabelMap.put( colName, colLabel );
+				}
+				int selectedCount = selectedColumnNames.length;
+				columnLabels = new String[selectedCount];
+				for ( int i = 0; i < selectedCount; i++ )
+				{
+					columnLabels[i] = nameLabelMap.get( selectedColumnNames[i] );
 				}
 			}
 
@@ -136,7 +161,17 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 				{
 					if ( isExportColumnHeader )
 					{
-						output( CSVUtil.makeCSVRow( columnNames, sep, addCR ) );
+						if ( ( columnLocalizeOption & ICommonDataExtractionOption.OPTION_COLUMN_NAME ) != 0 )
+						{
+							output( CSVUtil.makeCSVRow( columnNames, sep, addCR ) );
+						}
+
+						if ( ( columnLocalizeOption & ICommonDataExtractionOption.OPTION_COLUMN_DISPLAY_NAME ) != 0 )
+						{
+							output( CSVUtil.makeCSVRow( columnLabels,
+									sep,
+									addCR ) );
+						}
 					}
 
 					int[] columnTypes = getColumnTypes( columnNames, results );

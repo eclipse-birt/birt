@@ -186,4 +186,14 @@ public class CommonDataExtractionOption extends DataExtractionOption
 	{
 		return getBooleanOption( OUTPUT_EXPORT_COLUMN_HEADER, true );
 	}
+	
+	public void setColumnLocalizeOption( int option )
+	{
+		setOption( LOCALIZE_COLUMN_NAME, option );
+	}
+
+	public int getColumnLocalizeOption( )
+	{
+		return getIntOption( LOCALIZE_COLUMN_NAME, OPTION_COLUMN_NAME );
+	}
 }
