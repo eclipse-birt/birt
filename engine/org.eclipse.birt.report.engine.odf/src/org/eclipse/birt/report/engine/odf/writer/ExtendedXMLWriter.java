@@ -38,7 +38,7 @@ public class ExtendedXMLWriter extends XMLWriter
 	public void write( InputStream input ) throws IOException
 	{
 		flush( );
-		Reader reader = new InputStreamReader( input );
+		Reader reader = new InputStreamReader( input, "UTF-8" );
 		char[] buffer = new char[1024];
 		
 		int count;
