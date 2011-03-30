@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -243,12 +245,27 @@ public class PropertyHandleTableViewer
 		{
 			try
 			{
-				handle.removeItem( index );
+				if ( count == 1 )
+				{
+					try
+					{
+						handle.setValue( new ArrayList( ) );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+				else
+				{
+					handle.removeItem( index );
+				}
 			}
 			catch ( PropertyValueException e1 )
 			{
 				ExceptionHandler.handle( e1 );
 			}
+		
 			viewer.refresh( );
 			viewer.getTable( ).setFocus( );
 			viewer.getTable( ).select( index );
