@@ -16,12 +16,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.net.URLStreamHandler;
 import java.security.AccessControlContext;
 import java.security.AccessController;
@@ -363,7 +361,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 			jarUrl = new URL( "jar", "", -1, baseUrl + "!/" );
 			if ( baseUrl.getProtocol( ).equalsIgnoreCase( "file" ) )
 			{
-				String filePath = getFilePath( baseUrl );
+				String filePath = baseUrl.getFile( );
 				jarFile = new JarFile( filePath );
 			}
 			else
@@ -477,7 +475,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 		FileLoader( URL url )
 		{
 			baseUrl = url;
-			baseDir = new File( getFilePath( url ) );
+			baseDir = new File( url.getFile( ) );
 			codeSource = new CodeSource( baseUrl, (CodeSigner[]) null );
 		}
 
@@ -565,18 +563,5 @@ public class URLClassLoader extends java.net.URLClassLoader
 			readSize = in.read( bytes );
 		}
 		return out.toByteArray( );
-	}
-
-	private static String getFilePath( URL url )
-	{
-		String path = url.getFile( );
-		try
-		{
-			return URLDecoder.decode( path, "utf-8" );
-		}
-		catch ( UnsupportedEncodingException ex )
-		{
-			return path;
-		}
 	}
 }
