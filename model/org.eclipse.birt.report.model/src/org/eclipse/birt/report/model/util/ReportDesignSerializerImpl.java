@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,9 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -216,6 +217,14 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	public void visitReportDesign( ReportDesign obj )
 	{
+		long startTime = 0;
+		long endTime = 0;
+
+		if ( logger.isLoggable( java.util.logging.Level.FINE ) )
+		{
+			startTime = Calendar.getInstance( ).getTimeInMillis( );
+		}
+
 		sourceDesign = obj;
 		localizeDesign( obj );
 
@@ -246,6 +255,17 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		targetDesign.getVersionManager( ).setVersion(
 				sourceDesign.getVersionManager( ).getVersion( ) );
+
+		if ( logger.isLoggable( java.util.logging.Level.FINE ) )
+		{
+			endTime = Calendar.getInstance( ).getTimeInMillis( );
+
+			String filename = sourceDesign.getFileName( );
+			if ( filename == null )
+				filename = ""; //$NON-NLS-1$
+			logger.fine( "total time to flatten design " + filename //$NON-NLS-1$
+					+ " in milliseconds " + ( endTime - startTime ) ); //$NON-NLS-1$
+		}
 	}
 
 	/**

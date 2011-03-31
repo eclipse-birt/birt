@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20">
+    <data-sets>
+    	<script-data-set name="dataset">
+    		<list-property name="filter">
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    <property name="dynamicFilterParameter">param</property>
+                </structure>
+                <structure>
+                    <property name="operator">is-true</property>
+                </structure>
+            </list-property>
+    	</script-data-set>
+    	<script-data-set name="dataset_1">
+    		<list-property name="filter">
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    <property name="dynamicFilterParameter">param_1</property>
+                </structure>
+                <structure>
+                    <property name="operator">is-true</property>
+                </structure>
+            </list-property>
+    	</script-data-set>
+    </data-sets>
+    <parameters>
+        <dynamic-filter-parameter name="param">
+        	<property name="column">testColumn</property>
+        	<property name="displayType">advanced</property>
+        	<property name="listLimit">3</property>
+        	<property name="controlType">text-box</property>
+            <simple-property-list name="filterOperator">
+            	<value>value1</value>
+            	<value>value2</value>
+            </simple-property-list>            
+        </dynamic-filter-parameter>
+    </parameters>
+</report>

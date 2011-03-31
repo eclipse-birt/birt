@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -76,5 +77,23 @@ public class DynamicFilterParameterParseTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareFile( "DynamicFilterParameterParseTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the cases for recursive checks when setting data set in
+	 * DynamicFilterParameter.
+	 * 
+	 * @throws Exception
+	 */
+	public void testRecursive( ) throws Exception
+	{
+		openDesign( "DynamicFilterParameterParseTest_1.xml" ); //$NON-NLS-1$
+		DataSetHandle dataSetHandle = designHandle.findDataSet( "dataset" ); //$NON-NLS-1$
+		DataSetHandle dataSetHandle_1 = designHandle.findDataSet( "dataset_1" ); //$NON-NLS-1$
+
+		DynamicFilterParameterHandle paramHandle = (DynamicFilterParameterHandle) designHandle
+				.findParameter( "param" ); //$NON-NLS-1$
+		assertTrue( paramHandle.checkRecursiveDataSet( dataSetHandle ) );
+		assertFalse( paramHandle.checkRecursiveDataSet( dataSetHandle_1 ) );
 	}
 }

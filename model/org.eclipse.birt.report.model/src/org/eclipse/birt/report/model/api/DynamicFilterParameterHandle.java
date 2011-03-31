@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDynamicFilterParameterModel;
@@ -187,6 +189,39 @@ public class DynamicFilterParameterHandle extends AbstractScalarParameterHandle
 	public void setControlType( String controlType ) throws SemanticException
 	{
 		setStringProperty( CONTROL_TYPE_PROP, controlType );
+	}
+
+	/**
+	 * Checks whether there is recursive reference if this dynamic filter
+	 * parameter uses the given data set element handle as its "dataSet"
+	 * property. True if recursive reference exists; otherwise false if no
+	 * recursive reference exists.
+	 * 
+	 * @param dataSetToCheck
+	 * @return true if recursive reference exists otherwise false
+	 */
+	public boolean checkRecursiveDataSet( DataSetHandle dataSetToCheck )
+	{
+		if ( dataSetToCheck == null )
+			return false;
+
+		// check all the filterCondition in the data set
+		Iterator iter = dataSetToCheck.filtersIterator( );
+		if ( iter == null )
+			return false;
+		while ( iter.hasNext( ) )
+		{
+			FilterConditionHandle filterCond = (FilterConditionHandle) iter
+					.next( );
+			String dynamicParamName = filterCond.getDynamicFilterParameter( );
+			if ( StringUtil.isBlank( dynamicParamName ) )
+				return false;
+
+			if ( dynamicParamName.equals( getName( ) ) )
+				return true;
+		}
+
+		return false;
 	}
 
 }
