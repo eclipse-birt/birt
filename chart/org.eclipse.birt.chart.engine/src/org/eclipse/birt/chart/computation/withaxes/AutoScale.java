@@ -3169,7 +3169,7 @@ public final class AutoScale extends Methods implements Cloneable
 					|| rotation == 90
 					|| rotation == -90;
 
-			if ( !isTickLabelVisible( labelVisHelper.getFirstVisibleIndex( )  ) )
+			if ( !isTickLabelVisible( 0  ) )
 			{
 				dStartShift = dMaxSS;
 			}
@@ -3229,63 +3229,41 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 
-			if ( !isTickLabelVisible( labelVisHelper.getLastVisibleIndex( ) ) )
+			if ( !isTickLabelVisible( dsi.size( ) - 1 ) )
 			{
 				dEndShift = dMaxES;
+				// Here computes if the last visible label exceeds out of the
+				// end of axis and get a correct end shift. 
+				if ( labelVisHelper.getLastVisibleIndex( ) < ( dsi.size( ) - 1 ) )
+				{
+					double tmpEndShift = computeEndShift( xs,
+							la,
+							iOrientation,
+							iLocation,
+							dMaxES,
+							dUnitSize
+									* ( dsi.size( ) - labelVisHelper.getLastVisibleIndex( ) ),
+							dsi,
+							iDateTimeUnit,
+							bCenter );
+					if ( tmpEndShift > dEndShift )
+					{
+						dEndShift = tmpEndShift;
+					}
+				}
 			}
 			else
 			{
 				// ADJUST THE END POSITION
-				la.getCaption( ).setValue( formatCategoryValue( getType( ),
-						dsi.last( ),
-						iDateTimeUnit ) );
-
-				bb = info.cComp.computeBox( xs, iLocation, la, 0, dEnd );
-
-				if ( iOrientation == VERTICAL ) // VERTICAL AXIS
-				{
-					if ( bCenter )
-					{
-						dEndShift = Math.max( dMaxES,
-								( dUnitSize > bb.getHeight( ) ) ? 0
-										: ( bb.getHeight( ) - dUnitSize ) / 2 );
-					}
-					else if ( info.iScaleDirection == FORWARD )
-					{
-						dEndShift = Math.max( dMaxES, bb.getHeight( )
-								- bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
-					}
-					else
-					{
-						dEndShift = Math.max( dMaxES, bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
-					}
-				}
-				else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
-				{
-					if ( bCenter )
-					{
-						dEndShift = Math.max( dMaxES,
-								( dUnitSize > bb.getWidth( ) ) ? 0
-										: ( bb.getWidth( ) - dUnitSize ) / 2 );
-					}
-					else if ( info.iScaleDirection == BACKWARD )
-					{
-						dEndShift = Math.max( dMaxES, bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
-					}
-					else
-					{
-						dEndShift = Math.max( dMaxES, bb.getWidth( )
-								- bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
-					}
-				}
+				dEndShift = computeEndShift( xs,
+						la,
+						iOrientation,
+						iLocation,
+						dMaxES,
+						dUnitSize,
+						dsi,
+						iDateTimeUnit,
+						bCenter );
 			}
 
 		}
@@ -3519,6 +3497,82 @@ public final class AutoScale extends Methods implements Cloneable
 						( bb.getWidth( ) - bb.getHotPoint( ) ) );
 			}
 		}
+	}
+
+	/**
+	 * @param xs
+	 * @param la
+	 * @param iOrientation
+	 * @param iLocation
+	 * @param dMaxES
+	 * @param dUnitsSize
+	 *            this size indicates the remainder total units size from last
+	 *            visible tick label to the last tick.
+	 * @param dsi
+	 * @param iDateTimeUnit
+	 * @param bCenter
+	 * @return
+	 * @throws ChartException
+	 */
+	private double computeEndShift( IDisplayServer xs, Label la,
+			int iOrientation, int iLocation, final double dMaxES,
+			final double dUnitsSize, final DataSetIterator dsi,
+			final int iDateTimeUnit, final boolean bCenter )
+			throws ChartException
+	{
+		double endShift = 0;
+		BoundingBox bb;
+		la.getCaption( ).setValue( formatCategoryValue( getType( ),
+				dsi.last( ),
+				iDateTimeUnit ) );
+
+		bb = info.cComp.computeBox( xs, iLocation, la, 0, dEnd );
+
+		if ( iOrientation == VERTICAL ) // VERTICAL AXIS
+		{
+			if ( bCenter )
+			{
+				endShift = Math.max( dMaxES,
+						( dUnitsSize > bb.getHeight( ) ) ? 0
+								: ( bb.getHeight( ) - dUnitsSize ) / 2 );
+			}
+			else if ( info.iScaleDirection == FORWARD )
+			{
+				endShift = Math.max( dMaxES, bb.getHeight( )
+						- bb.getHotPoint( )
+						- dUnitsSize
+						/ 2 );
+			}
+			else
+			{
+				endShift = Math.max( dMaxES, bb.getHotPoint( )
+						- dUnitsSize
+						/ 2 );
+			}
+		}
+		else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
+		{
+			if ( bCenter )
+			{
+				endShift = Math.max( dMaxES,
+						( dUnitsSize > bb.getWidth( ) ) ? 0
+								: ( bb.getWidth( ) - dUnitsSize ) / 2 );
+			}
+			else if ( info.iScaleDirection == BACKWARD )
+			{
+				endShift = Math.max( dMaxES, bb.getHotPoint( )
+						- dUnitsSize
+						/ 2 );
+			}
+			else
+			{
+				endShift = Math.max( dMaxES, bb.getWidth( )
+						- bb.getHotPoint( )
+						- dUnitsSize
+						/ 2 );
+			}
+		}
+		return endShift;
 	}
 
 	public final double computeAxisLabelThickness( IDisplayServer xs, Label la,
