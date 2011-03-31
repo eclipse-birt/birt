@@ -253,13 +253,16 @@ public class FormatNumberLayoutPeer extends FormatLayoutPeer
 				patternStr,
 				localeStr );
 
+		//Fixed bug 314201, reset the CategoryPatternMaps when init the page.
+		createCategoryPatterns( );
+		
 		FormatNumberPattern fmtPattern = (FormatNumberPattern) categoryPatternMaps.get( categoryStr );
 
 		if ( fmtPattern == null )
 		{
 			return;
 		}
-
+		
 		fmtPattern.setPattern( patternStr );
 
 		if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY.equals( categoryStr ) )
