@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2010 Actuate Corporation.
+ * Copyright (c) 2004, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
@@ -35,22 +36,32 @@ public class DataSetPreviewer
 	private IReportEngine engine;
 	private IDatasetPreviewTask task;
 	private IExtractionResults result;
+	private PreviewType mode;
+	
+	public static enum PreviewType { RESULTSET, OUTPUTPARAM };
 	
 	public void open( Map appContext, EngineConfig config ) throws BirtException
 	{
 		engine = createReportEngine( config );
-		task = engine.createDatasetPreviewTask( );
+		if ( mode == PreviewType.RESULTSET )
+		{
+			task = engine.createDatasetPreviewTask( );
+		}
+		else
+		{
+			task = new OutParameterPreviewTask( (ReportEngine) engine );
+		}
 		task.setMaxRow( maxRow );
 		task.setDataSet( dataSetHandle );
 		task.setAppContext( appContext );
 		ReportParameterUtil.completeParamDefalutValues( task, dataSetHandle.getModuleHandle( ) );
 	}
 	
-	public DataSetPreviewer( DataSetHandle dataSetHandle, int maxRow, DataSetEditor container )
+	public DataSetPreviewer( DataSetHandle dataSetHandle, int maxRow, PreviewType mode )
 	{
 		this.dataSetHandle = dataSetHandle;
 		this.maxRow = maxRow;
-
+		this.mode = mode;
 	}
 	
 	public IResultIterator preview( ) throws BirtException

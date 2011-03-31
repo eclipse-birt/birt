@@ -9,42 +9,32 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.designer.data.ui.util.DataSetExecutorHelper;
+import org.eclipse.birt.report.data.adapter.impl.DataSetMetaDataHelper;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetPreviewer.PreviewType;
+import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
-import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportEngine;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
-import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
@@ -54,6 +44,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -71,10 +62,7 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 {
 	private Table outputParameterTable = null;
 	private boolean modelChanged = true;
-	
-	private static final String PREFIX_OUTPUTPARAMETER = "outputParams"; //$NON-NLS-1$
-	private static final String PREFIX_PARAMETER = "PARAMS_"; //$NON-NLS-1$
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -212,117 +200,129 @@ public class OutputParameterPreviewPage extends AbstractPropertyPage
 			return;
 		
 		DataRequestSession session = null;
+		
+		ModuleHandle handle = null;
+		DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+		handle = dsHandle.getModuleHandle( );
+		DataSetPreviewer previewer = new DataSetPreviewer( dsHandle,
+				1,
+				PreviewType.OUTPUTPARAM );
+
+		Map appContext = new HashMap( );
+		Map dataSetBindingMap = new HashMap( );
+		Map dataSourceBindingMap = new HashMap( );
+		
+		TableLayout layout = new TableLayout( );
+		TableColumn column = null;
+		TableItem tableItem = null;
 		try
-		{
-			
-			ModuleHandle handle = null;
-			DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
-			handle = dsHandle.getModuleHandle( );
-			EngineConfig ec = new EngineConfig( );
-			ClassLoader parent = Thread.currentThread( ).getContextClassLoader( );
-			if ( parent == null )
+		{			
+			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
+			String resouceIDs = ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS;					
+			identifiers.setApplResourceBaseURI( DTPUtil.getInstance( ).getBIRTResourcePath( ) );
+			identifiers.setDesignResourceBaseURI( DTPUtil.getInstance( )
+					.getReportDesignPath( ) );
+			appContext.put( resouceIDs, identifiers );
+			clearProperyBindingMap( dataSetBindingMap, dataSourceBindingMap );
+
+			AppContextPopulator.populateApplicationContext( dsHandle, appContext );
+			previewer.open( appContext, getEngineConfig( handle ) );
+			IResultIterator iter = previewer.preview( ) ;	
+			iter.next( );
+
+			IResultMetaData meta = iter.getResultMetaData( );
+			String[] record = new String[meta.getColumnCount( )];
+			for ( int n = 0; n < record.length; n++ )
 			{
-				parent = this.getClass( ).getClassLoader( );
-			}
-			ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, handle );
-			ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-					customClassLoader );
-			
-			ReportDesignHandle copiedReport = (ReportDesignHandle) ( handle.copy( ).getHandle( null ) );
-			
-			ReportEngine engine = (ReportEngine)new ReportEngineFactory( ).createReportEngine( ec );
-			
-			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( copiedReport ),
-					copiedReport, dsHandle );
-			
-			Map appContext = new HashMap( );
-			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-					Integer.valueOf( ( (DataSetHandle) getContainer( ).getModel( ) ).getRowFetchLimit( ) ) );
-
-			engineTask.setAppContext( appContext );
-			engineTask.run( );
-			
-			session = engineTask.getDataSession( );
-			
-			// query defintion
-			QueryDefinition query = new QueryDefinition( );
-			query.setDataSetName( ( (DataSetEditor) getContainer( ) ).getHandle( )
-					.getQualifiedName( ) );
-			query.setMaxRows( 1 );
-
-			PropertyHandle propertyHandle = ( (DataSetEditor) getContainer( ) ).getHandle( )
-					.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-			int paramsSize = propertyHandle.getListValue( ).size( );
-			Iterator paramIter = propertyHandle.iterator( );
-
-			int outputParamIndex = 0;
-			TableLayout layout = new TableLayout( );
-			TableColumn column = null;
-			TableItem tableItem = null;
-
-			List paramColumnBindingNames = new ArrayList( );
-			for ( int n = 1; n <= paramsSize; n++ )
-			{
-				DataSetParameterHandle paramDefn = (DataSetParameterHandle) paramIter.next( );
-
-				// get output parameters alone
-				if ( !paramDefn.isOutput( ) )
-					continue;
-
 				column = new TableColumn( outputParameterTable, SWT.LEFT );
-				column.setText( paramDefn.getName( ) );
+				column.setText( meta.getColumnName( n + 1 ) );
 				column.setResizable( true );
 				layout.addColumnData( new ColumnPixelData( 120, true ) );
-
-				String bindingName = PREFIX_PARAMETER + ( outputParamIndex++ );
-				IBinding binding = new Binding( bindingName );
-				binding.setExpression( new ScriptExpression( PREFIX_OUTPUTPARAMETER
-						+ "[\"" + paramDefn.getName( ) + "\"]" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( paramDefn.getDataType( ) ) );
-				paramColumnBindingNames.add( bindingName );
-				query.addBinding( binding );
-				column.pack( );
+				record[n] = iter.getString( meta.getColumnName( n + 1 ) );
 			}
-
 			outputParameterTable.setLayout( layout );
 			outputParameterTable.layout( true );
+			
+			tableItem = new TableItem( outputParameterTable, SWT.NONE );
+			tableItem.setText( record );
 
-			DataSetExecutorHelper helper = new DataSetExecutorHelper( );
-			IQueryResults actualResultSet = helper.execute( ( (DataSetEditor) getContainer( ) ).getHandle( ),
-					query,
-					true,
-					true,
-					session );
-			if ( actualResultSet != null )
-			{
-				IResultIterator iter = actualResultSet.getResultIterator( );
-				iter.next( );
-
-				String[] record = new String[outputParamIndex];
-				for ( int n = 0; n < record.length; n++ )
-				{
-					record[n] = iter.getString( paramColumnBindingNames.get( n )
-							.toString( ) );
-				}
-				tableItem = new TableItem( outputParameterTable, SWT.NONE );
-				tableItem.setText( record );
-
-				actualResultSet.close( );
-
-			}
+			iter.close( );
 		}
-		catch ( BirtException ex )
+		catch ( BirtException e )
 		{
-			ExceptionHandler.handle( ex );
+			ExceptionHandler.handle( e );
 		}
 		finally
 		{
-			if ( session != null )
+			try
 			{
-				session.shutdown( );
+				AppContextResourceReleaser.release( appContext );
+				previewer.close( );
 			}
+			catch ( BirtException e )
+			{
+				e.printStackTrace( );
+			}
+			resetPropertyBinding( dataSetBindingMap, dataSourceBindingMap );
 		}
+	}
+	
+	private EngineConfig getEngineConfig( ModuleHandle handle )
+	{
+		EngineConfig ec = new EngineConfig( );
+		ClassLoader parent = Thread.currentThread( ).getContextClassLoader( );
+		if ( parent == null )
+		{
+			parent = this.getClass( ).getClassLoader( );
+		}
+		ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, handle );
+		ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				customClassLoader );
+		return ec;
+	}
+	
+	private void resetPropertyBinding( final Map dataSetBindingMap,
+			final Map dataSourceBindingMap )
+	{
+		Display.getDefault( ).syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				try
+				{
+					DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+					DataSetMetaDataHelper.resetPropertyBinding( dsHandle,
+							dataSetBindingMap,
+							dataSourceBindingMap );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		} );
+	}
+
+	private void clearProperyBindingMap( final Map dataSetBindingMap,
+			final Map dataSourceBindingMap )
+	{
+		Display.getDefault( ).syncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				DataSetHandle dsHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
+				try
+				{
+					DataSetMetaDataHelper.clearPropertyBindingMap( dsHandle,
+							dataSetBindingMap,
+							dataSourceBindingMap );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		} );
 	}
 	
 	/**

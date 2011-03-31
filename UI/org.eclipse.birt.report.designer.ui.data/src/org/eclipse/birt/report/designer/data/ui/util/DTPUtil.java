@@ -185,7 +185,7 @@ public class DTPUtil
 										selectedParameters,
 										null,
 										isSourceChanged );
-								DataSetUIUtil.updateColumnCacheAfterCleanRs( dataSetHandle );
+								refreshCachedMetaData( dataSetHandle );
 								return;
 							}
 						}
@@ -195,7 +195,7 @@ public class DTPUtil
 							modelOdaAdapter.updateDataSetHandle( design,
 									dataSetHandle,
 									isSourceChanged );
-							DataSetUIUtil.updateColumnCacheAfterCleanRs( dataSetHandle );
+							refreshCachedMetaData( dataSetHandle );
 							return;
 						}
 					}
@@ -205,13 +205,7 @@ public class DTPUtil
 						dataSetHandle,
 						isSourceChanged );
 				//update cached meta data
-				if ( dataSetHandle.getCachedMetaDataHandle( ) != null
-						&& dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ) != null )
-					dataSetHandle.getCachedMetaDataHandle( )
-							.getResultSet( )
-							.clearValue( );
-
-				DataSetUIUtil.updateColumnCache( dataSetHandle );
+				refreshCachedMetaData( dataSetHandle );
 			}
 			catch ( SemanticException e )
 			{
@@ -219,6 +213,18 @@ public class DTPUtil
 			}
 		}
 		return;
+	}
+
+	private void refreshCachedMetaData( OdaDataSetHandle dataSetHandle )
+			throws SemanticException
+	{
+		if ( dataSetHandle.getCachedMetaDataHandle( ) != null
+				&& dataSetHandle.getCachedMetaDataHandle( ).getResultSet( ) != null )
+			dataSetHandle.getCachedMetaDataHandle( )
+					.getResultSet( )
+					.clearValue( );
+
+		DataSetUIUtil.updateColumnCache( dataSetHandle );
 	}
 
 	/**
