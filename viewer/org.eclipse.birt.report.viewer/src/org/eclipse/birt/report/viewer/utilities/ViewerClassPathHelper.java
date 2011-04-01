@@ -212,7 +212,7 @@ public class ViewerClassPathHelper
 				}
 			}
 		}
-		catch ( Exception e )
+		catch ( Throwable t )
 		{
 			// TODO consider logging here
 		}
