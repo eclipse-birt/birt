@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.sql.Types;
+
 import junit.framework.TestCase;
 
 /**
@@ -146,8 +148,18 @@ public class ResultSetMetaDataTest extends TestCase
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
-			assertEquals( rsmd_ResultSet.getColumnType( i ), jdbcRsmd_ResultSet
-					.getColumnType( i ) );
+			if ( jdbcRsmd_ResultSet.getColumnType( i ) == Types.DECIMAL )
+			{
+				assertEquals( rsmd_ResultSet.getColumnType( i ),
+						testDataTypeConversion( jdbcRsmd_ResultSet.getColumnType( i ),
+								jdbcRsmd_ResultSet.getScale( i ),
+								jdbcRsmd_ResultSet.getPrecision( i ) ) );
+			}
+			else
+			{
+				assertEquals( rsmd_ResultSet.getColumnType( i ),
+						jdbcRsmd_ResultSet.getColumnType( i ) );
+			}
 		}
 	}
 
@@ -224,9 +236,37 @@ public class ResultSetMetaDataTest extends TestCase
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
-			assertEquals( rsmd_Statement.getColumnType( i ),
-					jdbcRsmd_PreparedStmt.getColumnType( i ) );
+			if ( jdbcRsmd_PreparedStmt.getColumnType( i ) == Types.DECIMAL )
+			{
+				assertEquals( rsmd_Statement.getColumnType( i ),
+						testDataTypeConversion( jdbcRsmd_PreparedStmt.getColumnType( i ),
+								jdbcRsmd_PreparedStmt.getScale( i ),
+								jdbcRsmd_PreparedStmt.getPrecision( i ) ) );
+			}
+			else
+			{
+				assertEquals( rsmd_Statement.getColumnType( i ),
+						jdbcRsmd_PreparedStmt.getColumnType( i ) );
+			}
 		}
+	}
+
+	public int testDataTypeConversion( int reType, int scale, int precision )
+	{
+		if ( ( scale == 0 ) && ( precision > 0 ) && ( precision <= 9 ) )
+		{
+			reType = Types.INTEGER;
+		}
+		else if ( precision > 9 && precision < 308 )
+		{
+			reType = Types.DOUBLE;
+		}
+		else if ( precision >= 308 )
+		{
+			reType = Types.DECIMAL;
+		}
+
+		return reType;
 	}
 
 	public void testGetColumnTypeName_Statment( ) throws Exception
