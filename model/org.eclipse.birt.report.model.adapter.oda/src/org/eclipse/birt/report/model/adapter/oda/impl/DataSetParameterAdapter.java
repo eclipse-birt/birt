@@ -45,7 +45,6 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
-import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
@@ -152,14 +151,15 @@ class DataSetParameterAdapter
 			return paramDefn;
 		}
 
-//		ModuleHandle module = paramHandle.getElementHandle( ).getModuleHandle( );
-//		ScalarParameterHandle reportParam = (ScalarParameterHandle) module
-//				.findParameter( rptParamName );
-//
-//		if ( reportParam != null )
-//			paramDefn = new ReportParameterAdapter( )
-//					.updateParameterDefinitionFromReportParam( paramDefn,
-//							reportParam, setDesign );
+		// ModuleHandle module = paramHandle.getElementHandle(
+		// ).getModuleHandle( );
+		// ScalarParameterHandle reportParam = (ScalarParameterHandle) module
+		// .findParameter( rptParamName );
+		//
+		// if ( reportParam != null )
+		// paramDefn = new ReportParameterAdapter( )
+		// .updateParameterDefinitionFromReportParam( paramDefn,
+		// reportParam, setDesign );
 
 		return paramDefn;
 	}
@@ -186,8 +186,8 @@ class DataSetParameterAdapter
 			odaParamDefn = (ParameterDefinition) EcoreUtil
 					.copy( lastOdaParamDefn );
 
-		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode(
-				paramHandle.isInput( ), paramHandle.isOutput( ) ) );
+		odaParamDefn.setInOutMode( AdapterUtil.newParameterMode( paramHandle
+				.isInput( ), paramHandle.isOutput( ) ) );
 		odaParamDefn.setAttributes( newDataElementAttrs( paramHandle,
 				odaParamDefn.getAttributes( ) ) );
 
@@ -369,9 +369,7 @@ class DataSetParameterAdapter
 			return;
 		}
 
-		updateROMNullability(
-				setParam,
-				dataAttrs.getNullability( ),
+		updateROMNullability( setParam, dataAttrs.getNullability( ),
 				cachedDataAttrs == null ? null : cachedDataAttrs
 						.getNullability( ) );
 
@@ -474,8 +472,7 @@ class DataSetParameterAdapter
 			return;
 		}
 
-		updateROMDataSetParameterFromInputElementAttrs(
-				inputElementAttrs,
+		updateROMDataSetParameterFromInputElementAttrs( inputElementAttrs,
 				cachedParamAttrs == null ? null : cachedParamAttrs
 						.getElementAttributes( ), setParam );
 	}
@@ -542,34 +539,34 @@ class DataSetParameterAdapter
 			ParameterDefinition cachedParamDefn, String dataType )
 			throws SemanticException
 	{
-//		DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
-//
-//		if ( dataAttrs == null )
-//		{
-//			return;
-//		}
-//
-//		ModuleHandle module = setHandle.getModuleHandle( );
-//
-//		OdaDataSetParameterHandle paramDefn = findDataSetParameterByName(
-//				dataAttrs.getName( ),
-//				Integer.valueOf( dataAttrs.getPosition( ) ),
-//				Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
-//				setDefinedParams.iterator( ) );
-//		if ( paramDefn != null )
-//		{
-//			String reportParamName = paramDefn.getParamName( );
-//			if ( !StringUtil.isBlank( reportParamName ) )
-//			{
-//				ScalarParameterHandle paramHandle = (ScalarParameterHandle) module
-//						.findParameter( reportParamName );
-//
-//				if ( paramHandle != null )
-//					new ReportParameterAdapter( ).updateLinkedReportParameter(
-//							paramHandle, odaParamDefn, null, dataType,
-//							setHandle );
-//			}
-//		}
+		// DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
+		//
+		// if ( dataAttrs == null )
+		// {
+		// return;
+		// }
+		//
+		// ModuleHandle module = setHandle.getModuleHandle( );
+		//
+		// OdaDataSetParameterHandle paramDefn = findDataSetParameterByName(
+		// dataAttrs.getName( ),
+		// Integer.valueOf( dataAttrs.getPosition( ) ),
+		// Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
+		// setDefinedParams.iterator( ) );
+		// if ( paramDefn != null )
+		// {
+		// String reportParamName = paramDefn.getParamName( );
+		// if ( !StringUtil.isBlank( reportParamName ) )
+		// {
+		// ScalarParameterHandle paramHandle = (ScalarParameterHandle) module
+		// .findParameter( reportParamName );
+		//
+		// if ( paramHandle != null )
+		// new ReportParameterAdapter( ).updateLinkedReportParameter(
+		// paramHandle, odaParamDefn, null, dataType,
+		// setHandle );
+		// }
+		// }
 	}
 
 	/**
@@ -831,9 +828,7 @@ class DataSetParameterAdapter
 		if ( inputAttrs == null )
 			inputAttrs = designFactory.createInputElementAttributes( );
 
-		setDefaultScalarValue(
-				inputAttrs,
-				paramDefn.getParameterDataType( ),
+		setDefaultScalarValue( inputAttrs, paramDefn.getParameterDataType( ),
 				paramDefn.getExpressionProperty(
 						DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
 
@@ -917,11 +912,11 @@ class DataSetParameterAdapter
 			if ( dataAttrs != null )
 			{
 				cachedParamDefn = findParameterDefinition(
-						cachedDataSetParameters, dataAttrs.getName( ),
-						Integer.valueOf( dataAttrs.getPosition( ) ) );
+						cachedDataSetParameters, dataAttrs.getName( ), Integer
+								.valueOf( dataAttrs.getPosition( ) ) );
 				oldSetParam = findDataSetParameterByName( dataAttrs.getName( ),
-						Integer.valueOf( dataAttrs.getPosition( ) ),
-						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
+						Integer.valueOf( dataAttrs.getPosition( ) ), Integer
+								.valueOf( dataAttrs.getNativeDataTypeCode( ) ),
 						setDefinedParams.iterator( ) );
 
 			}
@@ -946,8 +941,7 @@ class DataSetParameterAdapter
 			// if the direction is from input to output, should not update
 			// report parameter any more. clear values in ParameterDefinition
 
-			updateROMDataSetParameterDirection(
-					odaParamDefn.getInOutMode( ),
+			updateROMDataSetParameterDirection( odaParamDefn.getInOutMode( ),
 					cachedParamDefn == null ? null : cachedParamDefn
 							.getInOutMode( ), setParam );
 
@@ -955,19 +949,18 @@ class DataSetParameterAdapter
 
 			updateROMDataSetParameterName( dataAttrs, setParam, retList );
 
-			updateROMDataSetParameterFromDataAttrs(
-					dataAttrs,
+			updateROMDataSetParameterFromDataAttrs( dataAttrs,
 					cachedParamDefn == null ? null : cachedParamDefn
-							.getAttributes( ), setParam,
-					setDesign.getOdaExtensionDataSourceId( ),
-					setDesign.getOdaExtensionDataSetId( ) );
+							.getAttributes( ), setParam, setDesign
+							.getOdaExtensionDataSourceId( ), setDesign
+							.getOdaExtensionDataSetId( ) );
 
 			updateAndCheckPosition( positions, setParam );
 
-			updateROMDataSetParameterFromInputParamAttrs(
-					odaParamDefn.getInputAttributes( ), cachedParamDefn == null
-							? null
-							: cachedParamDefn.getInputAttributes( ), setParam );
+			updateROMDataSetParameterFromInputParamAttrs( odaParamDefn
+					.getInputAttributes( ), cachedParamDefn == null
+					? null
+					: cachedParamDefn.getInputAttributes( ), setParam );
 
 			// if the parameter has no link to report parameter.
 
@@ -977,8 +970,8 @@ class DataSetParameterAdapter
 				continue;
 			}
 
-			updateReportParameter( odaParamDefn, cachedParamDefn,
-					setParam.getParameterDataType( ) );
+			updateReportParameter( odaParamDefn, cachedParamDefn, setParam
+					.getParameterDataType( ) );
 
 			retList.add( setParam );
 		}
@@ -1525,6 +1518,14 @@ class DataSetParameterAdapter
 
 		}
 
+		// if now, there is no local parameter defined, then set empty list to
+		// it, otherwise getValue will return the parameters from parent while
+		// query text contains no parameter, which will cause error in preview
+		if ( !propertyHandle.isLocal( ) )
+		{
+			propertyHandle.setValue( new ArrayList( ) );
+		}
+
 		// for others, should add them.
 
 		for ( int i = 0; i < newParams.size( ); ++i )
@@ -1632,10 +1633,10 @@ class DataSetParameterAdapter
 
 			DataElementAttributes tmpAttrs = tmpParam.getAttributes( );
 			OdaDataSetParameterHandle tmpROMParam = findDataSetParameterByName(
-					tmpAttrs.getName( ),
-					Integer.valueOf( tmpAttrs.getPosition( ) ),
-					Integer.valueOf( tmpAttrs.getNativeDataTypeCode( ) ),
-					setDefinedParams.iterator( ) );
+					tmpAttrs.getName( ), Integer.valueOf( tmpAttrs
+							.getPosition( ) ), Integer.valueOf( tmpAttrs
+							.getNativeDataTypeCode( ) ), setDefinedParams
+							.iterator( ) );
 
 			if ( tmpROMParam == null )
 				continue;
@@ -1658,10 +1659,9 @@ class DataSetParameterAdapter
 				inputParamAttrs.setElementAttributes( inputElementAttrs );
 			}
 
-			setDefaultScalarValue(
-					inputElementAttrs,
-					tmpROMParam.getParameterDataType( ),
-					tmpROMParam.getExpressionProperty(
+			setDefaultScalarValue( inputElementAttrs, tmpROMParam
+					.getParameterDataType( ), tmpROMParam
+					.getExpressionProperty(
 							DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
 		}
 	}
@@ -1670,11 +1670,11 @@ class DataSetParameterAdapter
 	 * Restores ODA data set parameter information that relates to the report
 	 * parameter. In the design value, these values were not saved.
 	 * 
-	 * @param driverDefinedParams 
+	 * @param driverDefinedParams
 	 */
 
-	
-	void restoreReportParameterRelatedValues( DataSetParameters driverDefinedParams )
+	void restoreReportParameterRelatedValues(
+			DataSetParameters driverDefinedParams )
 	{
 		if ( driverDefinedParams == null )
 			return;
@@ -1687,10 +1687,10 @@ class DataSetParameterAdapter
 
 			DataElementAttributes tmpAttrs = tmpParam.getAttributes( );
 			OdaDataSetParameterHandle tmpROMParam = findDataSetParameterByName(
-					tmpAttrs.getName( ),
-					Integer.valueOf( tmpAttrs.getPosition( ) ),
-					Integer.valueOf( tmpAttrs.getNativeDataTypeCode( ) ),
-					setDefinedParams.iterator( ) );
+					tmpAttrs.getName( ), Integer.valueOf( tmpAttrs
+							.getPosition( ) ), Integer.valueOf( tmpAttrs
+							.getNativeDataTypeCode( ) ), setDefinedParams
+							.iterator( ) );
 
 			if ( tmpROMParam == null )
 				continue;
@@ -1712,21 +1712,22 @@ class DataSetParameterAdapter
 						.createInputElementAttributes( );
 				inputParamAttrs.setElementAttributes( inputElementAttrs );
 			}
-			
+
 			String parameterName = tmpROMParam.getParamName( );
 			if ( parameterName != null )
 			{
 				ModuleHandle moduleHandle = setHandle.getModuleHandle( );
 				ParameterHandle paramHandle = moduleHandle
 						.findParameter( parameterName );
-	
-				// if can find the corresponding parameter, then update to latest
+
+				// if can find the corresponding parameter, then update to
+				// latest
 				// values. Otherwise, not.
 				if ( paramHandle instanceof ScalarParameterHandle )
 				{
 					ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
 					ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
-	
+
 					tmpAdapter.updateInputElementAttrs( inputParamAttrs,
 							scalarParamHandle, setDesign );
 				}

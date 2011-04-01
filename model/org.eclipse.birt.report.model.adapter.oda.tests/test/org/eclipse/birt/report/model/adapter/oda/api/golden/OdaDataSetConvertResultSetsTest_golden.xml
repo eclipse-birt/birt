@@ -39,6 +39,7 @@
 					</structure>
 				</structure>
 			</list-property>
+			<list-property name="parameters"/>
 			<property name="dataSource">myDataSource1</property>
 			<list-property name="resultSet">
 				<structure>

@@ -6,6 +6,7 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="myDataSet1" id="3">
             <text-property name="displayName">My Data Set One</text-property>
+            <list-property name="parameters"/>
             <property name="dataSource">myDataSource1</property>
             <list-property name="resultSet">
                 <structure>
