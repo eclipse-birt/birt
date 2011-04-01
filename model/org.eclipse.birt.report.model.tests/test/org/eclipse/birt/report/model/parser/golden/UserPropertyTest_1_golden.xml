@@ -8,7 +8,12 @@
                     <property name="type">expression</property>
                     <expression name="default" type="javascript">new Date()</expression>
                 </structure>
+                <structure>
+                    <property name="name">TestProperty_1</property>
+                    <property name="type">xml</property>
+                </structure>
             </list-property>
+            <xml-property name="TestProperty_1"><![CDATA[value for xml property]]></xml-property>
         </label>
     </body>
 </report>

@@ -377,20 +377,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	}
 
 	/**
-	 * Writes one property entry of an element as CDATA.
-	 * 
-	 * @param obj
-	 *            the design element
-	 * @param propName
-	 *            the property name
-	 */
-
-	protected void propertyCDATA( DesignElement obj, String propName )
-	{
-		writeProperty( obj, null, propName, true );
-	}
-
-	/**
 	 * Writes one property entry of an structure as CDATA.
 	 * 
 	 * @param structure
@@ -768,7 +754,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( tag == null )
 			tag = ModelUtil.getTagByPropertyType( propDefn );
 
-		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+		int type = propDefn.getTypeCode( );
+		if ( type == IPropertyType.SCRIPT_TYPE
+				|| type == IPropertyType.XML_TYPE )
 			cdata = true;
 
 		if ( cdata )
@@ -3181,7 +3169,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				IDesignElementModel.VIEW_ACTION_PROP );
 
 		property( obj, IDesignElementModel.COMMENTS_PROP );
-		propertyCDATA( obj, IDesignElementModel.CUSTOM_XML_PROP );
+		property( obj, IDesignElementModel.CUSTOM_XML_PROP );
 
 		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
 				IDesignElementModel.DISPLAY_NAME_PROP );
@@ -3535,13 +3523,13 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( (String) obj.getLocalProperty( getModule( ),
 				IOdaDataSetModel.QUERY_TEXT_PROP ) != null )
 		{
-			propertyCDATA( obj, IOdaDataSetModel.QUERY_TEXT_PROP );
+			property( obj, IOdaDataSetModel.QUERY_TEXT_PROP );
 		}
 
 		property( obj, IOdaDataSetModel.RESULT_SET_NAME_PROP );
 		property( obj, IOdaDataSetModel.RESULT_SET_NUMBER_PROP );
 		writeOdaDesignerState( obj, IOdaDataSetModel.DESIGNER_STATE_PROP );
-		propertyCDATA( obj, IOdaDataSetModel.DESIGNER_VALUES_PROP );
+		property( obj, IOdaDataSetModel.DESIGNER_VALUES_PROP );
 
 		List<Object> properties = (List) obj.getLocalProperty( getModule( ),
 				IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP );
@@ -3712,7 +3700,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		super.visitDerivedDataSet( obj );
 
 		writeSimplePropertyList( obj, IDerivedDataSetModel.INPUT_DATA_SETS_PROP );
-		propertyCDATA( obj, IDerivedDataSetModel.QUERY_TEXT_PROP );
+		property( obj, IDerivedDataSetModel.QUERY_TEXT_PROP );
 
 		writer.endElement( );
 	}

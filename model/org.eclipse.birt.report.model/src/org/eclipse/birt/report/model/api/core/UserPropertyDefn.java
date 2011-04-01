@@ -137,6 +137,7 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 				case IPropertyType.FLOAT_TYPE :
 				case IPropertyType.INTEGER_TYPE :
 				case IPropertyType.EXPRESSION_TYPE :
+				case IPropertyType.XML_TYPE:
 					allowedTypes.add( propType );
 					break;
 				default :

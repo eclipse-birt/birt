@@ -14,7 +14,7 @@
             <list-property name="userProperties">
                 <structure>
                     <property name="name">parentProp</property>
-                    <property name="type">string</property>
+                    <property name="type">xml</property>
                     <property name="isVisible">false</property>
                     <text-property name="displayName" key="abcde"></text-property>
                 </structure>
@@ -82,7 +82,7 @@
             </list-property>
             <property name="myProp1">world</property>
             <property name="myProp2">always</property>
-            <property name="parentProp">parent prop value</property>
+            <xml-property name="parentProp"><![CDATA[parent prop value]]></xml-property>
             <overridden-values>
                 <ref-entry baseId="0" id="6"/>
             </overridden-values>

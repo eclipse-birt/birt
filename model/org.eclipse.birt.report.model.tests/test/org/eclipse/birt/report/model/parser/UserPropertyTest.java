@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -72,7 +71,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 public class UserPropertyTest extends BaseTestCase
 {
-	
+
 	/**
 	 * Test the exceptions parsing the user-defined properties.
 	 * 
@@ -90,21 +89,17 @@ public class UserPropertyTest extends BaseTestCase
 
 			int i = 0;
 			assertEquals(
-					UserPropertyException.DESIGN_EXCEPTION_DUPLICATE_NAME,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
+					UserPropertyException.DESIGN_EXCEPTION_DUPLICATE_NAME, ( e
+							.getErrorList( ).get( i++ ) ).getErrorCode( ) );
 			assertEquals(
 					UserPropertyException.DESIGN_EXCEPTION_CHOICE_VALUE_REQUIRED,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
+					( e.getErrorList( ).get( i++ ) ).getErrorCode( ) );
 			assertEquals(
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
+					( e.getErrorList( ).get( i++ ) ).getErrorCode( ) );
 			assertEquals(
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY,
-					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
-							.getErrorCode( ) );
+					( e.getErrorList( ).get( i++ ) ).getErrorCode( ) );
 		}
 	}
 
@@ -128,7 +123,7 @@ public class UserPropertyTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "UserPropertyTest_golden.xml" ) ); //$NON-NLS-1$
-		
+
 		createDesign( );
 		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
 		designHandle.getBody( ).add( label );
@@ -137,11 +132,20 @@ public class UserPropertyTest extends BaseTestCase
 		defn.setType( MetaDataDictionary.getInstance( ).getPropertyType(
 				PropertyType.EXPRESSION_TYPE_NAME ) );
 		assertTrue( defn.allowExpression( ) );
-		Expression expr = new Expression( "new Date()",IExpressionType.JAVASCRIPT ); //$NON-NLS-1$
+		Expression expr = new Expression(
+				"new Date()", IExpressionType.JAVASCRIPT ); //$NON-NLS-1$
 		defn.setDefault( expr );
 		label.addUserPropertyDefn( defn );
 		assertTrue( defn.isVisible( ) );
-		
+
+		// add xml type user property
+		defn = new UserPropertyDefn( );
+		defn.setName( "TestProperty_1" ); //$NON-NLS-1$
+		defn.setType( MetaDataDictionary.getInstance( ).getPropertyType(
+				PropertyType.XML_TYPE ) );
+		label.addUserPropertyDefn( defn );
+		label.setProperty( defn.getName( ), "value for xml property" ); //$NON-NLS-1$
+
 		save( );
 		assertTrue( compareFile( "UserPropertyTest_1_golden.xml" ) ); //$NON-NLS-1$
 
@@ -283,21 +287,25 @@ public class UserPropertyTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests expression default value 
+	 * Tests expression default value
+	 * 
 	 * @throws Exception
 	 */
 	public void testParserDefaultExpression( ) throws Exception
 	{
-		openDesign( "UserPropertyTest_3.xml" );		 //$NON-NLS-1$
-		LabelHandle label = (LabelHandle) designHandle.findElement( "Test Label" );		 //$NON-NLS-1$
-		UserPropertyDefn defn = (UserPropertyDefn) label.getUserProperties( ).get( 0 );
+		openDesign( "UserPropertyTest_3.xml" ); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) designHandle
+				.findElement( "Test Label" ); //$NON-NLS-1$
+		UserPropertyDefn defn = (UserPropertyDefn) label.getUserProperties( )
+				.get( 0 );
 		assertEquals( "TestProperty", defn.getName( ) ); //$NON-NLS-1$
 		assertTrue( defn.allowExpression( ) );
-		assertEquals( PropertyType.EXPRESSION_TYPE, defn.getType( ).getTypeCode( ) );
-		assertTrue ( defn.getDefault( ) instanceof Expression );
+		assertEquals( PropertyType.EXPRESSION_TYPE, defn.getType( )
+				.getTypeCode( ) );
+		assertTrue( defn.getDefault( ) instanceof Expression );
 		Expression expr = (Expression) defn.getDefault( );
 		assertEquals( IExpressionType.CONSTANT, expr.getType( ) );
 		assertEquals( "Test", expr.getStringExpression( ) ); //$NON-NLS-1$
 	}
-			
+
 }
