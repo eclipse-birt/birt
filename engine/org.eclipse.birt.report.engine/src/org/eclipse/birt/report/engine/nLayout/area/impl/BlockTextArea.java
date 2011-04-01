@@ -69,8 +69,11 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 			text.addListener( listener );
 		}
 		text.layout( );
-		text.close( );
+		// some tricks here, TextLineArea need to be closed before the
+		// TextAreaLayout. Because the BlockTextRenderListener need to know
+		// whether the last line is inserted or split into next page.
 		line.close( );
+		text.close( );
 		close( );
 	}
 	

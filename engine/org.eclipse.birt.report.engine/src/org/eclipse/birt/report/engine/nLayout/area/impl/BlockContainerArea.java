@@ -479,6 +479,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 				else if ( splitResult.status == SplitResult.SPLIT_SUCCEED_WITH_NULL )
 				{
 					result.remove( current );
+					contentHeight -= ah;
 					int preIndex = iter.previousIndex( );
 					if ( preIndex >= 0 )
 					{

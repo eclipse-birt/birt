@@ -56,6 +56,11 @@ public class BlockTextRenderListener implements ITextListener
 	
 	public void onTextEndEvent( )
 	{
+		if ( blockContainer.getCurrentBP( ) < offset
+				|| blockContainer.getCurrentBP( ) > offset + dimension )
+		{
+			listeningStatus = false;
+		}
 		if ( listeningStatus )
 		{
 			textLength = readTextLength;

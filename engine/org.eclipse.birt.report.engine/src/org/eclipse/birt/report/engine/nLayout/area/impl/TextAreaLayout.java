@@ -192,15 +192,6 @@ public class TextAreaLayout implements ILayout
 				}
 			}
 		}
-		if ( listenerList != null )
-		{
-			for ( Iterator<ITextListener> i = listenerList.iterator( ); i
-					.hasNext( ); )
-			{
-				ITextListener listener = i.next( );
-				listener.onTextEndEvent( );
-			}
-		}
 	}
 	
 	protected boolean checkAvailableSpace( )
@@ -297,6 +288,15 @@ public class TextAreaLayout implements ILayout
 
 	public void close( )
 	{
+		if ( listenerList != null )
+		{
+			for ( Iterator<ITextListener> i = listenerList.iterator( ); i
+					.hasNext( ); )
+			{
+				ITextListener listener = i.next( );
+				listener.onTextEndEvent( );
+			}
+		}
 	}
 
 	public void initialize( )
