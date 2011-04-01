@@ -105,7 +105,7 @@ public class Statement implements IQuery
 	 */
 	public void prepare( String command ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Statement.class.getName( ),
 				"prepare",
 				"Statement.prepare( \"" + command + "\" )" );
@@ -218,7 +218,7 @@ public class Statement implements IQuery
 	 */
 	public void close( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINER,
 				Statement.class.getName( ),
 				"close",
 				"Statement.close( )" );
@@ -235,7 +235,7 @@ public class Statement implements IQuery
 			try 
 			{
 				if (DBConfig.getInstance().qualifyPolicy(
-						preStat.getConnection().getMetaData().getDriverName(),
+						this.conn.getMetaData().getDriverName(),
 						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
 					return;
 			} 
@@ -253,7 +253,7 @@ public class Statement implements IQuery
 	 */
 	public void setMaxRows( int max )
 	{
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Statement.class.getName( ),
 				"setMaxRows",
 				"Statement.setMaxRows( " + max + " )" );
@@ -426,7 +426,7 @@ public class Statement implements IQuery
 	 */
 	public IResultSet executeQuery( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINEST,
+		logger.logp( java.util.logging.Level.FINER,
 				Statement.class.getName( ),
 				"executeQuery",
 				"Statement.executeQuery( )" );
@@ -457,7 +457,7 @@ public class Statement implements IQuery
 				maxRowsUpToDate = true;
 			}
 			/* redirect the call to JDBC preparedStatement.executeQuery() */
-			return new ResultSet( this.preStat.executeQuery( ) );
+			return new ResultSet( this.conn, this.preStat.executeQuery( ) );
 		}
 		catch ( SQLException e )
 		{
@@ -471,7 +471,7 @@ public class Statement implements IQuery
 	 */
 	public boolean execute( ) throws OdaException
 	{
-		logger.logp( java.util.logging.Level.FINER,
+		logger.logp( java.util.logging.Level.FINE,
 				Statement.class.getName( ),
 				"execute",
 				"Statement.execute( )" );
@@ -484,6 +484,7 @@ public class Statement implements IQuery
 				maxRowsUpToDate = true;
 			}
 			/* redirect the call to JDBC preparedStatement.execute() */
+			System.out.println( "execute is called" );
 			return preStat.execute( );
 		}
 		catch ( SQLException e )
@@ -982,7 +983,7 @@ public class Statement implements IQuery
 	{
 		OdaException odaException = new OdaException( msg );
 		odaException.initCause( e );
-		logger.logp( java.util.logging.Level.FINE,
+		logger.logp( java.util.logging.Level.FINEST,
 				Statement.class.getName( ),
 				"rethrowRunTimeException",
 				msg,
@@ -991,8 +992,8 @@ public class Statement implements IQuery
 	}
 	
 	private void addLog ( String methodName, int parameterId, String value ){
-		if ( logger.isLoggable( Level.FINE ) )
-			logger.logp( Level.FINE,
+		if ( logger.isLoggable( Level.FINEST ) )
+			logger.logp( Level.FINEST,
 					Statement.class.getName( ),
 					methodName,
 					"parameter " + parameterId + " = " + value );
