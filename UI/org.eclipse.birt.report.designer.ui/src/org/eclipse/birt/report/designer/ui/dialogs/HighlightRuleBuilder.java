@@ -95,6 +95,7 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -2499,6 +2500,20 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		return super.open( );
 	}
 
+	protected void constrainShellSize( )
+	{
+		// limit the shell size to the display size
+		Rectangle bounds = getShell( ).getBounds( );
+		Point location = getInitialLocation( new Point( bounds.width,
+				bounds.height ) );
+		bounds = new Rectangle( location.x,
+				location.y,
+				bounds.width,
+				bounds.height );
+		Rectangle constrained = getConstrainedShellBounds( bounds );
+		getShell( ).setBounds( constrained );
+	}
+	
 	public void setExpressionProvider( ExpressionProvider expressionProvider )
 	{
 		this.expressionProvider = expressionProvider;
