@@ -25,12 +25,9 @@ import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
-import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -45,6 +42,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
+import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
@@ -1663,6 +1661,10 @@ class DataSetParameterAdapter
 					.getParameterDataType( ), tmpROMParam
 					.getExpressionProperty(
 							DataSetParameter.DEFAULT_VALUE_MEMBER ).getValue( ) );
+			
+			DynamicList dynamicList = cachedDynamicList.get( i );
+			if ( dynamicList != null )
+				restoreReportParameterRelatedValues( inputElementAttrs, dynamicList );
 		}
 	}
 
@@ -1673,66 +1675,23 @@ class DataSetParameterAdapter
 	 * @param driverDefinedParams
 	 */
 
-	void restoreReportParameterRelatedValues(
-			DataSetParameters driverDefinedParams )
+	private void restoreReportParameterRelatedValues(
+			InputElementAttributes inputElementAttrs, DynamicList dynamicList )
 	{
-		if ( driverDefinedParams == null )
-			return;
-
-		List<ParameterDefinition> tmpParams = driverDefinedParams
-				.getParameterDefinitions( );
-		for ( int i = 0; i < tmpParams.size( ); i++ )
+		DynamicValuesQuery query = designFactory.createDynamicValuesQuery( );
+		String dataSetName = dynamicList.getDataSetName( );		
+		if ( dataSetName.equals( setHandle.getName( ) ) )
+			query.setDataSetDesign( setDesign );
+		else
 		{
-			ParameterDefinition tmpParam = tmpParams.get( i );
-
-			DataElementAttributes tmpAttrs = tmpParam.getAttributes( );
-			OdaDataSetParameterHandle tmpROMParam = findDataSetParameterByName(
-					tmpAttrs.getName( ), Integer.valueOf( tmpAttrs
-							.getPosition( ) ), Integer.valueOf( tmpAttrs
-							.getNativeDataTypeCode( ) ), setDefinedParams
-							.iterator( ) );
-
-			if ( tmpROMParam == null )
-				continue;
-
-			InputParameterAttributes inputParamAttrs = tmpParam
-					.getInputAttributes( );
-			if ( inputParamAttrs == null )
-			{
-				inputParamAttrs = designFactory
-						.createInputParameterAttributes( );
-				tmpParam.setInputAttributes( inputParamAttrs );
-			}
-
-			InputElementAttributes inputElementAttrs = inputParamAttrs
-					.getElementAttributes( );
-			if ( inputElementAttrs == null )
-			{
-				inputElementAttrs = designFactory
-						.createInputElementAttributes( );
-				inputParamAttrs.setElementAttributes( inputElementAttrs );
-			}
-
-			String parameterName = tmpROMParam.getParamName( );
-			if ( parameterName != null )
-			{
-				ModuleHandle moduleHandle = setHandle.getModuleHandle( );
-				ParameterHandle paramHandle = moduleHandle
-						.findParameter( parameterName );
-
-				// if can find the corresponding parameter, then update to
-				// latest
-				// values. Otherwise, not.
-				if ( paramHandle instanceof ScalarParameterHandle )
-				{
-					ReportParameterAdapter tmpAdapter = new ReportParameterAdapter( );
-					ScalarParameterHandle scalarParamHandle = (ScalarParameterHandle) paramHandle;
-
-					tmpAdapter.updateInputElementAttrs( inputParamAttrs,
-							scalarParamHandle, setDesign );
-				}
-			}
+			DataSetHandle dataSet = setHandle.getModuleHandle( ).findDataSet( dataSetName );
+			if ( dataSet == null || !( dataSet instanceof OdaDataSetHandle ) )
+				return;
+			query.setDataSetDesign( new DataSetAdapter( ).createDataSetDesign( (OdaDataSetHandle) dataSet ) );
 		}
+		query.setDisplayNameColumn( dynamicList.getLabelColumn( ) );
+		query.setValueColumn( dynamicList.getValueColumn( ) );
+		inputElementAttrs.setDynamicValueChoices( query );
 	}
 
 	/**

@@ -90,7 +90,7 @@ class DataSetAdapter extends AbstractDataAdapter
 			return null;
 
 		DataSetDesign setDesign = designFactory.createDataSetDesign( );
-		doUpdateDataSetDesign( setHandle, setDesign, true );
+		updateDataSetDesign( setHandle, setDesign );
 		return setDesign;
 	}
 
@@ -101,16 +101,6 @@ class DataSetAdapter extends AbstractDataAdapter
 
 	void updateDataSetDesign( OdaDataSetHandle setHandle,
 			DataSetDesign setDesign )
-	{
-		doUpdateDataSetDesign( setHandle, setDesign, false );
-	}
-	/**
-	 * @param setHandle
-	 * @param setDesign
-	 */
-
-	private void doUpdateDataSetDesign( OdaDataSetHandle setHandle,
-			DataSetDesign setDesign, boolean restoreParameterValues )
 	{
 		// properties on ReportElement, like name, displayNames, etc.
 
@@ -165,6 +155,7 @@ class DataSetAdapter extends AbstractDataAdapter
 			if ( strDesignValues != null )
 				designerValues = SerializerImpl.instance( ).read(
 						strDesignValues );
+			
 		}
 		catch ( IOException e )
 		{
@@ -192,9 +183,6 @@ class DataSetAdapter extends AbstractDataAdapter
 
 			dataParamAdapter.updateDriverDefinedParameter( designDefinedParams,
 					SchemaConversionUtil.getCachedDynamicList( cachedParams ) );
-			
-			if ( restoreParameterValues )
-				dataParamAdapter.restoreReportParameterRelatedValues( designDefinedParams );
 		}
 
 		// if there is no driver defined parameters, update parameters with set
