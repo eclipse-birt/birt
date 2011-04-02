@@ -805,11 +805,12 @@ public class BirtUtility
 	public static void appendErrorMessage( OutputStream out, Exception e )
 			throws IOException
 	{
-		String message = "<html>\n<head>\n<title>" //$NON-NLS-1$
+		StringBuffer message = new StringBuffer( );
+		message.append( "<html>\n<head>\n<title>" //$NON-NLS-1$
 				+ BirtResources.getMessage( "birt.viewer.title.error" ) //$NON-NLS-1$
-				+ "</title>\n"; //$NON-NLS-1$
-		message += "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\">\n</head>\n"; //$NON-NLS-1$
-		message += "<body>\n"; //$NON-NLS-1$
+				+ "</title>\n" ); //$NON-NLS-1$
+		message.append( "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\"/>\n</head>\n" ) //$NON-NLS-1$
+				.append( "<body>\n" ); //$NON-NLS-1$
 
 		String errorId = "document.getElementById('error_detail')"; //$NON-NLS-1$
 		String errorIcon = "document.getElementById('error_icon')"; //$NON-NLS-1$
@@ -819,10 +820,10 @@ public class BirtUtility
 				+ ".style.display = 'block'; }" + "else { " + errorIcon //$NON-NLS-1$//$NON-NLS-2$
 				+ ".innerHTML = '+ '; " + errorId //$NON-NLS-1$
 				+ ".style.display = 'none'; }"; //$NON-NLS-1$
-		message += "<div id=\"birt_errorPage\" style=\"color:red\">\n"; //$NON-NLS-1$
-		message += "<span id=\"error_icon\"  style=\"cursor:pointer\" onclick=\"" //$NON-NLS-1$
-				+ onClick
-				+ "\" > + </span>\n"; //$NON-NLS-1$
+		message.append( "<div id=\"birt_errorPage\" style=\"color:red\">\n" ) //$NON-NLS-1$
+				.append( "<span id=\"error_icon\"  style=\"cursor:pointer\" onclick=\"" //$NON-NLS-1$
+						+ onClick
+						+ "\" > + </span>\n" ); //$NON-NLS-1$
 
 		String errorMessage = null;
 		if ( e instanceof AxisFault )
@@ -836,21 +837,21 @@ public class BirtUtility
 		}
 		if ( errorMessage != null )
 		{
-			message += ParameterAccessor.htmlEncode( errorMessage ); //$NON-NLS-1$ //$NON-NLS-2$
+			message.append( ParameterAccessor.htmlEncode( errorMessage ) );
 		}
 		else
 		{
-			message += "Unknown error!"; //$NON-NLS-1$
+			message.append( "Unknown error!" ); //$NON-NLS-1$
 		}
 
-		message += "<br>\n"; //$NON-NLS-1$
-		message += "<pre id=\"error_detail\" style=\"display:none;\" >\n";//$NON-NLS-1$
-		message += ParameterAccessor.htmlEncode( getDetailMessage( e ) );
-		message += "</pre>\n"; //$NON-NLS-1$
-		message += "</div>\n"; //$NON-NLS-1$
-		message += "</body>\n</html>"; //$NON-NLS-1$
+		message.append( "<br>\n" ) //$NON-NLS-1$
+				.append( "<pre id=\"error_detail\" style=\"display:none;\" >\n" )//$NON-NLS-1$
+				.append( ParameterAccessor.htmlEncode( getDetailMessage( e ) ) )
+				.append( "</pre>\n" ) //$NON-NLS-1$
+				.append( "</div>\n" ) //$NON-NLS-1$
+				.append( "</body>\n</html>" ); //$NON-NLS-1$
 
-		out.write( message.getBytes( "UTF-8" ) );
+		out.write( message.toString( ).getBytes( "UTF-8" ) ); //$NON-NLS-1$
 		out.flush( );
 		out.close( );
 	}
@@ -893,17 +894,18 @@ public class BirtUtility
 		if ( IBirtConstants.MSG_ERROR.equalsIgnoreCase( msgType ) )
 			fontColor = "red"; //$NON-NLS-1$
 
-		String message = "<html><head><title>" //$NON-NLS-1$
+		StringBuffer message = new StringBuffer( );
+		message.append( "<html><head><title>" //$NON-NLS-1$
 				+ BirtResources.getMessage( "birt.viewer.title." + msgType ) //$NON-NLS-1$
-				+ "</title>"; //$NON-NLS-1$
-		message += "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\"></head>"; //$NON-NLS-1$
-		message += "<body"; //$NON-NLS-1$
+				+ "</title>" );//$NON-NLS-1$
+		message.append( "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\"></head>" ) //$NON-NLS-1$
+				.append( "<body" ); //$NON-NLS-1$
 		if ( isCloseWin )
-			message += " onload=\"javascript:window.close()\""; //$NON-NLS-1$
-		message += " style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
+			message.append( " onload=\"javascript:window.close()\"" ); //$NON-NLS-1$
+		message.append( " style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
 				+ content
-				+ "</font></div></body></html>"; //$NON-NLS-1$
-		out.write( message.getBytes( "UTF-8" ) );
+				+ "</font></div></body></html>" ); //$NON-NLS-1$
+		out.write( message.toString( ).getBytes( "UTF-8" ) ); //$NON-NLS-1$
 		out.flush( );
 		out.close( );
 	}
@@ -949,80 +951,88 @@ public class BirtUtility
 		if ( scriptStyle == null )
 			return null;
 
+		StringBuffer style = new StringBuffer( );
+
 		// background-attachment
-		String style = getStyle( scriptStyle, "getBackgroundAttachment", //$NON-NLS-1$
-				"background-attachment" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBackgroundAttachment", //$NON-NLS-1$
+				"background-attachment" ) ); //$NON-NLS-1$
 
 		// background-color
-		style += getStyle( scriptStyle, "getBackgroundColor", //$NON-NLS-1$
-				"background-color" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBackgroundColor", //$NON-NLS-1$
+				"background-color" ) ); //$NON-NLS-1$
 
 		// background-image
-		style += getStyle( scriptStyle, "getBackgroundImage", //$NON-NLS-1$
-				"background-image" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBackgroundImage", //$NON-NLS-1$
+				"background-image" ) ); //$NON-NLS-1$
 
 		// background-position-x/y
-		style += getStyle( scriptStyle, "getBackgroundPositionX", //$NON-NLS-1$
-				"background-position-x" ); //$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBackgroundPositionY", //$NON-NLS-1$
-				"background-position-y" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBackgroundPositionX", //$NON-NLS-1$
+				"background-position-x" ) ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBackgroundPositionY", //$NON-NLS-1$
+				"background-position-y" ) ); //$NON-NLS-1$
 
 		// background-repeat
-		style += getStyle( scriptStyle, "getBackgroundRepeat", //$NON-NLS-1$
-				"background-repeat" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBackgroundRepeat", //$NON-NLS-1$
+				"background-repeat" ) ); //$NON-NLS-1$
 
 		// Border Bottom
-		style += getStyle( scriptStyle, "getBorderBottomColor", //$NON-NLS-1$
-				"border-bottom-color" ); //$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBorderBottomStyle", //$NON-NLS-1$
-				"border-bottom-style" ); //$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBorderBottomWidth", //$NON-NLS-1$
-				"border-bottom-width" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderBottomColor", //$NON-NLS-1$
+				"border-bottom-color" ) ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderBottomStyle", //$NON-NLS-1$
+				"border-bottom-style" ) ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderBottomWidth", //$NON-NLS-1$
+				"border-bottom-width" ) ); //$NON-NLS-1$
 
 		// Border Left
-		style += getStyle( scriptStyle, "getBorderLeftColor", //$NON-NLS-1$
-				"border-left-color" ); //$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBorderLeftStyle", //$NON-NLS-1$
-				"border-left-style" ); //$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBorderLeftWidth", //$NON-NLS-1$
-				"border-left-width" ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderLeftColor", //$NON-NLS-1$
+				"border-left-color" ) ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderLeftStyle", //$NON-NLS-1$
+				"border-left-style" ) ); //$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderLeftWidth", //$NON-NLS-1$
+				"border-left-width" ) ); //$NON-NLS-1$
 
 		// Border Right
-		style += getStyle( scriptStyle, "getBorderRightColor", //$NON-NLS-1$
-				"border-right-color" );//$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBorderRightStyle",//$NON-NLS-1$
-				"border-right-style" );//$NON-NLS-1$
-		style += getStyle( scriptStyle, "getBorderRightWidth",//$NON-NLS-1$
-				"border-right-width" );//$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderRightColor", //$NON-NLS-1$
+				"border-right-color" ) );//$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderRightStyle",//$NON-NLS-1$
+				"border-right-style" ) );//$NON-NLS-1$
+		style.append( getStyle( scriptStyle, "getBorderRightWidth",//$NON-NLS-1$
+				"border-right-width" ) );//$NON-NLS-1$
 
 		// Border Top
-		style += getStyle( scriptStyle, "getBorderTopColor", "border-top-color" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getBorderTopStyle", "border-top-style" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getBorderTopWidth", "border-top-width" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle,
+				"getBorderTopColor", "border-top-color" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle,
+				"getBorderTopStyle", "border-top-style" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle,
+				"getBorderTopWidth", "border-top-width" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		// font
-		style += getStyle( scriptStyle, "getColor", "color" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getFontFamily", "font-family" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getFontSize", "font-size" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getFontStyle", "font-style" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getFontVariant", "font-variant" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getFontWeight", "font-weight" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getColor", "color" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getFontFamily", "font-family" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getFontSize", "font-size" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getFontStyle", "font-style" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getFontVariant", "font-variant" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getFontWeight", "font-weight" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		// letter-spacing
-		style += getStyle( scriptStyle, "getLetterSpacing", "letter-spacing" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle,
+				"getLetterSpacing", "letter-spacing" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		// line-height
-		style += getStyle( scriptStyle, "getLineHeight", "line-height" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getLineHeight", "line-height" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		// padding
-		style += getStyle( scriptStyle, "getPaddingBottom", "padding-bottom" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getPaddingLeft", "padding-left" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getPaddingRight", "padding-right" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getPaddingTop", "padding-top" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle,
+				"getPaddingBottom", "padding-bottom" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getPaddingLeft", "padding-left" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getPaddingRight", "padding-right" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getPaddingTop", "padding-top" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		// Text
-		style += getStyle( scriptStyle, "getTextAlign", "text-align" );//$NON-NLS-1$ //$NON-NLS-2$
-		style += getStyle( scriptStyle, "getTextTransform", "text-transform" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getTextAlign", "text-align" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle,
+				"getTextTransform", "text-transform" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
 		String textDecoration = ""; //$NON-NLS-1$
 		String textOverline = scriptStyle.getTextOverline( );
@@ -1045,12 +1055,12 @@ public class BirtUtility
 		}
 
 		if ( textDecoration.length( ) > 0 )
-			style += "text-decoration:" + textDecoration + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+			style.append( "text-decoration:" + textDecoration + ";" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// word-spacing
-		style += getStyle( scriptStyle, "getWordSpacing", "word-spacing" );//$NON-NLS-1$ //$NON-NLS-2$
+		style.append( getStyle( scriptStyle, "getWordSpacing", "word-spacing" ) );//$NON-NLS-1$ //$NON-NLS-2$
 
-		return style;
+		return style.toString( );
 	}
 
 	/**
