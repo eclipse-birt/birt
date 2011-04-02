@@ -2668,12 +2668,28 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			// element, we should not add it to externalelement map, for it can
 			// not be generated without the root parent.
 			if ( root != sourceDesign && root instanceof Library
-					&& !element.isVirtualElement( ) )
+					&& !isDynamicLinkerVirtualElement( root, element ) )
 			{
 				return true;
 			}
 		}
 
+		return false;
+	}
+
+	private boolean isDynamicLinkerVirtualElement( Module module,
+			DesignElement element )
+	{
+		if ( element.isVirtualElement( ) )
+		{
+			DesignElement focus = element;
+			while ( focus != null )
+			{
+				if ( focus.getDynamicExtendsElement( module ) != null )
+					return true;
+				focus = focus.getContainer( );
+			}
+		}
 		return false;
 	}
 
