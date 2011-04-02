@@ -680,4 +680,9 @@ public class StylePreferenceStore implements IPreferenceStore
 			return property.isLocal( );
 		return false;
 	}
+
+	public StyleHandle getModel( )
+	{
+		return  ( (StyleHandle) model );
+	}
 }
