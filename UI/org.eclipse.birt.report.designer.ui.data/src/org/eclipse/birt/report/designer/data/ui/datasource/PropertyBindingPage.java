@@ -202,10 +202,17 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage
 					propertyText,
 					bindingName,
 					isEncryptable );
+			
+			if( i == 0 )
+			{
+				propertyText.setFocus( );
+			}
+
 
 		}
 		if ( size <= 0 )
 			setEmptyPropertyMessages( composite );
+		
 		return composite;
 	}
 	

@@ -66,7 +66,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.18 $ $Date: 2010/05/06 02:10:51 $
+ * @version $Revision: 1.19.6.1 $ $Date: 2011/04/02 07:27:08 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog implements
@@ -575,6 +575,10 @@ public abstract class AbstractPropertyDialog extends BaseDialog implements
 		{
 			// if not create it
 			Control control = node.createPageControl( propertyPane );
+			if ( node.getId( ) != null && node.getId( ).equals( this.nodeId ) )
+			{
+				control.setFocus( );
+			}
 			assert ( control != null ) : "Control has not been created for node " + node.getId( ); //$NON-NLS-1$
 		}
 		currentNode = node;
