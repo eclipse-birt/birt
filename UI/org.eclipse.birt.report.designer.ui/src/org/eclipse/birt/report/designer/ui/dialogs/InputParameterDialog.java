@@ -321,7 +321,8 @@ public class InputParameterDialog extends BaseDialog
 			String value = textParam.getDefaultValue( );
 			dataTypeCheckList.add( textParam );
 
-			Text input = new Text( container, SWT.BORDER );
+			Text input = new Text( container, param.getHandle( )
+					.isConcealValue( ) ? SWT.BORDER | SWT.PASSWORD : SWT.BORDER );
 			input.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 			input.addModifyListener( new ModifyListener( ) {
