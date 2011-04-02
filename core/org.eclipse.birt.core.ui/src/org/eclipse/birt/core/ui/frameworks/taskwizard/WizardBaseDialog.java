@@ -19,6 +19,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -43,7 +44,7 @@ import org.eclipse.swt.widgets.Shell;
  * Provides Dialog for WizardBase
  */
 
-public class WizardBaseDialog extends BirtTitleAreaDialog implements
+public class WizardBaseDialog extends TitleAreaDialog implements
 		SelectionListener,
 		ControlListener,
 		DisposeListener,
@@ -75,7 +76,7 @@ public class WizardBaseDialog extends BirtTitleAreaDialog implements
 	public WizardBaseDialog( WizardBase wizardBase, Shell parentShell, int iInitialWidth,
 			int iInitialHeight, String strTitle, Image imgTitle )
 	{
-		super( parentShell, iInitialWidth - 100 );
+		super( parentShell );
 		this.wizardBase = wizardBase;
 		setHelpAvailable( true );
 

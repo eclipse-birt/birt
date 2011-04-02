@@ -25,6 +25,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.birt.core.ui.i18n.Messages;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -538,7 +539,7 @@ public class WizardBase implements IRegistrationListener
 		return isDisposed;
 	}
 
-	protected BirtTitleAreaDialog getDialog( )
+	protected TitleAreaDialog getDialog( )
 	{
 		return dialog;
 	}
