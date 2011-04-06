@@ -21,7 +21,6 @@ import java.net.HttpURLConnection;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.net.URLStreamHandler;
 import java.security.AccessControlContext;
 import java.security.AccessController;
@@ -570,13 +569,63 @@ public class URLClassLoader extends java.net.URLClassLoader
 	private static String getFilePath( URL url )
 	{
 		String path = url.getFile( );
-		try
+		return decode( path );
+	}
+
+	public static String decode( String s )
+	{
+
+		boolean changed = false;
+		int length = s.length( );
+		StringBuffer buffer = new StringBuffer( );
+
+		int i = 0;
+		char c;
+		byte[] bytes = null;
+		while ( i < length )
 		{
-			return URLDecoder.decode( path, "utf-8" );
+			c = s.charAt( i );
+			if ( c == '%' )
+			{
+				try
+				{
+
+					if ( bytes == null )
+						bytes = new byte[( length - i ) / 3];
+					int pos = 0;
+
+					while ( ( ( i + 2 ) < length ) && ( c == '%' ) )
+					{
+						bytes[pos++] = (byte) Integer.parseInt( s
+						        .substring( i + 1, i + 3 ), 16 );
+						i += 3;
+						if ( i < length )
+							c = s.charAt( i );
+					}
+
+					if ( ( i < length ) && ( c == '%' ) )
+						throw new IllegalArgumentException(
+						        "Incorrect escape pattern." );
+					buffer.append( new String( bytes, 0, pos, "utf-8" ) );
+				}
+				catch ( NumberFormatException e )
+				{
+					throw new IllegalArgumentException(
+					        "Illegal hex numbers in escape pattern."
+					                + e.getMessage( ) );
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+					// Unachievable
+				}
+				changed = true;
+			}
+			else
+			{
+				buffer.append( c );
+				i++;
+			}
 		}
-		catch ( UnsupportedEncodingException ex )
-		{
-			return path;
-		}
+		return ( changed ? buffer.toString( ) : s );
 	}
 }
