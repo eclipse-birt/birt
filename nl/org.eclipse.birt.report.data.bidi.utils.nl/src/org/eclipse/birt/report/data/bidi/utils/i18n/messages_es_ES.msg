@@ -3,17 +3,27 @@ preference.bidiframe.title = Formato bidireccional
 preference.bidiframe.arabictitle = Funciones específicas del árabe
  
 
-report.bidi.properties.externalbidiformat.orderingscheme=Esquema de &orden
+report.bidi.properties.externalbidiformat.orderingscheme.metadata=Esquema de &orden
+report.bidi.properties.externalbidiformat.orderingscheme.content=O&rdering Scheme
+
+report.bidi.properties.externalbidiformat.shaping.metadata=Forma de te&xto
+report.bidi.properties.externalbidiformat.shaping.content=Text S&haping
+
+report.bidi.properties.externalbidiformat.numshaping.metadata=Forma &numérica
+report.bidi.properties.externalbidiformat.numshaping.content=N&umeric Shaping
+
+report.bidi.properties.externalbidiformat.symswap.metadata=Intercambio &simétrico
+report.bidi.properties.externalbidiformat.symswap.content=Symmetric Sw&apping
+
+report.bidi.properties.externalbidiformat.textdirection.metadata=&Dirección de texto
+report.bidi.properties.externalbidiformat.textdirection.content=Te&xt Direction
+
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = Elegir valor de esquema de orden 
-report.bidi.properties.externalbidiformat.textdirection=&Dirección de texto
 report.bidi.properties.externalbidiformat.textdirection.tooltip = Elegir valor de dirección del texto
-report.bidi.properties.externalbidiformat.symswap=Intercambio &simétrico
 report.bidi.properties.externalbidiformat.symswap.tooltip = Elegir valor de intercambio simétrico
 report.bidi.properties.externalbidiformat.symswap.true=True
 report.bidi.properties.externalbidiformat.symswap.false=False
-report.bidi.properties.externalbidiformat.shaping=Forma de te&xto
 report.bidi.properties.externalbidiformat.shaping.tooltip = Elegir valor de forma del texto
-report.bidi.properties.externalbidiformat.numshaping=Forma &numérica
 report.bidi.properties.externalbidiformat.numshaping.tooltip = Elegir forma numérica
 report.bidi.properties.externalbidiformat.orderingscheme.visual =Visual
 report.bidi.properties.externalbidiformat.orderingscheme.logical =Lógica
@@ -34,5 +44,5 @@ advancedbididialog.msg=Establecer formatos bidireccionales de metadatos y conten
 advancedbidi.button=Ajustes bidireccionales...
 metadata.bidiframe.title=Formato bidireccional de metadatos del sistema externo
 content.bidiframe.title=Formato bidireccional de contenido del sistema externo
-disablebidi.checkbox=Desactivar la transformación bidireccional
+disablebidi.checkbox.label=Disa&ble Bidi Transformation
 
