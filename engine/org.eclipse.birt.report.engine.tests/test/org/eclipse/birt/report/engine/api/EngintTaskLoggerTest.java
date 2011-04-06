@@ -89,7 +89,7 @@ public class EngintTaskLoggerTest extends EngineCase
 	{
 		EngineConfig config = new EngineConfig( );
 		String tmpPath = System.getProperty( "java.io.tmpdir" )
-				+ System.nanoTime( );
+				+ File.separator + System.nanoTime( );
 		config.setLogConfig( tmpPath, Level.ALL );
 		config.setLogRollingSize( logRollingSize );
 		config.setLogMaxBackupIndex( maxBackupIndex );
