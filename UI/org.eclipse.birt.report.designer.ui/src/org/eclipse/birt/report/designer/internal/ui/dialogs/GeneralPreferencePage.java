@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -57,12 +58,6 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 	private Button preStyle;
 
 	private Button cusStyle;
-
-	//private int selectedType = -1;
-
-	private static final int TYPE_PREDEFINED = 0;
-
-	private static final int TYPE_CUSTOM = 1;
 
 	private boolean initialized = false;
 
@@ -173,7 +168,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				{
 					preName.select( 0 );
 				}
-				//selectedType = TYPE_PREDEFINED;
+				// selectedType = TYPE_PREDEFINED;
 				checkPageValid( );
 			}
 		} );
@@ -227,7 +222,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				}
 				setPredefinedStyle( false );
 				cusName.setFocus( );
-				//selectedType = TYPE_CUSTOM;
+				// selectedType = TYPE_CUSTOM;
 				checkPageValid( );
 			}
 		} );
@@ -417,6 +412,19 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			if ( initialized && ( !isValid( ) ) )
 			{
 				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" ); //$NON-NLS-1$
+				// setMessage( errorMessage, PreferencePage.ERROR );
+				setErrorMessage( errorMessage );
+			}
+		}
+		else if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( name ) != null )
+		{
+			setValid( false );
+			if ( initialized && ( !isValid( ) ) )
+			{
+				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNamePredefind", //$NON-NLS-1$
+						new String[]{
+							name
+						} ); 
 				// setMessage( errorMessage, PreferencePage.ERROR );
 				setErrorMessage( errorMessage );
 			}
