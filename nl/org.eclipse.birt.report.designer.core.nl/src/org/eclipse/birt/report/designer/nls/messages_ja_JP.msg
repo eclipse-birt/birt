@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL ‚ª NULL ‚È‚Ì‚ÅAƒtƒ@ƒCƒ‹‚É•ÏŠ·‚Å‚«‚Ü‚
 ResourceAction.FileRemoveFailure=ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 LibraryNotExist.Dialog.Title=ƒ‰ƒCƒuƒ‰ƒŠ‚ğŠJ‚­
 LibraryNotExist.Dialog.Message=ƒ‰ƒCƒuƒ‰ƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñBƒŠƒ\[ƒXƒGƒNƒXƒvƒ[ƒ‰‚ğƒŠƒtƒŒƒbƒVƒ…‚µ‚Ü‚·‚© ? 
-DesignerNotExist.Dialog.Title=Open Report Designer
-DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=Open Report Design
+DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=ƒtƒBƒ‹ƒ^...
@@ -1820,6 +1820,7 @@ GeneralInsertMenuAction.text.Text=ƒeƒLƒXƒg(&T)
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=ƒXƒ^ƒCƒ‹–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
 GeneralPreferencePage.label.styleNameDuplicate=ƒXƒ^ƒCƒ‹–¼ "{0}" ‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B•Ê‚Ì–¼‘O‚ğ•t‚¯‚Ä‚­‚¾‚³‚¢B
+GeneralPreferencePage.label.styleNamePredefind=Style name "{0}" is predefined, please choose a different name
 GeneralPreferencePage.label.customStyle=ƒ†[ƒUİ’è‚ÌƒXƒ^ƒCƒ‹(&C)...
 GeneralPreferencePage.Label.CustomStyle=–¼‘O :
 GeneralPreferencePage.Label.Note=’ : * ƒXƒ^ƒCƒ‹ƒvƒƒpƒeƒB‚ğ“Á’è‚Ìí—Ş‚ÌƒŒƒ|[ƒg—v‘f‚É“K—p‚µ‚Ä‚­‚¾‚³‚¢B

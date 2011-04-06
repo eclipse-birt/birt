@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL 为空，无法转换成文件。
 ResourceAction.FileRemoveFailure=文件删除失败。
 LibraryNotExist.Dialog.Title=打开库
 LibraryNotExist.Dialog.Message=库不存在，要刷新资源管理器吗? 
-DesignerNotExist.Dialog.Title=Open Report Designer
-DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=Open Report Design
+DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=筛选...
@@ -1820,6 +1820,7 @@ GeneralInsertMenuAction.text.Text=文本(&T)
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=重复的样式名称。
 GeneralPreferencePage.label.styleNameDuplicate=样式名称“{0}”已存在，请选择另一个名称
+GeneralPreferencePage.label.styleNamePredefind=Style name "{0}" is predefined, please choose a different name
 GeneralPreferencePage.label.customStyle=自定义样式(&C)
 GeneralPreferencePage.Label.CustomStyle=名称:
 GeneralPreferencePage.Label.Note=注: * 将样式属性应用于指定类型的报表元素。

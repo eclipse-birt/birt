@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL이 널(null)이므로 파일로 변환할 수 없�
 ResourceAction.FileRemoveFailure=파일 제거에 실패했습니다.
 LibraryNotExist.Dialog.Title=라이브러리 열기
 LibraryNotExist.Dialog.Message=라이브러리가 없습니다. 리소스 탐색기를 새로 고치시겠습니까? 
-DesignerNotExist.Dialog.Title=Open Report Designer
-DesignerNotExist.Dialog.Message=The designer does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=Open Report Design
+DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=필터...
@@ -1820,6 +1820,7 @@ GeneralInsertMenuAction.text.Text=텍스트(&T)
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=중복된 스타일 이름입니다.
 GeneralPreferencePage.label.styleNameDuplicate=스타일 이름 "{0}"은(는) 이미 있습니다. 다른 이름을 선택하십시오.
+GeneralPreferencePage.label.styleNamePredefind=Style name "{0}" is predefined, please choose a different name
 GeneralPreferencePage.label.customStyle=사용자 지정 스타일(&C)
 GeneralPreferencePage.Label.CustomStyle=이름:
 GeneralPreferencePage.Label.Note=참고: *스타일 속성을 특정 형식의 보고서 요소에 적용하십시오.
