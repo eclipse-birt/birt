@@ -39,16 +39,10 @@ import org.eclipse.ui.PlatformUI;
 
 public class AdvancedBidiDialog extends TitleAreaDialog
 {
-	public final static String ADVANCED_DIALOG_TITLE = Messages
-			.getString( "advancedbididialog.title" );
-	public final static String ADVANCED_DIALOG_MSG = Messages
-			.getString( "advancedbididialog.msg" );
-	final private static String EXTERNAL_SYSTEM_METADATA_BIDI_FORMAT = Messages
-			.getString( "metadata.bidiframe.title" );//$NON-NLS-1$
-	final private static String EXTERNAL_SYSTEM_CONTENT_BIDI_FORMAT = Messages
-			.getString( "content.bidiframe.title" );//$NON-NLS-1$
-	final private static String DISABLE_BIDI_CHECKBOX_TEXT = Messages
-			.getString( "disablebidi.checkbox" );//$NON-NLS-1$
+
+	public final static String ADVANCED_DIALOG_TITLE = Messages.getString( "advancedbididialog.title" ); //$NON-NLS-1$
+	public final static String ADVANCED_DIALOG_MSG = Messages.getString( "advancedbididialog.msg" ); //$NON-NLS-1$
+	final private static String DISABLE_BIDI_CHECKBOX_TEXT = Messages.getString( "disablebidi.checkbox.label" );//$NON-NLS-1$
 
 	private Group bidiMetadataFormatFrame, bidiContentFormatFrame;
 	private Object parentDialog;
@@ -61,26 +55,35 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 
 	public AdvancedBidiDialog( Object parentDialog )
 	{
-		this( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ), parentDialog);
+		this( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
+				parentDialog );
 	}
 
-	public AdvancedBidiDialog( Shell parentShell, Object parentDialog)
+	public AdvancedBidiDialog( Shell parentShell, Object parentDialog )
 	{
 		super( parentShell );
 		this.parentDialog = parentDialog;
-		if (parentDialog instanceof BidiSettingsSupport){
-			this.contentBidiFormat = ((BidiSettingsSupport)parentDialog).getContentBidiFormat();
-			this.metadataBidiFormat = ((BidiSettingsSupport)parentDialog).getMetadataBidiFormat();
-			this.disabledContentBidiFormat = ((BidiSettingsSupport)parentDialog).getDdisabledContentBidiFormat();
-			this.disabledMetadataBidiFormat = ((BidiSettingsSupport)parentDialog).getDdisabledMetadataBidiFormat();
+		if ( parentDialog instanceof BidiSettingsSupport )
+		{
+			this.contentBidiFormat = ( (BidiSettingsSupport) parentDialog ).getContentBidiFormat( );
+			this.metadataBidiFormat = ( (BidiSettingsSupport) parentDialog ).getMetadataBidiFormat( );
+			this.disabledContentBidiFormat = ( (BidiSettingsSupport) parentDialog ).getDdisabledContentBidiFormat( );
+			this.disabledMetadataBidiFormat = ( (BidiSettingsSupport) parentDialog ).getDdisabledMetadataBidiFormat( );
 		}
-		
+
+	}
+
+	protected boolean isResizable( )
+	{
+		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -95,28 +98,33 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 
 		applyDialogFont( contents );
 		initializeDialogUnits( area );
-		if (disabledContentBidiFormat != null 
-			&& disabledMetadataBidiFormat != null 
-			&& ! BidiConstants.EMPTY_STR.equals(disabledContentBidiFormat)
-			&& !BidiConstants.EMPTY_STR.equals(disabledMetadataBidiFormat)){
+		if ( disabledContentBidiFormat != null
+				&& disabledMetadataBidiFormat != null
+				&& !BidiConstants.EMPTY_STR.equals( disabledContentBidiFormat )
+				&& !BidiConstants.EMPTY_STR.equals( disabledMetadataBidiFormat ) )
+		{
 			disableTransform = true;
 		}
-		 
-		Composite bidiArea = new Composite(area, SWT.NONE);
-		GridLayout bidiGridLayout = new GridLayout();
+
+		Composite bidiArea = new Composite( area, SWT.NONE );
+		GridLayout bidiGridLayout = new GridLayout( );
 		bidiGridLayout.numColumns = 4;
 		bidiGridLayout.marginHeight = 10;
 		bidiGridLayout.marginWidth = 5;
 		bidiGridLayout.horizontalSpacing = 5;
 		bidiGridLayout.verticalSpacing = 10;
 		bidiGridLayout.makeColumnsEqualWidth = true;
-		bidiArea.setLayout(bidiGridLayout);
-		
-		bidiMetadataFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame(
-			bidiArea, EXTERNAL_SYSTEM_METADATA_BIDI_FORMAT, disableTransform ? disabledMetadataBidiFormat : metadataBidiFormat );
-		
-		bidiContentFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame(
-				bidiArea, EXTERNAL_SYSTEM_CONTENT_BIDI_FORMAT, disableTransform ? disabledContentBidiFormat : contentBidiFormat );
+		bidiArea.setLayout( bidiGridLayout );
+
+		bidiMetadataFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame( bidiArea,
+				BidiGUIUtility.EXTERNAL_SYSTEM_METADATA_SETTING,
+				disableTransform ? disabledMetadataBidiFormat
+						: metadataBidiFormat );
+
+		bidiContentFormatFrame = BidiGUIUtility.INSTANCE.addBiDiFormatFrame( bidiArea,
+				BidiGUIUtility.EXTERNAL_SYSTEM_CONTENT_SETTING,
+				disableTransform ? disabledContentBidiFormat
+						: contentBidiFormat );
 
 		disableTransformButton = new Button( bidiArea, SWT.CHECK );
 		disableTransformButton.setText( DISABLE_BIDI_CHECKBOX_TEXT );
@@ -126,8 +134,7 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 		{
 			handleDisableTransform( );
 		}
-		disableTransformButton.addSelectionListener( new SelectionAdapter( )
-		{
+		disableTransformButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -151,32 +158,33 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 	{
 		if ( !disableTransform )
 		{
-			metadataBidiFormat = BidiGUIUtility.INSTANCE
-					.getBiDiFormat( bidiMetadataFormatFrame );
-			contentBidiFormat = BidiGUIUtility.INSTANCE
-					.getBiDiFormat( bidiContentFormatFrame );
+			metadataBidiFormat = BidiGUIUtility.INSTANCE.getBiDiFormat( bidiMetadataFormatFrame );
+			contentBidiFormat = BidiGUIUtility.INSTANCE.getBiDiFormat( bidiContentFormatFrame );
 			disabledContentBidiFormat = disabledMetadataBidiFormat = null;
 		}
 		else
 		{
-			disabledMetadataBidiFormat = BidiGUIUtility.INSTANCE
-					.getBiDiFormat( bidiMetadataFormatFrame );
-			disabledContentBidiFormat = BidiGUIUtility.INSTANCE
-					.getBiDiFormat( bidiContentFormatFrame );
-			metadataBidiFormat = new BidiFormat(
-					BidiConstants.DEFAULT_BIDI_FORMAT_STR );
-			contentBidiFormat = new BidiFormat(
-					BidiConstants.DEFAULT_BIDI_FORMAT_STR );
+			disabledMetadataBidiFormat = BidiGUIUtility.INSTANCE.getBiDiFormat( bidiMetadataFormatFrame );
+			disabledContentBidiFormat = BidiGUIUtility.INSTANCE.getBiDiFormat( bidiContentFormatFrame );
+			metadataBidiFormat = new BidiFormat( BidiConstants.DEFAULT_BIDI_FORMAT_STR );
+			contentBidiFormat = new BidiFormat( BidiConstants.DEFAULT_BIDI_FORMAT_STR );
 		}
 
-		if (parentDialog instanceof BidiSettingsSupport){
-			((BidiSettingsSupport)parentDialog).setBidiFormats( metadataBidiFormat, contentBidiFormat, disabledMetadataBidiFormat, disabledContentBidiFormat );
+		if ( parentDialog instanceof BidiSettingsSupport )
+		{
+			( (BidiSettingsSupport) parentDialog ).setBidiFormats( metadataBidiFormat,
+					contentBidiFormat,
+					disabledMetadataBidiFormat,
+					disabledContentBidiFormat );
 		}
 		super.okPressed( );
 	}
-	public boolean close( ){
-		return super.close();
+
+	public boolean close( )
+	{
+		return super.close( );
 	}
+
 	public int open( )
 	{
 		try
@@ -197,41 +205,43 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 	private void handleDisableTransform( )
 	{
 		Control[] children = bidiContentFormatFrame.getChildren( );
-		//bidi_acgc added start
-		Control[] childrenArabicSpecific = null; 
+		// bidi_acgc added start
+		Control[] childrenArabicSpecific = null;
 		Group arabicGroup = null;
-		//bidi_acgc added end
+		// bidi_acgc added end
 		for ( int i = 0; i < children.length; i++ )
 		{
-		 children[i].setEnabled( !disableTransform );
-		 //bidi_acgc added start
-		  if(children[i] instanceof Group){
-			arabicGroup = (Group)children[i];
-			childrenArabicSpecific= arabicGroup.getChildren();
-			for (int j = 0; j<childrenArabicSpecific.length;j++)
-			 {
-			  childrenArabicSpecific[j].setEnabled( !disableTransform );	
-			 }
-		   }
-		 //bidi_acgc added end
-	    }
+			children[i].setEnabled( !disableTransform );
+			// bidi_acgc added start
+			if ( children[i] instanceof Group )
+			{
+				arabicGroup = (Group) children[i];
+				childrenArabicSpecific = arabicGroup.getChildren( );
+				for ( int j = 0; j < childrenArabicSpecific.length; j++ )
+				{
+					childrenArabicSpecific[j].setEnabled( !disableTransform );
+				}
+			}
+			// bidi_acgc added end
+		}
 
 		children = bidiMetadataFormatFrame.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
 			children[i].setEnabled( !disableTransform );
-			//bidi_acgc added start
-			if(children[i] instanceof Group){
-			arabicGroup = (Group)children[i];
-			childrenArabicSpecific = arabicGroup.getChildren();
-			for (int j = 0; j<childrenArabicSpecific.length;j++)
+			// bidi_acgc added start
+			if ( children[i] instanceof Group )
 			{
-			childrenArabicSpecific[j].setEnabled( !disableTransform );	
+				arabicGroup = (Group) children[i];
+				childrenArabicSpecific = arabicGroup.getChildren( );
+				for ( int j = 0; j < childrenArabicSpecific.length; j++ )
+				{
+					childrenArabicSpecific[j].setEnabled( !disableTransform );
+				}
+
 			}
-				
-		  }
-			//bidi_acgc added end
-	    }
+			// bidi_acgc added end
+		}
 	}
 
 }
