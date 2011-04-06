@@ -85,6 +85,7 @@ public class DataSourceSelectionPage extends WizardPage
 	private transient DataSourceDesignSession m_designSession = null;
 	private transient DesignElementHandle parentHandle = null;
 	private transient SlotHandle slotHandle = null;
+	private String dsName = null;
 	
 	private static final String EMPTY_NAME = Messages.getString( "error.DataSource.emptyName" );//$NON-NLS-1$
 	private static final String DUPLICATE_NAME = Messages.getString( "error.duplicateName" );//$NON-NLS-1$
@@ -210,6 +211,7 @@ public class DataSourceSelectionPage extends WizardPage
 			dataSourceName.setText( Utility.getUniqueDataSourceName( Messages.getString( "datasource.new.defaultName" ) ) ); //$NON-NLS-1$
 		}
 		
+		dsName = dataSourceName.getText( ).trim( );		
 		
 		layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		dataSourceName.setLayoutData( layoutData );
@@ -219,6 +221,7 @@ public class DataSourceSelectionPage extends WizardPage
 
 			public void modifyText( ModifyEvent e )
 			{
+				dsName = dataSourceName.getText( ).trim( );
 
 				if ( StringUtil.isBlank( dataSourceName.getText( ).trim( ) ) )
 				{// name is empty
@@ -437,13 +440,13 @@ public class DataSourceSelectionPage extends WizardPage
 		{
 			if ( m_designSession == null )
 				m_designSession = DataSourceDesignSession.startNewDesign( dataSourceElementID,
-						dataSourceName.getText( ),
+						dsName,
 						null,
 						request );
 			else
 				// preserve user edits on custom wizard page, if appropriate
 				m_designSession.restartNewDesign( dataSourceElementID,
-						dataSourceName.getText( ),
+						dsName,
 						null,
 						request );
 			m_designSession.setUseProfileSelectionPage( false );
@@ -503,7 +506,7 @@ public class DataSourceSelectionPage extends WizardPage
 			{
 				// Create the data source and set the selected name
 				connectionWizard.getDataSource( )
-						.setName( dataSourceName.getText( ) );
+						.setName( dsName );
 				return connectionWizard.getStartingPage( );
 			}
 			catch ( NameException e )
@@ -635,12 +638,12 @@ public class DataSourceSelectionPage extends WizardPage
 			Class classType = ScriptDataSourceHandle.class;
 
 			dsHandle = helper.createDataSource( classType,
-					dataSourceName.getText( ),
+					dsName,
 					driverName );
 		}
 		else
 		{
-			dsHandle = helper.createNoneOdaDataSourceHandle( dataSourceName.getText( ),
+			dsHandle = helper.createNoneOdaDataSourceHandle( dsName,
 					prevSelectedDataSourceType );
 		}
 		if( dsHandle == null )
@@ -721,7 +724,7 @@ public class DataSourceSelectionPage extends WizardPage
 		try
 		{
 			DataSourceHandle dsHandle = helper.createDataSource( classType,
-					dataSourceName.getText( ),
+					dsName,
 					driverName );
 			slotHandle.add( dsHandle );
 
