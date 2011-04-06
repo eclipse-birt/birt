@@ -16,6 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withoutaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
@@ -63,6 +65,9 @@ import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.script.AbstractScriptHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.ChartUtil.CacheDateFormat;
+import org.eclipse.birt.chart.util.ChartUtil.CacheDecimalFormat;
 import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
@@ -100,7 +105,10 @@ public class Radar extends BaseRenderer
 	private double axisMin = Double.MAX_VALUE;
 	private double axisMax = Double.MIN_VALUE;
 	private boolean autoscale = false;
-
+	
+	private CacheDecimalFormat dfNumericFormatCache = null;
+	private CacheDateFormat dfDateFormatCache = null;
+	
 	double getAxisMin( )
 	{
 		if ( autoscale )
@@ -704,6 +712,37 @@ public class Radar extends BaseRenderer
 		}
 	}
 
+	private Object getCategoryDefaultFormat( Object value ) throws ChartException
+	{
+		if ( value instanceof Number )
+		{
+			if ( dfNumericFormatCache == null )
+			{
+				dfNumericFormatCache = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
+			}
+			return dfNumericFormatCache.get( ValueFormatter.getNumericPattern( (Number) value ) );
+		}
+
+		DataSetIterator categoryDSI = new DataSetIterator( ( (ChartWithoutAxes) getModel( ) ).getSeriesDefinitions( )
+				.get( 0 )
+				.getRunTimeSeries( )
+				.get( 0 )
+				.getDataSet( ) );
+		int iDateTimeUnit = ChartUtil.computeDateTimeCategoryUnit( getModel( ),
+				categoryDSI );
+
+		if ( iDateTimeUnit != IConstants.UNDEFINED )
+		{
+			if ( dfDateFormatCache == null )
+			{
+				dfDateFormatCache = new ChartUtil.CacheDateFormat( rtc.getULocale( ) );
+			}
+			return dfDateFormatCache.get( iDateTimeUnit );
+		}
+
+		return null;
+	}
+	
 	private final void drawAxisRadialLabel( IDeviceRenderer idr,
 			PolarCoordinate pc, Location lo, int cindex, Object lab )
 			throws ChartException
@@ -724,21 +763,14 @@ public class Radar extends BaseRenderer
 		{
 			lab = "null"; //$NON-NLS-1$
 		}
-		if ( getFirstSeries( ).getCatLabelFormatSpecifier( ) != null )
-		{
-			FormatSpecifier fs = getFirstSeries( ).getCatLabelFormatSpecifier( );
-
-			String catlabel = ValueFormatter.format( lab,
-					fs,
-					rtc.getULocale( ),
-					null );
-			la.getCaption( ).setValue( catlabel );
-
-		}
-		else
-		{
-			la.getCaption( ).setValue( lab.toString( ) );
-		}
+		
+		FormatSpecifier fs = getFirstSeries( ).getCatLabelFormatSpecifier( );
+		Object defaultFormat = getCategoryDefaultFormat( lab );
+		String catlabel = ValueFormatter.format( lab,
+				fs,
+				rtc.getULocale( ),
+				defaultFormat );
+		la.getCaption( ).setValue( catlabel );
 
 		Location loLabel = lo.copyInstance( );
 
