@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.InstanceID;
@@ -475,8 +476,93 @@ public class TableArea extends RepeatableArea
 		}
 		layout.clear( );
 		setUnresolvedRow = false;
+		
+		/***
+		 * 1. collect all rows
+		 * 2. use nextRowId to collect all rows little than the rowId
+		 * 3. udpate the rowSpan in collection 2
+		 * 4. add all rows to layout
+		 */
+		
+		List<RowArea> rows = new ArrayList<RowArea>( );
+		collectRows( this, layout, rows );
+		int rowCount = getRowCountNeedResolved( rows, nextRowId );
+		if ( rowCount > 0 && unresolvedRow != null )
+		{
+			for ( int i = 0; i < rowCount; i++ )
+			{
+				resolveRowSpan( rows.get( i ), unresolvedRow, rowCount - i );
+			}
+		}
+		else
+		{
+			setUnresolvedRow( );
+		}
 		addRows( this, layout, nextRowId );
-		setUnresolvedRow( );
+		
+	}
+	
+	protected void resolveRowSpan(RowArea row, RowArea unresolvedRow, int rowCount)
+	{
+		for ( int i = startCol; i <= endCol; i++ )
+		{
+			CellArea cell = row.getCell( i );
+			CellArea uCell = unresolvedRow.getCell( i );
+			if ( cell != null && uCell != null )
+			{
+				int rowSpan = 0;
+				if ( unresolvedRow.finished )
+				{
+					rowSpan = uCell.getRowSpan( ) + rowCount  - 1;
+				}
+				else
+				{
+					rowSpan = uCell.getRowSpan( ) + rowCount ;
+				}
+				if ( rowSpan < cell.getRowSpan( ) )
+				{
+					cell.setRowSpan( rowSpan );
+				}
+				i = i + cell.getColSpan( );
+			}
+		}
+	}
+	
+	protected int getRowCountNeedResolved( List<RowArea> rows, String rowId )
+	{
+		for ( int i = 0; i < rows.size( ); i++ )
+		{
+			RowArea row = rows.get( i );
+			InstanceID id = row.getContent( ).getInstanceID( );
+			if ( rowId != null && id != null
+					&& rowId.equals( id.toUniqueString( ) ) )
+			{
+				return i ;
+			}
+		}
+		return rows.size( );
+
+	}
+	
+	protected void collectRows(ContainerArea container, TableLayout layout, List<RowArea> rows)
+	{
+		if ( container instanceof RowArea )
+		{
+			RowArea row = (RowArea) container;
+			if ( row.finished )
+			{
+				rows.add( row );
+			}
+		}
+		else
+		{
+			int size = container.getChildrenCount( );
+			for ( int i = 0; i < size; i++ )
+			{
+				ContainerArea child = (ContainerArea) container.getChild( i );
+				collectRows( child, layout, rows );
+			}
+		}
 	}
 		
 	protected void addRows( ContainerArea container, TableLayout layout, String rowId)
@@ -485,12 +571,6 @@ public class TableArea extends RepeatableArea
 		if ( container instanceof RowArea )
 		{
 			RowArea row = (RowArea) container;
-			InstanceID id = row.getContent( ).getInstanceID( );
-			if ( rowId != null && id != null
-					&& rowId.equals( id.toUniqueString( ) ) )
-			{
-				setUnresolvedRow( );
-			}
 
 			if ( row.needResolveBorder )
 			{
