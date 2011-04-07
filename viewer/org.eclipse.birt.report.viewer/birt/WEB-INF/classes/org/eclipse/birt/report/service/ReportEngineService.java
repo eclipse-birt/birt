@@ -28,8 +28,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.Map.Entry;
+import java.util.TimeZone;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
@@ -661,7 +661,7 @@ public class ReportEngineService
 			servletPath = IBirtConstants.SERVLET_PATH_RUN;
 		}
 		renderOption.setOption( IBirtConstants.SERVLET_PATH, servletPath );
-		renderOption.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$
+		renderOption.setSupportedImageFormats( "PNG;GIF;JPG;BMP;SVG" ); //$NON-NLS-1$
 
 		// page overflow setting
 		switch ( pageOverflow )
