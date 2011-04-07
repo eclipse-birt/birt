@@ -142,7 +142,7 @@ public class ResultSetColumnPage extends Composite
 	protected static String COLUMN_DISPLAY_NAME = Messages.getString( "dataset.editor.title.displayName" ); //$NON-NLS-1$
 	protected static String COLUMN_DISPLAY_NAME_KEY = Messages.getString( "dataset.editor.title.displayNameKey" ); //$NON-NLS-1$
 
-	protected ArrayList columnList = new ArrayList( );
+	protected ArrayList<ResultSetColumnModel> columnList = new ArrayList<ResultSetColumnModel>( );
 	protected ArrayList listenerList = new ArrayList( );
 
 	protected IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
