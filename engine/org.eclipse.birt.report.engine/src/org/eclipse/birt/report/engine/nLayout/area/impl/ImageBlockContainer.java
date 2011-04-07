@@ -44,6 +44,7 @@ public class ImageBlockContainer extends BlockContainerArea
 		else
 		{
 			buildProperties( content, context );
+			pageBreakInside = IStyle.AVOID_VALUE;
 		}
 		
 
