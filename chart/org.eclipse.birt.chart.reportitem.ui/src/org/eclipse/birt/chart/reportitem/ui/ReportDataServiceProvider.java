@@ -203,32 +203,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		project = UIUtil.getCurrentProject( );
 	}
 	
-	private URL[] getDesignWorkspaceClasspath()
+	private String[] getDesignWorkspaceClasspath()
 	{
 		IReportClasspathResolver provider = ReportPlugin.getDefault( )
 				.getReportClasspathResolverService( );
 		if ( provider != null )
 		{
 			String designPath = ( (ReportDesignHandle) itemHandle.getModuleHandle( ) ).getFileName( );
-			String[] classpaths = provider.resolveClasspath( designPath );
-
-			if ( classpaths != null )
-			{
-				List<URL> list = new ArrayList<URL>( );
-				for ( String path : classpaths )
-				{
-					try
-					{
-						
-						list.add( new File( path ).toURI( ).toURL( ) );
-					}
-					catch ( MalformedURLException e )
-					{
-						// do nothing
-					}
-				}
-				return list.toArray( new URL[list.size( )] );
-			}
+			return provider.resolveClasspath( designPath );
 		}
 
 		return null;
@@ -246,16 +228,25 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( isReportDesignHandle( ) )
 			{
 				EngineConfig config = new EngineConfig( );
-				HashMap<Object, Object> appContext = new HashMap<Object, Object>( );
-				ClassLoader cl = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
-
-					public ClassLoader run( )
+				String[] paths = getDesignWorkspaceClasspath( );
+				if ( paths != null && paths.length > 0 )
+				{
+					StringBuffer buffer = new StringBuffer( );
+					for ( String path : paths )
 					{
-						return new URLClassLoader( getDesignWorkspaceClasspath( ) );
+						if ( buffer.length( ) > 0 )
+						{
+							buffer.append( ';' );
+						}
+						buffer.append( path );
 					}
-				} );
-				appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, cl );
-				config.setAppContext( appContext );
+					if ( buffer.length( ) != 0 )
+					{
+						HashMap<Object, Object> appContext = config.getAppContext( );
+						appContext.put( EngineConstants.PROJECT_CLASSPATH_KEY,
+								buffer.toString( ) );
+					}
+				}
 				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
 				engineTask = new ChartDummyEngineTask( engine,
