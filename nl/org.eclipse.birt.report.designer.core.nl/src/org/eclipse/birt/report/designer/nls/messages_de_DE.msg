@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL ist Null, Konvertierung in Datei nich
 ResourceAction.FileRemoveFailure=Fehler beim Entfernen von Datei(en).
 LibraryNotExist.Dialog.Title=Bibliothek öffnen
 LibraryNotExist.Dialog.Message=Die Bibliothek existiert nicht. Möchten Sie den Ressourcen-Explorer aktualisieren? 
-DesignerNotExist.Dialog.Title=Open Report Design
-DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=Berichtdesigner öffnen
+DesignerNotExist.Dialog.Message=Der Designer existiert nicht. Möchten Sie den Ressourcen-Explorer aktualisieren? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filter...
@@ -2603,7 +2603,7 @@ MasterPageGenerator.List.Margins=Seitenrand
 
 ###########################################################
 #MasterPageGeneralPage properties
-MasterPageGeneralPage.Trans.SetType=Set Type
+MasterPageGeneralPage.Trans.SetType=Typ festlegen
 
 ###########################################################
 #MasterPagePaletteFactory properties
@@ -3439,7 +3439,7 @@ ResourceKeyDescriptor.text.Reset.Alt=Zurücks&etzen:
 ResourceKeyDescriptor.title.SelectKey=Schlüssel auswählen
 ResourceKeyDescriptor.button.reset.tooltip=Schlüssel zurücksetzen
 ResourceKeyDescriptor.button.browse.tooltip=Durchsuchen und Schlüssel auswählen
-ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
+ResourceKey.invalid.containSpace=Ungültiger Anzeigenameschlüssel. Es dürfen keine eingebetteten Leerzeichen enthalten sein.
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4497,7 +4497,7 @@ TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select a sample report from the categories
+SampleReportsView.defautDescription=Wählen Sie aus den Kategorien einen Beispielbericht aus.
 SampleReportsView.Text.Explorer=Beispielberichte
 SampleReportsView.Text.Preview=Vorschau
 SampleReportsView.Text.Description=Beschreibung

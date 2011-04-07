@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=La URL es nula, no se puede convertir a u
 ResourceAction.FileRemoveFailure=Error al eliminar archivos.
 LibraryNotExist.Dialog.Title=Abrir librería
 LibraryNotExist.Dialog.Message=La librería no existe, ¿desea actualizar el explorador de recursos? 
-DesignerNotExist.Dialog.Title=Open Report Design
-DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=Abrir diseñador de informes
+DesignerNotExist.Dialog.Message=El diseñador no existe, ¿desea actualizar el explorador de recursos? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filtrar...
@@ -2603,7 +2603,7 @@ MasterPageGenerator.List.Margins=Margen
 
 ###########################################################
 #MasterPageGeneralPage properties
-MasterPageGeneralPage.Trans.SetType=Set Type
+MasterPageGeneralPage.Trans.SetType=Tipo de conjunto
 
 ###########################################################
 #MasterPagePaletteFactory properties
@@ -3439,7 +3439,7 @@ ResourceKeyDescriptor.text.Reset.Alt=R&establecer
 ResourceKeyDescriptor.title.SelectKey=Seleccionar clave
 ResourceKeyDescriptor.button.reset.tooltip=Reiniciar la clave
 ResourceKeyDescriptor.button.browse.tooltip=Examinar y seleccionar una clave
-ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
+ResourceKey.invalid.containSpace=Clave de nombre en pantalla no válida, no debe contener ningún espacio en blanco incrustado
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4497,7 +4497,7 @@ TabbedPropertyList.properties.not.available=Las propiedades no están disponibles
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select a sample report from the categories
+SampleReportsView.defautDescription=Seleccione un informe de muestra entre las categorías
 SampleReportsView.Text.Explorer=Informes de muestras
 SampleReportsView.Text.Preview=Vista previa
 SampleReportsView.Text.Description=Descripción

@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL ‚ª NULL ‚È‚Ì‚ÅAƒtƒ@ƒCƒ‹‚É•ÏŠ·‚Å‚«‚Ü‚
 ResourceAction.FileRemoveFailure=ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B
 LibraryNotExist.Dialog.Title=ƒ‰ƒCƒuƒ‰ƒŠ‚ğŠJ‚­
 LibraryNotExist.Dialog.Message=ƒ‰ƒCƒuƒ‰ƒŠ‚ª‘¶İ‚µ‚Ü‚¹‚ñBƒŠƒ\[ƒXƒGƒNƒXƒvƒ[ƒ‰‚ğƒŠƒtƒŒƒbƒVƒ…‚µ‚Ü‚·‚© ? 
-DesignerNotExist.Dialog.Title=Open Report Design
-DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=ƒŒƒ|[ƒgƒfƒUƒCƒi‚ğŠJ‚­
+DesignerNotExist.Dialog.Message=ƒfƒUƒCƒi‚ª‘¶İ‚µ‚Ü‚¹‚ñBƒŠƒ\[ƒXƒGƒNƒXƒvƒ[ƒ‰‚ğXV‚µ‚Ü‚·‚© ? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=ƒtƒBƒ‹ƒ^...
@@ -2603,7 +2603,7 @@ MasterPageGenerator.List.Margins=—]”’
 
 ###########################################################
 #MasterPageGeneralPage properties
-MasterPageGeneralPage.Trans.SetType=Set Type
+MasterPageGeneralPage.Trans.SetType=Œ^‚Ìİ’è
 
 ###########################################################
 #MasterPagePaletteFactory properties
@@ -3439,7 +3439,7 @@ ResourceKeyDescriptor.text.Reset.Alt=ƒŠƒZƒbƒg(&E)
 ResourceKeyDescriptor.title.SelectKey=ƒL[‚Ì‘I‘ğ
 ResourceKeyDescriptor.button.reset.tooltip=ƒL[‚ÌƒŠƒZƒbƒg
 ResourceKeyDescriptor.button.browse.tooltip=QÆ‚µ‚ÄƒL[‚ğ‘I‘ğ
-ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
+ResourceKey.invalid.containSpace=•\¦–¼ƒL[‚ª–³Œø‚Å‚·B–„‚ß‚İƒXƒy[ƒX‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4497,7 +4497,7 @@ TabbedPropertyList.properties.not.available=ƒvƒƒpƒeƒB‚ª‚ ‚è‚Ü‚¹‚ñB
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select a sample report from the categories
+SampleReportsView.defautDescription=ƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ğƒJƒeƒSƒŠ‚©‚ç‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 SampleReportsView.Text.Explorer=ƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg
 SampleReportsView.Text.Preview=ƒvƒŒƒrƒ…[
 SampleReportsView.Text.Description=à–¾

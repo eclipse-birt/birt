@@ -3,8 +3,8 @@
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Ver informe
 designer.preview.previewcascadingmenugroup.label=Ver &Informe
-document.preview.previewtoolbarmenuaction.label=View Document
-document.preview.previewmenugroup.label=View &Document
+document.preview.previewtoolbarmenuaction.label=Ver documento
+document.preview.previewmenugroup.label=Ver &documento
 ActionSet.Preview=Vista previa
 Action.GenDocument=Generar &documento
 

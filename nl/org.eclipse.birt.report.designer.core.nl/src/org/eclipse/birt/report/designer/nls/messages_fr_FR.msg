@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=L'URL est nulle et ne peut pas être conve
 ResourceAction.FileRemoveFailure=Echec de suppression des fichiers.
 LibraryNotExist.Dialog.Title=Ouvrir la bibliothèque
 LibraryNotExist.Dialog.Message=La bibliothèque n'existe pas. Voulez-vous actualiser l'Explorateur de ressources? 
-DesignerNotExist.Dialog.Title=Open Report Design
-DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=Ouvrir le concepteur d'états
+DesignerNotExist.Dialog.Message=Le concepteur n'existe pas. Voulez-vous actualiser l'Explorateur de ressources ? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filtre...
@@ -2603,7 +2603,7 @@ MasterPageGenerator.List.Margins=Marge
 
 ###########################################################
 #MasterPageGeneralPage properties
-MasterPageGeneralPage.Trans.SetType=Set Type
+MasterPageGeneralPage.Trans.SetType=Définir le type
 
 ###########################################################
 #MasterPagePaletteFactory properties
@@ -3439,7 +3439,7 @@ ResourceKeyDescriptor.text.Reset.Alt=R&éinitialiser
 ResourceKeyDescriptor.title.SelectKey=Sélectionner la clé
 ResourceKeyDescriptor.button.reset.tooltip=Réinitialiser la clé
 ResourceKeyDescriptor.button.browse.tooltip=Parcourir et sélectionner une clé
-ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
+ResourceKey.invalid.containSpace=Clé de nom d'affichage invalide, car elle ne doit contenir aucun espace intercalé
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4497,7 +4497,7 @@ TabbedPropertyList.properties.not.available=Les propriétés ne sont pas disponibl
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select a sample report from the categories
+SampleReportsView.defautDescription=Sélectionnez un exemple d'état dans les catégories
 SampleReportsView.Text.Explorer=Exemples d'états
 SampleReportsView.Text.Preview=Aperçu
 SampleReportsView.Text.Description=Description

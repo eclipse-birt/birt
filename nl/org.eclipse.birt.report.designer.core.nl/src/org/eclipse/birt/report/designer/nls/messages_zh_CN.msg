@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL 为空，无法转换成文件。
 ResourceAction.FileRemoveFailure=文件删除失败。
 LibraryNotExist.Dialog.Title=打开库
 LibraryNotExist.Dialog.Message=库不存在，要刷新资源管理器吗? 
-DesignerNotExist.Dialog.Title=Open Report Design
-DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=打开报表设计器
+DesignerNotExist.Dialog.Message=设计器不存在，要刷新资源管理器吗? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=筛选...
@@ -2603,7 +2603,7 @@ MasterPageGenerator.List.Margins=边距
 
 ###########################################################
 #MasterPageGeneralPage properties
-MasterPageGeneralPage.Trans.SetType=Set Type
+MasterPageGeneralPage.Trans.SetType=集类型
 
 ###########################################################
 #MasterPagePaletteFactory properties
@@ -3439,7 +3439,7 @@ ResourceKeyDescriptor.text.Reset.Alt=重置(&E)
 ResourceKeyDescriptor.title.SelectKey=选择关键字
 ResourceKeyDescriptor.button.reset.tooltip=重置按键
 ResourceKeyDescriptor.button.browse.tooltip=浏览和选择按键
-ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
+ResourceKey.invalid.containSpace=显示名称关键字无效，它不应包含任何嵌入空格
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4497,7 +4497,7 @@ TabbedPropertyList.properties.not.available=属性不可用。
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select a sample report from the categories
+SampleReportsView.defautDescription=请从类别中选择一个示例报表
 SampleReportsView.Text.Explorer=示例报表
 SampleReportsView.Text.Preview=预览
 SampleReportsView.Text.Description=说明

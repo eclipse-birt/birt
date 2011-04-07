@@ -3,8 +3,8 @@
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=レポートの表示
 designer.preview.previewcascadingmenugroup.label=レポートの表示(&R)
-document.preview.previewtoolbarmenuaction.label=View Document
-document.preview.previewmenugroup.label=View &Document
+document.preview.previewtoolbarmenuaction.label=文書の表示
+document.preview.previewmenugroup.label=文書の表示(&D)
 ActionSet.Preview=プレビュー
 Action.GenDocument=文書の生成(&D)
 

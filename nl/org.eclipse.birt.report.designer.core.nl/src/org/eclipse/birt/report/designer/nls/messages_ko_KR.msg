@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=URL이 널(null)이므로 파일로 변환할 수 없�
 ResourceAction.FileRemoveFailure=파일 제거에 실패했습니다.
 LibraryNotExist.Dialog.Title=라이브러리 열기
 LibraryNotExist.Dialog.Message=라이브러리가 없습니다. 리소스 탐색기를 새로 고치시겠습니까? 
-DesignerNotExist.Dialog.Title=Open Report Design
-DesignerNotExist.Dialog.Message=The report design does not exist, would you like to refresh Resource Explorer? 
+DesignerNotExist.Dialog.Title=보고서 디자이너 열기
+DesignerNotExist.Dialog.Message=디자이너가 없습니다. 리소스 탐색기를 새로 고치시겠습니까? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=필터...
@@ -2603,7 +2603,7 @@ MasterPageGenerator.List.Margins=여백
 
 ###########################################################
 #MasterPageGeneralPage properties
-MasterPageGeneralPage.Trans.SetType=Set Type
+MasterPageGeneralPage.Trans.SetType=집합 형식
 
 ###########################################################
 #MasterPagePaletteFactory properties
@@ -3439,7 +3439,7 @@ ResourceKeyDescriptor.text.Reset.Alt=재설정(&E)
 ResourceKeyDescriptor.title.SelectKey=키 선택
 ResourceKeyDescriptor.button.reset.tooltip=키를 재설정합니다.
 ResourceKeyDescriptor.button.browse.tooltip=키를 찾아보고 선택합니다.
-ResourceKey.invalid.containSpace=Invalid display name key, it shouldn't contain any embedded white space
+ResourceKey.invalid.containSpace=잘못된 표시 이름 키입니다. 표시 이름 키에 포함된 공백이 있으면 안 됩니다.
 ###########################################################
 #RevertToReportItemAction properties
 
@@ -4497,7 +4497,7 @@ TabbedPropertyList.properties.not.available=속성은 사용할 수 없습니다.
 
 ###########################################################
 #Sample Reports View properties
-SampleReportsView.defautDescription=Please select a sample report from the categories
+SampleReportsView.defautDescription=범주에서 샘플 보고서를 선택하십시오.
 SampleReportsView.Text.Explorer=샘플 보고서
 SampleReportsView.Text.Preview=미리 보기
 SampleReportsView.Text.Description=설명
