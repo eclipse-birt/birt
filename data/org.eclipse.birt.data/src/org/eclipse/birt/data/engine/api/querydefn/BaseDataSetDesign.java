@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 import com.ibm.icu.util.ULocale;
@@ -62,6 +63,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	private String nullOrdering;
 	private ULocale uLocale;
     
+	List sortHints = null;
     
 	/**
 	 * Instantiates a data set with given name.
@@ -184,6 +186,30 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	{
 	    if ( filter != null )
 	        getFilters().add( filter );
+	}
+	
+	/**
+	 * Get sort hints defined.
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getSortHints()
+	 */
+	public List getSortHints( )
+	{
+	    if ( sortHints == null )
+	    	sortHints = new ArrayList();
+	    return sortHints;
+	}
+	
+	/**
+	 * Add a sort ordering to sort hints.<p>
+	 * Ignore when sort hint is <code>NULL</code>.
+	 * 
+	 * @param sortHint Reference to <code>ISortDefinition</code>
+	 */
+	public void addSortHint( ISortDefinition sortHint )
+	{
+		if ( sortHint != null )
+			getSortHints().add( sortHint );
 	}
     
     /**

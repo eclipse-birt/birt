@@ -511,6 +511,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 						dataType) );
 
 			}
+			optimizeGroupSorting( groupSpecs );
 			odiQuery.setGrouping( Arrays.asList( groupSpecs ) );
 		}
 	}
@@ -607,11 +608,192 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private void populateSorting( ) throws DataException
 	{
-		List sorts = this.baseQueryDefn.getSorts( );
+		if ( new SortHintsMather( dataSet.getSortHints( ) ).match( baseQueryDefn.getSorts( ),
+				new SortDefnMatchInfo( ) ) )
+			return;
+
+		populateQuerySorting( );
+	}
+	
+	private void optimizeGroupSorting( IQuery.GroupSpec[] groupSpecs )
+	{
+		if ( new SortHintsMather( dataSet.getSortHints( ) ).match( baseQueryDefn.getGroups( ),
+				new GroupSpecMatchInfo( ) ) )
+		{
+			for ( int i = 0; i < groupSpecs.length; i++ )
+			{
+				IQuery.GroupSpec spec = groupSpecs[i];
+				spec.setSortDirection( IGroupDefinition.NO_SORT );
+			}
+		}
+	}
+	
+	class SortHintsMather
+	{
+		private List<?> hints = null;
+		private MatchInfo hInfo = null;
+		private int pos = 0;
+
+		public SortHintsMather( List<?> sortHints )
+		{
+			this.hints = sortHints;
+			hInfo = new SortHintMatchInfo( );
+		}
+
+		public boolean match( List<?> sorts, MatchInfo util )
+		{
+			int j = 0;
+			
+			if ( hints == null || hints.size( ) == 0 )
+				return false;
+
+			for ( ; pos < hints.size( ) && j < sorts.size( ); )
+			{
+				String hKey = hInfo.getKey( hints.get( pos ) );
+				int hDirection = hInfo.getDirection( hints.get( pos ) );
+				String mKey = util.getKey( sorts.get( j ) );
+				int mDirection = util.getDirection( sorts.get( j ) );
+
+				if ( hKey != null
+						&& mKey != null && hKey.equals( mKey )
+						&& hDirection == mDirection )
+				{
+					pos++;
+					j++;
+				}
+				else
+				{
+					pos++;
+				}
+			}
+
+			// For sortHints and sorting definitions:
+			// 1. SortHints contains all sorts conditions.
+			// 2. Sorts sequence match sortHints.
+			if ( j == sorts.size( ) )
+				return true;
+
+			return false;
+		}
+	}
+	
+	interface MatchInfo
+	{
+
+		public String getKey( Object o );
+
+		public int getDirection( Object o );
+	}
+
+	class SortHintMatchInfo implements MatchInfo
+	{
+
+		public String getKey( Object o )
+		{
+			ISortDefinition sort = (ISortDefinition) o;
+			String key = sort.getColumn( );
+			if ( key == null )
+				key = sort.getExpression( ).getText( );
+			return key;
+		}
+
+		public int getDirection( Object o )
+		{
+			ISortDefinition sort = (ISortDefinition) o;
+			return sort.getSortDirection( );
+		}
+	}
+
+	class SortDefnMatchInfo implements MatchInfo
+	{
+
+		public String getKey( Object o )
+		{
+			ISortDefinition sort = (ISortDefinition) o;
+			String sortKey = sort.getColumn( );
+			if ( sortKey == null )
+				sortKey = sort.getExpression( ).getText( );
+			else
+				sortKey = getColumnRefExpression( sortKey );
+
+			try
+			{
+				return getDataSetExpr( sortKey, true );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+		}
+
+		public int getDirection( Object o )
+		{
+			ISortDefinition sort = (ISortDefinition) o;
+			return sort.getSortDirection( );
+		}
+	}
+	
+	class GroupSpecMatchInfo implements MatchInfo
+	{
+
+		public String getKey( Object o )
+		{
+			IGroupDefinition grp = (IGroupDefinition) o;
+			String rowExpr = getGroupKeyExpression( grp );
+			try
+			{
+				return getDataSetExpr( rowExpr, true );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+		}
+
+		public int getDirection( Object o )
+		{
+			IGroupDefinition grp = (IGroupDefinition) o;
+			return grp.getSortDirection( );
+		}
+	}
+	
+	private String getDataSetExpr( String rowExpr, boolean resolve ) throws DataException
+	{
+		if ( rowExpr == null)
+			return null;
+		
+		String dataSetExpr = null ;
+		try
+		{
+			String bindingName = ExpressionUtil.getColumnBindingName( rowExpr );
+			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
+			if( binding != null )
+			{
+				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
+				if( expr != null && expr instanceof IScriptExpression )
+				{
+					dataSetExpr = ( ( IScriptExpression )expr ).getText( );
+					if ( resolve && dataSetExpr != null && 
+							!dataSetExpr.startsWith( ExpressionUtil.DATASET_ROW_INDICATOR ) &&
+							dataSetExpr.startsWith( ExpressionUtil.ROW_INDICATOR ) )
+						return getDataSetExpr( dataSetExpr, resolve);
+				}
+			}
+			return dataSetExpr;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
+	
+	private void populateQuerySorting( ) throws DataException
+	{
+		List<?> sorts = this.baseQueryDefn.getSorts( );
 		if ( sorts != null && !sorts.isEmpty( ) )
 		{
 			IQuery.SortSpec[] sortSpecs = new IQuery.SortSpec[sorts.size( )];
-			Iterator it = sorts.iterator( );
+			Iterator<?> it = sorts.iterator( );
 			for ( int i = 0; it.hasNext( ); i++ )
 			{
 				ISortDefinition src = (ISortDefinition) it.next( );

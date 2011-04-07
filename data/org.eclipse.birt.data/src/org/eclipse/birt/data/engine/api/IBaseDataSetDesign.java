@@ -78,6 +78,15 @@ public interface IBaseDataSetDesign
      * @return the filters. An empty list if none is defined.
      */
     public abstract List getFilters();
+    
+	/**
+	 * Get a list of sort hints.
+	 * <p>
+	 * The List contains {@link org.eclipse.birt.data.engine.api.ISortDefinition} objects.
+	 * 
+	 * @return Sort hints. An empty list if none is defined.
+	 */
+	public abstract List getSortHints( );
 
     /**
      * Returns the data set parameter definitions as a list

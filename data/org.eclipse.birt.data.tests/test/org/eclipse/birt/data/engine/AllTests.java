@@ -35,6 +35,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.DataSourceTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.FeatureTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.SortTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.regre.SortHintTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.api */
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ClobAndBlobTest.class );

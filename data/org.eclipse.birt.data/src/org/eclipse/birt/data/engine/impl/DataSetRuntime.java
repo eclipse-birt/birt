@@ -505,6 +505,14 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		else
 			return null;
 	}
+	
+	public List getSortHints()
+	{
+		if ( dataSetDesign != null)
+		    return dataSetDesign.getSortHints();
+		else
+			return null;
+	}
 
     public List getParameters()
     {

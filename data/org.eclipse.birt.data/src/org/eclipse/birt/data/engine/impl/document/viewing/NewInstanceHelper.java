@@ -413,6 +413,11 @@ public class NewInstanceHelper
 		{
 			return null;
 		}
+
+		public List getSortHints( )
+		{
+			return null;
+		}
 	};
 
 	/**

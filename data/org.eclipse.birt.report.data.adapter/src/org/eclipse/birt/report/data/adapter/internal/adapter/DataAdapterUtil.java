@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.SortHintHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -93,11 +94,29 @@ public class DataAdapterUtil
 		populateComputedColumn( adapter, modelDataSet, dteDataSet );
 
 		populateFilter( modelDataSet, dteDataSet, adapter );
+		
+		populateSortHint ( adapter, modelDataSet, dteDataSet );
 
 		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
 		
 		mergeHints( modelDataSet, dteDataSet );
 
+	}
+
+	private static void populateSortHint( ModelAdapter adapter,
+			DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	{
+		// SortHints
+		Iterator<SortHintHandle> elmtIter = modelDataSet.sortHintsIterator( );
+		if ( elmtIter != null )
+		{
+			while ( elmtIter.hasNext( ) )
+			{
+				SortHintHandle modelFilter = ( SortHintHandle ) elmtIter
+						.next( );
+				dteDataSet.addSortHint( adapter.adaptSortHint( modelFilter ) );
+			}
+		}
 	}
 
 	/**

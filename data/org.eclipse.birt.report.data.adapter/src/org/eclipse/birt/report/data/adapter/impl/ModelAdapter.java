@@ -51,6 +51,7 @@ import org.eclipse.birt.report.data.adapter.internal.adapter.ParameterAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSetAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSourceAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.SortAdapter;
+import org.eclipse.birt.report.data.adapter.internal.adapter.SortHintAdapter;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -68,6 +69,7 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.api.SortHintHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
@@ -184,7 +186,7 @@ public class ModelAdapter implements IModelAdapter
 		if( expr == null || expr.getStringExpression( ) == null )
 			return null;
 		ScriptExpression jsExpr = new ExpressionAdapter( expr, dataType );
-		if( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
+		if ( ExpressionType.CONSTANT.equals( expr.getType( ) ) )
 		{
 			jsExpr = new ScriptExpression( JavascriptEvalUtil.transformToJsExpression( expr.getStringExpression( ) ) );
 			jsExpr.setConstant( true );
@@ -210,6 +212,19 @@ public class ModelAdapter implements IModelAdapter
 		try
 		{
 			return new FilterAdapter( this, modelFilter );
+		}
+		catch ( AdapterException e )
+		{
+			logger.log( Level.WARNING, e.getMessage( ), e );
+			return null;
+		}
+	}
+	
+	public SortDefinition adaptSortHint( SortHintHandle sortHint)
+	{
+		try
+		{
+			return new SortHintAdapter( this, sortHint );
 		}
 		catch ( AdapterException e )
 		{

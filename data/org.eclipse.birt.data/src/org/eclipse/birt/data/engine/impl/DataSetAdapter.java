@@ -113,6 +113,14 @@ public abstract class DataSetAdapter implements IBaseDataSetDesign
 	{
 		return this.filters;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getSortHints()
+	 */
+	public List getSortHints()
+	{
+		return this.source.getSortHints( );
+	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getInputParamBindings()
