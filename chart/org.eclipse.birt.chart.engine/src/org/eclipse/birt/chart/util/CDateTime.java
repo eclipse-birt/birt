@@ -71,6 +71,8 @@ public class CDateTime extends GregorianCalendar
 	
 	private boolean bTimeOnly = false;
 
+	private boolean isSqlDate = false;
+
 	/**
 	 * A zero-arg default constructor
 	 */
@@ -90,6 +92,7 @@ public class CDateTime extends GregorianCalendar
 	{
 		super( );
 		setTime( d );
+		checkSqlDateType( d );
 		if ( d instanceof Time )
 		{
 			setTimeOnly( true );
@@ -111,6 +114,7 @@ public class CDateTime extends GregorianCalendar
 			setTime( c.getTime( ) );
 			if ( c instanceof CDateTime )
 			{
+				checkSqlDateType( ( (CDateTime) c ).getDateTime( ) );
 				setTimeOnly( ( (CDateTime) c ).isTimeOnly( ) );
 			}
 		}
@@ -980,5 +984,27 @@ public class CDateTime extends GregorianCalendar
 			return;
 		}
 		super.add( unit, step );
+	}
+	
+	/**
+	 * Checks if specified is instance of java.sql.Date.
+	 * 
+	 * @param d
+	 */
+	private void checkSqlDateType( Date d )
+	{
+		isSqlDate = ( d instanceof java.sql.Date );
+	}
+
+	/**
+	 * @return
+	 */
+	public Date getDateTime( )
+	{
+		if ( isSqlDate )
+		{
+			return new java.sql.Date( getTime( ).getTime( ) );
+		}
+		return getTime( );
 	}
 }

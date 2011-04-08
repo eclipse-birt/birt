@@ -474,7 +474,7 @@ public final class DataPointHints
 		// 
 		if ( value instanceof CDateTime )
 		{
-			return ((CDateTime)value).getTime( );
+			return ( (CDateTime) value ).getDateTime( );
 		}
 		return value;
 	}
