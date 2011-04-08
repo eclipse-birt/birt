@@ -326,7 +326,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 				if ( DEUtil.isValidNumber( text ) )
 				{
 					sizeValue = (int) CSSUtil.convertToPoint( new DimensionValue( Double.parseDouble( text ),
-							pre ) );
+							pre ) ) + 1;
 				}
 			}
 
