@@ -48,10 +48,11 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
-import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -998,7 +999,14 @@ public class ReportDesignParseTest extends BaseTestCase
 		DataSetHandle dataSetHandle = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
 		ResultSetColumnHandle resultSetColumnHandle = (ResultSetColumnHandle) dataSetHandle
 				.getCachedMetaDataHandle( ).getResultSet( ).getAt( 0 );
-		assertEquals( 73, designHandle.getLineNo( resultSetColumnHandle ) );		
+		assertEquals( 73, designHandle.getLineNo( resultSetColumnHandle ) );
+		
+		CubeHandle cubeHandle = designHandle.findCube( "Cube" ); //$NON-NLS-1$
+		PropertyHandle propHandle = cubeHandle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
+		assertEquals( 419, designHandle.getLineNo( propHandle ) );
+		
+		propHandle = cubeHandle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
+		assertEquals( 434, designHandle.getLineNo( propHandle ) );
 	}
 
 	/**

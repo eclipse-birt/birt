@@ -11,14 +11,14 @@
         </structure>
     </list-property>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="34003">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source">
             <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
             <property name="odaURL">jdbc:classicmodels:sampledb</property>
             <property name="odaUser">ClassicModels</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="34022">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set">
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -373,7 +373,7 @@ from CLASSICMODELS.OFFICES</property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table name="table1" id="34">
+        <table name="table1">
             <property name="width">100%</property>
             <column id="47"/>
             <column id="48"/>
@@ -414,4 +414,34 @@ from CLASSICMODELS.OFFICES</property>
             </property>
         </structure>
     </list-property>
+	<cubes>
+        <tabular-cube name="Cube">
+            <property name="dimensions">
+                <tabular-dimension name="Group">
+                    <property name="defaultHierarchy">Hierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="Hierarchy">
+                            <property name="levels">
+                                <tabular-level name="COUNTRY">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">COUNTRY</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary">
+                    <property name="measures">
+                        <tabular-measure name="CREDITLIMIT">
+                            <expression name="measureExpression" type="javascript">dataSetRow["CREDITLIMIT"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes>    
 </report>

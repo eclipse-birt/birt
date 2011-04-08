@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
@@ -41,11 +42,11 @@ public class LineNumberInfo
 	private HashMap<Long, Integer> elementMap = null;
 
 	/**
-	 * The hash map for the slot xpath string-to-lineNumber lookup. Key is the
-	 * xPath of the slot and value is the line number.
+	 * The hash map for the xpath string-to-lineNumber lookup. Key is the xPath 
+	 * of the slot or property and value is the line number.
 	 */
 
-	private HashMap<String, Integer> slotMap = null;
+	private HashMap<String, Integer> xpathMap = null;
 
 	/**
 	 * The hash map for the <code>IncludeLibrary</code> structures
@@ -93,7 +94,7 @@ public class LineNumberInfo
 		includeLibStructMap = new HashMap<String, Integer>( );
 		embeddedImageStructMap = new HashMap<String, Integer>( );
 		includedCssStyleSheetStructMap = new HashMap<String, Integer>( );
-		slotMap = new HashMap<String, Integer>( );
+		xpathMap = new HashMap<String, Integer>( );
 		resultSetColumnStructMap = new HashMap<String, Integer>( );
 	}
 
@@ -137,14 +138,14 @@ public class LineNumberInfo
 		}
 		else if ( obj instanceof ContainerContext )
 		{
-			String xpath = convertSlotContextToXPath( (ContainerContext) obj,
+			String xpath = convertContextToXPath( (ContainerContext) obj,
 					( (ContainerContext) obj ).getElement( ).getRoot( ) );
 			if ( xpath == null )
 			{
 				assert false;
 				return;
 			}
-			slotMap.put( xpath, lineNo );
+			xpathMap.put( xpath, lineNo );
 		}
 		else
 			return;
@@ -221,7 +222,7 @@ public class LineNumberInfo
 		}
 		else if ( obj instanceof ContainerContext )
 		{
-			return getSlotLineNo( (ContainerContext) obj );
+			return getXPathLineNo( (ContainerContext) obj );
 		}
 		
 		else
@@ -230,16 +231,16 @@ public class LineNumberInfo
 	}
 
 	/**
-	 * Returns the line number for the given slot.
+	 * Returns the line number for the given container.
 	 * 
 	 * @param obj
-	 *            the container context for the slot
+	 *            the container context
 	 * @return line number
 	 */
 
-	private int getSlotLineNo( ContainerContext obj )
+	private int getXPathLineNo( ContainerContext obj )
 	{
-		String xpath = convertSlotContextToXPath( obj, obj.getElement( )
+		String xpath = convertContextToXPath( obj, obj.getElement( )
 				.getRoot( ) );
 		if ( xpath == null )
 		{
@@ -247,7 +248,7 @@ public class LineNumberInfo
 			return 1;
 		}
 
-		return intValue( slotMap.get( xpath ) );
+		return intValue( xpathMap.get( xpath ) );
 	}
 
 	/**
@@ -304,9 +305,11 @@ public class LineNumberInfo
 		assert element != null;
 		return column.getColumnName( ) + "@" + element.getName( ); //$NON-NLS-1$
 	}
+
 	
 	/**
-	 * @param context
+	 * Converts the slot context to x path.
+	 * @param context the slot context
 	 * @param module
 	 * @return the xpath string of the container context
 	 */
@@ -322,4 +325,20 @@ public class LineNumberInfo
 		return XPathUtil.getXPath( slot );
 	}
 	
+	/**
+	 * Converts the container context to x path.
+	 * @param context the container context 
+	 * @param module the module
+	 * @return the xpath string of the container context
+	 */
+
+	private String convertContextToXPath( ContainerContext context,	Module module )
+	{
+		if ( context.isROMSlot( ) )
+			return convertSlotContextToXPath( context, module );
+
+		PropertyHandle propHandle = context.getElement( ).getHandle( module )
+				.getPropertyHandle( context.getPropertyName( ) );
+		return XPathUtil.getXPath( propHandle );
+	}
 }

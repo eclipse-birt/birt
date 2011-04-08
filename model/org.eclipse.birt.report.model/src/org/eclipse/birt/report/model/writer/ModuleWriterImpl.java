@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -1193,7 +1194,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
 			if ( struct instanceof IncludedLibrary )
-				markLineNumber( struct );
+				markLineNumber( struct );			
+			else if ( struct instanceof ResultSetColumn )
+				markLineNumber( obj, struct );
 
 			Iterator memberIter = prop.getStructDefn( ).propertiesIterator( );
 			while ( memberIter.hasNext( ) )
@@ -2875,10 +2878,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		if ( tag != null )
 			writer.conditionalStartElement( tag );
-
-		//
+		
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, containerInfor
 				.getPropertyName( ) );
+
+		if ( !containerInfor.isROMSlot( ) )
+			markLineNumber( containerInfor );
 
 		writeChildren( list );
 
@@ -3197,6 +3202,23 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			Module module = getModule( );
 			if ( module != null )
 				module.addLineNo( key, Integer
+						.valueOf( writer.getLineCounter( ) ) );
+		}
+	}
+	
+	/**
+	 * Marks line number of element
+	 * 
+	 * @param obj
+	 */
+	protected void markLineNumber( DesignElement element, Object obj )
+	{
+		if ( markLineNumber )
+		{
+			Object key = obj;
+			Module module = getModule( );
+			if ( module != null )
+				module.addLineNo( element, key, Integer
 						.valueOf( writer.getLineCounter( ) ) );
 		}
 	}

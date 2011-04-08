@@ -2982,6 +2982,12 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 			return module.getLineNo( new ContainerContext( slot.getElement( ),
 					slot.getSlotID( ) ) );
 		}		
+		else if ( obj instanceof PropertyHandle )
+		{
+			PropertyHandle propHandle = (PropertyHandle) obj;
+			return module.getLineNo( new ContainerContext( propHandle.getElement( ),
+					propHandle.getPropertyDefn( ).getName( ) ) );
+		}
 		else
 			return 1;
 	}

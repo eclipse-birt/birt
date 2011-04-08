@@ -14,10 +14,12 @@ package org.eclipse.birt.report.model.parser;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.xml.sax.SAXException;
 
 /**
  * Parses the "property" tag and its type is "element". The state must parse the
@@ -26,6 +28,7 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 public class ElementPropertyState extends AbstractPropertyState
 {
 
+	protected int lineNumber = 1;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -38,6 +41,7 @@ public class ElementPropertyState extends AbstractPropertyState
 			DesignElement element )
 	{
 		super( theHandler, element );
+		lineNumber = handler.getCurrentLineNo( );
 	}
 
 	/*
@@ -73,6 +77,19 @@ public class ElementPropertyState extends AbstractPropertyState
 			}
 		}
 		return super.startElement( tagName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
+	 */
+	public void end( ) throws SAXException
+	{
+		super.end( );
+		if ( handler.markLineNumber )
+			handler.tempLineNumbers.put( new ContainerContext( element, name ),
+					lineNumber );
+
 	}
 
 }
