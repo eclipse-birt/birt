@@ -207,7 +207,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			return Integer.valueOf( quarter(DataTypeUtil.toDate(args[0])));
+			if( args[0] instanceof Date )
+				return Integer.valueOf( quarter((Date) args[0]));
+			else
+				return Integer.valueOf( quarter(DataTypeUtil.toDate(args[0])));
 		}
 	}		
 	
@@ -265,10 +268,15 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
-			if( args.length == 1 )
-				return Integer.valueOf( month(DataTypeUtil.toDate(args[0])));
+			Date date = null;
+			if( args[0] instanceof Date )
+				date = (Date) args[0];
 			else
-				return month(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
+				date = DataTypeUtil.toDate(args[0]);
+			if( args.length == 1 )
+				return Integer.valueOf( month( date ));
+			else
+				return month( date, ((Number)args[1]).intValue( ));
 		}
 	}	
 	/**
