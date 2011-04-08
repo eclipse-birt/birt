@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
+import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.extension.engine.IReportDocumentExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -1177,6 +1178,12 @@ public class ReportDocumentReader
 
 				for ( BookmarkContent bookmark : bookmarks )
 				{
+					String bookmarkString = bookmark.getBookmark( );
+					if ( bookmarkString
+					        .startsWith( ExecutorManager.BOOKMARK_PREFIX ) )
+					{
+						continue;
+					}
 					long designId = bookmark.getElementId( );
 					DesignElementHandle handle = report
 							.getElementByID( designId );
@@ -1195,12 +1202,12 @@ public class ReportDocumentReader
 						{
 							ReportElementHandle elementHandle = (ReportElementHandle) handle;
 							displayName = ModuleUtil.getExternalizedValue(
-									elementHandle, bookmark.getBookmark( ),
+									elementHandle, bookmarkString,
 									displayName, ULocale.forLocale( locale ) );
 
 						}
 					}
-					results.add( new BookmarkInfo( bookmark.getBookmark( ),
+					results.add( new BookmarkInfo( bookmarkString,
 							displayName, elementType ) );
 				}
 			}

@@ -58,6 +58,8 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 public class ExecutorManager
 {
 
+	public static final String BOOKMARK_PREFIX = "__bookmark_";
+
 	/**
 	 * item executor type
 	 */
@@ -144,7 +146,7 @@ public class ExecutorManager
 	 */
 	public String nextBookmarkID( )
 	{
-		return "__bookmark_" + ( ++sequenceID );
+		return BOOKMARK_PREFIX + ( ++sequenceID );
 	}
 
 	public IExecutorContext getExecutorContext( )
