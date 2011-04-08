@@ -104,6 +104,18 @@ public class DeleteAction extends AbstractElementAction
 	 */
 	public boolean isEnabled( )
 	{
+		Object selection = getSelection( );
+		if ( selection != null && selection instanceof StructuredSelection )
+		{
+			Object element = ( (StructuredSelection) selection ).getFirstElement( );
+			if ( element != null && element instanceof LibraryHandle )
+			{
+				if ( ( (LibraryHandle) element ).getHostHandle( ) != null )
+				{
+					return true;
+				}
+			}
+		}
 		Command cmd = createDeleteCommand( getSelection( ) );
 		if ( cmd == null )
 			return false;
