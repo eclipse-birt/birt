@@ -139,6 +139,7 @@ public class DataEngineContext
 	
 	public final static int META_SECURITY_STREAM = 109;
 	
+	@Deprecated
 	public final static int ROW_SECURITY_STREAM = 110;
 	
 	public final static int ACL_COLLECTION_STREAM = 111;
@@ -147,6 +148,7 @@ public class DataEngineContext
 	
 	public final static int DIMENSION_META_SECURITY_STREAM = 114;
 	
+	@Deprecated
 	public final static int ROW_SECURITY_STREAM_INDEX = 115;
 	
 	public final static String QUERY_STARTING_ID = "/dataEngine/queryStartingID";

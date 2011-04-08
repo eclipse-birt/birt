@@ -62,6 +62,9 @@ public class VersionManager
 	//In version 2_5_2_1 the temp stream is removed.
 	public final static int VERSION_2_5_2_1 = 140;
 	
+	//In version 2_6_2_1 the row ACL is BTree indexed
+	public final static int VERSION_2_6_2_1 = 150;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -135,7 +138,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_5_2_1;
+		return VERSION_2_6_2_1;
 	}
 
 }
