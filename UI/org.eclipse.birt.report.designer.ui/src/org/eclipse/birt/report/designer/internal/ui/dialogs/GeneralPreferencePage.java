@@ -416,7 +416,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 				setErrorMessage( errorMessage );
 			}
 		}
-		else if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( name ) != null )
+		else if ( MetaDataDictionary.getInstance( ).getPredefinedStyle( name ) != null && !preStyle.getSelection( ))
 		{
 			setValid( false );
 			if ( initialized && ( !isValid( ) ) )
