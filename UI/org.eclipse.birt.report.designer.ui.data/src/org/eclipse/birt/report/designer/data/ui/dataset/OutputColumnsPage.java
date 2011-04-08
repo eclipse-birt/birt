@@ -983,6 +983,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN,
 					DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
 					DesignChoiceConstants.COLUMN_DATA_TYPE_DATE,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT,
 					DesignChoiceConstants.COLUMN_DATA_TYPE_TIME
 			};
 		}
@@ -1163,8 +1164,31 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 			}
 			
 			cmbDataType.select( 0 );
-			
-			if ( !( (DataSetHandle) getContainer( ).getModel( ) instanceof OdaDataSetHandle ) )
+
+			DataSetHandle dataSetHandle = (DataSetHandle) getContainer( ).getModel( );
+
+			if ( dataSetHandle instanceof OdaDataSetHandle )
+			{
+				DataSetViewData[] views = DataSetProvider.getCurrentInstance( )
+						.getCachedDataSetItemModel( dataSetHandle, false );
+
+				for ( int i = 0; i < views.length; i++ )
+				{
+					if ( views[i].getName( ).equals( data.getName( ) ) )
+					{
+						if ( !views[i].getDataTypeName( )
+								.equals( data.getDataTypeName( ) ) )
+						{
+							if ( cmbDataType.indexOf( views[i].getDataTypeDisplayName( ) ) < 0 )
+							{
+								cmbDataType.add( views[i].getDataTypeDisplayName( ) );
+								break;
+							}
+						}
+					}
+				}
+			}
+			else
 				cmbDataType.setEnabled( false );
 
 			if ( data.isComputedColumn( ) )
