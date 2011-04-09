@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,9 +26,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+import org.eclipse.datatools.connectivity.services.PluginResourceLocator;
 
 public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 {
@@ -203,20 +201,13 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		{
 			super( new URL[0], DerbyClassLoader.class.getClassLoader() );
 			
-			// Locate Apache derby bundle
-			Bundle derbyBundle = Platform.getBundle( "org.apache.derby.core" );
-			if ( derbyBundle == null )
-			{
-				// Shoudn't happen
-				logger.severe( "Failed to find plugin org.apache.derby.core" );
-			}
-			else
-			{
-				// Add derby.jar from this bundle to class path
-				URL fileURL = derbyBundle.getEntry( "derby.jar" );
+				// Add derby.jar from the Apache derby bundle to class path;
+			    // use utility to handle both OSGi and OSGi-less platforms
+				URL fileURL = PluginResourceLocator.getPluginEntry( "org.apache.derby.core",  //$NON-NLS-1$
+				                "derby.jar" ); //$NON-NLS-1$
 				try
 				{
-					fileURL = FileLocator.toFileURL( fileURL );
+					fileURL = PluginResourceLocator.toFileURL( fileURL );
 					if ( fileURL == null )
 					{
 						logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
@@ -230,9 +221,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				catch ( IOException e )
 				{
 					logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
-				}
-			}
-			
+				}			
 		}
 		
 		public static boolean isDerbyClass( String className )

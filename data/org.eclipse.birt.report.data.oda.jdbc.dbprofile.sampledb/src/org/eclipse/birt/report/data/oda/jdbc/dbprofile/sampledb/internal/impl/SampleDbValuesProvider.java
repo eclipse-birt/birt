@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2010 Actuate Corporation.
+ * Copyright (c) 2010, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,7 +14,6 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.apache.internal.derby.driver.DerbyDriverValuesProvider101;
 import org.eclipse.datatools.connectivity.drivers.IDriverValuesProvider;
 import org.eclipse.datatools.connectivity.drivers.jdbc.IJDBCDriverDefinitionConstants;
@@ -47,7 +46,8 @@ public class SampleDbValuesProvider extends DerbyDriverValuesProvider101
         }
         else if( key.equals( IDriverValuesProvider.VALUE_CREATE_DEFAULT ) ) 
         {
-            // hold off creating default driver definition until the SampleDB connection profile is created
+            // hold off creating default driver definition until the SampleDB connection profile is created, 
+            // so the default driver definition will adopt the profile's properites
             return Boolean.toString( false );
         }
         else if( key.equals( IDriverValuesProvider.VALUE_DEFAULT_DEFINITION_NAME ) ) 
@@ -66,13 +66,17 @@ public class SampleDbValuesProvider extends DerbyDriverValuesProvider101
         String dbURL = getDriverTemplate().getPropertyValueFromId( IJDBCDriverDefinitionConstants.URL_PROP_ID );
         
         int index = dbURL.indexOf( PLUGIN_STATE_LOCATION );
-        if( index != -1 )   // found keyword, substitute it with the plugin state location path
+        if( index != -1 )   // found keyword, substitute it with the sampledb location path
         {
-            String pluginID = SampleDbFactory.PLUGIN_ID;
-            String stateLocation = Platform.getStateLocation(Platform.getBundle(pluginID)).toOSString();
-            dbURL = dbURL.substring(0, index) + stateLocation + 
+            String sampleDbLocation = SampleDbFactory.getSampleDbRootPath( SampleDbFactory.PLUGIN_ID );
+            if( sampleDbLocation != null )
+            {
+                dbURL = dbURL.substring(0, index) + 
+                        sampleDbLocation + 
                         dbURL.substring( index + PLUGIN_STATE_LOCATION.length() );
+            }
         }
+
         return dbURL;
     }
 

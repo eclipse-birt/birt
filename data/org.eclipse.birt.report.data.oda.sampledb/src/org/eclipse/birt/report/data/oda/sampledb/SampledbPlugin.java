@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 - 2006 Actuate Corporation.
+ * Copyright (c) 2004 - 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,9 +24,8 @@ import java.util.zip.ZipInputStream;
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.osgi.framework.Bundle;
+import org.eclipse.datatools.connectivity.services.PluginResourceLocator;
 import org.osgi.framework.BundleContext;
 
 
@@ -118,9 +117,9 @@ public class SampledbPlugin extends BIRTPlugin
 		// Set up private copy of Sample DB in system temp directory
 
 		// Get an input stream to read DB Jar file
-		Bundle bundle = Platform.getBundle( SampleDBConstants.PLUGIN_ID );
+        // handle getting db jar file on both OSGi and OSGi-less platforms
 		String dbEntryName = SAMPLE_DB_HOME_DIR + "/" + SAMPLE_DB_JAR_FILE;
-		URL fileURL = bundle.getEntry( dbEntryName );
+		URL fileURL = PluginResourceLocator.getPluginEntry( SampleDBConstants.PLUGIN_ID, dbEntryName );
 		if ( fileURL == null )
 		{
 			String errMsg = "INTERNAL ERROR: SampleDB DB file not found: " + dbEntryName;

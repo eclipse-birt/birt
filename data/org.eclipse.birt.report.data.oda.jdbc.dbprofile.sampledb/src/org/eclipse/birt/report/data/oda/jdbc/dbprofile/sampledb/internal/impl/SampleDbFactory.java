@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008, 2010 Actuate Corporation.
+ * Copyright (c) 2008, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -29,10 +29,10 @@ import org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nls.Messages;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.osgi.framework.Bundle;
+import org.eclipse.datatools.connectivity.services.PluginResourceLocator;
 
 /**
  *  The factory class that creates the BIRT SampleDB Derby Embedded Database specified by the 
@@ -64,13 +64,12 @@ public class SampleDbFactory implements IExecutableExtension
     public void setInitializationData( IConfigurationElement config,
             String propertyName, Object data ) throws CoreException
     {
-        Bundle sampledbBundle = Platform.getBundle( SAMPLEDB_PLUGIN_ID);
-        String stateLocation = Platform.getStateLocation( Platform.getBundle( 
-                config.getDeclaringExtension().getNamespaceIdentifier())).toOSString();
+        String extensionPluginId = config.getContributor().getName();
+        String stateLocation = getSampleDbRootPath( extensionPluginId );
 
         try
         {
-            initSampleDb( sampledbBundle, stateLocation );
+            initSampleDb( stateLocation );
             
             // remove the sampledb driver instance if its jar path is obsolete, so 
             // a new driver instance with the correct jarList will get created automatically 
@@ -91,11 +90,21 @@ public class SampleDbFactory implements IExecutableExtension
         }
     }
     
-    private void initSampleDb( Bundle sampledbBundle, String rootPath ) throws IOException, IllegalArgumentException
+    static String getSampleDbRootPath( String extensionPluginId )
     {
-        if( sampledbBundle == null )
-            throw new IllegalArgumentException( "null sampledbBundle" ); //$NON-NLS-1$
-        if( rootPath == null || rootPath.length() == 0 )
+        IPath workLoc = PluginResourceLocator.getPluginStateLocation( extensionPluginId );
+        if( workLoc == null )  // not found
+        {
+            // try use this plugin installation path instead
+            workLoc = PluginResourceLocator.getPluginRootPath( extensionPluginId ); 
+        }
+        
+        return workLoc != null ? workLoc.toOSString() : null;        
+    }
+    
+    private void initSampleDb( String rootPath ) throws IOException, IllegalArgumentException
+    {
+        if( rootPath == null || rootPath.length() == 0 || !(new File(rootPath).isDirectory()) )
             throw new IllegalArgumentException( Messages.bind( Messages.sampleDbFactory_invalidDirectory, rootPath ));
             
         File dbDir = new File( rootPath + PATH_SEPARATOR + SAMPLE_DB_HOME_SUBDIR );
@@ -139,7 +148,7 @@ public class SampleDbFactory implements IExecutableExtension
 
         // Get an input stream to read DB Jar file from sampledb plugin
         String dbJarEntryName = SAMPLE_DB_HOME_SUBDIR + PATH_SEPARATOR + SAMPLE_DB_JAR_FILE;
-        URL fileURL = sampledbBundle.getEntry( dbJarEntryName );
+        URL fileURL = PluginResourceLocator.getPluginEntry( SAMPLEDB_PLUGIN_ID, dbJarEntryName );
         if ( fileURL == null )
         {
             throw new RuntimeException( Messages.bind( Messages.sampleDbFactory_noSampleDbJarFile, dbJarEntryName ) );
@@ -176,8 +185,8 @@ public class SampleDbFactory implements IExecutableExtension
     
     private void removeObsoleteDriverDefinition()
     {
-        Bundle myBundle = Platform.getBundle( PLUGIN_ID );
-        String driverDefnName = Platform.getResourceString( myBundle, SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY );
+        String driverDefnName = 
+            PluginResourceLocator.getResourceString( PLUGIN_ID, SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY );
 
         // remove the driver definition instance if it is invalid
         ProfileDriverUtil.removeInvalidDriverDefinition( driverDefnName );
