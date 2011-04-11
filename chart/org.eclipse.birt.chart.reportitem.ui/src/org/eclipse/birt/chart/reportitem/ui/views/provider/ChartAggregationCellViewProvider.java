@@ -106,7 +106,7 @@ public class ChartAggregationCellViewProvider extends
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
 			reportItem.setModel( cm );
 			cell.addContent( chartHandle, 0 );
-			
+
 			// Set default bounds for chart model and handle
 			Bounds bounds = ChartItemUtil.createDefaultChartBounds( chartHandle,
 					cm );
@@ -114,9 +114,15 @@ public class ChartAggregationCellViewProvider extends
 			chartHandle.setWidth( bounds.getWidth( ) + "pt" ); //$NON-NLS-1$
 			chartHandle.setHeight( bounds.getHeight( ) + "pt" ); //$NON-NLS-1$
 
-			// Update xtab direction for multiple measure case
-			ChartCubeUtil.updateXTabDirection( cell.getCrosstab( ),
-					cm.isTransposed( ) );
+			// If adding chart in total cell and there are charts in other
+			// total cells, do not update direction.
+			if ( ChartCubeUtil.isAggregationCell( cell )
+					&& !checkChartInAllTotalCells( cell, cm.isTransposed( ) ) )
+			{
+				// Update xtab direction for multiple measure case
+				ChartCubeUtil.updateXTabDirection( cell.getCrosstab( ),
+						cm.isTransposed( ) );
+			}
 
 			// Set span and add axis cell
 			ChartCubeUtil.addAxisChartInXTab( cell,
@@ -125,8 +131,8 @@ public class ChartAggregationCellViewProvider extends
 					info.isNew( ) );
 
 			ChartInXTabStatusManager.updateGrandItemStatus( cell );
-			
-			// In fixed layout, need to set width for other cells  
+
+			// In fixed layout, need to set width for other cells
 			if ( cell.getCrosstab( ).getModuleHandle( ) instanceof ReportDesignHandle
 					&& DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( ( (ReportDesignHandle) cell.getCrosstab( )
 							.getModuleHandle( ) ).getLayoutPreference( ) ) )
@@ -612,4 +618,27 @@ public class ChartAggregationCellViewProvider extends
 		return true;
 	}
 
+	private boolean checkChartInAllTotalCells( AggregationCellHandle cell,
+			boolean bTransposed )
+	{
+		MeasureViewHandle mv = (MeasureViewHandle) cell.getContainer( );
+		int count = mv.getAggregationCount( );
+		if ( count <= 1 )
+		{
+			return false;
+		}
+		for ( int i = 0; i < count; i++ )
+		{
+			AggregationCellHandle totalCell = mv.getAggregationCell( i );
+			if ( totalCell != null )
+			{
+				Object content = ChartCubeUtil.getFirstContent( totalCell );
+				if ( ChartCubeUtil.isChartHandle( content ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
