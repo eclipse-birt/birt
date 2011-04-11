@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.gef.commands.Command;
@@ -91,6 +92,10 @@ public class DeleteHandler extends SelectionHandler
 						{
 							retValue.add( temsps.get( k ) );	
 						}
+					}
+					else if (objs.get( j ) instanceof MeasureGroupHandle)
+					{
+						retValue.addAll(( (MeasureGroupHandle) objs.get( j ) ).getContents( MeasureGroupHandle.MEASURES_PROP )) ;
 					}
 					else
 					{
