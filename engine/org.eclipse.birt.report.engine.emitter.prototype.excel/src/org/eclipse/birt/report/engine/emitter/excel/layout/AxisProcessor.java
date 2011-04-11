@@ -57,9 +57,13 @@ public class AxisProcessor
 		int endColumnIndex = getColumnIndexByCoordinate( end );
 
 		// might happen when an image is output outside the horizontal page scope
-		if ( startColumnIndex == -1 || endColumnIndex == -1 )
+		if ( startColumnIndex == -1 )
 		{
 			return new int[0];
+		}
+		if( endColumnIndex == -1 )
+		{
+			endColumnIndex = columnCoordinates.size( ) - 1;
 		}
 		
 		List<Integer> list = columnCoordinates.subList( startColumnIndex,
@@ -109,5 +113,10 @@ public class AxisProcessor
 	public static int round( int value )
 	{
 		return ( value >> 7 ) << 7;
+	}
+
+	public int getColumnsCount( )
+	{
+		return columnCoordinates.size( );
 	}
 }

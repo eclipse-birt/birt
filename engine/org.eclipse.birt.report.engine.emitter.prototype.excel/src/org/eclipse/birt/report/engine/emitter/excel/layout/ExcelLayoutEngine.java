@@ -109,6 +109,9 @@ public class ExcelLayoutEngine
 	protected Page page;
 	protected IExcelWriter writer;
 	protected ContentEmitterVisitor contentVisitor;
+	
+	//We only needs to apply page width when first non-auto-extend element is output.
+	protected boolean pageWidthApplied = false;
 
 	public ExcelLayoutEngine( ExcelContext context,
 	        ContentEmitterVisitor contentVisitor )
@@ -163,7 +166,7 @@ public class ExcelLayoutEngine
 	public void processForeign( IForeignContent foreign, HyperlinkDef link )
 	        throws BirtException
 	{
-		addContainer( foreign.getComputedStyle( ), link );
+		addForeignContainer( foreign.getComputedStyle( ), link );
 		contentVisitor.visitChildren( foreign, null );
 		endContainer( );
 	}
@@ -201,6 +204,9 @@ public class ExcelLayoutEngine
 
 	private void newPage( )
 	{
+		// The entrance to invoke Page constructor which will construct new axis
+		// in turn. Needs to reset the pageWidthApplied flag here
+		pageWidthApplied = false;
 		createPage( containers.get( 0 ) );
 		for ( XlsTable table : tables )
 		{
@@ -265,8 +271,12 @@ public class ExcelLayoutEngine
 
 	private boolean autoExtend( )
 	{
-		boolean isTop = containers.size( ) == 1;
-		return isTop && context.isAutoLayout( );
+		return isTop( ) && context.isAutoLayout( );
+	}
+
+	protected boolean isTop( )
+	{
+		return containers.size( ) == 1;
 	}
 
 	public void addTable( IContainerContent content, ColumnsInfo columns,
@@ -279,6 +289,10 @@ public class ExcelLayoutEngine
 			addContainer( null );
 			tables.push( null );
 			return;
+		}
+		if ( !autoExtend( ) )
+		{
+			applyPageWidth( );
 		}
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
 		int[] columnStartCoordinates = splitColumns( columns, parentSizeInfo,
@@ -505,13 +519,17 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public void addContainer( IStyle style, HyperlinkDef link )
+	public void addForeignContainer( IStyle style, HyperlinkDef link )
 	{
 		XlsContainer parent = getCurrentContainer( );
 		if ( parent == null )
 		{
 			addContainer( null );
 			return;
+		}
+		if ( isTop( ) )
+		{
+			applyPageWidth( );
 		}
 		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
 		StyleEntry entry = engine.createEntry( sizeInfo, style,
@@ -839,11 +857,24 @@ public class ExcelLayoutEngine
 		{
 			return;
 		}
+		else if( isTop( ) )
+		{
+			applyPageWidth( );
+		}
 		if ( page.isValid( data ) )
 		{
 			// FIXME: there is a bug when this data is in middle of a row.
 			outputDataIfBufferIsFull( );
 			page.addData( data, container );
+		}
+	}
+
+	protected void applyPageWidth( )
+	{
+		if ( !pageWidthApplied )
+		{
+			page.addPageCoordinate( );
+			pageWidthApplied = true;
 		}
 	}
 
@@ -1044,7 +1075,8 @@ public class ExcelLayoutEngine
 		{
 			ContainerSizeInfo containerSize = pageContainer.getSizeInfo( );
 			page.addEmptyDataToContainer( pageContainer.getStyle( ),
-					pageContainer, containerSize.getStartCoordinate( ),
+					pageContainer,
+					containerSize.getStartCoordinate( ),
 					containerSize.getWidth( ) );
 		}
 	}

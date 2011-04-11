@@ -62,18 +62,25 @@ public class Page
 	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>( );
 	private String sheetName;
 	private XlsContainer pageContainer;
+	private int pageWidth;
+	private int lastInRangeCoordinateIndex = -1;
 
 	public Page( int contentWidth, StyleEngine styleEngine, int maxCol,
 	        String sheetName, XlsContainer pageContainer )
 	{
 		axis = new AxisProcessor( );
 		this.styleEngine = styleEngine;
-		axis.addCoordinate( contentWidth );
+		pageWidth = contentWidth;
 		this.maxCol = maxCol;
 		this.sheetName = sheetName;
 		this.pageContainer = pageContainer;
 	}
 
+	public void addPageCoordinate( )
+	{
+		axis.addCoordinate( pageWidth );
+	}
+	
 	public void startPage( IPageContent pageContent )
 	{
 		orientation = capitalize( pageContent.getOrientation( ) );
@@ -118,15 +125,26 @@ public class Page
 	public void splitColumns( int startCoordinate, int endCoordinate,
 	        int[] columnStartCoordinates, boolean autoExtend )
 	{
+		if( axis.getColumnsCount( ) == 1 )
+		{
+			for ( int columnCoordinate : columnStartCoordinates )
+			{
+				axis.addCoordinate( columnCoordinate );
+			}
+			currentCache.insertColumns( columnStartCoordinates.length - 1 );
+			return;
+		}
+
+		lastInRangeCoordinateIndex = -1;
 		int[] scale = axis.getColumnCoordinatesInRange( startCoordinate,
 		                                                endCoordinate );
 
 		for ( int i = 0; i < scale.length - 1; i++ )
 		{
 			int startPosition = scale[i];
-			int endPostion = scale[i + 1];
+			int endPosition = scale[i + 1];
 
-			int[] range = inRange( startPosition, endPostion,
+			int[] range = inRange( startPosition, endPosition,
 			                       columnStartCoordinates );
 
 			if ( range.length > 0 )
@@ -142,19 +160,18 @@ public class Page
 		}
 		if ( autoExtend )
 		{
-			int index = 0;
-
 			int currentColumnCount = columnStartCoordinates.length;
-			while ( index < currentColumnCount
-			        && AxisProcessor.round( columnStartCoordinates[index] ) <= endCoordinate )
+			if ( lastInRangeCoordinateIndex < currentColumnCount - 1
+					&& AxisProcessor.round( columnStartCoordinates[lastInRangeCoordinateIndex + 1] ) == endCoordinate )
 			{
-				index++;
+				lastInRangeCoordinateIndex++;
 			}
-			for ( int i = index; i < currentColumnCount; i++ )
+		
+			for ( int i = lastInRangeCoordinateIndex + 1; i < currentColumnCount; i++ )
 			{
 				axis.addCoordinate( columnStartCoordinates[i] );
 			}
-			int newColumnCount = currentColumnCount - index;
+			int newColumnCount = currentColumnCount - (lastInRangeCoordinateIndex + 1);
 			currentCache.insertColumns( newColumnCount );
 		}
 	}
@@ -383,6 +400,7 @@ public class Page
 			if ( ( value > start ) && ( value < end ) )
 			{
 				range[count++] = value;
+				lastInRangeCoordinateIndex = i;
 			}
 		}
 		int[] result = new int[count];
@@ -764,7 +782,7 @@ public class Page
 		}
 		rowContainer.setRowIndex( maxRowIndex );
 		float resize = height / ( maxRowIndex - startRowIndex );
-		if ( resize == 0 || resize > ExcelLayoutEngine.DEFAULT_ROW_HEIGHT )
+		if ( resize == 0f || resize > ExcelLayoutEngine.DEFAULT_ROW_HEIGHT )
 		{
 			for ( int i = startRowIndex; i < maxRowIndex; i++ )
 			{
