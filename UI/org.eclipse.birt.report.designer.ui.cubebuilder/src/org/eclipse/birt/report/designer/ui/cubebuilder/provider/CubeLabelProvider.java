@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -31,6 +36,9 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -49,6 +57,8 @@ public class CubeLabelProvider extends LabelProvider
 	private static final Image IMG_DATASET = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SET );
 
 	private static final Image IMG_DATAFIELD = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
+	
+	private static final Image IMG_DATAFIELD_USED = UIHelper.getImage( BuilderConstants.IMAGE_COLUMN_USED );
 
 	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstants.IMAGE_CUBE );
 
@@ -108,6 +118,13 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof ResultSetColumnHandle )
 		{
+			Map<String, List<String>> columnMap = getColumnMap( );
+			ResultSetColumnHandle column = (ResultSetColumnHandle) element;
+			String datasetName = ( (DataSetHandle) column.getElementHandle( ) ).getName( );
+			String columnName = column.getColumnName( );
+			if ( columnMap.containsKey( datasetName )
+					&& columnMap.get( datasetName ).contains( columnName ) )
+				return IMG_DATAFIELD_USED;
 			return IMG_DATAFIELD;
 		}
 		else if ( element instanceof DimensionHandle )
@@ -242,4 +259,36 @@ public class CubeLabelProvider extends LabelProvider
 		return getText( element );
 	}
 
+	private Map<String, List<String>> getColumnMap( )
+	{
+		Map<String, List<String>> columnMap = new HashMap<String, List<String>>( );
+
+		List list = input.getContents( CubeHandle.DIMENSIONS_PROP );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			TabularDimensionHandle dimension = (TabularDimensionHandle) list.get( i );
+			if ( dimension.getSharedDimension( ) != null )
+				continue;
+			TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( DimensionHandle.HIERARCHIES_PROP,
+					0 );
+			if ( hierarchy != null && hierarchy.getLevelCount( ) > 0 )
+			{
+				String dataset = hierarchy.getDataSet( ) == null ? input.getDataSet( )
+						.getName( )
+						: hierarchy.getDataSet( ).getName( );
+				List<String> columns = columnMap.get( dataset );
+				if ( columns == null )
+				{
+					columns = new ArrayList<String>( );
+					columnMap.put( dataset, columns );
+				}
+				for ( int j = 0; j < hierarchy.getLevelCount( ); j++ )
+				{
+					TabularLevelHandle level = (TabularLevelHandle) hierarchy.getLevel( j );
+					columns.add( level.getColumnName( ) );
+				}
+			}
+		}
+		return columnMap;
+	}
 }

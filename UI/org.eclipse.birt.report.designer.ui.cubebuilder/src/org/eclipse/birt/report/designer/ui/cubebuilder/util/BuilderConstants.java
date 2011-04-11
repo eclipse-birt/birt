@@ -24,6 +24,7 @@ public class BuilderConstants
 	public static final String IMAGE_DIMENSION = "icons/obj16/dimension.gif"; //$NON-NLS-1$
 	public static final String IMAGE_MEASUREGROUP = "icons/obj16/measure_group.gif"; //$NON-NLS-1$
 	public static final String IMAGE_LEVEL = "icons/obj16/data_column.gif"; //$NON-NLS-1$
+	public static final String IMAGE_COLUMN_USED = "icons/obj16/data_column_used.gif"; //$NON-NLS-1$
 	public static final String IMAGE_DIMENSION_FOLDER = "icons/obj16/dimensions.gif"; //$NON-NLS-1$
 	public static final String IMAGE_MEASUREGROUP_FOLDER = "icons/obj16/measuregroups.gif"; //$NON-NLS-1$
 	public static final String IMAGE_JOINS = "icons/obj16/equal.gif"; //$NON-NLS-1$

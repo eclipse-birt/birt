@@ -1324,7 +1324,7 @@ public class CubeGroupContent extends Composite implements Listener
 			groupViewer.getTree( ).addTreeListener( groupTreeListener );
 
 			getListenerElementVisitor( ).addListener( input );
-			updateButtons( );
+			refresh( );
 		}
 	}
 
@@ -1623,7 +1623,7 @@ public class CubeGroupContent extends Composite implements Listener
 				ExceptionUtil.handle( e );
 			}
 		}
-		updateButtons( );
+		refresh( );
 	}
 
 	private void handleAddEvent( )
@@ -2357,6 +2357,7 @@ public class CubeGroupContent extends Composite implements Listener
 	public void refresh( )
 	{
 		updateButtons( );
+		dataFieldsViewer.refresh( );
 	}
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
@@ -2385,7 +2386,7 @@ public class CubeGroupContent extends Composite implements Listener
 						AbstractTreeViewer.ALL_LEVELS );
 				groupViewer.setSelection( new StructuredSelection( handle ),
 						true );
-				updateButtons( );
+				refresh( );
 			}
 		}
 	}
@@ -2523,7 +2524,7 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 			}
 		}
-		updateButtons( );
+		refresh( );
 	}
 
 	private boolean checkSharedDimension( Object element )
@@ -2541,9 +2542,8 @@ public class CubeGroupContent extends Composite implements Listener
 		}
 
 		if ( tempDimension != null
-				&& ( !( tempDimension.getContainer( ) instanceof CubeHandle )
-						|| ( tempDimension instanceof TabularDimensionHandle && ( ( (TabularDimensionHandle) tempDimension ).getSharedDimension( ) != null || ( (TabularDimensionHandle) tempDimension ).getContent( DimensionHandle.HIERARCHIES_PROP,
-								0 ) == null ) ) ) )
+				&& ( !( tempDimension.getContainer( ) instanceof CubeHandle ) || ( tempDimension instanceof TabularDimensionHandle && ( ( (TabularDimensionHandle) tempDimension ).getSharedDimension( ) != null || ( (TabularDimensionHandle) tempDimension ).getContent( DimensionHandle.HIERARCHIES_PROP,
+						0 ) == null ) ) ) )
 		{
 			return true;
 		}
