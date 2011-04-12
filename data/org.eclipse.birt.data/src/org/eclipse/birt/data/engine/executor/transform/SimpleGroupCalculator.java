@@ -74,31 +74,27 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		
 		return this.groupBys.length+1;
 	}
-	@Override
+
 	public int getStartingGroup( ) throws DataException
 	{
 		return this.getBreakingGroup( previous, current );
 	}
 	
-	@Override
 	public int getEndingGroup( ) throws DataException
 	{
 		return this.getBreakingGroup( current, next );
 	}
 
-	@Override
 	public void registerPreviousResultObject( IResultObject previous )
 	{
 		this.previous = previous;
 	}
 
-	@Override
 	public void registerCurrentResultObject( IResultObject current )
 	{
 		this.current = current;
 	}
 
-	@Override
 	public void registerNextResultObject( IResultObject next )
 	{
 		this.next = next;
@@ -126,7 +122,6 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		}
 	}
 
-	@Override
 	public void close( ) throws DataException
 	{
 		try
@@ -142,7 +137,6 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		}
 	}
 
-	@Override
 	public void doSave( StreamManager manager ) throws DataException
 	{
 		this.streamManager = manager;

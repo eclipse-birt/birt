@@ -40,26 +40,22 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil
 		}
 	}
 	
-	@Override
 	public void setCacheProvider( CacheProvider cacheProvider )
 	{
 		this.cacheProvider = cacheProvider;
 		
 	}
 
-	@Override
 	public void next( boolean hasNext ) throws DataException
 	{
 		//Do nothing
 	}
 
-	@Override
 	public int getCurrentGroupIndex( int groupLevel ) throws DataException
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
 	public void move( ) throws DataException
 	{
 		// Do nothing
@@ -96,7 +92,6 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil
 		}
 	}
 
-	@Override
 	public void last( int groupLevel ) throws DataException
 	{
 		if( this.getEndingGroupLevel( ) <= groupLevel )
@@ -112,7 +107,6 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil
 		
 	}
 
-	@Override
 	public void close( ) throws DataException
 	{
 		try
@@ -130,7 +124,6 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil
 		}
 	}
 
-	@Override
 	public int[] getGroupStartAndEndIndex( int groupIndex ) throws DataException
 	{
 		if ( this.groupStartingEndingIndex != null )
@@ -164,13 +157,11 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil
 		return this.groupStartingEndingIndex.get( groupIndex );
 	}
 
-	@Override
 	public int getEndingGroupLevel( ) throws DataException
 	{
 		return this.getEndingGroupLevel( this.cacheProvider.getCurrentIndex( ) );
 	}
 
-	@Override
 	public int getStartingGroupLevel( ) throws DataException
 	{
 		return this.getStartingGroupLevel( this.cacheProvider.getCurrentIndex( ));
