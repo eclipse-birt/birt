@@ -86,7 +86,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * if wanna use the master page, then set it to true.
 	 */
 
-	protected boolean isMasterPageContent = true;
+	protected Boolean isMasterPageContent = null;
 
 	/**
 	 * host format
@@ -111,7 +111,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/**
 	 * page overflow mode
 	 */
-	protected String pageOverflow = null;
+	protected int pageOverflow = 0;
 
 	/**
 	 * BIRT viewing session id
@@ -150,9 +150,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.timeZone = timeZone;
 		this.isEmbeddable = isEmbeddable;
 		this.isRtl = isRtl;
-		this.isMasterPageContent = isMasterPageContent;
+		// leave unset if it's default value
+		this.isMasterPageContent = isMasterPageContent ? null : Boolean.FALSE;
 		this.hostFormat = format;
-		this.svg = svg;
+		// leave unset if it's default value
+		this.svg = svg ? Boolean.TRUE : null;
 		this.isDesigner = isDesigner;
 	}
 
@@ -175,9 +177,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.locale = locale;
 		this.timeZone = timeZone;
 		this.isRtl = isRtl;
-		this.isMasterPageContent = isMasterPageContent;
+		// leave unset if it's default value
+		this.isMasterPageContent = isMasterPageContent ? null : Boolean.FALSE;
 		this.hostFormat = format;
-		this.svg = svg;
+		// leave unset if it's default value
+		this.svg = svg ? Boolean.TRUE : null;
 		this.isDesigner = isDesigner;
 	}
 
@@ -382,15 +386,18 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 					String.valueOf( isDesigner ) ) );
 		}
 
-		if ( pageOverflow != null )
+		if ( pageOverflow > 0 )
 		{
 			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_PAGE_OVERFLOW,
-					pageOverflow ) );
+					String.valueOf( pageOverflow ) ) );
 		}
 
 		// add isMasterPageContent
-		link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
-				String.valueOf( this.isMasterPageContent ) ) );
+		if ( isMasterPageContent != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
+					String.valueOf( isMasterPageContent ) ) );
+		}
 
 		// append resource folder setting
 		try
@@ -612,7 +619,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 									valueObj = ( (List) valueObj ).toArray( );
 								}
 							}
-							
+
 							Object[] values;
 							if ( valueObj instanceof Object[] )
 							{
@@ -694,15 +701,18 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 						String.valueOf( isDesigner ) ) );
 			}
 
-			if ( pageOverflow != null )
+			if ( pageOverflow > 0 )
 			{
 				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_PAGE_OVERFLOW,
-						pageOverflow ) );
+						String.valueOf( pageOverflow ) ) );
 			}
 
 			// add isMasterPageContent
-			link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
-					String.valueOf( this.isMasterPageContent ) ) );
+			if ( isMasterPageContent != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString( ParameterAccessor.PARAM_MASTERPAGE,
+						String.valueOf( isMasterPageContent ) ) );
+			}
 
 			// append resource folder setting
 			try
@@ -927,7 +937,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/**
 	 * @return the pageOverflow
 	 */
-	public String getPageOverflow( )
+	public int getPageOverflow( )
 	{
 		return pageOverflow;
 	}
@@ -936,7 +946,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param pageOverflow
 	 *            the pageOverflow to set
 	 */
-	public void setPageOverflow( String pageOverflow )
+	public void setPageOverflow( int pageOverflow )
 	{
 		this.pageOverflow = pageOverflow;
 	}

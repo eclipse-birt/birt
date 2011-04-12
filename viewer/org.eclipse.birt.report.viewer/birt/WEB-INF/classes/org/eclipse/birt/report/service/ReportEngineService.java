@@ -1015,7 +1015,7 @@ public class ReportEngineService
 				format,
 				Boolean.valueOf( svgFlag ),
 				Boolean.toString( isDesigner ) );
-		handler.setPageOverflow( Integer.toString( pageOverflow ) );
+		handler.setPageOverflow( pageOverflow );
 
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
@@ -1703,7 +1703,7 @@ public class ReportEngineService
 			}
 			handler.setViewingSessionId( session.getId( ) );
 		}
-		handler.setPageOverflow( Integer.toString( pageOverflow ) );
+		handler.setPageOverflow( pageOverflow );
 
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
