@@ -186,7 +186,23 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	
 	/**
 	 * Sets the flag that indicates whether export the locale neutral format
-	 * value.
+	 * value. It will take affect according to the following rules:
+	 * 
+	 * <ul>
+	 * <li>1. If a format pattern was defined by the column name or index, use
+	 * the pattern to format the corresponding column value</li>
+	 * <li>2. If no format pattern was defined for a column:
+	 * <ul>
+	 * <li>a. Locale neutral == true: format the column value as locale neutral</li>
+	 * <li>b. Locale neutral == false:</li>
+	 * <ul>
+	 * <li>i. If date time and date time format defined, use the data time
+	 * format pattern</li>
+	 * <li>ii. In other conditions, use the default format</li>
+	 * </ul>
+	 * </ul>
+	 * </li> </ul>
+	 * 
 	 * 
 	 * @param isLocaleNeutralFormat
 	 */
