@@ -74,6 +74,11 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 * indicates whether export the locale neutral format value
 	 */
 	public static final String OUTPUT_LOCALE_NEUTRAL_FORMAT = "LocaleNeutralFormat"; //$NON-NLS-1$
+	
+	/**
+	 * indicates whether to export locale neutral values for the columns.
+	 */
+	public static final String LOCALE_NEUTRAL_FLAGS = "LocaleNeutralFlags";
 
 	/**
 	 * output date format
@@ -207,6 +212,37 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	 * @param isLocaleNeutralFormat
 	 */
 	void setLocaleNeutralFormat( boolean isLocaleNeutralFormat );
+	
+	/**
+	 * Sets the flags that indicates whether export the locale neutral format
+	 * value for the columns. It will take affect according to the following
+	 * rules:
+	 * 
+	 * <ul>
+	 * <li>1. If a format pattern was defined by the column name or index, use
+	 * the pattern to format the corresponding column value</li>
+	 * <li>2. If no format pattern was defined for a column:
+	 * <ul>
+	 * <li>a. Global or column locale neutral == true: format the column value as locale neutral</li>
+	 * <li>b. Locale neutral == false:</li>
+	 * <ul>
+	 * <li>i. If date time and date time format defined, use the data time
+	 * format pattern</li>
+	 * <li>ii. In other conditions, use the default format</li>
+	 * </ul>
+	 * </ul>
+	 * </li> </ul>
+	 * 
+	 * 
+	 * @param isLocaleNeutralFormatMap
+	 */
+	void setLocaleNeutralFlags( Map localeNeutralFlags );
+
+	/**
+	 * 
+	 * @return
+	 */
+	Map getLocaleNeutralFlags( );
 
 	/**
 	 * Returns the flag that indicates whether export the locale neutral format

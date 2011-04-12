@@ -53,6 +53,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 	private IFormatter[] valueFormatters;
 
 	private Map formatterMap;
+	private Map localeNeutralFlags;
 
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initialize(org.eclipse.birt.report.engine.api.script.IReportContext, org.eclipse.birt.report.engine.api.IDataExtractionOption)
@@ -95,6 +96,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 		}
 
 		this.isLocaleNeutral = commonOptions.isLocaleNeutralFormat( );
+		this.localeNeutralFlags = commonOptions.getLocaleNeutralFlags( );
 
 		dateFormat = commonOptions.getDateFormat( );
 		// get locale info
@@ -172,7 +174,8 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 		String[] patterns = getPatterns( columnNames );
 		for ( int i = 0; i < length; i++ )
 		{
-			if ( patterns[i] == null && isLocaleNeutral )
+			boolean flag = isColumnLocaleNeutral( columnNames, i );
+			if ( patterns[i] == null && ( isLocaleNeutral || flag ) )
 			{
 				valueFormatters[i] = new LocaleNeutralFormatter( );
 			}
@@ -224,6 +227,24 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 				}
 			}
 		}
+	}
+	
+	private boolean isColumnLocaleNeutral( String[] columnNames, int colIndex )
+	{
+		boolean isLocaleNeutral = false;
+		if ( localeNeutralFlags != null )
+		{
+			Object flag = localeNeutralFlags.get( colIndex + 1 );
+			if ( flag == null )
+			{
+				flag = localeNeutralFlags.get( columnNames[colIndex] );
+			}
+			if ( Boolean.TRUE.equals( flag ) )
+			{
+				isLocaleNeutral = true;
+			}
+		}
+		return isLocaleNeutral;
 	}
 
 	private String[] getPatterns( String[] columnNames )
