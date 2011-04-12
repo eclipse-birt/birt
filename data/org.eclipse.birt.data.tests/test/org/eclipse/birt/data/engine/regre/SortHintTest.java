@@ -4,6 +4,7 @@ import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -43,7 +44,9 @@ public class SortHintTest extends APITestCase
 	}
 	
 	/**
-	 * Test sort hint optimize
+	 * Test sort hint optimize.
+	 * <P>
+	 * Expected: Optimize sorting
 	 */
 	public void testSortHintTableSort()
 	{
@@ -102,22 +105,25 @@ public class SortHintTest extends APITestCase
 		
 	}
 	
+	/**
+	 * Expected: Optimize sorting
+	 */
 	public void testSortHintTableSort2()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
 		// Add table sort
 		// Table sorting:
+		// col1: asc
 		// col2: asc
-		// col3: asc
 		SortDefinition[] sdArray = new SortDefinition[2];
 		SortDefinition sd = new SortDefinition( );
-		sd.setExpression( "row[\"" + COLS[1] + "\"]" );
+		sd.setExpression( "row[\"" + COLS[0] + "\"]" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		sdArray[0] = sd;
 
 		sd = new SortDefinition( );
-		sd.setExpression( "row[\"" + COLS[2] + "\"]" );
+		sd.setExpression( "row[\"" + COLS[1] + "\"]" );
 		sd.setSortDirection( ISortDefinition.SORT_ASC );
 		sdArray[1] = sd;
 
@@ -141,6 +147,9 @@ public class SortHintTest extends APITestCase
 		
 	}
 	
+	/**
+	 * Expected: No optimize
+	 */
 	public void testSortHintTableSort3()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
@@ -175,11 +184,14 @@ public class SortHintTest extends APITestCase
 			dataSet.addSortHint( sd );
 		}
 		
-		// No sorting
 		executeAndCheck( queryDefn );
 		
 	}
 	
+	/**
+	 * <P>
+	 * Expected: No optimize
+	 */
 	public void testSortHintTableSort4()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
@@ -213,13 +225,261 @@ public class SortHintTest extends APITestCase
 			dataSet.addSortHint( sd );
 		}
 		
-		// No sorting
 		executeAndCheck( queryDefn );
 		
 	}
 	
 	/**
+	 * Expected: Optimize sorting
+	 */
+	public void testSortHintTableSort5()
+	{
+		QueryDefinition queryDefn = getQueryDefn();
+		
+		// Add group
+		// Group sorting:
+		// col1: asc
+		// col2: asc
+		GroupDefinition[] gdArray = new GroupDefinition[2];
+		GroupDefinition gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[0] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[0] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[1] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[1] = gd;
+		
+		for ( int i = 0; i < gdArray.length; i++ )
+			queryDefn.addGroup( gdArray[i] );
+		
+		// Add table sort
+		// Table sorting:
+		// col1: asc
+		SortDefinition[] sdArray = new SortDefinition[2];
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[0] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[0] = sd;
+			
+		sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[1] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[1] = sd;
+
+		for ( int i = 0; i < sdArray.length; i++ )
+			queryDefn.addSort( sdArray[i] );
+		
+		// Add sort hints
+		// col1: asc
+		// col2: asc
+		// ocl3: asc
+		for ( int i = 0; i < COLS.length-1 ; i++ )
+		{
+			sd = new SortDefinition( );
+			sd.setColumn( "dataSetRow[\"" + COLS[i] + "\"]" );
+			sd.setSortDirection( ISortDefinition.SORT_ASC );
+			dataSet.addSortHint( sd );
+		}
+		
+		// No sorting
+		executeAndCheck( queryDefn );
+	}
+	
+	
+	/**
+	 * Expected: No optimize
+	 */
+	public void testSortHintTableSort6()
+	{
+		QueryDefinition queryDefn = getQueryDefn();
+		
+		// Add group
+		// Group sorting:
+		// col1: asc
+		// col2: asc
+		// col3: asc
+		GroupDefinition[] gdArray = new GroupDefinition[3];
+		GroupDefinition gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[0] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[0] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[1] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[1] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[2] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[2] = gd;
+		
+		for ( int i = 0; i < gdArray.length; i++ )
+			queryDefn.addGroup( gdArray[i] );
+		
+		// Add table sort
+		// Table sorting:
+		// col2: asc
+		// col4: asc
+		SortDefinition[] sdArray = new SortDefinition[2];
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[1] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[0] = sd;
+			
+		sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[3] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[1] = sd;
+
+		for ( int i = 0; i < sdArray.length; i++ )
+			queryDefn.addSort( sdArray[i] );
+		
+		// Add sort hints
+		// col1: asc
+		// col2: asc
+		// ocl3: asc
+		for ( int i = 0; i < COLS.length - 1; i++ )
+		{
+			sd = new SortDefinition( );
+			sd.setColumn( "dataSetRow[\"" + COLS[i] + "\"]" );
+			sd.setSortDirection( ISortDefinition.SORT_ASC );
+			dataSet.addSortHint( sd );
+		}
+		
+		executeAndCheck( queryDefn );
+	}
+	
+	/**
+	 * Expected: Optimize sorting
+	 */
+	public void testSortHintTableSort7()
+	{
+		QueryDefinition queryDefn = getQueryDefn();
+		
+		// Group sorting:
+		// col1: asc
+		// col2: asc
+		// col3: asc
+		GroupDefinition[] gdArray = new GroupDefinition[3];
+		GroupDefinition gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[0] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[0] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[1] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[1] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[2] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[2] = gd;
+		
+		for ( int i = 0; i < gdArray.length; i++ )
+			queryDefn.addGroup( gdArray[i] );
+		
+		// Table sorting:
+		// col4: asc
+		SortDefinition[] sdArray = new SortDefinition[1];
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[3] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[0] = sd;
+			
+		for ( int i = 0; i < sdArray.length; i++ )
+			queryDefn.addSort( sdArray[i] );
+		
+		// Add sort hints
+		// col1: asc
+		// col2: asc
+		// col3: asc
+		// col4: asc
+		for ( int i = 0; i < COLS.length ; i++ )
+		{
+			sd = new SortDefinition( );
+			sd.setColumn( "dataSetRow[\"" + COLS[i] + "\"]" );
+			sd.setSortDirection( ISortDefinition.SORT_ASC );
+			dataSet.addSortHint( sd );
+		}
+		
+		// No sorting
+		executeAndCheck( queryDefn );
+	}
+	
+	/**
+	 * Expected: Optimize sorting
+	 */
+	public void testSortHintTableSort8()
+	{
+		QueryDefinition queryDefn = getQueryDefn();
+		
+		// Add group
+		// Group sorting:
+		// col1: asc
+		// col2: asc
+		// col3: asc
+		GroupDefinition[] gdArray = new GroupDefinition[3];
+		GroupDefinition gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[0] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[0] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[1] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[1] = gd;
+		
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[2] + "\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_ASC );
+		gdArray[2] = gd;
+		
+		for ( int i = 0; i < gdArray.length; i++ )
+			queryDefn.addGroup( gdArray[i] );
+		
+		// Add table sort
+		// Table sorting:
+		// col2: asc
+		// col4: asc
+		SortDefinition[] sdArray = new SortDefinition[2];
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[1] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[0] = sd;
+			
+		sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[3] + "\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		sdArray[1] = sd;
+
+		for ( int i = 0; i < sdArray.length; i++ )
+			queryDefn.addSort( sdArray[i] );
+		
+		// Add sort hints
+		// col1: asc
+		// col2: asc
+		// col3: asc
+		// col4: asc
+		for ( int i = 0; i < COLS.length ; i++ )
+		{
+			sd = new SortDefinition( );
+			sd.setColumn( "dataSetRow[\"" + COLS[i] + "\"]" );
+			sd.setSortDirection( ISortDefinition.SORT_ASC );
+			dataSet.addSortHint( sd );
+		}
+		
+		// No sorting
+		executeAndCheck( queryDefn );
+	}
+	
+	/**
 	 * Test sort hints no optimize because sorting does not match sort hints.
+	 * <P>
+	 * Expected: No optimize
 	 */
 	public void testSortHintNoEffect()
 	{
@@ -279,7 +539,8 @@ public class SortHintTest extends APITestCase
 	 * Bind "ID" to dataSetRow["CUSTOMERID"];
 	 * Add table sort on row["ID"] and sort hint on dataSetRow["CUSTOMERID"];
 	 * Sort hint must resolve matching between row["ID"] and dataSetRow["CUSTOMERID"].
-	 * Expected result: no sorting
+	 * <p>
+	 * Expected: Optimize sorting
 	 */
 	public void testSortHintResolve()
 	{
@@ -322,6 +583,104 @@ public class SortHintTest extends APITestCase
 			dataSet.addSortHint( sd );
 		}
 		
+		executeAndCheck( queryDefn );
+	}
+	
+	/**
+	 * Test binding expression resolving on table sorting. Define column Alias
+	 * for the first three columns. eg. "CUSTOMERID_ALIAS" for "CUSTOMERID".
+	 * <p>
+	 * Group sorting and table sorting using desc order and alias name for
+	 * sorting expression. eg. dataSetRow["CUSTOMERID_ALIAS"].
+	 * <p>
+	 * Sort hint must resolve column alias when matching row["CUSTOMERID_ALIAS"]
+	 * and dataSetRow["CUSTOMERID"].
+	 * <p>
+	 * Expected: Optimize sorting; If the output is sorted by desc
+	 * order, test failed.
+	 */
+	public void testSortHintResolveColumnAlias( )
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+
+		IBaseExpression[] exprArray = new IBaseExpression[COLS.length];
+
+		java.util.Map exprs = queryDefn.getResultSetExpressions( );
+		for ( int i = 0; i < COLS.length; i++ )
+		{
+			String exprName = COLS[i];
+			IBaseExpression expr = new ScriptExpression( "dataSetRow[\""
+					+ COLS[i] + "_ALIAS\"]" );
+			queryDefn.addResultSetExpression( exprName, expr );
+			exprs.put( exprName + "_ALIAS", expr );
+		}
+
+		// Group sorting
+		// col1: desc
+		// col2: desc
+		// col3: desc
+		GroupDefinition[] gdArray = new GroupDefinition[3];
+		GroupDefinition gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[0] + "_ALIAS\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_DESC );
+		gdArray[0] = gd;
+
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[1] + "_ALIAS\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_DESC );
+		gdArray[1] = gd;
+
+		gd = new GroupDefinition( );
+		gd.setKeyExpression( "row[\"" + COLS[2] + "_ALIAS\"]" );
+		gd.setSortDirection( ISortDefinition.SORT_DESC );
+		gdArray[2] = gd;
+
+		for ( int i = 0; i < gdArray.length; i++ )
+			queryDefn.addGroup( gdArray[i] );
+
+		// Add table sort
+		// col1: desc
+		// col2: desc
+		// ocl3: desc
+		SortDefinition[] sdArray = new SortDefinition[3];
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[0] + "_ALIAS\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_DESC );
+		sdArray[0] = sd;
+
+		sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[1] + "_ALIAS\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_DESC );
+		sdArray[1] = sd;
+
+		sd = new SortDefinition( );
+		sd.setExpression( "row[\"" + COLS[2] + "_ALIAS\"]" );
+		sd.setSortDirection( ISortDefinition.SORT_DESC );
+		sdArray[2] = sd;
+
+		for ( int i = 0; i < sdArray.length; i++ )
+			queryDefn.addSort( sdArray[i] );
+
+		// Add sort hint
+		// col1: desc
+		// col2: desc
+		// col3: desc
+		for ( int i = 0; i < COLS.length - 1; i++ )
+		{
+			sd = new SortDefinition( );
+			sd.setColumn( "dataSetRow[\"" + COLS[i] + "\"]" );
+			sd.setSortDirection( ISortDefinition.SORT_DESC );
+			dataSet.addSortHint( sd );
+		}
+
+		java.util.List resultSetHints = dataSet.getResultSetHints( );
+		for ( int j = 0; j < COLS.length; j++ )
+		{
+			ColumnDefinition cdefn = new ColumnDefinition( COLS[j] );
+			cdefn.setAlias( COLS[j] + "_ALIAS" );
+			resultSetHints.add( cdefn );
+		}
+
 		executeAndCheck( queryDefn );
 	}
 	

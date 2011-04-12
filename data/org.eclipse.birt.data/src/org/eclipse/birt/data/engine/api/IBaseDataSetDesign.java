@@ -86,7 +86,7 @@ public interface IBaseDataSetDesign
 	 * 
 	 * @return Sort hints. An empty list if none is defined.
 	 */
-	public abstract List getSortHints( );
+	public abstract List<ISortDefinition> getSortHints( );
 
     /**
      * Returns the data set parameter definitions as a list

@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
@@ -506,7 +507,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 			return null;
 	}
 	
-	public List getSortHints()
+	public List<ISortDefinition> getSortHints()
 	{
 		if ( dataSetDesign != null)
 		    return dataSetDesign.getSortHints();

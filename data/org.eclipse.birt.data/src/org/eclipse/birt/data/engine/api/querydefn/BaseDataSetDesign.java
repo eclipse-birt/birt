@@ -63,7 +63,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	private String nullOrdering;
 	private ULocale uLocale;
     
-	List sortHints = null;
+	private List<ISortDefinition> sortHints = null;
     
 	/**
 	 * Instantiates a data set with given name.
@@ -193,10 +193,10 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getSortHints()
 	 */
-	public List getSortHints( )
+	public List<ISortDefinition> getSortHints( )
 	{
 	    if ( sortHints == null )
-	    	sortHints = new ArrayList();
+	    	sortHints = new ArrayList<ISortDefinition>();
 	    return sortHints;
 	}
 	
