@@ -2175,6 +2175,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					dialog.setDistinct( true );
 				}
+				
+				if ( isRequired.isEnabled( ) && !isRequired.getSelection( ) )
+				{
+					dialog.setRequired( false );
+				}
+				else
+				{
+					dialog.setRequired( true );
+				}
 
 				dialog.setValidate( new ImportValueDialog.IAddChoiceValidator( ) {
 

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
@@ -72,6 +73,7 @@ public class ImportValueDialog extends BaseDialog
 {
 
 	private boolean distinct = true;
+	private boolean isRequired = true;
 	private boolean hasNullValue = false;
 	private String nullValue = "<null>"; //$NON-NLS-1$
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
@@ -140,7 +142,10 @@ public class ImportValueDialog extends BaseDialog
 	{
 		if ( value.equals( nullValue ) && hasNullValue )
 		{
-			return ""; //$NON-NLS-1$
+			if ( isRequired )
+				return ""; //$NON-NLS-1$
+			else
+				return null;
 		}
 		else
 		{
@@ -151,6 +156,11 @@ public class ImportValueDialog extends BaseDialog
 	public void setDistinct( boolean distinct )
 	{
 		this.distinct = distinct;
+	}
+
+	public void setRequired( boolean required )
+	{
+		this.isRequired = required;
 	}
 
 	public static interface IAddChoiceValidator
@@ -727,12 +737,24 @@ public class ImportValueDialog extends BaseDialog
 
 	protected void okPressed( )
 	{
-		if ( hasNullValue && selectedList.indexOf( nullValue ) != -1 )
+		ArrayList<String> list = new ArrayList<String>( );
+		list.addAll( Arrays.asList( selectedList.getItems( ) ) );
+		if ( hasNullValue )
 		{
-			selectedList.remove( nullValue );
-			selectedList.add( "" ); //$NON-NLS-1$
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				String item = list.get( i );
+				if ( nullValue.equals( item ) )
+				{
+					list.remove( i );
+					if ( isRequired )
+						list.add( i, "" ); //$NON-NLS-1$
+					else
+						list.add( i, null );
+				}
+			}
 		}
-		setResult( selectedList.getItems( ) );
+		setResult( list.toArray( new String[0] ) );
 		super.okPressed( );
 	}
 
