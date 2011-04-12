@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -54,7 +55,14 @@ public final class QueryExecutionStrategyUtil
 			IBaseDataSetDesign dataSet ) throws DataException
 	{
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
-			return Strategy.Complex;
+		{
+			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ))
+			{
+				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
+					continue;
+				return Strategy.Complex;
+			}
+		}
 
 		if ( query.getFilters( ) != null && query.getFilters( ).size( ) > 0 )
 		{

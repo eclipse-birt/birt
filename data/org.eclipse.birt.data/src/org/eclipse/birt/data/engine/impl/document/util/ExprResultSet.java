@@ -21,8 +21,8 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
+import org.eclipse.birt.data.engine.impl.document.IRDGroupUtil;
 import org.eclipse.birt.data.engine.impl.document.RDAggrUtil;
-import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -45,7 +45,7 @@ public class ExprResultSet implements IExprResultSet
 	private boolean isBasedOnSecondRD;
 	private int rowIdStartingIndex;
 	
-	protected RDGroupUtil rdGroupUtil;
+	protected IRDGroupUtil rdGroupUtil;
 	protected IExprDataReader exprResultReader;
 
 	protected StreamManager streamManager;
@@ -228,7 +228,7 @@ public class ExprResultSet implements IExprResultSet
 		this.rdGroupUtil.last( groupLevel );
 	}
 
-	public int[] getGroupStartAndEndIndex( int groupIndex )
+	public int[] getGroupStartAndEndIndex( int groupIndex ) throws DataException
 	{
 		return this.rdGroupUtil.getGroupStartAndEndIndex( groupIndex );
 	}
@@ -321,6 +321,11 @@ public class ExprResultSet implements IExprResultSet
 			int forwardSteps = destIndex - currIndex;
 			for ( int i = 0; i < forwardSteps; i++ )
 				exprResultSet.next( );
+		}
+		
+		public boolean next ( ) throws DataException
+		{
+			return this.exprResultSet.next( );
 		}
 	}
 

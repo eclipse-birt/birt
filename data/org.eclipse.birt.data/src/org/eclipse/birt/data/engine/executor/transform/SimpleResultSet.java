@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
+import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -69,7 +70,8 @@ public class SimpleResultSet implements IResultIterator
 	private Set resultSetNameSet = null;
 	private IBaseQueryDefinition query;
 	private IResultClass resultClass;
-	
+	private IGroupCalculator groupCalculator;
+	private boolean isClosed;
 	/**
 	 * 
 	 * @param dataSourceQuery
@@ -80,20 +82,22 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public SimpleResultSet( DataSourceQuery dataSourceQuery,
 			ResultSet resultSet, IResultClass resultClass,
-			IEventHandler handler ) throws DataException
+			IEventHandler handler, GroupSpec[] groupSpecs ) throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
 				false ) );
+		this.query = dataSourceQuery.getQueryDefinition( );
+		this.groupCalculator = new SimpleGroupCalculator( dataSourceQuery.getSession( ), groupSpecs, this.rowResultSet.getMetaData( ) );
 		this.currResultObj = this.rowResultSet.next( );
+		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
 		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
 		this.resultSet = resultSet;
 		this.handler = handler;
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
-		this.query = dataSourceQuery.getQueryDefinition( );
 		if( query instanceof IQueryDefinition && ((IQueryDefinition)query).needAutoBinding( ))
 		{
 			for( int i = 1; i <= resultClass.getFieldCount( ); i++ )
@@ -103,6 +107,7 @@ public class SimpleResultSet implements IResultIterator
 			}
 		}
 		
+		
 	}
 
 	/*
@@ -111,21 +116,25 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public void close( ) throws DataException
 	{
+		if( this.isClosed )
+			return;
 		if ( this.resultSet != null )
 		{
 			this.resultSet.close( );
 			this.resultSet = null;
 		}
+		this.groupCalculator.close( );
+		
 		if ( this.dataSetStream != null )
 		{
 			try
 			{
-
 				if ( dataSetStream instanceof RAOutputStream )
 				{
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
 					IOUtil.writeInt( dataSetStream, rowCount );
 				}
+				
 				if ( this.streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) )!= null )
 				{
 					Map<String, IIndexSerializer> hashes = this.streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
@@ -176,6 +185,7 @@ public class SimpleResultSet implements IResultIterator
 			}
 			dataSetLenStream = null;
 		}
+		this.isClosed = true;
 	}
 	
 	/*
@@ -225,19 +235,7 @@ public class SimpleResultSet implements IResultIterator
 			throws DataException
 	{
 		this.streamsWrapper = streamsWrapper;
-
-		if ( streamsWrapper.getStreamForGroupInfo( ) != null )
-		{
-			try
-			{
-				IOUtil.writeInt( streamsWrapper.getStreamForGroupInfo( ), 0 );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( e.getLocalizedMessage( ), e );
-			}
-		}
-
+		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
 		if ( streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			( (ResultClass) populateResultClass( getResultClass( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
@@ -332,12 +330,8 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
-		if ( this.rowResultSet.hasNext( ) )
-		{
-			return 1;
-		}
-
-		return 0;
+		this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
+		return this.groupCalculator.getEndingGroup( );
 	}
 
 	/*
@@ -395,10 +389,7 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getStartingGroupLevel( ) throws DataException
 	{
-		if ( this.rowResultSet.getIndex( ) == 0 )
-			return 0;
-		else
-			return 1;
+		return this.groupCalculator.getStartingGroup( );
 	}
 
 	/*
@@ -407,8 +398,16 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public void last( int groupingLevel ) throws DataException
 	{
-		// TODO Auto-generated method stub
-
+		if( this.getEndingGroupLevel( ) <= groupingLevel )
+			return;
+		else
+		{
+			while( this.next( ))
+			{
+				if( this.getEndingGroupLevel( ) <= groupingLevel )
+					return;
+			}
+		}
 	}
 
 	/*
@@ -445,7 +444,10 @@ public class SimpleResultSet implements IResultIterator
 		}
 		try
 		{
+			this.groupCalculator.next( );
+			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
 			this.currResultObj = this.rowResultSet.next( );
+			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
 		}
 		catch ( DataException e )
 		{
@@ -457,5 +459,4 @@ public class SimpleResultSet implements IResultIterator
 			rowCount++;
 		return this.currResultObj != null;
 	}
-
 }

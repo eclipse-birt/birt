@@ -183,19 +183,19 @@ public class RowResultSet implements IRowResultSet
 		return this.currIndex-1;
 	}
 
-	public boolean hasNext() throws DataException
+	public IResultObject getNext() throws DataException
 	{
 		if ( finished )
-			return false;
+			return null;
 		if ( nextResultObject != null )
-			return true;
+			return nextResultObject;
 		nextResultObject = this.next( );
 		if( nextResultObject != null )
-			return true;
+			return nextResultObject;
 		else
 		{
 			finished = true;
-			return false;
+			return null;
 		}
 	}
 }

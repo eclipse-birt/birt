@@ -99,8 +99,9 @@ public class PLSDataPopulator implements IPLSDataPopulator
 	 * Populate the boundaries info.
 	 * 
 	 * @param targetGroups
+	 * @throws DataException 
 	 */
-	private void populateBoundary( List<IGroupInstanceInfo> targetGroups )
+	private void populateBoundary( List<IGroupInstanceInfo> targetGroups ) throws DataException
 	{
 		// Make a copy to user input.
 		List<IGroupInstanceInfo> groups = new ArrayList<IGroupInstanceInfo>( targetGroups );
@@ -182,9 +183,10 @@ public class PLSDataPopulator implements IPLSDataPopulator
 	 * 
 	 * @param groups
 	 * @param boundaries
+	 * @throws DataException 
 	 */
 	private void populateStartingEndingGroupLevel(
-			List<IGroupInstanceInfo> groups, List<Boundary> boundaries )
+			List<IGroupInstanceInfo> groups, List<Boundary> boundaries ) throws DataException
 	{
 		int matteredGroupLevel = groups.get( groups.size( )-1 ).getGroupLevel( );
 

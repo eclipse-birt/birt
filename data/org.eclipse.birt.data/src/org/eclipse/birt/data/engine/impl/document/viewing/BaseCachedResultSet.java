@@ -15,7 +15,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
-import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
+import org.eclipse.birt.data.engine.impl.document.IRDGroupUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -36,7 +36,7 @@ abstract class BaseCachedResultSet
 	protected IResultClass resultClass;
 	
 	protected ResultSetCache smartCache;
-	protected RDGroupUtil rdGroupUtil;
+	protected IRDGroupUtil rdGroupUtil;
 	
 	/**
 	 *

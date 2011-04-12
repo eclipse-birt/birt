@@ -30,9 +30,19 @@ public class RDLoadUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static RDGroupUtil loadGroupUtil(String tempDir, StreamManager streamManager,
+	public static IRDGroupUtil loadGroupUtil(String tempDir, StreamManager streamManager,
 			int streamPos, int streamScope ) throws DataException
 	{
+		if ( streamManager.hasInStream( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM,
+				streamPos,
+				streamScope ) )
+		{
+			RAInputStream input = streamManager.getInStream( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM,
+					streamPos,
+					streamScope );
+			return new ProgressiveViewingRDGroupUtil( input );
+		}
+		
 		RAInputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
 				streamPos,
 				streamScope );

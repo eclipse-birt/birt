@@ -945,7 +945,7 @@ public class ResultIterator implements IResultIterator
 		}
 		finally
 		{
-			logger.logp( Level.FINER,
+			logger.logp( Level.FINEST,
 					ResultIterator.class.getName( ),
 					"getResultMetaData",
 					"Returns the result metadata" );

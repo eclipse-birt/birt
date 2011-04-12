@@ -34,5 +34,7 @@ public interface CacheProvider
 	 * @throws DataException
 	 */
 	public void moveTo( int destIndex ) throws DataException;
+	
+	public boolean next( ) throws DataException;
 
 }

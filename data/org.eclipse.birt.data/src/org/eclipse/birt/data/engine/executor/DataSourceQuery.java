@@ -33,7 +33,9 @@ import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy
 import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
+import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
@@ -52,6 +54,7 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
@@ -993,10 +996,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 								? null
 								: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) ) == Strategy.Simple )
 				{
+					for( IResultObjectEvent event: (List<IResultObjectEvent>)this.getFetchEvents( ) )
+					{
+						if( event instanceof ComputedColumnHelper )
+						{
+							((ComputedColumnHelper)event).setModel( TransformationConstants.ALL_MODEL );
+						}
+					}
+					
 					IResultIterator it = new SimpleResultSet( this,
 							rs,
 							newResultClass,
-							eventHandler );
+							eventHandler,
+							this.getGrouping( ));
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
 				}
@@ -1251,6 +1263,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	public void setQuerySpecification( QuerySpecification spec )
 	{
 		this.querySpecificaton = spec;		
+	}
+	
+	public DataEngineSession getSession( )
+	{
+		return this.session;
 	}
     
 }

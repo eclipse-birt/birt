@@ -57,6 +57,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private ComputedColumnHelperInstance currentModel;
 	private List allCC;
 	private DataSetRuntime dataSet;
+	private int mode;
+	
 	private static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
 	// private Object groupMethod.
@@ -78,10 +80,15 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				"ComputedColumnHelper",
 				params );
 
+		this.allCC = new ArrayList( );
+		this.allCC.addAll( dataSetCCList );
+		this.allCC.addAll( resultSetCCList );
 		this.dataSetInstance = new ComputedColumnHelperInstance( dataSet,
 				dataSetCCList, Mode.DataSet, cx );
 		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet, 
 				resultSetCCList, Mode.Query, cx );
+
+		
 		List availableCCList = new ArrayList( );
 		getAvailableComputedList( getComputedNameList( dataSetCCList ),
 				dataSetCCList,
@@ -89,9 +96,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		this.availableModeInstance = new ComputedColumnHelperInstance( dataSet,
 				availableCCList, Mode.DataSet, cx );
 		this.currentModel = this.dataSetInstance;
-		this.allCC = new ArrayList( );
-		this.allCC.addAll( dataSetCCList );
-		this.allCC.addAll( resultSetCCList );
+		
 		this.dataSet = dataSet;
 		logger.exiting( ComputedColumnHelper.class.getName( ),
 				"ComputedColumnHelper" );
@@ -115,10 +120,15 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	public boolean process( IResultObject resultObject, int rowIndex )
 			throws DataException
 	{
-		if ( this.getCurrentInstance( ) != null )
+		if ( this.mode == TransformationConstants.ALL_MODEL )
+		{
+			this.dataSetInstance.process( resultObject, rowIndex );
+			this.resultSetInstance.process( resultObject, rowIndex );
+		}
+		else if ( this.getCurrentInstance( ) != null )
 			return this.getCurrentInstance( ).process( resultObject, rowIndex );
-		else
-			return true;
+		
+		return true;
 	}
 
 	/**
@@ -167,6 +177,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 */
 	public void setModel( int model )
 	{
+		this.mode = model;
 		if ( model == TransformationConstants.DATA_SET_MODEL )
 		{
 			this.currentModel = this.dataSetInstance;
@@ -316,354 +327,355 @@ public class ComputedColumnHelper implements IResultObjectEvent
 			throw DataException.wrap( e );
 		}
 	}
-}
-
-class ComputedColumnHelperInstance
-{
-
-	private DataSetRuntime dataSet;
-
-	private Mode mode;
 	
-	// computed column list passed from external caller
-	private List ccList;
-	private List<String> removedCCName;
-
-	// computed column array which will be evaluated
-	private IComputedColumn[] computedColumn;
-	
-	//save such computed columns whose expression is just like dataSetRow["xxx"]
-	private Map<String, String> columnReferenceMap 
-		= new HashMap<String, String>();
-
-	// computed column position index array
-	private int[] columnIndexArray;
-
-	// prepared flag
-	private boolean isPrepared;
-	private ScriptContext cx;
-	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
-
-	public ComputedColumnHelperInstance( DataSetRuntime dataSet,
-			List computedColumns, Mode mode, ScriptContext cx ) throws DataException
+	private class ComputedColumnHelperInstance
 	{
-		// Do not change the assignment of array
-		// TODO enhance.
-		this.ccList = new ArrayList( );
-		this.removedCCName = new ArrayList( );
-		for ( int i = 0; i < computedColumns.size( ); i++ )
-			this.ccList.add( computedColumns.get( i ) );
-		this.isPrepared = false;
-		this.dataSet = dataSet;
-		this.mode = mode;
-		this.cx = cx.newContext( this.dataSet.getScriptScope( ) );
-	}
-	
-	void remove( String colName )
-	{
-		this.removedCCName.add( colName );
-	}
 
-	public List getComputedColumnList( )
-	{
-		return this.ccList;
-	}
+		private DataSetRuntime dataSet;
 
-	public boolean isRemoved( String colName )
-	{
-		for( int i = 0; i < removedCCName.size( ); i++ )
+		private Mode mode;
+		
+		// computed column list passed from external caller
+		private List ccList;
+		private List<String> removedCCName;
+
+		// computed column array which will be evaluated
+		private IComputedColumn[] computedColumn;
+		
+		//save such computed columns whose expression is just like dataSetRow["xxx"]
+		private Map<String, String> columnReferenceMap 
+			= new HashMap<String, String>();
+
+		// computed column position index array
+		private int[] columnIndexArray;
+
+		// prepared flag
+		private boolean isPrepared;
+		private ScriptContext cx;
+		//protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
+
+		public ComputedColumnHelperInstance( DataSetRuntime dataSet,
+				List computedColumns, Mode mode, ScriptContext cx ) throws DataException
 		{
-			if( colName.equals(  removedCCName.get( i ) ) )
-				return true;
+			// Do not change the assignment of array
+			// TODO enhance.
+			this.ccList = new ArrayList( );
+			this.removedCCName = new ArrayList( );
+			for ( int i = 0; i < computedColumns.size( ); i++ )
+				this.ccList.add( computedColumns.get( i ) );
+			this.isPrepared = false;
+			this.dataSet = dataSet;
+			this.mode = mode;
+			this.cx = cx.newContext( this.dataSet.getScriptScope( ) );
 		}
-		return false;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
-	 */
-	public boolean process( IResultObject resultObject, int rowIndex )
-			throws DataException
-	{
-		logger.entering( ComputedColumnHelper.class.getName( ), "process" );
-		assert resultObject != null;
-
-		IResultClass resultClass = resultObject.getResultClass( );
-		if ( isPrepared == false )
-			prepare( resultClass );
-
-		// check if no computed columns are found as custom fields in the result
-		// set
-		if ( computedColumn.length == 0 )
+		
+		void remove( String colName )
 		{
+			this.removedCCName.add( colName );
+		}
+
+		public List getComputedColumnList( )
+		{
+			return this.ccList;
+		}
+
+		public boolean isRemoved( String colName )
+		{
+			for( int i = 0; i < removedCCName.size( ); i++ )
+			{
+				if( colName.equals(  removedCCName.get( i ) ) )
+					return true;
+			}
+			return false;
+		}
+		
+		/*
+		 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
+		 */
+		public boolean process( IResultObject resultObject, int rowIndex )
+				throws DataException
+		{
+			logger.entering( ComputedColumnHelper.class.getName( ), "process" );
+			assert resultObject != null;
+
+			IResultClass resultClass = resultObject.getResultClass( );
+			if ( isPrepared == false )
+				prepare( resultClass );
+
+			// check if no computed columns are found as custom fields in the result
+			// set
+			if ( computedColumn.length == 0 )
+			{
+				logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
+				return true; // done
+			}
+
+			// bind new object to row script object
+			dataSet.setRowObject( resultObject, true );
+			dataSet.setCurrentRowIndex( rowIndex );
+			Mode temp = dataSet.getMode();
+			dataSet.setMode( this.mode );
+			// now assign the computed value to each of its projected computed
+			// columns
+			try
+			{
+				// iterate through each projected computed column,
+				// and assign it the computed value
+				for ( int i = 0; i < computedColumn.length; i++ )
+				{
+					if( isAggrComputedColumn( computedColumn[i] ))
+					{
+						continue;
+					}
+					if( isRemoved( computedColumn[i].getName( ) ) )
+					{
+						continue;
+					}
+
+					if ( computedColumn[i].getExpression( ) != null )
+					{
+						Object value = null;
+						try
+						{
+							String columnName = columnReferenceMap.get( computedColumn[i].getName() );
+							if ( columnName != null )
+							{
+								if ( resultObject != null )
+								{
+									//for these computed columns whose expression is just like dataSetRow["xxx"]
+									//fetch value just from result set directly rather than Rhino
+									value = resultObject.getFieldValue( columnName );
+								}
+							}
+							else if ( computedColumn[i].getExpression( ).getHandle( ) != null
+									&& computedColumn[i].getExpression( )
+											.getHandle( ) instanceof CompiledExpression )
+							{
+								value = ExprEvaluateUtil.evaluateCompiledExpression( (CompiledExpression) computedColumn[i].getExpression( )
+										.getHandle( ),
+										resultObject,
+										rowIndex,
+										dataSet.getScriptScope( ),
+										cx );
+							}
+							else
+							{
+								IScriptExpression expr = (IScriptExpression) computedColumn[i].getExpression( ); 
+								String exprText = expr.getText( );
+								if ( exprText != null )
+								{
+									if ( expr.getHandle( ) == null )
+									{
+										expr.setHandle( cx.compile( expr.getScriptId( ),
+												null,
+												0,
+												exprText ) );
+									}
+									if ( expr.getHandle( ) != null
+											&& expr.getHandle( ) instanceof CompiledExpression )
+									{
+										value = ExprEvaluateUtil.evaluateCompiledExpression( (CompiledExpression) expr.getHandle( ),
+												resultObject,
+												rowIndex,
+												dataSet.getScriptScope( ),
+												cx );
+									}
+									else
+										value = ScriptEvalUtil.evalExpr( expr,
+												cx,
+												null,
+												0 );
+								}
+							}
+							if ( computedColumn[i] instanceof GroupComputedColumn )
+							{
+								try
+								{
+									value = ( (GroupComputedColumn) computedColumn[i] ).calculate( value );
+								}
+								catch ( BirtException e )
+								{
+									throw DataException.wrap( e );
+								}
+							}
+
+							value = DataTypeUtil.convert( value,
+									resultClass.getFieldValueClass( columnIndexArray[i] ) );
+						}
+						catch ( BirtException e )
+						{
+							String fieldName = resultClass.getFieldName( columnIndexArray[i] );
+							// Exception from System computed column for Sort, Group or Filter
+							if ( fieldName != null
+									&& fieldName.startsWith( "_{$TEMP_" ) )
+							{
+								throw new DataException( ResourceConstants.WRONG_SYSTEM_COMPUTED_COLUMN,
+										e );
+							}
+							//Exception from "Any" type
+							if ( resultClass.wasAnyType( columnIndexArray[i] ))
+								throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN,
+										e );
+
+							//All other exceptions
+							throw new DataException( ResourceConstants.FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN,
+									e,
+									resultClass.getFieldName( columnIndexArray[i] ) );
+						}
+
+						resultObject.setCustomFieldValue( columnIndexArray[i],
+								value );
+					}
+					else
+					{
+						throw new DataException( ResourceConstants.EXPR_INVALID_COMPUTED_COLUMN,
+								resultObject.getResultClass( )
+										.getFieldName( columnIndexArray[i] ) );
+					}
+				}
+			}
+			finally
+			{
+				dataSet.setMode( temp );
+			}
 			logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
-			return true; // done
+			return true;
+		}
+		
+		private boolean isAggrComputedColumn( IComputedColumn cc )
+		{
+			return cc.getAggregateFunction( ) != null;
 		}
 
-		// bind new object to row script object
-		dataSet.setRowObject( resultObject, true );
-		dataSet.setCurrentRowIndex( rowIndex );
-		Mode temp = dataSet.getMode();
-		dataSet.setMode( this.mode );
-		// now assign the computed value to each of its projected computed
-		// columns
-		try
+		/**
+		 * Indicate the ComputedColumnHelper to reprepare.
+		 * 
+		 * @param rePrepare
+		 */
+		public void setRePrepare( boolean rePrepare )
 		{
-			// iterate through each projected computed column,
-			// and assign it the computed value
-			for ( int i = 0; i < computedColumn.length; i++ )
+			this.isPrepared = !rePrepare;
+		}
+
+		/**
+		 * Convert ccList to projComputedColumns, only prepare once.
+		 */
+		private void prepare( IResultClass resultClass ) throws DataException
+		{
+			assert resultClass != null;
+
+			// identify those computed columns that are projected
+			// in the result set by checking the result metadata
+			List cmptList = new ArrayList( );
+			Map<String, IComputedColumn> nameToComptCol = new HashMap<String, IComputedColumn>( );
+			for ( int i = 0; i < ccList.size( ); i++ )
 			{
-				if( isAggrComputedColumn( computedColumn[i] ))
-				{
-					continue;
-				}
-				if( isRemoved( computedColumn[i].getName( ) ) )
-				{
-					continue;
-				}
+				IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( i );
 
-				if ( computedColumn[i].getExpression( ) != null )
+				int cmptdColumnIdx = resultClass.getFieldIndex( cmptdColumn.getName( ) );
+				// check if given field name is found in result set metadata, and
+				// is indeed declared as a custom field
+				if ( cmptdColumnIdx >= 1
+						&& resultClass.isCustomField( cmptdColumnIdx ) )
 				{
-					Object value = null;
-					try
+					cmptList.add( Integer.valueOf( i ) );
+					nameToComptCol.put( cmptdColumn.getName( ), cmptdColumn );
+				}
+				// else computed column is not projected, skip to next computed
+				// column
+			}
+
+			int size = cmptList.size( );
+			columnIndexArray = new int[size];
+			computedColumn = new IComputedColumn[size];
+			int cmptColPos = 0;
+			Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>( );
+			for ( int i = 0; i < size; i++ )
+			{
+				int pos = ( (Integer) cmptList.get( i ) ).intValue( );
+				IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( pos );
+				List<String> referencedBindings = 
+					ExpressionCompilerUtil.extractColumnExpression( 
+							cmptdColumn.getExpression( ), ExpressionUtil.ROW_INDICATOR );
+				
+				boolean existReference = false;
+				for ( String name : referencedBindings )
+				{
+					if ( nameToComptCol.containsKey( name ) )
 					{
-						String columnName = columnReferenceMap.get( computedColumn[i].getName() );
-						if ( columnName != null )
-						{
-							if ( resultObject != null )
-							{
-								//for these computed columns whose expression is just like dataSetRow["xxx"]
-								//fetch value just from result set directly rather than Rhino
-								value = resultObject.getFieldValue( columnName );
-							}
-						}
-						else if ( computedColumn[i].getExpression( ).getHandle( ) != null
-								&& computedColumn[i].getExpression( )
-										.getHandle( ) instanceof CompiledExpression )
-						{
-							value = ExprEvaluateUtil.evaluateCompiledExpression( (CompiledExpression) computedColumn[i].getExpression( )
-									.getHandle( ),
-									resultObject,
-									rowIndex,
-									dataSet.getScriptScope( ),
-									cx );
-						}
-						else
-						{
-							IScriptExpression expr = (IScriptExpression) computedColumn[i].getExpression( ); 
-							String exprText = expr.getText( );
-							if ( exprText != null )
-							{
-								if ( expr.getHandle( ) == null )
-								{
-									expr.setHandle( cx.compile( expr.getScriptId( ),
-											null,
-											0,
-											exprText ) );
-								}
-								if ( expr.getHandle( ) != null
-										&& expr.getHandle( ) instanceof CompiledExpression )
-								{
-									value = ExprEvaluateUtil.evaluateCompiledExpression( (CompiledExpression) expr.getHandle( ),
-											resultObject,
-											rowIndex,
-											dataSet.getScriptScope( ),
-											cx );
-								}
-								else
-									value = ScriptEvalUtil.evalExpr( expr,
-											cx,
-											null,
-											0 );
-							}
-						}
-						if ( computedColumn[i] instanceof GroupComputedColumn )
-						{
-							try
-							{
-								value = ( (GroupComputedColumn) computedColumn[i] ).calculate( value );
-							}
-							catch ( BirtException e )
-							{
-								throw DataException.wrap( e );
-							}
-						}
-
-						value = DataTypeUtil.convert( value,
-								resultClass.getFieldValueClass( columnIndexArray[i] ) );
+						edges.add( new DirectedGraphEdge( new GraphNode( cmptdColumn.getName( ) ),
+								new GraphNode( name ) ) );
+						existReference = true;
 					}
-					catch ( BirtException e )
-					{
-						String fieldName = resultClass.getFieldName( columnIndexArray[i] );
-						// Exception from System computed column for Sort, Group or Filter
-						if ( fieldName != null
-								&& fieldName.startsWith( "_{$TEMP_" ) )
-						{
-							throw new DataException( ResourceConstants.WRONG_SYSTEM_COMPUTED_COLUMN,
-									e );
-						}
-						//Exception from "Any" type
-						if ( resultClass.wasAnyType( columnIndexArray[i] ))
-							throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN,
-									e );
-
-						//All other exceptions
-						throw new DataException( ResourceConstants.FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN,
-								e,
-								resultClass.getFieldName( columnIndexArray[i] ) );
-					}
-
-					resultObject.setCustomFieldValue( columnIndexArray[i],
-							value );
 				}
-				else
+				if( !existReference )
 				{
-					throw new DataException( ResourceConstants.EXPR_INVALID_COMPUTED_COLUMN,
-							resultObject.getResultClass( )
-									.getFieldName( columnIndexArray[i] ) );
+					computedColumn[cmptColPos] = cmptdColumn;
+					columnIndexArray[cmptColPos] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
+					cmptColPos ++;
 				}
 			}
-		}
-		finally
-		{
-			dataSet.setMode( temp );
-		}
-		logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
-		return true;
-	}
-	
-	private boolean isAggrComputedColumn( IComputedColumn cc )
-	{
-		return cc.getAggregateFunction( ) != null;
-	}
-
-	/**
-	 * Indicate the ComputedColumnHelper to reprepare.
-	 * 
-	 * @param rePrepare
-	 */
-	public void setRePrepare( boolean rePrepare )
-	{
-		this.isPrepared = !rePrepare;
-	}
-
-	/**
-	 * Convert ccList to projComputedColumns, only prepare once.
-	 */
-	private void prepare( IResultClass resultClass ) throws DataException
-	{
-		assert resultClass != null;
-
-		// identify those computed columns that are projected
-		// in the result set by checking the result metadata
-		List cmptList = new ArrayList( );
-		Map<String, IComputedColumn> nameToComptCol = new HashMap<String, IComputedColumn>( );
-		for ( int i = 0; i < ccList.size( ); i++ )
-		{
-			IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( i );
-
-			int cmptdColumnIdx = resultClass.getFieldIndex( cmptdColumn.getName( ) );
-			// check if given field name is found in result set metadata, and
-			// is indeed declared as a custom field
-			if ( cmptdColumnIdx >= 1
-					&& resultClass.isCustomField( cmptdColumnIdx ) )
-			{
-				cmptList.add( Integer.valueOf( i ) );
-				nameToComptCol.put( cmptdColumn.getName( ), cmptdColumn );
-			}
-			// else computed column is not projected, skip to next computed
-			// column
-		}
-
-		int size = cmptList.size( );
-		columnIndexArray = new int[size];
-		computedColumn = new IComputedColumn[size];
-		int cmptColPos = 0;
-		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>( );
-		for ( int i = 0; i < size; i++ )
-		{
-			int pos = ( (Integer) cmptList.get( i ) ).intValue( );
-			IComputedColumn cmptdColumn = (IComputedColumn) ccList.get( pos );
-			List<String> referencedBindings = 
-				ExpressionCompilerUtil.extractColumnExpression( 
-						cmptdColumn.getExpression( ), ExpressionUtil.ROW_INDICATOR );
 			
-			boolean existReference = false;
-			for ( String name : referencedBindings )
+			GraphNode[] nodes = null;
+			try
 			{
-				if ( nameToComptCol.containsKey( name ) )
-				{
-					edges.add( new DirectedGraphEdge( new GraphNode( cmptdColumn.getName( ) ),
-							new GraphNode( name ) ) );
-					existReference = true;
-				}
+				nodes = new DirectedGraph( edges ).flattenNodesByDependency( );
 			}
-			if( !existReference )
+			catch ( CycleFoundException e )
 			{
+				throw new DataException( ResourceConstants.COMPUTED_COLUMN_CYCLE, e.getNode( ).getValue( ));
+			}
+			for ( GraphNode node : nodes )
+			{
+				String name = (String) node.getValue( );
+				boolean isAdded = false;
+				for ( int i = 0; i < cmptColPos; i++ )
+				{
+					if( name.equals( computedColumn[i].getName( ) ) )
+					{
+						isAdded = true;
+						break;
+					}
+				}
+				if( isAdded )
+					continue;
+				IComputedColumn cmptdColumn = nameToComptCol.get( name );
 				computedColumn[cmptColPos] = cmptdColumn;
 				columnIndexArray[cmptColPos] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
 				cmptColPos ++;
 			}
-		}
-		
-		GraphNode[] nodes = null;
-		try
-		{
-			nodes = new DirectedGraph( edges ).flattenNodesByDependency( );
-		}
-		catch ( CycleFoundException e )
-		{
-			throw new DataException( ResourceConstants.COMPUTED_COLUMN_CYCLE, e.getNode( ).getValue( ));
-		}
-		for ( GraphNode node : nodes )
-		{
-			String name = (String) node.getValue( );
-			boolean isAdded = false;
-			for ( int i = 0; i < cmptColPos; i++ )
+			
+			//find out computed columns whose expression is just like dataSetRow["xxx"]
+			columnReferenceMap.clear( );
+			for ( IComputedColumn cc : computedColumn )
 			{
-				if( name.equals( computedColumn[i].getName( ) ) )
+				String exprText = null;
+				if ( cc.getExpression( ) instanceof IScriptExpression )
 				{
-					isAdded = true;
-					break;
+					exprText = ((IScriptExpression)cc.getExpression( )).getText( );
 				}
-			}
-			if( isAdded )
-				continue;
-			IComputedColumn cmptdColumn = nameToComptCol.get( name );
-			computedColumn[cmptColPos] = cmptdColumn;
-			columnIndexArray[cmptColPos] = resultClass.getFieldIndex( cmptdColumn.getName( ) );
-			cmptColPos ++;
-		}
-		
-		//find out computed columns whose expression is just like dataSetRow["xxx"]
-		columnReferenceMap.clear( );
-		for ( IComputedColumn cc : computedColumn )
-		{
-			String exprText = null;
-			if ( cc.getExpression( ) instanceof IScriptExpression )
-			{
-				exprText = ((IScriptExpression)cc.getExpression( )).getText( );
-			}
-			if ( exprText == null )
-			{
-				continue;
-			}
-			String columnName = null ;
-			try
-			{
-				columnName = ExpressionUtil.getColumnName( exprText );
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
-			}
-			if ( columnName != null )
-			{
-				//if it's expression is just like dataSetRow["xxx"]
-				columnReferenceMap.put( cc.getName( ), columnName );
-			}
+				if ( exprText == null )
+				{
+					continue;
+				}
+				String columnName = null ;
+				try
+				{
+					columnName = ExpressionUtil.getColumnName( exprText );
+				}
+				catch ( BirtException e )
+				{
+					throw DataException.wrap( e );
+				}
+				if ( columnName != null )
+				{
+					//if it's expression is just like dataSetRow["xxx"]
+					columnReferenceMap.put( cc.getName( ), columnName );
+				}
 
+			}
+			isPrepared = true;
 		}
-		isPrepared = true;
 	}
 }
+

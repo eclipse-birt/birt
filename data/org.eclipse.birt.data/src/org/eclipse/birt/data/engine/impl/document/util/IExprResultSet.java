@@ -78,11 +78,11 @@ public interface IExprResultSet
 	public boolean isEmpty( );
 
 	/**
-	 * Get the group starting and ending index.
+	 * Get the group starting and ending index + 1.
 	 * @param groupIndex
 	 * @return
 	 */
-	public int[] getGroupStartAndEndIndex( int groupIndex );
+	public int[] getGroupStartAndEndIndex( int groupIndex ) throws DataException;
 	
 	/**
 	 * Get the data set result set enclosed in the IExprResultSet instance.

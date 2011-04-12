@@ -153,6 +153,8 @@ public class DataEngineContext
 	
 	public final static String QUERY_STARTING_ID = "/dataEngine/queryStartingID";
 	
+	public final static int PROGRESSIVE_VIEWING_GROUP_STREAM = 120;
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -671,6 +673,9 @@ public class DataEngineContext
 				break;
 			case DIMENSION_META_SECURITY_STREAM:
 				relativePath = "DimensionSecurity";
+				break;
+			case PROGRESSIVE_VIEWING_GROUP_STREAM:
+				relativePath = "ProgressiveViewingGroupInfo";
 				break;
 			default :
 				assert false; // impossible

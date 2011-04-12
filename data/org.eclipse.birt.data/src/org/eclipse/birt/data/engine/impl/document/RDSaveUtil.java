@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
@@ -85,7 +86,9 @@ class RDSaveUtil
 						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE );
 			}
-			streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
+			
+			if( !(odiResult instanceof SimpleResultSet) )
+				streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
 			
@@ -95,7 +98,8 @@ class RDSaveUtil
 					null,
 					null ), isSubQuery );
 			
-			streamForGroupInfo.close( );
+			if( !(odiResult instanceof SimpleResultSet) )
+				streamForGroupInfo.close( );
 			
 			// save the information of sub query information
 			// notice, sub query name is used instead of sub query id
@@ -145,7 +149,8 @@ class RDSaveUtil
 							StreamManager.SELF_SCOPE );
 			}
 			
-			streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
+			if( !(odiResult instanceof SimpleResultSet) )
+				streamForGroupInfo = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
 			
@@ -155,8 +160,8 @@ class RDSaveUtil
 					streamForRowIndexInfo,
 					streamForParentIndexInfo ),
 					isSubQuery );
-						
-			streamForGroupInfo.close( );
+			if( !(odiResult instanceof SimpleResultSet) )			
+				streamForGroupInfo.close( );
 			
 			if ( streamForRowIndexInfo != null )
 				streamForRowIndexInfo.close( );

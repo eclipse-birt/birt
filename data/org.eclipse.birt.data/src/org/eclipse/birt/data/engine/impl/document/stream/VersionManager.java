@@ -63,6 +63,7 @@ public class VersionManager
 	public final static int VERSION_2_5_2_1 = 140;
 	
 	//In version 2_6_2_1 the row ACL is BTree indexed
+	//Also, the grouping storage is changed to support progressive viewing.
 	public final static int VERSION_2_6_2_1 = 150;
 	
 	private DataEngineContext dataEngineContext;

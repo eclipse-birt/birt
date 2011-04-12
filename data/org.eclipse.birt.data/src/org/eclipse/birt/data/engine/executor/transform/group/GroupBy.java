@@ -74,7 +74,7 @@ public abstract class GroupBy
 	/**
 	 * reset for grouping on another list of data
 	 */
-	protected void reset()
+	public void reset()
 	{
 		
 	}
@@ -83,7 +83,7 @@ public abstract class GroupBy
 	/**
 	 * Gets the index of the column to group by
 	 */
-	int getColumnIndex( )
+	public int getColumnIndex( )
 	{
 		return columnIndex;
 	}

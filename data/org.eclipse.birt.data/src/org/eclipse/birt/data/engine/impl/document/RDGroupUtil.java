@@ -11,7 +11,6 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,7 +29,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * This class is read-only part of complete GroupUtil. Its group information
  * data will be loaded from external stream, not generated from a SmartCache.
  */
-public final class RDGroupUtil
+public final class RDGroupUtil implements IRDGroupUtil
 {
 	/*
 	 * groups[level] is an CachedList of GroupInfo objects at the specified level.
@@ -125,15 +124,22 @@ public final class RDGroupUtil
 		this.groups = groups;
 	}
 	
-	public void close( ) throws IOException
+	public void close( ) throws DataException
 	{
-		if( this.inputStreams != null )
+		try
 		{
-			for( int i = 0; i < this.inputStreams.length; i++ )
+			if ( this.inputStreams != null )
 			{
-				this.inputStreams[i].close( );
+				for ( int i = 0; i < this.inputStreams.length; i++ )
+				{
+					this.inputStreams[i].close( );
+				}
+				inputStreams = null;
 			}
-			inputStreams = null;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 	}
 	
@@ -421,7 +427,7 @@ public final class RDGroupUtil
 	
 	/**
 	 * For a particual group level, it might consists of several group units.
-	 * For each group unit, it has its start row index and end row index, and
+	 * For each group unit, it has its start row index and end row index + 1, and
 	 * then the total index will be the group unit number*2.
 	 * 
 	 * @param groupLevel

@@ -35,18 +35,31 @@ import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 public class GroupInformationUtil
 {
 
+
 	/*
 	 * groups[level] is an ArrayList of GroupInfo objects at the specified
 	 * level. Level is a 0-based group index, with 0 denoting the outermost
-	 * group, etc. Example: Row GroupKey1 GroupKey2 GroupKey3 Column4 Column5 0:
-	 * CHINA BEIJING 2003 Cola $100 1: CHINA BEIJING 2003 Pizza $320 2: CHINA
-	 * BEIJING 2004 Cola $402 3: CHINA SHANGHAI 2003 Cola $553 4: CHINA SHANGHAI
-	 * 2003 Pizza $223 5: CHINA SHANGHAI 2004 Cola $226 6: USA CHICAGO 2004
-	 * Pizza $133 7: USA NEW YORK 2004 Cola $339 8: USA NEW YORK 2004 Cola $297
+	 * group, etc. Example: 
+	 * Row 		GroupKey1 		GroupKey2 		GroupKey3 		Column4 		Column5 
+	 * 0: 		CHINA 			BEIJING 		2003 			Cola 			$100 
+	 * 1: 		CHINA 			BEIJING 		2003 			Pizza 			$320 
+	 * 2: 		CHINA	 		BEIJING 		2004 			Cola 			$402 
+	 * 3: 		CHINA 			SHANGHAI 		2003 			Cola 			$553
+	 * 4: 		CHINA 			SHANGHAI		2003 			Pizza 			$223 
+	 * 5: 		CHINA 			SHANGHAI 		2004 			Cola 			$226 
+	 * 6: 		USA 			CHICAGO			2004			Pizza			$133
+	 * 7: 		USA 			NEW YORK		2004			Cola			$339
+	 * 8: 		USA				NEW YORK 		2004 			Cola			$297
 	 * 
-	 * groups: (parent, child) LEVEL 0 LEVEL 1 LEVEL 2
-	 * ============================================ 0: -,0 0,0 0,0 1: -,2 0,2
-	 * 0,2 2: 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
+	 * groups: (parent, child) 
+	 * 		LEVEL 0 		LEVEL 1 		LEVEL 2
+	 * ============================================ 
+	 * 0: 		-,0 			0,0 			0,0 
+	 * 1: 		-,2 			0,2 			0,2 
+	 * 2: 						1,4 			1,3 
+	 * 3: 						1,5 			1,5 
+	 * 4: 										2,6 
+	 * 5: 										3,7
 	 */
 
 	private List[] groups;
