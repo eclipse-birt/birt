@@ -48,10 +48,6 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.Palette;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
@@ -196,25 +192,8 @@ public class Radar extends BaseRenderer
 		}
 		else
 		{
-			// manual, but will clip if data entered is to small for max or to
-			// large for min
-			if ( getFirstSeries( ).getWebLabelMin( ) > calcMin )
-			{
-				this.axisMin = calcMin;
-			}
-			else
-			{
-				this.axisMin = getFirstSeries( ).getWebLabelMin( );
-			}
-			if ( getFirstSeries( ).getWebLabelMax( ) < calcMax )
-			{
-				this.axisMax = calcMax;
-			}
-			else
-			{
-				this.axisMax = getFirstSeries( ).getWebLabelMax( );
-			}
-
+			this.axisMin = getFirstSeries( ).getWebLabelMin( );
+			this.axisMax = getFirstSeries( ).getWebLabelMax( );
 		}
 
 	}
@@ -337,7 +316,7 @@ public class Radar extends BaseRenderer
 		final RadarSeries ls = (RadarSeries) getSeries( );
 		if ( fPaletteEntry == null ) // TEMPORARY PATCH: WILL BE REMOVED SOON
 		{
-			fPaletteEntry = ColorDefinitionImpl.RED( );
+			fPaletteEntry = goFactory.RED( );
 		}
 
 		final RectangleRenderEvent rre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createLegend( lg ),
@@ -368,10 +347,10 @@ public class Radar extends BaseRenderer
 			}
 
 			lre.setLineAttributes( liaMarker );
-			lre.setStart( LocationImpl.create( bo.getLeft( ) + 1, bo.getTop( )
+			lre.setStart( goFactory.createLocation( bo.getLeft( ) + 1, bo.getTop( )
 					+ bo.getHeight( )
 					/ 2 ) );
-			lre.setEnd( LocationImpl.create( bo.getLeft( ) + bo.getWidth( ) - 1,
+			lre.setEnd( goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ) - 1,
 					bo.getTop( ) + bo.getHeight( ) / 2 ) );
 			ipr.drawLine( lre );
 		}
@@ -414,7 +393,7 @@ public class Radar extends BaseRenderer
 			renderMarker( lg,
 					ipr,
 					m,
-					LocationImpl.create( bo.getLeft( ) + bo.getWidth( ) / 2,
+					goFactory.createLocation( bo.getLeft( ) + bo.getWidth( ) / 2,
 							bo.getTop( ) + bo.getHeight( ) / 2 ),
 					ls.getLineAttributes( ),
 					fPaletteEntry,
@@ -504,7 +483,7 @@ public class Radar extends BaseRenderer
 		wlia = rsd.getWebLineAttributes( );
 		if ( wlia == null )
 		{
-			lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
+			lia = goFactory.createLineAttributes( goFactory.GREY( ),
 					LineStyle.SOLID_LITERAL,
 					1 );
 		}
@@ -546,7 +525,7 @@ public class Radar extends BaseRenderer
 		{
 			ore.setBackground( lia.getColor( ) );
 			ore.setOutline( lia );
-			Bounds bo = BoundsImpl.create( 0, 0, 0, 0 );
+			Bounds bo = goFactory.createBounds( 0, 0, 0, 0 );
 			for ( int sc = 1; sc <= scaleCount; sc++ )
 			{
 				double spiderMag = magnitude * sc / scaleCount;
@@ -586,7 +565,7 @@ public class Radar extends BaseRenderer
 		LineAttributes wlia = ( (RadarSeries) se ).getWebLineAttributes( );
 		if ( wlia == null )
 		{
-			lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
+			lia = goFactory.createLineAttributes( goFactory.GREY( ),
 					LineStyle.SOLID_LITERAL,
 					1 );
 		}
@@ -699,7 +678,8 @@ public class Radar extends BaseRenderer
 			double angle = getAngle( index );
 			double x = Math.cos( angle ) * magnitude;
 			double y = Math.sin( angle ) * magnitude;
-			return LocationImpl.create( center.getX( ) + x, center.getY( ) - y );
+			return goFactory.createLocation( center.getX( ) + x, center.getY( )
+					- y );
 		}
 
 		public Bounds computeBounds( Bounds bo, double magnitude )
@@ -935,7 +915,7 @@ public class Radar extends BaseRenderer
 		double centrePointY = Math.round( dt + dh / 2 );
 		double mag = dh / 2;
 
-		Location cntpt = LocationImpl.create( centrePointX, centrePointY );
+		Location cntpt = goFactory.createLocation( centrePointX, centrePointY );
 
 		if ( currSeriesIdx == 1 )
 		{
@@ -959,7 +939,7 @@ public class Radar extends BaseRenderer
 			updateTranslucency( fPaletteEntry, se );
 		}
 
-		Location loAxis = LocationImpl.create( centrePointX, centrePointY );
+		Location loAxis = goFactory.createLocation( centrePointX, centrePointY );
 		List<Location> loList = new LinkedList<Location>( );
 
 		for ( int index = 0; index < dpha.length; index++ )
@@ -976,7 +956,18 @@ public class Radar extends BaseRenderer
 			}
 
 			double currval = ( (Number) dph.getOrthogonalValue( ) ).doubleValue( );
-
+			if ( !autoscale )
+			{
+				// Do not render points out of bounds.
+				if ( currval < getAxisMin( ) )
+				{
+					currval = getAxisMin( );
+				}
+				if ( currval > getAxisMax( ) )
+				{
+					currval = getAxisMax( );
+				}
+			}
 			// Need to do something to give some space at top and center
 			pc.computeLocation( loAxis, index, mag );
 			Location lo = pc.createLocation( index,
@@ -1013,7 +1004,7 @@ public class Radar extends BaseRenderer
 						llia,
 						fPaletteEntry,
 						dph,
-						m.getSize( ),
+						null,
 						true,
 						false );
 				ScriptHandler.callFunction( sh,
@@ -1045,10 +1036,13 @@ public class Radar extends BaseRenderer
 			RadarSeries rsd = getFirstSeries( );
 			if ( rsd.isShowWebLabels( ) )
 			{
-				Location loLabel = LocationImpl.create( 0, 0 );
+				Location loLabel = goFactory.createLocation( 0, 0 );
 				for ( int sc = 0; sc <= scaleCount; sc++ )
 				{
-					final TextRenderEvent stre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
+					// Use chart plot as structure source instead of series so
+					// as to web labels interactivity won't be affected by data
+					// point labels.
+					final TextRenderEvent stre = ( (EventObjectCache) idr ).getEventObject( StructureSource.createPlot( cm.getPlot( ) ),
 							TextRenderEvent.class );
 
 					Label la = null;
