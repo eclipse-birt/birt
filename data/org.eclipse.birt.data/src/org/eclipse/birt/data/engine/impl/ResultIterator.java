@@ -749,6 +749,15 @@ public class ResultIterator implements IResultIterator
 			}
 			catch ( IOException e )
 			{
+				try
+				{
+					this.metaOutputStream.close( );
+					this.rowOutputStream.close( );
+				}
+				catch ( IOException ce )
+				{
+					
+				}
 				throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR, e );
 			}
 			catch ( BirtException e )

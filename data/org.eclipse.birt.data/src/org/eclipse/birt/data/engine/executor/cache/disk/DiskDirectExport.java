@@ -83,7 +83,15 @@ class DiskDirectExport extends DiskDataExport
 	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit )
 			throws IOException, DataException
 	{
-		rowFile.writeRows( resultObjects, resultObjects.length );
+		try
+		{
+			rowFile.writeRows( resultObjects, resultObjects.length );
+		}
+		catch( IOException ie )
+		{
+			rowFile.close( );
+			throw ie;
+		}
 	}
 
 }

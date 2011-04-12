@@ -93,17 +93,29 @@ class DiskSortExport2 extends DiskDataExport
 			IRowResultSet rs, int maxRows ) throws DataException, IOException
 	{
 		// sort the raw data to unit
-		int dataCountOfRest = innerExportRestData( resultObject,
+		int dataCountOfRest;
+		try
+		{
+			dataCountOfRest = innerExportRestData( resultObject,
 				rs,
 				dataCountOfUnit,
 				maxRows );
-		dataCountOfTotal += dataCountOfRest;
+			dataCountOfTotal += dataCountOfRest;
 
-		MergeSortImpl mergeSortImpl = new MergeSortImpl( this.dataCountOfUnit,
+			MergeSortImpl mergeSortImpl = new MergeSortImpl( this.dataCountOfUnit,
 				this.mergeSortUtil,
 				this.tempFileUtil,
 				this.currRowFiles, session );
-		this.goalRowIterator = mergeSortImpl.mergeSortOnUnits( );
+			this.goalRowIterator = mergeSortImpl.mergeSortOnUnits( );
+		}
+		catch( IOException ie )
+		{
+			for( int i = 0; i < currRowFiles.size( ); i++ )
+			{
+				( ( RowFile )currRowFiles.get( i ) ).close( );
+			}
+			throw ie;
+		}
 
 		return dataCountOfRest;
 	}

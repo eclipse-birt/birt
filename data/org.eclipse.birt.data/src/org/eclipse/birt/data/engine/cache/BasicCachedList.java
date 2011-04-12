@@ -158,6 +158,8 @@ public class BasicCachedList implements List, ICloseListener
 	 */
 	private void saveToDisk( ) throws DataException
 	{
+		FileOutputStream fos = null;
+		DataOutputStream oos = null;
 		try
 		{
 			File cacheFile = null;
@@ -171,8 +173,8 @@ public class BasicCachedList implements List, ICloseListener
 				fileList.add( cacheFile );
 			}
 			
-			FileOutputStream fos = FileSecurity.createFileOutputStream( cacheFile );
-			DataOutputStream oos = new DataOutputStream( new BufferedOutputStream( fos ) );
+			fos = FileSecurity.createFileOutputStream( cacheFile );
+			oos = new DataOutputStream( new BufferedOutputStream( fos ) );
 			writeList( oos, currentCache );
 			oos.close( );
 		}
@@ -183,6 +185,14 @@ public class BasicCachedList implements List, ICloseListener
 		}
 		catch ( IOException e )
 		{
+			try
+			{
+				if( oos != null )
+					oos.close( );
+			}
+			catch ( IOException ie )
+			{
+			}
 			logger.severe( "Exception happened when save data to disk in CachedList. Exception message: "
 					+ e.toString( ) );
 		}
@@ -265,10 +275,12 @@ public class BasicCachedList implements List, ICloseListener
 	 */
 	private void loadFromDisk( ) throws DataException
 	{
+		FileInputStream fis = null;
+		DataInputStream ois = null;
 		try
 		{
-			FileInputStream fis = FileSecurity.createFileInputStream(  getCacheFile( this.currentCacheNo ) );
-			DataInputStream ois = new DataInputStream( new BufferedInputStream( fis ) );
+			fis = FileSecurity.createFileInputStream(  getCacheFile( this.currentCacheNo ) );
+			ois = new DataInputStream( new BufferedInputStream( fis ) );
 			this.currentCache = readList( ois );
 			ois.close( );
 		}
@@ -279,6 +291,14 @@ public class BasicCachedList implements List, ICloseListener
 		}
 		catch ( IOException e )
 		{
+			try
+			{
+				if( ois != null )
+					ois.close( );
+			}
+			catch ( IOException ie )
+			{
+			}
 			logger.severe( "Exception happened when load data from disk in CachedList. Exception message: "
 					+ e.toString( ) );
 		}
