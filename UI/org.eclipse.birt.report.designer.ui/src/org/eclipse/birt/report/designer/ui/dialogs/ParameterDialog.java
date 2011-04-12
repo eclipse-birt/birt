@@ -1767,21 +1767,21 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				for ( Iterator iter = defaultValueList.iterator( ); iter.hasNext( ); )
 				{
 					Expression expression = (Expression) iter.next( );
-					if ( isValidValue( expression.getStringExpression( ),
-							expression.getType( ) ) != null
-							|| set.contains( validateValue( expression.getStringExpression( ),
-									expression.getType( ) ) ) )
+					if ( expression != null )
 					{
-						if ( enableAllowMultiValueVisible( ) )
+						if ( isValidValue( expression ) != null
+								|| set.contains( validateValue( expression ) ) )
 						{
-							iter.remove( );
+							if ( enableAllowMultiValueVisible( ) )
+							{
+								iter.remove( );
+							}
+							change = true;
 						}
-						change = true;
-					}
-					else
-					{
-						set.add( validateValue( expression.getStringExpression( ),
-								expression.getType( ) ) );
+						else
+						{
+							set.add( validateValue( expression ) );
+						}
 					}
 				}
 			}
@@ -2175,7 +2175,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					dialog.setDistinct( true );
 				}
-				
+
 				if ( isRequired.isEnabled( ) && !isRequired.getSelection( ) )
 				{
 					dialog.setRequired( false );
@@ -3036,6 +3036,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		return validateValue( value, null );
 	}
 
+	private Object validateValue( Expression expression ) throws BirtException
+	{
+		if ( expression == null )
+			return validateValue( null, null );
+		else
+			return validateValue( expression.getStringExpression( ),
+					expression.getType( ) );
+	}
+
 	private Object validateValue( String value, String type )
 			throws BirtException
 	{
@@ -3093,11 +3102,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		{
 			for ( Expression value : values )
 			{
-				if ( value == null )
-					validateValue( null );
-				else
-					validateValue( value.getStringExpression( ),
-							value.getType( ) );
+				validateValue( value );
 			}
 		}
 	}
@@ -3772,6 +3777,17 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		return isValidValue( value, null );
 	}
 
+	private String isValidValue( Expression expression )
+	{
+		if ( expression == null )
+		{
+			return isValidValue( null, null );
+		}
+		else
+			return isValidValue( expression.getStringExpression( ),
+					expression.getType( ) );
+	}
+
 	private String isValidValue( String value, String exprType )
 	{
 		if ( canBeNull( ) )
@@ -4444,7 +4460,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			setFirstDefaultValue( value, type );
 			refreshDynamicValueTable( );
 			defaultValueChooser.setFocus( );
-			defaultValueChooser.setText( "" ); 
+			defaultValueChooser.setText( "" );
 		}
 	}
 
