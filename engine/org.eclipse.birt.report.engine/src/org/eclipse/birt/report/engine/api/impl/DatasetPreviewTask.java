@@ -33,7 +33,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected DataSetHandle dataset;
 
 	protected int maxRow;
-	
+
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
 		super(engine, TASK_DATASETPREVIEW);
@@ -167,6 +167,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 				null, executionContext.getScriptContext( ) );
 		ResultMetaData metadata = new ResultMetaData(
 				result.getResultMetaData( ) );
+		apiAdapter.close( );
 		return new ExtractionResults( result, metadata, null, 0, maxRow );
 	}
 
