@@ -4391,6 +4391,18 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	private final static BigDecimal UPER_LIMIT = new BigDecimal( "1E9" ); //$NON-NLS-1$
+
+	/**
+	 * Creates a default decimal format based on specified number.
+	 * 
+	 * @param number specified number.
+	 * @return instance of <code>DecimalFormat</code>
+	 */
+	public final DecimalFormat computeDefaultDecimalFormat( Number number )
+	{
+		return info.cacheNumFormat.get( ValueFormatter.getNumericPattern( number ) );
+	}
+	
 	public final DecimalFormat computeDecimalFormat( BigDecimal bdAxisValue, BigDecimal bdAxisStep)
 	{
 		if ( bdAxisValue.abs( ).compareTo( UPER_LIMIT ) >= 0
@@ -4553,11 +4565,6 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				iLastVisibleIndex = index;
 			}
-		}
-		
-		int getFirstVisibleIndex( )
-		{
-			return iFirstVisibleIndex;
 		}
 
 		int getLastVisibleIndex( )

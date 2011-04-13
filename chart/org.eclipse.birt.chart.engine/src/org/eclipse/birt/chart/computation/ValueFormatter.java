@@ -102,6 +102,14 @@ public final class ValueFormatter
 						return correctNumber( sValue );
 					}
 				}
+				else if ( oValue instanceof BigNumberDataElement )
+				{
+					if ( oCachedJavaFormatter instanceof DecimalFormat )
+					{
+						sValue = ( (DecimalFormat) oCachedJavaFormatter ).format( NumberUtil.asBigDecimal( ( (BigNumberDataElement) oValue ).getValue( ) ) );
+						return correctNumber( sValue );
+					}
+				}
 				else if ( oValue instanceof Calendar
 						|| oValue instanceof DateTimeDataElement )
 				{
@@ -259,6 +267,11 @@ public final class ValueFormatter
 			{
 				return NumberFormat.getInstance( lcl )
 						.format( ( (NumberDataElement) oValue ).getValue( ) );
+			}
+			else if ( oValue instanceof BigNumberDataElement )
+			{
+				return NumberFormat.getInstance( lcl )
+						.format( ( (BigNumberDataElement) oValue ).getValue( ) );
 			}
 			else if ( oValue instanceof Calendar )
 			{

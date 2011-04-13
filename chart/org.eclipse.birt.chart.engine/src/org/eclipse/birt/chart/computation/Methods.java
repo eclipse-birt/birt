@@ -25,10 +25,12 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.data.BigNumberDataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.NumberUtil;
 
 import com.ibm.icu.util.Calendar;
 
@@ -244,6 +246,10 @@ public class Methods implements IConstants
 			return getDateLocation( sc,
 					( (DateTimeDataElement) oValue ).getValueAsCDateTime( ) );
 		}
+		else if ( oValue instanceof BigNumberDataElement )
+		{
+			return getLocation( sc, (Number)((BigNumberDataElement)oValue).getValue( ) );
+		}
 		else if ( oValue instanceof IntersectionValue )
 		{
 			return getLocation( sc, (IntersectionValue) oValue );
@@ -279,6 +285,25 @@ public class Methods implements IConstants
 		return getLocation( sc, oValue ) - sc.getStart( );
 	}
 
+	/**
+	 * Computes and returns the location based on specified value and scale info.
+	 * 
+	 * @param sc scale info instance.
+	 * @param bdValue specified value.
+	 * @return
+	 */
+	public static final double getLocation( AutoScale sc, Number bdValue )
+	{
+		if ( sc.isBigNumber( ) )
+		{
+			return getLocation( sc, NumberUtil.asBigDecimal( bdValue ).divide(  sc.getBigNumberDivisor( ) ).doubleValue( ) );
+		}
+		else
+		{
+			return getLocation( sc, bdValue.doubleValue( ) );
+		}
+	}
+	
 	/**
 	 * 
 	 * @param sc

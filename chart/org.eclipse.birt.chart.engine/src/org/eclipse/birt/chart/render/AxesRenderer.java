@@ -89,6 +89,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.BigNumberDataElement;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
@@ -449,7 +450,11 @@ public abstract class AxesRenderer extends BaseRenderer
 		final Class<? extends DataElement> c2 = de2.getClass( );
 		if ( c1.equals( c2 ) )
 		{
-			if ( de1 instanceof NumberDataElement )
+			if ( de1 instanceof BigNumberDataElement )
+			{
+				return ( ( (BigNumberDataElement) de1 ).getValue( ).compareTo( ( (BigNumberDataElement) de2 ).getValue( ) ) );
+			}
+			else if ( de1 instanceof NumberDataElement )
 			{
 				return Double.compare( ( (NumberDataElement) de1 ).getValue( ),
 						( (NumberDataElement) de2 ).getValue( ) );
@@ -1125,13 +1130,13 @@ public abstract class AxesRenderer extends BaseRenderer
 							sb.append( ValueFormatter.format( deStart,
 									mr.getFormatSpecifier( ),
 									oaxa[i].getRunTimeContext( ).getULocale( ),
-									null ) );
+									getDataElementDefaultFormat( deStart, asc ) ) );
 							sb.append( Messages.getString( "separator.marker.range.caption", //$NON-NLS-1$ 
 									getRunTimeContext( ).getULocale( ) ) );
 							sb.append( ValueFormatter.format( deEnd,
 									mr.getFormatSpecifier( ),
 									oaxa[i].getRunTimeContext( ).getULocale( ),
-									null ) );
+									getDataElementDefaultFormat( deEnd, asc ) ) );
 							sb.append( Messages.getString( "suffix.marker.range.caption", //$NON-NLS-1$ 
 									getRunTimeContext( ).getULocale( ) ) );
 							la.getCaption( ).setValue( sb.toString( ) );
@@ -2425,6 +2430,15 @@ public abstract class AxesRenderer extends BaseRenderer
 		return null;
 	}
 
+	private Object getDataElementDefaultFormat( DataElement de, AutoScale as ) 
+	{
+		if ( de instanceof BigNumberDataElement )
+		{
+			return as.computeDefaultDecimalFormat( ((BigNumberDataElement)de).getValue( ) );
+		}
+		return null;
+	}
+	
 	/**
 	 * Renders all marker lines (and labels at requested positions) associated
 	 * with every axis in the plot Note that marker lines are drawn immediately
@@ -2520,7 +2534,7 @@ public abstract class AxesRenderer extends BaseRenderer
 										getValidMarkerLineFormat( ml ),
 										oaxa[i].getRunTimeContext( )
 												.getULocale( ),
-										null ) );
+												getDataElementDefaultFormat( ml.getValue( ), asc ) ) );
 					}
 					catch ( ChartException dfex )
 					{
