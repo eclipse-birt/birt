@@ -226,8 +226,8 @@ class PatternKey
 				break;
 			}
 		}
-
-		if ( hyphenNumber == 0 && colonNumber == 0 && source.length( ) > 4 )
+	
+		if ( hyphenNumber == 0 && colonNumber == 0 && !isValidYear( source ) )
 		{
 			return null;
 		}
@@ -237,6 +237,27 @@ class PatternKey
 				hyphenNumber,
 				dotNumber,
 				timeZomeNumber ) );
+	}
+	
+	private static boolean isValidYear( String source )
+	{
+		if ( source.length( ) <= 4 )
+		{
+			if ( "yyyy".equalsIgnoreCase( source ) )
+			{
+				return true;
+			}
+			try
+			{
+				Integer.parseInt( source );
+			}
+			catch ( NumberFormatException e )
+			{
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	PatternKey( int colonNumber, int blankNumber, int hyphenNumber,
