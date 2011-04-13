@@ -40,7 +40,15 @@ public class RDLoadUtil
 			RAInputStream input = streamManager.getInStream( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM,
 					streamPos,
 					streamScope );
-			return new ProgressiveViewingRDGroupUtil( input );
+			try
+			{
+				if ( input.length( ) > 0 )
+					return new ProgressiveViewingRDGroupUtil( input );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ), e );
+			}
 		}
 		
 		RAInputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,

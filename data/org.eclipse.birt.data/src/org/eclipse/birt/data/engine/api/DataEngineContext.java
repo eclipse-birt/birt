@@ -416,20 +416,23 @@ public class DataEngineContext
 		{
 			try
 			{
+				if( !writer.exists( streamPath ))
+					return;
 				//If a stream exists in ArchiveFile but not exists in ArchiveView
 				//the call to IDocArchiveWriter.dropStream() would not remove the stream
 				//from ArchiveFile. So we've to first create a stream of same path in
 				//ArchiveView (so that it can automatically replace the on in ArchiveFile) 
-				//and then drop it.
 				OutputStream stream = writer.createRandomAccessStream( streamPath );
 				stream.close( );
+				
+				//We should not try to drop stream here, because this may expose the real stream in 
+				//archive file (read only), in case the stream in archive view is dropped. 
 			}
 			catch ( IOException e )
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//writer.dropStream( streamPath );
 		}
 	}
 
