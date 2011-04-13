@@ -1049,20 +1049,23 @@ public class SVGInteractiveRenderer
 		{
 			String target = urlValue.getTarget( );
 			if ( target == null )
-				target = "null"; //$NON-NLS-1$
+			{
+				// Blank target in SVG is new window, so change to self for the
+				// sake of consistency.
+				target = "_self"; //$NON-NLS-1$
+			}
 			// To resolve security issue in IE7, call
-			// parent
-			// method to redirect
+			// parent method to redirect
 			String jsRedirect = "redirect('"//$NON-NLS-1$ 
 					+ target
-					+ "','"//$NON-NLS-1$ 
+					+ "',_url);";//$NON-NLS-1$
+			url = "var _url='" //$NON-NLS-1$
 					+ urlValue.getBaseUrl( )
-					+ "');";//$NON-NLS-1$
-			url = "try { parent."//$NON-NLS-1$
-				+ jsRedirect
-				+ " } catch(e) { "//$NON-NLS-1$
-				+ jsRedirect
-				+ " }" ; //$NON-NLS-1$
+					+ "'; try { parent." //$NON-NLS-1$
+					+ jsRedirect
+					+ " } catch(e) { "//$NON-NLS-1$
+					+ jsRedirect
+					+ " }"; //$NON-NLS-1$
 		}
 		
 		elm.setAttribute( scriptEvent,
