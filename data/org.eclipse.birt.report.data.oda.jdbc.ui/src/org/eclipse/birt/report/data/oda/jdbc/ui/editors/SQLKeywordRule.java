@@ -19,7 +19,7 @@ import org.eclipse.jface.text.rules.Token;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2007/02/01 10:58:58 $
+ * @version $Revision: 1.4 $ $Date: 2008/08/21 09:42:14 $
  */
 
 public class SQLKeywordRule implements IPredicateRule
@@ -93,6 +93,7 @@ public class SQLKeywordRule implements IPredicateRule
 					//Now check whether it is a keyword
 					if ( isKeyword( sToCompare ) )
 					{
+						scanner.unread( );
 						tokenToReturn = token;
 					}
 				}
@@ -111,7 +112,7 @@ public class SQLKeywordRule implements IPredicateRule
 
 	private final boolean isValidPrecedingCharacter( int iCh )
 	{
-		return ( iCh == ' ' || iCh == '\t' || iCh == '\r' || iCh == '\n' );
+		return ( iCh == ' ' || iCh == '\t' || iCh == '\r' || iCh == '\n' || iCh == '(' );
 	}
 
 	private final boolean isValidTerminatingCharacter( int iCh )
