@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -39,6 +41,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -57,7 +60,7 @@ public class CubeLabelProvider extends LabelProvider
 	private static final Image IMG_DATASET = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SET );
 
 	private static final Image IMG_DATAFIELD = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
-	
+
 	private static final Image IMG_DATAFIELD_USED = UIHelper.getImage( BuilderConstants.IMAGE_COLUMN_USED );
 
 	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstants.IMAGE_CUBE );
@@ -289,6 +292,42 @@ public class CubeLabelProvider extends LabelProvider
 				}
 			}
 		}
+
+		list = input.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			MeasureGroupHandle measureGroup = (MeasureGroupHandle) list.get( i );
+			Object[] measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP )
+					.toArray( );
+			if ( measures != null )
+			{
+				String dataset = input.getDataSet( ).getName( );
+				List<String> columns = columnMap.get( dataset );
+				if ( columns == null )
+				{
+					columns = new ArrayList<String>( );
+					columnMap.put( dataset, columns );
+				}
+				
+				for ( int j = 0; j < measures.length; j++ )
+				{
+					TabularMeasureHandle measure = (TabularMeasureHandle) measures[j];
+					try
+					{
+						String columnName = ExpressionUtil.getColumnName( measure.getMeasureExpression( ) );
+						if ( columnName != null )
+						{
+							columns.add( columnName );
+						}
+					}
+					catch ( BirtException e )
+					{
+						// do nothing
+					}
+				}
+			}
+		}
+
 		return columnMap;
 	}
 }
