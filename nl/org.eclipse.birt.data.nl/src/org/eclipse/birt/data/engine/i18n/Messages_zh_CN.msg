@@ -227,7 +227,7 @@ data.engine.acl.dataSetColumnCannotBeAccessed=无法访问数据集列“{0}”。
 data.engine.acl.cubeCannotBeAccessed=用户没有权限访问此多维数据集“{0}”
 data.engine.acl.cubeLevelCannotBeAccessed=用户没有权限访问此级别“{0}”
 data.engine.acl.cubeMeasureCannotBeAccessed=用户没有权限访问此度量“{0}”
-
+data.engine.acl.cubeDimensionCannotBeAccessed=User does not have permission to access this dimension "{0}"
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
