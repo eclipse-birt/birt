@@ -1,3 +1,3 @@
 !*************** BIRT CROSSTAB ***********
-plugin@org.eclipse.birt.report.item.crosstab.core=v20110407,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.item.crosstab.core
-plugin@org.eclipse.birt.report.item.crosstab.ui=v20110407,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.item.crosstab.ui
+plugin@org.eclipse.birt.report.item.crosstab.core=v20110414,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.item.crosstab.core
+plugin@org.eclipse.birt.report.item.crosstab.ui=v20110414,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.item.crosstab.ui
