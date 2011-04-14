@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -1843,14 +1844,18 @@ public class InsertInLayoutUtil
 		try
 		{
 			StyleHandle styleHandle = dataHandle.getPrivateStyle( );
-			boolean wordWrap = UIUtil.isWordWrap( column );
-			if (wordWrap)
+			ColumnHintHandle hintHandle = findColumnHintHandle( column );
+			if (hintHandle != null && hintHandle.isLocal( ColumnHint.WORD_WRAP_MEMBER ))
 			{
-				styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
-			}
-			else
-			{
-				styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
+				boolean wordWrap = UIUtil.isWordWrap( column );
+				if (wordWrap)
+				{
+					styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NORMAL );
+				}
+				else
+				{
+					styleHandle.setWhiteSpace( DesignChoiceConstants.WHITE_SPACE_NOWRAP );
+				}
 			}
 			
 			String aliment = UIUtil.getClolumnHandleAlignment( column );
@@ -1864,7 +1869,7 @@ public class InsertInLayoutUtil
 			{
 				dataHandle.setHelpText( helpText );
 			}
-			ColumnHintHandle hintHandle = findColumnHintHandle( column );
+			
 			if (hintHandle != null)
 			{
 				formatDataHandleDataType( column.getDataType( ), hintHandle.getValueFormat( ), styleHandle );
