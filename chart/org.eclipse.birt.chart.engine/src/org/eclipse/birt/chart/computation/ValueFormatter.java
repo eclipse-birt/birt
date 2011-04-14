@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.BigNumber;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.NumberUtil;
 
@@ -164,6 +165,14 @@ public final class ValueFormatter
 				{
 					return NumberFormat.getInstance( lcl )
 							.format( ( (BigNumberDataElement) oValue ).getValue( ) );
+				}
+				else if ( oValue instanceof CDateTime )
+				{
+					int dateStyle = ( (CDateTime) oValue ).isTimeOnly( ) ? DateFormat.NONE
+							: DateFormat.SHORT;
+					return DateFormat.getDateTimeInstance( dateStyle,
+							DateFormat.SHORT,
+							lcl ).format( oValue );
 				}
 				else if ( oValue instanceof Calendar )
 				{
