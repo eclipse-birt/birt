@@ -2936,4 +2936,32 @@ public class UIUtil
 		}
 		return str.toString( );
 	}
+
+	/**
+	 * 
+	 * @param fileName
+	 *            the fileName
+	 * @return the editor with the given fileName, or null if not found.
+	 */
+	public static IEditorPart findOpenedEditor( String fileName )
+	{
+		IWorkbenchPage page = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( )
+				.getActivePage( );
+
+		IEditorReference[] editors = page.getEditorReferences( );
+
+		for ( int i = 0; i < editors.length; i++ )
+		{
+			IEditorPart part = editors[i].getEditor( true );
+			IPath location = ( (IPathEditorInput) part.getEditorInput( ) ).getPath( );
+
+			if ( fileName.equalsIgnoreCase( location.toOSString( ) ) )
+			{
+				return part;
+			}
+		}
+
+		return null;
+	}
 }
