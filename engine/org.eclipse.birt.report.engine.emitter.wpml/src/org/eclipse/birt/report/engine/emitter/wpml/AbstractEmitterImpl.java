@@ -74,6 +74,7 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.BidiSplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
+import org.eclipse.birt.report.engine.layout.pdf.text.LineBreakChunk;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FlashFile;
@@ -1005,7 +1006,7 @@ public abstract class AbstractEmitterImpl
 						int length = ch.getLength( );
 						fontFamily = getFontFamily( computedStyle, ch );
 						String string = null;
-						if ( ch == Chunk.HARD_LINE_BREAK)
+						if ( ch instanceof LineBreakChunk)
 						{
 							string = ch.getText();
 						}

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.layout.pdf.hyphen.IWordRecognizer;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Word;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
+import org.eclipse.birt.report.engine.layout.pdf.text.LineBreakChunk;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -186,7 +187,7 @@ public class TextCompositor
 		if ( null == remainWords || !remainWords.hasWord( ) )
 		{
 			Chunk chunk = remainChunks.getNext( );
-			if ( chunk == Chunk.HARD_LINE_BREAK )
+			if ( chunk instanceof LineBreakChunk )
 			{
 				// return a hard line break. the line height is decided by
 				// the current font's height.

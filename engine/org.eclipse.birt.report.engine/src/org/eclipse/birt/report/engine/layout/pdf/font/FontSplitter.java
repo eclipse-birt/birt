@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.pdf.ISplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
+import org.eclipse.birt.report.engine.layout.pdf.text.LineBreakChunk;
 
 import com.ibm.icu.text.Bidi;
 
@@ -139,7 +140,7 @@ public class FontSplitter implements ISplitter
 		{
 			currentPos = currentPos + returnCharacterCount -1;
 			chunkStartPos = currentPos + 1;
-			return Chunk.HARD_LINE_BREAK;
+			return lineBreakChunk;
 		}
 		lineBreak = lineBreakChunk;
 		Chunk c = new Chunk(new String(chunkText, chunkStartPos, currentPos-chunkStartPos), 
@@ -154,13 +155,12 @@ public class FontSplitter implements ISplitter
 		Chunk lineBreakChunk = null;
 		if ( chunkText[currentPos] == '\n' )
 		{
-			lineBreakChunk = Chunk.HARD_LINE_BREAK;
-			lineBreakChunk.setText("\n");
+			lineBreakChunk = new LineBreakChunk("\n");
 			lineBreakChunk.setOffset( currentPos );
 		}
 		else if (chunkText[currentPos] == '\r' )
 		{
-			lineBreakChunk = Chunk.HARD_LINE_BREAK;
+			lineBreakChunk = new LineBreakChunk("\r");
 			lineBreakChunk.setOffset( currentPos );
 			if ( currentPos + 1 < chunkText.length && chunkText[currentPos + 1] == '\n' )
 			{
