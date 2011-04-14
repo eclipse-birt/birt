@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -120,6 +121,13 @@ public class ExcelWriter implements IExcelWriter
 				{
 					reader.close( );
 					reader = null;
+					File file = new File( tempFilePath );
+					if ( file.exists( ) && file.isFile( ) )
+					{
+						file.delete( );
+					}
+					tempFilePath = null;
+					tempWriter = null;
 				}
 			}
 		}
