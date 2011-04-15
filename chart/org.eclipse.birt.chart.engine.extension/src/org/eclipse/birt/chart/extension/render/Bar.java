@@ -324,22 +324,10 @@ public final class Bar extends AxesRenderer
 
 		// DATA POINT RELATED VARIABLES ARE INITIALIZED HERE
 		Label laDataPoint = null;
-		Position pDataPoint = null;
-		Location loDataPoint = null;
-		Location3D loDataPoint3d = null;
-		Bounds boDataPoint = null;
 		try
 		{
 			laDataPoint = bRendering3D ? srh3d.getLabelAttributes( bs )
 					: srh.getLabelAttributes( bs );
-			if ( laDataPoint.isVisible( ) ) // ONLY COMPUTE IF NECESSARY
-			{
-				pDataPoint = bRendering3D ? srh3d.getLabelPosition( bs )
-						: srh.getLabelPosition( bs );
-				loDataPoint = goFactory.createLocation( 0, 0 );
-				loDataPoint3d = goFactory.createLocation3D( 0, 0, 0 );
-				boDataPoint = goFactory.createBounds( 0, 0, 0, 0 );
-			}
 		}
 		catch ( Exception ex )
 		{
@@ -1430,7 +1418,31 @@ public final class Bar extends AxesRenderer
 					laDataPoint,
 					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
-					laDataPoint );	
+					laDataPoint );
+			
+			// Computes data point info.
+			Position pDataPoint = null;
+			Location loDataPoint = null;
+			Location3D loDataPoint3d = null;
+			Bounds boDataPoint = null;
+			try
+			{
+				if ( laDataPoint.isVisible( ) ) // ONLY COMPUTE IF NECESSARY
+				{
+					pDataPoint = bRendering3D ? srh3d.getLabelPosition( bs )
+							: srh.getLabelPosition( bs );
+					loDataPoint = goFactory.createLocation( 0, 0 );
+					loDataPoint3d = goFactory.createLocation3D( 0, 0, 0 );
+					boDataPoint = goFactory.createBounds( 0, 0, 0, 0 );
+				}
+			}
+			catch ( Exception ex )
+			{
+				throw new ChartException( ChartEngineExtensionPlugin.ID,
+						ChartException.RENDERING,
+						ex );
+			}
+						
 			if ( laDataPoint.isVisible( )
 					&& ( dHeight != 0 || bShowOutside )
 					&& dWidth != 0 )
