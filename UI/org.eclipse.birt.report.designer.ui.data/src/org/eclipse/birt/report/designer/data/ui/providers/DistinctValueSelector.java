@@ -14,16 +14,27 @@ package org.eclipse.birt.report.designer.data.ui.providers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.AppContextPopulator;
+import org.eclipse.birt.report.designer.data.ui.dataset.AppContextResourceReleaser;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetPreviewer;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetPreviewer.PreviewType;
+import org.eclipse.birt.report.designer.data.ui.dataset.ExternalUIUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
 import org.eclipse.birt.report.designer.data.ui.util.ExpressionUtility;
@@ -37,10 +48,16 @@ import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.MemberHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 /**
  * Utility class to fetch all available value for filter use.
@@ -69,43 +86,27 @@ public class DistinctValueSelector
 			DataSetHandle dataSetHandle, boolean useDataSetFilter )
 			throws BirtException
 	{
-		DataRequestSession session = null;
 		ScriptExpression expr = null;
-		ReportEngine engine = null;
-		DummyEngineTask engineTask = null;
+		DataSetHandle targetHandle = dataSetHandle;
+		Map appContext = new HashMap( );
+		DataSetPreviewer previewer = null;
+
 		try
 		{
-
-			if ( dataSetHandle != null
-					&& ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle ) )
+			if ( !useDataSetFilter )
 			{
-				ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
-						.copy( ).getHandle( null ) );
-
-				EngineConfig config = new EngineConfig( );
-
-				config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-						DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
-								.getContextClassLoader( ),
-								copy ) );
-				engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
-
-				engineTask = new DummyEngineTask( engine,
-						new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) copy ),
-						copy, dataSetHandle );
-				session = engineTask.getDataSession( );
-
-				engineTask.run( );
-
-				expr = session.getModelAdaptor( ).adaptExpression( expression );
+				IDesignElement element = dataSetHandle.copy( );
+				( (DataSet) element ).setProperty( IDataSetModel.FILTER_PROP,
+						new ArrayList( ) );	
+				targetHandle =ExternalUIUtil.newDataSetHandle( dataSetHandle, (DesignElement)element );
 			}
-			else
-			{
-				session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-						dataSetHandle == null ? null
-								: dataSetHandle.getModuleHandle( ) ) );
-				expr = session.getModelAdaptor( ).adaptExpression( expression );
-			}
+			previewer = new DataSetPreviewer( targetHandle,
+					0,
+					PreviewType.RESULTSET );
+			
+			DataModelAdapter adapter = new DataModelAdapter( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					targetHandle.getModuleHandle( ) ) );
+			expr = adapter.adaptExpression( expression );
 
 			boolean startsWithRow = ExpressionUtility.isColumnExpression( expr.getText( ),
 					true );
@@ -124,66 +125,61 @@ public class DistinctValueSelector
 			else
 			{
 				dataSetColumnName = ExpressionUtil.getColumnBindingName( expr.getText( ) );
+			}			
+			
+			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
+			String resouceIDs = ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS;					
+			identifiers.setApplResourceBaseURI( DTPUtil.getInstance( ).getBIRTResourcePath( ) );
+			identifiers.setDesignResourceBaseURI( DTPUtil.getInstance( ).getReportDesignPath( ) );
+			appContext.put( resouceIDs,identifiers);
+		
+			AppContextPopulator.populateApplicationContext( targetHandle, appContext );
+			previewer.open( appContext, getEngineConfig( targetHandle.getModuleHandle( ) ) );
+			IResultIterator itr = previewer.preview( ) ;
+			
+			Set visitedValues = new HashSet( );
+			Object value = null;
+			
+			while ( itr.next( ) )
+			{
+				// default is to return 10000 distinct value
+				if ( visitedValues.size( ) > 10000 )
+				{
+					break;
+				}
+				value = itr.getValue( dataSetColumnName );
+				if ( !visitedValues.contains( value ) )
+				{
+					visitedValues.add( value );
+				}
 			}
 
-			List bindingList = new ArrayList( );
-			ComputedColumn handle = new ComputedColumn( );
-			String columnName = "TEMP_" + expression.getStringExpression( );
-			handle.setExpression( ExpressionUtil.createJSDataSetRowExpression( dataSetColumnName ) );
-			handle.setName( columnName );
-			String dataType = null;
-			
-			if( dataSetHandle == null )
-				return Collections.EMPTY_LIST;
-			
-			dataType = findColumnDataType( dataSetHandle, dataSetColumnName );
-			if ( dataType != null )
-				handle.setDataType( dataType );
-
-			bindingList.add( handle );
-			AppContextPopulator.populateApplicationContext( dataSetHandle, session );
-			
-			Collection result = session.getColumnValueSet( dataSetHandle,
-					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
-							.iterator( ),
-					bindingList.iterator( ),
-					null,
-					columnName,
-					useDataSetFilter,
-					null );
-
-			assert result != null;
-			if ( result.isEmpty( ) )
+			if ( visitedValues.isEmpty( ) )
 				return Collections.EMPTY_LIST;
 
-			Object resultProtoType = result.iterator( ).next( );
-			if ( resultProtoType instanceof IBlob
-					|| resultProtoType instanceof byte[] )
-				return Collections.EMPTY_LIST;
-
-			return new ArrayList( result );
+			return new ArrayList( visitedValues );
 		}
 		finally
 		{
-			if ( dataSetHandle != null && dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
-			{
-				if ( engineTask != null )
-				{
-					engineTask.close( );
-				}
-				if ( engine != null )
-				{
-					engine.destroy( );
-				}
-			}
-			else
-			{
-				if ( session != null )
-				{
-					session.shutdown( );
-				}
-			}
+			AppContextResourceReleaser.release( appContext );
+			if ( previewer != null )
+				previewer.close( );
 		}
+	}
+	
+	
+	private static EngineConfig getEngineConfig( ModuleHandle handle )
+	{
+		EngineConfig ec = new EngineConfig( );
+		ClassLoader parent = Thread.currentThread( ).getContextClassLoader( );
+		if ( parent == null )
+		{
+			parent = handle.getClass( ).getClassLoader( );
+		}
+		ClassLoader customClassLoader = DataSetProvider.getCustomScriptClassLoader( parent, handle );
+		ec.getAppContext( ).put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				customClassLoader );
+		return ec;
 	}
 	
 	/**

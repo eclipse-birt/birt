@@ -31,12 +31,16 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.DerivedDataSet;
+import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 
@@ -223,5 +227,34 @@ public class ExternalUIUtil
 	public static IPropertyPage[] getCommonPages( DataSetHandle ds )
 	{
 		return new IPropertyPage[0];
+	}
+
+	public static DataSetHandle newDataSetHandle( DataSetHandle dataSetHandle, DesignElement element )
+	{
+		DataSetHandle targetHandle = dataSetHandle;
+		if ( dataSetHandle != null )
+		{
+			if ( dataSetHandle instanceof OdaDataSetHandle )
+			{
+				targetHandle = new OdaDataSetHandle( dataSetHandle.getModule( ),
+						(DesignElement) element );
+			}
+			else if ( dataSetHandle instanceof ScriptDataSetHandle )
+			{
+				targetHandle = new ScriptDataSetHandle( dataSetHandle.getModule( ),
+						(DesignElement) element );
+			}
+			else if ( dataSetHandle instanceof JointDataSetHandle )
+			{
+				targetHandle = new JointDataSetHandle( dataSetHandle.getModule( ),
+						(JointDataSet) element );
+			}
+			else if ( dataSetHandle instanceof DerivedDataSetHandle )
+			{
+				targetHandle = new DerivedDataSetHandle( dataSetHandle.getModule( ),
+						(DerivedDataSet) element );
+			}
+		}
+		return targetHandle;
 	}
 }
