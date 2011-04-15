@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=L'URL est nulle et ne peut pas être conve
 ResourceAction.FileRemoveFailure=Echec de suppression des fichiers.
 LibraryNotExist.Dialog.Title=Ouvrir la bibliothèque
 LibraryNotExist.Dialog.Message=La bibliothèque n'existe pas. Voulez-vous actualiser l'Explorateur de ressources? 
-DesignerNotExist.Dialog.Title=Ouvrir le concepteur d'états
-DesignerNotExist.Dialog.Message=Le concepteur n'existe pas. Voulez-vous actualiser l'Explorateur de ressources ? 
+DesignerNotExist.Dialog.Title=Ouvrir un modèle d'état
+DesignerNotExist.Dialog.Message=Le modèle d'état n'existe pas. Voulez-vous actualiser l'Explorateur de ressources ? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filtre...
@@ -1820,7 +1820,7 @@ GeneralInsertMenuAction.text.Text=&Texte
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=Nom de style en double
 GeneralPreferencePage.label.styleNameDuplicate=Le nom de style "{0}" existe déjà, choisissez un autre nom.
-GeneralPreferencePage.label.styleNamePredefind=Style name "{0}" is predefined, please choose a different name
+GeneralPreferencePage.label.styleNamePredefind=Le nom de style "{0}" est prédéfini, choisissez un autre nom.
 GeneralPreferencePage.label.customStyle=&Style personnalisé
 GeneralPreferencePage.Label.CustomStyle=Nom :
 GeneralPreferencePage.Label.Note=REMARQUE : * appliquez les propriétés de style à un type spécifique d'élément d'état.

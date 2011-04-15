@@ -111,8 +111,8 @@ ResourceAction.ConvertToFile.URLIsNull=La URL es nula, no se puede convertir a u
 ResourceAction.FileRemoveFailure=Error al eliminar archivos.
 LibraryNotExist.Dialog.Title=Abrir librería
 LibraryNotExist.Dialog.Message=La librería no existe, ¿desea actualizar el explorador de recursos? 
-DesignerNotExist.Dialog.Title=Abrir diseñador de informes
-DesignerNotExist.Dialog.Message=El diseñador no existe, ¿desea actualizar el explorador de recursos? 
+DesignerNotExist.Dialog.Title=Abrir diseño de informe
+DesignerNotExist.Dialog.Message=El diseño de informe no existe, ¿desea actualizar el explorador de recursos? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filtrar...
@@ -1820,7 +1820,7 @@ GeneralInsertMenuAction.text.Text=&Texto
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=Nombre de estilo duplicado.
 GeneralPreferencePage.label.styleNameDuplicate=El nombre de estilo "{0}" ya existe, elija un nombre diferente
-GeneralPreferencePage.label.styleNamePredefind=Style name "{0}" is predefined, please choose a different name
+GeneralPreferencePage.label.styleNamePredefind=El nombre de estilo "{0}" está predefinido, elija un nombre diferente
 GeneralPreferencePage.label.customStyle=&Estilo personalizado
 GeneralPreferencePage.Label.CustomStyle=Nombre:
 GeneralPreferencePage.Label.Note=NOTA: * Aplique las propiedades de estilo a un tipo de elemento de informe específico.
