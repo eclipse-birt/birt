@@ -13,15 +13,18 @@ package org.eclipse.birt.report.designer.ui.ide.navigator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.views.navigator.ResourceNavigator;
@@ -65,6 +68,30 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 				{
 					action.setEnabled( false );
 					return;
+				}
+
+				IEditorPart editor = org.eclipse.birt.report.designer.internal.ui.util.UIUtil.findOpenedEditor( url );
+
+				if ( editor != null && editor.isDirty( ) )
+				{
+					MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
+							Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.title" ), //$NON-NLS-1$
+							null,
+							Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{file.getName( )} ), //$NON-NLS-1$
+							MessageDialog.CONFIRM,
+							new String[]{
+									Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes" ), //$NON-NLS-1$
+									Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.no" ) //$NON-NLS-1$
+							},
+							0 );
+					switch ( md.open( ) )
+					{
+						case 0 :
+							editor.doSave( null );
+							break;
+						case 1 :
+						default :
+					}
 				}
 
 				WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),

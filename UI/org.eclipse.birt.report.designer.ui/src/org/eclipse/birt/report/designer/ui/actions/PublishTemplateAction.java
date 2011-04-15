@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.actions;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -96,6 +98,30 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 //						return;
 //					}
 
+					IEditorPart editor = UIUtil.findOpenedEditor( url );
+
+					if ( editor != null && editor.isDirty( ) )
+					{
+						MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.title" ), //$NON-NLS-1$
+								null,
+								Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{reportFile.getName( )} ), //$NON-NLS-1$
+								MessageDialog.CONFIRM,
+								new String[]{
+										Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes" ), //$NON-NLS-1$
+										Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.no" ) //$NON-NLS-1$
+								},
+								0 );
+						switch ( md.open( ) )
+						{
+							case 0 :
+								editor.doSave( null );
+								break;
+							case 1 :
+							default :
+						}
+					}
+
 					WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 							new PublishTemplateWizard( (ReportDesignHandle) handle ) );
 					dialog.setPageSize( 500, 250 );
@@ -112,6 +138,38 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		}
 		else
 		{
+			ReportDesignHandle handle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+
+			if ( handle.needsSave( ) )
+			{
+				MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
+						Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.title" ), //$NON-NLS-1$
+						null,
+						Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{new File( handle.getFileName( ) ).getName( )} ), //$NON-NLS-1$
+						MessageDialog.CONFIRM,
+						new String[]{
+								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes" ), //$NON-NLS-1$
+								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.no" ) //$NON-NLS-1$
+						},
+						0 );
+				switch ( md.open( ) )
+				{
+					case 0 :
+						try
+						{
+							handle.save( );
+						}
+						catch ( IOException e )
+						{
+							ExceptionHandler.handle( e );
+						}
+						break;
+					case 1 :
+					default :
+				}
+			}
+
 			WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
 					new PublishTemplateWizard( (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 							.getReportDesignHandle( ) ) );
