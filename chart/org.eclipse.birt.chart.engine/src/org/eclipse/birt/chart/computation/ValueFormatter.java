@@ -169,9 +169,9 @@ public final class ValueFormatter
 				else if ( oValue instanceof CDateTime )
 				{
 					int dateStyle = ( (CDateTime) oValue ).isTimeOnly( ) ? DateFormat.NONE
-							: DateFormat.SHORT;
+							: DateFormat.DEFAULT;
 					return DateFormat.getDateTimeInstance( dateStyle,
-							DateFormat.SHORT,
+							DateFormat.DEFAULT,
 							lcl ).format( oValue );
 				}
 				else if ( oValue instanceof Calendar )
