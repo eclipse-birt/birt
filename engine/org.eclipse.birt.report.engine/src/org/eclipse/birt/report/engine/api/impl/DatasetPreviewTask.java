@@ -158,7 +158,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		QueryDefinition newQuery = constructQuery( dataset );
 		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
-		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
+		final ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
 		apiAdapter.defineDataSet( dataset, session );
 		session.registerQueries( new IQueryDefinition[]{newQuery} );
@@ -167,8 +167,14 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 				null, executionContext.getScriptContext( ) );
 		ResultMetaData metadata = new ResultMetaData(
 				result.getResultMetaData( ) );
-		apiAdapter.close( );
-		return new ExtractionResults( result, metadata, null, 0, maxRow );
+		return new ExtractionResults( result, metadata, null, 0, maxRow ) {
+
+			public void close( )
+			{
+				super.close( );
+				apiAdapter.close( );
+			}
+		};
 	}
 
 	protected ModuleHandle getModuleHandle( )
