@@ -38,6 +38,7 @@ public class JdbcMetaDataProvider
 	private String driverClass;
 	private String password;
 	private Connection connection;
+	private boolean connect_fail = false;
 	
 	private static Logger logger = Logger.getLogger( JdbcMetaDataProvider.class.getName( ) );
 	
@@ -92,11 +93,26 @@ public class JdbcMetaDataProvider
 	
 	public void reconnect( ) throws SQLException, OdaException
 	{
+		if ( connect_fail )
+			return;
 		closeConnection( );
-		connection = DriverLoader.getConnection( driverClass,
-				url,
-				userName,
-				password );
+		try
+		{
+			connection = DriverLoader.getConnection( driverClass,
+					url,
+					userName,
+					password );
+		}
+		catch ( SQLException sqlException )
+		{
+			connect_fail = true;
+			throw sqlException;
+		}
+		catch ( OdaException odaException )
+		{
+			connect_fail = true;
+			throw odaException;
+		}
 	}
 	
 	private void closeConnection( )
@@ -141,6 +157,10 @@ public class JdbcMetaDataProvider
 				logger.log( Level.WARNING, e.getMessage( ), e );
 				return "";
 			}
+			catch ( Exception ex )
+			{
+				return "";
+			}
 		}
 		try
 		{
@@ -181,6 +201,10 @@ public class JdbcMetaDataProvider
 			catch ( SQLException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
+				return false;
+			}
+			catch ( Exception ex )
+			{
 				return false;
 			}
 		}
@@ -236,6 +260,10 @@ public class JdbcMetaDataProvider
 					return false;
 				}
 			}
+			catch ( Exception ex )
+			{
+				return false;
+			}
 		}
 		try
 		{
@@ -289,6 +317,10 @@ public class JdbcMetaDataProvider
 			catch ( SQLException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
+				return null;
+			}
+			catch ( Exception ex )
+			{
 				return null;
 			}
 		}
@@ -346,6 +378,10 @@ public class JdbcMetaDataProvider
 				logger.log( Level.WARNING, e.getMessage( ), e );
 				return null;
 			}
+			catch ( Exception ex )
+			{
+				return null;
+			}
 		}
 		try
 		{
@@ -390,6 +426,10 @@ public class JdbcMetaDataProvider
 			catch ( SQLException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
+				return null;
+			}
+			catch ( Exception ex )
+			{
 				return null;
 			}
 		}
@@ -447,6 +487,10 @@ public class JdbcMetaDataProvider
 				logger.log( Level.WARNING, e.getMessage( ), e );
 				return null;
 			}
+			catch ( Exception ex )
+			{
+				return null;
+			}
 		}
 		try
 		{
@@ -497,6 +541,10 @@ public class JdbcMetaDataProvider
 			catch ( SQLException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
+				return null;
+			}
+			catch ( Exception ex )
+			{
 				return null;
 			}
 		}
