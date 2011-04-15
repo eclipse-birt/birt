@@ -629,7 +629,8 @@ public class ReportEngineService
 	 * @return the PDF render option
 	 */
 	private PDFRenderOption createPDFRenderOption( String servletPath,
-			HttpServletRequest request, int pageOverflow, boolean isDesigner )
+			HttpServletRequest request, int pageOverflow, boolean isDesigner,
+			boolean isPDF )
 	{
 		String baseURL = null;
 		// try to get base url from config file
@@ -661,7 +662,7 @@ public class ReportEngineService
 			servletPath = IBirtConstants.SERVLET_PATH_RUN;
 		}
 		renderOption.setOption( IBirtConstants.SERVLET_PATH, servletPath );
-		renderOption.setSupportedImageFormats( "PNG;GIF;JPG;BMP;SVG" ); //$NON-NLS-1$
+		renderOption.setSupportedImageFormats( isPDF ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// page overflow setting
 		switch ( pageOverflow )
@@ -1042,7 +1043,8 @@ public class ReportEngineService
 				renderOption = createPDFRenderOption( servletPath,
 						request,
 						pageOverflow,
-						isDesigner );
+						isDesigner,
+						IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) );
 			}
 			else
 			{
@@ -1628,7 +1630,8 @@ public class ReportEngineService
 			renderOption = createPDFRenderOption( servletPath,
 					request,
 					pageOverflow,
-					ParameterAccessor.isDesigner( ) );
+					ParameterAccessor.isDesigner( ),
+					IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) );
 		}
 		else
 		{
