@@ -4,19 +4,19 @@ preference.bidiframe.arabictitle = Spezielle Funktionen für Arabisch
  
 
 report.bidi.properties.externalbidiformat.orderingscheme.metadata=S&ortierschema
-report.bidi.properties.externalbidiformat.orderingscheme.content=O&rdering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme.content=So&rtierschema
 
 report.bidi.properties.externalbidiformat.shaping.metadata=T&extform
-report.bidi.properties.externalbidiformat.shaping.content=Text S&haping
+report.bidi.properties.externalbidiformat.shaping.content=Text&form
 
 report.bidi.properties.externalbidiformat.numshaping.metadata=&Numerische Form
-report.bidi.properties.externalbidiformat.numshaping.content=N&umeric Shaping
+report.bidi.properties.externalbidiformat.numshaping.content=N&umerische Form
 
 report.bidi.properties.externalbidiformat.symswap.metadata=&Symmetrische Spiegelung
-report.bidi.properties.externalbidiformat.symswap.content=Symmetric Sw&apping
+report.bidi.properties.externalbidiformat.symswap.content=Symmetrische Spi&egelung
 
 report.bidi.properties.externalbidiformat.textdirection.metadata=&Textrichtung
-report.bidi.properties.externalbidiformat.textdirection.content=Te&xt Direction
+report.bidi.properties.externalbidiformat.textdirection.content=Te&xtrichtung
 
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = Wert für Sortierschema wählen 
 report.bidi.properties.externalbidiformat.textdirection.tooltip = Wert für Textrichtung wählen
@@ -44,5 +44,5 @@ advancedbididialog.msg=Bidirektionale Formate für Metadaten und Inhalt festlegen
 advancedbidi.button=Bidirektionale Einstellungen...
 metadata.bidiframe.title=Bidirektionales Metadaten-Format von externem System
 content.bidiframe.title=Bidirektionales Inhaltsformat von externem System
-disablebidi.checkbox.label=Disa&ble Bidi Transformation
+disablebidi.checkbox.label=&Bidirektionale Transformation deaktivieren
 

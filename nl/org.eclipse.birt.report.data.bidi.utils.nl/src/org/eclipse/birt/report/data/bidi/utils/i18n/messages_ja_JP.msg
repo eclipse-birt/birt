@@ -4,19 +4,19 @@ preference.bidiframe.arabictitle = アラビア語固有の機能
  
 
 report.bidi.properties.externalbidiformat.orderingscheme.metadata=スキームの順序(&O)
-report.bidi.properties.externalbidiformat.orderingscheme.content=O&rdering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme.content=スキームの順序(&R)
 
 report.bidi.properties.externalbidiformat.shaping.metadata=文字列の整形(&S)
-report.bidi.properties.externalbidiformat.shaping.content=Text S&haping
+report.bidi.properties.externalbidiformat.shaping.content=文字列の整形(&H)
 
 report.bidi.properties.externalbidiformat.numshaping.metadata=数値の整形(&N)
-report.bidi.properties.externalbidiformat.numshaping.content=N&umeric Shaping
+report.bidi.properties.externalbidiformat.numshaping.content=数値の整形(&U)
 
 report.bidi.properties.externalbidiformat.symswap.metadata=対称的な置換(&W)
-report.bidi.properties.externalbidiformat.symswap.content=Symmetric Sw&apping
+report.bidi.properties.externalbidiformat.symswap.content=対称的な置換(&A)
 
 report.bidi.properties.externalbidiformat.textdirection.metadata=文字列の向き(&D)
-report.bidi.properties.externalbidiformat.textdirection.content=Te&xt Direction
+report.bidi.properties.externalbidiformat.textdirection.content=文字列の向き(&X)
 
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = スキームの順序値の選択 
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 文字列の向きの値の選択
@@ -44,5 +44,5 @@ advancedbididialog.msg=メタデータおよびコンテンツ双方向形式の設定
 advancedbidi.button=双方向の設定 ...
 metadata.bidiframe.title=外部システムのメタデータ双方向形式
 content.bidiframe.title=外部システムのコンテンツ双方向形式
-disablebidi.checkbox.label=Disa&ble Bidi Transformation
+disablebidi.checkbox.label=双方向変換を無効にする(&B)
 

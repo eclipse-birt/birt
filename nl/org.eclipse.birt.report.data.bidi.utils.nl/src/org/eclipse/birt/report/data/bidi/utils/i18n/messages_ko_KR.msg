@@ -4,19 +4,19 @@ preference.bidiframe.arabictitle = 아랍어 특정 기능
  
 
 report.bidi.properties.externalbidiformat.orderingscheme.metadata=순서 체계(&O)
-report.bidi.properties.externalbidiformat.orderingscheme.content=O&rdering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme.content=순서 체계(&R)
 
 report.bidi.properties.externalbidiformat.shaping.metadata=텍스트 모양(&S)
-report.bidi.properties.externalbidiformat.shaping.content=Text S&haping
+report.bidi.properties.externalbidiformat.shaping.content=텍스트 모양(&H)
 
 report.bidi.properties.externalbidiformat.numshaping.metadata=숫자 모양(&N)
-report.bidi.properties.externalbidiformat.numshaping.content=N&umeric Shaping
+report.bidi.properties.externalbidiformat.numshaping.content=숫자 모양(&U)
 
 report.bidi.properties.externalbidiformat.symswap.metadata=대칭 변경(&W)
-report.bidi.properties.externalbidiformat.symswap.content=Symmetric Sw&apping
+report.bidi.properties.externalbidiformat.symswap.content=대칭 변경(&)
 
 report.bidi.properties.externalbidiformat.textdirection.metadata=텍스트 방향(&D)
-report.bidi.properties.externalbidiformat.textdirection.content=Te&xt Direction
+report.bidi.properties.externalbidiformat.textdirection.content=텍스트 방향(&)
 
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = 순서 체계 값 선택 
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 텍스트 방향 값 선택
@@ -44,5 +44,5 @@ advancedbididialog.msg=메타데이터 및 내용 양방향 형식 설정
 advancedbidi.button=양방향 설정...
 metadata.bidiframe.title=외부 시스템의 메타데이터 양방향 형식
 content.bidiframe.title=외부 시스템의 내용 양방향 형식
-disablebidi.checkbox.label=Disa&ble Bidi Transformation
+disablebidi.checkbox.label=양방향 변환 사용 안 함(&B)
 

@@ -36,7 +36,7 @@ SwingTextMetrics.exception.undefined.text.color=Text mit nicht definierter Farbe
 SwingEventHandler.info.toggle.visibility=Sichtbarkeit ein/aus: {0}
 SwingEventHandler.info.toggle.datapoint.visibility=Datenpunkt-Sichtbarkeit ein/aus: {0}
 SwingEventHandler.info.cannot.find.series=Entwurfszeit-Datenreihe nicht gefunden für Laufzeit-Datenreihe: {0}
-SwingEventHandler.info.improper.callback.notifier=Benachrichtigung: [{0}] wurde erkannt, doch es wird eine ICallBackNotifer-Implementierung erwartet.
+SwingEventHandler.info.improper.callback.notifier=Benachrichtigung: [{0}] wurde erkannt, es wird aber eine ICallBackNotifer-Implementierung erwartet.
 SwingEventHandler.info.redirect.url=Umleitung an URL: {0}
 
 SwingDisplayServer.info.display.server=SWING Anzeigeserver: {0} v{1}

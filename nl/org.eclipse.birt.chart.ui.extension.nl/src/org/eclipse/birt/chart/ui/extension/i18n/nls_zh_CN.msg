@@ -202,7 +202,7 @@ OrthogonalSeriesDataSheetImpl.Title.SheetTitle=Êı¾İ > Öµ (Y) ÏµÁĞ - ÉèÖÃÖµ (Y) Ï
 
 OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Label=±êÇ©
 OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Title=±êÌâ
-OrthogonalSeriesLabelAttributeSheetImpl.Title.SheetTitle=ÊôĞÔ > Y ÏµÁĞ > ±êÇ© - ×Ô¶¨ÒåÖµ (Y) ÏµÁĞ±êÇ©
+OrthogonalSeriesLabelAttributeSheetImpl.Title.SheetTitle=ÊôĞÔ > Y ÏµÁĞ > ±êÇ© - ×Ô¶¨ÒåÖµ(Y)ÏµÁĞ±êÇ©
 
 AreaChart.Txt.PercentStackedDescription=¶Ñ»ı°Ù·Ö±ÈÃæ»ıÍ¼ÏÔÊ¾×İÏò¶ÑµşµÄÇøÓò£¬\n¶ÑµşÇøÓòµÄ×Ü¸ß¶È£¨Ã¿¸öµ¥ÔªÖĞ´Ó×îµÍµ½×î¸ß£©Îª 100¡£
 AreaChart.Txt.StackedDescription=¶Ñ»ıÃæ»ıÍ¼ÏÔÊ¾×İÏò¶ÑµşµÄÇøÓò¡£\nÕıÖµºÍ¸ºÖµ·Ö±ğ¶ÑµşÔÚÔ­µãµÄÉÏ·½ºÍÏÂ·½¡£
@@ -1075,5 +1075,5 @@ MenuStyleDialog.Style.OnMouseOut=Êó±êÒÆ³öÊ±
 MenuStylesDialog.Btn.Add=Ìí¼Ó(&A)
 MenuStylesDialog.Btn.Remove=É¾³ı(&R)
 MenuStylesDialog.Label.Style=ÑùÊ½(&S):
-MenuStylesDialog.title=³¬Á´½Ó²Ëµ¥ÊôĞÔ
+MenuStylesDialog.title=³¬¼¶Á´½Ó²Ëµ¥ÊôĞÔ
 MenuStylesDialog.Title=³¬Á´½Ó²Ëµ¥ÑùÊ½

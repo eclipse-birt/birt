@@ -4,19 +4,19 @@ preference.bidiframe.arabictitle = 阿拉伯特定功能
  
 
 report.bidi.properties.externalbidiformat.orderingscheme.metadata=排序方案(&O)
-report.bidi.properties.externalbidiformat.orderingscheme.content=O&rdering Scheme
+report.bidi.properties.externalbidiformat.orderingscheme.content=排序方案(&R)
 
 report.bidi.properties.externalbidiformat.shaping.metadata=文本造型(&S)
-report.bidi.properties.externalbidiformat.shaping.content=Text S&haping
+report.bidi.properties.externalbidiformat.shaping.content=文本造型(&H)
 
 report.bidi.properties.externalbidiformat.numshaping.metadata=数字造型(&N)
-report.bidi.properties.externalbidiformat.numshaping.content=N&umeric Shaping
+report.bidi.properties.externalbidiformat.numshaping.content=数字造型(&U)
 
 report.bidi.properties.externalbidiformat.symswap.metadata=对称交换(&W)
-report.bidi.properties.externalbidiformat.symswap.content=Symmetric Sw&apping
+report.bidi.properties.externalbidiformat.symswap.content=对称交换(&A)
 
 report.bidi.properties.externalbidiformat.textdirection.metadata=文本方向(&D)
-report.bidi.properties.externalbidiformat.textdirection.content=Te&xt Direction
+report.bidi.properties.externalbidiformat.textdirection.content=文本方向(&X)
 
 report.bidi.properties.externalbidiformat.orderingscheme.tooltip = 选择排序方案值 
 report.bidi.properties.externalbidiformat.textdirection.tooltip = 选择文本方向值
@@ -44,5 +44,5 @@ advancedbididialog.msg=设置元数据和内容双向格式
 advancedbidi.button=双向设置...
 metadata.bidiframe.title=外部系统的元数据双向格式
 content.bidiframe.title=外部系统的内容双向格式
-disablebidi.checkbox.label=Disa&ble Bidi Transformation
+disablebidi.checkbox.label=禁用双向转换(&B)
 
