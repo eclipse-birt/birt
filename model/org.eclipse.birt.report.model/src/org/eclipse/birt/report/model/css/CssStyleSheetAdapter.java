@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
@@ -60,9 +61,12 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		{
 			CssStyleSheet css = csses.get( i );
 			String tmpFileName = css.getFileName( );
+			ModuleOption options = module.getOptions( );
 			URL tmpurl = locator.findResource( (ModuleHandle) module
 					.getHandle( module ), tmpFileName,
-					IResourceLocator.CASCADING_STYLE_SHEET );
+					IResourceLocator.CASCADING_STYLE_SHEET, options == null
+							? null
+							: options.getOptions( ) );
 			if ( tmpurl == null )
 				continue;
 

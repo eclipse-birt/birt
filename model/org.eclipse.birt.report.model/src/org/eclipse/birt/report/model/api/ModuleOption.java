@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class ModuleOption implements IModuleOption
 	 * Maps to store the key/value pairs.
 	 */
 
-	protected HashMap options = new HashMap( );
+	protected Map options = new HashMap( );
 
 	/**
 	 * Default constructor.
@@ -238,7 +239,7 @@ public class ModuleOption implements IModuleOption
 	 * Returns the flag that indicates whether the report should be updated to
 	 * the latest version when creates.
 	 * 
-	 * @return 
+	 * @return
 	 */
 
 	public boolean toLatestVersion( )
@@ -268,4 +269,15 @@ public class ModuleOption implements IModuleOption
 		obj.options.putAll( options );
 		return obj;
 	}
+
+	/**
+	 * Returns a read-only map for all options.
+	 * 
+	 * @return the options
+	 */
+	public Map getOptions( )
+	{
+		return Collections.unmodifiableMap( options );
+	}
+
 }

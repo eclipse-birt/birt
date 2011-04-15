@@ -1347,7 +1347,7 @@ public class DesignSessionImpl
 	{
 		defaultTOCStyleList = new ArrayList<DesignElement>( );
 		URL url = new ResourceLocatorImpl( ).findResource( null,
-				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS );
+				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS, null );
 		if ( url == null )
 			return;
 

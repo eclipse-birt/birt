@@ -335,8 +335,11 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final DesignElement findDataSource( String name )
 	{
-		return resolveElement( null, name, null, MetaDataDictionary
-				.getInstance( ).getElement(
+		return resolveElement(
+				null,
+				name,
+				null,
+				MetaDataDictionary.getInstance( ).getElement(
 						ReportDesignConstants.DATA_SOURCE_ELEMENT ) );
 	}
 
@@ -350,8 +353,11 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final DesignElement findDataSet( String name )
 	{
-		return resolveElement( null, name, null, MetaDataDictionary
-				.getInstance( ).getElement(
+		return resolveElement(
+				null,
+				name,
+				null,
+				MetaDataDictionary.getInstance( ).getElement(
 						ReportDesignConstants.DATA_SET_ELEMENT ) );
 	}
 
@@ -553,9 +559,10 @@ public abstract class ModuleImpl extends DesignElement
 
 		lineNoInfo.put( obj, lineNo );
 	}
-	
+
 	/**
 	 * Adds an object's line number info.
+	 * 
 	 * @param element
 	 *            the element
 	 * @param obj
@@ -564,7 +571,8 @@ public abstract class ModuleImpl extends DesignElement
 	 *            the line number
 	 */
 
-	public final void addLineNo( DesignElement element, Object obj, Integer lineNo )
+	public final void addLineNo( DesignElement element, Object obj,
+			Integer lineNo )
 	{
 		if ( lineNoInfo == null )
 			return;
@@ -1282,8 +1290,7 @@ public abstract class ModuleImpl extends DesignElement
 	 * Search file taking <code>fileName</code> as relative file name and basing
 	 * "base" property of module;
 	 * <li>Search file with the file locator (<code>
-	 * IResourceLocator</code>) in
-	 * session.
+	 * IResourceLocator</code>) in session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -1305,8 +1312,11 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final URL findResource( String fileName, int fileType )
 	{
+		ModuleOption options = getOptions( );
+
 		URL url = getSession( ).getResourceLocator( ).findResource(
-				(ModuleHandle) getHandle( getModule( ) ), fileName, fileType );
+				(ModuleHandle) getHandle( getModule( ) ), fileName, fileType,
+				options == null ? null : options.getOptions( ) );
 		return url;
 	}
 
@@ -1320,8 +1330,7 @@ public abstract class ModuleImpl extends DesignElement
 	 * Search file taking <code>fileName</code> as relative file name and basing
 	 * "base" property of module;
 	 * <li>Search file with the file locator (<code>
-	 * IResourceLocator</code>) in
-	 * session.
+	 * IResourceLocator</code>) in session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -2436,7 +2445,10 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final ReportItemTheme findReportItemTheme( String name )
 	{
-		return (ReportItemTheme) resolveElement( null, name, null,
+		return (ReportItemTheme) resolveElement(
+				null,
+				name,
+				null,
 				MetaDataDictionary.getInstance( ).getElement(
 						ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT ) );
 	}
