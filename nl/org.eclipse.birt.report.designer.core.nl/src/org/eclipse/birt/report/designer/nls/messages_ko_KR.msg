@@ -3123,7 +3123,7 @@ PropertyHandleTableViewer.Menu.RemoveAll=모두 제거
 
 PropertyHandleInputDialog.Action.New=새로 만들기
 PropertyHandleInputDialog.Action.Edit=편집
-PropertyHandleInputDialog.messages.error.blankProperty={0}은(는) 비워둘 수 없습니다.
+PropertyHandleInputDialog.messages.error.blankProperty={0} cannot be blank
 
 ###########################################################
 #PropertyAndPreferencePage properties
@@ -3155,7 +3155,10 @@ PublishTemplateAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishTemplateAction.wizard.message.ThumbnailImageNotExist=축소판 이미지가 없습니다.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=미리 보기 이미지 파일이 없습니다.
 PublishTemplateAction.wizard.message.PreviewImageNotValid=미리 보기 이미지 파일이 올바른 이미지가 아닙니다.
-
+PublishTemplateAction.SaveBeforeGenerating.dialog.title=Save Report
+PublishTemplateAction.SaveBeforeGenerating.dialog.message={0} has been modified. Save changes before publishing?
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes=&Yes
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=&No
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=오류

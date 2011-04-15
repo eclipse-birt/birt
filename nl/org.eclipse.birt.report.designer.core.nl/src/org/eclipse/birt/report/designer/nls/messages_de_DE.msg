@@ -3123,7 +3123,7 @@ PropertyHandleTableViewer.Menu.RemoveAll=Alles entfernen
 
 PropertyHandleInputDialog.Action.New=Neu
 PropertyHandleInputDialog.Action.Edit=Bearbeiten
-PropertyHandleInputDialog.messages.error.blankProperty={0} darf nicht leer sein
+PropertyHandleInputDialog.messages.error.blankProperty={0} cannot be blank
 
 ###########################################################
 #PropertyAndPreferencePage properties
@@ -3155,7 +3155,10 @@ PublishTemplateAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht
 PublishTemplateAction.wizard.message.ThumbnailImageNotExist=Das Miniaturbild ist nicht vorhanden.
 PublishTemplateAction.wizard.message.PreviewImageNotExist=Vorschaubilddatei nicht vorhanden.
 PublishTemplateAction.wizard.message.PreviewImageNotValid=Die Vorschaubilddatei ist kein gültiges Bild.
-
+PublishTemplateAction.SaveBeforeGenerating.dialog.title=Save Report
+PublishTemplateAction.SaveBeforeGenerating.dialog.message={0} has been modified. Save changes before publishing?
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes=&Yes
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=&No
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=Fehler
