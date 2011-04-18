@@ -121,6 +121,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Button showAliasCheckBox = null;
 	private Button includeSchemaCheckBox = null;
 	private DataSetDesign dataSetDesign;
+	private Exception prepareException = null;
 
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
 
@@ -137,6 +138,8 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private OdaConnectionProvider odaConnectionProvider;
 
 	String metadataBidiFormatStr = null; // bidi_hcg
+	
+	private boolean continueConnect = true;
 
 	/**
 	 * constructor
@@ -213,11 +216,54 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private void prepareJDBCMetaDataProvider( DataSetDesign dataSetDesign )
 	{
 		JdbcMetaDataProvider.createInstance( dataSetDesign );
-		try
+
+		class TempThread extends Thread
 		{
-			JdbcMetaDataProvider.getInstance( ).reconnect( );
+			public void run()
+			{
+				try
+				{
+					JdbcMetaDataProvider.getInstance( ).reconnect( );
+				}
+				catch ( Exception e )
+				{
+					prepareException = e;
+				}
+			}
 		}
-		catch ( Exception e )
+		
+		TempThread tt = new TempThread( );
+		tt.start( );
+		
+		try
+		{	
+			tt.join( this.timeOutLimit * 1000 );
+			Thread.State state = tt.getState( );
+			if( state == Thread.State.TERMINATED )
+			{
+				if ( prepareException != null )
+				{
+					ExceptionHandler.showException( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+							prepareException.getLocalizedMessage( ),
+							prepareException );
+					prepareException = null;
+				}
+			}
+			else 
+			{
+				continueConnect = false;
+				ExceptionHandler.showException( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
+						JdbcPlugin.getResourceString( "connection.timeOut" ),
+						new Exception() );
+			}
+		}
+		catch ( InterruptedException e )
 		{
 			ExceptionHandler.showException( PlatformUI.getWorkbench( )
 					.getDisplay( )
@@ -333,10 +379,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		} );
 		
-		boolean supportsSchema = JdbcMetaDataProvider.getInstance( )
-				.isSupportSchema( );
-		boolean supportsProcedure = JdbcMetaDataProvider.getInstance( )
-				.isSupportProcedure( );
+		boolean supportsSchema = false ; 
+		boolean supportsProcedure = false; 
+		
+		if ( continueConnect )
+		{
+			supportsSchema = JdbcMetaDataProvider.getInstance( )
+					.isSupportSchema( );
+			supportsProcedure = JdbcMetaDataProvider.getInstance( )
+					.isSupportProcedure( );
+		}
 		
 		tablescomposite = new Composite( sComposite, SWT.NONE );
 
@@ -532,7 +584,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			schemaCombo.setEnabled( false );
 			schemaLabel.setEnabled( false );
 		}
-		if ( prefetchSchema )
+		if ( prefetchSchema && continueConnect )
 		{
 			fc = populateFilterConfig( );
 			// bidi_hcg: pass value of metadataBidiFormatStr
