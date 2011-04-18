@@ -258,6 +258,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	protected boolean markLineNumber = true;
 
 	/**
+	 * Status to control whether to write out external library report item theme
+	 * or not.
+	 */
+	protected boolean enableLibraryTheme = false;
+
+	/**
 	 * Returns the module to write.
 	 * 
 	 * @return the module to write
@@ -1445,6 +1451,12 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
 				obj.getID( ) ).toString( ) );
 
+		writeSimpleProperties( obj );
+
+	}
+
+	protected void writeSimpleProperties( Module obj )
+	{
 		property( obj, IModuleModel.AUTHOR_PROP );
 		property( obj, IDesignElementModel.COMMENTS_PROP );
 		property( obj, IModuleModel.CREATED_BY_PROP );

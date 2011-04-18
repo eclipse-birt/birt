@@ -118,6 +118,13 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 	{
 		updateReferenceableClients( library, ILibraryModel.THEMES_SLOT );
 
+		// update the clents of data source, data set and cube: in special
+		// cases: design element can directly refer element in library rather
+		// than "extends" property.
+		updateReferenceableClients( library, IModuleModel.DATA_SOURCE_SLOT );
+		updateReferenceableClients( library, IModuleModel.DATA_SET_SLOT );
+		updateReferenceableClients( library, ILibraryModel.CUBE_SLOT );
+
 		// update clients of embedded images
 
 		List<Object> images = library.getListProperty( library,

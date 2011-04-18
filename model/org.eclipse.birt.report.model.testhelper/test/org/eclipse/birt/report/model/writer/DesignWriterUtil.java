@@ -17,6 +17,6 @@ public class DesignWriterUtil
 	public static void enableExternalDataMarts( DesignWriter writer )
 	{
 		if ( writer != null )
-			writer.enableExternalMetaData = true;
+			writer.enableLibraryTheme = true;
 	}
 }

@@ -44,12 +44,7 @@ class DesignWriterImpl extends ModuleWriter
 	 * The design context used to convert units.
 	 */
 
-	private ReportDesign design;
-
-	/**
-	 * Status to control whether to write out external meta-data or not.
-	 */
-	protected boolean enableExternalMetaData = false;
+	private ReportDesign design;	
 
 	/**
 	 * Constructs a writer with the specified design.
