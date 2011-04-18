@@ -449,20 +449,19 @@ function getNewStyle(style, index, styleAttr, highlight, lookUpTable, id) {
     return style;
 }
 function redirect(target, url) {
-	if (target == '_blank') {
-		try {
-			open(url);
-		} catch (e) {
-		}
-	} else if (target == '_top') {
+	if (isIE() && getIEVersion() < 9) {
+		// SVG viewer in IE has issue in location.href, but IE 9 supports native
+		// SVG so works well.
+		target = '_blank';
+	}
+	if (target == '_top') {
 		window.top.location.href = url;
 	} else if (target == '_parent') {
 		parent.location.href = url;
 	} else if (target == '_self') {
 		parent.location.href = url;
-	} else if (target == '_self') {
-		parent.location.href = url;
 	} else {
+		// Include '_blank'
 		try {
 			open(url);
 		} catch (e) {
@@ -472,6 +471,15 @@ function redirect(target, url) {
 function isIE() {
 	var agt = parent.navigator.userAgent.toLowerCase();
 	return (agt.indexOf("msie") != -1);
+}
+function getIEVersion() {
+	var agt = parent.navigator.userAgent.toLowerCase();
+	var indexStart = agt.indexOf("msie");	
+	if(indexStart>0) {
+		var indexEnd = agt.substring(indexStart).indexOf(";");
+		return parseFloat(agt.substring(indexStart+5,indexStart+indexEnd));
+	}
+	return 0;
 }
 var xScale = 1;
 var yScale = 1;
