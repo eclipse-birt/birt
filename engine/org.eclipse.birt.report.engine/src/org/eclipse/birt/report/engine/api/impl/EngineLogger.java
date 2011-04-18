@@ -104,7 +104,7 @@ public class EngineLogger
 			if ( logLevel != Level.OFF )
 			{
 				FileHandler fileHandler = createFileLogger( logFileName,
-						logRollingSize, logMaxBackupIndex );
+						logRollingSize, logMaxBackupIndex, logLevel );
 				if ( fileHandler != null )
 				{
 					AdapterHandler adapter = getAdapterHandler( );
@@ -193,7 +193,7 @@ public class EngineLogger
 			if ( adapter.fileHandler == null )
 			{
 				FileHandler fileHandler = createFileLogger( logFileName,
-						logRollingSize, logMaxBackupIndex );
+						logRollingSize, logMaxBackupIndex, newLevel );
 				if ( fileHandler != null )
 				{
 					adapter.setFileHandler( fileHandler );
@@ -237,7 +237,7 @@ public class EngineLogger
 	}
 
 	private static FileHandler createFileLogger( String fileName,
-			int rollingSize, int logMaxBackupIndex )
+			int rollingSize, int logMaxBackupIndex, Level level )
 	{
 		try
 		{
@@ -258,7 +258,14 @@ public class EngineLogger
 					rollingSize, logMaxBackupIndex, true );
 			// In BIRT log, we should always use the simple format.
 			logFileHandler.setFormatter( new SimpleFormatter( ) );
-			logFileHandler.setLevel( Level.FINEST );
+			if( level == null )
+			{
+				logFileHandler.setLevel( Level.WARNING );
+			}
+			else
+			{
+				logFileHandler.setLevel( level );
+			}
 			logFileHandler.setEncoding( "utf-8" );
 			return logFileHandler;
 		}
