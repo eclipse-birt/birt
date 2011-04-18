@@ -425,6 +425,12 @@ from CLASSICMODELS.OFFICES</property>
                                 <tabular-level name="COUNTRY">
                                     <property name="dataType">string</property>
                                     <property name="columnName">COUNTRY</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">CITY</property>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>                                    
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>

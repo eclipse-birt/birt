@@ -86,7 +86,6 @@ public class IncludedLibrariesStructureListState
 				DesignElement element, PropertyDefn propDefn )
 		{
 			super( theHandler, element, propDefn );
-			lineNumber = handler.getCurrentLineNo( );
 		}
 
 		/*
@@ -100,10 +99,6 @@ public class IncludedLibrariesStructureListState
 			super.end( );
 
 			IncludedLibrary includeLibrary = (IncludedLibrary) struct;
-
-			if ( handler.markLineNumber )
-				handler.module
-						.addLineNo( struct, Integer.valueOf( lineNumber ) );
 
 			// Use file name without path and suffix as default name space.
 

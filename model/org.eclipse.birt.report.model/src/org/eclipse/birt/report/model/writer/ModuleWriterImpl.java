@@ -202,6 +202,7 @@ import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.EncryptionUtil;
+import org.eclipse.birt.report.model.util.LineNumberInfo;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLWriter;
 
@@ -1199,10 +1200,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
-			if ( struct instanceof IncludedLibrary )
+			if ( LineNumberInfo.isLineNumberSuppoerted( struct ) )
 				markLineNumber( struct );			
-			else if ( struct instanceof ResultSetColumn )
-				markLineNumber( obj, struct );
 
 			Iterator memberIter = prop.getStructDefn( ).propertiesIterator( );
 			while ( memberIter.hasNext( ) )
@@ -3214,23 +3213,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			Module module = getModule( );
 			if ( module != null )
 				module.addLineNo( key, Integer
-						.valueOf( writer.getLineCounter( ) ) );
-		}
-	}
-	
-	/**
-	 * Marks line number of element
-	 * 
-	 * @param obj
-	 */
-	protected void markLineNumber( DesignElement element, Object obj )
-	{
-		if ( markLineNumber )
-		{
-			Object key = obj;
-			Module module = getModule( );
-			if ( module != null )
-				module.addLineNo( element, key, Integer
 						.valueOf( writer.getLineCounter( ) ) );
 		}
 	}

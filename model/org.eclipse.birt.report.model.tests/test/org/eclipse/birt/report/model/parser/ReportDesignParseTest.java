@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -999,14 +1000,21 @@ public class ReportDesignParseTest extends BaseTestCase
 		DataSetHandle dataSetHandle = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
 		ResultSetColumnHandle resultSetColumnHandle = (ResultSetColumnHandle) dataSetHandle
 				.getCachedMetaDataHandle( ).getResultSet( ).getAt( 0 );
-		assertEquals( 73, designHandle.getLineNo( resultSetColumnHandle ) );
+		assertEquals( 24, designHandle.getLineNo( resultSetColumnHandle ) );
 		
 		CubeHandle cubeHandle = designHandle.findCube( "Cube" ); //$NON-NLS-1$
 		PropertyHandle propHandle = cubeHandle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
 		assertEquals( 419, designHandle.getLineNo( propHandle ) );
-		
+						
 		propHandle = cubeHandle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
-		assertEquals( 434, designHandle.getLineNo( propHandle ) );
+		assertEquals( 440, designHandle.getLineNo( propHandle ) );
+		
+		StructureHandle attr = (StructureHandle) cubeHandle.getDimension( "Group" )
+				.getDefaultHierarchy( )
+				.getLevel( 0 )
+				.attributesIterator( )
+				.next( );
+		assertEquals( 429, designHandle.getLineNo( attr ) );
 	}
 
 	/**

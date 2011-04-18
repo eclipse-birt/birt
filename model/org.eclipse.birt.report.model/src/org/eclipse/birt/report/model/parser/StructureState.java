@@ -75,6 +75,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.LineNumberInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -346,8 +347,8 @@ public class StructureState extends AbstractPropertyState
 	public void end( ) throws SAXException
 	{
 		if ( handler.markLineNumber && 
-				( struct instanceof EmbeddedImage || struct instanceof ResultSetColumn ) )
-			handler.module.addLineNo( element, struct, Integer.valueOf( lineNumber ) );
+				( LineNumberInfo.isLineNumberSuppoerted( struct ) ) )
+			handler.tempLineNumbers.put( struct, Integer.valueOf( lineNumber ) );
 
 		if ( struct != null )
 		{

@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -71,6 +72,7 @@ import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.LineNumberInfo;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.URIUtilImpl;
 
@@ -2965,31 +2967,23 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 
 	public final int getLineNo( Object obj )
 	{
-		if ( obj instanceof EmbeddedImageHandle 
-				|| obj instanceof ResultSetColumnHandle )
+		if ( obj instanceof StructureHandle )
 		{
-			return module.getLineNo( ( (StructureHandle) obj )
-					.getStructure( ) );
+			IStructure struct = ( (StructureHandle) obj ).getStructure( );
+			if ( LineNumberInfo.isLineNumberSuppoerted( struct ) )
+				return module.getLineNo( obj );
 		}
 		else if ( obj instanceof DesignElementHandle )
 		{
 			return module
 					.getLineNo( ( (DesignElementHandle) obj ).getElement( ) );
+		}	
+		else if ( obj instanceof PropertyHandle || obj instanceof SlotHandle )
+		{			
+			return module.getLineNo( obj );
 		}
-		else if ( obj instanceof SlotHandle )
-		{
-			SlotHandle slot = (SlotHandle) obj;
-			return module.getLineNo( new ContainerContext( slot.getElement( ),
-					slot.getSlotID( ) ) );
-		}		
-		else if ( obj instanceof PropertyHandle )
-		{
-			PropertyHandle propHandle = (PropertyHandle) obj;
-			return module.getLineNo( new ContainerContext( propHandle.getElement( ),
-					propHandle.getPropertyDefn( ).getName( ) ) );
-		}
-		else
-			return 1;
+		
+		return 1;
 	}
 
 	/**
