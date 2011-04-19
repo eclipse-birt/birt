@@ -847,15 +847,19 @@ public class InsertInLayoutUtil
 							|| DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( model.getDataType( ) )
 							|| DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( model.getDataType( ) ) )
 					{
-						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
+						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
 					}
-					else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( model.getDataType( )))
-					{
-						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
-					}
+//					else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( model.getDataType( )))
+//					{
+//						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
+//					}
+//					else
+//					{
+//						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+//					}
 					else
 					{
-						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
+						binding.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_MAX );
 					}
 
 					//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
