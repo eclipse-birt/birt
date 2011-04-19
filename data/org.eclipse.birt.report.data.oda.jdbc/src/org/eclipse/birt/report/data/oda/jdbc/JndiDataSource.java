@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2006, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -80,11 +80,9 @@ import com.ibm.icu.util.ULocale;
  * include the classes referenced by the environment properties.
  * <p>
  * <i>oda.jdbc.driverinfo extensions</i><p>
- * When a custom connection factory is associated with a specific JDBC driver class, 
- * by implementating the oda.jdbc.driverinfo extension point, it is responsible 
- * for the handling of the JNDI look up service.  
- * In other words, a custom connection factory defined in a driverinfo extension 
- * overrides the default JNDI data source handling.
+ * As of BIRT 2.5.2, the default JNDI data source handling, if specified,
+ * takes precedence over a custom connection factory implemented in an 
+ * oda.jdbc.driverinfo extension.
  */
 class JndiDataSource implements IConnectionFactory
 {
