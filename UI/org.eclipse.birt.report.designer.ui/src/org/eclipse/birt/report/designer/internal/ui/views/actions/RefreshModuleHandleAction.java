@@ -13,13 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.util.logging.Level;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IEditorPart;
 
 /**
  * 
@@ -71,7 +71,8 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).needsSave( ) )
+		IEditorPart editor = UIUtil.getActiveEditor( true );
+		if ( editor != null && editor.isDirty( ) )
 		{
 			MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
 					Messages.getString( "RefreshModuleHandleAction.MessageBox.Title" ), //$NON-NLS-1$
@@ -90,7 +91,7 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 				case 0 :
 					try
 					{
-						SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).save( );
+						editor.doSave( null );
 						CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null ); //$NON-NLS-1$
 					}
 					catch ( Exception e )

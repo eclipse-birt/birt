@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.ui.actions;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -138,15 +137,14 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 		}
 		else
 		{
-			ReportDesignHandle handle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
+			IEditorPart editor = UIUtil.getActiveEditor( true );
 
-			if ( handle.needsSave( ) )
+			if ( editor != null && editor.isDirty( ) )
 			{
 				MessageDialog md = new MessageDialog( UIUtil.getDefaultShell( ),
 						Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.title" ), //$NON-NLS-1$
 						null,
-						Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{new File( handle.getFileName( ) ).getName( )} ), //$NON-NLS-1$
+						Messages.getFormattedString( "PublishTemplateAction.SaveBeforeGenerating.dialog.message", new Object[]{editor.getTitle( )} ), //$NON-NLS-1$
 						MessageDialog.CONFIRM,
 						new String[]{
 								Messages.getString( "PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes" ), //$NON-NLS-1$
@@ -156,14 +154,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 				switch ( md.open( ) )
 				{
 					case 0 :
-						try
-						{
-							handle.save( );
-						}
-						catch ( IOException e )
-						{
-							ExceptionHandler.handle( e );
-						}
+						editor.doSave( null );
 						break;
 					case 1 :
 					default :
