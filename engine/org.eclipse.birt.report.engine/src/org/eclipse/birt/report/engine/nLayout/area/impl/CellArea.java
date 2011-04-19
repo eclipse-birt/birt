@@ -293,7 +293,9 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 	public void update( AbstractArea area ) throws BirtException
 	{
 		super.update( area );
-		if ( currentIP + area.getAllocatedWidth( ) > getContentWidth( ) )
+		// width exceed the cell with or negative margin
+		if ( currentIP + area.getAllocatedWidth( ) > getContentWidth( )
+				|| area.getX( ) < 0 )
 		{
 			setNeedClip( true );
 		}
