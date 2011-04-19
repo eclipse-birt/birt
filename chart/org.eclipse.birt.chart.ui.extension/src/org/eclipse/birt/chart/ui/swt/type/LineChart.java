@@ -699,7 +699,7 @@ public class LineChart extends DefaultChartTypeImpl
 				.findSeries( LineSeriesImpl.class.getName( ), seriesIndex );
 		if ( lineseries == null )
 		{
-			lineseries = (LineSeries) LineSeriesImpl.create( );
+			lineseries = (LineSeries) getSeries( );
 		}
 
 		// Copy generic series properties
