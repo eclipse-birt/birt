@@ -604,7 +604,7 @@
 	</target>
 	
 	<target name="createBirtRuntime"  depends="createWAR">
-                <!-- ReportEngine-->
+        <!-- Create birt-runtime/ReportEngine -->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
 				<patternset refid="exclude.jars" />
@@ -625,7 +625,7 @@
 			</fileset>
 		</copy>
 		
-		<!-- WebViewerExample-->
+		<!-- Create birt-runtime/WebViewerExample-->
 		<copy todir="${runtime.tmp}/WebViewerExample">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web">
 				<patternset refid="exclude.jars" />
@@ -640,7 +640,7 @@
 			</fileset>
 		</copy>
 
-		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
+		<!--Correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
 		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
 		<unjar src="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
 		<delete file="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" />
@@ -657,6 +657,7 @@
 		<delete includeEmptyDirs="true" failonerror="false" >
 			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform" includes="lib/**" />
 		</delete>
+		
 		<!-- copy extra chartengine, emf has been copied by viewer plugin -->
 		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
 			<fileset dir="${deposit}/eclipse/plugins" />
