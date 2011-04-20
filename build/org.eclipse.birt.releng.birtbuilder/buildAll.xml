@@ -1205,7 +1205,7 @@
 	</target>
 		
 	<target name="removeBirtAllForNightly" unless="sign">
-		<delete>
+		<delete failonerror="false">
 			<fileset dir="${postingDirectory}/${buildId}">
 				<include name="birt-all-*.zip"/>
 			</fileset>
