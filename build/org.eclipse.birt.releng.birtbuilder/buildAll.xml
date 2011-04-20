@@ -914,7 +914,7 @@
 	<target name="unpackUpdateJarsForPackaging">
 
 		<property name="tmpsite" value="${buildDirectory}/tmpsite" />
-	
+		
 		<mkdir dir="${tmpsite}/new/eclipse/features" />
 		<mkdir dir="${tmpsite}/new/eclipse/plugins" />
 
@@ -929,18 +929,18 @@
 			<arg line="-o -q birt-chart-osgi-${package.version}.zip -d ${tmpsite}" />
 	    </exec>
 		
-		<!-- BIRT third party -->
-		<!--
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-		-->
 		<!-- backup un-signed and packed version to  birt-all-${package.version}.bak.zip -->
 		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
              <fileset dir="${tmpsite}" includes="eclipse/**"/>
              <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
         </zip>
 
+		<!-- Create birt non-osgi runtime package -->
+		<antcall target="createNonOSGiRuntime">
+			<param name="outputDir" value="${buildDirectory}"/>
+			<param name="buildOutputDir" value="${tmpsite}/eclipse/plugins" />
+			<param name="dtp.buildOutputDir" value="${baseLocation}/plugins"/>
+		</antcall>
 		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
@@ -1095,6 +1095,111 @@
 		</antcall>
     </target>
 
+	<target name="createNonOSGiRuntime">
+		
+	    <path id="lib.path">
+	    	<fileset dir="${p4.home}/dailybuild/source/org.eclipse.birt.build" includes="*.jar,lib/*.jar"/>
+	    </path>
+		
+	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
+		
+		<buildJar basedir="${buildOutputDir}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
+		    	<bundle name="org.eclipse.birt.chart"/>
+		    	<bundle name="org.eclipse.birt.chart.device.extension"/>
+		    	<bundle name="org.eclipse.birt.chart.device.svg"/>
+		    	<bundle name="org.eclipse.birt.chart.engine"/>
+		    	<bundle name="org.eclipse.birt.chart.engine.extension"/>
+		    	<bundle name="org.eclipse.birt.chart.reportitem"/>
+		    	<bundle name="org.eclipse.birt.chart.runtime"/>
+		    	<bundle name="org.eclipse.birt.core"/>
+		    	<bundle name="org.eclipse.birt.data"/>
+		    	<bundle name="org.eclipse.birt.data.aggregation"/>
+		    	<bundle name="org.eclipse.birt.report.data.adapter"/>
+		    	<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
+		    	<bundle name="org.eclipse.birt.report.data.oda.jdbc"/>
+		    	<bundle name="org.eclipse.birt.report.data.oda.sampledb"/>
+		    	<bundle name="org.eclipse.birt.report.engine"/>
+		    	<bundle name="org.eclipse.birt.report.engine.emitter.html"/>
+		    	<bundle name="org.eclipse.birt.report.engine.emitter.pdf"/>
+		    	<bundle name="org.eclipse.birt.report.engine.emitter.postscript"/>
+		    	<bundle name="org.eclipse.birt.report.engine.emitter.ppt"/>
+		    	<bundle name="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
+		    	<bundle name="org.eclipse.birt.report.engine.emitter.wpml"/>
+		    	<bundle name="org.eclipse.birt.report.engine.fonts"/>
+		    	<bundle name="org.eclipse.birt.report.engine.script.javascript"/>
+		    	<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
+		    	<bundle name="org.eclipse.birt.report.model"/>
+		    	<bundle name="org.eclipse.birt.report.engine.dataextraction"/>
+		    	<bundle name="org.eclipse.birt.report.engine.dataextraction.csv"/>
+		    	<manifest>
+		    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
+		    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
+		    		<attribute name="Bundle-SymbolicName" value="org.eclipse.birt.report"/>
+		    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
+		    		<attribute name="Manifest-Version" value="1.0"/>
+		    	</manifest>
+		    </buildJar>
+		    <buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}\org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
+		    	<bundle name="org.eclipse.datatools.connectivity"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.console.profile"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.db.generic"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.oda"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.oda.consumer"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.oda.design"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.oda.flatfile"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.oda.profile"/>
+		    	<bundle name="org.eclipse.datatools.connectivity.sqm.core"/>
+		    	<bundle name="org.eclipse.datatools.enablement.hsqldb"/>
+		    	<bundle name="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.iseries"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.luw"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.zseries"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.informix"/>
+		    	<bundle name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.msft.sqlserver"/>
+		    	<bundle name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.mysql"/>
+		    	<bundle name="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.oda.ws"/>
+		    	<bundle name="org.eclipse.datatools.enablement.oda.xml"/>
+		    	<bundle name="org.eclipse.datatools.enablement.oracle"/>
+		    	<bundle name="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.postgresql"/>
+		    	<bundle name="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.enablement.sap.maxdb"/>
+		    	<bundle name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.dbdefinition"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.derby"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.sql"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.sql.edit"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.sql.query"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.sql.query.edit"/>
+		    	<bundle name="org.eclipse.datatools.modelbase.sql.xml.query"/>
+		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql"/>
+		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql.lexer"/>
+		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql.query"/>
+		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql.xml.query"/>
+		    	<manifest>
+		    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
+		    		<attribute name="Bundle-Name" value="Data Tools Project Runtime SDK"/>
+		    		<attribute name="Bundle-SymbolicName" value="org.eclipse.datatools"/>
+		    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
+		    		<attribute name="Manifest-Version" value="1.0"/>
+		    	</manifest>
+		    </buildJar>
+		
+			<!-- zip-up non-OSGi runtime package -->
+			<exec executable="zip" dir="${outputDir}">
+				<arg line="-q ${postingDirectory}/${buildId}/birt-non-osgi-runtime-${package.version}.zip -r org.eclipse.datatools_*.jar org.eclipse.birt_*.jar" />
+			</exec>
+	</target>
+		
 	<target name="generateJavaCrossReference" if="genJavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
         	target="generateJavaCrossReference" >
