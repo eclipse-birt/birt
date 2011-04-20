@@ -298,6 +298,9 @@
                     tofile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}-${build.date}.zip"/>
 
 		<antcall target="renameNLPackage"/>
+		
+		<antcall target="removeBirtAllForNightly"/>
+		
 	</target>
 	
 	<target name="renameNLPackage" unless="skip.build.NL">
@@ -1201,6 +1204,14 @@
 	        </zip> 
 	</target>
 		
+	<target name="removeBirtAllForNightly" unless="sign">
+		<delete>
+			<fileset dir="${postingDirectory}/${buildId}">
+				<include name="birt-all-*.zip"/>
+			</fileset>
+		</delete>
+	</target>
+	
 	<target name="generateJavaCrossReference" if="genJavaDoc">
         <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
         	target="generateJavaCrossReference" >
