@@ -1104,7 +1104,7 @@
 	<target name="createNonOSGiRuntime">
 		
 	    <path id="lib.path">
-	    	<fileset dir="${p4.home}/dailybuild/source/org.eclipse.birt.build" includes="*.jar,lib/*.jar"/>
+	    	<fileset dir="${eclipse.build.configs}/../../extras" includes="*.jar,lib/*.jar"/>
 	    </path>
 		
 	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
