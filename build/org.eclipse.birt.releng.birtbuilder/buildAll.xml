@@ -1104,13 +1104,11 @@
 	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
 		
 		<buildJar basedir="${buildOutputDir}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
-		    	<bundle name="org.eclipse.birt.chart"/>
 		    	<bundle name="org.eclipse.birt.chart.device.extension"/>
 		    	<bundle name="org.eclipse.birt.chart.device.svg"/>
 		    	<bundle name="org.eclipse.birt.chart.engine"/>
 		    	<bundle name="org.eclipse.birt.chart.engine.extension"/>
 		    	<bundle name="org.eclipse.birt.chart.reportitem"/>
-		    	<bundle name="org.eclipse.birt.chart.runtime"/>
 		    	<bundle name="org.eclipse.birt.core"/>
 		    	<bundle name="org.eclipse.birt.data"/>
 		    	<bundle name="org.eclipse.birt.data.aggregation"/>
@@ -1139,7 +1137,7 @@
 		    		<attribute name="Manifest-Version" value="1.0"/>
 		    	</manifest>
 		    </buildJar>
-		    <buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}\org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
+		    <buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
 		    	<bundle name="org.eclipse.datatools.connectivity"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
@@ -1195,9 +1193,9 @@
 		    </buildJar>
 		
 			<!-- zip-up non-OSGi runtime package -->
-			<exec executable="zip" dir="${outputDir}">
-				<arg line="-q ${postingDirectory}/${buildId}/birt-non-osgi-runtime-${package.version}.zip -r org.eclipse.datatools_*.jar org.eclipse.birt_*.jar" />
-			</exec>
+	        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
+	        	<zipfileset dir="${outputDir}" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
+	        </zip> 
 	</target>
 		
 	<target name="generateJavaCrossReference" if="genJavaDoc">
