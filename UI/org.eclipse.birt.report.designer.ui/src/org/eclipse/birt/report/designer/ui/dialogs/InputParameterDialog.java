@@ -523,6 +523,9 @@ public class InputParameterDialog extends BaseDialog
 		boolean isStringType = listParam.getHandle( )
 				.getDataType( )
 				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
+		boolean containsBlank = false;
+		boolean containsNull = false;
+
 		Object value = null;
 		try
 		{
@@ -550,8 +553,18 @@ public class InputParameterDialog extends BaseDialog
 		Combo combo = new Combo( container, style );
 		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		combo.setVisibleItemCount( 30 );
+
+		for ( Object o : listParam.getValueList( ) )
+		{
+			Object choiceValue = ( (IParameterSelectionChoice) o ).getValue( );
+			if ( blankValueChoice.getValue( ).equals( choiceValue ) )
+				containsBlank = true;
+			if ( null == choiceValue )
+				containsNull = true;
+		}
+
 		List list = new ArrayList( );
-		if ( isStringType && !isRequired )
+		if ( isStringType && !isRequired && !containsBlank )
 		{
 			list.add( blankValueChoice );
 		}
@@ -561,21 +574,10 @@ public class InputParameterDialog extends BaseDialog
 				listParam.getDefaultObject( ),
 				list );
 
-		if ( !isRequired )
+		if ( !isRequired && !containsNull )
 		{
-			boolean hasNull = false;
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				IParameterSelectionChoice choice = (IParameterSelectionChoice) list.get( i );
-				if ( choice.getValue( ) == null )
-				{
-					hasNull = true;
-				}
-			}
-			if ( !hasNull )
-			{
-				list.add( InputParameterDialog.nullValueChoice );
-			}
+
+			list.add( InputParameterDialog.nullValueChoice );
 		}
 		boolean nullAdded = false;
 		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
@@ -726,6 +728,9 @@ public class InputParameterDialog extends BaseDialog
 		boolean isStringType = listParam.getHandle( )
 				.getDataType( )
 				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
+		boolean containsBlank = false;
+		boolean containsNull = false;
+
 		Object value = null;
 		try
 		{
@@ -751,8 +756,17 @@ public class InputParameterDialog extends BaseDialog
 		gd.heightHint = 70;
 		listViewer.getList( ).setLayoutData( gd );
 
+		for ( Object o : listParam.getValueList( ) )
+		{
+			Object choiceValue = ( (IParameterSelectionChoice) o ).getValue( );
+			if ( blankValueChoice.getValue( ).equals( choiceValue ) )
+				containsBlank = true;
+			if ( null == choiceValue )
+				containsNull = true;
+		}
+
 		List list = new ArrayList( );
-		if ( isStringType && !isRequired )
+		if ( isStringType && !isRequired && !containsBlank )
 		{
 			list.add( blankValueChoice );
 		}
@@ -761,7 +775,7 @@ public class InputParameterDialog extends BaseDialog
 				listParam.getDefaultObject( ),
 				list );
 
-		if ( !isRequired )
+		if ( !isRequired && !containsNull )
 		{
 			list.add( InputParameterDialog.nullValueChoice );
 		}
