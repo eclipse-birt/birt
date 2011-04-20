@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.layout.IFixLayoutHelper;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
@@ -46,6 +47,20 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 	private Rectangle clip;
 
 	private static final Rectangle OLD_CLIP = new Rectangle( );
+	
+	private int backgroundImageDPI = 0;
+
+	
+	public int getBackgroundImageDPI( )
+	{
+		return backgroundImageDPI;
+	}
+
+	
+	public void setBackgroundImageDPI( int backgroundImageDPI )
+	{
+		this.backgroundImageDPI = backgroundImageDPI;
+	}
 
 	/**
 	 * Constructor <br>
@@ -339,12 +354,26 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 			return;
 		img = image;
 		if ( img != null )
-			size = new Rectangle( image.getBounds( ) ).getSize( );
+		{
+			if (backgroundImageDPI > 0)
+			{
+				double inch = ( (double) image.getBounds( ).width ) / backgroundImageDPI;
+				size.width = (int)MetricUtility.inchToPixel( inch );
+				
+				inch = ( (double) image.getBounds( ).height ) / backgroundImageDPI;
+				size.height = (int)MetricUtility.inchToPixel( inch );
+			}
+			else
+			{
+				size = new Rectangle( image.getBounds( ) ).getSize( );
+			}
+		}
 		else
 			size = new Dimension( );
 		revalidate( );
 		repaint( );
 	}
+	
 
 	/**
 	 * Sets the margin for current figure.
@@ -428,7 +457,18 @@ public class ReportElementFigure extends Figure implements IReportElementFigure,
 		Dimension ori = new Rectangle( img.getBounds( ) ).getSize( );
 		if (backGroundImageWidth <= 0 && backGroundImageHeight <= 0)
 		{
-			size = ori;
+			if (backgroundImageDPI  > 0)
+			{
+				double inch = ( (double) ori.width ) / backgroundImageDPI;
+				size.width = (int)MetricUtility.inchToPixel( inch );
+				
+				inch = ( (double) ori.height ) / backgroundImageDPI;
+				size.height = (int)MetricUtility.inchToPixel( inch );
+			}
+			else
+			{
+				size = ori;
+			}
 			return;
 		}
 		else if (backGroundImageWidth <= 0)

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
@@ -758,7 +762,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				figure.setImage( null );
 				return;
 			}
-
+			int dpi = getImageDPI( backGroundImage );
+			if (figure instanceof ReportElementFigure)
+			{
+				((ReportElementFigure)figure).setBackgroundImageDPI( dpi );
+			}
 			figure.setImage( image );
 
 			Object[] backGroundPosition = getBackgroundPosition( handle );
@@ -806,6 +814,51 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			figure.setAlignment( alignment );
 			figure.setPosition( position );
 		}
+	}
+	
+	private int getImageDPI(String backGroundImage )
+	{
+		if (!(getModel( ) instanceof DesignElementHandle))
+		{
+			return 0;
+		}
+		DesignElementHandle model = (DesignElementHandle)getModel( );
+		InputStream in = null;
+		URL temp = null;
+		try
+		{
+			if ( URIUtil.isValidResourcePath( backGroundImage ) )
+			{
+				temp = ImageManager.getInstance( )
+						.generateURL( model.getModuleHandle( ), URIUtil.getLocalPath( backGroundImage ) );
+
+			}
+			else
+			{
+				temp = ImageManager.getInstance( )
+						.generateURL(model.getModuleHandle( ),  backGroundImage  );
+			}
+
+			in = temp.openStream( );
+		}
+		catch ( IOException e )
+		{
+			in = null;
+		}
+		
+		int dpi = UIUtil.getImageResolution( in )[0];
+		if ( in != null )
+		{
+			try
+			{
+				in.close( );
+			}
+			catch ( IOException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+		return dpi;
 	}
 
 	/**
