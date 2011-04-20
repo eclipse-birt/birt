@@ -278,8 +278,7 @@ public class OlapExpressionUtil
 	public static DimLevel getTargetDimLevel( String expr )
 			throws DataException
 	{
-		if ( expr != null
-		        && expr.trim( ).matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		if ( expr != null && !isComplexDimensionExpr( expr ) )
 		{
 			Set<DimLevel> s = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expr.trim( ) ),
 					Collections.EMPTY_LIST );
@@ -722,8 +721,30 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return false;
-		if ( expr.trim( ).matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
-				|| expr.trim( ).matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		
+		try
+		{
+			boolean referToAttribute = isReferenceToAttribute( new ScriptExpression( expr ),
+					new ArrayList( ) );
+			if ( expr.trim( )
+					.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+					|| expr.trim( )
+							.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+				return true;
+			else
+			{
+				if ( referToAttribute )
+					return false;
+			}
+		}
+		catch ( DataException e )
+		{
+		}
+
+		if ( expr.trim( )
+				.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+				|| expr.trim( )
+						.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 			return true;
 		return false;
 	}
