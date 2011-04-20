@@ -658,6 +658,9 @@ public class DataSetBasePage extends WizardPage
 	
 	public boolean canFinish( )
 	{
+		if( !validStatus( ) )
+			return false;
+		
 		try
 		{
 			if ( m_designSession != null )
@@ -666,7 +669,7 @@ public class DataSetBasePage extends WizardPage
 			{
 				if( this.nextPage!= null )
 				{
-					return nextPage.isPageComplete( )&&isPageComplete( );
+					return nextPage.isPageComplete( );
 				}
 				return isPageComplete( );				
 			}
