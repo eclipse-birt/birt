@@ -3615,6 +3615,7 @@ SelectValueDialog.messages.info.selectVauleUnavailable=值列表不可用。
 SelectValueDialog.messages.info.invalidSelectVauleExpression=“选择值”函数仅接受简单列表达式。拒绝复杂表达式。 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=无法检索引用 Blob 类型列/绑定的表达式的值列表。
 SelectValueDialog.messages.error.selectVauleUnavailable=无法检索该表达式的值。
+SelectValueDialog.messages.error.selectValueNotSupported=Do not support this kind of value selection.
 SelectValueDialog.noExpressionSet=尚未设置表达式
 SelectValueDialog.retrieving=正在检索列表...
 SelectValueDialog.selectValue=选择值

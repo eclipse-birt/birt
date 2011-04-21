@@ -3615,6 +3615,7 @@ SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verf
 SelectValueDialog.messages.info.invalidSelectVauleExpression=Für die Funktion 'Wert auswählen' ist nur ein einfacher Spaltenausdruck zulässig. Ein komplexer Ausdruck wird abgewiesen. 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=Werteliste des Ausdrucks, der auf die Spalte/Bindung des Typs BLOB verweist, kann nicht abgerufen werden.
 SelectValueDialog.messages.error.selectVauleUnavailable=Der Wert für den Ausdruck kann nicht abgerufen werden.
+SelectValueDialog.messages.error.selectValueNotSupported=Do not support this kind of value selection.
 SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht festgelegt
 SelectValueDialog.retrieving=Liste wird abgerufen ...
 SelectValueDialog.selectValue=Wert auswählen

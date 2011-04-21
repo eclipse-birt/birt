@@ -3615,6 +3615,7 @@ SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습�
 SelectValueDialog.messages.info.invalidSelectVauleExpression="값 선택" 함수는 간단한 열 식만 받아들입니다. 복잡한 식은 거부됩니다. 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=Blob 형식의 열/바인딩에 대해 참조되는 식의 값 목록을 검색할 수 없습니다.
 SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
+SelectValueDialog.messages.error.selectValueNotSupported=Do not support this kind of value selection.
 SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...
 SelectValueDialog.selectValue=값 선택
