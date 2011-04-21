@@ -487,45 +487,58 @@ public class TableArea extends RepeatableArea
 		List<RowArea> rows = new ArrayList<RowArea>( );
 		collectRows( this, layout, rows );
 		int rowCount = getRowCountNeedResolved( rows, nextRowId );
+		boolean resolved = false;
 		if ( rowCount > 0 && unresolvedRow != null )
 		{
 			for ( int i = 0; i < rowCount; i++ )
 			{
-				resolveRowSpan( rows.get( i ), unresolvedRow, rowCount - i );
+				resolved = resolveRowSpan( rows.get( i ), unresolvedRow,
+						rowCount - i ) || resolved;
 			}
 		}
-		else
+		
+		
+		addRows( this, layout, nextRowId );
+		if(!resolved)
 		{
 			setUnresolvedRow( );
 		}
-		addRows( this, layout, nextRowId );
-		
 	}
 	
-	protected void resolveRowSpan(RowArea row, RowArea unresolvedRow, int rowCount)
+
+	
+	protected boolean resolveRowSpan(RowArea row, RowArea unresolvedRow, int rowCount)
 	{
+		boolean resolved = false;
 		for ( int i = startCol; i <= endCol; i++ )
 		{
 			CellArea cell = row.getCell( i );
 			CellArea uCell = unresolvedRow.getCell( i );
 			if ( cell != null && uCell != null )
 			{
-				int rowSpan = 0;
-				if ( unresolvedRow.finished )
+				IContent cellContent = cell.getContent( );
+				IContent uCellContent = cell.getContent( );
+				if ( cellContent == uCellContent )
 				{
-					rowSpan = uCell.getRowSpan( ) + rowCount  - 1;
-				}
-				else
-				{
-					rowSpan = uCell.getRowSpan( ) + rowCount ;
-				}
-				if ( rowSpan < cell.getRowSpan( ) )
-				{
-					cell.setRowSpan( rowSpan );
+					int rowSpan = 0;
+					if ( unresolvedRow.finished )
+					{
+						rowSpan = uCell.getRowSpan( ) + rowCount - 1;
+					}
+					else
+					{
+						rowSpan = uCell.getRowSpan( ) + rowCount;
+					}
+					if ( rowSpan < cell.getRowSpan( ) && rowSpan >= 1 )
+					{
+						cell.setRowSpan( rowSpan );
+						resolved = true;
+					}
 				}
 				i = i + cell.getColSpan( );
 			}
 		}
+		return resolved;
 	}
 	
 	protected int getRowCountNeedResolved( List<RowArea> rows, String rowId )
