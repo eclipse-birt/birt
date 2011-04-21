@@ -274,6 +274,9 @@ public class DistinctValueSelector
 		}
 
 		assert result != null;
+		
+		if ( result == null )
+			throw new BirtException( Messages.getString( "SelectValueDialog.messages.error.selectValueNotSupported" ) );
 		if ( result.isEmpty( ) )
 			return Collections.EMPTY_LIST;
 
