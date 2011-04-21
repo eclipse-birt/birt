@@ -14,8 +14,10 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AddComputedSummaryDialog;
@@ -29,7 +31,10 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
@@ -40,7 +45,7 @@ import org.eclipse.swt.graphics.Image;
 
 public class AddComputedMeasureAction extends AbstractCrosstabAction
 {
-
+	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
 	private MeasureViewHandle measureViewHandle;
 	
 	/** action ID */
@@ -117,6 +122,20 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 				dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 		
 				AggregationCellHandle cell = computedMeasure.getCell( );
+				
+				//There must a set a value to the column
+				if (ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals( reportHandle.getMeasureDirection( ) ))
+				{
+					CrosstabCellHandle cellHandle = computedMeasure.getHeader( );
+					if (cellHandle == null)
+					{
+						cellHandle = cell;
+					}
+					String defaultUnit = reportHandle.getModelHandle( ).getModuleHandle( ).getDefaultUnits( );
+					DimensionValue dimensionValue = DimensionUtil.convertTo( DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN, defaultUnit );
+					reportHandle.setColumnWidth( cellHandle,
+							dimensionValue );
+				}
 				cell.addContent( dataHandle );
 
 			}
