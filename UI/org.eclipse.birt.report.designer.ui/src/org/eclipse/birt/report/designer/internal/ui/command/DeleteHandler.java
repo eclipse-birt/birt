@@ -103,6 +103,10 @@ public class DeleteHandler extends SelectionHandler
 					}
 				}
 			}
+			else if (obj instanceof MeasureGroupHandle)
+			{
+				retValue.addAll(( (MeasureGroupHandle)obj ).getContents( MeasureGroupHandle.MEASURES_PROP )) ;
+			}
 			else
 			{
 				retValue.add( obj );
