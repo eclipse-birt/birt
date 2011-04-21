@@ -227,7 +227,7 @@ data.engine.acl.dataSetColumnCannotBeAccessed=데이터 집합 열 "{0}"에 액세스할 수
 data.engine.acl.cubeCannotBeAccessed=사용자에게 이 큐브 "{0}"에 대한 액세스 권한이 없습니다.
 data.engine.acl.cubeLevelCannotBeAccessed=사용자에게 이 수준 "{0}"에 대한 액세스 권한이 없습니다.
 data.engine.acl.cubeMeasureCannotBeAccessed=사용자에게 이 측정값 "{0}"에 대한 액세스 권한이 없습니다.
-data.engine.acl.cubeDimensionCannotBeAccessed=User does not have permission to access this dimension "{0}"
+data.engine.acl.cubeDimensionCannotBeAccessed=사용자는 이 차원 "{0}"에 액세스할 권한이 없습니다.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

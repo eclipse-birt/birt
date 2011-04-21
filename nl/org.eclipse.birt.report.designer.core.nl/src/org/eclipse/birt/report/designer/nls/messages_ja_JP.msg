@@ -3123,7 +3123,7 @@ PropertyHandleTableViewer.Menu.RemoveAll=すべて削除
 
 PropertyHandleInputDialog.Action.New=新規
 PropertyHandleInputDialog.Action.Edit=編集
-PropertyHandleInputDialog.messages.error.blankProperty={0} cannot be blank
+PropertyHandleInputDialog.messages.error.blankProperty={0} は空白にできません。
 
 ###########################################################
 #PropertyAndPreferencePage properties
@@ -3155,10 +3155,10 @@ PublishTemplateAction.wizard.message.SourceFileNotExist=ソースファイルが存在しま
 PublishTemplateAction.wizard.message.ThumbnailImageNotExist=サムネイルのイメージは存在しません。
 PublishTemplateAction.wizard.message.PreviewImageNotExist=プレビュー用のイメージファイルは存在しません。
 PublishTemplateAction.wizard.message.PreviewImageNotValid=プレビュー用のイメージファイルは、有効なイメージではありません。
-PublishTemplateAction.SaveBeforeGenerating.dialog.title=Save Report
-PublishTemplateAction.SaveBeforeGenerating.dialog.message={0} has been modified. Save changes before publishing?
-PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes=&Yes
-PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=&No
+PublishTemplateAction.SaveBeforeGenerating.dialog.title=レポートの保存
+PublishTemplateAction.SaveBeforeGenerating.dialog.message={0} は変更されています。 公開する前に変更を保存しますか ?
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes=はい(&Y)
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=いいえ(&N)
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=エラー

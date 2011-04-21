@@ -227,7 +227,7 @@ data.engine.acl.dataSetColumnCannotBeAccessed=Impossible d'accéder à la colonne 
 data.engine.acl.cubeCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à ce cube {0}.
 data.engine.acl.cubeLevelCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à ce niveau {0}.
 data.engine.acl.cubeMeasureCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à cette mesure {0}.
-data.engine.acl.cubeDimensionCannotBeAccessed=User does not have permission to access this dimension "{0}"
+data.engine.acl.cubeDimensionCannotBeAccessed=L'utilisateur ne dispose pas des autorisations d'accès à cette dimension "{0}"
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

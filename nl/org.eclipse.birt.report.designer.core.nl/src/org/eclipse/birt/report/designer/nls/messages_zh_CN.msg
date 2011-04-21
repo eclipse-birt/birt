@@ -3123,7 +3123,7 @@ PropertyHandleTableViewer.Menu.RemoveAll=全部删除
 
 PropertyHandleInputDialog.Action.New=新建
 PropertyHandleInputDialog.Action.Edit=编辑
-PropertyHandleInputDialog.messages.error.blankProperty={0} cannot be blank
+PropertyHandleInputDialog.messages.error.blankProperty={0} 不能为空白
 
 ###########################################################
 #PropertyAndPreferencePage properties
@@ -3155,10 +3155,10 @@ PublishTemplateAction.wizard.message.SourceFileNotExist=源文件不存在。
 PublishTemplateAction.wizard.message.ThumbnailImageNotExist=缩略图不存在。
 PublishTemplateAction.wizard.message.PreviewImageNotExist=预览图像文件不存在。
 PublishTemplateAction.wizard.message.PreviewImageNotValid=预览图像文件不是有效的图像。
-PublishTemplateAction.SaveBeforeGenerating.dialog.title=Save Report
-PublishTemplateAction.SaveBeforeGenerating.dialog.message={0} has been modified. Save changes before publishing?
-PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes=&Yes
-PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=&No
+PublishTemplateAction.SaveBeforeGenerating.dialog.title=保存报表
+PublishTemplateAction.SaveBeforeGenerating.dialog.message={0} 已被修改。 发布之前保存更改?
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.yes=是(&Y)
+PublishTemplateAction.SaveBeforeGenerating.dialog.button.no=否(&N)
 ###########################################################
 #PublishLibraryAction properties
 PublishLibraryAction.wizard.errorTitle=错误

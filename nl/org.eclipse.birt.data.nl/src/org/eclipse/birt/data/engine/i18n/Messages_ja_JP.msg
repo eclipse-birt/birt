@@ -227,7 +227,7 @@ data.engine.acl.dataSetColumnCannotBeAccessed=ƒf[ƒ^ƒZƒbƒg—ñ "{0}" ‚ÉƒAƒNƒZƒX‚Å‚
 data.engine.acl.cubeCannotBeAccessed=ƒ†[ƒU‚É‚ÍƒLƒ…[ƒu "{0}" ‚ÉƒAƒNƒZƒX‚·‚éŒ ŒÀ‚ª‚ ‚è‚Ü‚¹‚ñB
 data.engine.acl.cubeLevelCannotBeAccessed=ƒ†[ƒU‚É‚ÍƒŒƒxƒ‹ "{0}" ‚ÉƒAƒNƒZƒX‚·‚éŒ ŒÀ‚ª‚ ‚è‚Ü‚¹‚ñB
 data.engine.acl.cubeMeasureCannotBeAccessed=ƒ†[ƒU‚É‚ÍƒƒWƒƒ[ "{0}" ‚ÉƒAƒNƒZƒX‚·‚éŒ ŒÀ‚ª‚ ‚è‚Ü‚¹‚ñB
-data.engine.acl.cubeDimensionCannotBeAccessed=User does not have permission to access this dimension "{0}"
+data.engine.acl.cubeDimensionCannotBeAccessed=ƒ†[ƒU‚É‚ÍƒfƒBƒƒ“ƒWƒ‡ƒ“ "{0}" ‚ÉƒAƒNƒZƒX‚·‚éŒ ŒÀ‚ª‚ ‚è‚Ü‚¹‚ñB
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=—ñ–¼‚Í‹ó”’‚Ü‚½‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
