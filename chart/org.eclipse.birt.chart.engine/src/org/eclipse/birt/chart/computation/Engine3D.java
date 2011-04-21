@@ -606,7 +606,11 @@ public final class Engine3D implements IConstants
 			double brightnessRatio = ( 1 - cosValue ) / 2d;
 			p3dre.setBrightness( brightnessRatio );
 
-			if ( bClip )
+			// If this render event is disabled, it means this render event is
+			// used for determining the order of 3D polygons, not used for
+			// rendering, so here we can't do clipping action for this event,
+			// the clipping action might cause this render event is ignored. 
+			if ( bClip && p3dre.isEnabled( ) )
 			{
 				object3D.clip( this );
 			}
