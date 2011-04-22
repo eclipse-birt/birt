@@ -11,9 +11,9 @@
 	<Policy type = "1">
 		<Driver name = "Oracle JDBC driver"/>
 		<Driver name = "MySQL-AB JDBC Driver"/>
+		<Driver name = "jConnect (TM) for JDBC (TM)"/>
 	</Policy>
 	<Policy type = "2">
-		<Driver name = "jConnect (TM) for JDBC (TM)"/>
 	</Policy>
 	<Policy type = "3">
 		<Driver name = "Hive"/>
