@@ -159,7 +159,7 @@ public abstract class ScalarParameter implements IParameter
 			if (objs.length > 0)
 			{
 				oriDefaultValue = objs[0];
-				return objs[0].toString( );
+				return objs[0] != null ? objs[0].toString( ) : null;
 			}
 			else
 			{
