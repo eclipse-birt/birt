@@ -741,10 +741,14 @@ public class OlapExpressionUtil
 		{
 		}
 
-		if ( expr.trim( )
-				.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
-				|| expr.trim( )
-						.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+		String exprTrimed = expr.trim( )
+				.replaceAll( "\\n", "" )
+				.replaceAll( "\\r", "" )
+				.replaceAll( "\\t", "" )
+				.replaceAll( " ", "" );
+		if ( exprTrimed.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+				|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" )
+				|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" ) )
 			return true;
 		return false;
 	}
