@@ -51,7 +51,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	private List sortList;
 	
 	private List[] breakHierarchyList;
-	private Map noBreakHierarchyKeyMap;
+	private Map valueMap;
 	private boolean isTimeMirror = false;
 	private MirrorMetaInfo service;
 	
@@ -91,7 +91,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			populateTimeMirror( );
 			nodeLength= getLength( this.rootNode );
 			valueMapLength = 0;
-			Iterator iter = this.noBreakHierarchyKeyMap.entrySet( ).iterator( );
+			Iterator iter = this.valueMap.entrySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				valueMapLength += getLength( (MemberTreeNode) ( (Entry) iter.next( ) ).getValue( ) );
@@ -153,7 +153,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		final int sortType = this.getSortTypeOnMirroredLevel( this.mirrorLevel );
 		if ( sortType != IDimensionSortDefn.SORT_UNDEFINED )
 		{
-			noBreakHierarchyKeyMap = new TreeMap( new Comparator( ) {
+			valueMap = new TreeMap( new Comparator( ) {
 
 				public int compare( final Object arg0, final Object arg1 )
 				{
@@ -166,7 +166,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		}
 		else
 		{
-			noBreakHierarchyKeyMap = new HashMap( );
+			valueMap = new HashMap( );
 		}
 
 		for ( int i = 0; i < rs.length( ); i++ )
@@ -220,9 +220,9 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 				currValue[this.mirrorLevel]
 			} );
 			mirrorMember.setAttributes( rs.getLevelAttributesValue( this.mirrorLevel ) );
-			if ( noBreakHierarchyKeyMap.containsKey( mirrorMember ) )
+			if ( valueMap.containsKey( mirrorMember ) )
 			{
-				MemberTreeNode node = (MemberTreeNode) noBreakHierarchyKeyMap.get( mirrorMember );
+				MemberTreeNode node = (MemberTreeNode) valueMap.get( mirrorMember );
 				for ( int j = this.mirrorLevel + 1; j < this.rs.getLevelCount( ); j++ )
 				{
 					Member member = new Member( );
@@ -235,6 +235,15 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					{
 						if ( TimeMemberUtil.isTimeMirror( rs, j, service ) )
 						{
+							MemberTreeNode[] nodes = TimeMemberUtil.getDateTimeNodes( rs.getAllLevels( ),
+									rs.getLevelAttribute( j, 0 ),
+									j,
+									service );
+							for ( int k = 0; k < nodes.length; k++ )
+							{
+								node.insertNode( nodes[k] );
+								nodes[k].parentNode = node;
+							}
 							break;
 						}
 						else
@@ -266,7 +275,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 						{
 							if ( parentNode == null )
 							{
-								noBreakHierarchyKeyMap.put( nodes[k].key,
+								valueMap.put( nodes[k].key,
 										nodes[k] );
 							}
 							else
@@ -285,7 +294,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 							} );
 							member.setAttributes( rs.getLevelAttributesValue( j ) );
 							parentNode = new MemberTreeNode( member );
-							noBreakHierarchyKeyMap.put( mirrorMember,
+							valueMap.put( mirrorMember,
 									parentNode );
 						}
 						else
@@ -314,7 +323,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		
 		int level = mirrorLevel + 1;
 		List nodeList1 = new ArrayList( );
-		nodeList1.addAll( noBreakHierarchyKeyMap.values( ) );
+		nodeList1.addAll( valueMap.values( ) );
 
 		for ( int k = mirrorLevel + 1; k < rs.getLevelCount( ); k++ )
 		{
@@ -704,7 +713,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					nodePos + 1,
 					0 );
 			
-			Iterator iter = this.noBreakHierarchyKeyMap.entrySet( ).iterator( );
+			Iterator iter = this.valueMap.entrySet( ).iterator( );
 			int currentLength = 0;
 			MemberTreeNode findNode = null;
 			while ( iter.hasNext( ) )

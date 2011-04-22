@@ -543,11 +543,8 @@ class TimeMemberUtil
 			MirrorMetaInfo service )
 	{
 		int index = service.getMirrorStartPosition( );
-		for ( int i = index; i < rs.getLevelCount( ); i++ )
-		{
-			if ( isTimeMirror( rs, i, service ) )
-				return true;
-		}
+		if ( isTimeMirror( rs, index, service ) )
+			return true;
 		return false;
 	}
 	
