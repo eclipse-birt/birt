@@ -27,7 +27,7 @@ public interface IPlatformConfig
 	static final String PLATFORM_CONTEXT = "PLATFORM_CONTEXT";
 	
 	/**
-	 * defines the launch argumengs to access OSGi framework
+	 * defines the launch arguments to access OSGi framework
 	 */
 	static final String OSGI_ARGUMENTS = "OSGI_ARGUMENTS";
 	
@@ -35,4 +35,10 @@ public interface IPlatformConfig
 	 * defines the configuration used to launch the OSGi framework
 	 */
 	static final String OSGI_CONFIGURATION = "OSGI_CONFIGURATION";
+
+	/**
+	 * defines the temporary folder for the platform if it is difference with JVM
+	 */
+	static final String TEMP_DIR = "tmpDir"; //$NON-NLS-1$
+
 }

@@ -7,7 +7,7 @@
 package org.eclipse.birt.core.framework;
 
 import java.net.URL;
-import java.util.Enumeration;
+
 
 
 /**
@@ -16,6 +16,9 @@ import java.util.Enumeration;
 public interface IBundle
 {
 	 Class loadClass(String name) throws ClassNotFoundException;
-//	 URL getEntry(String name);
-//	 Enumeration getEntryPaths(String path);
+
+	URL getEntry( String name );
+
+	//	 Enumeration getEntryPaths(String path);
+	String getStateLocation( );
 }

@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.Enumeration;
 
 import org.eclipse.birt.core.framework.IBundle;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 
@@ -44,4 +46,13 @@ public class EclipseBundle implements IBundle
 		return bundle.getEntryPaths(path);
 	}
 
+	public String getStateLocation( )
+	{
+		IPath path = Platform.getStateLocation( bundle );
+		if ( path != null )
+		{
+			return path.toFile( ).getAbsolutePath( );
+		}
+		return null;
+	}
 }

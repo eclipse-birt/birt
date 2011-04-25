@@ -95,11 +95,16 @@ public class Platform
 		IPlatformContext context = config.getPlatformContext( );
 		if ( context != null )
 		{
+			String platform = context.getPlatform( );
+			if ( platform == null )
+			{
+				return new ServiceLauncher( );
+			}
 			return new OSGILauncher( );
 		}
 
 		PlatformFileContext fileContext = new PlatformFileContext( config );
-		
+
 		if ( OSGILauncher.isValidPlatform( fileContext ) )
 		{
 			config.setPlatformContext( fileContext );
@@ -318,5 +323,31 @@ public class Platform
 			return platform.getOS( );
 		}
 		return IPlatform.OS_UNKNOWN;
+	}
+
+	public static String getStateLocation( String symbolicName )
+	{
+		if ( platform != null )
+		{
+			IBundle bundle = platform.getBundle( symbolicName );
+			if ( bundle != null )
+			{
+				return bundle.getStateLocation( );
+			}
+		}
+		return null;
+	}
+
+	public URL getEntry( String symbolicName, String resource )
+	{
+		if ( platform != null )
+		{
+			IBundle bundle = platform.getBundle( symbolicName );
+			if ( bundle != null )
+			{
+				return bundle.getEntry( resource );
+			}
+		}
+		return null;
 	}
 }

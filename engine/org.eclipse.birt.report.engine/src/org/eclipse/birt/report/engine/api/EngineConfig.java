@@ -352,32 +352,6 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	}
 
 	/**
-	 * sets the directory for temporary files
-	 * 
-	 * @param tmpDir
-	 *            the directory for temporary files
-	 */
-	public void setTempDir( String tmpDir )
-	{
-		setProperty( TEMP_DIR, tmpDir );
-	}
-
-	/**
-	 * returns engine temporary directory for temporary files
-	 * 
-	 * @return Returns the Temp Directory for engine to write temp files
-	 */
-	public String getTempDir( )
-	{
-		String tempDir = (String) getProperty( TEMP_DIR );
-		if ( tempDir == null )
-		{
-			tempDir = FileUtil.getJavaTmpDir( );
-		}
-		return tempDir;
-	}
-
-	/**
 	 * return a lock manager. The lock manager is used to lock the report
 	 * document opened by this engine.
 	 * 

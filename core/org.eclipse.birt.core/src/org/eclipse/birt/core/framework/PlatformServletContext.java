@@ -84,21 +84,35 @@ public class PlatformServletContext implements IPlatformContext
 	private void deploy( )
 	{
 		assert platform == null;
+		if ( !hasPlatform( ) )
+		{
+			return;
+		}
 		platform = context.getRealPath( RESOURCE_BASE );
 		if ( platform == null )
 		{
 			File contextTemp = (File) context
 					.getAttribute( "javax.servlet.context.tempdir" ); //$NON-NLS-1$
 			File platformFolder = new File( contextTemp, "platform" );
-			//Weblogic try to remove the platform but it failes,
-			//so try to copy the platform each time.
-			//if ( !platformFolder.exists( ) )
+			// Weblogic try to remove the platform but it failes,
+			// so try to copy the platform each time.
+			// if ( !platformFolder.exists( ) )
 			{
 				platformFolder.mkdir( );
 				copyResources( RESOURCE_BASE, platformFolder.getAbsolutePath( ) );
 			}
 			platform = platformFolder.getAbsolutePath( );
 		}
+	}
+
+	private boolean hasPlatform( )
+	{
+		Set resources = context.getResourcePaths( RESOURCE_BASE );
+		if ( resources == null || resources.isEmpty( ) )
+		{
+			return false;
+		}
+		return true;
 	}
 
 	/**

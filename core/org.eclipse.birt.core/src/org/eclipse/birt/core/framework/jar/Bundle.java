@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Actuate Corporation.
+ * Copyright (c) 2010,2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.framework.jar;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class Bundle implements IBundle
 	protected String version;
 	protected Extension[] extensions;
 	protected ExtensionPoint[] extensionPoints;
+	protected String stateLocation;
 	static final Extension[] EMPTY_EXTENSIONS = new Extension[]{};
 	static final ExtensionPoint[] EMPTY_EXTENSION_POINTS = new ExtensionPoint[]{};
 
@@ -112,5 +114,22 @@ public class Bundle implements IBundle
 	public Class loadClass( String name ) throws ClassNotFoundException
 	{
 		return this.getClass( ).getClassLoader( ).loadClass( name );
+	}
+
+	public synchronized String getStateLocation( )
+	{
+		if ( stateLocation == null )
+		{
+			File workspace = platform.getWorkspace( );
+			String folderName = getSymbolicName( );
+			if ( folderName == null )
+			{
+				folderName = String.valueOf( this.hashCode( ) );
+			}
+			File state = new File( workspace, folderName );
+			state.mkdirs( );
+			stateLocation = state.getAbsolutePath( );
+		}
+		return stateLocation;
 	}
 }

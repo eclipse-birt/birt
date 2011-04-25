@@ -33,6 +33,8 @@ public class ServiceLauncher extends PlatformLauncher
 
 	static Logger logger = Logger.getLogger( Platform.class.getName( ) );
 
+	private ServicePlatform platform;
+
 	public ServiceLauncher( )
 	{
 	}
@@ -40,7 +42,7 @@ public class ServiceLauncher extends PlatformLauncher
 	public void startup( final PlatformConfig config )
 			throws FrameworkException
 	{
-		final ServicePlatform platform = new ServicePlatform( );
+		platform = new ServicePlatform( config );
 
 		try
 		{
@@ -60,6 +62,7 @@ public class ServiceLauncher extends PlatformLauncher
 							+ root, ex );
 				}
 			}
+			platform.startup( );
 
 			Platform.setPlatform( platform );
 
@@ -88,5 +91,10 @@ public class ServiceLauncher extends PlatformLauncher
 	public void shutdown( )
 	{
 		Platform.setPlatform( null );
+		if ( platform != null )
+		{
+			platform.shutdown( );
+			platform = null;
+		}
 	}
 }

@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.core.framework.jar;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +28,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.birt.core.framework.IPlatformPath;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.framework.eclipse.EclipseExtensionRegistry;
 import org.eclipse.core.internal.runtime.AdapterManager;
 import org.eclipse.core.runtime.IAdapterManager;
@@ -38,12 +41,14 @@ public class ServicePlatform implements IPlatform
 	protected static Logger logger = Logger.getLogger( IPlatform.class
 			.getName( ) );
 
-	HashMap<String, Bundle> bundles = new HashMap<String, Bundle>( );
-	ExtensionRegistry extensionRegistry = new ExtensionRegistry( );
+	protected PlatformConfig config;
+	protected HashMap<String, Bundle> bundles = new HashMap<String, Bundle>( );
+	protected ExtensionRegistry extensionRegistry = new ExtensionRegistry( );
+	protected File workspace;
 
-	ServicePlatform( )
+	ServicePlatform( PlatformConfig config )
 	{
-
+		this.config = config;
 	}
 
 	public void installBundle( URL root ) throws IOException,
@@ -188,5 +193,46 @@ public class ServicePlatform implements IPlatform
 	public URL find( IBundle bundle, IPlatformPath path )
 	{
 		return null;
+	}
+
+	public File getWorkspace( )
+	{
+		return workspace;
+	}
+
+	public void startup( )
+	{
+		String tempDir = config.getTempDir( );
+		UUID uuid = UUID.randomUUID( );
+		String workPath = "workspace_" + uuid.toString( );
+		workspace = new File( new File( tempDir ), workPath );
+		workspace.mkdirs( );
+		workspace.deleteOnExit( );
+	}
+
+	public void shutdown( )
+	{
+		// remove the workspace
+		if ( workspace != null )
+		{
+			removeFile( workspace );
+			workspace = null;
+		}
+	}
+
+	protected void removeFile( File file )
+	{
+		if ( file.isDirectory( ) )
+		{
+			File[] files = file.listFiles( );
+			if ( files != null )
+			{
+				for ( File childFile : files )
+				{
+					removeFile( childFile );
+				}
+			}
+		}
+		file.delete( );
 	}
 }
