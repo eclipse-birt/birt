@@ -338,7 +338,7 @@ public class Platform
 		return null;
 	}
 
-	public URL getEntry( String symbolicName, String resource )
+	public static URL getEntry( String symbolicName, String resource )
 	{
 		if ( platform != null )
 		{
