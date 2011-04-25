@@ -1298,6 +1298,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		{
 			c = Calendar.getInstance( timeZone, defaultLocale );
 		}
+		//Fix for ted 38388
+		c.setMinimalDaysInFirstWeek( 1 );
 		if ( d == null )
 		{
 			c.clear( );
