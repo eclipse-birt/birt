@@ -290,12 +290,21 @@ public class DataSetMetaDataHelper
 				ColumnHint hint = (ColumnHint) list.get( n );
 				String columnName = (String) hint.getProperty( handle.getModule( ),
 						ColumnHint.COLUMN_NAME_MEMBER );
+				String alias = (String) hint.getProperty( handle.getModule( ),
+						ColumnHint.ALIAS_MEMBER );
 				boolean found = false;
 				if ( !isEmpty( hint, handle.getModule( ).getModuleHandle( ) ) )
 				{
 					for ( int m = 0; m < metaData.getColumnCount( ) && !found; m++ )
 					{
-						found = columnName.equals( metaData.getColumnName( m + 1 ) );
+						String name = metaData.getColumnName( m + 1 );
+						if ( name != null
+								&& ( name.equals( columnName ) )
+								|| name.equals( alias ) )
+						{
+							found = true;
+							break;
+						}
 					}
 					if ( !found )
 					{
