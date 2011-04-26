@@ -2404,6 +2404,7 @@ Element.Module.includeResource=リソースファイル
 Element.Module.createdBy=作成者
 Element.Module.includeScripts=インクルードするスクリプト
 Element.Module.scriptLibs=スクリプトライブラリ
+Element.Module.externalMetadata=外部メタデータ
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2493,7 +2494,6 @@ Element.ReportDesign.imageDPI=イメージの DPI
 Element.ReportDesign.pageVariables=ページ変数
 Element.ReportDesign.dataObjects= データオブジェクト
 Element.ReportDesign.locale=ロケール
-Element.ReportDesign.externalMetadata=外部メタデータ
 Element.ReportDesign.onPageStart=ページの開始時
 Element.ReportDesign.onPageEnd=ページの終了時
 Element.ReportDesign.dataMarts=DataMarts

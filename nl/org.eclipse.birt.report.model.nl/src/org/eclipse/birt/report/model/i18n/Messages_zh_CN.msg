@@ -2404,6 +2404,7 @@ Element.Module.includeResource=源文件
 Element.Module.createdBy=创建者
 Element.Module.includeScripts=包含脚本
 Element.Module.scriptLibs=脚本库
+Element.Module.externalMetadata=外部元数据
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2493,7 +2494,6 @@ Element.ReportDesign.imageDPI=图像 DPI
 Element.ReportDesign.pageVariables=页面变量
 Element.ReportDesign.dataObjects= 数据对象
 Element.ReportDesign.locale=区域设置
-Element.ReportDesign.externalMetadata=外部元数据
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
 Element.ReportDesign.dataMarts=DataMarts

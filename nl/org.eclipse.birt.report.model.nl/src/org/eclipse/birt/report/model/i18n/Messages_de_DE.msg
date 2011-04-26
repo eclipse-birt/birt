@@ -2404,6 +2404,7 @@ Element.Module.includeResource=Ressourcendatei
 Element.Module.createdBy=Erstellt von
 Element.Module.includeScripts=Skripte einschlieﬂen
 Element.Module.scriptLibs=Skriptbibliotheken
+Element.Module.externalMetadata=Externe Metadaten
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2493,7 +2494,6 @@ Element.ReportDesign.imageDPI=Bild-DPI
 Element.ReportDesign.pageVariables=Seitenvariablen
 Element.ReportDesign.dataObjects= Datenobjekte
 Element.ReportDesign.locale=Gebietsschema
-Element.ReportDesign.externalMetadata=Externe Metadaten
 Element.ReportDesign.onPageStart=Am Seitenanfang
 Element.ReportDesign.onPageEnd=Am Seitenende
 Element.ReportDesign.dataMarts=DataMarts

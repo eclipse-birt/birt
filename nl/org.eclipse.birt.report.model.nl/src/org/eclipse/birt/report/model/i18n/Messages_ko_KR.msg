@@ -2404,6 +2404,7 @@ Element.Module.includeResource=리소스 파일: Element.Module.base=기본
 Element.Module.createdBy=만든 사람
 Element.Module.includeScripts=스크립트 포함
 Element.Module.scriptLibs=스크립트 라이브러리
+Element.Module.externalMetadata=외부 메타데이터
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2493,7 +2494,6 @@ Element.ReportDesign.imageDPI=이미지 DPI
 Element.ReportDesign.pageVariables=페이지 변수
 Element.ReportDesign.dataObjects= 데이터 개체
 Element.ReportDesign.locale=로케일
-Element.ReportDesign.externalMetadata=외부 메타데이터
 Element.ReportDesign.onPageStart=페이지 시작 시
 Element.ReportDesign.onPageEnd=페이지 종료 시
 Element.ReportDesign.dataMarts=데이터 마트
