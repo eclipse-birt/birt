@@ -136,7 +136,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Text txtDisplayName, txtDisplayNameID;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
-	private Combo cmbName;
+	private Combo cmbName, cmbDataField;
 	private Label lbName, lbDisplayNameID;
 
 	private boolean isCreate;
@@ -1178,7 +1178,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 					if ( param.isDataField( ) )
 					{
-						final Combo cmbDataField = new Combo( paramsComposite,
+						cmbDataField = new Combo( paramsComposite,
 								SWT.BORDER );
 						cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 								| GridData.GRAB_HORIZONTAL ) );
@@ -1210,11 +1210,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 								{
 									cmbDataField.setText( expr );
 								}
-								cmbDataField.setData( ExpressionButtonUtil.EXPR_TYPE,
-										ExpressionType.JAVASCRIPT );
-								ExpressionButton button = (ExpressionButton) cmbDataField.getData( ExpressionButtonUtil.EXPR_BUTTON );
-								if ( button != null )
-									button.refresh( );
+								// cmbDataField.setData(
+								// ExpressionButtonUtil.EXPR_TYPE,
+								// ExpressionType.JAVASCRIPT );
+								// ExpressionButton button = (ExpressionButton)
+								// cmbDataField.getData(
+								// ExpressionButtonUtil.EXPR_BUTTON );
+								// if ( button != null )
+								// button.refresh( );
 							}
 						} );
 
@@ -1309,7 +1312,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next( );
 			if ( binding.getName( ).equals( name ) )
-				return ExpressionUtil.createJSRowExpression( name );
+				return ExpressionButtonUtil.getCurrentExpressionConverter( cmbDataField )
+						.getBindingExpression( name );
 		}
 		return null;
 	}
