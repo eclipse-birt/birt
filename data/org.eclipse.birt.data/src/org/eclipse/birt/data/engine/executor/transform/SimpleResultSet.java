@@ -72,6 +72,7 @@ public class SimpleResultSet implements IResultIterator
 	private IResultClass resultClass;
 	private IGroupCalculator groupCalculator;
 	private boolean isClosed;
+	private IResultObject previewObj = null;
 	/**
 	 * 
 	 * @param dataSourceQuery
@@ -330,6 +331,7 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
+		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
 		this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
 		return this.groupCalculator.getEndingGroup( );
 	}
@@ -389,6 +391,8 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getStartingGroupLevel( ) throws DataException
 	{
+		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
+		this.groupCalculator.registerPreviousResultObject( this.previewObj );
 		return this.groupCalculator.getStartingGroup( );
 	}
 
@@ -444,10 +448,12 @@ public class SimpleResultSet implements IResultIterator
 		}
 		try
 		{
-			this.groupCalculator.next( );
-			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
-			this.currResultObj = this.rowResultSet.next( );
 			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
+			this.groupCalculator.registerPreviousResultObject( this.previewObj );
+			this.previewObj = this.currResultObj;
+			this.currResultObj = this.rowResultSet.next( );
+			this.groupCalculator.registerNextResultObject( this.currResultObj );
+			this.groupCalculator.next( );
 		}
 		catch ( DataException e )
 		{
