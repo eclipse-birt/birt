@@ -1698,7 +1698,9 @@
     <Property canInherit="false" displayNameID="Element.Module.includeResource" name="includeResource" runtimeSettable="false" since="1.0" subType="string" type="list"/>
     <Property canInherit="false" displayNameID="Element.Module.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
+    <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>
+    <Property displayNameID="Element.Module.externalMetadata" name="externalMetadata" since="2.6" type="xml" />
+    <PropertyVisibility name="externalMetadata" visibility="hide"/>    
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.LayoutModule" extends="Module" hasStyle="false" isAbstract="true" name="LayoutModule" nameSpace="none" since="2.5">
     <Property canInherit="false" displayNameID="Element.LayoutModule.subject" name="subject" runtimeSettable="false" since="2.3" type="string"/>
@@ -1786,8 +1788,7 @@
   	<Property displayNameID="Element.ReportDesign.dataObjects" isList="true" name="dataObjects" since="2.5" type="contentElement">
   	  <Type name="VariableElement"/>	
   	</Property>
-  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />
-  	<Property displayNameID="Element.ReportDesign.externalMetadata" name="externalMetadata" since="2.6" type="xml" />
+  	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />  	
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
@@ -1841,8 +1842,7 @@
 	<PropertyVisibility name="beforeOpenDoc" visibility="hide"/>
     <PropertyVisibility name="afterOpenDoc" visibility="hide"/>
 	<PropertyVisibility name="beforeCloseDoc" visibility="hide"/>
-    <PropertyVisibility name="afterCloseDoc" visibility="hide"/>
-    <PropertyVisibility name="externalMetadata" visibility="hide"/>
+    <PropertyVisibility name="afterCloseDoc" visibility="hide"/>    
     -->
     <Slot displayNameID="Element.ReportDesign.slot.styles" multipleCardinality="true" name="styles" since="1.0" xmlName="styles">
       <Type name="Style"/>

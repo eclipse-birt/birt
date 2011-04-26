@@ -357,7 +357,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( element instanceof ReportDesign
+		if ( element instanceof Module
 				&& EXTERNAL_METADATA_PROP == nameValue )
 		{
 			return ParseStateFactory.getInstance( )
