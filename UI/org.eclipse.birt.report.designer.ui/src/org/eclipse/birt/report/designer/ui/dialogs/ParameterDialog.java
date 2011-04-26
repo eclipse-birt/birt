@@ -1290,9 +1290,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			defaultValueList = new ArrayList<Expression>( );
 			initDefaultValueViewer( );
 		}
-		Expression expression = null;
-		if ( value != null )
-			expression = new Expression( value, type );
+		Expression expression = new Expression( value, type );
 		if ( !defaultValueList.contains( expression ) )
 			defaultValueList.add( 0, expression );
 		updateMessageLine( );
@@ -2285,9 +2283,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					|| !allowMultiChoice.getSelection( ) )
 				defaultValueList.clear( );
 		}
-		Expression expression = null;
-		if ( value != null )
-			expression = new Expression( value, type );
+		Expression expression = new Expression( value, type );
 		if ( !defaultValueList.contains( expression ) )
 			defaultValueList.add( expression );
 		updateMessageLine( );
@@ -2298,9 +2294,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		if ( defaultValueList != null )
 		{
-			Expression expression = null;
-			if ( value != null )
-				expression = new Expression( value, ExpressionType.CONSTANT );
+			Expression expression = new Expression( value, ExpressionType.CONSTANT );
 			defaultValueList.remove( expression );
 			updateMessageLine( );
 			updateFormatField( );
@@ -2311,14 +2305,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		if ( defaultValueList != null )
 		{
-			Expression expression = null;
-			if ( oldVal != null )
-				expression = new Expression( oldVal, ExpressionType.CONSTANT );
+			Expression expression = new Expression( oldVal, ExpressionType.CONSTANT );
 			defaultValueList.remove( expression );
 
-			expression = null;
-			if ( oldVal != null )
-				expression = new Expression( newVal, ExpressionType.CONSTANT );
+			expression = new Expression( newVal, ExpressionType.CONSTANT );
 			if ( !defaultValueList.contains( expression ) )
 				defaultValueList.add( expression );
 			updateMessageLine( );
