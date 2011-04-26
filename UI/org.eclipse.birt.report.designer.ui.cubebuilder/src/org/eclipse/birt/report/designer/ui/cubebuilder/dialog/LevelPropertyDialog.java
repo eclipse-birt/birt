@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -71,7 +72,6 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyAdapter;
@@ -103,6 +103,8 @@ import com.ibm.icu.util.ULocale;
 public class LevelPropertyDialog extends TitleAreaDialog
 {
 
+	private static final String DEFAULTVALUE_EDIT_LABEL = Messages.getString("LevelPropertyDialog.DefaultValue.Edit.Label"); //$NON-NLS-1$
+	private static final String DEFAULTVALUE_EDIT_TITLE = Messages.getString("LevelPropertyDialog.DefaultValue.Edit.Title"); //$NON-NLS-1$
 	private Composite dynamicArea;
 	private DataSetHandle dataset;
 
@@ -939,7 +941,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				if ( control instanceof Combo )
 				{
 					String text = ( (Combo) control ).getText( );
-					if ( !Messages.getString( "LevelPropertyDialog.None" )
+					if ( !Messages.getString( "LevelPropertyDialog.None" ) //$NON-NLS-1$
 							.equals( text ) )
 						return text;
 				}
@@ -950,8 +952,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				if ( control instanceof Combo )
 				{
-					if ( "".equals( DEUtil.resolveNull( expression ) ) )
-						( (Combo) control ).setText( Messages.getString( "LevelPropertyDialog.None" ) );
+					if ( "".equals( DEUtil.resolveNull( expression ) ) ) //$NON-NLS-1$
+						( (Combo) control ).setText( Messages.getString( "LevelPropertyDialog.None" ) ); //$NON-NLS-1$
 					else
 						( (Combo) control ).setText( DEUtil.resolveNull( expression ) );
 				}
@@ -1786,6 +1788,21 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		defaultValueViewer.setLabelProvider( defaultValueLabelProvider );
 		defaultValueViewer.setCellModifier( defaultValueCellModifier );
 
+		Button defaultValueEditButton = new Button( contents, SWT.PUSH );
+		defaultValueEditButton.setText( Messages.getString( "LevelPropertyDialog.DynamicTable.Button.Edit" ) ); //$NON-NLS-1$
+		gd = new GridData( );
+		gd.horizontalAlignment = SWT.FILL;
+		defaultValueEditButton.setLayoutData( gd );
+		defaultValueEditButton.setEnabled( true );
+
+		defaultValueEditButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleDefaultValueEditEvent( );
+			}
+		} );
+		
 		return container;
 
 	}
@@ -2033,6 +2050,25 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			dynamicTable.select( dynamicSelectIndex );
 			checkDynamicViewerButtonStatus( );
+		}
+	}
+	
+	private void handleDefaultValueEditEvent( )
+	{
+		InputDialog dialog = new InputDialog(this.getShell( ), DEFAULTVALUE_EDIT_TITLE, DEFAULTVALUE_EDIT_LABEL, DEUtil.resolveNull( input.getDefaultValue( )), null);
+		if(dialog.open( ) == Window.OK){
+			String value = dialog.getValue( );
+			try
+			{
+				if(value==null || value.trim( ).length( ) == 0)
+					input.setDefaultValue( null );
+				else input.setDefaultValue( value.trim( ) );
+				defaultValueViewer.refresh( );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 	}
 }
