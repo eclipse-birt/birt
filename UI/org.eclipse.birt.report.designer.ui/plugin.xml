@@ -802,6 +802,24 @@
                </equals></enablement>
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ReportDesignHandle">
+         <adapter
+               factory="org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameterProviderFactory"
+               id="ReportDesignHandle.ReportHyperlinkParameterProvider"
+               singleton="false"
+               type="org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider">
+         </adapter>
+      </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ReportDesignHandle">
+         <adapter
+               class="org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.RenderHyperlinkParameterProvider"
+               id="ReportDesignHandle.RenderHyperlinkParameterProvider"
+               singleton="true"
+               type="org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider">
+         </adapter>
+      </adaptable>
    </extension>
    
 </plugin>

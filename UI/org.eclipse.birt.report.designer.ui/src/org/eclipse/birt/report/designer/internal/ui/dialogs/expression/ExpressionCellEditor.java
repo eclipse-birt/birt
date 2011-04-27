@@ -68,7 +68,7 @@ public class ExpressionCellEditor extends CellEditor
 	/**
 	 * The button.
 	 */
-	private Button button;
+	protected Button button;
 
 	/**
 	 * Listens for 'focusLost' events and fires the 'apply' event as long as the
@@ -114,7 +114,7 @@ public class ExpressionCellEditor extends CellEditor
 		}
 	}
 
-	private Menu menu;
+	protected Menu menu;
 
 	private ModifyListener modifyListener;
 
@@ -182,7 +182,7 @@ public class ExpressionCellEditor extends CellEditor
 		return editor;
 	}
 
-	private ModifyListener getModifyListener( )
+	protected ModifyListener getModifyListener( )
 	{
 		if ( modifyListener == null )
 		{
@@ -363,11 +363,13 @@ public class ExpressionCellEditor extends CellEditor
 		return buttonFocusListener;
 	}
 
-	private Text editor;
+	protected Text editor;
 
 	private IExpressionContextFactory contextFactory;
 
 	private Object contextObject;
+
+	private SelectionAdapter listener;
 
 	protected void focusLost( )
 	{
@@ -424,7 +426,7 @@ public class ExpressionCellEditor extends CellEditor
 		return type;
 	}
 
-	private void setExpressionCellEditorProvider(
+	protected void setExpressionCellEditorProvider(
 			IExpressionCellEditorProvider provider )
 	{
 		if ( provider != null && provider != this.provider )
@@ -441,7 +443,7 @@ public class ExpressionCellEditor extends CellEditor
 
 			String[] types = this.provider.getExpressionTypes( );
 
-			SelectionAdapter listener = new SelectionAdapter( ) {
+			listener = new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
 				{

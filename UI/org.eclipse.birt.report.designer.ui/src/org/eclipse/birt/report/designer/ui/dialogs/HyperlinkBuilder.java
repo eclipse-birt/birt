@@ -16,12 +16,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionCellEditorFactory;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IReportHyperlinkParameter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -30,6 +38,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -182,8 +191,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private ComboBoxCellEditor parameterChooser;
 
-	private ArrayList<ParamBinding> bindingList = new ArrayList<ParamBinding>( );
-	private ArrayList<ParameterHandle> parameterList = new ArrayList<ParameterHandle>( );
+	private ArrayList<ParamBinding> paramBindingList = new ArrayList<ParamBinding>( );
 
 	private List<String> typeFilterList = new ArrayList<String>( 2 );
 	private boolean bTargetEnabled = true;
@@ -193,6 +201,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private Object targetReportHandle;
 
+	private ArrayList<IHyperlinkParameter> paramList = new ArrayList<IHyperlinkParameter>( );
 	private HashMap<String, String> paramTypes = new HashMap<String, String>( );
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
@@ -305,11 +314,27 @@ public class HyperlinkBuilder extends BaseDialog
 			Object value = null;
 			if ( COLUMN_VALUE.equals( property ) )
 			{
-				value = getParamBindingExpression( paramBinding );
-				if ( value == null )
+				Expression expression = getParamBindingExpression( paramBinding );
+				if ( paramCellEditorFacotryAdapter != null )
 				{
-					value = ""; //$NON-NLS-1$
+					String fileName = null;
+					if ( targetReportHandle instanceof IReportDocument )
+					{
+						fileName = ( (IReportDocument) targetReportHandle ).getReportDesign( )
+								.getFileName( );
+					}
+					else if ( targetReportHandle instanceof ReportDesignHandle )
+					{
+						fileName = ( (ReportDesignHandle) targetReportHandle ).getFileName( );
+					}
+					return new Object[]{
+							fileName,
+							getParameter( paramBinding.getParamName( ) ),
+							expression == null ? "" : expression
+					};
 				}
+				else
+					return expression == null ? "" : expression;
 			}
 			else if ( COLUMN_PARAMETER.equals( property ) )
 			{
@@ -367,7 +392,7 @@ public class HyperlinkBuilder extends BaseDialog
 					if ( paramBinding == dummyParameterBinding )
 					{
 						paramBinding = StructureFactory.createParamBinding( );
-						bindingList.add( paramBinding );
+						paramBindingList.add( paramBinding );
 					}
 					paramBinding.setParamName( (String) value );
 				}
@@ -419,10 +444,28 @@ public class HyperlinkBuilder extends BaseDialog
 	private boolean isRelativeToProjectRoot = false;
 	private Text tooltipText;
 	private ScrolledComposite scrollContent;
+	private Object paramCellEditorFacotryAdapter;
 
 	public HyperlinkBuilder( Shell parentShell )
 	{
 		this( parentShell, false );
+	}
+
+	protected Object getParameter( String paramName )
+	{
+		if ( paramList != null )
+		{
+			for ( int i = 0; i < paramList.size( ); i++ )
+			{
+				IHyperlinkParameter parameter = paramList.get( i );
+				if ( parameter.getName( ).equals( paramName )
+						&& parameter instanceof ReportHyperlinkParameter )
+				{
+					return ( (ReportHyperlinkParameter) parameter ).getParameterHandle( );
+				}
+			}
+		}
+		return null;
 	}
 
 	public HyperlinkBuilder( )
@@ -769,8 +812,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				selectRadio( targetGroup, reportDocumentButton );
 				initTargetReport( documentEditor.getText( ) );
+				selectRadio( targetGroup, reportDocumentButton );
 				initParamterBindings( );
 				deSelectAnchor( );
 				updateButtons( );
@@ -1034,6 +1077,14 @@ public class HyperlinkBuilder extends BaseDialog
 
 		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table,
 				SWT.PUSH );
+		paramCellEditorFacotryAdapter = ElementAdapterManager.getAdapter( this.inputHandle,
+				IExpressionCellEditorFactory.class );
+		if ( paramCellEditorFacotryAdapter instanceof IExpressionCellEditorFactory )
+		{
+			valueEditor = ( (IExpressionCellEditorFactory) paramCellEditorFacotryAdapter ).createExpressionCellEditor( table,
+					SWT.PUSH );
+		}
+
 		valueEditor.setExpressionInput( getExpressionProvider( ),
 				inputHandle.getElementHandle( ) );
 		// valueEditor.setExpressionProvider( getExpressionProvider( ) );
@@ -1043,7 +1094,7 @@ public class HyperlinkBuilder extends BaseDialog
 		paramBindingTable.setContentProvider( contentProvider );
 		paramBindingTable.setLabelProvider( labelProvider );
 		paramBindingTable.setCellModifier( cellModifier );
-		paramBindingTable.setInput( bindingList );
+		paramBindingTable.setInput( paramBindingList );
 	}
 
 	private void clearArea( )
@@ -1355,7 +1406,7 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN );
 					inputHandle.setReportName( locationEditor.getText( ) );
-					for ( Iterator<ParamBinding> iter = bindingList.iterator( ); iter.hasNext( ); )
+					for ( Iterator<ParamBinding> iter = paramBindingList.iterator( ); iter.hasNext( ); )
 					{
 						inputHandle.addParamBinding( iter.next( ) );
 					}
@@ -1364,7 +1415,7 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					inputHandle.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT );
 					inputHandle.setReportName( documentEditor.getText( ) );
-					for ( Iterator<ParamBinding> iter = bindingList.iterator( ); iter.hasNext( ); )
+					for ( Iterator<ParamBinding> iter = paramBindingList.iterator( ); iter.hasNext( ); )
 					{
 						inputHandle.addParamBinding( iter.next( ) );
 					}
@@ -1682,8 +1733,9 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		if ( targetReportHandle != null )
 		{
-			bindingList.clear( );
-			parameterList.clear( );
+			paramBindingList.clear( );
+			paramList.clear( );
+			paramTypes.clear( );
 
 			String errorMessage = null;
 			String newFilename = null;
@@ -1715,43 +1767,27 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					if ( targetReportHandle instanceof ReportDesignHandle )
 					{
-						paramTypes.clear( );
-						for ( Iterator iter = tmpReportDesign.getAllParameters( )
-								.iterator( ); iter.hasNext( ); )
-						{
-							Object obj = iter.next( );
-							if ( obj instanceof ParameterHandle )
-							{
-								ParameterHandle param = (ParameterHandle) obj;
-								parameterList.add( param );
-								if ( param instanceof ScalarParameterHandle )
-								{
-									paramTypes.put( param.getName( ),
-											( (ScalarParameterHandle) param ).getDataType( ) );
-								}
+						// TODO pass in current format
+						Map<String, List<IHyperlinkParameter>> hparams = getHyperlinkParameters( tmpReportDesign,
+								null );
 
+						// TODO should check and prevent duplicate param names
+						for ( Entry<String, List<IHyperlinkParameter>> ent : hparams.entrySet( ) )
+						{
+							String cat = ent.getKey( );
+							List<IHyperlinkParameter> hps = ent.getValue( );
+
+							if ( hps != null )
+							{
+								for ( IHyperlinkParameter hp : hps )
+								{
+									paramList.add( hp );
+									paramTypes.put( hp.getName( ),
+											hp.getDataType( ) );
+								}
 							}
-							// bug 147604
-							// else if ( obj instanceof ParameterGroupHandle )
-							// {
-							// parameterList.addAll( ( (ParameterGroupHandle)
-							// obj
-							// ).getParameters( )
-							// .getContents( ) );
-							// }
 						}
 					}
-
-					// if ( newFilename.equals( inputHandle.getReportName( ) ) )
-					// {
-					// for ( Iterator iter = inputHandle.paramBindingsIterator(
-					// ); iter.hasNext( ); )
-					// {
-					// ParamBindingHandle handle = (ParamBindingHandle)
-					// iter.next( );
-					// bindingList.add( (ParamBinding) handle.getStructure( ) );
-					// }
-					// }
 				}
 			}
 
@@ -1759,30 +1795,76 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				messageLine.setText( errorMessage );
 				messageLine.setImage( ERROR_ICON );
-				// paramBindingTable.getTable( ).setEnabled( false );
 			}
 			else
 			{
 				messageLine.setText( "" ); //$NON-NLS-1$
 				messageLine.setImage( null );
-				// paramBindingTable.getTable( ).setEnabled( true );
 			}
-			// paramBindingTable.getTable( )
-			// .setEnabled( !parameterList.isEmpty( ) );
 
 			updateButtons( );
 		}
 
-		bindingList.clear( );
+		paramBindingList.clear( );
 		for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
 		{
 			ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
-			bindingList.add( (ParamBinding) handle.getStructure( ) );
+			paramBindingList.add( (ParamBinding) handle.getStructure( ) );
 		}
 
 		// parammeter table is always enabled
-		paramBindingTable.getTable( ).setEnabled( true );
+		paramBindingTable.getTable( ).setEnabled( messageLine.getText( )
+				.length( ) == 0 );
 		paramBindingTable.refresh( );
+	}
+
+	private Map<String, List<IHyperlinkParameter>> getHyperlinkParameters(
+			ReportDesignHandle design, String format )
+	{
+		Map<String, List<IHyperlinkParameter>> result = new LinkedHashMap<String, List<IHyperlinkParameter>>( );
+
+		Object[] adapters = ElementAdapterManager.getAdapters( design,
+				IHyperlinkParameterProvider.class );
+
+		if ( adapters != null )
+		{
+			for ( Object adapt : adapters )
+			{
+				IHyperlinkParameterProvider paramProvider = (IHyperlinkParameterProvider) adapt;
+
+				if ( paramProvider != null )
+				{
+					String[] categories = paramProvider.getCategories( );
+
+					if ( categories != null )
+					{
+						for ( String cat : categories )
+						{
+							IHyperlinkParameter[] params = paramProvider.getParameters( cat,
+									format );
+
+							if ( params != null )
+							{
+								List<IHyperlinkParameter> buk = result.get( cat );
+
+								if ( buk == null )
+								{
+									buk = new ArrayList<IHyperlinkParameter>( );
+									result.put( cat, buk );
+								}
+
+								for ( IHyperlinkParameter pm : params )
+								{
+									buk.add( pm );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 	private List<Object> getAllBookMarkExpressions(
@@ -1943,20 +2025,21 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
-			okEnable = ( !StringUtil.isBlank( locationEditor.getText( ) ) || !StringUtil.isBlank( documentEditor.getText( ) ) );
+			okEnable = ( !StringUtil.isBlank( locationEditor.getText( ) ) || !StringUtil.isBlank( documentEditor.getText( ) ) )
+					&& messageLine.getText( ).length( ) == 0;
 		}
 		getOkButton( ).setEnabled( okEnable );
 	}
 
 	private void validateTables( )
 	{
-		for ( int i = 0; i < bindingList.size( ); i++ )
+		for ( int i = 0; i < paramBindingList.size( ); i++ )
 		{
-			for ( int j = i + 1; j < bindingList.size( ); j++ )
+			for ( int j = i + 1; j < paramBindingList.size( ); j++ )
 			{
-				if ( bindingList.get( i )
+				if ( paramBindingList.get( i )
 						.getParamName( )
-						.equals( bindingList.get( j ).getParamName( ) ) )
+						.equals( paramBindingList.get( j ).getParamName( ) ) )
 				{
 					String errorMessage = Messages.getString( "HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName" ); //$NON-NLS-1$
 					messageLine.setText( errorMessage );
@@ -1974,12 +2057,14 @@ public class HyperlinkBuilder extends BaseDialog
 	private void buildParameterChoices( String selectedParameter )
 	{
 		ArrayList<String> avaliableList = new ArrayList<String>( );
-		for ( Iterator<ParameterHandle> iter = parameterList.iterator( ); iter.hasNext( ); )
+
+		for ( Iterator<IHyperlinkParameter> iter = paramList.iterator( ); iter.hasNext( ); )
 		{
-			ParameterHandle parameter = iter.next( );
-			avaliableList.add( parameter.getQualifiedName( ) );
+			IHyperlinkParameter parameter = iter.next( );
+			avaliableList.add( parameter.getName( ) );
 		}
-		for ( Iterator<ParamBinding> iter = bindingList.iterator( ); iter.hasNext( ); )
+
+		for ( Iterator<ParamBinding> iter = paramBindingList.iterator( ); iter.hasNext( ); )
 		{
 			ParamBinding paramBinding = iter.next( );
 			if ( !paramBinding.getParamName( ).equals( selectedParameter ) )
@@ -1995,7 +2080,7 @@ public class HyperlinkBuilder extends BaseDialog
 		ParamBinding paramBinding = getSelectedBinding( );
 		if ( paramBinding != null )
 		{
-			bindingList.remove( paramBinding );
+			paramBindingList.remove( paramBinding );
 			paramBindingTable.refresh( );
 		}
 	}
@@ -2180,17 +2265,22 @@ public class HyperlinkBuilder extends BaseDialog
 			return false;
 		}
 
-		if ( parameterList != null )
+		if ( paramList != null )
 		{
-			for ( Iterator<ParameterHandle> iter = parameterList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<IHyperlinkParameter> iter = paramList.iterator( ); iter.hasNext( ); )
 			{
-				Object obj = iter.next( );
-				if ( obj instanceof ScalarParameterHandle
-						&& ( (ScalarParameterHandle) obj ).getName( )
-								.equals( paramName ) )
+				IHyperlinkParameter obj = iter.next( );
+
+				if ( obj instanceof IReportHyperlinkParameter
+						&& obj.getName( ).equals( paramName ) )
 				{
-					return !( (ScalarParameterHandle) obj ).allowNull( )
-							|| !( (ScalarParameterHandle) obj ).allowBlank( );
+					ParameterHandle paramHandle = ( (IReportHyperlinkParameter) obj ).getParameterHandle( );
+
+					if ( paramHandle instanceof ScalarParameterHandle )
+					{
+						return !( (ScalarParameterHandle) paramHandle ).allowNull( )
+								|| !( (ScalarParameterHandle) paramHandle ).allowBlank( );
+					}
 				}
 			}
 		}
