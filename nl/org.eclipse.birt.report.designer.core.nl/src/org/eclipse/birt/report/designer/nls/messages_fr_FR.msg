@@ -916,7 +916,7 @@ designer.preview.preference.bidiOrientation.auto=Auto
 designer.preview.preference.bidiOrientation.ltr=Gauche à droite
 designer.preview.preference.bidiOrientation.rtl=Droite à gauche
 designer.preview.preference.updateParameter.confirmMessage=Confirmer la mise à jour
-designer.preview.preference.updateParameter.confirmButton=Toujours demander la confirmation lors de la mise à jour des attributs du modèle de jeux / paramètres de résultats.
+designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when synchronizing data set parameter properties with ODA parameter properties if the query is changed.
 designer.preview.preference.updateReportParameter.confirmButton=&Ne pas demander la confirmation de mise à jour d'un paramètre d'état lié.
 designer.preview.preference.updateReportParameter.confirmOption.always=&Toujours :
 designer.preview.preference.updateReportParameter.confirmOption.update=Mettre à jo&ur
@@ -4826,3 +4826,8 @@ RenameInputDialog.Message.DuplicateName=Un doublon existe déjà.
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Afficher les enfants
 ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Basculer la suite de liens
+
+###########################################################
+#HyperlinkParameterProvider Category
+ReportHyperlinkParameterProvider.Category.Report=Paramètres de l'état
+RenderHyperlinkParameterProvider.Category.Render=Render Options

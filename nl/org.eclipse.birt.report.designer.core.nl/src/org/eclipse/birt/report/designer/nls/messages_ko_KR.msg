@@ -916,7 +916,7 @@ designer.preview.preference.bidiOrientation.auto=자동
 designer.preview.preference.bidiOrientation.ltr=왼쪽에서 오른쪽
 designer.preview.preference.bidiOrientation.rtl=오른쪽에서 왼쪽
 designer.preview.preference.updateParameter.confirmMessage=업데이트 실행 확인
-designer.preview.preference.updateParameter.confirmButton=결과 집합/매개 변수 디자인 특성을 업데이트할 때마다 항상 확인합니다.
+designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when synchronizing data set parameter properties with ODA parameter properties if the query is changed.
 designer.preview.preference.updateReportParameter.confirmButton=연결된 보고서 매개변수 업데이트에 대한 확인 프롬프트를 표시하지 않습니다(&D).
 designer.preview.preference.updateReportParameter.confirmOption.always=항상(&W):
 designer.preview.preference.updateReportParameter.confirmOption.update=업데이트(&U)
@@ -4826,3 +4826,8 @@ RenameInputDialog.Message.DuplicateName=중복된 이름이 있습니다.
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=하위 항목 표시
 ToggleBreadcrumbAction.tooltip.switch.breadcrumb=이동 경로 전환
+
+###########################################################
+#HyperlinkParameterProvider Category
+ReportHyperlinkParameterProvider.Category.Report=보고서 매개 변수
+RenderHyperlinkParameterProvider.Category.Render=Render Options

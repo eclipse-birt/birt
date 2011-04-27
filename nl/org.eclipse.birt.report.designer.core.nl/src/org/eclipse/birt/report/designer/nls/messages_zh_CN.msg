@@ -916,7 +916,7 @@ designer.preview.preference.bidiOrientation.auto=自动
 designer.preview.preference.bidiOrientation.ltr=从左到右
 designer.preview.preference.bidiOrientation.rtl=从右到左
 designer.preview.preference.updateParameter.confirmMessage=确认更新
-designer.preview.preference.updateParameter.confirmButton=更新结果集/参数设计属性时，始终提示确认。
+designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when synchronizing data set parameter properties with ODA parameter properties if the query is changed.
 designer.preview.preference.updateReportParameter.confirmButton=不要提示确认更新链接报表参数(&D)。
 designer.preview.preference.updateReportParameter.confirmOption.always=始终(&W):
 designer.preview.preference.updateReportParameter.confirmOption.update=更新(&U)
@@ -4826,3 +4826,8 @@ RenameInputDialog.Message.DuplicateName=存在重复名称。
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=显示子项
 ToggleBreadcrumbAction.tooltip.switch.breadcrumb=切换 Breadcrumb
+
+###########################################################
+#HyperlinkParameterProvider Category
+ReportHyperlinkParameterProvider.Category.Report=报表参数
+RenderHyperlinkParameterProvider.Category.Render=Render Options

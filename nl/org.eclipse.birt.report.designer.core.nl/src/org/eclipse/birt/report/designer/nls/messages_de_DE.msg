@@ -916,7 +916,7 @@ designer.preview.preference.bidiOrientation.auto=Automatisch
 designer.preview.preference.bidiOrientation.ltr=Von links nach rechts
 designer.preview.preference.bidiOrientation.rtl=Von rechts nach links
 designer.preview.preference.updateParameter.confirmMessage=Aktualisierung bestätigen
-designer.preview.preference.updateParameter.confirmButton=Bei Aktualisierung von Ergebnis-/Parameterdesignattributen immer nach Bestätigung fragen
+designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when synchronizing data set parameter properties with ODA parameter properties if the query is changed.
 designer.preview.preference.updateReportParameter.confirmButton=Nie nach Bestätigung fragen, um &den Parameter eines verknüpften Berichts zu aktualisieren.
 designer.preview.preference.updateReportParameter.confirmOption.always=&Immer:
 designer.preview.preference.updateReportParameter.confirmOption.update=Akt&ualisieren
@@ -4826,3 +4826,8 @@ RenameInputDialog.Message.DuplicateName=Der Name ist bereits vorhanden.
 #Breadcrumb
 BreadcrumbItemDropDown.showDropDownMenu.action.toolTip=Untergeordnete Elemente anzeigen
 ToggleBreadcrumbAction.tooltip.switch.breadcrumb=Brotkrume ein/aus
+
+###########################################################
+#HyperlinkParameterProvider Category
+ReportHyperlinkParameterProvider.Category.Report=Berichtparameter
+RenderHyperlinkParameterProvider.Category.Render=Render Options
