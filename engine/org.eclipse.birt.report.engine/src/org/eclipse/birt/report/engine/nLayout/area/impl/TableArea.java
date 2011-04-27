@@ -533,6 +533,7 @@ public class TableArea extends RepeatableArea
 					{
 						cell.setRowSpan( rowSpan );
 						resolved = true;
+						setUnresolvedRow = true;
 					}
 				}
 				i = i + cell.getColSpan( );
@@ -584,7 +585,12 @@ public class TableArea extends RepeatableArea
 		if ( container instanceof RowArea )
 		{
 			RowArea row = (RowArea) container;
-
+			InstanceID id = row.getContent( ).getInstanceID( );
+			if ( rowId != null && id != null
+					&& rowId.equals( id.toUniqueString( ) ) )
+			{
+				setUnresolvedRow( );
+			}
 			if ( row.needResolveBorder )
 			{
 				int size = row.getChildrenCount( );
