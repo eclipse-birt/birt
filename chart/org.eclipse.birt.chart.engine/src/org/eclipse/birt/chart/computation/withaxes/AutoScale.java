@@ -71,6 +71,46 @@ import com.ibm.icu.util.ULocale;
 public final class AutoScale extends Methods implements Cloneable
 {
 
+	private AxisLabelInfo axisLabelInfo = new AxisLabelInfo();
+	
+	AxisLabelInfo getAxisLabelInfo( )
+	{
+		return axisLabelInfo;
+	}
+
+	/**
+	 * This class stores middle values of axis label in runtime, including
+	 * the size of axis label. To ensure chart series can be shown, if chart is
+	 * flip and category axis label is very long, we will reduce the length of
+	 * axis label, current rule is length of axis label can't exceed half of
+	 * chart width.
+	 */
+	static class AxisLabelInfo {
+		/**
+		 * Actual size of axis label.
+		 */
+		double dActualSize = -1;
+		/**
+		 * Limit size of axis label.
+		 */
+		double dMaxSize = -1;
+
+		/**
+		 * Selects a valid label size from actual size and specified size.
+		 * 
+		 * @param refSize
+		 * @return
+		 */
+		double getValidSize( double refSize )
+		{
+			if ( dActualSize >= 0 && dActualSize < refSize )
+			{
+				return dActualSize;
+			}
+			return refSize;
+		}
+	}
+	
 	public static class ScaleInfo
 	{
 
@@ -398,7 +438,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private LabelVisibleHelper labelVisHelper = null;
 
 	private Map<Integer, String> hmComputedLabelText = null;
-
+     
 	private StaggeredHelper staggeredHelper = null;
 
 	private ScaleContext tmpSC;
@@ -513,6 +553,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.staggeredHelper = staggeredHelper;
 		sc.hmComputedLabelText = hmComputedLabelText;
 		sc.tmpSC = tmpSC;
+		sc.axisLabelInfo = axisLabelInfo;
 		sc.setBigNubmerDivisor( getBigNumberDivisor( ) );
 
 		return sc;
@@ -1722,10 +1763,11 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param xs
 	 * @param la
 	 * @param iLabelLocation
+	 * @param iOrientation
 	 * @throws ChartException
 	 */
 	final protected void checkTickLabelsVisibility( IDisplayServer xs,
-			Label la, int iLabelLocation ) throws ChartException
+			Label la, int iLabelLocation, int iOrientation ) throws ChartException
 	{
 		hmComputedLabelText = new HashMap<Integer, String>( );
 
@@ -1780,6 +1822,7 @@ public final class AutoScale extends Methods implements Cloneable
 		int indexStep = dStep > 1 ? 1 : (int) ( 1d / dStep );
 		int iSkip = indexStep - 1;
 
+		double ellipsisWidth = 0;
 		for ( int i = start_id; i < atcTickCoordinates.size( ) - 1; i += indexStep )
 		{
 			Object oValue = null;
@@ -1849,7 +1892,41 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					labelVisHelper.addVisible( i );
 					rrPrev[arrayIndex] = rrCurr;
-					hmComputedLabelText.put( i, la.getCaption( ).getValue( ) );
+					String str = la.getCaption( ).getValue( );
+					if ( iOrientation == VERTICAL
+							&& isCategoryScale( )
+							&& axisLabelInfo.dMaxSize > 0 )
+					{
+						double size = info.cComp.computeWidth( xs, la );
+
+						// If the orientation is vertical and the vertical axis
+						// is category axis(flip case), we will check if the
+						// actual length of axis label exceeds half of chart
+						// width and limit the length of axis label.
+						if ( ellipsisWidth <= 0 )
+						{
+							la.getCaption( )
+									.setValue( EllipsisHelper.ELLIPSIS_STRING );
+							ellipsisWidth = info.cComp.computeWidth( xs, la );
+						}
+
+						if ( size > axisLabelInfo.dMaxSize )
+						{
+							int count = (int) ( str.length( )
+									* ( axisLabelInfo.dMaxSize - ellipsisWidth ) / size );
+							hmComputedLabelText.put( i,
+									str.substring( 0, count )
+											+ EllipsisHelper.ELLIPSIS_STRING );
+						}
+						else
+						{
+							hmComputedLabelText.put( i, str );
+						}
+					}
+					else
+					{
+						hmComputedLabelText.put( i, str );
+					}
 				}
 			}
 		}
@@ -2894,7 +2971,7 @@ public final class AutoScale extends Methods implements Cloneable
 					true );
 
 			setTickCordinates( atc );
-			checkTickLabelsVisibility( xs, la, iLabelLocation );
+			checkTickLabelsVisibility( xs, la, iLabelLocation, iOrientation );
 			
 			// If the factor is set, the max value that axis can display will
 			// depend on the length of axis, so here must adjust the maximum
@@ -3017,7 +3094,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 		// baTickLabelVisible = checkTickLabelsVisibility( xs, la,
 		// iLabelLocation );
-		checkTickLabelsVisibility( xs, la, iLabelLocation );
+		checkTickLabelsVisibility( xs, la, iLabelLocation, iOrientation );
 
 		return nTicks;
 	}

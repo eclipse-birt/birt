@@ -839,7 +839,21 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		}
 		double dX = getLocation( scX, iv ), dX1 = dX, dX2 = dX;
 		double dWTotal = Math.abs( scX.getStart( ) - scX.getEnd( ) );
-
+		
+		// If chart is flip, we will limit the length of category axis label
+		// can't exceed half of chart width to ensure chart series can be shown,
+		// here check this case and revise axis label thickness for following
+		// computation.
+		if ( axPV.isShowLabels( ) && axPV.getScale( ).isCategoryScale( ) )
+		{
+			double v = ( dWTotal - dYAxisTitleThickness - 2 * getTickSize( ) ) / 2;
+			if ( dYAxisLabelsThickness > v )
+			{
+				axPV.getScale( ).getAxisLabelInfo( ).dActualSize = dYAxisLabelsThickness;
+				dYAxisLabelsThickness = v;
+			}
+		}
+		
 		// handle fixed label thickness #177744
 		if ( axPV.getModelAxis( ).isSetLabelSpan( ) )
 		{
@@ -1312,9 +1326,56 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			dX2 = dX + dDeltaX2;
 			dX1 = dX - dDeltaX1;
 		}
-		axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
-				: dX2 + 1 - dYAxisTitleThickness );
+		
+		updateAxisTitleLocationNLabelSize( axPV,
+				iYTitleLocation,
+				dYAxisTitleThickness,
+				dWTotal,
+				dX,
+				dX1,
+				dX2 );
 		return dX;
+	}
+	
+	private void updateAxisTitleLocationNLabelSize( final OneAxis axPV,
+			final int iYTitleLocation, double dYAxisTitleThickness,
+			double dWTotal, double dX, double dX1, double dX2 )
+	{
+		if ( axPV.isShowLabels( ) && axPV.getScale( ).isCategoryScale( ) )
+		{
+			AutoScale.AxisLabelInfo ali = axPV.getScale( ).getAxisLabelInfo( );
+			if ( axPV.getLabelPosition( ) == IConstants.LEFT )
+			{
+				double labelThickness = dX
+						- getTickSize( )
+						- ( ( iYTitleLocation == LEFT ) ? dYAxisTitleThickness
+								: 0 );
+				labelThickness = ali.getValidSize( labelThickness );
+				ali.dMaxSize = labelThickness;
+				axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX
+						- 1
+						- getTickSize( )
+						- labelThickness
+						- dYAxisTitleThickness : dX2 + 1 - dYAxisTitleThickness );
+			}
+			else if ( axPV.getLabelPosition( ) == IConstants.RIGHT )
+			{
+				double labelThickness = dWTotal
+						- dX
+						- getTickSize( )
+						- ( ( iYTitleLocation == RIGHT ) ? dYAxisTitleThickness
+								: 0 );
+				labelThickness = ali.getValidSize( labelThickness );
+				ali.dMaxSize = labelThickness;
+				axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
+						: dX + 1 + labelThickness );
+			}
+		}
+		else
+		{
+			axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
+					: dX2 + 1 - dYAxisTitleThickness );
+		}
 	}
 
 	/**
@@ -1571,8 +1632,13 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		dX2 = dX + dDeltaX2;
 		dX1 = dX - dDeltaX1;
 
-		axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
-				: dX2 + 1 - dYAxisTitleThickness );
+		updateAxisTitleLocationNLabelSize( axPV,
+				iYTitleLocation,
+				dYAxisTitleThickness,
+				dWTotal,
+				dX,
+				dX1,
+				dX2 );
 		return dX;
 	}
 
@@ -1841,8 +1907,13 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 		dX2 = dX + dDeltaX2;
 		dX1 = dX - dDeltaX1;
 
-		axPV.setTitleCoordinate( ( iYTitleLocation == LEFT ) ? dX1 - 1
-				: dX2 + 1 - dYAxisTitleThickness );
+		updateAxisTitleLocationNLabelSize( axPV,
+				iYTitleLocation,
+				dYAxisTitleThickness,
+				dWTotal,
+				dX,
+				dX1,
+				dX2 );
 		return dX;
 	}
 	
