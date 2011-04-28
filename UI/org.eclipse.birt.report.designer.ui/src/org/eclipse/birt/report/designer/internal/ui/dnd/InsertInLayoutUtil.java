@@ -42,7 +42,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -621,15 +620,17 @@ public class InsertInLayoutUtil
 		groupHandle.getFooter( )
 				.add( factory.newTableRow( columnCount ) );
 		groupHandle.setName( columnName );
-		Expression newKeyExpr = new Expression( ExpressionUtility.getColumnExpression(columnName,
-				ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ),
-				ExpressionType.JAVASCRIPT );
+
+		Expression expression = new Expression( ExpressionUtility.getColumnExpression( columnName,
+				ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
+				UIUtil.getDefaultScriptType( ) );
+
 		groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
-				newKeyExpr );
+				expression );
 
 		TOC toc = StructureFactory.createTOC( );
-		toc.setExpression( ExpressionUtility.getColumnExpression( columnName,
-				ExpressionUtility.getExpressionConverter( ExpressionType.JAVASCRIPT ) ) );
+		toc.setExpressionProperty( TOC.TOC_EXPRESSION, expression );
+
 		groupHandle.addTOC( toc );
 
 		//slotHandle.add( groupHandle, slotHandle.getCount( ) );
