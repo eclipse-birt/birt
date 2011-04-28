@@ -67,7 +67,8 @@ public class BackgroundImageInfo extends AreaConstants
 	public BackgroundImageInfo( String url, CSSValue mode, int xOffset,
 			int yOffset, int height, int width, ResourceLocatorWrapper rl )
 	{
-		this( url, repeatMap.get( mode ), xOffset, yOffset, height, width, rl );
+		this( url, mode != null ? repeatMap.get( mode ) : REPEAT, xOffset,
+				yOffset, height, width, rl );
 	}
 
 	public BackgroundImageInfo( String url, int height, int width, ResourceLocatorWrapper rl )
