@@ -33,8 +33,11 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.jar.Attributes;
+import java.util.jar.Attributes.Name;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -172,9 +175,10 @@ public class URLClassLoader extends java.net.URLClassLoader
 			Resource res = loadResource( path );
 			if ( res != null )
 			{
-				CodeSource cs = res.getCodeSource( );
+				CodeSource codeSource = res.getCodeSource( );
+				definePackage( name, res );
 				byte[] b = res.getBytes( );
-				return defineClass( name, b, 0, b.length, cs );
+				return defineClass( name, b, 0, b.length, codeSource );
 			}
 		}
 		catch ( IOException e )
@@ -182,6 +186,42 @@ public class URLClassLoader extends java.net.URLClassLoader
 			throw new ClassNotFoundException( name, e );
 		}
 		throw new ClassNotFoundException( name );
+	}
+
+	protected void definePackage( String className, Resource resource )
+	{
+		int pos = className.lastIndexOf( '.' );
+		if ( pos == -1 )
+		{
+			// no package name
+			return;
+		}
+		String packageName = className.substring( 0, pos );
+		Package pkg = getPackage( packageName );
+		if ( pkg != null )
+		{
+			// package has been defined
+			return;
+		}
+		try
+		{
+			Manifest manifest = resource.getManifest( );
+			if ( manifest == null )
+			{
+				definePackage( packageName, null, null, null, null, null, null,
+						null );
+			}
+			else
+			{
+				CodeSource codeSource = resource.getCodeSource( );
+				URL codeBase = codeSource == null ? null : codeSource
+						.getLocation( );
+				definePackage( packageName, manifest, codeBase );
+			}
+		}
+		catch ( IllegalArgumentException e )
+		{
+		}
 	}
 
 	public URL findResource( final String name )
@@ -271,6 +311,8 @@ public class URLClassLoader extends java.net.URLClassLoader
 
 		abstract CodeSource getCodeSource( );
 
+		abstract Manifest getManifest( );
+
 		abstract byte[] getBytes( ) throws IOException;
 	}
 
@@ -340,6 +382,11 @@ public class URLClassLoader extends java.net.URLClassLoader
 					{
 						return codeSource;
 					}
+
+					Manifest getManifest( )
+					{
+						return null;
+					}
 				};
 			}
 			finally
@@ -355,6 +402,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 		URL baseUrl;
 		URL jarUrl;
 		JarFile jarFile;
+		Manifest jarManifest;
 
 		JarLoader( URL url ) throws IOException
 		{
@@ -371,6 +419,7 @@ public class URLClassLoader extends java.net.URLClassLoader
 						.openConnection( );
 				jarFile = jarConn.getJarFile( );
 			}
+			jarManifest = jarFile.getManifest( );
 		}
 
 		public void close( ) throws IOException
@@ -418,6 +467,11 @@ public class URLClassLoader extends java.net.URLClassLoader
 							{
 								return new CodeSource( baseUrl, entry
 										.getCodeSigners( ) );
+							}
+
+							Manifest getManifest( )
+							{
+								return jarManifest;
 							}
 						};
 					}
@@ -516,6 +570,11 @@ public class URLClassLoader extends java.net.URLClassLoader
 						CodeSource getCodeSource( )
 						{
 							return codeSource;
+						}
+
+						Manifest getManifest( )
+						{
+							return null;
 						}
 					};
 				}
@@ -628,4 +687,5 @@ public class URLClassLoader extends java.net.URLClassLoader
 		}
 		return ( changed ? buffer.toString( ) : s );
 	}
+
 }
