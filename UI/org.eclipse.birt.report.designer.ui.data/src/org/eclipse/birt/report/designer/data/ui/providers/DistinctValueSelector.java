@@ -148,7 +148,7 @@ public class DistinctValueSelector
 					break;
 				}
 				value = itr.getValue( dataSetColumnName );
-				if ( !visitedValues.contains( value ) )
+				if ( value != null && !visitedValues.contains( value ) )
 				{
 					visitedValues.add( value );
 				}
