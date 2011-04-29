@@ -590,6 +590,7 @@ public class ExcelLayoutEngine
 				data.setStartX( containerSize.getStartCoordinate( ) );
 				data.setEndX( containerSize.getEndCoordinate( ) );
 				addData( data, container );
+				setParentContainerIndex( );
 			}
 			engine.applyContainerBottomStyle( container, page );
 		}
