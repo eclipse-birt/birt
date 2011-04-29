@@ -148,12 +148,6 @@
 			<include name="org.eclipse.birt.core.ui_*.jar" />
 			<include name="org.mozilla.javascript*/**" />
 			<include name="org.apache.commons.codec_*.jar" />
-			<!--
-			<include name="org.eclipse.birt.doc_*/**" />
-			<include name="org.eclipse.birt.chart.cshelp_*/**"/>
-			<include name="org.eclipse.birt.chart.doc.isv_*/**"/>
-			<include name="<include name="org.eclipse.birt.chart.examples_*.jar"/>
-			-->
 		</patternset>
 
 		<!--Define the engine runtime plugins-->
@@ -235,6 +229,8 @@
 		<antcall target="createBirtFramework" />
 
 		<antcall target="createBirtRuntime" />
+		
+		<antcall target="createBirtRuntimeNonOSGi" />
 		
 		<antcall target="createSamplePlugin" />
 		
@@ -676,6 +672,40 @@
 			</zipfileset>
 		</zip>
 		<delete dir="${runtime.tmp}" />
+	</target>
+	
+	<target name="createBirtRuntimeNonOSGi">
+		
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		
+		<!-- Unzip BirtRuntimeOSGi package to get birt and datatools jar -->
+		<mkdir dir="${OutputDir}/runtime_nonosgi" />
+		
+		<unzip src="${buildDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" 
+					dest="${OutputDir}/runtime_nonosgi" overwrite="true" />
+		
+		<delete file="${buildDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" failonerror="false"/>
+		
+		<copy todir="${OutputDir}/runtime_nonosgi">
+			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
+				<include name="**"/>
+				<exclude name="org.eclipse.birt*/**"/>
+				<exclude name="org.eclipse.datatools*/**"/>
+				<exclude name="org.w3c.sac*/**"/>
+				<exclude name="org.eclipse.core.runtime.compatibility*/**"/>
+				<exclude name="org.apache.derby.core**"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>
+		
+        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
+        	<zipfileset dir="${OutputDir}/runtime_nonosgi" includes="**" />
+        </zip> 
+		
+		<delete dir="${OutputDir}/runtime_nonosgi" failonerror="false"/>
+		<delete dir="${runtime.tmp}/" failonerror="false"/>
 	</target>
 	
 	<target name="createBirtRCP" unless="skip.build.rcp">
