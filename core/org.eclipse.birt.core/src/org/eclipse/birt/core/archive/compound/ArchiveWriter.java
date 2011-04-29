@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -199,4 +200,31 @@ public class ArchiveWriter implements IDocArchiveWriter
 		streams.remove( stream );
 	}
 
+	public List listAllStreams( ) throws IOException
+	{
+		ArrayList<String> list = new ArrayList<String>( );
+		list.addAll( archive.listEntries( "/" ) );
+		return list;
+	}
+
+	public List listStreams( String namePattern ) throws IOException
+	{
+		ArrayList list = new ArrayList( );
+		Iterator iter = archive.listEntries( "/" ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String name = (String) iter.next( );
+			if ( name.startsWith( namePattern )
+					&& !name.equalsIgnoreCase( namePattern ) )
+			{
+				String diffString = ArchiveUtil.generateRelativePath(
+						namePattern, name );
+				if ( diffString.lastIndexOf( ArchiveUtil.UNIX_SEPERATOR ) == 0 )
+				{
+					list.add( name );
+				}
+			}
+		}
+		return list;
+	}
 }

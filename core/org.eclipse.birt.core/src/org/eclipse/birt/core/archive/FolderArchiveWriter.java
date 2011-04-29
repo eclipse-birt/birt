@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -303,5 +304,58 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	{
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		lockManager.unlock( lock );
+	}
+
+	/**
+	 * return a list of strings which are the relative path of streams
+	 */
+	public List listStreams( String relativeStoragePath ) throws IOException
+	{
+		ArrayList streamList = new ArrayList( );
+		String storagePath = ArchiveUtil.generateFullPath( folderName,
+				relativeStoragePath );
+		File dir = new File( storagePath );
+
+		if ( dir.exists( ) && dir.isDirectory( ) )
+		{
+			File[] files = dir.listFiles( );
+			if ( files != null )
+			{
+				for ( int i = 0; i < files.length; i++ )
+				{
+					File file = files[i];
+					if ( file.isFile( ) )
+					{
+						String relativePath = ArchiveUtil.generateRelativePath(
+								folderName, file.getPath( ) );
+						if ( !ArchiveUtil.needSkip( relativePath ) )
+						{
+							streamList.add( relativePath );
+						}
+					}
+				}
+			}
+		}
+
+		return streamList;
+	}
+
+	public List listAllStreams( ) throws IOException
+	{
+		ArrayList list = new ArrayList( );
+		ArchiveUtil.listAllFiles( new File( folderName ), list );
+
+		ArrayList streams = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			File file = (File) list.get( i );
+			String relativePath = ArchiveUtil.generateRelativePath( folderName,
+					file.getPath( ) );
+			if ( !ArchiveUtil.needSkip( relativePath ) )
+			{
+				streams.add( relativePath );
+			}
+		}
+		return streams;
 	}
 }

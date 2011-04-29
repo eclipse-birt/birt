@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.archive;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * An interface that wraps around a report archive for reading. A report archive
@@ -82,6 +83,25 @@ public interface IDocArchiveWriter
 	 *         return values are in the relative path format too.
 	 */
 	public boolean exists( String relativePath );
+
+	/**
+	 * @param relativeStoragePath
+	 *            - the relative stream path in the archive. The relative path
+	 *            is based on Unix syntax, with the root of the archive denoted
+	 *            by "/". The initial "/" character can be skipped.
+	 * 
+	 * @return a list of strings representing the underlying stream names. The
+	 *         return values are in the relative path format too.
+	 */
+	public List listStreams( String relativeStoragePath ) throws IOException;
+
+	/**
+	 * get all the stream in the archive file.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public List listAllStreams( ) throws IOException;
 
 	/**
 	 * Set the stream sorter (if needed). The stream sorter will be used to sort
