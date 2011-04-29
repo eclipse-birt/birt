@@ -52,6 +52,9 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -59,6 +62,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.XPathParser;
 
 /**
  * This class tests the property parsing and writing. Translation is test in
@@ -958,13 +962,12 @@ public class ReportDesignParseTest extends BaseTestCase
 		CellHandle cell = (CellHandle) designHandle.getElementByID( 45 );
 		assertEquals( 398, designHandle.getLineNo( cell ) );
 
-		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle
-				.getElementByID( 34023 );
+		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle.getElementByID( 34023 );
 		assertEquals( 403, designHandle.getLineNo( chart ) );
 
 		// test embedded image
-		EmbeddedImageHandle image = (EmbeddedImageHandle) designHandle
-				.getAllImages( ).get( 0 );
+		EmbeddedImageHandle image = (EmbeddedImageHandle) designHandle.getAllImages( )
+				.get( 0 );
 		assertEquals( 410, designHandle.getLineNo( image ) );
 
 		// test include library
@@ -987,8 +990,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		SlotHandle pages = designHandle.getMasterPages( );
 		assertEquals( 362, designHandle.getLineNo( pages ) );
 
-		SimpleMasterPageHandle page = (SimpleMasterPageHandle) designHandle
-				.findMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
+		SimpleMasterPageHandle page = (SimpleMasterPageHandle) designHandle.findMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
 
 		SlotHandle pageHeader = page.getPageHeader( );
 		assertEquals( 364, designHandle.getLineNo( pageHeader ) );
@@ -998,23 +1000,35 @@ public class ReportDesignParseTest extends BaseTestCase
 
 		// test result set column
 		DataSetHandle dataSetHandle = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
-		ResultSetColumnHandle resultSetColumnHandle = (ResultSetColumnHandle) dataSetHandle
-				.getCachedMetaDataHandle( ).getResultSet( ).getAt( 0 );
+		ResultSetColumnHandle resultSetColumnHandle = (ResultSetColumnHandle) dataSetHandle.getCachedMetaDataHandle( )
+				.getResultSet( )
+				.getAt( 0 );
 		assertEquals( 24, designHandle.getLineNo( resultSetColumnHandle ) );
-		
+
 		CubeHandle cubeHandle = designHandle.findCube( "Cube" ); //$NON-NLS-1$
 		PropertyHandle propHandle = cubeHandle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
 		assertEquals( 419, designHandle.getLineNo( propHandle ) );
-						
-		propHandle = cubeHandle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
-		assertEquals( 440, designHandle.getLineNo( propHandle ) );
-		
-		StructureHandle attr = (StructureHandle) cubeHandle.getDimension( "Group" )
-				.getDefaultHierarchy( )
-				.getLevel( 0 )
+
+		HierarchyHandle hierarchy = cubeHandle.getDimension( "Group" ) //$NON-NLS-1$
+				.getDefaultHierarchy( );
+
+		StructureHandle attr = (StructureHandle) hierarchy.getLevel( "Year" ) //$NON-NLS-1$
 				.attributesIterator( )
-				.next( );
+				.next( );		
 		assertEquals( 429, designHandle.getLineNo( attr ) );
+
+		attr = (StructureHandle) hierarchy.getLevel( "Quarter" ) //$NON-NLS-1$
+				.attributesIterator( )
+				.next( );		
+		assertEquals( 440, designHandle.getLineNo( attr ) );
+
+		attr = (StructureHandle) hierarchy.getLevel( "Month" ) //$NON-NLS-1$
+				.attributesIterator( )
+				.next( );		
+		assertEquals( 451, designHandle.getLineNo( attr ) );
+		
+		propHandle = cubeHandle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
+		assertEquals( 463, designHandle.getLineNo( propHandle ) );		
 	}
 
 	/**

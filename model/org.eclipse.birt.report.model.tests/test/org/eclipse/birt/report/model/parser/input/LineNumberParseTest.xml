@@ -422,16 +422,39 @@ from CLASSICMODELS.OFFICES</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="Hierarchy">
                             <property name="levels">
-                                <tabular-level name="COUNTRY">
-                                    <property name="dataType">string</property>
-                                    <property name="columnName">COUNTRY</property>
+								<tabular-level name="Year">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
                                     <list-property name="attributes">
                                         <structure>
-                                            <property name="name">CITY</property>
-                                            <property name="dataType">string</property>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
                                         </structure>
-                                    </list-property>                                    
+                                    </list-property>
+                                    <property name="columnName">PAYMENTDATE</property>
                                 </tabular-level>
+                                <tabular-level name="Quarter">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">quarter</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">PAYMENTDATE</property>
+                                </tabular-level>
+                                <tabular-level name="Month">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">PAYMENTDATE</property>
+                                </tabular-level>                                
                             </property>
                         </tabular-hierarchy>
                     </property>

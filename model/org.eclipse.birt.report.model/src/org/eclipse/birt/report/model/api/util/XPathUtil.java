@@ -426,7 +426,7 @@ public class XPathUtil
 
 					if ( !StringUtil.isBlank( slotTagName ) )
 						slotInfo = SEPARATOR + slotTagName;
-
+					
 					idInfo = formatXPathProperty( "id", Long //$NON-NLS-1$
 							.toString( tmpElement.getID( ) ) );
 				}
@@ -434,15 +434,23 @@ public class XPathUtil
 				{
 					PropertyHandle tmpProp = tmpElement
 							.getContainerPropertyHandle( );
-					String slotTagName = getTagByPropertyType( (ElementPropertyDefn) tmpProp
-							.getDefn( ) );
+					ElementPropertyDefn tmpPropDefn = (ElementPropertyDefn) tmpProp.getDefn( );
+					
+					String slotTagName = getTagByPropertyType( tmpPropDefn );
 
 					slotInfo = SEPARATOR
 							+ slotTagName
 							+ formatXPathProperty(
 									DesignSchemaConstants.NAME_ATTRIB,
-									tmpElement.getContainerPropertyHandle( )
-											.getDefn( ).getName( ) );
+									tmpPropDefn.getName( ) );
+					
+					if ( tmpPropDefn.isList( ) )
+					{
+						int size = tmpProp.getContentCount( );
+						if ( size > 1 )
+							idInfo = formatXPathProperty( "id", Long //$NON-NLS-1$
+									.toString( tmpElement.getID( ) ) );
+					}
 				}
 			}
 
