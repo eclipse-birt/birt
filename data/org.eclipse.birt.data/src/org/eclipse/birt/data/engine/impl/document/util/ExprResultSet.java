@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl.document.util;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
@@ -21,7 +22,9 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
+import org.eclipse.birt.data.engine.impl.document.IRDAggrUtil;
 import org.eclipse.birt.data.engine.impl.document.IRDGroupUtil;
+import org.eclipse.birt.data.engine.impl.document.ProgressiveViewingRDAggrUtil;
 import org.eclipse.birt.data.engine.impl.document.RDAggrUtil;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -54,7 +57,7 @@ public class ExprResultSet implements IExprResultSet
 	
 	protected String tempDir;
 	
-	private RDAggrUtil aggrUtil = null;
+	private IRDAggrUtil aggrUtil = null;
 	
 	private IBaseQueryDefinition qd;
 	
@@ -98,12 +101,35 @@ public class ExprResultSet implements IExprResultSet
 				StreamManager.SELF_SCOPE );
 		if( version >=VersionManager.VERSION_2_5_1_0 )
 		{
-			if ( streamManager.hasInStream( DataEngineContext.AGGR_INDEX_STREAM,
+			List<RAInputStream> aggrStreams = streamManager.getInStreams( DataEngineContext.AGGR_VALUE_STREAM,
+						StreamManager.ROOT_STREAM,
+						StreamManager.SELF_SCOPE ); 
+			if((!aggrStreams.isEmpty( )) || streamManager.hasInStream( DataEngineContext.COMBINED_AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ))
+			{
+				List<RAInputStream> aggrIndexStreams = streamManager.getInStreams( DataEngineContext.AGGR_INDEX_STREAM,
+						StreamManager.ROOT_STREAM,
+						StreamManager.SELF_SCOPE ); 
+				RAInputStream combinedAggrIndex = null;
+				RAInputStream combinedAggrValue = null;
+				if( streamManager.hasInStream( DataEngineContext.COMBINED_AGGR_INDEX_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ))
+				{
+					combinedAggrIndex = streamManager.getInStream( DataEngineContext.COMBINED_AGGR_INDEX_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE );
+				}
+				
+				if( streamManager.hasInStream( DataEngineContext.COMBINED_AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ))
+				{
+					combinedAggrValue = streamManager.getInStream( DataEngineContext.COMBINED_AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE );
+				}
+				
+				this.aggrUtil = new ProgressiveViewingRDAggrUtil( combinedAggrIndex, combinedAggrValue, aggrIndexStreams, aggrStreams );
+			}
+			else if ( streamManager.hasInStream( DataEngineContext.AGGR_INDEX_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE ) )
 			{
 				this.aggrUtil = new RDAggrUtil( streamManager, qd );
 			}
+			
 		}
 		if ( this.isBasedOnSecondRD == false )
 		{
@@ -264,6 +290,11 @@ public class ExprResultSet implements IExprResultSet
 			{
 				dataSetResultSet.close( );
 				dataSetResultSet = null;
+			}
+			if( aggrUtil!= null )
+			{
+				aggrUtil.close( );
+				aggrUtil = null;
 			}
 			if( rdGroupUtil != null )
 			{

@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.executor.transform;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.aggregation.ProgressiveAggregationHelper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -24,10 +25,11 @@ public interface IGroupCalculator
 	public void registerPreviousResultObject( IResultObject previous );
 	public void registerCurrentResultObject( IResultObject current );
 	public void registerNextResultObject( IResultObject next );
-	public void next( ) throws DataException;
+	public void next( int rowId ) throws DataException;
 	public int getStartingGroup( ) throws DataException;
 	public int getEndingGroup( ) throws DataException;
 	public void close( ) throws DataException;
 	public void doSave( StreamManager manager ) throws DataException;
-	
+	public void setAggrHelper( ProgressiveAggregationHelper aggrHelper ) throws DataException;
+	public boolean isAggrAtIndexAvailable( String aggrName, int currentIndex ) throws DataException;
 }

@@ -35,7 +35,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.WrapperedRAInputStream;
  * This class handles the storage of aggregation results in report document.
  */
 
-public class RDAggrUtil
+public class RDAggrUtil implements IRDAggrUtil
 {
 
 	private HashMap<String, RDAggrValueHolder> holders = new HashMap<String, RDAggrValueHolder>( );
@@ -90,21 +90,16 @@ public class RDAggrUtil
 		}
 	}
 
-	/**
-	 * 
-	 * @param aggrName
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#contains(java.lang.String)
 	 */
 	public boolean contains( String aggrName )
 	{
 		return holders.containsKey( aggrName );
 	}
 
-	/**
-	 * Return the group level of certain aggregation.
-	 * 
-	 * @param aggrName
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getGroupLevel(java.lang.String)
 	 */
 	public int getGroupLevel( String aggrName )
 	{
@@ -113,9 +108,8 @@ public class RDAggrUtil
 		return -1;
 	}
 
-	/**
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#isRunningAggr(java.lang.String)
 	 */
 	public boolean isRunningAggr( String aggrName )
 	{
@@ -124,12 +118,8 @@ public class RDAggrUtil
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param aggrName
-	 * @param groupInstanceIndex
-	 * @return
-	 * @throws DataException
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.document.IRDAggrUtil#getValue(java.lang.String, int)
 	 */
 	public Object getValue( String aggrName, int groupInstanceIndex )
 			throws DataException
@@ -239,5 +229,11 @@ public class RDAggrUtil
 
 			return this.currentValue;
 		}
+	}
+
+	public void close( ) throws DataException
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

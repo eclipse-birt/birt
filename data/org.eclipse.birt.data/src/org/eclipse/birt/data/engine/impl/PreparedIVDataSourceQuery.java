@@ -114,7 +114,12 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		QueryResultIDManager.cleanChildOfRoot( streamManager );
 		streamManager.dropStream1( DataEngineContext.META_STREAM );
 		streamManager.dropStream1( DataEngineContext.META_INDEX_STREAM );
-		streamManager.dropStream1( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM );
+				
+		streamManager.dropStreams( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM );
+		streamManager.dropStreams( DataEngineContext.AGGR_INDEX_STREAM );
+		streamManager.dropStreams( DataEngineContext.AGGR_VALUE_STREAM );
+		streamManager.dropStream1( DataEngineContext.COMBINED_AGGR_INDEX_STREAM );
+		streamManager.dropStream1( DataEngineContext.COMBINED_AGGR_VALUE_STREAM );
 	}
 
 	/*

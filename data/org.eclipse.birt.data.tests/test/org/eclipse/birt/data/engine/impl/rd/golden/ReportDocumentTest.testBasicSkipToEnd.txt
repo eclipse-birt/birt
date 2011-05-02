@@ -1,0 +1,7 @@
+row group level value:  staring: 1 ending 3
+row group level value:  staring: 3 ending 2
+row group level value:  staring: 2 ending 3
+row group level value:  staring: 3 ending 3
+row group level value:  staring: 3 ending 3
+row group level value:  staring: 3 ending 2
+row group level value:  staring: 2 ending 0

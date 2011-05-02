@@ -31,6 +31,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
+import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
+import org.eclipse.birt.data.engine.executor.aggregation.ProgressiveAggregationHelper;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
@@ -48,6 +50,7 @@ import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A Result Set that directly fetch data from ODA w/o using any cache.
@@ -71,8 +74,9 @@ public class SimpleResultSet implements IResultIterator
 	private IBaseQueryDefinition query;
 	private IResultClass resultClass;
 	private IGroupCalculator groupCalculator;
+	private ProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
-	private IResultObject previewObj = null;
+	
 	/**
 	 * 
 	 * @param dataSourceQuery
@@ -94,6 +98,7 @@ public class SimpleResultSet implements IResultIterator
 		this.groupCalculator = new SimpleGroupCalculator( dataSourceQuery.getSession( ), groupSpecs, this.rowResultSet.getMetaData( ) );
 		this.currResultObj = this.rowResultSet.next( );
 		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
+		this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
 		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
 		this.resultSet = resultSet;
@@ -108,9 +113,19 @@ public class SimpleResultSet implements IResultIterator
 			}
 		}
 		
+		Scriptable scope = dataSourceQuery.getSession( ).getSharedScope( );
 		
+		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
+		this.aggrHelper = new ProgressiveAggregationHelper( manager,
+				dataSourceQuery.getSession( ).getTempDir( ),
+				scope,
+				dataSourceQuery.getSession( )
+						.getEngineContext( )
+						.getScriptContext( ) );
+		this.groupCalculator.setAggrHelper( this.aggrHelper );
+				
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#close()
@@ -293,8 +308,9 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public Object getAggrValue( String aggrName ) throws DataException
 	{
-		// TODO Auto-generated method stub
+		//For generation, we need not return aggregation value
 		return null;
+		//return this.aggrHelper.getAggrValue( aggrName, this );
 	}
 
 	/*
@@ -331,8 +347,6 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
-		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-		this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
 		return this.groupCalculator.getEndingGroup( );
 	}
 
@@ -391,8 +405,6 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getStartingGroupLevel( ) throws DataException
 	{
-		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-		this.groupCalculator.registerPreviousResultObject( this.previewObj );
 		return this.groupCalculator.getStartingGroup( );
 	}
 
@@ -448,12 +460,11 @@ public class SimpleResultSet implements IResultIterator
 		}
 		try
 		{
-			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-			this.groupCalculator.registerPreviousResultObject( this.previewObj );
-			this.previewObj = this.currResultObj;
+			this.groupCalculator.next( this.rowResultSet.getIndex( ));
+			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
 			this.currResultObj = this.rowResultSet.next( );
-			this.groupCalculator.registerNextResultObject( this.currResultObj );
-			this.groupCalculator.next( );
+			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
+			this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
 		}
 		catch ( DataException e )
 		{
@@ -464,5 +475,10 @@ public class SimpleResultSet implements IResultIterator
 		if ( this.currResultObj != null )
 			rowCount++;
 		return this.currResultObj != null;
+	}
+	
+	public boolean aggrValueAvailable( String aggrName, int index ) throws DataException
+	{
+		return this.groupCalculator.isAggrAtIndexAvailable( aggrName, index);
 	}
 }

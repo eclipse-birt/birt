@@ -137,6 +137,10 @@ public class DataEngineContext
 	
 	public final static int AGGR_VALUE_STREAM = 104;
 	
+	public final static int COMBINED_AGGR_INDEX_STREAM = 105;
+	
+	public final static int COMBINED_AGGR_VALUE_STREAM = 106;
+	
 	public final static int META_SECURITY_STREAM = 109;
 	
 	@Deprecated
@@ -658,6 +662,12 @@ public class DataEngineContext
 				break;
 			case AGGR_VALUE_STREAM:
 				relativePath = "AggrValue";
+				break;
+			case COMBINED_AGGR_INDEX_STREAM:
+				relativePath = "CombinedAggrIndex";
+				break;
+			case COMBINED_AGGR_VALUE_STREAM:
+				relativePath = "CombinedAggrValue";
 				break;
 			case META_SECURITY_STREAM:
 				relativePath = "MetaSecurity";

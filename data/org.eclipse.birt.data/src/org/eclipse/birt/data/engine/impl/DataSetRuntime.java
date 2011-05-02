@@ -664,6 +664,11 @@ public class DataSetRuntime implements IDataSetInstanceHandle
         this.allowUpdateRowData = allowUpdate;
         this.rowMetaData = null;
     }
+    
+    public IResultIterator getResultSet()
+    {
+    	return this.resultSet;
+    }
 
     public void setFromCache( boolean fromCache )
     {

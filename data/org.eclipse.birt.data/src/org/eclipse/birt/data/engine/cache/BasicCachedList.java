@@ -453,7 +453,7 @@ public class BasicCachedList implements List, ICloseListener
 	 */
 	public boolean isEmpty( )
 	{
-		throw new UnsupportedOperationException( "the isEmpty( ) method in CacheList is not supported!" );
+		return this.size == 0;
 	}
 
 	/*

@@ -66,21 +66,21 @@ public final class RDGroupUtil implements IRDGroupUtil
 	
 	private Map<Integer,int[]> groupStartEndIndexCache = new HashMap<Integer,int[]>();
 	
-	private RAInputStream[] inputStreams;
+	private List<RAInputStream> inputStreams;
 	
 	/**
 	 * @param inputStream
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	RDGroupUtil( String tempDir, int groupNumber, RAInputStream[] inputStreams, CacheProvider cacheProvider )
+	RDGroupUtil( String tempDir, int groupNumber, List<RAInputStream> inputStreams, CacheProvider cacheProvider )
 			throws DataException
 	{
 		this.groups = new List[groupNumber];
 
 		for ( int i = 0; i < groupNumber; i++ )
 		{
-			this.groups[i] = new GroupCachedList( inputStreams[i]);
+			this.groups[i] = new GroupCachedList( inputStreams.get( i ));
 		}
 		this.cacheProvider = cacheProvider;
 		this.inputStreams = inputStreams;
@@ -91,7 +91,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	public RDGroupUtil(String tempDir, int groupNumber, RAInputStream[] inputStreams ) throws DataException
+	public RDGroupUtil(String tempDir, int groupNumber, List<RAInputStream> inputStreams ) throws DataException
 	{
 		this( tempDir, groupNumber, inputStreams, null );
 	}
@@ -130,9 +130,9 @@ public final class RDGroupUtil implements IRDGroupUtil
 		{
 			if ( this.inputStreams != null )
 			{
-				for ( int i = 0; i < this.inputStreams.length; i++ )
+				for ( int i = 0; i < this.inputStreams.size( ); i++ )
 				{
-					this.inputStreams[i].close( );
+					this.inputStreams.get( i ).close( );
 				}
 				inputStreams = null;
 			}
@@ -366,8 +366,22 @@ public final class RDGroupUtil implements IRDGroupUtil
 	 */
 	private void binaryMove( ) throws DataException
 	{
-		List groupList = this.getGroups( )[groups.length - 1];
+		List<GroupInfo> groupList = this.getGroups( )[groups.length - 1];
 		int low = leafGroupIdx;
+		//Only happen in progressive viewing.
+		if( groupList.size( ) == Integer.MAX_VALUE )
+		{
+			int i = 0;
+			while( true )
+			{
+				if( groupList.get( i ).firstChild > cacheProvider.getCurrentIndex( ) )
+				{
+					this.leafGroupIdx = i-1;
+					return;
+				}
+				i++;
+			}
+		}	
 		int high = groupList.size( ) - 1;
 		int mid;
 		
@@ -484,7 +498,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 		}
 	}
 	
-	private static class GroupCachedList implements List
+	private static class GroupCachedList implements List<GroupInfo>
 	{
 		private int size;
 		private RAInputStream dataSource;
@@ -520,7 +534,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 		 * (non-Javadoc)
 		 * @see java.util.List#get(int)
 		 */
-		public Object get( int index )
+		public GroupInfo get( int index )
 		{
 			GroupInfo groupInfo = new GroupInfo( );
 			try
@@ -538,13 +552,13 @@ public final class RDGroupUtil implements IRDGroupUtil
 			return groupInfo;
 		}
 
-		public boolean add( Object o )
+		public boolean add( GroupInfo o )
 		{
 			throw new UnsupportedOperationException( );
 
 		}
 
-		public void add( int index, Object element )
+		public void add( int index, GroupInfo element )
 		{
 			throw new UnsupportedOperationException( );
 		}
@@ -609,7 +623,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 			throw new UnsupportedOperationException( );
 		}
 
-		public Object remove( int index )
+		public GroupInfo remove( int index )
 		{
 			throw new UnsupportedOperationException( );
 		}
@@ -624,7 +638,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 			throw new UnsupportedOperationException( );
 		}
 
-		public Object set( int index, Object element )
+		public GroupInfo set( int index, GroupInfo element )
 		{
 			throw new UnsupportedOperationException( );
 		}

@@ -13,7 +13,10 @@ package org.eclipse.birt.data.engine.impl.document.stream;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -194,6 +197,22 @@ public class StreamManager
 		return outputStream;
 	}
 	
+	public RAOutputStream getOutStream( int streamType, int subIndex ) throws DataException
+	{
+		StreamID streamID = getStreamID( 0, ROOT_STREAM, BASE_SCOPE);
+		RAOutputStream outputStream;
+		try
+		{
+			String path = context.getPath( streamID.getStartStream( ), streamID.getSubQueryStream( ), streamType );
+			outputStream = context.getDocWriter( ).getOutputStream( path + "/" + subIndex );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		return outputStream;
+	}
+	
 	public String getOutStreamName( String streamSubName ) throws DataException
 	{
 		StreamID streamID = getStreamID( 0, ROOT_STREAM, BASE_SCOPE);
@@ -359,6 +378,57 @@ public class StreamManager
 				
 		}
 		return (StreamReader)this.metaManagers.get( id );
+	}
+	
+	public void dropStreams( int streamType ) throws DataException
+	{
+		if( this.context.getDocWriter()!= null )
+		{
+			StreamID streamID = getStreamID( streamType, StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );
+			try 
+			{
+				List<String> streams = context.getDocWriter().listStreams(
+						DataEngineContext.getPath(streamID.getStartStream(),
+								streamID.getSubQueryStream(), streamType));
+				for( String streamName : streams )
+				{
+					context.dropStream( streamName );
+				}
+			} 
+			catch (IOException e) 
+			{
+				throw new DataException(e.getLocalizedMessage(), e);
+			}
+		}
+	}
+	public List<RAInputStream> getInStreams( int streamType, int streamPos,
+			int streamScope ) throws DataException
+	{
+
+		if ( this.context.getDocReader( ) != null )
+		{
+			StreamID streamID = getStreamID( streamType, streamPos, streamScope );
+			try
+			{
+				List<String> streams = this.context.getDocReader( )
+						.listStreams( DataEngineContext.getPath( streamID.getStartStream( ),
+								streamID.getSubQueryStream( ),
+								streamType ) );
+				Collections.sort( streams );
+				List<RAInputStream> results = new ArrayList<RAInputStream>();
+				for( String streamName: streams )
+				{
+					results.add( this.context.getDocReader( ).getInputStream( streamName ) );
+				}
+				return results;
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ), e );
+			}
+		}
+		return new ArrayList<RAInputStream>( );
 	}
 	
 	/**

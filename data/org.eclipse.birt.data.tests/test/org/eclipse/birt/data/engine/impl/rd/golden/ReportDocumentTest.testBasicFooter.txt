@@ -1,0 +1,1 @@
+row result set: CHINA Beijing 2004-06-08 00:00:00.0 400 15 11700.0 

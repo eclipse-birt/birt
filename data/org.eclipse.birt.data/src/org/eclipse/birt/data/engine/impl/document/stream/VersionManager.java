@@ -66,6 +66,9 @@ public class VersionManager
 	//Also, the grouping storage is changed to support progressive viewing.
 	public final static int VERSION_2_6_2_1 = 150;
 	
+	//Progressive Viewing Enhancement
+	public final static int VERSION_2_6_2_2 = 160;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -139,7 +142,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_6_2_1;
+		return VERSION_2_6_2_2;
 	}
 
 }

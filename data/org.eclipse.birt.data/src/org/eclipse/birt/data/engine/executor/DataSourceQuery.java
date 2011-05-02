@@ -991,7 +991,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			{
 				IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition( );
 
-				if ( QueryExecutionStrategyUtil.getQueryExecutionStrategy( queryDefn,
+				if ( QueryExecutionStrategyUtil.getQueryExecutionStrategy( this.session, queryDefn,
 						queryDefn.getDataSetName( ) == null
 								? null
 								: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) ) == Strategy.Simple )

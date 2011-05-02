@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
@@ -35,10 +36,13 @@ public class OnFetchScriptHelper implements IResultObjectEvent
 	 */
 	public boolean process(IResultObject resultObject, int rowIndex) throws DataException
 	{
+		IResultIterator resultSet = dataSet.getResultSet();
 		// bind new object to row script object
 		dataSet.setRowObject( resultObject, true );
 		dataSet.setCurrentRowIndex( rowIndex );
 		dataSet.onFetch();
+		if( resultSet!= null )
+			dataSet.setResultSet( resultSet, true);
 		return true;
 	}
 }

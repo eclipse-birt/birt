@@ -1,0 +1,22 @@
+row result set:  CHINA Beijing 2004-01-01 00:00:00.0 7000 8 9200.0
+row result set:  CHINA Beijing 2004-06-07 00:00:00.0 400 8 9200.0
+row result set:  CHINA Hangzhou 2004-06-09 00:00:00.0 400 8 9200.0
+row result set:  CHINA Shanghai 2004-06-01 00:00:00.0 100 8 9200.0
+row result set:  CHINA Shanghai 2004-01-01 00:00:00.0 100 8 9200.0
+row result set:  CHINA Tianjing 2004-02-05 00:00:00.0 400 8 9200.0
+row result set:  CHINA Beijing 2004-01-01 00:00:00.0 7000 8 9200.0
+row result set:  CHINA Beijing 2004-06-07 00:00:00.0 400 8 9200.0
+row result set:  CHINA Hangzhou 2004-06-09 00:00:00.0 400 8 9200.0
+row result set:  CHINA Shanghai 2004-06-01 00:00:00.0 100 8 9200.0
+row result set:  CHINA Shanghai 2004-01-01 00:00:00.0 100 8 9200.0
+row result set:  CHINA Tianjing 2004-02-05 00:00:00.0 400 8 9200.0
+row result set:  US Chicago 2004-03-02 00:00:00.0 700 7 2500.0
+row result set:  US Chicago 2004-05-05 00:00:00.0 400 7 2500.0
+row result set:  US New York 2004-05-01 00:00:00.0 100 7 2500.0
+row result set:  US New York 2004-07-05 00:00:00.0 400 7 2500.0
+row result set:  US W.DC 2004-05-05 00:00:00.0 400 7 2500.0
+row result set:  US Chicago 2004-03-02 00:00:00.0 700 7 2500.0
+row result set:  US Chicago 2004-05-05 00:00:00.0 400 7 2500.0
+row result set:  US New York 2004-05-01 00:00:00.0 100 7 2500.0
+row result set:  US New York 2004-07-05 00:00:00.0 400 7 2500.0
+row result set:  US W.DC 2004-05-05 00:00:00.0 400 7 2500.0

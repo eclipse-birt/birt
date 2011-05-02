@@ -14,19 +14,28 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * 
@@ -51,9 +60,12 @@ public final class QueryExecutionStrategyUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Strategy getQueryExecutionStrategy( IQueryDefinition query,
+	public static Strategy getQueryExecutionStrategy( DataEngineSession session, IQueryDefinition query,
 			IBaseDataSetDesign dataSet ) throws DataException
 	{
+		if ( session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION )
+			return Strategy.Complex;
+		
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
 		{
 			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ))
@@ -90,7 +102,55 @@ public final class QueryExecutionStrategyUtil
 			{
 				IBinding binding = (IBinding) bindingIt.next( );
 				if ( binding.getAggrFunction( ) != null )
-					return Strategy.Complex;
+				{
+					IAggrFunction aggr = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
+					if( aggr!= null && aggr.getNumberOfPasses() > 1 )
+					{
+						return Strategy.Complex;
+					}
+					
+					//TODO:Enhance me
+					List exprs = new ArrayList();
+					exprs.addAll(binding.getArguments());
+					if( binding.getExpression()!= null )
+						exprs.add(binding.getExpression());
+					for( int i = 0; i < exprs.size(); i++ )
+					{
+						Object expr = exprs.get(i);
+						if( !(expr instanceof IScriptExpression) )
+						{
+							return Strategy.Complex;
+						}
+						
+						IScriptExpression scriptExpr = (IScriptExpression)expr;
+						try
+						{
+							List<IColumnBinding> columnExprs = ExpressionUtil.extractColumnExpressions( scriptExpr.getText() );
+							for( IColumnBinding temp : columnExprs )
+							{
+								Object obj = query.getBindings().get( temp.getResultSetColumnName());
+								if( obj instanceof IBinding )
+								{
+									IBinding bindingObj = (IBinding)obj;
+									if( bindingObj.getAggrFunction()!= null )
+										return Strategy.Complex;
+									
+									IBaseExpression baseExpr = ((IBinding) obj).getExpression();
+									if( baseExpr instanceof IScriptExpression )
+									{
+										String cb = ExpressionUtil.getColumnName(((IScriptExpression)baseExpr).getText());
+										if( ScriptEvalUtil.compare(bindingObj.getBindingName(), cb)!= 0)
+											return Strategy.Complex;
+									}
+								}
+							}
+						}
+						catch( BirtException e )
+						{
+							return Strategy.Complex;
+						}
+					}
+				}
 
 				if ( ExpressionCompilerUtil.hasAggregationInExpr( binding.getExpression( ) ))
 				{

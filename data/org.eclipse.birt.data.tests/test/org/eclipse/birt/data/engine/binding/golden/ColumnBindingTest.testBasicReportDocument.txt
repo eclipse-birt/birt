@@ -1,0 +1,12 @@
+row result set:  CHINA Beijing 2004-01-01 00:00:00.0 7000 12 12000.0
+row result set:  US New York 2004-05-01 00:00:00.0 100 12 12000.0
+row result set:  CHINA Shanghai 2004-06-01 00:00:00.0 100 12 12000.0
+row result set:  US Chicago 2004-03-02 00:00:00.0 700 12 12000.0
+row result set:  US New York 2004-06-01 00:00:00.0 100 12 12000.0
+row result set:  CHINA Shanghai 2004-01-01 00:00:00.0 100 12 12000.0
+row result set:  CHINA Beijing 2004-06-05 00:00:00.0 400 12 12000.0
+row result set:  US Chicago 2004-05-05 00:00:00.0 400 12 12000.0
+row result set:  UK London 2004-08-08 00:00:00.0 600 12 12000.0
+row result set:  UK London 2004-09-10 00:00:00.0 700 12 12000.0
+row result set:  UK Edinburgh 2004-09-19 00:00:00.0 800 12 12000.0
+row result set:  UK Edinburgh 2004-09-19 00:00:00.0 1000 12 12000.0

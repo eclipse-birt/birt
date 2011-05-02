@@ -1,0 +1,43 @@
+row result set:  Beijing Beijing CHINA CHINA 7000 7000
+row result set:  Beijing Beijing CHINA CHINA 7000 400
+row result set:  Beijing Beijing CHINA CHINA 7000 400
+row result set:  Beijing Beijing CHINA CHINA 7000 400
+row result set:  Beijing Beijing CHINA CHINA 400 7000
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 7000
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 7000
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Beijing Beijing CHINA CHINA 400 400
+row result set:  Chicago Chicago US US 700 700
+row result set:  Chicago Chicago US US 700 400
+row result set:  Chicago Chicago US US 400 700
+row result set:  Chicago Chicago US US 400 400
+row result set:  Hangzhou Hangzhou CHINA CHINA 400 400
+row result set:  New York New York US US 100 100
+row result set:  New York New York US US 100 100
+row result set:  New York New York US US 100 400
+row result set:  New York New York US US 100 400
+row result set:  New York New York US US 100 100
+row result set:  New York New York US US 100 100
+row result set:  New York New York US US 100 400
+row result set:  New York New York US US 100 400
+row result set:  New York New York US US 400 100
+row result set:  New York New York US US 400 100
+row result set:  New York New York US US 400 400
+row result set:  New York New York US US 400 400
+row result set:  New York New York US US 400 100
+row result set:  New York New York US US 400 100
+row result set:  New York New York US US 400 400
+row result set:  New York New York US US 400 400
+row result set:  Shanghai Shanghai CHINA CHINA 100 100
+row result set:  Shanghai Shanghai CHINA CHINA 100 100
+row result set:  Shanghai Shanghai CHINA CHINA 100 100
+row result set:  Shanghai Shanghai CHINA CHINA 100 100
+row result set:  Tianjing Tianjing CHINA CHINA 400 400
+row result set:  W.DC W.DC US US 400 400
