@@ -275,7 +275,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	public void endDocument( ) throws SAXException
 	{
 		super.endDocument( );
+		doEndDocument( );
 
+	}
+
+	public void doEndDocument( ) throws SAXException
+	{
 		this.tempValue = null;
 
 		// rename invalid names that contains "." , "/".
@@ -416,6 +421,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			module.getVersionManager( ).setHasExtensionCompatibilities(
 					handleExtendedItemCompatibility( ) );
 		}
+
 	}
 
 	/**
