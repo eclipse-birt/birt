@@ -681,10 +681,10 @@
 		<!-- Unzip BirtRuntimeOSGi package to get birt and datatools jar -->
 		<mkdir dir="${OutputDir}/runtime_nonosgi" />
 		
-		<unzip src="${buildDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" 
+		<unzip src="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" 
 					dest="${OutputDir}/runtime_nonosgi" overwrite="true" />
 		
-		<delete file="${buildDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" failonerror="false"/>
+		<delete file="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" failonerror="false"/>
 		
 		<copy todir="${OutputDir}/runtime_nonosgi">
 			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
@@ -695,7 +695,7 @@
 				<exclude name="org.eclipse.core.runtime.compatibility*/**"/>
 				<exclude name="org.apache.derby.core**"/>
 			</fileset>
-			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
+			<fileset dir="${postingDirectory}/plugins/org.apache.derby.core">
 				<include name="*.jar"/>
 			</fileset>
 		</copy>
