@@ -559,6 +559,30 @@ public class ExcelLayoutEngine
 		containers.push( child );
 	}
 
+	public void endListBandContainer( )
+	{
+		if ( getCurrentContainer( ) == null )
+		{
+			containers.pop( );
+			return;
+		}
+		XlsContainer container = getCurrentContainer( );
+		if ( container != null )
+		{
+			if ( container.isEmpty( ) )
+			{
+				Data data = page.createEmptyData( container.getStyle( ) );
+				ContainerSizeInfo containerSize = container.getSizeInfo( );
+				data.setStartX( containerSize.getStartCoordinate( ) );
+				data.setEndX( containerSize.getEndCoordinate( ) );
+				addData( data, container );
+			}
+			engine.applyContainerBottomStyle( container, page );
+		}
+		setParentContainerIndex( );
+		containers.pop( );
+	}
+	
 	public void endContainer( )
 	{
 		if ( getCurrentContainer( ) == null )
@@ -590,7 +614,6 @@ public class ExcelLayoutEngine
 				data.setStartX( containerSize.getStartCoordinate( ) );
 				data.setEndX( containerSize.getEndCoordinate( ) );
 				addData( data, container );
-				setParentContainerIndex( );
 			}
 			engine.applyContainerBottomStyle( container, page );
 		}
