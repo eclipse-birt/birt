@@ -671,7 +671,6 @@
 				<include name="**/*"/>
 			</zipfileset>
 		</zip>
-		<delete dir="${runtime.tmp}" />
 	</target>
 	
 	<target name="createBirtRuntimeNonOSGi">
@@ -699,13 +698,12 @@
 				<include name="*.jar"/>
 			</fileset>
 		</copy>
-		
-        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
-        	<zipfileset dir="${OutputDir}/runtime_nonosgi" includes="**" />
-        </zip> 
+		<zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
+			<zipfileset dir="${OutputDir}/runtime_nonosgi" includes="**" />
+		</zip> 
 		
 		<delete dir="${OutputDir}/runtime_nonosgi" failonerror="false"/>
-		<delete dir="${runtime.tmp}/" failonerror="false"/>
+		<delete dir="${runtime.tmp}" failonerror="false"/>
 	</target>
 	
 	<target name="createBirtRCP" unless="skip.build.rcp">
