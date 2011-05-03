@@ -361,7 +361,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 				this.aggrHelper = null;
 			}
 			//TODO remove me
-			if( this.groupBys.length == 0 )
+			if( this.groupBys.length == 0 && this.streamManager!= null )
 			{
 				OutputStream out = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
 						StreamManager.ROOT_STREAM,
