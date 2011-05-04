@@ -692,7 +692,7 @@
 				<exclude name="org.eclipse.datatools*/**"/>
 				<exclude name="org.w3c.sac*/**"/>
 				<exclude name="org.eclipse.core.runtime.compatibility*/**"/>
-				<exclude name="org.apache.derby.core**"/>
+				<exclude name="org.apache.derby.core*/**"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
 				<include name="*.jar"/>
