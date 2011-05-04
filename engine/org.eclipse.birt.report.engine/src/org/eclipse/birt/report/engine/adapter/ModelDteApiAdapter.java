@@ -27,7 +27,6 @@ import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -123,8 +122,6 @@ public class ModelDteApiAdapter
 	
 	private DataRequestSession dteSession;
 
-	private ScriptContext scriptContext;
-
 	/**
 	 * @deprecated Construct an instance of this class directly
 	 */
@@ -177,9 +174,8 @@ public class ModelDteApiAdapter
 	public ModelDteApiAdapter( ExecutionContext context ) throws BirtException
 	{
 		this.context = context;
-		scriptContext = context.getScriptContext( );
-		this.jsScope = ( (IDataScriptEngine) scriptContext
-				.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( scriptContext );
+		this.jsScope = ( (IDataScriptEngine) context.getScriptContext( )
+				.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSScope( context.getScriptContext( ) );
 	}
 	/**
 	 * Adapts the specified Model Data Source to a Data Engine API data source
@@ -1074,14 +1070,6 @@ public class ModelDteApiAdapter
 	public static int toDteFilterOperator( String modelOpr )
 	{
 		return DataAdapterUtil.adaptModelFilterOperator( modelOpr );
-	}
-
-	public void close( )
-	{
-		if ( scriptContext != null )
-		{
-			scriptContext.close( );
-		}
 	}
 
 	/*

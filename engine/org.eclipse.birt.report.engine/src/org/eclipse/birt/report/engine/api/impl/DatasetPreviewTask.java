@@ -33,7 +33,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected DataSetHandle dataset;
 
 	protected int maxRow;
-
+	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
 		super(engine, TASK_DATASETPREVIEW);
@@ -158,7 +158,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		QueryDefinition newQuery = constructQuery( dataset );
 		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
-		final ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
+		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
 		apiAdapter.defineDataSet( dataset, session );
 		session.registerQueries( new IQueryDefinition[]{newQuery} );
@@ -167,14 +167,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 				null, executionContext.getScriptContext( ) );
 		ResultMetaData metadata = new ResultMetaData(
 				result.getResultMetaData( ) );
-		return new ExtractionResults( result, metadata, null, 0, maxRow ) {
-
-			public void close( )
-			{
-				super.close( );
-				apiAdapter.close( );
-			}
-		};
+		return new ExtractionResults( result, metadata, null, 0, maxRow );
 	}
 
 	protected ModuleHandle getModuleHandle( )

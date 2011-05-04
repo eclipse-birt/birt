@@ -347,7 +347,6 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		dteSession.shutdown( );
 		queryCache.close( );
-		adapter.close( );
 		if ( factory != null )
 		{
 			factory.closeDataEngine( this );
