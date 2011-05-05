@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -1004,11 +1005,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						}
 					}
 					
-					IResultIterator it = new SimpleResultSet( this,
+					IResultIterator it = new ResultSetWrapper(this.session, new SimpleResultSet( this,
 							rs,
 							newResultClass,
 							eventHandler,
-							this.getGrouping( ));
+							this.getGrouping( )));
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
 				}

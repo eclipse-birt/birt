@@ -130,9 +130,9 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil
 
 				long overallOffset = 0;
 				
-				while( (overallOffset = this.getOverallAggrOffset( )) == -1 )
+				if( (overallOffset = this.getOverallAggrOffset( )) == -1 )
 				{
-					Thread.sleep( 100 );
+					throw new DataException( "The aggregation results are not ready yet." );
 				}
 				this.overallAggregationValues = new HashMap<String, Object>();
 				this.aggrStream.seek( overallOffset );
@@ -320,18 +320,10 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil
 				if ( groupInstanceIndex != this.currentGroupLevel )
 				{
 					this.currentGroupLevel = groupInstanceIndex;
-					while( this.aggrIndexStream.length( ) < IOUtil.LONG_LENGTH
+					if( this.aggrIndexStream.length( ) < IOUtil.LONG_LENGTH
 							* this.currentGroupLevel )
 					{
-						try
-						{
-							Thread.sleep( 100 );
-						}
-						catch ( InterruptedException e )
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						throw new DataException( "The aggregation results are not ready yet.");
 					}
 						
 					this.aggrIndexStream.seek( IOUtil.LONG_LENGTH
@@ -346,7 +338,7 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil
 
 				}
 			}
-			catch ( IOException e )
+			catch ( Exception e )
 			{
 				throw new DataException( e.getLocalizedMessage( ), e );
 			}

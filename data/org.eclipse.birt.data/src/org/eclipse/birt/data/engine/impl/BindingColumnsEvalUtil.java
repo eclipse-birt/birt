@@ -12,11 +12,10 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
@@ -30,7 +29,6 @@ import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultIterator.RDSaveHelper;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
-import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -52,7 +50,7 @@ class BindingColumnsEvalUtil
 	private Scriptable scope;
 	private RDSaveHelper saveHelper;
 
-	private List allManualBindingExprs;
+	private Map<String, BindingColumn> allManualBindingExprs;
 	private List allAutoBindingExprs;
 
 	private ScriptContext cx;
@@ -105,7 +103,7 @@ class BindingColumnsEvalUtil
 			groupBindingColumns[temp.getGroupLevel( )] = temp;
 		}
 
-		allManualBindingExprs = new ArrayList( );
+		allManualBindingExprs = new HashMap<String, BindingColumn>( );
 		for ( int i = 0; i < size; i++ )
 		{
 			List groupBindingExprs = new ArrayList( );
@@ -114,15 +112,13 @@ class BindingColumnsEvalUtil
 			{
 				String exprName = (String) itr.next( );
 				IBaseExpression baseExpr = groupBindingColumns[i].getExpression( exprName );
-				groupBindingExprs.add( new BindingColumn( exprName,
+				allManualBindingExprs.put( exprName, new BindingColumn( exprName,
 						baseExpr,
 						groupBindingColumns[i].getBinding( exprName )
 								.getAggrFunction( ) != null,
 						groupBindingColumns[i].getBinding( exprName )
 								.getDataType( ) ) );
 			}
-
-			allManualBindingExprs.add( groupBindingExprs );
 		}
 		
 		// put the auto binding expressions into a list
@@ -143,7 +139,7 @@ class BindingColumnsEvalUtil
 	 * @throws DataException
 	 *             save error
 	 */
-	void getColumnsValue( Map valueMap ) throws DataException
+	void getColumnsValue( Map valueMap, boolean includeAggregation ) throws DataException
 	{
 		Iterator itr = this.allAutoBindingExprs.iterator( );
 		while ( itr.hasNext( ) )
@@ -156,18 +152,15 @@ class BindingColumnsEvalUtil
 				valueMap.put( bindingColumn.columnName, exprValue );
 		}
 		
-		for ( int i = 0; i < allManualBindingExprs.size( ); i++ )
+		for ( BindingColumn bindingColumn: allManualBindingExprs.values( ) )
 		{
-			List list = (List) allManualBindingExprs.get( i );
-			Iterator it = list.iterator( );
-			while ( it.hasNext( ) )
-			{
-				BindingColumn bindingColumn = (BindingColumn) it.next( );
-				if ( valueMap.containsKey( bindingColumn.columnName ) )
-					continue;
-				Object exprValue = evaluateValue( bindingColumn, MANUAL_BINDING );
-				valueMap.put( bindingColumn.columnName, exprValue );
-			}
+			if ( valueMap.containsKey( bindingColumn.columnName ) )
+				continue;
+			if( bindingColumn.isAggregation )
+				continue;
+			Object exprValue = evaluateValue( bindingColumn, MANUAL_BINDING );
+		
+			valueMap.put( bindingColumn.columnName, exprValue );
 		}
 
 		if ( ExprMetaUtil.isBasedOnRD( this.odiResult.getResultClass( ) )
@@ -236,7 +229,12 @@ class BindingColumnsEvalUtil
 	 */
 	Object evaluateValue( String bindingName ) throws DataException
 	{
-		return this.evaluateValue( getBindingFromManualBinding( bindingName ),
+		BindingColumn binding = this.getBindingFromManualBinding( bindingName );
+		if( binding == null )
+			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+				bindingName );
+		
+		return this.evaluateValue( binding,
 				MANUAL_BINDING );
 	}
 
@@ -251,21 +249,13 @@ class BindingColumnsEvalUtil
 	private BindingColumn getBindingFromManualBinding( String name )
 			throws DataException
 	{
-		for ( int i = 0; i < allManualBindingExprs.size( ); i++ )
-		{
-			List list = (List) allManualBindingExprs.get( i );
-			Iterator it = list.iterator( );
-			while ( it.hasNext( ) )
-			{
-				BindingColumn bindingColumn = (BindingColumn) it.next( );
-				if ( bindingColumn.columnName.equals( name ) )
-					return bindingColumn;
-			}
-		}
-		throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
-				name );
+		return this.allManualBindingExprs.get( name );
 	}
 
+	boolean isValidBindingName( String name ) throws DataException
+	{
+		return this.getBindingFromManualBinding( name )!= null;
+	}
 	/**
 	 * A simple wrapper for binding column
 	 */

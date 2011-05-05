@@ -373,6 +373,8 @@ abstract public class APITestCase extends BaseTestCase
 			Object val = result.getValue( name );
 			if ( val == null )
 				return "<null>";
+			else if( val instanceof Exception )
+				return "<EXCEPTION>";
 			else
 				return val.toString( );
 		}

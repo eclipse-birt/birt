@@ -118,8 +118,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		streamManager.dropStreams( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM );
 		streamManager.dropStreams( DataEngineContext.AGGR_INDEX_STREAM );
 		streamManager.dropStreams( DataEngineContext.AGGR_VALUE_STREAM );
-		streamManager.dropStream1( DataEngineContext.COMBINED_AGGR_INDEX_STREAM );
-		streamManager.dropStream1( DataEngineContext.COMBINED_AGGR_VALUE_STREAM );
+		streamManager.dropStreams( DataEngineContext.COMBINED_AGGR_INDEX_STREAM );
+		streamManager.dropStreams( DataEngineContext.COMBINED_AGGR_VALUE_STREAM );
 	}
 
 	/*

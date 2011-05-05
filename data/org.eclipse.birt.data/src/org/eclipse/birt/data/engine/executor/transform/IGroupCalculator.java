@@ -32,4 +32,5 @@ public interface IGroupCalculator
 	public void doSave( StreamManager manager ) throws DataException;
 	public void setAggrHelper( ProgressiveAggregationHelper aggrHelper ) throws DataException;
 	public boolean isAggrAtIndexAvailable( String aggrName, int currentIndex ) throws DataException;
+	public Integer[] getGroupInstanceIndex();
 }

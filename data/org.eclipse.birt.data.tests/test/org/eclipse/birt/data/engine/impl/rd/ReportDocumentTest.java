@@ -115,7 +115,6 @@ public class ReportDocumentTest extends RDTestCase
 	 * Basic report document test without sub query, but it has aggregation.
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
 	 */
 	public void testBasic( ) throws BirtException, IOException
 	{
@@ -829,7 +828,7 @@ public class ReportDocumentTest extends RDTestCase
 		while ( it2.hasNext( ) )
 		{
 			Object ob2 = it2.next( );
-		//	assertTrue( it1.next( ).equals( ob2 ) );
+			assertTrue( it1.next( ).equals( ob2 ) );
 			str += ob2.toString( ) + " ";
 		}
 		this.testOut.println( "row result set: " + str );
@@ -1815,7 +1814,7 @@ public class ReportDocumentTest extends RDTestCase
 				{
 					Object ob1 = it.next();
 					Object ob2 = ri.getValue(totalExprName[i]);
-					//assertEquals(ob1, ob2);
+					assertEquals(ob1, ob2);
 					str += " " + ob2.toString();
 				}
 			}
@@ -1851,7 +1850,7 @@ public class ReportDocumentTest extends RDTestCase
 			{
 				Object ob1 = it.next( );
 				Object ob2 = ri.getValue( totalExprName[i] );
-				//assertEquals( ob1, ob2 );
+				assertEquals( ob1, ob2 );
 				str += " " + ob2.toString( );
 			}
 
@@ -1912,7 +1911,7 @@ public class ReportDocumentTest extends RDTestCase
 			{
 				Object ob1 = it.next( );
 				Object ob2 = ri.getValue( totalExprName[i] );
-				//assertEquals( ob1, ob2 );
+				assertEquals( ob1, ob2 );
 				str += " " + ob2.toString( );
 			}
 
@@ -1969,7 +1968,7 @@ public class ReportDocumentTest extends RDTestCase
 			{
 				Object ob1 = it.next( );
 				Object ob2 = ri.getValue( totalExprName[i] );
-	//			assertEquals( ob1, ob2 );
+				assertEquals( ob1, ob2 );
 				str += " " + ob2.toString( );
 			}
 
@@ -2012,8 +2011,8 @@ public class ReportDocumentTest extends RDTestCase
 				Object ob1 = expectedValue.get( index
 						* offset + rowExprName.length + i );
 				Object ob2 = ri.getValue( totalExprName[i] );
-				//assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+				assertEquals( ob1, ob2 );
+				str += " " + ob1.toString( );
 			}
 
 			this.testOut.println( "row result set: " + str );
@@ -2039,7 +2038,6 @@ public class ReportDocumentTest extends RDTestCase
 		
 		this.preBasicDummy( );
 		this.closeArchiveReader( );
-		//this.checkOutputFile();
 	}
 	
 	/**

@@ -25,6 +25,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -499,11 +500,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 						groupName,
 						-1,
 						dataType,
+						this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE? true:(
 						src.getSortDirection( ) == IGroupDefinition.NO_SORT ? false:(
-						this.baseQueryDefn.getQueryExecutionHints( ) == null
+						this.baseQueryDefn.getQueryExecutionHints( ) == null 
 								? true
 								: this.baseQueryDefn.getQueryExecutionHints( )
-										.doSortBeforeGrouping( ) ));
+										.doSortBeforeGrouping( ) )));
 				
 				groupSpecs[i] = dest;
 				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,

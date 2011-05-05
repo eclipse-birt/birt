@@ -388,13 +388,18 @@ public class StreamManager
 					StreamManager.BASE_SCOPE );
 			try 
 			{
-				List<String> streams = context.getDocWriter().listStreams(
-						DataEngineContext.getPath(streamID.getStartStream(),
-								streamID.getSubQueryStream(), streamType));
+				String path = DataEngineContext.getPath(streamID.getStartStream(),
+						streamID.getSubQueryStream(), streamType);
+				List<String> streams = context.getDocWriter().listStreams(path);
 				for( String streamName : streams )
 				{
-					context.dropStream( streamName );
+					context.getDocWriter( ).dropStream( streamName );
 				}
+				if( context.getDocWriter( ).exists( path ))
+				{
+					context.getDocWriter( ).dropStream( path );
+				}
+					
 			} 
 			catch (IOException e) 
 			{

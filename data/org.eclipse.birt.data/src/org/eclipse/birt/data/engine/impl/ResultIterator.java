@@ -105,7 +105,6 @@ public class ResultIterator implements IResultIterator
 	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
 	private List columnList = null;
-	private List preparedList = null;
 	
 	private int rawIdStartingValue = 0;
 	
@@ -525,8 +524,6 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void clear( )
 	{
-		if ( preparedList != null )
-			this.preparedList.clear( );
 		this.boundColumnValueMap.clear( );
 	}
 	
@@ -693,7 +690,7 @@ public class ResultIterator implements IResultIterator
 		{
 			// If there is no value for this specified binding name, evaluate it
 			// firstly if resultService contains this binding column
-			if ( this.resultService.getBindingExpr( exprName ) != null )
+			if ( this.bindingColumnsEvalUtil.isValidBindingName( exprName ) )
 			{
 				return prepareBindingColumn( exprName );
 			}
@@ -717,16 +714,7 @@ public class ResultIterator implements IResultIterator
 	private Object prepareBindingColumn( String exprName ) throws DataException
 	{
 		assert bindingColumnsEvalUtil != null;
-		if ( this.preparedList == null )
-		{
-			preparedList = new ArrayList( );
-		}
-		else if ( this.preparedList.contains( exprName ) )
-		{
-			return new DataException( ResourceConstants.COLUMN_BINDING_CYCLE,
-					exprName );
-		}
-		this.preparedList.add( exprName );
+		
 		Object value = bindingColumnsEvalUtil.evaluateValue( exprName );
 		boundColumnValueMap.put( exprName, value );
 		return value;
@@ -739,10 +727,9 @@ public class ResultIterator implements IResultIterator
 	{
 		clear( );
 		
-		bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap );
-
 		if ( needCache( ) && !this.isEmpty( ) )
 		{
+			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );
 			try
 			{
 				saveCurrentRow( );
@@ -764,6 +751,10 @@ public class ResultIterator implements IResultIterator
 			{
 				throw DataException.wrap( e );
 			}
+		}
+		else
+		{
+			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, false );
 		}
 		
 	}

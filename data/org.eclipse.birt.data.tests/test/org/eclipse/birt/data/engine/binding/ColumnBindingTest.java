@@ -1052,7 +1052,7 @@ public class ColumnBindingTest extends APITestCase
 		catch ( BirtException e )
 		{
 			ri.close();
-	//		assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+			//assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 			
 		}
 	}
@@ -1094,6 +1094,7 @@ public class ColumnBindingTest extends APITestCase
 		
 		this.preBasic( );
 		this.closeArchiveReader( );
+		this.checkOutputFile( );
 	}
 	
 	/**
@@ -1417,7 +1418,7 @@ public class ColumnBindingTest extends APITestCase
 		int num2 = 2;
 		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
 		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
-		totalBeArray[1] = new ScriptExpression( "Total.Sum( row.AMOUNT )" );
+		totalBeArray[1] = new ScriptExpression( "Total.Sum( dataSetRow.AMOUNT )" );
 		
 		totalExprName = new String[totalBeArray.length];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
@@ -1444,7 +1445,7 @@ public class ColumnBindingTest extends APITestCase
 		{
 			int num2 = totalBeArray.length;
 			for ( int i = 0; i < num2; i++ )
-				qd.addResultSetExpression( this.totalExprName[i], rowBeArray[i] );
+				qd.addResultSetExpression( this.totalExprName[i], totalBeArray[i] );
 		}
 	}
 	
@@ -1483,7 +1484,7 @@ public class ColumnBindingTest extends APITestCase
 				}
 			}
 			
-			System.out.println( "row result set: " + str );
+			this.testPrintln( "row result set: " + str );
 		}
 	}
 	

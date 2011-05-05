@@ -63,9 +63,6 @@ public final class QueryExecutionStrategyUtil
 	public static Strategy getQueryExecutionStrategy( DataEngineSession session, IQueryDefinition query,
 			IBaseDataSetDesign dataSet ) throws DataException
 	{
-		if ( session.getEngineContext().getMode() == DataEngineContext.DIRECT_PRESENTATION )
-			return Strategy.Complex;
-		
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
 		{
 			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ))

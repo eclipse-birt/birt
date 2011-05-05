@@ -1,6 +1,6 @@
-CHINA  Beijing  2004-01-01 00:00:00.0  7000  null  null  
-US  New York  2004-05-01 00:00:00.0  100  null  null  
-CHINA  Shanghai  2004-06-01 00:00:00.0  100  null  null  
+CHINA  Beijing  2004-01-01 00:00:00.0  7000  8  8900.0  
+US  New York  2004-05-01 00:00:00.0  100  8  8900.0  
+CHINA  Shanghai  2004-06-01 00:00:00.0  100  8  8900.0  
       CHINA  Beijing  2004-01-01 00:00:00.0  7000  
       		CHINA  Beijing  2004-01-01 00:00:00.0  7000  
       		US  New York  2004-05-01 00:00:00.0  100  
@@ -25,9 +25,9 @@ CHINA  Shanghai  2004-06-01 00:00:00.0  100  null  null
       		CHINA  Beijing  2004-06-05 00:00:00.0  400  
       		US  Chicago  2004-05-05 00:00:00.0  400  
       US  Chicago  2004-05-05 00:00:00.0  400  
-US  Chicago  2004-03-02 00:00:00.0  700  null  null  
-US  New York  2004-06-01 00:00:00.0  100  null  null  
-CHINA  Shanghai  2004-01-01 00:00:00.0  100  null  null  
+US  Chicago  2004-03-02 00:00:00.0  700  8  8900.0  
+US  New York  2004-06-01 00:00:00.0  100  8  8900.0  
+CHINA  Shanghai  2004-01-01 00:00:00.0  100  8  8900.0  
       CHINA  Beijing  2004-01-01 00:00:00.0  7000  
       		CHINA  Beijing  2004-01-01 00:00:00.0  7000  
       		US  New York  2004-05-01 00:00:00.0  100  
@@ -52,8 +52,8 @@ CHINA  Shanghai  2004-01-01 00:00:00.0  100  null  null
       		CHINA  Beijing  2004-06-05 00:00:00.0  400  
       		US  Chicago  2004-05-05 00:00:00.0  400  
       US  Chicago  2004-05-05 00:00:00.0  400  
-CHINA  Beijing  2004-06-05 00:00:00.0  400  null  null  
-US  Chicago  2004-05-05 00:00:00.0  400  null  null  
+CHINA  Beijing  2004-06-05 00:00:00.0  400  8  8900.0  
+US  Chicago  2004-05-05 00:00:00.0  400  8  8900.0  
 
 CHINA  Beijing  2004-01-01 00:00:00.0  7000  8  8900.0  0
 US  New York  2004-05-01 00:00:00.0  100  8  8900.0  1

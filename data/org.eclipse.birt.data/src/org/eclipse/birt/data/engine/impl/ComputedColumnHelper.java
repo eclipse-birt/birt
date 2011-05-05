@@ -34,10 +34,11 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
 import org.eclipse.birt.data.engine.impl.util.GraphNode;
-import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -410,6 +411,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				return true; // done
 			}
 
+			IResultIterator cachedIterator = dataSet.getResultSet( );
 			// bind new object to row script object
 			dataSet.setRowObject( resultObject, true );
 			dataSet.setCurrentRowIndex( rowIndex );
@@ -539,6 +541,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				dataSet.setMode( temp );
 			}
 			logger.exiting( ComputedColumnHelper.class.getName( ), "process" );
+			if( cachedIterator!= null )
+				this.dataSet.setResultSet( cachedIterator, true );
 			return true;
 		}
 		

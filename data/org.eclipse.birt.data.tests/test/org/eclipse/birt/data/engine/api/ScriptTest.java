@@ -153,6 +153,7 @@ public class ScriptTest extends APITestCase
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator it = queryResults.getResultIterator();
 		outputQueryResult( it, names );
+		it.close();
 		queryResults.close();
 	}
 

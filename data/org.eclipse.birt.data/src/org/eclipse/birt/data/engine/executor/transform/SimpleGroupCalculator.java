@@ -42,7 +42,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	private IResultObject next;
 	private IResultObject current;
 	private GroupBy[] groupBys;
-	private int[] groupInstanceIndex;
+	private Integer[] groupInstanceIndex;
 	private int[] latestAggrAvailableIndex;
 	private StreamManager streamManager;
 	private RAOutputStream[] groupOutput;
@@ -81,7 +81,8 @@ public class SimpleGroupCalculator implements IGroupCalculator
 					keyColumn,
 					rsMeta.getFieldValueClass( keyIndex ) );
 		}
-		this.groupInstanceIndex = new int[groupBys.length];
+		this.groupInstanceIndex = new Integer[groupBys.length];
+		Arrays.fill( this.groupInstanceIndex, 0 );
 		this.groupAggrs = new ArrayList<List<String>>();
 		this.runningAggrs = new ArrayList<String>();
 		this.overallAggrs = new ArrayList<String>();
@@ -268,7 +269,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 						this.aggrRAOutput[i].getOffset( ) );
 			}
 		}
-		this.latestAggrAvailableIndex[i] = rowId;
+		this.latestAggrAvailableIndex[i] = rowId-1;
 
 	}
 
@@ -465,7 +466,16 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	public boolean isAggrAtIndexAvailable( String aggrName, int currentIndex ) throws DataException
 	{
 		assert this.aggrHelper!= null;
+		if( this.aggrHelper.getAggrInfo( aggrName ).getAggregation( ).getType( ) == IAggrFunction.RUNNING_AGGR )
+			return true;
+		if( this.aggrHelper.getAggrInfo( aggrName ).getGroupLevel( ) == 0 )
+			return this.current == null;
 		return this.latestAggrAvailableIndex[this.aggrHelper.getAggrInfo( aggrName ).getGroupLevel( )-1] >= currentIndex;
 		
+	}
+	
+	public Integer[] getGroupInstanceIndex()
+	{
+		return this.groupInstanceIndex;
 	}
 }
