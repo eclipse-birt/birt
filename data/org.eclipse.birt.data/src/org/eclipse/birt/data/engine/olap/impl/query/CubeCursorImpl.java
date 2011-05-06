@@ -73,6 +73,7 @@ public class CubeCursorImpl implements ICubeCursor
 	private Scriptable scope;
 	private ICubeQueryDefinition queryDefn;
 	private HashMap bindingMap, dataTypeMap;
+	private Map<String, DimLevel> dimLevelMap;
 	private Set validBindingSet;
 	private Scriptable outerResults;
 	private BirtCubeView cubeView;
@@ -92,6 +93,7 @@ public class CubeCursorImpl implements ICubeCursor
 		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable( outerResults );
 		
 		this.bindingMap = new HashMap( );
+		this.dimLevelMap = new HashMap<String, DimLevel>( );
 		this.validBindingSet = new HashSet( );
 		this.dataTypeMap = new HashMap( );
 		List<IBinding> allBindings = CubeQueryDefinitionUtil.getAllBindings( queryDefn );
@@ -391,11 +393,20 @@ public class CubeCursorImpl implements ICubeCursor
 					DimLevel dimLevel;
 					try
 					{
-						dimLevel = OlapExpressionUtil.getTargetDimLevel( ( (ScriptExpression) expr ).getText( ) );
+						if( dimLevelMap.containsKey(arg0 ) )
+						{
+							dimLevel = dimLevelMap.get( arg0 );
+						}
+						else
+						{
+							dimLevel = OlapExpressionUtil.getTargetDimLevel( ( (ScriptExpression) expr ).getText( ) );
+							dimLevelMap.put( arg0, dimLevel );
+						}
 					}
 					catch ( Exception ex )
 					{
 						dimLevel = null;
+						dimLevelMap.put( arg0, null );
 					}
 
 					if ( dimLevel != null )
