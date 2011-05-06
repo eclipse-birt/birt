@@ -692,9 +692,9 @@ public class ResultIterator implements IResultIterator
 			// firstly if resultService contains this binding column
 			if ( this.bindingColumnsEvalUtil.isValidBindingName( exprName ) )
 			{
-				return prepareBindingColumn( exprName );
+				prepareBindingColumn( exprName );
 			}
-			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
+			else throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
 					exprName );
 		}
 		Object exprValue = boundColumnValueMap.get( exprName );

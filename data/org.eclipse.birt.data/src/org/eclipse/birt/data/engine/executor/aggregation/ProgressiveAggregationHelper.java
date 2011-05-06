@@ -417,7 +417,8 @@ public class ProgressiveAggregationHelper
 	public Object getAggrValue( String name, IResultIterator ri ) throws DataException
 	{
 		IAggrInfo aggrInfo = this.manager.getAggrDefn( name );
-				
+		if( this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )].isEmpty( ))
+			return null;
 		/*if ( this.populator.getCache( ).getCount( ) == 0 )
 		{
 			return aggrInfo.getAggregation( ).getDefaultValue( );

@@ -156,7 +156,7 @@ class BindingColumnsEvalUtil
 		{
 			if ( valueMap.containsKey( bindingColumn.columnName ) )
 				continue;
-			if( bindingColumn.isAggregation )
+			if( bindingColumn.isAggregation && !includeAggregation )
 				continue;
 			Object exprValue = evaluateValue( bindingColumn, MANUAL_BINDING );
 		
