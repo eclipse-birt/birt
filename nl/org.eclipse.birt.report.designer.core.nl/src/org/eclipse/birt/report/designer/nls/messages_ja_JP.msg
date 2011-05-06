@@ -916,7 +916,7 @@ designer.preview.preference.bidiOrientation.auto=自動
 designer.preview.preference.bidiOrientation.ltr=左から右
 designer.preview.preference.bidiOrientation.rtl=右から左
 designer.preview.preference.updateParameter.confirmMessage=更新の確認
-designer.preview.preference.updateParameter.confirmButton=&Always prompt for confirmation when synchronizing data set parameter properties with ODA parameter properties if the query is changed.
+designer.preview.preference.updateParameter.confirmButton=データセットパラメタのプロパティと ODA パラメタのプロパティを同期する際にクエリが変更されている場合、常に確認メッセージを表示する(&A)
 designer.preview.preference.updateReportParameter.confirmButton=リンクされているレポートパラメタを更新する際に確認メッセージを表示しない(&D)
 designer.preview.preference.updateReportParameter.confirmOption.always=常に続行する(&W) :
 designer.preview.preference.updateReportParameter.confirmOption.update=更新(&U)
@@ -4830,4 +4830,4 @@ ToggleBreadcrumbAction.tooltip.switch.breadcrumb=リンクの階層表示の切り替え
 ###########################################################
 #HyperlinkParameterProvider Category
 ReportHyperlinkParameterProvider.Category.Report=レポートパラメタ
-RenderHyperlinkParameterProvider.Category.Render=Render Options
+RenderHyperlinkParameterProvider.Category.Render=レンダリングオプション
