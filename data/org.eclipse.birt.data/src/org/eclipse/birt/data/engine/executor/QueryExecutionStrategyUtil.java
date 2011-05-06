@@ -100,6 +100,11 @@ public final class QueryExecutionStrategyUtil
 				IBinding binding = (IBinding) bindingIt.next( );
 				if ( binding.getAggrFunction( ) != null )
 				{
+					if( dataSet!= null )
+					{	//TODO enhance me in M2.
+						if( dataSet.getClass( ).getName( ).startsWith( "com" ))
+							return Strategy.Complex;
+					}
 					IAggrFunction aggr = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
 					if( aggr!= null && aggr.getNumberOfPasses() > 1 )
 					{
