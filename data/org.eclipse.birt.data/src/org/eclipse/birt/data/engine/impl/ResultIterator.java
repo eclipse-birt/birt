@@ -726,7 +726,7 @@ public class ResultIterator implements IResultIterator
 	private void prepareCurrentRow( ) throws DataException
 	{
 		clear( );
-		
+		this.rdSaveHelper.doSaveBasic( );
 		if ( needCache( ) && !this.isEmpty( ) )
 		{
 			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );
@@ -1239,13 +1239,7 @@ public class ResultIterator implements IResultIterator
 			if ( needsSaveToDoc( ) == false )
 				return;
 
-			if ( isBasicSaved == false )
-			{
-				isBasicSaved = true;
-				this.getRdSave( ).saveResultIterator( this.odiResult,
-						this.idInfo.getGroupLevel( ),
-						this.idInfo.getSubQueryInfo( ) );
-			}
+			doSaveBasic( );
 
 			if ( finish == false )
 				this.rdSave.saveExprValue( odiResult.getCurrentResultIndex( ),
@@ -1256,6 +1250,20 @@ public class ResultIterator implements IResultIterator
 				//Save the whole result set, the rows that have never be
 				//read will be saved as null value.
 				this.rdSave.saveFinish( odiResult.getRowCount() - 1 );
+			}
+		}
+
+		private void doSaveBasic( ) throws DataException
+		{
+			if ( needsSaveToDoc( ) == false )
+				return;
+			
+			if ( isBasicSaved == false )
+			{
+				isBasicSaved = true;
+				this.getRdSave( ).saveResultIterator( this.odiResult,
+						this.idInfo.getGroupLevel( ),
+						this.idInfo.getSubQueryInfo( ) );
 			}
 		}
 

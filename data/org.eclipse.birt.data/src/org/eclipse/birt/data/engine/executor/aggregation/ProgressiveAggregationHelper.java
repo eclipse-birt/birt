@@ -418,7 +418,7 @@ public class ProgressiveAggregationHelper
 	{
 		IAggrInfo aggrInfo = this.manager.getAggrDefn( name );
 		if( this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )].isEmpty( ))
-			return null;
+			return this.manager.getAggrDefn( name ).getAggregation( ).getDefaultValue( );
 		/*if ( this.populator.getCache( ).getCount( ) == 0 )
 		{
 			return aggrInfo.getAggregation( ).getDefaultValue( );
