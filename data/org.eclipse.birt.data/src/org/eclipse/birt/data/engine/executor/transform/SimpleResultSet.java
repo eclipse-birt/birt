@@ -453,30 +453,7 @@ public class SimpleResultSet implements IResultIterator
 	{
 		if ( currResultObj == null )
 			return false;
-		if ( this.streamsWrapper != null && currResultObj != null )
-		{
-			try
-			{
-				if ( dataSetStream != null )
-				{
-					int colCount = this.populateResultClass( this.currResultObj.getResultClass( ) )
-							.getFieldCount( );
-					IOUtil.writeLong( dataSetLenStream, offset );
-
-					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
-							currResultObj,
-							colCount,
-							resultSetNameSet,
-							streamsWrapper.getOutputStringTable( getResultClass( ) ),
-							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
-							this.rowCount-1 );
-				}
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( e.getLocalizedMessage( ), e );
-			}
-		}
+		saveToDataSetStream( currResultObj );
 		try
 		{
 			this.groupCalculator.next( this.rowResultSet.getIndex( ));
@@ -494,6 +471,35 @@ public class SimpleResultSet implements IResultIterator
 		if ( this.currResultObj != null )
 			rowCount++;
 		return this.currResultObj != null;
+	}
+
+	public void saveToDataSetStream( IResultObject resultObject ) throws DataException
+	{
+		if ( this.streamsWrapper != null && resultObject != null )
+		{
+			try
+			{
+				if ( dataSetStream != null )
+				{
+					int colCount = this.populateResultClass( resultObject.getResultClass( ) )
+							.getFieldCount( );
+					IOUtil.writeLong( dataSetLenStream, offset );
+
+					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
+							resultObject,
+							colCount,
+							resultSetNameSet,
+							streamsWrapper.getOutputStringTable( getResultClass( ) ),
+							streamsWrapper.getStreamForIndex( getResultClass( ),
+									handler.getAppContext( ) ),
+							this.rowCount - 1 );
+				}
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ), e );
+			}
+		}
 	}
 	
 	public boolean aggrValueAvailable( String aggrName, int index ) throws DataException

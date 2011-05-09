@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.executor.transform;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.cache.CachedList;
@@ -72,9 +71,14 @@ public class ResultSetWrapper implements IResultIterator
 
 	public boolean next( ) throws DataException
 	{
-		if( this.index < this.cachedRows.size( ) - 1 )
+		if ( this.index < this.cachedRows.size( ) - 1 )
 		{
+			this.source.saveToDataSetStream( this.getCurrentResult( ) );
 			this.index++;
+			if ( index == this.cachedRows.size( ) - 1 )
+			{
+				this.source.saveToDataSetStream( this.getCurrentResult( ) );
+			}
 			return true;
 		}
 		else if( this.index == this.cachedRows.size( ) - 1 )
@@ -108,7 +112,7 @@ public class ResultSetWrapper implements IResultIterator
 
 	public IResultObject getCurrentResult( ) throws DataException
 	{
-		if( this.index >= this.cachedRows.size( )||this.index < 0)
+		if ( this.index >= this.cachedRows.size( ) || this.index < 0 )
 			return null;
 		return getResultObjectHolder( ).getResultObject( );
 	}
