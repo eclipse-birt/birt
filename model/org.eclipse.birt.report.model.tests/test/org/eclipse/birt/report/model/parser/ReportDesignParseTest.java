@@ -378,6 +378,9 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertNull( handle );
 
 		assertEquals( ULocale.GERMAN, designHandle.getLocale( ) );
+		
+		// Test onPrepare
+		assertEquals( "script of onPrepare", designHandle.getOnPrepare( ) );  //$NON-NLS-1$
 
 	}
 
@@ -497,6 +500,9 @@ public class ReportDesignParseTest extends BaseTestCase
 		designHandle.setPageVariable( "variable10", value ); //$NON-NLS-1$
 
 		designHandle.setLocale( ULocale.CANADA_FRENCH );
+		
+		// Test on prepare
+		designHandle.setOnPrepare( "new onPrepare script" ); //$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

@@ -98,6 +98,7 @@ class DesignWriterImpl extends ModuleWriter
 	{
 		property( obj, IReportDesignModel.REFRESH_RATE_PROP );
 		property( obj, IModuleModel.INITIALIZE_METHOD );
+		property( obj, IReportDesignModel.ON_PREPARE_METHOD );
 		property( obj, IReportDesignModel.BEFORE_FACTORY_METHOD );
 		property( obj, IReportDesignModel.AFTER_FACTORY_METHOD );
 		property( obj, IReportDesignModel.BEFORE_RENDER_METHOD );

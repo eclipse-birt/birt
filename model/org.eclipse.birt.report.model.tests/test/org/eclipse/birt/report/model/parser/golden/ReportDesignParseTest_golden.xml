@@ -16,6 +16,7 @@
     <property name="helpGuide">Help guide</property>
     <property name="refreshRate">90</property>
     <method name="initialize"><![CDATA[new initialize script]]></method>
+    <method name="onPrepare"><![CDATA[new onPrepare script]]></method>
     <method name="beforeFactory"><![CDATA[new beforeFactory script]]></method>
     <method name="afterFactory"><![CDATA[new afterFactory script]]></method>
     <method name="beforeRender"><![CDATA[new beforeRender script]]></method>

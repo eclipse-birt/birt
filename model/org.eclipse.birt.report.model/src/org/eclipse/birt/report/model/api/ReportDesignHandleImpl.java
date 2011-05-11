@@ -1461,4 +1461,31 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		return null;
 	}
 
+	/**
+	 * Gets the on-prepare script of the report design. Startup phase. No data binding
+	 * yet. The design of an element can be changed here.
+	 * 
+	 * @return the on-prepare script of the report design 
+	 */
+
+	public String getOnPrepare( )
+	{
+		return getStringProperty( ON_PREPARE_METHOD );
+	}
+
+	/**
+	 * Sets the on-prepare script of the report design.
+	 * 
+	 * @param script
+	 *            the script to set
+	 * @throws SemanticException
+	 *             if the method is locked.
+	 * 
+	 * @see #getOnPrepare()
+	 */
+
+	public void setOnPrepare( String script ) throws SemanticException
+	{
+		setProperty( ON_PREPARE_METHOD, script );
+	}
 }

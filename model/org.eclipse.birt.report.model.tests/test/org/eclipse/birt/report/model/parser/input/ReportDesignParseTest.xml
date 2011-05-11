@@ -30,6 +30,7 @@
 	<property name="ACLExpression">acl expression test</property>
 	<property name="imageDPI">30</property>    
     <method name="initialize"><![CDATA[script of initialize]]></method>
+    <method name="onPrepare"><![CDATA[script of onPrepare]]></method>
     <method name="beforeFactory"><![CDATA[script of beforeFactory]]></method>
     <method name="afterFactory"><![CDATA[script of afterFactory]]></method>
     <method name="beforeOpenDoc"><![CDATA[script of beforeOpenDoc]]></method>

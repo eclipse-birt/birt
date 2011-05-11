@@ -1791,7 +1791,11 @@
   	<Property displayNameID="Element.ReportDesign.locale" name="locale" since="2.5" type="locale" />  	
 	<Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
-    </Method>  
+    </Method>
+    <Method context="startup" displayNameID="Element.ReportDesign.onPrepare" name="onPrepare" since="2.6.2" toolTipID="Element.ReportDesign.onPrepare.toolTip">
+      <Argument name="this" tagID="Element.ReportDesign.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IReportDesign"/>
+      <Argument name="reportContext" tagID="Element.ReportDesign.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>      
     <Method context="startup" displayNameID="Element.ReportDesign.beforeFactory" name="beforeFactory" since="1.0" toolTipID="Element.ReportDesign.beforeFactory.toolTip">
       <Argument name="this" tagID="Element.ReportDesign.beforeFactory.this" type="org.eclipse.birt.report.engine.api.script.element.IReportDesign"/>
       <Argument name="reportContext" tagID="Element.ReportDesign.beforeFactory.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>

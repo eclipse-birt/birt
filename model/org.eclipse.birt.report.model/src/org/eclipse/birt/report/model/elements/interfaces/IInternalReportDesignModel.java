@@ -201,5 +201,12 @@ public interface IInternalReportDesignModel
 	 * Name of the data object variable property.
 	 */
 	public static final String DATA_OBJECTS_PROP = "dataObjects"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the on-prepare property. It is for a script startup phase. No
+	 * data binding yet. The design of an element can be changed here.
+	 */
+
+	public static final String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
 
 }
