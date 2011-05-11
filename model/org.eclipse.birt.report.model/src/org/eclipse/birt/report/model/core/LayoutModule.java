@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -380,8 +381,11 @@ public abstract class LayoutModule extends Module
 
 		try
 		{
+			ModuleOption option = new ModuleOption( );
+			option.setMarkLineNumber( false );
+			
 			library = LibraryReader.getInstance( ).read( session, this, url,
-					namespace, url.openStream( ), null, reloadLibs );
+					namespace, url.openStream( ), option, reloadLibs );
 			library.setLocation( url );
 
 			if ( StringUtil.isBlank( namespace ) )

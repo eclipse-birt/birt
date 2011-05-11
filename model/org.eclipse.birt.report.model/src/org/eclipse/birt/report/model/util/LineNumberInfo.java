@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.model.util;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -66,14 +68,14 @@ public class LineNumberInfo
 	 * design element. Value is the line number.
 	 */
 
-	private HashMap<Long, Integer> elementMap = null;
+	private Map<Long, Integer> elementMap = null;
 
 	/**
 	 * The hash map for the xpath string-to-lineNumber lookup. Key is the xPath
 	 * of the slot or property and value is the line number.
 	 */
 
-	private HashMap<String, Integer> xpathMap = null;
+	private Map<String, Integer> xpathMap = null;
 
 	/**
 	 * The hash map for the <code>IncludeLibrary</code> structures
@@ -81,20 +83,20 @@ public class LineNumberInfo
 	 * library.
 	 */
 
-	private HashMap<String, Integer> includeLibStructMap = null;
+	private Map<String, Integer> includeLibStructMap = null;
 
 	/**
 	 * The hash map for the <code>EmbeddedImage</code> structures
 	 * name-to-lineNumber lookup. Key is the name of the embedded image.
 	 */
 
-	private HashMap<String, Integer> embeddedImageStructMap = null;
+	private Map<String, Integer> embeddedImageStructMap = null;
 
 	/**
 	 * Hash map for the <code>CssStyleSheet</code> structures namespace. Key is
 	 * the file name of the included css style sheet.
 	 */
-	private HashMap<String, Integer> includedCssStyleSheetStructMap = null;
+	private Map<String, Integer> includedCssStyleSheetStructMap = null;
 
 	/**
 	 * The line number for theme property in report design.
@@ -111,11 +113,11 @@ public class LineNumberInfo
 	public LineNumberInfo( Module module )
 	{
 		this.module = module;
-		elementMap = new HashMap<Long, Integer>( );
-		includeLibStructMap = new HashMap<String, Integer>( );
-		embeddedImageStructMap = new HashMap<String, Integer>( );
-		includedCssStyleSheetStructMap = new HashMap<String, Integer>( );
-		xpathMap = new HashMap<String, Integer>( );
+		elementMap = Collections.synchronizedMap( new HashMap<Long, Integer>( ) );
+		includeLibStructMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
+		embeddedImageStructMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
+		includedCssStyleSheetStructMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
+		xpathMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
 	}
 
 	/**
