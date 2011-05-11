@@ -45,7 +45,9 @@ public class RDLoadUtil
 		{
 			gNumber = groupStreams.size( );
 		}
-		else
+		else if ( streamManager.hasInStream( DataEngineContext.GROUP_INFO_STREAM,
+					streamPos,
+					streamScope ))
 		{
 			RAInputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
 					streamPos,

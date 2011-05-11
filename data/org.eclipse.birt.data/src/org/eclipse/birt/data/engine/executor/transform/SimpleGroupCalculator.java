@@ -361,15 +361,6 @@ public class SimpleGroupCalculator implements IGroupCalculator
 				this.aggrHelper.close( );
 				this.aggrHelper = null;
 			}
-			//TODO remove me
-			if( this.groupBys.length == 0 && this.streamManager!= null )
-			{
-				OutputStream out = streamManager.getOutStream( DataEngineContext.GROUP_INFO_STREAM,
-						StreamManager.ROOT_STREAM,
-						StreamManager.SELF_SCOPE );
-				IOUtil.writeInt(out, 0);
-				out.close();
-			}
 		}
 		catch ( IOException e )
 		{
