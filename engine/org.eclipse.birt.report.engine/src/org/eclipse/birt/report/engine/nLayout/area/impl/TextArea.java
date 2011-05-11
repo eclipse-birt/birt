@@ -64,6 +64,8 @@ public class TextArea extends AbstractArea implements ITextArea
 	 * justify the textArea.
 	 */
 	protected int whiteSpaceNumber;
+	
+	protected boolean needClip = false;
 
 	TextArea( TextArea area )
 	{
@@ -138,6 +140,13 @@ public class TextArea extends AbstractArea implements ITextArea
 	{
 		this.textLength += textLength;
 		this.width += wordWidth;
+	}
+	
+	public void addWordUsingMaxWidth( int textLength )
+	{
+		this.textLength += textLength;
+		this.width = maxWidth;
+		this.needClip = true;
 	}
 
 	public void addWordSpacing( int wordSpacing )
@@ -275,4 +284,8 @@ public class TextArea extends AbstractArea implements ITextArea
 		this.whiteSpaceNumber = whiteSpaceNumber;
 	}
 
+	public boolean needClip( )
+	{
+		return needClip;
+	}
 }

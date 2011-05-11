@@ -871,6 +871,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	protected void drawText( ITextArea text )
 	{
+		if ( text.needClip( ) )
+		{
+			startClip( text );
+		}
 		TextStyle style = text.getTextStyle( );
 		assert style != null;
 
@@ -902,6 +906,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			}
 		}
 		drawTextAt( text, x, y, getWidth( text ), getHeight( text ), style );
+		if ( text.needClip( ) )
+		{
+			endClip( );
+		}
 	}
 
 	protected void drawTextAt( ITextArea text, int x, int y, int width,

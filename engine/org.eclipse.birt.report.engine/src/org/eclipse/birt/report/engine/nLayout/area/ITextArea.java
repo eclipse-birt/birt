@@ -21,4 +21,6 @@ public interface ITextArea extends IArea
 	String getLogicalOrderText( );
 
 	TextStyle getTextStyle( );
+	
+	boolean needClip( );
 }
