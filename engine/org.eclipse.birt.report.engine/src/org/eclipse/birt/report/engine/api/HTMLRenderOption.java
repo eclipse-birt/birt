@@ -527,5 +527,14 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 	{
 		return getStringOption( HTML_VIEWPORT_META );
 	}
-	
+
+	public boolean isEnableCompactMode( )
+	{
+		return getBooleanOption( HTML_ENABLE_COMPACT_MODE, false );
+	}
+
+	public void setEnableCompactMode( boolean enableCompactMode )
+	{
+		setOption( HTML_ENABLE_COMPACT_MODE, enableCompactMode );
+	}
 }

@@ -288,6 +288,23 @@ public interface IHTMLRenderOption extends IRenderOption
 	 *            the base image URL
 	 */
 	public void setBaseImageURL( String baseImageURL );
+	
+	/**
+	 * returns whether to use compact mode for the HTML output, whose default
+	 * value is false.
+	 * 
+	 * @return
+	 */
+	public boolean isEnableCompactMode( );
+
+	/**
+	 * sets whether to use compact mode for the HTML output. If the compact mode
+	 * was used, text indents and new line separators will be ignored.
+	 * 
+	 * @param enableCompactMode
+	 */
+	public void setEnableCompactMode( boolean enableCompactMode );
+	
 	/**
 	 * Should the top-level template table be wrapped. Only effect if the
 	 * enable metadata is setting to <code>Boolea.TRUE</code>. The default
@@ -338,7 +355,13 @@ public interface IHTMLRenderOption extends IRenderOption
 	/**
 	 * Using inline style or not. This option only works when the report is
 	 * embeddable. True: Try to using the inline style to instead of style
-	 * class. Fals: Try to use the style class to compress the HTML source.
+	 * class. False: Try to use the style class to compress the HTML source.
 	 */
 	public static final String HTML_ENABLE_INLINE_STYLE = "htmlEnableInlineStyle";
+
+	/**
+	 * Using compact mode or not. If compact mode is enabled, text indents and
+	 * new line separators will be ignored in html output.
+	 */
+	public static final String HTML_ENABLE_COMPACT_MODE = "htmlEnableCompactMode";
 }

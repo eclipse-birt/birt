@@ -56,6 +56,8 @@ public class XMLWriter
 	 * whether or not using implicit closing tag.
 	 */
 	protected boolean bImplicitCloseTag = true;
+	
+	protected boolean enableCompactMode = false;
 
 	/**
 	 * Constructor
@@ -155,7 +157,7 @@ public class XMLWriter
 		}
 		if ( bIndent )
 		{
-			print( '\n' );
+			println( );
 			print( indent( ) );
 		}
 		bPairedFlag = false;
@@ -191,7 +193,7 @@ public class XMLWriter
 		{
 			if ( bIndent && !bText )
 			{
-				print( '\n' );
+				println( );
 				print( indent( ) );
 			}
 			print( "</" );
@@ -380,6 +382,10 @@ public class XMLWriter
 	 */
 	protected String indent( )
 	{
+		if ( enableCompactMode )
+		{
+			return INDENTS[0];
+		}
 		if ( indentCount < INDENTS.length )
 		{
 			return INDENTS[indentCount];
@@ -437,6 +443,24 @@ public class XMLWriter
 	}
 
 	/**
+	 * @return the enableCompactMode
+	 */
+	public boolean isEnableCompactMode( )
+	{
+		return enableCompactMode;
+	}
+
+	
+	/**
+	 * @param enableCompactMode
+	 *            the enableCompactMode to set
+	 */
+	public void setEnableCompactMode( boolean enableCompactMode )
+	{
+		this.enableCompactMode = enableCompactMode;
+	}
+
+	/**
 	 * @return Returns the bImplicitCloseTag.
 	 */
 	public boolean isImplicitCloseTag( )
@@ -477,13 +501,16 @@ public class XMLWriter
 
 	public void println( )
 	{
-		print( '\n' );
+		if ( !enableCompactMode )
+		{
+			print( '\n' );
+		}
 	}
 
 	public void println( String s )
 	{
 		print( s );
-		print( '\n' );
+		println( );
 	}
 
 	public void print( char c )
