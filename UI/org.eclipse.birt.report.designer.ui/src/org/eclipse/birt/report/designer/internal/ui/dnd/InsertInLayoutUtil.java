@@ -621,15 +621,16 @@ public class InsertInLayoutUtil
 				.add( factory.newTableRow( columnCount ) );
 		groupHandle.setName( columnName );
 
-		Expression expression = new Expression( ExpressionUtility.getColumnExpression( columnName,
-				ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
-				UIUtil.getDefaultScriptType( ) );
-
 		groupHandle.setExpressionProperty( IGroupElementModel.KEY_EXPR_PROP,
-				expression );
+				new Expression( ExpressionUtility.getColumnExpression( columnName,
+						ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
+						UIUtil.getDefaultScriptType( ) ) );
 
 		TOC toc = StructureFactory.createTOC( );
-		toc.setExpressionProperty( TOC.TOC_EXPRESSION, expression );
+		toc.setExpressionProperty( TOC.TOC_EXPRESSION,
+				new Expression( ExpressionUtility.getColumnExpression( columnName,
+						ExpressionUtility.getExpressionConverter( UIUtil.getDefaultScriptType( ) ) ),
+						UIUtil.getDefaultScriptType( ) ) );
 
 		groupHandle.addTOC( toc );
 
