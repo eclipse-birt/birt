@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.Parameter;
@@ -259,6 +260,12 @@ public class ContentRecord extends SimpleRecord
 
 			// second, handle the content refers other element
 			adjustReferredClients( content );
+			
+			// if the content is data-source, we should do special handling
+			if ( content instanceof DataSource )
+			{
+				module.updateCacheForDrop( (DataSource)content );
+			}
 
 		}
 

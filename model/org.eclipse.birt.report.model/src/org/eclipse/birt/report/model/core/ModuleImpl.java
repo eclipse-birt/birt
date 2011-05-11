@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.ContentElement;
+import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -335,11 +336,8 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final DesignElement findDataSource( String name )
 	{
-		return resolveElement(
-				null,
-				name,
-				null,
-				MetaDataDictionary.getInstance( ).getElement(
+		return resolveElement( null, name, null, MetaDataDictionary
+				.getInstance( ).getElement(
 						ReportDesignConstants.DATA_SOURCE_ELEMENT ) );
 	}
 
@@ -353,11 +351,8 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final DesignElement findDataSet( String name )
 	{
-		return resolveElement(
-				null,
-				name,
-				null,
-				MetaDataDictionary.getInstance( ).getElement(
+		return resolveElement( null, name, null, MetaDataDictionary
+				.getInstance( ).getElement(
 						ReportDesignConstants.DATA_SET_ELEMENT ) );
 	}
 
@@ -1270,7 +1265,8 @@ public abstract class ModuleImpl extends DesignElement
 	 * Search file taking <code>fileName</code> as relative file name and basing
 	 * "base" property of module;
 	 * <li>Search file with the file locator (<code>
-	 * IResourceLocator</code>) in session.
+	 * IResourceLocator</code>) in
+	 * session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -1310,7 +1306,8 @@ public abstract class ModuleImpl extends DesignElement
 	 * Search file taking <code>fileName</code> as relative file name and basing
 	 * "base" property of module;
 	 * <li>Search file with the file locator (<code>
-	 * IResourceLocator</code>) in session.
+	 * IResourceLocator</code>) in
+	 * session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -2425,10 +2422,7 @@ public abstract class ModuleImpl extends DesignElement
 
 	public final ReportItemTheme findReportItemTheme( String name )
 	{
-		return (ReportItemTheme) resolveElement(
-				null,
-				name,
-				null,
+		return (ReportItemTheme) resolveElement( null, name, null,
 				MetaDataDictionary.getInstance( ).getElement(
 						ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT ) );
 	}
@@ -2709,4 +2703,24 @@ public abstract class ModuleImpl extends DesignElement
 		return ThreadResources.getLocale( );
 	}
 
+	/**
+	 * 
+	 * @param source
+	 */
+	public void updateCacheForDrop( DataSource source )
+	{
+		// do nothing by default
+	}
+
+	/**
+	 * 
+	 * @param source
+	 * @param oldName
+	 * @param newName
+	 */
+	public void updateCacheForRename( DataSource source, String oldName,
+			String newName )
+	{
+		// do nothing by default
+	}
 }

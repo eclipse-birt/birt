@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.util.CommandLabelFactory;
 
@@ -82,6 +84,21 @@ public class NameRecord extends SimpleRecord
 		// if container is share dimension, then send the content event to all
 		// the client tabular dimension
 		updateSharedDimension( element.getRoot( ), element );
+
+		// if element is data source, we should do special handling
+		if ( element instanceof DataSource )
+		{
+			Module root = element.getRoot( );
+			if ( root != null )
+			{
+				if ( undo )
+					root.updateCacheForRename( (DataSource) element, newName,
+							oldName );
+				else
+					root.updateCacheForRename( (DataSource) element, oldName,
+							newName );
+			}
+		}
 	}
 
 	/*
