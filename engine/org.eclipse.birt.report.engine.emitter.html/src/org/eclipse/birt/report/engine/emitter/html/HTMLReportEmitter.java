@@ -153,6 +153,10 @@ import com.ibm.icu.util.ULocale;
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
+	/**
+	 * the name of the root DIV for BIRT html output.
+	 */
+	public static final String BIRT_ROOT = "__BIRT_ROOT";
 
 	protected boolean hasCsslinks = true;
 	/**
@@ -682,6 +686,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 
+			outputDIVTitle( report );
 			outputClientScript( report );
 
 			return;
@@ -769,6 +774,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		outputClientScript( report );
 	}
+	
+	protected void outputDIVTitle( IReportContent report )
+	{
+		String title = getReportTitle( report );
+		if ( title != null )
+		{
+			writer.attribute( HTMLTags.ATTR_TITLE, title );
+		}
+	}
 
 	/**
 	 * @return Get the content type of current format.
@@ -824,6 +838,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( isEmbeddable )
 		{
 			writer.openTag( HTMLTags.TAG_DIV );
+			// output DIV id attribute
+			String id = BIRT_ROOT;
+			if ( htmlIDNamespace != null )
+			{
+				id = htmlIDNamespace + id;
+			}
+			writer.attribute( HTMLTags.ATTR_ID, id );
 		}
 		else
 		{
@@ -837,6 +858,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * output the report title.
 	 */
 	protected void outputReportTitle( IReportContent report )
+	{
+		String title = getReportTitle( report );
+		if ( title != null )
+		{
+			writer.openTag( HTMLTags.TAG_TITLE );
+			writer.text( title );
+			writer.closeTag( HTMLTags.TAG_TITLE );
+		}
+	}
+
+	protected String getReportTitle( IReportContent report )
 	{
 		// write the title of the report in HTML.
 		String title = null;
@@ -853,12 +885,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				title = htmlOption.getHtmlTitle( );
 			}
 		}
-		if ( title != null )
-		{
-			writer.openTag( HTMLTags.TAG_TITLE );
-			writer.text( title );
-			writer.closeTag( HTMLTags.TAG_TITLE );
-		}
+		return title;
 	}
 	
 	private void outputCSSStyles( Report reportDesign,
