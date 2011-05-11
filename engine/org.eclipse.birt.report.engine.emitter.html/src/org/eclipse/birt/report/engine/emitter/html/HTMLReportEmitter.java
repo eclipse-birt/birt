@@ -82,7 +82,6 @@ import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
-import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
@@ -320,7 +319,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
 	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
-	protected HashSet<String> outputBookmarks = new HashSet<String>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -3225,17 +3223,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void outputBookmark( HTMLWriter writer, String tagName,
 			String htmlIDNamespace, String bookmark )
 	{
-		if ( outputBookmarks != null )
-		{
-			if ( outputBookmarks.contains( bookmark ) )
-			{
-				return;
-			}
-			else
-			{
-				outputBookmarks.add( bookmark );
-			}
-		}
 		HTMLEmitterUtil.setBookmark( writer, tagName, htmlIDNamespace, bookmark );
 	}
 
