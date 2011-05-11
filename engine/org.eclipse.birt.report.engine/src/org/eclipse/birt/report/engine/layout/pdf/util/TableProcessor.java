@@ -383,7 +383,7 @@ public class TableProcessor implements HTMLConstants
 
 		public void processNodes( )
 		{
-			HTML2Content.processNodes( element, cssStyles, content, action );
+			HTML2Content.processNodes( element, cssStyles, content, action, 0 );
 		}
 
 		public int getColSpan( )

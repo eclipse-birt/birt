@@ -412,6 +412,17 @@ public class HTML2Content implements HTMLConstants
 				TextParser.TEXT_TYPE_AUTO );
 
 	}
+	
+	protected static char[] listChar = new char[]{'\u2022', '\u25E6', '\u25AA'};
+
+	public static char getListChar( int nestCount )
+	{
+		if ( nestCount <= 2 )
+		{
+			return listChar[nestCount];
+		}
+		return listChar[2];
+	}
 
 	public static void html2Content( IForeignContent foreign )
 	{
@@ -464,7 +475,7 @@ public class HTML2Content implements HTMLConstants
 						CSSValueConstants.INLINE_VALUE );
 			}
 			addChild( foreign, container );
-			processNodes( body, styleMap, container, null );
+			processNodes( body, styleMap, container, null, 0 );
 			// formalizeInlineContainer( new ArrayList( ), foreign, container );
 		}
 	}
@@ -495,7 +506,7 @@ public class HTML2Content implements HTMLConstants
 	 * 
 	 */
 	static void processNodes( Element ele, Map cssStyles, IContent content,
-			ActionContent action )
+			ActionContent action, int nestCount )
 	{
 		int level = 0;
 		for ( Node node = ele.getFirstChild( ); node != null; node = node
@@ -506,7 +517,7 @@ public class HTML2Content implements HTMLConstants
 				if ( node.getFirstChild( ) instanceof Element )
 				{
 					processNodes( (Element) node.getFirstChild( ), cssStyles,
-							content, action );
+							content, action, nestCount );
 				}
 			}
 			else if ( node.getNodeName( ).equals( TAG_IMAGE ) ) //$NON-NLS-1$
@@ -514,7 +525,7 @@ public class HTML2Content implements HTMLConstants
 				if ( node.getFirstChild( ) instanceof Element )
 				{
 					processNodes( (Element) node.getFirstChild( ), cssStyles,
-							content, action );
+							content, action, nestCount );
 				}
 			}
 			else if ( node.getNodeName( ).equals( TAG_SCRIPT ) ) //$NON-NLS-1$
@@ -536,14 +547,14 @@ public class HTML2Content implements HTMLConstants
 			node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
 				handleElement( (Element) node, cssStyles, content, action,
-						++level );
+						++level, nestCount );
 			}
 		}
 	}
 
 	static void handleElement( Element ele,
 			Map<Element, StyleProperties> cssStyles, IContent content,
-			ActionContent action, int index )
+			ActionContent action, int index, int nestCount )
 	{
 		StyleProperties sp = cssStyles.get( ele );
 		if ( sp != null )
@@ -563,7 +574,7 @@ public class HTML2Content implements HTMLConstants
 			addChild( content, container );
 			handleStyle( ele, cssStyles, container );
 			ActionContent actionContent = handleAnchor( ele, container, action );
-			processNodes( ele, cssStyles, content, actionContent );
+			processNodes( ele, cssStyles, content, actionContent, 0 );
 		}
 		else if ( lTagName.equals( TAG_IMG ) ) //$NON-NLS-1$
 		{
@@ -597,7 +608,7 @@ public class HTML2Content implements HTMLConstants
 			column1 = new Column( report );
 			table.addColumn( column1 );
 			handleStyle( ele, cssStyles, table );
-			processNodes( ele, cssStyles, table, action );
+			processNodes( ele, cssStyles, table, action, nestCount );
 
 		}
 		else if ( lTagName.equals( TAG_LI ) //$NON-NLS-1$
@@ -629,13 +640,25 @@ public class HTML2Content implements HTMLConstants
 			addChild( row, orderCell );
 			TextContent text = (TextContent) report.createTextContent( );
 			addChild( orderCell, text );
-			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) ) //$NON-NLS-1$
+			boolean nestList = false;
+			int count = ele.getChildNodes( ).getLength( );
+			if ( count == 1 )
+			{
+				Node firstChild = ele.getFirstChild( );
+				String nodeName = firstChild.getNodeName( );
+				if ( TAG_OL.equals( nodeName ) || TAG_UL.equals( nodeName ) )
+				{
+					nestList = true;
+				}
+			}
+			
+			if ( ele.getParentNode( ).getNodeName( ).equals( TAG_OL ) && !nestList ) //$NON-NLS-1$
 			{
 				text.setText( Integer.valueOf( index ).toString( ) + "." ); //$NON-NLS-1$
 			}
-			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL ) ) //$NON-NLS-1$
+			else if ( ele.getParentNode( ).getNodeName( ).equals( TAG_UL )&& !nestList ) //$NON-NLS-1$
 			{
-				text.setText( new String( new char[]{'\u2022'} ) );
+				text.setText( new String( new char[]{getListChar( nestCount )} ) );
 			}
 
 			ICellContent childCell = report.createCellContent( );
@@ -645,7 +668,7 @@ public class HTML2Content implements HTMLConstants
 			childCell.setInlineStyle( style );
 			addChild( row, childCell );
 
-			processNodes( ele, cssStyles, childCell, action );
+			processNodes( ele, cssStyles, childCell, action, nestCount+1 );
 		}
 
 		else if ( lTagName.equals( TAG_DD ) || lTagName.equals( TAG_DT ) ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -678,12 +701,12 @@ public class HTML2Content implements HTMLConstants
 				childContainer.setInlineStyle( style );
 				addChild( container, childContainer );
 
-				processNodes( ele, cssStyles, container, action );
+				processNodes( ele, cssStyles, container, action, nestCount+1 );
 
 			}
 			else
 			{
-				processNodes( ele, cssStyles, container, action );
+				processNodes( ele, cssStyles, container, action, nestCount );
 			}
 
 		}
@@ -699,11 +722,11 @@ public class HTML2Content implements HTMLConstants
 			handleStyle( ele, cssStyles, container );
 			addChild( content, container );
 			// handleStyle(ele, cssStyles, container);
-			processNodes( ele, cssStyles, container, action );
+			processNodes( ele, cssStyles, container, action, nestCount );
 		}
 		else
 		{
-			processNodes( ele, cssStyles, content, action );
+			processNodes( ele, cssStyles, content, action, nestCount );
 		}
 	}
 
