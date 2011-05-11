@@ -1543,20 +1543,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		for ( int i = 0; i < bindings.size( ); i++ )
 		{
 			IBinding binding = (IBinding) bindings.get( i );
-			if ( binding.getAggrFunction( ) != null )
-			{
-				if ( IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( binding.getAggrFunction( ) )
-						|| IBuildInAggregation.TOTAL_BOTTOM_N_FUNC.equals( binding.getAggrFunction( ) )
-						|| IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( binding.getAggrFunction( ) )
-						|| IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( binding.getAggrFunction( ) ) )
-				{
-					throw new AdapterException( ResourceConstants.UNSUPPORTED_AGGR_IN_BINDING,
-							new Object[]{
-								binding.getBindingName( )
-							} );
-				}
-			}
-			
+
 			String measureName = OlapExpressionUtil.getMeasure( binding.getExpression( ) );
 			if ( measureName != null )
 			{
