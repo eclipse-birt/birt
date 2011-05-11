@@ -1220,9 +1220,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		// Update bounds from handle
 		// Here use render dpi to convert pixels since it's used to locate in
 		// report.
-		cm.getBlock( )
-				.setBounds( ChartItemUtil.computeChartBounds( modelHandle,
-						renderDpi ) );
+		Bounds b = ChartItemUtil.computeChartBounds( modelHandle, renderDpi );
+		if ( b != null )
+		{
+			cm.getBlock( ).setBounds( b );
+		}
 	}
 	
 	/**

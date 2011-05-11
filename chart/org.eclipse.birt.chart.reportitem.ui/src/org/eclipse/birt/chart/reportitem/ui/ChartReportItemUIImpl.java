@@ -174,6 +174,11 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( );
 			final int dpi = idsSWT.getDpiResolution( );
 			Bounds bounds = ChartItemUtil.computeChartBounds( eih, dpi );
+			if ( bounds == null )
+			{
+				return;
+			}
+			
 			final double dHeightInPixels = ( dpi * bounds.getHeight( ) ) / 72d;
 			final double dWidthInPixels = ( dpi * bounds.getWidth( ) ) / 72d;			
 
