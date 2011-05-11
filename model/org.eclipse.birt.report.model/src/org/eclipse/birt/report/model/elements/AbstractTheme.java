@@ -86,29 +86,24 @@ public abstract class AbstractTheme extends ReferenceableElement
 
 	public final List<StyleElement> getAllStyles( )
 	{
-		List<StyleElement> styleList = new ArrayList<StyleElement>( );
+		List styleList = new ArrayList<StyleElement>( );
 
 		// add style in css file
 		styleList.addAll( CssNameManager.getStyles( this ) );
 
 		// add style in theme slot
-
-		for ( int i = 0; i < slots[STYLES_SLOT].getCount( ); i++ )
+		List<DesignElement> styles = slots[STYLES_SLOT].getContents( );
+		if ( !styleList.isEmpty( ) )			
 		{
-			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
-					.getContent( i );
-			int pos = StyleUtil.getStylePosition( styleList, tmpStyle
-					.getFullName( ) );
-			if ( pos == -1 )
+			for ( DesignElement style: styles )		
 			{
-				styleList.add( tmpStyle );
-			}
-			else
-			{
-				styleList.remove( pos );
-				styleList.add( tmpStyle );
+				String name = ( (StyleElement)style ).getFullName( );
+				int pos = StyleUtil.getStylePosition( styleList, name );
+				if ( pos != -1 )
+					styleList.remove( pos );
 			}
 		}
+		styleList.addAll( styles );		
 		return styleList;
 	}
 

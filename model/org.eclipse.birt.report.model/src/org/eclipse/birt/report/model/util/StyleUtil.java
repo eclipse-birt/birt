@@ -103,7 +103,7 @@ public class StyleUtil
 		for ( int i = 0; i < styleList.size( ); ++i )
 		{
 			StyleElement style = styleList.get( i );
-			String styleName = style.getName( ).toLowerCase( );
+			String styleName = style.getName( );
 	
 			if ( styleName.equalsIgnoreCase( name ) )
 			{
