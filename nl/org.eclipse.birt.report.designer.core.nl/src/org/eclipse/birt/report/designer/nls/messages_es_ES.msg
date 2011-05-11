@@ -2979,6 +2979,7 @@ ParameterDialog.emptyColumnValueExpression.title=La expresión de columna de valo
 ParameterDialog.emptyColumnValueExpression.message=La expresión de columna de valor no puede estar vacía
 ParameterDialog.Value.Empty=Valor vacío
 ParameterDialog.Value.Null=Valor nulo
+ParameterDialog.message=Define the properties of the report parameter.
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
