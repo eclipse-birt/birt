@@ -2497,6 +2497,10 @@ Element.ReportDesign.locale=区域设置
 Element.ReportDesign.onPageStart=页面启动时
 Element.ReportDesign.onPageEnd=页面终止时
 Element.ReportDesign.dataMarts=DataMarts
+Element.ReportDesign.onPrepare=准备时
+Element.ReportDesign.onPrepare.this=报表设计
+Element.ReportDesign.onPrepare.toolTip=它用于脚本启动阶段。尚未进行数据绑定。此处可以更改元素的设计。
+Element.ReportDesign.onPrepare.reportContext=报表上下文
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称

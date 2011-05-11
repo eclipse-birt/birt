@@ -2497,6 +2497,10 @@ Element.ReportDesign.locale=Gebietsschema
 Element.ReportDesign.onPageStart=Am Seitenanfang
 Element.ReportDesign.onPageEnd=Am Seitenende
 Element.ReportDesign.dataMarts=DataMarts
+Element.ReportDesign.onPrepare=Beim Vorbereiten
+Element.ReportDesign.onPrepare.this=Berichtdesign
+Element.ReportDesign.onPrepare.toolTip=Für eine Skript-Startphase (noch keine Datenbindung). Das Design eines Elements kann hier geändert werden.
+Element.ReportDesign.onPrepare.reportContext=Berichtkontext
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename

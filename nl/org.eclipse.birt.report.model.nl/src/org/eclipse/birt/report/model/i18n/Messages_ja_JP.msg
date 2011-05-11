@@ -2497,6 +2497,10 @@ Element.ReportDesign.locale=ロケール
 Element.ReportDesign.onPageStart=ページの開始時
 Element.ReportDesign.onPageEnd=ページの終了時
 Element.ReportDesign.dataMarts=DataMarts
+Element.ReportDesign.onPrepare=準備時
+Element.ReportDesign.onPrepare.this=レポートデザイン
+Element.ReportDesign.onPrepare.toolTip=スクリプトのスタートアップフェーズ用です。まだデータバインドはありません。ここで要素のデザインを変更できます。
+Element.ReportDesign.onPrepare.reportContext=レポートのコンテキスト
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名

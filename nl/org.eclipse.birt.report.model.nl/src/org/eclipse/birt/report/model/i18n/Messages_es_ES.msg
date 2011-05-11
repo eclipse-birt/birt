@@ -2497,6 +2497,10 @@ Element.ReportDesign.locale=Configuración regional
 Element.ReportDesign.onPageStart=Al inicio de la página
 Element.ReportDesign.onPageEnd=Al final de la página
 Element.ReportDesign.dataMarts=Data Marts
+Element.ReportDesign.onPrepare=En preparación
+Element.ReportDesign.onPrepare.this=Diseño de informe
+Element.ReportDesign.onPrepare.toolTip=Para fase inicial de script. Aún sin enlace de datos. Puede modificar el diseño de un elemento.
+Element.ReportDesign.onPrepare.reportContext=Contexto de informe
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla

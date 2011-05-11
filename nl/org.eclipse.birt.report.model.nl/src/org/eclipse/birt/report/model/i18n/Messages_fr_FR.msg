@@ -2497,6 +2497,10 @@ Element.ReportDesign.locale=Informations locales
 Element.ReportDesign.onPageStart=A l'ouverture de la page
 Element.ReportDesign.onPageEnd=A la fermeture de la page
 Element.ReportDesign.dataMarts=DataMarts
+Element.ReportDesign.onPrepare=A la préparation
+Element.ReportDesign.onPrepare.this=Modèle d'état
+Element.ReportDesign.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
+Element.ReportDesign.onPrepare.reportContext=Contexte d'état
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nom d'affichage
