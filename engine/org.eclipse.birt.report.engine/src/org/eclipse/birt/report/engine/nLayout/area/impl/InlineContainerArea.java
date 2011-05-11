@@ -83,6 +83,13 @@ public class InlineContainerArea extends InlineStackingArea
 			addToExtension( area );
 			area.context = context;
 			area.children = children;
+			// update the pareant of all children
+			Iterator childIter = area.children.iterator( );
+			while ( childIter.hasNext( ) )
+			{
+				AbstractArea childArea = (AbstractArea) childIter.next( );
+				childArea.setParent( area );
+			}
 			area.setParent( parent );
 			children = new ArrayList( );
 			parent.addChild( area );
