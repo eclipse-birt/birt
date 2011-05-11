@@ -659,6 +659,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
+		setMessage( Messages.getString( "ParameterDialog.message" ) ); //$NON-NLS-1$
 		ScrolledComposite scrollContent = new ScrolledComposite( (Composite) super.createDialogArea( parent ),
 				SWT.H_SCROLL | SWT.V_SCROLL );
 		scrollContent.setAlwaysShowScrollBars( false );
