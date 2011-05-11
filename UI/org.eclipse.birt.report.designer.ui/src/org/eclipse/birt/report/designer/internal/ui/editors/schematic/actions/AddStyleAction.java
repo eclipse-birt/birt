@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -34,7 +35,7 @@ public class AddStyleAction extends ContextSelectionAction
 	/** action ID */
 	public static final String ID = "AddStyleAction"; //$NON-NLS-1$
 
-	private ThemeHandle themeHandle;
+	private AbstractThemeHandle themeHandle;
 
 	/**
 	 * Contructor
@@ -152,7 +153,7 @@ public class AddStyleAction extends ContextSelectionAction
 
 	}
 
-	public void setThemeHandle( ThemeHandle themeHandle )
+	public void setThemeHandle( AbstractThemeHandle themeHandle )
 	{
 		this.themeHandle = themeHandle;
 	}

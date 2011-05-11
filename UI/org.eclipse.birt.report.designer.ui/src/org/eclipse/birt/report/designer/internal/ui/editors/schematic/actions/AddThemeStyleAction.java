@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -22,9 +22,9 @@ public class AddThemeStyleAction extends Action
 {
 
 	private AddStyleAction addStyleAction;
-	private ThemeHandle themeHandle;
+	private AbstractThemeHandle themeHandle;
 
-	public AddThemeStyleAction( ThemeHandle themeHandle,
+	public AddThemeStyleAction( AbstractThemeHandle themeHandle,
 			AddStyleAction addStyleAction )
 	{
 		this.themeHandle = themeHandle;

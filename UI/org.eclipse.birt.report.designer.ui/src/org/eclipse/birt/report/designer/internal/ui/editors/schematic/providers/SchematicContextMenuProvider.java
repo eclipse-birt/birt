@@ -90,6 +90,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -109,7 +110,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -854,14 +854,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			for ( Iterator iter = themeSlot.getContents( ).iterator( ); iter.hasNext( ); )
 			{
 				Object obj = iter.next( );
-				if ( obj instanceof ThemeHandle )
+				if ( obj instanceof AbstractThemeHandle )
 				{
-					subMenu.add( new AddThemeStyleAction( (ThemeHandle) obj,
+					subMenu.add( new AddThemeStyleAction( (AbstractThemeHandle) obj,
 							(AddStyleAction) getAction( AddStyleAction.ID ) ) );
 				}
 			}
 			menu.add( subMenu );
-
 		}
 	}
 
