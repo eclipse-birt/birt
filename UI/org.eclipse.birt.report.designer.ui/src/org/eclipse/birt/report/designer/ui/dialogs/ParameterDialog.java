@@ -456,6 +456,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		public boolean editItem( final Object element )
 		{
 			final SelectionChoice choice = (SelectionChoice) element;
+			String oldVal = choice.getValue( );
 			boolean isDefault = isDefaultChoice( choice );
 			SelectionChoiceDialog dialog = new SelectionChoiceDialog( Messages.getString( "ParameterDialog.SelectionDialog.Edit" ), canBeNull( ), canUseEmptyValue( ) ); //$NON-NLS-1$
 			dialog.setInput( choice );
@@ -475,7 +476,6 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				// choice.setValue( convertToStandardFormat( choice.getValue( )
 				// ) );
-				String oldVal = choice.getValue( );
 				choice.setValue( choice.getValue( ) );
 				if ( isDefault )
 				{
@@ -1150,6 +1150,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					}
 
 				}
+
+				handleDefaultValueModifyEvent( );
 			}
 			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( controlType ) )
 			{
@@ -1184,6 +1186,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						defaultValueChooser.setText( defaultValue );
 					}
 				}
+				handleDefaultValueModifyEvent( );
 			}
 			else if ( PARAM_CONTROL_COMBO.equals( controlType )
 					|| PARAM_CONTROL_LIST.equals( controlType )
@@ -1264,12 +1267,13 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
 				defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
-
 			}
 			else if ( defaultValue != null )
 			{
 				defaultValueChooser.setText( defaultValue );
 			}
+
+			handleDefaultValueModifyEvent( );
 
 			initSorttingArea( );
 		}
@@ -1877,7 +1881,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 		// if change control type, keep first default value
 		// if control type is text, do not save null default value
-		if ( isInitialized && defaultValueList != null )
+		if ( isInitialized
+				&& defaultValueList != null
+				&& defaultValueList.size( ) > 0 )
 		{
 			Expression expression = getFirstDefaultValue( );
 			if ( enableAllowMultiValueVisible( )
@@ -2294,7 +2300,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		if ( defaultValueList != null )
 		{
-			Expression expression = new Expression( value, ExpressionType.CONSTANT );
+			Expression expression = new Expression( value,
+					ExpressionType.CONSTANT );
 			defaultValueList.remove( expression );
 			updateMessageLine( );
 			updateFormatField( );
@@ -2305,7 +2312,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		if ( defaultValueList != null )
 		{
-			Expression expression = new Expression( oldVal, ExpressionType.CONSTANT );
+			Expression expression = new Expression( oldVal,
+					ExpressionType.CONSTANT );
 			defaultValueList.remove( expression );
 
 			expression = new Expression( newVal, ExpressionType.CONSTANT );
@@ -2895,35 +2903,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				if ( !isStatic( )
-						&& enableAllowMultiValueVisible( )
-						&& allowMultiChoice.getSelection( ) )
-				{
-					updateDynamicTableButtons( );
-					return;
-				}
-				String value = defaultValueChooser.getText( );
-				String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
-				// if ( value.equals( CHOICE_NULL_VALUE )
-				// || value.equals( CHOICE_BLANK_VALUE ) )
-				// return;
-				if ( defaultValueList != null )
-					defaultValueList.clear( );
-				String modelValue = UIUtil.convertToModelString( value, false );
-				if ( modelValue != null )
-				{
-					setFirstDefaultValue( modelValue, type );
-				}
-				else
-				{
-					updateMessageLine( );
-					updateFormatField( );
-				}
-				if ( isStatic( ) )
-				{
-					refreshStaticValueTable( );
-				}
-
+				handleDefaultValueModifyEvent( );
 			}
 		} );
 
@@ -3467,6 +3447,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				clearDefaultValueChooser( checkBox.getSelection( ) );
 			}
+
+			handleDefaultValueModifyEvent( );
+
 			updateMessageLine( );
 		}
 	}
@@ -4458,5 +4441,40 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	{
 		return canBeNull( )
 				&& DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( getSelectedDataType( ) );
+	}
+
+	private void handleDefaultValueModifyEvent( )
+	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
+
+		if ( !isStatic( )
+				&& enableAllowMultiValueVisible( )
+				&& allowMultiChoice.getSelection( ) )
+		{
+			updateDynamicTableButtons( );
+			return;
+		}
+		String value = defaultValueChooser.getText( );
+		String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
+		// if ( value.equals( CHOICE_NULL_VALUE )
+		// || value.equals( CHOICE_BLANK_VALUE ) )
+		// return;
+		if ( defaultValueList != null )
+			defaultValueList.clear( );
+		String modelValue = UIUtil.convertToModelString( value, false );
+		if ( modelValue != null )
+		{
+			setFirstDefaultValue( modelValue, type );
+		}
+		else
+		{
+			updateMessageLine( );
+			updateFormatField( );
+		}
+		if ( isStatic( ) )
+		{
+			refreshStaticValueTable( );
+		}
 	}
 }
