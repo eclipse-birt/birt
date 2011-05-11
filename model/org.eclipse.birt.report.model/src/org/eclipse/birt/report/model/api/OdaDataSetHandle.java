@@ -33,7 +33,9 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * @see org.eclipse.birt.report.model.elements.OdaDataSet
  */
 
-public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
+public class OdaDataSetHandle extends DataSetHandle implements
+		IOdaDataSetModel,
+		IOdaExtendableElementModel
 {
 
 	/**
@@ -203,7 +205,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 
 	public String getExtensionID( )
 	{
-		return getStringProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP );
+		return getStringProperty( EXTENSION_ID_PROP );
 	}
 
 	/**
