@@ -466,12 +466,12 @@ public abstract class BreadcrumbViewer extends StructuredViewer
 	 */
 	protected void internalRefresh( Object element )
 	{
-
+		
 		disableRedraw( );
 		try
 		{
 			BreadcrumbItem item = (BreadcrumbItem) doFindItem( element );
-			if ( item == null )
+			if ( item == null ||  this.getRoot( ).equals( element ))
 			{
 				for ( int i = 0, size = fBreadcrumbItems.size( ); i < size; i++ )
 				{

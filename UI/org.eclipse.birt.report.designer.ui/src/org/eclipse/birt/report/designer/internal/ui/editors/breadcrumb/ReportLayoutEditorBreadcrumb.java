@@ -20,6 +20,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.DesignerBreadcrumbNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.validators.IValidationListener;
+import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.MenuManager;
@@ -29,7 +33,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.actions.ActionGroup;
 
-public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb
+public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb implements
+		IValidationListener
 {
 
 	private ProblemBreadcrumbViewer fViewer;
@@ -113,7 +118,29 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb
 		fViewer = new ProblemBreadcrumbViewer( parent, SWT.HORIZONTAL );
 		fViewer.setContentProvider( provier );
 		fViewer.setLabelProvider( provier );
+
+		if ( getEditor( ) != null )
+		{
+			ModuleHandle handle = (ModuleHandle) getEditor( ).getGraphicalViewer( )
+					.getRootEditPart( )
+					.getContents( )
+					.getModel( );
+			handle.addValidationListener( this );
+		}
+
 		return fViewer;
+	}
+	
+	public void dispose(){
+		if ( getEditor( ) != null )
+		{
+			ModuleHandle handle = (ModuleHandle) getEditor( ).getGraphicalViewer( )
+					.getRootEditPart( )
+					.getContents( )
+					.getModel( );
+			handle.removeValidationListener( this );
+		}
+		super.dispose( );
 	}
 
 	@Override
@@ -172,14 +199,12 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb
 	@Override
 	protected void activateBreadcrumb( )
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void deactivateBreadcrumb( )
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -192,4 +217,14 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb
 				manager );
 	}
 
+	public void elementValidated( DesignElementHandle targetElement,
+			ValidationEvent ev )
+	{
+		if ( fBreadcrumbViewer != null
+				&& fBreadcrumbViewer.getControl( ) != null
+				&& !fBreadcrumbViewer.getControl( ).isDisposed( ) )
+		{
+			fBreadcrumbViewer.refresh( );
+		}
+	}
 }

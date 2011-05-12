@@ -49,7 +49,7 @@ public abstract class EditorBreadcrumb implements IBreadcrumb
 	private GraphicalEditorWithFlyoutPalette fEditor;
 	// private ITextViewer fTextViewer;
 
-	private BreadcrumbViewer fBreadcrumbViewer;
+	protected BreadcrumbViewer fBreadcrumbViewer;
 
 //	private boolean fHasFocus;
 	private boolean fIsActive;

@@ -605,6 +605,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	{
 		// remove selection listener
 
+		if ( fBreadcrumb != null )
+		{
+			fBreadcrumb.dispose( );
+		}
+		
 		getPreferenceStore( ).removePropertyChangeListener( this );
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
@@ -630,6 +635,8 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		}
 		// ( (ReportMultiPageEditorSite)getSite()).dispose();
 		deActivateDesignerEditPart( );
+
+		
 	}
 
 	private void deActivateDesignerEditPart( )
