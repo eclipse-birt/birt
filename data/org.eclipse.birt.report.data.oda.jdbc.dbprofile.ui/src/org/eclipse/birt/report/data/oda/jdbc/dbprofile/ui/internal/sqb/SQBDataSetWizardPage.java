@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2010 Actuate Corporation.
+ * Copyright (c) 2008, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -389,9 +389,9 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	    // saves query and its metadata in DataSetDesign
         if( m_sqbDialog.isDirty() )
         {
-            String name = getInitializationDesign().getName();
             SQLQueryUtility.updateDataSetDesign( design, m_sqbDialog.getSQLQueryStatement(),
-                                            getConnectionProfile( false, false ) , name);
+                                            getConnectionProfile( false, false ), 
+                                            getInitializationDesign() );
             m_sqbDialog.setDirty( false );
         }
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2010 Actuate Corporation.
+ * Copyright (c) 2008, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,6 +32,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
+import org.eclipse.datatools.connectivity.oda.design.FilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
@@ -78,8 +79,9 @@ public class SQLQueryUtility
 	private static final String CLASS_NAME = SQLQueryUtility.class.getName();
 
     static void updateDataSetDesign( DataSetDesign dataSetDesign, 
-            final QueryStatement queryStmt, IConnectionProfile connProfile, String dataSetName )
+            final QueryStatement queryStmt, IConnectionProfile connProfile, final DataSetDesign origDataSetDesign )
     {
+        String dataSetName = origDataSetDesign.getName();
     	if ( dataSetName != null )
     		dataSetDesign.setName( dataSetName );
         // initialize
@@ -100,7 +102,7 @@ public class SQLQueryUtility
             
             // update the data set design with the 
             // query's current runtime metadata
-            updateQueryMetaData( dataSetDesign, customConn, queryStmt );
+            updateQueryMetaData( dataSetDesign, customConn, queryStmt, origDataSetDesign );
         }
         catch( OdaException e )
         {
@@ -153,7 +155,7 @@ public class SQLQueryUtility
      * obtained from the ODA runtime connection.
      */
     private static void updateQueryMetaData( DataSetDesign dataSetDesign,
-                               IConnection conn, final QueryStatement queryStmt )
+                            IConnection conn, final QueryStatement queryStmt, final DataSetDesign origDataSetDesign )
         throws OdaException
     {
         updateQueryText( dataSetDesign, queryStmt );
@@ -165,7 +167,9 @@ public class SQLQueryUtility
         try
         {
             IResultSetMetaData md = query.getMetaData();
-            updateResultSetDesign( dataSetDesign, md, queryStmt );
+            ResultSetDefinition origResultSetDefn = origDataSetDesign != null ?
+                        origDataSetDesign.getPrimaryResultSet() : null;
+            updateResultSetDesign( dataSetDesign, md, queryStmt, origResultSetDefn );
         }
         catch( OdaException e )
         {
@@ -251,7 +255,7 @@ public class SQLQueryUtility
      * @throws OdaException
      */
     private static void updateResultSetDesign( DataSetDesign dataSetDesign, 
-            IResultSetMetaData md, final QueryStatement queryStmt ) 
+            IResultSetMetaData md, final QueryStatement queryStmt, final ResultSetDefinition origResultSetDefn ) 
         throws OdaException
     {
         ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
@@ -267,7 +271,7 @@ public class SQLQueryUtility
 
         try
         {
-            updateResultSetCriteria( resultSetDefn, queryStmt );
+            updateResultSetCriteria( resultSetDefn, queryStmt, origResultSetDefn );
         }
         catch( OdaException ex )
         {
@@ -277,7 +281,7 @@ public class SQLQueryUtility
     
     @SuppressWarnings("unchecked")
     private static void updateResultSetCriteria( ResultSetDefinition resultSetDefn, 
-            final QueryStatement queryStmt )
+            final QueryStatement queryStmt, final ResultSetDefinition origResultSetDefn )
         throws OdaException
     {
         if( ! (queryStmt instanceof QuerySelectStatement) )
@@ -288,7 +292,13 @@ public class SQLQueryUtility
         ResultSetCriteria criteria = DesignFactory.eINSTANCE.createResultSetCriteria();
         criteria.setRowOrdering( DesignFactory.eINSTANCE.createSortSpecification() );
 
-        // no push-up of filter spec
+        // does not support push-up of filter spec; 
+        // preserve existing filterExpression, if any, from session request
+        FilterExpression origFilterExpr = getResultCriteriaFilterExpr( origResultSetDefn );
+        if( origFilterExpr != null )
+        {
+            criteria.setFilterSpecification( origFilterExpr );
+        }
         
         // include sort key hints, if query has an OrderBy clause
         List<OrderBySpecification> orderBySpecList = ((QuerySelectStatement) queryStmt).getOrderByClause();
@@ -306,6 +316,16 @@ public class SQLQueryUtility
         // gets here with no exception, ok to assign criteria to the result set design;
         // otherwise, result set criteria is not set so ODA host can preserve its version
         resultSetDefn.setCriteria( criteria );
+    }
+    
+    private static FilterExpression getResultCriteriaFilterExpr( ResultSetDefinition resultSetDefn )
+    {
+        if( resultSetDefn == null )
+            return null;
+        ResultSetCriteria resultSetCriteria = resultSetDefn.getCriteria();
+        if( resultSetCriteria == null )
+            return null;
+        return resultSetCriteria.getFilterSpecification();
     }
     
     private static SortKey convertToSortKeyDesignHint( OrderBySpecification orderBySpec, 
