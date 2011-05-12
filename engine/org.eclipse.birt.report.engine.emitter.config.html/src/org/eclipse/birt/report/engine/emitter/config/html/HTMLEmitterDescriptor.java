@@ -72,7 +72,7 @@ public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 		return getMessage( "HTMLEmitter.DisplayName" ); //$NON-NLS-1$
 	}
 
-	private String getMessage( String key )
+	protected String getMessage( String key )
 	{
 		return Messages.getString( key, locale );
 	}

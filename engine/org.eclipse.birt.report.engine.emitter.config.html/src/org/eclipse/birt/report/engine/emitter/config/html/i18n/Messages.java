@@ -60,8 +60,11 @@ public class Messages
 			bundle = localeToBundle.get( locale );
 			if ( bundle == null )
 			{
-				bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
-				localeToBundle.put( locale, bundle );
+				synchronized(localeToBundle)
+				{
+					bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
+					localeToBundle.put( locale, bundle );
+				}
 			}
 		}
 		return bundle == null ? RESOURCE_BUNDLE : bundle;
