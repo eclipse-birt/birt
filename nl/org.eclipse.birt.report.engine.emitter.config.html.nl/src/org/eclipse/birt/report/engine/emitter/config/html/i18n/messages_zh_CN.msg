@@ -13,6 +13,8 @@
 #HTML Emitter
 HTMLEmitter.Description=配置用于以 HTML (超文本标记语言)格式呈现报表的选项。
 HTMLEmitter.DisplayName=HTML
+XHTMLEmitter.Description=Configure options for rendering a report in XHTML format.
+XHTMLEmitter.DisplayName=XHTML
 
 ###########################################################
 #Option Display Value

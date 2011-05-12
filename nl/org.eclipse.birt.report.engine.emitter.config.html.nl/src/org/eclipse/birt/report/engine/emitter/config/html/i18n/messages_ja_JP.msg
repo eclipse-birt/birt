@@ -13,6 +13,8 @@
 #HTML Emitter
 HTMLEmitter.Description=HTML (HyperText Markup Language) 形式でレポートをレンダリングするためのオプションを設定します。
 HTMLEmitter.DisplayName=HTML
+XHTMLEmitter.Description=Configure options for rendering a report in XHTML format.
+XHTMLEmitter.DisplayName=XHTML
 
 ###########################################################
 #Option Display Value
