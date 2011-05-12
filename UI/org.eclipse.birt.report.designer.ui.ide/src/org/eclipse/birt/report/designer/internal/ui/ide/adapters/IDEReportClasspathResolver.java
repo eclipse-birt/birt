@@ -256,6 +256,10 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 				// String curPath = path.toOSString( );
 				// String directPath = project.getLocation( ).toOSString( );
 				// int index = directPath.lastIndexOf( File.separator );
+				if (path == null)
+				{
+					return null;
+				}
 				String absPath = getFullPath( path, project );
 
 				return absPath;
