@@ -26,6 +26,34 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
 public class ReportScriptExecutor extends ScriptExecutor
 {
+	
+	public static void handleOnPrepare( ReportDesignHandle report,
+			ExecutionContext context )
+	{
+		try
+		{
+			String scriptText = report.getOnPrepare( );
+			Expression.Script scriptExpr = null;
+			if ( null != scriptText )
+			{
+				String id = ModuleUtil
+						.getScriptUID( report
+								.getPropertyHandle( IReportDesignModel.ON_PREPARE_METHOD ) );
+				scriptExpr = Expression.newScript( scriptText );
+				scriptExpr.setFileName( id );
+			}
+			if ( handleScript( null, scriptExpr, context ).didRun( ) )
+				return;
+			IReportEventHandler eh = (IReportEventHandler) getInstance( report,
+					context );
+			if ( eh != null )
+				eh.onPrepare( context.getReportContext( ) );
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, report );
+		}
+	}
 
 	public static void handleInitialize( ModuleHandle design,
 			ExecutionContext context )

@@ -50,5 +50,11 @@ public class ReportEventAdapter implements IReportEventHandler
 	{
 
 	}
+	
+	public void onPrepare( IReportContext reportContext )
+			throws ScriptException
+	{
+
+	}
 
 }

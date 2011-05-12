@@ -69,6 +69,8 @@ abstract class  ScriptedDesignVisitor extends DesignVisitor
 	abstract protected void handleOnPrepare( GroupHandle handle );
 	
 	abstract protected void handleOnPrepare( RowHandle handle );
+	
+	abstract protected void handleOnPrepare( ReportDesignHandle handle );
 
 	/*
 	 * (non-Javadoc)
@@ -77,7 +79,7 @@ abstract class  ScriptedDesignVisitor extends DesignVisitor
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
-		// handleOnPrepare( handle );
+		handleOnPrepare( handle );
 
 		// Handle Master Page
 		SlotHandle pageSlot = handle.getMasterPages( );

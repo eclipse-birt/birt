@@ -45,4 +45,9 @@ public interface IReportEventHandler
 	 * Handle the afterRender event
 	 */
 	void afterRender( IReportContext reportContext ) throws ScriptException;
+	
+	/**
+	 * Handle the onPrepare event
+	 */
+	void onPrepare( IReportContext reportContext ) throws ScriptException;
 }

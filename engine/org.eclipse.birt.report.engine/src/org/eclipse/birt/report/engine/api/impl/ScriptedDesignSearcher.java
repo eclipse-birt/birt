@@ -41,6 +41,18 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 			hasOnPrepareScript = true;
 		}
 	}
+	
+	protected void handleOnPrepare( ReportDesignHandle handle )
+	{
+		if ( ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 )
+				|| ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 ) )
+		{
+			throw new StopException( );
+		}
+		
+	}
 
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
@@ -123,5 +135,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 		private static final long serialVersionUID = 1793414995245120248L;
 
 	}
+
+	
 
 }

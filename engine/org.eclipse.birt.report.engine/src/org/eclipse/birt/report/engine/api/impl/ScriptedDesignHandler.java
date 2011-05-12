@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ListGroupScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.RowScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableGroupScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.TableScriptExecutor;
@@ -91,6 +92,32 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 		super( handle );
 
 		this.executionContext = executionContext;
+	}
+	
+	protected void handleOnPrepare( ReportDesignHandle handle )
+	{
+		boolean hasJavaScript = ( handle.getOnPrepare( ) != null )
+				&& ( handle.getOnPrepare( ).length( ) != 0 );
+		boolean hasJavaCode = ( handle.getEventHandlerClass( ) != null )
+				&& ( handle.getEventHandlerClass( ).length( ) != 0 );
+		if ( !hasJavaScript && !hasJavaCode )
+			return;
+		executionContext.pushHandle( handle );
+		if ( hasJavaScript )
+		{
+			IDesignElement element = SimpleElementFactory.getInstance( )
+					.getElement( handle );
+			processOnPrepareScript( handle, element );
+			return;
+		}
+		try
+		{
+			ReportScriptExecutor.handleOnPrepare( handle, executionContext );
+		}
+		finally
+		{
+			executionContext.popHandle( );
+		}
 	}
 
 	protected void handleOnPrepare( ReportItemHandle handle )
@@ -170,6 +197,44 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 		finally
 		{
 			executionContext.popHandle( );
+		}
+	}
+	
+	private void processOnPrepareScript( ReportDesignHandle handle, Object element )
+	{
+		if ( element != null )
+		{
+			executionContext.newScope( element );
+		}
+		try
+		{
+			if ( handle.getOnPrepare( ) != null )
+			{
+				if ( handle.getOnPrepare( ) != null )
+				{
+					String scriptText = handle.getOnPrepare( );
+					if ( null != scriptText )
+					{
+						String id = ModuleUtil
+						.getScriptUID( handle
+								.getPropertyHandle( IReportItemModel.ON_PREPARE_METHOD ) );
+						executionContext.evaluate( id, scriptText );
+					}
+				}
+			}
+			return;
+		}
+		catch ( BirtException ex )
+		{
+			executionContext.addException( handle, ex );
+			return;
+		}
+		finally
+		{
+			if ( element != null )
+			{
+				executionContext.exitScope( );
+			}
 		}
 	}
 
