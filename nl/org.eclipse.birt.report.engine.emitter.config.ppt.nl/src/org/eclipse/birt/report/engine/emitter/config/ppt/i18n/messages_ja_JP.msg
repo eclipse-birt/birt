@@ -12,7 +12,7 @@
 ###########################################################
 #PPT Emitter
 PPTEmitter.Description=単一ファイル Web アーカイブ (MHTML) 形式でレポートをレンダリングするためのオプションを設定します。
-PPTEmitter.DisplayName=PowerPoint (MHTML)
+PPTEmitter.DisplayName=PowerPoint (PPT)
 
 ###########################################################
 #Option Display Value

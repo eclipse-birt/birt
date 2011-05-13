@@ -12,7 +12,7 @@
 ###########################################################
 #PPT Emitter
 PPTEmitter.Description=配置用于以单一文件 Web 存档(MHTML)格式呈现报表的选项。
-PPTEmitter.DisplayName=PowerPoint (MHTML)
+PPTEmitter.DisplayName=PowerPoint (PPT)
 
 ###########################################################
 #Option Display Value

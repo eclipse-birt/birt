@@ -12,7 +12,7 @@
 ###########################################################
 #PPT Emitter
 PPTEmitter.Description=Optionen zum Rendern eines Berichts im Format Single File Web Archive (MHTML) konfigurieren.
-PPTEmitter.DisplayName=PowerPoint (MHTML)
+PPTEmitter.DisplayName=PowerPoint (PPT)
 
 ###########################################################
 #Option Display Value
