@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.config;
 
+import java.util.Locale;
+
 /**
  * IEmitterConfigurationManager
  */
@@ -26,6 +28,17 @@ public interface IEmitterConfigurationManager
 	 */
 	IEmitterDescriptor getEmitterDescriptor( String emitterID );
 
+	/**
+	 * Returns an emitter descriptor with the specified emitter ID.
+	 * 
+	 * @param emitterID
+	 *            the emitter ID.
+	 * @param locale
+	 * 			  the descriptor locale           
+	 * @return an emitter descriptor with the specified emitter ID.
+	 */
+	IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale );
+	
 	/**
 	 * Register a custom emitter descriptor manually. It will overwrite the
 	 * descriptor with same emitter id if exists.

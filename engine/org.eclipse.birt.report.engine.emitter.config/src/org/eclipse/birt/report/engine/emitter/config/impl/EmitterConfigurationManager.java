@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.emitter.config.impl;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.core.framework.FrameworkException;
@@ -185,6 +186,36 @@ public class EmitterConfigurationManager implements
 		return desc;
 	}
 
+	public IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale )
+	{
+		if ( emitterID == null )
+		{
+			return null;
+		}
+
+		IEmitterDescriptor desc = null;
+
+		IConfigurationElement element = configCache.get( emitterID );
+		if ( element != null )
+		{
+			try
+			{
+				desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
+				if ( desc != null )
+				{
+					desc.setLocale( locale );
+				}
+			}
+			catch ( FrameworkException e )
+			{
+				e.printStackTrace( );
+			}
+		
+		}
+
+		return desc;
+	}
+	
 	/**
 	 * Register a custom emitter descriptor manually. It will overwrite the
 	 * descriptor with same emitter id if exists.
