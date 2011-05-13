@@ -62,6 +62,28 @@ interface IResourceLocatorBase {
 	 */
 	
 	public final static int OTHERS = 0;
+	
+	/**
+	 * Key for the location to search in appContext.
+	 */
+	public final static String BIRT_RESOURCELOCATOR_SEARCH_LOCATION = "birtResourceLocatorSearchLocation";  //$NON-NLS-1$
+	
+	/**
+	 * The location mask which searches in the file system with path.
+	 */
+	public final static int RESOURCE_FILEPATH = 0x01;
+	/**
+	 * The location mask which searches in the resource bundle.
+	 */
+	public final static int RESOURCE_BUNDLE = 0x02;
+	/**
+	 * The location mask which searches in the resource folder.
+	 */
+	public final static int RESOURCE_FOLDER = 0x04;
+	/**
+	 * The location mask which searches the file relative to design.
+	 */
+	public final static int RESOURCE_DESIGN = 0x08;
 
 	/**
 	 * Searches the file by the given file name. The actual search algorithm

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-
-
 /**
  * Implements this interface to provide a custom file search algorithm. This
  * class defines the file search algorithm used to locate files referenced in
@@ -25,11 +23,19 @@ package org.eclipse.birt.report.model.api;
  * The default file locator is <code>{@link DefaultResourceLocator}</code>.
  * <p>
  * The customized file search must be installed before opening designs. Set the
- * file locator using {@link
- * org.eclipse.birt.report.model.api.SessionHandle#setResourceLocator(IResourceLocator)}
+ * file locator using
+ * {@link org.eclipse.birt.report.model.api.SessionHandle#setResourceLocator(IResourceLocator)}
  * method.
  */
 
 public interface IResourceLocator extends IResourceLocatorBase
 {
+
+	/**
+	 * The location mask which searches all the locations. 
+	 */	
+	public int ALL_RESOURCE = RESOURCE_FILEPATH 
+			| RESOURCE_BUNDLE
+			| RESOURCE_FOLDER
+			| RESOURCE_DESIGN;
 }

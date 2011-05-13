@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -43,22 +44,7 @@ public class ResourceLocatorImplBase implements IResourceLocator
 	public URL findResource( ModuleHandle moduleHandle, String fileName,
 			int type )
 	{
-		URL u = null;
-
-		if ( fileName == null )
-			return u;
-
-		switch ( type )
-		{
-			case IResourceLocator.MESSAGE_FILE :
-				u = getMessageFile( moduleHandle, fileName );
-				break;
-			default :
-				u = getResource( moduleHandle, fileName );
-				break;
-		}
-		return u;
-
+		return findResource( moduleHandle, fileName, type, Collections.EMPTY_MAP );
 	}
 
 	/*
@@ -72,7 +58,33 @@ public class ResourceLocatorImplBase implements IResourceLocator
 	public URL findResource( ModuleHandle moduleHandle, String fileName,
 			int type, Map appContext )
 	{
-		return findResource( moduleHandle, fileName, type );
+		URL u = null;
+
+		if ( fileName == null )
+			return u;
+
+		int location = RESOURCE_BUNDLE
+				| RESOURCE_FOLDER
+				| RESOURCE_FILEPATH
+				| RESOURCE_DESIGN;
+
+		if ( appContext != null )
+		{
+			Object loc = appContext.get( BIRT_RESOURCELOCATOR_SEARCH_LOCATION );
+			if ( loc instanceof Integer )
+				location = ( (Integer) loc ).intValue( );
+		}
+
+		switch ( type )
+		{
+			case IResourceLocator.MESSAGE_FILE :
+				u = getMessageFile( moduleHandle, fileName, location );
+				break;
+			default :
+				u = getResource( moduleHandle, fileName, location );
+				break;
+		}
+		return u;
 	}
 
 	/**
@@ -82,24 +94,27 @@ public class ResourceLocatorImplBase implements IResourceLocator
 	 *            module handle
 	 * @param fileName
 	 *            file name
+	 * @param location
+	 *            the location to search
 	 * @return message file URL.
 	 */
 
-	private URL getMessageFile( ModuleHandle moduleHandle, String fileName )
+	private URL getMessageFile( ModuleHandle moduleHandle, String fileName,
+			int location )
 	{
 		if ( moduleHandle == null )
 			return null;
 
 		ULocale locale = moduleHandle.getModule( ).getSession( ).getLocale( );
 
-		List<String> possibleFiles = BundleHelper.getHelper(
-				moduleHandle.getModule( ), fileName ).getMessageFilenames(
-				locale );
+		List<String> possibleFiles = BundleHelper.getHelper( moduleHandle.getModule( ),
+				fileName )
+				.getMessageFilenames( locale );
 
 		for ( int i = 0; i < possibleFiles.size( ); i++ )
 		{
 			String filename = possibleFiles.get( i );
-			URL url = getResource( moduleHandle, filename );
+			URL url = getResource( moduleHandle, filename, location );
 			if ( url != null )
 				return url;
 		}
@@ -114,47 +129,51 @@ public class ResourceLocatorImplBase implements IResourceLocator
 	 *            module handle
 	 * @param fileName
 	 *            file name
+	 * @param location
+	 *            the location to search
 	 * @return resource url
 	 */
 
-	private URL getResource( ModuleHandle moduleHandle, String fileName )
+	private URL getResource( ModuleHandle moduleHandle, String fileName,
+			int location )
 	{
-
 		// try absolute path search
-
-		URL retURL = tryDiskFileSearch( null, fileName );
-		if ( retURL != null )
-			return retURL;
-
-		// try url search
-
-		try
+		if ( ( location & RESOURCE_FILEPATH ) != 0 )
 		{
-			retURL = tryURLSearch( new URL( fileName ) );
+			URL retURL = tryDiskFileSearch( null, fileName );
 			if ( retURL != null )
 				return retURL;
-		}
-		catch ( MalformedURLException e )
-		{
-			// ignore the error
-		}
 
+			// try url search
+
+			try
+			{
+				retURL = tryURLSearch( new URL( fileName ) );
+				if ( retURL != null )
+					return retURL;
+			}
+			catch ( MalformedURLException e )
+			{
+				// ignore the error
+			}
+		}
 		// if module is null, then can not search the resource path or systemId
-		if ( moduleHandle == null )
+		if ( moduleHandle == null && ( location & RESOURCE_BUNDLE ) != 0 )
 			return tryFragmentSearch( fileName );
 
 		// try file search based on resource path, value set on the session
 		// takes the higher priority than that in the module itself
 
-		String resourcePath = moduleHandle.getModule( ).getSession( )
+		String resourcePath = moduleHandle.getModule( )
+				.getSession( )
 				.getResourceFolder( );
 
 		if ( StringUtil.isBlank( resourcePath ) )
 			resourcePath = moduleHandle.getResourceFolder( );
 
-		if ( resourcePath != null )
+		if ( resourcePath != null && ( location & RESOURCE_FOLDER ) != 0 )
 		{
-			retURL = tryDiskFileSearch( resourcePath, fileName );
+			URL retURL = tryDiskFileSearch( resourcePath, fileName );
 			if ( retURL != null )
 				return retURL;
 
@@ -174,19 +193,19 @@ public class ResourceLocatorImplBase implements IResourceLocator
 		}
 
 		// try fragment search
-
-		retURL = tryFragmentSearch( fileName );
-		if ( retURL != null )
-			return retURL;
+		if ( ( location & RESOURCE_BUNDLE ) != 0 )
+		{
+			URL retURL = tryFragmentSearch( fileName );
+			if ( retURL != null )
+				return retURL;
+		}
 
 		// try file search based on path of the input module
-
 		URL systemId = moduleHandle.getModule( ).getSystemId( );
-		if ( systemId == null )
-			return null;
+		if ( systemId != null && ( location & RESOURCE_DESIGN ) != 0 )
+			return tryURLSearch( systemId, fileName );
 
-		return tryURLSearch( systemId, fileName );
-
+		return null;
 	}
 
 	/**
@@ -200,17 +219,15 @@ public class ResourceLocatorImplBase implements IResourceLocator
 	private boolean isGlobalResource( URL url )
 	{
 		if ( URIUtilImpl.FTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
-				|| URIUtilImpl.HTTP_SCHEMA
-						.equalsIgnoreCase( url.getProtocol( ) )
-				|| URIUtilImpl.HTTPS_SCHEMA
-						.equalsIgnoreCase( url.getProtocol( ) )
-				|| URIUtilImpl.MAIL_SCHEMA
-						.equalsIgnoreCase( url.getProtocol( ) ) )
+				|| URIUtilImpl.HTTP_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
+				|| URIUtilImpl.HTTPS_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
+				|| URIUtilImpl.MAIL_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
 			return true;
 
 		if ( url.getFile( ).toLowerCase( ).startsWith( URIUtilImpl.FTP_SCHEMA )
-				|| url.getFile( ).toLowerCase( ).startsWith(
-						URIUtilImpl.HTTP_SCHEMA ) )
+				|| url.getFile( )
+						.toLowerCase( )
+						.startsWith( URIUtilImpl.HTTP_SCHEMA ) )
 			return true;
 
 		return false;
@@ -242,8 +259,8 @@ public class ResourceLocatorImplBase implements IResourceLocator
 			}
 			else
 			{
-				retURL = tryURLSearch( new URL( baseURL, URIUtil
-						.convertFileNameToURLString( fileName ) ) );
+				retURL = tryURLSearch( new URL( baseURL,
+						URIUtil.convertFileNameToURLString( fileName ) ) );
 			}
 		}
 		catch ( MalformedURLException e )
@@ -339,8 +356,8 @@ public class ResourceLocatorImplBase implements IResourceLocator
 		try
 		{
 			if ( SecurityUtil.exists( f ) && SecurityUtil.isFile( f ) )
-				return SecurityUtil.fileToURI(
-						SecurityUtil.getCanonicalFile( f ) ).toURL( );
+				return SecurityUtil.fileToURI( SecurityUtil.getCanonicalFile( f ) )
+						.toURL( );
 		}
 		catch ( MalformedURLException e )
 		{
