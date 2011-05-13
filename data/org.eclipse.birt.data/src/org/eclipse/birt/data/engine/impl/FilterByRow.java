@@ -24,11 +24,12 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.expression.CompareHints;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.FilterUtil;
+import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
@@ -316,6 +317,7 @@ public class FilterByRow implements IResultObjectEvent
 			logger.entering( FilterByRow.class.getName( ), "process" );
 			boolean isAccepted = true;
 			Iterator filterIt = currentFilters.iterator( );
+			IResultIterator cachedIterator = dataSet.getResultSet( );
 			dataSet.setRowObject( row, false );
 			dataSet.setCurrentRowIndex( rowIndex );
 			Mode temp = dataSet.getMode( );
@@ -390,6 +392,8 @@ public class FilterByRow implements IResultObjectEvent
 						throw e1;
 					}
 				}
+				if( cachedIterator!= null )
+					this.dataSet.setResultSet( cachedIterator, false );
 				return isAccepted;
 			}
 			finally
