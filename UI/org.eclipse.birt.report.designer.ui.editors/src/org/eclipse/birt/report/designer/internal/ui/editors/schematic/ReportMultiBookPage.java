@@ -25,6 +25,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.IFormPage;
@@ -253,8 +254,13 @@ public class ReportMultiBookPage extends Page implements
 				&& previousPage.getControl( ) != null
 				&& !previousPage.getControl( ).isDisposed( ) )
 		{
-			previousPage.getControl( ).dispose( );
-			previousPage.dispose( );
+			final IPageBookViewPage disposePage = previousPage;
+			Display.getDefault( ).asyncExec( new Runnable(){
+				public void run(){
+					disposePage.getControl( ).dispose( );
+					disposePage.dispose( );
+				}
+			} );
 		}
 	}
 
