@@ -12,7 +12,7 @@
 ###########################################################
 #Postscript Emitter
 PostscriptEmitter.Description=Configure las opciones para presentar un informe en formato PostScript.
-PostscriptEmitter.DisplayName=PostScript
+PostscriptEmitter.DisplayName=PostScript (PS)
 
 ###########################################################
 #Option Display Value

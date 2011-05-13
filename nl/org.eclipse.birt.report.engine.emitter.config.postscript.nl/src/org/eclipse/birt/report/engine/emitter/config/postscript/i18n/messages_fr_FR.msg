@@ -12,7 +12,7 @@
 ###########################################################
 #Postscript Emitter
 PostscriptEmitter.Description=Configurez les options pour un rendu de rapport au format PostScript.
-PostscriptEmitter.DisplayName=PostScript
+PostscriptEmitter.DisplayName=PostScript (PS)
 
 ###########################################################
 #Option Display Value

@@ -12,7 +12,7 @@
 ###########################################################
 #Postscript Emitter
 PostscriptEmitter.Description=PostScript 형식의 보고서 렌더링 옵션을 구성합니다.
-PostscriptEmitter.DisplayName=PostScript
+PostscriptEmitter.DisplayName=PostScript (PS)
 
 ###########################################################
 #Option Display Value

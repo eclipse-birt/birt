@@ -12,7 +12,7 @@
 ###########################################################
 #Postscript Emitter
 PostscriptEmitter.Description=配置用于以 PostScript 格式呈现报表的选项。
-PostscriptEmitter.DisplayName=PostScript
+PostscriptEmitter.DisplayName=PostScript (PS)
 
 ###########################################################
 #Option Display Value
