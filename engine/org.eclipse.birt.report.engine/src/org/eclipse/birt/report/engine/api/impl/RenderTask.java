@@ -80,6 +80,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 	protected ITOCReader tocReader;
 	protected boolean designLoaded = false;
 	protected boolean variablesLoaded = false;
+	
+	//the flag of render page by page
+	protected boolean PDFRenderPageByPage = true;
 
 	/**
 	 * @param engine
@@ -273,6 +276,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 			}
 
 			updateRtLFlag( );
+			
+			ReportDesignHandle design = executionContext.getReportDesign( );
+			if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
+					.equals( design.getLayoutPreference( ) ) )
+			{
+				executionContext.setFixedLayout( true );
+			}
 
 			if ( innerRender == null )
 			{
@@ -426,6 +436,16 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
+				/* if fixed-layout, need render page by page, or pagination may different with html in the following case:
+				 * 1. element is set visibility to false in pdf format
+				 * 2. element is set display to none
+				 */
+				if ( RenderTask.this.PDFRenderPageByPage
+						&& executionContext.isFixedLayout( ) )
+				{
+					return true;
+				}
+				
 				// the output pages is sequential or there is no page sequence,
 				// in this case, we can output the report content as a whole and
 				// the HTML layout engine may re-paginate the content into
