@@ -210,7 +210,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 					fileURL = PluginResourceLocator.toFileURL( fileURL );
 					if ( fileURL == null )
 					{
-						logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
+						logger.warning( "Unable to find derby.jar in org.apache.derby.core plugin." );
 					}
 					else
 					{
@@ -220,7 +220,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				}
 				catch ( IOException e )
 				{
-					logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
+					logger.warning( "Unable to find derby.jar in org.apache.derby.core plugin." );
 				}			
 		}
 		
