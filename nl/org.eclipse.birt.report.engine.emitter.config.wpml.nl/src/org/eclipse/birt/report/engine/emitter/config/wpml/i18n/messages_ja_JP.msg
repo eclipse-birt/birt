@@ -12,7 +12,7 @@
 ###########################################################
 #Word Emitter
 WordEmitter.Description=XML ドキュメント 2003 形式でレポートをレンダリングするためのオプションを設定します。
-WordEmitter.DisplayName=Word (XML ドキュメント 2003)
+WordEmitter.DisplayName=Word (DOC)
 
 ###########################################################
 #Option Display Value
