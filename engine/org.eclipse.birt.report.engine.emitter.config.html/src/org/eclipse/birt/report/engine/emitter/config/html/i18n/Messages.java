@@ -62,8 +62,12 @@ public class Messages
 			{
 				synchronized(localeToBundle)
 				{
-					bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
-					localeToBundle.put( locale, bundle );
+					bundle = localeToBundle.get( locale );
+					if ( bundle == null)
+					{
+						bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
+						localeToBundle.put( locale, bundle );
+					}
 				}
 			}
 		}
