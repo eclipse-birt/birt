@@ -1325,7 +1325,7 @@ public class TextEditor extends BaseDialog
 							.iterator( ); iter.hasNext( ); )
 					{
 						//text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
-						buffer.append( iter.next( ) + "=\"\" " );//$NON-NLS-1$
+						buffer.append( " " + iter.next( ) + "=\"\"" );//$NON-NLS-1$ //$NON-NLS-2$
 					}
 					frontTag = tag.getName( ).replaceFirst( ">", buffer.toString( ) + ">" ); //$NON-NLS-1$ //$NON-NLS-2$					
 				}
