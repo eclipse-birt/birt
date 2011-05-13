@@ -43,7 +43,7 @@ public class Hierarchy implements IHierarchy
 	private IDocumentManager documentManager = null;
 	private IDocumentObject documentObj = null;
 	private IDocumentObject offsetDocObj = null;
-	private Level[] levels = null;
+	protected Level[] levels = null;
 	private String name = null;
 	private Map levelMap = new HashMap( );
 	private String dimensionName;
@@ -471,12 +471,18 @@ public class Hierarchy implements IHierarchy
 	private DimensionRow readDimensionRow( )
 			throws IOException
 	{
+		Member[] levelMembers = populateLevelMembers( );
+		return new DimensionRow( levelMembers );
+	}
+
+	protected Member[] populateLevelMembers( ) throws IOException
+	{
 		Member[] levelMembers = new Member[levels.length];
 		for ( int i = 0; i < levelMembers.length; i++ )
 		{
 			levelMembers[i] = readLevelMember( levels[i] );
 		}
-		return new DimensionRow( levelMembers );
+		return levelMembers;
 	}
 	
 	/**
@@ -485,7 +491,7 @@ public class Hierarchy implements IHierarchy
 	 * @return
 	 * @throws IOException
 	 */
-	private Member readLevelMember( Level level )
+	protected Member readLevelMember( Level level )
 			throws IOException
 	{
 		Member levelMember = new Member( );

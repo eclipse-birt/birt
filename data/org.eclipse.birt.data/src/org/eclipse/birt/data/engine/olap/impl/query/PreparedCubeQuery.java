@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -43,6 +44,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	private DataEngineContext context;
 	private Map appContext;
 	private List<IJSFacttableFilterEvalHelper> internalFilters;
+	private Map<String, Set<String>> inaccessibleDimLevels;
 	
 	/**
 	 * 
@@ -58,6 +60,15 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		this.internalFilters = new ArrayList<IJSFacttableFilterEvalHelper> ();
 		if ( !containsDrillFilter( defn ) )		
 			validateQuery( );
+	}
+	
+	public void setInAccessibleDimLevels( Map<String, Set<String>> inaccessibleDimLevels )
+	{
+	}
+	
+	public Map<String, Set<String>> getInaccessibleDimLevels( )
+	{
+		return null;
 	}
 	
 	public List<IJSFacttableFilterEvalHelper> getInternalFilters( )

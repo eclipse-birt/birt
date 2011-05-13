@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -40,14 +39,15 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 public class Dimension implements IDimension
 {
 	
-	private String name = null;
-	private IDocumentManager documentManager = null;
+	protected String name = null;
+	protected IDocumentManager documentManager = null;
 	private IDocumentObject documentObj = null;
 	private Hierarchy hierarchy = null;
 	private int length = 0;
 	private boolean isTime;
 	private static Logger logger = Logger.getLogger( Dimension.class.getName( ) );
-
+	
+	protected Dimension( ){}
 	/**
 	 * 
 	 * @param name
@@ -97,7 +97,7 @@ public class Dimension implements IDimension
 		logger.exiting( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE );
 	}
 
-	private void loadFromDisk( ) throws IOException, DataException
+	protected void loadFromDisk( ) throws IOException, DataException
 	{
 		documentObj = documentManager.openDocumentObject( NamingUtil.getDimensionDocName( name ) );
 		if ( documentObj == null )
@@ -107,7 +107,7 @@ public class Dimension implements IDimension
 		}
 		isTime = documentObj.readBoolean( );
 		String hierarchyName = documentObj.readString( );
-		hierarchy = new Hierarchy( documentManager, name, hierarchyName );
+		hierarchy = this.loadHierarchy( hierarchyName );
 		hierarchy.loadFromDisk( );
 		length = hierarchy.size( );
 		Level[] levels = ( Level[] ) hierarchy.getLevels( );
@@ -123,6 +123,11 @@ public class Dimension implements IDimension
 		}
 		documentObj.close( );
 		documentObj = null;
+	}
+	
+	protected Hierarchy loadHierarchy( String hierarchyName )
+	{
+		return new Hierarchy( documentManager, name, hierarchyName );
 	}
 	
 	/*
@@ -320,7 +325,7 @@ public class Dimension implements IDimension
 	{
 		return length;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IDimension#close()
 	 */

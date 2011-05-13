@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
+import org.eclipse.birt.data.engine.olap.data.impl.SecuredCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
@@ -166,6 +167,23 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return cube;
 	}
 	
+	/**
+	 * 
+	 * @param cube
+	 * @throws BirtException 
+	 * @throws IOException 
+	 */
+	public static ICube loadCube( String cubeName,
+			IDocumentManager documentManager, StopSign stopSign, Map<String, Set<String>> notAccessibleDimLvls ) throws IOException, DataException
+	{
+		if ( documentManager == null )
+		{
+			throw new DataException( ResourceConstants.FAIL_LOAD_CUBE, cubeName );
+		}
+		SecuredCube cube = new SecuredCube( cubeName, documentManager, notAccessibleDimLvls );
+		cube.load( stopSign );
+		return cube;
+	}
 	/**
 	 * 
 	 * @param name

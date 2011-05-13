@@ -35,7 +35,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor;
 public class Cube implements ICube
 {
 	private String name;
-	private IDocumentManager documentManager;
+	protected IDocumentManager documentManager;
 	private IDimension[] dimension;
 	private FactTable factTable;
 
@@ -167,13 +167,20 @@ public class Cube implements ICube
 
 		for ( int i = 0; i < dimension.length; i++ )
 		{
-			dimension[i] = DimensionFactory.loadDimension( documentObject.readString( ),
-					documentManager );
+			String name = documentObject.readString( );
+			dimension[i] = loadDimension( name );
 		}
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		factTable = factTableConstructor.load( name,
 				stopSign );
 		documentObject.close( );
+	}
+
+	protected IDimension loadDimension( String name ) throws DataException,
+			IOException
+	{
+		return DimensionFactory.loadDimension( name,
+				documentManager );
 	}
 
 	/*

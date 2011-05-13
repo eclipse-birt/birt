@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -46,6 +47,13 @@ public class DimensionFactory
 		return new Dimension( name, documentManager );
 	}
 
+	public static IDimension loadDimension( String name,
+			IDocumentManager documentManager, Set<String> notAccessibleLevels ) throws DataException,
+			IOException
+	{
+		return new SecuredDimension( name, documentManager, notAccessibleLevels );
+	}
+	
 	public static IDimension createTimeDimension( String name,
 			IDatasetIterator iterator, String levelColumnName,
 			int[] timeDimTypes )

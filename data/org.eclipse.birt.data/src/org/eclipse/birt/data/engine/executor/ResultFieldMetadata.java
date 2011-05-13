@@ -36,7 +36,8 @@ public class ResultFieldMetadata
 	private String m_analysisColumn;
 	private boolean m_indexColumn;
 	private boolean m_compressedColumn;
-
+	private boolean accessible = true;
+	
 	public ResultFieldMetadata( int driverPosition, String name, 
 						 		String label, Class dataType,
 								String nativeTypeName, boolean isCustom )
@@ -196,5 +197,15 @@ public class ResultFieldMetadata
     public void setDriverProvidedDataType( Class odaDataTypeAsClass )
     {
         m_driverProvidedDataType = odaDataTypeAsClass;
+    }
+    
+    public boolean isAccessible( )
+    {
+    	return this.accessible;
+    }
+    
+    public void setAccessibility( boolean accessible )
+    {
+    	this.accessible = accessible;
     }
 }
