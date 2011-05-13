@@ -12,7 +12,7 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=Configure las opciones para presentar un informe en formato de hoja de cálculo XML 2003.
-ExcelEmitter.DisplayName=Excel (hoja de cálculo XML 2003)
+ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value

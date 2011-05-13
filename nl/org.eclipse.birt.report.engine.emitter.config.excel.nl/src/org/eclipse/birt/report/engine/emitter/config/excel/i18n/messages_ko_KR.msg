@@ -12,7 +12,7 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=XML 스프레드시트 2003 형식의 보고서 렌더링 옵션을 구성합니다.
-ExcelEmitter.DisplayName=Excel(XML Spreadsheet 2003)
+ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value

@@ -12,7 +12,7 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=配置用于以 XML Spreadsheet 2003 格式呈现报表的选项。
-ExcelEmitter.DisplayName=Excel (XML Spreadsheet 2003)
+ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value

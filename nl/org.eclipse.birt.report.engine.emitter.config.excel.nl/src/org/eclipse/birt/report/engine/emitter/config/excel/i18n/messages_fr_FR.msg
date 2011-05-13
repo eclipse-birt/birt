@@ -12,7 +12,7 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=Configurez les options pour un rendu de rapport au format feuille de calcul XML 2003.
-ExcelEmitter.DisplayName=Excel (Feuille de calcul XML 2003)
+ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value

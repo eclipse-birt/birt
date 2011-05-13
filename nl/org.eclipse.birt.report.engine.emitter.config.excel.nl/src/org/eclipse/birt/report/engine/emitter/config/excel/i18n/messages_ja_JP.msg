@@ -12,7 +12,7 @@
 ###########################################################
 #Excel Emitter
 ExcelEmitter.Description=XML スプレッドシート 2003 形式でレポートをレンダリングするためのオプションを設定します。
-ExcelEmitter.DisplayName=Excel (XML スプレッドシート 2003)
+ExcelEmitter.DisplayName=Excel (XLS)
 
 ###########################################################
 #Option Display Value
