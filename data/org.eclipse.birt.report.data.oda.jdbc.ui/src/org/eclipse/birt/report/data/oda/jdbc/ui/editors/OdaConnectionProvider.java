@@ -2,7 +2,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
 import java.util.Properties;
 
-import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -26,7 +26,7 @@ public class OdaConnectionProvider
 		{
 			return connection;
 		}
-		IDriver jdbcDriver = new OdaJdbcDriver( );
+		IDriver jdbcDriver = JDBCDriverManager.getInstance().getDriver( dataSourceDesign.getOdaExtensionId( ) );
 		try 
 		{
 			connection = jdbcDriver.getConnection( dataSourceDesign.getOdaExtensionId( ) );

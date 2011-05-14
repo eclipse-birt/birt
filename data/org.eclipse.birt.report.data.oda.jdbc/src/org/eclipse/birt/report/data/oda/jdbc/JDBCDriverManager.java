@@ -40,7 +40,10 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 import org.eclipse.datatools.connectivity.services.PluginResourceLocator;
 
 import com.ibm.icu.util.ULocale;
@@ -375,6 +378,26 @@ public class JDBCDriverManager
 		return url == null || url.trim().toString().length() == 0;
 	}
     
+	public IDriver getDriver( String extensionId ) throws OdaException
+	{
+		IDriver driver = null;
+		try 
+		{
+			ExtensionManifest ex = ManifestExplorer.getInstance( ).getExtensionManifest( extensionId );
+			if( ex!= null && ex.getDataSourceElement().getAttribute( "driverClass" )!= null )
+				driver = (IDriver) ex.getDataSourceElement( ).createExecutableExtension( "driverClass" );
+		} 
+		catch ( Exception e) 
+		{
+			//Ignore exception as we can still continue with the OdaJdbcDriver.
+			 if ( logger.isLoggable( Level.FINER ))
+		            logger.finer( "Failed to load driver from extension:" + extensionId ); 
+		}
+		if( driver == null )
+			driver = new OdaJdbcDriver();
+		return driver;
+	}
+	
 	/** 
 	 * Searches extension registry for connection factory defined for driverClass. Returns an 
 	 * instance of the factory if there is a connection factory for the driver class. Returns null
