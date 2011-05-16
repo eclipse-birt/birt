@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
@@ -200,21 +201,33 @@ public class EngineException extends BirtException {
 	@Override
 	public String getLocalizedMessage( )
 	{
+		StringBuffer message = new StringBuffer( );
 		if ( birtException != null )
 		{
-			return birtException.getLocalizedMessage( );
+			message.append( birtException.getLocalizedMessage( ) );
 		}
-		return super.getLocalizedMessage( );
+		else
+		{
+			message.append( super.getLocalizedMessage( ) );
+		}
+
+		if ( message.length( ) > 0 && elementId >= 0 )
+		{
+			message.append( " (" );
+			message.append( EngineResourceHandle.getInstance( )
+					.getMessage( MessageConstants.ELEMENT_ID ) );
+			message.append( ":" );
+			message.append( elementId );
+			message.append( ")" );
+		}
+
+		return message.toString( );
 	}
 
 	@Override
 	public String getMessage( )
 	{
-		if ( birtException != null )
-		{
-			return birtException.getMessage( );
-		}
-		return super.getMessage( );
+		return getLocalizedMessage( );
 	}
 
 	@Override

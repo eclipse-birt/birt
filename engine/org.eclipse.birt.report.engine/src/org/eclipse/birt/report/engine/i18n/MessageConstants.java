@@ -140,6 +140,9 @@ public class MessageConstants
     public static final String  UNKNOWN_CONTENT_VERSION = "Error.UnknownContentVersion"; 
     public static final String  UNKNOWN_FIELD_ID = "Error.UnknownFieldID";
     public static final String  RESOURCE_NOT_ACCESSIBLE = "Error.ResourceNotAccessible";
+    
+    //Element ID for engine exception
+    public static final String 	ELEMENT_ID = "Error.ElementID";
 }
 
 
