@@ -127,3 +127,6 @@ Error.UnsupportedExprssionType = Type d'expression non pris en charge.
 Error.UnknownContentVersion = Contenu de version inconnu.
 Error.UnknownFieldID = ID de champ inconnue : {0}.
 Error.ResourceNotAccessible = {0} n'est pas accessible.
+
+###########################################################
+Error.ElementID = Element ID

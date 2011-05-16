@@ -127,3 +127,6 @@ Error.UnsupportedExprssionType = この式の型はサポートされていません。
 Error.UnknownContentVersion = コンテンツのバージョンが不明です。
 Error.UnknownFieldID = フィールド ID {0} は不明です。
 Error.ResourceNotAccessible = {0} にアクセスできません。
+
+###########################################################
+Error.ElementID = Element ID

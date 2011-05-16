@@ -127,3 +127,6 @@ Error.UnsupportedExprssionType = 不支持的表达式类型。
 Error.UnknownContentVersion = 未知内容版本。
 Error.UnknownFieldID = 未知字段 id: {0}。
 Error.ResourceNotAccessible = {0} 不可访问。
+
+###########################################################
+Error.ElementID = Element ID
