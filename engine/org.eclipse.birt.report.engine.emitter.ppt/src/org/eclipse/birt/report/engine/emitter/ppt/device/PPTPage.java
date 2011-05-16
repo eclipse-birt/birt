@@ -57,9 +57,15 @@ public class PPTPage extends AbstractPage
 			isDisposed = true;
 		}
 	}
-
+	
 	protected void clip( float startX, float startY, float width, float height )
 	{
+		writer.clip( startX, startY, width, height );
+	}
+
+	protected void clipEnd( )
+	{
+		writer.clipEnd( );
 	}
 	
 	protected void drawBackgroundColor( Color color, float x, float y,

@@ -40,6 +40,7 @@ public abstract class AbstractPage implements IPage
 	
 	public void endClip( )
 	{
+		clipEnd( );
 		restoreState( );
 	}
 
@@ -143,6 +144,11 @@ public abstract class AbstractPage implements IPage
 	}
 
 	protected abstract void clip( float startX, float startY, float width, float height );
+	
+	protected void clipEnd( )
+	{
+		
+	}
 	
 	protected abstract void saveState( );
 	

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -482,11 +483,81 @@ public class PPTWriter
 				print( "href=3D\"" + hyperlink + "\" target=3D\"_parent\"" );
 			}
 		}
-		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		Crop crop = checkCrop( x, y, width, height);
+		if ( crop == null )
+		{
+			println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+		else
+		{
+			ClipArea clip = clipStack.peek( );
+			println( " style=3D'position:absolute;left:" + clip.x + "pt;top:" + clip.y + "pt;width:" + clip.width + "pt;height:" + clip.height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
-		println( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"/>" ); //$NON-NLS-1$
+		print( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"" );
+		if ( crop != null )
+		{
+			if ( crop.top != 0 )
+			{
+				print( " croptop=3D\"" + crop.top + "f\"" );
+			}
+			if ( crop.left != 0d )
+			{
+				print( " cropleft=3D\"" + crop.left + "f\"" );
+			}
+			if ( crop.right != 0d )
+			{
+				print( " cropright=3D\"" + crop.right + "f\"" );
+			}
+			if ( crop.bottom != 0d )
+			{
+				print( " cropbottom=3D\"" + crop.bottom + "f\"" );
+			}
+		}
+		println( "/>" );
 		println( "<o:lock v:ext=3D'" + "edit" + "' aspectratio=3D't" + "'/>" );
-		println( "</v:shape>" ); //$NON-NLS-1$			
+		println( "</v:shape>" ); //$NON-NLS-1$
+	}
+	
+	private Crop checkCrop( double x, double y, double width, double height )
+	{
+		ClipArea clip = clipStack.peek( );
+		int left = 0, right = 0, top = 0, bottom = 0;
+		if ( x < clip.x )
+		{
+			left = (int) ( ( clip.x - x ) * 100 );
+		}
+		if ( y < clip.y )
+		{
+			top = (int) ( ( clip.y - y ) * 100 );
+		}
+		if ( x + width > clip.x + clip.width )
+		{
+			right = (int) ( ( ( x + width ) - ( clip.x + clip.width ) ) * 100 );
+		}
+		if ( y + height > clip.y + clip.height )
+		{
+			bottom = (int) ( ( ( y + height ) - ( clip.y + clip.height ) ) * 100 );
+		}
+		if ( left != 0 || right != 0 || top != 0 || bottom != 0 )
+		{
+			return new Crop( left, right, top, bottom );
+		}
+		return null;
+	}
+
+	private class Crop
+	{
+
+		int left, right, top, bottom;
+
+		Crop( int left, int right, int top, int bottom )
+		{
+			this.left = left;
+			this.right = right;
+			this.top = top;
+			this.bottom = bottom;
+		}
 	}
 
 	private String getImageExtension( String imageURI )
@@ -852,5 +923,32 @@ public class PPTWriter
 			// XXX Other language attributes can be addressed as needed
 			return " dir=3D'ltr' lang=3D'EN-US'"; //$NON-NLS-1$
 		}
+	}
+	
+	private Stack<ClipArea> clipStack = new Stack<ClipArea>( );
+
+	private class ClipArea
+	{
+
+		float x, y, width, height;
+
+		ClipArea( float x, float y, float width, float height )
+		{
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+	}
+
+	public void clip( float startX, float startY, float width, float height )
+	{
+		clipStack.push( new ClipArea( startX, startY, width, height ) );
+	}
+
+	public void clipEnd( )
+	{
+		clipStack.pop( );
+
 	}
 }
