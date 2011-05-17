@@ -51,7 +51,7 @@ public class LayoutContext
 	
 	protected boolean autoPageBreak = true;
 	
-	protected String supportedImageFormats = "PNG;GIF;JPG;BMP;";
+	protected String supportedImageFormats = "PNG;GIF;JPG;BMP;SVG";
 	
 	protected boolean finished = false;
 	
