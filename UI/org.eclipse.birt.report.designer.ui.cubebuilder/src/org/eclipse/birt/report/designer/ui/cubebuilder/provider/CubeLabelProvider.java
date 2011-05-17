@@ -265,7 +265,10 @@ public class CubeLabelProvider extends LabelProvider
 	private Map<String, List<String>> getColumnMap( )
 	{
 		Map<String, List<String>> columnMap = new HashMap<String, List<String>>( );
-
+		
+		if(input == null)
+			return columnMap;
+		
 		List list = input.getContents( CubeHandle.DIMENSIONS_PROP );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
