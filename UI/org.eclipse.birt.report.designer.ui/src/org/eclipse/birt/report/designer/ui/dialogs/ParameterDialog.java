@@ -84,11 +84,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -125,6 +123,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
@@ -956,6 +955,15 @@ public class ParameterDialog extends BaseTitleAreaDialog
 						defaultValueList.clear( );
 						defaultValueList.add( expression );
 						valueTable.refresh( );
+					}
+
+					// Switch from multiple selection to single selection.
+					// Deselect all if more than one item is selected.
+					Table table = staticTableArea.getTableViewer( ).getTable( );
+					if ( table.getSelectionCount( ) > 1 )
+					{
+						table.deselectAll( );
+						updateStaticTableButtons( );
 					}
 				}
 				initDefaultValueViewer( );
@@ -2097,7 +2105,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		tableAreaComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		tableAreaComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		staticTableArea = new TableArea( tableAreaComposite, SWT.SINGLE
+		staticTableArea = new TableArea( tableAreaComposite, SWT.MULTI
 				| SWT.FULL_SELECTION
 				| SWT.BORDER, tableAreaModifier );
 		GridData data = new GridData( GridData.FILL_BOTH );
@@ -2137,14 +2145,30 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		valueTable.setContentProvider( contentProvider );
 		valueTable.setLabelProvider( labelProvider );
 		staticTableArea.setInput( choiceList );
-		valueTable.addSelectionChangedListener( new ISelectionChangedListener( ) {
 
-			public void selectionChanged( SelectionChangedEvent event )
+		valueTable.getTable( ).addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
 			{
-				updateStaticTableButtons( );
+				if ( e.item instanceof TableItem )
+				{
+					if ( !allowMultiChoice.getSelection( )
+							&& valueTable.getTable( ).getSelectionCount( ) > 1 )
+					{
+						valueTable.getTable( ).deselectAll( );
+						valueTable.getTable( )
+								.setSelection( (TableItem) e.item );
+					}
+					updateStaticTableButtons( );
+
+				}
 			}
 
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
 		} );
+
 		Composite buttonBar = new Composite( tableAreaComposite, SWT.NONE );
 		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( 4, false ) );
 		buttonBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -2241,12 +2265,28 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				if ( isDefaultChoice( choice ) )
 				{
 					// changeDefaultValue( null );
-					removeDefaultValue( choice.getValue( ) );
+					Iterator iter = ( (IStructuredSelection) valueTable.getSelection( ) ).iterator( );
+					while ( iter.hasNext( ) )
+					{
+						Object obj = iter.next( );
+						if ( obj instanceof SelectionChoice )
+						{
+							removeDefaultValue( ( (SelectionChoice) obj ).getValue( ) );
+						}
+					}
 				}
 				else
 				{
 					// changeDefaultValue( choice.getValue( ) );
-					addDefaultValue( choice.getValue( ) );
+					Iterator iter = ( (IStructuredSelection) valueTable.getSelection( ) ).iterator( );
+					while ( iter.hasNext( ) )
+					{
+						Object obj = iter.next( );
+						if ( obj instanceof SelectionChoice )
+						{
+							addDefaultValue( ( (SelectionChoice) obj ).getValue( ) );
+						}
+					}
 				}
 				refreshStaticValueTable( );
 				changeDefault.getParent( ).layout( );
@@ -3515,6 +3555,25 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		if ( valueTable.getSelection( ).isEmpty( ) )
 		{
 			isEnable = false;
+		}
+		else if ( ( (IStructuredSelection) valueTable.getSelection( ) ).size( ) > 1 )
+		{
+			selectedChoice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
+			boolean firstIsDefault = isDefaultChoice( selectedChoice );
+			Iterator iter = ( (IStructuredSelection) valueTable.getSelection( ) ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object obj = iter.next( );
+				if ( obj instanceof SelectionChoice )
+				{
+					// contains both default and non-default items
+					if ( firstIsDefault	^ isDefaultChoice( (SelectionChoice) obj ) )
+					{
+						isEnable = false;
+						break;
+					}
+				}
+			}
 		}
 		else
 		{
