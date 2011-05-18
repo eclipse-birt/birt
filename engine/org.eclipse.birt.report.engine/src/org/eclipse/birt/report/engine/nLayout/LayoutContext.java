@@ -251,7 +251,29 @@ public class LayoutContext
 	{
 		return this.preferenceWidth;
 	}
+	
+	protected int pageLimit = -1;
+	
+	public void setPageLimit( int pageLimit )
+	{
+		this.pageLimit = pageLimit;
+	}
 
+	public int getPageLimit( )
+	{
+		return this.pageLimit;
+	}
+	
+	public boolean exceedPageLimit()
+	{
+		if ( ( engineTaskType == IEngineTask.TASK_RENDER || engineTaskType == IEngineTask.TASK_RUNANDRENDER )
+				&& pageLimit > 0 && this.pageCount >= pageLimit )
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	protected boolean textWrapping = true;
 
 	public void setTextWrapping( boolean textWrapping )

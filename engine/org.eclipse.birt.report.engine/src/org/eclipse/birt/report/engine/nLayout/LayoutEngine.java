@@ -225,6 +225,16 @@ public class LayoutEngine extends LayoutEmitterAdapter
 					context.setTextWrapping( false );
 				}
 			}
+			Object pageLimit = options.get( IPDFRenderOption.PDF_PAGE_LIMIT );
+			if ( pageLimit != null && pageLimit instanceof Integer )
+			{
+				int limit = ( (Integer) pageLimit ).intValue( );
+				if ( limit > 0 )
+				{
+					context.setPageLimit( limit );
+				}
+			}
+
 			Object fontSubstitution = options
 					.get( IPDFRenderOption.PDF_FONT_SUBSTITUTION );
 			if ( fontSubstitution != null
@@ -820,8 +830,11 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		}
 		if ( null != emitter )
 		{
-			emitter.startPage( page );
-			emitter.endPage( page );
+			if ( !context.exceedPageLimit( ) )
+			{
+				emitter.startPage( page );
+				emitter.endPage( page );
+			}
 		}
 		context.pageCount++;
 		if ( pageHandler != null )
