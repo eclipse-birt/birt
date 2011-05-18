@@ -68,6 +68,8 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 				return reportExecutor.hasNextChild( );
 			}
 		};
+		
+		context.setPageLM( this );
 	}
 
 	public int getType( )
@@ -103,7 +105,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		return isLastPage;
 	}
 
-	protected void layoutPageContent( IPageContent pageContent )
+	public void layoutPageContent( IPageContent pageContent )
 			throws BirtException
 	{
 		IContent header = pageContent.getPageHeader( );

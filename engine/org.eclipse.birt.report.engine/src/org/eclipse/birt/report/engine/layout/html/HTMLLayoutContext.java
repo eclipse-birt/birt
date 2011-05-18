@@ -74,6 +74,18 @@ public class HTMLLayoutContext
 			newMasterPage = null;
 		}
 	}
+	
+	protected HTMLPageLM pageLM;
+	
+	public HTMLPageLM getPageLM( )
+	{
+		return pageLM;
+	}
+
+	public void setPageLM( HTMLPageLM pageLM )
+	{
+		this.pageLM = pageLM;
+	}
 
 	public void setLayoutPageContent( boolean needLayoutPageContent )
 	{

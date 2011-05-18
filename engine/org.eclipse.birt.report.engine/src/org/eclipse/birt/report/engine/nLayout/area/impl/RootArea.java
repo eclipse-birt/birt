@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.LayoutEmitterAdapter;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
@@ -173,6 +174,13 @@ public class RootArea extends BlockContainerArea
 							.getHtmlLayoutContext( ).getReportExecutor( ),
 							context.getPageNumber( ),
 							(MasterPageDesign) pageContent.getGenerateBy( ) );
+					HTMLLayoutContext htmlContext = context
+							.getHtmlLayoutContext( );
+					if ( htmlContext != null )
+					{
+						htmlContext.getPageLM( )
+								.layoutPageContent( pageContent );
+					}
 				}
 				catch ( BirtException e )
 				{
