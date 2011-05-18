@@ -220,8 +220,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	protected boolean enableMetadata = false;
 
-	protected boolean enableCompactMode = false;
-
 	protected List ouputInstanceIDs = null;
 
 	/**
@@ -408,7 +406,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					metadataFilter = new MetadataFilter( );
 				}
 			}
-			enableCompactMode = htmlOption.isEnableCompactMode( );
+			writer.setEnableCompactMode( htmlOption.isEnableCompactMode( ) );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 			metadataEmitter = creatMetadataEmitter( writer, htmlOption );
 			layoutPreference = htmlOption.getLayoutPreference( );
