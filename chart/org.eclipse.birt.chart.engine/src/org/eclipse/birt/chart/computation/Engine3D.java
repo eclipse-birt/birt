@@ -1034,6 +1034,20 @@ public final class Engine3D implements IConstants
 		{
 			return;
 		}
+		
+		// Since this method uses two embedded 'for' loops to order 3D polygons,
+		// here gets 3D event objects and parent objects in advance to improve
+		// performance for the 3D object accessing in following 'for' loops.
+		int size = rtList.size( );
+		Object3D[] eventObjs = new Object3D[size];
+		Object3D[] eventParents = new Object3D[size];
+		for ( int i = 0; i < size; i++ )
+		{
+			Object e = rtList.get(i);
+			eventObjs[i] = getObjectFromEvent( e, true );
+			eventParents[i] = getParentObject( e );
+		}
+		
 		// According to the Z-depth order of polygons, check the polygon overlay
 		// case. If two polygons are overlay then adjust the correct rendering
 		// order for these two polygons, else it should still keep the Z-depth
@@ -1051,21 +1065,29 @@ public final class Engine3D implements IConstants
 				n++;
 
 				Object event = rtList.get( i );
-				Object3D far = getObjectFromEvent( event, true );
+				Object3D far = eventObjs[i];;
 
 				for ( int j = i + 1; j < rtList.size( ); j++ )
 				{
 					Object event2 = rtList.get( j );
-					Object3D near = getObjectFromEvent( event2, true );
-					Object3D nearParent = getParentObject( event2 );
-					
-					if (far==near)
+					Object3D near = eventObjs[j];
+					Object3D nearParent = eventParents[j];
+
+					if ( far == near )
 					{
-						if (nearParent==null) // near is parent
+						if ( nearParent == null ) // near is parent
 						{
 							rtList.set( i, event2 );
 							rtList.set( j, event );
-
+							
+							// Adjust the related event 3D object arrays at the same time. 
+							Object3D tmpObj = eventObjs[j];
+							eventObjs[j] = eventObjs[i];
+							eventObjs[i] = tmpObj;
+							tmpObj = eventParents[j];
+							eventParents[j] = eventParents[i];
+							eventParents[i] = tmpObj;
+							
 							restart = true;
 							break;
 						}
@@ -1096,6 +1118,14 @@ public final class Engine3D implements IConstants
 							rtList.set( i, event2 );
 							rtList.set( j, event );
 
+							// Adjust the related event 3D object arrays at the same time. 
+							Object3D tmpObj = eventObjs[j];
+							eventObjs[j] = eventObjs[i];
+							eventObjs[i] = tmpObj;
+							tmpObj = eventParents[j];
+							eventParents[j] = eventParents[i];
+							eventParents[i] = tmpObj;
+
 							restart = true;
 							break;
 						}
@@ -1116,11 +1146,9 @@ public final class Engine3D implements IConstants
 	}
 	
 	/**
-	 * Since 2.6.2, the parent object isn't use anymore, this method is deprecated.
 	 * 
 	 * @param event
 	 * @return
-	 * @deprecated
 	 */
 	public static Object3D getParentObject( Object event )
 	{
