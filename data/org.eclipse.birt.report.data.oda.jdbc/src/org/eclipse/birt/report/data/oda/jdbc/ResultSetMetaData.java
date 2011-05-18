@@ -168,11 +168,11 @@ public class ResultSetMetaData implements IResultSetMetaData
 				{
 					reType = Types.INTEGER;
 				}
-				else if ( precision > 9 && precision <= 17 )
+				else if ( precision > 9 && precision < 308 )
 				{
 					reType = Types.DOUBLE;
 				}
-				else if ( precision > 17 )
+				else if ( precision >= 308 )
 				{
 					reType = Types.DECIMAL;
 				}
