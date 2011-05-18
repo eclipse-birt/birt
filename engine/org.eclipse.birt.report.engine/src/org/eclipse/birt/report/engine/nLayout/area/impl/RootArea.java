@@ -176,7 +176,7 @@ public class RootArea extends BlockContainerArea
 							(MasterPageDesign) pageContent.getGenerateBy( ) );
 					HTMLLayoutContext htmlContext = context
 							.getHtmlLayoutContext( );
-					if ( htmlContext != null )
+					if ( htmlContext != null && htmlContext.needLayoutPageContent( ) )
 					{
 						htmlContext.getPageLM( )
 								.layoutPageContent( pageContent );
