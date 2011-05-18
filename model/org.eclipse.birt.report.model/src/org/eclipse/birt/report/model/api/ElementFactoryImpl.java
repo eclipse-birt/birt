@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -364,7 +365,7 @@ class ElementFactoryImpl
 		return element.handle( module );
 	}
 
-	/**
+		/**
 	 * Creates a new style element, and the style element is supposed to be
 	 * adding to some theme in Library. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
@@ -376,29 +377,10 @@ class ElementFactoryImpl
 	 * @return a handle to the style
 	 */
 
-	public SharedStyleHandle newStyle( ThemeHandle theme, String name )
+	public SharedStyleHandle newStyle( AbstractThemeHandle theme, String name )
 	{
 		Style element = new Style( name );
-		( (Theme) theme.getElement( ) ).makeUniqueName( element );
-		return element.handle( module );
-	}
-
-	/**
-	 * Creates a new style element, and the style element is supposed to be
-	 * adding to some theme in Library. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
-	 * 
-	 * @param theme
-	 *            the theme to add the style
-	 * @param name
-	 *            the required style name
-	 * @return a handle to the style
-	 */
-
-	public SharedStyleHandle newStyle( ReportItemThemeHandle theme, String name )
-	{
-		Style element = new Style( name );
-		( (ReportItemTheme) theme.getElement( ) ).makeUniqueName( element );
+		( (AbstractTheme) theme.getElement( ) ).makeUniqueName( element );
 		return element.handle( module );
 	}
 
