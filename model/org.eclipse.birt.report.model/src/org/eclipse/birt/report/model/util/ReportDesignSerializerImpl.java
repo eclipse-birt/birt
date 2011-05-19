@@ -230,6 +230,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		visitSlots( obj, targetDesign, IReportDesignModel.SLOT_COUNT );
 
+		List<IElementPropertyDefn> properties = obj.getContents( );
+		if ( properties.size( ) > 0 )
+			visitContainerProperties( obj, targetDesign, properties );
+
 		// visit external selectors
 		localizeExternalSelectors( );
 
@@ -356,8 +360,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			// caused by the renaming action, for not all the cube need do this
 			if ( needUpdateBinding( tmpElement ) )
 			{
-				tmpOLAPNames.put( tmpElement, collectOLAPNames( sourceDesign,
-						tmpElement ) );
+				tmpOLAPNames.put( tmpElement,
+						collectOLAPNames( sourceDesign, tmpElement ) );
 			}
 		}
 
@@ -1076,15 +1080,15 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			switch ( targetProp.getTypeCode( ) )
 			{
 				case IPropertyType.LIST_TYPE :
-					target.setProperty( targetProp, ModelUtil.copyValue(
-							targetProp, value ) );
+					target.setProperty( targetProp,
+							ModelUtil.copyValue( targetProp, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
 					handleStructureValue( target, targetProp, value );
 					break;
 				default :
-					target.setProperty( targetProp, ModelUtil.copyValue(
-							targetProp, value ) );
+					target.setProperty( targetProp,
+							ModelUtil.copyValue( targetProp, value ) );
 			}
 
 			notEmptyProperties.add( propName );
@@ -1247,8 +1251,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-			visitContents( sourceDesign, new ContainerContext( obj, propDefn
-					.getName( ) ) );
+			visitContents( sourceDesign,
+					new ContainerContext( obj, propDefn.getName( ) ) );
 		}
 		elements.pop( );
 	}
@@ -1272,8 +1276,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( containmentProp != null )
 			containment = new ContainerContext( container, containmentProp );
 		else
-			containment = new ContainerContext( container, sourceContainment
-					.getSlotID( ) );
+			containment = new ContainerContext( container,
+					sourceContainment.getSlotID( ) );
 		DesignElement newElement = newElement( element.getDefn( ).getName( ),
 				element.getName( ), containment ).getElement( );
 
@@ -1686,8 +1690,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private CssStyle visitCssStyle( CssStyle style )
 	{
 		CssStyle newStyle = new CssStyle( style.getName( ) );
-		localizePrivateStyleProperties( newStyle, style, (Module) style
-				.getContainer( ), new HashSet<String>( ) );
+		localizePrivateStyleProperties( newStyle, style,
+				(Module) style.getContainer( ), new HashSet<String>( ) );
 
 		return newStyle;
 	}
@@ -2113,8 +2117,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 								(List) value );
 					}
 					else if ( newElement.getLocalProperty( null, propDefn ) == null )
-						newElement.setProperty( propDefn, ModelUtil.copyValue(
-								propDefn, value ) );
+						newElement.setProperty( propDefn,
+								ModelUtil.copyValue( propDefn, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
 
@@ -2405,8 +2409,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 		else
 		{
-			newElement.setProperty( propDefn, createNewStructureValue(
-					propDefn, valueList ) );
+			newElement.setProperty( propDefn,
+					createNewStructureValue( propDefn, valueList ) );
 		}
 	}
 
@@ -2478,12 +2482,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 							(ElementRefValue) value );
 					break;
 				case IPropertyType.STRUCT_TYPE :
-					newStruct.setProperty( memberDefn, createNewStructureValue(
-							memberDefn, value ) );
+					newStruct.setProperty( memberDefn,
+							createNewStructureValue( memberDefn, value ) );
 					break;
 				default :
-					newStruct.setProperty( memberDefn, ModelUtil.copyValue(
-							memberDefn, value ) );
+					newStruct.setProperty( memberDefn,
+							ModelUtil.copyValue( memberDefn, value ) );
 			}
 		}
 
@@ -2523,8 +2527,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					newRefEelement ) );
 		}
 		else
-			structure.setProperty( propDefn, new ElementRefValue( value
-					.getLibraryNamespace( ), value.getName( ) ) );
+			structure.setProperty(
+					propDefn,
+					new ElementRefValue( value.getLibraryNamespace( ), value
+							.getName( ) ) );
 	}
 
 	/**
@@ -2592,8 +2598,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					newEmbeddedIamge ) );
 		}
 		else
-			newElement.setProperty( propDefn, ModelUtil.copyValue( propDefn,
-					value ) );
+			newElement.setProperty( propDefn,
+					ModelUtil.copyValue( propDefn, value ) );
 	}
 
 	/**
@@ -2642,8 +2648,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 						refElement.getName( ) ) );
 		}
 		else
-			newElement.setProperty( propDefn, new ElementRefValue( value
-					.getLibraryNamespace( ), value.getName( ) ) );
+			newElement.setProperty(
+					propDefn,
+					new ElementRefValue( value.getLibraryNamespace( ), value
+							.getName( ) ) );
 	}
 
 	/**
@@ -3006,7 +3014,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 *         the given type name is not found
 	 */
 
-	private DesignElementHandle newExtensionElement( String elementTypeName,
+	protected DesignElementHandle newExtensionElement( String elementTypeName,
 			String name )
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -3112,7 +3120,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * (org.eclipse.birt.report.model.elements.ContentElement)
 	 */
 
-	protected void visitContentElement( ContentElement obj )
+	public void visitContentElement( ContentElement obj )
 	{
 		visitDesignElement( obj );
 	}
