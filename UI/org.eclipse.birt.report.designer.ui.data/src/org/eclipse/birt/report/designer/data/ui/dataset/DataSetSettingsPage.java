@@ -550,6 +550,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 					.resultSetIterator( );
 			while ( it.hasNext( ) )
 			{
+				it.next( );
 				it.remove( );
 			}
 		}
