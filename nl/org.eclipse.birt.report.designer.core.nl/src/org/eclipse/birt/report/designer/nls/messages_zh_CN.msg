@@ -2027,6 +2027,8 @@ HyperlinkBuilder.Step.4=第 4 步:
 HyperlinkBuilder.Step.5=第 5 步: 
 HyperlinkBuilder.Step.6=第 6 步: 
 HyperlinkBuilder.ParameterRequired=必需
+HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
 HyperlinkBuilder.Column.DataType=数据类型
 HyperlinkBuilder.Column.Values=值
 HyperlinkBuilder.DialogTitle=超级链接选项
@@ -2060,10 +2062,16 @@ HyperlinkBuilder.ReportDocumentButton=报表文档(&C):
 HyperlinkBuilder.Radio.None=无链接(&O)
 HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=浏览文件
+HyperlinkBuilder.Button.AddParam=添加(&A)...
+HyperlinkBuilder.Button.EditParam=Edit&...
+HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.RemoveParam=删除(&M)
 HyperlinkBuilder.OpenExpression=打开表达式生成器
 HyperlinkBuilder.FileNameError.Title=错误
 HyperlinkBuilder.FileNameError.Message=选择的文件无效。
 HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
+HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Value=值(&V):
 
 ###########################################################
 #HyperLinkPage properties

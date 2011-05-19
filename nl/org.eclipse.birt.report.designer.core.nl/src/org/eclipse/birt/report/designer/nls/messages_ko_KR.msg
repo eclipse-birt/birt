@@ -2027,6 +2027,8 @@ HyperlinkBuilder.Step.4=4단계:
 HyperlinkBuilder.Step.5=5단계: 
 HyperlinkBuilder.Step.6=6단계: 
 HyperlinkBuilder.ParameterRequired=필수
+HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
 HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
@@ -2060,10 +2062,16 @@ HyperlinkBuilder.ReportDocumentButton=보고서 문서(&C):
 HyperlinkBuilder.Radio.None=링크 없음(&O)
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=파일 찾아보기
+HyperlinkBuilder.Button.AddParam=추가(&A)...
+HyperlinkBuilder.Button.EditParam=Edit&...
+HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.RemoveParam=제거(&M)
 HyperlinkBuilder.OpenExpression=식 빌더 열기
 HyperlinkBuilder.FileNameError.Title=오류
 HyperlinkBuilder.FileNameError.Message=선택한 파일이 잘못되었습니다.
 HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
+HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Value=값(&V):
 
 ###########################################################
 #HyperLinkPage properties

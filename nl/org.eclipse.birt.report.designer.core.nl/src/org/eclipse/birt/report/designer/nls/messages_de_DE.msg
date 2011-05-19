@@ -2027,6 +2027,8 @@ HyperlinkBuilder.Step.4=Schritt 4:
 HyperlinkBuilder.Step.5=Schritt 5: 
 HyperlinkBuilder.Step.6=Schritt 6: 
 HyperlinkBuilder.ParameterRequired=Erforderlich
+HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
 HyperlinkBuilder.Column.DataType=Datentyp
 HyperlinkBuilder.Column.Values=Werte
 HyperlinkBuilder.DialogTitle=Optionen für Hyperlink
@@ -2060,10 +2062,16 @@ HyperlinkBuilder.ReportDocumentButton=Berichtdo&kument:
 HyperlinkBuilder.Radio.None=K&eine Verknüpfung
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=Nach Datei suchen
+HyperlinkBuilder.Button.AddParam=&Hinzufügen...
+HyperlinkBuilder.Button.EditParam=Edit&...
+HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.RemoveParam=Ent&fernen
 HyperlinkBuilder.OpenExpression=Ausdruckserstellung öffnen
 HyperlinkBuilder.FileNameError.Title=Fehler
 HyperlinkBuilder.FileNameError.Message=Die ausgewählte Datei ist ungültig.
 HyperlinkBuilder.TargetReportFormat=Zielbericht &formatieren in:
+HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Value=&Wert:
 
 ###########################################################
 #HyperLinkPage properties
