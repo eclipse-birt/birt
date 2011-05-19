@@ -294,8 +294,6 @@
                     tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip"/>
 		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
-		<move file="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip"
-                    tofile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}-${build.date}.zip"/>
 
 		<antcall target="renameNLPackage"/>
 		
