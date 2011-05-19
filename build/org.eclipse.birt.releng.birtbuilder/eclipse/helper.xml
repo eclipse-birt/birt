@@ -1004,13 +1004,6 @@
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
 			<property name="export.dir" value="${buildDirectory}/${buildId}/birt_web"/>
 		</ant>
-
-		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib">
-			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
-				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
-			</fileset>
-            <mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-		</copy>
 	</target>
 	
 	<target name="runBirtPerformance" depends="init">
