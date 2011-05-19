@@ -48,7 +48,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	private final String beforeOpenMethodID, beforeCloseMethodID,
 			afterOpenMethodID, afterCloseMethodID, onFetchMethodID;
 
-	private static Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<IDataSetInstanceHandle, Scriptable>( );
+	private Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<IDataSetInstanceHandle, Scriptable>( );
 
 	public DataSetScriptExecutor( DataSetHandle dataSetHandle,
 			ExecutionContext context ) throws BirtException
