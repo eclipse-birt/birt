@@ -2987,7 +2987,7 @@ ParameterDialog.emptyColumnValueExpression.title=Expression de colonne de valeur
 ParameterDialog.emptyColumnValueExpression.message=L'expression de colonne de valeur doit être indiquée !
 ParameterDialog.Value.Empty=Valeur vide
 ParameterDialog.Value.Null=Valeur nulle
-ParameterDialog.message=Define the properties of the report parameter.
+ParameterDialog.message=Définissez les propriétés du paramètre d'état.
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

@@ -2987,7 +2987,7 @@ ParameterDialog.emptyColumnValueExpression.title=値の列式が無効です。
 ParameterDialog.emptyColumnValueExpression.message=値の列式は空白にできません。
 ParameterDialog.Value.Empty=空の値
 ParameterDialog.Value.Null=Null 値
-ParameterDialog.message=Define the properties of the report parameter.
+ParameterDialog.message=レポートパラメタのプロパティを定義します。
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

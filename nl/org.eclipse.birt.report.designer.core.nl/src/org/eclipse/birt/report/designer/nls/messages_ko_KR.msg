@@ -2987,7 +2987,7 @@ ParameterDialog.emptyColumnValueExpression.title=잘못된 값 열 식
 ParameterDialog.emptyColumnValueExpression.message=값 열 식은 비워 둘 수 없습니다!
 ParameterDialog.Value.Empty=빈 값
 ParameterDialog.Value.Null=널(Null) 값
-ParameterDialog.message=Define the properties of the report parameter.
+ParameterDialog.message=보고서 매개변수의 속성을 정의합니다.
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

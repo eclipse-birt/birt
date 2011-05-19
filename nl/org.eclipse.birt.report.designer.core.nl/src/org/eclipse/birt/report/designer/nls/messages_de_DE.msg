@@ -2987,7 +2987,7 @@ ParameterDialog.emptyColumnValueExpression.title=Ungültiger Wertspaltenausdruck.
 ParameterDialog.emptyColumnValueExpression.message=Wertspaltenausdruck darf nicht leer sein.
 ParameterDialog.Value.Empty=Leerer Wert
 ParameterDialog.Value.Null=Null-Wert
-ParameterDialog.message=Define the properties of the report parameter.
+ParameterDialog.message=Definieren Sie die Eigenschaften des Berichtparameters.
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

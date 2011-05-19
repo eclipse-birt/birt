@@ -12,7 +12,7 @@
 ###########################################################
 #PPT Emitter
 PPTEmitter.Description=웹 보관 파일(MHTML) 형식의 보고서 렌더링 옵션을 구성합니다.
-PPTEmitter.DisplayName=PowerPoint (PPT)
+PPTEmitter.DisplayName=PowerPoint(PPT)
 
 ###########################################################
 #Option Display Value

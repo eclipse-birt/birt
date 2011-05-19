@@ -13,7 +13,7 @@
 #HTML Emitter
 HTMLEmitter.Description=HTML(HyperText Markup Language) 형식의 보고서 렌더링 옵션을 구성합니다.
 HTMLEmitter.DisplayName=HTML
-XHTMLEmitter.Description=Configure options for rendering a report in XHTML format.
+XHTMLEmitter.Description=XHTML 형식의 보고서 렌더링 옵션을 구성합니다.
 XHTMLEmitter.DisplayName=XHTML
 
 ###########################################################

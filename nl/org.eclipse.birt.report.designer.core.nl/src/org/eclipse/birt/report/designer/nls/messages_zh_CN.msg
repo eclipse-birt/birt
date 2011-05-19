@@ -2987,7 +2987,7 @@ ParameterDialog.emptyColumnValueExpression.title=无效的值列表达式
 ParameterDialog.emptyColumnValueExpression.message=值列表达式不能为空!
 ParameterDialog.Value.Empty=空值
 ParameterDialog.Value.Null=空值
-ParameterDialog.message=Define the properties of the report parameter.
+ParameterDialog.message=定义报表参数的属性。
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties

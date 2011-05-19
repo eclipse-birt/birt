@@ -13,7 +13,7 @@
 #HTML Emitter
 HTMLEmitter.Description=Configure las opciones para presentar un informe en formato HTML (HyperText Markup Language).
 HTMLEmitter.DisplayName=HTML
-XHTMLEmitter.Description=Configure options for rendering a report in XHTML format.
+XHTMLEmitter.Description=Configure las opciones para presentar un informe en formato XHTML.
 XHTMLEmitter.DisplayName=XHTML
 
 ###########################################################
