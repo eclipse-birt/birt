@@ -626,10 +626,10 @@
 			</fileset>
 		</copy>
 		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
-			<fileset dir="${OutputDir}/runtime_nonosgi/lib" >
+			<fileset dir="${OutputDir}/runtime_nonosgi" >
 				<include name="**"/>
 			</fileset>
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib/" >
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib" >
 				<include name="axis-ant.jar"/>
 				<include name="axis.jar"/>
 				<include name="commons-discovery-0.2.jar"/>
@@ -652,9 +652,6 @@
 		</copy>
 		
 		<delete dir="${runtime.tmp}/WebViewerExample/ajax" />
-		<delete includeEmptyDirs="true" failonerror="false" >
-			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform" includes="lib/**" />
-		</delete>
 		
 		<zip destfile="${OutputDir}/${runtime.zip.name}">
 			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}" filemode="755">
@@ -679,14 +676,14 @@
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<!-- Unzip BirtRuntimeOSGi package to get birt and datatools jar -->
-		<mkdir dir="${OutputDir}/runtime_nonosgi/lib" />
+		<mkdir dir="${OutputDir}/runtime_nonosgi" />
 		
 		<unzip src="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" 
 					dest="${OutputDir}/runtime_nonosgi" overwrite="true" />
 		
 		<delete file="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" failonerror="false"/>
 		
-		<copy todir="${OutputDir}/runtime_nonosgi/lib">
+		<copy todir="${OutputDir}/runtime_nonosgi">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/plugins">
 				<include name="**"/>
 				<exclude name="org.eclipse.birt*/**"/>
@@ -694,6 +691,7 @@
 				<exclude name="org.w3c.sac*/**"/>
 				<exclude name="org.eclipse.core.runtime.compatibility*/**"/>
 				<exclude name="org.apache.derby.core*/**"/>
+				<exclude name="*junit*/**"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
 				<include name="*.jar"/>
@@ -788,10 +786,10 @@
 		</copy>
 		
 		<copy todir="${war.tmp}/birt/WEB-INF/lib">
-			<fileset dir="${OutputDir}/runtime_nonosgi/lib" >
+			<fileset dir="${OutputDir}/runtime_nonosgi" >
 				<include name="**"/>
 			</fileset>
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib/" >
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib" >
 				<include name="axis-ant.jar"/>
 				<include name="axis.jar"/>
 				<include name="commons-discovery-0.2.jar"/>
@@ -812,9 +810,7 @@
 	    
 		<delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
 	    <delete dir="${war.tmp}/birt/ajax" failonerror="false" />
-	    <delete includeEmptyDirs="true" failonerror="false" >
-			<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
-	    </delete>
+
 	    <zip destfile="${runtime.tmp}/birt.war">
 	        <zipfileset dir="${war.tmp}/birt" >
 			<include name="**/*" />
