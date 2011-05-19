@@ -24,8 +24,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.IExpressionCellEditorFactory;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IReportHyperlinkParameter;
@@ -61,7 +59,6 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -75,8 +72,6 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -87,10 +82,14 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -105,7 +104,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -165,7 +163,8 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final IChoiceSet CHOICESET_TARGET = DEUtil.getMetaDataDictionary( )
 			.getChoiceSet( DesignChoiceConstants.CHOICE_TARGET_NAMES_TYPE );
 
-	private static final ParamBinding dummyParameterBinding = StructureFactory.createParamBinding( );
+	// private static final ParamBinding dummyParameterBinding =
+	// StructureFactory.createParamBinding( );
 
 	private ActionHandle inputHandle;
 
@@ -222,7 +221,7 @@ public class HyperlinkBuilder extends BaseDialog
 			// if ( bindingList.size( ) != parameterList.size( ) )
 			// {
 			// To check if all parameters have been bound.
-			elementsList.add( dummyParameterBinding );
+			// elementsList.add( dummyParameterBinding );
 			// }
 			return elementsList.toArray( );
 		}
@@ -241,6 +240,17 @@ public class HyperlinkBuilder extends BaseDialog
 					return REQUIRED_ICON;
 				}
 			}
+			// if(columnIndex == 0){
+			// String text = ( (ParamBinding) element ).getParamName( );
+			// Object handle = getParameter(text);
+			// if(handle!=null){
+			// INodeProvider provider = ProviderFactory.createProvider( handle
+			// );
+			// if(provider!=null){
+			// return provider.getNodeIcon( handle );
+			// }
+			// }
+			// }
 			return null;
 		}
 
@@ -248,28 +258,28 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			String text = null;
 			ParamBinding parameterBinding = ( (ParamBinding) element );
-			if ( parameterBinding != dummyParameterBinding )
+			// if ( parameterBinding != dummyParameterBinding )
+			// {
+			if ( columnIndex == 0 )
 			{
-				if ( columnIndex == 0 )
-				{
-					text = parameterBinding.getParamName( );
+				text = parameterBinding.getParamName( );
 
-				}
-				else if ( columnIndex == 2 )
-				{
-					String name = parameterBinding.getParamName( );
-					String dataType = paramTypes.get( name );
-					if ( dataType == null )
-					{
-						return ""; //$NON-NLS-1$
-					}
-					return getDisplayDataType( dataType );
-				}
-				else if ( columnIndex == 3 )
-				{
-					text = parameterBinding.getExpression( );
-				}
 			}
+			else if ( columnIndex == 2 )
+			{
+				String name = parameterBinding.getParamName( );
+				String dataType = paramTypes.get( name );
+				if ( dataType == null )
+				{
+					return ""; //$NON-NLS-1$
+				}
+				return getDisplayDataType( dataType );
+			}
+			else if ( columnIndex == 3 )
+			{
+				text = parameterBinding.getExpression( );
+			}
+			// }
 			if ( text == null )
 			{
 				text = ""; //$NON-NLS-1$
@@ -296,111 +306,102 @@ public class HyperlinkBuilder extends BaseDialog
 
 	};
 
-	private ICellModifier cellModifier = new ICellModifier( ) {
-
-		public boolean canModify( Object element, String property )
-		{
-			if ( element == dummyParameterBinding
-					&& COLUMN_VALUE.equals( property ) )
-			{
-				return false;
-			}
-			return true;
-		}
-
-		public Object getValue( Object element, String property )
-		{
-			ParamBinding paramBinding = ( (ParamBinding) element );
-			Object value = null;
-			if ( COLUMN_VALUE.equals( property ) )
-			{
-				Expression expression = getParamBindingExpression( paramBinding );
-				if ( paramCellEditorFacotryAdapter != null )
-				{
-					String fileName = null;
-					if ( targetReportHandle instanceof IReportDocument )
-					{
-						fileName = ( (IReportDocument) targetReportHandle ).getReportDesign( )
-								.getFileName( );
-					}
-					else if ( targetReportHandle instanceof ReportDesignHandle )
-					{
-						fileName = ( (ReportDesignHandle) targetReportHandle ).getFileName( );
-					}
-					return new Object[]{
-							fileName,
-							getParameter( paramBinding.getParamName( ) ),
-							expression == null ? "" : expression
-					};
-				}
-				else
-					return expression == null ? "" : expression;
-			}
-			else if ( COLUMN_PARAMETER.equals( property ) )
-			{
-				value = paramBinding.getParamName( );
-				if ( value == null )
-				{
-					value = ""; //$NON-NLS-1$
-				}
-
-				buildParameterChoices( (String) value );
-				// int index = -1;
-				// for ( int i = 0; i < parameterChooser.getItems( ).length; i++
-				// )
-				// {
-				// if ( parameterChooser.getItems( )[i].equals( paramBinding.
-				// getParamName( ) ) )
-				// {
-				// index = i;
-				// break;
-				// }
-				// }
-
-			}
-			return value;
-		}
-
-		public void modify( Object element, String property, Object value )
-		{
-			if ( element instanceof Item )
-			{
-				element = ( (Item) element ).getData( );
-			}
-			ParamBinding paramBinding = ( (ParamBinding) element );
-			if ( COLUMN_VALUE.equals( property ) )
-			{
-				List<Expression> expressions = new ArrayList<Expression>( );
-				expressions.add( (Expression) value );
-				paramBinding.setExpression( expressions );
-			}
-			else if ( COLUMN_PARAMETER.equals( property ) )
-			{
-				// int index = -1;
-				// for ( int i = 0; i < parameterChooser.getItems( ).length; i++
-				// )
-				// {
-				// if ( parameterChooser.getItems( )[i].equals( value ) )
-				// {
-				// index = i;
-				// break;
-				// }
-				// }
-
-				if ( ( value != null ) && ( (String) value ).length( ) > 0 )
-				{
-					if ( paramBinding == dummyParameterBinding )
-					{
-						paramBinding = StructureFactory.createParamBinding( );
-						paramBindingList.add( paramBinding );
-					}
-					paramBinding.setParamName( (String) value );
-				}
-			}
-			paramBindingTable.refresh( );
-			validateTables( );
-		}
-	};
+	// private ICellModifier cellModifier = new ICellModifier( ) {
+	//
+	// public boolean canModify( Object element, String property )
+	// {
+	// if ( element == dummyParameterBinding
+	// && COLUMN_VALUE.equals( property ) )
+	// {
+	// return false;
+	// }
+	// return true;
+	// }
+	//
+	// public Object getValue( Object element, String property )
+	// {
+	// ParamBinding paramBinding = ( (ParamBinding) element );
+	// Object value = null;
+	// if ( COLUMN_VALUE.equals( property ) )
+	// {
+	// Expression expression = getParamBindingExpression( paramBinding );
+	// if ( paramCellEditorFacotryAdapter != null )
+	// {
+	// String fileName = getTargetReportFile( );
+	// return new Object[]{
+	// fileName,
+	// getParameter( paramBinding.getParamName( ) ),
+	// expression
+	// };
+	// }
+	// else
+	// return expression == null ? "" : expression;
+	// }
+	// else if ( COLUMN_PARAMETER.equals( property ) )
+	// {
+	// value = paramBinding.getParamName( );
+	// if ( value == null )
+	// {
+	//					value = ""; //$NON-NLS-1$
+	// }
+	//
+	// buildParameterChoices( (String) value );
+	// // int index = -1;
+	// // for ( int i = 0; i < parameterChooser.getItems( ).length; i++
+	// // )
+	// // {
+	// // if ( parameterChooser.getItems( )[i].equals( paramBinding.
+	// // getParamName( ) ) )
+	// // {
+	// // index = i;
+	// // break;
+	// // }
+	// // }
+	//
+	// }
+	// return value;
+	// }
+	//
+	// public void modify( Object element, String property, Object value )
+	// {
+	// if ( element instanceof Item )
+	// {
+	// element = ( (Item) element ).getData( );
+	// }
+	// ParamBinding paramBinding = ( (ParamBinding) element );
+	// if ( COLUMN_VALUE.equals( property ) )
+	// {
+	// List<Expression> expressions = new ArrayList<Expression>( );
+	// expressions.add( (Expression) value );
+	// paramBinding.setExpression( expressions );
+	// }
+	// else if ( COLUMN_PARAMETER.equals( property ) )
+	// {
+	// // int index = -1;
+	// // for ( int i = 0; i < parameterChooser.getItems( ).length; i++
+	// // )
+	// // {
+	// // if ( parameterChooser.getItems( )[i].equals( value ) )
+	// // {
+	// // index = i;
+	// // break;
+	// // }
+	// // }
+	//
+	// if ( ( value != null ) && ( (String) value ).length( ) > 0 )
+	// {
+	// if ( paramBinding == dummyParameterBinding )
+	// {
+	// paramBinding = StructureFactory.createParamBinding( );
+	// paramBindingList.add( paramBinding );
+	// }
+	// paramBinding.setParamName( (String) value );
+	// }
+	// }
+	// paramBindingTable.refresh( );
+	// validateTables( );
+	// }
+	// };
 
 	/**
 	 * Drillthrough, target report design.
@@ -445,6 +446,11 @@ public class HyperlinkBuilder extends BaseDialog
 	private Text tooltipText;
 	private ScrolledComposite scrollContent;
 	private Object paramCellEditorFacotryAdapter;
+	private Composite paramButtonContainer;
+	private Button addParamButton;
+	private Button editParamButton;
+	private Button removeParamButton;
+	private Button removeAllParamButton;
 
 	public HyperlinkBuilder( Shell parentShell )
 	{
@@ -503,13 +509,19 @@ public class HyperlinkBuilder extends BaseDialog
 		createSelectionArea( composite );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		scrollContent = new ScrolledComposite( composite, SWT.V_SCROLL );
-		scrollContent.setAlwaysShowScrollBars( false );
-		scrollContent.setExpandHorizontal( true );
+		scrollContent = new ScrolledComposite( composite, SWT.H_SCROLL
+				| SWT.V_SCROLL );
 		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		scrollContent.setExpandHorizontal( true );
+		scrollContent.setExpandVertical( true );
 
-		displayArea = new Composite( scrollContent, SWT.NONE );
-		scrollContent.setContent( displayArea );
+		scrollContent.addControlListener( new ControlAdapter( ) {
+
+			public void controlResized( ControlEvent e )
+			{
+				computeSize( );
+			}
+		} );
 
 		Shell shell = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
@@ -525,17 +537,30 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			height -= 50;
 		}
-		scrollContent.setLayoutData( new GridData( 600, height ) );
 
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.minimumWidth = 600;
+		gd.minimumHeight = height;
+		scrollContent.setLayoutData( gd );
+
+		displayArea = new Composite( scrollContent, SWT.NONE );
 		displayArea.setLayout( new GridLayout( 3, false ) );
+		displayArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		scrollContent.setContent( displayArea );
+
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.HYPERLINK_BUILDER_ID );
 
-		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		displayArea.setSize( size );
-
 		return composite;
+	}
+
+	protected void computeSize( )
+	{
+		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		scrollContent.setMinSize( size.x, size.y + 10 );
+		scrollContent.layout( );
 	}
 
 	private void createSelectionArea( Composite parent )
@@ -640,9 +665,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		initDisplayArea( );
 		displayArea.layout( );
-
-		Point size = displayArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		displayArea.setSize( size );
+		computeSize( );
 	}
 
 	private void switchToURI( )
@@ -728,7 +751,7 @@ public class HyperlinkBuilder extends BaseDialog
 		final Composite container = new Composite( displayArea, SWT.NONE );
 		container.setLayout( new GridLayout( ) );
 		// scrolledContainer.setContent( container );
-		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		messageLine = new CLabel( container, SWT.NONE );
 		messageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -764,7 +787,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createDrillthroughSelectTargetReport( Composite container )
 	{
 		targetGroup = new Group( container, SWT.NONE );
-		targetGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		targetGroup.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		targetGroup.setText( STEPS[1]
 				+ Messages.getString( "HyperlinkBuilder.DrillThrough.SelectTargetReport" ) ); //$NON-NLS-1$
 		GridLayout layout = new GridLayout( );
@@ -794,11 +817,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				closeTargetReport( );
-				initTargetReport( locationEditor.getText( ) );
-				initParamterBindings( );
-				updateButtons( );
-				deSelectAnchor( );
+				String target = locationEditor.getText( );
+				handleTargetReportChange( target );
 			}
 
 		} );
@@ -829,11 +849,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				closeTargetReport( );
-				initTargetReport( documentEditor.getText( ) );
-				initParamterBindings( );
-				updateButtons( );
-				deSelectAnchor( );
+				String target = documentEditor.getText( );
+				handleTargetReportChange( target );
 			}
 
 		} );
@@ -1014,15 +1031,18 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		Label label = new Label( parent, SWT.NONE );
 		label.setText( LABEL_REPORT_PARAMETER );
-		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING
-				| GridData.HORIZONTAL_ALIGN_END ) );
+
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		label.setLayoutData( gd );
+
 		paramBindingTable = new TableViewer( parent, SWT.BORDER
 				| SWT.SINGLE
 				| SWT.FULL_SELECTION );
 		Table table = paramBindingTable.getTable( );
-		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd = new GridData( GridData.FILL_BOTH );
 		gd.horizontalSpan = 2;
-		gd.heightHint = 60;
+		gd.minimumHeight = 120;
 		table.setLayoutData( gd );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
@@ -1030,22 +1050,22 @@ public class HyperlinkBuilder extends BaseDialog
 		TableColumn parameterColumn = new TableColumn( table, SWT.LEFT );
 		parameterColumn.setText( COLUMN_PARAMETER );
 		parameterColumn.setResizable( true );
-		parameterColumn.setWidth( 100 );
+		parameterColumn.setWidth( 140 );
 
 		parameterColumn = new TableColumn( table, SWT.CENTER );
 		parameterColumn.setText( COLUMN_REQUIRED );
 		parameterColumn.setResizable( true );
-		parameterColumn.setWidth( 55 );
+		parameterColumn.setWidth( 70 );
 
 		TableColumn dataTypeColumn = new TableColumn( table, SWT.LEFT );
 		dataTypeColumn.setText( COLUMN_DATA_TYPE );
 		dataTypeColumn.setResizable( true );
-		dataTypeColumn.setWidth( 65 );
+		dataTypeColumn.setWidth( 70 );
 
 		TableColumn valueColumn = new TableColumn( table, SWT.LEFT );
 		valueColumn.setText( COLUMN_VALUE );
 		valueColumn.setResizable( true );
-		valueColumn.setWidth( 115 );
+		valueColumn.setWidth( 150 );
 
 		table.addKeyListener( new KeyAdapter( ) {
 
@@ -1064,6 +1084,14 @@ public class HyperlinkBuilder extends BaseDialog
 
 		} );
 
+		table.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDoubleClick( MouseEvent e )
+			{
+				editRow( );
+			}
+		} );
+
 		paramBindingTable.setColumnProperties( new String[]{
 				COLUMN_PARAMETER,
 				COLUMN_REQUIRED,
@@ -1075,26 +1103,116 @@ public class HyperlinkBuilder extends BaseDialog
 				new String[0],
 				SWT.NONE );
 
-		ExpressionCellEditor valueEditor = new ExpressionCellEditor( table,
-				SWT.PUSH );
-		paramCellEditorFacotryAdapter = ElementAdapterManager.getAdapter( this.inputHandle,
-				IExpressionCellEditorFactory.class );
-		if ( paramCellEditorFacotryAdapter instanceof IExpressionCellEditorFactory )
-		{
-			valueEditor = ( (IExpressionCellEditorFactory) paramCellEditorFacotryAdapter ).createExpressionCellEditor( table,
-					SWT.PUSH );
-		}
-
-		valueEditor.setExpressionInput( getExpressionProvider( ),
-				inputHandle.getElementHandle( ) );
-		// valueEditor.setExpressionProvider( getExpressionProvider( ) );
-		paramBindingTable.setCellEditors( new CellEditor[]{
-				parameterChooser, null, null, valueEditor
-		} );
+		// ExpressionCellEditor valueEditor = new ExpressionCellEditor( table,
+		// SWT.PUSH );
+		// paramCellEditorFacotryAdapter = ElementAdapterManager.getAdapter(
+		// this.inputHandle,
+		// IExpressionCellEditorFactory.class );
+		// if ( paramCellEditorFacotryAdapter instanceof
+		// IExpressionCellEditorFactory )
+		// {
+		// valueEditor = ( (IExpressionCellEditorFactory)
+		// paramCellEditorFacotryAdapter ).createExpressionCellEditor( table,
+		// SWT.PUSH );
+		// }
+		//
+		// valueEditor.setExpressionInput( getExpressionProvider( ),
+		// inputHandle.getElementHandle( ) );
+		// // valueEditor.setExpressionProvider( getExpressionProvider( ) );
+		// paramBindingTable.setCellEditors( new CellEditor[]{
+		// parameterChooser, null, null, valueEditor
+		// } );
 		paramBindingTable.setContentProvider( contentProvider );
 		paramBindingTable.setLabelProvider( labelProvider );
-		paramBindingTable.setCellModifier( cellModifier );
+		// paramBindingTable.setCellModifier( cellModifier );
 		paramBindingTable.setInput( paramBindingList );
+
+		paramBindingTable.getTable( )
+				.addSelectionListener( new SelectionAdapter( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						updateParamBindingButtons( );
+					}
+
+				} );
+
+		paramButtonContainer = new Composite( parent, SWT.NONE );
+		paramButtonContainer.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
+
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		paramButtonContainer.setLayout( layout );
+
+		addParamButton = new Button( paramButtonContainer, SWT.PUSH );
+		addParamButton.setText( Messages.getString("HyperlinkBuilder.Button.AddParam") ); //$NON-NLS-1$
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.verticalAlignment = SWT.END;
+		gd.grabExcessVerticalSpace = true;
+		addParamButton.setLayoutData( gd );
+		addParamButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder( Messages.getString("HyperlinkBuilder.ParamterBuilder.Add.Title") ); //$NON-NLS-1$
+				builder.setHyperlinkBuilder( HyperlinkBuilder.this );
+				builder.setActionHandle( inputHandle );
+				ArrayList<String> avaliableList = getAvailableParamList( null );
+				builder.setItems( avaliableList.toArray( new String[0] ) );
+				if ( builder.open( ) == Window.OK )
+				{
+					paramBindingList.add( (ParamBinding) builder.getResult( ) );
+					refreshParamBindingTable( );
+					paramBindingTable.getTable( )
+							.select( paramBindingTable.getTable( )
+									.getItemCount( ) - 1 );
+					updateParamBindingButtons( );
+					validateTables( );
+				}
+			}
+		} );
+
+		editParamButton = new Button( paramButtonContainer, SWT.PUSH );
+		editParamButton.setText( Messages.getString("HyperlinkBuilder.Button.EditParam") ); //$NON-NLS-1$
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		editParamButton.setLayoutData( gd );
+		editParamButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editRow( );
+				updateParamBindingButtons( );
+			}
+
+		} );
+
+		removeParamButton = new Button( paramButtonContainer, SWT.PUSH );
+		removeParamButton.setText( Messages.getString("HyperlinkBuilder.Button.RemoveParam") ); //$NON-NLS-1$
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		removeParamButton.setLayoutData( gd );
+		removeParamButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				deleteRow( );
+				updateParamBindingButtons( );
+			}
+		} );
+
+		removeAllParamButton = new Button( paramButtonContainer, SWT.PUSH );
+		removeAllParamButton.setText( Messages.getString("HyperlinkBuilder.Button.RemoveAllParam") ); //$NON-NLS-1$
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.grabExcessVerticalSpace = true;
+		gd.verticalAlignment = SWT.BEGINNING;
+		removeAllParamButton.setLayoutData( gd );
+		removeAllParamButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				paramBindingList.clear( );
+				refreshParamBindingTable( );
+			}
+		} );
 	}
 
 	private void clearArea( )
@@ -1327,7 +1445,7 @@ public class HyperlinkBuilder extends BaseDialog
 		new Label( displayArea, SWT.NONE ).setText( label );
 		bookmarkChooser = new Combo( displayArea, SWT.BORDER | SWT.READ_ONLY );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
+		// gd.horizontalSpan = 2;
 		bookmarkChooser.setLayoutData( gd );
 		bookmarkChooser.setVisibleItemCount( 30 );
 		bookmarkChooser.addSelectionListener( new SelectionAdapter( ) {
@@ -1347,7 +1465,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 
 		} );
-
+		new Label( displayArea, SWT.NONE );
 		new Label( displayArea, SWT.NONE ).setText( LABEL_LINKED_EXPRESSION );
 		bookmarkEditor = new Text( displayArea, SWT.BORDER | SWT.READ_ONLY );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -1657,6 +1775,15 @@ public class HyperlinkBuilder extends BaseDialog
 				initTargetReport( inputHandle.getReportName( ) );
 			}
 
+			if ( reportDocumentButton.getSelection( ) )
+			{
+				handleTargetReportChange( documentEditor.getText( ) );
+			}
+			else if ( reportDesignButton.getSelection( ) )
+			{
+				initTargetReport( locationEditor.getText( ) );
+			}
+
 			if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( inputHandle.getTargetBookmarkType( ) ) )
 			{
 				targetBookmarkButton.setSelection( true );
@@ -1815,7 +1942,9 @@ public class HyperlinkBuilder extends BaseDialog
 		// parammeter table is always enabled
 		paramBindingTable.getTable( ).setEnabled( messageLine.getText( )
 				.length( ) == 0 );
-		paramBindingTable.refresh( );
+		refreshParamBindingTable( );
+		paramButtonContainer.setEnabled( paramBindingTable.getTable( )
+				.getEnabled( ) );
 	}
 
 	private Map<String, List<IHyperlinkParameter>> getHyperlinkParameters(
@@ -2056,6 +2185,12 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void buildParameterChoices( String selectedParameter )
 	{
+		ArrayList<String> avaliableList = getAvailableParamList( selectedParameter );
+		parameterChooser.setItems( avaliableList.toArray( new String[0] ) );
+	}
+
+	private ArrayList<String> getAvailableParamList( String selectedParameter )
+	{
 		ArrayList<String> avaliableList = new ArrayList<String>( );
 
 		for ( Iterator<IHyperlinkParameter> iter = paramList.iterator( ); iter.hasNext( ); )
@@ -2072,7 +2207,7 @@ public class HyperlinkBuilder extends BaseDialog
 				avaliableList.remove( paramBinding.getParamName( ) );
 			}
 		}
-		parameterChooser.setItems( avaliableList.toArray( new String[0] ) );
+		return avaliableList;
 	}
 
 	private void deleteRow( )
@@ -2080,8 +2215,33 @@ public class HyperlinkBuilder extends BaseDialog
 		ParamBinding paramBinding = getSelectedBinding( );
 		if ( paramBinding != null )
 		{
+			int index = paramBindingTable.getTable( ).getSelectionIndex( );
 			paramBindingList.remove( paramBinding );
-			paramBindingTable.refresh( );
+			refreshParamBindingTable( );
+			if ( paramBindingTable.getTable( ).getItemCount( ) <= index )
+			{
+				index--;
+			}
+			if ( index >= 0 )
+			{
+				paramBindingTable.getTable( ).select( index );
+			}
+		}
+	}
+
+	private void editRow( )
+	{
+		ParamBinding paramBinding = getSelectedBinding( );
+		if ( paramBinding == null )
+			return;
+		HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder( Messages.getString("HyperlinkBuilder.ParamterBuilder.Edit.Title") ); //$NON-NLS-1$
+		builder.setHyperlinkBuilder( HyperlinkBuilder.this );
+		builder.setActionHandle( inputHandle );
+		builder.setParamBinding( paramBinding );
+		if ( builder.open( ) == Window.OK )
+		{
+			refreshParamBindingTable( );
+			validateTables( );
 		}
 	}
 
@@ -2218,6 +2378,8 @@ public class HyperlinkBuilder extends BaseDialog
 	 */
 	private void selectRadio( Composite container, Button radio )
 	{
+		if ( !radio.getSelection( ) )
+			return;
 		Control[] children = container.getChildren( );
 		boolean isChoiceChild = false;
 		for ( int i = 0; i < children.length; i++ )
@@ -2321,7 +2483,7 @@ public class HyperlinkBuilder extends BaseDialog
 		return choice.getDisplayName( );
 	}
 
-	private Expression getParamBindingExpression( ParamBinding param )
+	protected Expression getParamBindingExpression( ParamBinding param )
 	{
 		List<Expression> expressions = param.getExpressionList( );
 		if ( expressions == null || expressions.isEmpty( ) )
@@ -2329,4 +2491,43 @@ public class HyperlinkBuilder extends BaseDialog
 		return expressions.get( 0 );
 	}
 
+	private void handleTargetReportChange( String target )
+	{
+		closeTargetReport( );
+		initTargetReport( target );
+		initParamterBindings( );
+		updateButtons( );
+		deSelectAnchor( );
+	}
+
+	protected String getTargetReportFile( )
+	{
+		if ( targetReportHandle instanceof IReportDocument )
+		{
+			return ( (IReportDocument) targetReportHandle ).getReportDesign( )
+					.getFileName( );
+		}
+		else if ( targetReportHandle instanceof ReportDesignHandle )
+		{
+			return ( (ReportDesignHandle) targetReportHandle ).getFileName( );
+		}
+		return null;
+	}
+
+	private void refreshParamBindingTable( )
+	{
+		paramBindingTable.refresh( );
+		updateParamBindingButtons( );
+	}
+
+	protected void updateParamBindingButtons( )
+	{
+		editParamButton.setEnabled( getSelectedBinding( ) != null );
+		removeParamButton.setEnabled( getSelectedBinding( ) != null );
+		removeAllParamButton.setEnabled( paramBindingTable.getTable( )
+				.getItemCount( ) > 0 );
+		addParamButton.setEnabled( paramList != null
+				&& paramList.size( ) > paramBindingTable.getTable( )
+						.getItemCount( ) );
+	}
 }
