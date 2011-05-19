@@ -614,6 +614,14 @@ public class ExcelLayoutEngine
 				data.setStartX( containerSize.getStartCoordinate( ) );
 				data.setEndX( containerSize.getEndCoordinate( ) );
 				addData( data, container );
+
+				// If an empty data is added into container, the index of parent
+				// should be updated. For cell, the index will be updated when
+				// row is ended.
+				if ( !( container instanceof XlsCell ) )
+				{
+					setParentContainerIndex( );
+				}
 			}
 			engine.applyContainerBottomStyle( container, page );
 		}
