@@ -4267,7 +4267,7 @@ DataSetColumnBindingsFormPage.Button.RemoveUnused=Quitar columna no usada
 
 ###########################################################
 #DataSetSettingsPage
-DataSetSettingsPage.DataGroup.Title=Ajustes del motos BIRT para comparar valores de la columna de conjunto de datos
+DataSetSettingsPage.DataGroup.Title=Ajustes del motor BIRT para comparar valores de la columna de conjunto de datos
 DataSetSettingsPage.Locale.Label=&Configuración regional de los valores de string de carácter:
 DataSetSettingsPage.NullValueOrdering.Label=&Orden de valores nulos:
 
