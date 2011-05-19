@@ -229,9 +229,7 @@
 		<antcall target="createBirtFramework" />
 
 		<antcall target="createBirtRuntime" />
-		
-		<antcall target="createBirtRuntimeNonOSGi" />
-		
+			
 		<antcall target="createSamplePlugin" />
 		
 		<antcall target="createBirtRCP" />
@@ -601,7 +599,7 @@
 	
 	<target name="createBirtRuntime"  depends="createBirtRuntimeNonOSGi,createWAR">
         <!-- Create birt-runtime/ReportEngine -->
-		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
+		<copy todir="${runtime.tmp}/ReportEngine/lib" flatten="false">
 			<fileset dir="${OutputDir}/runtime_nonosgi">
 				<include name="**/*"/>
 			</fileset>
@@ -665,10 +663,9 @@
 			</zipfileset>
 		</zip>
 		
-		<!--
 		<delete dir="${OutputDir}/runtime_nonosgi" failonerror="false"/>
 		<delete dir="${runtime.tmp}" failonerror="false"/>
-		-->
+
 	</target>
 	
 	<target name="createBirtRuntimeNonOSGi">
@@ -692,6 +689,7 @@
 				<exclude name="org.eclipse.core.runtime.compatibility*/**"/>
 				<exclude name="org.apache.derby.core*/**"/>
 				<exclude name="*junit*/**"/>
+				<exclude name="*.source_*/**"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
 				<include name="*.jar"/>
