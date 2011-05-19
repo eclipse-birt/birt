@@ -629,7 +629,7 @@
 			<fileset dir="${OutputDir}/runtime_nonosgi/lib" >
 				<include name="**"/>
 			</fileset>
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/platform/lib/" >
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib/" >
 				<include name="axis-ant.jar"/>
 				<include name="axis.jar"/>
 				<include name="commons-discovery-0.2.jar"/>
@@ -791,7 +791,7 @@
 			<fileset dir="${OutputDir}/runtime_nonosgi/lib" >
 				<include name="**"/>
 			</fileset>
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/platform/lib/" >
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib/" >
 				<include name="axis-ant.jar"/>
 				<include name="axis.jar"/>
 				<include name="commons-discovery-0.2.jar"/>
