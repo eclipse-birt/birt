@@ -1009,7 +1009,7 @@
 			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
 				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
 			</fileset>
-                        <mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+            <mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 		</copy>
 	</target>
 	

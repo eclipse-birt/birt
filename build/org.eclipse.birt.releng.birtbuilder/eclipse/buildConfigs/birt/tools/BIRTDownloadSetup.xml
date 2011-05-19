@@ -599,15 +599,11 @@
 		<delete dir="${runtime.tmp}" />
 	</target>
 	
-	<target name="createBirtRuntime"  depends="createWAR">
+	<target name="createBirtRuntime"  depends="createBirtRuntimeNonOSGi,createWAR">
         <!-- Create birt-runtime/ReportEngine -->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
-				<patternset refid="exclude.jars" />
-				<exclude name="**/*.nl1_*/**"/>
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar"/>
-				<exclude name="**/org.junit*/**"/>
+			<fileset dir="${OutputDir}/runtime_nonosgi">
+				<include name="**/*"/>
 			</fileset>
 		</copy>
 		<copy todir="${runtime.tmp}/ReportEngine/samples">
@@ -623,19 +619,25 @@
 		
 		<!-- Create birt-runtime/WebViewerExample-->
 		<copy todir="${runtime.tmp}/WebViewerExample">
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web">
-				<patternset refid="exclude.jars" />
-			    <exclude name="plugins/**"/>
-				<exclude name="images/**" />
-				<exclude name="pages/**" />
-				<exclude name="styles/**" />
-				<exclude name="**/*.nl1_*/**"/>
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar"/>
-				<exclude name="**/org.junit*/**"/>
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
+				<exclude name="WEB-INF/lib/**" />
+				<exclude name="WEB-INF/platform/**" />
+				<patternset refid="exclude.jars" />		
 			</fileset>
 		</copy>
-
+		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
+			<fileset dir="${OutputDir}/runtime_nonosgi/lib" >
+				<include name="**"/>
+			</fileset>
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/platform/lib/" >
+				<include name="axis-ant.jar"/>
+				<include name="axis.jar"/>
+				<include name="commons-discovery-0.2.jar"/>
+				<include name="jaxrpc.jar"/>
+				<include name="saaj.jar"/>
+				<include name="viewservlets.jar"/>
+			</fileset>
+		</copy>
 		<!--Correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
 		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
 		<unjar src="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
@@ -654,12 +656,6 @@
 			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform" includes="lib/**" />
 		</delete>
 		
-		<!-- copy extra chartengine, emf has been copied by viewer plugin -->
-		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
-			<fileset dir="${deposit}/eclipse/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-		</copy>
-
 		<zip destfile="${OutputDir}/${runtime.zip.name}">
 			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}" filemode="755">
 			</zipfileset>
@@ -671,6 +667,11 @@
 				<include name="**/*"/>
 			</zipfileset>
 		</zip>
+		
+		<!--
+		<delete dir="${OutputDir}/runtime_nonosgi" failonerror="false"/>
+		<delete dir="${runtime.tmp}" failonerror="false"/>
+		-->
 	</target>
 	
 	<target name="createBirtRuntimeNonOSGi">
@@ -678,15 +679,15 @@
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<!-- Unzip BirtRuntimeOSGi package to get birt and datatools jar -->
-		<mkdir dir="${OutputDir}/runtime_nonosgi" />
+		<mkdir dir="${OutputDir}/runtime_nonosgi/lib" />
 		
 		<unzip src="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" 
 					dest="${OutputDir}/runtime_nonosgi" overwrite="true" />
 		
 		<delete file="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" failonerror="false"/>
 		
-		<copy todir="${OutputDir}/runtime_nonosgi">
-			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
+		<copy todir="${OutputDir}/runtime_nonosgi/lib">
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/plugins">
 				<include name="**"/>
 				<exclude name="org.eclipse.birt*/**"/>
 				<exclude name="org.eclipse.datatools*/**"/>
@@ -698,12 +699,7 @@
 				<include name="*.jar"/>
 			</fileset>
 		</copy>
-		<zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
-			<zipfileset dir="${OutputDir}/runtime_nonosgi" includes="**" />
-		</zip> 
 		
-		<delete dir="${OutputDir}/runtime_nonosgi" failonerror="false"/>
-		<delete dir="${runtime.tmp}" failonerror="false"/>
 	</target>
 	
 	<target name="createBirtRCP" unless="skip.build.rcp">
@@ -779,28 +775,45 @@
 	</target>
 
 	<target name="createWAR">
-	   <mkdir dir="${runtime.tmp}" />
-	   <mkdir dir="${war.tmp}/birt" />
-           <copy todir="${war.tmp}/birt">
-       		<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
-       			<exclude name="plugins/**" />
-       			<patternset refid="exclude.jars" />
-			<exclude name="**/*.nl1_*/**"/>
-			<exclude name="**/*.nl/**" />
-			<exclude name="**/*.nl1_*.jar"/>
-       		 </fileset>
-       	   </copy>
-           <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
-	   <move file="${war.tmp}/birt/WEB-INF/web_deploy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
+		
+		<mkdir dir="${runtime.tmp}" />
+		<mkdir dir="${war.tmp}/birt" />
+
+		<copy todir="${war.tmp}/birt">
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
+				<exclude name="WEB-INF/lib/**" />
+				<exclude name="WEB-INF/platform/**" />
+				<patternset refid="exclude.jars" />		
+			 </fileset>
+		</copy>
+		
+		<copy todir="${war.tmp}/birt/WEB-INF/lib">
+			<fileset dir="${OutputDir}/runtime_nonosgi/lib" >
+				<include name="**"/>
+			</fileset>
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/platform/lib/" >
+				<include name="axis-ant.jar"/>
+				<include name="axis.jar"/>
+				<include name="commons-discovery-0.2.jar"/>
+				<include name="jaxrpc.jar"/>
+				<include name="saaj.jar"/>
+				<include name="viewservlets.jar"/>
+			</fileset>
+		</copy>
+		
+		<delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
+		<move file="${war.tmp}/birt/WEB-INF/web_deploy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
 
 	    <!--remove *_jsp.class from the viewservlets.jar in WAR-->
 	    <unjar src="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" dest="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
 	    <delete file="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" />
+		
 	    <jar destfile="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" basedir="${war.tmp}/birt/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
-	    <delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+	    
+		<delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
 	    <delete dir="${war.tmp}/birt/ajax" failonerror="false" />
 	    <delete includeEmptyDirs="true" failonerror="false" >
-		<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
+			<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
 	    </delete>
 	    <zip destfile="${runtime.tmp}/birt.war">
 	        <zipfileset dir="${war.tmp}/birt" >
@@ -809,6 +822,7 @@
 			<patternset refid="exclude.jars" />
 		</zipfileset>
 	    </zip>
+		
 	    <delete dir="${war.tmp}"/>
 	</target>
 	
