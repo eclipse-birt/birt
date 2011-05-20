@@ -12,44 +12,23 @@
 package org.eclipse.birt.report.model.adapter.oda.api;
 
 import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.model.adapter.oda.impl.ResultSetCriteriaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
-import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.SortHintHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
-import org.eclipse.datatools.connectivity.oda.design.AndExpression;
-import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
-import org.eclipse.datatools.connectivity.oda.design.CompositeFilterExpression;
-import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
-import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
-import org.eclipse.datatools.connectivity.oda.design.DynamicFilterExpression;
-import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
-import org.eclipse.datatools.connectivity.oda.design.ExpressionArguments;
-import org.eclipse.datatools.connectivity.oda.design.ExpressionParameterDefinition;
-import org.eclipse.datatools.connectivity.oda.design.FilterExpression;
-import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
-import org.eclipse.datatools.connectivity.oda.design.InputPromptControlStyle;
 import org.eclipse.datatools.connectivity.oda.design.NullOrderingType;
-import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
-import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.SortDirectionType;
 import org.eclipse.datatools.connectivity.oda.design.SortKey;
 import org.eclipse.datatools.connectivity.oda.design.SortSpecification;
-import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -66,15 +45,11 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	private DataSetDesign createDataSetDesign( )
 	{
 		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
-		setDesign
-				.setOdaExtensionDataSetId( "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$
-		DataSourceDesign dataSource = DesignFactory.eINSTANCE
-				.createDataSourceDesign( );
-		dataSource
-				.setOdaExtensionDataSourceId( "org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
+		setDesign.setOdaExtensionDataSetId( "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$
+		DataSourceDesign dataSource = DesignFactory.eINSTANCE.createDataSourceDesign( );
+		dataSource.setOdaExtensionDataSourceId( "org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
 		setDesign.setDataSourceDesign( dataSource );
-		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE
-				.createResultSetDefinition( );
+		ResultSetDefinition resultSetDefn = DesignFactory.eINSTANCE.createResultSetDefinition( );
 
 		// no exception in conversion; go ahead and assign to specified
 		// dataSetDesign
@@ -91,15 +66,14 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	{
 		openDesign( "SortHintTest.xml" ); //$NON-NLS-1$
 
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "MyDataSet" ); //$NON-NLS-1$
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "MyDataSet" ); //$NON-NLS-1$
 		DataSetDesign setDesign = createDataSetDesign( );
-		ResultSetCriteriaAdapter adapter = new ResultSetCriteriaAdapter(
-				setHandle, setDesign );
+		ResultSetCriteriaAdapter adapter = createAdapter( setHandle, setDesign );
 		adapter.updateODAResultSetCriteria( );
 
 		ResultSetDefinition resultSet = setDesign.getPrimaryResultSet( );
-		EList<SortKey> list = resultSet.getCriteria( ).getRowOrdering( )
+		EList<SortKey> list = resultSet.getCriteria( )
+				.getRowOrdering( )
 				.getSortKeys( );
 
 		assertEquals( 3, list.size( ) );
@@ -142,15 +116,14 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		openDesign( "EmptySortHintTest.xml" ); //$NON-NLS-1$
 
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "MyDataSet" ); //$NON-NLS-1$
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "MyDataSet" ); //$NON-NLS-1$
 		DataSetDesign setDesign = createDataSetDesign( );
 
-		assertNull( setDesign.getPrimaryResultSet( ).getCriteria( )
+		assertNull( setDesign.getPrimaryResultSet( )
+				.getCriteria( )
 				.getRowOrdering( ) );
 
-		ResultSetCriteriaAdapter adapter = new ResultSetCriteriaAdapter(
-				setHandle, setDesign );
+		ResultSetCriteriaAdapter adapter = createAdapter( setHandle, setDesign );
 		adapter.updateODAResultSetCriteria( );
 
 		ResultSetDefinition resultSet = setDesign.getPrimaryResultSet( );
@@ -169,11 +142,9 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 	{
 		openDesign( "SortHintTest.xml" ); //$NON-NLS-1$
 
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "MyDataSet" ); //$NON-NLS-1$
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet( "MyDataSet" ); //$NON-NLS-1$
 		DataSetDesign setDesign = createTestSortHintDataSetDesign( false );
-		ResultSetCriteriaAdapter adapter = new ResultSetCriteriaAdapter(
-				setHandle, setDesign );
+		ResultSetCriteriaAdapter adapter = createAdapter( setHandle, setDesign );
 		adapter.updateROMSortAndFilter( );
 
 		Iterator iter = setHandle.sortHintsIterator( );
@@ -182,28 +153,26 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 
 		assertEquals( "1", handle.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( 1, handle.getPosition( ) );
-		assertEquals(
-				DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISFIRST,
+		assertEquals( DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISFIRST,
 				handle.getNullValueOrdering( ) );
-		assertEquals( DesignChoiceConstants.SORT_DIRECTION_ASC, handle
-				.getDirection( ) );
+		assertEquals( DesignChoiceConstants.SORT_DIRECTION_ASC,
+				handle.getDirection( ) );
 		assertFalse( handle.isOptional( ) );
 
 		handle = (SortHintHandle) iter.next( );
 
 		assertEquals( "2", handle.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( 2, handle.getPosition( ) );
-		assertEquals(
-				DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISLAST,
+		assertEquals( DesignChoiceConstants.NULL_VALUE_ORDERING_TYPE_NULLISLAST,
 				handle.getNullValueOrdering( ) );
-		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, handle
-				.getDirection( ) );
+		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC,
+				handle.getDirection( ) );
 		assertTrue( handle.isOptional( ) );
 
 		save( );
 		assertTrue( compareTextFile( "SortHintFromOdaToReportTest_golden.xml" ) ); //$NON-NLS-1$
 
-		adapter = new ResultSetCriteriaAdapter( setHandle,
+		adapter = createAdapter( setHandle,
 				createTestSortHintDataSetDesign( true ) );
 
 		// Doing nothing expected
@@ -263,5 +232,12 @@ public class ResultSetCriteriaAdapterTest extends BaseTestCase
 		list.add( key );
 
 		return setDesign;
+	}
+
+	private ResultSetCriteriaAdapter createAdapter( OdaDataSetHandle setHandle,
+			DataSetDesign setDesign )
+	{
+		return new ResultSetCriteriaAdapter( setHandle, setDesign, 
+				setDesign.getOdaExtensionDataSetId( ),	true, true );
 	}
 }

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDynamicFilterParameterModel;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.AndExpression;
 import org.eclipse.datatools.connectivity.oda.design.CompositeFilterExpression;
 import org.eclipse.datatools.connectivity.oda.design.CustomFilterExpression;
@@ -52,6 +53,8 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.SortDirectionType;
 import org.eclipse.datatools.connectivity.oda.design.SortKey;
 import org.eclipse.datatools.connectivity.oda.design.SortSpecification;
+import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
+import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -77,11 +80,6 @@ public class ResultSetCriteriaAdapter
 	private final DataSetDesign setDesign;
 
 	/**
-	 * Parameter convert utility
-	 */
-	private final DynamicFilterParameterAdapter paramAdapter;
-
-	/**
 	 * Prefix constant for custom expression.
 	 */
 	private final static String CUSTOM_PREFIX = "#"; //$NON-NLS-1$
@@ -102,6 +100,26 @@ public class ResultSetCriteriaAdapter
 	protected final IODADesignFactory designFactory;
 
 	/**
+	 * The default extension id for ODA driver.
+	 */
+	private String extensionId;
+
+	/**
+	 * The flag which indicates if the ODA driver support filtering.
+	 */
+	private boolean supportsFiltering = false;
+
+	/**
+	 * The flag which indicates if the ODA driver support ordering
+	 */
+	private boolean supportsRowOrdering = false;
+
+	/**
+	 * Parameter convert utility
+	 */
+	private DynamicFilterParameterAdapter paramAdapter;
+
+	/**
 	 * The constructor.
 	 * 
 	 * @param setHandle
@@ -115,9 +133,104 @@ public class ResultSetCriteriaAdapter
 	{
 		this.setHandle = setHandle;
 		this.setDesign = setDesign;
-		this.paramAdapter = new DynamicFilterParameterAdapter( setHandle,
-				setDesign );
+
 		designFactory = ODADesignFactory.getFactory( );
+
+		ExtensionContributor odaContributor = getResultSetExtensionContributor( );
+		if ( odaContributor != null )
+		{
+			extensionId = odaContributor.getDeclaringExtensionId( );
+			supportsFiltering = supportsOdaResultFiltering( odaContributor );
+			supportsRowOrdering = odaContributor.supportsDynamicRowOrdering( );
+			if ( supportsFiltering )
+				paramAdapter = new DynamicFilterParameterAdapter( setHandle,
+						setDesign );
+		}
+				
+	}
+	
+	/**
+	 * The constructor.
+	 * 
+	 * @param setHandle
+	 *            the data set handle
+	 * @param setDesign
+	 *            the data set design
+	 * @param extensionId
+	 * 			  the extension id            
+	 * @param supportsFiltering
+	 *            the flag which indicates whether it supports filtering
+	 * @param supportsRowOrdering
+	 *            the flag which indicates whether it supports ordering
+	 * 
+	 */
+	public ResultSetCriteriaAdapter( OdaDataSetHandle setHandle,
+			DataSetDesign setDesign, String extensionId,
+			boolean supportsFiltering,	boolean supportsRowOrdering )
+	{
+		this.setHandle = setHandle;
+		this.setDesign = setDesign;
+
+		designFactory = ODADesignFactory.getFactory( );
+
+		this.extensionId = extensionId;
+		this.supportsFiltering = supportsFiltering;
+		this.supportsRowOrdering = supportsRowOrdering;
+		if ( supportsFiltering )
+			paramAdapter = new DynamicFilterParameterAdapter( setHandle,
+					setDesign );		
+	}
+
+	/**
+	 * Gets the result set extension contributor.
+	 * 
+	 * @return the extension contributor if existed.
+	 */
+	private ExtensionContributor getResultSetExtensionContributor( )
+	{
+		try
+		{
+			ExtensionContributor[] contributors = ResultExtensionExplorer.getInstance( )
+					.getContributorsOfDataSet( setDesign.getOdaExtensionDataSourceId( ),
+							setDesign.getOdaExtensionDataSetId( ) );
+			if ( contributors.length > 0 )
+				return contributors[0];
+		}
+		catch ( IllegalArgumentException e )
+		{
+		}
+		catch ( OdaException e )
+		{
+		}
+		return null;
+	}
+
+	/**
+	 * Checks if the contributor supports filtering.
+	 * 
+	 * @param odaContributor
+	 *            the extension contributor
+	 * 
+	 * @return true if it supports, otherwise false.
+	 */
+	private boolean supportsOdaResultFiltering(
+			ExtensionContributor odaContributor )
+	{
+		if ( odaContributor == null )
+			return false;
+
+		try
+		{
+			return ResultExtensionExplorer.getInstance( )
+					.getContributedFilterDefinitions( odaContributor ).length > 0;
+		}
+		catch ( IllegalArgumentException e )
+		{
+		}
+		catch ( OdaException e )
+		{
+		}
+		return false;
 	}
 
 	/**
@@ -137,9 +250,11 @@ public class ResultSetCriteriaAdapter
 		if ( criteria == null )
 			return;
 
-		updateROMSortHint( criteria );
+		if ( supportsRowOrdering )
+			updateROMSortHint( criteria );
 
-		updateROMFilterCondition( criteria );
+		if ( supportsFiltering )
+			updateROMFilterCondition( criteria );
 
 	}
 
@@ -161,8 +276,11 @@ public class ResultSetCriteriaAdapter
 			resultSet.setCriteria( criteria );
 		}
 
-		updateODASortKey( criteria );
-		updateOdaFilterExpression( criteria );
+		if ( supportsRowOrdering )
+			updateODASortKey( criteria );
+
+		if ( supportsFiltering )
+			updateOdaFilterExpression( criteria );
 	}
 
 	/**
@@ -478,7 +596,19 @@ public class ResultSetCriteriaAdapter
 		{
 			CustomFilter customFilter = (CustomFilter) filter;
 			if ( !StringUtil.isBlank( customFilter.getColumnExpr( ) ) )
-				key = CUSTOM_PREFIX + customFilter.customFilterExpr.toString( );
+			{
+				FilterExpressionType type = customFilter.customFilterExpr.getType( );
+				if ( type == null )
+					key = CUSTOM_PREFIX
+							+ customFilter.customFilterExpr.toString( );
+				else
+					key = CUSTOM_PREFIX
+							+ type.getDeclaringExtensionId( )
+							+ CUSTOM_PREFIX
+							+ type.getId( )
+							+ CUSTOM_PREFIX
+							+ filter.getColumnExpr( );
+			}
 		}
 		else if ( filter instanceof DynamicFilter )
 		{
@@ -503,8 +633,11 @@ public class ResultSetCriteriaAdapter
 	private String getMapKey( FilterConditionHandle filterConditionHandle )
 	{
 		String key = null;
-		String dynamicFilterParameter = filterConditionHandle
-				.getDynamicFilterParameter( );
+
+		String dynamicFilterParameter = filterConditionHandle.getDynamicFilterParameter( );
+		String extensionName = filterConditionHandle.getExtensionName( );
+		String extensionExprID = filterConditionHandle.getExtensionExprId( );
+
 		if ( !StringUtil.isBlank( dynamicFilterParameter ) )
 		{
 			ParameterHandle parameterHandle = setHandle.getModuleHandle( )
@@ -512,14 +645,21 @@ public class ResultSetCriteriaAdapter
 			if ( parameterHandle instanceof DynamicFilterParameterHandle )
 			{
 				key = DYNAMIC_PREFIX
-						+ ExpressionUtil
-								.createDataSetRowExpression( ( (DynamicFilterParameterHandle) parameterHandle )
-										.getColumn( ) );
+						+ ExpressionUtil.createDataSetRowExpression( ( (DynamicFilterParameterHandle) parameterHandle ).getColumn( ) );
 			}
 			else
 			{ // Cannot find the parameter
 				key = INVALID_FILTER;
 			}
+		}
+		else if ( extensionName != null && extensionExprID != null )
+		{
+			key = CUSTOM_PREFIX
+					+ extensionName
+					+ CUSTOM_PREFIX
+					+ extensionExprID
+					+ CUSTOM_PREFIX
+					+ filterConditionHandle.getExpr( );
 		}
 		return key;
 	}
@@ -536,24 +676,38 @@ public class ResultSetCriteriaAdapter
 	{
 		for ( Iterator iter = setHandle.filtersIterator( ); iter.hasNext( ); )
 		{
-			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter
-					.next( );
+			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter.next( );
 			String key = getMapKey( filterConditionHandle );
-			if ( key != null && filterMap.containsKey( key ) )
+			if ( key != null )
 			{
-				DynamicFilterParameterHandle dynamicFilterParamHandle = (DynamicFilterParameterHandle) setHandle
-						.getModuleHandle( ).findParameter(
-								filterConditionHandle
-										.getDynamicFilterParameter( ) );
-				updateDynamicFilterCondition( filterConditionHandle,
-						(DynamicFilter) filterMap.get( key ),
-						dynamicFilterParamHandle );
+				Filter filter = filterMap.get( key );
+				if ( filter != null )
+				{
+					String dynamicParameter = filterConditionHandle.getDynamicFilterParameter( );
+
+					if ( !StringUtil.isBlank( dynamicParameter ) )
+					{ // Update dynamic filter
+						assert filter instanceof DynamicFilter;
+
+						DynamicFilterParameterHandle dynamicFilterParamHandle = (DynamicFilterParameterHandle) setHandle.getModuleHandle( )
+								.findParameter( dynamicParameter );
+						updateDynamicFilterCondition( filterConditionHandle,
+								(DynamicFilter) filter,
+								dynamicFilterParamHandle );
+					}
+					else
+					{ // Update custom filter
+						assert filter instanceof CustomFilter;
+						updateCustomFilterCondition( filterConditionHandle,
+								( (CustomFilter) filter ).customFilterExpr );
+					}
+				}
+				else
+				{ // not expected
+					assert false;
+				}
 				// Removes the filter from the map after updated
 				filterMap.remove( key );
-			}
-			else
-			{// not expected
-				assert false;
 			}
 		}
 	}
@@ -570,21 +724,25 @@ public class ResultSetCriteriaAdapter
 	{
 		for ( Filter filter : filterMap.values( ) )
 		{
-			FilterCondition filterCondition = StructureFactory
-					.createFilterCond( );
+			FilterCondition filterCondition = StructureFactory.createFilterCond( );
 			filterCondition.setExpr( filter.getColumnExpr( ) );
 
 			// in default, to make sure the pushdown is true.
 			filterCondition.setPushDown( true );
 
-			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) setHandle
-					.getPropertyHandle( IDataSetModel.FILTER_PROP ).addItem(
-							filterCondition );
+			FilterConditionHandle filterConditionHandle = (FilterConditionHandle) setHandle.getPropertyHandle( IDataSetModel.FILTER_PROP )
+					.addItem( filterCondition );
 			if ( filter instanceof CustomFilter )
 			{
-				CustomFilterExpression customFilterExp = ( (CustomFilter) filter ).customFilterExpr;
+				CustomFilterExpression customFilterExpr = ( (CustomFilter) filter ).customFilterExpr;
+				FilterExpressionType tmpType = customFilterExpr.getType( );
+				if ( tmpType != null )
+				{
+					filterConditionHandle.setExtensionName( tmpType.getDeclaringExtensionId( ) );
+					filterConditionHandle.setExtensionExprId( tmpType.getId( ) );
+				}
 				updateCustomFilterCondition( filterConditionHandle,
-						customFilterExp );
+						customFilterExpr );
 			}
 			else if ( filter instanceof DynamicFilter )
 			{
@@ -601,38 +759,36 @@ public class ResultSetCriteriaAdapter
 				// }
 
 				// creates new dynamic filter parameter
-				DynamicFilterParameterHandle dynamicFilterParamHandle = setHandle
-						.getModuleHandle( ).getElementFactory( )
+				DynamicFilterParameterHandle dynamicFilterParamHandle = setHandle.getModuleHandle( )
+						.getElementFactory( )
 						.newDynamicFilterParameter( null );
-				dynamicFilterParamHandle.setColumn( dynamicFilter
-						.getColumnName( ) );
+				dynamicFilterParamHandle.setColumn( dynamicFilter.getColumnName( ) );
 				Integer nativeDataType = dynamicFilter.getNativeDataType( );
 				if ( nativeDataType != null )
 				{
 					dynamicFilterParamHandle.setNativeDataType( nativeDataType );
 					try
 					{
-						dynamicFilterParamHandle
-								.setDataType( NativeDataTypeUtil.getUpdatedDataType(
-										setDesign.getOdaExtensionDataSourceId( ),
-										setDesign.getOdaExtensionDataSetId( ),
-										nativeDataType, null,
-										DesignChoiceConstants.CHOICE_PARAM_TYPE ) );
+						dynamicFilterParamHandle.setDataType( NativeDataTypeUtil.getUpdatedDataType( setDesign.getOdaExtensionDataSourceId( ),
+								setDesign.getOdaExtensionDataSetId( ),
+								nativeDataType,
+								null,
+								DesignChoiceConstants.CHOICE_PARAM_TYPE ) );
 					}
 					catch ( BirtException e )
 					{
 						// Do nothing
 					}
 				}
-				setHandle.getModuleHandle( ).getParameters( )
+				setHandle.getModuleHandle( )
+						.getParameters( )
 						.add( dynamicFilterParamHandle );
 				// sets the reference
-				filterConditionHandle
-						.setDynamicFilterParameter( dynamicFilterParamHandle
-								.getName( ) );
+				filterConditionHandle.setDynamicFilterParameter( dynamicFilterParamHandle.getName( ) );
 				// updates the dynamic filter parameter
 				updateDynamicFilterCondition( filterConditionHandle,
-						dynamicFilter, dynamicFilterParamHandle );
+						dynamicFilter,
+						dynamicFilterParamHandle );
 			}
 		}
 	}
@@ -650,14 +806,6 @@ public class ResultSetCriteriaAdapter
 			FilterConditionHandle filterConditionHandle,
 			CustomFilterExpression customFilterExpr ) throws SemanticException
 	{
-		FilterExpressionType tmpType = customFilterExpr.getType( );
-		if ( tmpType != null )
-		{
-			filterConditionHandle.setExtensionName( tmpType
-					.getDeclaringExtensionId( ) );
-			filterConditionHandle.setExtensionExprId( tmpType.getId( ) );
-		}
-
 		filterConditionHandle.setPushDown( true );
 		filterConditionHandle.setOptional( customFilterExpr.isOptional( ) );
 	}
@@ -697,20 +845,18 @@ public class ResultSetCriteriaAdapter
 		ArrayList<FilterCondition> dropList = new ArrayList<FilterCondition>( );
 		for ( Iterator iter = setHandle.filtersIterator( ); iter.hasNext( ); )
 		{
-			FilterConditionHandle filterHandle = (FilterConditionHandle) iter
-					.next( );
-			String dynamicParameterName = filterHandle
-					.getDynamicFilterParameter( );
+			FilterConditionHandle filterHandle = (FilterConditionHandle) iter.next( );
 			String key = getMapKey( filterHandle );
 			// Check if contains such filter.
 			if ( key != null && !filterMap.containsKey( key ) )
 			{
 				// Remove the filter condition which is not contained.
+				String dynamicParameterName = filterHandle.getDynamicFilterParameter( );
+				
 				if ( !StringUtil.isBlank( dynamicParameterName ) )
-				{
-					ParameterHandle parameterHandle = setHandle
-							.getModuleHandle( ).findParameter(
-									dynamicParameterName );
+				{  // Drop related parameter together.
+					ParameterHandle parameterHandle = setHandle.getModuleHandle( )
+							.findParameter( dynamicParameterName );
 					if ( parameterHandle != null )
 						parameterHandle.drop( );
 				}
@@ -743,16 +889,13 @@ public class ResultSetCriteriaAdapter
 			{ // Both extension name and extension id should not be null
 				return null;
 			}
-			CustomFilterExpression customFilterExpr = designFactory
-					.createCustomFilterExpression( );
+			CustomFilterExpression customFilterExpr = designFactory.createCustomFilterExpression( );
 
-			ExpressionVariable variable = designFactory
-					.createExpressionVariable( );
+			ExpressionVariable variable = designFactory.createExpressionVariable( );
 			variable.setIdentifier( filterHandle.getExpr( ) );
 			customFilterExpr.setContextVariable( variable );
 
-			FilterExpressionType tmpType = designFactory
-					.createFilterExpressionType( );
+			FilterExpressionType tmpType = designFactory.createFilterExpressionType( );
 			tmpType.setDeclaringExtensionId( filterHandle.getExtensionName( ) );
 			tmpType.setId( filterHandle.getExtensionExprId( ) );
 
@@ -769,44 +912,38 @@ public class ResultSetCriteriaAdapter
 			if ( paramHandle instanceof DynamicFilterParameterHandle )
 			{
 				DynamicFilterParameterHandle dynamicParamHandle = (DynamicFilterParameterHandle) paramHandle;
-				DynamicFilterExpression dynamicFilterExpr = designFactory
-						.createDynamicFilterExpression( );
+				DynamicFilterExpression dynamicFilterExpr = designFactory.createDynamicFilterExpression( );
 
 				dynamicFilterExpr.setIsOptional( filterHandle.isOptional( ) );
 
-				ExpressionArguments arguments = designFactory
-						.createExpressionArguments( );
-				ParameterDefinition paramDefn = designFactory
-						.createParameterDefinition( );
+				ExpressionArguments arguments = designFactory.createExpressionArguments( );
+				ParameterDefinition paramDefn = designFactory.createParameterDefinition( );
 
 				// create the default type instance anyway to pass to
 				// DynamicFilterParameterAdapter.
 
-				FilterExpressionType defaultType = designFactory
-						.createFilterExpressionType( );
+				FilterExpressionType defaultType = designFactory.createFilterExpressionType( );
 
-				paramAdapter.updateODADynamicFilter( paramDefn, defaultType,
+				paramAdapter.updateODADynamicFilter( paramDefn,
+						defaultType,
 						dynamicParamHandle );
 				if ( filterHandle.getExtensionName( ) != null
 						&& filterHandle.getExtensionExprId( ) != null )
 				{
-					defaultType.setDeclaringExtensionId( filterHandle
-							.getExtensionName( ) );
+					defaultType.setDeclaringExtensionId( filterHandle.getExtensionName( ) );
 				}
 
 				if ( defaultType.getDeclaringExtensionId( ) == null )
 				{
-					defaultType.setDeclaringExtensionId( setDesign
-							.getOdaExtensionDataSetId( ) );
+					defaultType.setDeclaringExtensionId( extensionId );
 				}
 
-				paramDefn.getAttributes( ).setName(
-						dynamicParamHandle.getColumn( ) );
-				if ( dynamicParamHandle
-						.getProperty( IDynamicFilterParameterModel.NATIVE_DATA_TYPE_PROP ) != null )
+				paramDefn.getAttributes( )
+						.setName( dynamicParamHandle.getColumn( ) );
+				if ( dynamicParamHandle.getProperty( IDynamicFilterParameterModel.NATIVE_DATA_TYPE_PROP ) != null )
 				{
-					paramDefn.getAttributes( ).setNativeDataTypeCode(
-							dynamicParamHandle.getNativeDataType( ) );
+					paramDefn.getAttributes( )
+							.setNativeDataTypeCode( dynamicParamHandle.getNativeDataType( ) );
 				}
 
 				arguments.addDynamicParameter( paramDefn );
@@ -838,7 +975,7 @@ public class ResultSetCriteriaAdapter
 
 		public CustomFilterExpression customFilterExpr;
 
-		public CustomFilter( CustomFilterExpression filterExpr )
+		CustomFilter( CustomFilterExpression filterExpr )
 		{
 			this.customFilterExpr = filterExpr;
 		}

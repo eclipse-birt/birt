@@ -40,9 +40,7 @@
           </design:attributes>
         </design:resultColumnDefinitions>
       </design:resultSetColumns>
-      <design:criteria>
-        <design:rowOrdering/>
-      </design:criteria>
+      <design:criteria/>
     </design:resultSetDefinitions>
   </design:ResultSets>
 </model:DesignValues>
