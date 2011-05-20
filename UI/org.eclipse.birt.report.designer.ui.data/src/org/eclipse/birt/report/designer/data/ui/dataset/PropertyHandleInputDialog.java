@@ -46,6 +46,11 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 		this.structureOrHandle = structureOrHandle;
 	}
 
+	protected boolean isResizable( )
+	{
+		return true;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -56,8 +61,8 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 		super.create( );
 
 		Point pt = getShell( ).computeSize( -1, -1 );
-		pt.x = Math.max( pt.x, 400 );
-		pt.y = Math.max( pt.y, 200 );
+		pt.x = Math.max( pt.x, 520 );
+		pt.y = Math.max( pt.y, 250 );
 		getShell( ).setSize( pt );
 		getShell( ).setText( getTitle( ) );
 	}
