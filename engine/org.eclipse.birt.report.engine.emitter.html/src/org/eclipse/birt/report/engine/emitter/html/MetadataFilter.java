@@ -14,12 +14,11 @@ package org.eclipse.birt.report.engine.emitter.html;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.api.IMetadataFilter;
-import org.eclipse.birt.report.engine.ir.TableGroupDesign;
-import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -315,11 +314,14 @@ public class MetadataFilter implements IMetadataFilter
 						}
 					}
 				}
-				rowHeaderFooterCache.put( containerHandle, Boolean.FALSE );
+				else if ( !( rowParentHnadle instanceof GridHandle ) )
+				{
+					rowHeaderFooterCache.put( containerHandle, Boolean.FALSE );
+				}
 			}
 
 			// Return false when reach top level report.
-			if ( containerHandle instanceof ReportDesignHandle )
+			else if ( containerHandle instanceof ReportDesignHandle )
 			{
 				return false;
 			}
