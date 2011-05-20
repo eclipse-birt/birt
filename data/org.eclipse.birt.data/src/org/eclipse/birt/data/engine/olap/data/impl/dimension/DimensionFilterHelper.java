@@ -70,7 +70,9 @@ public class DimensionFilterHelper
 	 */
 	private static BaseDiskSortedStack find(Level level, ISelection[] filter) throws IOException, DataException
 	{
-		IDiskArray indexKeyArray = level.getDiskIndex().find( filter );
+		IDiskArray indexKeyArray = null;
+		if( level.getDiskIndex() != null )
+			indexKeyArray = level.getDiskIndex().find( filter );
 		if ( indexKeyArray != null )
 		{
 			int len = 0;
