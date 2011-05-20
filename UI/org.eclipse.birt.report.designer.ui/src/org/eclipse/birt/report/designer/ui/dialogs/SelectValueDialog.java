@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -100,7 +101,20 @@ public class SelectValueDialog extends BaseDialog
 	public void setSelectedValueList( Collection valueList )
 	{
 		modelValueList.clear( );
-		modelValueList.addAll( valueList );
+		if ( valueList != null )
+		{
+			Iterator iter = valueList.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object value = iter.next( );
+				if ( value == null )
+				{
+					modelValueList.add( new NullValue( ) );
+				}
+				else
+					modelValueList.add( value );
+			}
+		}
 	}
 
 	/**
@@ -287,7 +301,7 @@ public class SelectValueDialog extends BaseDialog
 		if ( selectedIndices != null && selectedIndices.length > 0 )
 		{
 			Object modelValue = selectedItems[0];
-			if ( modelValue == null )
+			if ( modelValue instanceof NullValue )
 			{
 				return "null"; //$NON-NLS-1$
 			}
@@ -334,7 +348,7 @@ public class SelectValueDialog extends BaseDialog
 			{
 				Object modelValue = selectedItems[i];
 
-				if ( modelValue == null )
+				if ( modelValue instanceof NullValue )
 				{
 					exprValues[i] = "null"; //$NON-NLS-1$
 				}
@@ -380,7 +394,7 @@ public class SelectValueDialog extends BaseDialog
 		{
 			Object modelValue = selectedItems[0];
 			String dataType = null;
-			if ( modelValue != null )
+			if ( !( modelValue instanceof NullValue ) )
 			{
 				dataType = DataSetUIUtil.toModelDataType( DataTypeUtil.toApiDataType( modelValue.getClass( ) ) );
 				String viewerValue = getDataText( modelValue );
@@ -411,7 +425,7 @@ public class SelectValueDialog extends BaseDialog
 			{
 				Object modelValue = selectedItems[i];
 				String dataType = null;
-				if ( modelValue != null )
+				if ( !( modelValue instanceof NullValue ) )
 				{
 					dataType = DataSetUIUtil.toModelDataType( DataTypeUtil.toApiDataType( modelValue.getClass( ) ) );
 					String viewerValue = getDataText( modelValue );
@@ -439,6 +453,14 @@ public class SelectValueDialog extends BaseDialog
 		{
 			if ( sortDir == SWT.UP )
 			{
+				if ( e1 instanceof NullValue )
+				{
+					return -1;
+				}
+				if ( e2 instanceof NullValue )
+				{
+					return 1;
+				}
 				if ( e1 instanceof Integer )
 				{
 					return ( (Integer) e1 ).compareTo( (Integer) e2 );
@@ -458,11 +480,15 @@ public class SelectValueDialog extends BaseDialog
 			}
 			else if ( sortDir == SWT.DOWN )
 			{
-				if ( e2 instanceof Integer )
+				if ( e1 instanceof NullValue )
 				{
-					return ( (Integer) e2 ).compareTo( (Integer) e1 );
+					return 1;
 				}
-				else if ( e2 instanceof Double )
+				if ( e2 instanceof NullValue )
+				{
+					return -1;
+				}
+				if ( e2 instanceof Double )
 				{
 					return ( (Double) e2 ).compareTo( (Double) e1 );
 				}
@@ -509,7 +535,7 @@ public class SelectValueDialog extends BaseDialog
 		{
 			if ( columnIndex == 0 )
 			{
-				if ( element != null )
+				if ( !( element instanceof NullValue ) )
 					return getDataText( element );
 				else
 					return nullValueDispaly;
@@ -537,5 +563,9 @@ public class SelectValueDialog extends BaseDialog
 			}
 		}
 		return null;
+	}
+
+	class NullValue
+	{
 	}
 }
