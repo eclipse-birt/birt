@@ -638,6 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=Neue berechnete Spalte.
 DataSetComputedColumnsPage.toolTipText.Edit=Berechnete Spalte bearbeiten.
 DataSetComputedColumnsPage.InputDialog.title.New=Neue berechnete Spalte
 DataSetComputedColumnsPage.InputDialog.title.Edit=Berechnete Spalte bearbeiten
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 
 ###########################################################

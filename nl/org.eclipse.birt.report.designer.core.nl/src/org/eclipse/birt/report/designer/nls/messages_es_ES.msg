@@ -638,6 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=Nueva columna procesada.
 DataSetComputedColumnsPage.toolTipText.Edit=Editar columna procesada.
 DataSetComputedColumnsPage.InputDialog.title.New=Nueva columna procesada
 DataSetComputedColumnsPage.InputDialog.title.Edit=Editar columna procesada
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 
 ###########################################################

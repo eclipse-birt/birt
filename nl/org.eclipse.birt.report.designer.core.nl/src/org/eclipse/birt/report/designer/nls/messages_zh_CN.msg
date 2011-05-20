@@ -638,6 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=新建计算列。
 DataSetComputedColumnsPage.toolTipText.Edit=编辑计算列。
 DataSetComputedColumnsPage.InputDialog.title.New=新建计算列
 DataSetComputedColumnsPage.InputDialog.title.Edit=编辑计算列
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 
 ###########################################################

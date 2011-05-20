@@ -638,6 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=계산 열 새로 만들기
 DataSetComputedColumnsPage.toolTipText.Edit=계산 열 편집
 DataSetComputedColumnsPage.InputDialog.title.New=계산 열 새로 만들기
 DataSetComputedColumnsPage.InputDialog.title.Edit=계산 열 편집
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 
 ###########################################################

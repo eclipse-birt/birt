@@ -638,6 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=新しい計算列を作成します。
 DataSetComputedColumnsPage.toolTipText.Edit=計算列を編集します。
 DataSetComputedColumnsPage.InputDialog.title.New=計算列の新規作成
 DataSetComputedColumnsPage.InputDialog.title.Edit=計算列の編集
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=計算列
 
 ###########################################################

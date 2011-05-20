@@ -638,6 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=Nouvelle colonne de calcul.
 DataSetComputedColumnsPage.toolTipText.Edit=Modifier la colonne de calcul.
 DataSetComputedColumnsPage.InputDialog.title.New=Nouvelle colonne de calcul
 DataSetComputedColumnsPage.InputDialog.title.Edit=Modifier la colonne de calcul
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Colonne de calcul
 
 ###########################################################
