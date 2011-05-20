@@ -23,48 +23,88 @@ public class FontInfo
 
 	private int fontStyle;
 
-	private float fontPadding;
+	private boolean simulation;
 
 	private float lineWidth;
-
-	private boolean simulation;
+	private float fontHeight;
+	private float baselinePosition;
+	private float underlinePosition;
+	private float linethroughPosition;
+	private float overlinePosition;
 
 	public FontInfo( BaseFont bf, float fontSize, int fontStyle,
 			boolean simulation )
 	{
 		this.bf = bf;
-		this.fontSize = fontSize;
 		this.fontStyle = fontStyle;
-		this.fontPadding = fontSize / 5f;
-		this.lineWidth = fontSize / 20f;
 		this.simulation = simulation;
+		this.fontSize = fontSize;
+		setupFontSize( );
 	}
 
 	public FontInfo( FontInfo fontInfo )
 	{
 		this.bf = fontInfo.bf;
-		this.fontSize = fontInfo.fontSize;
 		this.fontStyle = fontInfo.fontStyle;
-		this.fontPadding = fontInfo.fontSize / 5f;
-		this.lineWidth = fontInfo.fontSize / 20f;
 		this.simulation = fontInfo.simulation;
-	}
-
-	public void setBaseFont( BaseFont bf )
-	{
-		this.bf = bf;
+		this.fontSize = fontInfo.fontSize;
+		setupFontSize( );
 	}
 
 	public void setFontSize( float fontSize )
 	{
 		this.fontSize = fontSize;
-		this.fontPadding = this.fontSize / 5f;
-		this.lineWidth = this.fontSize / 20f;
+		setupFontSize( );
 	}
 
-	public void setFontStyle( int fontStyle )
+	protected void setupFontSize( )
 	{
-		this.fontStyle = fontStyle;
+
+		if ( bf == null )
+		{
+			lineWidth = 1;
+			fontHeight = fontSize;
+			baselinePosition = fontSize;
+			underlinePosition = fontSize;
+			linethroughPosition = fontSize / 2;
+			overlinePosition = 0;
+			return;
+		}
+
+		float ascent = bf.getFontDescriptor( BaseFont.ASCENT, fontSize );
+		float descent = bf.getFontDescriptor( BaseFont.DESCENT, fontSize );
+		float baseline = bf.getFontDescriptor( BaseFont.UNDERLINE_POSITION,
+				fontSize );
+		float baseline_thickness = bf.getFontDescriptor(
+				BaseFont.UNDERLINE_THICKNESS, fontSize );
+		float strike = bf.getFontDescriptor( BaseFont.STRIKETHROUGH_POSITION,
+				fontSize );
+		float strike_thickness = bf.getFontDescriptor(
+				BaseFont.STRIKETHROUGH_THICKNESS, fontSize );
+
+		lineWidth = baseline_thickness;
+		if ( lineWidth == 0 )
+		{
+			lineWidth = strike_thickness;
+			if ( lineWidth == 0 )
+			{
+				lineWidth = fontSize / 20;
+			}
+		}
+		fontHeight = ascent - descent;
+		//TODO: the -lineWidth/2 should be move to the draw function
+		baselinePosition = ascent - lineWidth / 2;
+		underlinePosition = ascent - baseline - lineWidth / 2;
+		if ( strike == 0 )
+		{
+			linethroughPosition = fontHeight / 2 - lineWidth / 2;
+		}
+		else
+		{
+			linethroughPosition = ascent - strike - lineWidth / 2;
+		}
+		//TODO: overline is not same with the HTML, we need change it in future.
+		overlinePosition = 0;
 	}
 
 	public void setSimulation( boolean simulation )
@@ -99,31 +139,22 @@ public class FontInfo
 
 	public int getOverlinePosition( )
 	{
-		// float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT,
-		// fontSize);
-		// float ascent = bf.getFontDescriptor(BaseFont.ASCENT, fontSize);
-		return (int) ( ( fontPadding / 2f - lineWidth / 2f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		return (int) ( overlinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
 
 	public int getUnderlinePosition( )
 	{
-		float awtAscent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
-		float awtDescent = -bf.getFontDescriptor( BaseFont.AWT_DESCENT,
-				fontSize );
-		return (int) ( ( awtAscent + awtDescent + lineWidth / 2f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		return (int) ( underlinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
 
 	public int getLineThroughPosition( )
 	{
-		float awtAscent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
-		float ascent = bf.getFontDescriptor( BaseFont.ASCENT, fontSize );
-		float descent = -bf.getFontDescriptor( BaseFont.DESCENT, fontSize );
-		return (int) ( ( awtAscent + fontPadding / 2f - ascent + ( ascent + descent ) / 2.0f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		return (int) ( linethroughPosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
 
 	public int getBaseline( )
 	{
-		return (int) ( ( bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize ) + fontPadding / 2f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		return (int) ( baselinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
 
 	/**
@@ -135,9 +166,15 @@ public class FontInfo
 	 */
 	public float getWordWidth( String word )
 	{
-		if ( bf == null || word == null )
+		if ( word == null )
+		{
 			return 0;
-		//FIXME the width should consider the italic/bold font style.
+		}
+		if ( bf == null )
+		{
+			return word.length( ) * ( fontSize / 2 );
+		}
+		// FIXME the width should consider the italic/bold font style.
 		return bf.getWidthPoint( word, fontSize );
 	}
 
@@ -148,18 +185,13 @@ public class FontInfo
 	 */
 	public float getWordHeight( )
 	{
-		if ( bf == null )
-			return fontSize;
-		return bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize )
-				- bf.getFontDescriptor( BaseFont.AWT_DESCENT, fontSize )
-				+ bf.getFontDescriptor( BaseFont.AWT_LEADING, fontSize )
-				+ fontSize / 4f;
+		return fontHeight;
 	}
 
 	public String getFontName( )
 	{
 		assert bf != null;
-		String[][] familyFontNames = bf.getFamilyFontName();
+		String[][] familyFontNames = bf.getFamilyFontName( );
 		String[] family = familyFontNames[familyFontNames.length - 1];
 		return family[family.length - 1];
 	}
