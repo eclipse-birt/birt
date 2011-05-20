@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
@@ -1194,6 +1195,8 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 					final Text txtDataField = txtParams[i];
 					
 					txtDataField.setLayoutData( ControlProvider.getGridDataWithHSpan( 1 ) );
+					txtDataField.setData( params[i] );
+					
 					txtDataField.addModifyListener( new ModifyListener( ) {
 
 						public void modifyText( ModifyEvent e )
@@ -1679,15 +1682,78 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 					}
 				}
 			}
-			else
+			else if ( txtParams != null
+					&& isBlankProperty( txtParams[0].getText( ) ) )
 			{
-				if ( txtParams != null
-						&& isBlankProperty( txtParams[0].getText( ) ) )
+				return getBlankPropertyStatus( dialogLabels[EXPRESSION_INDEX] );
+			}
+			
+			try
+			{
+				if ( cmbAggregation != null
+						&& cmbAggregation.getText( ).trim( ).length( ) > 0
+						&& !checkExpressionBindingFields( ) )
 				{
-					return getBlankPropertyStatus( dialogLabels[EXPRESSION_INDEX] );
+					return getMiscStatus( IStatus.ERROR,
+							Messages.getString( "DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression" ) ); //$NON-NLS-1$
 				}
 			}
+			catch ( BirtException e )
+			{
+			}
 			return getOKStatus( );
+		}
+		
+		private boolean checkExpressionBindingFields( ) throws BirtException
+		{
+			for ( int i = 0; i < txtParams.length; i++ )
+			{
+				if ( txtParams[i].getData( ) instanceof IParameterDefn )
+				{
+					IParameterDefn paramDefn = (IParameterDefn) txtParams[i].getData( );
+					if ( paramDefn.isDataField( ) )
+					{
+						String expr = txtParams[i].getText( );
+						List columns = ExpressionUtil.extractColumnExpressions( expr,
+								ExpressionUtil.ROW_INDICATOR );
+						columns.addAll( ExpressionUtil.extractColumnExpressions( expr,
+								ExpressionUtil.DATASET_ROW_INDICATOR ) );
+						for ( int k = 0; k < columns.size( ); k++ )
+						{
+							String columnName = ( (IColumnBinding) columns.get( k ) ).getResultSetColumnName( );
+							ComputedColumnHandle item = findComputedColumn( columnName );
+							if ( item != null
+									&& item.getAggregateFunction( ) != null )
+							{
+								return false;
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		private ComputedColumnHandle findComputedColumn( String name )
+		{
+			if ( name == null || name.trim( ).length( ) == 0 )
+				return null;
+
+			PropertyHandle properyHandle = ( (DataSetEditor) getContainer( ) ).getHandle( )
+					.getPropertyHandle( DataSetHandle.COMPUTED_COLUMNS_PROP );
+			if ( properyHandle != null )
+			{
+				Iterator iter = properyHandle.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					ComputedColumnHandle computedColumn = (ComputedColumnHandle) iter.next( );
+					if ( name.equals( computedColumn.getName( ) ) )
+					{
+						return computedColumn;
+					}
+				}
+			}
+			return null;
 		}
 
 		/**
