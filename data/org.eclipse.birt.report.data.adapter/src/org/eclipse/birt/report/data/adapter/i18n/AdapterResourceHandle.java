@@ -25,7 +25,7 @@ public class AdapterResourceHandle extends ResourceHandle
 	/**
 	 * @param locale
 	 */
-	private AdapterResourceHandle( ULocale locale )
+	public AdapterResourceHandle( ULocale locale )
 	{
 		super( locale );
 	}

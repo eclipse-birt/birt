@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.data.adapter.api;
 
-import java.util.ResourceBundle;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
+
+import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Implementation of BirtException in DtE project.
@@ -22,8 +25,12 @@ import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 public class AdapterException extends BirtException
 {
 	/** static ResourceHandle */
-	private static ResourceBundle resourceBundle = AdapterResourceHandle.getInstance( )
-			.getResourceBundle( );
+	static protected UResourceBundle dftRb = new AdapterResourceHandle( ULocale
+			.getDefault( ) ).getUResourceBundle( );
+	
+	static protected ThreadLocal threadLocal = new ThreadLocal( );
+	
+	protected static HashMap resourceBundles = new HashMap( );
 	
 	/** pluginId, probably this value should be obtained externally */
 	private final static String _pluginId = "org.eclipse.birt.report.data.adapter";
@@ -31,12 +38,57 @@ public class AdapterException extends BirtException
 	/** serialVersionUID */
 	private static final long serialVersionUID = 8571109940669957243L;
 	
+	static public void setULocale( ULocale locale )
+	{
+		if ( locale == null )
+		{
+			return;
+		}
+		UResourceBundle rb = (UResourceBundle) threadLocal.get( );
+		if ( rb != null )
+		{
+			ULocale rbLocale = rb.getULocale( );
+			if ( locale.equals( rbLocale ) )
+			{
+				return;
+			}
+		}
+		rb = getResourceBundle(locale);
+		threadLocal.set( rb );
+	}
+	
+	protected synchronized static UResourceBundle getResourceBundle(
+			ULocale locale )
+	{
+		/* ulocale has overides the hashcode */
+		UResourceBundle rb = (UResourceBundle) resourceBundles.get( locale );
+		if ( rb == null )
+		{
+			rb = new AdapterResourceHandle( locale ).getUResourceBundle( );
+			if ( rb != null )
+			{
+				resourceBundles.put( locale, rb );
+			}
+		}
+		return rb;
+	}
+	
+	static UResourceBundle getResourceBundle( )
+	{
+		UResourceBundle rb = (UResourceBundle) threadLocal.get( );
+		if ( rb == null )
+		{
+			return dftRb;
+		}
+		return rb;
+	}
+	
 	/*
 	 * @see BirtException(errorCode)
 	 */
 	public AdapterException( String errorCode )
 	{
-		super( _pluginId, errorCode, resourceBundle );
+		super( _pluginId, errorCode, getResourceBundle() );
 	}
 	
 	/**
@@ -46,7 +98,7 @@ public class AdapterException extends BirtException
 	 */
 	public AdapterException( String errorCode, Object argv )
 	{
-		super( _pluginId, errorCode, argv, resourceBundle );
+		super( _pluginId, errorCode, argv, getResourceBundle() );
 	}
 	
 	/**
@@ -56,7 +108,7 @@ public class AdapterException extends BirtException
 	 */
 	public AdapterException( String errorCode, Object argv[] )
 	{
-		super( _pluginId, errorCode, argv, resourceBundle );
+		super( _pluginId, errorCode, argv, getResourceBundle() );
 	}
     
     /*
@@ -64,17 +116,17 @@ public class AdapterException extends BirtException
      */
     public AdapterException( String errorCode, Throwable cause )
     {
-    	super( _pluginId, errorCode, resourceBundle, cause );
+    	super( _pluginId, errorCode, getResourceBundle(), cause );
     }
     
     public AdapterException( String errorCode, Throwable cause, Object argv )
     {
-    	super( _pluginId, errorCode, argv, resourceBundle, cause);
+    	super( _pluginId, errorCode, argv, getResourceBundle(), cause);
     }
     
     public AdapterException( String errorCode, Throwable cause, Object argv[] )
     {
-    	super( _pluginId, errorCode, argv, resourceBundle, cause );
+    	super( _pluginId, errorCode, argv, getResourceBundle(), cause );
     }
     /*
 	 * @see java.lang.Throwable#getLocalizedMessage()

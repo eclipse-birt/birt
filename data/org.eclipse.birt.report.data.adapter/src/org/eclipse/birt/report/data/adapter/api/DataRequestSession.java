@@ -38,6 +38,8 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Main entry point to Data Engine functionalities. Each data request session can be used
  * to execute data requests associated with one report design. 
@@ -71,6 +73,10 @@ public abstract class DataRequestSession
 	public static DataRequestSession newSession( PlatformConfig platformConfig,
 			DataSessionContext context ) throws BirtException
 	{
+		ULocale locale = context.getDataEngineContext().getLocale( );
+		if( locale != null && locale != ULocale.getDefault( ) )
+			AdapterException.setULocale( locale );
+		
 		Platform.startup( platformConfig );
 
 		Object factory = Platform.createFactoryObject( IDataAdapterFactory.EXTENSION_DATA_ADAPTER_FACTORY );
