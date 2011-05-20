@@ -315,7 +315,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		do
 		{
-			if ( columnValueIterator.getValue()!=null )
+//			if ( columnValueIterator.getValue()!=null )
 				values.add( columnValueIterator.getValue( ) );
 		}while(  columnValueIterator.next( )  );
 		
@@ -344,7 +344,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		do
 		{
-			if ( columnValueIterator.getValue( ) != null )
+//			if ( columnValueIterator.getValue( ) != null )
 				values.add( columnValueIterator.getValue( ) );
 		} while ( columnValueIterator.next( ) );
 
@@ -373,7 +373,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		do
 		{
-			if ( columnValueIterator.getValue( ) != null )
+//			if ( columnValueIterator.getValue( ) != null )
 				values.add( columnValueIterator.getValue( ) );
 		} while ( columnValueIterator.next( ) );
 
