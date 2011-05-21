@@ -92,7 +92,7 @@ public class JDBCDriverManager
 	private JDBCDriverManager()
 	{
 		logger.logp( java.util.logging.Level.FINE,
-				OdaJdbcDriver.class.getName( ),
+		        JDBCDriverManager.class.getName( ),
 				"JDBCDriverManager",
 				"JDBCDriverManager starts up" );
 	}
