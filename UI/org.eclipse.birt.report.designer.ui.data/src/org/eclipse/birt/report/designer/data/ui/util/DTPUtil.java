@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.consumer.helper.DriverExtensionHelper;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
@@ -308,9 +309,7 @@ public class DTPUtil
 			OdaDataSourceHandle dataSourceHandle ) throws URISyntaxException
 	{
 	    DataSourceDesign dataSourceDesign = modelOdaAdapter.createDataSourceDesign( dataSourceHandle );
-		DesignSessionUtil.setDataSourceResourceIdentifiers( dataSourceDesign,
-				getBIRTResourcePath( ),
-				getReportDesignPath( ) );
+        supplementDesignAttributes( dataSourceDesign );
 
 		DesignSessionRequest designSessionRequest = DesignFactory.eINSTANCE.createDesignSessionRequest( dataSourceDesign );
 
@@ -319,6 +318,18 @@ public class DTPUtil
 			designSessionRequest.setDesignerState( designerState );
 
 		return designSessionRequest;
+	}
+
+	/**
+	 * Adds supplemental attributes to complete the specified data source design.
+	 * @param dataSourceDesign
+	 * @throws URISyntaxException
+	 */
+	public void supplementDesignAttributes(
+	            DataSourceDesign dataSourceDesign ) throws URISyntaxException           
+	{
+	    applyResourceIdentifiers( dataSourceDesign );
+	    applyEffectiveDataSourceId( dataSourceDesign );
 	}
 	
 	/**
@@ -339,6 +350,31 @@ public class DTPUtil
 				getBIRTResourcePath( ),
 				getReportDesignPath( ) );
 	}
+
+    private void applyEffectiveDataSourceId( DataSourceDesign dataSourceDesign )
+    {
+        String odaExtensionId = dataSourceDesign != null ?
+                dataSourceDesign.getOdaExtensionId() : null;
+        if ( odaExtensionId == null )
+            return;    // insufficent info to get seffective data source id
+
+        String effectiveExtensionId;
+        try
+        {
+            effectiveExtensionId = DriverExtensionHelper.getEffectiveDataSourceId( odaExtensionId );
+        }
+        catch( OdaException ex )
+        {
+            // log and ignore
+            logger.log( Level.INFO, 
+                    "Unable to determine the effective runtime data source id of " + odaExtensionId + //$NON-NLS-1$
+                    ".  Exception: " + ex.getMessage() ); //$NON-NLS-1$
+            return;
+        }
+
+        if ( ! odaExtensionId.equalsIgnoreCase( effectiveExtensionId ) )
+            dataSourceDesign.setEffectiveOdaExtensionId( effectiveExtensionId );        
+    }
     
 	/**
 	 * Gets the BIRT resource path
