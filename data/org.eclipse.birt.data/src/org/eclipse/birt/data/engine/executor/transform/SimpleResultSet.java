@@ -27,9 +27,10 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.ICloseable;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.DataSourceQuery;
+import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
@@ -39,6 +40,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
@@ -46,6 +48,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
+import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -61,7 +64,6 @@ import org.mozilla.javascript.Scriptable;
 public class SimpleResultSet implements IResultIterator
 {
 
-	private ResultSet resultSet;
 	private RowResultSet rowResultSet;
 	private IResultObject currResultObj;
 	private IEventHandler handler;
@@ -77,6 +79,7 @@ public class SimpleResultSet implements IResultIterator
 	private IGroupCalculator groupCalculator;
 	private ProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
+	private ICloseable closeable;
 	
 	/**
 	 * 
@@ -86,23 +89,50 @@ public class SimpleResultSet implements IResultIterator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public SimpleResultSet( DataSourceQuery dataSourceQuery,
-			ResultSet resultSet, IResultClass resultClass,
-			IEventHandler handler, GroupSpec[] groupSpecs ) throws DataException
+	public SimpleResultSet( BaseQuery dataSourceQuery,
+			final ResultSet resultSet, IResultClass resultClass,
+			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
 				false ) );
+		this.closeable = new ICloseable(){
+
+			public void close( ) throws DataException
+			{
+				resultSet.close( );
+				
+			}};
+		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session );
+				
+	}
+
+	public SimpleResultSet( BaseQuery dataSourceQuery,
+			IDataSetPopulator populator, IResultClass resultClass,
+			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
+	{
+		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
+				dataSourceQuery.getFetchEvents( ),
+				new OdiAdapter( populator ),
+				resultClass,
+				false ) );
+		this.closeable = (populator instanceof ICloseable)?(ICloseable)populator:null; 
+		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session );
+				
+	}
+	private void initialize( BaseQuery dataSourceQuery,
+			IResultClass resultClass, IEventHandler handler,
+			GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
+	{
 		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = new SimpleGroupCalculator( dataSourceQuery.getSession( ), groupSpecs, this.rowResultSet.getMetaData( ) );
+		this.groupCalculator = new SimpleGroupCalculator( session, groupSpecs, this.rowResultSet.getMetaData( ) );
 		this.currResultObj = this.rowResultSet.next( );
 		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
 		this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
 		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
-		this.resultSet = resultSet;
 		this.handler = handler;
 		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
 		if( query instanceof IQueryDefinition && ((IQueryDefinition)query).needAutoBinding( ))
@@ -114,17 +144,15 @@ public class SimpleResultSet implements IResultIterator
 			}
 		}
 		
-		Scriptable scope = dataSourceQuery.getSession( ).getSharedScope( );
+		Scriptable scope = session.getSharedScope( );
 		
 		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
 		this.aggrHelper = new ProgressiveAggregationHelper( manager,
-				dataSourceQuery.getSession( ).getTempDir( ),
+				session.getTempDir( ),
 				scope,
-				dataSourceQuery.getSession( )
-						.getEngineContext( )
+				session.getEngineContext( )
 						.getScriptContext( ) );
 		this.groupCalculator.setAggrHelper( this.aggrHelper );
-				
 	}
 	
 	/*
@@ -135,10 +163,10 @@ public class SimpleResultSet implements IResultIterator
 	{
 		if( this.isClosed )
 			return;
-		if ( this.resultSet != null )
+		if ( this.closeable != null )
 		{
-			this.resultSet.close( );
-			this.resultSet = null;
+			this.closeable.close( );
+			this.closeable = null;
 		}
 		this.groupCalculator.close( );
 		
@@ -253,16 +281,16 @@ public class SimpleResultSet implements IResultIterator
 	{
 		this.streamsWrapper = streamsWrapper;
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
-		if ( streamsWrapper.getStreamForResultClass( ) != null )
-		{
-			( (ResultClass) populateResultClass( getResultClass( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
-							? null : this.handler.getAllColumnBindings( ),
-					streamsWrapper.getStreamManager( ).getVersion( ) );
-		}
 		try
 		{
-			streamsWrapper.getStreamForResultClass( ).close( );
+			if ( streamsWrapper.getStreamForResultClass( ) != null )
+			{
+				( (ResultClass) populateResultClass( getResultClass( ) ) ).doSave( streamsWrapper.getStreamForResultClass( ),
+						( this.query instanceof IQueryDefinition && ( (IQueryDefinition) this.query ).needAutoBinding( ) )
+								? null : this.handler.getAllColumnBindings( ),
+						streamsWrapper.getStreamManager( ).getVersion( ) );
+				streamsWrapper.getStreamForResultClass( ).close( );
+			}
 			dataSetStream = this.streamsWrapper.getStreamManager( )
 					.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
 							StreamManager.ROOT_STREAM,

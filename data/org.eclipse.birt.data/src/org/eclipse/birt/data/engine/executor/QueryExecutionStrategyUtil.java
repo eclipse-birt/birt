@@ -63,8 +63,12 @@ public final class QueryExecutionStrategyUtil
 	public static Strategy getQueryExecutionStrategy( DataEngineSession session, IQueryDefinition query,
 			IBaseDataSetDesign dataSet ) throws DataException
 	{
+		if ( session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
+			return Strategy.Complex;
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
 		{
+			if( session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
+				return Strategy.Complex;
 			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ))
 			{
 				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
@@ -100,11 +104,6 @@ public final class QueryExecutionStrategyUtil
 				IBinding binding = (IBinding) bindingIt.next( );
 				if ( binding.getAggrFunction( ) != null )
 				{
-					if( dataSet!= null )
-					{	//TODO enhance me in M2.
-						if( dataSet.getClass( ).getName( ).startsWith( "com" ))
-							return Strategy.Complex;
-					}
 					IAggrFunction aggr = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
 					if( aggr!= null && aggr.getNumberOfPasses() > 1 )
 					{

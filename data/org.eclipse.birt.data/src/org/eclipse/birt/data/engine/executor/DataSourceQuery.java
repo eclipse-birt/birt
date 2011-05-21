@@ -1009,7 +1009,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 							rs,
 							newResultClass,
 							eventHandler,
-							this.getGrouping( )));
+							this.getGrouping( ),
+							this.session));
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
 				}

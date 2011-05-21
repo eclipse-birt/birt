@@ -166,7 +166,12 @@ public class DataEngineSession
 		{
 			int count = IOUtil.readInt( aclCollectionStream );
 			for ( int i = 0; i < count; i++ )
-				acls.put( IOUtil.readString( aclCollectionStream ), i );
+			{
+				String temp = IOUtil.readString( aclCollectionStream );
+				if( temp != null )
+					temp = temp.toUpperCase( );
+				acls.put( temp, i );
+			}
 			aclCollectionStream.close( );
 		}
 		catch ( IOException e )
