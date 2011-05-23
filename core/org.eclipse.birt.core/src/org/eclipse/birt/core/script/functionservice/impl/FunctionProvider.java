@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.core.script.functionservice.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.functionservice.IScriptFunction;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
@@ -23,7 +26,11 @@ import org.mozilla.javascript.Scriptable;
 
 public class FunctionProvider
 {
-	private static IFunctionProvider provider;
+
+	private static Logger logger = Logger.getLogger( FunctionProvider.class
+			.getName( ) );
+	private static String PROVIDER_CLASS = "org.eclipse.birt.core.internal.function.impl.FunctionProviderImpl";
+	private static IFunctionProvider instance;
 
 	/**
 	 * Set the current function provider impl.
@@ -31,7 +38,29 @@ public class FunctionProvider
 	 */
 	public static void setFunctionProvider( IFunctionProvider provider )
 	{
-		FunctionProvider.provider = provider;
+		FunctionProvider.instance = provider;
+	}
+
+	protected synchronized static IFunctionProvider getFunctionProvider( )
+	{
+		if ( instance == null )
+		{
+			try
+			{
+				Class clazz = Class.forName( PROVIDER_CLASS );
+				if ( clazz != null )
+				{
+					instance = (IFunctionProvider) clazz.newInstance( );
+				}
+			}
+			catch ( Exception ex )
+			{
+				logger.log( Level.WARNING,
+						"failed to initialize IFunctionProvider instance", ex );
+			}
+		}
+
+		return instance;
 	}
 	/**
 	 * Return all the categories defined by extensions.
@@ -42,8 +71,9 @@ public class FunctionProvider
 	public static IScriptFunctionCategory[] getCategories( )
 			throws BirtException
 	{
-		if( provider!= null )
-			return provider.getCategories();
+		IFunctionProvider provider = getFunctionProvider( );
+		if ( provider != null )
+			return provider.getCategories( );
 		return new IScriptFunctionCategory[]{};
 	}
 
@@ -57,7 +87,8 @@ public class FunctionProvider
 	public static IScriptFunction[] getFunctions( String categoryName )
 			throws BirtException
 	{
-		if( provider!= null )
+		IFunctionProvider provider = getFunctionProvider( );
+		if ( provider != null )
 			return provider.getFunctions( categoryName );
 		return new IScriptFunction[0];
 	}
@@ -72,7 +103,8 @@ public class FunctionProvider
 	public static void registerScriptFunction( Context cx, Scriptable scope )
 			throws BirtException
 	{
-		if( provider != null )
-			FunctionProvider.provider.registerScriptFunction( cx, scope);
+		IFunctionProvider provider = getFunctionProvider( );
+		if ( provider != null )
+			provider.registerScriptFunction( cx, scope );
 	}
 }
