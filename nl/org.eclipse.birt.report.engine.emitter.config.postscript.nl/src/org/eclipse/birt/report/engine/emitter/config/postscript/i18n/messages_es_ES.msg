@@ -33,6 +33,7 @@ OptionDisplayValue.ChartDpi=Diagrama DPI
 OptionDisplayValue.Resolution=Resolución
 OptionDisplayValue.Scale=Escala
 OptionDisplayValue.Color=Color
+OptionDisplayValue.AutoPaperSizeSelection=Auto paper size selection
 
 ###########################################################
 #Option Description
@@ -49,6 +50,7 @@ OptionDescription.ChartDpi=El DPI utilizado para generar el diagrama.
 OptionDescription.Resolution=Resolución.
 OptionDescription.Scale=Escala.
 OptionDescription.Color=Color.
+OptionDescription.AutoPaperSizeSelection=Selects paper size according to page size.
 
 ###########################################################
 #tooltip
