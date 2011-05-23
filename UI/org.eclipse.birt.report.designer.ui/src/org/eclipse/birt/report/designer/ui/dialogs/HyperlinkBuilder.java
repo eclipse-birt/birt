@@ -802,7 +802,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				initTargetReport( locationEditor.getText( ) );
 				selectRadio( targetGroup, reportDesignButton );
-				initParamterBindings( );
+				initParamterBindings( false );
 				deSelectAnchor( );
 				updateButtons( );
 			}
@@ -834,7 +834,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				initTargetReport( documentEditor.getText( ) );
 				selectRadio( targetGroup, reportDocumentButton );
-				initParamterBindings( );
+				initParamterBindings( false );
 				deSelectAnchor( );
 				updateButtons( );
 			}
@@ -1145,7 +1145,7 @@ public class HyperlinkBuilder extends BaseDialog
 		paramButtonContainer.setLayout( layout );
 
 		addParamButton = new Button( paramButtonContainer, SWT.PUSH );
-		addParamButton.setText( Messages.getString("HyperlinkBuilder.Button.AddParam") ); //$NON-NLS-1$
+		addParamButton.setText( Messages.getString( "HyperlinkBuilder.Button.AddParam" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.verticalAlignment = SWT.END;
 		gd.grabExcessVerticalSpace = true;
@@ -1154,7 +1154,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder( Messages.getString("HyperlinkBuilder.ParamterBuilder.Add.Title") ); //$NON-NLS-1$
+				HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder( Messages.getString( "HyperlinkBuilder.ParamterBuilder.Add.Title" ) ); //$NON-NLS-1$
 				builder.setHyperlinkBuilder( HyperlinkBuilder.this );
 				builder.setActionHandle( inputHandle );
 				ArrayList<String> avaliableList = getAvailableParamList( null );
@@ -1173,7 +1173,7 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 		editParamButton = new Button( paramButtonContainer, SWT.PUSH );
-		editParamButton.setText( Messages.getString("HyperlinkBuilder.Button.EditParam") ); //$NON-NLS-1$
+		editParamButton.setText( Messages.getString( "HyperlinkBuilder.Button.EditParam" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		editParamButton.setLayoutData( gd );
 		editParamButton.addSelectionListener( new SelectionAdapter( ) {
@@ -1187,7 +1187,7 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 		removeParamButton = new Button( paramButtonContainer, SWT.PUSH );
-		removeParamButton.setText( Messages.getString("HyperlinkBuilder.Button.RemoveParam") ); //$NON-NLS-1$
+		removeParamButton.setText( Messages.getString( "HyperlinkBuilder.Button.RemoveParam" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		removeParamButton.setLayoutData( gd );
 		removeParamButton.addSelectionListener( new SelectionAdapter( ) {
@@ -1200,7 +1200,7 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 		removeAllParamButton = new Button( paramButtonContainer, SWT.PUSH );
-		removeAllParamButton.setText( Messages.getString("HyperlinkBuilder.Button.RemoveAllParam") ); //$NON-NLS-1$
+		removeAllParamButton.setText( Messages.getString( "HyperlinkBuilder.Button.RemoveAllParam" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.BEGINNING;
@@ -1783,6 +1783,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				initTargetReport( locationEditor.getText( ) );
 			}
+			initParamterBindings( true );
 
 			if ( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK.equals( inputHandle.getTargetBookmarkType( ) ) )
 			{
@@ -1856,11 +1857,10 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 	}
 
-	private void initParamterBindings( )
+	private void initParamterBindings( boolean first )
 	{
 		if ( targetReportHandle != null )
 		{
-			paramBindingList.clear( );
 			paramList.clear( );
 			paramTypes.clear( );
 
@@ -1932,11 +1932,14 @@ public class HyperlinkBuilder extends BaseDialog
 			updateButtons( );
 		}
 
-		paramBindingList.clear( );
-		for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+		if ( first )
 		{
-			ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
-			paramBindingList.add( (ParamBinding) handle.getStructure( ) );
+			paramBindingList.clear( );
+			for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
+			{
+				ParamBindingHandle handle = (ParamBindingHandle) iter.next( );
+				paramBindingList.add( (ParamBinding) handle.getStructure( ) );
+			}
 		}
 
 		// parammeter table is always enabled
@@ -2234,7 +2237,7 @@ public class HyperlinkBuilder extends BaseDialog
 		ParamBinding paramBinding = getSelectedBinding( );
 		if ( paramBinding == null )
 			return;
-		HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder( Messages.getString("HyperlinkBuilder.ParamterBuilder.Edit.Title") ); //$NON-NLS-1$
+		HyperlinkParameterBuilder builder = new HyperlinkParameterBuilder( Messages.getString( "HyperlinkBuilder.ParamterBuilder.Edit.Title" ) ); //$NON-NLS-1$
 		builder.setHyperlinkBuilder( HyperlinkBuilder.this );
 		builder.setActionHandle( inputHandle );
 		builder.setParamBinding( paramBinding );
@@ -2495,7 +2498,7 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		closeTargetReport( );
 		initTargetReport( target );
-		initParamterBindings( );
+		initParamterBindings( false );
 		updateButtons( );
 		deSelectAnchor( );
 	}
