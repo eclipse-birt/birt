@@ -44,7 +44,6 @@ import java.util.zip.DeflaterOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeWriter;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
@@ -64,6 +63,8 @@ import com.lowagie.text.pdf.BaseFont;
 
 public class PostscriptWriter
 {
+
+	private static final String AUTO_PAPER_TRAY_STRING = "<</ManualFeed false /MediaPosition 41 /TraySwitch true>>setpagedevice";
 
 	/** This is a possible value of a base 14 type 1 font */
 	public static final String COURIER = BaseFont.COURIER;
@@ -581,6 +582,8 @@ public class PostscriptWriter
 
 	private int scale;
 
+	private boolean autoPaperSizeSelection;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -951,7 +954,8 @@ public class PostscriptWriter
 
 	public void startRenderer( ) throws IOException
 	{
-		startRenderer( null, null, null, null, null, 1, false, null, false, 100 );
+		startRenderer( null, null, null, null, null, 1, false, null, false,
+		               100, true );
 	}
 
 	/*
@@ -960,11 +964,12 @@ public class PostscriptWriter
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
 	public void startRenderer( String author, String description,
-			String paperSize, String paperTray, String duplex, int copies,
-			boolean collate, String resolution, boolean color, int scale )
-			throws IOException
+	        String paperSize, String paperTray, String duplex, int copies,
+	        boolean collate, String resolution, boolean color, int scale,
+	        boolean autoPaperSizeSelection ) throws IOException
 	{
 		this.scale = scale;
+		this.autoPaperSizeSelection = autoPaperSizeSelection;
 		if ( author != null )
 		{
 			out.println("%%Creator: " + author);
@@ -1028,7 +1033,7 @@ public class PostscriptWriter
 				return "<</ManualFeed true /TraySwitch false>>setpagedevice";
 
 			case TRAYCODE_AUTO :
-				return "<</ManualFeed false /MediaPosition 41 /TraySwitch true>>setpagedevice";
+				return AUTO_PAPER_TRAY_STRING;
 			default :
 				return "<</ManualFeed false /MediaPosition " + code
 						+ " /TraySwitch false>>setpagedevice";
@@ -1206,10 +1211,24 @@ public class PostscriptWriter
 		this.orientation = orientation;
 		this.pageHeight = pageHeight;
 		out.println( "%%Page: " + pageIndex + " " + pageIndex );
+		boolean isLandscape = orientation != null
+		        && orientation.equalsIgnoreCase( "Landscape" );
+		if ( autoPaperSizeSelection )
+		{
+			if ( isLandscape )
+			{
+				setPaperSize( "auto", (int) pageHeight, (int) pageWidth );
+			}
+			else
+			{
+				setPaperSize( "auto", (int) pageWidth, (int) pageHeight );
+			}
+			setPaperTray( AUTO_PAPER_TRAY_STRING );
+		}
 		out.println( "%%PageBoundingBox: 0 0 " + (int) Math.round( pageWidth )
 				+ " " + (int) Math.round( pageHeight ) );
 		out.println( "%%BeginPage" );
-		if ( orientation != null && orientation.equalsIgnoreCase( "Landscape" ) )
+		if ( isLandscape )
 		{
 			gSave( );
 			out.println( "90 rotate" );

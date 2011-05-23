@@ -208,9 +208,22 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
+		// Initializes the option for paperTray.
+		ConfigurableOption autoPaperSizeSelection = new ConfigurableOption(
+		        PostscriptRenderOption.OPTION_AUTO_PAPER_SIZE_SELECTION );
+		paperTray
+		        .setDisplayName( getMessage( "OptionDisplayValue.AutoPaperSizeSelection" ) ); //$NON-NLS-1$
+		paperTray.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		paperTray.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		paperTray.setDefaultValue( true );
+		paperTray.setToolTip( null );
+		paperTray
+		        .setDescription( getMessage( "OptionDescription.AutoPaperSizeSelection" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				fontSubstitution, pageOverFlow, copies, collate, duplex,
-				paperSize, paperTray, scale, resolution, color, chartDpi};
+		        fontSubstitution, pageOverFlow, copies, collate, duplex,
+		        paperSize, paperTray, scale, resolution, color, chartDpi,
+		        autoPaperSizeSelection};
 	}
 
 	private String getMessage( String key )

@@ -32,6 +32,8 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	public static final String OPTION_SCALE = "OptionScale";
 
+	public static final String OPTION_AUTO_PAPER_SIZE_SELECTION = "OptionAutoPaperSizeSelection";
+
 	/**
 	 * Sets postscript level.
 	 * 
@@ -75,4 +77,13 @@ public interface IPostscriptRenderOption extends IRenderOption
 	void setScale( int scale );
 
 	int getScale( );
+
+	/**
+	 * Select paper size according to page size automatically.
+	 * 
+	 * @param autoPaperSizeSelection
+	 */
+	void setAutoPaperSizeSelection( boolean autoPaperSizeSelection );
+
+	boolean getAutoPaperSizeSelection( );
 }

@@ -56,8 +56,12 @@ public class PostscriptPageDevice implements IPageDevice
 				IPostscriptRenderOption.OPTION_COLOR, true );
 		int scale = renderOption
 				.getIntOption( IPostscriptRenderOption.OPTION_SCALE, 100 );
+		boolean autoPaperSizeSelection = renderOption
+		        .getBooleanOption( IPostscriptRenderOption.OPTION_AUTO_PAPER_SIZE_SELECTION,
+		                           true );
 		writer.startRenderer( author, description, paperSize, paperTray,
-				duplex, copies, collate, resolution, color, scale );
+		                      duplex, copies, collate, resolution, color,
+		                      scale, autoPaperSizeSelection );
 	}
 
 	/*
