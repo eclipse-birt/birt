@@ -1750,7 +1750,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startTable( ITableContent table )
 	{
 		cachedStartTable = table;
-		tableLayout.startTable( table );
 	}
 
 	protected void doStartTable( ITableContent table )
@@ -1853,6 +1852,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writeColumns( table );
+		tableLayout.startTable( table );
+
 	}
 
 	protected void writeColumns( ITableContent table )
