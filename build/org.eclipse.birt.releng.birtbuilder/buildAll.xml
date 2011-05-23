@@ -1157,7 +1157,7 @@
 		</buildJar>
 		
 		<echo message="DTP plugins location: ${dtp.buildOutputDir} "/>
-		<buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
+		<buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_1.9.0.${buildId}.jar">
 		    	<bundle name="org.eclipse.datatools.connectivity"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
