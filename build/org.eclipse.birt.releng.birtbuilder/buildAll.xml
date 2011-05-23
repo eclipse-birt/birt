@@ -1108,55 +1108,55 @@
 	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
 		
 		<buildJar basedir="${buildOutputDir}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
-		    	<bundle name="org.eclipse.birt.chart.device.extension"/>
-		    	<bundle name="org.eclipse.birt.chart.device.svg"/>
-		    	<bundle name="org.eclipse.birt.chart.engine"/>
-		    	<bundle name="org.eclipse.birt.chart.engine.extension"/>
-				<bundle name="org.eclipse.birt.chart.examples.core"/>
-		    	<bundle name="org.eclipse.birt.chart.reportitem"/>
-		    	<bundle name="org.eclipse.birt.core"/>
-				<bundle name="org.eclipse.birt.core.script.function"/>
-		    	<bundle name="org.eclipse.birt.data"/>
-		    	<bundle name="org.eclipse.birt.data.aggregation"/>
-		    	<bundle name="org.eclipse.birt.report.data.adapter"/>
-		    	<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
-		    	<bundle name="org.eclipse.birt.report.data.oda.jdbc"/>
-		    	<bundle name="org.eclipse.birt.report.data.oda.sampledb"/>
-				<bundle name="org.eclipse.birt.report.data.oda.xml"/>
-				<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
-				<bundle name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"/>
-				<bundle name="org.eclipse.birt.report.data.oda.jdbc.dbprofile"/>
-		    	<bundle name="org.eclipse.birt.report.engine"/>
-		    	<bundle name="org.eclipse.birt.report.engine.emitter.html"/>
-		    	<bundle name="org.eclipse.birt.report.engine.emitter.pdf"/>
-		    	<bundle name="org.eclipse.birt.report.engine.emitter.postscript"/>
-		    	<bundle name="org.eclipse.birt.report.engine.emitter.ppt"/>
-		    	<bundle name="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
-		    	<bundle name="org.eclipse.birt.report.engine.emitter.wpml"/>
-		    	<bundle name="org.eclipse.birt.report.engine.fonts"/>
-		    	<bundle name="org.eclipse.birt.report.engine.script.javascript"/>
-		    	<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
-		    	<bundle name="org.eclipse.birt.report.model"/>
-				<bundle name="org.eclipse.birt.report.model.adapter.oda"/>
-		    	<bundle name="org.eclipse.birt.report.engine.dataextraction"/>
-		    	<bundle name="org.eclipse.birt.report.engine.dataextraction.csv"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.config"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.excel.config"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.html.config"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.pdf.config"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.postscript.config"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.ppt.config"/>
-				<bundle name="org.eclipse.birt.report.engine.emitter.wpml.config"/>
-				<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
-		    	<manifest>
-		    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
-		    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
-		    		<attribute name="Bundle-SymbolicName" value="org.eclipse.birt.report"/>
-		    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
-		    		<attribute name="Manifest-Version" value="1.0"/>
-		    	</manifest>
-		    </buildJar>
-		    <buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
+			<bundle name="org.eclipse.birt.chart.device.extension"/>
+			<bundle name="org.eclipse.birt.chart.device.svg"/>
+			<bundle name="org.eclipse.birt.chart.engine"/>
+			<bundle name="org.eclipse.birt.chart.engine.extension"/>
+			<bundle name="org.eclipse.birt.chart.examples.core"/>
+			<bundle name="org.eclipse.birt.chart.reportitem"/>
+		    <bundle name="org.eclipse.birt.core"/>
+		    <bundle name="org.eclipse.birt.core.script.function"/>
+	    	<bundle name="org.eclipse.birt.data"/>
+	    	<bundle name="org.eclipse.birt.data.aggregation"/>
+	    	<bundle name="org.eclipse.birt.report.data.adapter"/>
+	    	<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
+	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc"/>
+	    	<bundle name="org.eclipse.birt.report.data.oda.sampledb"/>
+	    	<bundle name="org.eclipse.birt.report.data.oda.xml"/>
+	    	<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
+	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"/>
+	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc.dbprofile"/>
+	    	<bundle name="org.eclipse.birt.report.engine"/>
+	    	<bundle name="org.eclipse.birt.report.engine.emitter.html"/>
+	    	<bundle name="org.eclipse.birt.report.engine.emitter.pdf"/>
+	    	<bundle name="org.eclipse.birt.report.engine.emitter.postscript"/>
+	    	<bundle name="org.eclipse.birt.report.engine.emitter.ppt"/>
+	    	<bundle name="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
+	    	<bundle name="org.eclipse.birt.report.engine.emitter.wpml"/>
+	    	<bundle name="org.eclipse.birt.report.engine.fonts"/>
+	    	<bundle name="org.eclipse.birt.report.engine.script.javascript"/>
+	    	<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
+	    	<bundle name="org.eclipse.birt.report.model"/>
+			<bundle name="org.eclipse.birt.report.model.adapter.oda"/>
+			<bundle name="org.eclipse.birt.report.engine.dataextraction"/>
+			<bundle name="org.eclipse.birt.report.engine.dataextraction.csv"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.config"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.excel.config"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.html.config"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.pdf.config"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.postscript.config"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.ppt.config"/>
+			<bundle name="org.eclipse.birt.report.engine.emitter.wpml.config"/>
+			<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
+	    	<manifest>
+	    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
+	    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
+	    		<attribute name="Bundle-SymbolicName" value="org.eclipse.birt.report"/>
+	    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
+	    		<attribute name="Manifest-Version" value="1.0"/>
+	    	</manifest>
+		</buildJar>
+		<buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
 		    	<bundle name="org.eclipse.datatools.connectivity"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
