@@ -1107,6 +1107,7 @@
 		
 	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
 		
+		<echo message="BIRT plugins location: ${buildOutputDir} "/>
 		<buildJar basedir="${buildOutputDir}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
 			<bundle name="org.eclipse.birt.chart.device.extension"/>
 			<bundle name="org.eclipse.birt.chart.device.svg"/>
@@ -1154,6 +1155,8 @@
 	    		<attribute name="Manifest-Version" value="1.0"/>
 	    	</manifest>
 		</buildJar>
+		
+		<echo message="DTP plugins location: ${dtp.buildOutputDir} "/>
 		<buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_${BranchVersion}.${buildId}.jar">
 		    	<bundle name="org.eclipse.datatools.connectivity"/>
 		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
