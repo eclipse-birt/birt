@@ -58,7 +58,7 @@ public class Statement implements IQuery
 
 	private IResultSetMetaData cachedResultMetaData;
 	private IResultSet cachedResultSet;
-	
+	private QuerySpecification querySpec;
 	
 	/**
 	 * assertNull(Object o)
@@ -937,10 +937,7 @@ public class Statement implements IQuery
     public void setSpecification( QuerySpecification querySpec )
             throws OdaException, UnsupportedOperationException
     {
-        /* not supported */
-        UnsupportedOperationException e = new UnsupportedOperationException( "setSpecification is not supported." );
-//      addLog ( "setSpecification", e );
-        throw e;
+       this.querySpec = querySpec;
     }
 
     /* (non-Javadoc)
@@ -949,7 +946,7 @@ public class Statement implements IQuery
     @SuppressWarnings("restriction")
     public QuerySpecification getSpecification()
     {
-        return null;
+       return this.querySpec;
     }
 
     /* (non-Javadoc)
