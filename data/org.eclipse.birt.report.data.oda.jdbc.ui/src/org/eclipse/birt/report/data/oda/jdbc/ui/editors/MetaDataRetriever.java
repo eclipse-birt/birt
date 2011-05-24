@@ -20,6 +20,10 @@ import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
+import org.eclipse.datatools.connectivity.oda.design.Properties;
+import org.eclipse.datatools.connectivity.oda.design.Property;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.util.QuerySpecificationHelper;
 
 
 /**
@@ -42,7 +46,16 @@ class MetaDataRetriever
 		{
 			IConnection connection = odaConnectionProvider.openConnection( );
 			query = connection.newQuery( dataSetDesign.getOdaExtensionDataSetId( ) );
+			QuerySpecification querySpec = new QuerySpecificationHelper((String)null).createQuerySpecification();
+			Properties properties = dataSetDesign.getPublicProperties();
+			for( Property prop : properties.getProperties())
+			{
+				querySpec.setProperty( prop.getName(), prop.getValue());
+			}
+			
+			query.setSpecification( querySpec );
 			query.prepare( dataSetDesign.getQueryText( ) );
+			
 			try 
 			{
 				paramMeta = query.getParameterMetaData( );
