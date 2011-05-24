@@ -683,6 +683,7 @@
 		<copy todir="${OutputDir}/runtime_nonosgi">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/plugins">
 				<include name="**"/>
+				<exclude name="javax.xml_*/**"/>
 				<exclude name="org.eclipse.birt*/**"/>
 				<exclude name="org.eclipse.datatools*/**"/>
 				<exclude name="org.w3c.sac*/**"/>
@@ -692,6 +693,9 @@
 				<exclude name="*.source_*/**"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
 			</fileset>
 		</copy>

@@ -943,6 +943,7 @@
 		<antcall target="createNonOSGiRuntime">
 			<param name="outputDir" value="${buildDirectory}"/>
 			<param name="buildOutputDir" value="${tmpsite}/eclipse/plugins" />
+			<param name="buildOutputDir.tmp" value="${tmpsite}/eclipse-runtime/plugins"/>
 			<param name="dtp.buildOutputDir" value="${baseLocation}/plugins"/>
 		</antcall>
 		<!-- Sign packed features and plugins. 
@@ -1107,8 +1108,26 @@
 		
 	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
 		
-		<echo message="BIRT plugins location: ${buildOutputDir} "/>
-		<buildJar basedir="${buildOutputDir}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
+		
+		<mkdir dir="${buildOutputDir.tmp}" />
+		<copy todir="${buildOutputDir.tmp}">
+			<fileset dir="${buildOutputDir}">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<!-- repackage org.eclipse.birt.report.engine plugin to remove 3rd party jars -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		
+		<unjar src="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" 
+			dest="${buildOutputDir.tmp}/engine" />
+		<delete file="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_*.jar" />
+		<jar destfile="${buildOutputDir.tmp}/org.eclipse.birt.report.engine.jar" 
+			basedir="${buildOutputDir.tmp}/buildOutputDir.tmp" excludes="lib/*.jar" />
+		<delete dir="${buildOutputDir.tmp}/engine" />
+
+		
+		<echo message="BIRT plugins location: ${buildOutputDir.tmp} "/>
+		<buildJar basedir="${buildOutputDir.tmp}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
 			<bundle name="org.eclipse.birt.chart.device.extension"/>
 			<bundle name="org.eclipse.birt.chart.device.svg"/>
 			<bundle name="org.eclipse.birt.chart.engine"/>
@@ -1195,14 +1214,7 @@
 		    	<bundle name="org.eclipse.datatools.modelbase.dbdefinition"/>
 		    	<bundle name="org.eclipse.datatools.modelbase.derby"/>
 		    	<bundle name="org.eclipse.datatools.modelbase.sql"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.sql.edit"/>
 		    	<bundle name="org.eclipse.datatools.modelbase.sql.query"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.sql.query.edit"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.sql.xml.query"/>
-		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql"/>
-		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql.lexer"/>
-		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql.query"/>
-		    	<bundle name="org.eclipse.datatools.sqltools.parsers.sql.xml.query"/>
 		    	<manifest>
 		    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
 		    		<attribute name="Bundle-Name" value="Data Tools Project Runtime SDK"/>
