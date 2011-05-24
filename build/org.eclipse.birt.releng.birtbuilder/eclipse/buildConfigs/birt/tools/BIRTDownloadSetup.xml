@@ -695,11 +695,9 @@
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
 				<include name="*.jar"/>
 			</fileset>
-			<!--
 			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
 			</fileset>
-			-->
 		</copy>
 		
 		<antcall target="createGenReport"/>
