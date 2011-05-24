@@ -175,14 +175,14 @@
 			<param name="message" value="BIRT Chart OSGI sdk feature build finished"/>
 		</antcall>
 	</target>
-	
+	<!--
 	<target name="createGenReport" unless="HQ.BIRT.skip">
 		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
 			<arg line="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
 			<arg line="${template.dir}/engine.runtime.bin" />
 		</exec>
 	</target>
-	
+	-->
 	<target name="CreateDistribute">
  		<antcall target="logger">
 			<param name="message" value="Packaging started"/>
