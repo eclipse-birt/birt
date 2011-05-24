@@ -198,7 +198,7 @@
 			</fileset>
 		</delete>
 		
-		<antcall target="createGenReport"/>
+		<!--<antcall target="createGenReport"/>-->
 
 		<!-- create Runtime -->
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>

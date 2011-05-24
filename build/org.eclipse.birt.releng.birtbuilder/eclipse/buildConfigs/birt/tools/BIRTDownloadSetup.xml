@@ -700,6 +700,7 @@
 			</fileset>
 		</copy>
 		
+		<antcall target="createGenReport"/>
 	</target>
 	
 	<target name="createBirtRCP" unless="skip.build.rcp">
@@ -1245,7 +1246,14 @@
 		</zip>
 		<delete dir="${runtime.download.tmp}" failonerror="false"/>
 	</target>
-
+	
+	<target name="createGenReport" unless="HQ.BIRT.skip">
+		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
+			<arg line="${OutputDir}/runtime_nonosgi" />
+			<arg line="${template.dir}/engine.runtime.bin" />
+		</exec>
+	</target>
+	
 	<target name="createChartRuntime">
 		<mkdir dir="${chart.tmp}" />
 		<copy todir="${chart.tmp}/plugins">
