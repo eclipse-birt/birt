@@ -1120,7 +1120,8 @@
 		
 		<unjar src="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" 
 			dest="${buildOutputDir.tmp}/engine" />
-		<delete file="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_*.jar" />
+		<delete file="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" />
+		
 		<jar destfile="${buildOutputDir.tmp}/org.eclipse.birt.report.engine.jar" 
 			basedir="${buildOutputDir.tmp}/engine" excludes="lib/*.jar" />
 		<delete dir="${buildOutputDir.tmp}/engine" />
