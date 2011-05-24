@@ -121,24 +121,27 @@ public class ReportLayoutEditorBreadcrumb extends EditorBreadcrumb implements
 
 		if ( getEditor( ) != null )
 		{
-			ModuleHandle handle = (ModuleHandle) getEditor( ).getGraphicalViewer( )
+			Object model = getEditor( ).getGraphicalViewer( )
 					.getRootEditPart( )
 					.getContents( )
 					.getModel( );
-			handle.addValidationListener( this );
+			if ( model instanceof ModuleHandle )
+				( (ModuleHandle) model ).addValidationListener( this );
 		}
 
 		return fViewer;
 	}
-	
-	public void dispose(){
+
+	public void dispose( )
+	{
 		if ( getEditor( ) != null )
 		{
-			ModuleHandle handle = (ModuleHandle) getEditor( ).getGraphicalViewer( )
+			Object model = getEditor( ).getGraphicalViewer( )
 					.getRootEditPart( )
 					.getContents( )
 					.getModel( );
-			handle.removeValidationListener( this );
+			if ( model instanceof ModuleHandle )
+				( (ModuleHandle) model ).removeValidationListener( this );
 		}
 		super.dispose( );
 	}
