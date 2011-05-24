@@ -1124,7 +1124,7 @@
 		<delete file="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" />
 		
 		<jar destfile="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" 
-			basedir="${buildOutputDir.tmp}/engine" excludes="lib/*.jar" />
+			basedir="${buildOutputDir.tmp}/engine" excludes="lib/*.jar" manifest="${buildOutputDir.tmp}/engine/META-INF/MANIFEST.MF" />
 		<delete dir="${buildOutputDir.tmp}/engine" />
 
 		
