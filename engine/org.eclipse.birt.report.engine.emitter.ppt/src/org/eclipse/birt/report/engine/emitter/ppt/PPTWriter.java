@@ -521,6 +521,10 @@ public class PPTWriter
 	
 	private Crop checkCrop( double x, double y, double width, double height )
 	{
+		if ( clipStack.isEmpty( ) )
+		{
+			return null;
+		}
 		ClipArea clip = clipStack.peek( );
 		int left = 0, right = 0, top = 0, bottom = 0;
 		if ( x < clip.x )
