@@ -1116,6 +1116,7 @@
 			</fileset>
 		</copy>
 		<!-- repackage org.eclipse.birt.report.engine plugin to remove 3rd party jars -->
+		<!--
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<unjar src="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" 
@@ -1125,7 +1126,7 @@
 		<jar destfile="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" 
 			basedir="${buildOutputDir.tmp}/engine" excludes="lib/*.jar" />
 		<delete dir="${buildOutputDir.tmp}/engine" />
-
+		-->
 		
 		<echo message="BIRT plugins location: ${buildOutputDir.tmp} "/>
 		<buildJar basedir="${buildOutputDir.tmp}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
