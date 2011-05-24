@@ -1122,7 +1122,7 @@
 			dest="${buildOutputDir.tmp}/engine" />
 		<delete file="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_*.jar" />
 		<jar destfile="${buildOutputDir.tmp}/org.eclipse.birt.report.engine.jar" 
-			basedir="${buildOutputDir.tmp}/buildOutputDir.tmp" excludes="lib/*.jar" />
+			basedir="${buildOutputDir.tmp}/engine" excludes="lib/*.jar" />
 		<delete dir="${buildOutputDir.tmp}/engine" />
 
 		
