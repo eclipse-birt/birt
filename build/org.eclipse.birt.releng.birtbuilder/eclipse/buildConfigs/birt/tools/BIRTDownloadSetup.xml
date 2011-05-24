@@ -1250,7 +1250,7 @@
 	<target name="createGenReport" unless="HQ.BIRT.skip">
 		<echo message="genReportGenerator lib dir: ${OutputDir}/runtime_nonosgi "/>
 		<echo message="genReport.sh/bat output dir: ${template.dir}/engine.runtime.bin"/>
-		<exec executable="${eclipse.build.configs}/. ./../extras/genReportGenerator.sh">
+		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
 			<arg line="${OutputDir}/runtime_nonosgi" />
 			<arg line="${template.dir}/engine.runtime.bin" />
 		</exec>
