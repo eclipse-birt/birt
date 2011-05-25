@@ -1222,7 +1222,14 @@
 			<!-- zip-up non-OSGi runtime package -->
 	        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
 	        	<zipfileset dir="${outputDir}" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
-	        </zip> 
+	        </zip>
+		
+			<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib">
+				<fileset dir="${outputDir}">
+					<include name="org.eclipse.datatools_*.jar"/>
+					<include name="org.eclipse.birt_*.jar"/>
+				</fileset>
+			</copy>
 	</target>
 		
 	<target name="removeBirtAllForNightly" unless="sign">
