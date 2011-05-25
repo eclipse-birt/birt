@@ -175,14 +175,7 @@
 			<param name="message" value="BIRT Chart OSGI sdk feature build finished"/>
 		</antcall>
 	</target>
-	<!--
-	<target name="createGenReport" unless="HQ.BIRT.skip">
-		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
-			<arg line="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
-			<arg line="${template.dir}/engine.runtime.bin" />
-		</exec>
-	</target>
-	-->
+
 	<target name="CreateDistribute">
  		<antcall target="logger">
 			<param name="message" value="Packaging started"/>
@@ -198,22 +191,22 @@
 			</fileset>
 		</delete>
 		
-		<!--<antcall target="createGenReport"/>-->
-
-		<!-- create Runtime -->
+		<!-- prepare non-osgi runtime jars -->
+		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createBirtRuntimeNonOSGi" >
+			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
+			<property name="deposit" value="${buildDirectory}/${buildId}" />
+		</ant>
+				
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
 		<!-- copy runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
-
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
 			<property name="OutputDir" value="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 
 		
-		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime
-		 -->
-		
+		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->		
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
 		</ant>

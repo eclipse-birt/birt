@@ -135,7 +135,7 @@
 		<delete dir="${temp.folder}" />
 	</target>
 
-	<target name="build-nonprecompile" depends="enginesdk,extensions,viewservlets">
+	<target name="build-nonprecompile" depends="enginesdk,viewservlets">
 		<delete dir="${temp.folder}" />
 	</target>
 
@@ -248,7 +248,10 @@
 <target name="enginesdk" depends="init">
 	<delete dir="${temp.folder}" />
 
-	<mkdir dir="${build.result.folder}/${birt.dir}/WEB-INF/platform" />
+	<mkdir dir="${build.result.folder}/${birt.dir}/WEB-INF/platform"/>
+	
+	<!-- prepare non-osgi reportengine/lib jars -->
+	
 	<antcall target="ExportEngineSDK">
 	    <param name="export.dir" value="${build.result.folder}/${birt.dir}/WEB-INF/platform"/>
 	</antcall>
@@ -257,13 +260,7 @@
 	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib/">
 			<include name="*.jar" />
-		</fileset>
-		
-		<!-- Copy dataextraction jar -->
-		<fileset dir="${data-extraction.dir}">
-			<include name="dataextraction.jar" />
-		</fileset>
-		
+		</fileset>		
 		<!-- Copy axis related jars -->
 		<fileset dir="${buildDirectory}/plugins/org.apache.axis_${org.apache.axis}/lib" >
 			<include name="*.jar"/>
@@ -276,9 +273,6 @@
 		</fileset>	
 		<fileset dir="${buildDirectory}/plugins/org.apache.commons.discovery_${org.apache.commons.discovery}/lib" >
 			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${buildDirectory}/plugins" >
-			<include name="javax.wsdl_1.5*.jar"/>
 		</fileset>
 	</copy>
 </target>
@@ -323,13 +317,6 @@
 </target>
 
 
-<!-- Prepare data adapter jar -->
-<!-- target name="dataadapter">
-			<ant dir="${data-adapter-api.dir}" antfile="BuildDataAdapter.xml" target="Jar" inheritAll="false" inheritRefs="false" >
-				<property name="baseLocation" value="${baseLocation}" />
-			</ant>
-		</target -->
-
 <!-- Prepare some extension and eclipse jars -->
 <target name="extensions">
 	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/lib" failonerror="true">
@@ -346,106 +333,65 @@
 
 <!-- Precompile the jsp pages -->
 <target name="precompile" depends="init" description="Precompile jsp pages.">
-	
-	<!-- Jetty doesn't need precompile jsp files
-	<taskdef classname="org.apache.jasper.JspC" name="jasper2">
-		<classpath>
-			<fileset dir="${baseLocation}/plugins">
-				<include name="javax.servlet*.jar" />
-				<include name="org.apache.jasper*.jar" />
-				<include name="org.apache.commons.logging*.jar" />
-				<include name="org.apache.commons.el*.jar"/>
-			</fileset>
-		</classpath>
-	</taskdef>
-		
-	<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
-
-	<javac destdir="${birt.dir}/WEB-INF/classes" source="1.4">
-		//compilerarg line="${compilerArg}"
-		<classpath>
-			<fileset dir="${baseLocation}/plugins">
-				<include name="javax.servlet*.jar" />
-				<include name="org.apache.jasper*.jar" />
-				<include name="org.apache.commons.logging*.jar" />
-				<include name="org.apache.commons.el*.jar"/>
-			</fileset>
-			<fileset dir="${birt.dir}/WEB-INF/lib">
-				<include name="*.jar" />
-			</fileset>
-			<pathelement path="${js.dir}/lib/js.jar" />
-		</classpath>
-		<src path="${temp.folder}/${birt.dir}/WEB-INF/classes" />
-	</javac>
-
-	<loadfile property="file" srcFile="${birt.dir}/WEB-INF/generated_web.xml" />
-	<copy file="${birt.dir}/WEB-INF/web-template.xml" toFile="${birt.dir}/WEB-INF/web.xml" filtering="on" overwrite="yes">
-		<filterset>
-			<filter token="generated" value="${file}" />
-		</filterset>
-	</copy>
-	<delete file="${birt.dir}/WEB-INF/generated_web.xml" />	
-	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
-	-->	
 </target>
 
 
-<!-- Export Engine SDK -->
-<target name="ExportEngineSDK">
-	<mkdir dir="${export.dir}" />
-	<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
-	<mkdir dir="${export.dir}/plugins" />
-	<mkdir dir="${export.dir}/lib" />
-	<copy todir="${export.dir}/lib">
-		<fileset dir="${export.dir}/plugins">
-			<include name="com.ibm.icu_*.jar" />
-		</fileset>
-	</copy>
-	<copy todir="${export.dir}/lib">
-		<fileset dir="../org.w3c.sac/lib">
-			<include name="*.jar" />
-		</fileset>
-		<!-- Export Chart Engine -->
-		<fileset dir="${baseLocation.emf}/plugins/">
-			<include name="org.eclipse.emf.common_*.jar" />
-			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-			<include name="org.eclipse.emf.ecore_*.jar" />
-		</fileset>
-		</copy>
+	<!-- Export Engine SDK -->
+	<target name="ExportEngineSDK">
+	
+		<mkdir dir="${export.dir}/lib" />
+	
+		<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
+		<copy todir="${export.dir}/lib" overwrite="true">
+			<fileset dir="${baseLocation}/plugins">
+				<include name="com.ibm.icu_*.jar" />
+				<include name="org.eclipse.core.contenttype_*.jar" />
+				<include name="org.eclipse.core.jobs_*.jar" />
+				<include name="org.eclipse.core.runtime_*.jar" />
+				<include name="org.eclipse.core.resources_*.jar"/>
+				<include name="org.eclipse.core.expressions_*.jar"/>
+				<include name="org.eclipse.core.filesystem_*.jar"/>
+				<include name="org.eclipse.equinox.app_*.jar"/>
+				<include name="org.eclipse.equinox.common_*.jar" />
+				<include name="org.eclipse.equinox.preferences_*.jar" />
+				<include name="org.eclipse.equinox.registry_*.jar" />
+				<include name="org.eclipse.osgi_*.jar" />
+				<include name="org.eclipse.osgi.services_*.jar"/>
+				<include name="org.eclipse.update.configurator_*.jar" />
+				<include name="javax.wsdl_1.5*.jar" />
+				<include name="org.apache.xerces_*.jar" />
+				<include name="org.apache.xml.resolver_*.jar" />
+	            <include name="org.apache.xml.serializer_*.jar" />
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore.change_*.jar"/>
+				<include name="org.eclipse.emf.ecore_*.jar" />
+				<include name="org.eclipse.emf_*.jar" />
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins">
+				<include name="org.w3c.dom_*.jar"/>
+				<include name="org.apache.batik.*jar"/>
+				<include name="org.w3c.dom.svg_*.jar"/>
+				<include name="org.w3c.dom.smil_*.jar"/>
+				<include name="org.w3c.css.sac_*.jar"/>
+				<include name="org.apache.commons.codec_*.jar"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/lib">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${integrate.dir}/plugins">
+				<include name="com.lowagie.text_*/**" />
+			</fileset>
+		</copy>	
 		<copy todir="${export.dir}/lib">
 			<fileset dir="${buildDirectory}/plugins" />
 			<mapper type="regexp"  from="org.mozilla.javascript_.*.jar" to="js.jar"/>
 		</copy>
-	
-	
-		<!-- copy javax.servlet jar for generate birt.api fragment -->
-		<!--
-		<copy todir="${export.dir}/lib">			
-			<fileset dir="${baseLocation}/plugins" >
-				<include name="javax.servlet*.jar"/>
-			</fileset>
-			<fileset dir="${buildDirectory}/plugins">
-				<include name="org.w3c.css.sac_*.jar"/>
-				<include name="org.apache.commons.codec_*.jar"/>
-			</fileset>
-		</copy>
-	
-		<antcall target="replaceManifest"/>
-		-->
-		<!-- copy javax.servlet jar for generate birt.api fragment -->
-		<!--	
-		<delete>
-			<fileset dir="${export.dir}/lib">
-				<include name="javax.servlet*.jar"/>
-			</fileset>
-		</delete>
-		-->
-		<!-- framework extension fragment -->
-		<!--
-		<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
-			manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
-		-->
-    </target>
+
+	</target>
 	
 	<!-- the task only execute in headless daily build -->
 	<target name="replaceManifest" if="buildDirectory" >
