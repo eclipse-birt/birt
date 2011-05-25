@@ -275,6 +275,12 @@
 			<include name="*.jar"/>
 		</fileset>
 	</copy>
+	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib">
+		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
+			<include name="org.eclipse.birt_*.jars"/>
+			<include name="org.eclipse.datatools_*.jars"/>
+		</fileset>
+	</copy>
 </target>
 
 

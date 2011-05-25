@@ -565,11 +565,6 @@
 				<exclude name="WEB-INF/platform/**"/>
 			</fileset>
 		</copy>
-		<copy todir="${runtime.tmp}/WEB-INF/lib">
-			<fileset dir="${OutputDir}/runtime_nonosgi">
-				<include name="**"/>
-			</fileset>
-		</copy>
 
 		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
 		<!--move file="${runtime.tmp}/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" /-->
@@ -577,7 +572,6 @@
 		<delete file="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" />
 		<jar destfile="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
 		<delete dir="${runtime.tmp}/WEB-INF/lib/viewservlets" />
-		
 
 		<copy todir="${runtime.tmp}">
 			<fileset dir="${template.dir}/birt.runtime.files">
@@ -628,11 +622,7 @@
 				<patternset refid="exclude.jars" />		
 			</fileset>
 		</copy>
-		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
-			<fileset dir="${OutputDir}/runtime_nonosgi" >
-				<include name="**"/>
-			</fileset>
-		</copy>
+		
 		<!--Correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
 		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
 		<unjar src="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
@@ -762,11 +752,6 @@
 				<patternset refid="exclude.jars" />		
 			 </fileset>
 		</copy>		
-		<copy todir="${war.tmp}/birt/WEB-INF/lib">
-			<fileset dir="${OutputDir}/runtime_nonosgi" >
-				<include name="**"/>
-			</fileset>
-		</copy>
 		
 		<delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
 		<move file="${war.tmp}/birt/WEB-INF/web_deploy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
@@ -1217,7 +1202,7 @@
 		<echo message="genReportGenerator lib dir: ${OutputDir}/runtime_nonosgi "/>
 		<echo message="genReport.sh/bat output dir: ${template.dir}/engine.runtime.bin"/>
 		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
-			<arg line="${OutputDir}/runtime_nonosgi" />
+			<arg line="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
 			<arg line="${template.dir}/engine.runtime.bin" />
 		</exec>
 	</target>
