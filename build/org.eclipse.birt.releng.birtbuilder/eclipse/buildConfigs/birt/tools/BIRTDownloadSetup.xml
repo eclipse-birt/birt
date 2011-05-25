@@ -562,6 +562,21 @@
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
 				<exclude name="**/org.junit*/**"/>
+				<exclude name="WEB-INF/platform/**"/>
+				<exclude name="WEB-INF/lib/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/WEB-INF/lib">
+			<fileset dir="${OutputDir}/runtime_nonosgi">
+				<include name="**"/>
+			</fileset>
+			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib" >
+				<include name="axis-ant.jar"/>
+				<include name="axis.jar"/>
+				<include name="commons-discovery-0.2.jar"/>
+				<include name="jaxrpc.jar"/>
+				<include name="saaj.jar"/>
+				<include name="viewservlets.jar"/>
 			</fileset>
 		</copy>
 
@@ -597,7 +612,7 @@
 		<delete dir="${runtime.tmp}" />
 	</target>
 	
-	<target name="createBirtRuntime"  depends="createBirtRuntimeNonOSGi,createWAR">
+	<target name="createBirtRuntime"  depends="createGenReport,createWAR">
         <!-- Create birt-runtime/ReportEngine -->
 		<copy todir="${runtime.tmp}/ReportEngine/lib" flatten="false">
 			<fileset dir="${OutputDir}/runtime_nonosgi">
@@ -681,16 +696,38 @@
 		<delete file="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip" failonerror="false"/>
 		
 		<copy todir="${OutputDir}/runtime_nonosgi">
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/plugins">
-				<include name="**"/>
-				<exclude name="javax.xml_*/**"/>
-				<exclude name="org.eclipse.birt*/**"/>
-				<exclude name="org.eclipse.datatools*/**"/>
-				<exclude name="org.w3c.sac*/**"/>
-				<exclude name="org.eclipse.core.runtime.compatibility*/**"/>
-				<exclude name="org.apache.derby.core*/**"/>
-				<exclude name="*junit*/**"/>
-				<exclude name="*.source_*/**"/>
+			<fileset dir="${baseLocation}/plugins">
+				<include name="com.ibm.icu_*.jar" />
+				<include name="org.eclipse.core.contenttype_*.jar" />
+				<include name="org.eclipse.core.jobs_*.jar" />
+				<include name="org.eclipse.core.runtime_*.jar" />
+				<include name="org.eclipse.core.resources_*.jar"/>
+				<include name="org.eclipse.core.expressions_*.jar"/>
+				<include name="org.eclipse.core.filesystem_*.jar"/>
+				<include name="org.eclipse.equinox.app_*.jar"/>
+				<include name="org.eclipse.equinox.common_*.jar" />
+				<include name="org.eclipse.equinox.preferences_*.jar" />
+				<include name="org.eclipse.equinox.registry_*.jar" />
+				<include name="org.eclipse.osgi_*.jar" />
+				<include name="org.eclipse.osgi.services_*.jar"/>
+				<include name="org.eclipse.update.configurator_*.jar" />
+				<include name="javax.wsdl_1.5*.jar" />
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore.change_*.jar"/>
+				<include name="org.eclipse.emf.ecore_*.jar" />
+				<include name="org.eclipse.emf_*.jar" />
+				<include name="org.apache.xerces_*.jar" />
+				<include name="org.apache.xml.resolver_*.jar" />
+	            <include name="org.apache.xml.serializer_*.jar" />
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins">
+				<include name="org.w3c.dom_*.jar"/>
+				<include name="org.apache.batik.*jar"/>
+				<include name="org.w3c.dom.svg_*.jar"/>
+				<include name="org.w3c.dom.smil_*.jar"/>
+				<include name="org.w3c.css.sac_*.jar"/>
+				<include name="org.apache.commons.codec_*.jar"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
 				<include name="*.jar"/>
@@ -698,9 +735,14 @@
 			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
 			</fileset>
+			<fileset dir="${integrate.dir}/plugins">
+				<include name="com.lowagie.text_*/**" />
+			</fileset>
 		</copy>
-		
-		<antcall target="createGenReport"/>
+		<copy todir="${OutputDir}/runtime_nonosgi">
+			<fileset dir="${buildDirectory}/plugins" />
+			<mapper type="regexp"  from="org.mozilla.javascript_.*.jar" to="js.jar"/>
+		</copy>
 	</target>
 	
 	<target name="createBirtRCP" unless="skip.build.rcp">
@@ -766,7 +808,7 @@
 	<target name="createChartViewer">
 		<!-- compile chart.viewer -->
 		<ant antfile="BuildChartWebViewer.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Jar">
-                        <property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
+             <property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
 		</ant>
 		<!-- export chart.viewer war -->
 		<ant antfile="BuildChartWebViewer.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Export">
