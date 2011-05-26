@@ -75,7 +75,6 @@
 	<!--property name="compilerArg" value="" /-->
 
 	<!-- Eclipse related. Default version 3.0.0 -->
-	<!--property name="plugin.tomcat" value="org.eclipse.tomcat" /-->
 	<property name="plugin.runtime" value="org.eclipse.core.runtime" />
 	<property name="plugin.emf.ecore" value="org.eclipse.emf.ecore" />
 	<property name="plugin.emf.ecore.xml" value="org.eclipse.emf.ecore.xmi" />
@@ -87,28 +86,6 @@
 	<property name="plugin.jface" value="org.eclipse.jface" />
 	<property name="plugin.equinox" value="org.eclipse.equinox" />
 
-
-	<!-- Component locations -->
-	<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
-	<property name="core.dir" location="../org.eclipse.birt.core" />
-	<property name="data.dir" location="../org.eclipse.birt.data" />
-	<property name="oda.dir" location="../org.eclipse.birt.data.oda" />
-	<property name="oda-adapter.dir" location="../org.eclipse.birt.data.oda.adapter.dtp" />
-	<property name="data-adapter-api.dir" location="../org.eclipse.birt.report.data.adapter" />
-	<property name="oda-jdbc.dir" location="../org.eclipse.birt.report.data.oda.jdbc" />
-	<property name="oda-xml.dir" location="../org.eclipse.birt.report.data.oda.xml" />
-	<property name="oda-sampleDB.dir" location="../org.eclipse.birt.report.data.oda.sampledb" />
-	<property name="engine.dir" location="../org.eclipse.birt.report.engine" />
-	<property name="engine-emitter-html.dir" location="../org.eclipse.birt.report.engine.emitter.html" />
-	<property name="engine-emitter-pdf.dir" location="../org.eclipse.birt.report.engine.emitter.pdf" />
-	<property name="chart-engine.dir" location="../org.eclipse.birt.chart.engine" />
-	<property name="chart-reportitem.dir" location="../org.eclipse.birt.chart.reportitem" />
-	<property name="chart-device-extension.dir" location="../org.eclipse.birt.chart.device.extension" />
-	<property name="chart-device-swt.dir" location="../org.eclipse.birt.chart.device.swt" />
-	<property name="chart-device-svg.dir" location="../org.eclipse.birt.chart.device.svg" />
-	<property name="chart-engine-extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
-	<property name="data-extraction.dir" location="../org.eclipse.birt.report.engine.dataextraction" />
-	
 	<property name="buildDirectory" value="${eclipse.home}"/>
 	<property name="baseLocation" value="${eclipse.home}"/>
 	<property name="baseLocation.emf" value="${baseLocation}"/>
@@ -157,6 +134,7 @@
 			<fileset dir="${build.result.folder}/${birt.dir.original}" />
 		</copy>
 	</target>
+	
 	<!-- Clean up web viewer -->
 	<target name="Clean" depends="init" description="Clean the plug-in.">
 		<delete includeemptydirs="true">
@@ -275,12 +253,14 @@
 			<include name="*.jar"/>
 		</fileset>
 	</copy>
+	
 	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib">
 		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 			<include name="org.eclipse.birt_*.jar"/>
 			<include name="org.eclipse.datatools_*.jar"/>
 		</fileset>
 	</copy>
+	
 </target>
 
 
@@ -308,9 +288,6 @@
 			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
 			</fileset>
-			<fileset dir="${data-adapter-api.dir}">
-				<include name="*.jar" />
-			</fileset>
 		</classpath>
 		<src path="${birt.dir}/WEB-INF/classes/" />
 	</javac>
@@ -322,20 +299,6 @@
 	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
 </target>
 
-
-<!-- Prepare some extension and eclipse jars -->
-<target name="extensions">
-	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/lib" failonerror="true">
-		<fileset dir="${chart-engine.dir}">
-			<include name="*.jar" />
-		</fileset>
-		<fileset dir="${baseLocation.emf}/plugins">
-			<include name="org.eclipse.emf.common_*.jar" />
-			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-			<include name="org.eclipse.emf.ecore_*.jar" />
-		</fileset>
-	</copy>
-</target>
 
 <!-- Precompile the jsp pages -->
 <target name="precompile" depends="init" description="Precompile jsp pages.">
@@ -390,6 +353,40 @@
 			</fileset>
 			<fileset dir="${integrate.dir}/plugins">
 				<include name="com.lowagie.text_*/**" />
+			</fileset>
+			<!-- datatools plugins -->
+			<fileset dir="${baseLocation}/plugins">
+		    	<include name="org.eclipse.datatools.connectivity_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.apache.derby_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.console.profile_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.db.generic_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.oda_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.oda.consumer_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.oda.design_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.oda.flatfile_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.oda.profile_*/**"/>
+		    	<include name="org.eclipse.datatools.connectivity.sqm.core_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.hsqldb_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.hsqldb.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.ibm.db2.luw_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.ibm.informix_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.msft.sqlserver_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.mysql_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.mysql.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oda.ws_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oda.xml_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oracle_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oracle.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.postgresql_*/**"/>
+		    	<include name="org.eclipse.datatools.modelbase.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.modelbase.derby_*/**"/>
+		    	<include name="org.eclipse.datatools.modelbase.sql_*/**"/>
+		    	<include name="org.eclipse.datatools.modelbase.sql.query_*/**"/>
 			</fileset>
 		</copy>	
 		<copy todir="${export.dir}/lib">

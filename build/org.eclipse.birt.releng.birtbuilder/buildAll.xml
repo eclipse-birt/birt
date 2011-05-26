@@ -1170,70 +1170,65 @@
 	    	</manifest>
 		</buildJar>
 		
+		<!-- comment out 3.7.0 release -->
+		<!--
 		<echo message="DTP plugins location: ${dtp.buildOutputDir} "/>
 		<buildJar basedir="${dtp.buildOutputDir}" output="${outputDir}/org.eclipse.datatools_1.9.0.${buildId}.jar">
-		    	<bundle name="org.eclipse.datatools.connectivity"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.console.profile"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.db.generic"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.oda"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.oda.consumer"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.oda.design"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.oda.flatfile"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.oda.profile"/>
-		    	<bundle name="org.eclipse.datatools.connectivity.sqm.core"/>
-		    	<bundle name="org.eclipse.datatools.enablement.hsqldb"/>
-		    	<bundle name="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.iseries"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.luw"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.zseries"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.informix"/>
-		    	<bundle name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.msft.sqlserver"/>
-		    	<bundle name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.mysql"/>
-		    	<bundle name="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.oda.ws"/>
-		    	<bundle name="org.eclipse.datatools.enablement.oda.xml"/>
-		    	<bundle name="org.eclipse.datatools.enablement.oracle"/>
-		    	<bundle name="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.postgresql"/>
-		    	<bundle name="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.enablement.sap.maxdb"/>
-		    	<bundle name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.dbdefinition"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.derby"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.sql"/>
-		    	<bundle name="org.eclipse.datatools.modelbase.sql.query"/>
-		    	<manifest>
-		    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
-		    		<attribute name="Bundle-Name" value="Data Tools Project Runtime SDK"/>
-		    		<attribute name="Bundle-SymbolicName" value="org.eclipse.datatools"/>
-		    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
-		    		<attribute name="Manifest-Version" value="1.0"/>
-		    	</manifest>
-		    </buildJar>
-		
-			<!-- zip-up non-OSGi runtime package -->
-	        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
-	        	<zipfileset dir="${outputDir}" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
-	        </zip>
-		
-			<delete failonerror="false">
-				<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
-			</delete>
-				
-			<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" overwrite="true">
-				<fileset dir="${outputDir}">
-					<include name="org.eclipse.datatools_*.jar"/>
-					<include name="org.eclipse.birt_*.jar"/>
-				</fileset>
-			</copy>
+	    	<bundle name="org.eclipse.datatools.connectivity"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.apache.derby"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.console.profile"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.db.generic"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.oda"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.oda.consumer"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.oda.design"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.oda.flatfile"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.oda.profile"/>
+	    	<bundle name="org.eclipse.datatools.connectivity.sqm.core"/>
+	    	<bundle name="org.eclipse.datatools.enablement.hsqldb"/>
+	    	<bundle name="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.luw"/>
+	    	<bundle name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.enablement.ibm.informix"/>
+	    	<bundle name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.enablement.msft.sqlserver"/>
+	    	<bundle name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.enablement.mysql"/>
+	    	<bundle name="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.enablement.oda.ws"/>
+	    	<bundle name="org.eclipse.datatools.enablement.oda.xml"/>
+	    	<bundle name="org.eclipse.datatools.enablement.oracle"/>
+	    	<bundle name="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.enablement.postgresql"/>
+	    	<bundle name="org.eclipse.datatools.modelbase.dbdefinition"/>
+	    	<bundle name="org.eclipse.datatools.modelbase.derby"/>
+	    	<bundle name="org.eclipse.datatools.modelbase.sql"/>
+	    	<bundle name="org.eclipse.datatools.modelbase.sql.query"/>
+	    	<manifest>
+	    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
+	    		<attribute name="Bundle-Name" value="Data Tools Project Runtime SDK"/>
+	    		<attribute name="Bundle-SymbolicName" value="org.eclipse.datatools"/>
+	    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
+	    		<attribute name="Manifest-Version" value="1.0"/>
+	    	</manifest>
+	    </buildJar>
+		-->
+		<!-- zip-up non-OSGi runtime package -->
+        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
+        	<zipfileset dir="${outputDir}" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
+        </zip>
+	
+		<delete failonerror="false">
+			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
+		</delete>
+			
+		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" overwrite="true">
+			<fileset dir="${outputDir}">
+				<include name="org.eclipse.datatools_*.jar"/>
+				<include name="org.eclipse.birt_*.jar"/>
+			</fileset>
+		</copy>
 	</target>
 		
 	<target name="removeBirtAllForNightly" unless="sign">
