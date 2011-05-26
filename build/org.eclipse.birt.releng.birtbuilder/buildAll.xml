@@ -1136,6 +1136,7 @@
 	    	<bundle name="org.eclipse.birt.report.data.adapter"/>
 	    	<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc"/>
+			<bundle name="org.eclipse.birt.report.data.oda.hive"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.sampledb"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.xml"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"/>
