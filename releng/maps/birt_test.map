@@ -13,7 +13,7 @@ plugin@org.eclipse.birt.report.engine.emitter.prototype.excel.tests=v20110519,:e
 
 !**************** model test  *******************
 plugin@org.eclipse.birt.report.model.tests=v20110519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
-plugin@org.eclipse.birt.report.model.adapter.oda.tests=v20110407,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
+plugin@org.eclipse.birt.report.model.adapter.oda.tests=v20110526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
 fragment@org.eclipse.birt.report.model.testhelper=v20110429,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
 
 !**************** automated test suite  *******************
