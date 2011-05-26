@@ -256,7 +256,7 @@
 	
 	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib">
 		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
-			<include name="org.eclipse.birt_*.jar"/>
+			<include name="org.eclipse.birt.runtime_*.jar"/>
 			<include name="org.eclipse.datatools_*.jar"/>
 		</fileset>
 	</copy>
@@ -349,6 +349,9 @@
 				<include name="*.jar"/>
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins/org.w3c.sac/lib">
 				<include name="*.jar"/>
 			</fileset>
 			<fileset dir="${integrate.dir}/plugins">

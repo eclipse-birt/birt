@@ -926,25 +926,47 @@
 			<arg line="-o -q birt-chart-osgi-${package.version}.zip -d ${tmpsite}" />
 	    </exec>
 		
+		<!-- Create birt non-osgi runtime package -->
+		<antcall target="createNonOSGiRuntime">
+			<param name="outputDir" value="${tmpsite}/eclipse/plugins"/>
+			<param name="buildOutputDir" value="${tmpsite}/eclipse/plugins" />
+			<param name="buildOutputDir.tmp" value="${tmpsite}/eclipse-runtime/plugins"/>
+			<param name="dtp.buildOutputDir" value="${baseLocation}/plugins"/>
+		</antcall>
+		
 		<!-- backup un-signed and packed version to  birt-all-${package.version}.bak.zip -->
 		<zip destfile="${buildDirectory}/birt-all-${package.version}.bak.zip">
              <fileset dir="${tmpsite}" includes="eclipse/**"/>
              <fileset dir="${eclipse.build.configs}/../../extras" includes="pack.properties"/>
         </zip>
 
-		<!-- Create birt non-osgi runtime package -->
-		<antcall target="createNonOSGiRuntime">
-			<param name="outputDir" value="${buildDirectory}"/>
-			<param name="buildOutputDir" value="${tmpsite}/eclipse/plugins" />
-			<param name="buildOutputDir.tmp" value="${tmpsite}/eclipse-runtime/plugins"/>
-			<param name="dtp.buildOutputDir" value="${baseLocation}/plugins"/>
-		</antcall>
+
 		<!-- Sign packed features and plugins. 
 		Download signed features and plugins back to replace ${tmpsite}/eclipse.
 		Back signed features and plugins as update site jars 
 		-->
 		<antcall target="signBIRTJars"/>
 
+		<!-- zip-up non-OSGi runtime package -->
+        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
+        	<zipfileset dir="${tmpsite}/eclipse/plugins" includes="org.eclipse.datatools_*.jar,org.eclipse.birt.runtime_*.jar" />
+        </zip>
+	
+		<delete failonerror="false">
+			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" includes="org.eclipse.datatools_*.jar,org.eclipse.birt.runtime_*.jar" />
+		</delete>
+			
+		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" overwrite="true">
+			<fileset dir="${tmpsite}/eclipse/plugins">
+				<include name="org.eclipse.datatools_*.jar"/>
+				<include name="org.eclipse.birt.runtime_*.jar"/>
+			</fileset>
+		</copy>
+		
+		<delete failonerror="false">
+			<fileset dir="${tmpsite}/eclipse/plugins" includes="org.eclipse.datatools_*.jar,org.eclipse.birt.runtime_*.jar" />
+		</delete>
+		
 		<!-- unpack features and plugins -->		
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 
@@ -1122,7 +1144,7 @@
 
 		
 		<echo message="BIRT plugins location: ${buildOutputDir.tmp} "/>
-		<buildJar basedir="${buildOutputDir.tmp}" output="${outputDir}/org.eclipse.birt_${BranchVersion}.${buildId}.jar">
+		<buildJar basedir="${buildOutputDir.tmp}" output="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar">
 			<bundle name="org.eclipse.birt.chart.device.extension"/>
 			<bundle name="org.eclipse.birt.chart.device.svg"/>
 			<bundle name="org.eclipse.birt.chart.engine"/>
@@ -1165,7 +1187,7 @@
 	    	<manifest>
 	    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
 	    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
-	    		<attribute name="Bundle-SymbolicName" value="org.eclipse.birt.report"/>
+	    		<attribute name="Bundle-SymbolicName" value="org.eclipse.birt.runtime"/>
 	    		<attribute name="Bundle-Vendor" value="Eclipse.org"/>
 	    		<attribute name="Manifest-Version" value="1.0"/>
 	    	</manifest>
@@ -1215,21 +1237,7 @@
 	    	</manifest>
 	    </buildJar>
 		-->
-		<!-- zip-up non-OSGi runtime package -->
-        <zip destfile="${postingDirectory}/${buildId}/birt-runtime-non-osgi-${package.version}.zip">
-        	<zipfileset dir="${outputDir}" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
-        </zip>
-	
-		<delete failonerror="false">
-			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" includes="org.eclipse.datatools_*.jar,org.eclipse.birt_*.jar" />
-		</delete>
-			
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib" overwrite="true">
-			<fileset dir="${outputDir}">
-				<include name="org.eclipse.datatools_*.jar"/>
-				<include name="org.eclipse.birt_*.jar"/>
-			</fileset>
-		</copy>
+
 	</target>
 		
 	<target name="removeBirtAllForNightly" unless="sign">
