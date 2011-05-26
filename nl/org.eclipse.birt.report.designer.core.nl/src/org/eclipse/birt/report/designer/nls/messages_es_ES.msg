@@ -638,7 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=Nueva columna procesada.
 DataSetComputedColumnsPage.toolTipText.Edit=Editar columna procesada.
 DataSetComputedColumnsPage.InputDialog.title.New=Nueva columna procesada
 DataSetComputedColumnsPage.InputDialog.title.Edit=Editar columna procesada
-DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=La expresión de agregación no puede incluir una columna procesada de agregación.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 
 ###########################################################
@@ -2028,8 +2028,8 @@ HyperlinkBuilder.Step.4=Paso 4:
 HyperlinkBuilder.Step.5=Paso 5: 
 HyperlinkBuilder.Step.6=Paso 6: 
 HyperlinkBuilder.ParameterRequired=Requerido
-HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
-HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Add.Title=Añadir parámetro de hyperlink
+HyperlinkBuilder.ParamterBuilder.Edit.Title=Editar parámetro de hyperlink
 HyperlinkBuilder.Column.DataType=Tipo de datos
 HyperlinkBuilder.Column.Values=Valores
 HyperlinkBuilder.DialogTitle=Opciones de hiperlink
@@ -2064,14 +2064,14 @@ HyperlinkBuilder.Radio.None=S&in Link
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=Buscar archivo
 HyperlinkBuilder.Button.AddParam=&Añadir...
-HyperlinkBuilder.Button.EditParam=Edit&...
-HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.EditParam=Editar&...
+HyperlinkBuilder.Button.RemoveAllParam=Quitar to&do
 HyperlinkBuilder.Button.RemoveParam=Eli&minar
 HyperlinkBuilder.OpenExpression=Abrir el compilador de expresiones
 HyperlinkBuilder.FileNameError.Title=Error
 HyperlinkBuilder.FileNameError.Message=El archivo seleccionado no es válido.
 HyperlinkBuilder.TargetReportFormat=Dar for&mato a informe de destino en:
-HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Parameter=&Parámetro:
 HyperlinkParameterBuilder.Label.Value=&Valor:
 
 ###########################################################

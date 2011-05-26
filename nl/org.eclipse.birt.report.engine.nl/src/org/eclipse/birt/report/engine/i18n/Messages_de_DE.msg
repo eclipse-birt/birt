@@ -129,4 +129,4 @@ Error.UnknownFieldID = Unbekannte Feld-ID: {0}.
 Error.ResourceNotAccessible = Zugriff auf {0} nicht möglich.
 
 ###########################################################
-Error.ElementID = Element ID
+Error.ElementID = Element-ID

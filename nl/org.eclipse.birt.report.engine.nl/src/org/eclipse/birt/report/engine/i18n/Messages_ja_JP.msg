@@ -129,4 +129,4 @@ Error.UnknownFieldID = フィールド ID {0} は不明です。
 Error.ResourceNotAccessible = {0} にアクセスできません。
 
 ###########################################################
-Error.ElementID = Element ID
+Error.ElementID = 要素 ID

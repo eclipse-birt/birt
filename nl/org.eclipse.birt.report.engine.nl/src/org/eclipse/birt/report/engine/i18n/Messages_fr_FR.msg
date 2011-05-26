@@ -129,4 +129,4 @@ Error.UnknownFieldID = ID de champ inconnue : {0}.
 Error.ResourceNotAccessible = {0} n'est pas accessible.
 
 ###########################################################
-Error.ElementID = Element ID
+Error.ElementID = ID de l'élément

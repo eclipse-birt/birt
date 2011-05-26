@@ -129,4 +129,4 @@ Error.UnknownFieldID = 알 수 없는 필드 ID입니다: {0}.
 Error.ResourceNotAccessible = {0}에 액세스할 수 없습니다.
 
 ###########################################################
-Error.ElementID = Element ID
+Error.ElementID = 요소 ID

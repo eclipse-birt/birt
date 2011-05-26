@@ -638,7 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=Nouvelle colonne de calcul.
 DataSetComputedColumnsPage.toolTipText.Edit=Modifier la colonne de calcul.
 DataSetComputedColumnsPage.InputDialog.title.New=Nouvelle colonne de calcul
 DataSetComputedColumnsPage.InputDialog.title.Edit=Modifier la colonne de calcul
-DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=L'expression de l'agrégation ne peut pas inclure une colonne de calcul d'agrégation !
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Colonne de calcul
 
 ###########################################################
@@ -2028,8 +2028,8 @@ HyperlinkBuilder.Step.4=Etape 4 :
 HyperlinkBuilder.Step.5=Etape 5 : 
 HyperlinkBuilder.Step.6=Etape 6 : 
 HyperlinkBuilder.ParameterRequired=Obligatoire
-HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
-HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Add.Title=Ajouter un paramètre de lien hypertexte
+HyperlinkBuilder.ParamterBuilder.Edit.Title=Modifier un paramètre de lien hypertexte
 HyperlinkBuilder.Column.DataType=Type de données
 HyperlinkBuilder.Column.Values=Valeurs
 HyperlinkBuilder.DialogTitle=Options de lien hypertexte
@@ -2064,14 +2064,14 @@ HyperlinkBuilder.Radio.None=Auc&un lien
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=Rechercher le fichier
 HyperlinkBuilder.Button.AddParam=&Ajouter...
-HyperlinkBuilder.Button.EditParam=Edit&...
-HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.EditParam=Modifier&...
+HyperlinkBuilder.Button.RemoveAllParam=Supprimer tou&t
 HyperlinkBuilder.Button.RemoveParam=Suppri&mer
 HyperlinkBuilder.OpenExpression=Ouvrir le Générateur d'expression
 HyperlinkBuilder.FileNameError.Title=Erreur
 HyperlinkBuilder.FileNameError.Message=Le fichier sélectionné n'est pas valide.
 HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
-HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Parameter=&Paramètre :
 HyperlinkParameterBuilder.Label.Value=&Valeur :
 
 ###########################################################

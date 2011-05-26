@@ -638,7 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=계산 열 새로 만들기
 DataSetComputedColumnsPage.toolTipText.Edit=계산 열 편집
 DataSetComputedColumnsPage.InputDialog.title.New=계산 열 새로 만들기
 DataSetComputedColumnsPage.InputDialog.title.Edit=계산 열 편집
-DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=집계 식이 집계 계산 열을 포함할 수 없습니다!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 
 ###########################################################
@@ -2028,8 +2028,8 @@ HyperlinkBuilder.Step.4=4단계:
 HyperlinkBuilder.Step.5=5단계: 
 HyperlinkBuilder.Step.6=6단계: 
 HyperlinkBuilder.ParameterRequired=필수
-HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
-HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Add.Title=하이퍼링크 매개 변수 추가
+HyperlinkBuilder.ParamterBuilder.Edit.Title=하이퍼링크 매개 변수 편집
 HyperlinkBuilder.Column.DataType=데이터 형식
 HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
@@ -2064,14 +2064,14 @@ HyperlinkBuilder.Radio.None=링크 없음(&O)
 HyperlinkBuilder.Radio.Uri=&URI
 HyperlinkBuilder.BrowseForFile=파일 찾아보기
 HyperlinkBuilder.Button.AddParam=추가(&A)...
-HyperlinkBuilder.Button.EditParam=Edit&...
-HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.EditParam=편집(&)...
+HyperlinkBuilder.Button.RemoveAllParam=모두 제거(&L)
 HyperlinkBuilder.Button.RemoveParam=제거(&M)
 HyperlinkBuilder.OpenExpression=식 빌더 열기
 HyperlinkBuilder.FileNameError.Title=오류
 HyperlinkBuilder.FileNameError.Message=선택한 파일이 잘못되었습니다.
 HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
-HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Parameter=매개 변수(&P):
 HyperlinkParameterBuilder.Label.Value=값(&V):
 
 ###########################################################

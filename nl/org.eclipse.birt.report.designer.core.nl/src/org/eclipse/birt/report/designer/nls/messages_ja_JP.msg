@@ -638,7 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=新しい計算列を作成します。
 DataSetComputedColumnsPage.toolTipText.Edit=計算列を編集します。
 DataSetComputedColumnsPage.InputDialog.title.New=計算列の新規作成
 DataSetComputedColumnsPage.InputDialog.title.Edit=計算列の編集
-DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=集計式には集計計算列を含められません。
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=計算列
 
 ###########################################################
@@ -2028,8 +2028,8 @@ HyperlinkBuilder.Step.4=手順 4 :
 HyperlinkBuilder.Step.5=手順 5 : 
 HyperlinkBuilder.Step.6=手順 6 : 
 HyperlinkBuilder.ParameterRequired=必須
-HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
-HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Add.Title=ハイパーリンクパラメタの追加
+HyperlinkBuilder.ParamterBuilder.Edit.Title=ハイパーリンクパラメタの編集
 HyperlinkBuilder.Column.DataType=データ型
 HyperlinkBuilder.Column.Values=値
 HyperlinkBuilder.DialogTitle=ハイパーリンクのオプション
@@ -2064,14 +2064,14 @@ HyperlinkBuilder.Radio.None=リンクなし(&O)
 HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=ファイルの参照
 HyperlinkBuilder.Button.AddParam=追加(&A)...
-HyperlinkBuilder.Button.EditParam=Edit&...
-HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.EditParam=編集(&)...
+HyperlinkBuilder.Button.RemoveAllParam=すべて削除(&L)
 HyperlinkBuilder.Button.RemoveParam=削除(&M)
 HyperlinkBuilder.OpenExpression=式ビルダを開く
 HyperlinkBuilder.FileNameError.Title=エラー
 HyperlinkBuilder.FileNameError.Message=選択したファイルは無効です。
 HyperlinkBuilder.TargetReportFormat=ターゲットレポートの形式設定(&F) :
-HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Parameter=パラメタ(&P) :
 HyperlinkParameterBuilder.Label.Value=値(&V) :
 
 ###########################################################

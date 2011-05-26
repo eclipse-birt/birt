@@ -129,4 +129,4 @@ Error.UnknownFieldID = 未知字段 id: {0}。
 Error.ResourceNotAccessible = {0} 不可访问。
 
 ###########################################################
-Error.ElementID = Element ID
+Error.ElementID = 元素 ID

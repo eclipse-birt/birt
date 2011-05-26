@@ -638,7 +638,7 @@ DataSetComputedColumnsPage.toolTipText.New=新建计算列。
 DataSetComputedColumnsPage.toolTipText.Edit=编辑计算列。
 DataSetComputedColumnsPage.InputDialog.title.New=新建计算列
 DataSetComputedColumnsPage.InputDialog.title.Edit=编辑计算列
-DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=The aggregation expression cannot involve an aggregation computed column!
+DataSetComputedColumnsPage.InputDialog.message.error.AggregationExpression=聚合表达式不能包含聚合计算列!
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 
 ###########################################################
@@ -2028,8 +2028,8 @@ HyperlinkBuilder.Step.4=第 4 步:
 HyperlinkBuilder.Step.5=第 5 步: 
 HyperlinkBuilder.Step.6=第 6 步: 
 HyperlinkBuilder.ParameterRequired=必需
-HyperlinkBuilder.ParamterBuilder.Add.Title=Add Hyperlink Parameter
-HyperlinkBuilder.ParamterBuilder.Edit.Title=Edit Hyperlink Parameter
+HyperlinkBuilder.ParamterBuilder.Add.Title=添加超级链接参数
+HyperlinkBuilder.ParamterBuilder.Edit.Title=编辑超级链接参数
 HyperlinkBuilder.Column.DataType=数据类型
 HyperlinkBuilder.Column.Values=值
 HyperlinkBuilder.DialogTitle=超级链接选项
@@ -2064,14 +2064,14 @@ HyperlinkBuilder.Radio.None=无链接(&O)
 HyperlinkBuilder.Radio.Uri=URI(&U)
 HyperlinkBuilder.BrowseForFile=浏览文件
 HyperlinkBuilder.Button.AddParam=添加(&A)...
-HyperlinkBuilder.Button.EditParam=Edit&...
-HyperlinkBuilder.Button.RemoveAllParam=Remove A&ll
+HyperlinkBuilder.Button.EditParam=编辑(&)...
+HyperlinkBuilder.Button.RemoveAllParam=全部删除(&L)
 HyperlinkBuilder.Button.RemoveParam=删除(&M)
 HyperlinkBuilder.OpenExpression=打开表达式生成器
 HyperlinkBuilder.FileNameError.Title=错误
 HyperlinkBuilder.FileNameError.Message=选择的文件无效。
 HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
-HyperlinkParameterBuilder.Label.Parameter=&Parameter:
+HyperlinkParameterBuilder.Label.Parameter=参数(&P)
 HyperlinkParameterBuilder.Label.Value=值(&V):
 
 ###########################################################
