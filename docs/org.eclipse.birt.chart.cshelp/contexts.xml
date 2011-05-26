@@ -14,7 +14,7 @@ The plot area of a chart without axes, such as a pie or meter chart, includes th
 </description>
 
 <!-- link updated JAHT 20090607 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.3.html" label="How to modify the plot area"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToModifyThePlotArea.html" label="How to modify the plot area"/>
 </context>
 
 <context id="ChartCustomProperties_ID" title="Custom Properties">
@@ -61,7 +61,7 @@ On Curve Fitting Line, set the appearance of the line. You can add a title to th
 </description>
 
 <!-- link updated JAHT 20090607 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT6RefineChartAppearance.html" label="Refine the chart appearance"/>
 </context>
 
 <context id="DataSetFilter_ID" title="Filters">
@@ -108,8 +108,7 @@ Create expressions using a combination of constants, controls, functions, litera
 </description>
 
 <!-- link updated TRyan 20100128 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ScriptingReference.24.1.html" label="Scripting Reference"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/expressions.html" label="Writing Expressions"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ex-WritingExpressions.html" label="Writing Expressions"/>
 </context>
 
 <context id="ExternalizeText_ID" title="Externalize Text">
@@ -118,7 +117,7 @@ Create expressions using a combination of constants, controls, functions, litera
 </description>
 
 <!-- link updated JAHT 20090614 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/localization.20.1.html" label="Scripting Reference"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/loc-LocalizingTextIntro.html" label="Localizing text"/>
 </context>
 
 <context id="FormatChartArea_ID" title="Format Chart: Chart Area">
@@ -127,9 +126,9 @@ Create expressions using a combination of constants, controls, functions, litera
 </description>
 
 <!-- link updated JAHT 20090607 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.7.html" label="Change the chart title"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT6RefineChartAppearance.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT5ChangeChartAndValueSeriesTitles.html" label="Change the chart title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetAChartBackgroundColor.html" label="How to set a chart's background color"/>
 </context>
 
 <context id="FormatChartAxis_ID" title="Format Chart: Axis">
@@ -138,7 +137,7 @@ Create expressions using a combination of constants, controls, functions, litera
 </description>
 
 <!-- link updated JAHT 20090607 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.5.html" label="How to set the data type and format of an axis"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetTheDataTypeAndFormatOfAnAxis.html" label="How to set the data type and format of an axis"/>
 </context>
 
 <context id="FormatChartLegend_ID" title="Format Chart: Legend">
@@ -148,7 +147,7 @@ A chart legend displays a key of category colors and names to assist a user in i
 </description>
 
 <!-- link updated JAHT 20090607 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT6RefineChartAppearance.html" label="Refine the chart appearance"/>
 </context>
 
 
@@ -159,8 +158,8 @@ The plot area of a chart without axes, such as a pie or meter chart, includes th
 </description>
 
 <!-- link updated JAHT 20090607 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.3.html" label="How to modify the plot area"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToModifyThePlotArea.html" label="How to modify the plot area"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetAChartBackgroundColor.html" label="How to set a chart's background color"/>
 </context>
 
 <context id="FormatChartSeries_ID" title="Format Chart: Series">
@@ -291,7 +290,7 @@ The value series determines the size of slices in a pie chart. Its values must b
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT6RefineChartAppearance.html" label="Refine the chart appearance"/>
 </context>
 
 <context id="FormatMeterChartYSeries_ID" title="Format Chart: Value Series, Meter Charts">
@@ -374,7 +373,7 @@ For additional formatting options, choose <b>Labels</b>, <b>Task Labels</b>, and
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT6RefineChartAppearance.html" label="Refine the chart appearance"/>
 </context>
 
 <context id="Gridlines_ID" title="Gridlines">
@@ -428,11 +427,11 @@ You can hide, display, or customize the marker lines.
 <context id="NewDataSet_ID" title="New Data Set">
 <!-- JAHT 20090615 -->
 <!-- JAHT 20090608  I think this topic is obsolete. Chart UI now seems to use standard BIRT UI for New Data Set -->
-<description>A data set provide the values on a chart.
+<description>A data set provides the values on a chart.
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/getstarted.1.7.html" label="Build a data set"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/gs-TutT4BuildADataSet.html" label="Build a data set"/>
 </context>
 
 <context id="Outline_ID" title="Outline">
@@ -464,8 +463,7 @@ A chart with axes displays a single category series and one or more value series
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.5.html" label="Provide data for a chart"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.15.1.html" label="Displaying Data in Charts"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT3ProvideDataForAChart.html" label="Provide data for a chart"/>
 </context>
 
 <context id="SelectChartType_ID" title="Edit Chart and New Chart: Select Chart Type">
@@ -475,8 +473,7 @@ A chart displays series of data values graphically. BIRT provides many chart typ
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.4.html" label="Add the chart to the report"/>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.2.html" label="Creating a standalone chart"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT2AddTheChartToTheReport.html" label="Add the chart to the report"/>
 </context>
 
 <context id="SeriesPalette_ID" title="Series Palette">
@@ -495,7 +492,7 @@ You can set the number of available colors and the order in which they appear in
 You can set the orientation of the text item either by dragging the Rotation dial or by specifying degrees.
 </description>
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.8.html" label="Refine the chart appearance"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT6RefineChartAppearance.html" label="Refine the chart appearance"/>
 </context>
 
 <context id="TextFormat_ID" title="Text Format">
@@ -509,7 +506,7 @@ Insets set the minimum distance of the text from the edge of the text box. If ne
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.4.html" label="How to format an axis title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToFormatAnAxisTitle.html" label="How to format an axis title"/>
 </context>
 
 <context id="TitleFormat_ID" title="Title Format">
@@ -522,7 +519,7 @@ Insets set the minimum distance of the text from the edge of the text box. If ne
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.4.html" label="How to format an axis title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToFormatAnAxisTitle.html" label="How to format an axis title"/>
 </context>
 
 <context id="FormatChartZAxis_ID" title="Format Chart: Z-Axis">
@@ -570,7 +567,7 @@ Data binding provides a name for an expression. You use a named data binding in 
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/data_binding.4.1.html" label="Binding Data"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/bd-BindingData.html" label="Binding Data"/>
 </context>
 
 <context id="GradientEditor_ID" title="Gradient Editor">
@@ -580,7 +577,7 @@ A gradient merges smoothly from a starting color to an ending color in a specifi
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetAChartBackgroundColor.html" label="How to set a chart's background color"/>
 </context>
 
 <context id="PositiveNegativeColorsEditor_ID" title="Positive and Negative Colors Editor">
@@ -600,7 +597,7 @@ You can provide an image as the background to any part of a chart. For example, 
 
 <!-- link updated JAHT 20090608 -->
 <!-- JAHT 20090608  This topic does not have a screenshot of the dialog -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetAChartBackgroundColor.html" label="How to set a chart's background color"/>
 </context>
 
 <context id="FormatChartAreaBackground_ID" title="Format Chart Area Background">
@@ -611,7 +608,7 @@ Select an available color or choose a button for further background formatting o
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetAChartBackgroundColor.html" label="How to set a chart's background color"/>
 </context>
 
 <context id="BackgroundColor_ID" title="Color">
@@ -622,7 +619,7 @@ Select an available color or select Define Custom Colors for further color optio
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.2.html" label="How to set a chart's background color"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToSetAChartBackgroundColor.html" label="How to set a chart's background color"/>
 </context>
 
 <context id="FormatChartYAxis_ID" title="Format Chart: Y-Axis">
@@ -645,7 +642,7 @@ For additional formatting options, choose <b>Text</b>, <b>Layout</b>, and <b>Int
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartBasics.14.7.html" label="Change the chart title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ch-TutT5ChangeChartAndValueSeriesTitles.html" label="Change the chart title"/>
 </context>
 
 <context id="TitleText_ID" title="Chart Title Text">
@@ -660,7 +657,7 @@ Insets set the minimum distance of the title text from the edge of the text box.
 
 <!-- link updated JAHT 20090608 -->
 <!-- JAHT 20090608 UI for Axis Title is the same as Chart Title -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.4.html" label="How to format an axis title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToFormatAnAxisTitle.html" label="How to format an axis title"/>
 </context>
 
 <context id="TitleBlock_ID" title="Title Layout">
@@ -689,7 +686,7 @@ Insets set the minimum distance of the title text from the edge of the legend ar
 
 <!-- link updated JAHT 20090608 -->
 <!-- JAHT 20090608 UI for Axis Title is the same as Legend Title -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.4.html" label="How to format an axis title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToFormatAnAxisTitle.html" label="How to format an axis title"/>
 </context>
 
 <context id="LegendBlock_ID" title="Legend Entries">
@@ -714,7 +711,7 @@ You can format the values that the labels show, for example, to provide thousand
 
 <!-- link updated JAHT 20090608 -->
 <!-- JAHT 20090608 UI for Axis Title is similar to  Dial Labels -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartFormatting.16.4.html" label="How to format an axis title"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cf-HowToFormatAnAxisTitle.html" label="How to format an axis title"/>
 </context>
 
 <context id="DialNeedles_ID" title="Dial Needles">
@@ -735,7 +732,7 @@ Value or Y series grouping to define multiple sets of values. The chart legend p
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartData.15.2.html" label="How to group categories on the x-axis"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cd-HowToGroupCategoriesOnTheXaxis.html" label="How to group categories on the x-axis"/>
 </context>
 
 <context id="ChartExamples_ID" title="Chart Examples">
@@ -757,7 +754,7 @@ Use it also to set the maximum number of rows in the chart data preview on the S
 </description>
 
 <!-- link updated JAHT 20090608 -->
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ChartData.15.3.html" label="How to change chart preview preferences"/>
+<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/cd-HowToChangeChartPreviewPreferences.html" label="How to change chart preview preferences"/>
 </context>
 
 <context id="Preference_Chart_Field_Assist_ID" title="Chart Field Assist">
