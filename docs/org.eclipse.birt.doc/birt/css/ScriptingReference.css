@@ -1,16 +1,16 @@
-div.N_Example
+p.N_Example, div.N_Example
 {
-  color: #000000;
-  font-family: Arial;
-  font-size: 11.0pt;
+  color: Black;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 0.0pt;
+  margin-bottom: 2pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 13.0pt;
-  text-align: Left;
+  text-align: left;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -18,20 +18,20 @@ div.N_Example
 
 .N_Example_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 2pt;
   margin-right: 0pt;
   margin-top: 13.0pt;
 }
 
 .N_Example_inner
 {
-  color: #000000;
-  font-family: Arial;
-  font-size: 11.0pt;
+  color: Black;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: Left;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -53,11 +53,9 @@ h2.N_h1_Head1, div.N_h1_Head1
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -99,11 +97,9 @@ h2.N_h1f_Head1-first, div.N_h1f_Head1-first
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -145,11 +141,9 @@ h3.N_h2_Head2, div.N_h2_Head2
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -191,11 +185,9 @@ h3.N_h2h_Head2Help, div.N_h2h_Head2Help
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -934,10 +926,10 @@ div.b1_Bullet1-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 14.1732283464567pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732283464567pt;
   text-transform: none;
@@ -946,9 +938,9 @@ div.b1_Bullet1-KWN
 
 .b1_Bullet1-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
 }
 
 .b1_Bullet1-KWN_inner
@@ -1164,10 +1156,10 @@ div.b1n_Bullet1-no_lead-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 14.1732283464567pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732283464567pt;
   text-transform: none;
@@ -1176,9 +1168,9 @@ div.b1n_Bullet1-no_lead-KWN
 
 .b1n_Bullet1-no_lead-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
 }
 
 .b1n_Bullet1-no_lead-KWN_inner
@@ -1256,10 +1248,10 @@ div.b2_Bullet2-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 28.3464566929134pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732283464567pt;
   text-transform: none;
@@ -1268,9 +1260,9 @@ div.b2_Bullet2-KWN
 
 .b2_Bullet2-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
 }
 
 .b2_Bullet2-KWN_inner
@@ -1302,10 +1294,10 @@ div.b2n_Bullet2NumList
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 28.3464566929134pt;
   margin-right: 0pt;
-  margin-top: 2.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732283464567pt;
   text-transform: none;
@@ -1314,9 +1306,9 @@ div.b2n_Bullet2NumList
 
 .b2n_Bullet2NumList_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 2.0pt;
+  margin-top: 6pt;
 }
 
 .b2n_Bullet2NumList_inner
@@ -1394,10 +1386,10 @@ div.b3_Bullet3-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 42.5196850393701pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.173228346456703pt;
   text-transform: none;
@@ -1406,9 +1398,9 @@ div.b3_Bullet3-KWN
 
 .b3_Bullet3-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
 }
 
 .b3_Bullet3-KWN_inner
@@ -1440,10 +1432,10 @@ div.b3n_Bullet3NumList
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 42.5196850393701pt;
   margin-right: 0pt;
-  margin-top: 4.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.173228346456703pt;
   text-transform: none;
@@ -1452,9 +1444,9 @@ div.b3n_Bullet3NumList
 
 .b3n_Bullet3NumList_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 4.0pt;
+  margin-top: 6pt;
 }
 
 .b3n_Bullet3NumList_inner
@@ -1532,10 +1524,10 @@ div.b4_Bullet4-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 56.6929133858268pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.173228346456696pt;
   text-transform: none;
@@ -1544,9 +1536,9 @@ div.b4_Bullet4-KWN
 
 .b4_Bullet4-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 3.0pt;
+  margin-top: 6pt;
 }
 
 .b4_Bullet4-KWN_inner
@@ -2104,7 +2096,7 @@ div.FigCallout
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
@@ -2116,7 +2108,7 @@ div.FigCallout
 
 .FigCallout_outer
 {
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -2150,7 +2142,7 @@ div.FigCalloutCenter
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
@@ -2162,7 +2154,7 @@ div.FigCalloutCenter
 
 .FigCalloutCenter_outer
 {
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -2197,7 +2189,7 @@ div.FigCalloutSmall
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 3.0pt;
-  margin-left: 0.240094488188976pt;
+  margin-left: 0.239811023622047pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
@@ -2556,19 +2548,19 @@ p.iw_ImageWide, div.iw_ImageWide
   padding-bottom: 0pt;
 }
 
-div.RExample
+p.RExample, div.RExample
 {
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
+  color: Black;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 0.0pt;
+  margin-bottom: 2pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 13.0pt;
-  text-align: Left;
+  text-align: left;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -2576,20 +2568,20 @@ div.RExample
 
 .RExample_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 2pt;
   margin-right: 0pt;
   margin-top: 13.0pt;
 }
 
 .RExample_inner
 {
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
+  color: Black;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: Left;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -2611,11 +2603,9 @@ h2.RH1, div.RH1
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2657,11 +2647,9 @@ h2.RH1_Class, div.RH1_Class
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2703,11 +2691,9 @@ h2.RH1_Interface, div.RH1_Interface
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2749,11 +2735,9 @@ h2.RH1_Method, div.RH1_Method
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2795,11 +2779,9 @@ h2.RH1_Package, div.RH1_Package
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2841,11 +2823,9 @@ h3.RH2, div.RH2
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2887,11 +2867,9 @@ h3.RH2_Method, div.RH2_Method
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2970,11 +2948,11 @@ h4.RH3, div.RH3
   padding-bottom: 0pt;
 }
 
-div.RH4
+h4.RH4, div.RH4
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 11.0pt;
+  font-size: 18px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
@@ -2997,9 +2975,9 @@ div.RH4
 
 .RH4_inner
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 11.0pt;
+  font-size: 18px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
@@ -3117,11 +3095,9 @@ h3.rsa_RSeeAlso, div.rsa_RSeeAlso
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3397,8 +3373,8 @@ div.tc_Tbl_Code1-First
 div.tc1_Tbl_Code1
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -3410,6 +3386,7 @@ div.tc1_Tbl_Code1
   text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
 }
 
 .tc1_Tbl_Code1_outer
@@ -3422,14 +3399,15 @@ div.tc1_Tbl_Code1
 .tc1_Tbl_Code1_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-align: Left;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0pt;
@@ -3443,8 +3421,8 @@ div.tc1_Tbl_Code1
 div.tc2_Tbl_Code2
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -3456,6 +3434,7 @@ div.tc2_Tbl_Code2
   text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
 }
 
 .tc2_Tbl_Code2_outer
@@ -3468,14 +3447,15 @@ div.tc2_Tbl_Code2
 .tc2_Tbl_Code2_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-align: Left;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0pt;
@@ -3728,10 +3708,10 @@ div.thr_Tbl_Heading_Right
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 0.0pt;
+  margin-bottom: 0em;
   margin-left: 0pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
   text-align: Right;
   text-indent: 0pt;
   text-transform: none;
@@ -3740,9 +3720,9 @@ div.thr_Tbl_Heading_Right
 
 .thr_Tbl_Heading_Right_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 0em;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
 }
 
 .thr_Tbl_Heading_Right_inner
@@ -3820,10 +3800,10 @@ div.tn_Tbl_NumList
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 3.0pt;
+  margin-bottom: 6pt;
   margin-left: 14.1732283464567pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732283464567pt;
   text-transform: none;
@@ -3832,9 +3812,9 @@ div.tn_Tbl_NumList
 
 .tn_Tbl_NumList_outer
 {
-  margin-bottom: 3.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
 }
 
 .tn_Tbl_NumList_inner
@@ -3866,10 +3846,10 @@ div.tr_Tbl_Body_Right
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 3.0pt;
+  margin-bottom: 0em;
   margin-left: 0pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
   text-align: Right;
   text-indent: 0pt;
   text-transform: none;
@@ -3878,9 +3858,9 @@ div.tr_Tbl_Body_Right
 
 .tr_Tbl_Body_Right_outer
 {
-  margin-bottom: 3.0pt;
+  margin-bottom: 0em;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
 }
 
 .tr_Tbl_Body_Right_inner

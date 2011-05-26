@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>How to create a SQL query to retrieve data from a JDBC data source</title>
+    <link rel="StyleSheet" href="css/retrieving-data.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+  </head>
+  <body>
+    <div style="text-align: left;">
+      <table cellspacing="0" summary="">
+        <tr>
+          <td>
+            <a href="ds-AboutDataSets.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+          </td>
+          <td>
+            <a href="ds-HowToUseAStoredProcedureToRetrieveDataFromJDBCDataSource.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <hr align="left" />
+    <blockquote>
+      <h4 class="N_hth_HowToHelp"><a name="271792">How to create a SQL query to retrieve data from a JDBC data source</a></h4>
+      <p class="b_Body"><a name="271884">This procedure assumes you have already created the JDBC data source that </a>this data set uses.</p>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">1&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="196110">In Data Explorer, right-click Data Sets, then choose New Data Set.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">2&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="255425">In New Data Set, specify the following information:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023FormatGray">1&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="291364">In Data Source Selection, under JDBC Data Source, select the data </a>source to use.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023FormatGray">2&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="291390">In Data Set Type, select SQL Select Query.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023FormatGray">3&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="291382">In Data Set Name, type a name for the data set.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023FormatGray">4&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="255579">Choose Next.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="255478">Query displays the information to help you create a SQL query. Available </a>Items lists the items in the data source.</div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">3&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="255486">To see the tables in a database, expand the database, as shown in </a><a href="#323357" title="How to create a SQL query to retrieve data from a JDBC data source">Figure&nbsp;3-1</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i2_Image2"><a name="255490"><img class="Default" src="images/data_set_view_tables.gif" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 3-1 Viewing a schema" /></a></p>
+      <div class="fc2_FigCall2TitleFirst">
+        <b class="Bold">Figure&nbsp;3-1&nbsp;&nbsp;</b><a name="323357">Viewing a schema</a></div>
+      <div class="N_i_Indent1"><a name="198094">You can use the following filter options to display specific schemas or </a>objects. Choose Apply Filter after specifying the filters.</div>
+      <div class="b2_Bullet2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b2_Bullet2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zBulletGray">n&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b2_Bullet2_inner"><a name="313873">In Schema, select an item to display only objects from that schema.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="b2_Bullet2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b2_Bullet2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zBulletGray">n&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b2_Bullet2_inner"><a name="255554">In Type, select the type of objects—tables, views, or stored </a>procedures—to display. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="b2_Bullet2_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b2_Bullet2_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zBulletGray">n&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b2_Bullet2_inner"><a name="196134">In Filter, type one or more letters to display only the objects that have </a>names beginning with those letter or letters. You can also use SQL filter characters for the database that you are using. For example, on some databases, an underscore (_) matches any single character, and the percent sign (%) matches any sequence of characters.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">4&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="197784">To display the columns in a table or view, click the plus sign (+) next to a </a>table or view name.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">5&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="212608">In the text area, type a SQL statement that indicates what data to retrieve </a>from the JDBC data source. Alternatively, drag tables, views, and columns from Available Items to the text area to insert their names in the SQL statement at the insertion point, as shown in <a href="#215124" title="How to create a SQL query to retrieve data from a JDBC data source">Figure&nbsp;3-2</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="212671">For some databases, if a table or column name contains spaces or SQL </a>reserved words, you must enclose the name in quotation marks (" "). If you drag and drop tables and columns, and those items need to be enclosed in double quotation marks, select the Use identifier quoting option. When this option is selected, the data set editor inserts the quotation marks around a table or column name when you drop it in the text area.</div>
+      <p class="i2_Image2"><a name="212628"><img class="Default" src="images/retrieving-data.03.3.2.jpg" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 3-2 Adding a table to a SQL query" /></a></p>
+      <div class="fc2_FigCall2Title">
+        <b class="Bold">Figure&nbsp;3-2&nbsp;&nbsp;</b><a name="215124">Adding a table to a SQL query</a></div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">6&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="255562">Choose Finish. Edit Data Set displays the columns specified in the query, </a>and provides options for editing the data set.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </blockquote>
+    <hr align="left" />
+    <table align="right" summary="">
+      <tr>
+        <td class="WebWorks_Company_Name_Bottom">
+          <a href="notices.html">(c) Copyright Actuate Corporation 2011</a>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

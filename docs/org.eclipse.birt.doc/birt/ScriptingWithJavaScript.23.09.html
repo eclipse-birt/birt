@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Conditionally increment the counter</title>
+    <link rel="StyleSheet" href="css/ScriptingWithJavaScript.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+  </head>
+  <body>
+    <div style="text-align: left;">
+      <table cellspacing="0" summary="">
+        <tr>
+          <td>
+            <a href="ScriptingWithJavaScript.23.08.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+          </td>
+          <td>
+            <a href="ScriptingWithJavaScript.23.10.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <hr align="left" />
+    <blockquote>
+      <h3 class="N_TutorialTask">Task 3:&nbsp;&nbsp;<a name="151804">Conditionally increment the counter</a></h3>
+      <p class="b_Body"><a name="151807">To count the number of customers with the string "Mini" in their names, </a>examine each customer’s name and add one to the counter for every occurrence. A logical place to perform this task is in the Row.onCreate method, which executes for every retrieval of a row of data from the data source. </p>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">1&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="151808">In Layout, select the Row. Then, choose Script.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">2&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="152875">From the list of available scripts at the top of the script window and select </a>onCreate, as shown in <a href="#152891" title="Conditionally increment the counter">Figure&nbsp;23-8</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i2_Image2"><a name="152887"><img class="Default" src="images/tutorial3Shot5.gif" style="display: inline; float: none; left: 0.0; top: 0.0" alt="Figure 23-8 onCreate( ) in the Script window" /></a></p>
+      <div class="fc2_FigCall2Title">
+        <b class="Bold">Figure&nbsp;23-8&nbsp;&nbsp;</b><a name="152891">onCreate(</a>&nbsp;) in the script window</div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">3&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="151823">Type the following line of JavaScript code in the Script window:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="cfi_CodeFirstIndent"><a name="151824">row=this.getRowData(</a>&nbsp;);</div>
+      <div class="N_i_Indent1"><a name="151825">Notice that when you enter the period after this, a pop-up containing all </a>the available methods and properties, including getRowData appears. This line of code gets an instance of IRowData, which has a method, getExpressionValue(&nbsp;), to get the contents of a column of the row. </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">4&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="151826">Type the following line of JavaScript below the line you typed in step </a><a href="#151823" title="Conditionally increment the counter">3</a>:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="cfi_CodeFirstIndent"><a name="151827">CustName=row.getExpressionValue(</a>&nbsp;"row[CUSTOMERNAME]"&nbsp;);</div>
+      <div class="N_i_Indent1"><a name="151828">This line of code returns the contents of the table column that comes from </a>the CUSTOMERNAME column in the data set.</div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">5&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="151829">Type the following line of code to increment conditionally the counter you </a>created in <a href="ScriptingWithJavaScript.23.08.html#151750" title="Create a counter in Table.onCreate">Create a counter in Table.onCreate</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="cfi_CodeFirstIndent"><a name="151836">if(</a>&nbsp;CustName.indexOf(&nbsp;"Mini"&nbsp;) != -1&nbsp;) countOfMinis += 1;</div>
+      <div class="N_i_Indent1"><a name="151838">You can use the JavaScript palette to insert each of the following elements </a>in the preceding line:</div>
+      <div class="b2_002b_Bullet2WPara_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b2_002b_Bullet2WPara_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zBulletGray">n&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b2_002b_Bullet2WPara_inner"><a name="151839">indexOf(</a>&nbsp;)</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i2-_Indent2LessLead"><a name="151840">Select Native (</a>&nbsp;JavaScript&nbsp;) Objects<span class="Dingbat">&rarr;</span>String Functions<span class="Dingbat">&rarr;</span>indexOf(&nbsp;)</div>
+      <div class="b2_002b_Bullet2WPara_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b2_002b_Bullet2WPara_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zBulletGray">n&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b2_002b_Bullet2WPara_inner"><a name="151841">!=</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i2-_Indent2LessLead"><a name="151842">Select Operators</a><span class="Dingbat">&rarr;</span>Comparison<span class="Dingbat">&rarr;</span>!=</div>
+      <div class="b2_002b_Bullet2WPara_outer" style="margin-left: 14.1732pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b2_002b_Bullet2WPara_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zBulletGray">n&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b2_002b_Bullet2WPara_inner"><a name="151843">+=</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i2-_Indent2LessLead"><a name="151844">Select Operators</a><span class="Dingbat">&rarr;</span>Assignment<span class="Dingbat">&rarr;</span>+=</div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap">
+                <span class="zAuto_0023Format">6&nbsp;&nbsp;</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="151845">Choose Preview to run the report again to verify that the code you entered </a>did not create any errors.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </blockquote>
+    <hr align="left" />
+    <table align="right" summary="">
+      <tr>
+        <td class="WebWorks_Company_Name_Bottom">
+          <a href="notices.html">(c) Copyright Actuate Corporation 2011</a>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

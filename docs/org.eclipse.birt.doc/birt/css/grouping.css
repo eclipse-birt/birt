@@ -1,16 +1,16 @@
-div.N_Example
+p.N_Example, div.N_Example
 {
-  color: #000000;
-  font-family: Arial;
-  font-size: 11.0pt;
+  color: Black;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 0.0pt;
+  margin-bottom: 2pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 13.0pt;
-  text-align: Left;
+  text-align: left;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
@@ -18,20 +18,20 @@ div.N_Example
 
 .N_Example_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 2pt;
   margin-right: 0pt;
   margin-top: 13.0pt;
 }
 
 .N_Example_inner
 {
-  color: #000000;
-  font-family: Arial;
-  font-size: 11.0pt;
+  color: Black;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: 12px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: Left;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -53,11 +53,9 @@ h2.N_h1_Head1, div.N_h1_Head1
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -99,11 +97,9 @@ h2.N_h1f_Head1-first, div.N_h1f_Head1-first
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -191,11 +187,9 @@ h3.N_h2_Head2, div.N_h2_Head2
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -237,11 +231,9 @@ h3.N_h2h_Head2Help, div.N_h2h_Head2Help
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: left;
-  text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -642,6 +634,52 @@ div.N_i_Indent1
   padding-bottom: 0pt;
 }
 
+div.N_i-_Indent1LessLead
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 14.1732pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: 0pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.N_i-_Indent1LessLead_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.N_i-_Indent1LessLead_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
 div.N_i2_Indent2
 {
   color: #000000;
@@ -688,6 +726,52 @@ div.N_i2_Indent2
   padding-bottom: 0pt;
 }
 
+div.N_i2-_Indent2LessLead
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 28.3464pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: 0pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.N_i2-_Indent2LessLead_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.N_i2-_Indent2LessLead_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
 div.N_i3_Indent3
 {
   color: #000000;
@@ -714,6 +798,52 @@ div.N_i3_Indent3
 }
 
 .N_i3_Indent3_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
+div.N_i3-_Indent3LessLead
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 42.5196pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: 0pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.N_i3-_Indent3LessLead_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.N_i3-_Indent3LessLead_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1018,112 +1148,18 @@ p.N_si_ScanIcon, div.N_si_ScanIcon
   padding-bottom: 0pt;
 }
 
-div.N_TExercise
+h2.N_Tutorial, div.N_Tutorial
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 16.0pt;
+  font-size: 25px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 99.2124pt;
-  margin-right: 0pt;
-  margin-top: 17.0pt;
-  text-align: Left;
-  text-indent: -99.2124pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.N_TExercise_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 17.0pt;
-}
-
-.N_TExercise_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 16.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.N_TSlide
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 16.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
-  margin-right: 0pt;
-  margin-top: 17.0pt;
-  text-align: Left;
-  text-indent: -70.866pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.N_TSlide_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 17.0pt;
-}
-
-.N_TSlide_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 16.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.N_Tutorial
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 16.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
-  text-align: Left;
-  text-indent: -85.0392pt;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1137,13 +1173,13 @@ div.N_Tutorial
 
 .N_Tutorial_inner
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 16.0pt;
+  font-size: 25px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: Left;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1156,20 +1192,18 @@ div.N_Tutorial
   padding-bottom: 0pt;
 }
 
-div.N_TutorialTask
+h3.N_TutorialTask, div.N_TutorialTask
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 14.0pt;
+  font-size: 20px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 56.6928pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
-  text-align: Left;
-  text-indent: -56.6928pt;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1183,13 +1217,13 @@ div.N_TutorialTask
 
 .N_TutorialTask_inner
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 14.0pt;
+  font-size: 20px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: Left;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1202,20 +1236,18 @@ div.N_TutorialTask
   padding-bottom: 0pt;
 }
 
-div.N_TutorialTask-first
+h3.N_TutorialTask-first, div.N_TutorialTask-first
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 14.0pt;
+  font-size: 20px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 56.6928pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
-  text-align: Left;
-  text-indent: -56.6928pt;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1229,13 +1261,13 @@ div.N_TutorialTask-first
 
 .N_TutorialTask-first_inner
 {
-  color: #000000;
+  color: #003366;
   font-family: Arial;
-  font-size: 14.0pt;
+  font-size: 20px;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  text-align: Left;
+  text-align: left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -1348,10 +1380,10 @@ div.b1_Bullet1-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 14.1732pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732pt;
   text-transform: none;
@@ -1360,12 +1392,58 @@ div.b1_Bullet1-KWN
 
 .b1_Bullet1-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
 }
 
 .b1_Bullet1-KWN_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
+div.b1_002b_Bullet1WPara
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 14.1732pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: -14.1732pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.b1_002b_Bullet1WPara_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.b1_002b_Bullet1WPara_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1478,9 +1556,9 @@ p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
   padding-bottom: 0pt;
 }
 
-p.b1in_Bullet1-intro-no_lead, div.b1in_Bullet1-intro-no_lead
+div.b1iz_Bullet1-introZeroLead
 {
-  color: Black;
+  color: #000000;
   font-family: "Microsoft Sans Serif";
   font-size: 10.0pt;
   font-style: normal;
@@ -1490,66 +1568,20 @@ p.b1in_Bullet1-intro-no_lead, div.b1in_Bullet1-intro-no_lead
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 6pt;
-  text-align: left;
+  text-align: Left;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
 
-.b1in_Bullet1-intro-no_lead_outer
+.b1iz_Bullet1-introZeroLead_outer
 {
   margin-bottom: 6pt;
   margin-right: 0pt;
   margin-top: 6pt;
 }
 
-.b1in_Bullet1-intro-no_lead_inner
-{
-  color: Black;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.b1n_Bullet1-no_lead
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 6pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.b1n_Bullet1-no_lead_outer
-{
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
-}
-
-.b1n_Bullet1-no_lead_inner
+.b1iz_Bullet1-introZeroLead_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1570,7 +1602,7 @@ div.b1n_Bullet1-no_lead
   padding-bottom: 0pt;
 }
 
-div.b1n_Bullet1-no_lead-KWN
+div.b1z_Bullet1ZeroLead
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1578,24 +1610,70 @@ div.b1n_Bullet1-no_lead-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 14.1732pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732pt;
   text-transform: none;
   vertical-align: baseline;
 }
 
-.b1n_Bullet1-no_lead-KWN_outer
+.b1z_Bullet1ZeroLead_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
 }
 
-.b1n_Bullet1-no_lead-KWN_inner
+.b1z_Bullet1ZeroLead_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
+div.b1z_Bullet1ZeroLead-KWN
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 14.1732pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: -14.1732pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.b1z_Bullet1ZeroLead-KWN_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.b1z_Bullet1ZeroLead-KWN_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1670,10 +1748,10 @@ div.b2_Bullet2-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 28.3464pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732pt;
   text-transform: none;
@@ -1682,12 +1760,58 @@ div.b2_Bullet2-KWN
 
 .b2_Bullet2-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
 }
 
 .b2_Bullet2-KWN_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
+div.b2_002b_Bullet2WPara
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 28.3464pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: -14.1732pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.b2_002b_Bullet2WPara_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.b2_002b_Bullet2WPara_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1716,10 +1840,10 @@ div.b2n_Bullet2NumList
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 28.3464pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732pt;
   text-transform: none;
@@ -1728,9 +1852,9 @@ div.b2n_Bullet2NumList
 
 .b2n_Bullet2NumList_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
 }
 
 .b2n_Bullet2NumList_inner
@@ -1808,10 +1932,10 @@ div.b3_Bullet3-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 42.5196pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.173199999999997pt;
   text-transform: none;
@@ -1820,12 +1944,58 @@ div.b3_Bullet3-KWN
 
 .b3_Bullet3-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
 }
 
 .b3_Bullet3-KWN_inner
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-align: Left;
+  text-transform: none;
+  vertical-align: baseline;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  padding-left: 0pt;
+  padding-right: 0pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
+}
+
+div.b3_002b_Bullet3WPara
+{
+  color: #000000;
+  font-family: "Microsoft Sans Serif";
+  font-size: 10.0pt;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  margin-bottom: 6pt;
+  margin-left: 42.5196pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+  text-align: Left;
+  text-indent: -14.173199999999997pt;
+  text-transform: none;
+  vertical-align: baseline;
+}
+
+.b3_002b_Bullet3WPara_outer
+{
+  margin-bottom: 6pt;
+  margin-right: 0pt;
+  margin-top: 6pt;
+}
+
+.b3_002b_Bullet3WPara_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -1854,10 +2024,10 @@ div.b3n_Bullet3NumList
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 42.5196pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.173199999999997pt;
   text-transform: none;
@@ -1866,9 +2036,9 @@ div.b3n_Bullet3NumList
 
 .b3n_Bullet3NumList_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
 }
 
 .b3n_Bullet3NumList_inner
@@ -1946,10 +2116,10 @@ div.b4_Bullet4-KWN
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-left: 56.6928pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.173200000000001pt;
   text-transform: none;
@@ -1958,9 +2128,9 @@ div.b4_Bullet4-KWN
 
 .b4_Bullet4-KWN_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 6.0pt;
+  margin-top: 6pt;
 }
 
 .b4_Bullet4-KWN_inner
@@ -1984,40 +2154,40 @@ div.b4_Bullet4-KWN
   padding-bottom: 0pt;
 }
 
-p.bn_BodyNoLead, div.bn_BodyNoLead
+div.bz_BodyZeroLead
 {
-  color: Black;
+  color: #000000;
   font-family: "Microsoft Sans Serif";
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 6pt;
+  margin-bottom: 0.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
-  margin-top: 6pt;
-  text-align: left;
+  margin-top: 0.75pt;
+  text-align: Left;
   text-indent: 0pt;
   text-transform: none;
   vertical-align: baseline;
 }
 
-.bn_BodyNoLead_outer
+.bz_BodyZeroLead_outer
 {
-  margin-bottom: 6pt;
+  margin-bottom: 0.0pt;
   margin-right: 0pt;
-  margin-top: 6pt;
+  margin-top: 0.75pt;
 }
 
-.bn_BodyNoLead_inner
+.bz_BodyZeroLead_inner
 {
-  color: Black;
+  color: #000000;
   font-family: "Microsoft Sans Serif";
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  text-align: left;
+  text-align: Left;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -2039,7 +2209,7 @@ div.cf_CodeFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 14.1732pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
@@ -2087,7 +2257,7 @@ div.cfb_CodeFirst_Break
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 14.1732pt;
   margin-right: 23.81112pt;
   margin-top: 6.0pt;
   text-align: Left;
@@ -2135,11 +2305,11 @@ div.cfi_CodeFirstIndent
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 28.3464pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.1732pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2183,11 +2353,11 @@ div.cfi2_CodeFirstIndent2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 56.6928pt;
+  margin-left: 42.5196pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.173200000000001pt;
+  text-indent: -14.173199999999997pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2231,7 +2401,7 @@ div.cl_CodeLong
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 14.1732pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
@@ -2279,11 +2449,10 @@ div.clf_CodeListingFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
+  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2325,11 +2494,10 @@ div.cli_CodeListing
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
+  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2371,11 +2539,10 @@ div.cli1_CodeListIndent1
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
+  margin-left: 14pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2417,11 +2584,10 @@ div.cli1f_CodeListInd1First
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
+  margin-left: 14pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2463,11 +2629,10 @@ div.cli2_CodeListIndent2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 99.2124pt;
+  margin-left: 28pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2509,7 +2674,7 @@ div.co_Code
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 14.1732pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
@@ -2557,11 +2722,11 @@ div.coi_CodeIndent
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 28.3464pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.1732pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2605,11 +2770,11 @@ div.coi2_CodeIndent2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 56.6928pt;
+  margin-left: 42.5196pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.173200000000001pt;
+  text-indent: -14.173199999999997pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2699,7 +2864,7 @@ div.cs_CodeSpace
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 14.1732pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
@@ -2843,11 +3008,10 @@ div.fc_FigCalloutTitle
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
+  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2889,11 +3053,10 @@ div.fc_FigCalloutTitleFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
+  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2935,11 +3098,10 @@ div.fc2_FigCall2Title
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
+  margin-left: 14pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2981,11 +3143,10 @@ div.fc2_FigCall2TitleFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
+  margin-left: 14pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3027,11 +3188,10 @@ div.fc3_FigCall3Title
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 99.2124pt;
+  margin-left: 28pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3073,11 +3233,10 @@ div.fc3_FigCall3TitleFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 99.2124pt;
+  margin-left: 28pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3119,11 +3278,10 @@ div.fc4_FigCall4Title
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 113.3856pt;
+  margin-left: 43pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3165,11 +3323,10 @@ div.fc4_FigCall4TitleFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 113.3856pt;
+  margin-left: 43pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3386,236 +3543,6 @@ div.FigCalloutTitle
   padding-bottom: 0pt;
 }
 
-h4.gh_GlossaryHeadings, div.gh_GlossaryHeadings
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 18px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 18.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.gh_GlossaryHeadings_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 18.0pt;
-}
-
-.gh_GlossaryHeadings_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 18px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h5.gl_Glossary_HeadLong, div.gl_Glossary_HeadLong
-{
-  color: #003366;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 4pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 8.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.gl_Glossary_HeadLong_outer
-{
-  margin-bottom: 4pt;
-  margin-right: 0pt;
-  margin-top: 8.0pt;
-}
-
-.gl_Glossary_HeadLong_inner
-{
-  color: #003366;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.gll_GlossaryLetterLinks
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.gll_GlossaryLetterLinks_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-}
-
-.gll_GlossaryLetterLinks_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h5.gs_Glossary_HeadShort, div.gs_Glossary_HeadShort
-{
-  color: #003366;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 4pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 8.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.gs_Glossary_HeadShort_outer
-{
-  margin-bottom: 4pt;
-  margin-right: 0pt;
-  margin-top: 8.0pt;
-}
-
-.gs_Glossary_HeadShort_inner
-{
-  color: #003366;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h5.gt_GlossaryTerms, div.gt_GlossaryTerms
-{
-  color: #003366;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 4pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 3.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.gt_GlossaryTerms_outer
-{
-  margin-bottom: 4pt;
-  margin-right: 0pt;
-  margin-top: 3.0pt;
-}
-
-.gt_GlossaryTerms_inner
-{
-  color: #003366;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
 p.i1_Image1, div.i1_Image1
 {
   color: #000000;
@@ -3646,52 +3573,6 @@ p.i1_Image1, div.i1_Image1
   color: #000000;
   font-family: "Microsoft Sans Serif";
   font-size: 10pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-p.i1b_Image1-break, div.i1b_Image1-break
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 6pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.i1b_Image1-break_outer
-{
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
-}
-
-.i1b_Image1-break_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -3892,604 +3773,6 @@ p.iw_ImageWide, div.iw_ImageWide
   padding-bottom: 0pt;
 }
 
-div.RExample
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 13.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RExample_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 13.0pt;
-}
-
-.RExample_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h2.RH1, div.RH1
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH1_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-}
-
-.RH1_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h2.RH1_Class, div.RH1_Class
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH1_Class_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-}
-
-.RH1_Class_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h2.RH1_Interface, div.RH1_Interface
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH1_Interface_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-}
-
-.RH1_Interface_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h2.RH1_Method, div.RH1_Method
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH1_Method_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-}
-
-.RH1_Method_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h2.RH1_Package, div.RH1_Package
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH1_Package_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 16.0pt;
-}
-
-.RH1_Package_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h3.RH2, div.RH2
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 20px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH2_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-}
-
-.RH2_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 20px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h3.RH2_Method, div.RH2_Method
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 20px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH2_Method_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-}
-
-.RH2_Method_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 20px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h4.RH3, div.RH3
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 18px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 12.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH3_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 12.0pt;
-}
-
-.RH3_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 18px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.RH4
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 11.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 11.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RH4_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 11.0pt;
-}
-
-.RH4_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 11.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-p.RParameter, div.RParameter
-{
-  color: Black;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 2pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 9.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.RParameter_outer
-{
-  margin-bottom: 2pt;
-  margin-right: 0pt;
-  margin-top: 9.0pt;
-}
-
-.RParameter_inner
-{
-  color: Black;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.rs_RSyntax
-{
-  color: #000000;
-  font-family: Courier New, Courier, mono;
-  font-size: 13px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0em;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 0em;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.rs_RSyntax_outer
-{
-  margin-bottom: 0em;
-  margin-right: 0pt;
-  margin-top: 0em;
-}
-
-.rs_RSyntax_inner
-{
-  color: #000000;
-  font-family: Courier New, Courier, mono;
-  font-size: 13px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h3.rsa_RSeeAlso, div.rsa_RSeeAlso
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 20px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-  text-align: left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.rsa_RSeeAlso_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 14.0pt;
-}
-
-.rsa_RSeeAlso_inner
-{
-  color: #003366;
-  font-family: Arial;
-  font-size: 20px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
 div.t_Tbl_Body
 {
   color: #000000;
@@ -4524,374 +3807,6 @@ div.t_Tbl_Body
 }
 
 .t_Tbl_Body_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.ta_AnswerBody
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.ta_AnswerBody_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-}
-
-.ta_AnswerBody_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.ta1n_AnswerNumList1
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.ta1n_AnswerNumList1_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-}
-
-.ta1n_AnswerNumList1_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.ta2n_AnswerNumList2
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.ta2n_AnswerNumList2_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-}
-
-.ta2n_AnswerNumList2_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.taa_AnswerNumListAlpha
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.taa_AnswerNumListAlpha_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-}
-
-.taa_AnswerNumListAlpha_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.tab1_AnswerBullet1
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 6pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.tab1_AnswerBullet1_outer
-{
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
-}
-
-.tab1_AnswerBullet1_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.tab2_AnswerBullet2
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.tab2_AnswerBullet2_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.tab2_AnswerBullet2_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.tai1_AnswerIndent1
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.tai1_AnswerIndent1_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 1.0pt;
-}
-
-.tai1_AnswerIndent1_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.tai2_AnswerIndent2
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 28.8pt;
-  margin-right: 0pt;
-  margin-top: 0.75pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.tai2_AnswerIndent2_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 0.75pt;
-}
-
-.tai2_AnswerIndent2_inner
 {
   color: #000000;
   font-family: "Microsoft Sans Serif";
@@ -5059,12 +3974,10 @@ div.Tbl1Cap
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
   margin-right: 0pt;
   margin-top: 10px;
   padding-top: 10px;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -5107,12 +4020,10 @@ div.Tbl1CapFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 70.866pt;
   margin-right: 0pt;
   margin-top: 10px;
   padding-top: 10px;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -5155,12 +4066,10 @@ div.Tbl2Cap
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
   margin-right: 0pt;
   margin-top: 10px;
   padding-top: 10px;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -5203,11 +4112,10 @@ div.Tbl2CapFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 85.0392pt;
   margin-right: 0pt;
-  margin-top: 9.0pt;
+  margin-top: 10px;
+  padding-top: 10px;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -5216,7 +4124,8 @@ div.Tbl2CapFirst
 {
   margin-bottom: 0.0pt;
   margin-right: 0pt;
-  margin-top: 9.0pt;
+  margin-top: 10px;
+  padding-top: 10px;
 }
 
 .Tbl2CapFirst_inner
@@ -5249,12 +4158,10 @@ div.Tbl3Cap
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 99.2124pt;
   margin-right: 0pt;
   margin-top: 10px;
   padding-top: 10px;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -5288,66 +4195,19 @@ div.Tbl3Cap
   padding-bottom: 0pt;
 }
 
-div.Tbl3CapFirst
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 9.5pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 99.2124pt;
-  margin-right: 0pt;
-  margin-top: 9.0pt;
-  text-align: Left;
-  text-indent: -70.866pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.Tbl3CapFirst_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 9.0pt;
-}
-
-.Tbl3CapFirst_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 9.5pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
 div.Tbl4Cap
 {
   color: #000000;
   font-family: Arial;
   font-size: 9.5pt;
-  font-style: normal;
+  font-style: italic;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 113.3856pt;
   margin-right: 0pt;
-  margin-top: 9.0pt;
+  margin-top: 10px;
+  padding-top: 10px;
   text-align: Left;
-  text-indent: -70.866pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -5356,7 +4216,8 @@ div.Tbl4Cap
 {
   margin-bottom: 0.0pt;
   margin-right: 0pt;
-  margin-top: 9.0pt;
+  margin-top: 10px;
+  padding-top: 10px;
 }
 
 .Tbl4Cap_inner
@@ -5364,53 +4225,7 @@ div.Tbl4Cap
   color: #000000;
   font-family: Arial;
   font-size: 9.5pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.Tbl4CapFirst
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 9.5pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 113.3856pt;
-  margin-right: 0pt;
-  margin-top: 9.0pt;
-  text-align: Left;
-  text-indent: -70.866pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.Tbl4CapFirst_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 9.0pt;
-}
-
-.Tbl4CapFirst_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 9.5pt;
-  font-style: normal;
+  font-style: italic;
   font-variant: normal;
   font-weight: normal;
   text-align: Left;
@@ -5477,8 +4292,8 @@ div.tc_Tbl_Code1-First
 div.tc1_Tbl_Code1
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -5490,6 +4305,7 @@ div.tc1_Tbl_Code1
   text-indent: -14.1732pt;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
 }
 
 .tc1_Tbl_Code1_outer
@@ -5502,14 +4318,15 @@ div.tc1_Tbl_Code1
 .tc1_Tbl_Code1_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-align: Left;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0pt;
@@ -5523,8 +4340,8 @@ div.tc1_Tbl_Code1
 div.tc2_Tbl_Code2
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -5536,6 +4353,7 @@ div.tc2_Tbl_Code2
   text-indent: -14.173199999999997pt;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
 }
 
 .tc2_Tbl_Code2_outer
@@ -5548,14 +4366,15 @@ div.tc2_Tbl_Code2
 .tc2_Tbl_Code2_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-align: Left;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0pt;
@@ -5665,8 +4484,8 @@ div.tcw_Tbl_CodeWide
 div.tcwl_Tbl_CodeWide-Last
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -5678,6 +4497,7 @@ div.tcwl_Tbl_CodeWide-Last
   text-indent: -14.1732pt;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
 }
 
 .tcwl_Tbl_CodeWide-Last_outer
@@ -5690,14 +4510,15 @@ div.tcwl_Tbl_CodeWide-Last
 .tcwl_Tbl_CodeWide-Last_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
+  font-family: Courier New, Courier, mono;
+  font-size: 13px;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-align: Left;
   text-transform: none;
   vertical-align: baseline;
+  white-space: pre;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0pt;
@@ -5854,10 +4675,10 @@ div.thr_Tbl_Heading_Right
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 0.0pt;
+  margin-bottom: 0em;
   margin-left: 0pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
   text-align: Right;
   text-indent: 0pt;
   text-transform: none;
@@ -5866,9 +4687,9 @@ div.thr_Tbl_Heading_Right
 
 .thr_Tbl_Heading_Right_outer
 {
-  margin-bottom: 0.0pt;
+  margin-bottom: 0em;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
 }
 
 .thr_Tbl_Heading_Right_inner
@@ -5946,10 +4767,10 @@ div.tn_Tbl_NumList
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 3.0pt;
+  margin-bottom: 6pt;
   margin-left: 14.1732pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
   text-align: Left;
   text-indent: -14.1732pt;
   text-transform: none;
@@ -5958,9 +4779,9 @@ div.tn_Tbl_NumList
 
 .tn_Tbl_NumList_outer
 {
-  margin-bottom: 3.0pt;
+  margin-bottom: 6pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 6pt;
 }
 
 .tn_Tbl_NumList_inner
@@ -5992,10 +4813,10 @@ div.tr_Tbl_Body_Right
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 3.0pt;
+  margin-bottom: 0em;
   margin-left: 0pt;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
   text-align: Right;
   text-indent: 0pt;
   text-transform: none;
@@ -6004,9 +4825,9 @@ div.tr_Tbl_Body_Right
 
 .tr_Tbl_Body_Right_outer
 {
-  margin-bottom: 3.0pt;
+  margin-bottom: 0em;
   margin-right: 0pt;
-  margin-top: 0.0pt;
+  margin-top: 0em;
 }
 
 .tr_Tbl_Body_Right_inner
@@ -6030,563 +4851,9 @@ div.tr_Tbl_Body_Right
   padding-bottom: 0pt;
 }
 
-div.xLegalBody
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 10.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: justify;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalBody_outer
-{
-  margin-bottom: 10.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalBody_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: justify;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalBold
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 5.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: justify;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalBold_outer
-{
-  margin-bottom: 5.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalBold_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: justify;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalBullet
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 5.0pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Left;
-  text-indent: -14.1732pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalBullet_outer
-{
-  margin-bottom: 5.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalBullet_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalHead1
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-  text-align: Center;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalHead1_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-}
-
-.xLegalHead1_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Center;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalHead2
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: italic;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-  text-align: Center;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalHead2_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-}
-
-.xLegalHead2_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: italic;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Center;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalHead3
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-  text-align: Center;
-  text-decoration: underline;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalHead3_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-}
-
-.xLegalHead3_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Center;
-  text-decoration: underline;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalIndent
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 7.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 10.0pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: justify;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalIndent_outer
-{
-  margin-bottom: 10.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalIndent_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 7.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: justify;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalList1
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 5.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: justify;
-  text-indent: 0pt;
-  text-transform: uppercase;
-  vertical-align: baseline;
-}
-
-.xLegalList1_outer
-{
-  margin-bottom: 5.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalList1_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 9.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: justify;
-  text-transform: uppercase;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalList2
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 7.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 8.0pt;
-  margin-left: 42.5196pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: justify;
-  text-indent: -14.173199999999997pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalList2_outer
-{
-  margin-bottom: 8.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalList2_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 7.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: justify;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.xLegalTitle
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 34.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.xLegalTitle_outer
-{
-  margin-bottom: 34.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.xLegalTitle_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 14.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zChapCarryOver
-{
-  color: #ffffff;
-  font-family: "Microsoft Sans Serif";
-  font-size: 5.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zChapCarryOver_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-}
-
-.zChapCarryOver_inner
-{
-  color: #ffffff;
-  font-family: "Microsoft Sans Serif";
-  font-size: 5.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Right;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zInterface
-{
-  color: #bfbfbf;
-  font-family: "Microsoft Sans Serif";
-  font-size: 15.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 14.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 5.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zInterface_outer
-{
-  margin-bottom: 14.0pt;
-  margin-right: 0pt;
-  margin-top: 5.0pt;
-}
-
-.zInterface_inner
-{
-  color: #bfbfbf;
-  font-family: "Microsoft Sans Serif";
-  font-size: 15.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
 div.zNumAppendix
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 15.0pt;
   font-style: normal;
@@ -6611,7 +4878,7 @@ div.zNumAppendix
 
 .zNumAppendix_inner
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 15.0pt;
   font-style: normal;
@@ -6632,7 +4899,7 @@ div.zNumAppendix
 
 div.zNumberAppendix
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 126.0pt;
   font-style: normal;
@@ -6657,7 +4924,7 @@ div.zNumberAppendix
 
 .zNumberAppendix_inner
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 126.0pt;
   font-style: normal;
@@ -6678,7 +4945,7 @@ div.zNumberAppendix
 
 div.zNumberChapter
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 126.0pt;
   font-style: normal;
@@ -6703,7 +4970,7 @@ div.zNumberChapter
 
 .zNumberChapter_inner
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 126.0pt;
   font-style: normal;
@@ -6724,7 +4991,7 @@ div.zNumberChapter
 
 div.zNumberPart
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 126.0pt;
   font-style: normal;
@@ -6749,7 +5016,7 @@ div.zNumberPart
 
 .zNumberPart_inner
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 126.0pt;
   font-style: normal;
@@ -6770,7 +5037,7 @@ div.zNumberPart
 
 div.zNumChapter
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 15.0pt;
   font-style: normal;
@@ -6795,7 +5062,7 @@ div.zNumChapter
 
 .zNumChapter_inner
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 15.0pt;
   font-style: normal;
@@ -6816,7 +5083,7 @@ div.zNumChapter
 
 div.zNumPart
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 15.0pt;
   font-style: normal;
@@ -6841,59 +5108,13 @@ div.zNumPart
 
 .zNumPart_inner
 {
-  color: #bfbfbf;
+  color: #999999;
   font-family: "Microsoft Sans Serif";
   font-size: 15.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
   text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zPackage
-{
-  color: #bfbfbf;
-  font-family: "Microsoft Sans Serif";
-  font-size: 15.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 14.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 5.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zPackage_outer
-{
-  margin-bottom: 14.0pt;
-  margin-right: 0pt;
-  margin-top: 5.0pt;
-}
-
-.zPackage_inner
-{
-  color: #bfbfbf;
-  font-family: "Microsoft Sans Serif";
-  font-size: 15.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -6998,98 +5219,6 @@ div.zRunningFooterLong
   padding-bottom: 0pt;
 }
 
-div.zRunningFooterTOC
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Center;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zRunningFooterTOC_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zRunningFooterTOC_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 8.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Center;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zRunningHeader
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 9.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Left;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zRunningHeader_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zRunningHeader_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 9.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-align: Left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
 h2.zTitleAppendix, div.zTitleAppendix
 {
   color: #003366;
@@ -7121,52 +5250,6 @@ h2.zTitleAppendix, div.zTitleAppendix
   font-family: Arial;
   font-size: 25px;
   font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zTitleBook
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 24.0pt;
-  font-style: italic;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 5.66928pt;
-  margin-top: 0.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitleBook_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 5.66928pt;
-  margin-top: 0.0pt;
-}
-
-.zTitleBook_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 24.0pt;
-  font-style: italic;
   font-variant: normal;
   font-weight: bold;
   text-align: Right;
@@ -7228,236 +5311,6 @@ h2.zTitleChapter, div.zTitleChapter
   padding-bottom: 0pt;
 }
 
-div.zTitleContents
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Center;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitleContents_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zTitleContents_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Center;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zTitleIndex
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 0.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Center;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitleIndex_outer
-{
-  margin-bottom: 0.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zTitleIndex_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Center;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zTitleInterface
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 20.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitleInterface_outer
-{
-  margin-bottom: 20.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zTitleInterface_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-h2.zTitleOther, div.zTitleOther
-{
-  color: #003366;
-  font-family: "Microsoft Sans Serif";
-  font-size: 20pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 125.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitleOther_outer
-{
-  margin-bottom: 125.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zTitleOther_inner
-{
-  color: #003366;
-  font-family: "Microsoft Sans Serif";
-  font-size: 20pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zTitlePackage
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 20.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitlePackage_outer
-{
-  margin-bottom: 20.0pt;
-  margin-right: 0pt;
-  margin-top: 0.0pt;
-}
-
-.zTitlePackage_inner
-{
-  color: #000000;
-  font-family: Arial;
-  font-size: 27.0pt;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
 h2.zTitlePart, div.zTitlePart
 {
   color: #003366;
@@ -7492,52 +5345,6 @@ h2.zTitlePart, div.zTitlePart
   font-variant: normal;
   font-weight: bold;
   text-align: left;
-  text-transform: none;
-  vertical-align: baseline;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 0pt;
-  margin-bottom: 0pt;
-  padding-left: 0pt;
-  padding-right: 0pt;
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-}
-
-div.zTitleVolume
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 18.0pt;
-  font-style: italic;
-  font-variant: normal;
-  font-weight: bold;
-  margin-bottom: 12.0pt;
-  margin-left: 0pt;
-  margin-right: 5.66928pt;
-  margin-top: 0.0pt;
-  text-align: Right;
-  text-indent: 0pt;
-  text-transform: none;
-  vertical-align: baseline;
-}
-
-.zTitleVolume_outer
-{
-  margin-bottom: 12.0pt;
-  margin-right: 5.66928pt;
-  margin-top: 0.0pt;
-}
-
-.zTitleVolume_inner
-{
-  color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 18.0pt;
-  font-style: italic;
-  font-variant: normal;
-  font-weight: bold;
-  text-align: Right;
   text-transform: none;
   vertical-align: baseline;
   margin-left: 0pt;
@@ -7715,50 +5522,6 @@ table.t_Table1
   text-align: left;
 }
 
-table.t1t_Table1WTitle
-{
-  border-bottom-color: Black;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-collapse: collapse;
-  border-left-color: Black;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-right-color: Black;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-top-color: Black;
-  border-top-style: solid;
-  border-top-width: 1px;
-  margin-bottom: 12.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 10.0pt;
-  padding-bottom: 3pt;
-  padding-left: 3pt;
-  padding-right: 3pt;
-  padding-top: 3pt;
-  text-align: left;
-}
-
-table.t2t_Table2WTitle
-{
-  border-bottom-width: 1pt;
-  border-collapse: collapse;
-  border-left-width: 1pt;
-  border-right-width: 1pt;
-  border-top-width: 1pt;
-  margin-bottom: 12.0pt;
-  margin-left: 14.1732pt;
-  margin-right: 0pt;
-  margin-top: 10.0pt;
-  padding-bottom: 3pt;
-  padding-left: 3pt;
-  padding-right: 3pt;
-  padding-top: 3pt;
-  text-align: left;
-}
-
 table.tn_Table1-no_rule
 {
   border-bottom-width: 1pt;
@@ -7777,33 +5540,23 @@ table.tn_Table1-no_rule
   text-align: left;
 }
 
-table.UnstructMasterPageMaps
+table.t1t_Table1WTitle
 {
-  border-bottom-width: 1pt;
+  border-bottom-color: Black;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
   border-collapse: collapse;
-  border-left-width: 1pt;
-  border-right-width: 1pt;
-  border-top-width: 1pt;
-  margin-bottom: 6.0pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6.0pt;
-  padding-bottom: 3pt;
-  padding-left: 3pt;
-  padding-right: 3pt;
-  padding-top: 3pt;
-  text-align: left;
-}
-
-table.t3t_Table3WTitle
-{
-  border-bottom-width: 1pt;
-  border-collapse: collapse;
-  border-left-width: 1pt;
-  border-right-width: 1pt;
-  border-top-width: 1pt;
+  border-left-color: Black;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-right-color: Black;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-top-color: Black;
+  border-top-style: solid;
+  border-top-width: 1px;
   margin-bottom: 12.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -7831,7 +5584,7 @@ table.t3_Table3
   text-align: left;
 }
 
-table.t4t_Table4WTitle
+table.t2t_Table2WTitle
 {
   border-bottom-width: 1pt;
   border-collapse: collapse;
@@ -7839,7 +5592,7 @@ table.t4t_Table4WTitle
   border-right-width: 1pt;
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 14.1732pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -7867,6 +5620,24 @@ table.t2_Table2
   text-align: left;
 }
 
+table.UnstructMasterPageMaps
+{
+  border-bottom-width: 1pt;
+  border-collapse: collapse;
+  border-left-width: 1pt;
+  border-right-width: 1pt;
+  border-top-width: 1pt;
+  margin-bottom: 6.0pt;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 6.0pt;
+  padding-bottom: 3pt;
+  padding-left: 3pt;
+  padding-right: 3pt;
+  padding-top: 3pt;
+  text-align: left;
+}
+
 table.tw_TableWide
 {
   border-bottom-width: 1pt;
@@ -7876,6 +5647,42 @@ table.tw_TableWide
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
   margin-left: 0pt;
+  margin-right: 0pt;
+  margin-top: 10.0pt;
+  padding-bottom: 3pt;
+  padding-left: 3pt;
+  padding-right: 3pt;
+  padding-top: 3pt;
+  text-align: left;
+}
+
+table.t3t_Table3WTitle
+{
+  border-bottom-width: 1pt;
+  border-collapse: collapse;
+  border-left-width: 1pt;
+  border-right-width: 1pt;
+  border-top-width: 1pt;
+  margin-bottom: 12.0pt;
+  margin-left: 28.3464pt;
+  margin-right: 0pt;
+  margin-top: 10.0pt;
+  padding-bottom: 3pt;
+  padding-left: 3pt;
+  padding-right: 3pt;
+  padding-top: 3pt;
+  text-align: left;
+}
+
+table.t4t_Table4WTitle
+{
+  border-bottom-width: 1pt;
+  border-collapse: collapse;
+  border-left-width: 1pt;
+  border-right-width: 1pt;
+  border-top-width: 1pt;
+  margin-bottom: 12.0pt;
+  margin-left: 42.5196pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
