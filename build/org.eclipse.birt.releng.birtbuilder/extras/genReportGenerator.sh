@@ -58,19 +58,18 @@ echo "" >> $2/genReport.sh
 echo then >> $2/genReport.sh
 echo echo \" The BIRT_HOME need be set before BirtRunner can run.\"\; >> $2/genReport.sh
 echo else >> $2/genReport.sh
-echo "" >> $2/genReport.sh
 
 echo "" >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 
-echo set java.io.tmpdir=$BIRT_HOME\ReportEngine\tmpdir >> $2/genReport.sh
-echo set org.eclipse.datatools_workspacepath=$java.io.tmpdir/workspace_dtp >> $2/genReport.sh
+echo set java.io.tmpdir=$BIRT_HOME/ReportEngine/tmpdir >> $2/genReport.sh
+echo set org.eclipse.datatools_workspacepath=\$java.io.tmpdir/workspace_dtp >> $2/genReport.sh
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
 
-echo mkdir $java.io.tmpdir >> $2/genReport.sh
-echo mkdir $org.eclipse.datatools_workspacepath >> $2/genReport.sh
+echo mkdir \$java.io.tmpdir >> $2/genReport.sh
+echo mkdir \$org.eclipse.datatools_workspacepath >> $2/genReport.sh
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
@@ -140,8 +139,8 @@ echo :runBirt >> $2/genReport.bat
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
 
-echo SET java.io.tmpdir=%BIRT_HOME%\ReportEngine\tmpdir >> $2/genReport.bat
-echo SET org.eclipse.datatools_workspacepath=%java.io.tmpdir%/workspace_dtp >> $2/genReport.bat
+echo SET java.io.tmpdir=%BIRT_HOME%\\ReportEngine\\tmpdir >> $2/genReport.bat
+echo SET org.eclipse.datatools_workspacepath=%java.io.tmpdir%\\workspace_dtp >> $2/genReport.bat
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
