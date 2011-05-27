@@ -64,8 +64,7 @@ public class SampleDbFactory implements IExecutableExtension
     public void setInitializationData( IConfigurationElement config,
             String propertyName, Object data ) throws CoreException
     {
-        String extensionPluginId = config.getContributor().getName();
-        String stateLocation = getSampleDbRootPath( extensionPluginId );
+        String stateLocation = getSampleDbRootPath( PLUGIN_ID );
 
         try
         {
