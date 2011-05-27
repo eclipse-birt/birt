@@ -371,6 +371,12 @@
 		    	<include name="org.eclipse.datatools.connectivity.oda.flatfile_*/**"/>
 		    	<include name="org.eclipse.datatools.connectivity.oda.profile_*/**"/>
 		    	<include name="org.eclipse.datatools.connectivity.sqm.core_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oda.ws_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oda.xml_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oracle_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.oracle.dbdefinition_*/**"/>
+		    	<include name="org.eclipse.datatools.enablement.postgresql_*/**"/>
+				<include name="org.eclipse.datatools.enablement.postgresql.dbdefinition_*/**"/>
 		    	<include name="org.eclipse.datatools.enablement.hsqldb_*/**"/>
 		    	<include name="org.eclipse.datatools.enablement.hsqldb.dbdefinition_*/**"/>
 		    	<include name="org.eclipse.datatools.enablement.ibm.db2.luw_*/**"/>
@@ -381,11 +387,6 @@
 		    	<include name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition_*/**"/>
 		    	<include name="org.eclipse.datatools.enablement.mysql_*/**"/>
 		    	<include name="org.eclipse.datatools.enablement.mysql.dbdefinition_*/**"/>
-		    	<include name="org.eclipse.datatools.enablement.oda.ws_*/**"/>
-		    	<include name="org.eclipse.datatools.enablement.oda.xml_*/**"/>
-		    	<include name="org.eclipse.datatools.enablement.oracle_*/**"/>
-		    	<include name="org.eclipse.datatools.enablement.oracle.dbdefinition_*/**"/>
-		    	<include name="org.eclipse.datatools.enablement.postgresql_*/**"/>
 		    	<include name="org.eclipse.datatools.modelbase.dbdefinition_*/**"/>
 		    	<include name="org.eclipse.datatools.modelbase.derby_*/**"/>
 		    	<include name="org.eclipse.datatools.modelbase.sql_*/**"/>
