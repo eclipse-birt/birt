@@ -62,7 +62,7 @@ echo else >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 
-echo set java.io.tmpdir=$BIRT_HOME/ReportEngine/tmpdir >> $2/genReport.sh
+echo set java.io.tmpdir=\$BIRT_HOME/ReportEngine/tmpdir >> $2/genReport.sh
 echo set org.eclipse.datatools_workspacepath=\$java.io.tmpdir/workspace_dtp >> $2/genReport.sh
 
 echo "" >> $2/genReport.bat
