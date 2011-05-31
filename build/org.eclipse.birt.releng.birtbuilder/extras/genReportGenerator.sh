@@ -62,14 +62,13 @@ echo else >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 
-echo set java.io.tmpdir=\$BIRT_HOME/ReportEngine/tmpdir >> $2/genReport.sh
-echo set org.eclipse.datatools_workspacepath=\$java.io.tmpdir/workspace_dtp >> $2/genReport.sh
+echo java_io_tmpdir=\$BIRT_HOME/ReportEngine/tmpdir >> $2/genReport.sh
+echo org_eclipse_datatools_workspacepath=\$java_io_tmpdir/workspace_dtp >> $2/genReport.sh
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
 
-echo mkdir \$java.io.tmpdir >> $2/genReport.sh
-echo mkdir \$org.eclipse.datatools_workspacepath >> $2/genReport.sh
+echo mkdir -p \$org_eclipse_datatools_workspacepath >> $2/genReport.sh
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
@@ -81,7 +80,7 @@ echo \" >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo JAVACMD=\'java\'\; >> $2/genReport.sh
 
-echo  \$JAVACMD -cp \"\$BIRTCLASSPATH\" -DBIRT_HOME=\"\$BIRT_HOME/ReportEngine\" org.eclipse.birt.report.engine.api.ReportRunner \${1+\"\$@\"} >> $2/genReport.sh
+echo  \$JAVACMD -cp \"\$BIRTCLASSPATH\" -DBIRT_HOME=\"\$BIRT_HOME/ReportEngine\" -Dorg.eclipse.datatools_workspacepath=\"\$org_eclipse_datatools_workspacepath\" org.eclipse.birt.report.engine.api.ReportRunner \${1+\"\$@\"} >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo fi >> $2/genReport.sh
 
