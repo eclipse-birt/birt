@@ -55,7 +55,14 @@ class MetaDataRetriever
 					querySpec.setProperty( prop.getName(), prop.getValue());
 				}
 			}	
-			query.setSpecification( querySpec );
+			try
+			{
+				query.setSpecification( querySpec );
+			}
+			catch( UnsupportedOperationException ue )
+			{
+				//This method is not supported by CallStatement.
+			}
 			query.prepare( dataSetDesign.getQueryText( ) );
 			
 			try 
