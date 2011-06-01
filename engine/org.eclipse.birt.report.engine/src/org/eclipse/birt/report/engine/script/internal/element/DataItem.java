@@ -104,4 +104,32 @@ public class DataItem extends ReportItem implements IDataItem
 	{
 		// TODO Auto-generated method stub		
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getResultSetColumn()
+	 */
+	public String getResultSetColumn( )
+	{
+		return ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+        .getResultSetColumn( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setResultSetColumn(java.lang.String)
+	 */
+	public void setResultSetColumn( String columnName ) throws ScriptException
+	{
+		 try
+	        {
+	            ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+	                    .setResultSetColumn( columnName );
+	        }
+	        catch( SemanticException e )
+	        {
+	            throw new ScriptException( e.getLocalizedMessage() );
+	        }
+		
+	}
 }

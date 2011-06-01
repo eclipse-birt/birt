@@ -1,6 +1,7 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.ActionHandle;
 
 /**
  * Represents a the design of a DataItem in the scripting environment
@@ -60,5 +61,24 @@ public interface IDataItem extends IReportItem
 	 * 			action structure
 	 */
 	void addAction(IAction action);
+	
+	/**
+	 * Gets the value of the result set column name property on this data item.
+	 * 
+	 * @return the value of the property.
+	 */
+
+	String getResultSetColumn( );
+
+	/**
+	 * Sets the value of the column name property.
+	 * 
+	 * @param columnName
+	 *            the value to set.
+	 * @throws ScriptException
+	 */
+
+	void setResultSetColumn( String columnName )
+			throws ScriptException;
 
 }

@@ -113,4 +113,30 @@ public class DataItem extends ReportItem implements IDataItem
 
 		cmdStack.commit( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IDataItem#getResultSetColumn
+	 * ()
+	 */
+	public String getResultSetColumn( )
+	{
+		return ( (DataItemHandle) handle ).getResultSetColumn( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IDataItem#setResultSetColumn
+	 * (java.lang.String)
+	 */
+	public void setResultSetColumn( String columnName )
+			throws SemanticException
+	{
+		setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, columnName );
+
+	}
 }

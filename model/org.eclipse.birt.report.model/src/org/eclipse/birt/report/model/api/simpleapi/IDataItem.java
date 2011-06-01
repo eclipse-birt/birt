@@ -61,4 +61,22 @@ public interface IDataItem extends IReportItem
 	 */
 	void setHelpTextKey( String value ) throws SemanticException;
 
+	/**
+	 * Gets the value of the result set column name property on this data item.
+	 * 
+	 * @return the value of the property.
+	 */
+
+	String getResultSetColumn( );
+
+	/**
+	 * Sets the value of the column name property.
+	 * 
+	 * @param columnName
+	 *            the value to set.
+	 * @throws SemanticException
+	 */
+
+	void setResultSetColumn( String columnName )
+			throws SemanticException;
 }
