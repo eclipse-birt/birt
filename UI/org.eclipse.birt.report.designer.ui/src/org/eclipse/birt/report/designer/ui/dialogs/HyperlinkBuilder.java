@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlin
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IReportHyperlinkParameter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameterProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -47,6 +48,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -268,12 +270,14 @@ public class HyperlinkBuilder extends BaseDialog
 			else if ( columnIndex == 2 )
 			{
 				String name = parameterBinding.getParamName( );
-				String dataType = paramTypes.get( name );
-				if ( dataType == null )
+
+				Object object = getParameter( name );
+				if ( object instanceof AbstractScalarParameterHandle )
 				{
-					return ""; //$NON-NLS-1$
+					return getDisplayDataType( ( (AbstractScalarParameterHandle) object ).getDataType( ) );
 				}
-				return getDisplayDataType( dataType );
+
+				return ""; //$NON-NLS-1$
 			}
 			else if ( columnIndex == 3 )
 			{
@@ -445,7 +449,6 @@ public class HyperlinkBuilder extends BaseDialog
 	private boolean isRelativeToProjectRoot = false;
 	private Text tooltipText;
 	private ScrolledComposite scrollContent;
-	private Object paramCellEditorFacotryAdapter;
 	private Composite paramButtonContainer;
 	private Button addParamButton;
 	private Button editParamButton;
@@ -1182,6 +1185,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				editRow( );
 				updateParamBindingButtons( );
+				validateTables( );
 			}
 
 		} );
@@ -1196,6 +1200,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				deleteRow( );
 				updateParamBindingButtons( );
+				validateTables( );
 			}
 		} );
 
@@ -1211,6 +1216,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				paramBindingList.clear( );
 				refreshParamBindingTable( );
+				validateTables( );
 			}
 		} );
 	}
@@ -1892,7 +1898,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 				if ( tmpReportDesign != null )
 				{
-					if ( targetReportHandle instanceof ReportDesignHandle )
+					if ( targetReportHandle instanceof ReportDesignHandle
+							|| targetReportHandle instanceof IReportDocument )
 					{
 						// TODO pass in current format
 						Map<String, List<IHyperlinkParameter>> hparams = getHyperlinkParameters( tmpReportDesign,
@@ -1908,6 +1915,9 @@ public class HyperlinkBuilder extends BaseDialog
 							{
 								for ( IHyperlinkParameter hp : hps )
 								{
+									if ( hp instanceof ReportHyperlinkParameter
+											&& targetReportHandle instanceof IReportDocument )
+										continue;
 									paramList.add( hp );
 									paramTypes.put( hp.getName( ),
 											hp.getDataType( ) );
@@ -1946,8 +1956,24 @@ public class HyperlinkBuilder extends BaseDialog
 		paramBindingTable.getTable( ).setEnabled( messageLine.getText( )
 				.length( ) == 0 );
 		refreshParamBindingTable( );
-		paramButtonContainer.setEnabled( paramBindingTable.getTable( )
-				.getEnabled( ) );
+		enableParamButtons( paramBindingTable.getTable( ).getEnabled( ) );
+	}
+
+	private void enableParamButtons( boolean enabled )
+	{
+		paramButtonContainer.setEnabled( enabled );
+		if ( !enabled )
+		{
+			Control[] children = paramButtonContainer.getChildren( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				children[i].setEnabled( false );
+			}
+		}
+		else
+		{
+			updateParamBindingButtons( );
+		}
 	}
 
 	private Map<String, List<IHyperlinkParameter>> getHyperlinkParameters(
@@ -2184,12 +2210,6 @@ public class HyperlinkBuilder extends BaseDialog
 		messageLine.setText( "" ); //$NON-NLS-1$
 		messageLine.setImage( null );
 		updateButtons( );
-	}
-
-	private void buildParameterChoices( String selectedParameter )
-	{
-		ArrayList<String> avaliableList = getAvailableParamList( selectedParameter );
-		parameterChooser.setItems( avaliableList.toArray( new String[0] ) );
 	}
 
 	private ArrayList<String> getAvailableParamList( String selectedParameter )
@@ -2441,10 +2461,9 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					ParameterHandle paramHandle = ( (IReportHyperlinkParameter) obj ).getParameterHandle( );
 
-					if ( paramHandle instanceof ScalarParameterHandle )
+					if ( paramHandle instanceof AbstractScalarParameterHandle )
 					{
-						return !( (ScalarParameterHandle) paramHandle ).allowNull( )
-								|| !( (ScalarParameterHandle) paramHandle ).allowBlank( );
+						return ( (AbstractScalarParameterHandle) paramHandle ).isRequired( );
 					}
 				}
 			}
@@ -2470,7 +2489,18 @@ public class HyperlinkBuilder extends BaseDialog
 		return UIUtil.getProjectFolder( );
 	}
 
-	private String getDisplayDataType( String dataType )
+	protected String getDisplayDataType( ParamBinding binding )
+	{
+		String name = binding.getParamName( );
+		String dataType = paramTypes.get( name );
+		if ( dataType == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return getDisplayDataType( dataType );
+	}
+
+	protected String getDisplayDataType( String dataType )
 	{
 		final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 				.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
@@ -2529,8 +2559,6 @@ public class HyperlinkBuilder extends BaseDialog
 		removeParamButton.setEnabled( getSelectedBinding( ) != null );
 		removeAllParamButton.setEnabled( paramBindingTable.getTable( )
 				.getItemCount( ) > 0 );
-		addParamButton.setEnabled( paramList != null
-				&& paramList.size( ) > paramBindingTable.getTable( )
-						.getItemCount( ) );
+		addParamButton.setEnabled( getAvailableParamList( null ).size( ) > 0 );
 	}
 }
