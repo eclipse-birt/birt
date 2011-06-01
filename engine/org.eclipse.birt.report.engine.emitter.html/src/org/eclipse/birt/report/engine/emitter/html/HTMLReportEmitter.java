@@ -2873,8 +2873,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// need the <span> tag to make them work well.
 		String tag = openTagByType( display, DISPLAY_FLAG_ALL );
 
+		IHyperlinkAction hyperlinkAction = image.getHyperlinkAction( );
+		String url = validate( hyperlinkAction );
+		if ( url != null )
+		{
+			writer.attribute( HTMLTags.ATTR_STYLE, "width:0;" );
+		}
 		// action
-		boolean hasAction = handleAction( image.getHyperlinkAction( ) );
+		boolean hasAction = handleAction( hyperlinkAction, url );
 
 		//Image must have a bookmark.
 		if ( image.getBookmark( ) == null )
@@ -3353,6 +3359,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected boolean handleAction( IHyperlinkAction action )
 	{
 		String url = validate( action );
+		return handleAction( action, url );
+	}
+	
+	/**
+	 * 
+	 * @param action
+	 * @param url
+	 * @return
+	 */
+	private boolean handleAction( IHyperlinkAction action, String url )
+	{
 		if ( url != null )
 		{
 			outputAction( action, url );
