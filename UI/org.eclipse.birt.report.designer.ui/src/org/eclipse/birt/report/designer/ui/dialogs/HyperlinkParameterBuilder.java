@@ -19,12 +19,16 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -32,7 +36,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -76,8 +82,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 		layout.verticalSpacing = 10;
 		container.setLayout( layout );
 
-		new Label( container, SWT.NONE ).setText( Messages.getString("HyperlinkParameterBuilder.Label.Parameter") ); //$NON-NLS-1$
-		paramChooser = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
+		new Label( container, SWT.NONE ).setText( Messages.getString( "HyperlinkParameterBuilder.Label.Parameter" ) ); //$NON-NLS-1$
+		paramChooser = new Combo( container, SWT.BORDER );
 
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = 250;
@@ -92,8 +98,32 @@ public class HyperlinkParameterBuilder extends BaseDialog
 
 		} );
 
+		paramChooser.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateValueControl( );
+				checkOkButton( );
+			}
+
+		} );
+
+		Label requiredLabel = new Label( container, SWT.NONE );
+		requiredLabel.setText( Messages.getString("HyperlinkParameterBuilder.Lable.Required") ); //$NON-NLS-1$
+
+		requiredValue = new Text( container, SWT.BORDER | SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		requiredValue.setLayoutData( gd );
+
+		Label typeLabel = new Label( container, SWT.NONE );
+		typeLabel.setText( Messages.getString("HyperlinkParameterBuilder.Label.DataType") ); //$NON-NLS-1$
+
+		typeValue = new Text( container, SWT.BORDER | SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		typeValue.setLayoutData( gd );
+
 		valueLabel = new Label( container, SWT.NONE );
-		valueLabel.setText( Messages.getString("HyperlinkParameterBuilder.Label.Value") ); //$NON-NLS-1$
+		valueLabel.setText( Messages.getString( "HyperlinkParameterBuilder.Label.Value" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		gd.exclude = true;
 		valueLabel.setLayoutData( gd );
@@ -109,7 +139,7 @@ public class HyperlinkParameterBuilder extends BaseDialog
 	{
 		if ( hyperlinkBuilder != null )
 		{
-			Object object = hyperlinkBuilder.getParameter( paramChooser.getText( ) );
+			final Object object = hyperlinkBuilder.getParameter( paramChooser.getText( ) );
 			if ( valueControl != null && !valueControl.isDisposed( ) )
 			{
 				valueControl.dispose( );
@@ -133,6 +163,13 @@ public class HyperlinkParameterBuilder extends BaseDialog
 
 				text = new Text( valueControl, SWT.BORDER );
 				text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				text.addModifyListener( new ModifyListener( ) {
+
+					public void modifyText( ModifyEvent e )
+					{
+						checkOkButton( );
+					}
+				} );
 
 				ExpressionButtonUtil.createExpressionButton( valueControl,
 						text,
@@ -142,10 +179,29 @@ public class HyperlinkParameterBuilder extends BaseDialog
 				{
 					ExpressionButtonUtil.initExpressionButtonControl( text,
 							hyperlinkBuilder.getParamBindingExpression( paramBinding ) );
+					text.setFocus( );
+				}
+
+				if ( object instanceof ScalarParameterHandle )
+				{
+					typeValue.setText( hyperlinkBuilder.getDisplayDataType( ( (ScalarParameterHandle) object ).getDataType( ) ) );
+					requiredValue.setText( ( (ScalarParameterHandle) object ).isRequired( ) ? Messages.getString("HyperlinkParameterBuilder.Required.Choice.Yes") //$NON-NLS-1$
+							: Messages.getString("HyperlinkParameterBuilder.Required.Choice.No") ); //$NON-NLS-1$
+				}
+				else
+				{
+					typeValue.setText( "" ); //$NON-NLS-1$
+					requiredValue.setText( "" ); //$NON-NLS-1$
 				}
 			}
 			else
 			{
+				if ( object instanceof AbstractScalarParameterHandle )
+				{
+					typeValue.setText( hyperlinkBuilder.getDisplayDataType( ( (AbstractScalarParameterHandle) object ).getDataType( ) ) );
+					requiredValue.setText( ( (AbstractScalarParameterHandle) object ).isRequired( ) ? Messages.getString("HyperlinkParameterBuilder.Required.Choice.Yes") //$NON-NLS-1$
+							: Messages.getString("HyperlinkParameterBuilder.Required.Choice.No") ); //$NON-NLS-1$
+				}
 				valueEditor = createValueEditor( container, object );
 				if ( valueEditor == null )
 				{
@@ -162,6 +218,14 @@ public class HyperlinkParameterBuilder extends BaseDialog
 					valueLabel.setVisible( true );
 					valueEditor.getControl( )
 							.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+					valueEditor.addListener( SWT.Modify, new Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							checkOkButton( );
+						}
+
+					} );
 					valueEditor.setProperty( PARAMETER_HANDLE, object );
 					valueEditor.setProperty( TARGET_REPORT,
 							hyperlinkBuilder.getTargetReportFile( ) );
@@ -170,6 +234,11 @@ public class HyperlinkParameterBuilder extends BaseDialog
 									: hyperlinkBuilder.getParamBindingExpression( paramBinding ) );
 					valueEditor.update( true );
 					valueControl = (Composite) valueEditor.getControl( );
+
+					if ( paramBinding != null )
+					{
+						valueEditor.getControl( ).setFocus( );
+					}
 				}
 			}
 
@@ -282,9 +351,64 @@ public class HyperlinkParameterBuilder extends BaseDialog
 	private ActionHandle handle;
 	private Text text;
 	private IDialogHelper valueEditor;
+	private Text typeValue;
+	private Text requiredValue;
 
 	public void setActionHandle( ActionHandle handle )
 	{
 		this.handle = handle;
+	}
+
+	protected Control createButtonBar( Composite parent )
+	{
+		Control control = super.createButtonBar( parent );
+		checkOkButton( );
+		return control;
+	}
+
+	private void checkOkButton( )
+	{
+		if ( hyperlinkBuilder == null
+				|| HyperlinkParameterBuilder.this.getOkButton( ) == null )
+			return;
+		Object object = hyperlinkBuilder.getParameter( paramChooser.getText( ) );
+
+		if ( object instanceof AbstractScalarParameterHandle )
+		{
+			if ( ( (AbstractScalarParameterHandle) object ).isRequired( ) )
+			{
+				if ( text != null && !text.isDisposed( ) )
+				{
+					HyperlinkParameterBuilder.this.getOkButton( )
+							.setEnabled( text.getText( ).trim( ).length( ) != 0 );
+				}
+				else if ( valueEditor != null
+						&& !valueEditor.getControl( ).isDisposed( ) )
+				{
+					Expression expression = (Expression) valueEditor.getProperty( PARAMETER_VALUE );
+					if ( expression == null )
+						HyperlinkParameterBuilder.this.getOkButton( )
+								.setEnabled( false );
+					else if ( expression.getStringExpression( ) == null
+							|| expression.getStringExpression( )
+									.trim( )
+									.length( ) == 0 )
+						HyperlinkParameterBuilder.this.getOkButton( )
+								.setEnabled( false );
+					else
+						HyperlinkParameterBuilder.this.getOkButton( )
+								.setEnabled( true );
+				}
+
+			}
+			else
+			{
+				HyperlinkParameterBuilder.this.getOkButton( ).setEnabled( true );
+			}
+		}
+		else
+		{
+			HyperlinkParameterBuilder.this.getOkButton( ).setEnabled( true );
+		}
 	}
 }
