@@ -35,17 +35,19 @@ public abstract class AbstractViewAction implements IViewActionDelegate
 	}
 
 	/**
-	 * @see
-	 * 	org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
-	 * 	.IAction, org.eclipse.jface.viewers.ISelection)
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
-		IStructuredSelection selectedElement = (IStructuredSelection) selection;
-		if ( selectedElement.size( ) == 1
-				&& selectedElement.getFirstElement( ) instanceof IFile )
+		if ( selection instanceof IStructuredSelection )
 		{
-			seletedFile = (IFile) selectedElement.getFirstElement( );
+			IStructuredSelection selectedElement = (IStructuredSelection) selection;
+			if ( selectedElement.size( ) == 1
+					&& selectedElement.getFirstElement( ) instanceof IFile )
+			{
+				seletedFile = (IFile) selectedElement.getFirstElement( );
+			}
 		}
 	}
 
