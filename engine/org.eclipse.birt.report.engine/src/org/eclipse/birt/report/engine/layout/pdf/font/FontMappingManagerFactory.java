@@ -137,7 +137,7 @@ public class FontMappingManagerFactory
 	 */
 	protected HashMap cachedManagers = new HashMap( );
 	
-	protected static final String BIRT_CUSTOM_FONT_DIR = "birt.font.dir";
+	protected static final String BIRT_CUSTOM_FONT_DIRS = "birt.font.dirs";
 
 	protected FontMappingManagerFactory( )
 	{
@@ -216,19 +216,22 @@ public class FontMappingManagerFactory
 	
 	private void registerFontsFromSystemProperty( )
 	{
-		AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+		String customFontsDirs = AccessController
+				.doPrivileged( new PrivilegedAction<String>( ) {
 
-			public Object run( )
+					public String run( )
+					{
+						return System.getProperty( BIRT_CUSTOM_FONT_DIRS );
+					}
+				} );
+		if ( customFontsDirs != null )
+		{
+			String[] fontDirs = customFontsDirs.split( File.pathSeparator );
+			for ( String fontPath : fontDirs )
 			{
-				String customFontsDir = System
-						.getProperty( BIRT_CUSTOM_FONT_DIR );
-				if ( customFontsDir != null )
-				{
-					FontFactory.registerDirectory( customFontsDir );
-				}
-				return null;
+				registerFontPath( fontPath );
 			}
-		} );
+		}
 	}
 
 	protected FontMappingManager createFontMappingManager( String format,
