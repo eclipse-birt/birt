@@ -116,12 +116,12 @@ public class OSGILauncher extends PlatformLauncher
 					"Framework {0} doesn't exist or is not a directory", new Object[]{root} ); //$NON-NLS-1$
 		}
 
-		String path = new File( platformDirectory, "plugins" ).toString( ); //$NON-NLS-1$
-		path = searchFor( "org.eclipse.osgi", path ); //$NON-NLS-1$
+		String searchPath = new File( platformDirectory, "plugins" ).toString( ); //$NON-NLS-1$
+		String path = searchFor( "org.eclipse.osgi", searchPath ); //$NON-NLS-1$
 		if ( path == null )
 		{
 			throw new FrameworkException(
-					"Could not find the Framework - {0}", new Object[]{"org.eclipse.osgi"} ); //$NON-NLS-1$
+					"Could not find the Framework - {0} in path {1}", new Object[]{"org.eclipse.osgi", searchPath} ); //$NON-NLS-1$
 		}
 		try
 		{
