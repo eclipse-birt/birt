@@ -483,18 +483,25 @@ public class PPTWriter
 				print( "href=3D\"" + hyperlink + "\" target=3D\"_parent\"" );
 			}
 		}
-		Crop crop = checkCrop( x, y, width, height);
+		Crop crop = checkCrop( x, y, width, height );
 		if ( crop == null )
 		{
-			println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			println( " style=3D'position:absolute;left:" + x + "pt;top:" + y
+					+ "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
 		else
 		{
 			ClipArea clip = clipStack.peek( );
-			println( " style=3D'position:absolute;left:" + clip.x + "pt;top:" + clip.y + "pt;width:" + clip.width + "pt;height:" + clip.height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			double pX = Math.max( clip.x, x );
+			double pY = Math.max( clip.y, y );
+			double pWidth = Math.min( x + width, clip.x + clip.width ) - pX;
+			double pHeight = Math.min( y + height, clip.y + clip.height ) - pY;
+			println( " style=3D'position:absolute;left:" + pX + "pt;top:" + pY
+					+ "pt;width:" + pWidth + "pt;height:" + pHeight + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
-		print( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"" );
+		print( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\""
+				+ imageTitle + "\"" );
 		if ( crop != null )
 		{
 			if ( crop.top != 0 )
@@ -947,7 +954,22 @@ public class PPTWriter
 
 	public void clip( float startX, float startY, float width, float height )
 	{
-		clipStack.push( new ClipArea( startX, startY, width, height ) );
+		if ( clipStack.isEmpty( ) )
+		{
+			clipStack.push( new ClipArea( startX, startY, width, height ) );
+		}
+		else
+		{
+			ClipArea parent = clipStack.peek( );
+			float newX = Math.max( parent.x, startX );
+			float newY = Math.max( parent.y, startY );
+			float newWidth = Math.min( startX + width, parent.x + parent.width )
+					- newX;
+			float newHeight = Math
+					.min( startY + height, parent.y + parent.height ) - newY;
+			clipStack
+					.push( new ClipArea( newX, newY, newWidth, newHeight ) );
+		}
 	}
 
 	public void clipEnd( )
