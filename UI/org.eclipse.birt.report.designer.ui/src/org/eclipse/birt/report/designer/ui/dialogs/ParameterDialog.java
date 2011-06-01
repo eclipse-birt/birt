@@ -270,6 +270,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private static final String NONE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Label.None" ); //$NON-NLS-1$
 
 	private static final Image DEFAULT_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT );
+	
+	private static final Image NOT_DEFAULT_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT_NOT );
 
 	public static final String CONTROLTYPE_VALUE = "controltype";//$NON-NLS-1$
 
@@ -389,6 +391,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					return DEFAULT_ICON;
 				}
+				else return NOT_DEFAULT_ICON;
 			}
 			return null;
 		}
