@@ -707,6 +707,10 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_DEFAULT, ICONS_PATH
 				+ OBJ16_PATH
 				+ "default.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_DEFAULT_NOT, ICONS_PATH
+				+ OBJ16_PATH
+				+ "not_default.gif" ); //$NON-NLS-1$
 
 		// Data editor dialog icons
 		declareImage( IReportGraphicConstants.ICON_DATAEDIT_DLG_TITLE_BANNER,
