@@ -30,6 +30,18 @@ public class TempDir
 	 */
 	public static TempDir getInstance( )
 	{
+		if( instance == null )
+		{
+			String tempDir = System.getProperty( "java.io.tmpdir" )
+			+ "AggregationPlugin_temp" + File.separator;
+			
+			File f = new File( tempDir );
+			if ( f.exists( ) )
+			{
+				deleteDirectory( f );
+			}
+			instance = new TempDir( tempDir );
+		}
 		return instance;
 	}
 
