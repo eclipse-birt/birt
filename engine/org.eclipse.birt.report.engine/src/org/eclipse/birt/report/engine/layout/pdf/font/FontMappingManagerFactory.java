@@ -136,18 +136,23 @@ public class FontMappingManagerFactory
 	 * 
 	 */
 	protected HashMap cachedManagers = new HashMap( );
+	
+	protected static final String BIRT_CUSTOM_FONT_DIR = "birt.font.dir";
 
 	protected FontMappingManagerFactory( )
 	{
 		// Register java fonts.
 		registerJavaFonts( );
 
-		// register the embedded font directorys
+		// register the embedded font directories.
 		String embeddedFonts = getEmbededFontPath( );
 		if ( embeddedFonts != null )
 		{
 			registerFontPath( embeddedFonts );
 		}
+		
+		// register the font path in system properties.
+		registerFontsFromSystemProperty( );
 	}
 
 	public synchronized FontMappingManager getFontMappingManager(
@@ -173,6 +178,9 @@ public class FontMappingManagerFactory
 	{
 		// Register the fonts defined in JRE fonts directory.
 		registerJavaFonts( );
+		
+		// register the font path in system properties.
+		registerFontsFromSystemProperty( );
 
 		// register the fonts defined in the configuration
 		Iterator iter = config.fontPaths.iterator( );
@@ -201,6 +209,23 @@ public class FontMappingManagerFactory
 				String fontsFolder = javaHome + File.separatorChar + "lib"
 						+ File.separatorChar + "fonts";
 				FontFactory.registerDirectory( fontsFolder );
+				return null;
+			}
+		} );
+	}
+	
+	private void registerFontsFromSystemProperty( )
+	{
+		AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+
+			public Object run( )
+			{
+				String customFontsDir = System
+						.getProperty( BIRT_CUSTOM_FONT_DIR );
+				if ( customFontsDir != null )
+				{
+					FontFactory.registerDirectory( customFontsDir );
+				}
 				return null;
 			}
 		} );
