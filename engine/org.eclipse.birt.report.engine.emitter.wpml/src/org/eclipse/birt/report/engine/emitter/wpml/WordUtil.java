@@ -220,11 +220,11 @@ public class WordUtil
 		return val;
 	}
 
-	// unit: eights of a point
+	// unit: eighth of a point
 	public static int parseBorderSize( float size )
 	{
 		int w = Math.round( size );
-		return ( 8 * w ) / 750;
+		return ( 8 * w ) / 1000;
 	}
 
 	public static String parseLineStyle( String style )

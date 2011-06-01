@@ -149,6 +149,14 @@ public abstract class AbstractEmitterImpl
 	private int leftMargin = 0;
 
 	private int rightMargin = 0;
+	
+	private int pageTopBorderWidth = 0;
+	
+	private int pageBottomBorderWidth = 0;
+	
+	private int pageLeftBorderWidth = 0;
+	
+	private int pageRightBorderWidth = 0;
 
 	private String orientation = "portrait";
 
@@ -342,8 +350,25 @@ public abstract class AbstractEmitterImpl
 
 		leftMargin = WordUtil.convertTo( page.getMarginLeft( ), 0, reportDpi );
 		rightMargin = WordUtil.convertTo( page.getMarginRight( ), 0, reportDpi );
-
-		contentWidth = pageWidth - leftMargin - rightMargin;
+		
+		pageTopBorderWidth = WordUtil.parseBorderSize( PropertyUtil
+				.getDimensionValue( page.getComputedStyle( ).getProperty(
+						StyleConstants.STYLE_BORDER_TOP_WIDTH ) ) );	
+		
+		pageBottomBorderWidth = WordUtil.parseBorderSize( PropertyUtil
+				.getDimensionValue( page.getComputedStyle( ).getProperty(
+						StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) ) );
+		
+		pageLeftBorderWidth = WordUtil.parseBorderSize( PropertyUtil
+				.getDimensionValue( page.getComputedStyle( ).getProperty(
+						StyleConstants.STYLE_BORDER_LEFT_WIDTH ) ) );
+		
+		pageRightBorderWidth = WordUtil.parseBorderSize( PropertyUtil
+				.getDimensionValue( page.getComputedStyle( ).getProperty(
+						StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) ) );
+		
+		contentWidth = pageWidth - leftMargin - rightMargin
+				- pageLeftBorderWidth - pageRightBorderWidth;
 
 		orientation = page.getOrientation( );
 	}
@@ -830,9 +855,12 @@ public abstract class AbstractEmitterImpl
 	{
 		wordWriter.startSectionInParagraph( );
 		writeHeaderFooter( );
+		// the border width /8*20 means to convert an eighth of a point to twips.
 		wordWriter.writePageProperties( pageHeight, pageWidth, headerHeight,
-				footerHeight, topMargin, bottomMargin, leftMargin, rightMargin,
-				orientation );
+				footerHeight, topMargin + (int)(pageTopBorderWidth/8*20), bottomMargin
+						+ (int)(pageBottomBorderWidth/8*20), leftMargin
+						+ (int)(pageLeftBorderWidth/8*20), rightMargin
+						+ (int)(pageRightBorderWidth/8*20), orientation );
 		wordWriter.writePageBorders( previousPage.getComputedStyle( ),
 				topMargin, bottomMargin, leftMargin, rightMargin );
 		wordWriter.endSectionInParagraph( );
@@ -843,8 +871,10 @@ public abstract class AbstractEmitterImpl
 		wordWriter.startSection( );
 		writeHeaderFooter( );
 		wordWriter.writePageProperties( pageHeight, pageWidth, headerHeight,
-				footerHeight, topMargin, bottomMargin, leftMargin, rightMargin,
-				orientation );
+				footerHeight, topMargin + (int)(pageTopBorderWidth/8*20), bottomMargin
+						+ (int)(pageBottomBorderWidth/8*20), leftMargin
+						+ (int)(pageLeftBorderWidth/8*20), rightMargin
+						+ (int)(pageRightBorderWidth/8*20), orientation );
 		wordWriter.writePageBorders( previousPage.getComputedStyle( ),
 				topMargin, bottomMargin, leftMargin, rightMargin );
 		wordWriter.endSection( );
