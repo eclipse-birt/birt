@@ -2071,8 +2071,12 @@ HyperlinkBuilder.OpenExpression=Ausdruckserstellung öffnen
 HyperlinkBuilder.FileNameError.Title=Fehler
 HyperlinkBuilder.FileNameError.Message=Die ausgewählte Datei ist ungültig.
 HyperlinkBuilder.TargetReportFormat=Zielbericht &formatieren in:
+HyperlinkParameterBuilder.Label.DataType=Datentyp:
 HyperlinkParameterBuilder.Label.Parameter=&Parameter:
 HyperlinkParameterBuilder.Label.Value=&Wert:
+HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Required.Choice.No=Nein
+HyperlinkParameterBuilder.Required.Choice.Yes=Ja
 
 ###########################################################
 #HyperLinkPage properties

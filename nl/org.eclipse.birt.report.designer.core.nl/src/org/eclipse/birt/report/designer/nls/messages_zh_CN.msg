@@ -2071,8 +2071,12 @@ HyperlinkBuilder.OpenExpression=打开表达式生成器
 HyperlinkBuilder.FileNameError.Title=错误
 HyperlinkBuilder.FileNameError.Message=选择的文件无效。
 HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
+HyperlinkParameterBuilder.Label.DataType=数据类型:
 HyperlinkParameterBuilder.Label.Parameter=参数(&P)
 HyperlinkParameterBuilder.Label.Value=值(&V):
+HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Required.Choice.No=否
+HyperlinkParameterBuilder.Required.Choice.Yes=是
 
 ###########################################################
 #HyperLinkPage properties

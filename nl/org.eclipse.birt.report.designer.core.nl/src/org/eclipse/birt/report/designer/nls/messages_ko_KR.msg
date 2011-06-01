@@ -2071,8 +2071,12 @@ HyperlinkBuilder.OpenExpression=식 빌더 열기
 HyperlinkBuilder.FileNameError.Title=오류
 HyperlinkBuilder.FileNameError.Message=선택한 파일이 잘못되었습니다.
 HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
+HyperlinkParameterBuilder.Label.DataType=데이터 형식:
 HyperlinkParameterBuilder.Label.Parameter=매개 변수(&P):
 HyperlinkParameterBuilder.Label.Value=값(&V):
+HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Required.Choice.No=아니오
+HyperlinkParameterBuilder.Required.Choice.Yes=예
 
 ###########################################################
 #HyperLinkPage properties

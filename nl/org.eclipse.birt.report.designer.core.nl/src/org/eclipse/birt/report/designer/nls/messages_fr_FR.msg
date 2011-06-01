@@ -2071,8 +2071,12 @@ HyperlinkBuilder.OpenExpression=Ouvrir le Générateur d'expression
 HyperlinkBuilder.FileNameError.Title=Erreur
 HyperlinkBuilder.FileNameError.Message=Le fichier sélectionné n'est pas valide.
 HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
+HyperlinkParameterBuilder.Label.DataType=Type de données :
 HyperlinkParameterBuilder.Label.Parameter=&Paramètre :
 HyperlinkParameterBuilder.Label.Value=&Valeur :
+HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Required.Choice.No=Non
+HyperlinkParameterBuilder.Required.Choice.Yes=Oui
 
 ###########################################################
 #HyperLinkPage properties

@@ -2071,8 +2071,12 @@ HyperlinkBuilder.OpenExpression=Abrir el compilador de expresiones
 HyperlinkBuilder.FileNameError.Title=Error
 HyperlinkBuilder.FileNameError.Message=El archivo seleccionado no es válido.
 HyperlinkBuilder.TargetReportFormat=Dar for&mato a informe de destino en:
+HyperlinkParameterBuilder.Label.DataType=Tipo de datos:
 HyperlinkParameterBuilder.Label.Parameter=&Parámetro:
 HyperlinkParameterBuilder.Label.Value=&Valor:
+HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Required.Choice.No=No
+HyperlinkParameterBuilder.Required.Choice.Yes=Sí
 
 ###########################################################
 #HyperLinkPage properties

@@ -2071,8 +2071,12 @@ HyperlinkBuilder.OpenExpression=式ビルダを開く
 HyperlinkBuilder.FileNameError.Title=エラー
 HyperlinkBuilder.FileNameError.Message=選択したファイルは無効です。
 HyperlinkBuilder.TargetReportFormat=ターゲットレポートの形式設定(&F) :
+HyperlinkParameterBuilder.Label.DataType=データ型 :
 HyperlinkParameterBuilder.Label.Parameter=パラメタ(&P) :
 HyperlinkParameterBuilder.Label.Value=値(&V) :
+HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Required.Choice.No=いいえ
+HyperlinkParameterBuilder.Required.Choice.Yes=はい
 
 ###########################################################
 #HyperLinkPage properties
