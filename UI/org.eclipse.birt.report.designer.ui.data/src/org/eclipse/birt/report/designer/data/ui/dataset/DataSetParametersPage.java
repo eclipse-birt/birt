@@ -1927,6 +1927,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 				{
 					if ( defaultValueText.isEnabled( ) )
 					{
+						defaultValueString = defaultValueText.getText( );
 						validateSyntax( );
 					}
 				}
