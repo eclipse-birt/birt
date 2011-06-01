@@ -50,7 +50,7 @@ public final class QueryExecutionStrategyUtil
 	 *
 	 */
 	public static enum Strategy {
-		Simple, Complex
+		SimpleLookingFoward, SimpleNoLookingFoward, Complex
 	}
 
 	/**
@@ -95,6 +95,8 @@ public final class QueryExecutionStrategyUtil
 			return Strategy.Complex;
 		}
 
+		boolean hasAggregation = false;
+		
 		if ( query.getBindings( ) != null )
 		{
 			Iterator bindingIt = query.getBindings( ).values( ).iterator( );
@@ -104,6 +106,7 @@ public final class QueryExecutionStrategyUtil
 				IBinding binding = (IBinding) bindingIt.next( );
 				if ( binding.getAggrFunction( ) != null )
 				{
+					hasAggregation = true;
 					IAggrFunction aggr = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
 					if( aggr!= null && aggr.getNumberOfPasses() > 1 )
 					{
@@ -191,6 +194,6 @@ public final class QueryExecutionStrategyUtil
 			}
 		}
 
-		return Strategy.Simple;
+		return hasAggregation?Strategy.SimpleLookingFoward:Strategy.SimpleNoLookingFoward;
 	}
 }

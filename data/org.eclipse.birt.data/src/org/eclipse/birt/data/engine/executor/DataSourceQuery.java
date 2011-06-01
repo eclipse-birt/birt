@@ -991,11 +991,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					&& this.getQueryDefinition( ) instanceof IQueryDefinition )
 			{
 				IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition( );
-
-				if ( QueryExecutionStrategyUtil.getQueryExecutionStrategy( this.session, queryDefn,
+				
+				Strategy strategy = QueryExecutionStrategyUtil.getQueryExecutionStrategy( this.session, queryDefn,
 						queryDefn.getDataSetName( ) == null
-								? null
-								: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) ) == Strategy.Simple )
+						? null
+						: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) );
+				if ( strategy  != Strategy.Complex )
 				{
 					for( IResultObjectEvent event: (List<IResultObjectEvent>)this.getFetchEvents( ) )
 					{
@@ -1005,12 +1006,16 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						}
 					}
 					
-					IResultIterator it = new ResultSetWrapper(this.session, new SimpleResultSet( this,
+					SimpleResultSet simpleResult = new SimpleResultSet( this,
 							rs,
 							newResultClass,
 							eventHandler,
 							this.getGrouping( ),
-							this.session));
+							this.session);
+					
+					IResultIterator it = strategy == Strategy.SimpleLookingFoward
+							? new ResultSetWrapper( this.session, simpleResult )
+							: simpleResult;
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
 				}
