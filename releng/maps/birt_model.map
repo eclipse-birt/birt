@@ -1,6 +1,6 @@
 !*************** REPORT MODEL AND VIEWER ***********
 
-plugin@org.eclipse.birt.report.model=v20110519,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model
+plugin@org.eclipse.birt.report.model=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model
 plugin@org.eclipse.birt.report.model.adapter.oda=v20110526,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda
 plugin@org.eclipse.birt.resources=v20110303,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.resources
 plugin@org.eclipse.birt.report.viewer=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
