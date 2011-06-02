@@ -700,6 +700,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		{
 			list.add( new Object( ) );
 		}
+		else
+		{
+			setHighlightLine( model.getLineNo( list.get( 0 ) ) );
+		}
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
