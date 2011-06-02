@@ -21,13 +21,13 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -44,7 +44,7 @@ public class NewStyleHandler extends SelectionHandler
 
 	private static final String STACK_MSG_ADD_STYLE = Messages.getString( "NewStyleHandler.transaction.label" ); //$NON-NLS-1$
 
-	private ThemeHandle themeHandle;
+	private AbstractThemeHandle themeHandle;
 
 	/*
 	 * (non-Javadoc)
@@ -67,9 +67,9 @@ public class NewStyleHandler extends SelectionHandler
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
 		Object obj = context.getVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
-		if ( obj instanceof ThemeHandle )
+		if ( obj instanceof AbstractThemeHandle )
 		{
-			themeHandle = (ThemeHandle) obj;
+			themeHandle = (AbstractThemeHandle) obj;
 		}
 		else
 		{
