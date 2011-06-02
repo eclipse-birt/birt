@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -24,7 +26,6 @@ import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.script.DataSourceJSEventHandler;
 import org.eclipse.birt.data.engine.script.JSDataSourceImpl;
@@ -79,7 +80,15 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 			return new ScriptDataSourceRuntime( (IScriptDataSourceDesign) dataSource,
 					dataEngine.getSession( ).getSharedScope( ),dataEngine.getSession( ).getEngineContext( ).getScriptContext( ) );
 		}
-		else
+		else if ( dataSource instanceof IBaseDataSourceDesign )
+		{
+			return new GeneralDataSourceRuntime( dataSource,
+					dataEngine.getSession( ).getSharedScope( ),
+					dataEngine.getSession( )
+							.getEngineContext( )
+							.getScriptContext( ) );
+		}
+		else 
 		{
 			return null;
 		}
@@ -298,4 +307,39 @@ public abstract class DataSourceRuntime implements IDataSourceInstanceHandle
 		}
 	}
 	
+	private static class GeneralDataSourceRuntime extends DataSourceRuntime
+	{
+
+		protected GeneralDataSourceRuntime(
+				IBaseDataSourceDesign dataSourceDesign, Scriptable sharedScope,
+				ScriptContext cx )
+		{
+			super( dataSourceDesign, sharedScope, cx );
+		}
+
+		public String getExtensionID( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getExtensionProperty( String name )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public void setExtensionProperty( String name, String value )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public Map getAllExtensionProperties( )
+		{
+			// TODO Auto-generated method stub
+			return new HashMap( );
+		}
+		
+	}
 }

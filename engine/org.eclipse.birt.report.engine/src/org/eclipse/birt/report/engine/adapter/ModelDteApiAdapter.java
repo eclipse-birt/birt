@@ -206,17 +206,13 @@ public class ModelDteApiAdapter
 		if ( dataSet instanceof OdaDataSetDesign )
 			return newOdaDataSet( (OdaDataSetHandle)handle, ( OdaDataSetDesign ) dataSet,
 					context );
-
+		
 		if ( dataSet instanceof ScriptDataSetDesign )
 			return newScriptDataSet( (ScriptDataSetHandle)handle, ( ScriptDataSetDesign ) dataSet,
 					context );
 		
-		if ( dataSet instanceof JointDataSetDesign )
-			return newJointDataSet( (JointDataSetHandle) handle, (JointDataSetDesign)dataSet );
-		// any other types are not supported
-		if( dteSession == null )
-			return dataSet;
-		return dteSession.getModelAdaptor( ).adaptDataSet( handle );
+		return newGeneralDataSet( handle, dataSet );
+
 	}
 	
 	/**
@@ -306,7 +302,7 @@ public class ModelDteApiAdapter
 	 * @return
 	 * @throws BirtException
 	 */
-	private IJointDataSetDesign newJointDataSet( JointDataSetHandle handle, JointDataSetDesign dteDataSet ) throws BirtException
+	private IBaseDataSetDesign newGeneralDataSet( DataSetHandle handle, BaseDataSetDesign dteDataSet ) throws BirtException
 	{
 
 		IBaseDataSetEventHandler eventHandler = new DataSetScriptExecutor( handle,
@@ -363,7 +359,7 @@ public class ModelDteApiAdapter
 			while ( entries.hasNext( ) )
 			{
 				Entry entry = (Entry) entries.next( );
-				String propName = (String) entry.getKey( );
+				String propName = ( String ) entry.getKey( );
 				assert ( propName != null );
 
 				// If property binding expression exists, use its evaluation

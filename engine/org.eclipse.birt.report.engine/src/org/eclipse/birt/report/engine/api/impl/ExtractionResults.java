@@ -81,10 +81,22 @@ public class ExtractionResults implements IExtractionResults
 
 	public void close( )
 	{
+		if ( queryResults!= null )
+		{
+			try
+			{
+				queryResults.close( );
+			}
+			catch ( BirtException e )
+			{
+				//Ignore the non important exception 
+			}
+			queryResults = null;
+		}
 		if ( iterator != null )
 		{
 			iterator.close( );
+			iterator = null;
 		}
-		iterator = null;
 	}
 }
