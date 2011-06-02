@@ -33,7 +33,7 @@ OptionDisplayValue.ChartDpi=차트 DPI
 OptionDisplayValue.Resolution=해상도
 OptionDisplayValue.Scale=배율
 OptionDisplayValue.Color=색
-OptionDisplayValue.AutoPaperSizeSelection=Auto paper size selection
+OptionDisplayValue.AutoPaperSizeSelection=용지 크기 자동 선택
 
 ###########################################################
 #Option Description
@@ -50,7 +50,7 @@ OptionDescription.ChartDpi=DPI는 차트를 생성하는 데 사용합니다.
 OptionDescription.Resolution=해상도입니다.
 OptionDescription.Scale=배율입니다.
 OptionDescription.Color=색입니다.
-OptionDescription.AutoPaperSizeSelection=Selects paper size according to page size.
+OptionDescription.AutoPaperSizeSelection=용지 크기를 페이지 크기에 맞춰 선택합니다.
 
 ###########################################################
 #tooltip

@@ -33,7 +33,7 @@ OptionDisplayValue.ChartDpi=图表 DPI
 OptionDisplayValue.Resolution=分辨率
 OptionDisplayValue.Scale=缩放比例
 OptionDisplayValue.Color=颜色
-OptionDisplayValue.AutoPaperSizeSelection=Auto paper size selection
+OptionDisplayValue.AutoPaperSizeSelection=自动选择纸张大小
 
 ###########################################################
 #Option Description
@@ -50,7 +50,7 @@ OptionDescription.ChartDpi=DPI 用于生成图表。
 OptionDescription.Resolution=分辨率。
 OptionDescription.Scale=缩放比例。
 OptionDescription.Color=颜色。
-OptionDescription.AutoPaperSizeSelection=Selects paper size according to page size.
+OptionDescription.AutoPaperSizeSelection=根据页面大小选择纸张大小。
 
 ###########################################################
 #tooltip

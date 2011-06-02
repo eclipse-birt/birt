@@ -5,17 +5,17 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 ###############################################################################
 # NLS String
-dataset.editor.page.query=Query
-datasource.name=Hive Datasource
-select.dataset.name=HQL Select Query
-jdbc.driver.name=Hive Driver
-dataset.property.queryTimeOut=&Query Time Out (in seconds)
-dataset.property.rowFetchSize=&Row Fetch Size
-dataset.property.addListFile=&Add List File
+dataset.editor.page.query=Consulta
+datasource.name=Fuente de datos Hive
+select.dataset.name=Consulta de selección de HQL
+jdbc.driver.name=Controlador de Hive
+dataset.property.queryTimeOut=Tiem&po límite de consulta (en segundos)
+dataset.property.rowFetchSize=Tamaño de recuperación de &fila
+dataset.property.addListFile=&Añadir archivo de lista
 #
 oda.data.source.name=Hive
-connection.profile.name=BIRT Hive Data Source Connection Profile
+connection.profile.name=Perfil de conexión de fuente de datos de archivo Hive BIRT
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA Connection Factory
+oda.connection.factory.name=Fábrica de conexión ODA

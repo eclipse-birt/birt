@@ -8,8 +8,8 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.hive
 # NLS messages
 #
 plugin.name=BIRT Hive Designer
-newwizard.name=BIRT Hive Data Source
-newwizard.description=Create an BIRT Hive connection profile
-wizard.window.title=New Hive Data Source Profile
-wizard.data.source.page.title=New Hive Data Source
-profile.propertypage.name=BIRT Hive Data Source Connection Properties
+newwizard.name=Source de données BIRT Hive
+newwizard.description=Créer un profil de connexion BIRT Hive
+wizard.window.title=Nouveau profil de source de données Hive
+wizard.data.source.page.title=Nouvelle source de données Hive
+profile.propertypage.name=Propriétés de connexion à la source de données BIRT Hive

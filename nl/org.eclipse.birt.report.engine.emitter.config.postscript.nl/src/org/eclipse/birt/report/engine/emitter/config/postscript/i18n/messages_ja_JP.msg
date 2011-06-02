@@ -33,7 +33,7 @@ OptionDisplayValue.ChartDpi=グラフの DPI
 OptionDisplayValue.Resolution=解像度
 OptionDisplayValue.Scale=スケール
 OptionDisplayValue.Color=カラー
-OptionDisplayValue.AutoPaperSizeSelection=Auto paper size selection
+OptionDisplayValue.AutoPaperSizeSelection=用紙サイズの自動選択
 
 ###########################################################
 #Option Description
@@ -50,7 +50,7 @@ OptionDescription.ChartDpi=グラフの生成に使用する DPI です。
 OptionDescription.Resolution=解像度。
 OptionDescription.Scale=スケール。
 OptionDescription.Color=カラー。
-OptionDescription.AutoPaperSizeSelection=Selects paper size according to page size.
+OptionDescription.AutoPaperSizeSelection=ページサイズに合わせて用紙サイズを選択します。
 
 ###########################################################
 #tooltip
