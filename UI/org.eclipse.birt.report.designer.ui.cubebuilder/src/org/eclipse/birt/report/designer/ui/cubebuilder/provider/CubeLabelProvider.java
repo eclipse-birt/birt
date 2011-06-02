@@ -86,6 +86,13 @@ public class CubeLabelProvider extends LabelProvider
 		this.input = input;
 	}
 
+	private boolean isDataViewer = false;
+
+	public void setProivderViewer( boolean isDataViewer )
+	{
+		this.isDataViewer = isDataViewer;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -136,6 +143,12 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof LevelHandle )
 		{
+			if ( isDataViewer )
+			{
+				List<DimensionHandle> dimensions = getSharedDimensionHandles();
+				if(dimensions.contains( ((LevelHandle)element).getContainer( ).getContainer( ) ))
+					return IMG_DATAFIELD_USED;
+			}
 			return IMG_LEVEL;
 		}
 		else if ( element instanceof CubeHandle )
@@ -262,19 +275,39 @@ public class CubeLabelProvider extends LabelProvider
 		return getText( element );
 	}
 
-	private Map<String, List<String>> getColumnMap( )
-	{
-		Map<String, List<String>> columnMap = new HashMap<String, List<String>>( );
+	private List<DimensionHandle> getSharedDimensionHandles(){
 		
-		if(input == null)
-			return columnMap;
-		
+		List<DimensionHandle> dimensions = new ArrayList<DimensionHandle>();
 		List list = input.getContents( CubeHandle.DIMENSIONS_PROP );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			TabularDimensionHandle dimension = (TabularDimensionHandle) list.get( i );
-			if ( dimension.getSharedDimension( ) != null )
-				continue;
+			DimensionHandle dimension = (DimensionHandle) list.get( i );
+			if ( dimension instanceof TabularDimensionHandle
+					&& ( (TabularDimensionHandle) dimension ).getSharedDimension( ) != null )
+			{
+				dimension = ( (TabularDimensionHandle) dimension ).getSharedDimension( );
+				dimensions.add( dimension );
+			}
+		}
+		return dimensions;
+	}
+	
+	private Map<String, List<String>> getColumnMap( )
+	{
+		Map<String, List<String>> columnMap = new HashMap<String, List<String>>( );
+
+		if ( input == null )
+			return columnMap;
+
+		List list = input.getContents( CubeHandle.DIMENSIONS_PROP );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			DimensionHandle dimension = (DimensionHandle) list.get( i );
+			if ( dimension instanceof TabularDimensionHandle
+					&& ( (TabularDimensionHandle) dimension ).getSharedDimension( ) != null )
+			{
+				dimension = ( (TabularDimensionHandle) dimension ).getSharedDimension( );
+			}
 			TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( DimensionHandle.HIERARCHIES_PROP,
 					0 );
 			if ( hierarchy != null && hierarchy.getLevelCount( ) > 0 )
@@ -311,7 +344,7 @@ public class CubeLabelProvider extends LabelProvider
 					columns = new ArrayList<String>( );
 					columnMap.put( dataset, columns );
 				}
-				
+
 				for ( int j = 0; j < measures.length; j++ )
 				{
 					TabularMeasureHandle measure = (TabularMeasureHandle) measures[j];

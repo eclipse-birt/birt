@@ -1240,6 +1240,7 @@ public class CubeGroupContent extends Composite implements Listener
 				| SWT.V_SCROLL
 				| SWT.BORDER );
 		cubeLabelProvider = getCubeLabelProvider( );
+		cubeLabelProvider.setProivderViewer( true );
 		dataFieldsViewer.setLabelProvider( cubeLabelProvider );
 		dataFieldsViewer.setContentProvider( dataContentProvider );
 		dataFieldsViewer.setAutoExpandLevel( 3 );
