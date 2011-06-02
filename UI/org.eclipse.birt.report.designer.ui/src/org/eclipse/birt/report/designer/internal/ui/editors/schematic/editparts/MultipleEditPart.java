@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.commands.SetConstraintCommand;
 import org.eclipse.birt.report.designer.core.model.IMultipleAdapterHelper;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.MultipleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizablePolicy;
@@ -25,7 +26,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Mu
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.MultipleGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.layout.MultipleLayout;
+import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -38,6 +41,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.swt.widgets.Display;
 
@@ -81,7 +85,41 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 	 */
 	public void refreshFigure( )
 	{
+		((MultipleLayout)getFigure( ).getLayoutManager( )).markDirty( );
+		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
+				getFigure( ),
+				getConstraint( ) );
 		//do noting
+	}
+	
+	protected Object getConstraint( )
+	{
+		ReportItemConstraint constraint = new ReportItemConstraint( );
+		DesignElementHandle handle = (DesignElementHandle)getModelChildren( ).get( 0 );
+		if (handle != null && handle != getModel( ))
+		{
+			constraint.setMargin( HandleAdapterFactory.getInstance( ).getDesignElementHandleAdapter(handle, null).getMargin( null ));
+		}
+		else
+		{
+			constraint.setMargin( getMultipleAdapter( ).getMargin( null ));
+		}
+		
+		return constraint;
+	}
+	
+	@Override
+	public void activate( )
+	{
+		super.activate( );
+//		Display.getCurrent( ).asyncExec( new Runnable()
+//		{
+//			public void run( )
+//			{
+//				getFigure( ).invalidateTree( );
+//				getFigure( ).revalidate( );
+//			}
+//		});
 	}
 
 	/* (non-Javadoc)
@@ -138,6 +176,13 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		getMultipleAdapter( ).setCurrentView( number );
 		
 		((MultipleGuideHandle)getGuideHandle( )).setSelected( number );
+		Display.getCurrent( ).asyncExec( new Runnable()
+		{
+			public void run( )
+			{
+				refreshVisuals( );
+			}
+		});
 		
 		//UIUtil.resetViewSelection(getViewer(), false);
 	}
@@ -241,6 +286,16 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 	public boolean isinterestSelection( Object object )
 	{
 		return getMultipleAdapter( ).getViews( ).contains( object );
+	}
+	
+	@Override
+	public boolean isinterest( Object model )
+	{
+		if (getMultipleAdapter( ).getViews( ).contains( model ))
+		{
+			return true;
+		}
+		return super.isinterest( model );
 	}
 	
 	/* (non-Javadoc)
