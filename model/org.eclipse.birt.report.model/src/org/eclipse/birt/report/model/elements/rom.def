@@ -2557,7 +2557,7 @@
 	<Property displayNameID="Element.ReportItem.pushDown" name="pushDown" since="2.5" type="boolean" >
 		<Default>true</Default>
 	</Property>
-	<Property canInherit="false" detailType="ReportItemTheme" displayNameID="Element.ReportItem.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
+	<Property canInherit="true" detailType="ReportItemTheme" displayNameID="Element.ReportItem.theme" name="theme" runtimeSettable="false" since="2.6" type="elementRef">
     	<Trigger validator="ThemeReferenceValidator"/>
     </Property>
     <PropertyVisibility name="x" visibility="hide"/>         

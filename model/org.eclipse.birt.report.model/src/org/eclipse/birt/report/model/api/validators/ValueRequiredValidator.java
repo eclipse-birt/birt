@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.validators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.Expression;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
 
 /**
@@ -70,6 +72,17 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 	public List<SemanticException> validate( Module module,
 			DesignElement element, String propName )
 	{
+		DesignElement e = element;
+		while( e != null )
+		{
+			// do nothing if this element is template definition or its content
+			if ( e instanceof TemplateParameterDefinition )
+			{
+				return Collections.emptyList();
+			}
+			
+			e = e.getContainer();
+		}
 		List<SemanticException> list = new ArrayList<SemanticException>( );
 
 		Object value = element.getProperty( module, propName );

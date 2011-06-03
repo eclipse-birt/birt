@@ -514,13 +514,9 @@ public class PropertySearchStrategy
 			if ( e instanceof ReportItem )
 			{
 				ReportItem item = (ReportItem) e;
-				if ( item.getLocalProperty( item.getRoot( ),
-						IReportItemModel.THEME_PROP ) != null )
+				AbstractTheme theme = item.getTheme( item.getRoot( ) );
+				if ( theme != null )
 				{
-					AbstractTheme theme = item.getTheme( module );
-					if ( theme == null )
-						break;
-
 					StyleElement style = theme.findStyle( selector );
 					if ( style != null )
 					{
