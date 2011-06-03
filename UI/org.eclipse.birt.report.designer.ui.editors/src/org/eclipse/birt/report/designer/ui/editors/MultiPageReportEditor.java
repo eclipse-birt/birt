@@ -1157,7 +1157,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 	}
 	
-	private boolean isExistModelFile()
+	public boolean isExistModelFile()
 	{
 		if ( getModel( ) == null )
 		{

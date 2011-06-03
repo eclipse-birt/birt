@@ -142,6 +142,10 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 								if ( dialog.open( ) == Dialog.OK )
 								{
 									doSaveAs( );
+									if (!isExistModelFile( ))
+									{
+										closeEditor( false );
+									}
 								}
 								else
 								{
