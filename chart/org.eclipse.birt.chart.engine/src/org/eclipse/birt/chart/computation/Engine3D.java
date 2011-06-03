@@ -830,12 +830,32 @@ public final class Engine3D implements IConstants
 
 		return null;
 	}
+
 	/**
+	 * Transforms 3D polygons and sort their rendering order, and antialias.
+	 * 
 	 * @param renderingEvents
+	 * @param xOffset
+	 * @param yOffset
 	 * @return
 	 */
 	public List processEvent( List renderingEvents, double xOffset,
 			double yOffset )
+	{
+		return this.processEvent( renderingEvents, xOffset, yOffset, true );
+	}
+
+	/**
+	 * Transforms 3D polygons and sort their rendering order, and antialias.
+	 * 
+	 * @param renderingEvents
+	 * @param xOffset
+	 * @param yOffset
+	 * @param antialiasing
+	 * @return
+	 */
+	public List processEvent( List renderingEvents, double xOffset,
+			double yOffset, boolean antialiasing )
 	{
 		Matrix transMatrix = getTransformMatrix( );
 
@@ -886,7 +906,10 @@ public final class Engine3D implements IConstants
 
 		zsort( rtList );
 		overlapSwap( rtList );
-		detectSharedEdges( rtList, xOffset, yOffset );
+		if ( antialiasing )
+		{
+			detectSharedEdges( rtList, xOffset, yOffset );
+		}
 		rtList.addAll( labels );
 		return rtList;
 	}
@@ -894,14 +917,10 @@ public final class Engine3D implements IConstants
 	// Draw non-antialiased lines on shared edges
 	private void detectSharedEdges( List rtList, double xOffset, double yOffset )
 	{
-	
-
 		SortedMap sharedEdges = new TreeMap( );
 		
 		for ( int i = 0; i< rtList.size(); i++ )
 		{
-			
-			
 			Object obj = rtList.get( i );
 			while ( obj instanceof WrappedInstruction )
 			{
@@ -909,10 +928,8 @@ public final class Engine3D implements IConstants
 			}
 			if ( obj instanceof Polygon3DRenderEvent )
 			{
-
 				for ( int j = 0; j < i; j++ )
 				{
-
 					Object comparedEvent = rtList.get( j );
 					while ( comparedEvent instanceof WrappedInstruction )
 					{
@@ -939,7 +956,6 @@ public final class Engine3D implements IConstants
 								list.add(  edge );
 								sharedEdges.put( index, list );
 							}
-							
 						}
 					}
 				}
@@ -957,7 +973,6 @@ public final class Engine3D implements IConstants
 				rtList.add( position.intValue( ) + offset, iterList.next( )  );
 				offset++;
 			}
-			
 		}
 	}
 

@@ -70,6 +70,14 @@ public final class DeferredCache
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
 
 	/**
+	 * This field controls if all 3D polygons in current deferred cache need
+	 * antialiasing, since area, cone and tube are rendered with many small polygons,
+	 * so this is usually needed to be done for data point of area, cone and
+	 * tube 3D charts.
+	 */
+	private boolean bAntialiasing = false;
+	
+	/**
 	 * The constructor.
 	 */
 	public DeferredCache( IDeviceRenderer idr, Chart c )
@@ -587,7 +595,7 @@ public final class DeferredCache
 	 */
 	public void process3DEvent( Engine3D engine, double xOffset, double yOffset )
 	{
-		al3D = engine.processEvent( al3D, xOffset, yOffset );
+		al3D = engine.processEvent( al3D, xOffset, yOffset, bAntialiasing );
 	}
 
 	/**
@@ -652,7 +660,18 @@ public final class DeferredCache
 		return parentDC;
 	}
 	
-	public void setParentDeferredCache( DeferredCache dc ) {
+	public void setParentDeferredCache( DeferredCache dc )
+	{
 		this.parentDC = dc;
+	}
+	
+	/**
+	 * Enables if all 3D polygons in current deferred cache need antialiasing.
+	 * 
+	 * @param antialiasing
+	 */
+	public void setAntialiasing( boolean antialiasing )
+	{
+		this.bAntialiasing = antialiasing;
 	}
 }

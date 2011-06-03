@@ -270,6 +270,7 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		this.dBrightness = 1;
 		this.bBehind = false;
 		this.runtimeBackground = null;
+		this.setEnable( true );
 		super.reset( );
 	}
 

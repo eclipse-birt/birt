@@ -3541,6 +3541,13 @@ public final class Bar extends AxesRenderer
 		{
 			throw new IllegalArgumentException( );
 		}
+
+		// Create a sub rendering cache to save all polygons of this data point.
+		DeferredCache subCache = createSubDeferreceCache4Tube3D( ipr,
+				oSource,
+				loaFace,
+				f );
+		
 		Polygon3DRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Polygon3DRenderEvent.class );
 		Point2D.Double[] ovalsTop = null, ovalsBottom = null;
@@ -3599,7 +3606,7 @@ public final class Bar extends AxesRenderer
 			} );
 			pre.setBackground( f );
 			pre.setDoubleSided( false );
-			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			subCache.addPlane( pre, PrimitiveRenderEvent.FILL );
 		}
 
 		// Fill the top face
@@ -3608,14 +3615,14 @@ public final class Bar extends AxesRenderer
 		pre.setPoints3D( topPoints, yBottom < yTop );
 		pre.setOutline( lia );
 		pre.setBackground( f );
-		dc.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
+		subCache.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
 
 		// Fill the bottom face
 		pre.setDoubleSided( false );
 		pre.setPoints3D( bottomPoints, yBottom > yTop );
 		pre.setOutline( lia );
 		pre.setBackground( f );
-		dc.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
+		subCache.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
 
 		// Add interactivity support for Tube body. Support for Tube top/bottom
 		// face have been added in main renderSeries method
@@ -3657,6 +3664,42 @@ public final class Bar extends AxesRenderer
 		}
 	}
 
+	private DeferredCache createSubDeferreceCache4Tube3D(
+			IPrimitiveRenderer ipr, Object oSource, List loaFace, Fill f )
+			throws ChartException
+	{
+		DeferredCache subCache = dc.deriveNewDeferredCache( );
+		subCache.setAntialiasing( true );
+		Location3D[] l3d = new Location3D[4];
+		for ( int k = 0; k < 4; k++ )
+		{
+			l3d[k] = goFactory.createLocation3D( 0, 0, 0 );
+		}
+		Location3D[] l0 = (Location3D[]) loaFace.get( 0 );
+		Location3D[] l1 = (Location3D[]) loaFace.get( 1 );
+		l3d[0].set( l0[0].getX( ), l0[0].getY( ), l0[0].getZ( ) );
+		l3d[1].set( l0[2].getX( ), l0[2].getY( ), l0[2].getZ( ) );
+		l3d[2].set( l1[2].getX( ), l1[2].getY( ), l1[2].getZ( ) );
+		l3d[3].set( l1[0].getX( ), l1[0].getY( ), l1[0].getZ( ) );
+		
+		Polygon3DRenderEvent pre3dEvent = ( (EventObjectCache) ipr ).getEventObject( oSource,
+				Polygon3DRenderEvent.class );
+		pre3dEvent.setEnable( false );
+		pre3dEvent.setDoubleSided( false );
+		pre3dEvent.setOutline( null );
+		pre3dEvent.setPoints3D( l3d );
+		pre3dEvent.setBackground( f );
+		
+		Object event = dc.addPlane( pre3dEvent, PrimitiveRenderEvent.FILL );
+		if ( event instanceof WrappedInstruction )
+		{
+			( (WrappedInstruction) event ).setSubDeferredCache( subCache );
+		}
+		// Restore the default value.
+		pre3dEvent.reset( );
+		return subCache;
+	}
+
 	/**
 	 * Renders Cone as 3D presentation.
 	 * 
@@ -3675,6 +3718,13 @@ public final class Bar extends AxesRenderer
 		{
 			throw new IllegalArgumentException( );
 		}
+		
+		// Create a sub rendering cache to save all polygons of this data point.
+		DeferredCache subCache = createSubDeferredCache4Cone3D( ipr,
+				oSource,
+				loaFace,
+				f );
+		
 		Polygon3DRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( oSource,
 				Polygon3DRenderEvent.class );
 		final int size = 30;
@@ -3717,7 +3767,7 @@ public final class Bar extends AxesRenderer
 			}
 			pre.setBackground( f );
 			pre.setDoubleSided( false );
-			dc.addPlane( pre, PrimitiveRenderEvent.FILL );
+			subCache.addPlane( pre, PrimitiveRenderEvent.FILL );
 		}
 
 		// Fill the bottom face
@@ -3725,7 +3775,7 @@ public final class Bar extends AxesRenderer
 		pre.setPoints3D( bottomPoints, pTop.getY( ) - yBottom < 0 );
 		pre.setOutline( lia );
 		pre.setBackground( f );
-		dc.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
+		subCache.addPlane( pre, PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW );
 
 		// Add interactivity support for Core body. Support for Tube top/bottom
 		// face have been added in main renderSeries method
@@ -3761,6 +3811,41 @@ public final class Bar extends AxesRenderer
 				}
 			}
 		}
+	}
+
+	private DeferredCache createSubDeferredCache4Cone3D(
+			IPrimitiveRenderer ipr, Object oSource, List loaFace, Fill f )
+			throws ChartException
+	{
+		DeferredCache subCache = dc.deriveNewDeferredCache( );
+		subCache.setAntialiasing( true );
+		Location3D[] l3d = new Location3D[3];
+		for ( int k = 0; k < 3; k++ )
+		{
+			l3d[k] = goFactory.createLocation3D( 0, 0, 0 );
+		}
+		Location3D[] l0 = (Location3D[]) loaFace.get( 0 );
+		Location3D[] l1 = (Location3D[]) loaFace.get( 1 );
+		l3d[0].set( l0[0].getX( ), l0[0].getY( ), l0[0].getZ( ) );
+		l3d[1].set( l0[2].getX( ), l0[2].getY( ), l0[2].getZ( ) );
+		l3d[2].set( l1[0].getX( ), l1[0].getY( ), l1[0].getZ( ) );
+		
+		Polygon3DRenderEvent pre3dEvent = ( (EventObjectCache) ipr ).getEventObject( oSource,
+				Polygon3DRenderEvent.class );
+		pre3dEvent.setEnable( false );
+		pre3dEvent.setDoubleSided( false );
+		pre3dEvent.setOutline( null );
+		pre3dEvent.setPoints3D( l3d );
+		pre3dEvent.setBackground( f );
+		
+		Object event = dc.addPlane( pre3dEvent, PrimitiveRenderEvent.FILL );
+		if ( event instanceof WrappedInstruction )
+		{
+			( (WrappedInstruction) event ).setSubDeferredCache( subCache );
+		}
+		// Restore the default value.
+		pre3dEvent.reset( );
+		return subCache;
 	}
 
 	/**
