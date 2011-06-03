@@ -71,7 +71,14 @@ public class CssParser
 		CssHandler handler = new CssHandler( );
 		parser.setDocumentHandler( handler );
 		parser.setErrorHandler( errorHandler );
-		parser.parseStyleSheet( source );
+		try 
+		{
+			parser.parseStyleSheet( source );
+		}
+		catch ( StringIndexOutOfBoundsException e ) 
+		{
+			throw new CSSException( CSSException.SAC_SYNTAX_ERR );
+		}
 		return (StyleSheet) handler.getRoot( );
 	}
 
