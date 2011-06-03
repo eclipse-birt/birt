@@ -25,7 +25,8 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.aggregation.ProgressiveAggregationHelper;
+import org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper;
+import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupBy;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -55,11 +56,11 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	private RAOutputStream combinedAggrRAOutput;
 	private DataOutputStream combinedAggrOutput;
 	
-	private ProgressiveAggregationHelper aggrHelper;
+	private IProgressiveAggregationHelper aggrHelper;
 	private List<List<String>> groupAggrs;
 	private List<String> runningAggrs;
 	private List<String> overallAggrs;
-	
+	  
 	
 	public SimpleGroupCalculator( DataEngineSession session, GroupSpec[] groups, IResultClass rsMeta ) throws DataException
 	{
@@ -93,7 +94,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		}
 	}
 
-	public void setAggrHelper( ProgressiveAggregationHelper aggrHelper ) throws DataException
+	public void setAggrHelper( IProgressiveAggregationHelper aggrHelper ) throws DataException
 	{
 		this.aggrHelper = aggrHelper;
 		for ( String aggrName : this.aggrHelper.getAggrNames( ) )
@@ -156,9 +157,9 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		this.current = current;
 	}
 
-	public void registerNextResultObject( IResultObject next )
+	public void registerNextResultObject( RowResultSet rowResultSet ) throws DataException
 	{
-		this.next = next;
+		this.next = rowResultSet.getNext( );
 	}
 	
 	/**

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +35,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
+import org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper;
 import org.eclipse.birt.data.engine.executor.aggregation.ProgressiveAggregationHelper;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
@@ -48,6 +50,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
+import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
@@ -77,7 +80,7 @@ public class SimpleResultSet implements IResultIterator
 	private IBaseQueryDefinition query;
 	private IResultClass resultClass;
 	private IGroupCalculator groupCalculator;
-	private ProgressiveAggregationHelper aggrHelper;
+	private IProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
 	private ICloseable closeable;
 	
@@ -127,10 +130,14 @@ public class SimpleResultSet implements IResultIterator
 			GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
 	{
 		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = new SimpleGroupCalculator( session, groupSpecs, this.rowResultSet.getMetaData( ) );
+		this.groupCalculator = groupSpecs.length > 0
+				? new SimpleGroupCalculator( session,
+						groupSpecs,
+						this.rowResultSet.getMetaData( ) )
+				: new DummyGroupCalculator( );
 		this.currResultObj = this.rowResultSet.next( );
 		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-		this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
+		this.groupCalculator.registerNextResultObject( this.rowResultSet );
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
 		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
 		this.handler = handler;
@@ -147,11 +154,11 @@ public class SimpleResultSet implements IResultIterator
 		Scriptable scope = session.getSharedScope( );
 		
 		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
-		this.aggrHelper = new ProgressiveAggregationHelper( manager,
+		this.aggrHelper = groupSpecs.length > 0? new ProgressiveAggregationHelper( manager,
 				session.getTempDir( ),
 				scope,
 				session.getEngineContext( )
-						.getScriptContext( ) );
+						.getScriptContext( ) ): new DummyAggregationHelper();
 		this.groupCalculator.setAggrHelper( this.aggrHelper );
 	}
 	
@@ -340,7 +347,7 @@ public class SimpleResultSet implements IResultIterator
 		return this.aggrHelper.getAggrValue( aggrName, this );
 	}
 	
-	public ProgressiveAggregationHelper getAggrHelper( ) throws DataException
+	public IProgressiveAggregationHelper getAggrHelper( ) throws DataException
 	{
 		return this.aggrHelper;
 	}
@@ -479,11 +486,11 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public boolean next( ) throws DataException
 	{
-		if ( currResultObj == null )
+		if ( currResultObj == null ) 
 			return false;
 		if ( this.streamsWrapper != null && currResultObj != null )
 		{
-			try
+			try 
 			{
 				if ( dataSetStream != null )
 				{
@@ -511,7 +518,7 @@ public class SimpleResultSet implements IResultIterator
 			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
 			this.currResultObj = this.rowResultSet.next( );
 			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-			this.groupCalculator.registerNextResultObject( this.rowResultSet.getNext( ) );
+			this.groupCalculator.registerNextResultObject( this.rowResultSet );
 		}
 		catch ( DataException e )
 		{
@@ -527,5 +534,134 @@ public class SimpleResultSet implements IResultIterator
 	public boolean aggrValueAvailable( String aggrName, int index ) throws DataException
 	{
 		return this.groupCalculator.isAggrAtIndexAvailable( aggrName, index);
+	}
+	
+	private class DummyAggregationHelper implements IProgressiveAggregationHelper
+	{
+
+		public void onRow( int startingGroupLevel, int endingGroupLevel,
+				IResultObject ro, int currentRowIndex ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void close( ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public Object getLatestAggrValue( String name ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public Object getAggrValue( String name, IResultIterator ri )
+				throws DataException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public List getAggrValues( String name ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public boolean hasAggr( String name ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public Set<String> getAggrNames( ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return new HashSet<String>();
+		}
+
+		public IAggrInfo getAggrInfo( String aggrName ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	
+	private class DummyGroupCalculator implements IGroupCalculator
+	{
+
+		public void registerPreviousResultObject( IResultObject previous )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void registerCurrentResultObject( IResultObject current )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void registerNextResultObject( RowResultSet rowResultSet )
+				throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void next( int rowId ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public int getStartingGroup( ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public int getEndingGroup( ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public void close( ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void doSave( StreamManager manager ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void setAggrHelper( IProgressiveAggregationHelper aggrHelper )
+				throws DataException
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public boolean isAggrAtIndexAvailable( String aggrName, int currentIndex )
+				throws DataException
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public Integer[] getGroupInstanceIndex( )
+		{
+			// TODO Auto-generated method stub
+			return new Integer[0];
+		}
+		
 	}
 }

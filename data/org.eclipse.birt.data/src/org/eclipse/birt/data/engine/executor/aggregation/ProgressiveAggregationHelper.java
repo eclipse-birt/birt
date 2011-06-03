@@ -42,7 +42,7 @@ import org.mozilla.javascript.ScriptableObject;
  * 
  */
 
-public class ProgressiveAggregationHelper 
+public class ProgressiveAggregationHelper implements IProgressiveAggregationHelper 
 {
 	private IAggrDefnManager manager;
 	
@@ -126,6 +126,9 @@ public class ProgressiveAggregationHelper
 			}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#onRow(int, int, org.eclipse.birt.data.engine.odi.IResultObject, int)
+	 */
 	public void onRow( int startingGroupLevel, int endingGroupLevel,
 			IResultObject ro, int currentRowIndex )
 			throws DataException
@@ -141,6 +144,9 @@ public class ProgressiveAggregationHelper
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#close()
+	 */
 	public void close () throws DataException
 	{
 		this.currentScope.delete( "row" );
@@ -400,6 +406,9 @@ public class ProgressiveAggregationHelper
 		return this.manager.getAggrDefn( i );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getLatestAggrValue(java.lang.String)
+	 */
 	public Object getLatestAggrValue( String name ) throws DataException
 	{
 		List currentValues = this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )];
@@ -408,11 +417,8 @@ public class ProgressiveAggregationHelper
 		return currentValues.get( currentValues.size( )-1 );
 	}
 	
-	/**
-	 * Get the aggregate value
-	 * @param aggrIndex
-	 * @return
-	 * @throws DataException
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrValue(java.lang.String, org.eclipse.birt.data.engine.odi.IResultIterator)
 	 */
 	public Object getAggrValue( String name, IResultIterator ri ) throws DataException
 	{
@@ -450,21 +456,33 @@ public class ProgressiveAggregationHelper
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrValues(java.lang.String)
+	 */
 	public List getAggrValues( String name ) throws DataException
 	{
 		return this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )];
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#hasAggr(java.lang.String)
+	 */
 	public boolean hasAggr( String name ) throws DataException
 	{
 		return this.manager.getAggrDefnIndex( name ) != -1;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrNames()
+	 */
 	public Set<String> getAggrNames( ) throws DataException
 	{
 		return this.aggrNames;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrInfo(java.lang.String)
+	 */
 	public IAggrInfo getAggrInfo( String aggrName ) throws DataException
 	{
 		if( this.hasAggr( aggrName ))
