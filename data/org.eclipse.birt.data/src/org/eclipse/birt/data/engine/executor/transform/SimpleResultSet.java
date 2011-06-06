@@ -131,7 +131,7 @@ public class SimpleResultSet implements IResultIterator
 			GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
 		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = true
+		this.groupCalculator = (forceLookingForward||groupSpecs.length>0)
 				? new SimpleGroupCalculator( session,
 						groupSpecs,
 						this.rowResultSet.getMetaData( ) )
