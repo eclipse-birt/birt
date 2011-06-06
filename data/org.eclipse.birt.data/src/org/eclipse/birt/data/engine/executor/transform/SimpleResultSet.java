@@ -621,14 +621,16 @@ public class SimpleResultSet implements IResultIterator
 
 		public int getStartingGroup( ) throws DataException
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			if( rowCount == 1 )
+				return 0;
+			return 1;
 		}
 
 		public int getEndingGroup( ) throws DataException
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			if( currResultObj == null)
+				return 0;
+			return 1;
 		}
 
 		public void close( ) throws DataException
