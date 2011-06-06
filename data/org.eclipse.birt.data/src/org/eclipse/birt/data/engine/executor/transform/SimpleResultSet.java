@@ -94,7 +94,7 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public SimpleResultSet( BaseQuery dataSourceQuery,
 			final ResultSet resultSet, IResultClass resultClass,
-			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
+			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
@@ -108,13 +108,13 @@ public class SimpleResultSet implements IResultIterator
 				resultSet.close( );
 				
 			}};
-		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session );
+		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session, forceLookingForward );
 				
 	}
 
 	public SimpleResultSet( BaseQuery dataSourceQuery,
 			IDataSetPopulator populator, IResultClass resultClass,
-			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
+			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
@@ -122,12 +122,13 @@ public class SimpleResultSet implements IResultIterator
 				resultClass,
 				false ) );
 		this.closeable = (populator instanceof ICloseable)?(ICloseable)populator:null; 
-		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session );
+		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session, forceLookingForward );
 				
 	}
+	
 	private void initialize( BaseQuery dataSourceQuery,
 			IResultClass resultClass, IEventHandler handler,
-			GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
+			GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
 		this.query = dataSourceQuery.getQueryDefinition( );
 		this.groupCalculator = true
@@ -154,7 +155,7 @@ public class SimpleResultSet implements IResultIterator
 		Scriptable scope = session.getSharedScope( );
 		
 		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
-		this.aggrHelper = true? new ProgressiveAggregationHelper( manager,
+		this.aggrHelper = (forceLookingForward||groupSpecs.length>0)? new ProgressiveAggregationHelper( manager,
 				session.getTempDir( ),
 				scope,
 				session.getEngineContext( )

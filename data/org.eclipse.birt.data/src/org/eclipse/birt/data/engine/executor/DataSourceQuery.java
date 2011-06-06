@@ -1011,7 +1011,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 							newResultClass,
 							eventHandler,
 							this.getGrouping( ),
-							this.session);
+							this.session,
+							strategy == Strategy.SimpleLookingFoward);
 					
 					IResultIterator it = strategy == Strategy.SimpleLookingFoward
 							? new ResultSetWrapper( this.session, simpleResult )
