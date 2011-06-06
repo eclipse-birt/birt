@@ -15,22 +15,22 @@ DataSet.AfterOpen:
   extensionProperties:
   columnDefns:
 -->OnFetch: row[1]=CHINA. Success=true
--->OnFetch: row[1]=US. Success=true
 *****A new Report Start!*****
 S:0 E:1 CHINA    
--->OnFetch: row[1]=CHINA. Success=true
-S:1 E:1 US    
 -->OnFetch: row[1]=US. Success=true
-S:1 E:1 CHINA    
--->OnFetch: row[1]=US. Success=true
-S:1 E:1 US    
--->OnFetch: row[1]=CHINA. Success=true
 S:1 E:1 US    
 -->OnFetch: row[1]=CHINA. Success=true
 S:1 E:1 CHINA    
 -->OnFetch: row[1]=US. Success=true
+S:1 E:1 US    
+-->OnFetch: row[1]=US. Success=true
+S:1 E:1 US    
+-->OnFetch: row[1]=CHINA. Success=true
 S:1 E:1 CHINA    
-S:1 E:0 US    
+-->OnFetch: row[1]=CHINA. Success=true
+S:1 E:1 CHINA    
+-->OnFetch: row[1]=US. Success=true
+S:1 E:1 US    
 
 DataSet.beforeClose:
   extensionID=org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet
