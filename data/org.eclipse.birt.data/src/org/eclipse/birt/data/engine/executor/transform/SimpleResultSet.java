@@ -130,7 +130,7 @@ public class SimpleResultSet implements IResultIterator
 			GroupSpec[] groupSpecs, DataEngineSession session ) throws DataException
 	{
 		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = groupSpecs.length > 0
+		this.groupCalculator = true
 				? new SimpleGroupCalculator( session,
 						groupSpecs,
 						this.rowResultSet.getMetaData( ) )
@@ -154,7 +154,7 @@ public class SimpleResultSet implements IResultIterator
 		Scriptable scope = session.getSharedScope( );
 		
 		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
-		this.aggrHelper = groupSpecs.length > 0? new ProgressiveAggregationHelper( manager,
+		this.aggrHelper = true? new ProgressiveAggregationHelper( manager,
 				session.getTempDir( ),
 				scope,
 				session.getEngineContext( )
