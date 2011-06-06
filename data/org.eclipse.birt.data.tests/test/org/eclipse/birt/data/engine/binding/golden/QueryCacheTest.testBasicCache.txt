@@ -10,5 +10,5 @@ S:1 E:1 Chicago    400
 S:1 E:1 London    600    
 S:1 E:1 London    700    
 S:1 E:1 Edinburgh    800    
-S:1 E:1 Edinburgh    1000    
+S:1 E:0 Edinburgh    1000    
 
