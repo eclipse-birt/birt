@@ -56,6 +56,7 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.HTMLTransfer;
 import org.eclipse.swt.dnd.RTFTransfer;
 import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -438,10 +439,21 @@ public class TextEditor extends BaseDialog
 					commonTags[i].setEnabled( commonTagsBar.isEnabled( ) );
 				}
 
-				textEditor.setFocus( );
+				// textEditor.setFocus( );
 				applyOrientation( );
 
 				resetOkButtonStatus( true );
+			}
+		} );
+
+		textTypeChoicer.addKeyListener( new KeyAdapter( ) {
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.character == ' ' )
+				{
+					textEditor.setFocus( );
+				}
 			}
 		} );
 		// create common tags on the right of the text type choicer.
@@ -552,7 +564,7 @@ public class TextEditor extends BaseDialog
 				// create html format tags according to the index of the format
 				// choice selected.
 				createFormatTags( index, formatTagsBar );
-				textEditor.setFocus( );
+				// textEditor.setFocus( );
 
 				if ( index == 4 )
 					textViewer.getTextWidget( )
@@ -561,6 +573,17 @@ public class TextEditor extends BaseDialog
 					textViewer.getTextWidget( )
 							.removeBidiSegmentListener( listener );
 				textViewer.getTextWidget( ).redraw( );
+			}
+		} );
+
+		formatChoicer.addKeyListener( new KeyAdapter( ) {
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.character == ' ' )
+				{
+					textEditor.setFocus( );
+				}
 			}
 		} );
 	}
@@ -1155,9 +1178,12 @@ public class TextEditor extends BaseDialog
 					}
 				} );
 
+				new ToolItem( toolBar, SWT.SEPARATOR );
+
 				formatParent = new Composite( toolBar.getParent( ), SWT.NONE );
 				GridLayout gdLayout = new GridLayout( );
 				gdLayout.numColumns = 3;
+				gdLayout.marginWidth = gdLayout.marginHeight = 0;
 				formatParent.setLayout( gdLayout );
 				GridData gd = new GridData( );
 				formatParent.setLayoutData( gd );
@@ -1177,26 +1203,39 @@ public class TextEditor extends BaseDialog
 						Messages.getString( "TextEditDialog.action.item.formatDateTime" ), //$NON-NLS-1$
 				} );
 				new Label( formatParent, SWT.NONE ).setText( ">" ); //$NON-NLS-1$
-				combo.addSelectionListener( new SelectionAdapter( ) {
+//				combo.addSelectionListener( new SelectionAdapter( ) {
+//
+//					public void widgetSelected( SelectionEvent e )
+//					{
+//						
+//						// textEditor.setFocus( );
+//					}
+//				} );
 
-					public void widgetSelected( SelectionEvent e )
+				combo.addKeyListener( new KeyAdapter( ) {
+
+					public void keyReleased( KeyEvent e )
 					{
-						int index = combo.getSelectionIndex( );
-						combo.select( -1 );
-						switch ( index )
+						if ( e.character == ' ' )
 						{
-							case 0 :
-								insertFormat( FormatBuilder.NUMBER );
-								break;
-							case 1 :
-								insertFormat( FormatBuilder.STRING );
-								break;
-							case 2 :
-								insertFormat( FormatBuilder.DATETIME );
-								break;
-							default :
+							int index = combo.getSelectionIndex( );
+							combo.select( -1 );
+							switch ( index )
+							{
+								case 0 :
+									insertFormat( FormatBuilder.NUMBER );
+									break;
+								case 1 :
+									insertFormat( FormatBuilder.STRING );
+									break;
+								case 2 :
+									insertFormat( FormatBuilder.DATETIME );
+									break;
+								default :
+							}
+							
+							textEditor.setFocus( );
 						}
-						textEditor.setFocus( );
 					}
 				} );
 
@@ -1327,7 +1366,8 @@ public class TextEditor extends BaseDialog
 						//text = text + iter.next( ) + "=\"\" "; //$NON-NLS-1$
 						buffer.append( " " + iter.next( ) + "=\"\"" );//$NON-NLS-1$ //$NON-NLS-2$
 					}
-					frontTag = tag.getName( ).replaceFirst( ">", buffer.toString( ) + ">" ); //$NON-NLS-1$ //$NON-NLS-2$					
+					frontTag = tag.getName( )
+							.replaceFirst( ">", buffer.toString( ) + ">" ); //$NON-NLS-1$ //$NON-NLS-2$					
 				}
 
 				// start: the start offset of selected text.
@@ -1527,7 +1567,7 @@ public class TextEditor extends BaseDialog
 		if ( isEditModal( ) )
 			resetOkButtonStatus( false );
 	}
-	
+
 	private boolean isEditModel = false;
 
 	public void setEditModal( boolean isEditModel )
