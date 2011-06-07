@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Col
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontSizeSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontStyleSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.RadioGroupSection;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
@@ -75,13 +76,12 @@ public abstract class GeneralFontPage extends ResetAttributePage
 		
 		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
-		fontFamilyProvider.enableReset( true );
-		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
+		wordwrapProvider.enableReset( true );
+		RadioGroupSection wordwrapSection = new RadioGroupSection( wordwrapProvider.getDisplayName( ),
 				container,
 				true );
 		wordwrapSection.setProvider( wordwrapProvider );
-		wordwrapSection.setLayoutNum( 2 );
-		wordwrapSection.setWidth( 200 );
+		wordwrapSection.setLayoutNum( 6 );
 		addSection( PageSectionId.WODR_WRAP, wordwrapSection );
 
 	}

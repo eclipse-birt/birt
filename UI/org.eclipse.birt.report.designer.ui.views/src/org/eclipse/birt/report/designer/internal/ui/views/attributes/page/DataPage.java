@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Fon
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontStyleSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.RadioGroupSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
@@ -141,7 +142,7 @@ public class DataPage extends GeneralPage
 		fontSizeSection.setLayoutNum( 4 );
 		colorSection.setLayoutNum( 2 );
 		bgColorSection.setLayoutNum( 4 );
-		fontStyleSection.setLayoutNum( 4 );
+		fontStyleSection.setLayoutNum( 3 );
 		styleSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
@@ -151,7 +152,6 @@ public class DataPage extends GeneralPage
 		fontSizeSection.setGridPlaceholder( 2, true );
 		colorSection.setGridPlaceholder( 0, true );
 		bgColorSection.setGridPlaceholder( 2, true );
-		fontStyleSection.setGridPlaceholder( 1, true );
 
 		// Adds sections into this page.
 
@@ -179,21 +179,20 @@ public class DataPage extends GeneralPage
 
 		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
-		fontFamilyProvider.enableReset( true );
-		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
+		wordwrapProvider.enableReset( true );
+		RadioGroupSection wordwrapSection = new RadioGroupSection( wordwrapProvider.getDisplayName( ),
 				container,
 				true );
 		wordwrapSection.setProvider( wordwrapProvider );
-		wordwrapSection.setLayoutNum( 2 );
-		wordwrapSection.setWidth( 200 );
+		wordwrapSection.setLayoutNum( 4 );
 
 		addSection( PageSectionId.DATA_SEPERATOR, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_COLOR, colorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
-		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_STYLE, fontStyleSection ); //$NON-NLS-1$
+		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_SEPERATOR_1, seperator2Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_DISPLAY, displaySection );

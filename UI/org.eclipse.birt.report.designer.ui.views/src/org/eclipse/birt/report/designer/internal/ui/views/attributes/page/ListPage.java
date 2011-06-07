@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Fon
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FontStyleSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ISectionHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.RadioGroupSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
@@ -117,16 +118,7 @@ public class ListPage extends GeneralPage
 		bgColorSection.setWidth( 200 );
 		addSection( PageSectionId.LIST_BACKGROUND_COLOR, bgColorSection ); //$NON-NLS-1$
 
-		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		fontFamilyProvider.enableReset( true );
-		ComboSection wordwrapSection = new ComboSection( wordwrapProvider.getDisplayName( ),
-				container,
-				true );
-		wordwrapSection.setProvider( wordwrapProvider );
-		wordwrapSection.setLayoutNum( 2 );
-		wordwrapSection.setWidth( 200 );
-		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
+		
 		
 		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders( );
 
@@ -134,10 +126,19 @@ public class ListPage extends GeneralPage
 				true,
 				false );
 		fontStyleSection.setProviders( fontStyleProviders );
-		fontStyleSection.setLayoutNum( 4 );
-		fontStyleSection.setGridPlaceholder( 1, true );
+		fontStyleSection.setLayoutNum( 3 );
 		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
 
+		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
+				ReportDesignConstants.STYLE_ELEMENT );
+		wordwrapProvider.enableReset( true );
+		RadioGroupSection wordwrapSection = new RadioGroupSection( wordwrapProvider.getDisplayName( ),
+				container,
+				true );
+		wordwrapSection.setProvider( wordwrapProvider );
+		wordwrapSection.setLayoutNum( 4 );
+		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
+		
 		SeperatorSection seperator1 = new SeperatorSection( container,
 				SWT.HORIZONTAL );
 		addSection( PageSectionId.LIST_SEPERATOR_1, seperator1 );

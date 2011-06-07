@@ -180,4 +180,11 @@ public class DescriptorToolkit
 		return descriptor;
 	}
 
+	public static RadioGroupPropertyDescriptor createRadioGroupPropertyDescriptor(
+			boolean formStyle )
+	{
+		RadioGroupPropertyDescriptor descriptor = new RadioGroupPropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
 }
