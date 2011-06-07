@@ -190,22 +190,18 @@ public class HiveSelectionPageHelper
 			props = new Properties( );
 
 		// set custom driver specific properties
-		if ( !EMPTY_STRING.equals( getDriverClass( ) ) )
-			props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass, getDriverClass( ) );
-		if ( !EMPTY_STRING.equals( getDriverURL( ) ) )
-			props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL, getDriverURL( ) );
-		if ( !EMPTY_STRING.equals( getODAUser( ) ) )
-			props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser, getODAUser( ) );
-		if ( !EMPTY_STRING.equals( getODAPassword( ) ) )
-			props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAPassword, getODAPassword( ) );
-		if ( !EMPTY_STRING.equals( getAddFile( ) ) )
-			props.setProperty( HiveConstants.HIVE_ADD_FILE_PROPERTY, getAddFile( ) );
-		
 
-		return props;		
-		
-		
-		
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass,
+				getDriverClass( ) );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAURL,
+				getDriverURL( ) );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAUser,
+				getODAUser( ) );
+		props.setProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAPassword,
+				getODAPassword( ) );
+		props.setProperty( HiveConstants.HIVE_ADD_FILE_PROPERTY, getAddFile( ) );
+
+		return props;			
     }
 	private String getODAUser( )
 	{

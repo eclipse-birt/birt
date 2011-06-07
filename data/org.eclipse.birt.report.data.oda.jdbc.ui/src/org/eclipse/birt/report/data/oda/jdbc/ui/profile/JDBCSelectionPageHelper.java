@@ -359,16 +359,11 @@ public class JDBCSelectionPageHelper
 			props = new Properties( );
 
 		// set custom driver specific properties
-		if ( !EMPTY_STRING.equals( getDriverClass( ) ) )
-			props.setProperty( Constants.ODADriverClass, getDriverClass( ) );
-		if ( !EMPTY_STRING.equals( getDriverURL( ) ) )
-			props.setProperty( Constants.ODAURL, getDriverURL( ) );
-		if ( !EMPTY_STRING.equals( getODAUser( ) ) )
-			props.setProperty( Constants.ODAUser, getODAUser( ) );
-		if ( !EMPTY_STRING.equals( getODAPassword( ) ) )
-			props.setProperty( Constants.ODAPassword, getODAPassword( ) );
-		if ( !EMPTY_STRING.equals( getODAJndiName( ) ) )
-			props.setProperty( Constants.ODAJndiName, getODAJndiName( ) );
+		props.setProperty( Constants.ODADriverClass, getDriverClass( ) );
+		props.setProperty( Constants.ODAURL, getDriverURL( ) );
+		props.setProperty( Constants.ODAUser, getODAUser( ) );
+		props.setProperty( Constants.ODAPassword, getODAPassword( ) );
+		props.setProperty( Constants.ODAJndiName, getODAJndiName( ) );
 		// bidi_hcg: add Bidi formats settings to props
 		props = bidiSupportObj.addBidiProperties( props );
 		return props;
