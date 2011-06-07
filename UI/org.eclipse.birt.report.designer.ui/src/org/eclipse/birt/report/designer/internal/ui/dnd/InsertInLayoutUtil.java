@@ -610,8 +610,9 @@ public class InsertInLayoutUtil
 		return dataHandle;
 	}
 
-	private static GroupHandle addGroupHandle(TableHandle tableHandle, String columnName, DataItemHandle dataHandle, int index)throws SemanticException
+	private static GroupHandle addGroupHandle(TableHandle tableHandle, ResultSetColumnHandle model, DataItemHandle dataHandle, int index)throws SemanticException
 	{
+		String columnName = model.getColumnName();
 		DesignElementFactory factory = DesignElementFactory.getInstance( tableHandle.getModuleHandle( ) );
 		GroupHandle groupHandle = factory.newTableGroup( );
 		int columnCount = tableHandle.getColumnCount( );
@@ -651,6 +652,28 @@ public class InsertInLayoutUtil
 		}
 		
 		cellHandle.getContent( ).add( dataHandle );
+		SlotHandle header = tableHandle.getHeader( );
+		if ( header != null && header.getCount( ) > 0 )
+		{
+			CellHandle newTarget = null;
+			if (index >= 0)
+			{
+				 newTarget = (CellHandle) HandleAdapterFactory.getInstance( )
+				 				.getTableHandleAdapter( tableHandle ).getCell( 1, index + 1, false );
+			}
+			if (newTarget == null)
+			{
+				newTarget = (CellHandle) HandleAdapterFactory.getInstance( )
+ 				.getTableHandleAdapter( tableHandle ).getCell( 1, 1, false );
+			}
+			if (newTarget != null && newTarget.getContent( ).getCount( ) == 0)
+			{
+				LabelHandle label = DesignElementFactory.getInstance( ).newLabel( null );
+				label.setText( UIUtil.getColumnDisplayName( model ) );
+				newTarget.addElement( label,
+						CellHandle.CONTENT_SLOT );
+			}
+		}
 
 		return groupHandle;
 	}
@@ -718,7 +741,8 @@ public class InsertInLayoutUtil
 						CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( ).getCellHandleAdapter( cellTarget );
 						index = cellAdapter.getColumnNumber( );
 					}
-					return addGroupHandle( tableHandle, model.getColumnName( ), dataHandle, index - 1 );
+					
+					return addGroupHandle( tableHandle, model, dataHandle, index - 1 );
 				}
 				else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals( UIUtil.getColumnAnalysis( model ) ))
 				{
@@ -793,7 +817,7 @@ public class InsertInLayoutUtil
 									CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( ).getCellHandleAdapter( cellTarget );
 									index = cellAdapter.getColumnNumber( );
 								}
-								return addGroupHandle( tableHandle, newResultColumn.getColumnName( ), dataHandle, index - 1 );
+								return addGroupHandle( tableHandle, newResultColumn, dataHandle, index - 1 );
 							}
 						}
 					}
@@ -814,7 +838,20 @@ public class InsertInLayoutUtil
 								column,
 								false );						
 						dataHandle.setResultSetColumn( binding.getName( ) ); 
-						InsertInLayoutRule rule = new GroupKeySetRule( target, model );
+						InsertInLayoutRule rule = new LabelAddRule( target );
+						if ( rule.canInsert( ) )
+						{
+							// LabelHandle label =
+							// SessionHandleAdapter.getInstance( )
+							// .getReportDesignHandle( )
+							// .getElementFactory( )
+							// .newLabel( null );
+							LabelHandle label = DesignElementFactory.getInstance( )
+									.newLabel( null );
+							label.setText( UIUtil.getColumnDisplayName( model ) );
+							rule.insert( label );
+						}
+						rule = new GroupKeySetRule( target, model );
 						if ( rule.canInsert( ) )
 						{
 							rule.insert( model );
@@ -867,7 +904,20 @@ public class InsertInLayoutUtil
 					//binding.setExpression( ExpressionUtil.createJSRowExpression( model.getColumnName( ) ) );
 					
 					dataHandle.setResultSetColumn( binding.getName( ) );
-					InsertInLayoutRule rule = new GroupKeySetRule( target, model );
+					InsertInLayoutRule rule = new LabelAddRule( target );
+					if ( rule.canInsert( ) )
+					{
+						// LabelHandle label =
+						// SessionHandleAdapter.getInstance( )
+						// .getReportDesignHandle( )
+						// .getElementFactory( )
+						// .newLabel( null );
+						LabelHandle label = DesignElementFactory.getInstance( )
+								.newLabel( null );
+						label.setText( UIUtil.getColumnDisplayName( model ) );
+						rule.insert( label );
+					}
+					rule = new GroupKeySetRule( target, model );
 					if ( rule.canInsert( ) )
 					{
 						rule.insert( model );
