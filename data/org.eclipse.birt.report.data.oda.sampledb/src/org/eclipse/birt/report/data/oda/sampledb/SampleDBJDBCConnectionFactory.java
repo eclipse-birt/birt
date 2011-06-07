@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.URLClassLoader;
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.services.PluginResourceLocator;
 
 public class SampleDBJDBCConnectionFactory implements IConnectionFactory
@@ -196,21 +197,30 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	 */
 	private static class DerbyClassLoader extends URLClassLoader
 	{
+        private static final String DERBY_PLUGIN_ID = "org.apache.derby.core"; //$NON-NLS-1$
+        private static final String NO_PLUGIN_ENTRY_LOG_MSG = 
+            "Unable to find derby.jar in " + DERBY_PLUGIN_ID + " plugin."; //$NON-NLS-1$ //$NON-NLS-2$
+        
 		boolean isGood = false;
+
 		public DerbyClassLoader( ) 
 		{
 			super( new URL[0], DerbyClassLoader.class.getClassLoader() );
 			
 				// Add derby.jar from the Apache derby bundle to class path;
 			    // use utility to handle both OSGi and OSGi-less platforms
-				URL fileURL = PluginResourceLocator.getPluginEntry( "org.apache.derby.core",  //$NON-NLS-1$
+				URL fileURL = PluginResourceLocator.getPluginEntry( DERBY_PLUGIN_ID,
 				                "derby.jar" ); //$NON-NLS-1$
 				try
 				{
 					fileURL = PluginResourceLocator.toFileURL( fileURL );
 					if ( fileURL == null )
 					{
-						logger.warning( "Unable to find derby.jar in org.apache.derby.core plugin." );
+                        if ( isRunningOSGiPlatform() )
+                            logger.warning( NO_PLUGIN_ENTRY_LOG_MSG );
+                        else    // not running on OSGi platform, 
+                                // the derby.jar is likely to be on classpath directly
+                            logger.finer( NO_PLUGIN_ENTRY_LOG_MSG );
 					}
 					else
 					{
@@ -220,7 +230,10 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				}
 				catch ( IOException e )
 				{
-					logger.warning( "Unable to find derby.jar in org.apache.derby.core plugin." );
+                    if ( isRunningOSGiPlatform() )
+                        logger.warning( NO_PLUGIN_ENTRY_LOG_MSG );
+                    else
+                        logger.finer( NO_PLUGIN_ENTRY_LOG_MSG );
 				}			
 		}
 		
@@ -289,7 +302,12 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				return super.getResource(name);
 			}
 		}
-		
+
+		private static boolean isRunningOSGiPlatform()
+        {
+            return Platform.getBundle( DERBY_PLUGIN_ID ) != null;
+        }
+
 	}
 		
 	/**
