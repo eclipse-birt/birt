@@ -1,5 +1,5 @@
 !*************** REPORT ENGINE ***********
-plugin@org.eclipse.birt.core=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core
+plugin@org.eclipse.birt.core=v20110608,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core
 plugin@org.eclipse.birt.report.engine=v20110603,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine
 
 plugin@org.eclipse.birt.report.engine.emitter.config=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.config
