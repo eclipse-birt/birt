@@ -110,7 +110,7 @@ public class CellScriptExecutor extends ScriptExecutor
 			return;
 		}
 		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
-		if ( !needOnPageBreak( cellDesign ) )
+		if ( !needOnPageBreak( cellDesign, context ) )
 		{
 			return;
 		}

@@ -72,15 +72,8 @@ public class EventHandlerManager
 
 		try
 		{
-			ClassLoader classLoader = context.getApplicationClassLoader( );
-			c = classLoader.loadClass( className );
+			c = loadClass( className, context );
 			o = c.newInstance( );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
-					new Object[]{className}, e ); //$NON-NLS-1$
 		}
 		catch ( IllegalAccessException e )
 		{
@@ -96,5 +89,22 @@ public class EventHandlerManager
 		}
 		return o;
 	}
+
+	public static Class loadClass( String className, ExecutionContext context )
+	        throws EngineException
+    {
+		try
+		{
+			ClassLoader classLoader = context.getApplicationClassLoader( );
+			Class c = classLoader.loadClass( className );
+			return c;
+		}
+		catch ( ClassNotFoundException e )
+		{
+			throw new EngineException(
+			        MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
+			        new Object[]{className}, e ); //$NON-NLS-1$
+		}
+    }
 
 }

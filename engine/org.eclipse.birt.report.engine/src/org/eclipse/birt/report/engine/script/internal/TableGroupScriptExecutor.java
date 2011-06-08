@@ -99,7 +99,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign tableGroupDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( tableGroupDesign ) )
+		if ( !needOnPageBreak( tableGroupDesign, context ) )
 		{
 			return;
 		}

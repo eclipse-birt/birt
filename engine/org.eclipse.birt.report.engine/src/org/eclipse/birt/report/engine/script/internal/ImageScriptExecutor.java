@@ -100,7 +100,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign imageDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( imageDesign ) )
+		if ( !needOnPageBreak( imageDesign, context ) )
 		{
 			return;
 		}

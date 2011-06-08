@@ -99,7 +99,7 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign listGroupDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( listGroupDesign ) )
+		if ( !needOnPageBreak( listGroupDesign, context ) )
 		{
 			return;
 		}

@@ -90,6 +90,8 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	 */
 	protected Map<Integer, Expression> expressionStyles;
 
+	protected Object extensionData;
+
 	public ReportItemDesign( )
 	{
 	}
@@ -341,5 +343,15 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	public Map<Integer, Expression> getExpressionStyles( )
 	{
 		return expressionStyles;
+	}
+
+	public void setExtensionData( Object extensionData )
+	{
+		this.extensionData = extensionData;
+	}
+
+	public Object getExtensionData( )
+	{
+		return this.extensionData;
 	}
 }

@@ -98,7 +98,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign dataItemDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( dataItemDesign ) )
+		if ( !needOnPageBreak( dataItemDesign, context ) )
 		{
 			return;
 		}

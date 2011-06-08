@@ -115,7 +115,7 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 		ReportItemDesign autoTextDesign = (ReportItemDesign) generateBy;
 		try
 		{
-			if ( !needOnPageBreak( autoTextDesign ) )
+			if ( !needOnPageBreak( autoTextDesign, context ) )
 			{
 				return;
 			}

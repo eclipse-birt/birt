@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.script.internal.OnPageBreakScriptVisitor;
+import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
@@ -104,8 +105,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 			ReportItemDesign design = getGenerateDesign( content );
 			if ( design != null )
 			{
-				if ( design.getOnPageBreak( ) != null
-						|| design.getJavaClass( ) != null )
+				if ( ScriptExecutor.needOnPageBreak( design, executionContext ) )
 				{
 					if ( !contents.contains( content ) )
 					{

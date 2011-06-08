@@ -95,7 +95,7 @@ public class TableScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign tableDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( tableDesign ) )
+		if ( !needOnPageBreak( tableDesign, context ) )
 		{
 			return;
 		}

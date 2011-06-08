@@ -93,7 +93,7 @@ public class RowScriptExecutor extends ScriptExecutor
 			ExecutionContext context )
 	{
 		ReportItemDesign rowDesign = (ReportItemDesign) content.getGenerateBy( );
-		if ( !needOnPageBreak( rowDesign ) )
+		if ( !needOnPageBreak( rowDesign, context ) )
 		{
 			return;
 		}

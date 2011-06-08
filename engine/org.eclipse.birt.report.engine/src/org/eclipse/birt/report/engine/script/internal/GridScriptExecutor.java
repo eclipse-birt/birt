@@ -95,7 +95,7 @@ public class GridScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign gridDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( gridDesign ) )
+		if ( !needOnPageBreak( gridDesign, context ) )
 		{
 			return;
 		}

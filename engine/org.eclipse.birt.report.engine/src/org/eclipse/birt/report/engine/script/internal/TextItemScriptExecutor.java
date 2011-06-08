@@ -115,7 +115,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign textItemDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( textItemDesign ) )
+		if ( !needOnPageBreak( textItemDesign, context ) )
 		{
 			return;
 		}

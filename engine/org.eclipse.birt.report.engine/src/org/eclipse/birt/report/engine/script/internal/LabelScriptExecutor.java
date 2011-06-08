@@ -97,7 +97,7 @@ public class LabelScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign labelDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( labelDesign ) )
+		if ( !needOnPageBreak( labelDesign, context ) )
 		{
 			return;
 		}

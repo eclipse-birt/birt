@@ -93,7 +93,7 @@ public class ListScriptExecutor extends ScriptExecutor
 	{
 		ReportItemDesign listDesign = (ReportItemDesign) content
 				.getGenerateBy( );
-		if ( !needOnPageBreak( listDesign ) )
+		if ( !needOnPageBreak( listDesign, context ) )
 		{
 			return;
 		}
