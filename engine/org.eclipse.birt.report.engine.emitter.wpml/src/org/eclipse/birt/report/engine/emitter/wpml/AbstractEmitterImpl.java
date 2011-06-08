@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.wpml;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -81,6 +82,7 @@ import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSValueList;
 
 import com.ibm.icu.util.ULocale;
 
@@ -113,6 +115,17 @@ public abstract class AbstractEmitterImpl
 		nonInherityStyles.add( IStyle.STYLE_BORDER_RIGHT_COLOR );
 		nonInherityStyles.add( IStyle.STYLE_BORDER_RIGHT_STYLE );
 		nonInherityStyles.add( IStyle.STYLE_BORDER_RIGHT_WIDTH );
+	}
+	
+	private static final HashMap<String, String> genericFontMapping = new HashMap<String, String>( );
+
+	static
+	{
+		genericFontMapping.put( "sans-serif", "Arial" );
+		genericFontMapping.put( "serif", "Times New Roman" );
+		genericFontMapping.put( "monospace", "Courier New" );
+		genericFontMapping.put( "cursive", "Comic Sans MS" );
+		genericFontMapping.put( "fantasy", "Blackadder ITC" );
 	}
 
 	private static Logger logger = Logger.getLogger( AbstractEmitterImpl.class
@@ -985,12 +998,8 @@ public abstract class AbstractEmitterImpl
 			String fontFamily = null;
 			if ( "".equals( txt ) || txt == null || WordUtil.isField( content ) )
 			{
-				if ( computedStyle != null && computedStyle.getFontFamily( ) != null )
-				{
-					fontFamily = mapGenericFont( computedStyle.getFontFamily( ) );
-				}
 				wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
-						fontFamily, hyper, inlineFlag, textFlag,
+						getFontFamily( computedStyle ), hyper, inlineFlag, textFlag,
 						paragraphWidth, rtl );
 			}
 			else
@@ -1014,7 +1023,7 @@ public abstract class AbstractEmitterImpl
 							ch = fontSplitter.getNext( );
 							wordWriter.writeContent( type, ch.getText( ),
 									computedStyle, inlineStyle, getFontFamily(
-											computedStyle, ch ), hyper,
+											computedStyle ), hyper,
 									inlineFlag, textFlag, paragraphWidth,
 									// TODO: Revisit for more accurate level computation
 									( level & 1 ) != 0 || !rtl && level > 0 );
@@ -1034,7 +1043,7 @@ public abstract class AbstractEmitterImpl
 						Chunk ch = fontSplitter.getNext( );
 						int offset = ch.getOffset( );
 						int length = ch.getLength( );
-						fontFamily = getFontFamily( computedStyle, ch );
+						fontFamily = getFontFamily( computedStyle );
 						String string = null;
 						if ( ch instanceof LineBreakChunk)
 						{
@@ -1063,40 +1072,37 @@ public abstract class AbstractEmitterImpl
 		else
 		{
 			wordWriter.writeContent( type, txt, computedStyle, inlineStyle,
-					computedStyle.getFontFamily( ), hyper, inlineFlag,
+					getFontFamily( computedStyle ), hyper, inlineFlag,
 					TextFlag.WHOLE, paragraphWidth, rtl );
 		}
 	}
 
-	private String getFontFamily( IStyle c_style, Chunk ch )
+	private String getFontFamily( IStyle computedStyle )
 	{
 		String fontFamily = null;
-		// use the user specified font family at first
-		if ( c_style != null && c_style.getFontFamily( ) != null )
+		// use the user specified font family at first. If user defined a font
+		// family list, use the first one, and rely on WORD to do font
+		// selection.
+		CSSValueList families = (CSSValueList) computedStyle
+				.getProperty( StyleConstants.STYLE_FONT_FAMILY );
+		if ( families != null && families.getLength( ) > 0 )
 		{
-			fontFamily = mapGenericFont( c_style.getFontFamily( ) );
-		}
-		else
-		{
-			FontInfo info = ch.getFontInfo( );
-			fontFamily = info.getFontName( );
+			fontFamily = mapGenericFont( families.item( 0 ).getCssText( ) );
 		}
 		return fontFamily;
 	}
-	
+
 	private String mapGenericFont( String font )
 	{
-		if ( font.equals( "sans-serif" ) )
-			return "Arial";
-		if ( font.equals( "serif" ) )
-			return "Times New Roman";
-		if ( font.equals( "monospace" ) )
-			return "Courier New";
-		if ( font.equals( "cursive" ) )
-			return "Comic Sans MS";
-		if ( font.equals( "fantasy" ) )
-			return "Blackadder ITC";
-		return font;
+		String fontName = genericFontMapping.get( font );
+		if ( fontName == null )
+		{
+			return font;
+		}
+		else
+		{
+			return fontName;
+		}
 	}
 
 	private FontSplitter getFontSplitter( IContent content, String text )
