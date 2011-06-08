@@ -551,7 +551,8 @@ public abstract class DesignElement
 	 * Object.
 	 */
 
-	protected Map<String, Object> propValues = new HashMap<String, Object>( );
+	protected Map<String, Object> propValues = new HashMap<String, Object>(
+			ModelUtil.MAP_CAPACITY_LOW );
 
 	/**
 	 * Definitions for user-defined properties. Contents are of type
@@ -1362,7 +1363,8 @@ public abstract class DesignElement
 		assert getUserPropertyDefn( propName ) == null;
 		assert cachedDefn.getProperty( propName ) == null;
 		if ( userProperties == null )
-			userProperties = new LinkedHashMap<String, UserPropertyDefn>( );
+			userProperties = new LinkedHashMap<String, UserPropertyDefn>(
+					ModelUtil.MAP_CAPACITY_LOW );
 		userProperties.put( propName, userProp );
 	}
 
@@ -3245,7 +3247,8 @@ public abstract class DesignElement
 		Iterator<String> iter = null;
 		if ( !isVirtualElement( ) && userProperties != null )
 		{
-			element.userProperties = new LinkedHashMap<String, UserPropertyDefn>( );
+			element.userProperties = new LinkedHashMap<String, UserPropertyDefn>(
+					ModelUtil.MAP_CAPACITY_LOW );
 
 			iter = userProperties.keySet( ).iterator( );
 			while ( iter.hasNext( ) )

@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.Set;
 
+import org.eclipse.birt.report.model.util.ModelUtil;
+
 /**
  *
  */
@@ -134,7 +136,8 @@ public class CachedBundles
 		// the initial capacity is 8.
 
 		if ( bundles == null )
-			bundles = new HashMap<String, LocaleResourceBundle>( 8 );
+			bundles = new HashMap<String, LocaleResourceBundle>(
+					ModelUtil.MAP_CAPACITY_LOW );
 		if ( bundleURL == null )
 			bundles.put( fileName, new LocaleResourceBundle( null ) );
 

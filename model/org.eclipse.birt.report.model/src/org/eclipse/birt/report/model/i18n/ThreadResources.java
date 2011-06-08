@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
 
+import org.eclipse.birt.report.model.util.ModelUtil;
+
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -38,7 +40,7 @@ public class ThreadResources
 	 */
 
 	private Map<ULocale, ModelResourceHandle> resourceMap = new HashMap<ULocale, ModelResourceHandle>(
-			10 );
+			ModelUtil.MAP_CAPACITY_LOW );
 
 	/**
 	 * Thread-local variable for the current thread.

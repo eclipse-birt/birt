@@ -18,6 +18,7 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.util.DimensionValueUtil;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -38,8 +39,9 @@ public class StringUtil
 
 	static
 	{
-		formatters = new HashMap<Integer, NumberFormatter>( 5 );
-		
+		formatters = new HashMap<Integer, NumberFormatter>(
+				ModelUtil.MAP_CAPACITY_LOW );
+
 		// put the most common locale into the map first.
 
 		formatters.put( Integer
@@ -51,7 +53,8 @@ public class StringUtil
 				new NumberFormatter( ULocale.ENGLISH ) );
 
 		formatters.put( Integer.valueOf( ULocale.SIMPLIFIED_CHINESE.toString( )
-				.hashCode( ) ), new NumberFormatter( ULocale.SIMPLIFIED_CHINESE ) );
+				.hashCode( ) ),
+				new NumberFormatter( ULocale.SIMPLIFIED_CHINESE ) );
 	}
 
 	/**

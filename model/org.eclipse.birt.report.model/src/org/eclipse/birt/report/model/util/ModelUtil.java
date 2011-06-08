@@ -104,6 +104,9 @@ import com.ibm.icu.util.ULocale;
 
 public class ModelUtil extends ModelUtilBase
 {
+	public final static int MAP_CAPACITY_LOW = 6;
+	
+	public final static int MAP_CAPACITY_MEDIUM = 12;
 
 	/**
 	 * Returns the wrapped value that is visible to API level. For example,

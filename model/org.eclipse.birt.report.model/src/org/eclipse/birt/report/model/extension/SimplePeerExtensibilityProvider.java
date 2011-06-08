@@ -80,7 +80,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		if ( defn.isExtended( ) )
 		{
 			if ( invalidValueMap == null )
-				invalidValueMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
+				invalidValueMap = new LinkedHashMap<String, UndefinedPropertyInfo>(
+						ModelUtil.MAP_CAPACITY_LOW );
 			String extensionVersion = element.getStringProperty( element
 					.getRoot( ), IExtendedItemModel.EXTENSION_VERSION_PROP );
 			UndefinedPropertyInfo infor = new UndefinedPropertyInfo( propName,
@@ -128,7 +129,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		assert value != null;
 
 		if ( undefinedPropertyMap == null )
-			undefinedPropertyMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
+			undefinedPropertyMap = new LinkedHashMap<String, UndefinedPropertyInfo>(
+					ModelUtil.MAP_CAPACITY_LOW );
 
 		String extensionVersion = element.getStringProperty(
 				element.getRoot( ), IExtendedItemModel.EXTENSION_VERSION_PROP );
@@ -173,7 +175,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		if ( provider.invalidValueMap != null
 				&& !provider.invalidValueMap.isEmpty( ) )
 		{
-			invalidValueMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
+			invalidValueMap = new LinkedHashMap<String, UndefinedPropertyInfo>(
+					ModelUtil.MAP_CAPACITY_LOW );
 			Iterator<String> iter = provider.invalidValueMap.keySet( )
 					.iterator( );
 			while ( iter.hasNext( ) )
@@ -195,7 +198,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 		if ( provider.undefinedPropertyMap != null
 				&& !provider.undefinedPropertyMap.isEmpty( ) )
 		{
-			undefinedPropertyMap = new LinkedHashMap<String, UndefinedPropertyInfo>( );
+			undefinedPropertyMap = new LinkedHashMap<String, UndefinedPropertyInfo>(
+					ModelUtil.MAP_CAPACITY_LOW );
 
 			// now the value is simple type, so do this simple handle; otherwise
 			// we will handle complex type to do deep clone
@@ -237,7 +241,8 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 			return Collections.emptyMap( );
 
 		Map<String, List<UndefinedChildInfo>> ret = new HashMap<String, List<UndefinedChildInfo>>( );
-		Iterator<Entry<String, List<UndefinedChildInfo>>> iter = illegalContentsMap.entrySet( ).iterator( );
+		Iterator<Entry<String, List<UndefinedChildInfo>>> iter = illegalContentsMap
+				.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Entry<String, List<UndefinedChildInfo>> entry = iter.next( );
@@ -282,7 +287,7 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	 * @seeorg.eclipse.birt.report.model.extension.PeerExtensibilityProvider#
 	 * getInvalidPropertyValueMap()
 	 */
-	public Map<String,UndefinedPropertyInfo> getInvalidPropertyValueMap( )
+	public Map<String, UndefinedPropertyInfo> getInvalidPropertyValueMap( )
 	{
 		return (Map<String, UndefinedPropertyInfo>) ( this.invalidValueMap == null
 				? Collections.emptyMap( )

@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.eclipse.birt.report.model.util.ModelUtil;
+
 /**
  * A name space organizes a set of named elements. The name space allows quick
  * lookup of elements by name, and ensures that each element has a unique name.
@@ -43,7 +45,8 @@ public class NameSpace implements Cloneable
 	 * The actual name space.
 	 */
 
-	protected HashMap<String, DesignElement> names = new LinkedHashMap<String, DesignElement>( );
+	protected HashMap<String, DesignElement> names = new LinkedHashMap<String, DesignElement>(
+			ModelUtil.MAP_CAPACITY_MEDIUM );
 
 	/**
 	 * Constructor.
@@ -165,7 +168,8 @@ public class NameSpace implements Cloneable
 	{
 
 		NameSpace ns = (NameSpace) super.clone( );
-		ns.names = new LinkedHashMap<String, DesignElement>( );
+		ns.names = new LinkedHashMap<String, DesignElement>(
+				ModelUtil.MAP_CAPACITY_MEDIUM );
 
 		return ns;
 	}

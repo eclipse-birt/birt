@@ -48,8 +48,6 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 abstract public class DynamicLinkProvider extends ExtensibilityProvider
 {
 
-	private final static int CAPACITY = 6;
-
 	private final static int DIMENSION_SPACE_ID = 0;
 
 	private final static int NON_DIMENSION_SPACE_ID = 1;
@@ -310,7 +308,8 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 
 		public LayoutInfor( )
 		{
-			this.layoutProps = new HashMap<String, Object>( CAPACITY );
+			this.layoutProps = new HashMap<String, Object>(
+					ModelUtil.MAP_CAPACITY_LOW );
 			this.localNameSpaces = new NameSpace[2];
 
 			localNameSpaces[0] = new NameSpace( );

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.util;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 
 /**

@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -155,7 +155,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * design.
 	 */
 
-	private Map<DesignElement, DesignElement> externalElements = new LinkedHashMap<DesignElement, DesignElement>( );
+	private Map<DesignElement, DesignElement> externalElements = new LinkedHashMap<DesignElement, DesignElement>(
+			ModelUtil.MAP_CAPACITY_MEDIUM );
 
 	/**
 	 * Structures are not directly in source design. Hence, it should be created
@@ -163,19 +164,22 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * with embedded images.
 	 */
 
-	private Map<IStructure, IStructure> externalStructs = new LinkedHashMap<IStructure, IStructure>( );
+	private Map<IStructure, IStructure> externalStructs = new LinkedHashMap<IStructure, IStructure>(
+			ModelUtil.MAP_CAPACITY_LOW );
 
 	/**
 	 * Cubes that need to build the dimension condition. It stores
 	 * newCube/oldCube pair.
 	 */
-	private Map<Cube, Cube> cubes = new LinkedHashMap<Cube, Cube>( );
+	private Map<Cube, Cube> cubes = new LinkedHashMap<Cube, Cube>(
+			ModelUtil.MAP_CAPACITY_LOW );
 
 	/**
 	 * Dimensions that need to build the 'defaultHierarchy'. It stores
 	 * newDimension/oldDimension pair.
 	 */
-	private Map<Dimension, Dimension> dimensions = new LinkedHashMap<Dimension, Dimension>( );
+	private Map<Dimension, Dimension> dimensions = new LinkedHashMap<Dimension, Dimension>(
+			ModelUtil.MAP_CAPACITY_LOW );
 
 	/**
 	 * The element is on process.
@@ -194,7 +198,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * qualified name of old ReportItemTheme instance in the source design while
 	 * value is the new created local reportItemThem in the target design.
 	 */
-	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>( );
+	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>(
+			ModelUtil.MAP_CAPACITY_MEDIUM );
 
 	/**
 	 * Returns the newly created report design.
@@ -360,8 +365,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			// caused by the renaming action, for not all the cube need do this
 			if ( needUpdateBinding( tmpElement ) )
 			{
-				tmpOLAPNames.put( tmpElement,
-						collectOLAPNames( sourceDesign, tmpElement ) );
+				tmpOLAPNames.put( tmpElement, collectOLAPNames( sourceDesign,
+						tmpElement ) );
 			}
 		}
 
@@ -1080,15 +1085,15 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			switch ( targetProp.getTypeCode( ) )
 			{
 				case IPropertyType.LIST_TYPE :
-					target.setProperty( targetProp,
-							ModelUtil.copyValue( targetProp, value ) );
+					target.setProperty( targetProp, ModelUtil.copyValue(
+							targetProp, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
 					handleStructureValue( target, targetProp, value );
 					break;
 				default :
-					target.setProperty( targetProp,
-							ModelUtil.copyValue( targetProp, value ) );
+					target.setProperty( targetProp, ModelUtil.copyValue(
+							targetProp, value ) );
 			}
 
 			notEmptyProperties.add( propName );
@@ -1251,8 +1256,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-			visitContents( sourceDesign,
-					new ContainerContext( obj, propDefn.getName( ) ) );
+			visitContents( sourceDesign, new ContainerContext( obj, propDefn
+					.getName( ) ) );
 		}
 		elements.pop( );
 	}
@@ -1276,8 +1281,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( containmentProp != null )
 			containment = new ContainerContext( container, containmentProp );
 		else
-			containment = new ContainerContext( container,
-					sourceContainment.getSlotID( ) );
+			containment = new ContainerContext( container, sourceContainment
+					.getSlotID( ) );
 		DesignElement newElement = newElement( element.getDefn( ).getName( ),
 				element.getName( ), containment ).getElement( );
 
@@ -1690,8 +1695,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private CssStyle visitCssStyle( CssStyle style )
 	{
 		CssStyle newStyle = new CssStyle( style.getName( ) );
-		localizePrivateStyleProperties( newStyle, style,
-				(Module) style.getContainer( ), new HashSet<String>( ) );
+		localizePrivateStyleProperties( newStyle, style, (Module) style
+				.getContainer( ), new HashSet<String>( ) );
 
 		return newStyle;
 	}
@@ -2117,8 +2122,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 								(List) value );
 					}
 					else if ( newElement.getLocalProperty( null, propDefn ) == null )
-						newElement.setProperty( propDefn,
-								ModelUtil.copyValue( propDefn, value ) );
+						newElement.setProperty( propDefn, ModelUtil.copyValue(
+								propDefn, value ) );
 					break;
 				case IPropertyType.STRUCT_TYPE :
 
@@ -2409,8 +2414,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 		else
 		{
-			newElement.setProperty( propDefn,
-					createNewStructureValue( propDefn, valueList ) );
+			newElement.setProperty( propDefn, createNewStructureValue(
+					propDefn, valueList ) );
 		}
 	}
 
@@ -2482,12 +2487,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 							(ElementRefValue) value );
 					break;
 				case IPropertyType.STRUCT_TYPE :
-					newStruct.setProperty( memberDefn,
-							createNewStructureValue( memberDefn, value ) );
+					newStruct.setProperty( memberDefn, createNewStructureValue(
+							memberDefn, value ) );
 					break;
 				default :
-					newStruct.setProperty( memberDefn,
-							ModelUtil.copyValue( memberDefn, value ) );
+					newStruct.setProperty( memberDefn, ModelUtil.copyValue(
+							memberDefn, value ) );
 			}
 		}
 
@@ -2527,10 +2532,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					newRefEelement ) );
 		}
 		else
-			structure.setProperty(
-					propDefn,
-					new ElementRefValue( value.getLibraryNamespace( ), value
-							.getName( ) ) );
+			structure.setProperty( propDefn, new ElementRefValue( value
+					.getLibraryNamespace( ), value.getName( ) ) );
 	}
 
 	/**
@@ -2598,8 +2601,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					newEmbeddedIamge ) );
 		}
 		else
-			newElement.setProperty( propDefn,
-					ModelUtil.copyValue( propDefn, value ) );
+			newElement.setProperty( propDefn, ModelUtil.copyValue( propDefn,
+					value ) );
 	}
 
 	/**
@@ -2648,10 +2651,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 						refElement.getName( ) ) );
 		}
 		else
-			newElement.setProperty(
-					propDefn,
-					new ElementRefValue( value.getLibraryNamespace( ), value
-							.getName( ) ) );
+			newElement.setProperty( propDefn, new ElementRefValue( value
+					.getLibraryNamespace( ), value.getName( ) ) );
 	}
 
 	/**

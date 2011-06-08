@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -89,7 +90,7 @@ public class PropertyContentState extends AbstractParseState
 	 * Attributes map for key/value pairs.
 	 */
 
-	protected Map attributes = new LinkedHashMap( );
+	protected Map attributes = new LinkedHashMap( ModelUtil.MAP_CAPACITY_LOW );
 
 	/**
 	 * Constructs the design parse state with the design file parser handler.
@@ -116,7 +117,9 @@ public class PropertyContentState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public final void parseAttrs( Attributes attrs ) throws XMLParserException

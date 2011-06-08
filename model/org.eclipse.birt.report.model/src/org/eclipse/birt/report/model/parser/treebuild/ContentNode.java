@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents an element in the XML file. This is used to parse a xml trunk when
@@ -46,7 +47,8 @@ public class ContentNode implements Cloneable
 	{
 		this.name = name;
 		children = new ArrayList<ContentNode>( );
-		attributes = new LinkedHashMap<String, Object>( );
+		attributes = new LinkedHashMap<String, Object>(
+				ModelUtil.MAP_CAPACITY_LOW );
 	}
 
 	/**
@@ -184,7 +186,8 @@ public class ContentNode implements Cloneable
 		ContentNode clonedNode = (ContentNode) super.clone( );
 
 		// clone attribute map
-		clonedNode.attributes = new LinkedHashMap<String, Object>( );
+		clonedNode.attributes = new LinkedHashMap<String, Object>(
+				ModelUtil.MAP_CAPACITY_LOW );
 		clonedNode.attributes.putAll( attributes );
 
 		// clone children
