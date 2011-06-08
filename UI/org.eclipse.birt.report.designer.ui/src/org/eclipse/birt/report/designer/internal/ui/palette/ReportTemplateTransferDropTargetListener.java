@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AreaEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LibraryElementsToolHandleExtends;
@@ -250,7 +251,7 @@ public class ReportTemplateTransferDropTargetListener extends
 
 						try
 						{
-							if ( UIUtil.includeLibrary( moduleHandle, library ) )
+							if ( moduleHandle != library && UIUtil.includeLibrary( moduleHandle, library ) )
 							{
 								EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
 										moduleHandle );
@@ -435,7 +436,7 @@ public class ReportTemplateTransferDropTargetListener extends
 			{
 				if ( dragObjs[i] instanceof EmbeddedImageHandle
 						&& !( ( (EmbeddedImageHandle) dragObjs[i] ).getElementHandle( )
-								.getRoot( ) instanceof LibraryHandle ) )
+								.getRoot( ) instanceof LibraryHandle  && !(targetEditPart instanceof AreaEditPart)) )
 				{
 					return true;
 				}
