@@ -449,7 +449,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 		if ( elem instanceof IDECPListElement )
 		{
 			IDECPListElement curr = (IDECPListElement) elem;
-			return !( curr.getResource( ) instanceof IFolder )
+			return !( curr.getResource( ) instanceof IFolder || curr.getResource( ) instanceof IProject)
 					&& curr.getParentContainer( ) == null;
 		}
 
