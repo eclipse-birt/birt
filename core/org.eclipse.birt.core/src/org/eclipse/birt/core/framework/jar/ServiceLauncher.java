@@ -51,7 +51,21 @@ public class ServiceLauncher extends PlatformLauncher
 
 			while ( plugins.hasMoreElements( ) )
 			{
-				URL root = new URL( plugins.nextElement( ), ".." );
+				// the wsjar:// URL in websphere doesn't support .. to get the
+				// parent folder, so we construct the root from the file path
+				URL root = null;
+				URL url = plugins.nextElement( );
+				String path = url.toExternalForm( );
+				if ( path.endsWith( MANIFEST_ENTRY ) )
+				{
+					String rootPath = path.substring( 0, path.length( )
+							- MANIFEST_ENTRY.length( ) );
+					root = new URL( url, rootPath );
+				}
+				else
+				{
+					root = new URL( url, ".." );
+				}
 				try
 				{
 					platform.installBundle( root );
