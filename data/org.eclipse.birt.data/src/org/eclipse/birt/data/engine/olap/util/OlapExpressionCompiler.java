@@ -20,17 +20,17 @@ import java.util.Set;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
-import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
 import org.eclipse.birt.data.engine.impl.util.GraphNode;
-import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -79,6 +79,20 @@ public class OlapExpressionCompiler
 			dimName = getReferencedScriptObject( op2, objectName );
 			return dimName;
 		}
+		else if ( expr instanceof IExpressionCollection )
+		{
+			IExpressionCollection combinedExpr = (IExpressionCollection) expr;
+			Object[] exprs = combinedExpr.getExpressions( )
+					.toArray( );
+
+			for ( int i = 0; i < exprs.length; i++ )
+			{
+				String o = getReferencedScriptObject( (IBaseExpression)exprs[i], objectName );
+				if( o!= null )
+					return o;
+			}
+		}
+		
 		//In 2.6 we only consider support IInNotInFilter in single dimension filter
 		//In future we may allow the filter cross dimensions.
 		else if( expr instanceof ICollectionConditionalExpression )

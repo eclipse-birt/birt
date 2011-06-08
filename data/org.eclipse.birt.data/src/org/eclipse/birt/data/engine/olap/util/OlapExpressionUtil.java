@@ -633,7 +633,8 @@ public class OlapExpressionUtil
 		Set<String> all = new HashSet<String>();
 		for( IBinding binding : bindings )
 		{
-			all.add( binding.getBindingName( ) );
+			if ( isReferenceToLevelOrMeasure( binding.getExpression( ), bindings ) )
+				all.add( binding.getBindingName( ) );
 			if( isDirectRerenrence( binding.getExpression( ), bindings ))
 			{
 				directRef.add( binding.getBindingName( ) );
@@ -642,6 +643,26 @@ public class OlapExpressionUtil
 		all.removeAll( directRef );
 		return all;
 	}
+	
+	private static boolean isReferenceToLevelOrMeasure( IBaseExpression expression,
+			List<IBinding> bindings ) throws DataException
+	{
+		String measure = OlapExpressionCompiler.getReferencedScriptObject( expression, ScriptConstants.MEASURE_SCRIPTABLE );
+		if( measure != null )
+			return true;
+		String dimension = OlapExpressionCompiler.getReferencedScriptObject( expression, ScriptConstants.DIMENSION_SCRIPTABLE );
+		if( dimension != null )
+			return true;
+		List bindingNames = ExpressionCompilerUtil.extractColumnExpression( expression, ScriptConstants.DATA_BINDING_SCRIPTABLE );
+		for( int i = 0; i < bindingNames.size( ); i++ )
+		{
+			IBinding binding = getBinding( (String) bindingNames.get( i ), bindings );
+			if( binding != null && isReferenceToLevelOrMeasure( binding.getExpression( ), bindings ) )
+				return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param expr

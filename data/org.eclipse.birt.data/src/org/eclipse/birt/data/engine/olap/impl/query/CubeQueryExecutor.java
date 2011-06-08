@@ -174,6 +174,9 @@ public class CubeQueryExecutor
 			return null;
 		IConditionalExpression condExpr = (IConditionalExpression) (( CubeFilterDefinition )filter).getExpression( );
 		
+		if( isVariableOperandInDimensionFilter( condExpr ) )
+			return null;
+				
 		Set refDimLevel;
 		try
 		{
@@ -265,6 +268,16 @@ public class CubeQueryExecutor
 		{
 			return null;
 		}
+	}
+
+	private boolean isVariableOperandInDimensionFilter(
+			IConditionalExpression condExpr )
+	{
+		//If the filter operand is not constant, we should not use simple level filter,
+		//as the operand is changing as per cursor changes.
+		Object referedScriptable = OlapExpressionCompiler.getReferencedScriptObject( condExpr.getOperand1( ),
+				ScriptConstants.DIMENSION_SCRIPTABLE );
+		return referedScriptable != null;
 	}
 	
 	
