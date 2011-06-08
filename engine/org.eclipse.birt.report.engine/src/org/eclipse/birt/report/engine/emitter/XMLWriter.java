@@ -106,6 +106,7 @@ public class XMLWriter
 		}
 		catch ( IOException ex )
 		{
+			log.log( Level.SEVERE, ex.getMessage( ) );
 		}
 	}
 
@@ -490,6 +491,7 @@ public class XMLWriter
 			}
 			catch ( IOException ex )
 			{
+				log.log( Level.SEVERE, ex.getMessage( ) );
 			}
 		}
 		else
@@ -532,6 +534,7 @@ public class XMLWriter
 			}
 			catch ( IOException ex )
 			{
+				log.log( Level.SEVERE, ex.getMessage( ) );
 			}
 			bufferSize = 0;
 		}
