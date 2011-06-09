@@ -12,7 +12,7 @@ feature@org.eclipse.birt.chart.osgi.runtime=v20110603,:ext:xgu@dev.eclipse.org:/
 feature@org.eclipse.birt.chart.osgi.runtime.sdk=v20110603,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.osgi.runtime.sdk
 
 feature@org.eclipse.birt.chart=v20110603,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
-plugin@org.eclipse.birt.chart=v20110126,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
+plugin@org.eclipse.birt.chart=v20110609,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer.editor.xml.wtp=v20110603,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
 
