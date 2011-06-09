@@ -15,7 +15,7 @@ plugin@org.eclipse.birt.report.engine.emitter.odt.config=v20110602,:ext:xgu@dev.
 plugin@org.eclipse.birt.report.engine.emitter.odp=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.odp
 plugin@org.eclipse.birt.report.engine.emitter.ods=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ods
 plugin@org.eclipse.birt.report.engine.emitter.odt=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.odt
-plugin@org.eclipse.birt.report.engine.odf=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.odf
+plugin@org.eclipse.birt.report.engine.odf=v20110609,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.odf
 
 plugin@org.eclipse.birt.report.engine.emitter.html=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html
 plugin@org.eclipse.birt.report.engine.emitter.pdf=v20110602,:ext:xgu@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
