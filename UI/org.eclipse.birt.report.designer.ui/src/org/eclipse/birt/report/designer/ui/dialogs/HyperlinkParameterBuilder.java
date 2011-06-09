@@ -109,14 +109,14 @@ public class HyperlinkParameterBuilder extends BaseDialog
 		} );
 
 		Label requiredLabel = new Label( container, SWT.NONE );
-		requiredLabel.setText( Messages.getString("HyperlinkParameterBuilder.Lable.Required") ); //$NON-NLS-1$
+		requiredLabel.setText( Messages.getString( "HyperlinkParameterBuilder.Lable.Required" ) ); //$NON-NLS-1$
 
 		requiredValue = new Text( container, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		requiredValue.setLayoutData( gd );
 
 		Label typeLabel = new Label( container, SWT.NONE );
-		typeLabel.setText( Messages.getString("HyperlinkParameterBuilder.Label.DataType") ); //$NON-NLS-1$
+		typeLabel.setText( Messages.getString( "HyperlinkParameterBuilder.Label.DataType" ) ); //$NON-NLS-1$
 
 		typeValue = new Text( container, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -185,8 +185,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 				if ( object instanceof ScalarParameterHandle )
 				{
 					typeValue.setText( hyperlinkBuilder.getDisplayDataType( ( (ScalarParameterHandle) object ).getDataType( ) ) );
-					requiredValue.setText( ( (ScalarParameterHandle) object ).isRequired( ) ? Messages.getString("HyperlinkParameterBuilder.Required.Choice.Yes") //$NON-NLS-1$
-							: Messages.getString("HyperlinkParameterBuilder.Required.Choice.No") ); //$NON-NLS-1$
+					requiredValue.setText( ( (ScalarParameterHandle) object ).isRequired( ) ? Messages.getString( "HyperlinkParameterBuilder.Required.Choice.Yes" ) //$NON-NLS-1$
+							: Messages.getString( "HyperlinkParameterBuilder.Required.Choice.No" ) ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -199,8 +199,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 				if ( object instanceof AbstractScalarParameterHandle )
 				{
 					typeValue.setText( hyperlinkBuilder.getDisplayDataType( ( (AbstractScalarParameterHandle) object ).getDataType( ) ) );
-					requiredValue.setText( ( (AbstractScalarParameterHandle) object ).isRequired( ) ? Messages.getString("HyperlinkParameterBuilder.Required.Choice.Yes") //$NON-NLS-1$
-							: Messages.getString("HyperlinkParameterBuilder.Required.Choice.No") ); //$NON-NLS-1$
+					requiredValue.setText( ( (AbstractScalarParameterHandle) object ).isRequired( ) ? Messages.getString( "HyperlinkParameterBuilder.Required.Choice.Yes" ) //$NON-NLS-1$
+							: Messages.getString( "HyperlinkParameterBuilder.Required.Choice.No" ) ); //$NON-NLS-1$
 				}
 				valueEditor = createValueEditor( container, object );
 				if ( valueEditor == null )
@@ -408,7 +408,11 @@ public class HyperlinkParameterBuilder extends BaseDialog
 		}
 		else
 		{
-			HyperlinkParameterBuilder.this.getOkButton( ).setEnabled( true );
+			if ( paramChooser.getText( ).trim( ).length( ) == 0 )
+				HyperlinkParameterBuilder.this.getOkButton( )
+						.setEnabled( false );
+			else
+				HyperlinkParameterBuilder.this.getOkButton( ).setEnabled( true );
 		}
 	}
 }

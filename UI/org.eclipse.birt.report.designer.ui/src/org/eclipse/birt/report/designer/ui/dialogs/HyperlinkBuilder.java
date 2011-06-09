@@ -2559,6 +2559,6 @@ public class HyperlinkBuilder extends BaseDialog
 		removeParamButton.setEnabled( getSelectedBinding( ) != null );
 		removeAllParamButton.setEnabled( paramBindingTable.getTable( )
 				.getItemCount( ) > 0 );
-		addParamButton.setEnabled( getAvailableParamList( null ).size( ) > 0 );
+		addParamButton.setEnabled( true );
 	}
 }
