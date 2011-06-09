@@ -56,6 +56,11 @@ public interface IEngineConfig extends IPlatformConfig
 	static final String RESOURCE_PATH = "resourcePath";
 	
 	/**
+	 * the user defined font directories.
+	 */
+	static final String CUSTOM_FONT_DIRS = "customFontDirs";
+	
+	/**
 	 * The max rows per query
 	 */
 	static final String MAX_ROWS_PER_QUERY = "maxRowsPerQuery";

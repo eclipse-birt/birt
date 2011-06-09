@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
-import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 
 /**
@@ -444,6 +443,28 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	}
 	
 	/**
+	 * @return the custom font directories.
+	 */
+	public String getCustomFontDirs( )
+	{
+		Object customFontDirs = getProperty( CUSTOM_FONT_DIRS );
+		if ( customFontDirs instanceof String )
+		{
+			return (String) customFontDirs;
+		}
+		return null;
+	}
+
+	/**
+	 * @param fontDirs
+	 *            the user defined font directories.
+	 */
+	public void setCustomFontDirs( String fontDirs )
+	{
+		setProperty( CUSTOM_FONT_DIRS, fontDirs );
+	}
+
+	/**
 	 * Set the max rows per query
 	 * @param maxRows: max rows
 	 * @deprecated
@@ -529,4 +550,5 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		}
 		return buf.toString( );
 	}
+	
 }

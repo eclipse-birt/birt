@@ -52,6 +52,7 @@ import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -141,6 +142,8 @@ public class ReportEngine implements IReportEngine
 		{
 			handler.initialize( );
 		}
+		
+		registerCustomFontDirs( );
 	}
 
 	private void mergeConfigToAppContext( )
@@ -219,6 +222,18 @@ public class ReportEngine implements IReportEngine
 		}
 		EngineLogger.startEngineLogging( logger, dest, file, level,
 				rollingSize, maxBackupIndex );
+	}
+	
+	/**
+	 * register custom font directories.
+	 */
+	private void registerCustomFontDirs( )
+	{
+		if ( config != null )
+		{
+			String customFontDirs = config.getCustomFontDirs( );
+			FontMappingManagerFactory.registerCustomFontDirs( customFontDirs );
+		}
 	}
 
 	/**
