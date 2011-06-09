@@ -732,7 +732,17 @@ public class InsertInLayoutUtil
 					{
 						GroupHandle group = (GroupHandle) o;
 						if ( group.getName( ).equals( model.getColumnName( ) ) )
+						{
+							if ( target instanceof CellHandle)
+							{
+								CellHandle cellTarget = (CellHandle)target;
+								if (cellTarget.getContent( ).getCount( ) == 0)
+								{
+									return  dataHandle;
+								}
+							}
 							return null;
+						}
 					}
 					int index = -1;
 					if ( target instanceof CellHandle)
@@ -1642,13 +1652,18 @@ public class InsertInLayoutUtil
 				CellHandle cellHandle = (CellHandle)target.getModel( );
 				if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( insertObj ) ))
 				{
-					SlotHandle slotHandle = tableHandle.getGroups( );
-					for ( Object o : slotHandle.getContents( ) )
+//					SlotHandle slotHandle = tableHandle.getGroups( );
+//					for ( Object o : slotHandle.getContents( ) )
+//					{
+//						GroupHandle group = (GroupHandle) o;
+//						if ( group.getName( ).equals( insertObj.getColumnName( ) ) )
+//							return false;
+//					}
+					if (cellHandle.getContent( ).getCount( ) == 0)
 					{
-						GroupHandle group = (GroupHandle) o;
-						if ( group.getName( ).equals( insertObj.getColumnName( ) ) )
-							return false;
+						return true;
 					}
+					return !hasGroup( tableHandle, insertObj.getColumnName( ) );
 				}
 				else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals(UIUtil.getColumnAnalysis( insertObj )  ))
 				{
@@ -1749,6 +1764,19 @@ public class InsertInLayoutUtil
 			}			
 		}
 		return false;
+	}
+	
+	private static boolean hasGroup(TableHandle tableHandle, String groupName)
+	{
+		SlotHandle slotHandle = tableHandle.getGroups( );
+		for ( Object o : slotHandle.getContents( ) )
+		{
+			GroupHandle group = (GroupHandle) o;
+			if ( group.getName( ).equals( groupName ))
+				return true;
+		}
+		
+		return true;
 	}
 
 	private static boolean isMasterPageHeaderOrFooter( Object obj )
