@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -120,6 +121,73 @@ public class DataSetCacheTest extends APITestCase
 		
 		assertTrue(getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+		myDataEngine.shutdown( );
+	}
+	
+	/**
+	 * Test feature of whether cache will be used
+	 * @throws BirtException
+	 * @throws IOException 
+	 */
+	public void testUseCacheWithMemoryCache( ) throws BirtException, IOException
+	{
+		Map appContext = new HashMap( );
+		appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, 7 );
+		
+		DataEngineImpl myDataEngine = newDataEngine( );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+		QueryDefinition qd = newReportQuery( );
+		rowBeArray = getRowExpr( );
+		totalBeArray = getAggrExpr( );
+		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		IQueryResults qr = myDataEngine.prepare( qd, appContext ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String str = "";
+			for ( int i = 0; i < rowBeNames.length; i++ )
+			{
+				str += ri.getValue( rowBeNames[i] );
+
+				if ( i < rowBeNames.length - 1 )
+					str += ", ";
+			}
+			testPrintln( str );
+		}
+		ri.close( );
+		qr.close( );
+
+		testPrintln( "##reset cache size##" );
+		//setting its cache to 1
+		appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, 1 );
+		newReportQuery( );
+		rowBeArray = getRowExpr( );
+		totalBeArray = getAggrExpr( );
+		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		qr = myDataEngine.prepare( qd, appContext ).execute( null );
+		assertTrue(getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+
+		ri = qr.getResultIterator( );
+		while ( ri.next( ) )
+		{
+			String str = "";
+			for ( int i = 0; i < rowBeNames.length; i++ )
+			{
+				str += ri.getValue( rowBeNames[i] );
+
+				if ( i < rowBeNames.length - 1 )
+					str += ", ";
+			}
+			testPrintln( str );
+		}
+		
+		checkOutputFile( );
+		ri.close( );
+		qr.close( );
+		
 		myDataEngine.shutdown( );
 	}
 	

@@ -41,9 +41,18 @@ public class DataSetFromCache
 	private List addedTempComputedColumn;
 	private int realColumnCount;
 	
+	private int countLimit = 0, fetched = 0;
+	
 	public DataSetFromCache( DataEngineSession session )
 	{
 		this.session = session;
+		try
+		{
+			countLimit = session.getDataSetCacheManager( ).getCacheCapability( );
+		}
+		catch ( DataException e )
+		{
+		}
 	}
 	
 	
@@ -70,28 +79,35 @@ public class DataSetFromCache
 		}
 		if ( loadUtil == null )
 		{
-			loadUtil = CacheUtilFactory.createLoadUtil( getCacheObject(), this.session );
+			loadUtil = CacheUtilFactory.createLoadUtil( getCacheObject( ), this.session );		
 		}
 
-		IResultObject cacheObject = loadUtil == null ? null : loadUtil.loadObject( );
+		IResultObject cacheObject = loadUtil == null ? null
+				: loadUtil.loadObject( );
 
 		if ( cacheObject == null )
 		{
 			return cacheObject;
 		}
 
-		if ( addedTempComputedColumn != null
-				&& addedTempComputedColumn.size( ) > 0 )
+		fetched++;
+		if ( fetched <= countLimit || countLimit <= 0 )
 		{
-			ResultObject resultObject = new ResultObject( getResultClass( ),
-					getAllObjects( cacheObject ) );
+			if ( addedTempComputedColumn != null
+					&& addedTempComputedColumn.size( ) > 0 )
+			{
+				ResultObject resultObject = new ResultObject( getResultClass( ),
+						getAllObjects( cacheObject ) );
 
-			return resultObject;
+				return resultObject;
+			}
+			else
+			{
+				return cacheObject;
+			}
 		}
 		else
-		{
-			return cacheObject;
-		}
+			return null;
 	}
 	
 	/**
