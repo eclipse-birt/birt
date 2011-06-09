@@ -132,7 +132,8 @@ public class ProgressiveViewingRDAggrUtil implements IRDAggrUtil
 				
 				if( (overallOffset = this.getOverallAggrOffset( )) == -1 )
 				{
-					throw new DataException( "The aggregation results are not ready yet." );
+					//assume the progressive viewing is not finish yet. Return null;
+					return null;
 				}
 				this.overallAggregationValues = new HashMap<String, Object>();
 				this.aggrStream.seek( overallOffset );

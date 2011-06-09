@@ -54,7 +54,7 @@ public class ResultSetWrapper implements IResultIterator
 			if( meta.getName( ).startsWith( "_{$TEMP" ))
 				continue;
 			metas.add( meta );
-		}
+		} 
 		this.trimedResultClass = new ResultClass( metas );
 		if( this.index == 0 )
 		{
@@ -212,7 +212,10 @@ public class ResultSetWrapper implements IResultIterator
 		
 		public int getCurrentGroupIndex( int groupLevel )
 		{
-			return (Integer)this.groupIndex[groupLevel];
+			int candidateIndex = (Integer)this.groupIndex[groupLevel]-1;
+			if( candidateIndex >= 0 )
+				return candidateIndex;
+			return 0;
 		}
 		
 		public IResultObject getResultObject()

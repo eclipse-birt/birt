@@ -131,7 +131,7 @@ public class SimpleResultSet implements IResultIterator
 			GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
 		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = (forceLookingForward||groupSpecs.length>0)
+		this.groupCalculator = needLookingForwardFor1Row( groupSpecs, forceLookingForward )
 				? new SimpleGroupCalculator( session,
 						groupSpecs,
 						this.rowResultSet.getMetaData( ) )
@@ -155,12 +155,18 @@ public class SimpleResultSet implements IResultIterator
 		Scriptable scope = session.getSharedScope( );
 		
 		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
-		this.aggrHelper = (forceLookingForward||groupSpecs.length>0)? new ProgressiveAggregationHelper( manager,
+		this.aggrHelper = needLookingForwardFor1Row( groupSpecs, forceLookingForward )? new ProgressiveAggregationHelper( manager,
 				session.getTempDir( ),
 				scope,
 				session.getEngineContext( )
 						.getScriptContext( ) ): new DummyAggregationHelper();
 		this.groupCalculator.setAggrHelper( this.aggrHelper );
+	}
+
+	private boolean needLookingForwardFor1Row( GroupSpec[] groupSpecs,
+			boolean forceLookingForward )
+	{
+		return (forceLookingForward||groupSpecs.length>0||this.query.cacheQueryResults( ));
 	}
 	
 	/*

@@ -223,14 +223,6 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			}
 			this.aggrHelper.onRow( this.getStartingGroup( ), this.getEndingGroup( ), this.current, rowId);
 
-			if ( this.next == null )
-			{
-				for ( int i = 0; i < this.aggrOutput.length; i++ )
-				{
-					saveToAggrValuesToDocument( i, rowId );
-				}
-			}
-			
 			if ( this.runningAggrs.size( ) > 0 )
 			{
 				for ( String aggrName : this.runningAggrs )
@@ -241,6 +233,25 @@ public class SimpleGroupCalculator implements IGroupCalculator
 				
 				IOUtil.writeLong( this.combinedAggrIndexOutput,
 							this.combinedAggrRAOutput.getOffset( ) );
+				
+			}
+			
+			if ( this.next == null )
+			{
+				for ( int i = 0; i < this.aggrOutput.length; i++ )
+				{
+					saveToAggrValuesToDocument( i, rowId );
+				}
+				
+				if( this.overallAggrs.size( ) > 0 && this.combinedAggrIndexOutput!= null )
+				{
+					this.combinedAggrIndexRAOutput.seek( 0 );
+					IOUtil.writeLong( this.combinedAggrIndexOutput, this.combinedAggrRAOutput.getOffset( ) );
+					for( String aggrName: overallAggrs )
+					{
+						IOUtil.writeObject( this.combinedAggrOutput, this.aggrHelper.getLatestAggrValue( aggrName ) );
+					}
+				}
 				
 			}
 		}
@@ -348,13 +359,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			}
 			if( this.overallAggrs.size( ) > 0 && this.combinedAggrIndexOutput!= null )
 			{
-				this.combinedAggrIndexRAOutput.seek( 0 );
-				IOUtil.writeLong( this.combinedAggrIndexOutput, this.combinedAggrRAOutput.getOffset( ) );
 				this.combinedAggrIndexRAOutput.close( );
-				for( String aggrName: overallAggrs )
-				{
-					IOUtil.writeObject( this.combinedAggrOutput, this.aggrHelper.getLatestAggrValue( aggrName ) );
-				}
 				this.combinedAggrOutput.close( );
 			}
 			if( this.aggrHelper!= null )
