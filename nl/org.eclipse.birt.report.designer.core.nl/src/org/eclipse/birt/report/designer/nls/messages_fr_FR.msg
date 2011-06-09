@@ -2074,7 +2074,7 @@ HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
 HyperlinkParameterBuilder.Label.DataType=Type de données :
 HyperlinkParameterBuilder.Label.Parameter=&Paramètre :
 HyperlinkParameterBuilder.Label.Value=&Valeur :
-HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Lable.Required=Obligatoire :
 HyperlinkParameterBuilder.Required.Choice.No=Non
 HyperlinkParameterBuilder.Required.Choice.Yes=Oui
 

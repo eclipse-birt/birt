@@ -2074,7 +2074,7 @@ HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
 HyperlinkParameterBuilder.Label.DataType=데이터 형식:
 HyperlinkParameterBuilder.Label.Parameter=매개 변수(&P):
 HyperlinkParameterBuilder.Label.Value=값(&V):
-HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Lable.Required=필수:
 HyperlinkParameterBuilder.Required.Choice.No=아니오
 HyperlinkParameterBuilder.Required.Choice.Yes=예
 

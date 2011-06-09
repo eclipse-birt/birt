@@ -2074,7 +2074,7 @@ HyperlinkBuilder.TargetReportFormat=ターゲットレポートの形式設定(&F) :
 HyperlinkParameterBuilder.Label.DataType=データ型 :
 HyperlinkParameterBuilder.Label.Parameter=パラメタ(&P) :
 HyperlinkParameterBuilder.Label.Value=値(&V) :
-HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Lable.Required=必須 :
 HyperlinkParameterBuilder.Required.Choice.No=いいえ
 HyperlinkParameterBuilder.Required.Choice.Yes=はい
 

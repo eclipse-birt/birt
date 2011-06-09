@@ -2074,7 +2074,7 @@ HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
 HyperlinkParameterBuilder.Label.DataType=数据类型:
 HyperlinkParameterBuilder.Label.Parameter=参数(&P)
 HyperlinkParameterBuilder.Label.Value=值(&V):
-HyperlinkParameterBuilder.Lable.Required=Required:
+HyperlinkParameterBuilder.Lable.Required=必需:
 HyperlinkParameterBuilder.Required.Choice.No=否
 HyperlinkParameterBuilder.Required.Choice.Yes=是
 
