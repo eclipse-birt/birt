@@ -53,6 +53,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -232,7 +233,29 @@ public class ReportTemplateTransferDropTargetListener extends
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
-
+			if (stack == null && getTargetEditPart( ) != null)
+			{
+				Object obj = DNDUtil.unwrapToModel( getTargetEditPart( ).getModel( ) );
+				ModuleHandle moduleHandle = null;
+				if (obj instanceof DesignElementHandle)
+				{
+					moduleHandle = ((DesignElementHandle)obj).getModuleHandle( );
+				}
+				else if (obj instanceof SlotHandle)
+				{
+					moduleHandle = ((SlotHandle)obj).getElementHandle( ).getModuleHandle( );
+				}
+				if (moduleHandle != null)
+				{
+					SessionHandleAdapter.getInstance( ).setReportDesignHandle( moduleHandle );
+					stack = moduleHandle.getCommandStack( );
+				}
+				
+			}
+			if (stack == null)
+			{
+				return;
+			}
 			stack.startTrans( transName );
 			preHandle.setRequest( this.getCreateRequest( ) );
 			preHandle.setTargetEditPart( getTargetEditPart( ) );
