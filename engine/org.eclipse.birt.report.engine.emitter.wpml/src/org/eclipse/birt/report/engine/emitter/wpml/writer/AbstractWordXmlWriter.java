@@ -1082,6 +1082,9 @@ public abstract class AbstractWordXmlWriter
 
 	protected void startHeaderFooterContainer( int headerHeight, int headerWidth )
 	{
+		// the tableGrid in DOC has a 0.19cm cell margin by default on left and right.
+		// so the header or footer width should be 2*0.19cm larger. that is 215.433 twips.
+		headerWidth += 215;
 		writer.openTag( "w:tbl" );
 		writer.openTag( "w:tblPr" );
 		writeTableWidth( headerWidth );
