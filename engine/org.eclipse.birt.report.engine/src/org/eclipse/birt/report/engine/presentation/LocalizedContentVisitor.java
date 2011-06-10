@@ -1220,7 +1220,8 @@ public class LocalizedContentVisitor
 			ReportItemDesign design = (ReportItemDesign) genBy;
 			Expression onRender = design.getOnRender( );
 			String javaEventHandler = design.getJavaClass( );
-			if ( onRender != null || javaEventHandler != null )
+			if ( onRender != null || javaEventHandler != null
+			        || design instanceof ExtendedItemDesign )
 			{
 				// disable onRender script for run task.
 				if ( context.getEngineTask( ).getTaskType( ) != IEngineTask.TASK_RUN )
