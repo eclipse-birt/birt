@@ -11,19 +11,20 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 
-/**
- * @author Administrator
- * 
- */
 public class CrosstabFilterExpressionProvider extends
 		CrosstabExpressionProvider
 {
@@ -96,6 +97,29 @@ public class CrosstabFilterExpressionProvider extends
 				return true;
 			}
 		} );
+	}
+
+	protected List getChildrenList( Object parent )
+	{
+		if ( isDetail )
+		{
+			if ( parent instanceof TabularDimensionHandle )
+			{
+				List children = new ArrayList( );
+				TabularDimensionHandle handle = (TabularDimensionHandle) parent;
+				if ( handle.getDefaultHierarchy( ).getLevelCount( ) > 0 )
+					children.addAll( handle.getDefaultHierarchy( )
+							.getPropertyHandle( IHierarchyModel.LEVELS_PROP )
+							.getContents( ) );
+				return children;
+			}
+			else if ( parent instanceof LevelHandle )
+			{
+				List children = new ArrayList( );
+				return children;
+			}
+		}
+		return super.getChildrenList( parent );
 	}
 
 }
