@@ -22,9 +22,12 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -56,13 +59,14 @@ import org.eclipse.swt.widgets.TableColumn;
  * 
  */
 
-public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
+public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage implements Listener
 {
 
 	private transient PropertyHandleTableViewer viewer = null;
 	private transient DataSetViewData[] columns = null;
 	private transient String[] columnExpressions = null;
 	private transient PropertyHandle filters = null;
+	private boolean modelChanged = true;
 	
 	private static String[] cellLabels = new String[]{
 			Messages.getString( "dataset.editor.title.expression" ),//$NON-NLS-1$
@@ -153,6 +157,7 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 		viewer.getViewer( ).setInput( filters );
 		addListeners( );
 		setToolTips( );
+		( (DataSetHandle) getContainer( ).getModel( ) ).addListener( this );
 
 		return viewer.getControl( );
 	}
@@ -344,6 +349,32 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 
 		// should never get here
 		return operatorDisplayNames[0];
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#canLeave()
+	 */
+	public boolean canLeave( )
+	{
+		if ( modelChanged
+				&& this.getContainer( ) != null
+				&& this.getContainer( ) instanceof DataSetEditor )
+		{
+			modelChanged = false;
+			( (DataSetEditor) getContainer( ) ).updateDataSetDesign( this );
+		}
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
+	 */
+	public boolean performOk( )
+	{
+		return canLeave( );
 	}
 	
 	private void setToolTips( )
@@ -591,5 +622,10 @@ public final class DataSetFiltersPage extends AbstractDescriptionPropertyPage
 	public String getToolTip( )
 	{
 		return Messages.getString( "DataSetFiltersPage.Filter.Tooltip" ); //$NON-NLS-1$
+	}
+
+	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	{
+		modelChanged  = true;
 	}
 }
