@@ -1014,6 +1014,10 @@ public final class DNDUtil
 		{
 			container = ( (EmbeddedImageNode) container ).getReportDesignHandle( );
 		}
+		else if (container instanceof SlotHandle)
+		{
+			container = ((SlotHandle)container).getElementHandle( ).getModuleHandle( );
+		}
 		try
 		{
 			( (ModuleHandle) container ).rename( image );
@@ -1467,7 +1471,11 @@ public final class DNDUtil
 		}
 		if ( targetObj instanceof PropertyHandle )
 		{
-			// FIXME
+//			PropertyHandle propertyHandle = (PropertyHandle) targetObj;
+//			return propertyHandle.getPropertyDefn( )
+//					.isList( )
+//					|| propertyHandle.getContents( ).size( ) < 1
+//					&& length <= 1;
 			return true;
 		}
 		return targetObj instanceof DesignElementHandle
