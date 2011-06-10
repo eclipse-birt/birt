@@ -359,7 +359,11 @@ public class ExecutionContext
 				scriptContext.setAttribute( "statusHandle", statusHandler );
 			}
 		}
-		scriptContext.setLocale( ulocale.toLocale( ) );
+		Locale locale = getLocale( );
+		if ( locale != null )
+		{
+			scriptContext.setLocale( locale );
+		}
 
 		// create script context used to execute the script statements
 		// register the global variables in the script context
@@ -415,7 +419,10 @@ public class ExecutionContext
 				registerInRoot( (String) entry.getKey( ), entry.getValue( ) );
 			}
 		}
-		scriptContext.setApplicationClassLoader( getApplicationClassLoader( ) );
+		if ( applicationClassLoader != null )
+		{
+			scriptContext.setApplicationClassLoader( applicationClassLoader );
+		}
 	}
 
 	/**
@@ -427,8 +434,6 @@ public class ExecutionContext
 	{
 		return engine;
 	}
-
-	
 	
 	public BookmarkManager getBookmarkManager( )
 	{
@@ -850,8 +855,10 @@ public class ExecutionContext
 	public void setLocale( ULocale ulocale )
 	{
 		this.ulocale = ulocale;
-		if ( rlocale == null )
-			this.getScriptContext( ).setLocale( ulocale.toLocale( ) );
+		if ( rlocale == null && scriptContext != null )
+		{
+			scriptContext.setLocale( ulocale.toLocale( ) );
+		}
 	}
 
 	public TimeZone getTimeZone( )
@@ -862,7 +869,10 @@ public class ExecutionContext
 	public void setTimeZone( TimeZone timeZone )
 	{
 		this.timeZone = timeZone;
-		this.getScriptContext( ).setTimeZone( timeZone );
+		if ( scriptContext != null )
+		{
+			scriptContext.setTimeZone( timeZone );
+		}
 	}
 
 	public void openDataEngine( ) throws EngineException
@@ -2182,7 +2192,10 @@ public class ExecutionContext
 		if ( locale != null )
 		{
 			rlocale = new ULocale( locale );
-			this.getScriptContext( ).setLocale( rlocale.toLocale( ) );
+			if ( scriptContext != null )
+			{
+				scriptContext.setLocale( rlocale.toLocale( ) );
+			}
 		}
 	}
 
