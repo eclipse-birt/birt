@@ -166,7 +166,9 @@ public class SimpleResultSet implements IResultIterator
 	private boolean needLookingForwardFor1Row( GroupSpec[] groupSpecs,
 			boolean forceLookingForward )
 	{
-		return (forceLookingForward||groupSpecs.length>0||this.query.cacheQueryResults( ));
+		return true;
+		//We will keep the following code for future need. By now, we always do not look forward.
+		//return (forceLookingForward||groupSpecs.length>0||this.query.cacheQueryResults( ));
 	}
 	
 	/*
