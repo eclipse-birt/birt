@@ -159,7 +159,7 @@ public class DesignerActionBarContributor extends
 			new RegisterAction( AddGroupAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.group" ) ), //$NON-NLS-1$,
 	};
-
+	private ToggleBreadcrumbAction toggleBreadcrumbAction;
 	/**
 	 * The name of the insert menu
 	 */
@@ -350,7 +350,8 @@ public class DesignerActionBarContributor extends
 		zoomComboContributionItem.setVisible( true );
 		tbm.add( zoomComboContributionItem );
 		
-		tbm.add( new ToggleBreadcrumbAction( getPage( ) ) );
+		toggleBreadcrumbAction = new ToggleBreadcrumbAction( getPage( ) );
+		tbm.add( toggleBreadcrumbAction  );
 	}
 
 	/*
@@ -585,5 +586,15 @@ public class DesignerActionBarContributor extends
 				}
 			} );
 		}
+	}
+	
+	@Override
+	public void dispose( )
+	{
+		if (toggleBreadcrumbAction != null)
+		{
+			toggleBreadcrumbAction.dispose( );
+		}
+		super.dispose( );
 	}
 }
