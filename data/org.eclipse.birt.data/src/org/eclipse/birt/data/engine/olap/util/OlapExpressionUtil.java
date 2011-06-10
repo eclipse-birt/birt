@@ -657,7 +657,9 @@ public class OlapExpressionUtil
 		for( int i = 0; i < bindingNames.size( ); i++ )
 		{
 			IBinding binding = getBinding( (String) bindingNames.get( i ), bindings );
-			if( binding != null && isReferenceToLevelOrMeasure( binding.getExpression( ), bindings ) )
+			if( binding == null )
+				return true;
+			if( isReferenceToLevelOrMeasure( binding.getExpression( ), bindings ) )
 				return true;
 		}
 		return false;
