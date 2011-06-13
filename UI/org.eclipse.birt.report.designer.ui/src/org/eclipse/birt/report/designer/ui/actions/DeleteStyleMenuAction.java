@@ -41,12 +41,13 @@ public class DeleteStyleMenuAction extends MenuUpdateAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
 	 */
 	protected List getItems( )
 	{
 		ArrayList actionList = new ArrayList( );
-		Iterator iterator = DEUtil.getStyles( );
+		Iterator iterator = DEUtil.getStyles( false );
 		if ( iterator != null )
 		{
 			while ( iterator.hasNext( ) )

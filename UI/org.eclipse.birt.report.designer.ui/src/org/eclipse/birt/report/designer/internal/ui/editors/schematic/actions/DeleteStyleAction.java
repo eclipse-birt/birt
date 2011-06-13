@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 
@@ -36,9 +37,9 @@ public class DeleteStyleAction extends DynamicItemAction
 	{
 		setId( ID );
 		if ( handle.getContainerSlotHandle( ) != null
-				&& handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+				&& handle.getContainerSlotHandle( ).getElementHandle( ) instanceof AbstractThemeHandle )
 		{
-			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
+			setText( ( (AbstractThemeHandle) handle.getContainerSlotHandle( )
 					.getElementHandle( ) ).getName( )
 					+ "." //$NON-NLS-1$
 					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,

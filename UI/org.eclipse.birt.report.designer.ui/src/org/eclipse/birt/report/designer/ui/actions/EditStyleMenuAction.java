@@ -47,7 +47,7 @@ public class EditStyleMenuAction extends MenuUpdateAction
 	{
 
 		ArrayList actionList = new ArrayList( );
-		Iterator iterator = DEUtil.getStyles();
+		Iterator iterator = DEUtil.getStyles(false);
 		if(iterator!=null)
 		{
 			while ( iterator.hasNext( ) )

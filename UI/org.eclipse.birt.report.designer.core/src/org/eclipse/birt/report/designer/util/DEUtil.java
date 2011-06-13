@@ -1734,7 +1734,12 @@ public class DEUtil
 	 */
 	public static Iterator getStyles( )
 	{
-		return getStyles( new AlphabeticallyComparator( ) );
+		return getStyles( true, new AlphabeticallyComparator( ) );
+	}
+
+	public static Iterator getStyles( boolean showCurrent )
+	{
+		return getStyles( showCurrent, new AlphabeticallyComparator( ) );
 	}
 
 	/**
@@ -1743,7 +1748,8 @@ public class DEUtil
 	 * @param comparator
 	 * @return return styles list sortted with given comparator.
 	 */
-	public static Iterator getStyles( Comparator comparator )
+
+	public static Iterator getStyles( boolean showCurrent, Comparator comparator )
 	{
 		List styles = null;
 		ModuleHandle module = SessionHandleAdapter.getInstance( )
@@ -1756,11 +1762,38 @@ public class DEUtil
 		else if ( module instanceof LibraryHandle )
 		{
 			styles = new ArrayList( );
-			ThemeHandle theme = ( (LibraryHandle) module ).getTheme( );
-
-			if ( theme != null )
+			if ( showCurrent )
 			{
-				styles.addAll( theme.getAllStyles( ) );
+				ThemeHandle theme = ( (LibraryHandle) module ).getTheme( );
+
+				if ( theme != null )
+				{
+					styles.addAll( theme.getAllStyles( ) );
+				}
+			}
+			else
+			{
+				SlotHandle themeSlot = ( (LibraryHandle) module ).getThemes( );
+				styles = new ArrayList( );
+				for ( Iterator iter = themeSlot.getContents( ).iterator( ); iter.hasNext( ); )
+				{
+					Object obj = iter.next( );
+					if ( obj instanceof AbstractThemeHandle )
+					{
+						AbstractThemeHandle theme = (AbstractThemeHandle) obj;
+						for ( int i = 0; i < theme.getAllCssStyleSheets( )
+								.size( ); i++ )
+						{
+							styles.add( theme.getAllCssStyleSheets( ).get( i ) );
+						}
+						for ( int i = 0; i < theme.getStyles( ).getCount( ); i++ )
+						{
+							styles.add( theme.getStyles( )
+									.getContents( )
+									.get( i ) );
+						}
+					}
+				}
 			}
 		}
 
@@ -1778,6 +1811,11 @@ public class DEUtil
 		Arrays.sort( stylesArray, comparator );
 
 		return Arrays.asList( stylesArray ).iterator( );
+	}
+
+	public static Iterator getStyles( Comparator comparator )
+	{
+		return getStyles( true, comparator );
 	}
 
 	/**
@@ -3035,7 +3073,7 @@ public class DEUtil
 			if ( i > 0 )
 				//value += ","; //$NON-NLS-1$
 				buffer.append( "," );
-			//value += (String) iterator.next( );
+			// value += (String) iterator.next( );
 			buffer.append( (String) iterator.next( ) );
 		}
 		String value = buffer.toString( );
@@ -3191,8 +3229,8 @@ public class DEUtil
 
 		return retValue;
 	}
-	
-	public static LibraryHandle getDefaultLibraryHandle()
+
+	public static LibraryHandle getDefaultLibraryHandle( )
 	{
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
 				new Path( DEFAULT_LIBRARY ),
@@ -3212,8 +3250,8 @@ public class DEUtil
 		{
 			return null;
 		}
-		File file = new File(libraryFileName);
-		if (!file.exists( ))
+		File file = new File( libraryFileName );
+		if ( !file.exists( ) )
 		{
 			return null;
 		}
@@ -3221,30 +3259,34 @@ public class DEUtil
 		try
 		{
 			return SessionHandleAdapter.getInstance( )
-				.getSessionHandle( ).openLibrary( libraryFileName );
+					.getSessionHandle( )
+					.openLibrary( libraryFileName );
 		}
 		catch ( DesignFileException e )
 		{
 			return null;
 		}
 	}
-	
-	/**Sets the default theme
+
+	/**
+	 * Sets the default theme
+	 * 
 	 * @param elementHandle
 	 */
-	public static void setDefaultTheme(DesignElementHandle elementHandle)
+	public static void setDefaultTheme( DesignElementHandle elementHandle )
 	{
-		//System.out.println(elementHandle.getDefn( ).getName( ));
-		if (elementHandle instanceof ReportItemHandle && hasDefaultLibrary( elementHandle.getModuleHandle( ) ))
+		// System.out.println(elementHandle.getDefn( ).getName( ));
+		if ( elementHandle instanceof ReportItemHandle
+				&& hasDefaultLibrary( elementHandle.getModuleHandle( ) ) )
 		{
-			ReportItemHandle reportItemHandle = (ReportItemHandle)elementHandle;
+			ReportItemHandle reportItemHandle = (ReportItemHandle) elementHandle;
 			PropertyHandle propertyHandle = reportItemHandle.getPropertyHandle( ReportItemHandle.THEME_PROP );
 			List list = propertyHandle.getReferenceableElementList( );
 			String preFileName = getDefultLibraryFileName( );
-			for (int i=0; i<list.size( ); i++)
+			for ( int i = 0; i < list.size( ); i++ )
 			{
-				ReportItemThemeHandle itemHandle = (ReportItemThemeHandle)list.get( i );
-				if (itemHandle.getQualifiedName( ).startsWith( preFileName ))
+				ReportItemThemeHandle itemHandle = (ReportItemThemeHandle) list.get( i );
+				if ( itemHandle.getQualifiedName( ).startsWith( preFileName ) )
 				{
 					try
 					{
@@ -3253,56 +3295,58 @@ public class DEUtil
 					}
 					catch ( SemanticException e )
 					{
-						//do nothing
+						// do nothing
 					}
 				}
 			}
 		}
 	}
-	
-	private static String getDefultLibraryFileName()
+
+	private static String getDefultLibraryFileName( )
 	{
 		LibraryHandle defaulthandle = getDefaultLibraryHandle( );
-		if (defaulthandle == null)
+		if ( defaulthandle == null )
 		{
 			return null;
 		}
-		String fileName = new File(defaulthandle.getFileName( )).getAbsolutePath( );
-		
+		String fileName = new File( defaulthandle.getFileName( ) ).getAbsolutePath( );
+
 		int index = fileName.lastIndexOf( "." );
 		int start = fileName.lastIndexOf( File.separator );
 		defaulthandle.close( );
 		return fileName.substring( start + 1, index );
 	}
-	
-	private static boolean hasDefaultLibrary(ModuleHandle handle)
+
+	private static boolean hasDefaultLibrary( ModuleHandle handle )
 	{
 		LibraryHandle defaulthandle = getDefaultLibraryHandle( );
-		if (defaulthandle == null)
+		if ( defaulthandle == null )
 		{
 			return false;
 		}
 		String defaultFileName = defaulthandle.getFileName( );
-		
+
 		List list = handle.getLibraries( );
-		for (int i=0; i<list.size( ); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			LibraryHandle temp = (LibraryHandle)list.get( i );
+			LibraryHandle temp = (LibraryHandle) list.get( i );
 			String fileName = null;
-			
+
 			try
 			{
-				fileName = FileLocator.resolve( new URL(temp.getFileName( ))).getPath( );
+				fileName = FileLocator.resolve( new URL( temp.getFileName( ) ) )
+						.getPath( );
 			}
 			catch ( IOException e )
 			{
-				
+
 			}
-			if (fileName == null)
+			if ( fileName == null )
 			{
 				continue;
 			}
-			if (new File(defaultFileName).getAbsolutePath( ).equals(new File(fileName).getAbsolutePath( )  ))
+			if ( new File( defaultFileName ).getAbsolutePath( )
+					.equals( new File( fileName ).getAbsolutePath( ) ) )
 			{
 				defaulthandle.close( );
 				return true;
