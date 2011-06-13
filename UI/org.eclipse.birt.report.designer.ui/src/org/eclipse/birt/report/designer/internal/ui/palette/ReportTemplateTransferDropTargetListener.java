@@ -274,7 +274,7 @@ public class ReportTemplateTransferDropTargetListener extends
 
 						try
 						{
-							if ( moduleHandle.getFileName( ) != library.getFileName( ) && UIUtil.includeLibrary( moduleHandle, library ) )
+							if ( !moduleHandle.getFileName( ).equals( library.getFileName( )) && UIUtil.includeLibrary( moduleHandle, library ) )
 							{
 								EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
 										moduleHandle );
