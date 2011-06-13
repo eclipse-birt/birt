@@ -144,8 +144,8 @@ echo SET org.eclipse.datatools_workspacepath=%java.io.tmpdir%\\workspace_dtp >> 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
 
-echo mkdir %java.io.tmpdir% >> $2/genReport.bat
-echo mkdir %org.eclipse.datatools_workspacepath% >> $2/genReport.bat
+echo IF not exist %java.io.tmpdir% mkdir %java.io.tmpdir% >> $2/genReport.bat
+echo IF not exist %org.eclipse.datatools_workspacepath% mkdir %org.eclipse.datatools_workspacepath% >> $2/genReport.bat
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
