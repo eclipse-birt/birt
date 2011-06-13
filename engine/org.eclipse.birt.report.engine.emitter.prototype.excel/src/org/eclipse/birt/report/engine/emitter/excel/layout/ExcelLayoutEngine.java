@@ -569,15 +569,10 @@ public class ExcelLayoutEngine
 		XlsContainer container = getCurrentContainer( );
 		if ( container != null )
 		{
-			if ( container.isEmpty( ) )
+			if ( !container.isEmpty( ) )
 			{
-				Data data = page.createEmptyData( container.getStyle( ) );
-				ContainerSizeInfo containerSize = container.getSizeInfo( );
-				data.setStartX( containerSize.getStartCoordinate( ) );
-				data.setEndX( containerSize.getEndCoordinate( ) );
-				addData( data, container );
+				engine.applyContainerBottomStyle( container, page );
 			}
-			engine.applyContainerBottomStyle( container, page );
 		}
 		setParentContainerIndex( );
 		containers.pop( );
