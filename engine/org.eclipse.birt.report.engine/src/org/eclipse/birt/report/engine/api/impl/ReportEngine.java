@@ -231,7 +231,7 @@ public class ReportEngine implements IReportEngine
 	{
 		if ( config != null )
 		{
-			String customFontConfig = config.getCustomFontConfig( );
+			URL customFontConfig = config.getCustomFontConfig( );
 			FontMappingManagerFactory.setCustomFontConfig( customFontConfig );
 		}
 	}

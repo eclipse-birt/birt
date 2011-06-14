@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -445,12 +446,12 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	/**
 	 * @return the custom font configuration file path.
 	 */
-	public String getCustomFontConfig( )
+	public URL getCustomFontConfig( )
 	{
 		Object customFontConfig = getProperty( CUSTOM_FONT_CONFIG );
-		if ( customFontConfig instanceof String )
+		if ( customFontConfig instanceof URL )
 		{
-			return (String) customFontConfig;
+			return (URL) customFontConfig;
 		}
 		return null;
 	}
@@ -459,7 +460,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * @param customFontConfig
 	 *            the font configuration file path.
 	 */
-	public void setCustomFontConfig( String customFontConfig )
+	public void setCustomFontConfig( URL customFontConfig )
 	{
 		setProperty( CUSTOM_FONT_CONFIG, customFontConfig );
 	}

@@ -88,7 +88,7 @@ public class FontMappingManagerFactory
 	/**
 	 * the custom font config file path
 	 */
-	private static String customFontConfig = null;
+	private static URL customFontConfig = null;
 
 	/**
 	 * all font paths registered by this factory
@@ -197,7 +197,7 @@ public class FontMappingManagerFactory
 		return new FontMappingManager( this, null, config, locale );
 	}
 	
-	public static void setCustomFontConfig( final String customFontConfig )
+	public static void setCustomFontConfig( final URL customFontConfig )
 	{
 		FontMappingManagerFactory.customFontConfig = customFontConfig;
 	}
@@ -391,19 +391,10 @@ public class FontMappingManagerFactory
 	 */
 	protected FontMappingConfig loadCustomFontConfig( )
 	{
-		if ( customFontConfig == null )
-		{
-			return null;
-		}
 		// try to load the format specific configuration
 		try
 		{
-			File file = new File( customFontConfig );
-			URL url = file.toURI( ).toURL( );
-			if ( url != null )
-			{
-				return loadFontMappingConfig( url );
-			}
+			return loadFontMappingConfig( customFontConfig );
 		}
 		catch ( Exception ex )
 		{
