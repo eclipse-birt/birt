@@ -84,6 +84,11 @@ public class FontMappingManagerFactory
 		}
 		return instance;
 	}
+	
+	/**
+	 * the custom font config file path
+	 */
+	private static String customFontConfig = null;
 
 	/**
 	 * all font paths registered by this factory
@@ -191,17 +196,10 @@ public class FontMappingManagerFactory
 
 		return new FontMappingManager( this, null, config, locale );
 	}
-
-	public static void registerCustomFontDirs( String customFontDirs )
+	
+	public static void setCustomFontConfig( final String customFontConfig )
 	{
-		if ( customFontDirs != null )
-		{
-			String[] fontDirs = customFontDirs.split( File.pathSeparator );
-			for ( String fontPath : fontDirs )
-			{
-				registerFontPath( fontPath );
-			}
-		}
+		FontMappingManagerFactory.customFontConfig = customFontConfig;
 	}
 
 	private void registerJavaFonts( )
@@ -299,6 +297,13 @@ public class FontMappingManagerFactory
 				manager = createFontMappingManager( manager, config, locale );
 			}
 		}
+		
+		// custom font configuration
+		FontMappingConfig customConfig = loadCustomFontConfig( );
+		if ( customConfig != null )
+		{
+			manager = createFontMappingManager( manager, customConfig, locale );
+		}
 		return manager;
 	}
 
@@ -358,9 +363,9 @@ public class FontMappingManagerFactory
 	}
 
 	/**
-	 * load the configuration file in the following order:
+	 * load the configuration file.
 	 * 
-	 * @param format
+	 * @param configName
 	 */
 	protected FontMappingConfig loadFontMappingConfig( String configName )
 	{
@@ -370,34 +375,76 @@ public class FontMappingManagerFactory
 		{
 			try
 			{
-				long start = System.currentTimeMillis( );
-				FontMappingConfig config = new FontConfigReader( )
-						.parseConfig( url );
-				long end = System.currentTimeMillis( );
-				logger.info( "load font config in " + url + " cost "
-						+ ( end - start ) + "ms" );
-				if ( config != null )
-				{
-					// try to load the font in the fontPaths
-					Iterator iter = config.fontPaths.iterator( );
-					while ( iter.hasNext( ) )
-					{
-						String fontPath = (String) iter.next( );
-						if ( !fontPathes.contains( fontPath ) )
-						{
-							fontPathes.add( fontPath );
-							registerFontPath( fontPath );
-						}
-					}
-					// add the font encodings to the global encoding
-					fontEncodings.putAll( config.fontEncodings );
-					return config;
-				}
+				return loadFontMappingConfig( url );
 			}
 			catch ( Exception ex )
 			{
 				logger.log( Level.WARNING, configName + ":" + ex.getMessage( ),
 						ex );
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * load the custom font config file.
+	 */
+	protected FontMappingConfig loadCustomFontConfig( )
+	{
+		if ( customFontConfig == null )
+		{
+			return null;
+		}
+		// try to load the format specific configuration
+		try
+		{
+			File file = new File( customFontConfig );
+			URL url = file.toURI( ).toURL( );
+			if ( url != null )
+			{
+				return loadFontMappingConfig( url );
+			}
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.WARNING,
+					customFontConfig + ":" + ex.getMessage( ), ex );
+		}
+		return null;
+	}
+	
+	/**
+	 * load the configuration file.
+	 * 
+	 * @param url
+	 */
+	protected FontMappingConfig loadFontMappingConfig( URL url )
+			throws Exception
+	{
+		if ( url != null )
+		{
+			long start = System.currentTimeMillis( );
+			FontMappingConfig config = new FontConfigReader( )
+					.parseConfig( url );
+			long end = System.currentTimeMillis( );
+			logger.info( "load font config in " + url + " cost "
+					+ ( end - start ) + "ms" );
+			if ( config != null )
+			{
+				// try to load the font in the fontPaths
+				Iterator iter = config.fontPaths.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					String fontPath = (String) iter.next( );
+					if ( !fontPathes.contains( fontPath ) )
+					{
+						fontPathes.add( fontPath );
+						registerFontPath( fontPath );
+					}
+				}
+				// add the font encodings to the global encoding
+				fontEncodings.putAll( config.fontEncodings );
+				return config;
 			}
 		}
 		return null;

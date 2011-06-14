@@ -143,7 +143,7 @@ public class ReportEngine implements IReportEngine
 			handler.initialize( );
 		}
 		
-		registerCustomFontDirs( );
+		registerCustomFontConfig( );
 	}
 
 	private void mergeConfigToAppContext( )
@@ -225,14 +225,14 @@ public class ReportEngine implements IReportEngine
 	}
 	
 	/**
-	 * register custom font directories.
+	 * set custom font configuration file.
 	 */
-	private void registerCustomFontDirs( )
+	private void registerCustomFontConfig( )
 	{
 		if ( config != null )
 		{
-			String customFontDirs = config.getCustomFontDirs( );
-			FontMappingManagerFactory.registerCustomFontDirs( customFontDirs );
+			String customFontConfig = config.getCustomFontConfig( );
+			FontMappingManagerFactory.setCustomFontConfig( customFontConfig );
 		}
 	}
 

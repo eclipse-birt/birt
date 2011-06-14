@@ -443,25 +443,25 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	}
 	
 	/**
-	 * @return the custom font directories.
+	 * @return the custom font configuration file path.
 	 */
-	public String getCustomFontDirs( )
+	public String getCustomFontConfig( )
 	{
-		Object customFontDirs = getProperty( CUSTOM_FONT_DIRS );
-		if ( customFontDirs instanceof String )
+		Object customFontConfig = getProperty( CUSTOM_FONT_CONFIG );
+		if ( customFontConfig instanceof String )
 		{
-			return (String) customFontDirs;
+			return (String) customFontConfig;
 		}
 		return null;
 	}
 
 	/**
-	 * @param fontDirs
-	 *            the user defined font directories.
+	 * @param customFontConfig
+	 *            the font configuration file path.
 	 */
-	public void setCustomFontDirs( String fontDirs )
+	public void setCustomFontConfig( String customFontConfig )
 	{
-		setProperty( CUSTOM_FONT_DIRS, fontDirs );
+		setProperty( CUSTOM_FONT_CONFIG, customFontConfig );
 	}
 
 	/**
