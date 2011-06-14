@@ -161,8 +161,15 @@ public class Page
 		if ( autoExtend )
 		{
 			int currentColumnCount = columnStartCoordinates.length;
+			// The condition
+			// "AxisProcessor.round( columnStartCoordinates[lastInRangeCoordinateIndex + 1] ) == endCoordinate"
+			// is not correct
+			// In auto layout mode, the axis for endCoordinate may not exist.
+			// For example, the endCoordinate is page width and no tables has
+			// the same width as page. In such cases scale[scale.length-1]
+			// becomes the actual endCoordinates and autoExtend is based on it
 			if ( lastInRangeCoordinateIndex < currentColumnCount - 1
-					&& AxisProcessor.round( columnStartCoordinates[lastInRangeCoordinateIndex + 1] ) == endCoordinate )
+					&& AxisProcessor.round( columnStartCoordinates[lastInRangeCoordinateIndex + 1] ) == scale[scale.length - 1] )
 			{
 				lastInRangeCoordinateIndex++;
 			}
@@ -586,18 +593,22 @@ public class Page
 	{
 		currentCache.addData( col, data );
 		BookmarkDef bookmark = data.getBookmark( );
-		if ( bookmark == null )
-		{
-			return;
-		}
-		bookmarks.add( bookmark );
+		addBookmark( bookmark );
 	}
+
+	public void addBookmark( BookmarkDef bookmark )
+    {
+	    if ( bookmark != null )
+		{
+			bookmarks.add( bookmark );
+		}
+    }
 
 	protected void updataRowIndex( SheetData data, XlsContainer container )
 	{
-		int rowIndex = container.getRowIndex( ) + 1;
+		int rowIndex = container.getEndRow( ) + 1;
 		data.setRowIndex( rowIndex );
-		container.setRowIndex( rowIndex );
+		container.setEndRow( rowIndex );
 	}
 
 	private void removeRightBorder( StyleEntry style )
@@ -775,12 +786,12 @@ public class Page
 				maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
 			}
 		}
-		int startRowIndex = rowContainer.getRowIndex( );
+		int startRowIndex = rowContainer.getEndRow( );
 		if ( maxRowIndex <= startRowIndex )
 		{
 			maxRowIndex = startRowIndex + 1;
 		}
-		rowContainer.setRowIndex( maxRowIndex );
+		rowContainer.setEndRow( maxRowIndex );
 		float resize = height / ( maxRowIndex - startRowIndex );
 		if ( resize == 0f || resize > ExcelLayoutEngine.DEFAULT_ROW_HEIGHT )
 		{
@@ -921,7 +932,7 @@ public class Page
 
 	private boolean isInContainer( SheetData data, XlsContainer rowContainer )
 	{
-		return data.getRowIndex( ) > rowContainer.getStartRowId( );
+		return data.getRowIndex( ) > rowContainer.getStartRow( );
 	}
 
 	private boolean canSpan( SheetData data, XlsContainer rowContainer,
@@ -1091,5 +1102,22 @@ public class Page
 		caches = null;
 		bookmarks = null;
 	}
-	
+
+	public void finish( )
+	{
+		for ( BookmarkDef bookmark : bookmarks )
+		{
+			bookmark.setSheetName( sheetName );
+
+			// Transform column coordinate to column index.
+			bookmark.setStartColumn( axis.getColumnIndexByCoordinate( bookmark
+			        .getStartColumn( ) ) + 1 );
+			int endColumn = bookmark.getEndColumn( );
+			if ( endColumn != -1 )
+			{
+				bookmark.setEndColumn( axis
+				        .getColumnIndexByCoordinate( endColumn ) );
+			}
+		}
+	}
 } 

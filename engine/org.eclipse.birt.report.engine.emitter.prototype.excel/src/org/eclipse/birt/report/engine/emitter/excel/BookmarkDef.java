@@ -15,10 +15,12 @@ public class BookmarkDef
 {
 
 	private String name;
-	private int columnNo;
-	private int rowNo;
-	private int sheetIndex;
+	private int startRow, endRow;
+	private String sheetName;
 	private String generatedName;
+	// Represents x coordinate before page is finished, represents column index
+	// after page is finished.
+	private int startColumn, endColumn = -1;
 
 	public String getValidName( )
 	{
@@ -45,33 +47,53 @@ public class BookmarkDef
 		this.name = name;
 	}
 
-	public int getColumnNo( )
+	public int getStartRow( )
 	{
-		return columnNo;
+		return startRow;
 	}
 
-	public void setColumnNo( int columnNo )
+	public void setStartRow( int startRow )
 	{
-		this.columnNo = columnNo;
+		this.startRow = startRow;
 	}
 
-	public int getRowNo( )
+	public int getEndRow( )
 	{
-		return rowNo;
+		return endRow;
 	}
 
-	public void setRowNo( int rowNo )
+	public void setEndRow( int endRow )
 	{
-		this.rowNo = rowNo;
+		this.endRow = endRow;
 	}
 
-	public int getSheetIndex( )
+	public void setStartColumn( int startColumn )
 	{
-		return this.sheetIndex;
+		this.startColumn = startColumn;
 	}
 
-	public void setSheetIndex( int sheetIndex )
+	public int getStartColumn( )
 	{
-		this.sheetIndex = sheetIndex;
+		return startColumn;
+	}
+
+	public int getEndColumn( )
+	{
+		return endColumn;
+	}
+
+	public void setEndColumn( int endColumn )
+	{
+		this.endColumn = endColumn;
+	}
+
+	public String getSheetName( )
+	{
+		return sheetName;
+	}
+
+	public void setSheetName( String sheetName )
+	{
+		this.sheetName = sheetName;
 	}
 }

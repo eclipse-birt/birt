@@ -9,19 +9,21 @@ public class XlsContainer
 	private StyleEntry style;
 	private ContainerSizeInfo sizeInfo;
 	private HyperlinkDef link;
-	private int startRowId;
+	private int startRow;
 	private boolean empty;
 	private XlsContainer parent;
-	private int rowIndex;
+	private int endRow;
+	private String bookmark;
+	private boolean isFirstChild = true;
 
-	public int getRowIndex( )
+	public int getEndRow( )
 	{
-		return rowIndex;
+		return endRow;
 	}
 
-	public void setRowIndex( int rowIndex )
+	public void setEndRow( int endRow )
 	{
-		this.rowIndex = rowIndex;
+		this.endRow = endRow;
 	}
 
 	public XlsContainer( StyleEntry style, XlsContainer parent )
@@ -34,9 +36,9 @@ public class XlsContainer
 		this.style = style;
 		this.sizeInfo = sizeInfo;
 		this.parent = parent;
-		this.rowIndex = parent != null ? parent.rowIndex : 0;
+		this.endRow = parent != null ? parent.endRow : 0;
 		empty = true;
-		this.startRowId = rowIndex;
+		this.startRow = endRow;
 	}	
 	
 	public boolean isEmpty( )
@@ -72,7 +74,6 @@ public class XlsContainer
 	{
 		this.sizeInfo = sizeInfo;
 	}
-
 	
 	public HyperlinkDef getLink( )
 	{
@@ -84,18 +85,38 @@ public class XlsContainer
 		this.link = link;
 	}
 
-	public int getStartRowId( )
+	public int getStartRow( )
 	{
-		return startRowId;
+		return startRow;
 	}
 	
-	public void setStartRowId( int startRowId )
+	public void setStartRow( int startRow )
 	{
-		this.startRowId = startRowId;
+		this.startRow = startRow;
 	}
 	
 	public XlsContainer getParent( )
 	{
 		return parent;
+	}
+
+	public void setBookmark( String bookmark )
+	{
+		this.bookmark = bookmark;
+	}
+
+	public String getBookmark( )
+	{
+		return bookmark;
+	}
+
+	public boolean isFirstChild( )
+	{
+		return isFirstChild;
+	}
+
+	public void setIsFirstChild( boolean isFirstChild )
+	{
+		this.isFirstChild = isFirstChild;
 	}
 }

@@ -145,9 +145,9 @@ public class StyleEngine
 	private void applyTopBorderStyle( StyleEntry childStyle )
 	{
 		XlsContainer container = engine.getCurrentContainer( );
-		int rowIndex = container.getRowIndex( );
+		int rowIndex = container.getEndRow( );
 		XlsContainer parent = container;
-		while ( parent != null && parent.getStartRowId( ) == rowIndex )
+		while ( parent != null && parent.getStartRow( ) == rowIndex )
 		{
 			StyleBuilder.applyTopBorder( parent.getStyle( ), childStyle );
 			parent = parent.getParent( );
@@ -259,7 +259,7 @@ public class StyleEngine
 		int start = rule.getStartCoordinate( );
 		int col = page.getAxis( ).getColumnIndexByCoordinate( start );
 		int span = page.getAxis( )
-				.getColumnIndexByCoordinate(
+.getColumnIndexByCoordinate(
 				rule.getEndCoordinate( ) );
 		for ( int i = col; i < span; i++ )
 		{

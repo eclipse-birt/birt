@@ -19,8 +19,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
-
 public class DataCache
 {
 	/**
@@ -93,12 +91,11 @@ public class DataCache
 			columns.get( col ).add( data );
 			maxRowIndex = maxRowIndex > rowIndex ? maxRowIndex : rowIndex;
 			BookmarkDef bookmark = data.getBookmark( );
-			if ( bookmark == null )
+			if ( bookmark != null )
 			{
-				return;
+				bookmark.setStartColumn( data.getStartX( ) );
+				bookmark.setStartRow( rowIndex );
 			}
-			bookmark.setColumnNo( col + 1 );
-			bookmark.setRowNo( rowIndex );
 		}
 	}
 

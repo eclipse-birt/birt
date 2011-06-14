@@ -90,6 +90,9 @@ public class ExcelLayoutEngine
 
 	protected int maxCol = MAX_COLUMN_OFFICE2003;
 	
+	/**
+	 * Bookmarks linked by existing element but not defined on any elements yet.
+	 */
 	private HashMap<String, String> cachedBookmarks = new HashMap<String, String>( );
 
 	protected StyleEngine engine;
@@ -104,7 +107,7 @@ public class ExcelLayoutEngine
 	private String messageReportItemNotSupported;
 	
 	private ULocale locale;
-	private HashMap<String, BookmarkDef> bookmarkList = new HashMap<String, BookmarkDef>( );
+	private HashMap<String, BookmarkDef> bookmarks = new HashMap<String, BookmarkDef>( );
 	protected Stack<Boolean> rowVisibilities = new Stack<Boolean>( );
 	protected Page page;
 	protected IExcelWriter writer;
@@ -297,7 +300,8 @@ public class ExcelLayoutEngine
 		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
 		int[] columnStartCoordinates = splitColumns( columns, parentSizeInfo,
 		                                             autoExtend( ) );
-		createTable( columns, style, currentContainer, columnStartCoordinates );
+		createTable( columns, style, currentContainer, columnStartCoordinates,
+				content.getBookmark( ) );
 	}
 
 	protected int[] splitColumns( ColumnsInfo columnsInfo,
@@ -332,7 +336,8 @@ public class ExcelLayoutEngine
 	}
 
 	private void createTable( ColumnsInfo tableInfo, IStyle style,
-			XlsContainer currentContainer, int[] columnStartCoordinates )
+			XlsContainer currentContainer, int[] columnStartCoordinates,
+			String bookmark )
 	{
 		int leftCordinate = columnStartCoordinates[0];
 		int width = columnStartCoordinates[columnStartCoordinates.length - 1]
@@ -343,6 +348,7 @@ public class ExcelLayoutEngine
 													getParentStyle( ) );
 		XlsTable table = new XlsTable( tableInfo, styleEntry,
 				sizeInfo, currentContainer );
+		table.setBookmark( bookmark );
 		tables.push( table );
 		addContainer( table );
 	}
@@ -369,6 +375,7 @@ public class ExcelLayoutEngine
 			totalWidth += table.getColumnWidth( i );
 		}
 		boolean overflow = totalWidth > endCoordinate - startCoordinate;
+
 		int[] columnStartCoordinates = new int[columnCount + 1];
 
 		// If right aligned, need to extend and the total column width exceeds
@@ -484,7 +491,7 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public void addRow( IStyle style )
+	public void addRow( IStyle style, String bookmark )
 	{
 		rowVisibilities.push( false );
 		XlsContainer parent = getCurrentContainer( );
@@ -497,6 +504,7 @@ public class ExcelLayoutEngine
 		XlsContainer container = createContainer( sizeInfo, style,
 				parent );
 		container.setEmpty( false );
+		container.setBookmark( bookmark );
 		addContainer( container );
 	}
 
@@ -561,11 +569,6 @@ public class ExcelLayoutEngine
 
 	public void endListBandContainer( )
 	{
-		if ( getCurrentContainer( ) == null )
-		{
-			containers.pop( );
-			return;
-		}
 		XlsContainer container = getCurrentContainer( );
 		if ( container != null )
 		{
@@ -573,11 +576,11 @@ public class ExcelLayoutEngine
 			{
 				engine.applyContainerBottomStyle( container, page );
 			}
+			setParentContainerIndex( );
 		}
-		setParentContainerIndex( );
 		containers.pop( );
 	}
-	
+
 	public void endContainer( )
 	{
 		if ( getCurrentContainer( ) == null )
@@ -594,7 +597,7 @@ public class ExcelLayoutEngine
 		XlsContainer container = getCurrentContainer( );
 		XlsContainer parent = container.getParent( );
 		if ( parent != null )
-			parent.setRowIndex( container.getRowIndex( ) );
+			parent.setEndRow( container.getEndRow( ) );
 	}
 
 	public void endNormalContainer( )
@@ -619,18 +622,34 @@ public class ExcelLayoutEngine
 				}
 			}
 			engine.applyContainerBottomStyle( container, page );
+			createBookmark( container );
 		}
 		containers.pop( );
 	}
 
+	private void createBookmark( XlsContainer container )
+	{
+		BookmarkDef bookmark = getBookmark( container.getBookmark( ) );
+		if ( bookmark != null )
+		{
+			bookmark.setSheetName( context.getSheetName( ) );
+			bookmark.setStartRow( container.getStartRow( ) + 1 );
+			bookmark.setEndRow( container.getEndRow( ) );
+			ContainerSizeInfo size = container.getSizeInfo( );
+			bookmark.setStartColumn( size.getStartCoordinate( ) );
+			bookmark.setEndColumn( size.getEndCoordinate( ) );
+			page.addBookmark( bookmark );
+		}
+	}
+
 	public Data addData( Object value, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark, float height )
+			String bookmark, float height )
 	{
 		return addData( value, style, link, bookmark, null, height );
 	}
 
 	public Data addData( Object value, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark, String locale, float height )
+			String bookmark, String locale, float height )
 	{
 		XlsContainer container = getCurrentContainer( );
 		if ( container == null )
@@ -645,7 +664,7 @@ public class ExcelLayoutEngine
 		Data data = page.createData( value, entry );
 		data.setHeight( height );
 		data.setHyperlinkDef( link );
-		data.setBookmark( bookmark );
+		data.setBookmark( getBookmark( bookmark ) );
 		data.setStartX( containerSize.getStartCoordinate( ) );
 		data.setEndX( containerSize.getEndCoordinate( ) );
 		addData( data, container );
@@ -672,7 +691,7 @@ public class ExcelLayoutEngine
 	}
 
 	public void addImageData( IImageContent image, IStyle style,
-			HyperlinkDef link, BookmarkDef bookmark )
+			HyperlinkDef link, String bookmark )
 	{
 		XlsContainer container = getCurrentContainer( );
 		if ( container == null )
@@ -715,7 +734,7 @@ public class ExcelLayoutEngine
 		SheetData data = createImageData( image, imageData, imageSize
 				.getWidth( ), imageHeight, entry, container );
 		data.setHyperlinkDef( link );
-		data.setBookmark( bookmark );
+		data.setBookmark( getBookmark( bookmark ) );
 		data.setStartX( imageSize.getStartCoordinate( ) );
 		data.setEndX( imageSize.getEndCoordinate( ) );
 		addData( data, container );
@@ -819,7 +838,7 @@ public class ExcelLayoutEngine
 	}
 
 	public Data addDateTime( Object txt, IStyle style, HyperlinkDef link,
-			BookmarkDef bookmark, String dateTimeLocale, float height )
+			String bookmark, String dateTimeLocale, float height )
 	{
 		XlsContainer currentContainer = getCurrentContainer( );
 		if ( currentContainer == null )
@@ -842,7 +861,7 @@ public class ExcelLayoutEngine
 			data = createDateData( value, entry, style.getDateTimeFormat( ),
 					dateTimeLocale );
 			data.setHeight( height );
-			data.setBookmark( bookmark );
+			data.setBookmark( getBookmark( bookmark ) );
 			data.setHyperlinkDef( link );
 			data.setStartX( containerSize.getStartCoordinate( ) );
 			data.setEndX( containerSize.getEndCoordinate( ) );
@@ -966,7 +985,7 @@ public class ExcelLayoutEngine
 
 	private void outputDataIfBufferIsFull( )
 	{
-		if ( getCurrentContainer( ).getRowIndex( ) >= maxRow )
+		if ( getCurrentContainer( ).getEndRow( ) >= maxRow )
 		{
 			Page lastPage = page;
 			outputSheet( page );
@@ -978,7 +997,7 @@ public class ExcelLayoutEngine
 
 	public void outputSheet( Page page )
 	{
-		cacheBookmarks( page );
+		page.finish( );
 		try
 		{
 			outputCacheData( page );
@@ -1140,7 +1159,7 @@ public class ExcelLayoutEngine
 	private void setLinkedBookmark( SheetData data, HyperlinkDef hyperLink )
 	{
 		String bookmarkName = hyperLink.getUrl( );
-		BookmarkDef linkedBookmark = bookmarkList
+		BookmarkDef linkedBookmark = bookmarks
 				.get( bookmarkName );
 		if ( linkedBookmark != null )
 		{
@@ -1180,12 +1199,12 @@ public class ExcelLayoutEngine
 	{
 		for ( XlsContainer container : containers )
 		{
-			container.setRowIndex( 0 );
-			container.setStartRowId( 0 );
+			container.setEndRow( 0 );
+			container.setStartRow( 0 );
 		}
 		for ( XlsTable table : tables )
 		{
-			table.setRowIndex( 0 );
+			table.setEndRow( 0 );
 		}
 	}
 
@@ -1246,19 +1265,9 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public void cacheBookmarks( Page page )
-	{
-		List<BookmarkDef> currentSheetBookmarks = page.getBookmarks( );
-		for ( BookmarkDef bookmark : currentSheetBookmarks )
-		{
-			bookmark.setSheetIndex( context.getSheetIndex( ) );
-			bookmarkList.put( bookmark.getName( ), bookmark );
-		}
-	}
-
 	public HashMap<String, BookmarkDef> getAllBookmarks( )
 	{
-		return this.bookmarkList;
+		return bookmarks;
 	}
 
 	/**
@@ -1276,4 +1285,28 @@ public class ExcelLayoutEngine
 	{
 		return getCurrentContainer( ) != null;
 	}
+
+	protected BookmarkDef getBookmark( String bookmarkName )
+	{
+		if ( bookmarkName == null )
+			return null;
+
+		// if bookmark was already found before, skip it
+		if ( bookmarks.containsKey( bookmarkName ) )
+		{
+			return null;
+		}
+
+		BookmarkDef bookmark = new BookmarkDef( bookmarkName );
+		if ( !ExcelUtil.isValidBookmarkName( bookmarkName ) )
+		{
+			bookmark.setGeneratedName( getGenerateBookmark( bookmarkName ) );
+		}
+		bookmarks.put( bookmarkName, bookmark );
+
+		// !( content.getBookmark( ).startsWith( "__TOC" ) ) )
+		// bookmark starting with "__TOC" is not OK?
+		return bookmark;
+	}
+
 }

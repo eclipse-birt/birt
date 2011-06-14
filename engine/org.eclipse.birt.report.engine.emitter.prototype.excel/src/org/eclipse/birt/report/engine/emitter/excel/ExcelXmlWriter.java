@@ -677,25 +677,6 @@ public class ExcelXmlWriter implements IExcelWriter
 		writer.closeTag( "Style" );
 	}
 
-	private void defineNames( Entry<String, BookmarkDef> bookmarkEntry )
-	{
-		BookmarkDef bookmark = bookmarkEntry.getValue( );
-		String name = bookmark.getValidName( );
-		String refer = getRefer( bookmark.getSheetIndex( ), bookmark );
-		defineName( name, refer );
-	}
-
-	private String getRefer( int sheetIndex, BookmarkDef bookmark )
-	{
-		StringBuffer sb = new StringBuffer( "=Sheet" );
-		sb.append( sheetIndex );
-		sb.append( "!R" );
-		sb.append( bookmark.getRowNo( ) );
-		sb.append( "C" );
-		sb.append( bookmark.getColumnNo( ) );
-		return sb.toString( );
-	}
-
 	private void defineName( String name, String refer )
 	{
 		writer.openTag( "NamedRange" );
@@ -872,12 +853,40 @@ public class ExcelXmlWriter implements IExcelWriter
 		if ( !bookmarkList.isEmpty( ) )
 		{
 			writer.openTag( "Names" );
-			Set<Entry<String, BookmarkDef>> bookmarkEntry = bookmarkList
-			.entrySet( );
-			for ( Entry<String, BookmarkDef> bookmark : bookmarkEntry )
-				defineNames( bookmark );
+			for ( Entry<String, BookmarkDef> entry : bookmarkList.entrySet( ) )
+			{
+				BookmarkDef bookmark = entry.getValue( );
+				defineName( bookmark.getValidName( ), getRefer( bookmark ) );
+			}
 			writer.closeTag( "Names" );
 		}
+	}
+
+	private String getRefer( BookmarkDef bookmark )
+	{
+		StringBuffer buffer = new StringBuffer( '=' );
+		buffer.append( bookmark.getSheetName( ) );
+		buffer.append( "!" );
+		int startColumn = bookmark.getStartColumn( );
+		int startRow = bookmark.getStartRow( );
+		addCellPosition( buffer, startColumn, startRow );
+		int endColumn = bookmark.getEndColumn( );
+		int endRow = bookmark.getEndRow( );
+		if ( endRow != -1 && endColumn != -1 && startRow != endRow
+				&& startColumn != endColumn )
+		{
+			buffer.append( ':' );
+			addCellPosition( buffer, endColumn, endRow );
+		}
+		return buffer.toString( );
+	}
+
+	private void addCellPosition( StringBuffer buffer, int column, int row )
+	{
+		buffer.append( "R" );
+		buffer.append( String.valueOf( row ) );
+		buffer.append( "C" );
+		buffer.append( String.valueOf( column ) );
 	}
 
 	public void end( )
