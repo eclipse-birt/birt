@@ -257,6 +257,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			targetDesign.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP,
 					propertyBindings );
 
+		// add report item themes to design tree
+		addReportItemThemes( );
+
 		// do some memory release
 		release( );
 
@@ -1310,11 +1313,12 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		addElement( targetDesign, containment, newElement );
 
 		// in localizeDesign, we localize all the report item themes in the
-		// included libraries so that the theme ID may duplicate the elements in
-		// the original design, therefore we must mange element ID to ensure it
-		// is unique.
+		// included libraries but not add it to id-map, therefore we need NOT
+		// manage element ID for it is unique as expected. Add it to id-map
+		// directly
 		if ( !( newElement instanceof ContentElement ) )
-			targetDesign.manageId( newElement, true );
+			targetDesign.addElementID( newElement );
+
 		return newElement;
 	}
 
@@ -1491,10 +1495,29 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		reportItemThemes.put( sourceTheme.getHandle( sourceTheme.getRoot( ) )
 				.getQualifiedName( ), newTheme );
 
-		ContainerContext context = new ContainerContext( targetDesign,
-				IReportDesignModel.THEMES_SLOT );
-		addElement( targetDesign, context, newTheme );
-		targetDesign.manageId( newTheme, true );
+		// do not add to tree, for element ID location issues
+	}
+
+	private void addReportItemThemes( )
+	{
+		if ( reportItemThemes == null || reportItemThemes.isEmpty( ) )
+			return;
+		Iterator<ReportItemTheme> themeIter = reportItemThemes.values( )
+				.iterator( );
+		while ( themeIter.hasNext( ) )
+		{
+			ReportItemTheme newTheme = themeIter.next( );
+			
+			// for original design theme, do nothing
+			if ( newTheme.getContainer( ) != null )
+				continue;
+			
+			// add external library theme
+			ContainerContext context = new ContainerContext( targetDesign,
+					IReportDesignModel.THEMES_SLOT );
+			addElement( targetDesign, context, newTheme );
+			targetDesign.manageId( newTheme, true );
+		}
 	}
 
 	/**
