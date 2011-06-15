@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.api.ICloseable;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.executor.CandidateQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
@@ -43,6 +44,8 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
@@ -51,6 +54,7 @@ import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
+import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
@@ -96,11 +100,13 @@ public class SimpleResultSet implements IResultIterator
 			final ResultSet resultSet, IResultClass resultClass,
 			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
-		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
+		SmartCacheRequest scRequest =  new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
-				false ) );
+				false );
+		populateRowResultSet( handler, scRequest );
+
 		this.closeable = new ICloseable(){
 
 			public void close( ) throws DataException
@@ -112,20 +118,52 @@ public class SimpleResultSet implements IResultIterator
 				
 	}
 
+	private void populateRowResultSet( IEventHandler handler,
+			SmartCacheRequest scRequest )
+	{
+		DataSetRuntime runtime = handler.getDataSetRuntime( );
+		this.rowResultSet = runtime == null?new RowResultSet( scRequest ):new RowResultSetWithDataSetScopeAwareness( scRequest, runtime );
+	}
+
 	public SimpleResultSet( BaseQuery dataSourceQuery,
 			IDataSetPopulator populator, IResultClass resultClass,
 			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
 	{
-		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
+		SmartCacheRequest scRequest = new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( populator ),
 				resultClass,
-				false ) );
+				false );
+		populateRowResultSet( handler, scRequest );
+	
 		this.closeable = (populator instanceof ICloseable)?(ICloseable)populator:null; 
 		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session, forceLookingForward );
 				
 	}
 	
+	public SimpleResultSet( CandidateQuery dataSourceQuery,
+			final ICustomDataSet customDataSet, IResultClass resultMetadata,
+			IEventHandler handler, GroupSpec[] grouping,
+			DataEngineSession session, boolean forceLookingForward ) throws DataException
+	{
+		SmartCacheRequest scRequest = new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
+				dataSourceQuery.getFetchEvents( ),
+				new OdiAdapter( customDataSet ),
+				resultMetadata,
+				false ); 
+		DataSetRuntime runtime = handler.getDataSetRuntime( );
+		this.rowResultSet = runtime == null?new RowResultSet( scRequest ):new RowResultSetWithDataSetScopeAwareness( scRequest, runtime );
+
+		this.closeable = new ICloseable(){
+
+			public void close( ) throws DataException
+			{
+				customDataSet.close( );
+				
+			}};
+		initialize( dataSourceQuery, resultMetadata, handler, grouping, session, forceLookingForward );
+	}
+
 	private void initialize( BaseQuery dataSourceQuery,
 			IResultClass resultClass, IEventHandler handler,
 			GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
@@ -670,6 +708,30 @@ public class SimpleResultSet implements IResultIterator
 		{
 			// TODO Auto-generated method stub
 			return new Integer[0];
+		}
+		
+	}
+	
+	private class RowResultSetWithDataSetScopeAwareness extends RowResultSet
+	{
+		private DataSetRuntime runtime;
+		private Mode cachedMode;
+		public RowResultSetWithDataSetScopeAwareness(
+				SmartCacheRequest smartCacheRequest, DataSetRuntime runtime )
+		{
+			super( smartCacheRequest );
+			this.runtime = runtime;
+		}
+		
+		protected void beforeNext( ) throws DataException
+		{
+			this.cachedMode = this.runtime.getMode( );
+			this.runtime.setMode( Mode.DataSet );
+		}
+		
+		protected void afterNext( ) throws DataException
+		{
+			this.runtime.setMode( this.cachedMode );
 		}
 		
 	}

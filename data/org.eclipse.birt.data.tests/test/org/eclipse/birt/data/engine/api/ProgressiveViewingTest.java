@@ -1,6 +1,5 @@
-
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.api;
 
 import java.util.HashMap;
@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.APITestCase.DataSourceInfo;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -26,62 +27,17 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.BaseTestCase;
 
-
 /**
- * 
+ * Test case for scripted data source/data set
  */
 
-public class DteLevelDataSetCacheTest extends BaseTestCase
-{
-	public void testDataSetWithDteLevelCache() throws BirtException
-	{
-		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
-				null,null,null );
-		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
-	
-		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
-		dataSource.setOpenScript( "i = 0;" );
-		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
-		dataSet.setDataSource( "ds" );
-
-		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
-
-		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
-				"return true;" );
-
-		dataEngine.defineDataSource( dataSource );
-		dataEngine.defineDataSet( dataSet );
-		
-		QueryDefinition qd = new QueryDefinition();
-		qd.addBinding( new Binding( "column1",
-				new ScriptExpression( "dataSetRow[\"column1\"]",
-						DataType.INTEGER_TYPE ) ) );
-		qd.setDataSetName( "test" );
-		QueryDefinition qd1 = new QueryDefinition();
-		qd1.addBinding( new Binding( "column2",
-				new ScriptExpression( "dataSetRow[\"column1\"]",
-						DataType.INTEGER_TYPE ) ) );
-		qd1.setDataSetName( "test" );
-		IDataQueryDefinition[] QueryDefinition = new IDataQueryDefinition[2];
-		QueryDefinition[0] = qd;
-		QueryDefinition[1] = qd1;
-		dataEngine.registerQueries( QueryDefinition );
-		Map appContextMap = new HashMap( );
-		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
-		IResultIterator ri2 = dataEngine.prepare( qd1, appContextMap ).execute( null ).getResultIterator( );
-		
-		assertTrue(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
-		while ( ri1.next( ) )
-		{
-			assertTrue( ri2.next( ) );
-			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column2" ) );
-		}
-		dataEngine.shutdown( );
-		
-	}
-	
-	public void testDataSetWithoutCache() throws BirtException
+public class ProgressiveViewingTest extends BaseTestCase
+{	
+	/**
+	 * No looking ahead at all.
+	 * @throws BirtException
+	 */
+	public void testProgressiveViewing1() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
 				null,null,null );
@@ -102,26 +58,30 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 		dataEngine.defineDataSet( dataSet );
 		
 		QueryDefinition qd = new QueryDefinition();
+	
 		qd.addBinding( new Binding( "column1",
-				new ScriptExpression( "dataSetRow[\"column1\"]",
+				new ScriptExpression( "i",
 						DataType.INTEGER_TYPE ) ) );
 		qd.setDataSetName( "test" );
 		Map appContextMap = new HashMap( );
 		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
-		IResultIterator ri2 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
 		
 		assertFalse(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
 		//Please note here the progressive viewing feature is invoked.
+		int i = 0;
 		while ( ri1.next( ) )
 		{
-			assertTrue( ri2.next( ) );
-			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ) + 1, ((Integer)ri2.getValue( "column1" )).intValue( ) );
+			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ), ++i  );
 		}
 		dataEngine.shutdown( );
 		
 	}
 	
-	public void testDataSetWithJVMCache() throws BirtException
+	/**
+	 * Looking ahead for 1 row.
+	 * @throws BirtException
+	 */
+	public void testProgressiveViewing2() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
 				null,null,null );
@@ -131,33 +91,135 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
 		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
-		dataSet.setCacheRowCount( 100 );
 		dataSet.setDataSource( "ds" );
 
 		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
 
-		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
+		dataSet.setFetchScript( " i++; if ( i % 11 == 0 ) return false; row.column1 = i;" +
 				"return true;" );
 
 		dataEngine.defineDataSource( dataSource );
 		dataEngine.defineDataSet( dataSet );
 		
 		QueryDefinition qd = new QueryDefinition();
+		//Use the cache query results setting to ensure 1 row looking ahead
+		qd.setCacheQueryResults( true );
 		qd.addBinding( new Binding( "column1",
-				new ScriptExpression( "dataSetRow[\"column1\"]",
+				new ScriptExpression( "i",
 						DataType.INTEGER_TYPE ) ) );
 		qd.setDataSetName( "test" );
 		Map appContextMap = new HashMap( );
-		appContextMap.put(DataEngine.DATA_SET_CACHE_ROW_LIMIT, "100");
 		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
-		IResultIterator ri2 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
 		
-		assertTrue(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		assertFalse(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		//Please note here the progressive viewing feature is invoked.
+		int i = 0;
 		while ( ri1.next( ) )
 		{
-			assertTrue( ri2.next( ) );
-			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column1" ) );
+			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ), ++i + 1  );
 		}
-		dataEngine.shutdown();
+		dataEngine.shutdown( );
+		
 	}
+	
+	/**
+	 * Looking ahead for all row because exist overall aggregation, and the aggregation value is fetched in the beginning.
+	 * @throws BirtException
+	 */
+	public void testProgressiveViewing3() throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				null,null,null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngine dataEngine = DataEngine.newDataEngine( context );
+	
+		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
+		dataSource.setOpenScript( "i = 0;" );
+		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
+		dataSet.setDataSource( "ds" );
+
+		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+
+		dataSet.setFetchScript( " i++; if ( i % 11 == 0 ) return false; row.column1 = i;" +
+				"return true;" );
+
+		dataEngine.defineDataSource( dataSource );
+		dataEngine.defineDataSet( dataSet );
+		
+		QueryDefinition qd = new QueryDefinition();
+		//Use the cache query results setting to ensure 1 row looking ahead
+		qd.setCacheQueryResults( true );
+		Binding aggregation = new Binding( "aggr", new ScriptExpression( "row[\"column1\"]"));
+		aggregation.setAggrFunction( "count" );
+		
+		qd.addBinding( new Binding( "column1",
+				new ScriptExpression( "i",
+						DataType.INTEGER_TYPE ) ) );
+		qd.addBinding( aggregation );
+		qd.setDataSetName( "test" );
+		Map appContextMap = new HashMap( );
+		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		
+		assertFalse(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		//Please note here the progressive viewing feature is invoked.
+		int i = 0;
+		while ( ri1.next( ) )
+		{
+			assertEquals( ((Integer)ri1.getValue( "aggr" )).intValue( ), 10  );
+			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ), 11  );
+		}
+		dataEngine.shutdown( );
+		
+	}
+	
+	/**
+	 * Looking ahead for 1 even there exist overall aggregation, and the aggregation value is fetched in the beginning.
+	 * @throws BirtException
+	 */
+	public void testProgressiveViewing4() throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				null,null,null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngine dataEngine = DataEngine.newDataEngine( context );
+	
+		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
+		dataSource.setOpenScript( "i = 0;" );
+		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
+		dataSet.setDataSource( "ds" );
+
+		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+
+		dataSet.setFetchScript( " i++; if ( i % 11 == 0 ) return false; row.column1 = i;" +
+				"return true;" );
+
+		dataEngine.defineDataSource( dataSource );
+		dataEngine.defineDataSet( dataSet );
+		
+		QueryDefinition qd = new QueryDefinition();
+		//Use the cache query results setting to ensure 1 row looking ahead
+		qd.setCacheQueryResults( true );
+		Binding aggregation = new Binding( "aggr", new ScriptExpression( "row[\"column1\"]"));
+		aggregation.setAggrFunction( "count" );
+		
+		qd.addBinding( new Binding( "column1",
+				new ScriptExpression( "i",
+						DataType.INTEGER_TYPE ) ) );
+		qd.addBinding( aggregation );
+		qd.setDataSetName( "test" );
+		Map appContextMap = new HashMap( );
+		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		
+		assertFalse(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		//Please note here the progressive viewing feature is invoked.
+		int i = 0;
+		while ( ri1.next( ) )
+		{
+			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ), 11  );
+		}
+		assertEquals( ((Integer)ri1.getValue( "aggr" )).intValue( ), 10  );
+		dataEngine.shutdown( );
+		
+	}
+
 }

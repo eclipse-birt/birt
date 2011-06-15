@@ -87,6 +87,14 @@ public class RowResultSet implements IRowResultSet
 	 */
 	public IResultObject next( ) throws DataException
 	{
+		this.beforeNext( );
+		IResultObject result = doNext( );
+		this.afterNext( );
+		return result;
+	}
+
+	private IResultObject doNext( ) throws DataException
+	{
 		if ( finished )
 			return null;
 		if ( this.nextResultObject != null )
@@ -197,5 +205,23 @@ public class RowResultSet implements IRowResultSet
 			finished = true;
 			return null;
 		}
+	}
+	
+	/**
+	 * Being called before next() function call.
+	 * @throws DataException
+	 */
+	protected void beforeNext( ) throws DataException
+	{
+		//Do nothing
+	}
+	
+	/**
+	 * Being called after next() function call.
+	 * @throws DataException
+	 */
+	protected void afterNext( ) throws DataException
+	{
+		//Do nothing
 	}
 }

@@ -908,6 +908,11 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				throw DataException.wrap( e );
 			}
 		}
+
+		public DataSetRuntime getDataSetRuntime( )
+		{
+			return ServiceForQueryResults.this.getDataSetRuntime( );
+		}
 	}
 	
 

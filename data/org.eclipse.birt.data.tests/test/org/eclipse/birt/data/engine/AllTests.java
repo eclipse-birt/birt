@@ -46,6 +46,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ScriptTest.class );
 		// ?? suite.addTestSuite( org.eclipse.birt.data.engine.api.StoredProcedureTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.UsesDetailFalseTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.api.ProgressiveViewingTest.class );
 		
 		/* in package org.eclipse.birt.data.engine.binding */
 		suite.addTestSuite( org.eclipse.birt.data.engine.binding.ColumnBindingTest.class );

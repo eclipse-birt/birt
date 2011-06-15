@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 
 /**
@@ -120,4 +121,6 @@ public interface IEventHandler
 	 * @return
 	 */
 	Map getAppContext( );
+	
+	DataSetRuntime getDataSetRuntime( );
 }

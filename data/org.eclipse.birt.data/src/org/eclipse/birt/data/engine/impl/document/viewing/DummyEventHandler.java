@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -96,6 +97,12 @@ public class DummyEventHandler implements IEventHandler
 	}
 
 	public IBinding getBinding( String name ) throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DataSetRuntime getDataSetRuntime( )
 	{
 		// TODO Auto-generated method stub
 		return null;
