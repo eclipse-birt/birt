@@ -58,7 +58,7 @@ public interface IEngineConfig extends IPlatformConfig
 	/**
 	 * the user defined font configuration file path.
 	 */
-	static final String CUSTOM_FONT_CONFIG = "customFontConfig";
+	static final String FONT_CONFIG = "fontConfig";
 	
 	/**
 	 * The max rows per query

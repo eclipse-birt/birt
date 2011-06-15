@@ -446,9 +446,9 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	/**
 	 * @return the custom font configuration file path.
 	 */
-	public URL getCustomFontConfig( )
+	public URL getFontConfig( )
 	{
-		Object customFontConfig = getProperty( CUSTOM_FONT_CONFIG );
+		Object customFontConfig = getProperty( FONT_CONFIG );
 		if ( customFontConfig instanceof URL )
 		{
 			return (URL) customFontConfig;
@@ -457,12 +457,12 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	}
 
 	/**
-	 * @param customFontConfig
+	 * @param fontConfig
 	 *            the font configuration file path.
 	 */
-	public void setCustomFontConfig( URL customFontConfig )
+	public void setFontConfig( URL fontConfig )
 	{
-		setProperty( CUSTOM_FONT_CONFIG, customFontConfig );
+		setProperty( FONT_CONFIG, fontConfig );
 	}
 
 	/**
