@@ -94,6 +94,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * an utility to optimize the caching of queries
 	 */
 	protected QueryCache queryCache = new QueryCache( );
+	
+	protected QueryCache cubeCache = new QueryCache();
 	/**
 	 * the logger
 	 */
@@ -373,6 +375,36 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 		}
 		return null;
+	}
+	
+	protected IBaseQueryResults getCachedCubeResult(
+			ICubeQueryDefinition query, IBaseResultSet outer )
+			throws BirtException
+	{
+		Object rsetId = cachedQueryToResults.get( query );
+
+		if ( rsetId != null )
+		{
+			 query .setQueryResultsID( (String) rsetId );
+			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+			if ( outer == null )
+			{
+				// this is the root query
+				return dteSession.execute( pQuery, null,
+						context.getScriptContext( ) );
+			}
+			else
+			{
+				// this is the nest query, execute the query in the
+				// parent results
+				return dteSession.execute( pQuery, outer.getQueryResults( ),
+						context.getScriptContext( ) );
+			}
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	protected IBaseQueryResults getCachedQueryResult(
