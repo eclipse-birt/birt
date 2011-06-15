@@ -210,6 +210,9 @@ public class SimpleGroupCalculator implements IGroupCalculator
 
 					IOUtil.writeInt( this.groupOutput[level], group.parent );
 					IOUtil.writeInt( this.groupOutput[level], group.firstChild );
+					//Add this per report engine's request.
+					//See ted 41188
+					this.groupOutput[level].flush( );
 					/*tobePrint += "["
 							+ level + ":" + group.firstChild + ","
 							+ group.parent + "]";*/
