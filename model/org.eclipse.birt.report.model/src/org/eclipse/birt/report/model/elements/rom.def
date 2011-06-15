@@ -3633,7 +3633,7 @@
   	  <Default>false</Default>
   	</Property>	  
   	<Property displayNameID="Element.TabularCube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
-  	  <Type name="TabularDimension"/>
+  	  <Type name="Dimension"/>
   	</Property>	  
   	<Property displayNameID="Element.TabularCube.measureGroups" isList="true" name="measureGroups" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="TabularMeasureGroup"/>
