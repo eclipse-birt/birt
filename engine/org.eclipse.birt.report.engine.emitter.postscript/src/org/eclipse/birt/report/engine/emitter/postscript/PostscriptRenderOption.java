@@ -58,14 +58,14 @@ public class PostscriptRenderOption extends RenderOption
 		return getStringOption( OPTION_PAPER_TRAY );
 	}
 
-	public void setDuplex( String duplex )
+	public void setDuplex( int duplex )
 	{
 		options.put( OPTION_DUPLEX, duplex );
 	}
 
-	public String getDuplex( )
+	public int getDuplex( )
 	{
-		return getStringOption( OPTION_DUPLEX );
+		return getIntOption( OPTION_DUPLEX, DUPLEX_SIMPLEX );
 	}
 
 	public void setCopies( int copies )

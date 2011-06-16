@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.emitter.config.postscript;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.IPostscriptRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -145,7 +146,17 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		duplex.setDisplayName( getMessage( "OptionDisplayValue.Duplex" ) ); //$NON-NLS-1$
 		duplex.setDataType( IConfigurableOption.DataType.STRING );
 		duplex.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		duplex.setDefaultValue( null );
+		duplex.setChoices( new OptionValue[]{
+		        new OptionValue( IPostscriptRenderOption.DUPLEX_SIMPLEX,
+		                getMessage( "OptionDisplayValue.DUPLEX_SIMPLEX" ) ), //$NON-NLS-1$
+		        new OptionValue(
+		                IPostscriptRenderOption.DUPLEX_FLIP_ON_SHORT_EDGE,
+		                getMessage( "OptionDisplayValue.DUPLEX_FLIP_ON_SHORT_EDGE" ) ), //$NON-NLS-1$
+		        new OptionValue(
+		                IPostscriptRenderOption.DUPLEX_FLIP_ON_LONG_EDGE,
+		                getMessage( "OptionDisplayValue.DUPLEX_FLIP_ON_LONG_EDGE" ) ) //$NON-NLS-1$
+		} );
+		duplex.setDefaultValue( IPostscriptRenderOption.DUPLEX_SIMPLEX );
 		duplex.setToolTip( null );
 		duplex.setDescription( getMessage( "OptionDescription.Duplex" ) ); //$NON-NLS-1$
 
