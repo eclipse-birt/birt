@@ -416,6 +416,10 @@ public class ScriptExecutor
 			                               TableGroupEventAdapter.class );
 		}
 
+		public Object visitReportItem( ReportItemDesign item, Object value )
+		{
+			return false;
+		}
 
 		public Object checkOnPageBreakMethod( Class<?> clazz, Class<?> handler,
 		        Class<?> instance, Class<?> adapter )
