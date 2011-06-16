@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.HTMLTags;
@@ -230,10 +231,14 @@ public class MetadataEmitter
 			writer.openTag( HTMLTags.TAG_TABLE );
 			writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
 			writer.attribute( HTMLTags.ATTR_WIDTH, "100%" );
+			writer.attribute( "cellspacing", "0" );
+			writer.attribute( "cellpadding", "0" );
 			writer.openTag( HTMLTags.TAG_TR );
 			//FIXME: code review: move the td outputting to "if ( needGroupIcon )". remove useless style.
 			writer.openTag( HTMLTags.TAG_TD );
-			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
+			IStyle cs = cell.getComputedStyle( );
+			writer.attribute( HTMLTags.ATTR_VALIGN, cs.getVerticalAlign( ) );
+			writer.attribute( "align", cs.getTextAlign( ) ); //$NON-NLS-1$
 		}
 		if ( needGroupIcon )
 		{
@@ -253,7 +258,9 @@ public class MetadataEmitter
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 			writer.closeTag( HTMLTags.TAG_TD );
 			writer.openTag( HTMLTags.TAG_TD );
-			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
+			IStyle cs = cell.getComputedStyle( );
+			writer.attribute( HTMLTags.ATTR_VALIGN, cs.getVerticalAlign( ) );
+			writer.attribute( "align", cs.getTextAlign( ) ); //$NON-NLS-1$
 		}
 	}
 
