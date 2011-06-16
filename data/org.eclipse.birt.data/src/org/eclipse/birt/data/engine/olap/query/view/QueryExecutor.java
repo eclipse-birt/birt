@@ -481,70 +481,92 @@ public class QueryExecutor
 			StopSign stopSign, boolean saveToRD ) throws IOException, BirtException
 	{
 		
-		IAggregationResultSet[] rs;
+		IAggregationResultSet[] rs = null;
 		String id = null;
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
-			rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
-			//process mirror operation
-			MirrorOperationExecutor moe = new MirrorOperationExecutor( );
-			rs = moe.execute( rs, view, cubeQueryExecutorHelper );
-			
-			//If need save to local dir
-			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
-			{
+			if ( saveToRD
+					|| executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
-				File tmpDir = new File( executor.getSession( ).getTempDir( ) );
-				if (!FileSecurity.fileExist( tmpDir ) || ! FileSecurity.fileIsDirectory( tmpDir ))
-				{
-					FileSecurity.fileMakeDirs( tmpDir );
-				}
-				ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
-						.getTempDir( )
-						+ "Cache",
-						"rw+" ) );
-				AggregationResultSetSaveUtil.save( id,
-						rs,
-						writer );
-				writer.finish( );
-			}		
-			//only save the raw aggregation result into RD.
-			if ( saveToRD)
-			{
-				//Save to RD using same id.
-				if ( id != null )
-				{
-					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
-							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
-					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
-						.getDocWriter( ) );
-				}else
-				{
-					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
-					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
-							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
-					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
-							.getDocWriter( ) );
-				}
-				
-			}	
+
+			rs = executeQuery( view, aggrDefns, saveToRD, id );
 		}
 		else
 		{
-			//If query definition has query result id, that means a cached document has been saved.
 			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
-			rs = AggregationResultSetSaveUtil.load( id,
-					new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ),
-					VersionManager.getLatestVersion( ),
-					cubeQueryExecutorHelper.getMemoryCacheSize( ) );
-			initLoadedAggregationResultSets( rs, aggrDefns );
-			//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists
-		}
-		
+
+			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
+			{
+				//If query definition has query result id, that means a cached document has been saved.
+				rs = AggregationResultSetSaveUtil.load( id,
+						new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ),
+						VersionManager.getLatestVersion( ),
+						cubeQueryExecutorHelper.getMemoryCacheSize( ) );
+				initLoadedAggregationResultSets( rs, aggrDefns );
+				//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists				
+			}
+			else
+			{
+				if ( executor.getContext( ).getDocReader( ) != null )
+				{
+					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
+							.getQueryResultsID( ),
+							executor.getContext( ).getDocReader( ),
+							new VersionManager( executor.getContext( ) ).getVersion( ),
+							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
+					initLoadedAggregationResultSets( rs, aggrDefns );
+
+				}
+				else
+				{
+					rs = executeQuery( view, aggrDefns, saveToRD, id );
+				}
+			}
+		}		
 		executor.setQueryResultsId( id );
 		
+		return rs;
+	}
+	
+	private IAggregationResultSet[] executeQuery( BirtCubeView view,
+			AggregationDefinition[] aggrDefns, boolean saveToRD,
+			String queryResutID ) throws IOException, BirtException
+	{
+		IAggregationResultSet[] rs;
+		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
+		
+		rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
+		//process mirror operation
+		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
+		rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+		
+		//If need save to local dir
+		if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
+		{
+			File tmpDir = new File( executor.getSession( ).getTempDir( ) );
+			if (!FileSecurity.fileExist( tmpDir ) || ! FileSecurity.fileIsDirectory( tmpDir ))
+			{
+				FileSecurity.fileMakeDirs( tmpDir );
+			}
+			ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
+					.getTempDir( )
+					+ "Cache",
+					"rw+" ) );
+			AggregationResultSetSaveUtil.save( queryResutID,
+					rs,
+					writer );
+			writer.finish( );
+		}		
+		//only save the raw aggregation result into RD.
+		if ( saveToRD )
+		{
+			CubeQueryDefinitionIOUtil.save( queryResutID, executor.getContext( )
+					.getDocWriter( ), executor.getCubeQueryDefinition( ) );
+			AggregationResultSetSaveUtil.save( queryResutID, rs, executor.getContext( )
+					.getDocWriter( ) );
+		}
 		return rs;
 	}
 
