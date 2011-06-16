@@ -44,6 +44,7 @@ import java.util.zip.DeflaterOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.eclipse.birt.report.engine.api.IPostscriptRenderOption;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeWriter;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
@@ -964,7 +965,7 @@ public class PostscriptWriter
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
 	public void startRenderer( String author, String description,
-	        String paperSize, String paperTray, String duplex, int copies,
+	        String paperSize, String paperTray, Object duplex, int copies,
 	        boolean collate, String resolution, boolean color, int scale,
 	        boolean autoPaperSizeSelection ) throws IOException
 	{
@@ -1071,26 +1072,53 @@ public class PostscriptWriter
 		}
 	}
 
-	private void setDuplex( String duplex )
+	private void setDuplex( Object duplex )
 	{
-		if ( duplex != null && !"SIMPLEX".equalsIgnoreCase( duplex ))
+		String duplexValue = null;
+		boolean tumble = false;
+		if ( duplex instanceof String )
 		{
-			String duplexValue = duplex;
-			String tumbleValue = "true";
-            if ("HORIZONTAL".equalsIgnoreCase( duplex ) )
+			String value = (String) duplex;
+			if ( "SIMPLEX".equalsIgnoreCase( value ) )
 			{
-				duplexValue = "DuplexTumble";
+				return;
 			}
-			else if ( "VERTICAL".equalsIgnoreCase( duplex ) )
+			if ( "HORIZONTAL".equalsIgnoreCase( value ) )
 			{
 				duplexValue = "DuplexNoTumble";
-				tumbleValue = "false";
+				tumble = false;
 			}
-			out.println( "%%BeginFeature: *Duplex " + duplexValue );
-			out.println( "<</Duplex true /Tumble " + tumbleValue
-					+ ">> setpagedevice" );
-			out.println( "%%EndFeature" );
+			else if ( "VERTICAL".equalsIgnoreCase( value ) )
+			{
+				duplexValue = "DuplexTumble";
+				tumble = true;
+			}
 		}
+		else if ( duplex instanceof Integer )
+		{
+			int value = (Integer) duplex;
+			if ( value == IPostscriptRenderOption.DUPLEX_SIMPLEX )
+			{
+				return;
+			}
+			if ( value == IPostscriptRenderOption.DUPLEX_FLIP_ON_LONG_EDGE )
+			{
+				duplexValue = "DuplexNoTumble";
+				tumble = false;
+			}
+			else if ( value == IPostscriptRenderOption.DUPLEX_FLIP_ON_SHORT_EDGE )
+			{
+				duplexValue = "DuplexTumble";
+				tumble = true;
+			}
+		}
+		out.println( "%%BeginFeature: *Duplex " + duplexValue );
+		out.println( "<</Duplex true /Tumble " + tumble + ">> setpagedevice" );
+		if ( tumble )
+		{
+			out.println( "currentpagedevice /Binding known {<</Binding 3>> setpagedevice}if" );
+		}
+		out.println( "%%EndFeature" );
 	}
 
 	private void setResolution( String resolution )

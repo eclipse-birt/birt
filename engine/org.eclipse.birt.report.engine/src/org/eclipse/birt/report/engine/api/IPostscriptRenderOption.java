@@ -34,6 +34,10 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	public static final String OPTION_AUTO_PAPER_SIZE_SELECTION = "OptionAutoPaperSizeSelection";
 
+	public static final int DUPLEX_SIMPLEX = 0;
+	public static final int DUPLEX_FLIP_ON_SHORT_EDGE = 1;
+	public static final int DUPLEX_FLIP_ON_LONG_EDGE = 2;
+
 	/**
 	 * Sets postscript level.
 	 * 
@@ -54,9 +58,9 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	String getPaperTray( );
 
-	void setDuplex( String duplex );
+	void setDuplex( int duplex );
 
-	String getDuplex( );
+	int getDuplex( );
 
 	void setCopies( int copies );
 

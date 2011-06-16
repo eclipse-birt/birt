@@ -44,8 +44,8 @@ public class PostscriptPageDevice implements IPageDevice
 				.getStringOption( PostscriptRenderOption.OPTION_PAPER_SIZE );
 		String paperTray = renderOption
 				.getStringOption( PostscriptRenderOption.OPTION_PAPER_TRAY );
-		String duplex = renderOption
-				.getStringOption( PostscriptRenderOption.OPTION_DUPLEX );
+		Object duplex = renderOption
+		        .getOption( PostscriptRenderOption.OPTION_DUPLEX );
 		int copies = renderOption.getIntOption(
 				PostscriptRenderOption.OPTION_COPIES, 1 );
 		boolean collate = renderOption.getBooleanOption(
