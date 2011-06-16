@@ -147,6 +147,8 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		duplex.setDataType( IConfigurableOption.DataType.STRING );
 		duplex.setDisplayType( IConfigurableOption.DisplayType.TEXT );
 		duplex.setChoices( new OptionValue[]{
+		        new OptionValue( IPostscriptRenderOption.DUPLEX_SIMPLEX,
+		                getMessage( "OptionDisplayValue.DUPLEX_SIMPLEX" ) ), //$NON-NLS-1$
 		        new OptionValue(
 		                IPostscriptRenderOption.DUPLEX_FLIP_ON_SHORT_EDGE,
 		                getMessage( "OptionDisplayValue.DUPLEX_FLIP_ON_SHORT_EDGE" ) ), //$NON-NLS-1$
