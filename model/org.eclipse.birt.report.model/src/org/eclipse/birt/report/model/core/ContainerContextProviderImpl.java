@@ -356,7 +356,14 @@ class ContainerContextProviderImpl
 				errors.add( e );
 				return errors;
 			}
-
+		}
+		
+		// The element cannot contains an element which shares data binding with
+		// it or its containers.
+		if ( !checkRecursiveShareBinding( element ) )
+		{
+			errors.add( e );
+			return errors;
 		}
 
 		if ( element instanceof ReportItem )
@@ -583,4 +590,46 @@ class ContainerContextProviderImpl
 
 		return true;
 	}
+	
+	/**
+	 * Checks if the element shares data binding recursively.
+	 * 
+	 * @param element
+	 *            the element to check
+	 * @return true if it shares data binding recursively.
+	 */
+	private boolean checkRecursiveShareBinding( DesignElement element )
+	{
+		DesignElement focusElement = focus.getElement( );
+		Module root = focusElement.getRoot( );
+
+		if ( focusElement == root || !( element instanceof ReportItem ) )
+			return true;
+
+		DesignElement bindingElement = null;
+		ElementRefValue ref = (ElementRefValue) element.getProperty( root,
+				IReportItemModel.DATA_BINDING_REF_PROP );
+		if ( ref != null && ref.isResolved( ) )
+			bindingElement = ref.getElement( );
+
+		while ( focusElement != root )
+		{
+			if ( focusElement == bindingElement )  // the element shares binding with its container.
+				return false;
+
+			if ( focusElement instanceof ReportItem )
+			{
+				ref = (ElementRefValue) focusElement.getProperty( root,
+						IReportItemModel.DATA_BINDING_REF_PROP );
+				if ( ref != null && ref.isResolved( ) )
+				{
+					if ( ref.getElement( ) == element ) // the element's container shares binding with it.
+						return false;
+				}
+			}
+			focusElement = focusElement.getContainer( );
+		}
+		return true;
+	}
+	
 }

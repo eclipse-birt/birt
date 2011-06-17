@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22">
+	<data-sources>
+		<script-data-source name="Data Source"/>
+	</data-sources>
+	<data-sets>
+		<script-data-set name="Data Set">
+			<list-property name="resultSetHints">
+				<structure>
+					<property name="position">1</property>
+					<property name="name">Column</property>
+					<property name="dataType">string</property>
+				</structure>
+			</list-property>
+			<list-property name="columnHints">
+				<structure>
+					<property name="columnName">Column</property>
+					<property name="alias"></property>
+					<property name="analysis">measure</property>
+					<text-property name="displayName" key=""></text-property>
+				</structure>
+			</list-property>
+			<structure name="cachedMetaData">
+				<list-property name="resultSet">
+					<structure>
+						<property name="position">1</property>
+						<property name="name">Column</property>
+						<property name="dataType">string</property>
+					</structure>
+				</list-property>
+			</structure>
+			<property name="dataSource">Data Source</property>
+		</script-data-set>
+	</data-sets>
+	<page-setup>
+		<simple-master-page name="Simple MasterPage"/>
+	</page-setup>
+	<body>
+		<table name="Table1">
+			<property name="dataSet">Data Set</property>
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="name">Column</property>
+					<text-property name="displayName">Column</text-property>
+					<expression name="expression" type="bre">[DATASET].[Column]
+					</expression>
+					<property name="dataType">string</property>
+				</structure>
+			</list-property>
+			<column/>
+			<header>
+				<row>
+					<cell/>
+				</row>
+			</header>
+			<detail>
+				<row>
+					<cell/>
+				</row>
+			</detail>
+		</table>
+		<table name="Table2">
+			<property name="dataBindingRef">Table1</property>
+			<column/>
+			<header>
+				<row>
+					<cell/>
+				</row>
+			</header>
+			<detail>
+				<row>
+					<cell>
+						<table name="Table3">
+							<column/>
+							<header>
+								<row>
+									<cell/>
+								</row>
+							</header>
+							<detail>
+								<row>
+									<cell/>
+								</row>
+							</detail>
+						</table>
+					</cell>
+				</row>
+			</detail>
+		</table>
+	</body>
+</report>

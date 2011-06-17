@@ -1645,6 +1645,32 @@ public class DesignElementHandleTest extends BaseTestCase
 
 	}
 
+	public void testCanContainElementSharesBinding( ) throws Exception
+	{
+		openDesign( "DesignElementHandleTest_3.xml" );//$NON-NLS-1$
+
+		TableHandle table1 = (TableHandle) designHandle.findElement( "Table1" );
+		assertNotNull( table1 );
+		TableHandle table2 = (TableHandle) designHandle.findElement( "Table2" );
+		assertNotNull( table2 );
+		TableHandle table3 = (TableHandle) designHandle.findElement( "Table3" );
+		assertNotNull( table3 );
+
+		assertFalse( getCell( table1 ).canContain( CellHandle.CONTENT_SLOT,
+				table2 ) );
+		assertFalse( getCell( table2 ).canContain( CellHandle.CONTENT_SLOT,
+				table1 ) );
+		assertFalse( getCell( table3 ).canContain( CellHandle.CONTENT_SLOT,
+				table1 ) );		
+		assertTrue( getCell( table1 ).canContain( CellHandle.CONTENT_SLOT,
+				table3 ) );		
+	}
+
+	private CellHandle getCell( TableHandle table )
+	{
+		RowHandle row = (RowHandle) table.getDetail( ).get( 0 );
+		return (CellHandle) row.getCells( ).get( 0 );
+	}
 
 	/**
 	 * The listener modifies the <code>listeners</code> of a design element.
