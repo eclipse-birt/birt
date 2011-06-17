@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.ReportDesignSerializer;
 import org.eclipse.birt.report.model.writer.DocumentWriter;
@@ -44,8 +45,9 @@ public class DocumentUtil
 	 *             successfully.
 	 */
 
-	public static ReportDesignHandle serialize( ReportDesignHandle designHandle,
-			OutputStream out ) throws IOException
+	public static ReportDesignHandle serialize(
+			ReportDesignHandle designHandle, OutputStream out )
+			throws IOException
 	{
 		assert out != null;
 		if ( designHandle == null )
@@ -59,8 +61,11 @@ public class DocumentUtil
 				IModuleModel.LIBRARIES_PROP );
 		if ( list == null || list.size( ) == 0 )
 		{
-			new DocumentWriter( (ReportDesign) designHandle.getModule( ) )
-					.write( out );
+			// need to make a copy for the original one to avoid possible
+			// multiple thread issues.
+
+			Module copy = (Module) designHandle.copy( );
+			new DocumentWriter( (ReportDesign) copy ).write( out );
 			return designHandle;
 		}
 
