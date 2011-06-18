@@ -92,4 +92,13 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 		}
 		return false;
 	}
+
+	public void close( ) throws BirtException
+	{
+		childLayout = null;
+		childExecutor = null;
+		childContent = null;
+		super.close( );
+	}
+
 }

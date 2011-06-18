@@ -419,10 +419,7 @@ public class ExecutionContext
 				registerInRoot( (String) entry.getKey( ), entry.getValue( ) );
 			}
 		}
-		if ( applicationClassLoader != null )
-		{
-			scriptContext.setApplicationClassLoader( applicationClassLoader );
-		}
+		scriptContext.setApplicationClassLoader( getApplicationClassLoader( ) );
 	}
 
 	/**
@@ -455,7 +452,7 @@ public class ExecutionContext
 			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
 	}
-
+	
 	/**
 	 * Clean up the execution context before finishing using it
 	 */
@@ -689,6 +686,7 @@ public class ExecutionContext
 
 	public Object evaluate( Expression expr ) throws BirtException
 	{
+		//getApplicationClassLoader( );
 		if ( expr != null )
 		{
 			switch ( expr.getType( ) )

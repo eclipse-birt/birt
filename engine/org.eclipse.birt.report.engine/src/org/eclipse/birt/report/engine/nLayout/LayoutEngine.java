@@ -57,6 +57,8 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ListArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ListGroupArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.RepeatableArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
@@ -536,9 +538,17 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		if ( bandType == IBandContent.BAND_HEADER
 				|| bandType == IBandContent.BAND_GROUP_HEADER )
 		{
-			if ( current instanceof RepeatableArea )
+			// the current may be a lineArea, groupArea or listArea
+			ContainerArea container = current;
+			while ( container != null && !( container instanceof ListArea )
+					&& !( container instanceof ListGroupArea ) )
 			{
-				( (RepeatableArea) current ).setInHeaderBand( false );
+				container = container.getParent( );
+			}
+
+			if ( container instanceof RepeatableArea )
+			{
+				( (RepeatableArea) container ).setInHeaderBand( false );
 			}
 		}
 	}
