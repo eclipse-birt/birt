@@ -444,7 +444,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 			}
 			else
 			{
-				groupIndex = ri.getCurrentResultIndex( );
+				groupIndex = ri.getCurrentResultIndex( ) - 1;
 			}
 
 			return this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )].get( groupIndex );

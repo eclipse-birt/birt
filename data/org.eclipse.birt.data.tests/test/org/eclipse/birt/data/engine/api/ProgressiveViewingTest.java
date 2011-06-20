@@ -221,5 +221,54 @@ public class ProgressiveViewingTest extends BaseTestCase
 		dataEngine.shutdown( );
 		
 	}
+	
+	/**
+	 * Looking ahead for 1 even there exist overall aggregation, and the aggregation value is fetched in the beginning.
+	 * @throws BirtException
+	 */
+	public void testProgressiveViewing5() throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				null,null,null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngine dataEngine = DataEngine.newDataEngine( context );
+	
+		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
+		dataSource.setOpenScript( "i = 0;" );
+		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
+		dataSet.setDataSource( "ds" );
+
+		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+
+		dataSet.setFetchScript( " i++; if ( i % 11 == 0 ) return false; row.column1 = i;" +
+				"return true;" );
+
+		dataEngine.defineDataSource( dataSource );
+		dataEngine.defineDataSet( dataSet );
+		
+		QueryDefinition qd = new QueryDefinition();
+		//Use the cache query results setting to ensure 1 row looking ahead
+		qd.setCacheQueryResults( true );
+		Binding aggregation = new Binding( "aggr", new ScriptExpression( "row[\"column1\"]"));
+		aggregation.setAggrFunction( "runningcount" );
+		
+		qd.addBinding( new Binding( "column1",
+				new ScriptExpression( "i",
+						DataType.INTEGER_TYPE ) ) );
+		qd.addBinding( aggregation );
+		qd.setDataSetName( "test" );
+		Map appContextMap = new HashMap( );
+		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		
+		assertFalse(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		//Please note here the progressive viewing feature is invoked.
+		int i = 1;
+		while ( ri1.next( ) )
+		{
+			assertEquals( ((Integer)ri1.getValue( "aggr" )).intValue( ), i  );
+			i++;
+		}
+		dataEngine.shutdown( );
+	}
 
 }
