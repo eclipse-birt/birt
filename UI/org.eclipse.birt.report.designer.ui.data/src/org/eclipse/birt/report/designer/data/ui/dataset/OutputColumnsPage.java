@@ -355,7 +355,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	 * 
 	 * @throws BirtException
 	 */
-	private void populateOutputColums( ) throws BirtException
+	protected void populateOutputColums( ) throws BirtException
 	{
 		ClassLoader oldContextLoader = Thread.currentThread( )
 				.getContextClassLoader( );
@@ -406,7 +406,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							false );
 				}
 				
-				updateDefaultAnalysisEnablement( viewDatas );
+				updateDefaultPropertyValues( viewDatas );
 
 				if( isNewlyCreated )
 				{
@@ -466,7 +466,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							false );
 				}
 				
-				updateDefaultAnalysisEnablement( viewDatas );
+				updateDefaultPropertyValues( viewDatas );
 
 				if ( isNewlyCreated )
 				{
@@ -482,6 +482,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		}
 		
 		Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+	}
+	
+	protected void updateDefaultPropertyValues( DataSetViewData[] viewDatas )
+	{
+		updateDefaultAnalysisEnablement( viewDatas );
 	}
 	
 	private void updateDefaultAnalysisEnablement( DataSetViewData[] viewDatas )
