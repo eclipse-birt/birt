@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
@@ -603,7 +604,9 @@ class ContainerContextProviderImpl
 		DesignElement focusElement = focus.getElement( );
 		Module root = focusElement.getRoot( );
 
-		if ( focusElement == root || !( element instanceof ReportItem ) )
+		if ( focusElement == root  
+				|| !( element instanceof ReportItem ) 
+				|| element instanceof ExtendedItem )
 			return true;
 
 		DesignElement bindingElement = null;
@@ -617,7 +620,8 @@ class ContainerContextProviderImpl
 			if ( focusElement == bindingElement )  // the element shares binding with its container.
 				return false;
 
-			if ( focusElement instanceof ReportItem )
+			if ( focusElement instanceof ReportItem 
+					&& !( focusElement instanceof ExtendedItem ) )
 			{
 				ref = (ElementRefValue) focusElement.getProperty( root,
 						IReportItemModel.DATA_BINDING_REF_PROP );
