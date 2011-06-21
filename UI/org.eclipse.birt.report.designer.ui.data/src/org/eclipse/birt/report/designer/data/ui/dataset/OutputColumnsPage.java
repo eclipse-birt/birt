@@ -406,11 +406,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							false );
 				}
 				
-				updateDefaultPropertyValues( viewDatas );
+				updateDefaultAnalysisEnablement( viewDatas );
 
 				if( isNewlyCreated )
 				{
-					updateAnalysisTypes( viewDatas, true );
+					updateDefaultPropertyValues( viewDatas );
 				}
 				
 				if ( ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof JointDataSetHandle )
@@ -466,11 +466,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							false );
 				}
 				
-				updateDefaultPropertyValues( viewDatas );
+				updateDefaultAnalysisEnablement( viewDatas );
 
 				if ( isNewlyCreated )
 				{
-					updateAnalysisTypes( viewDatas, true );
+					updateDefaultPropertyValues( viewDatas );
 				}
 				
 				viewer.getViewer( ).setInput( viewDatas );
@@ -486,7 +486,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 	
 	protected void updateDefaultPropertyValues( DataSetViewData[] viewDatas )
 	{
-		updateDefaultAnalysisEnablement( viewDatas );
+		updateAnalysisTypes( viewDatas, true );
 	}
 	
 	private void updateDefaultAnalysisEnablement( DataSetViewData[] viewDatas )
