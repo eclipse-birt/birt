@@ -133,7 +133,8 @@ public class ReportletQuery
 			{
 				for ( IBaseResultSet rset : query.rsets )
 				{
-					rset.close( );
+					if ( rset != null )
+						rset.close( );
 				}
 			}
 		}

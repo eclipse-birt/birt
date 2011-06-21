@@ -71,6 +71,7 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 	{
 		IReportItemExecutor executor = bodyExecutor;
 		IContent content = null;
+		executor.execute( );
 		while ( executor.hasNextChild( ) )
 		{
 			executor = executor.getNextChild( );
