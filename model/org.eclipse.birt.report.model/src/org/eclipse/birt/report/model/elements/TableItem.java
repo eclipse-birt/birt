@@ -433,6 +433,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 	{
 		TableItem clonedTable = (TableItem) super.doClone( policy );
 		clonedTable.refreshRenderModel( table.getTable( ).getModule( ) );
+		clonedTable.cachedColumn = null;
 
 		return clonedTable;
 	}

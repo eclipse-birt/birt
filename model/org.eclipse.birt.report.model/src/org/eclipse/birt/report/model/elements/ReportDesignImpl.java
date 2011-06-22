@@ -309,7 +309,7 @@ abstract class ReportDesignImpl extends LayoutModule
 		Module module = (Module) super.doClone( policy );
 		if ( isCached( ) )
 		{
-			cacheValues( );
+			module.cacheValues( );
 		}
 
 		return module;

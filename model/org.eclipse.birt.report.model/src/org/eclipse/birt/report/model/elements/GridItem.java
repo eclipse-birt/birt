@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
 /**
  * This class represents a Grid item. A grid item contains a set of report
@@ -418,6 +419,23 @@ public class GridItem extends ReportItem
 			displayLabel += "(" + rows + " x " + cols + ")"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 		}
 		return displayLabel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(
+	 * org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
+	 */
+
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
+	{
+		GridItem clonedGrid = (GridItem) super.doClone( policy );
+		clonedGrid.cachedColumn = null;
+
+		return clonedGrid;
 	}
 
 }
