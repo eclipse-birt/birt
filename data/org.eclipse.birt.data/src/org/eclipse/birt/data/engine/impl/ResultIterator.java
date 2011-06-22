@@ -754,7 +754,10 @@ public class ResultIterator implements IResultIterator
 		}
 		else
 		{
-			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, false );
+			if( this.getRdSaveHelper( ).isSummaryQuery( ) )
+				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );				
+			else
+				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, false );
 		}
 		
 	}
