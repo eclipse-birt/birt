@@ -1219,24 +1219,8 @@ public class DataExtractionTaskV1 extends EngineTask
 
 	private QueryDefinition cloneQuery( QueryDefinition query )
 	{
-		QueryDefinition newQuery = new QueryDefinition(
-				(BaseQueryDefinition) query.getParentQuery( ) );
-		newQuery.getBindings( ).putAll( query.getBindings( ) );
-		newQuery.getSorts( ).addAll( query.getSorts( ) );
-		newQuery.getFilters( ).addAll( query.getFilters( ) );
-
-		newQuery.getGroups( ).addAll( query.getGroups( ) );
-		newQuery.setUsesDetails( query.usesDetails( ) );
-		newQuery.setMaxRows( query.getMaxRows( ) );
-
-		newQuery.setDataSetName( query.getDataSetName( ) );
-		newQuery.setAutoBinding( query.needAutoBinding( ) );
-		newQuery.setColumnProjection( query.getColumnProjection( ) );
-		
-		newQuery.setName( query.getName( ) );
-		newQuery.setIsSummaryQuery( query.isSummaryQuery( ) );
-		
-		String queryID = (String)query2QueryIdMapping.get( query );
+		QueryDefinition newQuery = QueryUtil.cloneQuery( query );
+		String queryID = (String) query2QueryIdMapping.get( query );
 		tmpQuery2QueryIdMapping.put( newQuery, queryID );
 		return newQuery;
 	}

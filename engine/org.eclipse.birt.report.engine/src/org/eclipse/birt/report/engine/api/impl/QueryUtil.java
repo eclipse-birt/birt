@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
@@ -571,6 +572,42 @@ public class QueryUtil
 		return null;
 	}
 
+	public static QueryDefinition cloneQuery( QueryDefinition query )
+	{
+		if ( query == null )
+		{
+			return null;
+		}
+
+		IBaseQueryDefinition parent = query.getParentQuery( );
+		QueryDefinition newQuery = null;
+		if ( parent instanceof BaseQueryDefinition )
+		{
+			newQuery = new QueryDefinition( (BaseQueryDefinition) parent );
+		}
+		else
+		{
+			newQuery = new QueryDefinition( );
+		}
+		newQuery.getBindings( ).putAll( query.getBindings( ) );
+		newQuery.getFilters( ).addAll( query.getFilters( ) );
+		newQuery.getSorts( ).addAll( query.getSorts( ) );
+		// newQuery.getSubqueries( ).addAll( query.getSubqueries( ) );//?
+		newQuery.getGroups( ).addAll( query.getGroups( ) );
+		newQuery.setUsesDetails( query.usesDetails( ) );
+		newQuery.setMaxRows( query.getMaxRows( ) );
+
+		newQuery.setDataSetName( query.getDataSetName( ) );
+		newQuery.setAutoBinding( query.needAutoBinding( ) );
+		newQuery.setColumnProjection( query.getColumnProjection( ) );
+
+		newQuery.setName( query.getName( ) );
+		newQuery.setIsSummaryQuery( query.isSummaryQuery( ) );
+
+		newQuery.setQueryExecutionHints( query.getQueryExecutionHints( ) );
+		return newQuery;
+	}
+	
 	public static interface IResultSetIDProvider
 	{
 		String getResultsID( String parent, String rawId,
