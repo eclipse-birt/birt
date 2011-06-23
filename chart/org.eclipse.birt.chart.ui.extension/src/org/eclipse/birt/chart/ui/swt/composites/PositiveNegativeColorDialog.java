@@ -86,7 +86,7 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_POSNEG );
 		getShell( ).setText( Messages.getString( "PositiveNegativeColorDialog.Lbl.PositiveNegativeColorEditor" ) ); //$NON-NLS-1$
-		getShell( ).setSize( 420, 240 );
+		getShell( ).setSize( 420, 220 );
 		UIHelper.centerOnScreen( getShell( ) );
 		return super.createContents( parent );
 	}

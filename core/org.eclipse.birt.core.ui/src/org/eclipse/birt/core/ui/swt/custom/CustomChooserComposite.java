@@ -22,7 +22,6 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleControlListener;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.accessibility.AccessibleListener;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -138,8 +137,6 @@ public abstract class CustomChooserComposite extends Composite
 			e.detail = ACC.STATE_NORMAL;
 		}
 	};
-
-	private ScrolledComposite container;
 
 	public CustomChooserComposite( Composite parent, int style )
 	{
@@ -273,11 +270,7 @@ public abstract class CustomChooserComposite extends Composite
 		}
 		shell.setLocation( iXLoc, iYLoc );
 
-		container = new ScrolledComposite( shell, SWT.V_SCROLL );
-		container.setAlwaysShowScrollBars( false );
-		container.setExpandHorizontal( true );
-
-		cmpDropDown = new Composite( container, SWT.NONE );
+		cmpDropDown = new Composite( shell, SWT.NONE );
 		GridLayout gl = new GridLayout( );
 		gl.horizontalSpacing = 0;
 		gl.verticalSpacing = 0;
@@ -318,30 +311,18 @@ public abstract class CustomChooserComposite extends Composite
 		int width = 0;
 		int height = 0;
 
-		int maxWidth = 0;
-		Control[] children = container.getChildren( );
+		Control[] children = shell.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
 			Point point = children[i].computeSize( SWT.DEFAULT, SWT.DEFAULT );
-			maxWidth = point.x > maxWidth ? point.x : maxWidth;
+			width = point.x > width ? point.x : width;
 			height += point.y;
 		}
-		
-		width = getSize( ).x > maxWidth ? getSize( ).x : maxWidth;
+
+		width = getSize( ).x > width ? getSize( ).x : width;
 		height = 18 > height ? 18 : height;
 
-		cmpDropDown.setBounds( 0, 0, width, height );
-
-		container.setContent( cmpDropDown );
-
-		if ( height >= 298 )
-		{
-			int containerWidth = maxWidth
-					+ container.getVerticalBar( ).getSize( ).x;
-			width = width > containerWidth ? getSize( ).x : containerWidth;
-		}
-
-		shell.setSize( width, height < 298 ? height + 2 : 300 );
+		shell.setSize( width, height );
 
 		shell.layout( );
 		shell.open( );
@@ -534,9 +515,6 @@ public abstract class CustomChooserComposite extends Composite
 					popupSelection = popupCanvases[styleIndex];
 					popupSelection.notifyListeners( SWT.FocusIn, new Event( ) );
 					popupSelection.redraw( );
-
-					if ( popupSelection instanceof Control )
-						container.showControl( (Control) popupSelection );
 				}
 			}
 		}
