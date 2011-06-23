@@ -25,6 +25,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 
@@ -666,6 +667,22 @@ public class StreamManager
 				return false;
 				
 		}
+	}
+	
+	public void clearOldStreamsForIV( ) throws DataException
+	{
+		this.dropStream1( DataEngineContext.EXPR_VALUE_STREAM );
+		this.dropStream1( DataEngineContext.EXPR_ROWLEN_STREAM );
+		// remove QUERYID_INFO_STREAM
+		QueryResultIDManager.cleanChildOfRoot( this );
+		this.dropStream1( DataEngineContext.META_STREAM );
+		this.dropStream1( DataEngineContext.META_INDEX_STREAM );
+				
+		this.dropStreams( DataEngineContext.PROGRESSIVE_VIEWING_GROUP_STREAM );
+		this.dropStreams( DataEngineContext.AGGR_INDEX_STREAM );
+		this.dropStreams( DataEngineContext.AGGR_VALUE_STREAM );
+		this.dropStreams( DataEngineContext.COMBINED_AGGR_INDEX_STREAM );
+		this.dropStreams( DataEngineContext.COMBINED_AGGR_VALUE_STREAM );
 	}
 	
 }
