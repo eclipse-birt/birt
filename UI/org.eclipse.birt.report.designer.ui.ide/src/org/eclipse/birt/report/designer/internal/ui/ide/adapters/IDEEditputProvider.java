@@ -48,7 +48,8 @@ public class IDEEditputProvider implements IEditputProvider
 			IWorkspaceRoot root = space.getRoot( );
 			try
 			{
-				IFile[] resources = root.findFilesForLocationURI( new URL("file:///" + fileName ).toURI( ) ); //$NON-NLS-1$
+				//IFile[] resources = root.findFilesForLocationURI( new URL("file:///" + fileName ).toURI( ) ); //$NON-NLS-1$
+				IFile[] resources = root.findFilesForLocationURI(new File( fileName ).toURI( ) ); //$NON-NLS-1$
 				if (resources != null && resources.length > 0)
 				{
 					IEditorInput input = new FileEditorInput(resources[0]);
