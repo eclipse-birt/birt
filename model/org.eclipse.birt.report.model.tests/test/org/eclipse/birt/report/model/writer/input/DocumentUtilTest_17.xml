@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.2.v20110606-0605 Build &lt;2.6.2.v20110606-0605></property>
+    <data-sources>
+        <script-data-source name="Data Source" id="3"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="4">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">0</property>
+                    <property name="name">a</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">a</property>
+                    <property name="analysis">attribute</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">a</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[i = 10;]]></method>
+            <method name="fetch"><![CDATA[i --;
+if( i < 0)
+return false;
+row["a"] = i;
+return true;]]></method>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <table id="5">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">a</property>
+                    <text-property name="displayName">a</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["a"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding</property>
+                    <expression name="expression" type="javascript">abc +&#13;
+	"A"</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="sortByGroups">false</property>
+            <column id="6"/>
+            <header>
+                <row id="7">
+                    <cell id="10">
+                        <label id="13">
+                            <text-property name="text">a</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="8">
+                    <cell id="11">
+                        <data id="14">
+                            <property name="resultSetColumn">a</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="9">
+                    <cell id="12"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

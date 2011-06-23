@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.writer;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,9 +20,9 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -596,4 +597,18 @@ public class DocumentUtilTest extends BaseTestCase
 		assertTrue( compareFile( "DocumentUtilTest_golden_16.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Tests to flatten a report with expressions contain new line.
+	 * 
+	 * @throws Exception
+	 */
+	public void testExpressionWithNewLine( )  throws Exception
+	{
+		openDesign( "DocumentUtilTest_17.xml" ); //$NON-NLS-1$
+
+		os = new ByteArrayOutputStream( );
+		DocumentUtil.serialize( designHandle, os );
+		
+		assertTrue( compareFile( "DocumentUtilTest_golden_17.xml" ) ); //$NON-NLS-1$
+	}
 }
