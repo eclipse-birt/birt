@@ -1116,20 +1116,34 @@
     </target>
 
 	<target name="createNonOSGiRuntime">
-		
-	    <path id="lib.path">
+
+		<path id="lib.path">
 	    	<fileset dir="${eclipse.build.configs}/../../extras" includes="*.jar,lib/*.jar"/>
 	    </path>
 		
 	    <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
 		
+    	<tstamp prefix="timestamp">
+           	<format property="currentTime" pattern="yyyyMMdd-HHmm" locale="en" />
+        </tstamp>
+		
+		<!-- property setting -->
+		<property name="buildOutputDir" value="./eclipse/plugins"/>
+		<property name="buildOutputDir.tmp" value="./temp"/>
+		<property name="outputDir" value="./eclipse/plugins"/>
+		<property name="BranchVersion" value="3.7.0"/>
+		<property name="buildId" value="v${timestamp.currentTime}"/>
 		
 		<mkdir dir="${buildOutputDir.tmp}" />
+		<mkdir dir="${outputDir}" />
+
 		<copy todir="${buildOutputDir.tmp}">
 			<fileset dir="${buildOutputDir}">
-				<include name="**"/>
+				<include name="org.eclipse.birt.*/**"/>
+				<include name="org.eclipse.datatools.*/**"/>
 			</fileset>
 		</copy>
+		
 		<!-- repackage org.eclipse.birt.report.engine plugin to remove 3rd party jars -->
 	
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
@@ -1141,9 +1155,10 @@
 		<jar destfile="${buildOutputDir.tmp}/org.eclipse.birt.report.engine_${org.eclipse.birt.report.engine}.jar" 
 			basedir="${buildOutputDir.tmp}/engine" excludes="lib/*.jar" manifest="${buildOutputDir.tmp}/engine/META-INF/MANIFEST.MF" />
 		<delete dir="${buildOutputDir.tmp}/engine" />
-
 		
 		<echo message="BIRT plugins location: ${buildOutputDir.tmp} "/>
+		<echo message="BIRT runtime jar output dir: ${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar" />
+		
 		<buildJar basedir="${buildOutputDir.tmp}" output="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar">
 			<bundle name="org.eclipse.birt.chart.device.extension"/>
 			<bundle name="org.eclipse.birt.chart.device.svg"/>
@@ -1237,7 +1252,6 @@
 	    	</manifest>
 	    </buildJar>
 		-->
-
 	</target>
 		
 	<target name="removeBirtAllForNightly" unless="sign">
