@@ -51,6 +51,7 @@ OptionDescription.Resolution=分辨率。
 OptionDescription.Scale=缩放比例。
 OptionDescription.Color=颜色。
 OptionDescription.AutoPaperSizeSelection=根据页面大小选择纸张大小。
+OptionDescription.FitToPaper=Fit to paper.
 
 ###########################################################
 #tooltip

@@ -51,6 +51,7 @@ OptionDescription.Resolution=해상도입니다.
 OptionDescription.Scale=배율입니다.
 OptionDescription.Color=색입니다.
 OptionDescription.AutoPaperSizeSelection=용지 크기를 페이지 크기에 맞춰 선택합니다.
+OptionDescription.FitToPaper=Fit to paper.
 
 ###########################################################
 #tooltip
