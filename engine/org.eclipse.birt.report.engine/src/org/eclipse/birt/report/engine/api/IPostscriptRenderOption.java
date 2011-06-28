@@ -34,6 +34,8 @@ public interface IPostscriptRenderOption extends IRenderOption
 
 	public static final String OPTION_AUTO_PAPER_SIZE_SELECTION = "OptionAutoPaperSizeSelection";
 
+	public static final String OPTION_FIT_TO_PAPER = "OptionFitToPaper";
+
 	public static final int DUPLEX_SIMPLEX = 0;
 	public static final int DUPLEX_FLIP_ON_SHORT_EDGE = 1;
 	public static final int DUPLEX_FLIP_ON_LONG_EDGE = 2;
@@ -90,4 +92,8 @@ public interface IPostscriptRenderOption extends IRenderOption
 	void setAutoPaperSizeSelection( boolean autoPaperSizeSelection );
 
 	boolean getAutoPaperSizeSelection( );
+
+	void setFitToPaper( boolean fitToPaper );
+
+	boolean getFitToPaper( );
 }

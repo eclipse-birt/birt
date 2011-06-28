@@ -231,10 +231,22 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		paperTray
 		        .setDescription( getMessage( "OptionDescription.AutoPaperSizeSelection" ) ); //$NON-NLS-1$
 
+		// Initializes the option for collate.
+		ConfigurableOption fitToPaper = new ConfigurableOption(
+		        PostscriptRenderOption.OPTION_FIT_TO_PAPER );
+		fitToPaper
+		        .setDisplayName( getMessage( "OptionDisplayValue.FitToPaper" ) ); //$NON-NLS-1$
+		fitToPaper.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		fitToPaper.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		fitToPaper.setDefaultValue( Boolean.FALSE );
+		fitToPaper.setToolTip( null );
+		fitToPaper
+		        .setDescription( getMessage( "OptionDescription.FitToPaper" ) ); //$NON-NLS-1$
+
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
 		        fontSubstitution, pageOverFlow, copies, collate, duplex,
 		        paperSize, paperTray, scale, resolution, color, chartDpi,
-		        autoPaperSizeSelection};
+		        autoPaperSizeSelection, fitToPaper};
 	}
 
 	private String getMessage( String key )

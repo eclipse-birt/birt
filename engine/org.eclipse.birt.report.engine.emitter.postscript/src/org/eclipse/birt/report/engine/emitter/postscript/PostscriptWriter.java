@@ -168,6 +168,10 @@ public class PostscriptWriter
 			"drawSBStr", "drawBStr", "drawSIStr", "drawIStr", "drawSBIStr",
 			"drawBIStr"};
 	
+	private boolean fitToPaper;
+
+	private int paperWidth, paperHeight;
+
 	static
 	{
 		intrinsicFonts.add( COURIER );
@@ -956,7 +960,7 @@ public class PostscriptWriter
 	public void startRenderer( ) throws IOException
 	{
 		startRenderer( null, null, null, null, null, 1, false, null, false,
-		               100, true );
+		               100, false, false );
 	}
 
 	/*
@@ -967,9 +971,11 @@ public class PostscriptWriter
 	public void startRenderer( String author, String description,
 	        String paperSize, String paperTray, Object duplex, int copies,
 	        boolean collate, String resolution, boolean color, int scale,
-	        boolean autoPaperSizeSelection ) throws IOException
+	        boolean autoPaperSizeSelection, boolean fitToPaper )
+	        throws IOException
 	{
 		this.scale = scale;
+		this.fitToPaper = fitToPaper;
 		this.autoPaperSizeSelection = autoPaperSizeSelection;
 		if ( author != null )
 		{
@@ -1256,6 +1262,13 @@ public class PostscriptWriter
 		out.println( "%%PageBoundingBox: 0 0 " + (int) Math.round( pageWidth )
 				+ " " + (int) Math.round( pageHeight ) );
 		out.println( "%%BeginPage" );
+		if ( fitToPaper && paperWidth != 0 && paperHeight != 0 )
+		{
+			int height = isLandscape ? (int) pageWidth : (int) pageHeight;
+			int width = isLandscape ? (int) pageHeight : (int) pageWidth;
+			out.println( paperWidth + " " + width + " div " + paperHeight + " "
+			        + height + " div 2 copy gt {exch}if pop dup scale" );
+		}
 		if ( isLandscape )
 		{
 			gSave( );

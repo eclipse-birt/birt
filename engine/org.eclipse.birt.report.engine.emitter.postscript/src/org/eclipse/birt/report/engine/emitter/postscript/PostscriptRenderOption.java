@@ -125,6 +125,16 @@ public class PostscriptRenderOption extends RenderOption
 
 	public boolean getAutoPaperSizeSelection( )
 	{
-		return getBooleanOption( OPTION_AUTO_PAPER_SIZE_SELECTION, true );
+		return getBooleanOption( OPTION_AUTO_PAPER_SIZE_SELECTION, false );
+	}
+
+	public void setFitToPaper( boolean fitToPaper )
+	{
+		options.put( OPTION_FIT_TO_PAPER, fitToPaper );
+	}
+
+	public boolean getFitToPaper( )
+	{
+		return getBooleanOption( OPTION_FIT_TO_PAPER, true );
 	}
 }
