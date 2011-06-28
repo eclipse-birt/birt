@@ -17,12 +17,15 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
 import org.eclipse.birt.report.engine.script.internal.instance.ImageInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
+import org.eclipse.birt.report.engine.script.internal.instance.UnsupportedImageInstance;
 import org.eclipse.birt.report.model.api.ImageHandle;
 
 public class ImageScriptExecutor extends ScriptExecutor
@@ -42,7 +45,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnCreate( IImageContent content,
+	public static void handleOnCreate( IContent content,
 			ExecutionContext context )
 	{
 
@@ -54,7 +57,8 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IImageInstance image = new ImageInstance( content, context,
+			IImageInstance image = createImageInstance( content,
+					context,
 					RunningState.CREATE );
 			if ( handleScript( image, imageDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -69,7 +73,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnRender( IImageContent content,
+	public static void handleOnRender( IContent content,
 			ExecutionContext context )
 	{
 		ReportItemDesign imageDesign = (ReportItemDesign) content
@@ -80,7 +84,8 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IImageInstance image = new ImageInstance( content, context,
+			IImageInstance image = createImageInstance( content,
+					context,
 					RunningState.RENDER );
 			if ( handleScript( image, imageDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -95,7 +100,7 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	public static void handleOnPageBreak( IImageContent content,
+	public static void handleOnPageBreak( IContent content,
 			ExecutionContext context )
 	{
 		ReportItemDesign imageDesign = (ReportItemDesign) content
@@ -106,7 +111,8 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 		try
 		{
-			IImageInstance image = new ImageInstance( content, context,
+			IImageInstance image = createImageInstance( content,
+					context,
 					RunningState.PAGEBREAK );
 			if ( handleScript( image, imageDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -154,6 +160,20 @@ public class ImageScriptExecutor extends ScriptExecutor
 		catch ( EngineException e )
 		{
 			addException( context, e, handle );
+		}
+		return null;
+	}
+
+	private static IImageInstance createImageInstance( IContent content,
+			ExecutionContext context, RunningState state )
+	{
+		if ( content instanceof IImageContent )
+		{
+			return new ImageInstance( content, context, state );
+		}
+		else if ( content instanceof ITextContent )
+		{
+			return new UnsupportedImageInstance( (ITextContent) content );
 		}
 		return null;
 	}

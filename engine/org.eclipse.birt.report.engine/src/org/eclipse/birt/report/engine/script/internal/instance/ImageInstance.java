@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.instance;
 
 import org.eclipse.birt.report.engine.api.script.instance.IActionInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 public class ImageInstance extends ReportItemInstance implements IImageInstance
 {
 
-	public ImageInstance( IImageContent image, ExecutionContext context,
+	public ImageInstance( IContent image, ExecutionContext context,
 			RunningState runningState )
 	{
 		super( image, context, runningState );

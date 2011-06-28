@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
@@ -123,7 +122,7 @@ public class OnCreateScriptVisitor extends DefaultReportItemVisitorImpl
 
 	public Object visitImageItem( ImageItemDesign image, Object value )
 	{
-		ImageScriptExecutor.handleOnCreate( (IImageContent) value, context );
+		ImageScriptExecutor.handleOnCreate( (IContent) value, context );
 		return value;
 	}
 
