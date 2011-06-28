@@ -2301,7 +2301,7 @@ public class ExecutionContext
 		}
 		if ( "pageNumber".equals( name ) )
 		{
-			return Long.valueOf( totalPage );
+			return Long.valueOf( pageNumber );
 		}
 		PageVariable var = pageVariables.get( name );
 		if ( var != null )
