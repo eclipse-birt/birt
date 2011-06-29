@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
@@ -326,8 +327,15 @@ abstract class ReportDesignImpl extends LayoutModule
 
 		super.cacheValues( );
 
+		// grid or table lies in body and master page slot
+		doCacheValues( BODY_SLOT );
+		doCacheValues( IModuleModel.PAGE_SLOT );
+	}
+
+	private void doCacheValues( int slotID )
+	{
 		ContentIterator iter1 = new ContentIterator( this,
-				new ContainerContext( this, BODY_SLOT ) );
+				new ContainerContext( this, slotID ) );
 		while ( iter1.hasNext( ) )
 		{
 			DesignElement tmpElement = iter1.next( );
@@ -336,7 +344,6 @@ abstract class ReportDesignImpl extends LayoutModule
 
 			( (ReportItem) tmpElement ).cacheValues( );
 		}
-
 	}
 
 	/**
