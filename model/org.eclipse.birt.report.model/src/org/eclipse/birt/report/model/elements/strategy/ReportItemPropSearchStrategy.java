@@ -181,18 +181,26 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	protected Object getPropertyFromSelf( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
-		if ( !isDataBindingProperty( element, prop.getName( ) ) )
+		String propName = prop.getName( );
+		if ( !isDataBindingProperty( element, propName ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		// the data binding reference property has high priority than local
 		// properties.
 
-		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
-				module, IReportItemModel.DATA_BINDING_REF_PROP );
+		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty( module,
+				IReportItemModel.DATA_BINDING_REF_PROP );
 		if ( refValue == null || !refValue.isResolved( ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
-		return refValue.getElement( ).getProperty( module, prop );
+		DesignElement refElement = refValue.getElement( );
+		ElementPropertyDefn refPropDefn = refElement.getPropertyDefn( propName );
+		if ( prop.getTypeCode( ) != refPropDefn.getTypeCode( )
+				|| prop.getStructDefn( ) != refPropDefn.getStructDefn( )
+				|| prop.getTargetElementType( ) != refPropDefn.getTargetElementType( ) )
+			return null;
+
+		return refElement.getProperty( module, prop );
 	}
 
 	/**

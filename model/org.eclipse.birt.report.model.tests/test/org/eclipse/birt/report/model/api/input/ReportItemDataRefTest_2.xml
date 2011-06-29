@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22">
+    <data-sources>
+        <script-data-source name="Data Source"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set">
+            <property name="dataSource">Data Source</property>     
+        </script-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Data Cube">        
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes> 
+    <page-setup>
+        <simple-master-page name="Simple MasterPage"/>
+    </page-setup>
+    <body>
+        <extended-item extensionName="Crosstab" extensionVersion="2.5.0" name="crosstab">
+            <property name="cube">Data Cube</property>         
+            <property name="filter">
+                <filter-condition-element>
+                    <expression name="expr" type="javascript">dimension["Group"]["CITY"]</expression>
+                    <property name="operator">eq</property>
+                    <simple-property-list name="value1">
+                        <value type="javascript">"Amsterdam"</value>
+                    </simple-property-list>
+                </filter-condition-element>
+            </property>        
+        </extended-item>
+        <table>
+            <property name="dataBindingRef">crosstab</property>            
+        </table>
+    </body>
+</report>

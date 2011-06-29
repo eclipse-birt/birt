@@ -501,4 +501,12 @@ public class ReportItemDataRefTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "ReportItemDataRefTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
+	
+	public void testDataBindingRefWithDifferentFilterType( ) throws Exception
+	{
+		openDesign( "ReportItemDataRefTest_2.xml" );  //$NON-NLS-1$
+		DesignElementHandle element = designHandle.getBody( ).get( 1 );
+		Object value = element.getProperty( "filter" );  //$NON-NLS-1$
+		assertNull( value );
+	}
 }
