@@ -7,7 +7,7 @@ Bundle-Activator: org.eclipse.birt.report.model.adapter.oda.plugin.ModelAdapterO
 Bundle-ClassPath: modelODAFragment.jar,
  .
 Eclipse-ExtensibleAPI: true 
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.birt.report.model.adapter.oda.impl;x-friends:="org.eclipse.birt.report.model.adapter.oda.tests",

@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.archive.compound,

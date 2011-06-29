@@ -4,7 +4,7 @@ Bundle-Name: BIRT Chart-Report Integration
 Bundle-SymbolicName: org.eclipse.birt.chart.reportitem; singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.reportitem,
  org.eclipse.birt.chart.reportitem.api,

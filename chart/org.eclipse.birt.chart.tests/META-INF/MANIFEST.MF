@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.chart.tests;singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-ClassPath: charttests.jar
 Bundle-Activator: org.eclipse.birt.chart.tests.TestsPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.tests,
  org.eclipse.birt.chart.tests.device,

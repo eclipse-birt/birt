@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.chart.viewer;singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-ClassPath: .,
  WebContent/WEB-INF/lib/
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javax.servlet,
  javax.servlet.jsp,

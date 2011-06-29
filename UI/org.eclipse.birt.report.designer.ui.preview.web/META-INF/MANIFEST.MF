@@ -23,6 +23,6 @@ Export-Package: org.eclipse.birt.report.designer.ui.actions,
  org.eclipse.birt.report.designer.ui.ide.navigator,
  org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.designer.ui.preview.editors
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: com.ibm.icu.util;version="[3.4.4,5.0.0)"

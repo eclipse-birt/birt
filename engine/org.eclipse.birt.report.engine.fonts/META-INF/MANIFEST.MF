@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Engine fonts
 Bundle-SymbolicName: org.eclipse.birt.report.engine.fonts
 Bundle-Version: 3.7.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 

@@ -4,7 +4,7 @@ Bundle-Name: BIRT Library Explorer Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.lib.explorer; singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.designer.ui.lib.explorer,
  org.eclipse.birt.report.designer.ui.lib.explorer.action,

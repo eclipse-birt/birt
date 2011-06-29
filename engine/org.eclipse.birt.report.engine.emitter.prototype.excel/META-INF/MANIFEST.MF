@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension,
  org.eclipse.birt.chart.reportitem
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.ExcelemitterPlugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

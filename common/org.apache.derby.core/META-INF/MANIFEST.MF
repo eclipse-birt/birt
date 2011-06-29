@@ -4,7 +4,7 @@ Bundle-Name: Apache Derby Core Plug-in for Eclipse
 Bundle-SymbolicName: org.apache.derby.core; singleton:=true
 Bundle-Version: 10.5.1.1_qualifier
 Bundle-ClassPath: derby.jar
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Eclipse-LazyStart: true
 Export-Package: org.apache.derby.jdbc

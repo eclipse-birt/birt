@@ -4,7 +4,7 @@ Bundle-Name: BIRT Chart Engine Extension
 Bundle-SymbolicName: org.eclipse.birt.chart.engine.extension; singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEngineExtensionPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.engine.extension.i18n,
  org.eclipse.birt.chart.extension.aggregate,

@@ -8,3 +8,4 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.junit4;bundle-version="4.7.0";resolution:=optional;visibility:=reexport
 Bundle-ClassPath: coretesthelper.jar
 Export-Package: org.eclipse.birt.core.archive.compound
+Bundle-Vendor: Eclipse BIRT Project

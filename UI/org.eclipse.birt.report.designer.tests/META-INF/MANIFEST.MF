@@ -4,7 +4,7 @@ Bundle-Name: BIRT Test Plugin
 Bundle-SymbolicName: org.eclipse.birt.report.designer.tests; singleton:=true
 Bundle-Version: 3.7.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.tests.TestsPlugin
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.designer.core,
  org.eclipse.birt.report.designer.core.commands,
