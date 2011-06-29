@@ -268,7 +268,7 @@ public abstract class ModuleImpl extends DesignElement
 	 * <code>null</code> if the file cannot be found.
 	 */
 
-	private URL location = null;
+	protected URL location = null;
 
 	/**
 	 * Options set for this module.
