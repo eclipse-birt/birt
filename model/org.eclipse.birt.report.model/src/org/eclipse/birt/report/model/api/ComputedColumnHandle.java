@@ -492,4 +492,31 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setProperty( ComputedColumn.ARGUMENTS_MEMBER, null );
 	}
+	
+	/**
+	 * Gets the flag which indicates whether the computed column supports
+	 * export.
+	 * 
+	 * @return true if it allows, otherwise false.
+	 */
+	public boolean allowExport( )
+	{
+		Boolean value = (Boolean) getProperty( ComputedColumn.ALLOW_EXPORT_MEMBER );
+		if ( value != null )
+			return value.booleanValue( );
+		return true;
+	}
+
+	/**
+	 * Sets the flag which indicates whether the computed column supports
+	 * export.
+	 * 
+	 * @param allowExport
+	 *            the flag to set
+	 * @throws SemanticException 
+	 */
+	public void setAllowExport( boolean allowExport ) throws SemanticException
+	{
+		setProperty( ComputedColumn.ALLOW_EXPORT_MEMBER, allowExport );
+	}
 }

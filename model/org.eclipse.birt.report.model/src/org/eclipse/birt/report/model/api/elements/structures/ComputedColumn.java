@@ -120,6 +120,11 @@ public class ComputedColumn extends PropertyStructure
 	 */
 	public static final String FILTER_MEMBER = "filterExpr"; //$NON-NLS-1$
 
+	/**
+	 * Name of the allowExport member.
+	 */
+	public static final String ALLOW_EXPORT_MEMBER = "allowExport"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -542,4 +547,31 @@ public class ComputedColumn extends PropertyStructure
 
 		arguments.remove( argument );
 	}
+	
+	/**
+	 * Gets the flag which indicates whether the computed column supports
+	 * export.
+	 * 
+	 * @return true if it allows, otherwise false.
+	 */
+	public boolean allowExport( )
+	{
+		Boolean value = (Boolean) getProperty( null, ALLOW_EXPORT_MEMBER );
+		if ( value != null )
+			return value.booleanValue( );
+		return true;
+	}
+
+	/**
+	 * Sets the flag which indicates whether the computed column supports
+	 * export.
+	 * 
+	 * @param allowExport
+	 *            the flag to set
+	 */
+	public void setAllowExport( boolean allowExport )
+	{
+		setProperty( ALLOW_EXPORT_MEMBER, allowExport );
+	}
+
 }

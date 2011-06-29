@@ -273,6 +273,10 @@ public class OdaDataSetParseTest extends BaseTestCase
 		numberFormat.setPattern( "test number pattern" ); //$NON-NLS-1$
 		columnHintHandle.setValueFormat( numberFormat );
 
+		ComputedColumnHandle computedColumn = (ComputedColumnHandle) dataSet
+				.computedColumnsIterator( ).next( );
+		computedColumn.setAllowExport( true );
+		
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}
@@ -859,6 +863,7 @@ public class OdaDataSetParseTest extends BaseTestCase
 		computedColumn = (ComputedColumnHandle) columns.next( );
 		assertEquals( "column3", computedColumn.getName( ) ); //$NON-NLS-1$
 		assertEquals( "expression3", computedColumn.getExpression( ) ); //$NON-NLS-1$
+		assertFalse( computedColumn.allowExport( ) );
 
 		// Test "column-hints" on DataSet
 

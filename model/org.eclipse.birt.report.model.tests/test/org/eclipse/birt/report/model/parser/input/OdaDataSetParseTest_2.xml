@@ -98,6 +98,7 @@
                 <structure>
                     <property name="columnName">column3</property>
                     <expression name="expression">expression3</expression>
+                    <property name="allowExport">false</property>
                 </structure>
             </list-property>
             <list-property name="columnHints">
