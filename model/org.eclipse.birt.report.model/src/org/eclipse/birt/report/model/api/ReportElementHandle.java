@@ -61,7 +61,15 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		assert element != null;
 		this.element = element;
 
+		// the slot handles must be cached.
+		
 		initializeSlotHandles( );
+		
+		// do not cache property handles if it is runtime.
+		ModuleOption options = module.getOptions( );
+		if ( options != null && !options.useSemanticCheck( ) )
+			return;
+
 		cachePropertyHandles( );
 	}
 
