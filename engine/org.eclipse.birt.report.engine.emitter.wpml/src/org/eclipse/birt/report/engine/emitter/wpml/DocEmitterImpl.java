@@ -177,7 +177,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			int width = WordUtil.convertTo( foreign.getWidth( ),
 					context.getCurrentWidth( ), reportDpi );
 			width = Math.min( width, context.getCurrentWidth( ) );
-			wordWriter.startTable( foreign.getComputedStyle( ), width );
+			wordWriter.startTable( foreign.getComputedStyle( ), width, inForeign );
 			wordWriter.startTableRow( -1 );
 			wordWriter
 					.startTableCell( width, foreign.getComputedStyle( ), null );

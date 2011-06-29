@@ -214,6 +214,12 @@ public abstract class AbstractWordXmlWriter
 	// write the table properties to the output stream
 	public void startTable( IStyle style, int tablewidth )
 	{
+		startTable( style, tablewidth, false );
+	}
+
+	// write the table properties to the output stream
+	public void startTable( IStyle style, int tablewidth, boolean inForeign )
+	{
 		writer.openTag( "w:tbl" );
 		writer.openTag( "w:tblPr" );
 		writeTableIndent( );
@@ -226,9 +232,30 @@ public abstract class AbstractWordXmlWriter
 		writeTableBorders( style );
 		writeBackgroundColor( style.getBackgroundColor( ) );
 		writeAlign( style.getTextAlign( ), style.getDirection( ) );
+		if (inForeign)
+		{
+			writer.openTag( "w:tblCellMar" );
+			writer.openTag( "w:top" );
+			writer.attribute( "w:w", 0 );
+			writer.attribute( "w:type", "dxa" );
+			writer.closeTag( "w:top" );
+			writer.openTag( "w:left" );
+			writer.attribute( "w:w", 0 );
+			writer.attribute( "w:type", "dxa" );
+			writer.closeTag( "w:left" );
+			writer.openTag( "w:bottom" );
+			writer.attribute( "w:w", 0 );
+			writer.attribute( "w:type", "dxa" );
+			writer.closeTag( "w:bottom" );
+			writer.openTag( "w:right" );
+			writer.attribute( "w:w", 0 );
+			writer.attribute( "w:type", "dxa" );
+			writer.closeTag( "w:right" );
+			writer.closeTag( "w:tblCellMar" );
+		}
 		writer.closeTag( "w:tblPr" );
 	}
-
+	
 	private void writeTableBorders( IStyle style )
 	{
 		writer.openTag( "w:tblBorders" );

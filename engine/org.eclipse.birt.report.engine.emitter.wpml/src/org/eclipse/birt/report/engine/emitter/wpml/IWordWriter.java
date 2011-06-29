@@ -52,6 +52,8 @@ public interface IWordWriter
 			int leftMargin, int rightMargin );
 
 	void startTable( IStyle style, int tableWidth );
+	
+	void startTable( IStyle style, int tableWidth, boolean inForeign );
 
 	void endTable( );
 
