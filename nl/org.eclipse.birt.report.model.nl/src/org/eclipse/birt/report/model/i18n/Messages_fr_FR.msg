@@ -2036,6 +2036,7 @@ Structure.ComputedColumn.aggregateOn=Expression AggregateOn
 Structure.ComputedColumn.aggregateFunction=Fonction Regrouper par
 Structure.ComputedColumn.arguments=Arguments pour la fonction Regrouper par
 Structure.ComputedColumn.filterExpr=Expression de filtre
+Structure.ComputedColumn.allowExport=Allow Export
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nom de colonne

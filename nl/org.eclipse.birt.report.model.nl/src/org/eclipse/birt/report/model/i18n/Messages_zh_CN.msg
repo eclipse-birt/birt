@@ -2036,6 +2036,7 @@ Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
 Structure.ComputedColumn.aggregateFunction=AggregateOn 函数
 Structure.ComputedColumn.arguments=AggregateOn 函数参数
 Structure.ComputedColumn.filterExpr=筛选表达式
+Structure.ComputedColumn.allowExport=Allow Export
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名

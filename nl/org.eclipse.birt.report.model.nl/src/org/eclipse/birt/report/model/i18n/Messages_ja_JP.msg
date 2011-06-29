@@ -2036,6 +2036,7 @@ Structure.ComputedColumn.aggregateOn=AggregateOn ®
 Structure.ComputedColumn.aggregateFunction=AggregateOn ŠÖ”
 Structure.ComputedColumn.arguments=AggregateOn ŠÖ”‚Ìˆø”
 Structure.ComputedColumn.filterExpr=ƒtƒBƒ‹ƒ^®
+Structure.ComputedColumn.allowExport=Allow Export
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=—ñ–¼
