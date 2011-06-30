@@ -80,7 +80,14 @@ public class BIRTCubeResultSetEvaluator extends
 		this.qr = qr;
 		try
 		{
-			initCubeCursor( );
+			ICubeCursor cursor = getCubeCursor( );
+			List edges = cursor.getOrdinateEdge( );
+			if ( edges.size( ) == 0 )
+			{
+				throw new ChartException( ChartReportItemPlugin.ID,
+						ChartException.DATA_BINDING,
+						Messages.getString( "exception.no.cube.edge" ) ); //$NON-NLS-1$
+			}
 		}
 		catch ( OLAPException e )
 		{

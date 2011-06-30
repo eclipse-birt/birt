@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,9 +98,6 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		fYOptionalInnerLevelIndex = -1;
 		if ( queryDefintion instanceof ICubeQueryDefinition )
 		{
-			List<String> rowLevelNames = Collections.emptyList( );
-			List<String> colLevelNames = Collections.emptyList( );
-
 			String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
 
 			ICubeQueryDefinition cqd = (ICubeQueryDefinition) queryDefintion;
@@ -122,18 +120,16 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			{
 				if ( rowED != null )
 				{
-					rowLevelNames = getLevelNames( rowED );
 					fCategoryInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
-							rowLevelNames, cubeBindingMap );
+							rowED, cubeBindingMap );
 				}
 				
 				if ( fCategoryInnerLevelIndex < 0 && colED != null )
 				{
 						// Row level isn't find on row edge, find it on column
 						// edge.
-						rowLevelNames = getLevelNames( colED );
 						fCategoryInnerLevelIndex = findInnerLevelIndex( categoryExprs[0],
-								rowLevelNames, cubeBindingMap );
+								colED, cubeBindingMap );
 						fIsColEdgeAsCategoryCursor = true;
 				}
 			}
@@ -150,15 +146,13 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			{
 				if ( fIsColEdgeAsCategoryCursor && rowED != null )
 				{
-					colLevelNames = getLevelNames( rowED );
 					fYOptionalInnerLevelIndex = findInnerLevelIndex( yOptionalExprs[0],
-							colLevelNames, cubeBindingMap );
+							rowED, cubeBindingMap );
 				}
 				else if ( colED != null )
 				{
-					colLevelNames = getLevelNames( colED );
 					fYOptionalInnerLevelIndex = findInnerLevelIndex( yOptionalExprs[0],
-							colLevelNames, cubeBindingMap );
+							colED, cubeBindingMap );
 				}
 			}
 		}
@@ -173,50 +167,60 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	 * @param cubeBindingMap
 	 * @return
 	 */
-	private int findInnerLevelIndex( String expr, List<String> levelNames, Map<String, String> cubeBindingMap )
+	private int findInnerLevelIndex( String expr, IEdgeDefinition edge, Map<String, String> cubeBindingMap )
 	{
 		int index = -1;
 		if ( ChartUtil.isEmpty( expr ) )
 		{
 			return index;
 		}
-
+		Map<String, List<String>> dimLevelMaps = getDimLevelsNames( edge );
+		
 		ExpressionCodec exprCodec = ChartModelHelper.instance( )
 				.createExpressionCodec( );
 		Collection<String> bindingNames = exprCodec.getBindingNames( expr );
+
 		for ( String bindName : bindingNames )
 		{
 			String cubeBindingExpr = cubeBindingMap.get( bindName );
-			if( cubeBindingExpr == null )
+			if ( cubeBindingExpr == null )
 			{
 				continue;
 			}
 			String[] lNames = exprCodec.getLevelNames( cubeBindingExpr );
-			for ( int i = 1; i < lNames.length; i++ )
+
+			for ( java.util.Iterator<Map.Entry<String, List<String>>> iter = dimLevelMaps.entrySet( )
+					.iterator( ); iter.hasNext( ); )
 			{
-				int levelIndex = levelNames.indexOf( lNames[i] );
-				if ( levelIndex > index )
+				Map.Entry<String, List<String>> dimLevels = iter.next( );
+				// If dimension isn't equal, ignore.
+				if ( !lNames[0].equals( dimLevels.getKey( ) ) )
 				{
-					index = levelIndex;
+					continue;
+				}
+				
+				List<String> levelNames = dimLevels.getValue( );;
+				for ( int i = 1; i < lNames.length; i++ )
+				{
+					int levelIndex = levelNames.indexOf( lNames[i] );
+					if ( levelIndex > index )
+					{
+						index = levelIndex;
+					}
 				}
 			}
 		}
-
 		return index;
 	}
 
-	/**
-	 * Returns level names in edge definition.
-	 * 
-	 * @param ed
-	 * @return
-	 */
-	private List<String> getLevelNames( IEdgeDefinition ed )
+	private Map<String, List<String>> getDimLevelsNames( IEdgeDefinition ed )
 	{
-		List<String> levelNames = new ArrayList<String>( );
+		Map<String, List<String>> map = new LinkedHashMap<String, List<String>>( );
 		List<IDimensionDefinition> dimensions = ed.getDimensions( );
 		for ( IDimensionDefinition d : dimensions )
 		{
+			List<String> levelNames = new ArrayList<String>( );
+			map.put( d.getName( ), levelNames );
 			List<IHierarchyDefinition> hieDefs = d.getHierarchy( );
 			for ( IHierarchyDefinition hd : hieDefs )
 			{
@@ -228,9 +232,9 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			}
 
 		}
-		return levelNames;
+		return map;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator#initCubeCursor()
 	 */
