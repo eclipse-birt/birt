@@ -61,6 +61,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
+import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCReader;
 import org.eclipse.birt.report.engine.toc.TOCView;
 import org.eclipse.birt.report.engine.toc.TreeNode;
@@ -1180,7 +1181,8 @@ public class ReportDocumentReader
 				{
 					String bookmarkString = bookmark.getBookmark( );
 					if ( bookmarkString
-					        .startsWith( ExecutorManager.BOOKMARK_PREFIX ) )
+							.startsWith( ExecutorManager.BOOKMARK_PREFIX )
+							|| bookmarkString.indexOf( TOCBuilder.TOC_PREFIX ) != -1 )
 					{
 						continue;
 					}
