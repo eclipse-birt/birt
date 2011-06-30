@@ -214,7 +214,7 @@ class BindingColumnsEvalUtil
 		}
 		catch ( BirtException e )
 		{
-			exprValue = e;
+			throw new DataException(e.getMessage( ));
 		}
 		return exprValue;
 	}
