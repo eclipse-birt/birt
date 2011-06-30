@@ -22,9 +22,12 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
+import org.eclipse.datatools.connectivity.oda.design.SortSpecification;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
+import org.eclipse.datatools.modelbase.sql.query.QueryStatement;
 import org.eclipse.datatools.sqltools.editor.core.connection.ISQLEditorConnectionInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInputUsageOptions;
@@ -56,6 +59,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
     private IConnectionProfile m_dataSourceProfile;
 	private CustomSQLBuilderDialog m_sqbDialog;
 	private boolean m_updatedQueryInput = false;
+	private SortSpecification m_initQuerySortSpec;
 	
 	public SQBDataSetWizardPage( String pageName )
 	{
@@ -119,10 +123,17 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 		
 		SQLQueryUtility.setSystemHelp( getControl( ),
 				IHelpConstants.CONEXT_ID_DATASET_SQLWIZARDPAGE );
-
 	}
 
-	private ISQLBuilderEditorInput createSQBInput( Composite parent, IConnectionProfile connProfile )
+	@Override
+    protected void refresh( DataSetDesign dataSetDesign )
+    {
+        super.refresh( dataSetDesign );
+        if( m_sqbDialog != null )
+            resetQueryDesignState( m_sqbDialog.getSQLQueryStatement(), dataSetDesign );
+    }
+
+    private ISQLBuilderEditorInput createSQBInput( Composite parent, IConnectionProfile connProfile )
 	{
 	    m_updatedQueryInput = false;
 	    SQLBuilderDesignState sqbState = restoreSQLBuilderStateFromDesign( parent.getShell() );
@@ -162,6 +173,28 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         return sqbInput;	    
 	}
 
+	private void resetQueryDesignState( final QueryStatement queryStmt, final DataSetDesign dataSetDesign )
+	{
+	    m_initQuerySortSpec = null;
+        if( queryStmt == null )
+            return;            // no query state to set, done
+        
+        ResultSetDefinition resultSetDefn = dataSetDesign != null ?
+                dataSetDesign.getPrimaryResultSet() : null;
+        if( resultSetDefn == null )
+            return;
+
+        // track the initial state of the OrderBy clause in the SQB query
+        try
+        {
+            m_initQuerySortSpec = SQLQueryUtility.convertOrderByClauseToSortSpec( queryStmt, null, resultSetDefn );
+        }
+        catch( OdaException e )
+        {
+            // ignore
+        }
+	}
+	
 	private SQLBuilderDesignState restoreSQLBuilderStateFromDesign( Shell parentShell )
 	{
 	    DesignerState designerState = getInitializationDesignerState();
@@ -391,7 +424,8 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         {
             SQLQueryUtility.updateDataSetDesign( design, m_sqbDialog.getSQLQueryStatement(),
                                             getConnectionProfile( false, false ), 
-                                            getInitializationDesign() );
+                                            getInitializationDesign(),
+                                            m_initQuerySortSpec );
             m_sqbDialog.setDirty( false );
         }
 
@@ -405,6 +439,8 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
     {
         Connection.closeProfile( m_dataSourceProfile );
         m_dataSourceProfile = null;
+
+        m_initQuerySortSpec = null;
         
         if( m_sqbDialog != null )
         {

@@ -40,6 +40,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetCriteria;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.SortDirectionType;
 import org.eclipse.datatools.connectivity.oda.design.SortKey;
+import org.eclipse.datatools.connectivity.oda.design.SortSpecification;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.modelbase.sql.datatypes.CharacterStringDataType;
 import org.eclipse.datatools.modelbase.sql.datatypes.DataType;
@@ -79,7 +80,9 @@ public class SQLQueryUtility
 	private static final String CLASS_NAME = SQLQueryUtility.class.getName();
 
     static void updateDataSetDesign( DataSetDesign dataSetDesign, 
-            final QueryStatement queryStmt, IConnectionProfile connProfile, final DataSetDesign origDataSetDesign )
+            final QueryStatement queryStmt, IConnectionProfile connProfile, 
+            final DataSetDesign origDataSetDesign,
+            final SortSpecification origQuerySortSpec )
     {
         String dataSetName = origDataSetDesign.getName();
     	if ( dataSetName != null )
@@ -102,7 +105,7 @@ public class SQLQueryUtility
             
             // update the data set design with the 
             // query's current runtime metadata
-            updateQueryMetaData( dataSetDesign, customConn, queryStmt, origDataSetDesign );
+            updateQueryMetaData( dataSetDesign, customConn, queryStmt, origDataSetDesign, origQuerySortSpec );
         }
         catch( OdaException e )
         {
@@ -155,7 +158,9 @@ public class SQLQueryUtility
      * obtained from the ODA runtime connection.
      */
     private static void updateQueryMetaData( DataSetDesign dataSetDesign,
-                            IConnection conn, final QueryStatement queryStmt, final DataSetDesign origDataSetDesign )
+                            IConnection conn, final QueryStatement queryStmt, 
+                            final DataSetDesign origDataSetDesign,
+                            final SortSpecification origQuerySortSpec )
         throws OdaException
     {
         updateQueryText( dataSetDesign, queryStmt );
@@ -169,7 +174,7 @@ public class SQLQueryUtility
             IResultSetMetaData md = query.getMetaData();
             ResultSetDefinition origResultSetDefn = origDataSetDesign != null ?
                         origDataSetDesign.getPrimaryResultSet() : null;
-            updateResultSetDesign( dataSetDesign, md, queryStmt, origResultSetDefn );
+            updateResultSetDesign( dataSetDesign, md, queryStmt, origResultSetDefn, origQuerySortSpec );
         }
         catch( OdaException e )
         {
@@ -255,7 +260,8 @@ public class SQLQueryUtility
      * @throws OdaException
      */
     private static void updateResultSetDesign( DataSetDesign dataSetDesign, 
-            IResultSetMetaData md, final QueryStatement queryStmt, final ResultSetDefinition origResultSetDefn ) 
+            IResultSetMetaData md, final QueryStatement queryStmt, final ResultSetDefinition origResultSetDefn,
+            final SortSpecification origQuerySortSpec ) 
         throws OdaException
     {
         ResultSetColumns columns = DesignSessionUtil.toResultSetColumnsDesign( md );
@@ -271,17 +277,18 @@ public class SQLQueryUtility
 
         try
         {
-            updateResultSetCriteria( resultSetDefn, queryStmt, origResultSetDefn );
+            updateResultSetCriteria( resultSetDefn, queryStmt, origResultSetDefn, origQuerySortSpec );
         }
         catch( OdaException ex )
         {
-            // TODO log warning and ignore
+            // ignore
+            ex.printStackTrace();
         }
     }
     
-    @SuppressWarnings("unchecked")
     private static void updateResultSetCriteria( ResultSetDefinition resultSetDefn, 
-            final QueryStatement queryStmt, final ResultSetDefinition origResultSetDefn )
+            final QueryStatement queryStmt, final ResultSetDefinition origResultSetDefn,
+            final SortSpecification origQuerySortSpec )
         throws OdaException
     {
         if( ! (queryStmt instanceof QuerySelectStatement) )
@@ -290,7 +297,6 @@ public class SQLQueryUtility
                             CLASS_NAME )));
         
         ResultSetCriteria criteria = DesignFactory.eINSTANCE.createResultSetCriteria();
-        criteria.setRowOrdering( DesignFactory.eINSTANCE.createSortSpecification() );
 
         // does not support push-up of filter spec; 
         // preserve existing filterExpression, if any, from session request
@@ -300,18 +306,26 @@ public class SQLQueryUtility
             criteria.setFilterSpecification( origFilterExpr );
         }
         
-        // include sort key hints, if query has an OrderBy clause
-        List<OrderBySpecification> orderBySpecList = ((QuerySelectStatement) queryStmt).getOrderByClause();
-        if( ! orderBySpecList.isEmpty() ) 
+        // include sort key hints, if query has an OrderBy clause;
+        // otherwise, assigns an empty collection of sort keys
+        SortSpecification currentQuerySortSpec = convertOrderByClauseToSortSpec( queryStmt, null, resultSetDefn );
+        
+        // default behavior to set sort hints based on OrderBy clause
+        SortSpecification effectiveSortSpec = currentQuerySortSpec;
+
+        // check if the sortSpec derived from the orderBy clause did not get changed in current design session
+        if( EcoreUtil.equals( origQuerySortSpec, currentQuerySortSpec ) )
         {
-            for( Iterator<OrderBySpecification> iter = orderBySpecList.iterator(); iter.hasNext(); )
+            // preserve the sortSpec in the request design, which may contain user-defined spec 
+            // different from those derived from the orderBy clause
+            SortSpecification origSortSpecDesign = getResultCriteriaSortSpec( origResultSetDefn );
+            if( origSortSpecDesign != null )
             {
-                OrderBySpecification orderBySpec = iter.next();
-                criteria.addRowSortKey( convertToSortKeyDesignHint( orderBySpec, resultSetDefn, 
-                                                                    (QuerySelectStatement) queryStmt ) );
-            } 
+                effectiveSortSpec = origSortSpecDesign;
+            }
         }
-        // else assigns an empty collection of sort keys
+
+        criteria.setRowOrdering( effectiveSortSpec );
 
         // gets here with no exception, ok to assign criteria to the result set design;
         // otherwise, result set criteria is not set so ODA host can preserve its version
@@ -326,6 +340,39 @@ public class SQLQueryUtility
         if( resultSetCriteria == null )
             return null;
         return resultSetCriteria.getFilterSpecification();
+    }
+    
+    private static SortSpecification getResultCriteriaSortSpec( ResultSetDefinition resultSetDefn )
+    {
+        if( resultSetDefn == null )
+            return null;
+        ResultSetCriteria resultSetCriteria = resultSetDefn.getCriteria();
+        if( resultSetCriteria == null )
+            return null;
+        return resultSetCriteria.getRowOrdering();
+    }
+    
+    static SortSpecification convertOrderByClauseToSortSpec( final QueryStatement queryStmt,
+            SortSpecification sortSpec,
+            ResultSetDefinition resultSetMetaData ) 
+        throws OdaException
+    {
+        if( sortSpec == null )
+            sortSpec = DesignFactory.eINSTANCE.createSortSpecification();
+        
+        assert( queryStmt instanceof QuerySelectStatement );
+        @SuppressWarnings("unchecked")
+        List<OrderBySpecification> orderBySpecList = ((QuerySelectStatement) queryStmt).getOrderByClause();
+        if( ! orderBySpecList.isEmpty() ) 
+        {
+            // convert each orderBy column and append to the sortSpec
+            for( OrderBySpecification orderBySpec : orderBySpecList )
+            {
+                sortSpec.getSortKeys().add( convertToSortKeyDesignHint( orderBySpec, resultSetMetaData, 
+                                                                    (QuerySelectStatement) queryStmt ) );
+            } 
+        }
+        return sortSpec;
     }
     
     private static SortKey convertToSortKeyDesignHint( OrderBySpecification orderBySpec, 
