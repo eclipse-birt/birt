@@ -878,9 +878,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// IListingElementModel.FILTER_PROP and
 			// IExtendedItemModel.FILTER_PROP. Same to sorter
 
-			if ( propDefn != sourcePropDefn
-					&& !IListingElementModel.FILTER_PROP
-							.equalsIgnoreCase( propName ) )
+			if ( propDefn.getTypeCode( ) != sourcePropDefn.getTypeCode( )
+					|| propDefn.getStructDefn( ) != sourcePropDefn.getStructDefn( )
+					|| propDefn.getTargetElementType( ) != sourcePropDefn.getTargetElementType( ) )
 				continue;
 
 			Object value = targetElement.getStrategy( )
