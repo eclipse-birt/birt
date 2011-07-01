@@ -117,7 +117,7 @@ public abstract class AbstractBindingDialogHelper implements
 	{
 		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		composite.setSize( Math.max( size.x, 400 ), Math.max( size.y,
-				isAggregate( ) ? 260 : 50 ) );
+				isAggregate( ) ? 280 : 50 ) );
 	}
 
 	public void setEditModal( boolean isEditModal )
