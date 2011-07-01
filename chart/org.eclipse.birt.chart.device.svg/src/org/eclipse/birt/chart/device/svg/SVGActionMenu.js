@@ -130,6 +130,11 @@ TM.remove = function () {
 };
 
 TM.show = function (evt, id, title, tooltipText) {
+	// In IE 9, browser has native tooltip for title element, so do not show
+	// it twice.
+	if (isIE() && getIEVersion() >= 9) {
+		return;
+	}
 	if (id != null && typeof id != 'undefined') {
 		var mainSvg = evt.target.ownerDocument;
 		var comp = mainSvg.getElementById(id);
@@ -377,6 +382,9 @@ function highlightElement(evt, id, compList, highlight) {
 		if (comp == null)
 			continue;
 		var styleStr = comp.getAttribute("style");
+		// There's a blank between property name and value in IE9, so here
+		// remove the blank first
+		styleStr = styleStr.replace(/:[ ]*/g,':');
 		fillIndex = styleStr.search("fill:");
 		if (fillIndex != -1) {
 			styleStr = getNewStyle(styleStr, fillIndex, "fill:", highlight,
@@ -513,7 +521,6 @@ function getHighlight(color, highlight, lookupTable, id) {
 	g = parseInt(g, 16);
 	var b = color.substring(4, 6);
 	b = parseInt(b, 16);
-	var value = parseInt(r, 16);
 	if (highlight) {
 		r = Math.ceil((r + 255) / 2);
 		g = Math.ceil((g + 255) / 2);
