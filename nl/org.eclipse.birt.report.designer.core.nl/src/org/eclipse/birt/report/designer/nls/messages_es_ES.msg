@@ -4593,6 +4593,7 @@ BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Gr&upo
 BindingDialogHelper.text.Expression=&Expresión:
 BindingDialogHelper.text.displayName=&Nombre en pantalla:
+BindingDialogHelper.text.allowExport=Allow Exp&ort:
 BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación

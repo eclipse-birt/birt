@@ -4593,6 +4593,7 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gr&uppe
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
+BindingDialogHelper.text.allowExport=Allow Exp&ort:
 BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat

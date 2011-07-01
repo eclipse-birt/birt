@@ -4593,6 +4593,7 @@ BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹(&O)
 BindingDialogHelper.text.Expression=식(&E):
 BindingDialogHelper.text.displayName=표시 이름(&N):
+BindingDialogHelper.text.allowExport=Allow Exp&ort:
 BindingDialogHelper.text.displayNameID=표시 이름 ID(&S):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
