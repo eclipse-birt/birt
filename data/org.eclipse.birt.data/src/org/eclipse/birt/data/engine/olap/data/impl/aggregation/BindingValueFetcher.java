@@ -230,7 +230,7 @@ public class BindingValueFetcher implements IBindingValueFetcher
 		{
 			Node result = find( memberValues );
 			if( result == null )
-				throw new DataException( "Binding value cannot be acquired.");
+				return null;
 			return result.bindingValues;
 		}
 
