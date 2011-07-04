@@ -257,7 +257,9 @@ public class TotalConcatenate extends AggrFunction
 				else
 				{
 					int value = DataTypeUtil.toInteger( source );
-					if ( value < 1 )
+					if ( value == 0 )
+						maxLength = DEFAULT_MAX_LENGTH;
+					if ( value < 0 )
 					{
 						throw new DataException( Messages.getString( "aggregation.InvalidParameterValue" ),
 								new Object[] {getParameterDefn( )[2].getDisplayName( ),
@@ -287,6 +289,20 @@ public class TotalConcatenate extends AggrFunction
 					|| DataTypeUtil.toString( source ).trim( ).length( ) == 0 )
 			{
 				showAllValues = false;
+			}
+			else if ( source instanceof String )
+			{
+				try
+				{
+					showAllValues = DataTypeUtil.toBoolean( source );
+				}
+				catch ( Exception ex )
+				{
+					throw new DataException( Messages.getString( "aggregation.InvalidParameterValue" ),
+							new Object[] {getParameterDefn( )[3].getDisplayName( ).replaceAll( "&", "" ),
+						getDisplayName( ),
+						source} );
+				}
 			}
 			else if ( !( source instanceof Boolean ) )
 			{
