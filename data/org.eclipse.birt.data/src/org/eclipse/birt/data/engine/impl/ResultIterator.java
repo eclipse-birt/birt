@@ -727,39 +727,42 @@ public class ResultIterator implements IResultIterator
 	{
 		clear( );
 		this.rdSaveHelper.doSaveBasic( );
-		if ( needCache( ) && !this.isEmpty( ) )
+		
+		if( !this.isEmpty( ) )
 		{
-			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );
-			try
+			if ( needCache( ) )
 			{
-				saveCurrentRow( );
-			}
-			catch ( IOException e )
-			{
+				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );
 				try
 				{
-					this.metaOutputStream.close( );
-					this.rowOutputStream.close( );
+					saveCurrentRow( );
 				}
-				catch ( IOException ce )
+				catch ( IOException e )
 				{
-					
+					try
+					{
+						this.metaOutputStream.close( );
+						this.rowOutputStream.close( );
+					}
+					catch ( IOException ce )
+					{
+						
+					}
+					throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR, e );
 				}
-				throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR, e );
+				catch ( BirtException e )
+				{
+					throw DataException.wrap( e );
+				}
 			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
-			}
-		}
-		else
-		{
-			if( this.getRdSaveHelper( ).isSummaryQuery( ) )
-				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );				
 			else
-				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, false );
+			{
+				if( this.getRdSaveHelper( ).isSummaryQuery( ) )
+					bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );				
+				else
+					bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, false );			
+			}			
 		}
-		
 	}
 
 	protected void prepareBindingColumnsEvalUtil( ) throws DataException
