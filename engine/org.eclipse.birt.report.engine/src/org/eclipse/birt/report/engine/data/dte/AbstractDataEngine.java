@@ -386,7 +386,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		if ( rsetId != null )
 		{
 			 query .setQueryResultsID( (String) rsetId );
-			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+			IBasePreparedQuery pQuery = dteSession.prepare( query, context.getAppContext( ) );
 			if ( outer == null )
 			{
 				// this is the root query
