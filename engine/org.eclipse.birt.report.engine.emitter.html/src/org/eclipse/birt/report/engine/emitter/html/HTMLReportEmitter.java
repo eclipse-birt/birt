@@ -1296,8 +1296,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return showFooter;
 	}
 
-	private void outputPageBand( IPageContent page, IContent band )
-			throws BirtException
+	private void outputPageBand( IPageContent page, IContent band,
+			DimensionType height ) throws BirtException
 	{
 		writer.openTag( HTMLTags.TAG_TD );
 		writeBidiFlag( );
@@ -1306,8 +1306,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// output the page header attribute
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
+		boolean isNotEmpty = !band.getChildren( ).isEmpty( );
+		if ( height != null && isNotEmpty )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+			styleBuffer.delete( 0, styleBuffer.length( ) );
+			styleBuffer.append( "overflow:hidden; height:" );
+			styleBuffer.append( height.toString( ) );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		}
+		// output the contents of header
 		contentVisitor.visitChildren( band, null );
 
+		if ( height != null && isNotEmpty )
+		{
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
 		// close the page header
 		writer.closeTag( HTMLTags.TAG_TD );
 	}
@@ -1530,7 +1544,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					outputHMargin( page.getMarginLeft( ) );
 				}
-				outputPageBand( page, page.getPageHeader( ) );
+				outputPageBand( page,
+						page.getPageHeader( ),
+						page.getHeaderHeight( ) );
 				if ( outputMasterPageMargins )
 				{
 					outputHMargin( page.getMarginRight( ) );
@@ -1671,7 +1687,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					outputHMargin( page.getMarginLeft( ) );
 				}
-				outputPageBand( page, page.getPageFooter( ) );
+				outputPageBand( page,
+						page.getPageFooter( ),
+						page.getFooterHeight( ) );
 				if ( outputMasterPageMargins )
 				{
 					outputHMargin( page.getMarginRight( ) );
