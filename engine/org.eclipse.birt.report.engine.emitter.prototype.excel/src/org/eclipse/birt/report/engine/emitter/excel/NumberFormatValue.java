@@ -118,4 +118,38 @@ public class NumberFormatValue
 		this.roundingMode = roundingMode;
 	}
 
+	public int hashCode()
+	{
+		return ( format == null ? 0 : format.hashCode( ) )
+				+ ( roundingMode == null ? 0 : roundingMode.hashCode( ) );
+	}
+	
+	public boolean equals( Object o )
+	{
+		NumberFormatValue v = (NumberFormatValue) o;
+		boolean formatEqual = true;
+		boolean roundingModeEqual = true;
+		if ( v == null )
+		{
+			return false;
+		}
+		if ( format != null )
+		{
+			formatEqual = format.equals( v.format );
+		}
+		else if ( v.format != null )
+		{
+			return false;
+		}
+
+		if ( roundingMode != null )
+		{
+			roundingModeEqual = roundingMode.equals( v.roundingMode );
+		}
+		else if ( v.roundingMode != null )
+		{
+			return false;
+		}
+		return formatEqual && roundingModeEqual;
+	}
 }
