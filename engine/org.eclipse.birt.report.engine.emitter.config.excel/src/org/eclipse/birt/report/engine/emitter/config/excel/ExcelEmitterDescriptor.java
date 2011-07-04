@@ -15,8 +15,6 @@ import static org.eclipse.birt.report.engine.api.IExcelRenderOption.HIDE_GRIDLIN
 import static org.eclipse.birt.report.engine.api.IExcelRenderOption.WRAPPING_TEXT;
 import static org.eclipse.birt.report.engine.api.IRenderOption.CHART_DPI;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.EXCELRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -32,26 +30,9 @@ import org.eclipse.birt.report.engine.emitter.config.excel.i18n.Messages;
  */
 public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 {
-
-	protected IConfigurableOption[] options;
-	protected Locale locale;
-
-	public ExcelEmitterDescriptor( )
+	protected void initOptions( )
 	{
-		initOptions( );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.excel" );
 		// Initializes the option for WrappingText.
 		ConfigurableOption wrappingText = initializeWrappingText( );
 		
@@ -76,6 +57,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 				.setDescription( getMessage( "OptionDescription.HideGridlines" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{wrappingText, chartDpi};
+		applyDefaultValues( );
 	}
 
 	protected String getMessage( String key )

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.emitter.config.odt;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -28,26 +26,10 @@ import org.eclipse.birt.report.engine.emitter.config.odt.i18n.Messages;
 public class OdtEmitterDescriptor extends AbstractEmitterDescriptor
 {
 	protected static final String CHART_DPI = "ChartDpi";
-	
-	protected IConfigurableOption[] options;
-	private Locale locale;
-	
-	public OdtEmitterDescriptor( )
-	{
-		initOptions( );
-	}
 
-	public void setLocale( Locale locale )
+	protected void initOptions( )
 	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.odt" );
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
 		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
@@ -59,6 +41,7 @@ public class OdtEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{chartDpi};
+		applyDefaultValues( );
 	}
 
 	private String getMessage( String key )

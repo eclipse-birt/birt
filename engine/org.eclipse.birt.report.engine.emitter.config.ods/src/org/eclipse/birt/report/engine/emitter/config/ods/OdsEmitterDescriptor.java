@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.emitter.config.ods;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.EXCELRenderOption;
 import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -33,25 +31,9 @@ public class OdsEmitterDescriptor extends AbstractEmitterDescriptor
 	protected static final String CHART_DPI = "ChartDpi";
 	private static final String HIDE_GRIDLINES = "HideGridlines";
 
-	protected IConfigurableOption[] options;
-	protected Locale locale;
-
-	public OdsEmitterDescriptor( )
+	protected void initOptions( )
 	{
-		initOptions( );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.ods" );
 		// Initializes the option for WrappingText.
 		ConfigurableOption wrappingText = initializeWrappingText( );
 		
@@ -76,6 +58,7 @@ public class OdsEmitterDescriptor extends AbstractEmitterDescriptor
 				.setDescription( getMessage( "OptionDescription.HideGridlines" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{wrappingText, chartDpi};
+		applyDefaultValues( );
 	}
 
 	protected String getMessage( String key )

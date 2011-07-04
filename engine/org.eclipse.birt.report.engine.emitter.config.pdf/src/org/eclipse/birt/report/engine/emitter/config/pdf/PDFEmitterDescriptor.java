@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.config.pdf;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
@@ -39,25 +37,10 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
 
-	private IConfigurableOption[] options;
-	private Locale locale;
-
-	public PDFEmitterDescriptor( )
+	protected void initOptions( )
 	{
-		initOptions( );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.pdf" );
+		
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );
@@ -169,6 +152,8 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping, textHyphenation,
 				fontSubstitution, pageOverFlow, embeddedFont, chartDpi,
 				renderChartInSVG};
+		
+		applyDefaultValues( );
 
 	}
 

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.emitter.config.odp;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
@@ -35,25 +33,9 @@ public class ODPEmitterDescriptor extends AbstractEmitterDescriptor
 	protected static final String TEXT_WRAPPING = "TextWrapping";
 	protected static final String CHART_DPI = "ChartDpi";
 
-	private IConfigurableOption[] options;
-	private Locale locale;
-
-	public ODPEmitterDescriptor( )
+	protected void initOptions( )
 	{
-		initOptions( );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.odp" );
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );
@@ -128,6 +110,7 @@ public class ODPEmitterDescriptor extends AbstractEmitterDescriptor
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
 				fontSubstitution, pageOverFlow, chartDpi};
+		applyDefaultValues( );
 	}
 
 	private String getMessage( String key )

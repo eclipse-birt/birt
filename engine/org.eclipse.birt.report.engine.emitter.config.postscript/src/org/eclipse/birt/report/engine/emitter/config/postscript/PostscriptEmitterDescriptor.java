@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.config.postscript;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IPostscriptRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -38,25 +36,9 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String TEXT_WRAPPING = "TextWrapping";
 	private static final String CHART_DPI = "ChartDpi";
 
-	private IConfigurableOption[] options;
-	private Locale locale;
-
-	public PostscriptEmitterDescriptor( )
+	protected void initOptions( )
 	{
-		initOptions( );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.postscript" );
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );
@@ -247,6 +229,8 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		        fontSubstitution, pageOverFlow, copies, collate, duplex,
 		        paperSize, paperTray, scale, resolution, color, chartDpi,
 		        autoPaperSizeSelection, fitToPaper};
+		
+		applyDefaultValues( );
 	}
 
 	private String getMessage( String key )

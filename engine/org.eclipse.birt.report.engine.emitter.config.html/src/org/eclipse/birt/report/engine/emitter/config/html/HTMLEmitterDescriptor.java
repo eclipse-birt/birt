@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.config.html;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -26,20 +24,10 @@ import org.eclipse.birt.report.engine.emitter.config.html.i18n.Messages;
  */
 public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 {
-
-	Locale locale;
-
-	public HTMLEmitterDescriptor( )
+	
+	protected void initOptions( )
 	{
 
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-		}
 	}
 
 	@Override

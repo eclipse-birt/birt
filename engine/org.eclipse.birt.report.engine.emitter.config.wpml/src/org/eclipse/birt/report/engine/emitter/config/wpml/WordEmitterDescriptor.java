@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.config.wpml;
 
-import java.util.Locale;
-
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.emitter.config.AbstractConfigurableOptionObserver;
@@ -29,26 +27,9 @@ import org.eclipse.birt.report.engine.emitter.config.wpml.i18n.Messages;
 public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 {
 	protected static final String CHART_DPI = "ChartDpi";
-	
-	protected IConfigurableOption[] options;
-	private Locale locale;
-	
-	public WordEmitterDescriptor( )
+	protected void initOptions( )
 	{
-		initOptions( );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		if ( this.locale != locale )
-		{
-			this.locale = locale;
-			initOptions( );
-		}
-	}
-
-	private void initOptions( )
-	{
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.wpml" );
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
 		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
@@ -59,6 +40,8 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{chartDpi};
+		
+		applyDefaultValues( );
 	}
 
 	private String getMessage( String key )
