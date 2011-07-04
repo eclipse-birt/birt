@@ -1326,7 +1326,7 @@ public class ExcelUtil
 		// Make sure the name you entered does not exceed 31 characters.
 		// Make sure the name does not contain any of the following characters:
 		// \ / ? * : [ or ]
-		name = name.replaceAll( "[\\\\/?*:\\[\\] ]", "_" );
+		name = name.replaceAll( "[\\\\/?*:\\[\\]]", "_" );
 		if ( name.length( ) > SHEETNAME_LENGTH )
 		{
 			logger.log( Level.WARNING, "The sheetName " + name
