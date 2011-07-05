@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 import testutil.ConfigText;
 
@@ -1177,22 +1178,19 @@ public class MultiplePassTest extends APITestCase
 	 */
 	public void testNestedTotal4() throws IOException, Exception
 	{
-		String[] bindingNameRow = new String[6];
+		String[] bindingNameRow = new String[5];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
 		bindingNameRow[3] = "ROW_AMOUNT";
-		bindingNameRow[4] = "ROW_TOPN";
-		bindingNameRow[5] = "ROW_5";
+		bindingNameRow[4] = "ROW_5";
 		
-		IBaseExpression[] bindingExprRow = new IBaseExpression[6];
+		IBaseExpression[] bindingExprRow = new IBaseExpression[5];
 		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
 		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
 		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		/////////////////PROBLEM//////////////////
-		bindingExprRow[4] = new ScriptExpression( "Total.sum(Total.sum(Total.sum(dataSetRow.AMOUNT,null,2),null,1),dataSetRow.AMOUNT>10,0)");//8902
-		bindingExprRow[5] = new ScriptExpression( "Total.sum(Total.sum(dataSetRow.AMOUNT,null,0),null,1)");
+		bindingExprRow[4] = new ScriptExpression( "Total.sum(Total.sum(dataSetRow.AMOUNT,null,0),null,1)");
 		///////////////////////////////////////////
 		// --- end binding
 		
@@ -1200,8 +1198,6 @@ public class MultiplePassTest extends APITestCase
 				new GroupDefinition("group1" )};
 		groupDefn[0].setKeyExpression( "row.ROW_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.ROW_CITY" );
-		try
-		{
 			createAndRunQuery( null,
 					null,
 					null,
@@ -1214,11 +1210,39 @@ public class MultiplePassTest extends APITestCase
 					groupDefn,
 					null,
 					null );
+		
+        /////////////////PROBLEM//////////////////
+		try
+		{
+			bindingNameRow = new String[3];
+			bindingNameRow[0] = "ROW_COUNTRY";
+			bindingNameRow[1] = "ROW_CITY";
+			bindingNameRow[2] = "ROW_TOPN";
+			
+			bindingExprRow = new IBaseExpression[3];
+			bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+			bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+			bindingExprRow[2] = new ScriptExpression( "Total.sum(Total.sum(Total.sum(dataSetRow.AMOUNT,null,2),null,1),dataSetRow.AMOUNT>10,0)" );
+			createAndRunQuery( null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					bindingNameRow,
+					bindingExprRow,
+					null,
+					groupDefn,
+					null,
+					null );
+			fail( "expected error here" );
 		}
 		catch ( DataException e )
 		{
-			fail( "Should not arrive here");
+			assertTrue( e.getErrorCode( ) == ResourceConstants.INVALID_JS_EXPR );
 		}
+		
+		
 	}
 	/**
 	 * Test filterings including group row filters, group instance filters and multi-pass row filters

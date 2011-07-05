@@ -1086,6 +1086,7 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
 		GroupDefinition[] groupDefn = new GroupDefinition[]{
 				new GroupDefinition( "group0" )
 		};
@@ -1133,6 +1134,7 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
 		GroupDefinition[] groupDefn = new GroupDefinition[]{
 				new GroupDefinition( "group0" )
 		};
@@ -1374,23 +1376,18 @@ public class FeaturesTest extends APITestCase
 	public void testAggrExprAndInconvertibleDataType( ) throws Exception
 	{
 		Object[] expectedValue = new Object[]{
-				Boolean.TRUE,
 				"CHINA",
-				Boolean.FALSE,
-				ResourceConstants.WRAPPED_BIRT_EXCEPTION,
-				Boolean.TRUE,
 				Timestamp.valueOf("2004-01-01 00:00:00.0"),
-				Boolean.TRUE,
 				Integer.class
 		};
 
 		String[] bindingNameRow = new String[]{
-				"ROW_COUNTRY", "ROW_CITY", "ROW_SALE_DATE", "ROW_AMOUNT"
+				"ROW_COUNTRY", 
+				"ROW_SALE_DATE", "ROW_AMOUNT"
 		};
 		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow.COUNTRY",
 						DataType.STRING_TYPE ),
-				new ScriptExpression( "dataSetRow.CITY", DataType.INTEGER_TYPE ),
 				new ScriptExpression( "dataSetRow.SALE_DATE",
 						DataType.UNKNOWN_TYPE ),
 				new ScriptExpression( "Total.sum(dataSetRow.AMOUNT)",
@@ -1399,7 +1396,6 @@ public class FeaturesTest extends APITestCase
 		
 		IBaseExpression[] expressions = new IBaseExpression[]{
 				new ScriptExpression( "row.COUNTRY", DataType.STRING_TYPE ),
-				new ScriptExpression( "row.CITY", DataType.INTEGER_TYPE ),
 				new ScriptExpression( "row.SALE_DATE", DataType.UNKNOWN_TYPE ),
 				new ScriptExpression( "Total.sum(row.AMOUNT)",
 						DataType.INTEGER_TYPE )
@@ -1419,34 +1415,53 @@ public class FeaturesTest extends APITestCase
 
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResults = preparedQuery.execute( null );
+		
 		IResultIterator resultIt = queryResults.getResultIterator( );
-
 		resultIt.next( );
 		for ( int i = 0; i < expressions.length; i++ )
 		{
-			Boolean expectedTrueOrFalse = (Boolean) expectedValue[i * 2];
-
-			if ( expectedTrueOrFalse == Boolean.TRUE )
-			{
-				Object value = expectedValue[i * 2 + 1];
-				if ( value instanceof Class )
-					assertTrue( ( (Class) value ).isInstance( resultIt.getValue( bindingNameRow[i] ) ) );
-				else
-					assertEquals( value, resultIt.getValue( bindingNameRow[i] ) );
-			}
+			Object value = expectedValue[i];
+			if ( value instanceof Class )
+				assertTrue( ( (Class) value ).isInstance( resultIt.getValue( bindingNameRow[i] ) ) );
 			else
-			{
-				try
-				{
-					resultIt.getValue( bindingNameRow[i] );
-					fail( "expected error here" );
-				}
-				catch ( DataException e )
-				{
-					assertEquals( e.getErrorCode( ), expectedValue[i * 2 + 1] );
-				}
-			}
+				assertEquals( value, resultIt.getValue( bindingNameRow[i] ) );
+			
 		}
+		
+		// wrong configuration
+
+		queryDefn = createQuery( null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				new String[]{
+					"ROW_CITY",
+				},
+				new IBaseExpression[]{
+					new ScriptExpression( "dataSetRow.CITY",
+							DataType.INTEGER_TYPE )
+				} );
+
+		preparedQuery = dataEngine.prepare( queryDefn );
+		queryResults = preparedQuery.execute( null );
+
+		try
+		{
+			queryResults.getResultIterator( );
+			fail( "expected error here" );
+		}
+		catch ( DataException e )
+		{
+			assertEquals( e.getErrorCode( ),
+					ResourceConstants.WRAPPED_BIRT_EXCEPTION );
+		}
+		
+		
 	}
 	
 	/**

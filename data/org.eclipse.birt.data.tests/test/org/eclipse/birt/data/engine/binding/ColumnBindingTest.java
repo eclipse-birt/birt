@@ -1026,6 +1026,7 @@ public class ColumnBindingTest extends APITestCase
 	 */
 	public void testBlankExpression( ) throws Exception
 	{
+
 		QueryDefinition queryDefn = newReportQuery( );
 
 		// column mapping
@@ -1036,25 +1037,18 @@ public class ColumnBindingTest extends APITestCase
 		se[0] = new ScriptExpression( null );
 		
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addResultSetExpression( name[i], se[i] );
-		IResultIterator ri = executeQuery( queryDefn );
+			queryDefn.addBinding( new Binding(name[i], se[i] ));
+		
 		try
 		{
-			
-			if ( ri.next( ) )
-			{
-
-				ri.getValue( name[0] );
-
-			}
+			executeQuery( queryDefn );
 			fail( "Should not arrive here");
 		}
-		catch ( BirtException e )
+		catch ( DataException e )
 		{
-			ri.close();
-			//assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
-			
+			assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 		}
+	
 	}
 	
 	//----------------report document test---------------------
