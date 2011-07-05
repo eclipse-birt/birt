@@ -1185,6 +1185,9 @@
 	    	<bundle name="org.eclipse.birt.report.engine.emitter.ppt"/>
 	    	<bundle name="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
 	    	<bundle name="org.eclipse.birt.report.engine.emitter.wpml"/>
+            <bundle name="org.eclipse.birt.report.engine.emitter.odp"/>
+            <bundle name="org.eclipse.birt.report.engine.emitter.ods"/>
+            <bundle name="org.eclipse.birt.report.engine.emitter.odt"/>
 	    	<bundle name="org.eclipse.birt.report.engine.fonts"/>
 	    	<bundle name="org.eclipse.birt.report.engine.script.javascript"/>
 	    	<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
@@ -1199,6 +1202,9 @@
 			<bundle name="org.eclipse.birt.report.engine.emitter.postscript.config"/>
 			<bundle name="org.eclipse.birt.report.engine.emitter.ppt.config"/>
 			<bundle name="org.eclipse.birt.report.engine.emitter.wpml.config"/>
+            <bundle name="org.eclipse.birt.report.engine.emitter.odp.config"/>
+            <bundle name="org.eclipse.birt.report.engine.emitter.ods.config"/>
+            <bundle name="org.eclipse.birt.report.engine.emitter.odt.config"/>
 	    	<manifest>
 	    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
 	    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
