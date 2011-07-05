@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.gef.commands.Command;
 
@@ -75,6 +76,7 @@ public class FlowMoveChildCommand extends Command
 			DesignElementHandle containerHandle = null;
 
 			int slotID = -1, pos = -1;
+			String contentString = null;
 
 			// for virtual model that contains a slot handle
 			if ( container instanceof ListBandProxy )
@@ -100,8 +102,17 @@ public class FlowMoveChildCommand extends Command
 			{
 				containerHandle = (DesignElementHandle) container;
 				slotID = DEUtil.getSlotID( containerHandle, after );
-				pos = DEUtil.findInsertPosition( containerHandle,
-						(DesignElementHandle) after );
+				if ( slotID == -1 )
+				{
+					contentString = DEUtil.getDefaultContentName( containerHandle );
+					pos = DEUtil.findInsertPosition( containerHandle,
+							(DesignElementHandle) after, contentString );
+				}
+				else
+				{
+					pos = DEUtil.findInsertPosition( containerHandle,
+							(DesignElementHandle) after );
+				}
 			}else 
 //			if ( container instanceof ReportElementModel )
 //			{
@@ -127,8 +138,16 @@ public class FlowMoveChildCommand extends Command
 
 			stack.startTrans( TRANS_LABEL_MOVE_ELEMENT );
 
-			handle.moveTo( containerHandle, slotID );
-			containerHandle.getSlot( slotID ).shift( handle, pos );
+			if (slotID == -1)
+			{
+				handle.moveTo( containerHandle, contentString );
+				containerHandle.getPropertyHandle( contentString ).shift( handle, pos );
+			}
+			else
+			{
+				handle.moveTo( containerHandle, slotID );
+				containerHandle.getSlot( slotID ).shift( handle, pos );
+			}
 
 			stack.commit( );
 			if ( DesignerConstants.TRACING_COMMANDS )
@@ -150,6 +169,10 @@ public class FlowMoveChildCommand extends Command
 				System.out.println( "FlowMoveChildCommand >> Failed" ); //$NON-NLS-1$
 			}
 			logger.log( Level.SEVERE,e.getMessage( ), e);
+		}
+		catch ( SemanticException ee )
+		{
+			logger.log( Level.SEVERE,ee.getMessage( ), ee);
 		}
 	}
 }
