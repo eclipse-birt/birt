@@ -108,6 +108,112 @@
 	<property name="nl.group1.overlay.zip.name.Framework"  value="NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip" />
 	<property name="nl.group1.overlay.zip.name.Chart"  value="NLpack1_FeatureOverlay-birt-charts-${package.version}.zip" />
 	
+	<!--Define chart runtime file set.-->
+	<patternset id="chart.runtime.jars">
+		<include name="org.eclipse.birt.chart.engine_*.jar" />
+		<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
+		<include name="org.eclipse.birt.chart.device.extension_*.jar" />
+		<include name="org.eclipse.birt.core_*.jar" />
+		<include name="org.eclipse.birt.chart.engine_*.jar" />
+		<include name="org.eclipse.birt.chart.device.svg_*.jar" />
+	</patternset>
+
+
+	<!--Define the engine runtime plugins-->
+	<patternset id="chart.runtime.plugins">
+		<include name="org.eclipse.birt.chart.device.extension_*.jar" />
+		<include name="org.eclipse.birt.chart.device.svg_*.jar" />
+		<include name="org.eclipse.birt.chart.device.swt_*.jar" />
+		<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
+		<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
+		<include name="org.eclipse.birt.chart.engine_*.jar" />
+		<include name="org.eclipse.birt.chart.runtime_*/**" />
+		<include name="org.eclipse.birt.chart.examples.core_*.jar" />
+		<include name="org.eclipse.birt.chart.ui.extension_*.jar" />
+		<include name="org.eclipse.birt.chart.ui_*.jar" />
+		<include name="org.eclipse.birt.chart_*/**" />
+		<include name="org.eclipse.birt.core_*.jar" />
+		<include name="org.eclipse.birt.core.ui_*.jar" />
+		<include name="org.mozilla.javascript*/**" />
+		<include name="org.apache.commons.codec_*.jar" />
+	</patternset>
+
+	<!--Define the engine runtime plugins-->
+	<patternset id="engine.runtime.plugins">
+		<include name="org.eclipse.birt.chart.device.extension*.jar" />
+		<include name="org.eclipse.birt.chart.engine.extension*.jar" />
+		<include name="org.eclipse.birt.chart.reportitem*.jar" />
+		<include name="org.eclipse.birt.report.data.oda.jdbc*.jar" />
+		<include name="org.eclipse.birt.report.data.oda.sampledb*.jar" />
+		<include name="org.eclipse.birt.report.engine.emitter.pdf*.jar" />
+		<include name="org.eclipse.birt.report.engine.emitter.html*.jar" />
+	</patternset>
+
+	<!--Define the engine runtime file set-->
+	<patternset id="engine.runtime.jars">
+		<include name="org.eclipse.birt.report.engine*/engine.jar" />
+		<include name="org.eclipse.birt.data.oda*/oda.jar" />
+		<include name="org.eclipse.birt.data*/dte.jar" />
+		<include name="org.eclipse.birt.core*/core.jar" />
+		<include name="org.eclipse.birt.report.model*/model.jar" />
+	</patternset>
+
+	<!-- obsolete feature list -->
+    <patternset id="third.party.features">
+        <exclude name="com.lowagie.itext_*/**"/>
+        <exclude name="org.apache.commons.codec_*/**"/>
+        <exclude name="org.w3c.sac_*/**"/>
+        <exclude name="org.mozilla.javascript*/**"/>
+        <exclude name="org.apache.derby.core_*/**"/>
+        <exclude name="org.eclipse.birt.chart.runtime*/**"/>
+        <exclude name="org.eclipse.birt.crosstab*/**"/>
+        <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
+        <exclude name="org.eclipse.birt.report.designer_*/**"/>
+        <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
+        <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
+        <exclude name="org.eclipse.birt.report.runtime*/**"/>
+    </patternset>
+	
+	<!-- Define the Orbit project jars -->
+	<patternset id="orbit.include.jars">
+		<include name="org.apache.batik.*jar"/>
+		<include name="org.w3c.dom.svg_*.jar"/>
+		<include name="org.w3c.dom.smil_*.jar"/>
+		<include name="org.w3c.css.sac_*.jar"/>
+		<include name="org.apache.axis_*/**"/>
+		<include name="javax.xml.rpc_*/**"/>
+		<include name="javax.xml.soap_*/**"/>
+		<include name="javax.wsdl_1.5.1*.jar"/>
+		<include name="org.apache.commons.discovery_*/**"/>
+	</patternset>
+
+	<!--Exclude jar file pattern set-->
+
+	<patternset id="exclude.jars">
+		<exclude name="**/jtds-0.9.jar" />
+		<exclude name="**/db2jcc.jar" />
+		<exclude name="**/db2jcc_license_c.jar" />
+		<exclude name="**/db2jcc_license_cu.jar" />
+		<exclude name="**/ifxjdbc.jar" />
+		<exclude name="**/jtds-0.9.jar" />
+		<exclude name="**/mysql-connector-java-3.0.16-ga-bin.jar" />
+		<exclude name="**/ojdbc14.jar" />
+		<exclude name="**/postgresql-8.0-310.jdbc3.jar" />
+		<exclude name="**/JimiProClasses.zip" />
+		<exclude name="**/org.eclipse.birt.data*/**/castor-0.9.5.4-xml.jar" />
+		<exclude name="**/org.eclipse.birt.data*/**/derbynet.jar" />
+		<exclude name="**/org.eclipse.birt.data*/**/js.jar" />
+		<exclude name="**/org.eclipse.birt.data*/**/osgi.jar" />
+		<exclude name="**/org.eclipse.birt.data*/**/runtime.jar" />
+		<exclude name="**/org.eclipse.birt.data*/**/xercesImpl.jar" />
+		<exclude name="**/org.eclipse.birt.data*/**/xml-apis.jar" />
+		<exclude name="**/junit.jar" />
+		<exclude name="**/hsqldb.jar"/>
+		<exclude name="**/common.jar"/>
+		<exclude name="**/common.resources.jar"/>
+		<exclude name="**/org.eclipse.datatools.connectivity.oda*/lib/birt-core.jar"/>
+	</patternset>
+	
 	<target name="default">
 		<antcall target="DownLoadSetup" />
 	</target>
@@ -120,112 +226,6 @@
 
 		<copy file="${template.dir}\build_info_template_new.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
 		
-		<!--Define chart runtime file set.-->
-		<patternset id="chart.runtime.jars">
-			<include name="org.eclipse.birt.chart.engine_*.jar" />
-			<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
-			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
-			<include name="org.eclipse.birt.core_*.jar" />
-			<include name="org.eclipse.birt.chart.engine_*.jar" />
-			<include name="org.eclipse.birt.chart.device.svg_*.jar" />
-		</patternset>
-
-
-		<!--Define the engine runtime plugins-->
-		<patternset id="chart.runtime.plugins">
-			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
-			<include name="org.eclipse.birt.chart.device.svg_*.jar" />
-			<include name="org.eclipse.birt.chart.device.swt_*.jar" />
-			<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
-			<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
-			<include name="org.eclipse.birt.chart.engine_*.jar" />
-			<include name="org.eclipse.birt.chart.runtime_*/**" />
-			<include name="org.eclipse.birt.chart.examples.core_*.jar" />
-			<include name="org.eclipse.birt.chart.ui.extension_*.jar" />
-			<include name="org.eclipse.birt.chart.ui_*.jar" />
-			<include name="org.eclipse.birt.chart_*/**" />
-			<include name="org.eclipse.birt.core_*.jar" />
-			<include name="org.eclipse.birt.core.ui_*.jar" />
-			<include name="org.mozilla.javascript*/**" />
-			<include name="org.apache.commons.codec_*.jar" />
-		</patternset>
-
-		<!--Define the engine runtime plugins-->
-		<patternset id="engine.runtime.plugins">
-			<include name="org.eclipse.birt.chart.device.extension*.jar" />
-			<include name="org.eclipse.birt.chart.engine.extension*.jar" />
-			<include name="org.eclipse.birt.chart.reportitem*.jar" />
-			<include name="org.eclipse.birt.report.data.oda.jdbc*.jar" />
-			<include name="org.eclipse.birt.report.data.oda.sampledb*.jar" />
-			<include name="org.eclipse.birt.report.engine.emitter.pdf*.jar" />
-			<include name="org.eclipse.birt.report.engine.emitter.html*.jar" />
-		</patternset>
-
-		<!--Define the engine runtime file set-->
-		<patternset id="engine.runtime.jars">
-			<include name="org.eclipse.birt.report.engine*/engine.jar" />
-			<include name="org.eclipse.birt.data.oda*/oda.jar" />
-			<include name="org.eclipse.birt.data*/dte.jar" />
-			<include name="org.eclipse.birt.core*/core.jar" />
-			<include name="org.eclipse.birt.report.model*/model.jar" />
-		</patternset>
-
-		<!-- obsolete feature list -->
-	    <patternset id="third.party.features">
-	        <exclude name="com.lowagie.itext_*/**"/>
-	        <exclude name="org.apache.commons.codec_*/**"/>
-	        <exclude name="org.w3c.sac_*/**"/>
-	        <exclude name="org.mozilla.javascript*/**"/>
-	        <exclude name="org.apache.derby.core_*/**"/>
-            <exclude name="org.eclipse.birt.chart.runtime*/**"/>
-            <exclude name="org.eclipse.birt.crosstab*/**"/>
-            <exclude name="org.eclipse.birt.report.data.oda.jdbc*/**"/>
-            <exclude name="org.eclipse.birt.report.designer_*/**"/>
-            <exclude name="org.eclipse.birt.report.designer.source_*/**"/>
-            <exclude name="org.eclipse.birt.report.designer.debug*/**"/>
-            <exclude name="org.eclipse.birt.report.runtime*/**"/>
-	    </patternset>
-		
-		<!-- Define the Orbit project jars -->
-		<patternset id="orbit.include.jars">
-			<include name="org.apache.batik.*jar"/>
-			<include name="org.w3c.dom.svg_*.jar"/>
-			<include name="org.w3c.dom.smil_*.jar"/>
-			<include name="org.w3c.css.sac_*.jar"/>
-			<include name="org.apache.axis_*/**"/>
-			<include name="javax.xml.rpc_*/**"/>
-			<include name="javax.xml.soap_*/**"/>
-			<include name="javax.wsdl_1.5.1*.jar"/>
-			<include name="org.apache.commons.discovery_*/**"/>
-		</patternset>
-
-		<!--Exclude jar file pattern set-->
-
-		<patternset id="exclude.jars">
-			<exclude name="**/jtds-0.9.jar" />
-			<exclude name="**/db2jcc.jar" />
-			<exclude name="**/db2jcc_license_c.jar" />
-			<exclude name="**/db2jcc_license_cu.jar" />
-			<exclude name="**/ifxjdbc.jar" />
-			<exclude name="**/jtds-0.9.jar" />
-			<exclude name="**/mysql-connector-java-3.0.16-ga-bin.jar" />
-			<exclude name="**/ojdbc14.jar" />
-			<exclude name="**/postgresql-8.0-310.jdbc3.jar" />
-			<exclude name="**/JimiProClasses.zip" />
-			<exclude name="**/org.eclipse.birt.data*/**/castor-0.9.5.4-xml.jar" />
-			<exclude name="**/org.eclipse.birt.data*/**/derbynet.jar" />
-			<exclude name="**/org.eclipse.birt.data*/**/js.jar" />
-			<exclude name="**/org.eclipse.birt.data*/**/osgi.jar" />
-			<exclude name="**/org.eclipse.birt.data*/**/runtime.jar" />
-			<exclude name="**/org.eclipse.birt.data*/**/xercesImpl.jar" />
-			<exclude name="**/org.eclipse.birt.data*/**/xml-apis.jar" />
-			<exclude name="**/junit.jar" />
-			<exclude name="**/hsqldb.jar"/>
-			<exclude name="**/common.jar"/>
-			<exclude name="**/common.resources.jar"/>
-			<exclude name="**/org.eclipse.datatools.connectivity.oda*/lib/birt-core.jar"/>
-		</patternset>
-
 		<antcall target="createBirtFramework" />
 
 		<antcall target="createBirtRuntime" />
