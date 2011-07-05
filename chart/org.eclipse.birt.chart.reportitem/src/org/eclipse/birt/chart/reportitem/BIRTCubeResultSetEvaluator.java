@@ -43,9 +43,9 @@ public class BIRTCubeResultSetEvaluator extends
 
 	protected static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
-	protected final ICubeResultSet rs;
+	protected ICubeResultSet rs;
 
-	protected final ICubeQueryResults qr;
+	protected ICubeQueryResults qr;
 
 	protected ICubeCursor cubeCursor;
 
@@ -80,14 +80,7 @@ public class BIRTCubeResultSetEvaluator extends
 		this.qr = qr;
 		try
 		{
-			ICubeCursor cursor = getCubeCursor( );
-			List edges = cursor.getOrdinateEdge( );
-			if ( edges.size( ) == 0 )
-			{
-				throw new ChartException( ChartReportItemPlugin.ID,
-						ChartException.DATA_BINDING,
-						Messages.getString( "exception.no.cube.edge" ) ); //$NON-NLS-1$
-			}
+			initCubeCursor( );
 		}
 		catch ( OLAPException e )
 		{

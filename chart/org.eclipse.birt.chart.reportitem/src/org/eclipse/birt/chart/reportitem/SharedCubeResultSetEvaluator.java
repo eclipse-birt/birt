@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,12 +49,12 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 {
 
-	private int fCategoryInnerLevelIndex;
-	private int fYOptionalInnerLevelIndex;
+	protected int fCategoryInnerLevelIndex;
+	protected int fYOptionalInnerLevelIndex;
 
-	private CursorPositionNode fMainPositionNodes;
-	private CursorPositionNode fSubPositionNodes;
-	private boolean fIsColEdgeAsCategoryCursor;
+	protected CursorPositionNode fMainPositionNodes;
+	protected CursorPositionNode fSubPositionNodes;
+	protected boolean fIsColEdgeAsCategoryCursor;
 
 	/**
 	 * Constructor.
@@ -67,6 +66,18 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	{
 		super( rs );
 		parseLevelIndex( rs.getCubeQuery( ), cm );
+		try
+		{
+			initCubeCursor( );
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( e );
+		}
 	}
 
 	/**
@@ -80,8 +91,17 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			IBaseCubeQueryDefinition queryDefinition, Chart cm )
 			throws BirtException
 	{
-		super( qr );
+		super( (ICubeResultSet) null );
+		this.qr = qr;
 		parseLevelIndex( queryDefinition, cm );
+		try
+		{
+			initCubeCursor( );
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
 	}
 
 	/**
@@ -338,7 +358,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 		}
 	}
 
-	private CursorPositionNode initCursorPositionsNodes( List dimCursorList,
+	protected CursorPositionNode initCursorPositionsNodes( List dimCursorList,
 			int innerLevelIndex )
 	{
 		CursorPositionNode pn = null;
@@ -453,8 +473,6 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 	{
 		try
 		{
-			initCubeCursor( );
-
 			if ( mainEdgeCursor.first( ) )
 			{
 				fMainPositionNodes.updatePosition( );
@@ -471,10 +489,6 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			}
 		}
 		catch ( OLAPException e )
-		{
-			logger.log( e );
-		}
-		catch ( BirtException e )
 		{
 			logger.log( e );
 		}
