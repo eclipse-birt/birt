@@ -192,6 +192,9 @@ public class TabbedPropertyTitle extends Composite implements
 		 * setImage(PlatformUI.getWorkbench().getSharedImages().getImage(
 		 * ISharedImages.IMG_OBJ_ELEMENT));
 		 */
+		
+		
+		new ToolBar( this, SWT.FLAT );
 	}
 
 	public void showResetButton( boolean show )
