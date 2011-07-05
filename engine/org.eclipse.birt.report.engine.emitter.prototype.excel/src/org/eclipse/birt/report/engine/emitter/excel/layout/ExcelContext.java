@@ -56,6 +56,8 @@ public class ExcelContext
 	private int rightMargin;
 	private int topMargin;
 	private int bottomMargin;
+	private int headerHeight;
+	private int footerHeight;
 	private int sheetIndex = 1;
 	private boolean isRTL = false;
 	private IReportContext reportContext;
@@ -215,6 +217,12 @@ public class ExcelContext
 		                                            pageHeight, dpi );
 		bottomMargin = ExcelUtil.convertDimensionType( page.getMarginBottom( ),
 		                                               pageHeight, dpi );
+		headerHeight = ExcelUtil.convertDimensionType( page.getHeaderHeight( ),
+				pageHeight,
+				dpi );
+		footerHeight = ExcelUtil.convertDimensionType( page.getFooterHeight( ),
+				pageHeight,
+				dpi );
 		this.contentWidth = pageWidth - leftMargin - rightMargin;
     }
 
@@ -337,5 +345,15 @@ public class ExcelContext
 	public float getRightMargin( )
 	{
 		return this.rightMargin / 1000f;
+	}
+	
+	public float getHeaderHeight( )
+	{
+		return this.headerHeight / 1000f;
+	}
+	
+	public float getFooterHeight( )
+	{
+		return this.footerHeight / 1000f;
 	}
 }
