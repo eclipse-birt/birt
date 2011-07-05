@@ -1037,7 +1037,7 @@ public class ColumnBindingTest extends APITestCase
 		se[0] = new ScriptExpression( null );
 		
 		for ( int i = 0; i < name.length; i++ )
-			queryDefn.addBinding( new Binding(name[i], se[i] ));
+			queryDefn.addResultSetExpression( name[i], se[i] );
 		
 		try
 		{
