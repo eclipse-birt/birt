@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -71,13 +72,31 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) ); //$NON-NLS-1$
 
 		createNameArea( container );
-		group = new CubeGroupContent( container, SWT.NONE );
+		group = getCubeGroupContent( container );
 		group.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		initDialog( );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.SIMPLE_CUBE_BUILDER_ID );
 		return area;
+	}
+
+	protected CubeGroupContent getCubeGroupContent( Composite parent )
+	{
+		Object[] contentProviders = ElementAdapterManager.getAdapters( cube,
+				ICubeGroupContentProvider.class );
+		if ( contentProviders != null )
+		{
+			for ( int i = 0; i < contentProviders.length; i++ )
+			{
+				ICubeGroupContentProvider contentProvider = (ICubeGroupContentProvider) contentProviders[i];
+				if ( contentProvider != null )
+				{
+					return contentProvider.createGroupContent( parent, SWT.NONE );
+				}
+			}
+		}
+		return new CubeGroupContent( parent, SWT.NONE );
 	}
 
 	private void initDialog( )

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
@@ -36,8 +37,26 @@ public class GroupsPage extends AbstractCubePropertyPage
 
 	public Control createContents( Composite parent )
 	{
-		cubeGroup = new CubeGroupContent( parent, SWT.NONE );
+		cubeGroup = getCubeGroupContent( parent );
 		return cubeGroup;
+	}
+
+	protected CubeGroupContent getCubeGroupContent( Composite parent )
+	{
+		Object[] contentProviders = ElementAdapterManager.getAdapters( input,
+				ICubeGroupContentProvider.class );
+		if ( contentProviders != null )
+		{
+			for ( int i = 0; i < contentProviders.length; i++ )
+			{
+				ICubeGroupContentProvider contentProvider = (ICubeGroupContentProvider) contentProviders[i];
+				if ( contentProvider != null )
+				{
+					return contentProvider.createGroupContent( parent, SWT.NONE );
+				}
+			}
+		}
+		return new CubeGroupContent( parent, SWT.NONE );
 	}
 
 	public void pageActivated( )

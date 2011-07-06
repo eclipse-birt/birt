@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -67,25 +68,11 @@ import org.eclipse.swt.widgets.TreeItem;
 public class GroupDialog extends TitleAreaDialog
 {
 
-	private boolean isNew;
-
-	public GroupDialog( boolean isNew )
+	public GroupDialog( TabularHierarchyHandle hierarchy )
 	{
-		super( UIUtil.getDefaultShell( ) );
-		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
-		this.isNew = isNew;
-	}
+		this( );
 
-	private ResultSetColumnHandle dataField;
-	private TabularHierarchyHandle hierarchy;
-	private IDialogHelper helper;
-	private List levelList = new ArrayList( );
-
-	public void setInput( TabularHierarchyHandle hierarchy,
-			ResultSetColumnHandle dataField )
-	{
 		dimension = (DimensionHandle) hierarchy.getContainer( );
-		this.dataField = dataField;
 		this.hierarchy = hierarchy;
 		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
 				.toArray( new TabularLevelHandle[0] );
@@ -97,6 +84,25 @@ public class GroupDialog extends TitleAreaDialog
 		dateTypeSelectedList.addAll( levelList );
 	}
 
+	public GroupDialog( )
+	{
+		super( UIUtil.getDefaultShell( ) );
+		setShellStyle( getShellStyle( ) | SWT.RESIZE | SWT.MAX );
+	}
+
+	protected ResultSetColumnHandle dataField;
+	protected TabularCubeHandle cube;
+	protected TabularHierarchyHandle hierarchy;
+	private IDialogHelper helper;
+	private List levelList = new ArrayList( );
+
+	public void setInput( TabularCubeHandle cube,
+			ResultSetColumnHandle dataField )
+	{
+		this.dataField = dataField;
+		this.cube = cube;
+	}
+
 	protected Control createDialogArea( Composite parent )
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG );
@@ -106,14 +112,7 @@ public class GroupDialog extends TitleAreaDialog
 
 		Composite area = (Composite) super.createDialogArea( parent );
 
-		Composite contents = new Composite( area, SWT.NONE );
-		GridLayout layout = new GridLayout( );
-		layout.marginWidth = 20;
-		contents.setLayout( layout );
-		GridData data = new GridData( GridData.FILL_BOTH );
-		data.widthHint = convertWidthInCharsToPixels( 80 );
-		data.heightHint = 300;
-		contents.setLayoutData( data );
+		contents = createDialogContentComposite( area );
 
 		createGroupTypeArea( contents );
 		createContentArea( contents );
@@ -125,6 +124,19 @@ public class GroupDialog extends TitleAreaDialog
 		parent.layout( );
 
 		return contents;
+	}
+
+	protected Composite createDialogContentComposite( Composite area )
+	{
+		Composite content = new Composite( area, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 20;
+		content.setLayout( layout );
+		GridData data = new GridData( GridData.FILL_BOTH );
+		data.widthHint = convertWidthInCharsToPixels( 80 );
+		data.heightHint = 300;
+		content.setLayoutData( data );
+		return content;
 	}
 
 	private void createGroupTypeArea( Composite contents )
@@ -181,12 +193,21 @@ public class GroupDialog extends TitleAreaDialog
 		checkOKButtonStatus( );
 	}
 
-	private void initDialog( )
+	protected void initDialog( )
 	{
-		nameText.setText( hierarchy.getContainer( ).getName( ) );
-		if ( !isNew )
+		if ( hierarchy != null )
 		{
-			if ( ( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
+			nameText.setText( hierarchy.getContainer( ).getName( ) );
+		}
+		else
+		{
+			DimensionHandle dimension = DesignElementFactory.getInstance( )
+					.newTabularDimension( null );
+			nameText.setText( dimension.getName( ) );
+		}
+		if ( dimension != null )
+		{
+			if ( isTimeType( dimension ) )
 			{
 				dateButton.setSelection( true );
 				handleButtonSelection( dateButton );
@@ -202,13 +223,12 @@ public class GroupDialog extends TitleAreaDialog
 			dateButton.setSelection( true );
 			handleButtonSelection( dateButton );
 		}
-		if ( !isNew )
+		if ( dimension != null )
 		{
 			WidgetUtil.setExcludeGridData( regularButton, true );
 			WidgetUtil.setExcludeGridData( dateButton, true );
 		}
-		if ( !isNew
-				&& !( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
+		if ( dimension != null && !isTimeType( dimension ) )
 			levelViewer.getTree( ).setVisible( false );
 
 		levelViewer.setInput( getDateTypeNames( getLevelTypesByDateType( ) ) );
@@ -226,6 +246,11 @@ public class GroupDialog extends TitleAreaDialog
 				topNode.setChecked( true );
 		}
 		checkOKButtonStatus( );
+	}
+
+	protected boolean isTimeType( DimensionHandle dimension )
+	{
+		return dimension.isTimeType( );
 	}
 
 	private TreeItem getItem( String text )
@@ -321,6 +346,39 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected void okPressed( )
 	{
+		saveResult( );
+		super.okPressed( );
+	}
+
+	protected void saveResult( )
+	{
+		boolean isNew = hierarchy == null;
+
+		if ( isNew )
+		{
+			dimension = createDimension( );
+			hierarchy = (TabularHierarchyHandle) dimension.getDefaultHierarchy( );
+
+			if ( dataField != null )
+			{
+				DataSetHandle dataset = (DataSetHandle) dataField.getElementHandle( );
+				if ( hierarchy.getDataSet( ) == null
+						&& hierarchy.getLevelCount( ) == 0
+						&& cube != null
+						&& ( dataset != null && dataset != cube.getDataSet( ) ) )
+				{
+					try
+					{
+						hierarchy.setDataSet( dataset );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionUtil.handle( e );
+					}
+				}
+			}
+		}
+
 		try
 		{
 			dimension.setName( nameText.getText( ).trim( ) );
@@ -347,7 +405,7 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			try
 			{
-				if ( ( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
+				if ( isTimeType( (DimensionHandle) hierarchy.getContainer( ) ) )
 				{
 					while ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 					{
@@ -362,10 +420,9 @@ public class GroupDialog extends TitleAreaDialog
 									OlapUtil.getDataFieldDisplayName( dataField ) );
 					level.setColumnName( dataField.getColumnName( ) );
 					DataSetHandle dataset = hierarchy.getDataSet( );
-					if ( dataset == null )
+					if ( dataset == null && cube != null )
 					{
-						dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
-								.getContainer( ) ).getDataSet( );
+						dataset = cube.getDataSet( );
 					}
 					level.setDataType( dataField.getDataType( ) );
 					ColumnHintHandle column = OlapUtil.getColumnHintHandle( dataField );
@@ -387,7 +444,7 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			try
 			{
-				if ( !( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
+				if ( !isTimeType( (DimensionHandle) hierarchy.getContainer( ) ) )
 				{
 					while ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 					{
@@ -503,7 +560,29 @@ public class GroupDialog extends TitleAreaDialog
 				}
 			}
 		}
-		super.okPressed( );
+
+		if ( isNew )
+		{
+			insertDimension( );
+		}
+	}
+
+	protected void insertDimension( )
+	{
+		try
+		{
+			if ( cube != null )
+				cube.add( CubeHandle.DIMENSIONS_PROP, dimension );
+		}
+		catch ( SemanticException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
+	protected DimensionHandle createDimension( )
+	{
+		return DesignElementFactory.getInstance( ).newTabularDimension( null );
 	}
 
 	private void sortDataType( )
@@ -528,13 +607,14 @@ public class GroupDialog extends TitleAreaDialog
 
 	private List dateTypeSelectedList = new ArrayList( );
 	private Text nameText;
-	private CheckboxTreeViewer levelViewer;
-	private Button regularButton;
-	private Button dateButton;
+	protected CheckboxTreeViewer levelViewer;
+	protected Button regularButton;
+	protected Button dateButton;
 	private boolean isRegularButton = false;
-	private DimensionHandle dimension;
+	protected DimensionHandle dimension;
+	protected Composite contents;
 
-	private void createContentArea( Composite parent )
+	protected void createContentArea( Composite parent )
 	{
 		Composite content = new Composite( parent, SWT.NONE );
 		content.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -542,30 +622,15 @@ public class GroupDialog extends TitleAreaDialog
 		layout.numColumns = 3;
 		content.setLayout( layout );
 
-		Composite nameContainer = new Composite( content, SWT.NONE );
-		layout = new GridLayout( );
-		layout.numColumns = 2;
-		layout.marginWidth = layout.marginHeight = 0;
-		nameContainer.setLayout( layout );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
-		nameContainer.setLayoutData( gd );
+		createNamePart( content );
+		createLevelViewerPart( content );
+		createSecurityPart( content );
+	}
 
-		new Label( nameContainer, SWT.NONE ).setText( Messages.getString( "DateGroupDialog.Name" ) ); //$NON-NLS-1$
-		nameText = new Text( nameContainer, SWT.BORDER );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		nameText.setLayoutData( gd );
-		nameText.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				checkOKButtonStatus( );
-			}
-
-		} );
-
+	protected void createLevelViewerPart( Composite content )
+	{
 		levelViewer = new CheckboxTreeViewer( content, SWT.SINGLE | SWT.BORDER );
-		gd = new GridData( GridData.FILL_BOTH );
+		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.horizontalSpan = 3;
 		levelViewer.getTree( ).setLayoutData( gd );
 
@@ -609,12 +674,38 @@ public class GroupDialog extends TitleAreaDialog
 				}
 			}
 		} );
-
-		createSecurityPart( content );
 	}
 
-	private void createSecurityPart( Composite parent )
+	protected Composite createNamePart( Composite content )
 	{
+		Composite nameContainer = new Composite( content, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.numColumns = 2;
+		layout.marginWidth = layout.marginHeight = 0;
+		nameContainer.setLayout( layout );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		nameContainer.setLayoutData( gd );
+
+		new Label( nameContainer, SWT.NONE ).setText( Messages.getString( "DateGroupDialog.Name" ) ); //$NON-NLS-1$
+		nameText = new Text( nameContainer, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		nameText.setLayoutData( gd );
+		nameText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				checkOKButtonStatus( );
+			}
+
+		} );
+		return nameContainer;
+	}
+
+	protected void createSecurityPart( Composite parent )
+	{
+		if ( dimension == null )
+			return;
 		Object[] helperProviders = ElementAdapterManager.getAdapters( dimension,
 				IDialogHelperProvider.class );
 		if ( helperProviders != null )
@@ -672,7 +763,7 @@ public class GroupDialog extends TitleAreaDialog
 		{
 			if ( dateButton.getSelection( )
 					&& dateTypeSelectedList.size( ) == 0
-					&& ( isNew || dataField != null ) )
+					&& ( dimension == null || dataField != null ) )
 			{
 				if ( getButton( IDialogConstants.OK_ID ) != null )
 
@@ -715,12 +806,7 @@ public class GroupDialog extends TitleAreaDialog
 				setInput( hierarchy, null );
 			else
 			{
-				DataSetHandle dataset = hierarchy.getDataSet( );
-				if ( dataset == null )
-				{
-					dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
-							.getContainer( ) ).getDataSet( );
-				}
+				DataSetHandle dataset = getDataSet( hierarchy );
 				setInput( hierarchy,
 						OlapUtil.getDataField( dataset,
 								( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) );
@@ -729,9 +815,36 @@ public class GroupDialog extends TitleAreaDialog
 
 	}
 
+	protected DataSetHandle getDataSet( TabularHierarchyHandle hierarchy )
+	{
+		DataSetHandle dataset = hierarchy.getDataSet( );
+		if ( dataset == null )
+		{
+			dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
+					.getContainer( ) ).getDataSet( );
+		}
+		return dataset;
+	}
+
+	private void setInput( TabularHierarchyHandle hierarchy,
+			ResultSetColumnHandle dataField )
+	{
+		dimension = (DimensionHandle) hierarchy.getContainer( );
+		this.dataField = dataField;
+		this.hierarchy = hierarchy;
+		TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
+				.toArray( new TabularLevelHandle[0] );
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			if ( levels[i].getDateTimeLevelType( ) != null )
+				levelList.add( levels[i].getDateTimeLevelType( ) );
+		}
+		dateTypeSelectedList.addAll( levelList );
+	}
+
 	private IChoice[] getLevelTypesByDateType( )
 	{
-		if ( hierarchy == null || dataField == null )
+		if ( dataField == null )
 			return null;
 		String dataType = dataField.getDataType( );
 		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
@@ -777,6 +890,11 @@ public class GroupDialog extends TitleAreaDialog
 			}
 			checkOKButtonStatus( );
 		}
+	}
+
+	public DimensionHandle getResult( )
+	{
+		return dimension;
 	}
 
 }

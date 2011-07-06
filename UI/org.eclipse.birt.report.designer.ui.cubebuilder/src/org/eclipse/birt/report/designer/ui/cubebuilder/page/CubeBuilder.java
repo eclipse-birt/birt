@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
@@ -209,8 +210,8 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	{
 		if ( input != null )
 		{
-			TabularDimensionHandle[] dimensions = (TabularDimensionHandle[]) input.getContents( ICubeModel.DIMENSIONS_PROP )
-					.toArray( new TabularDimensionHandle[0] );
+			DimensionHandle[] dimensions = (DimensionHandle[]) input.getContents( ICubeModel.DIMENSIONS_PROP )
+					.toArray( new DimensionHandle[0] );
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
@@ -234,8 +235,8 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		List childList = new ArrayList( );
 		if ( input != null )
 		{
-			TabularDimensionHandle[] dimensions = (TabularDimensionHandle[]) input.getContents( ICubeModel.DIMENSIONS_PROP )
-					.toArray( new TabularDimensionHandle[0] );
+			DimensionHandle[] dimensions = (DimensionHandle[]) input.getContents( ICubeModel.DIMENSIONS_PROP )
+					.toArray( new DimensionHandle[0] );
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );

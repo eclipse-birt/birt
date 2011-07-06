@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.JoinXYLayoutEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.CubeFigure;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.draw2d.Figure;
@@ -82,8 +82,8 @@ public class CubeEditPart extends NodeEditPartHelper
 		if ( getCube( ) != null )
 		{
 			childList.add( getCube( ).getDataSet( ) );
-			TabularDimensionHandle[] dimensions = (TabularDimensionHandle[]) getCube( ).getContents( ICubeModel.DIMENSIONS_PROP )
-					.toArray( new TabularDimensionHandle[0] );
+			DimensionHandle[] dimensions = (DimensionHandle[]) getCube( ).getContents( ICubeModel.DIMENSIONS_PROP )
+					.toArray( new DimensionHandle[0] );
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );

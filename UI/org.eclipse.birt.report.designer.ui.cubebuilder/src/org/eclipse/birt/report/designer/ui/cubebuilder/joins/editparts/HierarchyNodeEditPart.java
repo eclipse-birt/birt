@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -153,8 +152,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 			if ( getCube( ) != null )
 			{
 				childList.add( getCube( ).getDataSet( ) );
-				TabularDimensionHandle[] dimensions = (TabularDimensionHandle[]) getCube( ).getContents( ICubeModel.DIMENSIONS_PROP )
-						.toArray( new TabularDimensionHandle[0] );
+				DimensionHandle[] dimensions = (DimensionHandle[]) getCube( ).getContents( ICubeModel.DIMENSIONS_PROP )
+						.toArray( new DimensionHandle[0] );
 				for ( int i = 0; i < dimensions.length; i++ )
 				{
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );

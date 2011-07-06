@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
@@ -47,7 +49,6 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
@@ -223,8 +224,9 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		try
 		{
 			newCube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
-//			if ( newCube.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-//				newCube.setDefaultMeasureGroup( measureGroup );
+			// if ( newCube.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) ==
+			// 1 )
+			// newCube.setDefaultMeasureGroup( measureGroup );
 			TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 					.newTabularMeasure( columnHandle.getColumnName( ) );
 			Expression expression = new Expression( ExpressionUtility.getExpression( columnHandle,
@@ -244,31 +246,29 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 	private void createDimension( ResultSetColumnHandle columnHandle,
 			TabularCubeHandle newCube )
 	{
-		TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
-				.newTabularDimension( null );
 		try
 		{
-			newCube.add( CubeHandle.DIMENSIONS_PROP, dimension );
-			TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
-					0 );
-
 			if ( isDateType( columnHandle.getDataType( ) ) )
 			{
 				CommandStack stack = SessionHandleAdapter.getInstance( )
 						.getCommandStack( );
 				stack.startTrans( "Create Group" ); //$NON-NLS-1$
-				GroupDialog dialog = new GroupDialog( true );
-				dialog.setInput( hierarchy, columnHandle );
+				GroupDialog dialog = createGroupDialog( newCube );
+				dialog.setInput( newCube, columnHandle );
 				if ( dialog.open( ) == Window.CANCEL )
 				{
 					stack.rollback( );
 				}
 				else
 					stack.commit( );
-
 			}
 			else
 			{
+				TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
+						.newTabularDimension( null );
+				newCube.add( CubeHandle.DIMENSIONS_PROP, dimension );
+				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
+						0 );
 				TabularLevelHandle level = DesignElementFactory.getInstance( )
 						.newTabularLevel( dimension,
 								columnHandle.getColumnName( ) );
@@ -281,6 +281,22 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		{
 			ExceptionUtil.handle( e );
 		}
+	}
+
+	protected GroupDialog createGroupDialog( TabularCubeHandle cube )
+	{
+		Object adapter = ElementAdapterManager.getAdapter( cube,
+				GroupDialog.class );
+		try
+		{
+			if ( adapter instanceof GroupDialog )
+				return ( (GroupDialog) adapter ).getClass( ).newInstance( );
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return new GroupDialog( );
 	}
 
 	private boolean isDateType( String dataType )
