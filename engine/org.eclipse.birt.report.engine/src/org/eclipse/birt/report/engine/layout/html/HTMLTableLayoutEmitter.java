@@ -625,6 +625,10 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				hasDropCell = layout.hasDropCell( );
 				if ( hasDropCell( ) )
 				{
+					if ( layout.exceedMaxCache( ) )
+					{
+						context.softRowBreak = true;
+					}
 					return;
 				}
 				if(layoutEvents.size( )>0)

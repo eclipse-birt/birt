@@ -34,7 +34,8 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class TableContentLayout
 {
-
+	
+	public final Integer MAX_ROW_SPAN = 10000;
 	/**
 	 * rows in the table layout
 	 */
@@ -248,6 +249,11 @@ public class TableContentLayout
 		return realColCount;
 	}
 
+	
+	public boolean exceedMaxCache()
+	{
+		return this.rowCount >= MAX_ROW_SPAN;
+	}
 	
 	/**
 	 * create a row in the table model

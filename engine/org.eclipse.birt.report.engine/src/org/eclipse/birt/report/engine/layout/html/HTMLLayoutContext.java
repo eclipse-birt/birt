@@ -43,6 +43,11 @@ public class HTMLLayoutContext
 	
 	protected boolean emptyPage = false;
 
+	//this flag is used to control max row-span. If row-span exceeds the max value, a page-break will be insert to next row
+	protected boolean softRowBreak = false;
+	
+	
+
 	/**
 	 * The flag to indicate whether the emitter need output the display:none or process it in layout
 	 * engine. true: output display:none in emitter and do not process it in
@@ -56,6 +61,18 @@ public class HTMLLayoutContext
 	protected boolean isPaged = false;
 	
 
+	public boolean isSoftRowBreak( )
+	{
+		return softRowBreak;
+	}
+
+	
+	public void setSoftRowBreak( boolean softRowBreak )
+	{
+		this.softRowBreak = softRowBreak;
+	}
+	
+	
 	public PageBufferFactory getBufferFactory( )
 	{
 		return bufferFactory;

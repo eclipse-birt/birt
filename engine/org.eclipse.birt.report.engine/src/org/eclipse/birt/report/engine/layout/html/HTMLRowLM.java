@@ -38,4 +38,14 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 		}
 		return ret;
 	}
+	
+	protected boolean isPageBreakBefore( )
+	{
+		if ( context.isSoftRowBreak( ) )
+		{
+			context.setSoftRowBreak( false );
+			return true;
+		}
+		return super.isPageBreakBefore( );
+	}
 }
