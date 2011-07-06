@@ -1294,7 +1294,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			IStructure struct = (IStructure) iter.next( );
 
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-
+			
+			if ( LineNumberInfo.isLineNumberSuppoerted( struct ) )
+				markLineNumber( struct );			
+		
 			Iterator memberIter = prop.getStructDefn( ).propertiesIterator( );
 			while ( memberIter.hasNext( ) )
 			{
