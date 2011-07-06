@@ -18,8 +18,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+import org.eclipse.birt.core.framework.IBundle;
+import org.eclipse.birt.core.framework.Platform;
 
 /**
  * AbstractEmitterDescriptor
@@ -151,7 +151,7 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 	
 	private URL getConfigURL( String bundleName )
 	{
-		Bundle bundle = Platform.getBundle( bundleName ); //$NON-NLS-1$
+		IBundle bundle = Platform.getBundle( bundleName ); //$NON-NLS-1$
 		if ( bundle != null )
 		{
 			return bundle.getEntry( OPTIONS_CONFIG_FILE );
@@ -159,5 +159,4 @@ public abstract class AbstractEmitterDescriptor implements IEmitterDescriptor
 		return null;
 	}
 	
-
 }
