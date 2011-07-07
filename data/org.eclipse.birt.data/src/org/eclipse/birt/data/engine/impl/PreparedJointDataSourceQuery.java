@@ -619,6 +619,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dsQuery.setMaxRows( jointQuery.getMaxRows( ) );
 				dsQuery.setOrdering( toList( jointQuery.getOrdering( ) ) );
 				dsQuery.setGrouping( toList( jointQuery.getGrouping( ) ) );
+				dsQuery.setQueryDefinition( jointQuery.getQueryDefinition( ) );
 
 				return dsQuery.execute( eventHandler );
 			}
