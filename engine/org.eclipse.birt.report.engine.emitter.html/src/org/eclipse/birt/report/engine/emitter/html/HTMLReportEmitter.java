@@ -1306,8 +1306,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// output the page header attribute
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
-		boolean isNotEmpty = !band.getChildren( ).isEmpty( );
-		if ( height != null && isNotEmpty )
+		boolean fixedHeight = fixedReport
+				&& height != null && !band.getChildren( ).isEmpty( );
+		if ( fixedHeight )
 		{
 			writer.openTag( HTMLTags.TAG_DIV );
 			styleBuffer.delete( 0, styleBuffer.length( ) );
@@ -1318,7 +1319,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// output the contents of header
 		contentVisitor.visitChildren( band, null );
 
-		if ( height != null && isNotEmpty )
+		if ( fixedHeight )
 		{
 			writer.closeTag( HTMLTags.TAG_DIV );
 		}
