@@ -2036,7 +2036,7 @@ Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
 Structure.ComputedColumn.aggregateFunction=AggregateOn-Funktion
 Structure.ComputedColumn.arguments=AggregateOn-Funktionsargumente
 Structure.ComputedColumn.filterExpr=Filterausdruck
-Structure.ComputedColumn.allowExport=Allow Export
+Structure.ComputedColumn.allowExport=Export zulassen
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Spaltenname

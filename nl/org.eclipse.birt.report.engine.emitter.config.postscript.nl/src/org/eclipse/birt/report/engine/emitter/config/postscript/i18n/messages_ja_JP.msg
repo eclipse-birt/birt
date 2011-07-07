@@ -51,7 +51,7 @@ OptionDescription.Resolution=解像度。
 OptionDescription.Scale=スケール。
 OptionDescription.Color=カラー。
 OptionDescription.AutoPaperSizeSelection=ページサイズに合わせて用紙サイズを選択します。
-OptionDescription.FitToPaper=Fit to paper.
+OptionDescription.FitToPaper=用紙に合わせる。
 
 ###########################################################
 #tooltip

@@ -51,7 +51,7 @@ OptionDescription.Resolution=Auflösung.
 OptionDescription.Scale=Skalierung.
 OptionDescription.Color=Farbe.
 OptionDescription.AutoPaperSizeSelection=Wählt Papierformat je nach Seitengröße aus.
-OptionDescription.FitToPaper=Fit to paper.
+OptionDescription.FitToPaper=An Papier anpassen.
 
 ###########################################################
 #tooltip

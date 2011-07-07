@@ -2036,7 +2036,7 @@ Structure.ComputedColumn.aggregateOn=AggregateOn 式
 Structure.ComputedColumn.aggregateFunction=AggregateOn 関数
 Structure.ComputedColumn.arguments=AggregateOn 関数の引数
 Structure.ComputedColumn.filterExpr=フィルタ式
-Structure.ComputedColumn.allowExport=Allow Export
+Structure.ComputedColumn.allowExport=エクスポートを許可する
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
