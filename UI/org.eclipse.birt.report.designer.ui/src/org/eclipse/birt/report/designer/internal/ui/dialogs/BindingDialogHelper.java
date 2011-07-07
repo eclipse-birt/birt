@@ -283,10 +283,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 		
-		new Label( composite, SWT.NONE ).setText( ALLOW_EXPORT );
+		Label allowExportLabel = new Label( composite, SWT.NONE );
+		allowExportLabel.setText( ALLOW_EXPORT );
 		btnAllowExport = new Button( composite, SWT.CHECK );
 		btnAllowExport.setSelection( true );
-		btnAllowExport.setLayoutData( gd );
+		
+		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
+		gd1.horizontalSpan = 3;
+		gd1.widthHint = 200;
+		btnAllowExport.setLayoutData( gd1 );
+		
 		btnAllowExport.addSelectionListener( new SelectionAdapter(){
 
 			public void widgetSelected( SelectionEvent e )
@@ -294,6 +300,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				modifyDialogContent( );
 			}
 		}) ;
+		
+		WidgetUtil.setExcludeGridData( allowExportLabel, true );
+		WidgetUtil.setExcludeGridData( btnAllowExport, true );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
