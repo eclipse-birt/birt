@@ -13,15 +13,27 @@ package org.eclipse.birt.data.engine.executor.dscache;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
+import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil;
+import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
+import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
+import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
+import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
@@ -140,6 +152,52 @@ public class DataSourceQuery extends BaseQuery
 	 */
 	public IResultIterator execute( IEventHandler eventHandler ) throws DataException
 	{
+		if ( ( ( session.getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION || session.getEngineContext( )
+				.getMode( ) == DataEngineContext.MODE_GENERATION ) )
+				&& this.getQueryDefinition( ) instanceof IQueryDefinition )
+		{
+			IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition( );
+			
+			Strategy strategy = QueryExecutionStrategyUtil.getQueryExecutionStrategy( this.session, queryDefn,
+					queryDefn.getDataSetName( ) == null
+					? null
+					: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) );
+			if ( strategy  != Strategy.Complex )
+			{
+				if ( this.getFetchEvents( ) != null )
+				{
+					for ( IResultObjectEvent event : (List<IResultObjectEvent>) this.getFetchEvents( ) )
+					{
+						if ( event instanceof ComputedColumnHelper )
+						{
+							( (ComputedColumnHelper) event ).setModel( TransformationConstants.RESULT_SET_MODEL );
+						}
+					}
+				}
+				
+				SimpleResultSet simpleResult = new SimpleResultSet( this,
+						new IDataSetPopulator(){
+
+							public IResultObject next( ) throws DataException
+							{
+								return getOdaCacheResultSet( ).fetch( );
+							}
+					
+						},
+						getOdaCacheResultSet( ).getResultClass( ),
+						eventHandler,
+						this.getGrouping( ),
+						this.session,
+						strategy == Strategy.SimpleLookingFoward);
+				
+				IResultIterator it = strategy == Strategy.SimpleLookingFoward
+						? new ResultSetWrapper( this.session, simpleResult )
+						: simpleResult;
+				eventHandler.handleEndOfDataSetProcess( it );
+				return it;
+			}
+		}
+    	 
 		return new CachedResultSet( this,
 				getOdaCacheResultSet( ).getResultClass( ),
 				getOdaCacheResultSet( ),

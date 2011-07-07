@@ -132,7 +132,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 {
 	private static Logger logger = Logger.getLogger( DataRequestSessionImpl.class.getName( ) );
 	//
-	private DataEngineImpl dataEngine;
+	private DataEngineImpl dataEngine; 
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
@@ -1076,7 +1076,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					columnForDeepestLevel = level.getColumnName( );
 				}
 				metaList = new ArrayList<ColumnMeta>();
-				query = createQuery( this,
+				query = createDimensionQuery( this,
 						hier,
 						metaList,
 						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
@@ -1815,7 +1815,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException 
 	 */
 	private void prepareLevels( QueryDefinition query,
-			TabularHierarchyHandle hierHandle, List metaList, String dimName, String levelColumnName )
+			TabularHierarchyHandle hierHandle, List metaList, String dimName, String levelColumnName, boolean addGroup )
 			throws BirtException
 	{
 		try
@@ -1990,7 +1990,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					gd.setIntervalStart( String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))) );
 					gd.setInterval( IGroupDefinition.NUMERIC_INTERVAL  );
 				}
-				query.addGroup( gd );
+				if( addGroup )
+					query.addGroup( gd );
 			}
 		}
 		catch ( DataException e )
@@ -2141,7 +2142,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					prepareLevels( query,
 							hierHandle,
 							metaList,
-							dimension.getName(), null );
+							dimension.getName(), null, true );
 					continue;
 				}
 				DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle,
@@ -2151,7 +2152,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					prepareLevels( query,
 							hierHandle,
 							metaList,
-							dimension.getName(), condition.getCubeKey( ) );
+							dimension.getName(), condition.getCubeKey( ), true );
 					continue;
 				}
 				
@@ -2325,12 +2326,38 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setName( cubeName );
 		
 		prepareLevels( query,
-				hierHandle, metaList, null, null );
+				hierHandle, metaList, null, null, true );
 		
 		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
 		return query;
 	}
 
+	/**
+	 * Create a query definition for an Hierarchy.
+	 * 
+	 * @param session
+	 * @param hierHandle
+	 * @param metaList
+	 * @return
+	 * @throws BirtException 
+	 */
+	QueryDefinition createDimensionQuery(
+			DataRequestSessionImpl session, TabularHierarchyHandle hierHandle,
+			List metaList, String cubeName ) throws BirtException
+	{
+		assert metaList!= null;
+		QueryDefinition query = new CubeCreationQueryDefinition( );
+		//Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery( );
+		query.setDataSetName( DataRequestSessionImpl.getDataSet ( hierHandle ) );
+		query.setName( cubeName );
+		
+		prepareLevels( query,
+				hierHandle, metaList, null, null, false );
+		
+		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
+		return query;
+	}
 	@Override
 	public DataSessionContext getDataSessionContext( )
 	{
