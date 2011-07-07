@@ -163,8 +163,23 @@ public class ResultIterator implements IResultIterator
 		
 		this.start( );
 		prepareBindingColumnsEvalUtil( );
-		prepareCurrentRow();
-		this.distinctValue = this.resultService.getQueryDefn( ).getDistinctValue( );
+		try
+		{
+			prepareCurrentRow( );
+		}
+		catch ( DataException ex )
+		{
+			if ( this.isEmpty( ) )
+			{
+				// ignore it, due to the empty result should not have current row.
+			}
+			else
+			{
+				throw ex;
+			}
+		}
+		this.distinctValue = this.resultService.getQueryDefn( )
+				.getDistinctValue( );
 		
 		// add shutdown listener when initial work has been done.
 		addEngineShutdownListener( );
@@ -727,41 +742,41 @@ public class ResultIterator implements IResultIterator
 	{
 		clear( );
 		this.rdSaveHelper.doSaveBasic( );
-		
-		if( !this.isEmpty( ) )
+
+		if ( needCache( ) && !this.isEmpty( ) )
 		{
-			if ( needCache( ) )
+			bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );
+			try
 			{
-				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );
+				saveCurrentRow( );
+			}
+			catch ( IOException e )
+			{
 				try
 				{
-					saveCurrentRow( );
+					this.metaOutputStream.close( );
+					this.rowOutputStream.close( );
 				}
-				catch ( IOException e )
+				catch ( IOException ce )
 				{
-					try
-					{
-						this.metaOutputStream.close( );
-						this.rowOutputStream.close( );
-					}
-					catch ( IOException ce )
-					{
-						
-					}
-					throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR, e );
+
 				}
-				catch ( BirtException e )
-				{
-					throw DataException.wrap( e );
-				}
+				throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR,
+						e );
 			}
-			else
+			catch ( BirtException e )
 			{
-				if( this.getRdSaveHelper( ).isSummaryQuery( ) )
-					bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, true );				
-				else
-					bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap, false );			
-			}			
+				throw DataException.wrap( e );
+			}
+		}
+		else
+		{
+			if ( this.getRdSaveHelper( ).isSummaryQuery( ) )
+				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap,
+						true );
+			else
+				bindingColumnsEvalUtil.getColumnsValue( boundColumnValueMap,
+						false );
 		}
 	}
 
