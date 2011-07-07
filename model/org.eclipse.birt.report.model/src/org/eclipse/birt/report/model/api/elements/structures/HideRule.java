@@ -11,12 +11,19 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Implements hide rules of a <code>ReportItem</code>.
@@ -237,6 +244,35 @@ public class HideRule extends Structure
 	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
 	{
 		return new HideRuleHandle( valueHandle, index );
+	}
+	
+	/**
+	 * Validates this structure. The following are the rules:
+	 * <ul>
+	 * <li>The column name is required.
+	 * </ul>
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 */
+
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
+	{
+		List<SemanticException> list = super.validate( module, element );
+
+		PropertyDefn propDefn = (PropertyDefn) getDefn( ).getMember(
+				FORMAT_MEMBER );
+		try
+		{
+			propDefn.validateValue( module, element, format );
+		}
+		catch ( PropertyValueException e )
+		{
+			list.add( e );
+		}
+
+		return list;
 	}
 
 }
