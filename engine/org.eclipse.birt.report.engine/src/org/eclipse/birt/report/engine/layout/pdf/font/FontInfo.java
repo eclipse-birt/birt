@@ -71,8 +71,8 @@ public class FontInfo
 			return;
 		}
 
-		float ascent = bf.getFontDescriptor( BaseFont.ASCENT, fontSize );
-		float descent = bf.getFontDescriptor( BaseFont.DESCENT, fontSize );
+		float ascent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
+		float descent = bf.getFontDescriptor( BaseFont.AWT_DESCENT, fontSize );
 		float baseline = bf.getFontDescriptor( BaseFont.UNDERLINE_POSITION,
 				fontSize );
 		float baseline_thickness = bf.getFontDescriptor(
