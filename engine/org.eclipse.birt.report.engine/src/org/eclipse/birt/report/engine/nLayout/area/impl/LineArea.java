@@ -469,6 +469,7 @@ public class LineArea extends InlineStackingArea
 		height = Math.max( height, lineHeight );
 		width = Math.max( currentIP, maxAvaWidth );
 		align( endParagraph, context );
+		checkDisplayNone( );
 		if ( isLastLine )
 		{
 			parent.add( this );

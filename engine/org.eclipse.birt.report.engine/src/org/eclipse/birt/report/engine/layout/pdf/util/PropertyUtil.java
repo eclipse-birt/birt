@@ -67,6 +67,17 @@ public class PropertyUtil
 		}
 		return false;
 	}
+	
+	public static boolean isDisplayNone( IContent content )
+	{
+		IStyle style = content.getStyle( );
+		if ( style != null )
+		{
+			return IStyle.NONE_VALUE.equals( style
+					.getProperty( IStyle.STYLE_DISPLAY ) );
+		}
+		return false;
+	}
 
 	public static boolean isInlineElement( IContent content )
 	{

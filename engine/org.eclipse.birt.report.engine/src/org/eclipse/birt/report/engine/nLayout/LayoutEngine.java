@@ -349,6 +349,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	public void startContainer( IContainerContent container )
 			throws BirtException
 	{
+		checkDisplayNone( container, true );
 		_startContainer( container );
 	}
 	
@@ -356,6 +357,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			throws BirtException
 	{
 		_endContainer( container );
+		checkDisplayNone( container, false );
 	}
 
 	protected void setContainer( ContainerArea container )
@@ -376,6 +378,41 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	
 	LinkedList<IContent> unfinishedContents = new LinkedList<IContent>( );
+	
+	protected IContent contentDisplayNone = null;
+	
+	protected void checkDisplayNone( IContent content, boolean isStart )
+	{
+		if ( isStart )
+		{
+			if ( context.isDisplayNone( ) )
+			{
+				return;
+			}
+			else
+			{
+				if ( PropertyUtil.isDisplayNone( content ) )
+				{
+					contentDisplayNone = content;
+					context.setDisplayNone( true );
+				}
+			}
+		}
+		else
+		{
+			if ( context.isDisplayNone( ) )
+			{
+				if ( PropertyUtil.isDisplayNone( content ) )
+				{
+					if ( contentDisplayNone == content )
+					{
+						context.setDisplayNone( false );
+						contentDisplayNone = null;
+					}
+				}
+			}
+		}
+	}
 
 	protected void _startContainer( IContent container ) throws BirtException
 	{
@@ -494,11 +531,13 @@ public class LayoutEngine extends LayoutEmitterAdapter
 				closeContainer( );
 			}
 		}
+		checkDisplayNone( content, true );
 		ILayout layout = af.createLayout( current, context, content );
 		if ( layout != null )
 		{
 			layout.layout( );
 		}
+		checkDisplayNone( content, false );
 	}
 
 	public void endContent( IContent content ) throws BirtException
@@ -587,12 +626,14 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void startRow( IRowContent row ) throws BirtException
 	{
+		checkDisplayNone( row, true );
 		startTableContainer( row );
 	}
 
 	public void endRow( IRowContent row ) throws BirtException
 	{
 		endTableContainer( row );
+		checkDisplayNone( row, false );
 	}
 
 	public void startTableBand( ITableBandContent band ) throws BirtException
@@ -611,6 +652,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	public void startTableGroup( ITableGroupContent group )
 			throws BirtException
 	{
+		checkDisplayNone( group, true );
 		startTableContainer( group );
 	}
 
@@ -630,16 +672,19 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	public void endTableGroup( ITableGroupContent group ) throws BirtException
 	{
 		endTableContainer( group );
+		checkDisplayNone( group, false );
 	}
 
 	public void startCell( ICellContent cell ) throws BirtException
 	{
+		checkDisplayNone( cell, true );
 		startTableContainer( cell );
 	}
 
 	public void endCell( ICellContent cell ) throws BirtException
 	{
 		_endCell(cell);
+		checkDisplayNone( cell, false );
 	}
 	
 	protected void visitContent( IContent content, IContentEmitter emitter )
@@ -676,6 +721,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
+		checkDisplayNone( foreign, true );
 		//foreign.getStyle( ).setProperty( IStyle.STYLE_DISPLAY, IStyle.BLOCK_VALUE );
 		_startContainer( foreign );
 		if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
@@ -693,6 +739,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			foreign.getChildren( ).clear( );
 		}
 		_endContainer( foreign );
+		checkDisplayNone( foreign, false );
 	}
 
 	protected void resolveTotalPage( IContentEmitter emitter )

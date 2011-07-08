@@ -343,6 +343,14 @@ public abstract class ContainerArea extends AbstractArea
 	{
 		// FIXME to implement
 	}
+	
+	protected void checkDisplayNone( )
+	{
+		if ( context.isDisplayNone( ) )
+		{
+			height = 0;
+		}
+	}
 
 	protected void updateBackgroundImage( )
 	{

@@ -125,6 +125,7 @@ public class BlockContainerArea extends ContainerArea implements IContainerArea
 		}
 		update( );
 		finished = true;
+		checkDisplayNone( );
 	}
 
 	protected void update( ) throws BirtException

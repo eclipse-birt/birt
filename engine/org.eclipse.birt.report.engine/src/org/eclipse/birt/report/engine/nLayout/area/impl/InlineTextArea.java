@@ -159,7 +159,7 @@ public class InlineTextArea extends InlineContainerArea implements ILayout
 			addLineToExtension(this);
 			addLineBreakToExtension( this );
 		}
-		
+		checkDisplayNone( );
 	}
 
 	protected boolean checkPageBreak( ) throws BirtException

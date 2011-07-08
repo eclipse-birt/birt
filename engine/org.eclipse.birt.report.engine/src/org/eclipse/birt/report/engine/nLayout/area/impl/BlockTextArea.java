@@ -106,6 +106,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 		super.close( );
 		addToExtension( this );
 		updateTextContent( );
+		checkDisplayNone( );
 	}
 
 	private void addToExtension( BlockTextArea area )

@@ -132,6 +132,7 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 		checkPageBreak( );
 		parent.update( this );
 		finished = true;
+		checkDisplayNone( );
 	}
 
 	public void initialize( ) throws BirtException

@@ -673,6 +673,7 @@ public class TableArea extends RepeatableArea
 			parent.update( this );
 		}
 		finished = true;
+		checkDisplayNone( );
 	}
 
 	public int getCellWidth( int startColumn, int endColumn )

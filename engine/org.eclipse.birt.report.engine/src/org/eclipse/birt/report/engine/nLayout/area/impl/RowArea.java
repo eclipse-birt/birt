@@ -154,7 +154,7 @@ public class RowArea extends ContainerArea
 		//}
 		parent.update( this );
 		finished = true;
-		
+		checkDisplayNone( );
 	}
 
 	public void initialize( ) throws BirtException

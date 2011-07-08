@@ -69,6 +69,7 @@ public class InlineContainerArea extends InlineStackingArea
 		{
 			verticalAlign( );
 		}
+		checkDisplayNone( );
 		if ( isLastLine )
 		{
 			checkPageBreak( );

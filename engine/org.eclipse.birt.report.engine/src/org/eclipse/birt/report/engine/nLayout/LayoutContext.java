@@ -65,6 +65,20 @@ public class LayoutContext
 	
 	protected HashMap<String, Long> bookmarkMap = new HashMap<String, Long>();
 	
+	protected boolean displayNone = false;
+	
+	
+	public boolean isDisplayNone( )
+	{
+		return displayNone;
+	}
+
+	
+	public void setDisplayNone( boolean displayNone )
+	{
+		this.displayNone = displayNone;
+	}
+
 	public HTMLLayoutContext getHtmlLayoutContext( )
 	{
 		return htmlLayoutContext;
