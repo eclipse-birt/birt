@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
@@ -84,6 +83,9 @@ public class FTAggregationHelper
 	
 	public Object[] getCurrentValues( )
 	{
-		return Arrays.copyOf( this.currentRoundAggrValue, this.currentRoundAggrValue.length );
+		Object[] result = new Object[this.currentRoundAggrValue.length];
+		for( int i = 0; i < result.length; i++ )
+			result[i] = this.currentRoundAggrValue[i];
+		return result;
 	}
 }
