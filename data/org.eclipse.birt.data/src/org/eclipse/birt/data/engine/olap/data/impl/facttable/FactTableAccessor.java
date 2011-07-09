@@ -20,8 +20,9 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
@@ -46,6 +47,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.StructureDiskArray;
 
 /**
  * This a accessor class for fact table which can be used to save or load a FactTable.
@@ -80,14 +82,25 @@ public class FactTableAccessor
 	public FactTable saveFactTable( String factTableName,
 			String[][] factTableJointColumnNames, String[][] DimJointColumnNames,
 			IDatasetIterator iterator, Dimension[] dimensions,
-			String[] measureColumnName, StopSign stopSign )
+			String[] measureColumnName, String[] measureColumnAggregations, StopSign stopSign )
 			throws BirtException, IOException
 	{
-		DiskSortedStack sortedFactTableRows = getSortedFactTableRows( iterator,
-				factTableJointColumnNames,
-				measureColumnName,
-				stopSign );
-
+		FacttableRowContainer sortedFactTableRows = null;
+		if ( measureColumnAggregations == null || measureColumnAggregations.length == 0)
+		{
+			sortedFactTableRows = populateSortedFacttableRowsWithoutAggregationCalculation( factTableJointColumnNames,
+					iterator,
+					measureColumnName,
+					stopSign );
+		}
+		else
+		{
+			sortedFactTableRows = populatedSortedFacttableRowsWithAggregationCalculation( factTableJointColumnNames,
+					iterator,
+					measureColumnName,
+					measureColumnAggregations,
+					stopSign );
+		}
 		int segmentCount = getSegmentCount( sortedFactTableRows.size( ) );
 
 		DimensionInfo[] dimensionInfo = getDimensionInfo( dimensions );
@@ -108,25 +121,17 @@ public class FactTableAccessor
 			dimensionSeekers[i] = new DimensionPositionSeeker( getDimCombinatedKey( columnIndex[i],
 					dimensions[i].getAllRows( stopSign ) ) );
 		}
-
-		FactTableRow currentRow = null;
-		FactTableRow lastRow = null;
+		
 		int[] dimensionPosition = new int[dimensions.length];
 		DocumentObjectCache documentObjectManager = new DocumentObjectCache( documentManager );
 		CombinedPositionContructor combinedPositionCalculator = new CombinedPositionContructor( subDimensions );
 		
 		FTSUNameSaveHelper saveHelper = new FTSUNameSaveHelper( documentManager, factTableName );
-		Object popObject = sortedFactTableRows.pop( );
+		FactTableRow currentRow = sortedFactTableRows.pop( );
 		boolean invalidDimensionKey = false;
 		int invalidRowNumber = 0;
-		while ( popObject != null && !stopSign.isStopped( ) )
-		{
-			currentRow = (FactTableRow) popObject;
-			if ( lastRow != null && currentRow.equals( lastRow ) )
-			{
-				throw new DataException( ResourceConstants.FACTTABLE_ROW_NOT_DISTINCT,
-						currentRow.toString( ) );
-			}
+		while ( currentRow != null && !stopSign.isStopped( ) )
+		{			
 			invalidDimensionKey = false;
 			for ( int i = 0; i < dimensionPosition.length; i++ )
 			{
@@ -145,8 +150,7 @@ public class FactTableAccessor
 			}
 			if( invalidDimensionKey )
 			{
-				popObject = sortedFactTableRows.pop( );
-				lastRow = currentRow;
+				currentRow = sortedFactTableRows.pop( );
 				invalidRowNumber ++;
 				continue;
 			}
@@ -166,8 +170,7 @@ public class FactTableAccessor
 						measureInfo[i].getDataType(),
 						currentRow.getMeasures()[i] );
 			}
-			popObject = sortedFactTableRows.pop( );
-			lastRow = currentRow;
+			currentRow = sortedFactTableRows.pop( );
 		}
 		saveHelper.save( );
 		if( invalidRowNumber > 0 )
@@ -188,6 +191,113 @@ public class FactTableAccessor
 		
 	}
 
+	private FacttableRowContainer populatedSortedFacttableRowsWithAggregationCalculation(
+			String[][] factTableJointColumnNames, IDatasetIterator iterator,
+			String[] measureColumnName, String[] measureColumnAggregations,
+			StopSign stopSign ) throws BirtException, IOException,
+			DataException
+	{
+		FacttableRowContainer sortedFactTableRows;
+		DiskSortedStack sortedRows = getSortedFactTableRows( iterator,
+				factTableJointColumnNames,
+				measureColumnName,
+				false,
+				stopSign );
+		
+		final StructureDiskArray aggregatedRows = new StructureDiskArray( FactTableRow.getCreator( ) );
+		IAggrFunction[] functions = new IAggrFunction[measureColumnAggregations.length];
+		for ( int i = 0; i < measureColumnAggregations.length; i++ )
+		{
+			functions[i] = AggregationManager.getInstance( )
+					.getAggregation( measureColumnAggregations[i] );
+		}
+		FTAggregationHelper aggrHelper = new FTAggregationHelper( functions );	
+		FactTableRow lastRow = (FactTableRow)sortedRows.pop( );
+		if ( lastRow != null )
+		{
+			FactTableRow currentRow = null;
+			while ( true && !stopSign.isStopped( ) )
+			{
+				currentRow = (FactTableRow) sortedRows.pop( );
+				if ( lastRow.equals( currentRow ) )
+				{
+					aggrHelper.onRow( false, lastRow );
+					lastRow = currentRow;
+				}
+				else
+				{
+					aggrHelper.onRow( true, lastRow );
+					lastRow.setMeasures( aggrHelper.getCurrentValues( ) );
+					aggregatedRows.add( lastRow );
+					lastRow = currentRow;
+				}
+				if ( currentRow == null )
+					break;
+			}
+		}
+					
+		sortedFactTableRows = new FacttableRowContainer(){
+
+			private int index = 0;
+			public FactTableRow pop( ) throws IOException
+			{
+				if( index >= aggregatedRows.size( ) )
+					return null;
+				FactTableRow result = (FactTableRow) aggregatedRows.get( index );
+				index++;
+				return result;
+			}
+
+			public int size( )
+			{
+				return aggregatedRows.size( );
+			}};
+		return sortedFactTableRows;
+	}
+
+	private FacttableRowContainer populateSortedFacttableRowsWithoutAggregationCalculation(
+			String[][] factTableJointColumnNames, IDatasetIterator iterator,
+			String[] measureColumnName, StopSign stopSign )
+			throws BirtException, IOException
+	{
+		FacttableRowContainer sortedFactTableRows;
+		final DiskSortedStack facttableRows = getSortedFactTableRows( iterator,
+				factTableJointColumnNames,
+				measureColumnName,
+				false,
+				stopSign );
+
+		sortedFactTableRows = new FacttableRowContainer( ) {
+
+			public FactTableRow pop( ) throws IOException
+			{
+				return (FactTableRow) facttableRows.pop( );
+			}
+
+			public int size( )
+			{
+				return facttableRows.size( );
+			}
+		};
+		return sortedFactTableRows;
+	}
+
+	public FactTable saveFactTable( String factTableName,
+			String[][] factTableJointColumnNames, String[][] DimJointColumnNames,
+			IDatasetIterator iterator, Dimension[] dimensions,
+			String[] measureColumnName, StopSign stopSign )
+			throws BirtException, IOException
+	{
+		return this.saveFactTable( factTableName,
+				factTableJointColumnNames,
+				DimJointColumnNames,
+				iterator,
+				dimensions,
+				measureColumnName,
+				null,
+				stopSign );
+	}
+	
 	private int[][][] getColumnIndex( String[][] keyColumnNames,
 			Dimension[] dimensions ) throws DataException
 	{
@@ -400,7 +510,7 @@ public class FactTableAccessor
 	 * @throws IOException
 	 */
 	private DiskSortedStack getSortedFactTableRows( IDatasetIterator iterator,
-			String[][] keyColumnNames, String[] measureColumnNames, StopSign stopSign )
+			String[][] keyColumnNames, String[] measureColumnNames, boolean forceRemoveDuplicate, StopSign stopSign )
 			throws BirtException, IOException
 	{
 		DiskSortedStack result = null;
@@ -642,7 +752,11 @@ public class FactTableAccessor
 
 }
 
-
+interface FacttableRowContainer
+{
+	public FactTableRow pop( ) throws IOException;
+	public int size( );
+}
 /**
  * 
  * @author Administrator

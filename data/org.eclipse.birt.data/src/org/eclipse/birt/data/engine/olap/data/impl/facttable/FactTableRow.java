@@ -86,6 +86,8 @@ public class FactTableRow implements IComparableStructure
 	 */
 	public boolean equals( Object o )
 	{
+		if ( o == null )
+			return false;
 		FactTableRow other = (FactTableRow) o;
 
 		if( other.getDimensionKeys().length != this.getDimensionKeys().length)

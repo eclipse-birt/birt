@@ -960,10 +960,25 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 		try
 		{
+			List<String> measureAggrFunctions = new ArrayList<String>();
+
 			if( dataForCube == null )
 			{
+				QueryDefinition query = cubeQueryMap.get( cubeHandle );
+				for ( Object measureName : measureNames )
+				{
+					IBinding b = (IBinding)query.getBindings( ).get( measureName );
+					assert b!= null;
+					measureAggrFunctions.add( b.getAggrFunction( ) );
+					b.setAggrFunction( null );
+					if ( b.getAggregatOns( ) != null ) 
+					{
+						b.getAggregatOns( ).clear( );
+					}
+				}
+				query.getGroups( ).clear( );
 				dataForCube = new DataSetIterator( this,
-						cubeQueryMap.get( cubeHandle ),
+						query,
 						cubeMetaMap.get( cubeHandle ),
 						appContext );
 			}
@@ -973,6 +988,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					dimensions,
 					dataForCube,
 					this.toStringArray( measureNames ),
+					this.toStringArray( measureAggrFunctions ),
 					computeMemoryBufferSize( appContext ),
 					dataEngine.getSession( ).getStopSign( ) );
 		}
@@ -1505,6 +1521,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private String[] toStringArray( List object )
 	{
+		if( object == null )
+			return null;
 		String[] result = new String[object.size( )];
 		for( int i = 0; i < object.size( ); i ++ )
 		{
@@ -2030,21 +2048,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 						expr = modelAdaptor.adaptJSExpression( measureExprHandle.getStringExpression( ),
 									measureExprHandle.getType( ) );
 					}
-					if ( query.getGroups( ).size( ) > 0 )
-					{
-						Binding binding = new Binding( measure.getName( ), expr );
-						binding.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( function ) );
-						IGroupDefinition group = (IGroupDefinition) query.getGroups( )
-								.get( query.getGroups( ).size( ) - 1 );
-						binding.addAggregateOn( group.getName( ) );
+
+					Binding binding = new Binding( measure.getName( ), expr );
+					binding.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( function ) );
 	
-						query.addBinding( binding );
-					}
-					else
-					{
-						query.addBinding( new Binding( measure.getName( ), expr ) );
-					}
-	
+					query.addBinding( binding );
 					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( measure.getName( ),
 							null,
 							DataSetIterator.ColumnMeta.MEASURE_TYPE );
@@ -2113,8 +2121,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		//Ensure the query execution result would not be save to report document.
 		query.setAsTempQuery( );
 	
-		query.setUsesDetails( false );
-		
 		query.setName( String.valueOf( cubeHandle.getElement( ).getID( )) );
 		if( cubeHandle.getDataSet( ) == null )
 			throw new AdapterException(AdapterResourceHandle.getInstance( )
@@ -2177,11 +2183,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 							metaList.add( temp );
 							query.addBinding( new Binding( cubeKeyWithDimIdentifier,
 									new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
-							GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
+							/*GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
 									.size( ) ) );
 								//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino 
 								gd.setKeyExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) );
-								query.addGroup( gd );
+								query.addGroup( gd );*/
 							}
 						}
 					}

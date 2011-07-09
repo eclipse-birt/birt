@@ -102,21 +102,10 @@ public class Cube implements ICube
 				0,
 				stopSign );
 	}
-	
-	/**
-	 * 
-	 * @param factTableJointColumnNames
-	 * @param DimJointColumnNames
-	 * @param dimension
-	 * @param iterator
-	 * @param measureColumnName
-	 * @param stopSign
-	 * @throws IOException
-	 * @throws BirtException
-	 */
+
 	public void create( String[][] factTableJointColumnNames,
 			String[][] DimJointColumnNames, IDimension[] dimension,
-			IDatasetIterator iterator, String[] measureColumnName,
+			IDatasetIterator iterator, String[] measureColumnName, String[] measureColumnAggregations,
 			long cacheSize, StopSign stopSign ) throws IOException, BirtException
 	{
 		IDocumentObject documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
@@ -140,9 +129,36 @@ public class Cube implements ICube
 				iterator,
 				tDimensions,
 				measureColumnName,
+				measureColumnAggregations,
 				stopSign );
 		documentObject.close( );
 		documentManager.flush( );
+	}
+
+	/**
+	 * 
+	 * @param factTableJointColumnNames
+	 * @param DimJointColumnNames
+	 * @param dimension
+	 * @param iterator
+	 * @param measureColumnName
+	 * @param stopSign
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void create( String[][] factTableJointColumnNames,
+			String[][] DimJointColumnNames, IDimension[] dimension,
+			IDatasetIterator iterator, String[] measureColumnName,
+			long cacheSize, StopSign stopSign ) throws IOException, BirtException
+	{
+		this.create( factTableJointColumnNames,
+				DimJointColumnNames,
+				dimension,
+				iterator,
+				measureColumnName,
+				null,
+				cacheSize,
+				stopSign );
 	}
 
 	/**
