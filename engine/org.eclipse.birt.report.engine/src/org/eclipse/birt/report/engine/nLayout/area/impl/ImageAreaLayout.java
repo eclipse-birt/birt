@@ -669,7 +669,7 @@ public class ImageAreaLayout implements ILayout
 						int[] area = getArea( attributes.get( "coords" ) );
 						if ( area == null )
 						{
-							return;
+							continue;
 						}
 						String url = attributes.get( "href" );
 						//does not support javascript in href.
