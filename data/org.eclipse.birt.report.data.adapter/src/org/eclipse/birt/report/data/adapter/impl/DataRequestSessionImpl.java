@@ -954,6 +954,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 				dimensionKey = appendArray( dimensionKey, new String[]{
 						getCubeTempPKFieldName( cubeHandle )});
 			}
+			//If it is from join, just generate normal data iterator.
+			if( dataForCube == null )
+			{
+				dataForCube = new DataSetIterator( this,
+						cubeQueryMap.get( cubeHandle ),
+						cubeMetaMap.get( cubeHandle ),
+						appContext );
+			}
 		}
 		
 		
@@ -968,7 +976,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				for ( Object measureName : measureNames )
 				{
 					IBinding b = (IBinding)query.getBindings( ).get( measureName );
-					assert b!= null;
+					assert b!= null && b.getAggrFunction( )!= null;
 					measureAggrFunctions.add( b.getAggrFunction( ) );
 					if ( IBuildInAggregation.TOTAL_COUNT_FUNC.equalsIgnoreCase( b.getAggrFunction( ) )
 							|| IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC.equalsIgnoreCase( b.getAggrFunction( ) ) )
