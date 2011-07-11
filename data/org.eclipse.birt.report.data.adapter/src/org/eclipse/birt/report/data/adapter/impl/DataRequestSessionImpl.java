@@ -970,6 +970,20 @@ public class DataRequestSessionImpl extends DataRequestSession
 					IBinding b = (IBinding)query.getBindings( ).get( measureName );
 					assert b!= null;
 					measureAggrFunctions.add( b.getAggrFunction( ) );
+					if ( IBuildInAggregation.TOTAL_COUNT_FUNC.equalsIgnoreCase( b.getAggrFunction( ) )
+							|| IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC.equalsIgnoreCase( b.getAggrFunction( ) ) )
+					{
+						if ( b.getExpression( ) == null )
+						{
+							// We set a dummy expression here for
+							// count/countdistinct aggregations.Because in data
+							// engine's table query execution we do not allow
+							// empty expression.
+							// This is a tricky.
+							b.setExpression( new ScriptExpression( "1" ) );
+						}
+					}
+						
 					b.setAggrFunction( null );
 					if ( b.getAggregatOns( ) != null ) 
 					{
