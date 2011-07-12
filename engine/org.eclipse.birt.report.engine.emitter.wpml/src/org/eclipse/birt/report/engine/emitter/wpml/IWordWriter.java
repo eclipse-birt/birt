@@ -75,6 +75,8 @@ public interface IWordWriter
 	void writeEmptyCell( );
 
 	void writeTOC( String toc, int tocLevel );
+	
+	void writeTOC( String toc, int tocLevel, boolean middleInline );
 
 	void insertHiddenParagraph( );
 

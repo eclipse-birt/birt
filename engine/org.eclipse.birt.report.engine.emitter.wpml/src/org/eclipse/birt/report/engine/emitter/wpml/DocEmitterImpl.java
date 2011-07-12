@@ -247,7 +247,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 		}
 
 		writeBookmark( content );
-		writeToc( content ); // element with Toc contains bookmark
+		writeToc( content, inlineFlag == InlineFlag.MIDDLE_INLINE ); // element with Toc contains bookmark
 		writeText( type, txt, content, inlineFlag, computedStyle, inlineStyle );
 		context.setLastIsTable( false );
 	}

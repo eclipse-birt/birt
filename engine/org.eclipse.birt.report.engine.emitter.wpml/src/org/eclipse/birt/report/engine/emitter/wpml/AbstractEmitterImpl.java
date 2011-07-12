@@ -897,6 +897,11 @@ public abstract class AbstractEmitterImpl
 	// space
 	protected void writeToc( IContent content )
 	{
+		writeToc( content, false );
+	}
+	
+	protected void writeToc( IContent content, boolean middleInline )
+	{
 		if ( content != null )
 		{
 			Object tocObj = content.getTOC( );
@@ -907,7 +912,7 @@ public abstract class AbstractEmitterImpl
 
 				if ( !"".equals( toc ) )
 				{
-					wordWriter.writeTOC( toc, tocLevel );
+					wordWriter.writeTOC( toc, tocLevel, middleInline );
 				}
 			}
 		}

@@ -554,7 +554,15 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 
 	public void writeTOC( String tocText, int level )
 	{
-		writer.openTag( "w:p" );
+		writeTOC( tocText, level, false );
+	}
+	
+	public void writeTOC( String tocText, int level, boolean middleInline )
+	{
+		if ( !middleInline )
+		{
+			writer.openTag( "w:p" );
+		}
 
 		writer.openTag( "w:rPr" );
 		writer.openTag( "w:vanish" );
@@ -575,7 +583,10 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		writeField( true );
 		writeTocText( tocText, level );
 		writeField( false );
-		writer.closeTag( "w:p" );
+		if ( !middleInline )
+		{
+			writer.closeTag( "w:p" );
+		}
 	}
 
 	protected void writeVmerge( SpanInfo spanInfo )
