@@ -194,27 +194,32 @@ public class LayoutUtil
 
 	static private boolean contains( String formats, String format )
 	{
-		int index = formats.indexOf( format );
-		if ( index != -1 )
+		int index = 0;
+		int lastIndex = 0;
+		do
 		{
+			index = formats.indexOf( format, lastIndex );
+			if ( index == -1 )
+			{
+				break;
+			}
+			lastIndex = index + format.length( );
 			if ( index > 0 )
 			{
 				if ( formats.charAt( index - 1 ) != ',' )
 				{
-					return false;
+					continue;
 				}
 			}
-			int lastIndex = index + format.length( );
 			if ( lastIndex < formats.length( ) )
 			{
 				if ( formats.charAt( lastIndex ) != ',' )
 				{
-					return false;
+					continue;
 				}
 			}
 			return true;
-
-		}
+		} while ( index != -1 );
 		return false;
 	}
 	
