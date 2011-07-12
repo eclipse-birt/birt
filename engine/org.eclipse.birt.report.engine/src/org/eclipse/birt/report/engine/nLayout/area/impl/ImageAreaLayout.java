@@ -423,7 +423,6 @@ public class ImageAreaLayout implements ILayout
 						parent.add( root );
 						root.finished = true;
 						parent.update( root );
-						return;
 					}
 				}
 				else
@@ -431,7 +430,6 @@ public class ImageAreaLayout implements ILayout
 					parent.add( root );
 					root.finished = true;
 					parent.update( root );
-					return;
 				}
 			}
 			else
@@ -447,6 +445,17 @@ public class ImageAreaLayout implements ILayout
 				}
 				root.finished = true;
 				parent.update( root );
+			}
+			checkDisplayNone( );			
+		}
+		
+		protected void checkDisplayNone( )
+		{
+			if ( context != null && context.isDisplayNone( ) )
+			{
+				int aHeight = root.getAllocatedHeight( );
+				parent.setCurrentBP( parent.currentBP - aHeight );
+				root.height = 0;
 			}
 		}
 

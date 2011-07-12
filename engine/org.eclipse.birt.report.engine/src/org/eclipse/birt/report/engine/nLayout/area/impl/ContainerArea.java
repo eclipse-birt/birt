@@ -349,7 +349,7 @@ public abstract class ContainerArea extends AbstractArea
 		if ( context.isDisplayNone( ) )
 		{
 			int aHeight = getAllocatedHeight( );
-			parent.setCurrentBP( currentBP - aHeight );
+			parent.setCurrentBP( parent.currentBP - aHeight );
 			height = 0;
 		}
 	}
