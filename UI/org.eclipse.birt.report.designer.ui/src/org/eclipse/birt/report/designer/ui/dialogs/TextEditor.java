@@ -1203,40 +1203,39 @@ public class TextEditor extends BaseDialog
 						Messages.getString( "TextEditDialog.action.item.formatDateTime" ), //$NON-NLS-1$
 				} );
 				new Label( formatParent, SWT.NONE ).setText( ">" ); //$NON-NLS-1$
-//				combo.addSelectionListener( new SelectionAdapter( ) {
-//
-//					public void widgetSelected( SelectionEvent e )
-//					{
-//						
-//						// textEditor.setFocus( );
-//					}
-//				} );
 
-				combo.addKeyListener( new KeyAdapter( ) {
+				final boolean[] flag = new boolean[]{
+					false
+				};
+
+				combo.addSelectionListener( new SelectionAdapter( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						if ( !flag[0] )
+						{
+							handleFormatSelectionEvent( combo );
+						}
+					}
+				} );
+
+				combo.addKeyListener( new KeyListener( ) {
 
 					public void keyReleased( KeyEvent e )
 					{
 						if ( e.character == ' ' )
 						{
-							int index = combo.getSelectionIndex( );
-							combo.select( -1 );
-							switch ( index )
-							{
-								case 0 :
-									insertFormat( FormatBuilder.NUMBER );
-									break;
-								case 1 :
-									insertFormat( FormatBuilder.STRING );
-									break;
-								case 2 :
-									insertFormat( FormatBuilder.DATETIME );
-									break;
-								default :
-							}
-							
-							textEditor.setFocus( );
+							handleFormatSelectionEvent( combo );
 						}
+
+						flag[0] = false;
 					}
+
+					public void keyPressed( KeyEvent e )
+					{
+						flag[0] = true;
+					}
+
 				} );
 
 				( (GridData) toolBar.getLayoutData( ) ).horizontalSpan = 1;
@@ -1578,6 +1577,27 @@ public class TextEditor extends BaseDialog
 	public boolean isEditModal( )
 	{
 		return isEditModel;
+	}
+
+	protected void handleFormatSelectionEvent( final CCombo combo )
+	{
+		int index = combo.getSelectionIndex( );
+		combo.select( -1 );
+		switch ( index )
+		{
+			case 0 :
+				insertFormat( FormatBuilder.NUMBER );
+				break;
+			case 1 :
+				insertFormat( FormatBuilder.STRING );
+				break;
+			case 2 :
+				insertFormat( FormatBuilder.DATETIME );
+				break;
+			default :
+		}
+
+		textEditor.setFocus( );
 	}
 
 }
