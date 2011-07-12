@@ -824,14 +824,13 @@ public class ResourceEditDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		if ( saveMessage( ) == true )
-		{
-			setResult( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
-			setDetailResult( new String[]{
-					viewer.getTable( ).getSelection( )[0].getText( 0 ),
-					viewer.getTable( ).getSelection( )[0].getText( 1 )
-			} );
-		}
+		saveMessage( );
+
+		setResult( viewer.getTable( ).getSelection( )[0].getText( 0 ) );
+		setDetailResult( new String[]{
+				viewer.getTable( ).getSelection( )[0].getText( 0 ),
+				viewer.getTable( ).getSelection( )[0].getText( 1 )
+		} );
 
 		super.okPressed( );
 	}

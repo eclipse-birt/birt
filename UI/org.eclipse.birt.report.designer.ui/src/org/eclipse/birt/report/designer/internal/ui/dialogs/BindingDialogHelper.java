@@ -282,25 +282,25 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 		} );
-		
+
 		Label allowExportLabel = new Label( composite, SWT.NONE );
 		allowExportLabel.setText( ALLOW_EXPORT );
 		btnAllowExport = new Button( composite, SWT.CHECK );
 		btnAllowExport.setSelection( true );
-		
+
 		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
 		gd1.horizontalSpan = 3;
 		gd1.widthHint = 200;
 		btnAllowExport.setLayoutData( gd1 );
-		
-		btnAllowExport.addSelectionListener( new SelectionAdapter(){
+
+		btnAllowExport.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				modifyDialogContent( );
 			}
-		}) ;
-		
+		} );
+
 		WidgetUtil.setExcludeGridData( allowExportLabel, true );
 		WidgetUtil.setExcludeGridData( btnAllowExport, true );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
@@ -331,12 +331,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( dlg.open( ) == Window.OK )
 		{
 			String[] result = (String[]) dlg.getDetailResult( );
-			txtDisplayNameID.setText( result[0] );
-			txtDisplayName.setText( result[1] );
-
-			modifyDialogContent( );
-
-			updateRemoveBtnState( );
+			if ( result != null && result.length > 1 )
+			{
+				txtDisplayNameID.setText( DEUtil.resolveNull( result[0] ) );
+				txtDisplayName.setText( DEUtil.resolveNull( result[1] ) );
+				modifyDialogContent( );
+				updateRemoveBtnState( );
+			}
 		}
 	}
 
@@ -386,7 +387,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					setDisplayName( getBinding( ).getDisplayName( ) );
 					setDisplayNameID( getBinding( ).getDisplayNameID( ) );
-					setAllowExport(getBinding( ).allowExport( ));
+					setAllowExport( getBinding( ).allowExport( ) );
 					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 					{
 						if ( DATA_TYPE_CHOICES[i].getName( )
@@ -405,7 +406,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						isAggregate( ) ? DEFAULT_AGGREGATION_NAME
 								: DEFAULT_ITEM_NAME );
 				setName( this.newBinding.getName( ) );
-				setAllowExport( this.newBinding.allowExport( ));
+				setAllowExport( this.newBinding.allowExport( ) );
 				if ( !isAggregate( ) )
 				{
 					setTypeSelect( getDataTypeDisplayName( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) );
@@ -444,7 +445,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 				setDisplayName( getBinding( ).getDisplayName( ) );
 				setDisplayNameID( getBinding( ).getDisplayNameID( ) );
-				setAllowExport(getBinding( ).allowExport( ));
+				setAllowExport( getBinding( ).allowExport( ) );
 				for ( i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getName( )
@@ -461,7 +462,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				setName( getBinding( ).getName( ) );
 				setDisplayName( getBinding( ).getDisplayName( ) );
 				setDisplayNameID( getBinding( ).getDisplayNameID( ) );
-				setAllowExport(getBinding( ).allowExport( ));
+				setAllowExport( getBinding( ).allowExport( ) );
 				if ( getBinding( ).getDataType( ) != null )
 				{
 					if ( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) ) != null )
@@ -828,10 +829,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void setAllowExport( boolean allowExport )
 	{
-		if (  btnAllowExport != null )
+		if ( btnAllowExport != null )
 			btnAllowExport.setSelection( allowExport );
 	}
-	
+
 	private void setTypeSelect( String typeSelect )
 	{
 		if ( dataTypes != null && cmbType != null )
@@ -1086,8 +1087,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						.trim( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
-			//This is a special calse if the item is data item,and the container is LibraryHandle,allow the empty expression
-			if (!isAllowEmyptExpression( ))
+			// This is a special calse if the item is data item,and the
+			// container is LibraryHandle,allow the empty expression
+			if ( !isAllowEmyptExpression( ) )
 			{
 				dialog.setCanFinish( false );
 				return;
@@ -1136,11 +1138,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		dialogCanFinish( );
 	}
-	
-	private boolean isAllowEmyptExpression()
+
+	private boolean isAllowEmyptExpression( )
 	{
 		ReportItemHandle itemHandle = getBindingHolder( );
-		return itemHandle instanceof DataItemHandle && itemHandle.getDataSet( ) == null && itemHandle.getContainer( ) instanceof LibraryHandle;
+		return itemHandle instanceof DataItemHandle
+				&& itemHandle.getDataSet( ) == null
+				&& itemHandle.getContainer( ) instanceof LibraryHandle;
 	}
 
 	private void dialogCanFinish( )
@@ -1209,8 +1213,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 					if ( param.isDataField( ) )
 					{
-						cmbDataField = new Combo( paramsComposite,
-								SWT.BORDER );
+						cmbDataField = new Combo( paramsComposite, SWT.BORDER );
 						cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
 								| GridData.GRAB_HORIZONTAL ) );
 						cmbDataField.setVisibleItemCount( 30 );
