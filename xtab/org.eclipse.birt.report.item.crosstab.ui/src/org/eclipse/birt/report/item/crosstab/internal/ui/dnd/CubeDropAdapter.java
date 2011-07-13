@@ -254,18 +254,18 @@ public class CubeDropAdapter implements IDropAdapter
 						List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
 						for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
 						{
-							TabularDimensionHandle dimension = (TabularDimensionHandle) iterator.next( );
-							if ( dimension.isTimeType( ) )
+							DimensionHandle dimension = (DimensionHandle) iterator.next( );
+							if ( dimension instanceof TabularDimensionHandle && !dimension.isTimeType( ) )
 							{
 								createDimensionViewHandle( handle,
 										dimension,
-										ICrosstabConstants.COLUMN_AXIS_TYPE );
+										ICrosstabConstants.ROW_AXIS_TYPE  );
 							}
 							else
 							{
 								createDimensionViewHandle( handle,
 										dimension,
-										ICrosstabConstants.ROW_AXIS_TYPE );
+										ICrosstabConstants.COLUMN_AXIS_TYPE );
 							}
 						}
 
@@ -331,18 +331,18 @@ public class CubeDropAdapter implements IDropAdapter
 			List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
 			for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
 			{
-				TabularDimensionHandle dimension = (TabularDimensionHandle) iterator.next( );
-				if ( dimension.isTimeType( ) )
+				DimensionHandle dimension = (DimensionHandle) iterator.next( );
+				if ( dimension instanceof TabularDimensionHandle && !dimension.isTimeType( ) )
 				{
 					createDimensionViewHandle( handle,
 							dimension,
-							ICrosstabConstants.COLUMN_AXIS_TYPE );
+							ICrosstabConstants.ROW_AXIS_TYPE  );
 				}
 				else
 				{
 					createDimensionViewHandle( handle,
 							dimension,
-							ICrosstabConstants.ROW_AXIS_TYPE );
+							ICrosstabConstants.COLUMN_AXIS_TYPE );
 				}
 			}
 
