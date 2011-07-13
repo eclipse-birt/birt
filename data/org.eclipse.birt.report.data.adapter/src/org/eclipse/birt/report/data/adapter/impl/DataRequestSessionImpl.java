@@ -23,6 +23,7 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,6 +47,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -58,6 +60,8 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -116,7 +120,6 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
@@ -811,7 +814,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		boolean fromJoin = false;
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
-			TabularDimensionHandle dim = (TabularDimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
+			DimensionHandle dim = (DimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
 			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
 			DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle,
 					hier);
@@ -1104,8 +1107,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List<TabularHierarchyHandle> hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
 			for ( TabularHierarchyHandle hier: hiers )
 			{
-				if( CubeHandleUtil.isTimeDimension( dim ) )
-					continue;
+				if ( CubeHandleUtil.isTimeDimension( dim ) )
+				{
+					FilterDefinition filter = buildFilterForTimeDimension( dim,
+							hier );
+					if ( filter != null )
+						query.addFilter( filter );
+				}
 				String columnForDeepestLevel = null;
 				List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
 				if ( levels.size( ) >= 1 )
@@ -1150,8 +1158,53 @@ public class DataRequestSessionImpl extends DataRequestSession
 		this.dataEngine.registerQueries( queryDefns.toArray( new IDataQueryDefinition[0] ) );
 	} 
 
-	
+	/**
+	 * Apply the filter to dimension query when there is start/end time setting.
+	 * @param dim
+	 * @param hier
+	 * @return
+	 * @throws BirtException
+	 */
+	private FilterDefinition buildFilterForTimeDimension( DimensionHandle dim,
+			TabularHierarchyHandle hier ) throws BirtException
+	{
+		Date startTime = CubeHandleUtil.getStartTime( dim );
+		Date endTime = CubeHandleUtil.getEndTime( dim );
 
+		if ( startTime == null && endTime == null )
+		{
+			return null;
+		}
+		List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
+		TabularLevelHandle level = (TabularLevelHandle) levels.get( levels.size( ) - 1 );
+		FilterDefinition filter = null;
+		String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
+		if ( startTime != null && endTime != null )
+		{
+			ConditionalExpression expr = new ConditionalExpression( exprString,
+					IConditionalExpression.OP_BETWEEN,
+					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( startTime ) ),
+					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( endTime ) ) );
+			filter = new FilterDefinition( expr );
+		}
+		else if ( startTime != null )
+		{
+			ConditionalExpression expr = new ConditionalExpression( exprString,
+					IConditionalExpression.OP_GE,
+					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( startTime ) ) );
+			filter = new FilterDefinition( expr );
+		}
+		else if ( endTime != null )
+		{
+			ConditionalExpression expr = new ConditionalExpression( exprString,
+					IConditionalExpression.OP_LE,
+					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( endTime ) ) );
+			filter = new FilterDefinition( expr );
+		}
+
+		return filter;
+	}
+	
 	/**
 	 * 
 	 * @param cubeHandle
@@ -1381,22 +1434,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					levelInHier.get( i ).setTimeType( timeType[i] );
 				}
-				if( !CubeHandleUtil.isTimeDimension( dim ) )
-				{
-					valueIt = new DataSetIterator( this,
+				valueIt = new DataSetIterator( this,
 						cubeQueryMap.get( hierhandle ),
 						cubeMetaMap.get( hierhandle ),
 						appContext );
-					( ( DataSetIterator )valueIt ).initSecurityListenerAndDimension( dim.getName( ), sl );
-				}
-				else
-				{
-					valueIt = new TimeDimensionDatasetIterator( this,
-							CubeHandleUtil.getStartTime( dim ),
-							CubeHandleUtil.getEndTime( dim ), 
-							getFieldName( hierhandle ),
-							timeType );
-				}
+				( (DataSetIterator) valueIt ).initSecurityListenerAndDimension( dim.getName( ),
+						sl );
 				
 				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
 						hierhandle.getName( ),
@@ -2155,7 +2198,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			for ( int i = 0; i < dimensions.size( ); i++ )
 			{
-				TabularDimensionHandle dimension = (TabularDimensionHandle) dimensions.get( i );
+				DimensionHandle dimension = (DimensionHandle) dimensions.get( i );
 				List hiers = dimension.getContents( DimensionHandle.HIERARCHIES_PROP );
 	
 				//By now we only support one hierarchy per;
