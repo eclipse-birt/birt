@@ -164,9 +164,9 @@ public class TabularCube extends Cube
 
 			return tmpCubeDim.getLocalHierarchy( root, name );
 		}
-		else if ( tmpSharedElement instanceof TabularDimension )
+		else if ( tmpSharedElement instanceof Dimension )
 		{
-			return findLocalDimension( (TabularDimension) tmpSharedElement );
+			return findLocalDimension( (Dimension) tmpSharedElement );
 		}
 		return null;
 	}
