@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -716,6 +717,10 @@ public class ChartReportItemUtil extends ChartItemUtil
 	{
 		ExpressionListHandle eh = binding.getExpressionListHandle( );
 		List<Expression> exprs = eh.getListValue( );
+		if ( exprs == null )
+		{
+			return Collections.emptyList( );
+		}
 		List<ScriptExpression> ses = new ArrayList<ScriptExpression>( exprs.size( ) );
 		for ( Expression expr : exprs )
 		{
