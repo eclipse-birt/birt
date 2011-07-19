@@ -422,11 +422,6 @@ public abstract class AbstractEmitterImpl
 		}
 		increaseTOCLevel( list );
 
-		if ( context.isLastTable( ) )
-		{
-			wordWriter.insertHiddenParagraph( );
-		}
-
 		int width = WordUtil.convertTo( list.getWidth( ), context
 				.getCurrentWidth( ), reportDpi );
 		width = Math.min( width, context.getCurrentWidth( ) );
@@ -578,11 +573,6 @@ public abstract class AbstractEmitterImpl
 		if ( caption != null )
 		{
 			wordWriter.writeCaption( caption );
-		}
-
-		if ( context.isLastTable( ) )
-		{
-			wordWriter.insertHiddenParagraph( );
 		}
 
 		int width = WordUtil.convertTo( table.getWidth( ), context

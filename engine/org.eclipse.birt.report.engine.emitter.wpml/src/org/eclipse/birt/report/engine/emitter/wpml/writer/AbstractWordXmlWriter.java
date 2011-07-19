@@ -216,7 +216,7 @@ public abstract class AbstractWordXmlWriter
 	{
 		startTable( style, tablewidth, false );
 	}
-
+	
 	// write the table properties to the output stream
 	public void startTable( IStyle style, int tablewidth, boolean inForeign )
 	{
@@ -255,7 +255,7 @@ public abstract class AbstractWordXmlWriter
 		}
 		writer.closeTag( "w:tblPr" );
 	}
-	
+
 	private void writeTableBorders( IStyle style )
 	{
 		writer.openTag( "w:tblBorders" );
@@ -751,7 +751,7 @@ public abstract class AbstractWordXmlWriter
 		writeVmerge( info );
 		writeCellProperties( info.getStyle( ) );
 		writer.closeTag( "w:tcPr" );
-		insertHiddenParagraph( );
+		insertEmptyParagraph( );
 		writer.closeTag( "w:tc" );
 	}
 
@@ -759,9 +759,8 @@ public abstract class AbstractWordXmlWriter
 	{
 		if ( empty )
 		{
-			insertHiddenParagraph( );
+			insertEmptyParagraph( );
 		}
-
 		writer.closeTag( "w:tc" );
 	}
 
@@ -774,8 +773,14 @@ public abstract class AbstractWordXmlWriter
 		writer.attribute( "w:type", "dxa" );
 		writer.closeTag( "w:tcW" );
 		writer.closeTag( "w:tcPr" );
-		insertHiddenParagraph( );
+		insertEmptyParagraph( );
 		writer.closeTag( "w:tc" );
+	}
+	
+	public void insertEmptyParagraph( )
+	{
+		writer.openTag( "w:p" );
+		writer.closeTag( "w:p" );
 	}
 
 	public void insertHiddenParagraph( )
@@ -1131,7 +1136,7 @@ public abstract class AbstractWordXmlWriter
 
 	protected void endHeaderFooterContainer( )
 	{
-		insertHiddenParagraph( );
+		insertEmptyParagraph( );
 		writer.closeTag( "w:tc" );
 		writer.closeTag( "w:tr" );
 		writer.closeTag( "w:tbl" );
@@ -1143,7 +1148,6 @@ public abstract class AbstractWordXmlWriter
 				&& diagonalLineInfo.getAntiDiagonalNumber( ) <= 0 )
 			return;
 		writer.openTag( "w:p" );
-		writeHiddenProperty( );
 		writer.openTag( "w:r" );
 		writer.openTag( "w:pict" );
 		double diagonalLineWidth = diagonalLineInfo.getDiagonalLineWidth( );
