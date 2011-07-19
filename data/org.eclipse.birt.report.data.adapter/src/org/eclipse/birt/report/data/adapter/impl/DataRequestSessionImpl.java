@@ -1107,13 +1107,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List<TabularHierarchyHandle> hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
 			for ( TabularHierarchyHandle hier: hiers )
 			{
-				if ( CubeHandleUtil.isTimeDimension( dim ) )
-				{
-					FilterDefinition filter = buildFilterForTimeDimension( dim,
-							hier );
-					if ( filter != null )
-						query.addFilter( filter );
-				}
 				String columnForDeepestLevel = null;
 				List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
 				if ( levels.size( ) >= 1 )
@@ -1126,6 +1119,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 						hier,
 						metaList,
 						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
+				//if it is a time dimension
+				if ( CubeHandleUtil.isTimeDimension( dim ) )
+				{
+					FilterDefinition filter = buildFilterForTimeDimension( dim,
+							hier );
+					if ( filter != null )
+						query.addFilter( filter );
+				}
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
 				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
