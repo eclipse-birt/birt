@@ -44,6 +44,8 @@ class TimeMemberUtil
 	private static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH = "week-of-month"; //$NON-NLS-1$
 	private static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR = "week-of-year"; //$NON-NLS-1$
 	private static final String DATE_TIME_LEVEL_TYPE_YEAR = "year"; //$NON-NLS-1$
+	
+	private static Calendar calendar;
 
 	public static MemberTreeNode[] getDateTimeNodes( DimLevel[] dimLevels,
 			Object dateTimeValue, int index, MirrorMetaInfo service )
@@ -54,6 +56,10 @@ class TimeMemberUtil
 			dateTypes[i - index] = service.getLevelType( dimLevels[i] );
 		}
 		
+		calendar = Calendar.getInstance( service.getSession( ).getEngineContext( ).getLocale( ) );
+		calendar.setTimeZone( service.getSession( ).getEngineContext( ).getTimeZone( ) );
+		calendar.clear( );
+	
 		MemberTreeNode[] secondsNode = null;
 		MemberTreeNode[] minutesNode = null;
 		MemberTreeNode[] hoursNode = null;
@@ -265,13 +271,6 @@ class TimeMemberUtil
 			}
 		}
 
-		for ( int i = 0; i < parent.length; i++ )
-		{
-			( (Member) parent[i].key ).setAttributes( new Object[]{
-				dateTimeValue
-			} );
-		}
-
 		return parent;
 	}
 	
@@ -302,37 +301,48 @@ class TimeMemberUtil
 			return false;
 	}
 	
-	public static MemberTreeNode[] createQuarterNode( )
+	private static MemberTreeNode[] createQuarterNode( )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[4];
+		calendar.clear( );
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
+			calendar.set( Calendar.MONTH, ( i-1 )*3 );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
 
-	public static MemberTreeNode[] createMonthNode( )
+	private static MemberTreeNode[] createMonthNode( )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[12];
+		calendar.clear( );
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
-			nodes[i - 1] = new MemberTreeNode( member );
+			calendar.set( Calendar.MONTH, i-1 );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
+			nodes[i - 1] = new MemberTreeNode( member );			
 		}
 		return nodes;
 	}
 
-	public static MemberTreeNode[] createQuarterMonthNode( int quarter )
+	private static MemberTreeNode[] createQuarterMonthNode( int quarter )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[3];
+		calendar.clear( );
 		switch ( quarter )
 		{
 			case 0 :
@@ -342,6 +352,10 @@ class TimeMemberUtil
 					member.setKeyValues( new Object[]{
 						Integer.valueOf( i )
 					} );
+					calendar.set( Calendar.MONTH, i-1 );
+					member.setAttributes( new Object[]{
+							calendar.getTime( )
+						} );
 					nodes[i - 1] = new MemberTreeNode( member );
 				}
 				break;
@@ -352,6 +366,10 @@ class TimeMemberUtil
 					member.setKeyValues( new Object[]{
 						Integer.valueOf( i )
 					} );
+					calendar.set( Calendar.MONTH, i-1 );
+					member.setAttributes( new Object[]{
+							calendar.getTime( )
+						} );
 					nodes[i - 4] = new MemberTreeNode( member );
 				}
 				break;
@@ -362,6 +380,10 @@ class TimeMemberUtil
 					member.setKeyValues( new Object[]{
 						Integer.valueOf( i )
 					} );
+					calendar.set( Calendar.MONTH, i-1 );
+					member.setAttributes( new Object[]{
+							calendar.getTime( )
+						} );;
 					nodes[i - 7] = new MemberTreeNode( member );
 				}
 				break;
@@ -372,6 +394,10 @@ class TimeMemberUtil
 					member.setKeyValues( new Object[]{
 						Integer.valueOf( i )
 					} );
+					calendar.set( Calendar.MONTH, i-1 );
+					member.setAttributes( new Object[]{
+							calendar.getTime( )
+						} );
 					nodes[i - 10] = new MemberTreeNode( member );
 				}
 				break;
@@ -379,8 +405,9 @@ class TimeMemberUtil
 		return nodes;
 	}
 
-	public static MemberTreeNode[] createDayOfYearNode( int year )
+	private static MemberTreeNode[] createDayOfYearNode( int year )
 	{
+		calendar.clear( );
 		int count = 0;
 		if ( ( year % 4 == 0 && year % 100 != 0 ) || year % 400 == 0 )
 		{
@@ -398,12 +425,16 @@ class TimeMemberUtil
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
+			calendar.set( Calendar.DAY_OF_YEAR, i );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
 
-	public static MemberTreeNode[] createDayOfMonth( int year, int month )
+	private static MemberTreeNode[] createDayOfMonth( int year, int month )
 	{
 		boolean isLeapYear = false;
 		if ( ( year % 4 == 0 && year % 100 != 0 ) || year % 400 == 0 )
@@ -422,6 +453,11 @@ class TimeMemberUtil
 				member.setKeyValues( new Object[]{
 					new Integer( i )
 				} );
+				calendar.set( Calendar.MONTH, month -1 );
+				calendar.set( Calendar.DATE, i );
+				member.setAttributes( new Object[]{
+						calendar.getTime( )
+					} );
 				nodes[i - 1] = new MemberTreeNode( member );
 			}
 		}
@@ -436,6 +472,11 @@ class TimeMemberUtil
 					member.setKeyValues( new Object[]{
 						Integer.valueOf( i )
 					} );
+					calendar.set( Calendar.MONTH, month -1 );
+					calendar.set( Calendar.DATE, i );
+					member.setAttributes( new Object[]{
+							calendar.getTime( )
+						} );
 					nodes[i -1 ] = new MemberTreeNode( member );
 				}
 			}
@@ -448,6 +489,11 @@ class TimeMemberUtil
 					member.setKeyValues( new Object[]{
 						Integer.valueOf( i )
 					} );
+					calendar.set( Calendar.MONTH, month -1 );
+					calendar.set( Calendar.DATE, i );
+					member.setAttributes( new Object[]{
+							calendar.getTime( )
+						} );
 					nodes[i -1] = new MemberTreeNode( member );
 				}
 			}
@@ -461,67 +507,88 @@ class TimeMemberUtil
 				member.setKeyValues( new Object[]{
 					Integer.valueOf( i )
 				} );
+				calendar.set( Calendar.MONTH, month -1 );
+				calendar.set( Calendar.DATE, i );
+				member.setAttributes( new Object[]{
+						calendar.getTime( )
+					} );
 				nodes[i-1] = new MemberTreeNode( member );
 			}
 		}
 		return nodes;
 	}
 	
-	public static MemberTreeNode[] createDayOfWeek( )
+	private static MemberTreeNode[] createDayOfWeek( )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[7];
-
+		calendar.clear( );
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
+			calendar.set( Calendar.DAY_OF_WEEK, i );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
 	
-	public static MemberTreeNode[] createHour( )
+	private static MemberTreeNode[] createHour( )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[24];
-
+		calendar.clear( );
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
+			calendar.set( Calendar.HOUR_OF_DAY, i );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;	
 	}
 	
-	public static MemberTreeNode[] createMinute( )
+	private static MemberTreeNode[] createMinute( )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[60];
-
+		calendar.clear( );
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
+			calendar.set( Calendar.MINUTE, i );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;
 	}
 	
-	public static MemberTreeNode[] createSecond( )
+	private static MemberTreeNode[] createSecond( )
 	{
 		MemberTreeNode[] nodes = new MemberTreeNode[60];
-
+		calendar.clear( );
 		for ( int i = 1; i <= nodes.length; i++ )
 		{
 			Member member = new Member( );
 			member.setKeyValues( new Object[]{
 				Integer.valueOf( i )
 			} );
+			calendar.set( Calendar.SECOND, i );
+			member.setAttributes( new Object[]{
+					calendar.getTime( )
+				} );
 			nodes[i - 1] = new MemberTreeNode( member );
 		}
 		return nodes;

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
@@ -89,6 +90,11 @@ public class MirrorMetaInfo
 		}
 		else
 			return false;
+	}
+	
+	public DataEngineSession getSession( ) 
+	{
+		return this.view.getCubeQueryExecutor( ).getSession( );
 	}
 	
 	public String getLevelType( DimLevel dimLevel )
