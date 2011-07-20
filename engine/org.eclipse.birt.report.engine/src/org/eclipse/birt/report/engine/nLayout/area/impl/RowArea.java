@@ -327,18 +327,64 @@ public class RowArea extends ContainerArea
 		{
 			if ( cells[i] != null )
 			{
-				SplitResult splitCell = cells[i].split( height, force );
-				CellArea cell = (CellArea) splitCell.getResult( );
-
-				if ( cell != null )
+				if(cells[i] instanceof DummyCell)
 				{
-					if ( result == null )
+					int oh = ( (DummyCell) cells[i] ).getCell( ).getHeight( );
+					int ch = ( (DummyCell) cells[i] ).getDelta( );
+					int rowSpan = ( (DummyCell) cells[i] ).getRowSpan( );
+					if ( ch >= oh )
 					{
-						result = cloneArea( );
+						CellArea cell = cells[i].cloneArea( );
+						cell.setHeight( 0 );
+						cell.setRowSpan( rowSpan );
+						cell.setParent( this );
+						cell.isDummy = true;
+						addChildByColumnId( cell );
 					}
-					result.addChild( cell );
-					result.setCell( cell );
-					cell.setParent( result );
+					else
+					{
+						//FIXME how to write page hint in this case
+						SplitResult splitCell = cells[i].split( height, force );
+						CellArea cell = (CellArea) splitCell.getResult( );
+						if ( cell != null )
+						{
+							CellArea oc = ( (DummyCell) cells[i] ).getCell( );
+							ArrayList temp = cell.children;
+							cell.children = oc.children;
+							oc.children = temp;
+							oc.updateChildrenPosition( );
+							cell.updateChildrenPosition( );
+							cell.setRowSpan( rowSpan );
+							cell.setParent( this );
+							cell.isDummy = true;
+							addChildByColumnId( cell );
+						}
+						else
+						{
+							cell = cells[i].cloneArea( );
+							cell.setHeight( 0 );
+							cell.setRowSpan( rowSpan );
+							cell.setParent( this );
+							cell.isDummy = true;
+							addChildByColumnId( cell );
+						}
+					}
+				}
+				else
+				{
+					SplitResult splitCell = cells[i].split( height, force );
+					CellArea cell = (CellArea) splitCell.getResult( );
+	
+					if ( cell != null )
+					{
+						if ( result == null )
+						{
+							result = cloneArea( );
+						}
+						result.addChild( cell );
+						result.setCell( cell );
+						cell.setParent( result );
+					}
 				}
 				i = cells[i].getColSpan( ) + i - 1;
 			}
