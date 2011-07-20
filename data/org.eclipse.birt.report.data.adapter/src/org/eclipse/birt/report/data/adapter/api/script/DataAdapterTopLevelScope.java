@@ -136,10 +136,23 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 				Object value = DataAdapterUtil.getParamValueFromConfigFile( parameterHandle );
 				if ( value == null )
 				{
-					value = getParamDefaultValue( parameterHandle );
+					Object values = getParamDefaultValue( parameterHandle );
+					if ( values != null )
+					{
+						Object[] obj = (Object[]) values;
+						if ( obj.length == 1 )
+							parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
+									new DummyParameterAttribute( obj[0], "" ) );
+						else
+							parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
+									new DummyParameterAttribute( obj, "" ) );
+					}
 				}
-				parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
-						new DummyParameterAttribute( value, "" ) );
+				else
+				{
+					parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
+							new DummyParameterAttribute( value, "" ) );
+				}
 			}
 			else if ( parameterObject instanceof DynamicFilterParameterHandle )
 			{
@@ -197,74 +210,86 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			return null;
 
 		ScalarParameterHandle sp = (ScalarParameterHandle) params;
-		String defaultValue = null;
+		Object[] defaultValues = null;
 		List defaultValueList = sp.getDefaultValueList( );
 		if ( defaultValueList != null && defaultValueList.size( ) > 0 )
 		{
-			Expression expression = (Expression) defaultValueList.get( 0 );
-			defaultValue = expression.getStringExpression( );
-			String type = expression.getType( );
-			if ( ExpressionType.JAVASCRIPT.equals( type ) )
+			defaultValues = new Object[defaultValueList.size( )];
+
+			for ( int i = 0; i < defaultValueList.size( ); i++ )
 			{
-				try
+				Expression expression = (Expression) defaultValueList.get( i );
+				String defaultValue = expression.getStringExpression( );
+				String expressionType = expression.getType( );
+				if ( ExpressionType.JAVASCRIPT.equals( expressionType ) )
 				{
-					Object evaluatedResult = JavascriptEvalUtil.evaluateScript( cx,
-							this,
-							expression.getStringExpression( ),
-							ScriptExpression.defaultID,
-							0 );
-					if ( evaluatedResult != null )
+					try
 					{
-						defaultValue = evaluatedResult.toString( );
+						Object evaluatedResult = JavascriptEvalUtil.evaluateScript( cx,
+								this,
+								expression.getStringExpression( ),
+								ScriptExpression.defaultID,
+								0 );
+						if ( evaluatedResult != null )
+						{
+							defaultValue = evaluatedResult.toString( );
+						}
+					}
+					catch ( BirtException e )
+					{
+						e.printStackTrace( );
 					}
 				}
-				catch (BirtException e )
+
+				String type = sp.getDataType( );
+				if ( defaultValue == null )
 				{
-					e.printStackTrace( );
+					// No default value; if param allows null value, null is
+					// used
+					if ( sp.allowNull( ) )
+						defaultValues[i] =  null;
+
+					// Return a fixed default value appropriate for the data
+					// type
+					if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+					{
+						defaultValues[i] =  "";
+					}
+					if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+						defaultValues[i] = new Double( 0 );
+					if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
+						defaultValues[i] = new BigDecimal( (double) 0 );
+					if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+						defaultValues[i] = new Date( 0 );
+					if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+						defaultValues[i] = new java.sql.Date( 0 );
+					if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+						defaultValues[i] = new java.sql.Time( 0 );
+					if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+						defaultValues[i] = Boolean.FALSE;
+					if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+						defaultValues[i] = Integer.valueOf( 0 );
+
+					// unknown parameter type; unexpected
+					assert false;
+					defaultValues[i] = null;
+				}
+
+				try
+				{
+					defaultValues[i] = DataTypeUtil.convert( defaultValue,
+							DataAdapterUtil.modelDataTypeToCoreDataType( type ) );
+				}
+				catch ( BirtException e )
+				{
+					defaultValues[i] = null;
 				}
 			}
 		}
-		String type = sp.getDataType( );
-		if ( defaultValue == null )
-		{
-			// No default value; if param allows null value, null is used
-			if ( sp.allowNull( ) )
-				return null;
-
-			// Return a fixed default value appropriate for the data type
-			if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-			{
-				return "";
-			}
-			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-				return new Double( 0 );
-			if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-				return new BigDecimal( (double) 0 );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-				return new Date( 0 );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
-				return new java.sql.Date( 0 );
-			if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
-				return new java.sql.Time( 0 );
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-				return Boolean.FALSE;
-			if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-				return Integer.valueOf( 0 );
-
-			// unknown parameter type; unexpected
-			assert false;
-			return null;
-		}
-
-		try
-		{
-			return DataTypeUtil.convert( defaultValue, DataAdapterUtil.modelDataTypeToCoreDataType( type ) );
-		}
-		catch ( BirtException e )
-		{
-			return null;
-		}
+		
+		return defaultValues;
 	}
+		
 	
 	/**
 	 * To check whether the object with the specific type should be converted
