@@ -278,7 +278,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
 		if ( IStyle.NONE_VALUE == display )
 		{
-			styleBuffer.append( " display: none;" );
+			styleBuffer.append( " visibility:collapse; *display:none;" );
 		}
 		
 		// Build the vertical-align
