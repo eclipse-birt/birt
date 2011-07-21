@@ -87,8 +87,8 @@ public class MergedAggregationResultSet implements IAggregationResultSet
 		int index = rs1.getAggregationIndex( name );
 		if ( index < 0 )
 		{
-			int index2 = rs2.getAggregationIndex( name );
-			if ( index2 >= 0 )
+			index = rs2.getAggregationIndex( name );
+			if ( index >= 0 )
 			{
 				index += rs1.getAggregationCount( );
 			}

@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.Relationship;
+import org.eclipse.birt.data.engine.olap.util.CubeRunningNestAggrDefn;
 
 /**
  * This class is to access all aggregation value's according to its result set
@@ -67,6 +68,7 @@ public class AggregationAccessor extends Accessor
 	private ComparableObject[] pageCursorObjs;
 	private boolean dimensionPrepared = false;
 	private Map dimensionCursorMap;
+	private Map<String, Integer> aggregationResultSetIDMap;
 
 	
 	/**
@@ -84,6 +86,7 @@ public class AggregationAccessor extends Accessor
 		this.relationMap = relationMap;
 		this.dimensionPrepared = false;
 		this.dimensionCursorMap = new HashMap( );
+		this.aggregationResultSetIDMap = new HashMap<String, Integer>( );
 
 		if ( result == null || result.getMeasureResult( ) == null )
 			return;
@@ -266,15 +269,36 @@ public class AggregationAccessor extends Accessor
 		
 		try
 		{
-			String aggrName = this.view.getAggregationRegisterTable( ).getAggrName( arg0 );
-			int id = this.view.getAggregationRegisterTable( ).getAggregationResultID( aggrName );
-			int index = this.view.getAggregationRegisterTable( ).getAggregationIndex( id, aggrName );
-			
+			String aggrName = this.view.getAggregationRegisterTable( )
+					.getAggrName( arg0 );
+			int index = 0, aggrIndex =0;
+			IAggregationResultSet rs = null;
+			if( aggregationResultSetIDMap.containsKey( arg0 ) )
+			{
+				index = aggregationResultSetIDMap.get( arg0 ).intValue( );
+				rs = this.resultSet.getMeasureResult( )[index].getQueryResultSet( );
+				aggrIndex = rs.getAggregationIndex( aggrName );
+			}
+			else
+			{
+				IEdgeAxis[] axis = this.resultSet.getMeasureResult( );				
+				for( ; index< axis.length; index++ )
+				{
+					aggrIndex = axis[index].getQueryResultSet( ).getAggregationIndex( aggrName );
+					if( aggrIndex>=0 )
+					{
+						rs = axis[index].getQueryResultSet( );
+						aggregationResultSetIDMap.put( aggrName, Integer.valueOf( index ) );
+						break;
+					}
+				}				
+			}
+
 			if ( synchronizedWithEdge( index,
+					rs,
 					aggrName,
 					getCurrentValueOnEdge( aggrName ) ) )
-				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
-						.getAggregationValue( index );
+				return rs.getAggregationValue( aggrIndex );
 			else
 			{
 				return null;
@@ -300,14 +324,31 @@ public class AggregationAccessor extends Accessor
 		
 		try
 		{
-			int id = this.view.getAggregationRegisterTable( )
-					.getAggregationResultID( arg0 );
-			int index = this.view.getAggregationRegisterTable( )
-					.getAggregationIndex( id, arg0 );
-
-			if ( synchronizedWithEdge( id, arg0, getCurrentValueOnEdge( arg0 ) ) )
-				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
-						.getAggregationValue( index );
+			int index = 0, aggrIndex =0;
+			IAggregationResultSet rs = null;
+			if( aggregationResultSetIDMap.containsKey( arg0 ) )
+			{
+				index = aggregationResultSetIDMap.get( arg0 ).intValue( );
+				rs = this.resultSet.getMeasureResult( )[index].getQueryResultSet( );
+				aggrIndex = rs.getAggregationIndex( arg0 );
+			}
+			else
+			{
+				IEdgeAxis[] axis = this.resultSet.getMeasureResult( );				
+				for( ; index< axis.length; index++ )
+				{
+					aggrIndex = axis[index].getQueryResultSet( ).getAggregationIndex( arg0 );
+					if( aggrIndex>=0 )
+					{
+						rs = axis[index].getQueryResultSet( );
+						aggregationResultSetIDMap.put( arg0, Integer.valueOf( index ) );
+						break;
+					}
+				}				
+			}
+			
+			if ( synchronizedWithEdge( index, rs, arg0, getCurrentValueOnEdge( arg0 ) ) )
+				return rs.getAggregationValue( aggrIndex );
 			else
 			{
 				return null;
@@ -331,27 +372,26 @@ public class AggregationAccessor extends Accessor
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public boolean synchronizedWithEdge( int aggrIndex, String aggrName, Map valueMap )
+	private boolean synchronizedWithEdge( int index, IAggregationResultSet rs ,String aggrName, Map valueMap )
 			throws OLAPException, IOException, DataException
 	{
-		IAggregationResultSet rs = this.resultSet.getMeasureResult( )[aggrIndex].getQueryResultSet( );
 		if ( rs == null || rs.length( ) <= 0 )
 			return false;
 
 		if ( valueMap == null )
 			return true;
 
+		List memberList = Arrays.asList( rs.getAllLevels( ) );
+
 		CalculatedMember member = this.view.getAggregationRegisterTable( ).getCalculatedMember( aggrName );
-		List memberList = member.getCubeAggrDefn( ).getAggrLevelsInAggregationResult( );
-		
-		if ( Arrays.deepEquals( rs.getAllLevels( ), member.getCubeAggrDefn( ).getAggrLevelsInDefinition( ).toArray( ) ))
+		if( member!= null && member.getCubeAggrDefn( ) instanceof CubeRunningNestAggrDefn) 
 		{
-			return findValueMatcher( rs, memberList, valueMap, aggrIndex );
+			//AggregationResultSet for running aggregation
+			return findValueMatcherOneByOne( rs, memberList, valueMap, index );
 		}
 		else
 		{
-			//AggregationResultSet for running aggregation
-			return findValueMatcherOneByOne( rs, memberList, valueMap, aggrIndex );
+			return findValueMatcher( rs, memberList, valueMap, index );
 		}
 	}
 	
