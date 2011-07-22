@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -151,13 +152,18 @@ public class IActionTest extends BaseEmitter
 		assertNull( action.getSystemId( ) );
 	}
 
+	@SuppressWarnings("unchecked")
 	public void startImage( IImageContent image )
 	{
 		IAction action = new Action( image.getHyperlinkAction( ) );
 		assertEquals( IHyperlinkAction.ACTION_DRILLTHROUGH, action.getType( ) );
 		assertEquals( reportName, action.getReportName( ) );
 		assertTrue( action.getParameterBindings( ).size( ) > 0 );
-		assertEquals( "target value", action.getParameterBindings( ).get( "p1" ) );
+		Object value = action.getParameterBindings( ).get( "p1" );
+		assertTrue( value instanceof List );
+		List<String> valueList = (List<String>)value;
+		assertTrue( valueList.size() > 0 );
+		assertEquals( "target value", valueList.get(0) );
 		assertEquals( "html", action.getFormat( ) );
 		assertEquals( "_self", action.getTargetWindow( ) );
 		assertEquals( "labelbk", action.getBookmark( ) );
