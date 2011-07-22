@@ -73,6 +73,19 @@ public class FontInfo
 
 		float ascent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
 		float descent = bf.getFontDescriptor( BaseFont.AWT_DESCENT, fontSize );
+		if ( BaseFont.FONT_TYPE_T1 == bf.getFontType( ) )
+		{
+			// uses the FontBBox for Type1 font, refer to the implementation
+			// of free type API
+			ascent = bf.getFontDescriptor( BaseFont.BBOXURY, fontSize );
+			descent = bf.getFontDescriptor( BaseFont.BBOXLLY, fontSize );
+		}
+		if ( descent > 0 )
+		{
+			// In some cases, the Type1 font (perhaps loading from PFM?) return
+			// positive descent
+			descent = -descent;
+		}
 		float baseline = bf.getFontDescriptor( BaseFont.UNDERLINE_POSITION,
 				fontSize );
 		float baseline_thickness = bf.getFontDescriptor(
