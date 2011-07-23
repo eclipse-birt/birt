@@ -345,13 +345,13 @@
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
 			</fileset>
-			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.engine/lib">
+			<fileset dir="../org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
 			</fileset>
-			<fileset dir="${buildDirectory}/plugins/org.apache.derby.core">
+			<fileset dir="../org.apache.derby.core">
 				<include name="*.jar"/>
 			</fileset>
-			<fileset dir="${buildDirectory}/plugins/org.w3c.sac/lib">
+			<fileset dir="../org.w3c.sac/lib">
 				<include name="*.jar"/>
 			</fileset>
 			<fileset dir="${integrate.dir}/plugins">
@@ -394,13 +394,13 @@
 			</fileset>
 		</copy>	
 		<copy todir="${export.dir}/lib">
-			<fileset dir="${buildDirectory}/plugins" />
+			<fileset dir="${integrate.dir}/plugins" />
 			<mapper type="regexp"  from="org.mozilla.javascript_.*.jar" to="js.jar"/>
 		</copy>
 
 	</target>
 	
-	<!-- the task only execute in headless daily build -->
+	<!-- the task only execute in headless daily build , obsolete in 3.7.0 -->
 	<target name="replaceManifest" if="buildDirectory" >
 		
 		<path id="javasrc.classpath">
