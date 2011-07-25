@@ -745,13 +745,19 @@ public class OlapExpressionUtil
 		if ( expr == null )
 			return false;
 		
+		String exprTrimed = expr.trim( )
+				.replaceAll( "\\n", "" )
+				.replaceAll( "\\r", "" )
+				.replaceAll( "\\t", "" )
+				.replaceAll( " ", "" );
 		try
 		{
 			boolean referToAttribute = isReferenceToAttribute( new ScriptExpression( expr ),
 					new ArrayList( ) );
-			if ( expr.trim( )
+			
+			if ( exprTrimed
 					.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
-					|| expr.trim( )
+					|| exprTrimed
 							.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 				return true;
 			else
@@ -764,11 +770,6 @@ public class OlapExpressionUtil
 		{
 		}
 
-		String exprTrimed = expr.trim( )
-				.replaceAll( "\\n", "" )
-				.replaceAll( "\\r", "" )
-				.replaceAll( "\\t", "" )
-				.replaceAll( " ", "" );
 		if ( exprTrimed.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
 				|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" )
 				|| exprTrimed.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" ) )
