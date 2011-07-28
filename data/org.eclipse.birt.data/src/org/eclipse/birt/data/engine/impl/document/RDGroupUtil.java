@@ -546,6 +546,18 @@ public final class RDGroupUtil implements IRDGroupUtil
 			}
 			catch ( IOException e )
 			{
+				try
+				{
+					//In progressive viewing mode, it is possible that the next group info is not available yet. 
+					//See TED 42519
+					if( this.dataSource.length( ) == (( index*2 + 1 )*IOUtil.INT_LENGTH + this.initOffset))
+					{
+						return null;
+					}	
+				}
+				catch ( IOException e1 )
+				{
+				}
 				throw new RuntimeException( e );
 			}
 			
