@@ -40,7 +40,7 @@
 	<!-- Replace values for cvsRoot, package and mapVersionTag as desired. -->
 	<!-- ===================================================================== -->
 	<target name="checkLocal">
-		<available property="mapsLocal" file="${buildDirectory}/maps/source/org.eclipse.birt.releng" />
+		<available property="mapsLocal" file="${buildDirectory}/maps/releng/maps" />
 	</target>
 	
 	<target name="getMapFiles" depends="checkLocal" unless="mapsLocal">

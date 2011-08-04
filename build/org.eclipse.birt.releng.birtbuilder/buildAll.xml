@@ -75,7 +75,7 @@
 		
 		<property file="${buildDirectory}/label.properties" />
 		
-		<condition property="fetchTag" value="HEAD">
+		<condition property="fetchTag" value="CVS=HEAD,GIT=master">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>		
 		<condition property="forceContextQualifier" value="${buildId}">
@@ -540,7 +540,7 @@
 	</target>
 	
 	<target name="checkLocal">
-		<available property="mapsLocal" file="${buildDirectory}/maps/source/org.eclipse.birt.releng" />
+		<available property="mapsLocal" file="${buildDirectory}/maps/releng/maps" />
 	</target>
 
 	<target name="compareMapFiles" if="compareMaps">
@@ -559,12 +559,14 @@
 	</target>
 			
 	<target name="prepareMapFile" depends="checkLocal" unless="mapsLocal">
-		<cvs cvsRoot="${mapCvsRoot}"
-			package="source/org.eclipse.birt.releng"
-			dest="${buildDirectory}/maps"
-			tag="${mapVersionTag}"
-		/>
-		
+	
+		<exec executable="git" dir="${buildDirectory}/maps" output="${buildDirectory}/maps/maps.tar">    
+			<arg line="archive --format=tar" />    
+			<arg line="--remote=${mapGitRoot}/org.eclipse.birt.git" />
+			<arg line="${mapVersionTag} releng/maps" /> 
+		</exec> 
+		<untar src="${buildDirectory}/maps/maps.tar" dest="${buildDirectory}/maps" />
+				
 		<!--compare the map files project-->
 		<antcall target="compareMapFiles" />
 		<!--tag the map files project-->
@@ -573,8 +575,8 @@
 		<!-- this value could be overwrite by the bootstrap command -->
 		<property name="birt.url.token" value="@BIRT.URL.TOKEN@"/>
 		<property name="dtp.url.token" value="@DTP.URL.TOKEN@"/>
-		<property name="birt.url.newvalue" value="${mapCvsRoot}"/>
-		<property name="dtp.url.newvalue" value="${dtp.mapCvsRoot}"/>
+		<property name="birt.url.newvalue" value="@BIRT.URL.NEWVALUE@"/>
+		<property name="dtp.url.newvalue" value="@DTP.URL.NEWVALUE@"/>
 		
 		<replace dir="${buildDirectory}/maps" value="${birt.url.newvalue}" token="${birt.url.token}">
 			<include name="**/*.map" />
@@ -826,7 +828,7 @@
 		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>	
@@ -839,7 +841,7 @@
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
@@ -852,7 +854,7 @@
 		</antcall>
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.wtp.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
@@ -866,7 +868,7 @@
 	
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
@@ -880,7 +882,7 @@
 		
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
-        	<property name="fetchTag" value="HEAD" />
+        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
