@@ -14,3 +14,4 @@ plugin@org.eclipse.birt.chart.viewer=GIT,tag=v20110803,repo=git://git.eclipse.or
 plugin@org.eclipse.birt.chart.integration.wtp.ui=GIT,tag=v20110803,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.integration.wtp.ui
 
 plugin@org.eclipse.birt.chart.tests=GIT,tag=v20110803,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=chart/org.eclipse.birt.chart.tests
+###
