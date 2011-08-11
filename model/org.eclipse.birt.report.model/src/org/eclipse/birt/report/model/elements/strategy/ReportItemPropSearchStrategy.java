@@ -195,6 +195,11 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 
 		DesignElement refElement = refValue.getElement( );
 		ElementPropertyDefn refPropDefn = refElement.getPropertyDefn( propName );
+
+		// if definition in the referred element is not found, return null: table refers
+		// data, data not define filter/sort
+		if ( refPropDefn == null )
+			return null;
 		if ( prop.getTypeCode( ) != refPropDefn.getTypeCode( )
 				|| prop.getStructDefn( ) != refPropDefn.getStructDefn( )
 				|| prop.getTargetElementType( ) != refPropDefn.getTargetElementType( ) )
