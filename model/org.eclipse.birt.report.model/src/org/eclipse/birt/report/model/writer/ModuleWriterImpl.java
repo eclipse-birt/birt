@@ -1201,7 +1201,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
 			if ( LineNumberInfo.isLineNumberSuppoerted( struct ) )
-				markLineNumber( struct );			
+				markLineNumber( struct );
 
 			Iterator memberIter = prop.getStructDefn( ).propertiesIterator( );
 			while ( memberIter.hasNext( ) )
@@ -2892,7 +2892,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		if ( tag != null )
 			writer.conditionalStartElement( tag );
-		
+
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, containerInfor
 				.getPropertyName( ) );
 
@@ -4352,6 +4352,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				IReportItemThemeModel.TYPE_PROP );
 
 		super.visitReportItemTheme( obj );
+
+		property( obj, IReportItemThemeModel.CUSTOM_VALUES_PROP );
 
 		writeContents( obj, IAbstractThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );

@@ -26,4 +26,10 @@ public interface IReportItemThemeModel
 
 	String TYPE_PROP = "type"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property that specifies some custom values for this report
+	 * item theme.
+	 */
+	String CUSTOM_VALUES_PROP = "customValues"; //$NON-NLS-1$
+
 }

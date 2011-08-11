@@ -3618,6 +3618,7 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ReportItemTheme" extends="AbstractTheme" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ReportItemTheme" name="ReportItemTheme" nameSpace="theme" since="2.6" xmlName="report-item-theme">
     <Property canInherit="false" detailType="reportItemThemeType" displayNameID="Element.ReportItemTheme.type" name="type" runtimeSettable="false" since="2.6" type="string"/>
+    <Property canInherit="false" displayNameID="Element.ReportItemTheme.customValues" name="customValues" since="2.6.2" type="xml"/>
     <Slot displayNameID="Element.ReportItemTheme.slot.styles" isManagedByNameSpace="false" multipleCardinality="true" name="styles" since="2.6" xmlName="styles">
       <Type name="Style"/>
 	  <Trigger validator="ThemeStyleNameValidator"/>		

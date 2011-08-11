@@ -141,4 +141,23 @@ public class ReportItemThemeHandle extends AbstractThemeHandle
 
 		stack.commit( );
 	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public String getCustomValues( )
+	{
+		return getStringProperty( CUSTOM_VALUES_PROP );
+	}
+
+	/**
+	 *
+	 * @param values
+	 * @throws SemanticException
+	 */
+	public void setCustomValues( String values ) throws SemanticException
+	{
+		setStringProperty( CUSTOM_VALUES_PROP, values );
+	}
 }
