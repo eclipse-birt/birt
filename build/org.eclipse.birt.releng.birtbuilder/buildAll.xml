@@ -75,7 +75,7 @@
 		
 		<property file="${buildDirectory}/label.properties" />
 		
-		<condition property="fetchTag" value="CVS=HEAD,GIT=master">
+		<condition property="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>		
 		<condition property="forceContextQualifier" value="${buildId}">
@@ -560,12 +560,12 @@
 			
 	<target name="prepareMapFile" depends="checkLocal" unless="mapsLocal">
 	
-		<exec executable="git" dir="${buildDirectory}/maps" output="${buildDirectory}/maps/maps.tar">    
-			<arg line="archive --format=tar" />    
+		<exec executable="git" dir="${buildDirectory}/maps" output="${buildDirectory}/maps/maps.zip">
+			<arg line="archive --format=zip" />
 			<arg line="--remote=${mapGitRoot}/org.eclipse.birt.git" />
 			<arg line="${mapVersionTag} releng/maps" /> 
 		</exec> 
-		<untar src="${buildDirectory}/maps/maps.tar" dest="${buildDirectory}/maps" />
+		<unzip src="${buildDirectory}/maps/maps.zip" dest="${buildDirectory}/maps" />
 				
 		<!--compare the map files project-->
 		<antcall target="compareMapFiles" />
@@ -598,7 +598,7 @@
 	<target name="prepareSrc" if="prepare.src.flag">
 		
   		<antcall target="logger">
-			<param name="message" value="Start to sync BIRT source folder"/>
+			<param name="message" value="Start to clone BIRT source"/>
 		</antcall>
   		
 		<delete failonerror="false">
@@ -606,48 +606,40 @@
 				<include name="*/**"/>
 			</fileset>
 		</delete>
-
-		<property name="birt.url.newvalue" value="${mapCvsRoot}"/>
+		<mkdir dir="${buildDirectory}/source"/>
 			
-		<cvs command="export -d source" cvsRoot="${birt.url.newvalue}" dest="${buildDirectory}" 
-		package="source" tag="${mapVersionTag}" taskname="CVS - source"/>
-	
+		<exec executable="git" dir="${buildDirectory}/source" output="${buildDirectory}/source/source.zip">
+                        <arg line="archive --format=zip" />
+                        <arg line="--remote=${mapGitRoot}/org.eclipse.birt.git" />
+                        <arg line="${mapVersionTag}" />
+                </exec>
+		<unzip src="${buildDirectory}/source/source.zip" dest="${buildDirectory}/source" />
+
   		<antcall target="logger">
-			<param name="message" value="Finish to sync BIRT source folder"/>
+			<param name="message" value="Finish to clone BIRT source"/>
 		</antcall>
 				
 		<copy todir="${buildDirectory}/plugins" overwrite="true" failonerror="false">
-			<fileset dir="${buildDirectory}/source">
-				<include name="**" />
-				<exclude name="nl/**" />
-				<exclude name="features/**" />
-				<exclude name="*.tests/**" />
-				<exclude name="*.test/**" />
-				<exclude name="*.tests.*/**" />
-				<exclude name="*.testhelper*/**" />
-				<exclude name="org.eclipse.birt.build/**" />
-				<exclude name="org.eclipse.birt.releng/**" />
-				<exclude name="org.eclipse.birt.releng.util/**" />
-				<exclude name="org.eclipse.birt.releng.birtbuilder/**" />
-				<exclude name="org.apache.commons.codec/**"/>
-				<exclude name="org.mozilla.rhino/**"/>
-				<exclude name="org.eclipse.birt.converters/**"/>
-				<exclude name="tutorials/**" />
-				<exclude name="*.itext/**" />
-				<exclude name=".project"/>
+			<fileset dir="${buildDirectory}/source/build">
+				<include name="org.eclipse.birt/**" />
+				<include name="org.eclipse.birt.chart/**" />
+				<include name="org.eclipse.birt.example/**" />
+				<include name="org.eclipse.birt.sdk/**" />
 			</fileset>
+			<fileset dir="${buildDirectory}/source/chart" includes="**"/>
+			<fileset dir="${buildDirectory}/source/common" includes="**"/>
+			<fileset dir="${buildDirectory}/source/core" includes="**"/>
+			<fileset dir="${buildDirectory}/source/data" includes="**"/>
+			<fileset dir="${buildDirectory}/source/docs" includes="**"/>
+			<fileset dir="${buildDirectory}/source/engine" includes="**"/>
+			<fileset dir="${buildDirectory}/source/model" includes="**"/>
+			<fileset dir="${buildDirectory}/source/testsuites" includes="**"/>
+			<fileset dir="${buildDirectory}/source/UI" includes="**"/>
+			<fileset dir="${buildDirectory}/source/viewer" includes="**"/>
+			<fileset dir="${buildDirectory}/source/xtab" includes="**"/>
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart" failonerror="false" >
-			<fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.feature" />   
-		</copy> 
-		<copy todir="${buildDirectory}/features/org.eclipse.birt" failonerror="false" >
-			<fileset dir="${buildDirectory}/source/features/org.eclipse.birt.feature" />   
-		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.report.designer.editor.xml.wtp" failonerror="false" >
-			<fileset dir="${buildDirectory}/source/features//org.eclipse.birt.report.designer.editor.xml.wtp.feature" />   
-		</copy>
-		<!-- copy BIRT NL plugins -->
-        <ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="prepareSrc" />
+		<!-- copy BIRT features and NL plugins -->
+		<ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="prepareSrc" />
 		<!--
 		<ant antfile="${eclipse.build.configs}/../../extras/prepareSrc.xml" target="updateBatikFeature" />
 		-->
@@ -828,7 +820,7 @@
 		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite"/>
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.nl" />
-        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
+		<property name="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>	
@@ -841,7 +833,7 @@
 		
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
-        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
+		<property name="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
@@ -854,7 +846,7 @@
 		</antcall>
 		<ant antfile="build.xml" dir="${basedir}">
 			<property name="component" value="${eclipse.build.configs}/birt.wtp.nl" />
-        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
+		<property name="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
 		</ant>
@@ -868,7 +860,7 @@
 	
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
-        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
+		<property name="fetchTag" value="CVS=HEAD,GIT=${dtp.mapVersionTag}" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>
@@ -882,7 +874,7 @@
 		
         <ant antfile="build.xml" dir="${basedir}">
         	<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
-        	<property name="fetchTag" value="CVS=HEAD,GIT=master" />
+		<property name="fetchTag" value="CVS=HEAD,GIT=${dtp.mapVersionTag}" />
         	<property name="forceContextQualifier" value="${buildId}"/>
     		<property name="generateFeatureVersionSuffix" value="false"/>
         </ant>

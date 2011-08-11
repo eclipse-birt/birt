@@ -1,118 +1,147 @@
 <project name="test" default="prepareSrc">
-	
+
 	<!-- ${dtp.mapCvsRoot}and ${dtp.mapVersionTag} will be overwriten by value in bootstrap.sh -->
-	<property name="dtp.mapCvsRoot" value=":ext:xgu@dev.eclipse.org:/cvsroot/datatools"/>
-	<property name="dtp.mapVersionTag" value="HEAD" />
+	<property name="dtp.mapGitRoot" value="ssh://xgu@git.eclipse.org/gitroot/datatools"/>
+	<property name="dtp.mapVersionTag" value="master" />
 
 	<target name="prepareSrc">
 		<antcall target="prepare.birt.nl"/>
 		<antcall target="checkout.dtp.nl"/>
 		<antcall target="copy.dtp.nl"/>
+		<antcall target="prepare.features"/>
 	</target>
-	
-	<target name="checkout.dtp.nl">
-    	<cvs command="export -d source" cvsRoot="${dtp.mapCvsRoot}" dest="${buildDirectory}"
-            package="org.eclipse.datatools.connectivity/nl" tag="${dtp.mapVersionTag}" taskname="CVS - org.eclipse.datatools.connectivity-nl"/>
-    	<cvs command="export -d source" cvsRoot="${dtp.mapCvsRoot}" dest="${buildDirectory}"
-            package="org.eclipse.datatools.enablement/nl" tag="${dtp.mapVersionTag}" taskname="CVS - org.eclipse.datatools.enablement-nl"/>
-    	<cvs command="export -d source" cvsRoot="${dtp.mapCvsRoot}" dest="${buildDirectory}"
-            package="org.eclipse.datatools.modelbase/nl" tag="${dtp.mapVersionTag}" taskname="CVS - org.eclipse.datatools.modelbase-nl"/>
-    	<cvs command="export -d source" cvsRoot="${dtp.mapCvsRoot}" dest="${buildDirectory}"
-            package="org.eclipse.datatools.sqltools/nl" tag="${dtp.mapVersionTag}" taskname="CVS - org.eclipse.datatools.sqltools-nl"/>
-	</target>
-	
-	<target name="copy.dtp.nl">
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl1"         failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl"      /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.apache.derby.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.apache.derby.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.apache.derby.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.apache.derby.ui.nl"                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.console.profile.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.console.profile.nl"                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl1"          failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl"       /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.db.generic.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.db.generic.nl"                     /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.db.generic.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.db.generic.ui.nl"                  /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.nl1"                                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.nl"                                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.consumer.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.consumer.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.design.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.design.nl"                     /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.design.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.design.ui.nl"                  /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.flatfile.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.flatfile.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.flatfile.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.flatfile.ui.nl"                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.nl1"                               failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.profile.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.profile.nl"                    /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.template.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.oda.template.ui.nl"                 /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.sqm.core.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.sqm.core.nl"                        /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.sqm.core.ui.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.sqm.core.ui.nl"                     /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.sqm.server.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.sqm.server.ui.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.ui.dse.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.ui.dse.nl"                          /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.ui.nl1"                                failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.connectivity.ui.nl"                              /></copy>
-		                                                                                                                                            
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl1"                 failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl"               /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.hsqldb.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.hsqldb.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.hsqldb.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.hsqldb.ui.nl"                         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl1"        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl"      /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.iseries.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.iseries.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl1"                  failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl"                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl1"            failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl"          /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.luw.nl1"                         failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.luw.nl"                       /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl"                    /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl1"        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl"      /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.zseries.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.zseries.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl1"                  failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl"                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl1"           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl"         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.informix.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.informix.nl"                      /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.informix.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.informix.ui.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.ui.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.ibm.ui.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl1"         failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl"       /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.msft.sqlserver.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.msft.sqlserver.nl"                    /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.msft.sqlserver.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.msft.sqlserver.ui.nl"                 /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.mysql.dbdefinition.nl1"                  failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.mysql.dbdefinition.nl"                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.mysql.nl1"                               failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.mysql.nl"                             /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.mysql.ui.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.mysql.ui.nl"                          /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.ws.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oda.ws.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.ws.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oda.ws.ui.nl"                         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.xml.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oda.xml.nl"                           /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.xml.ui.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oda.xml.ui.nl"                        /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oracle.dbdefinition.nl1"                 failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oracle.dbdefinition.nl"               /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oracle.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oracle.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oracle.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.oracle.ui.nl"                         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.postgresql.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.postgresql.nl"                        /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.postgresql.ui.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.postgresql.ui.nl"                     /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl1"              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl"            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sap.maxdb.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sap.maxdb.nl"                         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sap.maxdb.ui.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sap.maxdb.ui.nl"                      /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.asa.models.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sybase.asa.models.nl"                 /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.asa.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sybase.asa.nl"                        /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl1"             failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl"           /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sybase.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.enablement.sybase.ui.nl"                         /></copy>
-		                                                                                                                                    
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.dbdefinition.nl1"                         failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.dbdefinition.nl"                       /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.derby.nl1"                                failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.derby.nl"                              /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.edit.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.sql.edit.nl"                           /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.nl1"                                  failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.sql.nl"                                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.query.edit.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.sql.query.edit.nl"                     /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.query.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.sql.query.nl"                          /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.xml.query.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.modelbase.sql.xml.query.nl"                      /></copy>
-		                                                                                                                                           
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.common.ui.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.common.ui.nl"                           /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.db.derby.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.db.derby.nl"                            /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.db.generic.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.db.generic.nl"                          /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.editor.core.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.editor.core.nl"                         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.parsers.sql.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.parsers.sql.nl"                         /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.parsers.sql.query.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.parsers.sql.query.nl"                   /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.plan.nl1"                                  failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.plan.nl"                                /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.result.nl1"                                failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.result.nl"                              /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.sqlbuilder.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.sqlbuilder.nl"                          /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.sqleditor.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.sqleditor.nl"                           /></copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.sql.nl1"                                   failonerror="false"><fileset dir="${buildDirectory}/source/org.eclipse.datatools.sqltools.sql.nl"                                 /></copy>
+
+	<target name="prepare.features">
+		<copy todir="${buildDirectory}/features/org.eclipse.birt"                  					failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.cshelp"                  	failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.cshelp.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.doc.isv"                  	failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.doc.isv.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.integration.wtp"             failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.integration.wtp.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.osgi.runtime"                failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.osgi.runtime"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.osgi.runtime.sdk"            failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.chart.osgi.runtime.sdk"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.cshelp"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.cshelp.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.doc"                  				failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.doc.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.doc.isv"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.doc.isv.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.example"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.example.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.integration.wtp"                   failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.integration.wtp.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.integration.wtp.sdk"               failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.integration.wtp.sdk.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.osgi.runtime"                  	failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.osgi.runtime"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.osgi.runtime.sdk"                  failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.osgi.runtime.sdk"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.rcp.nl"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.rcp.nl.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.report.designer.editor.xml.wtp"    failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.sdk"                  				failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.sdk.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.testhelper"                  		failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.testhelper.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.tests"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.tests.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.nl"                  				failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.nl.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.wtp.nl"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.wtp.nl.feature"                  />     </copy>
+
+		<!--copy todir="${buildDirectory}/features/org.eclipse.birt.dtp.nl"                  			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.dtp.nl.feature"                  />     </copy>
+		<copy todir="${buildDirectory}/features/org.eclipse.birt.dtp.sybase.nl"                  	failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.dtp.sybase.nl.feature"                  />     </copy-->
 
 	</target>
-	
+
+	<target name="checkout.dtp.nl">
+		<exec executable="git" dir="${buildDirectory}/source" output="${buildDirectory}/source/source_dtp.zip">
+            <arg line="archive --format=zip" />
+            <arg line="--remote=${dtp.mapGitRoot}/org.eclipse.datatools.nl.git" />
+            <arg line="${dtp.mapVersionTag}" />
+        </exec>
+		<unzip src="${buildDirectory}/source/source_dtp.zip" dest="${buildDirectory}/source" />
+	</target>
+
+	<target name="copy.dtp.nl">
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl1"         failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl"      /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.apache.derby.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.apache.derby.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.apache.derby.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.apache.derby.ui.nl"                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.console.profile.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.console.profile.nl"                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl1"          failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl"       /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.db.generic.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.db.generic.nl"                     /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.db.generic.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.db.generic.ui.nl"                  /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.nl1"                                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.nl"                                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.consumer.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.consumer.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.design.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.design.nl"                     /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.design.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.design.ui.nl"                  /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.flatfile.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.flatfile.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.flatfile.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.flatfile.ui.nl"                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.nl1"                               failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.profile.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.profile.nl"                    /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.oda.template.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.oda.template.ui.nl"                 /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.sqm.core.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.sqm.core.nl"                        /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.sqm.core.ui.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.sqm.core.ui.nl"                     /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.sqm.server.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.sqm.server.ui.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.ui.dse.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.ui.dse.nl"                          /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.connectivity.ui.nl1"                                failonerror="false"><fileset dir="${buildDirectory}/source/plugins/connectivity/org.eclipse.datatools.connectivity.ui.nl"                              /></copy>
+
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl1"                 failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl"               /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.hsqldb.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.hsqldb.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.hsqldb.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.hsqldb.ui.nl"                         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl1"        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl"      /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.iseries.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.iseries.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl1"                  failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl"                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl1"            failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl"          /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.luw.nl1"                         failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.luw.nl"                       /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl"                    /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl1"        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl"      /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.zseries.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.zseries.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl1"                  failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl"                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl1"           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl"         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.informix.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.informix.nl"                      /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.informix.ui.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.informix.ui.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.ibm.ui.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.ibm.ui.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl1"         failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl"       /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.msft.sqlserver.nl1"                      failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.msft.sqlserver.nl"                    /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.msft.sqlserver.ui.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.msft.sqlserver.ui.nl"                 /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.mysql.dbdefinition.nl1"                  failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.mysql.dbdefinition.nl"                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.mysql.nl1"                               failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.mysql.nl"                             /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.mysql.ui.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.mysql.ui.nl"                          /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.ws.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oda.ws.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.ws.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oda.ws.ui.nl"                         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.xml.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oda.xml.nl"                           /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oda.xml.ui.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oda.xml.ui.nl"                        /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oracle.dbdefinition.nl1"                 failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oracle.dbdefinition.nl"               /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oracle.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oracle.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.oracle.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.oracle.ui.nl"                         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.postgresql.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.postgresql.nl"                        /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.postgresql.ui.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.postgresql.ui.nl"                     /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl1"              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl"            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sap.maxdb.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sap.maxdb.nl"                         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sap.maxdb.ui.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sap.maxdb.ui.nl"                      /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.asa.models.nl1"                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sybase.asa.models.nl"                 /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.asa.nl1"                          failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sybase.asa.nl"                        /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl1"             failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl"           /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sybase.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.enablement.sybase.ui.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/enablement/org.eclipse.datatools.enablement.sybase.ui.nl"                         /></copy>
+
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.dbdefinition.nl1"                         failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.dbdefinition.nl"                       /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.derby.nl1"                                failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.derby.nl"                              /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.edit.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.sql.edit.nl"                           /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.nl1"                                  failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.sql.nl"                                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.query.edit.nl1"                       failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.sql.query.edit.nl"                     /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.query.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.sql.query.nl"                          /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.modelbase.sql.xml.query.nl1"                        failonerror="false"><fileset dir="${buildDirectory}/source/plugins/modelbase/org.eclipse.datatools.modelbase.sql.xml.query.nl"                      /></copy>
+
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.common.ui.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.common.ui.nl"                           /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.db.derby.nl1"                              failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.db.derby.nl"                            /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.db.generic.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.db.generic.nl"                          /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.editor.core.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.editor.core.nl"                         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.parsers.sql.nl1"                           failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.parsers.sql.nl"                         /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.parsers.sql.query.nl1"                     failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.parsers.sql.query.nl"                   /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.plan.nl1"                                  failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.plan.nl"                                /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.result.nl1"                                failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.result.nl"                              /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.sqlbuilder.nl1"                            failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.sqlbuilder.nl"                          /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.sqleditor.nl1"                             failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.sqleditor.nl"                           /></copy>
+		<copy todir="${buildDirectory}/plugins/org.eclipse.datatools.sqltools.sql.nl1"                                   failonerror="false"><fileset dir="${buildDirectory}/source/plugins/sqltools/org.eclipse.datatools.sqltools.sql.nl"                                 /></copy>
+
+	</target>
+
 <target name="prepare.birt.nl">
-<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.extension.nl1"                  failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.extension.nl"                  />     </copy> 
-<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.svg.nl1"                        failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.svg.nl"                        />     </copy> 
+<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.extension.nl1"                  failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.extension.nl"                  />     </copy>
+<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.svg.nl1"                        failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.svg.nl"                        />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.swt.nl1"                        failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.swt.nl"                        />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.engine.extension.nl1"                  failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.engine.extension.nl"                  />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.engine.nl1"                            failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.engine.nl"                            />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.examples.nl1"                          failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.examples.nl"                          />     </copy>
+<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.examples.core.nl1"                     failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.examples.core.nl"                          />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui.nl1"                failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.integration.wtp.ui.nl"                />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.reportitem.nl1"                        failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.reportitem.nl"                        />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.reportitem.ui.nl1"                     failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.reportitem.ui.nl"                     />     </copy>
@@ -126,6 +155,8 @@
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui.nl1"                      failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.integration.wtp.ui.nl"                      />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.adapter.nl1"                     failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.adapter.nl"                     />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.bidi.utils.nl1"                  failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.bidi.utils.nl"                  />     </copy>
+<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.hive.nl1"                    failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.hive.nl"                  />     </copy>
+<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.hive.ui.nl1"                 failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.hive.ui.nl"                  />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1"          failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl"          />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1" failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl" />     </copy>
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl1"       failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl"       />     </copy>
@@ -170,7 +201,7 @@
 <copy todir="${buildDirectory}/plugins/org.eclipse.birt.resources.nl1"                               failonerror="false" > <fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.resources.nl"                               />     </copy>
 
 </target>
-	
+
 	<target name="updateBatik">
         <replace dir="${buildDirectory}/maps" value="org.apache.batik.bridge,1.7.0" token="org.apache.batik.bridge,1.6.0">
             <include name="**/*.map" />
@@ -255,7 +286,7 @@
         <replace dir="${buildDirectory}/maps" value="org.w3c.css.sac_1.3.1.v200903091627.jar" token="org.w3c.css.sac_1.3.0.v200805290154.jar">
             <include name="**/*.map" />
         </replace>
-		
+
         <replace dir="${buildDirectory}/maps" value="!***plugin@org.apache.batik.pdf" token="plugin@org.apache.batik.pdf">
             <include name="**/*.map" />
         </replace>
@@ -275,7 +306,6 @@
 			<replacetoken><![CDATA[<plugin id="org.apache.batik.pdf" download-size="0" install-size="0" version="0.0.0" unpack="false"/>]]></replacetoken>
 			<replacevalue><![CDATA[<plugin id="org.apache.batik.pdf" download-size="0" install-size="0" version="0.0.0" unpack="true"/>]]></replacevalue>
 			<include name="**/feature.xml" />
-		</replace>	
+		</replace>
 	</target>
 </project>
-
