@@ -59,9 +59,9 @@ import org.eclipse.birt.report.model.api.metadata.ILocalizableInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
@@ -1393,7 +1393,7 @@ public class ExpressionProvider implements
 		}
 		if ( element instanceof PropertyHandle
 				|| element instanceof TabularMeasureGroupHandle
-				|| element instanceof TabularDimensionHandle
+				|| element instanceof DimensionHandle
 				|| element instanceof LevelHandle )
 			return getChildrenList( element ).size( ) > 0;
 

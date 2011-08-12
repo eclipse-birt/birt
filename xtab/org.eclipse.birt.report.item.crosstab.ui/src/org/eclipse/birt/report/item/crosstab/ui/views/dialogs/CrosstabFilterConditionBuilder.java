@@ -82,7 +82,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -3206,9 +3205,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		TabularLevelNodeProvider levelProvider = new TabularLevelNodeProvider( );
 		for ( Object o : dimensions )
 		{
-			if ( o instanceof TabularDimensionHandle )
+			if ( o instanceof DimensionHandle )
 			{
-				TabularDimensionHandle dimension = (TabularDimensionHandle) o;
+				DimensionHandle dimension = (DimensionHandle) o;
 				Object[] levels = dimensionProvider.getChildren( o );
 				for ( Object l : levels )
 				{

@@ -25,8 +25,8 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.swt.graphics.Image;
 
 
@@ -50,12 +50,12 @@ public class CrosstabExpressionProvider extends BindingExpressionProvider
 	
 	protected List getChildrenList( Object parent )
 	{
-		if ( parent instanceof TabularDimensionHandle )
+		if ( parent instanceof DimensionHandle )
 		{
 			List children = new ArrayList( );
 			try
 			{
-				TabularDimensionHandle handle = (TabularDimensionHandle) parent;
+				DimensionHandle handle = (DimensionHandle) parent;
 				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
 				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
 				{
