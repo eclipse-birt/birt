@@ -2406,6 +2406,7 @@ Element.Module.createdBy=创建者
 Element.Module.includeScripts=包含脚本
 Element.Module.scriptLibs=脚本库
 Element.Module.externalMetadata=外部元数据
+Element.Module.propertyBindings=属性绑定
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2418,7 +2419,6 @@ Element.LayoutModule.libraries=库
 Element.LayoutModule.base=基本
 Element.LayoutModule.units=单位
 Element.LayoutModule.theme=布景主题
-Element.LayoutModule.propertyBindings=属性绑定
 
 
 # Library ( Prefix = Element.Library )

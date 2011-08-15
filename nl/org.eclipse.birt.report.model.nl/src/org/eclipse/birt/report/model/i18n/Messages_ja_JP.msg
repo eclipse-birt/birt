@@ -2406,6 +2406,7 @@ Element.Module.createdBy=作成者
 Element.Module.includeScripts=インクルードするスクリプト
 Element.Module.scriptLibs=スクリプトライブラリ
 Element.Module.externalMetadata=外部メタデータ
+Element.Module.propertyBindings=プロパティのバインド
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2418,8 +2419,7 @@ Element.LayoutModule.libraries=ライブラリ
 Element.LayoutModule.base=基本
 Element.LayoutModule.units=単位
 Element.LayoutModule.theme=テーマ
-Element.LayoutModule.propertyBindings=プロパティのバインド
-
+Element.LayoutModule.propertyBindings=
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=種類

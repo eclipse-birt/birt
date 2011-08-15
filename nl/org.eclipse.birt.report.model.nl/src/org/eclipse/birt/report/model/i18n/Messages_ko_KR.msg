@@ -2406,6 +2406,7 @@ Element.Module.createdBy=만든 사람
 Element.Module.includeScripts=스크립트 포함
 Element.Module.scriptLibs=스크립트 라이브러리
 Element.Module.externalMetadata=외부 메타데이터
+Element.Module.propertyBindings=속성 바인딩
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2418,7 +2419,6 @@ Element.LayoutModule.libraries=라이브러리
 Element.LayoutModule.base=기본
 Element.LayoutModule.units=단위
 Element.LayoutModule.theme=테마
-Element.LayoutModule.propertyBindings=속성 바인딩
 
 
 # Library ( Prefix = Element.Library )

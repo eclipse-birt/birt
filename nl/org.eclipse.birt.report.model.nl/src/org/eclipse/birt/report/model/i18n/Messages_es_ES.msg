@@ -2406,6 +2406,7 @@ Element.Module.createdBy=Creado por
 Element.Module.includeScripts=Incluir scripts
 Element.Module.scriptLibs=Librerías de scripts
 Element.Module.externalMetadata=Metadatos externos
+Element.Module.propertyBindings=Enlaces de propiedades
 
 # LayoutModule ( Prefix = Element.LayoutModule )
 
@@ -2418,7 +2419,6 @@ Element.LayoutModule.libraries=librerías
 Element.LayoutModule.base=Base
 Element.LayoutModule.units=Unidades
 Element.LayoutModule.theme=Tema
-Element.LayoutModule.propertyBindings=Enlaces de propiedades
 
 
 # Library ( Prefix = Element.Library )
