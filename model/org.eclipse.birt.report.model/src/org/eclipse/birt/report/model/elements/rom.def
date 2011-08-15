@@ -1702,6 +1702,7 @@
     <Property canInherit="false" displayNameID="Element.Module.createdBy" name="createdBy" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>
+    <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>
     <Property displayNameID="Element.Module.externalMetadata" name="externalMetadata" since="2.6" type="xml" />
     <PropertyVisibility name="externalMetadata" visibility="hide"/>    
   </Element>
@@ -1720,8 +1721,7 @@
     </Property>
     <Property canInherit="false" detailType="Theme" displayNameID="Element.LayoutModule.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="elementRef">
     	<Trigger validator="ThemeReferenceValidator"/>
-    </Property>	  	  
-    <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.LayoutModule.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>
+    </Property>
     <PropertyVisibility name="units" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="LayoutModule" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">

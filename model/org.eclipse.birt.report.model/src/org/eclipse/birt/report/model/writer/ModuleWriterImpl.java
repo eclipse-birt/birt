@@ -1040,8 +1040,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		{
 			Object tmpItem = values.get( i );
 
-			Object[] tmpValues = prop.getCompatibleTypeAndValue( prop
-					.getSubType( ), tmpItem );
+			Object[] tmpValues = prop.getCompatibleTypeAndValue(
+					prop.getSubType( ), tmpItem );
 
 			String xmlValue = ( (PropertyType) tmpValues[0] ).toXml(
 					getModule( ), prop, tmpValues[1] );
@@ -1101,8 +1101,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		for ( int i = 0; i < values.size( ); i++ )
 		{
 			Object tmpItem = values.get( i );
-			Object[] tmpValues = prop.getCompatibleTypeAndValue( prop
-					.getSubType( ), tmpItem );
+			Object[] tmpValues = prop.getCompatibleTypeAndValue(
+					prop.getSubType( ), tmpItem );
 
 			String xmlValue = ( (PropertyType) tmpValues[0] ).toXml(
 					getModule( ), prop, tmpValues[1] );
@@ -1294,10 +1294,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			IStructure struct = (IStructure) iter.next( );
 
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-			
+
 			if ( LineNumberInfo.isLineNumberSuppoerted( struct ) )
-				markLineNumber( struct );			
-		
+				markLineNumber( struct );
+
 			Iterator memberIter = prop.getStructDefn( ).propertiesIterator( );
 			while ( memberIter.hasNext( ) )
 			{
@@ -1360,14 +1360,14 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				{
 					writeEntry( DesignSchemaConstants.EXPRESSION_TAG,
 							UserPropertyDefn.DEFAULT_MEMBER, null,
-							( (Expression) defaultValue ).getType( ), propDefn
-									.getXmlValue( null, defaultValue ), false );
+							( (Expression) defaultValue ).getType( ),
+							propDefn.getXmlValue( null, defaultValue ), false );
 				}
 				else
 				{
 					writeEntry( DesignSchemaConstants.PROPERTY_TAG,
-							UserPropertyDefn.DEFAULT_MEMBER, null, propDefn
-									.getXmlValue( null, defaultValue ), false );
+							UserPropertyDefn.DEFAULT_MEMBER, null,
+							propDefn.getXmlValue( null, defaultValue ), false );
 				}
 			}
 
@@ -1398,9 +1398,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 					}
 
 					writeResouceKey( DesignSchemaConstants.TEXT_PROPERTY_TAG,
-							UserChoice.DISPLAY_NAME_PROP, choice
-									.getDisplayNameKey( ), choice
-									.getDisplayName( ), false );
+							UserChoice.DISPLAY_NAME_PROP,
+							choice.getDisplayNameKey( ),
+							choice.getDisplayName( ), false );
 
 					writer.endElement( );
 				}
@@ -1450,8 +1450,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				DEFAULT_NAME_SPACE );
 		writer.attribute( DesignSchemaConstants.VERSION_ATTRIB,
 				DesignSchemaConstants.REPORT_VERSION );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 
 		writeSimpleProperties( obj );
 
@@ -1478,6 +1478,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		// write script libs
 		writeStructureList( obj, IModuleModel.SCRIPTLIBS_PROP );
 
+		// write property bindings
+		writeStructureList( obj, IModuleModel.PROPERTY_BINDINGS_PROP );
+
 	}
 
 	/*
@@ -1496,10 +1499,6 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IModuleModel.HELP_GUIDE_PROP );
 		property( obj, IModuleModel.UNITS_PROP );
 		property( obj, IModuleModel.BASE_PROP );
-
-		// write property bindings
-
-		writeStructureList( obj, IModuleModel.PROPERTY_BINDINGS_PROP );
 
 	}
 
@@ -1531,7 +1530,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 				try
 				{
-					if ( image.getLocalProperty( getModule( ),
+					if ( image.getLocalProperty(
+							getModule( ),
 							(PropertyDefn) image.getDefn( ).getMember(
 									EmbeddedImage.DATA_MEMBER ) ) != null )
 					{
@@ -1910,8 +1910,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			if ( !StringUtil.isBlank( extendsFrom ) )
 				writer.attribute( DesignSchemaConstants.EXTENDS_ATTRIB,
 						extendsFrom );
-			writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-					obj.getID( ) ).toString( ) );
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+					Long.valueOf( obj.getID( ) ).toString( ) );
 
 			// write all other properties
 			List<IElementPropertyDefn> props = extDefn.getProperties( );
@@ -1955,9 +1955,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						break;
 					case IPropertyType.XML_TYPE :
 						if ( obj.hasLocalPropertyValuesOnOwnModel( ) )
-							writeProperty( obj, ModelUtil
-									.getTagByPropertyType( prop ), propName,
-									true );
+							writeProperty( obj,
+									ModelUtil.getTagByPropertyType( prop ),
+									propName, true );
 						break;
 					case IPropertyType.STRUCT_TYPE :
 						if ( prop.isList( ) )
@@ -1970,9 +1970,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 						writeContents( obj, propName );
 						break;
 					default :
-						writeProperty( obj, ModelUtil
-								.getTagByPropertyType( prop ), prop.getName( ),
-								false );
+						writeProperty( obj,
+								ModelUtil.getTagByPropertyType( prop ),
+								prop.getName( ), false );
 						break;
 				}
 			}
@@ -2199,8 +2199,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -2228,8 +2228,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.ROW_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -2272,8 +2272,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.CELL_TAG );
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -2581,8 +2581,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	{
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
 				IDesignElementModel.DISPLAY_NAME_PROP );
 
@@ -2602,8 +2602,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG );
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 
 		property( obj, ITemplateParameterDefinitionModel.ALLOWED_TYPE_PROP );
 		resourceKey( obj,
@@ -2893,8 +2893,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		if ( tag != null )
 			writer.conditionalStartElement( tag );
 
-		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, containerInfor
-				.getPropertyName( ) );
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
+				containerInfor.getPropertyName( ) );
 
 		if ( !containerInfor.isROMSlot( ) )
 			markLineNumber( containerInfor );
@@ -3180,8 +3180,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		attribute( obj, DesignSchemaConstants.NAME_ATTRIB,
 				IDesignElementModel.NAME_PROP );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.EXTENDS_ATTRIB,
 				IDesignElementModel.EXTENDS_PROP );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
@@ -3215,8 +3215,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			Object key = obj;
 			Module module = getModule( );
 			if ( module != null )
-				module.addLineNo( key, Integer
-						.valueOf( writer.getLineCounter( ) ) );
+				module.addLineNo( key,
+						Integer.valueOf( writer.getLineCounter( ) ) );
 		}
 	}
 
@@ -3474,8 +3474,8 @@ abstract class ModuleWriterImpl extends ElementVisitor
 	public void visitGroup( GroupElement obj )
 	{
 		markLineNumber( obj );
-		writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-				obj.getID( ) ).toString( ) );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+				Long.valueOf( obj.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
 				IDesignElementModel.VIEW_ACTION_PROP );
 
@@ -3613,10 +3613,10 @@ abstract class ModuleWriterImpl extends ElementVisitor
 			long baseId = virtualElement.getBaseId( );
 			writer.attribute( DesignSchemaConstants.BASE_ID_ATTRIB, Long
 					.valueOf( baseId ).toString( ) );
-			writer.attribute( DesignSchemaConstants.NAME_ATTRIB, virtualElement
-					.getName( ) );
-			writer.attribute( DesignSchemaConstants.ID_ATTRIB, Long.valueOf(
-					virtualElement.getID( ) ).toString( ) );
+			writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
+					virtualElement.getName( ) );
+			writer.attribute( DesignSchemaConstants.ID_ATTRIB,
+					Long.valueOf( virtualElement.getID( ) ).toString( ) );
 			if ( !virtualElement.hasLocalPropertyValues( )
 					&& virtualElement.getStyle( ) == null )
 			{
@@ -3669,9 +3669,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 				else if ( propDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
 					writeContents( virtualElement, propDefn.getName( ) );
 				else
-					writeProperty( virtualElement, ModelUtil
-							.getTagByPropertyType( propDefn ), propDefn
-							.getName( ), cdata );
+					writeProperty( virtualElement,
+							ModelUtil.getTagByPropertyType( propDefn ),
+							propDefn.getName( ), cdata );
 			}
 
 			writer.endElement( ); // end of ref-entry
