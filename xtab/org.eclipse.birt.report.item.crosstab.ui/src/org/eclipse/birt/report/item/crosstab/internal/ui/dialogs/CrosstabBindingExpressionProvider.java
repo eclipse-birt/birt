@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 /**
@@ -78,7 +78,7 @@ CrosstabExpressionProvider
 						try
 						{
 							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) == null )
+							if ( xtabHandle.getDimension( ( (DimensionHandle) element ).getName( ) ) == null )
 								return false;
 							return true;
 						}
