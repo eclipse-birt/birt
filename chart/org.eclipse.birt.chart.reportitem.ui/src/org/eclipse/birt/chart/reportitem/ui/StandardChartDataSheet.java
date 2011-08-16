@@ -2820,7 +2820,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				// expression query. It will keep correct value to
 				// shared crosstab or multi-view.
 				measureExprs.add( cch.getName( ) );
-
+			}
+			else if ( exprCodec.isCubeBinding( true )
+					&& dataProvider.checkState( IDataServiceProvider.IN_MULTI_VIEWS ) )
+			{
+				// Just it is under multiple view case, we add those computed measure bindings.
+				String dataType = cch.getDataType( );
+				if ( org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType )
+						|| org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( dataType )
+						|| org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( dataType ) )
+				{
+					// It is computed measure binding.
+					measureExprs.add( cch.getName( ) );
+				}
 			}
 		}
 		String[] categoryExprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );

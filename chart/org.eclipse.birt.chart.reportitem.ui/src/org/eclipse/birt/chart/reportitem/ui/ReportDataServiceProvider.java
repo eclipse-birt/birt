@@ -114,6 +114,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -140,6 +141,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
@@ -3220,20 +3222,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// Set category.
 				if ( cch != null )
 				{
-					Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
-							.get( 0 )
-							.getDesignTimeSeries( )
-							.getDataDefinition( )
-							.get( 0 );
-					exprCodec.setBindingName( cch.getName( ), true, exprType );
-					query.setDefinition( exprCodec.encode( ) );
-
-					// Update X axis type in chart with axes
-					if ( context.getModel( ) instanceof ChartWithAxes )
-					{
-						Axis xAxis = ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) context.getModel( ) );
-						xAxis.setType( ChartItemUtil.convertToAxisType( cch.getDataType( ) ) );
-					}
+					setCategoryExpression( exprType, cch );
 				}
 			}
 
@@ -3244,40 +3233,130 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						levelNames[0],
 						levelNames[1],
 						bindingMap.values( ) );
-				// Set Y optional.
+				// Set optional Y.
 				if ( cch != null )
 				{
-					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
-							.iterator( ); iter.hasNext( ); )
-					{
-						exprCodec.setBindingName( cch.getName( ),
-								true,
-								exprType );
-						Query query = iter.next( ).getQuery( );
-						query.setDefinition( exprCodec.encode( ) );
-						isUpdated = true;
-					}
+					isUpdated = setOptionalYExpression( exprType,
+							cch );
 				}
 			}
 			else
 			{
-				// When chart share cube with other chart, the measure
-				// expression(value series expressions) doesn't contain level
-				// information, so here only update Y optional expression for
-				// sharing with crosstab case.
-				if ( !isChartReportItemHandle( ChartItemUtil.getReportItemReference( itemHandle ) ) )
+				if ( aggOnList.size( ) == 0 && checkState( IN_MULTI_VIEWS ) )
 				{
-					for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
-							.iterator( ); iter.hasNext( ); )
+					// If it is under multiple view and the selected series expression
+					// is a computed expression, we need update category and
+					// optional Y expressions list for user to select.
+					try
 					{
-						SeriesDefinition sd = iter.next( );
-						sd.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-						isUpdated = true;
+						CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) this.itemHandle.getContainer( )
+								.getContainer( ) ).getReportItem( );
+						List<ComputedColumnHandle> rowChildren = new ArrayList<ComputedColumnHandle>( );
+						List<ComputedColumnHandle> colChildren = new ArrayList<ComputedColumnHandle>( );
+						for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
+						{
+							DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
+									i );
+							ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+									dimensionHandle.getCubeDimensionName( ),
+									dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 ).getCubeLevel( ).getName( ),
+									bindingMap.values( ) );
+							rowChildren.add( cch );
+						}
+						if ( rowChildren.size( ) > 0 )
+						{
+							// If the existent category expression is legal,
+							// then don't set category expression again.
+							boolean needUpdate = true;
+							for ( ComputedColumnHandle cch : bindingMap.values( ) )
+							{
+								Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+										.get( 0 )
+										.getDesignTimeSeries( )
+										.getDataDefinition( )
+										.get( 0 );
+								exprCodec.setBindingName( cch.getName( ),
+										true,
+										exprType );
+								if ( exprCodec.encode( )
+										.equals( query.getDefinition( ) ) )
+								{
+									needUpdate = false;
+									break;
+								}
+							}
+							if ( needUpdate )
+							{
+								setCategoryExpression( exprType,
+										rowChildren.get( 0 ) );
+							}
+						}
+
+						for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
+						{
+							DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
+									i );
+							ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+									dimensionHandle.getCubeDimensionName( ),
+									dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 ).getCubeLevel( ).getName( ),
+									bindingMap.values( ) );
+							colChildren.add( cch );
+						}
+
+						if ( rowChildren.size( ) > 0 )
+						{
+							// If the existent optional Y expression is legal,
+							// then don't set it again.
+							boolean needUpdate = true;
+							for ( ComputedColumnHandle cch : bindingMap.values( ) )
+							{
+								Query query = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+										.get( 0 )
+										.getQuery( );
+								exprCodec.setBindingName( cch.getName( ),
+										true,
+										exprType );
+								if ( exprCodec.encode( )
+										.equals( query.getDefinition( ) ) )
+								{
+									needUpdate = false;
+									break;
+								}
+							}
+							if ( needUpdate )
+							{
+								isUpdated = setOptionalYExpression( exprType,
+										colChildren.get( 0 ) );
+							}
+						}
+					}
+					catch ( ExtendedElementException e )
+					{
+						// Don't do nothing.
+					}
+				}
+				else
+				{
+					// When chart share cube with other chart, the measure
+					// expression(value series expressions) doesn't contain
+					// level
+					// information, so here only update Y optional expression
+					// for
+					// sharing with crosstab case.
+					if ( !isChartReportItemHandle( ChartItemUtil.getReportItemReference( itemHandle ) ) )
+					{
+						for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+								.iterator( ); iter.hasNext( ); )
+						{
+							SeriesDefinition sd = iter.next( );
+							sd.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+							isUpdated = true;
+						}
 					}
 				}
 			}
-			ChartAdapter.endIgnoreNotifications( );
 
+			ChartAdapter.endIgnoreNotifications( );
 		}
 		else if ( ChartUIConstants.QUERY_CATEGORY.equals( type )
 				&& value instanceof String )
@@ -3321,6 +3400,41 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			isUpdated = updateCubeBindings( );
 		}
 		return isUpdated;
+	}
+
+	private boolean setOptionalYExpression( String exprType, ComputedColumnHandle cch )
+	{
+		boolean isUpdated = false;
+		for ( Iterator<SeriesDefinition> iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+				.iterator( ); iter.hasNext( ); )
+		{
+			exprCodec.setBindingName( cch.getName( ),
+					true,
+					exprType );
+			Query query = iter.next( ).getQuery( );
+			query.setDefinition( exprCodec.encode( ) );
+			isUpdated = true;
+		}
+		return isUpdated;
+	}
+
+	private void setCategoryExpression( String exprType,
+			ComputedColumnHandle cch )
+	{
+		Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+				.get( 0 )
+				.getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( 0 );
+		exprCodec.setBindingName( cch.getName( ), true, exprType );
+		query.setDefinition( exprCodec.encode( ) );
+
+		// Update X axis type in chart with axes
+		if ( context.getModel( ) instanceof ChartWithAxes )
+		{
+			Axis xAxis = ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) context.getModel( ) );
+			xAxis.setType( ChartItemUtil.convertToAxisType( cch.getDataType( ) ) );
+		}
 	}
 
 	/**
