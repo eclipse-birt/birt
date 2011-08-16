@@ -54,7 +54,6 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.gef.EditPart;
@@ -340,7 +339,7 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 						List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
 						for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
 						{
-							TabularDimensionHandle dimension = (TabularDimensionHandle) iterator.next( );
+							DimensionHandle dimension = (DimensionHandle) iterator.next( );
 							if ( dimension.isTimeType( ) )
 							{
 								createDimensionViewHandle( handle,
