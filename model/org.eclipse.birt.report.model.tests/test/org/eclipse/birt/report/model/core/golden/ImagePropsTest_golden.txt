@@ -11,6 +11,7 @@ valueExpr
 typeExpr
 action
 fitToContainer
+proportionalScale
 onPrepare
 onCreate
 onRender

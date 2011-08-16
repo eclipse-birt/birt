@@ -938,4 +938,27 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		setStringProperty( BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName );
 	}
+
+	/**
+	 * Gets the flag which indicates whether to show the detail filter or not.
+	 *
+	 * @return true if the group shows the detail filter, otherwise false.
+	 */
+	public boolean showDetailFilter( )
+	{
+		return getBooleanProperty( SHOW_DETAIL_FILTER_PROP );
+	}
+
+	/**
+	 * Sets the flag which indicates whether to show the detail filter or not.
+	 *
+	 * @param showDetailFilter
+	 *            the new flag to set
+	 * @throws SemanticException
+	 */
+	public void setShowDetailFilter( boolean showDetailFilter )
+			throws SemanticException
+	{
+		setBooleanProperty( SHOW_DETAIL_FILTER_PROP, showDetailFilter );
+	}
 }

@@ -199,6 +199,7 @@ public class ListItemParseTest extends ParserTestCase
 		assertEquals( "2005/05/20", groupHandle.getGroupStart( ) ); //$NON-NLS-1$
 		assertEquals( "2005 statistics", groupHandle.getTocExpression( ) ); //$NON-NLS-1$
 		assertTrue( groupHandle.hideDetail( ) );
+		assertFalse( groupHandle.showDetailFilter( ) );
 
 		filters = groupHandle.filtersIterator( );
 
@@ -279,6 +280,7 @@ public class ListItemParseTest extends ParserTestCase
 		groupHandle.setOnPageBreak( "new page break" );//$NON-NLS-1$
 		groupHandle.setOnCreate( "new create" );//$NON-NLS-1$
 		groupHandle.setOnRender( "new render" );//$NON-NLS-1$
+		groupHandle.setShowDetailFilter( true );
 
 		assertEquals( "\"bookmark\"", groupHandle.getBookmark( ) ); //$NON-NLS-1$
 		groupHandle.setBookmark( "\"newbookmark\"" );//$NON-NLS-1$

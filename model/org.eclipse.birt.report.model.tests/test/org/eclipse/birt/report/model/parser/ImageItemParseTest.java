@@ -212,6 +212,7 @@ public class ImageItemParseTest extends BaseTestCase
 				.getActionHandle( ).getLinkType( ) );
 
 		assertFalse( handle.fitToContainer( ) );
+		assertTrue( handle.isProportionalScale( ) );
 
 		// 2nd image
 		image = findImageItemByName( "Image2" ); //$NON-NLS-1$
@@ -328,6 +329,10 @@ public class ImageItemParseTest extends BaseTestCase
 	public void testWriteProperties( ) throws Exception
 	{
 		openDesign( "ImageItemParseTest.xml" ); //$NON-NLS-1$
+
+		image = findImageItemByName( "Image1" ); //$NON-NLS-1$
+		handle = image.handle( design );
+		handle.setProportionalScale( false );
 
 		image = findImageItemByName( "Image2" ); //$NON-NLS-1$
 		handle = image.handle( design );

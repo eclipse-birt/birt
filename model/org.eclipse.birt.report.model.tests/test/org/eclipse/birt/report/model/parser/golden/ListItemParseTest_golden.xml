@@ -64,6 +64,7 @@
                 <property name="hideDetail">true</property>
                 <method name="onCreate"><![CDATA[new create]]></method>
                 <method name="onRender"><![CDATA[new render]]></method>
+                <property name="showDetailFilter">true</property>
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>

@@ -3052,6 +3052,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IImageItemModel.SCALE_PROP );
 		property( obj, IImageItemModel.SOURCE_PROP );
 		property( obj, IImageItemModel.FIT_TO_CONTAINER_PROP );
+		property( obj, IImageItemModel.PROPORTIONAL_SCALE_PROP );
 
 		String source = (String) obj.getLocalProperty( getModule( ),
 				IImageItemModel.SOURCE_PROP );
@@ -3508,6 +3509,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 
 		property( obj, IGroupElementModel.ACL_EXPRESSION_PROP );
 		property( obj, IGroupElementModel.CASCADE_ACL_PROP );
+		property( obj, IGroupElementModel.SHOW_DETAIL_FILTER_PROP );
 
 		// write user property definitions and values
 

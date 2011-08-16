@@ -174,7 +174,7 @@ public interface IGroupElementModel
 	 * element is prepared for rendering in the Presentation engine.
 	 */
 	public static final String ON_RENDER_METHOD = "onRender"; //$NON-NLS-1$
-	
+
 	/**
 	 * A Boolean property set on report elements that can act as container to
 	 * other report elements. If set to true (the default), a report element's
@@ -192,5 +192,11 @@ public interface IGroupElementModel
 	 */
 
 	public static final String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property which indicates whether to show the detail filter or
+	 * not.
+	 */
+	public static final String SHOW_DETAIL_FILTER_PROP = "showDetailFilter"; //$NON-NLS-1$
 
 }

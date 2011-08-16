@@ -99,4 +99,9 @@ public interface IImageItemModel
 	 */
 	public static final String FIT_TO_CONTAINER_PROP = "fitToContainer"; //$NON-NLS-1$
 
+	/**
+	 * Name of the property which indicates whether the image scales
+	 * proportionally or not.
+	 */
+	public static final String PROPORTIONAL_SCALE_PROP = "proportionalScale"; //$NON-NLS-1$
 }

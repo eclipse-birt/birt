@@ -64,6 +64,7 @@
                 <method name="onPrepare"><![CDATA[prepare]]></method>
                 <method name="onRender"><![CDATA[render]]></method>
                 <method name="onPageBreak"><![CDATA[page break]]></method>
+                <property name="showDetailFilter">false</property>
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>

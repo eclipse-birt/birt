@@ -2962,6 +2962,7 @@
 	<Property displayNameID="Element.ListingGroup.cascadeACL" name="cascadeACL" since="2.3" type="boolean" >
 		<Default>true</Default>
 	</Property>
+	<Property displayNameID="Element.ListingGroup.showDetailFilter" name="showDetailFilter" since="2.6.3" type="boolean" />
 	<Property displayNameID="Element.ListingGroup.ACLExpression" name="ACLExpression" since="2.3" type="expression" />	    
     <PropertyVisibility name="viewAction" visibility="hide"/>
     <PropertyVisibility name="cascadeACL" visibility="hide"/>
@@ -3369,6 +3370,9 @@
     <Property displayNameID="Element.Image.typeExpr" name="typeExpr" returnType="string" runtimeSettable="false" since="2.0" type="expression"/>
     <Property detailType="Action" displayNameID="Element.Image.action" isList="true" name="action" runtimeSettable="false" since="1.0" type="structure"/>
 	<Property displayNameID="Element.Image.fitToContainer" name="fitToContainer" runtimeSettable="true" since="2.5" type="boolean">
+		<Default>false</Default>
+	</Property>
+	<Property displayNameID="Element.Image.proportionalScale" name="proportionalScale" runtimeSettable="true" since="2.6.3" type="boolean">
 		<Default>false</Default>
 	</Property>
 	<Method context="startup" displayNameID="Element.Image.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.Image.onPrepare.toolTip">

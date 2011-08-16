@@ -777,4 +777,28 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 		setURIProperty( expr, DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
 	}
 
+	/**
+	 * Gets the flag which indicates whether the image scales proportionally or
+	 * not.
+	 *
+	 * @return true if the image scale proportionally, othewise false
+	 */
+	public boolean isProportionalScale( )
+	{
+		return getBooleanProperty( PROPORTIONAL_SCALE_PROP );
+	}
+
+	/**
+	 * Sets the flag which indicates whether the image scales proportionally or
+	 * not.
+	 *
+	 * @param proportionalScale
+	 *            the new flag to set
+	 * @throws SemanticException
+	 */
+	public void setProportionalScale( boolean proportionalScale ) throws SemanticException
+	{
+		setBooleanProperty( PROPORTIONAL_SCALE_PROP, proportionalScale );
+	}
+
 }

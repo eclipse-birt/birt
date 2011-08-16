@@ -41,6 +41,7 @@
                     <property name="size">scale-to-item</property>
                     <property name="scale">0.8</property>
                     <property name="source">url</property>
+                    <property name="proportionalScale">false</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText" key="help">Help Test For Image Item</text-property>
                     <list-property name="action">

@@ -44,6 +44,7 @@
                     <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText" key="help">Help Test For Image Item</text-property>
+                    <property name="proportionalScale">true</property>
                     <structure name="action">
                         <expression name="hyperlink">http://localhost:8080/bluehero</expression>
                     </structure>
