@@ -3247,93 +3247,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					// If it is under multiple view and the selected series expression
 					// is a computed expression, we need update category and
 					// optional Y expressions list for user to select.
-					try
-					{
-						CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) this.itemHandle.getContainer( )
-								.getContainer( ) ).getReportItem( );
-						List<ComputedColumnHandle> rowChildren = new ArrayList<ComputedColumnHandle>( );
-						List<ComputedColumnHandle> colChildren = new ArrayList<ComputedColumnHandle>( );
-						for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
-						{
-							DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
-									i );
-							ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
-									dimensionHandle.getCubeDimensionName( ),
-									dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 ).getCubeLevel( ).getName( ),
-									bindingMap.values( ) );
-							rowChildren.add( cch );
-						}
-						if ( rowChildren.size( ) > 0 )
-						{
-							// If the existent category expression is legal,
-							// then don't set category expression again.
-							boolean needUpdate = true;
-							for ( ComputedColumnHandle cch : bindingMap.values( ) )
-							{
-								Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
-										.get( 0 )
-										.getDesignTimeSeries( )
-										.getDataDefinition( )
-										.get( 0 );
-								exprCodec.setBindingName( cch.getName( ),
-										true,
-										exprType );
-								if ( exprCodec.encode( )
-										.equals( query.getDefinition( ) ) )
-								{
-									needUpdate = false;
-									break;
-								}
-							}
-							if ( needUpdate )
-							{
-								setCategoryExpression( exprType,
-										rowChildren.get( 0 ) );
-							}
-						}
-
-						for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
-						{
-							DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
-									i );
-							ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
-									dimensionHandle.getCubeDimensionName( ),
-									dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 ).getCubeLevel( ).getName( ),
-									bindingMap.values( ) );
-							colChildren.add( cch );
-						}
-
-						if ( rowChildren.size( ) > 0 )
-						{
-							// If the existent optional Y expression is legal,
-							// then don't set it again.
-							boolean needUpdate = true;
-							for ( ComputedColumnHandle cch : bindingMap.values( ) )
-							{
-								Query query = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
-										.get( 0 )
-										.getQuery( );
-								exprCodec.setBindingName( cch.getName( ),
-										true,
-										exprType );
-								if ( exprCodec.encode( )
-										.equals( query.getDefinition( ) ) )
-								{
-									needUpdate = false;
-									break;
-								}
-							}
-							if ( needUpdate )
-							{
-								isUpdated = setOptionalYExpression( exprType,
-										colChildren.get( 0 ) );
-							}
-						}
-					}
-					catch ( ExtendedElementException e )
-					{
-						// Don't do nothing.
-					}
+					isUpdated = updateExpressionForChartView( exprType,
+							bindingMap );
 				}
 				else
 				{
@@ -3400,6 +3315,124 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			isUpdated = updateCubeBindings( );
 		}
 		return isUpdated;
+	}
+
+	private boolean updateExpressionForChartView( String exprType, Map<String, ComputedColumnHandle> bindingMap )
+	{
+		boolean isUpdated = false;
+		try
+		{
+			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) this.itemHandle.getContainer( )
+					.getContainer( ) ).getReportItem( );
+			List<ComputedColumnHandle> rowChildren = new ArrayList<ComputedColumnHandle>( );
+			for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
+			{
+				DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
+						i );
+				ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+						dimensionHandle.getCubeDimensionName( ),
+						dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 ).getCubeLevel( ).getName( ),
+						bindingMap.values( ) );
+				rowChildren.add( cch );
+			}
+			if ( rowChildren.size( ) > 0 )
+			{
+				// If the existent category expression is legal,
+				// then don't set category expression again.
+				Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+						.get( 0 )
+						.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 );
+				String expr = query.getDefinition( );
+				boolean needUpdate = !isExistentBinding( expr, bindingMap,
+						exprType );
+				if ( needUpdate )
+				{
+					setCategoryExpression( exprType,
+							rowChildren.get( 0 ) );
+				}
+			}
+
+			List<ComputedColumnHandle> colChildren = new ArrayList<ComputedColumnHandle>( );
+			for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
+			{
+				DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
+						i );
+				ComputedColumnHandle cch = ChartCubeUtil.findDimensionBinding( exprCodec,
+						dimensionHandle.getCubeDimensionName( ),
+						dimensionHandle.getLevel( dimensionHandle.getLevelCount( ) - 1 ).getCubeLevel( ).getName( ),
+						bindingMap.values( ) );
+				colChildren.add( cch );
+			}
+			if ( colChildren.size( ) > 0 )
+			{
+				// If row children list is empty, it means related
+				// crosstab has no row, just use column expression
+				// to set category expression of chart.
+				if ( rowChildren.size( ) == 0 )
+				{
+					// If the existent category expression is legal,
+					// then don't set category expression again.
+					Query query = ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+							.get( 0 )
+							.getDesignTimeSeries( )
+							.getDataDefinition( )
+							.get( 0 );
+					String expr = query.getDefinition( );
+					boolean needUpdate = !isExistentBinding( expr, bindingMap,
+							exprType );
+					if ( needUpdate )
+					{
+						setCategoryExpression( exprType,
+								colChildren.get( 0 ) );
+					}
+				}
+				else
+				{
+					// If the existent optional Y expression is
+					// legal, then don't set it again.
+					Query query = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+							.get( 0 )
+							.getQuery( );
+					String expr = query.getDefinition( );
+					boolean needUpdate = !isExistentBinding( expr, bindingMap,
+							exprType );
+					if ( needUpdate )
+					{
+						isUpdated = setOptionalYExpression( exprType,
+								colChildren.get( 0 ) );
+					}
+				}
+			}
+		}
+		catch ( ExtendedElementException e )
+		{
+			// Don't do nothing.
+		}
+		return isUpdated;
+	}
+
+	private boolean isExistentBinding(String expr,
+			Map<String, ComputedColumnHandle> bindingMap, String exprType )
+	{
+		if ( expr == null || "".equals( expr) )
+		{
+			return false;
+		}
+		boolean isExistent = false;
+		for ( ComputedColumnHandle cch : bindingMap.values( ) )
+		{
+			exprCodec.setBindingName( cch.getName( ),
+					true,
+					exprType );
+			if ( expr.indexOf( exprCodec.encode( ) ) >= 0 )
+			{
+				isExistent = true;
+				break;
+			}
+		}
+		return isExistent;
 	}
 
 	private boolean setOptionalYExpression( String exprType, ComputedColumnHandle cch )
