@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.helper.DriverExtensionHelper;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -49,6 +50,7 @@ import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSess
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * A Utility Class to handle procedures needed to be done <br>
@@ -408,7 +410,7 @@ public class DTPUtil
 	 */
 	public URI getBIRTResourcePath( )
 	{
-		if ( UIUtil.getCurrentProject( ) == null )
+		if ( getCurrentProject( ) == null )
 		{
 			try
 			{
@@ -426,13 +428,44 @@ public class DTPUtil
 		try
 		{
 			return new URI( encode( ReportPlugin.getDefault( )
-					.getResourceFolder( UIUtil.getCurrentProject( ),
+					.getResourceFolder( getCurrentProject( ),
 							(ModuleHandle) null ) ) );
 		}
 		catch ( URISyntaxException e )
 		{
 			return null;
 		}
+	}
+
+	/**
+	 * Guarantee getting current project within the scope of UI thread.
+	 *
+	 * @return Reference to IProject
+	 */
+	private IProject getCurrentProject( )
+	{
+		final IProject[] project = new IProject[1];
+		Display display = Display.getCurrent( );
+		if ( display == null )
+		{
+			display = Display.getDefault( );
+		}
+
+		if ( display.getThread( ).equals( Thread.currentThread( ) ) )
+		{
+			project[0] = UIUtil.getCurrentProject( );
+		}
+		else
+		{
+			display.syncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					project[0] = UIUtil.getCurrentProject( );
+				}
+			} );
+		}
+		return project[0];
 	}
     
 	private String encode( String location )
