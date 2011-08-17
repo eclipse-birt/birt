@@ -5,7 +5,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ExpressionPropertyDescriptor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
@@ -33,29 +32,30 @@ public class ExpressionSection extends Section
 
 	}
 
-
-	
 	protected Label getLabelControl( Composite parent )
 	{
-		Label label = super.getLabelControl(parent);
-		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 2;
-		label.setLayoutData(gd);
-		
+		Label label = super.getLabelControl( parent );
+		if ( multi )
+		{
+			GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING
+					| GridData.VERTICAL_ALIGN_BEGINNING );
+			gd.horizontalSpan = 2;
+			label.setLayoutData( gd );
+		}
 		return label;
 	}
+
 	protected ExpressionPropertyDescriptor getExpressionControl(
 			Composite parent )
 	{
 		if ( expression == null )
 		{
 			expression = DescriptorToolkit.createExpressionPropertyDescriptor( true );
+			expression.setMulti( multi );
 			if ( getProvider( ) != null )
 				expression.setDescriptorProvider( getProvider( ) );
 			expression.createControl( parent );
-			GridData gd =  new GridData( );
-			gd.horizontalSpan = 2;
-			expression.getControl( ).setLayoutData( gd );
+			expression.getControl( ).setLayoutData( new GridData( ) );
 			expression.getControl( )
 					.addDisposeListener( new DisposeListener( ) {
 
@@ -64,8 +64,8 @@ public class ExpressionSection extends Section
 							expression = null;
 						}
 					} );
-//			if ( buttonText != null )
-//				expression.setButtonText( buttonText );
+			// if ( buttonText != null )
+			// expression.setButtonText( buttonText );
 		}
 		else
 		{
@@ -86,9 +86,9 @@ public class ExpressionSection extends Section
 			gd.horizontalSpan = getLayoutNum( ) - 1 - placeholder;
 		else if ( ( (GridLayout) parent.getLayout( ) ).numColumns > -1
 				- placeholder )
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns					
+			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
 					- placeholder;
-		gd.horizontalAlignment = SWT.FILL;
+		//gd.horizontalAlignment = SWT.FILL;
 		if ( width > -1 )
 		{
 			gd.widthHint = width;
@@ -96,14 +96,17 @@ public class ExpressionSection extends Section
 		}
 		else
 			gd.grabExcessHorizontalSpace = fillColor;
-		gd.grabExcessVerticalSpace = true;
-		gd.verticalAlignment = GridData.FILL;
-
+		if ( multi )
+		{
+			gd.grabExcessVerticalSpace = true;
+			gd.verticalAlignment = GridData.FILL;
+		}
 	}
 
 	public void load( )
 	{
-		if(expression!=null && !expression.getControl( ).isDisposed( ))expression.load( );
+		if ( expression != null && !expression.getControl( ).isDisposed( ) )
+			expression.load( );
 
 	}
 
@@ -149,6 +152,18 @@ public class ExpressionSection extends Section
 	public void setFillColor( boolean fillColor )
 	{
 		this.fillColor = fillColor;
+	}
+
+	boolean multi = true;
+
+	public boolean isMulti( )
+	{
+		return multi;
+	}
+
+	public void setMulti( boolean multi )
+	{
+		this.multi = multi;
 	}
 
 	public void setHidden( boolean isHidden )

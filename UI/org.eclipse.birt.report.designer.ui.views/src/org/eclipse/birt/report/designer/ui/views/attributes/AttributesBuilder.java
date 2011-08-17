@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
@@ -271,6 +272,10 @@ public class AttributesBuilder
 		else if ( DataSourceHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.DataSourceHandle" ); //$NON-NLS-1$			
+		}
+		else if ( VariableElementHandle.class.isAssignableFrom( type ) )
+		{
+			typeInfo = Messages.getString( "AttributesBuilder.Label.VariableElementHandle" ); //$NON-NLS-1$
 		}
 		else if ( DataSetHandle.class.isAssignableFrom( type ) )
 		{

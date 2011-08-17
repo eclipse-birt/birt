@@ -332,4 +332,10 @@ public class PageSectionId
 
 	public static final String WODR_WRAP = "WODR_WRAP";//$NON-NLS-1$
 
+	public static final String VARIABLE_NAME = "VARIABLE_NAME";//$NON-NLS-1$
+
+	public static final String VARIABLE_TYPE = "VARIABLE_TYPE";//$NON-NLS-1$
+
+	public static final String VARIABLE_VALUE = "VARIABLE_VALUE";//$NON-NLS-1$
+
 }

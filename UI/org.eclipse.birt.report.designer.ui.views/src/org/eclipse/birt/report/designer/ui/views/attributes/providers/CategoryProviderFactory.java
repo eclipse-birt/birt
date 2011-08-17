@@ -64,6 +64,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Templa
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TextI18nPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TextPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPropertiesPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VariablePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.CategoryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -72,6 +73,7 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**
@@ -1047,7 +1049,21 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 							AdvancePropertyPage.class,
 					} );
 		}
-
+		if ( handle instanceof VariableElementHandle )
+		{
+			return new CategoryHolder( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_ADVANCEPROPERTY,
+			},
+					new String[]{
+							Messages.getString( "ReportPageGenerator.List.General" ), //$NON-NLS-1$
+							Messages.getString( "ReportPageGenerator.List.AdvancedProperty" ), //$NON-NLS-1$
+					},
+					new Class[]{
+							VariablePage.class,
+							AdvancePropertyPage.class,
+					} );
+		}
 		return getCategories( handle.getDefn( ).getName( ) );
 	}
 

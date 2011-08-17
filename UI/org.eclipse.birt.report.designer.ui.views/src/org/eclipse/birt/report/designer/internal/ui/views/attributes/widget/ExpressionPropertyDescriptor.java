@@ -51,6 +51,8 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 
 	private ExpressionButton exprButton;
 
+	private boolean multi = true;
+
 	/**
 	 * The constructor.
 	 */
@@ -68,6 +70,16 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	{
 		this.input = handle;
 		getDescriptorProvider( ).setInput( input );
+	}
+
+	public boolean isMulti( )
+	{
+		return multi;
+	}
+
+	public void setMulti( boolean multi)
+	{
+		this.multi = multi;
 	}
 
 	/**
@@ -137,21 +149,38 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	 */
 	public Control createControl( Composite parent )
 	{
-		containerPane = new Composite( parent, SWT.NONE );
+		containerPane = FormWidgetFactory.getInstance( ).createComposite( parent );
 
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
+		if(!multi){
+			layout.marginWidth = layout.marginHeight = 2;
+		}
 		containerPane.setLayout( layout );
-		if ( isFormStyle( ) )
-			text = FormWidgetFactory.getInstance( ).createText( containerPane,
-					"", SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL ); //$NON-NLS-1$
+		if ( multi )
+		{
+			if ( isFormStyle( ) )
+				text = FormWidgetFactory.getInstance( )
+						.createText( containerPane,
+								"", SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL ); //$NON-NLS-1$
+			else
+				text = new Text( containerPane, SWT.MULTI
+						| SWT.WRAP
+						| SWT.BORDER
+						| SWT.H_SCROLL
+						| SWT.V_SCROLL );
+			text.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
 		else
-			text = new Text( containerPane, SWT.MULTI
-					| SWT.WRAP
-					| SWT.BORDER
-					| SWT.H_SCROLL
-					| SWT.V_SCROLL );
-		text.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		{
+			if ( isFormStyle( ) )
+				text = FormWidgetFactory.getInstance( )
+						.createText( containerPane, "", SWT.SINGLE ); //$NON-NLS-1$
+			else
+				text = new Text( containerPane, SWT.SINGLE
+						| SWT.BORDER);
+			text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL) );
+		}
 		// text.addSelectionListener( new SelectionAdapter( ) {
 		//
 		// public void widgetDefaultSelected( SelectionEvent e )

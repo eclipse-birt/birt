@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.GroupElementFactory;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public class ExpressionPropertyDescriptorProvider extends
 		PropertyDescriptorProvider
@@ -58,7 +57,7 @@ public class ExpressionPropertyDescriptorProvider extends
 	{
 		if ( DEUtil.getInputElements( input ).size( ) > 0 )
 		{
-			ReportElementHandle handle = (ReportElementHandle) DEUtil.getInputFirstElement( input );
+			DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement( input );
 			GroupPropertyHandle propertyHandle = GroupElementFactory.newGroupElement( handle.getModuleHandle( ),
 					DEUtil.getInputElements( input ) )
 					.getPropertyHandle( getProperty( ) );
