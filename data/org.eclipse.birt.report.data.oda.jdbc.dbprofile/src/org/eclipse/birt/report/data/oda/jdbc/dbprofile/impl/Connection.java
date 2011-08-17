@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2008, 2010 Actuate Corporation.
+ * Copyright (c) 2008, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,8 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +24,12 @@ import org.eclipse.birt.report.data.oda.jdbc.dbprofile.nls.Messages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.IManagedConnection;
+import org.eclipse.datatools.connectivity.drivers.IDriverMgmtConstants;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider;
+import org.eclipse.datatools.connectivity.oda.consumer.services.impl.ProviderUtil;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.datatools.connectivity.oda.profile.internal.OdaConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.profile.internal.OdaProfileFactory;
@@ -144,6 +149,9 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
     public static IConnectionProfile loadProfileFromProperties( Properties connProperties ) 
         throws OdaException
     {
+        // adjust the effective db profile properties to use for loading a profile
+        connProperties = adjustDbProfileProperties( connProperties );
+
         // find and load the db profile defined in connection properties;
         // note: driver class path specified in appContext, if exists, is not relevant
         // when connecting with the properties defined in a connection profile instance
@@ -165,7 +173,27 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         
         return OdaProfileFactory.createTransientProfile( profileProps );
     }
-    
+
+    private static Properties adjustDbProfileProperties( Properties dataSourceProperties )
+            throws OdaException
+        {
+            // first adapts to db profile properties
+            Properties dbProfileProps = PropertyAdapter.adaptToDbProfilePropertyNames( dataSourceProperties );
+
+            // use the oda.consumer.propertyProvider extension implemented for the profile's definition type,
+            // to get the effective properties to open a connection
+            String defnType = dbProfileProps.getProperty( IDriverMgmtConstants.PROP_DEFN_TYPE );
+            Map<String,String> appContext = new HashMap<String, String>();
+            appContext.put( IPropertyProvider.ODA_CONSUMER_ID, defnType );
+
+            Properties adjustedDbProfileProps = ProviderUtil.getEffectiveProperties( dbProfileProps, appContext );
+            if( dbProfileProps.equals( adjustedDbProfileProps ) )
+                return dataSourceProperties;    // no adjustment is applicable
+
+            // adapt adjusted db profile properties back to data source properties
+            return PropertyAdapter.adaptToDataSourcePropertyNames( adjustedDbProfileProps );
+        }
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */

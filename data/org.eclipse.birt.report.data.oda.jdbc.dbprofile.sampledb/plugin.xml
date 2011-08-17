@@ -65,6 +65,7 @@
          </properties>
       </driverTemplate>
    </extension>
+
    <extension
          point="org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider">
       <connection
@@ -78,6 +79,14 @@
                value="jdbc:derby:Plugin_State_Location/db/BirtSample">
          </property>
       </connection>
+   </extension>
+
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.consumer.propertyProvider">
+      <dataSourcePropertyService
+            consumerApplicationId="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate"
+            providerClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbPropertyProvider">
+      </dataSourcePropertyService>
    </extension>
 
 </plugin>

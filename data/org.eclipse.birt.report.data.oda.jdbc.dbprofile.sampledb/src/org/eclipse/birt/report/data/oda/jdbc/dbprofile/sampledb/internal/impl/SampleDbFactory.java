@@ -58,6 +58,12 @@ public class SampleDbFactory implements IExecutableExtension
     private static final String SAMPLEDB_DRIVER_DEFN_RESOURCE_KEY = 
         DRIVER_DEFN_NAME_KEY + " " + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME; //$NON-NLS-1$
 
+    static final String SAMPLEDB_DRIVER_DEFN_ID =
+            "DriverDefn." + PLUGIN_ID + ".driverTemplate." + SAMPLEDB_DRIVER_DEFN_DEFAULT_NAME; //$NON-NLS-1$ //$NON-NLS-2$
+    static final String SAMPLEDB_URL_RELATIVE_SUFFIX = PLUGIN_ID + PATH_SEPARATOR +
+                SAMPLE_DB_HOME_SUBDIR + PATH_SEPARATOR + SAMPLE_DB_NAME;
+    static final String SAMPLEDB_DEFAULT_PROFILE_NAME = "BIRT Classic Models Sample Database"; //$NON-NLS-1$
+
     /* (non-Javadoc)
      * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
      */
@@ -72,7 +78,7 @@ public class SampleDbFactory implements IExecutableExtension
             
             // remove the sampledb driver instance if its jar path is obsolete, so 
             // a new driver instance with the correct jarList will get created automatically 
-            // by DTP profile manager
+            // by DTP profile manager as part of processing this ProfileManagerInitializationProvider extension
             removeObsoleteDriverDefinition();   
         }
         catch( RuntimeException ex )
