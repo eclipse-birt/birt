@@ -16,31 +16,27 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.api.TOCStyle;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfOutline;
 
 public class TOCHandler
 {
+
 	/**
 	 * The TOC node list.
 	 */
-	private TOCNode root;
+	protected TOCNode root;
 	/**
 	 * The Pdf outline.
 	 */
-	private PdfOutline outline;
+	protected PdfOutline outline;
 	/**
 	 * All bookMarks created during PDF rendering.
 	 */
-	private Set bookmarks;
+	protected Set<String> bookmarks;
 	/**
 	 * The counter to indicate how many pdf outline has been created.
 	 */
@@ -48,54 +44,61 @@ public class TOCHandler
 	/**
 	 * The max number of pdf outline.
 	 */
-	private static final long MAX_COUNT = 70000l; 
-	
+	private static final long MAX_COUNT = 70000l;
+
 	/**
 	 * The constructor.
-	 * @param root 			The TOC node in which need to build PDF outline 
+	 *
+	 * @param root
+	 *            The TOC node in which need to build PDF outline
 	 */
-	public TOCHandler (TOCNode root, PdfOutline outline, Set bookmarks)
+	public TOCHandler( TOCNode root, PdfOutline outline, Set<String> bookmarks )
 	{
 		this.root = root;
 		this.outline = outline;
 		this.bookmarks = bookmarks;
 	}
-	
+
 	/**
-	 * @deprecated
-	 * get the root of the TOC tree.
-	 * @return				The TOC root node
+	 * @deprecated get the root of the TOC tree.
+	 * @return The TOC root node
 	 */
-	public TOCNode getTOCRoot()
+	public TOCNode getTOCRoot( )
 	{
 		return this.root;
 	}
-	
-	public void createTOC()
+
+	public void createTOC( )
 	{
-		createTOC(root, outline, bookmarks);
+		createTOC( root, outline, bookmarks );
 	}
-	
+
 	/**
-	 * create a PDF outline for tocNode, using the pol as the parent PDF outline.
-	 * @param tocNode		The tocNode whose kids need to build a PDF outline tree
-	 * @param pol			The parent PDF outline for these kids
-	 * @param bookmarks		All bookMarks created during rendering
+	 * create a PDF outline for tocNode, using the pol as the parent PDF
+	 * outline.
+	 *
+	 * @param tocNode
+	 *            The tocNode whose kids need to build a PDF outline tree
+	 * @param pol
+	 *            The parent PDF outline for these kids
+	 * @param bookmarks
+	 *            All bookMarks created during rendering
 	 */
-	private void createTOC(TOCNode tocNode, PdfOutline pol, Set bookmarks)
+	protected void createTOC( TOCNode tocNode, PdfOutline pol,
+			Set<String> bookmarks )
 	{
-		if ( counter > MAX_COUNT )
+		if ( isOutlineSizeOverflow( ) )
 			return;
-		if (null == tocNode || null == tocNode.getChildren())
+		if ( null == tocNode || null == tocNode.getChildren( ) )
 			return;
-		for (Iterator i = tocNode.getChildren().iterator(); i.hasNext();)
+		for ( Iterator i = tocNode.getChildren( ).iterator( ); i.hasNext( ); )
 		{
 			TOCNode node = (TOCNode) i.next( );
 			if ( !bookmarks.contains( node.getBookmark( ) ) )
 				continue;
 			PdfOutline outline = new PdfOutline( pol, PdfAction.gotoLocalPage(
 					node.getBookmark( ), false ), node.getDisplayString( ) );
-			counter++;
+			countOutlineSize( node.getBookmark( ).length( ) );
 			IScriptStyle style = node.getTOCStyle( );
 			String color = style.getColor( );
 			Color awtColor = PropertyUtil.getColor( color );
@@ -110,5 +113,14 @@ public class TOCHandler
 			createTOC( node, outline, bookmarks );
 		}
 	}
+
+	protected boolean isOutlineSizeOverflow( )
+	{
+		return counter > MAX_COUNT;
+	}
+
+	protected void countOutlineSize( long size )
+	{
+		counter++;
+	}
 }
-	

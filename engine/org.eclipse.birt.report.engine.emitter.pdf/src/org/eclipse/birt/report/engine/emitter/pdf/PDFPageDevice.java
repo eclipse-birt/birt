@@ -33,47 +33,50 @@ import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
-
 public class PDFPageDevice implements IPageDevice
 {
+
 	/**
 	 * The pdf Document object created by iText
 	 */
-	private Document doc = null;
+	protected Document doc = null;
 
 	/**
 	 * The Pdf Writer
 	 */
-	private PdfWriter writer = null;
-	
-	private IReportContext context;
-	
-	private IReportContent report;
-	
-	private static Logger logger = Logger.getLogger( PDFPageDevice.class.getName( ) );
+	protected PdfWriter writer = null;
 
-	private PDFPage currentPage = null;
-	
-	private HashMap<Float, PdfTemplate> templateMap = new HashMap<Float, PdfTemplate>();
-	
-	private HashMap<String, PdfTemplate> imageCache = new HashMap<String, PdfTemplate>( );
-	
+	protected IReportContext context;
+
+	protected IReportContent report;
+
+	protected static Logger logger = Logger.getLogger( PDFPageDevice.class
+			.getName( ) );
+
+	protected PDFPage currentPage = null;
+
+	protected HashMap<Float, PdfTemplate> templateMap = new HashMap<Float, PdfTemplate>( );
+
+	protected HashMap<String, PdfTemplate> imageCache = new HashMap<String, PdfTemplate>( );
+
 	/**
 	 * the iText and Birt engine version info.
 	 */
-	private static String[] versionInfo = new String[]{
+	protected static String[] versionInfo = new String[]{
 			BundleVersionUtil
 					.getBundleVersion( "org.eclipse.birt.report.engine" ),
 			BundleVersionUtil.getBundleVersion( "com.lowagie.itext" )};
-	
-	final static int MAX_PAGE_WIDTH = 14400000; //200 inch
-	final static int MAX_PAGE_HEIGHT = 14400000; //200 inch
 
-	public PDFPageDevice( OutputStream output, String title, String author, String subject, 
-			String description, IReportContext context, IReportContent report )
+	protected final static int MAX_PAGE_WIDTH = 14400000; // 200 inch
+	protected final static int MAX_PAGE_HEIGHT = 14400000; // 200 inch
+
+	public PDFPageDevice( OutputStream output, String title, String author,
+			String subject, String description, IReportContext context,
+			IReportContent report )
 	{
 		this.context = context;
 		this.report = report;
@@ -102,37 +105,38 @@ public class PDFPageDevice implements IPageDevice
 			if ( null != subject )
 			{
 				doc.addSubject( subject );
-				doc.addKeywords( subject );	
+				doc.addKeywords( subject );
 			}
 			if ( description != null )
 			{
 				doc.addHeader( "Description", description );
 			}
 		}
-		catch( DocumentException de )
+		catch ( DocumentException de )
 		{
 			logger.log( Level.SEVERE, de.getMessage( ), de );
 		}
 	}
-	
+
 	/**
 	 * constructor for test
+	 *
 	 * @param output
 	 */
 	public PDFPageDevice( OutputStream output )
 	{
-		doc = new Document();
+		doc = new Document( );
 		try
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
 					output ) );
 		}
-		catch( DocumentException de )
+		catch ( DocumentException de )
 		{
 			logger.log( Level.SEVERE, de.getMessage( ), de );
 		}
 	}
-	
+
 	public void setPDFTemplate( Float scale, PdfTemplate totalPageTemplate )
 	{
 		templateMap.put( scale, totalPageTemplate );
@@ -152,18 +156,23 @@ public class PDFPageDevice implements IPageDevice
 	{
 		return templateMap.containsKey( scale );
 	}
-		
+
 	public HashMap<String, PdfTemplate> getImageCache( )
 	{
 		return imageCache;
 	}
-	
+
 	public void close( ) throws Exception
 	{
-		writer.setPageEmpty( false );
-		if(doc.isOpen( ))
+		if ( !doc.isOpen( ) )
 		{
-			doc.close();
+			// to ensure we create a PDF file
+			doc.open( );
+		}
+		writer.setPageEmpty( false );
+		if ( doc.isOpen( ) )
+		{
+			doc.close( );
 		}
 	}
 
@@ -171,13 +180,24 @@ public class PDFPageDevice implements IPageDevice
 	{
 		int w = Math.min( width, MAX_PAGE_WIDTH );
 		int h = Math.min( height, MAX_PAGE_HEIGHT );
-		currentPage = new PDFPage( w, h, doc, writer, this );
+		currentPage = createPDFPage( w, h );
 		currentPage.drawBackgroundColor( backgroundColor, 0, 0, w, h );
 		return currentPage;
 	}
-	
-	public void createTOC( Set bookmarks )
+
+	protected PDFPage createPDFPage( int pageWidth, int pageHeight )
 	{
+		return new PDFPage( pageWidth, pageHeight, doc, writer, this );
+	}
+
+	public void createTOC( Set<String> bookmarks )
+	{
+		// we needn't create the TOC if there is no page in the PDF file.
+		// the doc is opened only if the user invokes newPage.
+		if ( !doc.isOpen( ) )
+		{
+			return;
+		}
 		if ( bookmarks.isEmpty( ) )
 		{
 			writer.setViewerPreferences( PdfWriter.PageModeUseNone );
@@ -215,5 +235,11 @@ public class PDFPageDevice implements IPageDevice
 				tocHandler.createTOC( );
 			}
 		}
+	}
+
+	protected TOCHandler createTOCHandler( TOCNode root, PdfOutline outline,
+			Set<String> bookmarks )
+	{
+		return new TOCHandler( root, outline, bookmarks );
 	}
 }

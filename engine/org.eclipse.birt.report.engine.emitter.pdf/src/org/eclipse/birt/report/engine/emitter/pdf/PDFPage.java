@@ -59,19 +59,20 @@ public class PDFPage extends AbstractPage
 	/**
 	 * The PDF Writer
 	 */
-	private PdfWriter writer = null;
+	protected PdfWriter writer = null;
 
 	/**
 	 * ContentByte layer for PDF
 	 */
-	private PdfContentByte contentByte = null;
+	protected PdfContentByte contentByte = null;
 
-	private static Logger logger = Logger.getLogger( PDFPage.class.getName( ) );
+	protected static Logger logger = Logger
+			.getLogger( PDFPage.class.getName( ) );
 
-	private float containerHeight;
-	
-	private PDFPageDevice pageDevice;
-	
+	protected float containerHeight;
+
+	protected PDFPageDevice pageDevice;
+
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
 	{
@@ -128,7 +129,7 @@ public class PDFPage extends AbstractPage
 
 	protected void drawBackgroundImage( float x, float y, float width,
 			float height, float iWidth, float iHeight, int repeat,
-			String imageUrl, byte[] imageData, float absPosX, float absPosY ) throws IOException
+			String imageUrl, byte[] imageData, float absPosX, float absPosY )
 	{
 		y = transformY( y );
 		contentByte.saveState( );
@@ -157,14 +158,16 @@ public class PDFPage extends AbstractPage
 				float tplOriginX = triple.getTplOrigin( );
 				float tplWidth = triple.getTplSize( );
 				float translationX = triple.getTranslation( );
-				triple = computeTplVerticalValTriple( absPosY, y, height, imageHeight );
+				triple = computeTplVerticalValTriple( absPosY, y, height,
+						imageHeight );
 				float tplOrininY = triple.getTplOrigin( );
 				float tplHeight = triple.getTplSize( );
 				float translationY = triple.getTranslation( );
 
-				PdfTemplate templateWhole = contentByte.createTemplate( tplWidth,
-						tplHeight );
-				templateWhole.addImage( img, imageWidth, 0, 0, imageHeight, translationX, translationY );
+				PdfTemplate templateWhole = contentByte.createTemplate(
+						tplWidth, tplHeight );
+				templateWhole.addImage( img, imageWidth, 0, 0, imageHeight,
+						translationX, translationY );
 				contentByte.addTemplate( templateWhole, tplOriginX, tplOrininY );
 
 			}
@@ -174,7 +177,7 @@ public class PDFPage extends AbstractPage
 				float remainX = width;
 				PdfTemplate template = null;
 				// If the width of the container is smaller than the scaled
-				// image width, the repeat will never happen. So it is not 
+				// image width, the repeat will never happen. So it is not
 				// necessary to build a template for further usage.
 				if ( width > imageWidth )
 				{
@@ -182,14 +185,15 @@ public class PDFPage extends AbstractPage
 					{
 						template = contentByte.createTemplate( imageWidth,
 								imageHeight );
-						template.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
+						template.addImage( img, imageWidth, 0, 0, imageHeight,
+								0, 0 );
 					}
 					else
 					{
 						template = contentByte.createTemplate( imageWidth,
 								height );
-						template.addImage( img, imageWidth, 0, 0, imageHeight, 0, -imageHeight
-								+ height );
+						template.addImage( img, imageWidth, 0, 0, imageHeight,
+								0, -imageHeight + height );
 					}
 				}
 				while ( remainX > 0 )
@@ -203,30 +207,29 @@ public class PDFPage extends AbstractPage
 									remainX, imageHeight );
 							templateX.addImage( img, imageWidth, 0, 0,
 									imageHeight, 0, 0 );
-							contentByte.addTemplate( templateX,
-									x + width - remainX, y - absPosY
-											- imageHeight );
+							contentByte.addTemplate( templateX, x + width
+									- remainX, y - absPosY - imageHeight );
 						}
 						else
 						{
 							PdfTemplate templateX = contentByte.createTemplate(
 									remainX, height );
 							templateX.addImage( img, imageWidth, 0, 0,
-									imageHeight, 0, -imageHeight
-											+ height - absPosY );
-							contentByte.addTemplate( templateX,
-									x + width - remainX, y - absPosY - height );
+									imageHeight, 0, -imageHeight + height
+											- absPosY );
+							contentByte.addTemplate( templateX, x + width
+									- remainX, y - absPosY - height );
 						}
 						remainX = 0;
 					}
 					else
 					{
 						if ( height - absPosY > imageHeight )
-							contentByte.addTemplate( template, x + width - remainX,
-									y - absPosY - imageHeight );
+							contentByte.addTemplate( template, x + width
+									- remainX, y - absPosY - imageHeight );
 						else
-							contentByte.addTemplate( template, x + width - remainX,
-									y - absPosY - height );
+							contentByte.addTemplate( template, x + width
+									- remainX, y - absPosY - height );
 						remainX -= imageWidth;
 					}
 				}
@@ -236,50 +239,53 @@ public class PDFPage extends AbstractPage
 			{
 				float remainY = height;
 				// If the height of the container is smaller than the scaled
-				// image height, the repeat will never happen. So it is not 
+				// image height, the repeat will never happen. So it is not
 				// necessary to build a template for further usage.
 				PdfTemplate template = null;
 				if ( height > imageHeight )
 				{
-					template = contentByte.createTemplate( width - absPosX > imageWidth ? imageWidth : width
-							- absPosX, imageHeight );
+					template = contentByte.createTemplate(
+							width - absPosX > imageWidth ? imageWidth : width
+									- absPosX, imageHeight );
 					template.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
 				}
 				while ( remainY > 0 )
 				{
 					if ( remainY < imageHeight )
 					{
-						PdfTemplate templateY = contentByte.createTemplate( width
-								- absPosX > imageWidth ? imageWidth : width - absPosX, remainY );
+						PdfTemplate templateY = contentByte.createTemplate(
+								width - absPosX > imageWidth
+										? imageWidth
+										: width - absPosX, remainY );
 						templateY.addImage( img, width > imageWidth
 								? imageWidth
-								: width - absPosX, 0, 0, imageHeight,
-								0, -( imageHeight - remainY ) );
-						contentByte
-								.addTemplate( templateY, x + absPosX, y
-										- height );
+								: width - absPosX, 0, 0, imageHeight, 0,
+								-( imageHeight - remainY ) );
+						contentByte.addTemplate( templateY, x + absPosX, y
+								- height );
 						remainY = 0;
 					}
 					else
 					{
-						contentByte.addTemplate( template, x + absPosX, y - height
-								+ remainY - imageHeight );
+						contentByte.addTemplate( template, x + absPosX, y
+								- height + remainY - imageHeight );
 						remainY -= imageHeight;
 					}
 				}
 			}
 			// "repeat":
-			else if ( BackgroundImageInfo.REPEAT == repeat) //$NON-NLS-1$
+			else if ( BackgroundImageInfo.REPEAT == repeat ) //$NON-NLS-1$
 			{
 				float remainX = width;
 				float remainY = height;
 				PdfTemplate template = null;
 				// If the width of the container is smaller than the scaled
-				// image width, the repeat will never happen. So it is not 
+				// image width, the repeat will never happen. So it is not
 				// necessary to build a template for further usage.
 				if ( width >= imageWidth && height >= imageHeight )
 				{
-					template = contentByte.createTemplate( imageWidth, imageHeight );
+					template = contentByte.createTemplate( imageWidth,
+							imageHeight );
 					template.addImage( img, imageWidth, 0, 0, imageHeight, 0, 0 );
 				}
 
@@ -296,9 +302,8 @@ public class PDFPage extends AbstractPage
 							{
 								PdfTemplate templateXY = contentByte
 										.createTemplate( remainX, remainY );
-								templateXY.addImage( img, imageWidth,
-										0, 0, imageHeight, 0, -imageHeight
-												+ remainY );
+								templateXY.addImage( img, imageWidth, 0, 0,
+										imageHeight, 0, -imageHeight + remainY );
 								contentByte.addTemplate( templateXY, x + width
 										- remainX, y - height );
 								remainX = 0;
@@ -306,11 +311,10 @@ public class PDFPage extends AbstractPage
 							else
 							// non-right bottom line
 							{
-								PdfTemplate templateY = contentByte.createTemplate(
-										imageWidth, remainY );
-								templateY.addImage( img, imageWidth, 0,
-										0, imageHeight, 0, -imageHeight
-												+ remainY );
+								PdfTemplate templateY = contentByte
+										.createTemplate( imageWidth, remainY );
+								templateY.addImage( img, imageWidth, 0, 0,
+										imageHeight, 0, -imageHeight + remainY );
 								contentByte.addTemplate( templateY, x + width
 										- remainX, y - height );
 								remainX -= imageWidth;
@@ -326,10 +330,10 @@ public class PDFPage extends AbstractPage
 							// the right ones
 							if ( remainX < imageWidth )
 							{
-								PdfTemplate templateX = contentByte.createTemplate(
-										remainX, imageHeight );
-								templateX.addImage( img, imageWidth, 0,
-										0, imageHeight, 0, 0 );
+								PdfTemplate templateX = contentByte
+										.createTemplate( remainX, imageHeight );
+								templateX.addImage( img, imageWidth, 0, 0,
+										imageHeight, 0, 0 );
 								contentByte.addTemplate( templateX, x + width
 										- remainX, y - height + remainY
 										- imageHeight );
@@ -373,7 +377,8 @@ public class PDFPage extends AbstractPage
 	{
 		if ( FlashFile.isFlash( null, null, extension ) )
 		{
-			embedFlash( null, imageData, imageX, imageY, height, width, helpText );
+			embedFlash( null, imageData, imageX, imageY, height, width,
+					helpText );
 			return;
 		}
 		if ( SvgFile.isSvg( null, null, extension ) )
@@ -447,13 +452,13 @@ public class PDFPage extends AbstractPage
 			drawImage( template, imageX, imageY, height, width, helpText );
 		}
 	}
-	
+
 	/**
 	 * Draws a line with the line-style specified in advance from the start
 	 * position to the end position with the given line width, color, and style
 	 * at the given PDF layer. If the line-style is NOT set before invoking this
 	 * method, "solid" will be used as the default line-style.
-	 * 
+	 *
 	 * @param startX
 	 *            the start X coordinate of the line.
 	 * @param startY
@@ -469,32 +474,32 @@ public class PDFPage extends AbstractPage
 	 * @param lineStyle
 	 *            the style of the line.
 	 */
-	protected void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, int lineStyle )
+	protected void drawLine( float startX, float startY, float endX,
+			float endY, float width, Color color, int lineStyle )
 	{
 		// if the border does NOT have color or the line width of the border is
 		// zero or the lineStyle is "none", just return.
 		if ( null == color || 0f == width
-				|| BorderInfo.BORDER_STYLE_NONE==lineStyle ) //$NON-NLS-1$
+				|| BorderInfo.BORDER_STYLE_NONE == lineStyle ) //$NON-NLS-1$
 		{
 			return;
 		}
 		contentByte.saveState( );
-		if ( BorderInfo.BORDER_STYLE_SOLID==lineStyle ) //$NON-NLS-1$
+		if ( BorderInfo.BORDER_STYLE_SOLID == lineStyle ) //$NON-NLS-1$
 		{
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ( BorderInfo.BORDER_STYLE_DASHED==lineStyle ) //$NON-NLS-1$
+		else if ( BorderInfo.BORDER_STYLE_DASHED == lineStyle ) //$NON-NLS-1$
 		{
 			contentByte.setLineDash( 3 * width, 2 * width, 0f );
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ( BorderInfo.BORDER_STYLE_DOTTED==lineStyle ) //$NON-NLS-1$
+		else if ( BorderInfo.BORDER_STYLE_DOTTED == lineStyle ) //$NON-NLS-1$
 		{
 			contentByte.setLineDash( width, width, 0f );
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ( BorderInfo.BORDER_STYLE_DOUBLE==lineStyle ) //$NON-NLS-1$
+		else if ( BorderInfo.BORDER_STYLE_DOUBLE == lineStyle ) //$NON-NLS-1$
 		{
 			return;
 		}
@@ -508,16 +513,16 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
-	protected void drawText( String text, float textX, float textY, float baseline, float width,
-			float height, TextStyle textStyle )
+	protected void drawText( String text, float textX, float textY,
+			float baseline, float width, float height, TextStyle textStyle )
 	{
-		drawText( text, textX, textY + baseline, width, height, textStyle
-				.getFontInfo( ),
+		drawText( text, textX, textY + baseline, width, height,
+				textStyle.getFontInfo( ),
 				convertToPoint( textStyle.getLetterSpacing( ) ),
-				convertToPoint( textStyle.getWordSpacing( ) ), textStyle
-						.getColor( ), textStyle.isLinethrough( ), textStyle
-						.isOverline( ), textStyle.isUnderline( ), textStyle
-						.getAlign( ) );
+				convertToPoint( textStyle.getWordSpacing( ) ),
+				textStyle.getColor( ), textStyle.isLinethrough( ),
+				textStyle.isOverline( ), textStyle.isUnderline( ),
+				textStyle.getAlign( ) );
 		if ( textStyle.isHasHyperlink( ) )
 		{
 			FontInfo fontInfo = textStyle.getFontInfo( );
@@ -559,8 +564,8 @@ public class PDFPage extends AbstractPage
 				convertToPoint( width ), convertToPoint( height ) );
 	}
 
-	private void createBookmark( String bookmark, float x, float y, float width,
-			float height )
+	private void createBookmark( String bookmark, float x, float y,
+			float width, float height )
 	{
 		contentByte.localDestination( bookmark, new PdfDestination(
 				PdfDestination.XYZ, -1, transformY( y ), 0 ) );
@@ -584,7 +589,8 @@ public class PDFPage extends AbstractPage
 				type ) ) );
 	}
 
-	public void createTotalPageTemplate( int x, int y, int width, int height, float scale )
+	public void createTotalPageTemplate( int x, int y, int width, int height,
+			float scale )
 	{
 		createTotalPageTemplate( convertToPoint( x ), convertToPoint( y ),
 				convertToPoint( width ), convertToPoint( height ), scale );
@@ -609,13 +615,12 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
-
 	/**
 	 * Draws a line with the line-style specified in advance from the start
 	 * position to the end position with the given linewidth, color, and style
 	 * at the given pdf layer. If the line-style is NOT set before invoking this
 	 * method, "solid" will be used as the default line-style.
-	 * 
+	 *
 	 * @param startX
 	 *            the start X coordinate of the line
 	 * @param startY
@@ -640,7 +645,7 @@ public class PDFPage extends AbstractPage
 
 		contentByte.moveTo( 0, 0 );
 		contentByte.lineTo( endX - startX, endY - startY );
-		
+
 		contentByte.setLineWidth( width );
 		contentByte.setColorStroke( color );
 		contentByte.stroke( );
@@ -658,7 +663,7 @@ public class PDFPage extends AbstractPage
 			contentByte.setColorFill( color );
 			contentByte.setColorStroke( color );
 		}
-		BaseFont font = fontInfo.getBaseFont( );
+		BaseFont font = getBaseFont( fontInfo );
 		float fontSize = fontInfo.getFontSize( );
 		contentByte.setFontAndSize( font, fontSize );
 		if ( characterSpacing != 0 )
@@ -669,7 +674,8 @@ public class PDFPage extends AbstractPage
 		{
 			contentByte.setWordSpacing( wordSpacing );
 		}
-		setTextMatrix( contentByte, fontInfo, textX, transformY( textY, 0, containerHeight ) );
+		setTextMatrix( contentByte, fontInfo, textX,
+				transformY( textY, 0, containerHeight ) );
 		if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
 				&& IStyle.JUSTIFY_VALUE.equals( align ) && wordSpacing > 0 )
 		{
@@ -703,9 +709,14 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
+	protected BaseFont getBaseFont( FontInfo fontInfo )
+	{
+		return fontInfo.getBaseFont( );
+	}
+
 	/**
 	 * Creates a PdfAction.
-	 * 
+	 *
 	 * @param hyperlink
 	 *            the hyperlink.
 	 * @param bookmark
@@ -719,10 +730,10 @@ public class PDFPage extends AbstractPage
 			String target, int type )
 	{
 		// patch from Ales Novy
-		if ("_top".equalsIgnoreCase(target) || 
-			"_parent".equalsIgnoreCase(target) || 
-            "_blank".equalsIgnoreCase(target) || 
-            "_self".equalsIgnoreCase(target)) 
+		if ( "_top".equalsIgnoreCase( target )
+				|| "_parent".equalsIgnoreCase( target )
+				|| "_blank".equalsIgnoreCase( target )
+				|| "_self".equalsIgnoreCase( target ) )
 		// Opens the target in a new window.
 		{
 			return new PdfAction( hyperlink );
@@ -775,7 +786,7 @@ public class PDFPage extends AbstractPage
 	private void simulateBold( PdfContentByte cb )
 	{
 		cb.setTextRenderingMode( PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE );
-		cb.setLineWidth( 0.2f );
+		cb.setLineWidth( 0.225f );
 		cb.setTextMatrix( 0, 0 );
 	}
 
@@ -818,7 +829,7 @@ public class PDFPage extends AbstractPage
 	}
 
 	/**
-	 * 
+	 *
 	 * @param absPos
 	 *            the vertical position relative to its containing box
 	 * @param containerBaseAbsPos
@@ -875,13 +886,14 @@ public class PDFPage extends AbstractPage
 		}
 		return new TplValueTriple( tplOrigin, tplSize, translation );
 	}
-	
-	public void showHelpText( String helpText, float x, float y, float width, float height )
+
+	public void showHelpText( String helpText, float x, float y, float width,
+			float height )
 	{
 		showHelpText( x, transformY( y, height ), width, height, helpText );
 	}
 
-	private void showHelpText( float x, float y, float width, float height,
+	protected void showHelpText( float x, float y, float width, float height,
 			String helpText )
 	{
 		Rectangle rectangle = new Rectangle( x, y, x + width, y + height );
@@ -895,7 +907,7 @@ public class PDFPage extends AbstractPage
 	}
 
 	/**
-	 * 
+	 *
 	 * @param absPos
 	 *            the horizontal position relative to its containing box
 	 * @param containerBaseAbsPos
@@ -952,7 +964,7 @@ public class PDFPage extends AbstractPage
 
 	}
 
-	private void drawImage( PdfTemplate image, float imageX, float imageY,
+	protected void drawImage( PdfTemplate image, float imageX, float imageY,
 			float height, float width, String helpText )
 			throws DocumentException
 	{
@@ -961,15 +973,16 @@ public class PDFPage extends AbstractPage
 		contentByte.concatCTM( 1, 0, 0, 1, imageX, imageY );
 		float w = image.getWidth( );
 		float h = image.getHeight( );
-		contentByte.addTemplate( image, width/w, 0f/w, 0f/h, height/h, 0f, 0f );
+		contentByte.addTemplate( image, width / w, 0f / w, 0f / h, height / h,
+				0f, 0f );
 		if ( helpText != null )
 		{
 			showHelpText( imageX, imageY, width, height, helpText );
 		}
 		contentByte.restoreState( );
 	}
-	
-	private void drawImage( Image image, float imageX, float imageY,
+
+	protected void drawImage( Image image, float imageX, float imageY,
 			float height, float width, String helpText )
 			throws DocumentException
 	{
@@ -984,8 +997,9 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
-	private void embedFlash( String flashPath, byte[] flashData, float x, float y, float height,
-			float width, String helpText ) throws IOException
+	private void embedFlash( String flashPath, byte[] flashData, float x,
+			float y, float height, float width, String helpText )
+			throws IOException
 	{
 		y = transformY( y, height );
 		contentByte.saveState( );
@@ -1001,9 +1015,9 @@ public class PDFPage extends AbstractPage
 		}
 		contentByte.restoreState( );
 	}
-	
-	private void transSVG( String svgPath, byte[] svgData, float x, float y, float height,
-			float width, String helpText ) throws IOException,
+
+	protected void transSVG( String svgPath, byte[] svgData, float x, float y,
+			float height, float width, String helpText ) throws IOException,
 			DocumentException
 	{
 		PdfTemplate template = contentByte.createTemplate( width, height );

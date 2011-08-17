@@ -40,30 +40,31 @@ import com.lowagie.text.pdf.PdfTemplate;
 
 public class PDFRender extends PageDeviceRender
 {
+
 	/**
 	 * The output stream
 	 */
-	private OutputStream output = null;
+	protected OutputStream output = null;
 
-	private PDFPage currentPage = null;
-	
-	private boolean isTotalPage = false;
-	
-	private PDFPageDevice currentPageDevice = null;
-	
-	private HashSet bookmarks = new HashSet();
-	
+	protected PDFPage currentPage = null;
+
+	protected boolean isTotalPage = false;
+
+	protected PDFPageDevice currentPageDevice = null;
+
+	protected HashSet<String> bookmarks = new HashSet<String>( );
+
 	public PDFRender( IEmitterServices services ) throws EngineException
 	{
 		initialize( services );
 	}
-	
-	public IPageDevice createPageDevice( String title, String author, String subject,
-			String comments, IReportContext context, IReportContent report )
-			throws Exception
+
+	public IPageDevice createPageDevice( String title, String author,
+			String subject, String comments, IReportContext context,
+			IReportContent report ) throws Exception
 	{
-		currentPageDevice = new PDFPageDevice( output, title, author, subject, comments,
-				context, report );
+		currentPageDevice = new PDFPageDevice( output, title, author, subject,
+				comments, context, report );
 		return currentPageDevice;
 	}
 
@@ -101,9 +102,9 @@ public class PDFRender extends PageDeviceRender
 		super.visitAutoText( templateArea );
 		int x = currentX + getX( templateArea );
 		int y = currentY + getY( templateArea );
-		//create template according to the page scale
+		// create template according to the page scale
 		createTotalPageTemplate( x, y, getWidth( templateArea ),
-					getHeight( templateArea ), scale );
+				getHeight( templateArea ), scale );
 	}
 
 	public void setTotalPage( ITextArea totalPage )
@@ -129,10 +130,10 @@ public class PDFRender extends PageDeviceRender
 		}
 		isTotalPage = false;
 	}
-	
+
 	/**
 	 * Closes the document.
-	 * 
+	 *
 	 * @param rc
 	 *            the report content.
 	 */
@@ -153,10 +154,10 @@ public class PDFRender extends PageDeviceRender
 
 	/**
 	 * Initializes the pdfEmitter.
-	 * 
+	 *
 	 * @param services
-	 *            the emitter svervices object.
-	 * @throws EngineException 
+	 *            the emitter services object.
+	 * @throws EngineException
 	 */
 	private void initialize( IEmitterServices services ) throws EngineException
 	{
@@ -244,7 +245,7 @@ public class PDFRender extends PageDeviceRender
 			}
 	}
 
-	private void createBookmark( IArea area, int x, int y )
+	protected void createBookmark( IArea area, int x, int y )
 	{
 		String bookmark = area.getBookmark( );
 		if ( null != bookmark )
@@ -258,7 +259,7 @@ public class PDFRender extends PageDeviceRender
 
 	private void createTOC( )
 	{
-		currentPageDevice.createTOC(bookmarks);
+		currentPageDevice.createTOC( bookmarks );
 	}
 
 	private void createTotalPageTemplate( int x, int y, int width, int height,
