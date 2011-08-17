@@ -1934,7 +1934,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		ExpressionButtonUtil.createExpressionButton( parent,
 				combo,
 				getExpressionProvider( ),
-				handle,
+				designHandle,
 				listener );
 	}
 
@@ -2764,7 +2764,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 
 			ExpressionEditor editor = new ExpressionEditor( Messages.getString( "ExpressionEditor.Title" ) ); //$NON-NLS-1$
 			editor.setExpression( initValue );
-			editor.setInput( handle, getExpressionProvider( ), false );
+			editor.setInput( designHandle, getExpressionProvider( ), false );
 
 			if ( editor.open( ) == OK )
 			{
