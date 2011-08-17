@@ -35,7 +35,7 @@ public class ODPEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.odp" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.odp.config" );
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );

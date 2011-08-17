@@ -32,7 +32,7 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 {
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.excel" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.excel.config" );
 		// Initializes the option for WrappingText.
 		ConfigurableOption wrappingText = initializeWrappingText( );
 		

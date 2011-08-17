@@ -33,7 +33,7 @@ public class OdsEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.ods" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.ods.config" );
 		// Initializes the option for WrappingText.
 		ConfigurableOption wrappingText = initializeWrappingText( );
 		

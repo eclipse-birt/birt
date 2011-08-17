@@ -29,7 +29,7 @@ public class OdtEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.odt" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.odt.config" );
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
 		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$

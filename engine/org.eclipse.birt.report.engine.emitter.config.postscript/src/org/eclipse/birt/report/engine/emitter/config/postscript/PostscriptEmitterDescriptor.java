@@ -38,7 +38,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.postscript" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.postscript.config" );
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );
@@ -201,16 +201,16 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
 		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
 
-		// Initializes the option for paperTray.
+		// Initializes the option for auto page size selection.
 		ConfigurableOption autoPaperSizeSelection = new ConfigurableOption(
 		        PostscriptRenderOption.OPTION_AUTO_PAPER_SIZE_SELECTION );
-		paperTray
+		autoPaperSizeSelection
 		        .setDisplayName( getMessage( "OptionDisplayValue.AutoPaperSizeSelection" ) ); //$NON-NLS-1$
-		paperTray.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		paperTray.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		paperTray.setDefaultValue( true );
-		paperTray.setToolTip( null );
-		paperTray
+		autoPaperSizeSelection.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		autoPaperSizeSelection.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		autoPaperSizeSelection.setDefaultValue( true );
+		autoPaperSizeSelection.setToolTip( null );
+		autoPaperSizeSelection
 		        .setDescription( getMessage( "OptionDescription.AutoPaperSizeSelection" ) ); //$NON-NLS-1$
 
 		// Initializes the option for collate.

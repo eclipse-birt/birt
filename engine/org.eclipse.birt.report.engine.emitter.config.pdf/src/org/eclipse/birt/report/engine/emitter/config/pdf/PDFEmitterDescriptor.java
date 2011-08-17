@@ -39,7 +39,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.pdf" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.pdf.config" );
 		
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
@@ -110,7 +110,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 								IPDFRenderOption.ENLARGE_PAGE_SIZE,
 								getMessage( "OptionDisplayValue.ENLARGE_PAGE_SIZE" ) ) //$NON-NLS-1$
 				} );
-		pageOverFlow.setDefaultValue( IPDFRenderOption.CLIP_CONTENT );
+		pageOverFlow.setDefaultValue( IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
 		pageOverFlow.setToolTip( null );
 		pageOverFlow
 				.setDescription( getMessage( "OptionDescription.PageOverFlow" ) ); //$NON-NLS-1$
