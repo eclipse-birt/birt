@@ -795,6 +795,7 @@ public class ChartCubeQueryHelper
 
 				// Create new binding
 				colBinding = new Binding( bindingName );
+				colBinding.setExportable( false );
 				colBinding.setDataType( DataType.ANY_TYPE );
 				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
 						modelAdapter,
