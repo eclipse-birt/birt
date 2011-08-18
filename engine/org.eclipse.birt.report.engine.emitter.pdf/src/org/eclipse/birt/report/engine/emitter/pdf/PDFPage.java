@@ -17,7 +17,6 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -375,40 +374,56 @@ public class PDFPage extends AbstractPage
 			String extension, float imageX, float imageY, float height,
 			float width, String helpText, Map params ) throws Exception
 	{
+		// Flash
 		if ( FlashFile.isFlash( null, null, extension ) )
 		{
 			embedFlash( null, imageData, imageX, imageY, height, width,
-					helpText );
+					helpText, params );
 			return;
 		}
-		if ( SvgFile.isSvg( null, null, extension ) )
+
+		// Cached Image
+		PdfTemplate template = null;
+		if ( imageId != null )
 		{
-			transSVG( null, imageData, imageX, imageY, height, width, helpText );
-			return;
-		}
-		if ( imageId == null )
-		{
-			Image image = Image.getInstance( imageData );
-			drawImage( image, imageX, imageY, height, width, helpText );
-		}
-		else
-		{
-			PdfTemplate template = null;
 			if ( pageDevice.getImageCache( ).containsKey( imageId ) )
 			{
 				template = pageDevice.getImageCache( ).get( imageId );
 			}
-			else
-			{
-				template = contentByte.createTemplate( width, height );
-				Image image = Image.getInstance( imageData );
-				template.addImage( image, width, 0, 0, height, 0, 0 );
-				pageDevice.getImageCache( ).put( imageId, template );
-			}
 			if ( template != null )
 			{
 				drawImage( template, imageX, imageY, height, width, helpText );
+				return;
 			}
+		}
+
+		// Not cached yet
+		if ( SvgFile.isSvg( null, null, extension ) )
+		{
+			template = generateTemplateFromSVG( null, imageData, imageX,
+					imageY, height, width, helpText );
+		}
+		else
+		{
+			// PNG/JPG/BMP... images:
+			Image image = Image.getInstance( imageData );
+			if ( imageId == null )
+			{
+				// image without imageId, not able to cache.
+				drawImage( image, imageX, imageY, height, width, helpText );
+				return;
+			}
+			template = contentByte.createTemplate( width, height );
+			template.addImage( image, width, 0, 0, height, 0, 0 );
+		}
+		// Cache the image
+		if ( imageId != null && template != null )
+		{
+			pageDevice.getImageCache( ).put( imageId, template );
+		}
+		if ( template != null )
+		{
+			drawImage( template, imageX, imageY, height, width, helpText );
 		}
 	}
 
@@ -419,38 +434,7 @@ public class PDFPage extends AbstractPage
 			float imageY, float height, float width, String helpText, Map params )
 			throws Exception
 	{
-		if ( uri == null )
-		{
-			return;
-		}
-
-		if ( FlashFile.isFlash( null, uri, extension ) )
-		{
-			embedFlash( uri, null, imageX, imageY, height, width, helpText );
-			return;
-		}
-		if ( SvgFile.isSvg( null, uri, extension ) )
-		{
-			transSVG( uri, null, imageX, imageY, height, width, helpText );
-			return;
-		}
-
-		PdfTemplate template = null;
-		if ( pageDevice.getImageCache( ).containsKey( uri ) )
-		{
-			template = pageDevice.getImageCache( ).get( uri );
-		}
-		else
-		{
-			template = contentByte.createTemplate( width, height );
-			Image image = Image.getInstance( new URL( uri ) );
-			template.addImage( image, width, 0, 0, height, 0, 0 );
-			pageDevice.getImageCache( ).put( uri, template );
-		}
-		if ( template != null )
-		{
-			drawImage( template, imageX, imageY, height, width, helpText );
-		}
+		return;
 	}
 
 	/**
@@ -997,8 +981,8 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
-	private void embedFlash( String flashPath, byte[] flashData, float x,
-			float y, float height, float width, String helpText )
+	protected void embedFlash( String flashPath, byte[] flashData, float x,
+			float y, float height, float width, String helpText, Map params )
 			throws IOException
 	{
 		y = transformY( y, height );
@@ -1016,22 +1000,29 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
-	protected void transSVG( String svgPath, byte[] svgData, float x, float y,
-			float height, float width, String helpText ) throws IOException,
-			DocumentException
+	protected PdfTemplate generateTemplateFromSVG( String svgPath,
+			byte[] svgData, float x, float y, float height, float width,
+			String helpText ) throws Exception
+	{
+		return transSVG( null, svgData, x, y, height, width, helpText );
+	}
+
+	protected PdfTemplate transSVG( String svgPath, byte[] svgData, float x,
+			float y, float height, float width, String helpText )
+			throws IOException, DocumentException
 	{
 		PdfTemplate template = contentByte.createTemplate( width, height );
 		Graphics2D g2D = template.createGraphics( width, height );
 
 		PrintTranscoder transcoder = new PrintTranscoder( );
-		if ( null != svgPath )
-		{
-			transcoder.transcode( new TranscoderInput( svgPath ), null );
-		}
-		else if ( null != svgData && svgData.length > 0 )
+		if ( null != svgData && svgData.length > 0 )
 		{
 			transcoder.transcode( new TranscoderInput(
 					new ByteArrayInputStream( svgData ) ), null );
+		}
+		else if ( null != svgPath )
+		{
+			transcoder.transcode( new TranscoderInput( svgPath ), null );
 		}
 		PageFormat pg = new PageFormat( );
 		Paper p = new Paper( );
@@ -1040,7 +1031,6 @@ public class PDFPage extends AbstractPage
 		pg.setPaper( p );
 		transcoder.print( g2D, pg, 0 );
 		g2D.dispose( );
-
-		drawImage( template, x, y, height, width, helpText );
+		return template;
 	}
 }
