@@ -556,19 +556,8 @@ public class ScriptEvalUtil
 	private static boolean between( Object resultObject, Object resultOp1,
 			Object resultOp2, CompareHints compareHints ) throws DataException
 	{
-		Object min, max;
-		if ( compare( resultOp1, resultOp2, compareHints ) <= 0 )
-		{
-			min = resultOp1;
-			max = resultOp2;
-		}
-		else
-		{
-			min = resultOp2;
-			max = resultOp1;
-		}
-		return compare( resultObject, min, compareHints ) >= 0
-				&& compare( resultObject, max, compareHints ) <= 0;
+		return compare( resultObject, resultOp1, compareHints ) >= 0
+				&& compare( resultObject, resultOp2, compareHints ) <= 0;
 	}
 
 	/**
