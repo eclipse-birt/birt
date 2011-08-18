@@ -52,6 +52,10 @@ public class EngineExecutionHints implements IEngineExecutionHints
 		{
 			queryDefns.addAll( Arrays.asList( qds ) );
 			List temp = new ArrayList();
+			List temp2 = new ArrayList();
+
+			this.cachedDataSetNames.clear( );
+
 			for( IDataQueryDefinition query: queryDefns )
 			{
 				if( query instanceof IQueryDefinition )
@@ -62,11 +66,19 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					{
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign( dataSetName );
 						if( design instanceof ICacheable  )
-							this.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp );
+							this.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp2 );
+						if( qd.getParentQuery() != null && qd.getInputParamBindings().size() == 0 )
+						{
+							for( int i = 0; i < temp2.size( ); i++ )
+							{
+								this.cachedDataSetNames.add( temp2.get( i ) );
+							}
+						}
+						temp.addAll( temp2 );
 					}
 				} 
 			}
-			this.cachedDataSetNames.clear( );
+
 			Set tempSet = new HashSet();
 			for( int i = 0; i < temp.size( ); i++ )
 			{
