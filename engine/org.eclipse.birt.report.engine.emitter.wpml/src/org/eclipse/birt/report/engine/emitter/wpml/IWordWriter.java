@@ -80,6 +80,8 @@ public interface IWordWriter
 
 	void insertHiddenParagraph( );
 
+	void insertEmptyParagraph( );
+
 	void endParagraph( );
 
 	void writeCaption( String txt );
