@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.SortingOptimizer;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
@@ -73,6 +74,11 @@ public final class QueryExecutionStrategyUtil
 			{
 				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
 					continue;
+				SortingOptimizer opt = new SortingOptimizer( dataSet, query );
+				if( opt.acceptGroupSorting( ) )
+				{
+					continue;
+				}
 				return Strategy.Complex;
 			}
 		}
