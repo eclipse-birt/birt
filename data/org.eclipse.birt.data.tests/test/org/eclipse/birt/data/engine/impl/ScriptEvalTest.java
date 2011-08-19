@@ -43,11 +43,12 @@ public class ScriptEvalTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		scontext = new ScriptContext();
-		scope = Context.getCurrentContext( ).initStandardObjects();
+		scope = Context.enter( ).initStandardObjects();
 	}
 	
 	protected void tearDown() throws Exception
 	{
+		Context.exit( );
 		scontext.close( );
 	}
 	
@@ -538,7 +539,7 @@ public class ScriptEvalTest extends TestCase
 				IConditionalExpression.OP_NOT_BETWEEN, 
 				new Timestamp( ( new GregorianCalendar( 2004, 1, 3 ) ).getTimeInMillis( ) ), 
 				new Timestamp( ( new GregorianCalendar( 2004, 1, 1 ) ).getTimeInMillis( ) ) );
-		assertResult( result, false );
+		assertResult( result, true );
 
 		result = ScriptEvalUtil.evalConditionalExpr( 
 				new Date( ( new GregorianCalendar( 2004, 1, 2 ) ).getTimeInMillis( ) ),
@@ -580,7 +581,7 @@ public class ScriptEvalTest extends TestCase
 				IConditionalExpression.OP_BETWEEN, 
 				new Double( 20 ),
 				new BigDecimal( 9.9 ) );
-		assertResult( result, true );
+		assertResult( result, false );
 
 		//Nov 1, 2001 between "Oct 20, 2001 12:00:00 AM" 
 		//			  and "Nov 20, 2001 12:00:00 AM"
