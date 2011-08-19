@@ -64,6 +64,8 @@ public final class QueryExecutionStrategyUtil
 	public static Strategy getQueryExecutionStrategy( DataEngineSession session, IQueryDefinition query,
 			IBaseDataSetDesign dataSet ) throws DataException
 	{
+		SortingOptimizer opt = new SortingOptimizer( dataSet, query );
+
 		if ( session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
 			return Strategy.Complex;
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
@@ -74,7 +76,6 @@ public final class QueryExecutionStrategyUtil
 			{
 				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
 					continue;
-				SortingOptimizer opt = new SortingOptimizer( dataSet, query );
 				if( opt.acceptGroupSorting( ) )
 				{
 					continue;
@@ -90,7 +91,10 @@ public final class QueryExecutionStrategyUtil
 		}
 
 		if ( query.getSorts( ) != null && query.getSorts( ).size( ) > 0 )
-			return Strategy.Complex;
+		{
+			if( !opt.acceptQuerySorting( ) )
+				return Strategy.Complex;
+		}
 
 		if ( query.getSubqueries( ) != null
 				&& query.getSubqueries( ).size( ) > 0 )
