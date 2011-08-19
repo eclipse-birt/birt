@@ -209,12 +209,13 @@ public class BirtMathTest extends TestCase
 				"BirtMath.ceiling( 999.5999,10000 )",
 				"BirtMath.ceiling( 999.5999,0 )",
 				"BirtMath.ceiling( 0,100 )",
-				"BirtMath.ceiling( 0,-100 )"
+				"BirtMath.ceiling( 0,-100 )",
+				"BirtMath.ceiling( 25.34, 0.1 )"
 		};
 		
-		double values[] = new double[]{0,110,120,120,105,-110,-102,-104,1000,10000,0,0,0};
+		double values[] = new double[]{0,110,120,120,105,-110,-102,-104,1000,10000,0,0,0,25.4};
 	
-		for( int i = 0; i < values.length; i++ )
+		for( int i = 0; i < scripts.length; i++ )
 		{
 			assertEquals( ((Number)cx.evaluateString( scope,
 				scripts[i],
