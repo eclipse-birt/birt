@@ -157,6 +157,7 @@ AttributesBuilder.Label.Table=속성 편집기 - 테이블
 AttributesBuilder.Label.Text=속성 편집기 - 텍스트
 AttributesBuilder.Label.TextData=속성 편집기 - 동적 텍스트
 AttributesBuilder.Label.DataSourceHandle=속성 편집기 - 데이터 원본
+AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
 AttributesBuilder.Label.DataSetHandle=속성 편집기 - 데이터 집합
 AttributesBuilder.Label.ScalarParameterHandle=속성 편집기 - 매개 변수
 AttributesBuilder.Label.TemplateReportItemHandle=속성 편집기 - 템플릿 보고서 항목
@@ -1411,6 +1412,9 @@ Element.Text.contentID=내용 키(&K):
 Element.Text.contentType=내용 형식(&P):
 Element.TemplateElement.name=이름(&N)
 Element.Toc.Sytle=스타일(&Y)
+Element.VariableElement.name=이름(&N):
+Element.VariableElement.type=&Type:
+Element.VariableElement.value=값(&V):
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -3067,7 +3071,7 @@ parameters.menuItem.reset=재설정
 
 ParametersNodeProvider.dialogue.title.group=새 매개 변수 그룹
 ParametersNodeProvider.dialogue.title.parameter=새 매개 변수
-ParametersNodeProvider.menu.text.cascadingParameter=새 계단식 매개 변수 그룹(&D)
+ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
 ParametersNodeProvider.menu.text.group=새 매개 변수 그룹(&M)
 ParametersNodeProvider.menu.text.parameter=새 매개 변수(&A)
 
@@ -3192,7 +3196,7 @@ ExportToLibraryAction.wizard.windowTitle=내보내기
 ExportToLibraryAction.wizard.page.title=라이브러리로 파일 내보내기
 ExportToLibraryAction.wizard.page.desc=라이브러리로 보고서 디자인 내보내기
 ExportToLibraryAction.wizard.page.label.filename=파일 이름(&N):
-ExportToLibraryAction.wizard.page.label.folder=폴더(&F):
+ExportToLibraryAction.wizard.page.label.folder=Fol&der:
 ExportToLibraryAction.wizard.page.button.browser=찾아보기(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=파일 내용 디렉토리를 선택하십시오.
 ExportToLibraryAction.wizard.page.nameempty=파일 이름을 지정해야 합니다.
@@ -4794,7 +4798,8 @@ ReloadImageAction.Text=이미지 다시 로드(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=새 변수
+VariablesNodeProvider.NewActionName=&New Variable
+VariablesNodeProvider.Dialog.Title=새 변수
 VariablesNodeProvider.NodeName=변수
 
 ###########################################################

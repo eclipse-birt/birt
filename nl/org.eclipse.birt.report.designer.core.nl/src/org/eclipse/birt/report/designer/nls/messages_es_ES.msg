@@ -157,6 +157,7 @@ AttributesBuilder.Label.Table=Editor de propiedades - Tabla
 AttributesBuilder.Label.Text=Editor de propiedades - Texto
 AttributesBuilder.Label.TextData=Editor de propiedades - Texto dinámico
 AttributesBuilder.Label.DataSourceHandle=Editor de propiedades - Fuente de datos
+AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
 AttributesBuilder.Label.DataSetHandle=Editor de propiedades - Conjunto de datos
 AttributesBuilder.Label.ScalarParameterHandle=Editor de propiedades - Parámetro
 AttributesBuilder.Label.TemplateReportItemHandle=Editor de propiedades - Elemento de informe de plantilla
@@ -1411,6 +1412,9 @@ Element.Text.contentID=Clave de conteni&do:
 Element.Text.contentType=Tipo de conte&nido:
 Element.TemplateElement.name=&Nombre
 Element.Toc.Sytle=Es&tilo
+Element.VariableElement.name=&Nombre:
+Element.VariableElement.type=&Type:
+Element.VariableElement.value=&Valor:
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -3067,7 +3071,7 @@ parameters.menuItem.reset=Restablecer
 
 ParametersNodeProvider.dialogue.title.group=Nuevo grupo de parámetros
 ParametersNodeProvider.dialogue.title.parameter=Nuevo parámetro
-ParametersNodeProvider.menu.text.cascadingParameter=Nuevo grupo de parámetros en casca&da
+ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
 ParametersNodeProvider.menu.text.group=Nu&evo grupo de parámetros
 ParametersNodeProvider.menu.text.parameter=Nuevo p&arámetro
 
@@ -3192,7 +3196,7 @@ ExportToLibraryAction.wizard.windowTitle=Exportar
 ExportToLibraryAction.wizard.page.title=Exportar el archivo a la librería
 ExportToLibraryAction.wizard.page.desc=Exportar el diseño de informe a la librería
 ExportToLibraryAction.wizard.page.label.filename=&Nombre de archivo:
-ExportToLibraryAction.wizard.page.label.folder=&Carpeta:
+ExportToLibraryAction.wizard.page.label.folder=Fol&der:
 ExportToLibraryAction.wizard.page.button.browser=&Examinar...
 ExportToLibraryAction.wizard.page.dirdialog.message=Seleccionar el directorio de los contenidos de archivo
 ExportToLibraryAction.wizard.page.nameempty=Se debe especificar un nombre de archivo.
@@ -4794,7 +4798,8 @@ ReloadImageAction.Text=Volver a cargar la &imagen
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Nueva variable
+VariablesNodeProvider.NewActionName=&New Variable
+VariablesNodeProvider.Dialog.Title=Nueva variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

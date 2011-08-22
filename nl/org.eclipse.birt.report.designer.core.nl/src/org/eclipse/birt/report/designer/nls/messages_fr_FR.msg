@@ -157,6 +157,7 @@ AttributesBuilder.Label.Table=Editeur de propriétés - Table
 AttributesBuilder.Label.Text=Editeur de propriétés - Texte
 AttributesBuilder.Label.TextData=Editeur de propriétés - Texte dynamique
 AttributesBuilder.Label.DataSourceHandle=Editeur de propriétés - Source de données
+AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
 AttributesBuilder.Label.DataSetHandle=Editeur de propriétés - Jeu de données
 AttributesBuilder.Label.ScalarParameterHandle=Editeur de propriétés - Paramètre
 AttributesBuilder.Label.TemplateReportItemHandle=Editeur de propriétés - Elément d'état de modèle
@@ -1411,6 +1412,9 @@ Element.Text.contentID=&Clé de contenu :
 Element.Text.contentType=Ty&pe de contenu :
 Element.TemplateElement.name=&Nom
 Element.Toc.Sytle=St&yle
+Element.VariableElement.name=&Nom :
+Element.VariableElement.type=&Type:
+Element.VariableElement.value=&Valeur :
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -3067,7 +3071,7 @@ parameters.menuItem.reset=Réinitialiser
 
 ParametersNodeProvider.dialogue.title.group=Nouveau groupe de paramètres
 ParametersNodeProvider.dialogue.title.parameter=Nouveau paramètre
-ParametersNodeProvider.menu.text.cascadingParameter=Nouveau groupe de paramètres en casca&de
+ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
 ParametersNodeProvider.menu.text.group=Nouveau groupe de para&mètres
 ParametersNodeProvider.menu.text.parameter=Nouve&au paramètre
 
@@ -3192,7 +3196,7 @@ ExportToLibraryAction.wizard.windowTitle=Exporter
 ExportToLibraryAction.wizard.page.title=Exporter le fichier dans la bibliothèque
 ExportToLibraryAction.wizard.page.desc=Exporter le modèle d'état dans la bibliothèque
 ExportToLibraryAction.wizard.page.label.filename=&Nom de fichier :
-ExportToLibraryAction.wizard.page.label.folder=&Dossier :
+ExportToLibraryAction.wizard.page.label.folder=Fol&der:
 ExportToLibraryAction.wizard.page.button.browser=& Parcourir...
 ExportToLibraryAction.wizard.page.dirdialog.message=Sélectionner le répertoire de contenu du fichier
 ExportToLibraryAction.wizard.page.nameempty=Le nom de fichier doit être spécifié.
@@ -4794,7 +4798,8 @@ ReloadImageAction.Text=Recharger i&mage
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Nouvelle variable
+VariablesNodeProvider.NewActionName=&New Variable
+VariablesNodeProvider.Dialog.Title=Nouvelle variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

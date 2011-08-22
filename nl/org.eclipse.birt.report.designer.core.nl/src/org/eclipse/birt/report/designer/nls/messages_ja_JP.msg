@@ -157,6 +157,7 @@ AttributesBuilder.Label.Table=プロパティエディタ - テーブル
 AttributesBuilder.Label.Text=プロパティエディタ - テキスト
 AttributesBuilder.Label.TextData=プロパティエディタ - ダイナミックテキスト
 AttributesBuilder.Label.DataSourceHandle=プロパティエディタ - データソース
+AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
 AttributesBuilder.Label.DataSetHandle=プロパティエディタ - データセット
 AttributesBuilder.Label.ScalarParameterHandle=プロパティエディタ - パラメタ
 AttributesBuilder.Label.TemplateReportItemHandle=プロパティエディタ - テンプレートレポート項目
@@ -1411,6 +1412,9 @@ Element.Text.contentID=コンテンツキー(&K) :
 Element.Text.contentType=コンテンツの種類(&P) :
 Element.TemplateElement.name=名前(&N)
 Element.Toc.Sytle=スタイル(&Y)
+Element.VariableElement.name=名前(&N) :
+Element.VariableElement.type=&Type:
+Element.VariableElement.value=値(&V) :
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -3067,7 +3071,7 @@ parameters.menuItem.reset=リセット
 
 ParametersNodeProvider.dialogue.title.group=パラメタグループの新規作成
 ParametersNodeProvider.dialogue.title.parameter=パラメタの新規作成
-ParametersNodeProvider.menu.text.cascadingParameter=カスケードパラメタグループの新規作成(&D)
+ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
 ParametersNodeProvider.menu.text.group=パラメタグループの新規作成(&M)
 ParametersNodeProvider.menu.text.parameter=パラメタの新規作成(&A)
 
@@ -3192,7 +3196,7 @@ ExportToLibraryAction.wizard.windowTitle=エクスポート
 ExportToLibraryAction.wizard.page.title=ファイルをライブラリにエクスポート
 ExportToLibraryAction.wizard.page.desc=レポートデザインをライブラリにエクスポート
 ExportToLibraryAction.wizard.page.label.filename=ファイル名(&N) :
-ExportToLibraryAction.wizard.page.label.folder=フォルダ(&F) :
+ExportToLibraryAction.wizard.page.label.folder=Fol&der:
 ExportToLibraryAction.wizard.page.button.browser=参照(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=ファイルのコンテンツディレクトリを選択してください。
 ExportToLibraryAction.wizard.page.nameempty=ファイル名を指定してください。
@@ -4794,7 +4798,8 @@ ReloadImageAction.Text=イメージの再ロード(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=変数の新規作成
+VariablesNodeProvider.NewActionName=&New Variable
+VariablesNodeProvider.Dialog.Title=変数の新規作成
 VariablesNodeProvider.NodeName=変数
 
 ###########################################################

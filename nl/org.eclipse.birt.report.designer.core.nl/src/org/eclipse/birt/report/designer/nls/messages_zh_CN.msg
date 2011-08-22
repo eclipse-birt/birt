@@ -157,6 +157,7 @@ AttributesBuilder.Label.Table=属性编辑器 - 表
 AttributesBuilder.Label.Text=属性编辑器 - 文本
 AttributesBuilder.Label.TextData=属性编辑器 - 动态文本
 AttributesBuilder.Label.DataSourceHandle=属性编辑器 - 数据源
+AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
 AttributesBuilder.Label.DataSetHandle=属性编辑器 - 数据集
 AttributesBuilder.Label.ScalarParameterHandle=属性编辑器 - 参数
 AttributesBuilder.Label.TemplateReportItemHandle=属性编辑器 - 模板报表项
@@ -1411,6 +1412,9 @@ Element.Text.contentID=内容关键字(&K):
 Element.Text.contentType=内容类型(&P):
 Element.TemplateElement.name=名称(&N)
 Element.Toc.Sytle=样式(&Y)
+Element.VariableElement.name=名称(&N):
+Element.VariableElement.type=&Type:
+Element.VariableElement.value=值(&V):
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -3067,7 +3071,7 @@ parameters.menuItem.reset=重置
 
 ParametersNodeProvider.dialogue.title.group=新建参数组
 ParametersNodeProvider.dialogue.title.parameter=新建参数
-ParametersNodeProvider.menu.text.cascadingParameter=新建级联参数组(&D)
+ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
 ParametersNodeProvider.menu.text.group=新建参数组(&M)
 ParametersNodeProvider.menu.text.parameter=新建参数(&A)
 
@@ -3192,7 +3196,7 @@ ExportToLibraryAction.wizard.windowTitle=导出
 ExportToLibraryAction.wizard.page.title=文件导出到库
 ExportToLibraryAction.wizard.page.desc=报表设计导出到库
 ExportToLibraryAction.wizard.page.label.filename=文件名(&N):
-ExportToLibraryAction.wizard.page.label.folder=文件夹(&F):
+ExportToLibraryAction.wizard.page.label.folder=Fol&der:
 ExportToLibraryAction.wizard.page.button.browser=浏览(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=选择文件内容目录
 ExportToLibraryAction.wizard.page.nameempty=必须指定文件名。
@@ -4794,7 +4798,8 @@ ReloadImageAction.Text=重新加载图像(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=新建变量
+VariablesNodeProvider.NewActionName=&New Variable
+VariablesNodeProvider.Dialog.Title=新建变量
 VariablesNodeProvider.NodeName=变量
 
 ###########################################################

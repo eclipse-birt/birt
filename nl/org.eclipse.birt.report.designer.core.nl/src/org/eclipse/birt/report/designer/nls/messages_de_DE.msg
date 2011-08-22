@@ -157,6 +157,7 @@ AttributesBuilder.Label.Table=Eigenschaftseditor - Tabelle
 AttributesBuilder.Label.Text=Eigenschaftseditor - Text
 AttributesBuilder.Label.TextData=Eigenschafteneditor - Dynamischer Text
 AttributesBuilder.Label.DataSourceHandle=Eigenschaftseditor - Datenquelle
+AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
 AttributesBuilder.Label.DataSetHandle=Eigenschaftseditor - Datensatz
 AttributesBuilder.Label.ScalarParameterHandle=Eigenschaftseditor - Parameter
 AttributesBuilder.Label.TemplateReportItemHandle=Eigenschaftseditor - Berichtobjekt für Vorlage
@@ -1411,6 +1412,9 @@ Element.Text.contentID=&Inhaltsschlüssel:
 Element.Text.contentType=&Inhaltstyp:
 Element.TemplateElement.name=&Name
 Element.Toc.Sytle=S&til
+Element.VariableElement.name=&Name:
+Element.VariableElement.type=&Type:
+Element.VariableElement.value=&Wert:
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -3067,7 +3071,7 @@ parameters.menuItem.reset=Zurücksetzen
 
 ParametersNodeProvider.dialogue.title.group=Neue Parametergruppe
 ParametersNodeProvider.dialogue.title.parameter=Neuer Parameter
-ParametersNodeProvider.menu.text.cascadingParameter=Neue Verschachtel&ungsparametergruppe
+ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
 ParametersNodeProvider.menu.text.group=Neue Para&metergruppe
 ParametersNodeProvider.menu.text.parameter=Neuer P&arameter
 
@@ -3192,7 +3196,7 @@ ExportToLibraryAction.wizard.windowTitle=Exportieren
 ExportToLibraryAction.wizard.page.title=Datei in Bibliothek exportieren
 ExportToLibraryAction.wizard.page.desc=Berichtdesign in Bibliothek exportieren
 ExportToLibraryAction.wizard.page.label.filename=&Dateiname:
-ExportToLibraryAction.wizard.page.label.folder=&Ordner:
+ExportToLibraryAction.wizard.page.label.folder=Fol&der:
 ExportToLibraryAction.wizard.page.button.browser=&Durchsuchen...
 ExportToLibraryAction.wizard.page.dirdialog.message=Wählen Sie das Verzeichnis mit den Dateiinhalten aus.
 ExportToLibraryAction.wizard.page.nameempty=Dateiname muss angegeben werden.
@@ -4794,7 +4798,8 @@ ReloadImageAction.Text=&Bild neu laden
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Neue Variable
+VariablesNodeProvider.NewActionName=&New Variable
+VariablesNodeProvider.Dialog.Title=Neue Variable
 VariablesNodeProvider.NodeName=Variablen
 
 ###########################################################
