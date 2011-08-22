@@ -2852,6 +2852,7 @@ Element.ListingGroup.onRender.this=Groupe de listes
 Element.ListingGroup.onRender.reportContext=Contexte d'état
 Element.ListingGroup.ACLExpression=Expression ACL
 Element.ListingGroup.cascadeACL=Cascade ACL
+Element.ListingGroup.showDetailFilter=Show detail filter
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=En-tête
@@ -3030,7 +3031,8 @@ Element.Image.onPageBreak.toolTip=Le script est exécuté pour tous les éléments d
 Element.Image.onPageBreak.this=Instance d'image
 Element.Image.onPageBreak.reportContext=Contexte d'état
 Element.Image.fitToContainer=Ajuster au conteneur
-  
+Element.Image.proportionalScale=Proportional Scale
+
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Colonnes
 Element.Grid.slot.rows=Lignes

@@ -2852,6 +2852,7 @@ Element.ListingGroup.onRender.this=Listengruppe
 Element.ListingGroup.onRender.reportContext=Berichtkontext
 Element.ListingGroup.ACLExpression=Ausdruck 'ACL'
 Element.ListingGroup.cascadeACL=Verschachtelung 'ACL'
+Element.ListingGroup.showDetailFilter=Show detail filter
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=Kopfzeile
@@ -3030,7 +3031,8 @@ Element.Image.onPageBreak.toolTip=Skript wird bei Seitenumbruch für alle Bericht
 Element.Image.onPageBreak.this=Bildinstanz
 Element.Image.onPageBreak.reportContext=Berichtkontext
 Element.Image.fitToContainer=An Container anpassen
-  
+Element.Image.proportionalScale=Proportional Scale
+
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=Spalten
 Element.Grid.slot.rows=Zeilen

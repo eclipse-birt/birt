@@ -2852,6 +2852,7 @@ Element.ListingGroup.onRender.this=열거 그룹
 Element.ListingGroup.onRender.reportContext=보고서 컨텍스트
 Element.ListingGroup.ACLExpression=ACL 식
 Element.ListingGroup.cascadeACL=계단식 ACL
+Element.ListingGroup.showDetailFilter=Show detail filter
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=머리글
@@ -3030,7 +3031,8 @@ Element.Image.onPageBreak.toolTip=스크립트는 페이지 나누기 발생 시 페이지의 모든
 Element.Image.onPageBreak.this=이미지 인스턴스
 Element.Image.onPageBreak.reportContext=보고서 컨텍스트
 Element.Image.fitToContainer=컨테이너에 맞추기
-  
+Element.Image.proportionalScale=Proportional Scale
+
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=열
 Element.Grid.slot.rows=행

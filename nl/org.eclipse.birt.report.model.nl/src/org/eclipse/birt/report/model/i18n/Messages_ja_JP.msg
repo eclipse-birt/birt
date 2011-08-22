@@ -2419,7 +2419,7 @@ Element.LayoutModule.libraries=ライブラリ
 Element.LayoutModule.base=基本
 Element.LayoutModule.units=単位
 Element.LayoutModule.theme=テーマ
-Element.LayoutModule.propertyBindings=
+
 
 # Library ( Prefix = Element.Library )
 Element.Library.slot.styles=種類
@@ -2852,6 +2852,7 @@ Element.ListingGroup.onRender.this=リスティンググループ
 Element.ListingGroup.onRender.reportContext=レポートのコンテキスト
 Element.ListingGroup.ACLExpression=ACL 式
 Element.ListingGroup.cascadeACL=ACL を重ねて表示
+Element.ListingGroup.showDetailFilter=Show detail filter
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=ヘッダ
@@ -3030,7 +3031,8 @@ Element.Image.onPageBreak.toolTip=改ページが発生する際に、ページ上のすべてのレポ
 Element.Image.onPageBreak.this=イメージインスタンス
 Element.Image.onPageBreak.reportContext=レポートのコンテキスト
 Element.Image.fitToContainer=コンテナに合わせる
-  
+Element.Image.proportionalScale=Proportional Scale
+
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
 Element.Grid.slot.rows=行

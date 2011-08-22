@@ -2852,6 +2852,7 @@ Element.ListingGroup.onRender.this=列表组
 Element.ListingGroup.onRender.reportContext=报表上下文
 Element.ListingGroup.ACLExpression=ACL 表达式
 Element.ListingGroup.cascadeACL=层叠 ACL
+Element.ListingGroup.showDetailFilter=Show detail filter
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=题头
@@ -3030,7 +3031,8 @@ Element.Image.onPageBreak.toolTip=出现分页符时，对页面上的所有报表项执行脚本。
 Element.Image.onPageBreak.this=图像实例
 Element.Image.onPageBreak.reportContext=报表上下文
 Element.Image.fitToContainer=适合容器
-  
+Element.Image.proportionalScale=Proportional Scale
+
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
 Element.Grid.slot.rows=行
