@@ -354,6 +354,8 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		uri.setText( Messages.getString( "UseCssInReportDialog.Dialog.Text.uri" ) ); //$NON-NLS-1$
 		uri.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		uriText = new Text( nameComposite, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
 		uriText.setLayoutData( gd );
 
 		new Label( nameComposite, SWT.NONE );

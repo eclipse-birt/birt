@@ -1390,7 +1390,7 @@ public class MapRuleBuilder extends BaseTitleAreaDialog
 		if ( ( designHandle instanceof DataItemHandle )
 				&& ( ( (DataItemHandle) designHandle ).getResultSetColumn( ) != null ) )
 		{
-			control.add( VALUE_OF_THIS_DATA_ITEM );
+			control.add( VALUE_OF_THIS_DATA_ITEM, 0 );
 		}
 
 		if ( control.getItemCount( ) == 0 )

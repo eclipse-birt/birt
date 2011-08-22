@@ -66,7 +66,7 @@ public class VariablesNodeProvider extends DefaultNodeProvider
 					.getReportDesignHandle( );
 			VariableElementHandle variable = (VariableElementHandle) ElementProcessorFactory.createProcessor( ReportDesignConstants.VARIABLE_ELEMENT )
 					.createElement( null );
-			VariableDialog dialog = new VariableDialog( Messages.getString( "VariablesNodeProvider.NewActionName" ), //$NON-NLS-1$
+			VariableDialog dialog = new VariableDialog( Messages.getString( "VariablesNodeProvider.Dialog.Title" ), //$NON-NLS-1$
 					designHandle,
 					variable );
 			if ( dialog.open( ) == Dialog.OK )
