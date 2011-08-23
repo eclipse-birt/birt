@@ -69,7 +69,7 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 		// data.heightHint = QUICK_BUTTON_HEIGHT;
 		buttons.setLayoutData( data );
 		layout = new GridLayout( );
-		layout.numColumns = 5;
+		layout.numColumns = 6;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		buttons.setLayout( layout );
@@ -85,9 +85,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 				isFormStyle( ) );
 		fAddButton.setText( provider.getText( 1 ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = Math.max( 60, fAddButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.widthHint = Math.max( 60,
+				fAddButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
 		fAddButton.setLayoutData( data );
 		fAddButton.addSelectionListener( new SelectionAdapter( ) {
@@ -104,9 +103,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 		fDeleteButton.setText( provider.getText( 2 ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 
-		data.widthHint = Math.max( 60, fDeleteButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.widthHint = Math.max( 60,
+				fDeleteButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
 		fDeleteButton.setLayoutData( data );
 		fDeleteButton.addSelectionListener( new SelectionAdapter( ) {
@@ -123,9 +121,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 		fMoveUpButton.setText( provider.getText( 3 ) ); //$NON-NLS-1$
 		fMoveUpButton.setToolTipText( provider.getText( 4 ) ); //$NON-NLS-1$
 		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
-		data.widthHint = Math.max( 60, fMoveUpButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+		data.widthHint = Math.max( 60,
+				fMoveUpButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
 		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
 		fMoveUpButton.setLayoutData( data );
 		fMoveUpButton.addSelectionListener( new SelectionAdapter( ) {
@@ -150,6 +147,23 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				handleMoveDownSelectedEvent( );
+			}
+		} );
+
+		fDuplicateButton = FormWidgetFactory.getInstance( )
+				.createButton( buttons, SWT.PUSH, isFormStyle( ) );
+		fDuplicateButton.setText( provider.getText( 10 ) ); //$NON-NLS-1$
+		fDuplicateButton.setToolTipText( provider.getText( 11 ) ); //$NON-NLS-1$
+		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		data.widthHint = Math.max( 60,
+				fDuplicateButton.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x );
+		// data.heightHint = QUICK_BUTTON_HEIGHT - 2;
+		fDuplicateButton.setLayoutData( data );
+		fDuplicateButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleDuplicateButtonSelectedEvent( );
 			}
 		} );
 
@@ -218,6 +232,25 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 
 	}
 
+	protected void handleDuplicateButtonSelectedEvent( )
+	{
+		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
+				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+						.getItemCount( ) )
+		{
+			int idx = fTableViewer.getTable( ).getSelectionIndex( );
+			if ( provider.duplicate( idx ) )
+			{
+				int itemCount = fTableViewer.getTable( ).getItemCount( );
+				fTableViewer.getTable( ).deselectAll( );
+				fTableViewer.getTable( ).select( itemCount - 1 );
+				fTableViewer.getTable( ).setFocus( );
+			};
+			updateButtons( );
+			refreshTableItemView( );
+		}
+	}
+
 	public Control getControl( )
 	{
 		return content;
@@ -235,7 +268,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 			fTableViewer.getTable( ).setFocus( );
 			if ( provider.edit( fTableViewer.getTable( )
 					.getItem( fTableViewer.getTable( ).getSelectionIndex( ) )
-					.getData( ), fTableViewer.getTable( ).getItemCount( ) ) )
+					.getData( ),
+					fTableViewer.getTable( ).getItemCount( ) ) )
 			{
 				fTableViewer.getTable( ).select( idx );
 				fTableViewer.getTable( ).setFocus( );
@@ -324,6 +358,11 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 				.getSelectionIndex( ) >= 0
 				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
 						.getItemCount( ) - 1 );
+
+		fDuplicateButton.setEnabled( fTableViewer.getTable( )
+				.getSelectionIndex( ) >= 0
+				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
+						.getItemCount( ) );
 	}
 
 	protected void refreshTableItemView( )
@@ -362,6 +401,7 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 			fDeleteButton.setEnabled( enabled );
 			fMoveUpButton.setEnabled( enabled );
 			fMoveDownButton.setEnabled( enabled );
+			fDeleteButton.setEnabled( enabled );
 			fTableViewer.getTable( ).setEnabled( enabled );
 
 			if ( enabled )
@@ -398,6 +438,8 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 	protected PreviewPropertyDescriptorProvider provider;
 
 	private Composite content;
+
+	private Button fDuplicateButton;
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{

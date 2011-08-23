@@ -32,4 +32,6 @@ public interface PreviewPropertyDescriptorProvider extends IDescriptorProvider
 
 	public boolean add( int itemCount );
 
+	public boolean duplicate( int idx );
+
 }

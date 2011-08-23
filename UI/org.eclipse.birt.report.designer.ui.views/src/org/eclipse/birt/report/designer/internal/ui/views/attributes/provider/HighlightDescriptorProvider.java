@@ -654,6 +654,10 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 				return Messages.getString( "HighlightsPage.TableColumn.Condition" ); //$NON-NLS-1$
 			case 9 :
 				return Messages.getString( "HighlightRuleBuilderDialog.text.PreviewContent" ); //$NON-NLS-1$
+			case 10 :
+				return Messages.getString( "HighlightsPage.label.duplicate" ); //$NON-NLS-1$
+			case 11 :
+				return Messages.getString( "HighlightsPage.toolTipText.duplicate" ); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -674,5 +678,30 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 	{
 		if ( canReset( ) )
 			save( null );
+	}
+
+	public boolean duplicate( int pos)
+	{
+		boolean result = false;;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "HighlightsPage.trans.Duplicate" ) ); //$NON-NLS-1$
+			PropertyHandle phandle = getDesignElementHandle( ).getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+			HighlightRule rule = (HighlightRule)phandle.getListValue( ).get( pos );
+			phandle.addItem(rule.copy( ));
+
+			stack.commit( );
+			result = true;
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionUtil.handle( e );
+			result = false;
+		}
+		return result;
 	}
 }

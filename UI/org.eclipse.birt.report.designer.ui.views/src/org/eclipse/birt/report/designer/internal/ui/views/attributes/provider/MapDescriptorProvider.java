@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.dialogs.Dialog;
@@ -551,6 +552,10 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 				return Messages.getString( "MapPage.label.condition" ); //$NON-NLS-1$
 			case 9 :
 				return Messages.getString( "" ); //$NON-NLS-1$
+			case 10 :
+				return Messages.getString( "MapPage.label.duplicate" ); //$NON-NLS-1$
+			case 11 :
+				return Messages.getString( "MapPage.toolTipText.duplicate" ); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -576,5 +581,30 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 	{
 		if ( canReset( ) )
 			save( null );
+	}
+
+	public boolean duplicate( int pos)
+	{
+		boolean result = false;;
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		try
+		{
+			stack.startTrans( Messages.getString( "MapPage.transName.Duplicate" ) ); //$NON-NLS-1$
+			PropertyHandle phandle = getDesignElementHandle( ).getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+			MapRule rule = (MapRule)phandle.getListValue( ).get( pos );
+			phandle.addItem(rule.copy( ));
+
+			stack.commit( );
+			result = true;
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			ExceptionUtil.handle( e );
+			result = false;
+		}
+		return result;
 	}
 }
