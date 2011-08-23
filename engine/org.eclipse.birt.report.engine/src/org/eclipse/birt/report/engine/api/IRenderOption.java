@@ -71,6 +71,8 @@ public interface IRenderOption extends ITaskOption
 	 */
 	public static final String CLOSE_OUTPUTSTREAM_ON_EXIT = "closeOutputStreamOnExit";
 	
+	public static final String REPORTLET_SIZE = "reportletSize";
+
 	/**
 	 * @return
 	 * @deprecated use getOptions instead
