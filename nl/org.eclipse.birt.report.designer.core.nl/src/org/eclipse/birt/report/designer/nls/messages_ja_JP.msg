@@ -2000,6 +2000,9 @@ HighlightsPage.trans.MoveDown=ハイライトの規則を下に移動
 HighlightsPage.trans.MoveUp=ハイライトの規則を上に移動
 HighlightsPage.toolTipText.MoveDown=ハイライトの規則を下に移動
 HighlightsPage.toolTipText.MoveUp=ハイライトの規則を上に移動
+HighlightsPage.label.duplicate=Duplicate
+HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
+HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2491,6 +2494,9 @@ MapPage.transName.moveDownRule=マップ規則を下に移動
 MapPage.transName.moveUpMapRule=マップ規則を上に移動
 MapPage.toolTipText.moveUp=マップの規則を上に移動
 MapPage.toolTipText.moveDown=マップの規則を下に移動
+MapPage.label.duplicate=Duplicate
+MapPage.toolTipText.duplicate=Duplicate Map Rule
+MapPage.transName.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapPreferencePage properties
