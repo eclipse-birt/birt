@@ -344,6 +344,8 @@ public class ScriptEvalUtil
 			{
 				if ( obj1 instanceof String )
 				{
+					if ( compareHints == null )
+                        return ( (String)obj1 ).compareTo( (String)obj2 );
 					return compareAsString( obj1, obj2, compareHints );
 				}
 				else if ( obj1 instanceof Boolean )
