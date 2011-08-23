@@ -280,4 +280,14 @@ public class ModuleOption implements IModuleOption
 		return Collections.unmodifiableMap( options );
 	}
 
+	/**
+	 *
+	 * @param options
+	 */
+	public void setOptions( Map options )
+	{
+		if ( options == null || options.isEmpty( ) )
+			return;
+		this.options.putAll( options );
+	}
 }
