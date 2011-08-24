@@ -45,7 +45,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class OlapExpressionUtil
@@ -55,7 +55,7 @@ public class OlapExpressionUtil
 
 	/**
 	 * get the attribute reference name.
-	 * 
+	 *
 	 * @param dimName
 	 * @param levelName
 	 * @param attrName
@@ -89,7 +89,7 @@ public class OlapExpressionUtil
 	{
 		return getAggregateOnLevel( getBinding( bindingName, bindings ), bindings, mostDetailed );
 	}
-	
+
 	public static Set<IDimLevel> getAggregateOnLevel( IBaseExpression expr,
 			List<IBinding> bindings, Set<IDimLevel> mostDetailed ) throws DataException
 	{
@@ -154,7 +154,7 @@ public class OlapExpressionUtil
 		{
 			aggOn.addAll( ExpressionUtil.getReferencedDimLevel( expr ) );
 		}
-		
+
 		String text = ( (IScriptExpression) binding.getExpression( ) ).getText( );
 		aggOn.addAll( ExpressionUtil.getReferencedDimLevel( text ) );
 
@@ -191,7 +191,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param originalMeasureName
 	 * @return
 	 */
@@ -202,7 +202,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
@@ -217,9 +217,9 @@ public class OlapExpressionUtil
 	 * This method is used to get the dimension,level,attributes name that
 	 * reference by a level&attribute reference expression of following format:
 	 * dimension["dimensionName"]["levelName"]["attributeName"].
-	 * 
+	 *
 	 * String[0] dimensionName; String[1] levelName; String[2] attributeName;
-	 * 
+	 *
 	 * @param expr
 	 * @return String[]
 	 * @throws DataException
@@ -270,7 +270,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 * @throws DataException
@@ -293,7 +293,7 @@ public class OlapExpressionUtil
 	/**
 	 * This method is to get the measure name that referenced by a measure
 	 * reference expression.
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
@@ -312,7 +312,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
@@ -341,7 +341,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
@@ -358,7 +358,7 @@ public class OlapExpressionUtil
 	/**
 	 * to check whether the expression directly reference to a dimension or
 	 * measure
-	 * 
+	 *
 	 * @param expression
 	 * @param bindings
 	 * @return
@@ -406,7 +406,7 @@ public class OlapExpressionUtil
 		{
 			return binding;
 		}
-		else if ( expr.trim( ).matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
+		else if ( expr.trim( ).matches( ".*\\Qdata[\"\\E.*\\Q\"]\\E.*" ) )// data binding
 		{
 			String bindingName = getBindingName( expr );
 			for ( IBinding b : bindings )
@@ -419,10 +419,10 @@ public class OlapExpressionUtil
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Return the binding name of data["binding"]
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
@@ -450,7 +450,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @param attribute
 	 * @return
@@ -461,7 +461,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimentionName
 	 * @param levelName
 	 * @return
@@ -473,7 +473,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param level
 	 * @return
 	 */
@@ -485,7 +485,7 @@ public class OlapExpressionUtil
 	/**
 	 * This method returns a list of CubeAggrDefnOnMeasure instances which
 	 * describes the aggregations that need to be calculated in cube query.
-	 * 
+	 *
 	 * @param bindings
 	 * @return
 	 * @throws DataException
@@ -537,7 +537,7 @@ public class OlapExpressionUtil
 	/**
 	 * This method returns a list of CubeNestAggrDefn instances which describes
 	 * the aggregations that need to be calculated in cube query.
-	 * 
+	 *
 	 * @param bindings
 	 * @param basedBindings
 	 * @return
@@ -643,7 +643,7 @@ public class OlapExpressionUtil
 		all.removeAll( directRef );
 		return all;
 	}
-	
+
 	private static boolean isReferenceToLevelOrMeasure( IBaseExpression expression,
 			List<IBinding> bindings ) throws DataException
 	{
@@ -664,9 +664,9 @@ public class OlapExpressionUtil
 		}
 		return false;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param bindings
 	 * @return
@@ -736,7 +736,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 */
@@ -744,7 +744,7 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return false;
-		
+
 		String exprTrimed = expr.trim( )
 				.replaceAll( "\\n", "" )
 				.replaceAll( "\\r", "" )
@@ -754,7 +754,7 @@ public class OlapExpressionUtil
 		{
 			boolean referToAttribute = isReferenceToAttribute( new ScriptExpression( expr ),
 					new ArrayList( ) );
-			
+
 			if ( exprTrimed
 					.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
 					|| exprTrimed
@@ -778,7 +778,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param bindings
 	 * @return
@@ -808,7 +808,7 @@ public class OlapExpressionUtil
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outResults
 	 * @return
 	 * @throws DataException
