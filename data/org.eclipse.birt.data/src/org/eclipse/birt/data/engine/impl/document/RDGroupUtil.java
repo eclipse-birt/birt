@@ -374,7 +374,10 @@ public final class RDGroupUtil implements IRDGroupUtil
 			int i = 0;
 			while( true )
 			{
-				if( groupList.get( i ).firstChild > cacheProvider.getCurrentIndex( ) )
+				GroupInfo info = groupList.get( i );
+				if( info == null )
+					return;
+				if( info.firstChild > cacheProvider.getCurrentIndex( ) )
 				{
 					this.leafGroupIdx = i-1;
 					return;
