@@ -50,7 +50,7 @@ public class CommentsPreferencePage extends BaseStylePreferencePage
 	 */
 	protected void createFieldEditors( )
 	{
-		super.createFieldEditors( );
+		//super.createFieldEditors( );
 
 		comments = new TextFieldEditor( StyleHandle.COMMENTS_PROP,
 				Messages.getString( ( (StyleHandle) model ).getPropertyHandle( StyleHandle.COMMENTS_PROP )
@@ -73,7 +73,9 @@ public class CommentsPreferencePage extends BaseStylePreferencePage
 
 	protected String[] getPreferenceNames( )
 	{
-		return new String[0];
+		return new String[]{
+			StyleHandle.COMMENTS_PROP
+		};
 	}
 
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -20,7 +21,11 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleP
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -110,6 +115,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	private MapHandleProvider provider = new MapHandleProvider( );
 
 	private Object model;
+
+	private Button fDuplicateButton;
 
 	/**
 	 * Default constructor.
@@ -222,7 +229,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		Composite buttons = new Composite( parent, SWT.NONE );
 		buttons.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		layout = new GridLayout( );
-		layout.numColumns = 6;
+		layout.numColumns = 7;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		buttons.setLayout( layout );
@@ -300,6 +307,21 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			}
 		} );
 
+		fDuplicateButton = new Button( buttons, SWT.PUSH );
+		fDuplicateButton.setText( Messages.getString( "MapPreferencePage.text.Duplicate" ) ); //$NON-NLS-1$
+		fDuplicateButton.setToolTipText( Messages.getString( "MapPreferencePage.toolTipText.Duplicate" ) ); //$NON-NLS-1$
+		data = new GridData( GridData.FILL_HORIZONTAL );
+		data.widthHint = Math.max( fDuplicateButton.computeSize( -1, -1 ).x, 60 );
+		// data.heightHint = 24;
+		fDuplicateButton.setLayoutData( data );
+		fDuplicateButton.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event e )
+			{
+				duplicate( );
+			}
+		} );
+
 		fTableViewer.setInput( model );
 
 		updateButtons( );
@@ -307,6 +329,32 @@ public class MapPreferencePage extends BaseStylePreferencePage
 		Dialog.applyDialogFont( parent );
 
 		return parent;
+	}
+
+	protected void duplicate( )
+	{
+		int index = fTableViewer.getTable( ).getSelectionIndex( );
+		PropertyHandle phandle = ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+		MapRule rule = (MapRule) phandle.getListValue( ).get( index );
+		try
+		{
+			MapRule newRule = (MapRule) rule.copy( );
+			phandle.addItem( newRule );
+
+			fTableViewer.add( newRule.getHandle( phandle, phandle.getItems( )
+					.size( ) - 1 ) );
+			int itemCount = fTableViewer.getTable( ).getItemCount( );
+			fTableViewer.getTable( ).deselectAll( );
+			fTableViewer.getTable( ).select( itemCount - 1 );
+			fTableViewer.getTable( ).setFocus( );
+
+			updateButtons( );
+			refreshTableItemView( );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	}
 
 	private void refreshTableItemView( )
@@ -330,6 +378,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
 						.getItemCount( ) );
 		fDeleteButton.setEnabled( fEditButton.getEnabled( ) );
+		fDuplicateButton.setEnabled( fEditButton.getEnabled( ) );
 
 		fMoveUpButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) > 0
 				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
@@ -373,6 +422,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			updateButtons( );
 
 			refreshTableItemView( );
+
+			getBuilder( ).refreshPagesStatus( );
 		}
 	}
 
@@ -443,6 +494,8 @@ public class MapPreferencePage extends BaseStylePreferencePage
 			}
 
 			updateButtons( );
+
+			getBuilder( ).refreshPagesStatus( );
 		}
 	}
 
@@ -510,5 +563,16 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	protected String[] getPreferenceNames( )
 	{
 		return new String[0];
+	}
+
+	public boolean hasLocaleProperties( )
+	{
+		PropertyHandle phandle = ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+		if ( phandle.getListValue( ) != null
+				&& phandle.getListValue( ).size( ) > 0 )
+		{
+			return true;
+		}
+		return false;
 	}
 }
