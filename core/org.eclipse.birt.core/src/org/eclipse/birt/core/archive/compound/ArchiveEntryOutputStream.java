@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,6 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
-import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
@@ -32,14 +31,6 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 
 	protected ArchiveEntry entry;
 
-	protected byte[] buffer;
-	protected int buffer_offset;
-	protected int buffer_size;
-
-	/** the current output position */
-
-	private long offset;
-
 	/**
 	 * Constructor
 	 * 
@@ -52,15 +43,11 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 	{
 		this.writer = writer;
 		this.entry = entry;
-		this.offset = 0;
-		this.buffer_offset = 0;
-		this.buffer_size = 4096;
-		this.buffer = new byte[4096];
 	}
 
 	public long getOffset( ) throws IOException
 	{
-		return offset + buffer_offset;
+		return entry.getPosition( );
 	}
 
 	public void seek( long localPos ) throws IOException
@@ -75,65 +62,34 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 		{
 			entry.setLength( localPos );
 		}
-		//entry.ensureSize( localPos );
-
-		if ( offset + buffer_offset != localPos )
-		{
-			flushBuffer( );
-			offset = localPos;
-		}
+		entry.seek( localPos );
 	}
 
 	public void write( int b ) throws IOException
 	{
-		if ( buffer_offset >= buffer_size )
-		{
-			flushBuffer( );
-		}
-		buffer[buffer_offset] = (byte) b;
-		buffer_offset++;
+		entry.write( b );
 	}
 
 	public void writeInt( int value ) throws IOException
 	{
-		if ( buffer_offset + 4 >= buffer_size )
-		{
-			flushBuffer( );
-		}
-		ArchiveUtil.integerToBytes( value, buffer, buffer_offset );
-		buffer_offset += 4;
+		entry.writeInt( value );
 	}
 
 	public void writeLong( long value ) throws IOException
 	{
-		if ( buffer_offset + 8 >= buffer_size )
-		{
-			flushBuffer( );
-		}
-		ArchiveUtil.longToBytes( value, buffer, buffer_offset );
-		buffer_offset += 8;
+		entry.writeLong( value );
 	}
 
 	public void write( byte b[], int off, int len ) throws IOException
 	{
-		if ( buffer_offset + len <= buffer_size )
-		{
-			System.arraycopy( b, off, buffer, buffer_offset, len );
-			buffer_offset += len;
-			return;
-		}
-		flushBuffer( );
-		entry.write( offset, b, off, len );
-		offset += len;
+		entry.write( b, off, len );
 	}
 
 	public void flush( ) throws IOException
 	{
 		if ( entry != null )
 		{
-			flushBuffer( );
 			entry.flush( );
-			super.flush( );
 		}
 	}
 
@@ -162,24 +118,8 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 		}
 	}
 
-	private void flushBuffer( ) throws IOException
-	{
-		if ( buffer_offset != 0 )
-		{
-			entry.write( offset, buffer, 0, buffer_offset );
-			offset += buffer_offset;
-			buffer_offset = 0;
-		}
-	}
-	
 	public long length( ) throws IOException
 	{
-		long length = entry.getLength( );
-		long offset = getOffset( );
-		if ( offset > length )
-		{
-			return offset;
-		}
-		return length;
+		return entry.getLength( );
 	}
 }

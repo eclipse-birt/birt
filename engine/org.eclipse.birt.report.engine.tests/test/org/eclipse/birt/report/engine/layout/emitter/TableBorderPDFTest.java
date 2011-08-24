@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.layout.emitter;
 
@@ -55,19 +65,20 @@ class CellArea
 	{
 		borders[type].borderColor = color;
 	}
+	
+	static class BorderInfo
+	{
+		public static final int TOP_BORDER = 0;
+		public static final int RIGHT_BORDER = 1;
+		public static final int BOTTOM_BORDER = 2;
+		public static final int LEFT_BORDER = 3;
+
+		public int borderWidth;
+		public int borderStyle = org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID;
+		public Color borderColor = Color.black;
+	}
 }
 
-class BorderInfo
-{
-	public static final int TOP_BORDER = 0;
-	public static final int RIGHT_BORDER = 1;
-	public static final int BOTTOM_BORDER = 2;
-	public static final int LEFT_BORDER = 3;
-	
-	public int borderWidth;
-	public int borderStyle = org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID;
-	public Color borderColor = Color.black;
-}
 
 public class TableBorderPDFTest extends TestCase
 {

@@ -15,12 +15,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.compound.v3.Ext2Entry;
 import org.eclipse.birt.core.archive.compound.v3.Ext2File;
 import org.eclipse.birt.core.archive.compound.v3.Ext2FileSystem;
-import org.eclipse.birt.core.archive.compound.v3.Ext2Node;
 
 public class ArchiveFileV3 implements IArchiveFile
 {
@@ -29,6 +29,7 @@ public class ArchiveFileV3 implements IArchiveFile
 	public static final String PROPERTY_DEPEND_ID = "archive.depened-id";
 
 	protected Ext2FileSystem fs;
+	protected HashSet<ArchiveEntryV3> openedEntries = new HashSet<ArchiveEntryV3>( );
 
 	public ArchiveFileV3( String fileName, String mode ) throws IOException
 
@@ -51,8 +52,18 @@ public class ArchiveFileV3 implements IArchiveFile
 		}
 	}
 
-	public void close( ) throws IOException
+	synchronized public void close( ) throws IOException
 	{
+		if ( !openedEntries.isEmpty( ) )
+		{
+			ArrayList<ArchiveEntryV3> entries = new ArrayList<ArchiveEntryV3>(
+					openedEntries );
+			for ( ArchiveEntryV3 entry : entries )
+			{
+				entry.close( );
+			}
+			openedEntries.clear( );
+		}
 		if ( fs != null )
 		{
 			fs.close( );
@@ -70,10 +81,10 @@ public class ArchiveFileV3 implements IArchiveFile
 		fs.setProperty( PROPERTY_DEPEND_ID, id );
 	}
 
-	public ArchiveEntry createEntry( String name ) throws IOException
+	synchronized public ArchiveEntry createEntry( String name ) throws IOException
 	{
 		Ext2File file = fs.createFile( name );
-		return new ArchiveEntryV3( file );
+		return new ArchiveEntryV3( this, file );
 	}
 
 	public boolean exists( String name )
@@ -81,9 +92,19 @@ public class ArchiveFileV3 implements IArchiveFile
 		return fs.existFile( name );
 	}
 
-	public void flush( ) throws IOException
+	synchronized public void flush( ) throws IOException
 	{
+		// first flush all the ext2 files
+		for ( ArchiveEntryV3 entry : openedEntries )
+		{
+			entry.flush( );
+		}
 		fs.flush( );
+		// then refresh all the opened files
+		for ( ArchiveEntryV3 entry : openedEntries )
+		{
+			entry.refresh( );
+		}
 	}
 
 	public String getDependId( )
@@ -91,12 +112,12 @@ public class ArchiveFileV3 implements IArchiveFile
 		return fs.getProperty( PROPERTY_DEPEND_ID );
 	}
 
-	public ArchiveEntry openEntry( String name ) throws IOException
+	synchronized public ArchiveEntry openEntry( String name ) throws IOException
 	{
 		if ( fs.existFile( name ) )
 		{
 			Ext2File file = fs.openFile( name );
-			return new ArchiveEntryV3( file );
+			return new ArchiveEntryV3( this, file );
 		}
 		throw new FileNotFoundException( name );
 	}
@@ -147,8 +168,14 @@ public class ArchiveFileV3 implements IArchiveFile
 		throw new FileNotFoundException( name );
 	}
 
-	public void refresh( ) throws IOException
+	synchronized public void refresh( ) throws IOException
 	{
+		fs.refresh( );
+		// refresh all the opened files
+		for ( ArchiveEntryV3 entry : openedEntries )
+		{
+			entry.refresh( );
+		}
 	}
 
 	public boolean removeEntry( String name ) throws IOException
@@ -181,14 +208,27 @@ public class ArchiveFileV3 implements IArchiveFile
 		assert ( locker instanceof Ext2Entry );
 	}
 
+	protected void openEntry( ArchiveEntryV3 entry )
+	{
+		openedEntries.add( entry );
+	}
+
+	protected void closeEntry( ArchiveEntryV3 entry )
+	{
+		openedEntries.remove( entry );
+	}
+
 	private static class ArchiveEntryV3 extends ArchiveEntry
 	{
 
+		ArchiveFileV3 archive;
 		Ext2File file;
 
-		ArchiveEntryV3( Ext2File file )
+		ArchiveEntryV3( ArchiveFileV3 archive, Ext2File file )
 		{
+			this.archive = archive;
 			this.file = file;
+			this.archive.openEntry( this );
 		}
 
 		public String getName( )
@@ -196,18 +236,19 @@ public class ArchiveFileV3 implements IArchiveFile
 			return file.getName( );
 		}
 
-		public long getLength( ) throws IOException
+		protected long _getLength( ) throws IOException
 		{
 			return file.length( );
 		}
 
 		public void close( ) throws IOException
 		{
+			archive.closeEntry( this );
 			file.close( );
 		}
 
 		@Override
-		public void flush( ) throws IOException
+		protected void _flush( ) throws IOException
 		{
 		}
 
@@ -220,12 +261,12 @@ public class ArchiveFileV3 implements IArchiveFile
 		}
 
 		@Override
-		public void refresh( ) throws IOException
+		protected void _refresh( ) throws IOException
 		{
 		}
 
 		@Override
-		public void setLength( long length ) throws IOException
+		protected void _setLength( long length ) throws IOException
 		{
 			file.setLength( length );
 		}

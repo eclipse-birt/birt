@@ -30,7 +30,9 @@ public class AllTests
 		//$JUnit-BEGIN$
 		
 		/* in package: org.eclipse.birt.core.archive */
+		suite.addTestSuite( org.eclipse.birt.core.archive.ArchiveFileCacheTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.ArchiveFileSaveTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.archive.ArchiveFlushTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.ArchiveUtilTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.DocArchiveLockManagerTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.DocumentArchiveTest.class );
@@ -40,10 +42,19 @@ public class AllTests
 		
 		/* in package: org.eclipse.birt.core.archive.compound */
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchiveEntryInputStreamTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchiveFileFactoryTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchiveFileTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchivePerformanceTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchiveRemoveTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.archive.compound.ArchiveViewTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.archive.compound.UpgradeArchiveTest.class );
-//		suite.addTestSuite( org.eclipse.birt.core.archive.compound.AllocTableLoaderTest.class );
+
+		/* in package: org.eclipse.birt.core.btree */
+		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeCursorTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeMultipleThreadTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.NodeInputStreamTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.btree.NodeOutputStreamTest.class );
 		
 		/* in package: org.eclipse.birt.core.config */
 		suite.addTestSuite( org.eclipse.birt.core.config.FileConfigVarManagerTest.class );
@@ -64,30 +75,25 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.core.format.StringFormatterTest.class );
 		
 		/* in package: org.eclipse.birt.core.script.bre */
-		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtDateTimeTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtCompTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtDateTimeTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtDurationTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtMathTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtStrTest.class );
 		
 		/* in package: org.eclipse.birt.core.script */
-		suite.addTestSuite( org.eclipse.birt.core.script.ScriptContextTest.class );
-		suite.addTestSuite( org.eclipse.birt.core.script.NativeNamedListTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.NativeDateTimeSpanTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.NativeFinanceTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.NativeJavaMapTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.script.NativeNamedListTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.ScriptableParametersTest.class);
+		suite.addTestSuite( org.eclipse.birt.core.script.ScriptContextTest.class );
 		
 		/* in package: org.eclipse.birt.core.template */
 		suite.addTestSuite( TemplateParserTest.class );
 		
 		/* in package: org.eclipse.birt.core.util */
 		suite.addTestSuite( org.eclipse.birt.core.util.IOUtilTest.class );
-
-		/* in package: org.eclipse.birt.core.btree*/
-		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeTest.class );
-		suite.addTestSuite( org.eclipse.birt.core.btree.BTreeCursorTest.class );
-		suite.addTestSuite( org.eclipse.birt.core.btree.NodeInputStreamTest.class );
-		suite.addTestSuite( org.eclipse.birt.core.btree.NodeOutputStreamTest.class );
 
 		//$JUnit-END$
 		return suite;

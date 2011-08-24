@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2009 Actuate Corporation.
+ * Copyright (c) 2004,2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,22 +40,22 @@ class ArchiveEntryV1 extends ArchiveEntry
 		return name;
 	}
 
-	public long getLength( ) throws IOException
+	protected long _getLength( ) throws IOException
 	{
 		return length;
 	}
 
-	public void setLength( long length ) throws IOException
+	protected void _setLength( long length ) throws IOException
 	{
 		throw new IOException( "" );
 	}
 
-	public void flush( ) throws IOException
+	protected void _flush( ) throws IOException
 	{
 		throw new IOException( "" );
 	}
 
-	public void refresh( ) throws IOException
+	protected void _refresh( ) throws IOException
 	{
 	}
 

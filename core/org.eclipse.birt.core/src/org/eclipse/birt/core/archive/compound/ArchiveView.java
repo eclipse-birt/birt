@@ -135,58 +135,29 @@ public class ArchiveView implements IArchiveFile
 		return archive.getSystemId( );
 	}
 
-	static class ViewEntry extends ArchiveEntry
+	static class ViewEntry extends ArchiveEntryAdapter
 	{
 
 		IArchiveFile view;
 		boolean writable;
-		ArchiveEntry entry;
-		String name;
 
 		ViewEntry( IArchiveFile view, String name, ArchiveEntry entry )
 		{
+			super( name, entry );
 			writable = false;
 			this.view = view;
-			this.name = name;
-			this.entry = entry;
 		}
 
-		public String getName( )
-		{
-			return name;
-		}
-
-		public void close( ) throws IOException
-		{
-			entry.close( );
-		}
-
-		public long getLength( ) throws IOException
-		{
-			return entry.getLength( );
-		}
-
-		public void setLength( long length ) throws IOException
+		protected void _setLength( long length ) throws IOException
 		{
 			ensureWritable( );
 			entry.setLength( length );
 		}
 
-		public void flush( ) throws IOException
+		protected void _flush( ) throws IOException
 		{
 			ensureWritable( );
 			entry.flush( );
-		}
-
-		public void refresh( ) throws IOException
-		{
-			entry.refresh( );
-		}
-
-		public int read( long pos, byte[] b, int off, int len )
-				throws IOException
-		{
-			return entry.read( pos, b, off, len );
 		}
 
 		public void write( long pos, byte[] b, int off, int len )
@@ -200,7 +171,7 @@ public class ArchiveView implements IArchiveFile
 		{
 			if ( !writable )
 			{
-				ArchiveEntry viewEntry = view.createEntry( name );
+				ArchiveEntry viewEntry = view.createEntry( entryName );
 				copyEntry( entry, viewEntry );
 				entry = viewEntry;
 				writable = true;
