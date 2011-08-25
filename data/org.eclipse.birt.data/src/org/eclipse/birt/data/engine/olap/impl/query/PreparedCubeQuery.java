@@ -28,8 +28,8 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
-import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -43,7 +43,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	private DataEngineSession session;
 	private DataEngineContext context;
 	private Map appContext;
-	private List<IJSFacttableFilterEvalHelper> internalFilters;
+	private List<SimpleLevelFilter> internalFilters;
 	private Map<String, Set<String>> inaccessibleDimLevels;
 	
 	/**
@@ -57,7 +57,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		this.session = session;
 		this.context = context;
 		this.appContext = appContext;
-		this.internalFilters = new ArrayList<IJSFacttableFilterEvalHelper> ();
+		this.internalFilters = new ArrayList<SimpleLevelFilter> ();
 		if ( !containsDrillFilter( defn ) )		
 			validateQuery( );
 	}
@@ -71,7 +71,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		return null;
 	}
 	
-	public List<IJSFacttableFilterEvalHelper> getInternalFilters( )
+	public List<SimpleLevelFilter> getInternalFilters( )
 	{
 		return this.internalFilters;
 	}

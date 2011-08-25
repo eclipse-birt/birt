@@ -28,9 +28,11 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -156,17 +158,46 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws IOException 
 	 */
 	public static ICube loadCube( String cubeName,
+			IDocumentManager documentManager, DataEngineSession session ) throws IOException, DataException
+	{
+		if ( documentManager == null )
+		{
+			throw new DataException( ResourceConstants.FAIL_LOAD_CUBE, cubeName );
+		}
+		final Cube cube = new Cube( cubeName, documentManager );
+		cube.load( session.getStopSign( ) );
+		session.getEngine( ).addShutdownListener( new IShutdownListener(){
+
+			public void dataEngineShutdown( )
+			{
+				try
+				{
+					cube.close( );
+				}
+				catch ( Exception e )
+				{
+				}
+
+			}} );
+		return cube;
+	}
+	/**
+	 *
+	 * @param cube
+	 * @throws BirtException
+	 * @throws IOException
+	 */
+	public static ICube loadCube( String cubeName,
 			IDocumentManager documentManager, StopSign stopSign ) throws IOException, DataException
 	{
 		if ( documentManager == null )
 		{
 			throw new DataException( ResourceConstants.FAIL_LOAD_CUBE, cubeName );
 		}
-		Cube cube = new Cube( cubeName, documentManager );
+		final Cube cube = new Cube( cubeName, documentManager );
 		cube.load( stopSign );
 		return cube;
 	}
-	
 	/**
 	 * 
 	 * @param cube

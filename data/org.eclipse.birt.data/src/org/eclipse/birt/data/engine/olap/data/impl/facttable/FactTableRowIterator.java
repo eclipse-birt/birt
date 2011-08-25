@@ -323,6 +323,8 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				throw DataException.wrap( e );
 			}
 		}
+		if ( this.currentSegment!= null )
+			this.currentSegment.close( );
 	}
 	
 	/**

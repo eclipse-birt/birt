@@ -275,7 +275,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
 				this.scope,
 				this.context );
-		executor.getFacttableBasedFilterHelpers( ).addAll( this.preparedQuery.getInternalFilters( ) );
+		executor.getdimensionSimpleFilter( ).addAll( this.preparedQuery.getInternalFilters( ) );
 		
 		IDocumentManager documentManager = getDocumentManager( executor );
 		ICube cube = null;
@@ -371,7 +371,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( )
 				.getName( ),
 				documentManager,
-				executor.getSession( ).getStopSign( ) );
+				executor.getSession( ) );
 		else 
 			cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( )
 					.getName( ),
