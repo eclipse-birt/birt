@@ -18,7 +18,7 @@ public interface IOdfWriter
 
 	void endTable( );
 
-	void endTableCell( boolean needEmptyP );
+	void endTableCell( );
 
 	void endTableHeader( );
 

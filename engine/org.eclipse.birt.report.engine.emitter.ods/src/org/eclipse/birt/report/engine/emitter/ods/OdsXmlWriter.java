@@ -328,7 +328,7 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter
 
 	private void endCell( )
 	{
-		this.endTableCell( false );
+		this.endTableCell( );
 	}
 
 	private void defineNames( Entry<String, BookmarkDef> bookmarkEntry )

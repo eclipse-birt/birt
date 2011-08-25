@@ -236,11 +236,6 @@ public class OdtEmitter extends AbstractOdfEmitter
 				adjustInline( );
 			}
 
-			if ( context.isLastTable( ) )
-			{
-				bodyWriter.insertHiddenParagraph( );
-			}
-
 			if ( !CSSConstants.CSS_INLINE_VALUE.equalsIgnoreCase( container
 					.getComputedStyle( ).getDisplay( ) ) )
 			{
@@ -311,11 +306,6 @@ public class OdtEmitter extends AbstractOdfEmitter
 
 			context.startCell( );
 
-			if ( context.isLastTable( ) )
-			{
-				bodyWriter.insertHiddenParagraph( );
-			}
-
 			tableCount++;
 			StyleEntry foreignStyle = StyleBuilder.createStyleEntry( foreign.getComputedStyle(), StyleEntry.TYPE_TABLE );
 			foreignStyle.setProperty( StyleConstant.WIDTH, context.getCurrentWidth( ) );
@@ -334,7 +324,7 @@ public class OdtEmitter extends AbstractOdfEmitter
 
 			adjustInline( );
 
-			bodyWriter.endTableCell( context.needEmptyP( ) );
+			bodyWriter.endTableCell( );
 
 			context.endCell( );
 			bodyWriter.endTableRow( );
@@ -693,11 +683,6 @@ public class OdtEmitter extends AbstractOdfEmitter
 		addTableToc( list );
 		increaseTOCLevel( list );
 	
-		if ( context.isLastTable( ) )
-		{
-			bodyWriter.insertHiddenParagraph( );
-		}
-	
 		double width = OdfUtil.convertTo( list.getWidth( ), context
 				.getCurrentWidth( ), context.getReportDpi() );
 		width = Math.min( width, context.getCurrentWidth( ) );
@@ -1028,7 +1013,6 @@ public class OdtEmitter extends AbstractOdfEmitter
 		adjustInline( );
 		context.removeWidth( );
 		
-		boolean needEmptyP = context.needEmptyP( );
 		if ( !containerBookmarks.isEmpty( ) || !tableTocs.isEmpty( ) )
 		{
 			// the table bookmarks and tocs have still not be output in
@@ -1036,11 +1020,9 @@ public class OdtEmitter extends AbstractOdfEmitter
 			// didn't contain any paragraph, so output an empty paragraph
 			
 			bodyWriter.writeMarkersParagraph( containerBookmarks, tableTocs );
-			// setting need empty P since we already output one
-			needEmptyP = false;
 		}
 		
-		bodyWriter.endTableCell( needEmptyP );
+		bodyWriter.endTableCell( );
 		context.endCell( );
 	}
 
@@ -1085,7 +1067,7 @@ public class OdtEmitter extends AbstractOdfEmitter
 		}
 
 		adjustInline( );
-		bodyWriter.endTableCell( context.needEmptyP() );
+		bodyWriter.endTableCell( );
 		context.endCell( );
 		bodyWriter.endTableRow( );
 	}

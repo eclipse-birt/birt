@@ -108,14 +108,8 @@ public class AbstractOdfWriter implements IOdfWriter
 		}
 	}
 
-	public void endTableCell( boolean empty )
+	public void endTableCell( )
 	{
-		if ( empty )
-		{
-			// TODO: needed for opendocument ?
-			insertHiddenParagraph( );
-		}
-	
 		writer.closeTag( "table:table-cell" );
 	}
 
