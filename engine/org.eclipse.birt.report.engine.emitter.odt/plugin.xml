@@ -8,6 +8,7 @@
         <emitter
               class="org.eclipse.birt.report.engine.emitter.odt.OdtEmitter"
               format="odt"
+              icon="resource/odt.gif"
               id="org.eclipse.birt.report.engine.emitter.odt"
               pagination="page-break-pagination"
               mimeType="application/vnd.oasis.opendocument.text"/>
