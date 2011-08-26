@@ -563,11 +563,10 @@ public class LocalizedContentVisitor
 	{
 		IReportContent reportContent = getReportContent( );
 		
+		handleOnRender( foreignContent );
 		String rawFormat = foreignContent.getRawType( );
 		Object rawValue = foreignContent.getRawValue( );
 
-		handleOnRender( foreignContent );
-		
 		if ( IForeignContent.TEMPLATE_TYPE.equals( rawFormat ) )
 		{
 			processTemplateContent( foreignContent );
