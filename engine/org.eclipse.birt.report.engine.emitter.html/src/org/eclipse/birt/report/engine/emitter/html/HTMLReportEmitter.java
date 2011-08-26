@@ -158,7 +158,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public static final String BIRT_ROOT = "__BIRT_ROOT";
 
-	protected boolean hasCsslinks = true;
+	protected boolean hasCsslinks = false;
 	/**
 	 * the output format
 	 */
@@ -944,34 +944,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 
-		if ( hasCsslinks )
+		// export the CSS links in the HTML
+		if ( designHandle != null )
 		{
-			// export the CSS links in the HTML
-			hasCsslinks = false;
-			if ( designHandle != null )
+			List externalCsses = designHandle.getAllExternalIncludedCsses( );
+			if ( null != externalCsses )
 			{
-				List externalCsses = designHandle.getAllExternalIncludedCsses( );
-				if ( null != externalCsses )
+				Iterator iter = externalCsses.iterator( );
+				while ( iter.hasNext( ) )
 				{
-					Iterator iter = externalCsses.iterator( );
-					while ( iter.hasNext( ) )
+					IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter.next( );
+					String href = cssStyleSheetHandle.getExternalCssURI( );
+					if ( href != null )
 					{
-						IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter.next( );
-						String href = cssStyleSheetHandle.getExternalCssURI( );
-						if ( href != null )
-						{
-							boolean isEmbeddable = new HTMLRenderOption( renderOption ).getEmbeddable( );
-							if ( !isEmbeddable )
-							{// output the CSS link if it is not is embeddable
-								hasCsslinks = true;
-								writer.openTag( HTMLTags.TAG_LINK );
-								writer.attribute( HTMLTags.ATTR_REL,
-										"stylesheet" );
-								writer.attribute( HTMLTags.ATTR_TYPE,
-										"text/css" );
-								writer.attribute( HTMLTags.ATTR_HREF, href );
-								writer.closeTag( HTMLTags.TAG_LINK );
-							}
+						boolean isEmbeddable = new HTMLRenderOption( renderOption ).getEmbeddable( );
+						hasCsslinks = true;
+						if ( !isEmbeddable )
+						{// output the CSS link if it is not
+							// is embeddable
+							writer.openTag( HTMLTags.TAG_LINK );
+							writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
+							writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
+							writer.attribute( HTMLTags.ATTR_HREF, href );
+							writer.closeTag( HTMLTags.TAG_LINK );
 						}
 					}
 				}
@@ -2983,7 +2978,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				if ( hasAction )
 				{
-					titleText = image.getHyperlinkAction( ).getTooltip( );
+					titleText = hyperlinkAction.getTooltip( );
 				}
 			}
 			writer.attribute( HTMLTags.ATTR_TITLE, titleText );
