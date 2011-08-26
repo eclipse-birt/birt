@@ -44,13 +44,10 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -248,8 +245,7 @@ public class DistinctValueSelector
 					bindingList.iterator( ),
 					groupIterator,
 					columnName,
-					useDataSetFilter,
-					null );
+					useDataSetFilter, null );
 
 			engineTask.close( );
 			engine.destroy( );
@@ -285,28 +281,8 @@ public class DistinctValueSelector
 				|| resultProtoType instanceof byte[] )
 			return Collections.EMPTY_LIST;
 
+		//remove the null value in list
+		result.remove( null );
 		return new ArrayList( result );
-	}
-	
-	private static String findColumnDataType( DataSetHandle handle,
-			String columnName )
-	{
-		if ( handle.getCachedMetaDataHandle( ) != null )
-		{
-			CachedMetaDataHandle metaDataHandle = handle.getCachedMetaDataHandle( );
-			if ( metaDataHandle == null )
-				return null;
-			MemberHandle memberHandle = metaDataHandle.getResultSet( );
-			if ( memberHandle == null )
-				return null;
-			Iterator iterator = memberHandle.iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator.next( );
-				if ( columnHandle.getColumnName( ).equals( columnName ) )
-					return columnHandle.getDataType( );
-			}
-		}
-		return null;
 	}
 }
