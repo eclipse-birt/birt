@@ -2852,7 +2852,7 @@ Element.ListingGroup.onRender.this=リスティンググループ
 Element.ListingGroup.onRender.reportContext=レポートのコンテキスト
 Element.ListingGroup.ACLExpression=ACL 式
 Element.ListingGroup.cascadeACL=ACL を重ねて表示
-Element.ListingGroup.showDetailFilter=Show detail filter
+Element.ListingGroup.showDetailFilter=フィルタの詳細を表示
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=ヘッダ
@@ -3031,7 +3031,7 @@ Element.Image.onPageBreak.toolTip=改ページが発生する際に、ページ上のすべてのレポ
 Element.Image.onPageBreak.this=イメージインスタンス
 Element.Image.onPageBreak.reportContext=レポートのコンテキスト
 Element.Image.fitToContainer=コンテナに合わせる
-Element.Image.proportionalScale=Proportional Scale
+Element.Image.proportionalScale=プロポーショナルスケール
 
 #24.Grid  ( prefix  Element.Grid )
 Element.Grid.slot.columns=列
