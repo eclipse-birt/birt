@@ -2016,7 +2016,8 @@ HighlightsPreferencePage.text.Description=Kennzeichnungsliste:
 HighlightsPreferencePage.text.Edit=&Bearbeiten...
 HighlightsPreferencePage.toolTipText.Up=Markierung nach oben verschieben
 HighlightsPreferencePage.toolTipText.Down=Markierung nach unten verschieben
-
+HighlightsPreferencePage.text.Duplicate=&Duplicate
+HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2510,6 +2511,8 @@ MapPreferencePage.text.Description=Zuordnungsregeln:
 MapPreferencePage.text.Edit=&Bearbeiten...
 MapPreferencePage.toolTipText.Up=Zuordnungsregel nach oben verschieben
 MapPreferencePage.toolTipText.Down=Zuordnungsregel nach unten verschieben
+MapPreferencePage.text.Duplicate=&Duplicate
+MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapRuleBuilderDialog properties

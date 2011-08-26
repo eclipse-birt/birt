@@ -2016,7 +2016,8 @@ HighlightsPreferencePage.text.Description=강조 목록:
 HighlightsPreferencePage.text.Edit=편집(&D)...
 HighlightsPreferencePage.toolTipText.Up=강조 위로 이동
 HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
-
+HighlightsPreferencePage.text.Duplicate=&Duplicate
+HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2510,6 +2511,8 @@ MapPreferencePage.text.Description=맵 규칙:
 MapPreferencePage.text.Edit=편집(&D)...
 MapPreferencePage.toolTipText.Up=맵 규칙 위로 이동
 MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
+MapPreferencePage.text.Duplicate=&Duplicate
+MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapRuleBuilderDialog properties

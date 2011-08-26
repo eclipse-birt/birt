@@ -2016,7 +2016,8 @@ HighlightsPreferencePage.text.Description=ハイライトの一覧 :
 HighlightsPreferencePage.text.Edit=編集(&D)...
 HighlightsPreferencePage.toolTipText.Up=ハイライト部分を上に移動
 HighlightsPreferencePage.toolTipText.Down=ハイライト部分を下に移動
-
+HighlightsPreferencePage.text.Duplicate=&Duplicate
+HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2510,6 +2511,8 @@ MapPreferencePage.text.Description=マップ規則 :
 MapPreferencePage.text.Edit=編集(&D)...
 MapPreferencePage.toolTipText.Up=マップの規則を上に移動
 MapPreferencePage.toolTipText.Down=マップの規則を下に移動
+MapPreferencePage.text.Duplicate=&Duplicate
+MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapRuleBuilderDialog properties

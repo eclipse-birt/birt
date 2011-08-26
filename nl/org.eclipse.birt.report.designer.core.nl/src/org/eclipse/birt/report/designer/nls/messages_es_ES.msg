@@ -2016,7 +2016,8 @@ HighlightsPreferencePage.text.Description=Resaltar lista:
 HighlightsPreferencePage.text.Edit=E&ditar...
 HighlightsPreferencePage.toolTipText.Up=Mover resaltado hacia arriba
 HighlightsPreferencePage.toolTipText.Down=Mover resaltado hacia abajo
-
+HighlightsPreferencePage.text.Duplicate=&Duplicate
+HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2510,6 +2511,8 @@ MapPreferencePage.text.Description=Reglas de asignación:
 MapPreferencePage.text.Edit=E&ditar...
 MapPreferencePage.toolTipText.Up=Mover regla de asignación hacia arriba
 MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
+MapPreferencePage.text.Duplicate=&Duplicate
+MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapRuleBuilderDialog properties

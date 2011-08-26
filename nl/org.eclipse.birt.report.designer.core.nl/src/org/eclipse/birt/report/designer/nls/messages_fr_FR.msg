@@ -2016,7 +2016,8 @@ HighlightsPreferencePage.text.Description=Liste de surbrillance :
 HighlightsPreferencePage.text.Edit=&Modifier...
 HighlightsPreferencePage.toolTipText.Up=Déplacer la mise en surbrillance vers le haut
 HighlightsPreferencePage.toolTipText.Down=Déplacer la mise en surbrillance vers le bas
-
+HighlightsPreferencePage.text.Duplicate=&Duplicate
+HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2510,6 +2511,8 @@ MapPreferencePage.text.Description=Règles de mappage :
 MapPreferencePage.text.Edit=&Modifier...
 MapPreferencePage.toolTipText.Up=Déplacer la règle de mappage vers le haut
 MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
+MapPreferencePage.text.Duplicate=&Duplicate
+MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapRuleBuilderDialog properties

@@ -2016,7 +2016,8 @@ HighlightsPreferencePage.text.Description=突出显示列表:
 HighlightsPreferencePage.text.Edit=编辑(&D)...
 HighlightsPreferencePage.toolTipText.Up=突出显示上移
 HighlightsPreferencePage.toolTipText.Down=突出显示下移
-
+HighlightsPreferencePage.text.Duplicate=&Duplicate
+HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -2510,6 +2511,8 @@ MapPreferencePage.text.Description=映射规则:
 MapPreferencePage.text.Edit=编辑(&D)...
 MapPreferencePage.toolTipText.Up=映射规则上移
 MapPreferencePage.toolTipText.Down=映射规则下移
+MapPreferencePage.text.Duplicate=&Duplicate
+MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
 
 ###########################################################
 #MapRuleBuilderDialog properties
