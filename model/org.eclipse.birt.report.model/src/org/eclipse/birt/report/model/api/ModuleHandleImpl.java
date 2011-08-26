@@ -23,8 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
@@ -55,7 +55,6 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
@@ -69,6 +68,7 @@ import org.eclipse.birt.report.model.elements.ReportItemTheme;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -628,6 +628,22 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	}
 
 	/**
+	 * Finds a dimension element by name in this module and the included
+	 * modules.
+	 *
+	 * @param name
+	 *            name of the dimension to find
+	 * @return the dimension handle if found, otherwise null
+	 */
+	public final DimensionHandle findDimension( String name )
+	{
+		Dimension element = module.findDimension( name );
+		if ( element == null )
+			return null;
+		return (DimensionHandle) element.getHandle( element.getRoot( ) );
+	}
+
+	/**
 	 * Finds the image with the given name.
 	 * 
 	 * @param name
@@ -949,8 +965,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 
 	/**
 	 * Finds the handle to an element by a given element ID. Returns <code>null
-	 * </code> if
-	 * the ID is not valid, or if this session does not use IDs.
+	 * </code> if the ID is not valid, or if this session does not use IDs.
 	 * 
 	 * @param id
 	 *            ID of the element to find
@@ -1046,8 +1061,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * @param resourceKey
 	 *            Resource key of the user-defined message.
 	 * @return the corresponding locale-dependent messages. Return <code>null
-	 *         </code>
-	 *         if resoueceKey is blank.
+	 *         </code> if resoueceKey is blank.
 	 * @see #getMessage(String, Locale)
 	 */
 
@@ -1067,11 +1081,10 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            Resource key of the user defined message.
 	 * @param locale
 	 *            locale of message, if the input <code>locale</code> is <code>
-	 *            null</code>
-	 *            , the locale for the current thread will be used instead.
+	 *            null</code> , the locale for the current thread will be used
+	 *            instead.
 	 * @return the corresponding locale-dependent messages. Return <code>null
-	 *         </code>
-	 *         if resoueceKey is blank.
+	 *         </code> if resoueceKey is blank.
 	 */
 
 	public final String getMessage( String resourceKey, Locale locale )
@@ -1091,11 +1104,10 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            Resource key of the user defined message.
 	 * @param locale
 	 *            locale of message, if the input <code>locale</code> is <code>
-	 *            null</code>
-	 *            , the locale for the current thread will be used instead.
+	 *            null</code> , the locale for the current thread will be used
+	 *            instead.
 	 * @return the corresponding locale-dependent messages. Return <code>null
-	 *         </code>
-	 *         if resoueceKey is blank.
+	 *         </code> if resoueceKey is blank.
 	 */
 
 	public final String getMessage( String resourceKey, ULocale locale )
@@ -1136,8 +1148,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * @param groupName
 	 *            name of the cascading parameter group.
 	 * @return a handle to the cascading parameter group. Returns <code>null
-	 *         </code>
-	 *         if the cascading group with the given name is not found.
+	 *         </code> if the cascading group with the given name is not found.
 	 */
 
 	public final CascadingParameterGroupHandle findCascadingParameterGroup(
@@ -1173,8 +1184,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            the locale information
 	 * 
 	 * @return corresponding <code>TranslationHandle</code>. Or return <code>
-	 *         null</code>
-	 *         if the translation is not found in the design.
+	 *         null</code> if the translation is not found in the design.
 	 * 
 	 * @see TranslationHandle
 	 */
@@ -1195,8 +1205,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * translations for the report.
 	 * 
 	 * @return a string array containing message resource keys, return <code>
-	 *         null</code>
-	 *         if there is no messages defined in the design.
+	 *         null</code> if there is no messages defined in the design.
 	 */
 
 	public final String[] getTranslationKeys( )
@@ -1378,8 +1387,8 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 		// If both have root, let name helper decide unique name
 		// Now only for rename level name in hierarchy.
 
-		module.rename( containerHandle.getElement( ), elementHandle
-				.getElement( ) );
+		module.rename( containerHandle.getElement( ),
+				elementHandle.getElement( ) );
 
 	}
 
@@ -1625,7 +1634,8 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * 
 	 * @return theme handles according the input level
 	 */
-	public List<ReportItemThemeHandle> getVisibleReportItemThemes( int level, String type )
+	public List<ReportItemThemeHandle> getVisibleReportItemThemes( int level,
+			String type )
 	{
 		return Collections.emptyList( );
 	}
@@ -1787,8 +1797,8 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 
 	public final List getAllParameters( )
 	{
-		List elementList = module.getNameHelper( ).getNameSpace(
-				Module.PARAMETER_NAME_SPACE ).getElements( );
+		List elementList = module.getNameHelper( )
+				.getNameSpace( Module.PARAMETER_NAME_SPACE ).getElements( );
 
 		return generateHandleList( elementList );
 	}
@@ -1937,8 +1947,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *             if the library file is not found, or has fatal error.
 	 * @throws SemanticException
 	 *             if error is encountered when handling <code>IncludeLibrary
-	 *             </code>
-	 *             structure list.
+	 *             </code> structure list.
 	 */
 
 	public void includeLibrary( String libraryFileName, String namespace )
@@ -1954,10 +1963,9 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            the library to drop
 	 * @throws SemanticException
 	 *             if error is encountered when handling <code>IncludeLibrary
-	 *             </code>
-	 *             structure list. Or it maybe because that the given library is
-	 *             not found in the design. Or that the library has descedents
-	 *             in the current module
+	 *             </code> structure list. Or it maybe because that the given
+	 *             library is not found in the design. Or that the library has
+	 *             descedents in the current module
 	 */
 
 	public void dropLibrary( LibraryHandle library ) throws SemanticException
@@ -1978,10 +1986,9 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            the library instance
 	 * @throws SemanticException
 	 *             if error is encountered when handling <code>IncludeLibrary
-	 *             </code>
-	 *             structure list. Or it maybe because that the given library is
-	 *             not found in the design. Or that the library has descedents
-	 *             in the current module
+	 *             </code> structure list. Or it maybe because that the given
+	 *             library is not found in the design. Or that the library has
+	 *             descedents in the current module
 	 * @throws DesignFileException
 	 *             if the library file is not found, or has fatal error.
 	 */
@@ -2025,10 +2032,9 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 *            this is supposed to be an absolute path, not in url form.
 	 * @throws SemanticException
 	 *             if error is encountered when handling <code>IncludeLibrary
-	 *             </code>
-	 *             structure list. Or it maybe because that the given library is
-	 *             not found in the design. Or that the library has descedents
-	 *             in the current module
+	 *             </code> structure list. Or it maybe because that the given
+	 *             library is not found in the design. Or that the library has
+	 *             descedents in the current module
 	 * @throws DesignFileException
 	 *             if the library file is not found, or has fatal error.
 	 */
@@ -2233,8 +2239,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 
 	/**
 	 * Returns the <code>URL</code> object if the file with <code>fileName
-	 * </code> exists. This
-	 * method takes the following search steps:
+	 * </code> exists. This method takes the following search steps:
 	 * 
 	 * <ul>
 	 * If file type is MESSAGEFILE ,
@@ -2246,8 +2251,8 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * <li>Search file taking <code>fileName
 	 * </code> as absolute file name;
 	 * <li>Search file taking <code>fileName
-	 * </code> as relative file name and basing "base"
-	 * property of report design;
+	 * </code> as relative file name and basing "base" property of report
+	 * design;
 	 * <li>Search file with the file locator (<code>IResourceLocator
 	 * </code>) in session
 	 * </ul>
@@ -2274,8 +2279,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 
 	/**
 	 * Returns the <code>URL</code> object if the file with <code>fileName
-	 * </code> exists. This
-	 * method takes the following search steps:
+	 * </code> exists. This method takes the following search steps:
 	 * 
 	 * <ul>
 	 * If file type is MESSAGEFILE ,
@@ -2287,8 +2291,8 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * <li>Search file taking <code>fileName
 	 * </code> as absolute file name;
 	 * <li>Search file taking <code>fileName
-	 * </code> as relative file name and basing "base"
-	 * property of report design;
+	 * </code> as relative file name and basing "base" property of report
+	 * design;
 	 * <li>Search file with the file locator (<code>IResourceLocator
 	 * </code>) in session
 	 * </ul>
@@ -2447,8 +2451,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * @param name
 	 *            name of the template parameter definition
 	 * @return a handle to the template parameter definition, or <code>null
-	 *         </code>
-	 *         if the template parameter definition is not found
+	 *         </code> if the template parameter definition is not found
 	 */
 
 	final TemplateParameterDefinitionHandle findTemplateParameterDefinition(
@@ -2977,12 +2980,12 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 		{
 			return module
 					.getLineNo( ( (DesignElementHandle) obj ).getElement( ) );
-		}	
+		}
 		else if ( obj instanceof PropertyHandle || obj instanceof SlotHandle )
-		{			
+		{
 			return module.getLineNo( obj );
 		}
-		
+
 		return 1;
 	}
 
@@ -2992,8 +2995,8 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * report/library have the version information.
 	 * <p>
 	 * Whenever the report/library is save, the version becomes <code>
-	 * DesignSchemaConstants.REPORT_VERSION</code>
-	 * . That is, the saved report/library always have the latest version.
+	 * DesignSchemaConstants.REPORT_VERSION</code> . That is, the saved
+	 * report/library always have the latest version.
 	 * 
 	 * @return the design file version number
 	 */
@@ -3024,8 +3027,7 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	 * Gets all included scripts. Includes those defined in the libraries.
 	 * 
 	 * @return the list of included script. Each item is an instance of <code>
-	 *         IncludeScriptHandle</code>
-	 *         .
+	 *         IncludeScriptHandle</code> .
 	 */
 
 	public final List getAllIncludeScripts( )
@@ -3171,9 +3173,9 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 	{
 		return Collections.emptyList( );
 	}
-	
+
 	/**
-	 * Checks the report if it is set in options. 
+	 * Checks the report if it is set in options.
 	 */
 	public void checkReportIfNecessary( )
 	{

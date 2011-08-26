@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -1487,5 +1488,29 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	public void setOnPrepare( String script ) throws SemanticException
 	{
 		setProperty( ON_PREPARE_METHOD, script );
+	}
+
+	/**
+	 * Sets options to the report design.
+	 *
+	 * @param options
+	 */
+	public void setOptions( Map options )
+	{
+		module.setOptions( options );
+	}
+
+	/**
+	 * Gets the options set in the report design.
+	 *
+	 * @return
+	 */
+	public Map getOptions( )
+	{
+		ModuleOption options = module.getOptions( );
+		if ( options == null )
+			return Collections.EMPTY_MAP;
+
+		return options.getOptions( );
 	}
 }
