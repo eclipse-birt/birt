@@ -19,9 +19,11 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionSet;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
@@ -168,9 +170,15 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 				while ( iterator.hasNext( ) )
 				{
 					ComputedColumnHandle binding = iterator.next( );
+					ChartItemUtil.loadExpression( exprCodec, binding );
+					// For table case, if it isn't javascript expression, it
+					// indicates the expression isn't a basic DatasetRow
+					// expression, it should be a binding expression.
+					boolean isJavascriptExpr = ( ExpressionCodec.JAVASCRIPT.equals( exprCodec.getType( ) ) );
 					if ( binding.getAggregateFunction( ) != null
 							|| exprCodec.getRowBindingNameSet( binding.getExpression( ) )
-									.size( ) > 0 )
+									.size( ) > 0
+									|| !isJavascriptExpr )
 					{
 						try
 						{
