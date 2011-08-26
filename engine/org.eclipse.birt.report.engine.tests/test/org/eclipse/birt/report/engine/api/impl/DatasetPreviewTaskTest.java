@@ -13,11 +13,9 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,16 +31,10 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 
 import com.ibm.icu.util.ULocale;
@@ -56,7 +48,6 @@ public class DatasetPreviewTaskTest extends EngineCase
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
 	static final String REPORT_LIBRARY_RESOURCE = "org/eclipse/birt/report/engine/api/impl/library.xml";
-	static final String REPORT_DATADESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/datadesign.xml";
 
 	IReportDocument document;
 	IDatasetPreviewTask previewTask;
@@ -81,29 +72,6 @@ public class DatasetPreviewTaskTest extends EngineCase
 				.newSessionHandle( ULocale.getDefault( ) );
 		designHandle = sessionHandle.openModule( fileName );
 		return designHandle;
-	}
-	
-	public void testPreviewDatasetInDataDesign( ) throws Exception
-	{		
-		copyResource( REPORT_DATADESIGN_RESOURCE, REPORT_DESIGN );
-		previewTask = engine.createDatasetPreviewTask( );
-		ModuleHandle muduleHandle = getHandle(REPORT_DESIGN );
-		List ds = muduleHandle.getAllDataSets( );
-		for ( Object obj : ds )
-		{
-			DataSetHandle dataset = (DataSetHandle) obj;
-			if ( dataset.getName( ).equals( "Data Set" ) )
-			{
-				previewTask.setDataSet( dataset );
-			}
-		}
-
-		previewTask.setMaxRow( 25 );
-		IExtractionResults results = previewTask.execute( );
-		int rowCount = checkExtractionResults( results );
-		assertTrue( rowCount == 23 );
-		previewTask.close( );
-		removeFile( REPORT_DESIGN );
 	}
 	
 	public void testPreviewDatasetInLib( ) throws Exception
