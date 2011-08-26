@@ -157,7 +157,7 @@ AttributesBuilder.Label.Table=Editeur de propriétés - Table
 AttributesBuilder.Label.Text=Editeur de propriétés - Texte
 AttributesBuilder.Label.TextData=Editeur de propriétés - Texte dynamique
 AttributesBuilder.Label.DataSourceHandle=Editeur de propriétés - Source de données
-AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
+AttributesBuilder.Label.VariableElementHandle=Editeur de propriétés - Variable
 AttributesBuilder.Label.DataSetHandle=Editeur de propriétés - Jeu de données
 AttributesBuilder.Label.ScalarParameterHandle=Editeur de propriétés - Paramètre
 AttributesBuilder.Label.TemplateReportItemHandle=Editeur de propriétés - Elément d'état de modèle
@@ -1413,7 +1413,7 @@ Element.Text.contentType=Ty&pe de contenu :
 Element.TemplateElement.name=&Nom
 Element.Toc.Sytle=St&yle
 Element.VariableElement.name=&Nom :
-Element.VariableElement.type=&Type:
+Element.VariableElement.type=&Type :
 Element.VariableElement.value=&Valeur :
 
 ###########################################################

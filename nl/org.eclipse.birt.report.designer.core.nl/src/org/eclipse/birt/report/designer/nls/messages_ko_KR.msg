@@ -157,7 +157,7 @@ AttributesBuilder.Label.Table=속성 편집기 - 테이블
 AttributesBuilder.Label.Text=속성 편집기 - 텍스트
 AttributesBuilder.Label.TextData=속성 편집기 - 동적 텍스트
 AttributesBuilder.Label.DataSourceHandle=속성 편집기 - 데이터 원본
-AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
+AttributesBuilder.Label.VariableElementHandle=속성 편집기 - 변수
 AttributesBuilder.Label.DataSetHandle=속성 편집기 - 데이터 집합
 AttributesBuilder.Label.ScalarParameterHandle=속성 편집기 - 매개 변수
 AttributesBuilder.Label.TemplateReportItemHandle=속성 편집기 - 템플릿 보고서 항목
@@ -1413,7 +1413,7 @@ Element.Text.contentType=내용 형식(&P):
 Element.TemplateElement.name=이름(&N)
 Element.Toc.Sytle=스타일(&Y)
 Element.VariableElement.name=이름(&N):
-Element.VariableElement.type=&Type:
+Element.VariableElement.type=형식(&T):
 Element.VariableElement.value=값(&V):
 
 ###########################################################

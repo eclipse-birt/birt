@@ -157,7 +157,7 @@ AttributesBuilder.Label.Table=プロパティエディタ - テーブル
 AttributesBuilder.Label.Text=プロパティエディタ - テキスト
 AttributesBuilder.Label.TextData=プロパティエディタ - ダイナミックテキスト
 AttributesBuilder.Label.DataSourceHandle=プロパティエディタ - データソース
-AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
+AttributesBuilder.Label.VariableElementHandle=プロパティエディタ - 変数
 AttributesBuilder.Label.DataSetHandle=プロパティエディタ - データセット
 AttributesBuilder.Label.ScalarParameterHandle=プロパティエディタ - パラメタ
 AttributesBuilder.Label.TemplateReportItemHandle=プロパティエディタ - テンプレートレポート項目
@@ -1413,7 +1413,7 @@ Element.Text.contentType=コンテンツの種類(&P) :
 Element.TemplateElement.name=名前(&N)
 Element.Toc.Sytle=スタイル(&Y)
 Element.VariableElement.name=名前(&N) :
-Element.VariableElement.type=&Type:
+Element.VariableElement.type=型(&T) :
 Element.VariableElement.value=値(&V) :
 
 ###########################################################

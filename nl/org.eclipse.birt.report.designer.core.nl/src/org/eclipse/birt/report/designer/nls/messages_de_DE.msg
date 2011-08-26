@@ -157,7 +157,7 @@ AttributesBuilder.Label.Table=Eigenschaftseditor - Tabelle
 AttributesBuilder.Label.Text=Eigenschaftseditor - Text
 AttributesBuilder.Label.TextData=Eigenschafteneditor - Dynamischer Text
 AttributesBuilder.Label.DataSourceHandle=Eigenschaftseditor - Datenquelle
-AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
+AttributesBuilder.Label.VariableElementHandle=Eigenschaftseditor – Variable
 AttributesBuilder.Label.DataSetHandle=Eigenschaftseditor - Datensatz
 AttributesBuilder.Label.ScalarParameterHandle=Eigenschaftseditor - Parameter
 AttributesBuilder.Label.TemplateReportItemHandle=Eigenschaftseditor - Berichtobjekt für Vorlage
@@ -1413,7 +1413,7 @@ Element.Text.contentType=&Inhaltstyp:
 Element.TemplateElement.name=&Name
 Element.Toc.Sytle=S&til
 Element.VariableElement.name=&Name:
-Element.VariableElement.type=&Type:
+Element.VariableElement.type=&Typ:
 Element.VariableElement.value=&Wert:
 
 ###########################################################

@@ -157,7 +157,7 @@ AttributesBuilder.Label.Table=属性编辑器 - 表
 AttributesBuilder.Label.Text=属性编辑器 - 文本
 AttributesBuilder.Label.TextData=属性编辑器 - 动态文本
 AttributesBuilder.Label.DataSourceHandle=属性编辑器 - 数据源
-AttributesBuilder.Label.VariableElementHandle=Property Editor - Variable
+AttributesBuilder.Label.VariableElementHandle=属性编辑器 - 变量
 AttributesBuilder.Label.DataSetHandle=属性编辑器 - 数据集
 AttributesBuilder.Label.ScalarParameterHandle=属性编辑器 - 参数
 AttributesBuilder.Label.TemplateReportItemHandle=属性编辑器 - 模板报表项
@@ -1413,7 +1413,7 @@ Element.Text.contentType=内容类型(&P):
 Element.TemplateElement.name=名称(&N)
 Element.Toc.Sytle=样式(&Y)
 Element.VariableElement.name=名称(&N):
-Element.VariableElement.type=&Type:
+Element.VariableElement.type=类型(&T):
 Element.VariableElement.value=值(&V):
 
 ###########################################################
