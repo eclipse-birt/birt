@@ -142,6 +142,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 						.executeMasterPage( context.getReportExecutor( ),
 								context.getPageNumber( ),
 								(MasterPageDesign) pc.getGenerateBy( ) );
+				context.getPageLM().layoutPageContent(pageContent);
 				page.content = pageContent;
 			}
 		}
