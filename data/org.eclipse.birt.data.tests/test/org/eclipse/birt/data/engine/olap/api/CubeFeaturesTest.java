@@ -2474,6 +2474,71 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 	
 	/**
+	 * Filter on derived measure, which only refer to level expression
+	 *
+	 * @throws Exception
+	 */
+	public void testFilter13( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+
+		IBinding binding = new Binding( "derivedBinding" );
+		binding.setExpression( new ScriptExpression( "if( data[\"edge1level1\"].equals(\"CN\")) \"profit\"; else \"lose\";" ) );
+		cqd.addBinding( binding);
+
+		CubeFilterDefinition filter1 = new CubeFilterDefinition( new ScriptExpression( "data[\"derivedBinding\"] ==\"profit\"" ) );
+
+		filter1.setAxisQualifierLevels( new ILevelDefinition[]{
+			level11, level12, level13
+		} );
+		filter1.setAxisQualifierValues( new Object[]{
+			"CN", "SH", "PD"
+		} );
+		filter1.setTargetLevel( level21 );
+		cqd.addFilter( filter1 );
+		DataEngineContext context = createPresentationContext( );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		this.createCube( engine );
+
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+
+		printCube( cursor,
+				"country_year_total",
+				"city_year_total",
+				"dist_total",
+				"city_total",
+				"country_total",
+				"rowGrandTotal",
+				"grandTotal",
+				new String[]{
+						"edge1level1", "edge1level2", "edge1level3"
+				},
+				"edge2level1",
+				"measure1" );
+		engine.shutdown( );
+
+	}
+
+	/**
 	 * Test grand total
 	 * 
 	 * @throws Exception

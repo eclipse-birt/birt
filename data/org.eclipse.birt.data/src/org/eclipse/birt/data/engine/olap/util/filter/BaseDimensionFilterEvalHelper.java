@@ -266,23 +266,23 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	 */
 	protected IDimensionDefinition getTargetDimension( ) throws DataException
 	{
-		if ( isAggregationFilter( ) )
-		{
-			ILevelDefinition targetLevel = cubeFilter.getTargetLevel( );
-			if ( targetLevel == null )
-			{
-				throw new DataException( ResourceConstants.REFERENCED_LEVEL_NOT_FOUND );
-			}
-			IDimensionDefinition dimDefn = targetLevel.getHierarchy( )
-					.getDimension( );
-			if ( dimDefn == null )
-			{
-				throw new DataException( ResourceConstants.REFERENCED_DIMENSION_NOT_FOUND,
-						dimName );
-			}
-			return dimDefn;
-		}
-		else
+//		if ( isAggregationFilter( ) )
+//		{
+//			ILevelDefinition targetLevel = cubeFilter.getTargetLevel( );
+//			if ( targetLevel == null )
+//			{
+//				throw new DataException( ResourceConstants.REFERENCED_LEVEL_NOT_FOUND );
+//			}
+//			IDimensionDefinition dimDefn = targetLevel.getHierarchy( )
+//					.getDimension( );
+//			if ( dimDefn == null )
+//			{
+//				throw new DataException( ResourceConstants.REFERENCED_DIMENSION_NOT_FOUND,
+//						dimName );
+//			}
+//			return dimDefn;
+//		}
+//		else
 		{
 			return super.getTargetDimension( );
 		}
