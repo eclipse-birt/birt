@@ -140,6 +140,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_WARNING_PREFERENCE = "designer.library.preference.libraries.warning.preferencestore"; //$NON-NLS-1$
+	public static final String LIBRARY_MOVE_BINDINGS_PREFERENCE = "designer.library.preference.libraries.move.bindings.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
 	public static final String CLASSPATH_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.classpath"; //$NON-NLS-1$
@@ -263,6 +264,11 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getPreferences( this )
 				.setDefault( IPreferenceConstants.PALETTE_STATE,
 						IPreferenceConstants.DEFAULT_PALETTE_STATE );
+
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( LIBRARY_MOVE_BINDINGS_PREFERENCE,
+						MessageDialogWithToggle.PROMPT );
 
 		initCellCursor( );
 

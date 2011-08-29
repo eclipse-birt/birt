@@ -34,7 +34,8 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 
 	private final Key PREF_ENABLE_GRADIENT = getReportKey( ReportPlugin.ENABLE_GRADIENT_SELECTION_PREFERENCE );
 	private final Key PREF_ENABLE_ANIMATION = getReportKey( ReportPlugin.ENABLE_ANIMATION_SELECTION_PREFERENCE );
-	private final Key PREF_LIABRARY_WARNING = getReportKey( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+	private final Key PREF_LIBRARY_WARNING = getReportKey( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+	private final Key PREF_LIBRARY_MOVE_BINDINGS = getReportKey( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE );
 
 	private static final String ENABLED = "true"; //$NON-NLS-1$
 	private static final String DISABLED = "false"; //$NON-NLS-1$
@@ -53,7 +54,10 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
-				PREF_ENABLE_GRADIENT, PREF_ENABLE_ANIMATION,PREF_LIABRARY_WARNING
+				PREF_ENABLE_GRADIENT,
+				PREF_ENABLE_ANIMATION,
+				PREF_LIBRARY_WARNING,
+				PREF_LIBRARY_MOVE_BINDINGS
 		};
 		return keys;
 	}
@@ -133,8 +137,26 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 		group.setLayout( new GridLayout() );
 		addCheckBox( group,
 				Messages.getString( "GeneralConfigurationBlock.button.text.prompt" ), //$NON-NLS-1$
-				PREF_LIABRARY_WARNING,
+				PREF_LIBRARY_WARNING,
 				promptValues,
+				0 );
+
+		String[] labels = new String[]{
+				Messages.getString( "GeneralConfigurationBlock.move.binding.group" ), //$NON-NLS-1$
+				Messages.getString( "GeneralConfigurationBlock.move.binding.always" ), //$NON-NLS-1$
+				Messages.getString( "GeneralConfigurationBlock.move.binding.never" ), //$NON-NLS-1$
+				Messages.getString( "GeneralConfigurationBlock.move.binding.prompt" ) //$NON-NLS-1$
+		};
+		String[] values = new String[]{
+				MessageDialogWithToggle.ALWAYS,
+				MessageDialogWithToggle.NEVER,
+				MessageDialogWithToggle.PROMPT
+		};
+
+		addRadioButton( pageContent,
+				labels,
+				PREF_LIBRARY_MOVE_BINDINGS,
+				values,
 				0 );
 
 		return pageContent;

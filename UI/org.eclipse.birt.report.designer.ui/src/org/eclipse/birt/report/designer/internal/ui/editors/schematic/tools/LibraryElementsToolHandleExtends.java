@@ -39,7 +39,8 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.ColumnBindingUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.util.Assert;
 
 /**
@@ -137,12 +138,51 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 	{
 		Object model = getModel();
 		boolean isMove = false;
-		if (needProcessDataItem( model ))
+		if ( needProcessDataItem( model ) )
 		{
-			if (MessageDialog.openConfirm( UIUtil.getDefaultShell( ),Messages.getString("LibraryElementsToolHandleExtends_question"), Messages.getString("LibraryElementsToolHandleExtends_message"))) //$NON-NLS-1$ //$NON-NLS-2$
+			String prompt = ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.getString( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE );
+
+			MessageDialogWithToggle dialog;
+
+			if ( MessageDialogWithToggle.ALWAYS.equals( prompt ) )
 			{
-				moveBindToHost( (DataItemHandle)model );
+				moveBindToHost( (DataItemHandle) model );
 				isMove = true;
+			}
+			else if ( ( prompt == null || MessageDialogWithToggle.PROMPT.equals( prompt ) )
+					&& ( ( dialog = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
+							Messages.getString( "LibraryElementsToolHandleExtends_question" ), //$NON-NLS-1$
+							Messages.getString( "LibraryElementsToolHandleExtends_message" ), //$NON-NLS-1$
+							Messages.getString( "LibraryElementsToolHandleExtends_toggle" ), //$NON-NLS-1$
+							false,
+							ReportPlugin.getDefault( ).getPreferenceStore( ),
+							ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE ) ) != null ) )
+			{
+				if ( dialog.getReturnCode( ) == IDialogConstants.YES_ID )
+				{
+					moveBindToHost( (DataItemHandle) model );
+					isMove = true;
+				}
+
+				if ( dialog.getToggleState( ) )
+				{
+					if ( dialog.getReturnCode( ) == IDialogConstants.YES_ID )
+					{
+						ReportPlugin.getDefault( )
+								.getPreferenceStore( )
+								.setValue( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE,
+										MessageDialogWithToggle.ALWAYS );
+					}
+					else if ( dialog.getReturnCode( ) == IDialogConstants.NO_ID )
+					{
+						ReportPlugin.getDefault( )
+								.getPreferenceStore( )
+								.setValue( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE,
+										MessageDialogWithToggle.NEVER );
+					}
+				}
 			}
 		}
 		if (!isMove && model instanceof DataItemHandle)
