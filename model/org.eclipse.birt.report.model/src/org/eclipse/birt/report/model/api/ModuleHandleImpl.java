@@ -3183,4 +3183,28 @@ public abstract class ModuleHandleImpl extends DesignElementHandle
 		if ( options == null || options.useSemanticCheck( ) )
 			checkReport( );
 	}
+
+	/**
+	 * Sets options to the module.
+	 *
+	 * @param options
+	 */
+	public void setOptions( Map options )
+	{
+		module.setOptions( options );
+	}
+
+	/**
+	 * Gets the options set in the module.
+	 *
+	 * @return
+	 */
+	public Map getOptions( )
+	{
+		ModuleOption options = module.getOptions( );
+		if ( options == null )
+			return Collections.EMPTY_MAP;
+
+		return options.getOptions( );
+	}
 }

@@ -680,7 +680,7 @@ public abstract class ModuleImpl extends DesignElement
 		module.validationListeners = null;
 
 		// set ModuleOption to null
-		module.options = null;
+		// module.options = null;
 		assert module.getID( ) > NO_ID;
 		assert module.getElementByID( module.getID( ) ) == null;
 		module.addElementID( module );

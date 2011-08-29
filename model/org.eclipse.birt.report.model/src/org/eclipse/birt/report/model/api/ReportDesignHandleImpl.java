@@ -942,10 +942,9 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	 *            the css to drop
 	 * @throws SemanticException
 	 *             if error is encountered when handling <code>CssStyleSheet
-	 *             </code>
-	 *             structure list. Or it maybe because that the given css is not
-	 *             found in the design. Or that the css has descedents in the
-	 *             current module
+	 *             </code> structure list. Or it maybe because that the given
+	 *             css is not found in the design. Or that the css has
+	 *             descedents in the current module
 	 */
 
 	public void dropCss( CssStyleSheetHandle sheetHandle )
@@ -1463,10 +1462,10 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	}
 
 	/**
-	 * Gets the on-prepare script of the report design. Startup phase. No data binding
-	 * yet. The design of an element can be changed here.
+	 * Gets the on-prepare script of the report design. Startup phase. No data
+	 * binding yet. The design of an element can be changed here.
 	 * 
-	 * @return the on-prepare script of the report design 
+	 * @return the on-prepare script of the report design
 	 */
 
 	public String getOnPrepare( )
@@ -1488,29 +1487,5 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	public void setOnPrepare( String script ) throws SemanticException
 	{
 		setProperty( ON_PREPARE_METHOD, script );
-	}
-
-	/**
-	 * Sets options to the report design.
-	 *
-	 * @param options
-	 */
-	public void setOptions( Map options )
-	{
-		module.setOptions( options );
-	}
-
-	/**
-	 * Gets the options set in the report design.
-	 *
-	 * @return
-	 */
-	public Map getOptions( )
-	{
-		ModuleOption options = module.getOptions( );
-		if ( options == null )
-			return Collections.EMPTY_MAP;
-
-		return options.getOptions( );
 	}
 }
