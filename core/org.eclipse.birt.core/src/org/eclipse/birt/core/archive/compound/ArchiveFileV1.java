@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -32,7 +32,7 @@ public class ArchiveFileV1 implements IArchiveFile
 	/**
 	 * streams in the file. each entry is a stream name and start, end pos pair.
 	 */
-	private HashMap<String, ArchiveEntryV1> lookupMap = new HashMap<String, ArchiveEntryV1>( );
+	private HashMap<String, Entry> lookupMap = new HashMap<String, Entry>( );
 
 	public ArchiveFileV1( String archiveName, RandomAccessFile rf )
 			throws IOException
@@ -81,8 +81,7 @@ public class ArchiveFileV1 implements IArchiveFile
 			long start = rf.readLong( ) + streamSectionPos;
 			long length = rf.readLong( );
 			// generate map entry
-			lookupMap
-					.put( name, new ArchiveEntryV1( this, name, start, length ) );
+			lookupMap.put( name, new Entry( name, start, length ) );
 		}
 	}
 
@@ -157,10 +156,11 @@ public class ArchiveFileV1 implements IArchiveFile
 
 	public ArchiveEntry openEntry( String name ) throws IOException
 	{
-		ArchiveEntryV1 entry = lookupMap.get( name );
+		Entry entry = lookupMap.get( name );
 		if ( entry != null )
 		{
-			return entry;
+			return new ArchiveEntryV1( this, entry.name, entry.start,
+					entry.length );
 		}
 		throw new FileNotFoundException( name );
 	}
@@ -192,7 +192,7 @@ public class ArchiveFileV1 implements IArchiveFile
 
 	public Object lockEntry( String stream ) throws IOException
 	{
-		ArchiveEntryV1 entry = lookupMap.get( stream );
+		Entry entry = lookupMap.get( stream );
 		if ( entry != null )
 		{
 			return entry;
@@ -202,7 +202,7 @@ public class ArchiveFileV1 implements IArchiveFile
 
 	public void unlockEntry( Object locker ) throws IOException
 	{
-		if ( !( locker instanceof ArchiveEntryV1 ) )
+		if ( !( locker instanceof Entry ) )
 		{
 			throw new IOException( CoreMessages.getFormattedString(
 					ResourceConstants.INVALID_LOCK_TYPE, new Object[]{locker} ) );
@@ -227,5 +227,19 @@ public class ArchiveFileV1 implements IArchiveFile
 	{
 		throw new IOException(
 				CoreMessages.getString( ResourceConstants.READ_ONLY_ARCHIVE ) );
+	}
+
+	private static class Entry
+	{
+
+		Entry( String name, long start, long length )
+		{
+			this.name = name;
+			this.start = start;
+			this.length = length;
+		}
+		String name;
+		long start;
+		long length;
 	}
 }
