@@ -226,7 +226,11 @@ public class StyleEntryWriter
 		{
 			writer.attribute("style:min-row-height", getDimension( minHeight ));
 		}
-		
+		else
+		{
+			writer.attribute("style:use-optimal-row-height", "true");
+		}
+
 		writer.closeTag("style:table-row-properties");
 	}
 	
