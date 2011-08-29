@@ -180,7 +180,7 @@ public class OdpWriter extends AbstractOdfWriter
 		double posX = imageX / OdfUtil.INCH_PT;
 		double posY = imageY / OdfUtil.INCH_PT;
 		double imageWidth = width / OdfUtil.INCH_PT;
-		double imageHeight = width / OdfUtil.INCH_PT;
+		double imageHeight = height / OdfUtil.INCH_PT;
 		
 		drawImage( imageUrl, imageData, posX, posY, imageHeight, imageWidth, null, helpText, "layout", getImageID() );
 		
