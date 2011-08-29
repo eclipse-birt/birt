@@ -1,4 +1,4 @@
-n@org.eclipse.birt.report.tests.chart=GIT,tag=v20110815,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=testsuites/org.eclipse.birt.report.tests.chart
+plugin@org.eclipse.birt.report.tests.chart=GIT,tag=v20110815,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=testsuites/org.eclipse.birt.report.tests.chart
 plugin@org.eclipse.birt.report.tests.engine=GIT,tag=v20110815,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=testsuites/org.eclipse.birt.report.tests.engine
 plugin@org.eclipse.birt.report.tests.model=GIT,tag=v20110815,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=testsuites/org.eclipse.birt.report.tests.model
 plugin@org.eclipse.birt.report.tests.engine.emitter.html=GIT,tag=v20110815,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=testsuites/org.eclipse.birt.report.tests.engine.emitter.html
