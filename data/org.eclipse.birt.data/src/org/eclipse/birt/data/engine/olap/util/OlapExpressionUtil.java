@@ -420,6 +420,34 @@ public class OlapExpressionUtil
 		return null;
 	}
 
+	public static IBinding getRefMeasureBinding( IBinding binding,
+			List<IBinding> bindings ) throws DataException
+	{
+		if ( binding == null )
+			return null;
+		if ( !( binding.getExpression( ) instanceof IScriptExpression ) )
+			return null;
+		String expr = ( (IScriptExpression) binding.getExpression( ) ).getText( );
+		if ( expr == null )
+			return null;
+		else if ( expr.trim( ).matches( ".*\\Qmeasure[\"\\E.*\\Q\"]\\E.*" ) )// measure
+		{
+			return binding;
+		}
+		else if ( expr.trim( ).matches( ".*\\Qdata[\"\\E.*\\Q\"]\\E.*" ) )// data binding
+		{
+			String bindingName = getBindingName( expr );
+			for ( IBinding b : bindings )
+			{
+				if ( b.getBindingName( ).equals( bindingName ) )
+				{
+					return getDirectMeasureBinding( b, bindings );
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Return the binding name of data["binding"]
 	 *
@@ -430,7 +458,7 @@ public class OlapExpressionUtil
 	{
 		if ( expr == null )
 			return null;
-		if ( !expr.trim( ).matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )
+		if ( !expr.trim( ).matches( ".*\\Qdata[\"\\E.*\\Q\"]\\E.*" ) )
 			return null;
 		try
 		{
