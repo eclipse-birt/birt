@@ -1496,6 +1496,7 @@ ExportToCPSouceAction.action.text=연결 프로필로 외부화(&O)...
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=요소가 지정된 명시적 데이터 집합이 없는 로컬 바인딩을 포함합니다. 이로 인해 실행 시 성능이 저하될 수 있습니다. 성능 향상을 위해 로컬 바인딩을 상위로 이동하시겠습니까?
 LibraryElementsToolHandleExtends_question=확인
+LibraryElementsToolHandleExtends_toggle=&Remember my decision
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=윤곽선 보기로 끌어서 놓기
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=레이아웃 편집기로 끌어서 놓기
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=윤곽선 보기 또는 레이아웃 편집기로 끌어서 놓기
@@ -2018,6 +2019,7 @@ HighlightsPreferencePage.toolTipText.Up=강조 위로 이동
 HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
 HighlightsPreferencePage.text.Duplicate=&Duplicate
 HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -3080,7 +3082,7 @@ parameters.menuItem.reset=재설정
 
 ParametersNodeProvider.dialogue.title.group=새 매개 변수 그룹
 ParametersNodeProvider.dialogue.title.parameter=새 매개 변수
-ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=새 계단식 매개 변수 그룹(&D)
 ParametersNodeProvider.menu.text.group=새 매개 변수 그룹(&M)
 ParametersNodeProvider.menu.text.parameter=새 매개 변수(&A)
 
@@ -3205,7 +3207,7 @@ ExportToLibraryAction.wizard.windowTitle=내보내기
 ExportToLibraryAction.wizard.page.title=라이브러리로 파일 내보내기
 ExportToLibraryAction.wizard.page.desc=라이브러리로 보고서 디자인 내보내기
 ExportToLibraryAction.wizard.page.label.filename=파일 이름(&N):
-ExportToLibraryAction.wizard.page.label.folder=Fol&der:
+ExportToLibraryAction.wizard.page.label.folder=폴더(&F):
 ExportToLibraryAction.wizard.page.button.browser=찾아보기(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=파일 내용 디렉토리를 선택하십시오.
 ExportToLibraryAction.wizard.page.nameempty=파일 이름을 지정해야 합니다.
@@ -4611,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=표시 이름 ID(&S):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
-BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다. 
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
@@ -4725,9 +4727,13 @@ TableDragGuideTracker.Pixels=픽셀
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일반 설정
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택(&G) 
-GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N) 
-GeneralConfigurationBlock.group.label=묻기 
+GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N)
+GeneralConfigurationBlock.group.label=묻기
 GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표시(&P)
+GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
+GeneralConfigurationBlock.move.binding.always=Al&ways
+GeneralConfigurationBlock.move.binding.never=Ne&ver
+GeneralConfigurationBlock.move.binding.prompt=P&rompt
 
 
 ###########################################################
@@ -4807,8 +4813,8 @@ ReloadImageAction.Text=이미지 다시 로드(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=&New Variable
-VariablesNodeProvider.Dialog.Title=새 변수
+VariablesNodeProvider.NewActionName=새 변수
+VariablesNodeProvider.Dialog.Title=New Variable
 VariablesNodeProvider.NodeName=변수
 
 ###########################################################

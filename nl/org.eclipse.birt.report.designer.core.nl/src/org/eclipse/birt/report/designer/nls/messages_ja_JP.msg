@@ -1496,6 +1496,7 @@ ExportToCPSouceAction.action.text=接続プロファイルへの外部化(&O)...
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=要素には明示的にデータセットが指定されていないローカルバインドが含まれているため、実行時にパフォーマンスが低下する場合があります。 パフォーマンスを向上するためローカルバインドを親に移動しますか ?
 LibraryElementsToolHandleExtends_question=プロンプト
+LibraryElementsToolHandleExtends_toggle=&Remember my decision
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=アウトラインビューへドラッグ＆ドロップ
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=レイアウトエディタへドラッグ＆ドロップ
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=アウトラインビューまたはレイアウトエディタへドラッグ＆ドロップ
@@ -2018,6 +2019,7 @@ HighlightsPreferencePage.toolTipText.Up=ハイライト部分を上に移動
 HighlightsPreferencePage.toolTipText.Down=ハイライト部分を下に移動
 HighlightsPreferencePage.text.Duplicate=&Duplicate
 HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -3080,7 +3082,7 @@ parameters.menuItem.reset=リセット
 
 ParametersNodeProvider.dialogue.title.group=パラメタグループの新規作成
 ParametersNodeProvider.dialogue.title.parameter=パラメタの新規作成
-ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=カスケードパラメタグループの新規作成(&D)
 ParametersNodeProvider.menu.text.group=パラメタグループの新規作成(&M)
 ParametersNodeProvider.menu.text.parameter=パラメタの新規作成(&A)
 
@@ -3205,7 +3207,7 @@ ExportToLibraryAction.wizard.windowTitle=エクスポート
 ExportToLibraryAction.wizard.page.title=ファイルをライブラリにエクスポート
 ExportToLibraryAction.wizard.page.desc=レポートデザインをライブラリにエクスポート
 ExportToLibraryAction.wizard.page.label.filename=ファイル名(&N) :
-ExportToLibraryAction.wizard.page.label.folder=Fol&der:
+ExportToLibraryAction.wizard.page.label.folder=フォルダ(&F) :
 ExportToLibraryAction.wizard.page.button.browser=参照(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=ファイルのコンテンツディレクトリを選択してください。
 ExportToLibraryAction.wizard.page.nameempty=ファイル名を指定してください。
@@ -4611,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=表示名 ID(&S) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
-BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}" 
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?
@@ -4725,9 +4727,13 @@ TableDragGuideTracker.Pixels=ピクセル
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的なオプションを設定します。
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
-GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N) 
-GeneralConfigurationBlock.group.label=確認する 
+GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
+GeneralConfigurationBlock.group.label=確認する
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
+GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
+GeneralConfigurationBlock.move.binding.always=Al&ways
+GeneralConfigurationBlock.move.binding.never=Ne&ver
+GeneralConfigurationBlock.move.binding.prompt=P&rompt
 
 
 ###########################################################
@@ -4807,8 +4813,8 @@ ReloadImageAction.Text=イメージの再ロード(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=&New Variable
-VariablesNodeProvider.Dialog.Title=変数の新規作成
+VariablesNodeProvider.NewActionName=変数の新規作成
+VariablesNodeProvider.Dialog.Title=New Variable
 VariablesNodeProvider.NodeName=変数
 
 ###########################################################

@@ -1496,6 +1496,7 @@ ExportToCPSouceAction.action.text=Externaliser vers le profil de c&onnexion...
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=L'élément contient des liaisons locales sans jeu de données explicite spécifié. Cela peut ralentir les performances lors de l'exécution. Souhaitez-vous déplacer les liaisons locales vers le parent pour améliorer les performances ?
 LibraryElementsToolHandleExtends_question=Invite
+LibraryElementsToolHandleExtends_toggle=&Remember my decision
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Glisser-déplacer vers la vue de contour
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Glisser-déplacer vers l'éditeur de présentation
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Glisser-déplacer vers la vue de contour ou l'éditeur de présentation
@@ -2018,6 +2019,7 @@ HighlightsPreferencePage.toolTipText.Up=Déplacer la mise en surbrillance vers le
 HighlightsPreferencePage.toolTipText.Down=Déplacer la mise en surbrillance vers le bas
 HighlightsPreferencePage.text.Duplicate=&Duplicate
 HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -3080,7 +3082,7 @@ parameters.menuItem.reset=Réinitialiser
 
 ParametersNodeProvider.dialogue.title.group=Nouveau groupe de paramètres
 ParametersNodeProvider.dialogue.title.parameter=Nouveau paramètre
-ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=Nouveau groupe de paramètres en casca&de
 ParametersNodeProvider.menu.text.group=Nouveau groupe de para&mètres
 ParametersNodeProvider.menu.text.parameter=Nouve&au paramètre
 
@@ -3205,7 +3207,7 @@ ExportToLibraryAction.wizard.windowTitle=Exporter
 ExportToLibraryAction.wizard.page.title=Exporter le fichier dans la bibliothèque
 ExportToLibraryAction.wizard.page.desc=Exporter le modèle d'état dans la bibliothèque
 ExportToLibraryAction.wizard.page.label.filename=&Nom de fichier :
-ExportToLibraryAction.wizard.page.label.folder=Fol&der:
+ExportToLibraryAction.wizard.page.label.folder=&Dossier :
 ExportToLibraryAction.wizard.page.button.browser=& Parcourir...
 ExportToLibraryAction.wizard.page.dirdialog.message=Sélectionner le répertoire de contenu du fichier
 ExportToLibraryAction.wizard.page.nameempty=Le nom de fichier doit être spécifié.
@@ -4611,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
-BindingDialogHelper.error.improperexpression=L'agrégation sur la mesure de cube ne peut pas être du type : "{0}" 
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?
@@ -4725,9 +4727,13 @@ TableDragGuideTracker.Pixels=pixels
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=Paramètres généraux pour le concepteur d'états.
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &dégradé 
-GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés 
-GeneralConfigurationBlock.group.label=Invite 
+GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
+GeneralConfigurationBlock.group.label=Invite
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
+GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
+GeneralConfigurationBlock.move.binding.always=Al&ways
+GeneralConfigurationBlock.move.binding.never=Ne&ver
+GeneralConfigurationBlock.move.binding.prompt=P&rompt
 
 
 ###########################################################
@@ -4807,8 +4813,8 @@ ReloadImageAction.Text=Recharger i&mage
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=&New Variable
-VariablesNodeProvider.Dialog.Title=Nouvelle variable
+VariablesNodeProvider.NewActionName=Nouvelle variable
+VariablesNodeProvider.Dialog.Title=New Variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

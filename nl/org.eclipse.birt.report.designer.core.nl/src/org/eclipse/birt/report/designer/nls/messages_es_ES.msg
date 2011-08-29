@@ -1496,6 +1496,7 @@ ExportToCPSouceAction.action.text=Externalizar a p&erfil de conexión...
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=El elemento contiene enlaces locales sin conjunto de datos explícito especificado, lo que puede provocar un bajo rendimiento en el tiempo de ejecución. ¿Desea mover los enlaces locales al principal para disponer de un mejor rendimiento?
 LibraryElementsToolHandleExtends_question=Solicitar
+LibraryElementsToolHandleExtends_toggle=&Remember my decision
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Arrastrar y colocar en la vista de contorno
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Arrastrar y colocar en el editor de diseños
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Arrastrar y colocar en la vista de contorno o en el editor de diseños
@@ -2018,6 +2019,7 @@ HighlightsPreferencePage.toolTipText.Up=Mover resaltado hacia arriba
 HighlightsPreferencePage.toolTipText.Down=Mover resaltado hacia abajo
 HighlightsPreferencePage.text.Duplicate=&Duplicate
 HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -3080,7 +3082,7 @@ parameters.menuItem.reset=Restablecer
 
 ParametersNodeProvider.dialogue.title.group=Nuevo grupo de parámetros
 ParametersNodeProvider.dialogue.title.parameter=Nuevo parámetro
-ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=Nuevo grupo de parámetros en casca&da
 ParametersNodeProvider.menu.text.group=Nu&evo grupo de parámetros
 ParametersNodeProvider.menu.text.parameter=Nuevo p&arámetro
 
@@ -3205,7 +3207,7 @@ ExportToLibraryAction.wizard.windowTitle=Exportar
 ExportToLibraryAction.wizard.page.title=Exportar el archivo a la librería
 ExportToLibraryAction.wizard.page.desc=Exportar el diseño de informe a la librería
 ExportToLibraryAction.wizard.page.label.filename=&Nombre de archivo:
-ExportToLibraryAction.wizard.page.label.folder=Fol&der:
+ExportToLibraryAction.wizard.page.label.folder=&Carpeta:
 ExportToLibraryAction.wizard.page.button.browser=&Examinar...
 ExportToLibraryAction.wizard.page.dirdialog.message=Seleccionar el directorio de los contenidos de archivo
 ExportToLibraryAction.wizard.page.nameempty=Se debe especificar un nombre de archivo.
@@ -4611,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
-BindingDialogHelper.error.improperexpression=La agregación en medidas de cubo no puede ser de este tipo: "{0}" 
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
 BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?
@@ -4725,9 +4727,13 @@ TableDragGuideTracker.Pixels=píxeles
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=Ajustes generales para Report Designer
 GeneralConfigurationBlock.button.text.enable.gradient=Activar &selección gradiente 
-GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimada 
-GeneralConfigurationBlock.group.label=Solicitar 
+GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimada
+GeneralConfigurationBlock.group.label=Solicitar
 GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir el archivo de la librería
+GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
+GeneralConfigurationBlock.move.binding.always=Al&ways
+GeneralConfigurationBlock.move.binding.never=Ne&ver
+GeneralConfigurationBlock.move.binding.prompt=P&rompt
 
 
 ###########################################################
@@ -4807,8 +4813,8 @@ ReloadImageAction.Text=Volver a cargar la &imagen
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=&New Variable
-VariablesNodeProvider.Dialog.Title=Nueva variable
+VariablesNodeProvider.NewActionName=Nueva variable
+VariablesNodeProvider.Dialog.Title=New Variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

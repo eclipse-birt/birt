@@ -1496,6 +1496,7 @@ ExportToCPSouceAction.action.text=外部化连接配置文件(&O)...
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=元素包含本地绑定而未指定显式数据集，这可能导致运行时性能低。 是否要将本地绑定移动到父层以获得更好的性能?
 LibraryElementsToolHandleExtends_question=提示
+LibraryElementsToolHandleExtends_toggle=&Remember my decision
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=拖放到“大纲”视图
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=拖放到“布局”编辑器
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=拖放到“大纲”视图或“布局”编辑器
@@ -2018,6 +2019,7 @@ HighlightsPreferencePage.toolTipText.Up=突出显示上移
 HighlightsPreferencePage.toolTipText.Down=突出显示下移
 HighlightsPreferencePage.text.Duplicate=&Duplicate
 HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+
 
 ###########################################################
 #HyperlinkBuilder properties
@@ -3080,7 +3082,7 @@ parameters.menuItem.reset=重置
 
 ParametersNodeProvider.dialogue.title.group=新建参数组
 ParametersNodeProvider.dialogue.title.parameter=新建参数
-ParametersNodeProvider.menu.text.cascadingParameter=New Ca&scading Parameter Group
+ParametersNodeProvider.menu.text.cascadingParameter=新建级联参数组(&D)
 ParametersNodeProvider.menu.text.group=新建参数组(&M)
 ParametersNodeProvider.menu.text.parameter=新建参数(&A)
 
@@ -3205,7 +3207,7 @@ ExportToLibraryAction.wizard.windowTitle=导出
 ExportToLibraryAction.wizard.page.title=文件导出到库
 ExportToLibraryAction.wizard.page.desc=报表设计导出到库
 ExportToLibraryAction.wizard.page.label.filename=文件名(&N):
-ExportToLibraryAction.wizard.page.label.folder=Fol&der:
+ExportToLibraryAction.wizard.page.label.folder=文件夹(&F):
 ExportToLibraryAction.wizard.page.button.browser=浏览(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=选择文件内容目录
 ExportToLibraryAction.wizard.page.nameempty=必须指定文件名。
@@ -4611,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=显示名称 ID(&S):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
-BindingDialogHelper.error.improperexpression=多维数据集度量聚合不能为此类型:“{0}” 
+BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?
@@ -4725,9 +4727,13 @@ TableDragGuideTracker.Pixels=像素
 #General Designer settings
 GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=用渐变选择(&G) 
-GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N) 
-GeneralConfigurationBlock.group.label=提示 
+GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N)
+GeneralConfigurationBlock.group.label=提示
 GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
+GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
+GeneralConfigurationBlock.move.binding.always=Al&ways
+GeneralConfigurationBlock.move.binding.never=Ne&ver
+GeneralConfigurationBlock.move.binding.prompt=P&rompt
 
 
 ###########################################################
@@ -4807,8 +4813,8 @@ ReloadImageAction.Text=重新加载图像(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=&New Variable
-VariablesNodeProvider.Dialog.Title=新建变量
+VariablesNodeProvider.NewActionName=新建变量
+VariablesNodeProvider.Dialog.Title=New Variable
 VariablesNodeProvider.NodeName=变量
 
 ###########################################################
