@@ -1124,7 +1124,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if ( CubeHandleUtil.isTimeDimension( dim ) )
 				{
 					FilterDefinition filter = null;
-					if( ((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
+					if( ( dim instanceof TabularDimensionHandle ) &&((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
 					{
 						filter = buildFilterForTimeDimension( ((TabularDimensionHandle) dim ).getSharedDimension( ),
 								hier );
