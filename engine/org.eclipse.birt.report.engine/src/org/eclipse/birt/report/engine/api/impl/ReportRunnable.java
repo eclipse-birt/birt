@@ -129,10 +129,8 @@ public class ReportRunnable extends DesignRunnable implements IReportRunnable
 
 	public ReportRunnable cloneRunnable( )
 	{
-		Map options = ((ReportDesignHandle) designHandle ).getOptions( );
 		ReportDesignHandle newDesign = (ReportDesignHandle) designHandle.copy( )
 				.getHandle( null );
-		newDesign.setOptions( options );
 		newDesign.setFileName( getReportName( ) );
 		ReportRunnable newRunnable = new ReportRunnable( engine, newDesign );
 		newRunnable.setReportName( reportName );

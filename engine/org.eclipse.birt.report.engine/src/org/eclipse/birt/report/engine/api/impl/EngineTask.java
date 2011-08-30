@@ -1795,6 +1795,9 @@ public abstract class EngineTask implements IEngineTask
 							.cloneRunnable( );
 					executionContext.updateRunnable( newRunnable );
 					ReportDesignHandle newDesign = newRunnable.getReport( );
+					Map options = new HashMap();
+					options.putAll( getAppContext( ) );
+					newDesign.setOptions( options );
 					ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
 							newDesign, executionContext );
 					visitor.apply( newDesign.getRoot( ) );
