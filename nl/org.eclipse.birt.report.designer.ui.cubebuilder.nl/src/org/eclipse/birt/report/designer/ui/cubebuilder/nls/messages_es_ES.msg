@@ -51,6 +51,7 @@ LinkGroupsPage.Title=Grupos de link
 DatasetPage.Label.Name=&Nombre:
 DateGroupDialog.Title=Agregar/editar nivel de grupo
 DateGroupDialog.Message.NumericName=El nombre de grupo no puede ser un número puro
+DateGroupDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 DateGroupDialog.Message.BlankName=El nombre de grupo no puede estar en blanco
 DateLevelDialog.Access.Control.List.Expression=Ex&presión de lista de control de acceso:
 DateLevelDialog.Button.Text.Edit=&Editar...
@@ -171,6 +172,7 @@ RenameInputDialog.DialogTitle=Cambiar nombre de entrada
 RenameInputDialog.DialogMessage=Introduzca el nuevo nombre
 RenameInputDialog.Message.BlankName=El nombre no puede estar en blanco
 RenameInputDialog.Message.NumericName=El nombre no puede ser un número puro
+RenameInputDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=Conjuntos de datos disponibles

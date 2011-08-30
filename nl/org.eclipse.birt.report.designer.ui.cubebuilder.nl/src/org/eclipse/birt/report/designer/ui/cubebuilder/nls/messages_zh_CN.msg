@@ -51,6 +51,7 @@ LinkGroupsPage.Title=链接组
 DatasetPage.Label.Name=名称(&N):
 DateGroupDialog.Title=添加/编辑组级别
 DateGroupDialog.Message.NumericName=组名不能为纯数
+DateGroupDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 DateGroupDialog.Message.BlankName=组名不能为空白
 DateLevelDialog.Access.Control.List.Expression=访问控制列表表达式(&A):
 DateLevelDialog.Button.Text.Edit=编辑(&E)...
@@ -171,6 +172,7 @@ RenameInputDialog.DialogTitle=重命名输入
 RenameInputDialog.DialogMessage=请输入新名称
 RenameInputDialog.Message.BlankName=名称不能为空白
 RenameInputDialog.Message.NumericName=名称不能为纯数
+RenameInputDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=可用数据集

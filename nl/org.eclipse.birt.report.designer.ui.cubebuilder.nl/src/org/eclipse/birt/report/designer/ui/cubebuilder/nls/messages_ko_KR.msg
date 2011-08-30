@@ -51,6 +51,7 @@ LinkGroupsPage.Title=그룹 링크
 DatasetPage.Label.Name=이름(&N):
 DateGroupDialog.Title=그룹 수준 추가/편집
 DateGroupDialog.Message.NumericName=그룹 이름에 숫자만 입력하면 안 됩니다.
+DateGroupDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 DateGroupDialog.Message.BlankName=그룹 이름은 비워 둘 수 없습니다.
 DateLevelDialog.Access.Control.List.Expression=액세스 제어 목록 식(&A):
 DateLevelDialog.Button.Text.Edit=편집(&E)...
@@ -171,6 +172,7 @@ RenameInputDialog.DialogTitle=이름 바꾸기 입력
 RenameInputDialog.DialogMessage=새 이름을 입력하십시오.
 RenameInputDialog.Message.BlankName=이름은 비워 둘 수 없습니다.
 RenameInputDialog.Message.NumericName=이름에 숫자만 입력하면 안 됩니다.
+RenameInputDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=사용 가능한 데이터 집합

@@ -51,6 +51,7 @@ LinkGroupsPage.Title=リンクグループ
 DatasetPage.Label.Name=名前(&N) :
 DateGroupDialog.Title=グループレベルの追加と編集
 DateGroupDialog.Message.NumericName=グループ名に数字のみを指定することはできません。
+DateGroupDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 DateGroupDialog.Message.BlankName=グループ名は空白にできません。
 DateLevelDialog.Access.Control.List.Expression=アクセスコントロールリストの式(&A) :
 DateLevelDialog.Button.Text.Edit=編集(&E)...
@@ -171,6 +172,7 @@ RenameInputDialog.DialogTitle=名前の変更
 RenameInputDialog.DialogMessage=新しい名前を入力してください。
 RenameInputDialog.Message.BlankName=名前は空白にできません。
 RenameInputDialog.Message.NumericName=名前に数字のみを指定することはできません。
+RenameInputDialog.Message.DuplicateName=The name is a duplicate of an existing name.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=使用可能なデータセット
