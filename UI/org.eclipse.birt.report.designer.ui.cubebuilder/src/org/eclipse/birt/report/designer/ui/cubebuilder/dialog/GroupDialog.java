@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -759,6 +761,13 @@ public class GroupDialog extends TitleAreaDialog
 			setMessage( null );
 			setErrorMessage( Messages.getString( "DateGroupDialog.Message.NumericName" ) ); //$NON-NLS-1$
 		}
+		else if ( checkDuplicateName( nameText.getText( ) ) )
+		{
+			if ( getButton( IDialogConstants.OK_ID ) != null )
+				getButton( IDialogConstants.OK_ID ).setEnabled( false );
+			setMessage( null );
+			setErrorMessage( Messages.getString( "DateGroupDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
+		}
 		else
 		{
 			if ( dateButton.getSelection( )
@@ -787,6 +796,20 @@ public class GroupDialog extends TitleAreaDialog
 				}
 			}
 		}
+	}
+
+	protected boolean checkDuplicateName( String name )
+	{
+		try
+		{
+			if(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).findDimension( name )!=null)
+				return true;
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return false;
 	}
 
 	protected void createButtonsForButtonBar( Composite parent )

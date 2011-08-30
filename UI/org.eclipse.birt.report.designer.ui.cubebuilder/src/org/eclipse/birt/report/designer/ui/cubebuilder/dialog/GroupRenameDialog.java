@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
@@ -126,6 +128,10 @@ public class GroupRenameDialog extends BaseDialog
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 					setErrorMessage( Messages.getString( "RenameInputDialog.Message.NumericName" ) ); //$NON-NLS-1$
 				}
+				else if(checkDuplicateName(text.getText( ))){
+					getButton( IDialogConstants.OK_ID ).setEnabled( false );
+					setErrorMessage( Messages.getString( "RenameInputDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
+				}
 				else
 				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( true );
@@ -161,6 +167,20 @@ public class GroupRenameDialog extends BaseDialog
 		applyDialogFont( composite );
 		UIUtil.bindHelp( parent, IHelpContextIds.GROUP_RENAME_DIALOG_ID );
 		return composite;
+	}
+
+	protected boolean checkDuplicateName( String name )
+	{
+		try
+		{
+			if(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).findDimension( name )!=null)
+				return true;
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return false;
 	}
 
 	private void createSecurityPart( Composite parent )
