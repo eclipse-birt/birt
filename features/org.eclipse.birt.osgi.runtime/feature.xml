@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.osgi.runtime"
       label="%featureName"
-      version="3.7.0.qualifier"
+      version="3.7.1.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -507,52 +507,54 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-	<plugin
-		id="org.eclipse.birt.report.engine.emitter.odp.config"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
-		
-	<plugin
-		id="org.eclipse.birt.report.engine.emitter.ods.config"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
-	
-	<plugin
-		id="org.eclipse.birt.report.engine.emitter.odt.config"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
-    
-    <plugin
-		id="org.eclipse.birt.report.engine.emitter.odp"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
-	
-	<plugin
-		id="org.eclipse.birt.report.engine.emitter.ods"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
-	
-	<plugin
-		id="org.eclipse.birt.report.engine.emitter.odt"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
-	
-	<plugin
-		id="org.eclipse.birt.report.engine.odf"
-		download-size="0"
-		install-size="0"
-		version="0.0.0"
-		unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.odp.config"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.ods.config"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.odt.config"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.odp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.ods"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.odt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.odf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
