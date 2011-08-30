@@ -136,6 +136,7 @@ public interface IOConstants
 	static final short FIELD_IMAGE_SOURCE = 150;
 	static final short FIELD_ALT_TEXT = 151;
 	static final short FIELD_FIT_TO_CONTAINER = 152;
+	static final short FIELD_PROPORTIONAL_SCALE = 153;
 
 	// extended item
 

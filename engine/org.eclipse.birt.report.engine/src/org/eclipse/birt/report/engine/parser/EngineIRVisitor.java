@@ -826,6 +826,9 @@ public class EngineIRVisitor extends DesignVisitor
 		// Fit to Container property
 		image.setFitToContainer( handle.fitToContainer( ) );
 
+		// isProportionalScale
+		image.setProportionalScale( handle.isProportionalScale( ) );
+
 		// Handle Image Source
 		String imageSrc = handle.getSource( );
 

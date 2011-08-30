@@ -1369,6 +1369,9 @@ public class EngineIRReaderImpl implements IOConstants
 				Boolean isFitToContainer = IOUtil.readBool( in );
 				image.setFitToContainer( isFitToContainer );
 				break;
+			case FIELD_PROPORTIONAL_SCALE :
+				image.setProportionalScale( IOUtil.readBool( in ) );
+				break;
 			default :
 				readReportItemField( in, image, fieldType );
 		}

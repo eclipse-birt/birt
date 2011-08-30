@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import static org.eclipse.birt.report.engine.ir.DimensionType.UNITS_IN;
+
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
@@ -104,6 +108,8 @@ public class ImageItemExecutor extends QueryItemExecutor
 		try
 		{
 			handleImage( imageDesign, imageContent );
+			// process proportional scale property
+			processProportionalScale( imageDesign, imageContent );
 		}
 		catch ( BirtException ex )
 		{
@@ -119,6 +125,44 @@ public class ImageItemExecutor extends QueryItemExecutor
 		startTOCEntry( imageContent );
 		
 		return imageContent;
+	}
+
+	private void processProportionalScale( ImageItemDesign imageDesign,
+			IImageContent imageContent )
+	{
+		DimensionType width = imageDesign.getWidth( );
+		DimensionType height = imageDesign.getHeight( );
+
+		if ( imageDesign.isProportionalScale( )
+				&& width != null && height != null )
+		{
+			com.lowagie.text.Image imageData = EmitterUtil.getImage( imageContent );
+
+			if ( imageData != null )
+			{
+				double iw = imageData.getWidth( );
+				double ih = imageData.getHeight( );
+				iw = iw < 0 ? 1 : iw;
+				ih = ih < 0 ? 1 : ih;
+
+				double rw = width.convertTo( UNITS_IN );
+				double rh = height.convertTo( UNITS_IN );
+
+				double wRatio = rw / iw;
+				double hRatio = rh / ih;
+
+				if ( wRatio < hRatio )
+				{
+					height = new DimensionType( ih * wRatio, UNITS_IN );
+					imageContent.setHeight( height );
+				}
+				else
+				{
+					width = new DimensionType( iw * hRatio, UNITS_IN );
+					imageContent.setWidth( width );
+				}
+			}
+		}
 	}
 	
 	public void close( ) throws BirtException

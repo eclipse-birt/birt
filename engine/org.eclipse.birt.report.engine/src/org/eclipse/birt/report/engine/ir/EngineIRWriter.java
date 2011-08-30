@@ -1560,6 +1560,13 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_FIT_TO_CONTAINER );
 			IOUtil.writeBool( out, true );
 		}
+
+		boolean isProportionalScale = image.isProportionalScale( );
+		if ( isProportionalScale )
+		{
+			IOUtil.writeShort( out, FIELD_PROPORTIONAL_SCALE );
+			IOUtil.writeBool( out, isProportionalScale );
+		}
 		
 		String altText = image.getAltText( );
 		String altTextKey = image.getAltTextKey( );

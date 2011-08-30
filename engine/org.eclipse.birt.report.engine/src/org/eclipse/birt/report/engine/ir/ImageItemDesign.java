@@ -79,6 +79,11 @@ public class ImageItemDesign extends ReportItemDesign
 	
 	protected boolean fitToContainer;
 
+	/**
+	 * indicates whether to scale the image proportionally.
+	 */
+	protected boolean proportionalScale;
+
 	public ImageItemDesign( )
 	{
 		this.imageSource = IMAGE_URI;
@@ -262,4 +267,22 @@ public class ImageItemDesign extends ReportItemDesign
 	{
 		this.fitToContainer = fitToContainer;
 	}
+
+	/**
+	 * @return the proportionalScale
+	 */
+	public boolean isProportionalScale( )
+	{
+		return proportionalScale;
+	}
+
+	/**
+	 * @param proportionalScale
+	 *            the proportionalScale to set
+	 */
+	public void setProportionalScale( boolean proportionalScale )
+	{
+		this.proportionalScale = proportionalScale;
+	}
+
 }
