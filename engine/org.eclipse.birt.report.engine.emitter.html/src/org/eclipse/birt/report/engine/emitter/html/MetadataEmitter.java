@@ -464,7 +464,7 @@ public class MetadataEmitter
 							{
 								rawData = value.toString( );
 							}
-							writer.attribute( HTMLTags.ATTR_RAW_DATA, rawData );
+							writer.attributeAllowEmpty( HTMLTags.ATTR_RAW_DATA, rawData );
 						}
 					}
 				}
