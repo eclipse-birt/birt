@@ -659,7 +659,9 @@
 
 	</target>
 
-	<target name="createBirtRuntime_OSGI" depends="createWAR_OSGI" if="build.runtimeOSGI">
+	<target name="createBirtRuntime_OSGI" if="build.runtimeOSGI">
+
+		<antcall target="createWAR_OSGI"/>
         <!-- Create birt-runtime/ReportEngine -->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
 			<fileset dir="${deposit}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI/WEB-INF/platform">
