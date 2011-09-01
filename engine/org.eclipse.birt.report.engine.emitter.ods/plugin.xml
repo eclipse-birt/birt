@@ -8,7 +8,7 @@
         <emitter
               class="org.eclipse.birt.report.engine.emitter.ods.OdsEmitter"
               format="ods"
-              icon="resource/ods.gif"
+              icon="resource/ODS.gif"
               id="org.eclipse.birt.report.engine.emitter.prototype.ods"
               mimeType="application/vnd.oasis.opendocument.spreadsheet"
               pagination="no-pagination"/>

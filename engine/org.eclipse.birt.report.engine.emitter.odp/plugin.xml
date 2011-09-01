@@ -9,7 +9,7 @@
         <emitter
               class="org.eclipse.birt.report.engine.emitter.odp.OdpEmitter"
               format="odp"
-              icon="resource/odp.gif"
+              icon="resource/ODP.gif"
               pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.odp"
               mimeType="application/vnd.oasis.opendocument.presentation"/>
