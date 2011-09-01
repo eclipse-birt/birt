@@ -128,7 +128,8 @@ public class GroupRenameDialog extends BaseDialog
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 					setErrorMessage( Messages.getString( "RenameInputDialog.Message.NumericName" ) ); //$NON-NLS-1$
 				}
-				else if(checkDuplicateName(text.getText( ))){
+				else if ( checkDuplicateName( text.getText( ) ) )
+				{
 					getButton( IDialogConstants.OK_ID ).setEnabled( false );
 					setErrorMessage( Messages.getString( "RenameInputDialog.Message.DuplicateName" ) ); //$NON-NLS-1$
 				}
@@ -173,7 +174,10 @@ public class GroupRenameDialog extends BaseDialog
 	{
 		try
 		{
-			if(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).findDimension( name )!=null)
+			DimensionHandle handle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.findDimension( name );
+			if ( handle != null && handle != dimension )
 				return true;
 		}
 		catch ( Exception e )

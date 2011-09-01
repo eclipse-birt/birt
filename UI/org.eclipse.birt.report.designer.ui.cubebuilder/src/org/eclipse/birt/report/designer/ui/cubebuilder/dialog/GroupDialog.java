@@ -802,7 +802,15 @@ public class GroupDialog extends TitleAreaDialog
 	{
 		try
 		{
-			if(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ).findDimension( name )!=null)
+			DimensionHandle dimension = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.findDimension( name );
+			DimensionHandle input = null;
+			if ( hierarchy != null )
+			{
+				input = (DimensionHandle) hierarchy.getContainer( );
+			}
+			if ( dimension != null && dimension != input )
 				return true;
 		}
 		catch ( Exception e )
