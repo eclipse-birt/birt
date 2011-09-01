@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.script.bre;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -19,12 +20,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
-import java.util.Calendar;
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class BirtDateTimeTest extends TestCase
@@ -32,10 +33,10 @@ public class BirtDateTimeTest extends TestCase
 
 	private Context cx;
 	private Scriptable scope;
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	public void setUp( ) throws Exception
@@ -58,7 +59,7 @@ public class BirtDateTimeTest extends TestCase
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	public void tearDown( )
@@ -848,7 +849,7 @@ public class BirtDateTimeTest extends TestCase
 		Date d3 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
-		
+
 		c.set( 1970, 0, 22, 0, 0, 0 );
 
 		c.clear( );
@@ -953,6 +954,182 @@ public class BirtDateTimeTest extends TestCase
 
 		for ( int i = 0; i < values.length; i++ )
 		{
+			assertEquals( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfYear(Date)'
+	 */
+	public void testFirstDayOfYear( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfYear(new Date(2005, 10, 15) )",
+				"BirtDateTime.firstDayOfYear(new Date(2006, 9, 15) )"
+		};
+
+		Calendar c = Calendar.getInstance( );
+
+		c.clear( );
+
+		c.set( 2005, 0, 1 );
+
+		Date d1 = new Date( c.getTimeInMillis( ) );
+
+		c.clear( );
+
+		c.set( 2006, 0, 1 );
+
+		Date d2 = new Date( c.getTimeInMillis( ) );
+
+		Date[] values = new Date[]{
+				d1, d2
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			System.out.println( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) );
+			assertEquals( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfQuarter(Date)'
+	 */
+	public void testFirstDayOfQuarter( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfQuarter(new Date(2005, 9, 15) )",
+				"BirtDateTime.firstDayOfQuarter(new Date(2006, 8, 15) )"
+		};
+
+		Calendar c = Calendar.getInstance( );
+
+		c.clear( );
+
+		c.set( 2005, 9, 1 );
+
+		Date d1 = new Date( c.getTimeInMillis( ) );
+
+		c.clear( );
+
+		c.set( 2006, 6, 1 );
+
+		Date d2 = new Date( c.getTimeInMillis( ) );
+
+		Date[] values = new Date[]{
+				d1, d2
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			System.out.println( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) );
+			System.out.println( "result:" + values[i] );
+			assertEquals( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfMonth(Date)'
+	 */
+	public void testFirstDayOfMonth( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfMonth(new Date(2005, 9, 15) )",
+				"BirtDateTime.firstDayOfMonth(new Date(2006, 8, 15) )"
+		};
+
+		Calendar c = Calendar.getInstance( );
+
+		c.clear( );
+
+		c.set( 2005, 9, 1 );
+
+		Date d1 = new Date( c.getTimeInMillis( ) );
+
+		c.clear( );
+
+		c.set( 2006, 8, 1 );
+
+		Date d2 = new Date( c.getTimeInMillis( ) );
+
+		Date[] values = new Date[]{
+				d1, d2
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			System.out.println( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) );
+			System.out.println( "result:" + values[i] );
+			assertEquals( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ), values[i] );
+		}
+	}
+
+	/*
+	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfWeek(Date)'
+	 */
+	public void testFirstDayOfWeek( ) throws BirtException
+	{
+		String[] scripts = new String[]{
+				"BirtDateTime.firstDayOfWeek(new Date(2011, 7, 25) )",
+				"BirtDateTime.firstDayOfWeek(new Date(2011, 7, 15) )"
+		};
+
+		com.ibm.icu.util.Calendar c = com.ibm.icu.util.Calendar.getInstance( TimeZone.getDefault( ), ULocale.getDefault() );
+
+		c.clear( );
+		c.setMinimalDaysInFirstWeek( 1 );
+		c.set( 2011, 7, 25 );
+		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek( ) );
+
+		Date d1 = c.getTime( );
+
+		c.clear( );
+		c.setMinimalDaysInFirstWeek( 1 );
+		c.set( 2011, 7, 15 );
+		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek( ) );
+		Date d2 =  c.getTime( );
+
+		Date[] values = new Date[]{
+				d1, d2
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			System.out.println( cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) );
+			System.out.println( "result:" + values[i] );
 			assertEquals( cx.evaluateString( scope,
 					scripts[i],
 					"inline",

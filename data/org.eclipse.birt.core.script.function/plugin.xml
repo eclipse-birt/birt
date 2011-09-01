@@ -6,163 +6,163 @@
          name="BirtScriptFunction"
          point="org.eclipse.birt.core.ScriptFunctionService">
    <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtStrFunctionFactory" name="BirtStr" desc="Provides String operation functions.">
-   	<Function
+	<Function
           desc="%FunctionDesc.charLength"
           name="charLength">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<DataType value="%dataType.Integer"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<DataType value="%dataType.Integer"></DataType></Function>
+	<Function
           desc="%FunctionDesc.concat"
           name="concat"
           variableArguments="true">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function>
+	<Function
           desc="%FunctionDesc.indexOf"
           name="indexOf">
-   		<Argument name="target"></Argument>
-   		<Argument name="source"></Argument>
-   		<Argument isOptional="true" name="start"></Argument>
-   		<DataType value="%dataType.Integer"></DataType></Function>
-   	<Function
+		<Argument name="target"></Argument>
+		<Argument name="source"></Argument>
+		<Argument isOptional="true" name="start"></Argument>
+		<DataType value="%dataType.Integer"></DataType></Function>
+	<Function
           desc="%FunctionDesc.left"
           name="left">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument isOptional="true" name="n">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument isOptional="true" name="n">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function>
+	<Function
           desc="%FunctionDesc.right"
           name="right">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="n" isOptional="true">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="n" isOptional="true">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function>
+	<Function
           desc="%FunctionDesc.search"
           name="search">
-   		<Argument name="pattern">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument isOptional="true" name="index">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<DataType value="%dataType.Integer"></DataType></Function>
-   	<Function
+		<Argument name="pattern">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument isOptional="true" name="index">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<DataType value="%dataType.Integer"></DataType></Function>
+	<Function
           desc="%FunctionDesc.toLower"
           name="toLower">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function>
+	<Function
           desc="%FunctionDesc.toUpper"
           name="toUpper">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType>
-   		</Argument>
-   		<DataType value="%dataType.String"></DataType>
-   	</Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType>
+		</Argument>
+		<DataType value="%dataType.String"></DataType>
+	</Function>
+	<Function
           desc="%FunctionDesc.trim"
           name="trim">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function>
+	<Function
           desc="%FunctionDesc.trimLeft"
           name="trimLeft">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function>
-   	<Function
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function>
+	<Function
           desc="%FunctionDesc.trimRight"
           name="trimRight">
-   		<Argument name="source">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<DataType value="%dataType.String"></DataType></Function></Category>
+		<Argument name="source">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType></Function></Category>
    <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtCompFunctionFactory" name="BirtComp" desc="Provide comparion functions.">
-   	<Function
+	<Function
           desc="%FunctionDesc.anyOf"
           name="anyOf"
           variableArguments="true">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.between"
           name="between">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target1">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target2">
-   			<DataType value="%dataType.Any"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target1">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target2">
+			<DataType value="%dataType.Any"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.notBetween"
           name="notBetween">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target1">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target2">
-   			<DataType value="%dataType.Any"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target1">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target2">
+			<DataType value="%dataType.Any"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.equalTo"
           name="equalTo">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.greaterThan"
           name="greaterThan">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.lessThan"
           name="lessThan">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.greaterOrEqual"
           name="greaterOrEqual">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.lessOrEqual"
           name="lessOrEqual">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.notEqual"
           name="notEqual">
-   		<DataType value="%dataType.Boolean"></DataType>
+		<DataType value="%dataType.Boolean"></DataType>
             <Argument
                   name="source">
                <DataType
@@ -175,174 +175,174 @@
                      value="%dataType.Any">
                </DataType>
             </Argument></Function>
-   	<Function
+	<Function
           desc="%FunctionDesc.like"
           name="like">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="ignoreCase" isOptional="true">
-   			<DataType value="Boolean"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="ignoreCase" isOptional="true">
+			<DataType value="Boolean"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.notLike"
           name="notLike">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.match"
           name="match">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   		<Argument name="target">
-   			<DataType value="%dataType.Any"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source">
+			<DataType value="%dataType.Any"></DataType></Argument>
+		<Argument name="target">
+			<DataType value="%dataType.Any"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.compareString"
           name="compareString">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="source1">
-   			<DataType value="%dataType.String"></DataType>
-   		</Argument>
-   		<Argument name="source2">
-   			<DataType value="%dataType.String"></DataType>
-   		</Argument>
-   		<Argument name="ignoreCase" isOptional="true">
-   			<DataType value="%dataType.Boolean"></DataType></Argument>
-   		<Argument name="trim" isOptional="true">
-   			<DataType value="%dataType.Boolean"></DataType></Argument></Function>
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="source1">
+			<DataType value="%dataType.String"></DataType>
+		</Argument>
+		<Argument name="source2">
+			<DataType value="%dataType.String"></DataType>
+		</Argument>
+		<Argument name="ignoreCase" isOptional="true">
+			<DataType value="%dataType.Boolean"></DataType></Argument>
+		<Argument name="trim" isOptional="true">
+			<DataType value="%dataType.Boolean"></DataType></Argument></Function>
    </Category>
    <Category
-   	factoryclass="org.eclipse.birt.core.script.function.bre.BirtMathFunctionFactory"
-   	name="BirtMath" desc="Provide math functions.">
-   	<Function
+	factoryclass="org.eclipse.birt.core.script.function.bre.BirtMathFunctionFactory"
+	name="BirtMath" desc="Provide math functions.">
+	<Function
           desc="%FunctionDesc.add"
           name="add">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="n1">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument name="n2">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="n1">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument name="n2">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.substract"
           name="subtract">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="n1">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument name="n2">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="n1">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument name="n2">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
          <Function
                desc="%FunctionDesc.multiple"
                isVisible="false"
                name="multiple">
          </Function>
-   	<Function
+	<Function
           desc="%FunctionDesc.multiply"
           name="multiply">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="n1">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="n1">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument
            name="n2">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.divide"
           name="divide">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="dividend">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument name="divisor">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="dividend">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument name="divisor">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.round"
           name="round">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="number">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument name="dec" isOptional="true">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="number">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument name="dec" isOptional="true">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument></Function>
+	<Function
           desc="%FunctionDesc.roundUp"
           name="roundUp">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="number">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument name="dec" isOptional="true">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="number">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument name="dec" isOptional="true">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument></Function>
+	<Function
           desc="%FunctionDesc.roundDown"
           name="roundDown">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument>
-   		<Argument name="divisor" isOptional="true">
-   			<DataType value="%dataType.Number"></DataType>
-   		</Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument>
+		<Argument name="divisor" isOptional="true">
+			<DataType value="%dataType.Number"></DataType>
+		</Argument></Function>
+	<Function
           desc="%FunctionDesc.ceiling"
           name="ceiling">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument>
-   		<Argument name="significance">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument>
+		<Argument name="significance">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.mod"
           name="mod">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="number">
-   			<DataType value="%dataType.Number"></DataType></Argument>
-   		<Argument name="divisor">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="number">
+			<DataType value="%dataType.Number"></DataType></Argument>
+		<Argument name="divisor">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.safeDivide"
           name="safeDivide">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="dividend">
-   			<DataType value="%dataType.Number"></DataType></Argument>
-   		<Argument name="divisor">
-   			<DataType value="%dataType.Number"></DataType></Argument>
-   		<Argument name="ifZero">
-   			<DataType value="%dataType.Any"></DataType>
-   		</Argument></Function>
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="dividend">
+			<DataType value="%dataType.Number"></DataType></Argument>
+		<Argument name="divisor">
+			<DataType value="%dataType.Number"></DataType></Argument>
+		<Argument name="ifZero">
+			<DataType value="%dataType.Any"></DataType>
+		</Argument></Function>
    </Category>
    <Category
-   	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDateTimeFunctionFactory"
-   	name="BirtDateTime" desc="Provide DateTime operation functions.">
-   	<Function
+	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDateTimeFunctionFactory"
+	name="BirtDateTime" desc="Provide DateTime operation functions.">
+	<Function
           desc="%FunctionDesc.year"
           name="year">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.quarter"
           name="quarter">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.month"
           name="month">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
        <Argument
             isOptional="true"
             name="option">
@@ -350,24 +350,24 @@
                value="Integer">
          </DataType>
       </Argument></Function>
-   	<Function
+	<Function
           desc="%FunctionDesc.week"
           name="week">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.day"
           name="day">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.weekDay"
           name="weekDay">
-   		<DataType value="%dataType.String"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<DataType value="%dataType.String"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
        <Argument
            isOptional="true"
            name="option">
@@ -375,653 +375,677 @@
               value="Integer">
          </DataType>
      </Argument></Function>
-   	<Function
+	<Function
           desc="%FunctionDesc.today"
           name="today">
             <DataType
                   value="%dataType.DateTime">
             </DataType></Function>
-   	<Function
+	<Function
           desc="%FunctionDesc.now"
           name="now">
-   		<DataType value="%dataType.DateTime"></DataType></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType></Function>
+	<Function
           desc="%FunctionDesc.diffYear"
           name="diffYear">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffMonth"
           name="diffMonth">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffQuarter"
           name="diffQuarter">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffWeek"
           name="diffWeek">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffDay"
           name="diffDay">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffHour"
           name="diffHour">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffMinute"
           name="diffMinute">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.diffSecond"
           name="diffSecond">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="date1">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="date2">
-   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date1">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addYear"
           name="addYear">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addMonth"
           name="addMonth">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.addQuarter"
           name="addQuarter">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addWeek"
           name="addWeek">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addDay"
           name="addDay">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addHour"
           name="addHour">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addMinute"
           name="addMinute">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.addSecond"
           name="addSecond">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="n">
-   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="n">
+			<DataType value="%dataType.Number"></DataType></Argument></Function>
+	<Function
+		desc="%FunctionDesc.firstDayOfYear"
+          name="firstDayOfYear">
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+		desc="%FunctionDesc.firstDayOfQuarter"
+          name="firstDayOfQuarter">
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+		desc="%FunctionDesc.firstDayOfMonth"
+          name="firstDayOfMonth">
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+		desc="%FunctionDesc.firstDayOfWeek"
+          name="firstDayOfWeek">
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
    </Category>
    <Category
-   	factoryclass="org.eclipse.birt.core.script.function.general.BirtFinanceFunctionFactory"
-   	name="Finance">
-   	<Function
+	factoryclass="org.eclipse.birt.core.script.function.general.BirtFinanceFunctionFactory"
+	name="Finance">
+	<Function
           desc="%FunctionDesc.ddb"
           name="ddb">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="cost">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="salvage">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="life">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="period">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="cost">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="salvage">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="life">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="period">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.fv"
               name="fv">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="nPer">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="pmt">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="pv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-  
-   	   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+
+		<Function
               desc="%FunctionDesc.ipmt"
               name="ipmt">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="per">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="nPer">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="pv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="fv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   	 	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="per">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+		<Function
             desc="%FunctionDesc.irr"
             name="irr">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="cash">
-   			<DataType value="%dataType.DoubleArray"></DataType>
-   		</Argument>
-   		<Argument name="intrate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   	</Function>
-   	   	 	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="cash">
+			<DataType value="%dataType.DoubleArray"></DataType>
+		</Argument>
+		<Argument name="intrate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+	</Function>
+			<Function
                 desc="%FunctionDesc.mirr"
                 name="mirr">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="arptr">
-   			<DataType value="%dataType.DoubleArray"></DataType>
-   		</Argument>
-   		<Argument name="frate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="rrate" isOptional="true">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   	   	 	</Function>
-   	   	   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="arptr">
+			<DataType value="%dataType.DoubleArray"></DataType>
+		</Argument>
+		<Argument name="frate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="rrate" isOptional="true">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+			</Function>
+			<Function
                   desc="%FunctionDesc.nper"
                   name="nper">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="pmt">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="pv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="fv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   	   	 	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+			<Function
                 desc="%FunctionDesc.npv"
                 name="npv">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="arptr">
-   			<DataType value="%dataType.DoubleArray"></DataType>
-   		</Argument>
-   	</Function>
-   	   	   	   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="arptr">
+			<DataType value="%dataType.DoubleArray"></DataType>
+		</Argument>
+	</Function>
+				<Function
                       desc="%FunctionDesc.percent"
                       name="percent">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="denom">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="num">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="valueIfZero" isOptional="true">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   	   	   	   	</Function>
-   	   	   	   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="denom">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="num">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="valueIfZero" isOptional="true">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+				</Function>
+				<Function
                       desc="%FunctionDesc.pmt"
                       name="pmt">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="nper">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="pv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="fv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   	 	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="nper">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+		<Function
             desc="%FunctionDesc.ppmt"
             name="ppmt">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="per">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="nPer">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="pv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="fv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   	 	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="per">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+		<Function
             desc="%FunctionDesc.pv"
             name="pv">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="rate">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="nPer">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="pmt">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="fv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="rate">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+		<Function
            desc="%FunctionDesc.rate"
            name="rate">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="nper">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="pmt">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="pv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="fv">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="due">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="guess">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   	</Function>
-   	   	   	   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="nper">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="due">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="guess">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+	</Function>
+				<Function
                       desc="%FunctionDesc.sln"
                       name="sln">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="cost">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="salvage">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="life">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="cost">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="salvage">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="life">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.syd"
           name="syd">
-   		<DataType value="%dataType.Double"></DataType>
-   		<Argument name="cost">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="salvage">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="life">
-   			<DataType value="%dataType.Double"></DataType>
-   		</Argument>
-   		<Argument name="period">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
+		<DataType value="%dataType.Double"></DataType>
+		<Argument name="cost">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="salvage">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="life">
+			<DataType value="%dataType.Double"></DataType>
+		</Argument>
+		<Argument name="period">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
    </Category>
    <Category
-   	factoryclass="org.eclipse.birt.core.script.function.general.BirtDateTimeSpanFunctionFactory"
-   	name="DateTimeSpan" isVisible="false">
-   	<Function
-   		desc="%FunctionDesc.addDate"
-   		name="addDate">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType>
-   		</Argument>
-   		<Argument name="years">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="months">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   		<Argument name="days">
-   			<DataType value="%dataType.Integer"></DataType>
-   		</Argument>
-   	</Function>
-   	<Function
+	factoryclass="org.eclipse.birt.core.script.function.general.BirtDateTimeSpanFunctionFactory"
+	name="DateTimeSpan" isVisible="false">
+	<Function
+		desc="%FunctionDesc.addDate"
+		name="addDate">
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+		<Argument name="years">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="months">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+		<Argument name="days">
+			<DataType value="%dataType.Integer"></DataType>
+		</Argument>
+	</Function>
+	<Function
               desc="%FunctionDesc.addTime"
               name="addTime">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="hours">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<Argument name="minutes">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<Argument name="seconds">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="hours">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="minutes">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="seconds">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.subDate"
               name="subDate">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="years">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<Argument name="months">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<Argument name="days">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="years">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="months">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="days">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.subTime"
           name="subTime">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="hours">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<Argument name="minutes">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   		<Argument name="seconds">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="hours">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="minutes">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+		<Argument name="seconds">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.days"
           name="days">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="endDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="endDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.hours"
               name="hours">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="endDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="endDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.minutes"
               name="minutes">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="endDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="endDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.months"
               name="months">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="endDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="endDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.seconds"
               name="seconds">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="endDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
-   	   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="endDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
+			<Function
                   desc="%FunctionDesc.years"
                   name="years">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   		<Argument name="endDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+		<Argument name="endDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
    </Category>
     <Category
-   	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDurationFunctionFactory"
-   	name="BirtDuration">
-   	<Function
+	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDurationFunctionFactory"
+	name="BirtDuration">
+	<Function
           desc="%FunctionDesc.duration.year"
           name="year">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.month"
               name="month">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.day"
               name="day">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.duration.hour"
           name="hour">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.duration.minute"
           name="minute">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.second"
               name="second">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.timeInMills"
               name="timeInMills">
-   		<DataType value="%dataType.Number"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	   	<Argument name="startDate">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Number"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="startDate">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.isLongerThan"
               name="isLongerThan">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="lexicalDuration1">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="lexicalDuration2">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   	   	<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="lexicalDuration1">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.isShorterThan"
               name="isShorterThan">
-   		<DataType value="%dataType.Boolean"></DataType>
-   		<Argument name="lexicalDuration1">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="lexicalDuration2">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.Boolean"></DataType>
+		<Argument name="lexicalDuration1">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.add"
               name="add">
-   		<DataType value="%dataType.String"></DataType>
-   		<Argument name="lexicalDuration1">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="lexicalDuration2">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.String"></DataType>
+		<Argument name="lexicalDuration1">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.substract"
               name="subtract">
-   		<DataType value="%dataType.String"></DataType>
-   		<Argument name="lexicalDuration1">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="lexicalDuration2">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.String"></DataType>
+		<Argument name="lexicalDuration1">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.multiply"
               name="multiply">
-   		<DataType value="%dataType.String"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="factor">
-   			<DataType value="%dataType.Integer"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.String"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="factor">
+			<DataType value="%dataType.Integer"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.negate"
               name="negate">
-   		<DataType value="%dataType.String"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.String"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.getSign"
               name="getSign">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.compare"
               name="compare">
-   		<DataType value="%dataType.Integer"></DataType>
-   		<Argument name="lexicalDuration1">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="lexicalDuration2">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   	</Function>
-   		<Function
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="lexicalDuration1">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="%dataType.String"></DataType></Argument>
+	</Function>
+		<Function
               desc="%FunctionDesc.duration.addTo"
               name="addTo">
-   		<DataType value="%dataType.DateTime"></DataType>
-   		<Argument name="lexicalDuration">
-   			<DataType value="%dataType.String"></DataType></Argument>
-   		<Argument name="date">
-   			<DataType value="%dataType.DateTime"></DataType></Argument>
-   	</Function>
+		<DataType value="%dataType.DateTime"></DataType>
+		<Argument name="lexicalDuration">
+			<DataType value="%dataType.String"></DataType></Argument>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+	</Function>
    </Category>
-   <Category
+    <Category
           factoryclass="org.eclipse.birt.core.script.function.bre.FormatterFunctionFactory"
           name="Formatter">
        <Function

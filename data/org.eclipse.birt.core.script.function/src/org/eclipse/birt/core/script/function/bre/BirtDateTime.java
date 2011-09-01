@@ -26,29 +26,29 @@ import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 public class BirtDateTime implements IScriptFunctionExecutor
 {
 	//TODO Change these values according to the locale.
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	static private SimpleDateFormat abbrMonthFormat = null;
 	static private SimpleDateFormat monthFormat = null;
 	static private SimpleDateFormat abbrWeekFormat = null;
 	static private SimpleDateFormat weekFormat = null;
-	
+
 	private IScriptFunctionExecutor executor;
-	
+
 	private static IScriptFunctionContext scriptContext;
 	private static ULocale defaultLocale = null;
 	private static TimeZone timeZone = null;
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private static SimpleDateFormat getAbbrMonthFormat( )
@@ -57,9 +57,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			abbrMonthFormat = new SimpleDateFormat( "MMM", defaultLocale );
 		return abbrMonthFormat;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private static SimpleDateFormat getMonthFormat( )
@@ -68,9 +68,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			monthFormat = new SimpleDateFormat( "MMMM", defaultLocale );
 		return monthFormat;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private static SimpleDateFormat getAbbrWeekFormat( )
@@ -79,9 +79,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			abbrWeekFormat = new SimpleDateFormat( "EEE", defaultLocale );
 		return abbrWeekFormat;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private static SimpleDateFormat getWeekFormat( )
@@ -92,8 +92,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	}
 
 	/**
-	 * @throws BirtException 
-	 * 
+	 * @throws BirtException
+	 *
 	 *
 	 */
 	BirtDateTime( String functionName ) throws BirtException
@@ -146,6 +146,14 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_AddMinute( );
 		else if( "addSecond".equals( functionName ))
 			this.executor = new Function_AddSecond( );
+		else if( "firstDayOfYear".equals( functionName ))
+			this.executor = new Function_FirstDayOfYear( );
+		else if( "firstDayOfQuarter".equals( functionName ))
+			this.executor = new Function_FirstDayOfQuarter( );
+		else if( "firstDayOfMonth".equals( functionName ))
+			this.executor = new Function_FirstDayOfMonth( );
+		else if( "firstDayOfWeek".equals( functionName ))
+			this.executor = new Function_FirstDayOfWeek( );
 		else
 			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
@@ -160,7 +168,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 1;
 		}
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -172,11 +180,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			return Integer.valueOf( year(DataTypeUtil.toDate(args[0])));
 		}
-	}		
-	
+	}
+
 	/**
 	 * 4-digit year number of date/time value d
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -191,7 +199,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_Quarter extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -200,7 +208,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 1;
 			maxParamCount = 1;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -212,11 +220,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			else
 				return Integer.valueOf( quarter(DataTypeUtil.toDate(args[0])));
 		}
-	}		
-	
+	}
+
 	/**
 	 * Quarter number (1 to 4) of date/time value d
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -252,7 +260,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_Month extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -261,7 +269,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 1;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -278,10 +286,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			else
 				return month( date, ((Number)args[1]).intValue( ));
 		}
-	}	
+	}
 	/**
 	 * Month of date/time value d. Return month number (1-12)
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -298,7 +306,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 * return month number (1-12) 2: return full month name as per user locale
 	 * (e.g., January to December for English locale). 3: return short month
 	 * name as per user locale (e.g., Jan to Dec for English locale)
-	 * 
+	 *
 	 * @param d
 	 * @param option
 	 * @return
@@ -325,11 +333,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 		return null;
 	}
-	
+
 	private static class Function_Week extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -338,7 +346,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 1;
 			maxParamCount = 1;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -347,11 +355,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			return Integer.valueOf( week(DataTypeUtil.toDate(args[0])));
 		}
-	}	
+	}
 
 	/**
 	 * Week number of the year (1 to 52) of date/time value d.
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -366,7 +374,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_Day extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -375,7 +383,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 1;
 			maxParamCount = 1;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -384,11 +392,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			return Integer.valueOf( day(DataTypeUtil.toDate(args[0])));
 		}
-	}	
-	
+	}
+
 	/**
 	 * Day number of the month(1 to 31).
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -399,11 +407,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		return getCalendar( d ).get( Calendar.DAY_OF_MONTH );
 	}
-	
+
 	private static class Function_WeekDay extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -412,7 +420,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 1;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -428,7 +436,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 	/**
 	 * Day the week. Return a number 1 (Sunday) to 7 (Saturday).
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -446,7 +454,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 * number 0 (Monday) to 6 (Sunday) 4: return the weekday name as per user
 	 * locale (e.g., Sunday Saturday for English) 5: return the abbreviated
 	 * weekday name as per user locale (e.g., Sun Sat for English)
-	 * 
+	 *
 	 * @param d
 	 * @param option
 	 * @return
@@ -475,7 +483,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_Today extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -484,7 +492,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 0;
 			maxParamCount = 0;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -494,10 +502,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return today();
 		}
 	}
-	
+
 	/**
 	 * Returns a timestamp value which is midnight of the current date.
-	 * 
+	 *
 	 * @return
 	 */
 	private static Date today( )
@@ -507,14 +515,14 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		calendar.clear( Calendar.MINUTE );
 		calendar.clear( Calendar.SECOND );
 		calendar.clear( Calendar.MILLISECOND );
-		
+
 		return calendar.getTime( );
 	}
 
 	private static class Function_Now extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -523,16 +531,16 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 0;
 			maxParamCount = 0;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			return now();
 		}
 	}
-	
+
 	/**
 	 * Returns the current timestamp
-	 * 
+	 *
 	 * @return
 	 */
 	private static Timestamp now( )
@@ -544,7 +552,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_DiffYear extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -553,7 +561,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -563,10 +571,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Integer.valueOf(diffYear(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of years
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -586,7 +594,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_DiffMonth extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -595,7 +603,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -605,10 +613,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Integer.valueOf( diffMonth(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of months
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -629,7 +637,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_DiffQuarter extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -638,7 +646,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -648,10 +656,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Integer.valueOf(diffQuarter(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of quarters
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -669,11 +677,11 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return endQuter - startQuter;
 	}
 
-	
+
 	private static class Function_DiffWeek extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -682,7 +690,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -692,23 +700,23 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Long.valueOf(diffWeek(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of weeks
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
 	 */
 	private static long diffWeek( Date d1, Date d2 )
-	{	
+	{
 		Date sd1 = getWeekStartDay( d1 );
 		Date sd2 = getWeekStartDay( d2 );
 		return diffDay( sd1, sd2 ) / 7;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -722,7 +730,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_DiffDay extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -731,7 +739,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -741,10 +749,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Long.valueOf( diffDay(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of days
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -764,9 +772,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return diffDay( c1, c2 );
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -796,7 +804,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_DiffHour extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -805,7 +813,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -815,10 +823,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Long.valueOf( diffHour(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of hours
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -837,7 +845,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_DiffMinute extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -846,7 +854,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -856,10 +864,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Long.valueOf(diffMinute(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of minutes
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -867,7 +875,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static long diffMinute( Date d1, Date d2 )
 	{
 		Calendar c = getClearedCalendarInstance( 0, 0, 1  );
-		
+
 		return ( diffSecond( new Date( c.getTimeInMillis( ) ), d2 ) + 3000
 				* 60 * 60 * 24 * 7 )
 				/ ( 60 )
@@ -884,22 +892,22 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static Calendar getClearedCalendarInstance(int year, int month, int date )
 	{
 		Calendar c = Calendar.getInstance( timeZone );
-		
+
 		c.clear( );
-		
+
 		c.set( year, month, date );
 		return c;
 	}
 
 	/**
-	 * 
+	 *
 	 * @author xyi
 	 *
 	 */
 	private static class Function_DiffSecond extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -908,7 +916,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-		
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -918,10 +926,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return Long.valueOf(diffSecond(DataTypeUtil.toDate(args[0]), DataTypeUtil.toDate(args[1])));
 		}
 	}
-	
+
 	/**
 	 * Return difference in number of seconds
-	 * 
+	 *
 	 * @param d1
 	 * @param d2
 	 * @return
@@ -943,7 +951,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		catch( NullPointerException ne )
 		{
 			// ICU TimeZone.inDaylightTime( ) may throw NPE in some case.
-			// This is ICU bug. We use java.util.TimeZone to fix this bug. 
+			// This is ICU bug. We use java.util.TimeZone to fix this bug.
 			if( timeZone != null )
 			{
 				java.util.TimeZone jTimeZone = java.util.TimeZone.getTimeZone( timeZone.getID( ) );
@@ -960,7 +968,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddYear extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -969,7 +977,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -979,10 +987,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addYear(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num years
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -999,7 +1007,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddMonth extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1008,7 +1016,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1018,10 +1026,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addMonth(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num months
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1038,7 +1046,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddQuarter extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1047,7 +1055,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1057,10 +1065,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addQuarter(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num quarters
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1073,7 +1081,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddWeek extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1082,7 +1090,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1092,10 +1100,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addWeek(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num weeks
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1108,7 +1116,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddDay extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1117,7 +1125,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1127,10 +1135,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addDay(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num days
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1147,7 +1155,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddHour extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1156,7 +1164,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1166,10 +1174,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addHour(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num hours
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1186,7 +1194,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddMinute extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1195,7 +1203,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1205,10 +1213,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			return addMinute(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
 	}
-	
+
 	/**
 	 * Add num minutes
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1225,7 +1233,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static class Function_AddSecond extends Function_temp
 	{
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1234,7 +1242,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			minParamCount = 2;
 			maxParamCount = 2;
 		}
-			
+
 		protected Object getValue( Object[] args ) throws BirtException
 		{
 			if( existNullValue( args ) )
@@ -1243,11 +1251,115 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			return addSecond(DataTypeUtil.toDate(args[0]), ((Number)args[1]).intValue( ));
 		}
-	}	
-	
+	}
+
+	private static class Function_FirstDayOfYear extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfYear( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar cal = getCalendar( DataTypeUtil.toDate(args[0] ) );
+			cal.set( Calendar.DAY_OF_YEAR, 1 );
+			return cal.getTime( );
+		}
+	}
+
+	private static class Function_FirstDayOfQuarter extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			Date date = DataTypeUtil.toDate(args[0]);
+			Calendar cal = getCalendar( date );
+			int quarter = quarter( date );
+
+			cal.set( Calendar.MONTH, ( quarter - 1 ) * 3 );
+			cal.set( Calendar.DAY_OF_MONTH, 1 );
+			return cal.getTime( );
+		}
+	}
+
+	private static class Function_FirstDayOfMonth extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfMonth( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar cal = getCalendar( DataTypeUtil.toDate(args[0] ) );
+			cal.set( Calendar.DAY_OF_MONTH, 1 );
+			return cal.getTime( );
+		}
+	}
+
+	private static class Function_FirstDayOfWeek extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_FirstDayOfWeek( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			Calendar cal = getCalendar( DataTypeUtil.toDate(args[0] ) );
+			cal.set( Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek( ) );
+			return cal.getTime( );
+		}
+	}
+
 	/**
 	 * Add num seconds
-	 * 
+	 *
 	 * @param date
 	 * @param num
 	 * @return
@@ -1261,9 +1373,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return startCal.getTime( );
 	}
 
-	
+
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @param startDay
 	 * @return
@@ -1283,7 +1395,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	}
 
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -1311,9 +1423,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 		return c;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param args
 	 * @return
 	 */
@@ -1345,7 +1457,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				weekFormat = null;
 				defaultLocale = locale;
 			}
-			
+
 			timeZone = (TimeZone) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
 		}
 		if( timeZone == null )
