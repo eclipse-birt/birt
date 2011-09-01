@@ -2017,8 +2017,8 @@ HighlightsPreferencePage.text.Description=Liste de surbrillance :
 HighlightsPreferencePage.text.Edit=&Modifier...
 HighlightsPreferencePage.toolTipText.Up=Déplacer la mise en surbrillance vers le haut
 HighlightsPreferencePage.toolTipText.Down=Déplacer la mise en surbrillance vers le bas
-HighlightsPreferencePage.text.Duplicate=&Duplicate
-HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+HighlightsPreferencePage.text.Duplicate=Du&pliquer
+HighlightsPreferencePage.toolTipText.Duplicate=Dupliquer la mise en surbrillance
 
 
 ###########################################################
@@ -2513,8 +2513,8 @@ MapPreferencePage.text.Description=Règles de mappage :
 MapPreferencePage.text.Edit=&Modifier...
 MapPreferencePage.toolTipText.Up=Déplacer la règle de mappage vers le haut
 MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
-MapPreferencePage.text.Duplicate=&Duplicate
-MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
+MapPreferencePage.text.Duplicate=Du&pliquer
+MapPreferencePage.toolTipText.Duplicate=Dupliquer la règle de mappage
 
 ###########################################################
 #MapRuleBuilderDialog properties
@@ -4613,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
+BindingDialogHelper.error.improperexpression=L'agrégation sur la mesure de cube ne peut pas être du type : "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?

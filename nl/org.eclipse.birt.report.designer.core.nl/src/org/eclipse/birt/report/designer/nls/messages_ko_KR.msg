@@ -1393,7 +1393,7 @@ Element.Style.text.indent=텍스트 들여쓰기(&X):
 Element.Style.text.transform=텍스트 변환(&R):
 Element.Style.text=텍스트:
 Element.Style.verticalAlign=세로 맞춤(&V):
-Element.Style.whiteSpace=공백(&H):
+Element.Style.whiteSpace=공백(&I):
 Element.Style.widows=마지막 줄 분리(&D):
 Element.Style.wordSpacing=단어 간격(&W):
 Element.Table.caption=캡션:
@@ -2017,8 +2017,8 @@ HighlightsPreferencePage.text.Description=강조 목록:
 HighlightsPreferencePage.text.Edit=편집(&D)...
 HighlightsPreferencePage.toolTipText.Up=강조 위로 이동
 HighlightsPreferencePage.toolTipText.Down=강조 아래로 이동
-HighlightsPreferencePage.text.Duplicate=&Duplicate
-HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+HighlightsPreferencePage.text.Duplicate=중복(&D)
+HighlightsPreferencePage.toolTipText.Duplicate=강조 중복
 
 
 ###########################################################
@@ -2513,8 +2513,8 @@ MapPreferencePage.text.Description=맵 규칙:
 MapPreferencePage.text.Edit=편집(&D)...
 MapPreferencePage.toolTipText.Up=맵 규칙 위로 이동
 MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
-MapPreferencePage.text.Duplicate=&Duplicate
-MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
+MapPreferencePage.text.Duplicate=중복(&D)
+MapPreferencePage.toolTipText.Duplicate=맵 규칙 중복
 
 ###########################################################
 #MapRuleBuilderDialog properties
@@ -4613,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=표시 이름 ID(&S):
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
+BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?

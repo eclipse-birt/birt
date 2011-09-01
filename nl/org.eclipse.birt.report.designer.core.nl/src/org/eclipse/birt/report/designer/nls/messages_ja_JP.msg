@@ -1393,7 +1393,7 @@ Element.Style.text.indent=文字列のインデント(&X) :
 Element.Style.text.transform=文字列の位置変更(&R) :
 Element.Style.text=テキスト :
 Element.Style.verticalAlign=垂直方向の配置(&V) :
-Element.Style.whiteSpace=スペース(&H) :
+Element.Style.whiteSpace=スペース(&I):
 Element.Style.widows=ウィドウ(&D) :
 Element.Style.wordSpacing=単語間の間隔(&W) :
 Element.Table.caption=キャプション :
@@ -2017,8 +2017,8 @@ HighlightsPreferencePage.text.Description=ハイライトの一覧 :
 HighlightsPreferencePage.text.Edit=編集(&D)...
 HighlightsPreferencePage.toolTipText.Up=ハイライト部分を上に移動
 HighlightsPreferencePage.toolTipText.Down=ハイライト部分を下に移動
-HighlightsPreferencePage.text.Duplicate=&Duplicate
-HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+HighlightsPreferencePage.text.Duplicate=複製(&D)
+HighlightsPreferencePage.toolTipText.Duplicate=ハイライトの複製
 
 
 ###########################################################
@@ -2513,8 +2513,8 @@ MapPreferencePage.text.Description=マップ規則 :
 MapPreferencePage.text.Edit=編集(&D)...
 MapPreferencePage.toolTipText.Up=マップの規則を上に移動
 MapPreferencePage.toolTipText.Down=マップの規則を下に移動
-MapPreferencePage.text.Duplicate=&Duplicate
-MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
+MapPreferencePage.text.Duplicate=複製(&D)
+MapPreferencePage.toolTipText.Duplicate=マップ規則の複製
 
 ###########################################################
 #MapRuleBuilderDialog properties
@@ -4613,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=表示名 ID(&S) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
+BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}"
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?

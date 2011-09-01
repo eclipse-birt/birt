@@ -1393,7 +1393,7 @@ Element.Style.text.indent=&Texteinzug:
 Element.Style.text.transform=Text&umwandlung:
 Element.Style.text=Text:
 Element.Style.verticalAlign=&Vertikale Ausrichtung:
-Element.Style.whiteSpace=&Leerzeichen:
+Element.Style.whiteSpace=Wh&itespace:
 Element.Style.widows=&Verwitwet:
 Element.Style.wordSpacing=&Wortabstand:
 Element.Table.caption=Beschriftung:
@@ -2017,8 +2017,8 @@ HighlightsPreferencePage.text.Description=Kennzeichnungsliste:
 HighlightsPreferencePage.text.Edit=&Bearbeiten...
 HighlightsPreferencePage.toolTipText.Up=Markierung nach oben verschieben
 HighlightsPreferencePage.toolTipText.Down=Markierung nach unten verschieben
-HighlightsPreferencePage.text.Duplicate=&Duplicate
-HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+HighlightsPreferencePage.text.Duplicate=&Doppelt vergeben
+HighlightsPreferencePage.toolTipText.Duplicate=Doppelte Markierung
 
 
 ###########################################################
@@ -2513,8 +2513,8 @@ MapPreferencePage.text.Description=Zuordnungsregeln:
 MapPreferencePage.text.Edit=&Bearbeiten...
 MapPreferencePage.toolTipText.Up=Zuordnungsregel nach oben verschieben
 MapPreferencePage.toolTipText.Down=Zuordnungsregel nach unten verschieben
-MapPreferencePage.text.Duplicate=&Duplicate
-MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
+MapPreferencePage.text.Duplicate=&Doppelt vergeben
+MapPreferencePage.toolTipText.Duplicate=Doppelte Zuordnungsregel
 
 ###########################################################
 #MapRuleBuilderDialog properties
@@ -4613,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
+BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?

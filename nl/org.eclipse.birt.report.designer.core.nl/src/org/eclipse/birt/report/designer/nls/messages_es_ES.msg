@@ -1393,7 +1393,7 @@ Element.Style.text.indent=Sangrado de text&o:
 Element.Style.text.transform=Transfo&rmación de texto:
 Element.Style.text=Texto:
 Element.Style.verticalAlign=&Alineación vertical:
-Element.Style.whiteSpace=Espacio en bl&anco:
+Element.Style.whiteSpace=Espac&io en blanco:
 Element.Style.widows=Viuda&s:
 Element.Style.wordSpacing=&Separación de palabras:
 Element.Table.caption=Título:
@@ -2017,8 +2017,8 @@ HighlightsPreferencePage.text.Description=Resaltar lista:
 HighlightsPreferencePage.text.Edit=E&ditar...
 HighlightsPreferencePage.toolTipText.Up=Mover resaltado hacia arriba
 HighlightsPreferencePage.toolTipText.Down=Mover resaltado hacia abajo
-HighlightsPreferencePage.text.Duplicate=&Duplicate
-HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+HighlightsPreferencePage.text.Duplicate=&Duplicado
+HighlightsPreferencePage.toolTipText.Duplicate=Resaltado de duplicado
 
 
 ###########################################################
@@ -2513,8 +2513,8 @@ MapPreferencePage.text.Description=Reglas de asignación:
 MapPreferencePage.text.Edit=E&ditar...
 MapPreferencePage.toolTipText.Up=Mover regla de asignación hacia arriba
 MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
-MapPreferencePage.text.Duplicate=&Duplicate
-MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
+MapPreferencePage.text.Duplicate=&Duplicado
+MapPreferencePage.toolTipText.Duplicate=Regla de asignación de duplicado
 
 ###########################################################
 #MapRuleBuilderDialog properties
@@ -4613,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
+BindingDialogHelper.error.improperexpression=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
 BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?

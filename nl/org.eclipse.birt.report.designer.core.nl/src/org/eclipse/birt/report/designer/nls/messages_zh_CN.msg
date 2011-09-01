@@ -1393,7 +1393,7 @@ Element.Style.text.indent=文本缩进(&X):
 Element.Style.text.transform=文本转换(&R):
 Element.Style.text=文本:
 Element.Style.verticalAlign=垂直对齐(&V):
-Element.Style.whiteSpace=空白(&H):
+Element.Style.whiteSpace=空格(&I):
 Element.Style.widows=窗口(&D):
 Element.Style.wordSpacing=字间距(&W):
 Element.Table.caption=标题:
@@ -2017,8 +2017,8 @@ HighlightsPreferencePage.text.Description=突出显示列表:
 HighlightsPreferencePage.text.Edit=编辑(&D)...
 HighlightsPreferencePage.toolTipText.Up=突出显示上移
 HighlightsPreferencePage.toolTipText.Down=突出显示下移
-HighlightsPreferencePage.text.Duplicate=&Duplicate
-HighlightsPreferencePage.toolTipText.Duplicate=Duplicate Highlight
+HighlightsPreferencePage.text.Duplicate=重复(&D)
+HighlightsPreferencePage.toolTipText.Duplicate=重复突出显示
 
 
 ###########################################################
@@ -2513,8 +2513,8 @@ MapPreferencePage.text.Description=映射规则:
 MapPreferencePage.text.Edit=编辑(&D)...
 MapPreferencePage.toolTipText.Up=映射规则上移
 MapPreferencePage.toolTipText.Down=映射规则下移
-MapPreferencePage.text.Duplicate=&Duplicate
-MapPreferencePage.toolTipText.Duplicate=Duplicate Map Rule
+MapPreferencePage.text.Duplicate=重复(&D)
+MapPreferencePage.toolTipText.Duplicate=重复映射规则
 
 ###########################################################
 #MapRuleBuilderDialog properties
@@ -4613,7 +4613,7 @@ BindingDialogHelper.text.displayNameID=显示名称 ID(&S):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
-BindingDialogHelper.error.improperexpression=Aggregation on cube measure cannot be such type: "{0}".
+BindingDialogHelper.error.improperexpression=多维数据集度量聚合不能为此类型:“{0}”。
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?
