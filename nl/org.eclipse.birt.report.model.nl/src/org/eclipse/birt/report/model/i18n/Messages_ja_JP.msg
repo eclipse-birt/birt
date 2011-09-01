@@ -3439,7 +3439,7 @@ Element.TimeDimension.hierarchies=階層
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=種類
 Element.ReportItemTheme.type=種類
-Element.ReportItemTheme.customValues=Custom Values
+Element.ReportItemTheme.customValues=カスタム値
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS スタイルシート

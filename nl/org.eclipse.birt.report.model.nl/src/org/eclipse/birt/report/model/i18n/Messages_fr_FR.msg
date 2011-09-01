@@ -3439,7 +3439,7 @@ Element.TimeDimension.hierarchies=Hiérarchies
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=Styles
 Element.ReportItemTheme.type=Type
-Element.ReportItemTheme.customValues=Custom Values
+Element.ReportItemTheme.customValues=Personnaliser les valeurs
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=Feuilles de style CSS

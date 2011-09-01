@@ -3439,7 +3439,7 @@ Element.TimeDimension.hierarchies=계층
 #63 ReportItemTheme ( Prefix Element.ReportItemTheme )
 Element.ReportItemTheme.slot.styles=스타일
 Element.ReportItemTheme.type=형식
-Element.ReportItemTheme.customValues=Custom Values
+Element.ReportItemTheme.customValues=사용자 지정 값
 
 #64 AbstractTheme ( Prefix Element.AbstractTheme )
 Element.AbstractTheme.cssStyleSheets=CSS 스타일시트
