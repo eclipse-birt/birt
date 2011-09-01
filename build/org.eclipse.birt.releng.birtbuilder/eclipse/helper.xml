@@ -996,6 +996,15 @@
 	
 	<!-- Build BIRT Web Viewer -->
 	<target name="BuildWebViewer" depends="init">
+
+		<antcall target="BuildWebViewer_NonOSGI"/>
+
+		<antcall target="BuildWebViewer_OSGI"/>
+
+	</target>
+
+	<target name="BuildWebViewer_NonOSGI">
+
 		<mkdir dir="${buildDirectory}/${buildId}/birt_web"/>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar">
 			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
@@ -1004,6 +1013,26 @@
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
 			<property name="export.dir" value="${buildDirectory}/${buildId}/birt_web"/>
 		</ant>
+
+	</target>
+
+	<target name="BuildWebViewer_OSGI" if="build.runtimeOSGI">
+
+		<mkdir dir="${buildDirectory}/${buildId}/birt_web_OSGI"/>
+		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar_OSGI">
+			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
+			<property name="baseLocation.emf" value="${baseLocation.emf}"/>
+		</ant>
+		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export_OSGI">
+			<property name="export.dir" value="${buildDirectory}/${buildId}/birt_web_OSGI"/>
+		</ant>
+		<copy todir="${buildDirectory}/${buildId}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI/WEB-INF/lib">
+			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
+				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
+			</fileset>
+            <mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
+
 	</target>
 	
 	<target name="runBirtPerformance" depends="init">

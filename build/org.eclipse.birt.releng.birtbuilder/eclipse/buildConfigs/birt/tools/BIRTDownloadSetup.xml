@@ -71,6 +71,7 @@
 	<property name="allinone.hq.zip.name" value="birt-report-designer-all-in-one-HQ-${package.version}.zip" />
 	<property name="allinone.linux.zip.name" value="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
+	<property name="runtime.osgi.zip.name" value="birt-runtime-osgi-${package.version}.zip" />
 	<property name="wtp.runtime.zip.name" value="birt.zip" />
 	<property name="charts.zip.name" value="birt-charts-${package.version}.zip" />
 	<property name="iportal.lib.name" value="iportal-library.zip" />
@@ -88,6 +89,7 @@
 	<property name="iportal.tmp" value="${OutputDir}/iportal_tmp" />
 	
 	<property name="birt.runtime.dir.prefix" value="birt-runtime-${package.version}" />
+	<property name="birt.runtime.osgi.dir.prefix" value="birt-runtime-osgi-${package.version}" />
 	<property name="chart.sdk.dir.prefix" value="birt-charts-${package.version}" />
 	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
 		
@@ -229,6 +231,8 @@
 		<antcall target="createBirtFramework" />
 
 		<antcall target="createBirtRuntime" />
+
+		<antcall target="createBirtRuntime_OSGI" />
 			
 		<antcall target="createSamplePlugin" />
 		
@@ -654,6 +658,82 @@
 		<delete dir="${runtime.tmp}" failonerror="false"/>
 
 	</target>
+
+	<target name="createBirtRuntime_OSGI" depends="createWAR_OSGI" if="build.runtimeOSGI">
+        <!-- Create birt-runtime/ReportEngine -->
+		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
+			<fileset dir="${deposit}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI/WEB-INF/platform">
+				<patternset refid="exclude.jars" />
+				<exclude name="**/*.nl1_*/**"/>
+				<exclude name="**/*.nl/**" />
+				<exclude name="**/*.nl1_*.jar"/>
+				<exclude name="**/org.junit*/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ReportEngine/samples">
+			<fileset dir="${template.dir}/engine.runtime.samples">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		<copy todir="${runtime.tmp}/ReportEngine">
+			<fileset dir="${template.dir}/engine.runtime.bin">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+
+		<!-- Create birt-runtime/WebViewerExample-->
+		<copy todir="${runtime.tmp}/WebViewerExample">
+			<fileset dir="${deposit}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI">
+				<patternset refid="exclude.jars" />
+			    <exclude name="plugins/**"/>
+				<exclude name="images/**" />
+				<exclude name="pages/**" />
+				<exclude name="styles/**" />
+				<exclude name="**/*.nl1_*/**"/>
+				<exclude name="**/*.nl/**" />
+				<exclude name="**/*.nl1_*.jar"/>
+				<exclude name="**/org.junit*/**"/>
+			</fileset>
+		</copy>
+
+		<!--Correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
+		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
+		<unjar src="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
+		<delete file="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" />
+		<jar destfile="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+		<delete dir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
+
+		<copy todir="${runtime.tmp}">
+			<fileset dir="${template.dir}/birt.runtime.files">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+
+		<delete dir="${runtime.tmp}/WebViewerExample/ajax" />
+		<delete includeEmptyDirs="true" failonerror="false" >
+			<fileset dir="${runtime.tmp}/WebViewerExample/WEB-INF/platform" includes="lib/**" />
+		</delete>
+
+		<!-- copy extra chartengine, emf has been copied by viewer plugin -->
+		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
+			<fileset dir="${deposit}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
+
+		<zip destfile="${OutputDir}/${runtime.osgi.zip.name}">
+			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.osgi.dir.prefix}" filemode="755">
+			</zipfileset>
+			<zipfileset dir="${template.dir}/legal" prefix="${birt.runtime.osgi.dir.prefix}">
+				<include name="**/*" />
+				<exclude name="eclipse.ini" />
+			</zipfileset>
+			<zipfileset dir="${template.dir}/birt-runtime-about" prefix="${birt.runtime.osgi.dir.prefix}">
+				<include name="**/*"/>
+			</zipfileset>
+		</zip>
+		<delete dir="${runtime.tmp}" />
+
+	</target>
 	
 	<target name="createBirtRuntimeNonOSGi">
 		
@@ -776,6 +856,40 @@
 	    <delete dir="${war.tmp}"/>
 	</target>
 	
+	<target name="createWAR_OSGI">
+	   <mkdir dir="${runtime.tmp}" />
+	   <mkdir dir="${war.tmp}/birt" />
+       <copy todir="${war.tmp}/birt">
+		  <fileset dir="${deposit}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI" >
+		<exclude name="plugins/**" />
+		<patternset refid="exclude.jars" />
+			<exclude name="**/*.nl1_*/**"/>
+			<exclude name="**/*.nl/**" />
+			<exclude name="**/*.nl1_*.jar"/>
+		  </fileset>
+	</copy>
+        <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
+		<move file="${war.tmp}/birt/WEB-INF/web_deploy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
+
+	    <!--remove *_jsp.class from the viewservlets.jar in WAR-->
+	    <unjar src="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" dest="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+	    <delete file="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" />
+	    <jar destfile="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" basedir="${war.tmp}/birt/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+	    <delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+	    <delete dir="${war.tmp}/birt/ajax" failonerror="false" />
+	    <delete includeEmptyDirs="true" failonerror="false" >
+		<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
+	    </delete>
+	    <zip destfile="${runtime.tmp}/birt.war">
+	        <zipfileset dir="${war.tmp}/birt" >
+			<include name="**/*" />
+			<exclude name="plugin/**" />
+			<patternset refid="exclude.jars" />
+		</zipfileset>
+	    </zip>
+	    <delete dir="${war.tmp}"/>
+	</target>
+
 	<target name="createNLGroup1" >
 		<!-- package NL for Report Designer Full Eclipse Install -->
 		<zip destfile="${OutputDir}/${nl.group1.zip.name.allinone}">

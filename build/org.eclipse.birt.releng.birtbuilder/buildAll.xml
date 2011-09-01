@@ -122,6 +122,10 @@
 			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
 		</condition>
 		
+		<condition property="build.runtimeOSGI" value="true">
+			<equals arg1="${HQ.BIRT.skip}" arg2="true" />
+		</condition>
+
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.5" />
@@ -1182,6 +1186,7 @@
             <bundle name="org.eclipse.birt.report.engine.emitter.odp"/>
             <bundle name="org.eclipse.birt.report.engine.emitter.ods"/>
             <bundle name="org.eclipse.birt.report.engine.emitter.odt"/>
+			<bundle name="org.eclipse.birt.report.engine.odf"/>
 	    	<bundle name="org.eclipse.birt.report.engine.fonts"/>
 	    	<bundle name="org.eclipse.birt.report.engine.script.javascript"/>
 	    	<bundle name="org.eclipse.birt.report.item.crosstab.core"/>
