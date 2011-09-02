@@ -695,6 +695,7 @@
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
 				<exclude name="**/org.junit*/**"/>
+				<exclude name="**/org.eclipse.birt.runtime_*.jar"/>
 			</fileset>
 		</copy>
 
@@ -868,6 +869,7 @@
 			<exclude name="**/*.nl1_*/**"/>
 			<exclude name="**/*.nl/**" />
 			<exclude name="**/*.nl1_*.jar"/>
+			<exclude name="**/org.eclipse.birt.runtime_*.jar"/>
 		  </fileset>
 	</copy>
         <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
