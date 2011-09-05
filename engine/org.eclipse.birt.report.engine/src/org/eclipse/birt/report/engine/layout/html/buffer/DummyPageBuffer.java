@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
@@ -180,6 +181,11 @@ public class DummyPageBuffer implements IPageBuffer
 						pageContent = ReportExecutorUtil.executeMasterPage(
 								executor, context.getPageNumber( ), LayoutUtil
 										.getMasterPage( report, masterPage ) );
+						if ( pageContent != null && context.needLayoutPageContent( ) )
+						{
+							context.getPageLM( ).layoutPageContent(
+									(IPageContent) pageContent );
+						}
 						if ( pageContent != null )
 						{
 							ContentEmitterUtil.startContent( pageContent,
