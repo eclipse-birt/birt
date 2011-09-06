@@ -130,3 +130,6 @@ Error.ResourceNotAccessible = {0}에 액세스할 수 없습니다.
 
 ###########################################################
 Error.ElementID = 요소 ID
+
+###########################################################
+Message.TaskCancel = The task is cancelled.

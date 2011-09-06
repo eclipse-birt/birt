@@ -130,3 +130,6 @@ Error.ResourceNotAccessible = {0} 不可访问。
 
 ###########################################################
 Error.ElementID = 元素 ID
+
+###########################################################
+Message.TaskCancel = The task is cancelled.
