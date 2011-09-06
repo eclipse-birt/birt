@@ -273,4 +273,9 @@ public interface IReportContext
 	 * @return application classLoader
 	 */
 	ClassLoader getApplicationClassLoader( );
+
+	/**
+	 * cancel the current engine task
+	 */
+	void cancel();
 }

@@ -143,6 +143,9 @@ public class MessageConstants
     
     //Element ID for engine exception
     public static final String 	ELEMENT_ID = "Error.ElementID";
+
+    //task is cancelled
+    public static final String	TASK_CANCEL = "Message.TaskCancel";
 }
 
 

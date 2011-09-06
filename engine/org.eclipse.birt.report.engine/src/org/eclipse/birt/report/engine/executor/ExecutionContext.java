@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.executor.optimize.ExecutionPolicy;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -1865,6 +1866,17 @@ public class ExecutionContext
 			if ( session != null )
 			{
 				session.cancel( );
+			}
+		}
+		if ( task != null )
+		{
+			IStatusHandler handle = task.getStatusHandler( );
+			if ( handle != null )
+			{
+				EngineResourceHandle rc = new EngineResourceHandle(
+						ULocale.forLocale( getLocale( ) ) );
+				handle.showStatus(  rc.getMessage(
+						MessageConstants.TASK_CANCEL ) );
 			}
 		}
 	}
