@@ -111,6 +111,8 @@ public class Report
 
 	private String reportLocale;
 
+	private String javaClass;
+
 	/**
 	 * default constructor.
 	 */
@@ -122,6 +124,21 @@ public class Report
 	public CSSEngine getCSSEngine( )
 	{
 		return cssEngine;
+	}
+
+	/**
+	 * @return Returns the javaClass.
+	 */
+	public String getJavaClass( )
+	{
+		return javaClass;
+	}
+	/**
+	 * @param javaClass The javaClass to set.
+	 */
+	public void setJavaClass( String javaClass )
+	{
+		this.javaClass = javaClass;
 	}
 
 	/**

@@ -11,11 +11,23 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import java.lang.reflect.Method;
+import java.util.Collection;
+
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
+import org.eclipse.birt.report.engine.api.script.eventadapter.ReportEventAdapter;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.PageContent;
+import org.eclipse.birt.report.engine.executor.EventHandlerManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.Expression;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
+import org.eclipse.birt.report.engine.script.internal.instance.PageInstance;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -191,4 +203,138 @@ public class ReportScriptExecutor extends ScriptExecutor
 			addException( context, e, report );
 		}
 	}
+
+	public static void handleOnPageEndScript(Report report, ExecutionContext context,
+			PageContent pageContent, Collection<IContent> contents)
+	{
+		try
+		{
+			if ( !needOnPageEnd( report ) )
+			{
+				return;
+			}
+			IPageInstance pageInstance = new PageInstance( context, pageContent,
+					contents );
+			if ( handleScript( pageInstance, report.getOnPageEnd( ), context ).didRun( ) )
+				return;
+			IReportEventHandler eh = getEventHandler( report,
+					context );
+			if ( eh != null )
+				eh.onPageEnd( pageInstance, context.getReportContext( ) );
+
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, report.getReportDesign( ) );
+		}
+	}
+
+	public static void handleOnPageStartScript(Report report, ExecutionContext context,
+			PageContent pageContent, Collection<IContent> contents)
+	{
+		try
+		{
+			if ( !needOnPageStart( report ) )
+			{
+				return;
+			}
+
+			IPageInstance pageInstance = new PageInstance( context, pageContent,
+					contents );
+			if ( handleScript( pageInstance, report.getOnPageStart( ), context ).didRun( ) )
+				return;
+			IReportEventHandler eh = getEventHandler( report,
+					context );
+			if ( eh != null )
+				eh.onPageStart( pageInstance, context.getReportContext( ) );
+
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, report.getReportDesign( ) );
+		}
+	}
+
+	private static boolean needOnPageStart( Report report )
+	{
+		return report.getOnPageStart( ) != null
+				|| report.getJavaClass( ) != null;
+	}
+
+	private static boolean needOnPageEnd( Report report )
+	{
+		return report.getOnPageEnd( ) != null || report.getJavaClass( ) != null;
+	}
+
+	private static IReportEventHandler getEventHandler(
+			Report report, ExecutionContext context )
+	{
+		try
+		{
+			return (IReportEventHandler) getInstance( report.getJavaClass( ), context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, report.getReportDesign( ),
+					IReportEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addException( context, e,  report.getReportDesign( ) );
+		}
+		return null;
+	}
+
+	public static boolean existPageScript( Report report,
+			ExecutionContext context )
+	{
+		String javaClass = report.getJavaClass( );
+		if ( javaClass == null )
+		{
+			return false;
+		}
+		Class<?> clazz = null;
+		try
+		{
+			clazz = EventHandlerManager.loadClass( javaClass, context );
+			return checkPageScriptMethod( "onPageStart", (Class<?>) clazz,
+					IReportEventHandler.class, IPageInstance.class,
+					ReportEventAdapter.class )
+					|| checkPageScriptMethod( "onPageEnd", (Class<?>) clazz,
+							IReportEventHandler.class, IPageInstance.class,
+							ReportEventAdapter.class );
+
+		}
+		catch ( EngineException e )
+		{
+			e.printStackTrace( );
+			return false;
+		}
+	}
+
+	protected static boolean checkPageScriptMethod( String methodName, Class<?> clazz, Class<?> handler,
+	        Class<?> instance, Class<?> adapter )
+	{
+		if ( !handler.isAssignableFrom( clazz ) )
+		{
+			return false;
+		}
+		try
+		{
+			Method method = clazz.getMethod( methodName, instance,
+			                                 IReportContext.class );
+			return method.getDeclaringClass( ) != adapter;
+		}
+		catch ( SecurityException e )
+		{
+			// If checking the method is forbidden by security policy, the
+			// method has to be executed.
+			return true;
+		}
+		catch ( NoSuchMethodException e )
+		{
+			return false;
+		}
+	}
+
 }

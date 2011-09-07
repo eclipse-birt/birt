@@ -78,49 +78,29 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
 	public void onPageStart( Report report, PageContent pageContent,
 			Collection<IContent> contents )
 	{
-		Expression onPageStart = report.getOnPageStart( );
-		if ( onPageStart != null )
-		{
-			PageScriptExecutor.handleOnPageScript( context, pageContent,
-					contents, onPageStart );
-		}
+		ReportScriptExecutor.handleOnPageStartScript( report, context, pageContent,
+					contents );
 	}
 
 	public void onPageStart( PageContent pageContent,
 			Collection<IContent> contents )
 	{
-		MasterPageDesign pageDesign = (MasterPageDesign) pageContent
-				.getGenerateBy( );
-		Expression onPageStart = pageDesign.getOnPageStart( );
-		if ( onPageStart != null )
-		{
-			PageScriptExecutor.handleOnPageScript( context, pageContent,
-					contents, onPageStart );
-		}
+		PageScriptExecutor.handleOnPageStartScript( context, pageContent,
+				contents );
 	}
 
 	public void onPageEnd( Report report, PageContent pageContent,
 			Collection<IContent> contents )
 	{
-		Expression onPageEnd = report.getOnPageEnd( );
-		if ( onPageEnd != null )
-		{
-			PageScriptExecutor.handleOnPageScript( context, pageContent,
-					contents, onPageEnd );
-		}
+		ReportScriptExecutor.handleOnPageEndScript( report, context, pageContent,
+				contents );
 	}
 
 	public void onPageEnd( PageContent pageContent,
 			Collection<IContent> contents )
 	{
-		MasterPageDesign pageDesign = (MasterPageDesign) pageContent
-				.getGenerateBy( );
-		Expression onPageEnd = pageDesign.getOnPageEnd( );
-		if ( onPageEnd != null )
-		{
-			PageScriptExecutor.handleOnPageScript( context, pageContent,
-					contents, onPageEnd );
-		}
+		PageScriptExecutor.handleOnPageEndScript( context, pageContent,
+				contents );
 	}
 
 	public IContent onPageBreak( IContent content )
