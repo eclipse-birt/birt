@@ -171,7 +171,7 @@ public class ArchiveView implements IArchiveFile
 		{
 			if ( !writable )
 			{
-				ArchiveEntry viewEntry = view.createEntry( entryName );
+				ArchiveEntry viewEntry = view.createEntry( entry.getName( ) );
 				copyEntry( entry, viewEntry );
 				entry = viewEntry;
 				writable = true;

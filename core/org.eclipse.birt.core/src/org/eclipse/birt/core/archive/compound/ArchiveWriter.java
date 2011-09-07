@@ -13,7 +13,6 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,20 +27,17 @@ public class ArchiveWriter implements IDocArchiveWriter
 
 	boolean shareArchive;
 	IArchiveFile archive;
-	HashSet streams;
 
 	public ArchiveWriter( String archiveName ) throws IOException
 	{
 		archive = new ArchiveFile( archiveName, "rw" );
 		shareArchive = false;
-		streams = new HashSet( );
 	}
 
 	public ArchiveWriter( IArchiveFile archive ) throws IOException
 	{
 		this.archive = archive;
 		shareArchive = true;
-		streams = new HashSet( );
 	}
 
 	public IArchiveFile getArchive( )
@@ -55,9 +51,7 @@ public class ArchiveWriter implements IDocArchiveWriter
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 		ArchiveEntry entry = archive.createEntry( relativePath );
-		RAOutputStream stream = new ArchiveEntryOutputStream( this, entry );
-		streams.add( stream );
-		return stream;
+		return new ArchiveEntryOutputStream( entry );
 	}
 
 	public RAOutputStream openRandomAccessStream( String relativePath )
@@ -74,9 +68,7 @@ public class ArchiveWriter implements IDocArchiveWriter
 		{
 			entry = archive.createEntry( relativePath );
 		}
-		RAOutputStream stream = new ArchiveEntryOutputStream( this, entry );
-		streams.add( stream );
-		return stream;
+		return new ArchiveEntryOutputStream( entry );
 	}
 
 	public RAOutputStream createOutputStream( String relativePath )
@@ -125,15 +117,6 @@ public class ArchiveWriter implements IDocArchiveWriter
 	{
 		try
 		{
-			// close all the streams opend in this archive writer
-			ArrayList unclosedStreams = new ArrayList( );
-			unclosedStreams.addAll( streams );
-			Iterator iter = unclosedStreams.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				RAOutputStream stream = (RAOutputStream) iter.next( );
-				stream.close( );
-			}
 			// flush the archvies
 			archive.flush( );
 		}
@@ -148,14 +131,6 @@ public class ArchiveWriter implements IDocArchiveWriter
 
 	public void flush( ) throws IOException
 	{
-		ArrayList unclosedStreams = new ArrayList( );
-		unclosedStreams.addAll( streams );
-		Iterator iter = unclosedStreams.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			RAOutputStream stream = (RAOutputStream) iter.next( );
-			stream.flush( );
-		}
 		archive.flush( );
 	}
 
@@ -188,16 +163,6 @@ public class ArchiveWriter implements IDocArchiveWriter
 		catch ( IOException ex )
 		{
 		}
-	}
-
-	void registerStream( ArchiveEntryOutputStream stream )
-	{
-		streams.add( stream );
-	}
-
-	void unregisterStream( ArchiveEntryOutputStream stream )
-	{
-		streams.remove( stream );
 	}
 
 	public List listAllStreams( ) throws IOException

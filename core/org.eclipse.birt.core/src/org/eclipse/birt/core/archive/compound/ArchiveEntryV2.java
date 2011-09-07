@@ -29,6 +29,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 
 	ArchiveEntryV2( ArchiveFileV2 af, NameEntry entry ) throws IOException
 	{
+		super( entry.getName( ) );
 		this.af = af;
 		this.BLOCK_SIZE = af.BLOCK_SIZE;
 		this.entry = entry;
@@ -51,28 +52,23 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		cachedBlock = null;
 	}
 
-	public String getName( )
-	{
-		return entry.getName( );
-	}
-
-	protected long _getLength( ) throws IOException
+	public synchronized long getLength( ) throws IOException
 	{
 		return entry.getLength( );
 	}
 
-	protected void _setLength( long length ) throws IOException
+	public synchronized void setLength( long length ) throws IOException
 	{
 		ensureSize( length );
 		entry.setLength( length );
 	}
 
-	protected void _flush( ) throws IOException
+	public synchronized void flush( ) throws IOException
 	{
-		// TODO: support flush in future
+		super.flush( );
 	}
 
-	protected void _refresh( ) throws IOException
+	public synchronized void refresh( ) throws IOException
 	{
 		// TODO: support refresh in future.
 	}

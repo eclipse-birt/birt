@@ -13,6 +13,7 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
@@ -24,12 +25,17 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 
 public class ArchiveEntryOutputStream extends RAOutputStream
 {
-
-	protected ArchiveWriter writer;
-
 	/** the stream item */
 
 	protected ArchiveEntry entry;
+
+	protected byte[] buffer;
+	protected int buffer_offset;
+	protected int buffer_size;
+
+	/** the current output position */
+
+	private long offset;
 
 	/**
 	 * Constructor
@@ -39,15 +45,19 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 	 * @param stream
 	 *            the stream item.
 	 */
-	ArchiveEntryOutputStream( ArchiveWriter writer, ArchiveEntry entry )
+	ArchiveEntryOutputStream( ArchiveEntry entry )
 	{
-		this.writer = writer;
 		this.entry = entry;
+		this.offset = 0;
+		this.buffer_offset = 0;
+		this.buffer_size = 4096;
+		this.buffer = new byte[4096];
+		this.entry.setOutputStream( this );
 	}
 
 	public long getOffset( ) throws IOException
 	{
-		return entry.getPosition( );
+		return offset + buffer_offset;
 	}
 
 	public void seek( long localPos ) throws IOException
@@ -62,43 +72,74 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 		{
 			entry.setLength( localPos );
 		}
-		entry.seek( localPos );
+		//entry.ensureSize( localPos );
+
+		if ( offset + buffer_offset != localPos )
+		{
+			flushBuffer( );
+			offset = localPos;
+		}
 	}
 
 	public void write( int b ) throws IOException
 	{
-		entry.write( b );
+		if ( buffer_offset >= buffer_size )
+		{
+			flushBuffer( );
+		}
+		buffer[buffer_offset] = (byte) b;
+		buffer_offset++;
 	}
 
 	public void writeInt( int value ) throws IOException
 	{
-		entry.writeInt( value );
+		if ( buffer_offset + 4 >= buffer_size )
+		{
+			flushBuffer( );
+		}
+		ArchiveUtil.integerToBytes( value, buffer, buffer_offset );
+		buffer_offset += 4;
 	}
 
 	public void writeLong( long value ) throws IOException
 	{
-		entry.writeLong( value );
+		if ( buffer_offset + 8 >= buffer_size )
+		{
+			flushBuffer( );
+		}
+		ArchiveUtil.longToBytes( value, buffer, buffer_offset );
+		buffer_offset += 8;
 	}
 
 	public void write( byte b[], int off, int len ) throws IOException
 	{
-		entry.write( b, off, len );
+		if ( buffer_offset + len <= buffer_size )
+		{
+			System.arraycopy( b, off, buffer, buffer_offset, len );
+			buffer_offset += len;
+			return;
+		}
+		flushBuffer( );
+		entry.write( offset, b, off, len );
+		offset += len;
 	}
 
 	public void flush( ) throws IOException
 	{
-		if ( entry != null )
-		{
-			entry.flush( );
-		}
+		//need not invoke entry's flush here.
+		//assume we have opened several streams in an archive file,
+		//each stream has its own entry:
+		//a. stream's flush write the buffer into archive
+		//b. entry has no buffer, so entry's flush invoke the stream instead.
+		//c. archive's flush write the buffer of all the opened streams.
+		flushBuffer( );
 	}
 
 	public void close( ) throws IOException
 	{
 		if ( entry != null )
 		{
-			// remove it from the writer
-			writer.unregisterStream( this );
+			entry.setOutputStream( null );
 			try
 			{
 				// flush the data into the stream
@@ -118,8 +159,24 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 		}
 	}
 
+	private void flushBuffer( ) throws IOException
+	{
+		if ( buffer_offset != 0 )
+		{
+			entry.write( offset, buffer, 0, buffer_offset );
+			offset += buffer_offset;
+			buffer_offset = 0;
+		}
+	}
+
 	public long length( ) throws IOException
 	{
-		return entry.getLength( );
+		long length = entry.getLength( );
+		long offset = getOffset( );
+		if ( offset > length )
+		{
+			return offset;
+		}
+		return length;
 	}
 }
