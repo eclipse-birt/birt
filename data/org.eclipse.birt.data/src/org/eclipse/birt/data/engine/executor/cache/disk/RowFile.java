@@ -50,7 +50,6 @@ class RowFile implements IRowIterator, ICloseListener
 		assert file != null;
 		
 		this.tempFile = file;
-		System.out.println( file.getAbsolutePath( ) );
 		this.resultObjectUtil = resultObjectUtil;
 		setCacheSize( cacheSize );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).add( this );

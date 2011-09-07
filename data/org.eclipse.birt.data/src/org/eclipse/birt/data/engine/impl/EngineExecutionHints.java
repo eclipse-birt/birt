@@ -76,7 +76,8 @@ public class EngineExecutionHints implements IEngineExecutionHints
 						}
 						temp.addAll( temp2 );
 					}
-				} 
+				}
+				temp2.clear( );
 			}
 
 			Set tempSet = new HashSet();
