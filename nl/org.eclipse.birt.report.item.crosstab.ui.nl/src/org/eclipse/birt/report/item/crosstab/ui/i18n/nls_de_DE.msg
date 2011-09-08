@@ -74,7 +74,7 @@ ShowSummaryFieldDialog.ViewStatus=Aktuelle Ansicht beibehalten
 
 DeleteBindingDialog.Title=Nicht verwendete Bindungen entfernen?
 DeleteBindingDialog.Message=Dieser Vorgang führt zu nicht verwendeten Datenbindungen.\n\nMöchten Sie nicht verwendete Bindungen entfernen?
-DeleteBindingDialog.ToggleMessage=&Diese Meldung nicht wieder anzeigen
+DeleteBindingDialog.ToggleMessage=Antwort speiche&rn
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Spaltenbereich

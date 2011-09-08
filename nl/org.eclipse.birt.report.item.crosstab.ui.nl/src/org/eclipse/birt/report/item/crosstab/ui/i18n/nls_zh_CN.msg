@@ -74,7 +74,7 @@ ShowSummaryFieldDialog.ViewStatus=保留当前视图
 
 DeleteBindingDialog.Title=删除未使用的绑定?
 DeleteBindingDialog.Message=此操作将产生未使用的数据绑定。\n\n是否要删除未使用的绑定?
-DeleteBindingDialog.ToggleMessage=不再显示此消息(&D)
+DeleteBindingDialog.ToggleMessage=记住我的决定(&R)
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列区域

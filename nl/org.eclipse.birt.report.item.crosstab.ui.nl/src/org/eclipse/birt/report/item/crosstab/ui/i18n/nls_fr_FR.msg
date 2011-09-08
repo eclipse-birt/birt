@@ -74,7 +74,7 @@ ShowSummaryFieldDialog.ViewStatus=Conserver la Vue actuelle
 
 DeleteBindingDialog.Title=Supprimer les liaisons inutilisées ?
 DeleteBindingDialog.Message=Cette action donnera des liaisons de données inutilisées.\n\nVoulez-vous supprimer les liaisons inutilisées ?
-DeleteBindingDialog.ToggleMessage=&Ne plus afficher ce message
+DeleteBindingDialog.ToggleMessage=Mémo&riser ma décision
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Zone de colonne

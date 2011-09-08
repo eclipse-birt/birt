@@ -74,7 +74,7 @@ ShowSummaryFieldDialog.ViewStatus=현재 보기 유지
 
 DeleteBindingDialog.Title=사용하지 않는 바인딩을 제거하시겠습니까?
 DeleteBindingDialog.Message=이 작업을 수행하면 사용하지 않는 데이터 바인딩이 발생합니다.\n\n사용하지 않는 바인딩을 제거하시겠습니까?
-DeleteBindingDialog.ToggleMessage=이 메시지를 다시 표시 안 함(&D)
+DeleteBindingDialog.ToggleMessage=선택 저장(&R)
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=열 영역

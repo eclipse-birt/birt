@@ -1495,8 +1495,8 @@ ExportToCPSouceAction.action.text=外部化连接配置文件(&O)...
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=元素包含本地绑定而未指定显式数据集，这可能导致运行时性能低。 是否要将本地绑定移动到父层以获得更好的性能?
-LibraryElementsToolHandleExtends_question=提示
-LibraryElementsToolHandleExtends_toggle=&Remember my decision
+LibraryElementsToolHandleExtends_question=将本地绑定移动到父层以获得更好的性能?
+LibraryElementsToolHandleExtends_toggle=记住我的决定(&R)
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=拖放到“大纲”视图
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=拖放到“布局”编辑器
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=拖放到“大纲”视图或“布局”编辑器
@@ -4328,7 +4328,7 @@ PublishLibraryDialog.TitleArea=共享库
 PublishLibraryDialog.Message=将库复制到共享资源文件夹。
 PublishLibraryDialog.Label.SourceFileName=源文件(&S):
 PublishLibraryDialog.Label.FileName=文件名(&N):
-PublishLibraryDialog.Label.Folder=文件夹(&F):
+PublishLibraryDialog.Label.Folder=文件夹(&D):
 PublishLibraryDialog.Label.Browse=浏览(&B)...
 PublishLibraryDialog.Message.FileNameEmpty=需要提供文件名。
 PublishLibraryDialog.Message.FileNameError=文件名应该以 .rptlibrary 结尾。
@@ -4730,10 +4730,10 @@ GeneralConfigurationBlock.button.text.enable.gradient=用渐变选择(&G)
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N)
 GeneralConfigurationBlock.group.label=提示
 GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
-GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
-GeneralConfigurationBlock.move.binding.always=Al&ways
-GeneralConfigurationBlock.move.binding.never=Ne&ver
-GeneralConfigurationBlock.move.binding.prompt=P&rompt
+GeneralConfigurationBlock.move.binding.group=将本地绑定移动到父层以获得更好的性能
+GeneralConfigurationBlock.move.binding.always=始终(&W)
+GeneralConfigurationBlock.move.binding.never=从不(&V)
+GeneralConfigurationBlock.move.binding.prompt=提示(&R)
 
 
 ###########################################################

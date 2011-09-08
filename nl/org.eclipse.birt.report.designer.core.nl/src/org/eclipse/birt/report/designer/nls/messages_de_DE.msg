@@ -1495,8 +1495,8 @@ ExportToCPSouceAction.action.text=An Verbindungspr&ofil externalisieren...
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=Das Element enthält lokale Bindungen ohne eindeutig angegebenen Datensatz. Dies kann zu geringer Leistung während der Laufzeit führen. Möchten Sie die lokalen Bindungen für eine verbesserte Leistung zum übergeordneten Element verschieben?
-LibraryElementsToolHandleExtends_question=Eingabeaufforderung
-LibraryElementsToolHandleExtends_toggle=&Remember my decision
+LibraryElementsToolHandleExtends_question=Die lokalen Bindungen für eine verbesserte Leistung zum übergeordneten Element verschieben?
+LibraryElementsToolHandleExtends_toggle=Antwort speiche&rn
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Mit Drag & Drop in Gliederungsansicht
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Mit Drag & Drop in Layout-Editor
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Mit Drag & Drop in Gliederungsansicht oder Layout-Editor
@@ -4328,7 +4328,7 @@ PublishLibraryDialog.TitleArea=Bibliothek gemeinsam nutzen
 PublishLibraryDialog.Message=Bibliothek in Ordner für gemeinsame Ressourcen kopieren.
 PublishLibraryDialog.Label.SourceFileName=&Quelldatei:
 PublishLibraryDialog.Label.FileName=Datei&name:
-PublishLibraryDialog.Label.Folder=&Ordner:
+PublishLibraryDialog.Label.Folder=Or&dner:
 PublishLibraryDialog.Label.Browse=&Durchsuchen...
 PublishLibraryDialog.Message.FileNameEmpty=Dateiname erforderlich.
 PublishLibraryDialog.Message.FileNameError=Dateiname muss auf .rptlibrary enden.
@@ -4730,10 +4730,10 @@ GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktiviere
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
-GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
-GeneralConfigurationBlock.move.binding.always=Al&ways
-GeneralConfigurationBlock.move.binding.never=Ne&ver
-GeneralConfigurationBlock.move.binding.prompt=P&rompt
+GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
+GeneralConfigurationBlock.move.binding.always=I&mmer
+GeneralConfigurationBlock.move.binding.never=N&ie
+GeneralConfigurationBlock.move.binding.prompt=Auff&ordern
 
 
 ###########################################################
