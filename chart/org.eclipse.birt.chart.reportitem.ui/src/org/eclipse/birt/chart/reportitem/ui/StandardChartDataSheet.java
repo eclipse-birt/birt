@@ -2821,8 +2821,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements
 				// shared crosstab or multi-view.
 				measureExprs.add( cch.getName( ) );
 			}
-			else if ( exprCodec.isCubeBinding( true )
-					&& dataProvider.checkState( IDataServiceProvider.IN_MULTI_VIEWS ) )
+			else if ( exprCodec.isCubeBinding( true ) )
 			{
 				// Just it is under multiple view case, we add those computed measure bindings.
 				String dataType = cch.getDataType( );
