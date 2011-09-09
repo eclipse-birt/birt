@@ -4732,7 +4732,7 @@ GeneralConfigurationBlock.group.label=確認する
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
 GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
 GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
-GeneralConfigurationBlock.move.binding.never=続行しない(&)
+GeneralConfigurationBlock.move.binding.never=続行しない(&V)
 GeneralConfigurationBlock.move.binding.prompt=確認メッセージを表示する(&R)
 
 
