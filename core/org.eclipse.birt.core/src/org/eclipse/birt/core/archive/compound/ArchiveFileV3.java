@@ -197,12 +197,12 @@ public class ArchiveFileV3 implements IArchiveFile
 		assert ( locker instanceof Ext2Entry );
 	}
 
-	protected void openEntry( ArchiveEntryV3 entry )
+	synchronized protected void openEntry( ArchiveEntryV3 entry )
 	{
 		openedEntries.add( entry );
 	}
 
-	protected void closeEntry( ArchiveEntryV3 entry )
+	synchronized protected void closeEntry( ArchiveEntryV3 entry )
 	{
 		openedEntries.remove( entry );
 	}
