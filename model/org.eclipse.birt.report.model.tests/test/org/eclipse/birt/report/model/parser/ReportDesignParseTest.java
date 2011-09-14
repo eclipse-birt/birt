@@ -1034,7 +1034,15 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( 451, designHandle.getLineNo( attr ) );
 		
 		propHandle = cubeHandle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
-		assertEquals( 463, designHandle.getLineNo( propHandle ) );		
+		assertEquals( 463, designHandle.getLineNo( propHandle ) );
+
+		List<VariableElementHandle> variables = designHandle.getPageVariables( );
+		assertEquals( "report", variables.get( 0 ).getName( ) );
+		assertEquals( 477, designHandle.getLineNo( variables.get( 0 ) ) );
+
+		assertEquals( "page", variables.get( 1 ).getName( ) );
+		assertEquals( 480, designHandle.getLineNo( variables.get( 1 ) ) );
+
 	}
 
 	/**

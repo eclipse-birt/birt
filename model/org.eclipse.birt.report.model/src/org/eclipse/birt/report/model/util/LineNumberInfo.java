@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -99,6 +100,12 @@ public class LineNumberInfo
 	private Map<String, Integer> includedCssStyleSheetStructMap = null;
 
 	/**
+	 * Hash map for the <code>Variable</code> elements namespace. Key is
+	 * the file name of the variable element.
+	 */
+	private Map<String, Integer> variablesMap = null;
+
+	/**
 	 * The line number for theme property in report design.
 	 */
 
@@ -118,6 +125,7 @@ public class LineNumberInfo
 		embeddedImageStructMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
 		includedCssStyleSheetStructMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
 		xpathMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
+		variablesMap = Collections.synchronizedMap( new HashMap<String, Integer>( ) );
 	}
 
 	/**
@@ -140,8 +148,11 @@ public class LineNumberInfo
 		}
 		else if ( obj instanceof DesignElement )
 		{
-			elementMap.put( Long.valueOf( ( (DesignElement) obj ).getID( ) ),
-					lineNo );
+			if ( obj instanceof VariableElement )
+				variablesMap.put( ( (VariableElement) obj ).getName( ), lineNo );
+			else
+				elementMap.put( Long.valueOf( ( (DesignElement) obj ).getID( ) ),
+						lineNo );
 		}
 		else if ( obj instanceof IStructure )
 		{
@@ -234,6 +245,8 @@ public class LineNumberInfo
 		}
 		else if ( obj instanceof DesignElement )
 		{
+			if ( obj instanceof VariableElement )
+				return variablesMap.get( ( (VariableElement) obj ).getName( ) );
 			return getElementLineNo( ( (DesignElement) obj ).getID( ) );
 		}
 		else if ( obj instanceof StructureHandle )
