@@ -281,22 +281,29 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 	public void doEndDocument( ) throws SAXException
 	{
+		List<XMLParserException> errors = getErrorHandler( ).getErrors( );
+		if ( module == null )
+		{
+			Exception e = null;
+			if ( errors.size( ) > 0 )
+				e = new DesignFileException( fileName, errors );
+			throw new SAXException( e );
+		}
 		this.tempValue = null;
 
 		// rename invalid names that contains "." , "/".
 
 		if ( versionNumber < VersionUtil.VERSION_3_2_13 )
 		{
-			List<Exception> handledExceptions = handleInvalidName( getErrorHandler( )
-					.getErrors( ) );
-			getErrorHandler( ).getErrors( ).removeAll( handledExceptions );
+			List<Exception> handledExceptions = handleInvalidName( errors );
+			errors.removeAll( handledExceptions );
 		}
 
 		handleUnresolveListingElements( );
 
 		// add all the exceptions to the module
 
-		module.getAllExceptions( ).addAll( getErrorHandler( ).getErrors( ) );
+		module.getAllExceptions( ).addAll( errors );
 
 		// Check whether duplicate library namespace exists.
 

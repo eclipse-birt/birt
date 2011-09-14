@@ -649,7 +649,9 @@ public class ModuleUtil
 		}
 		catch ( DesignFileException e )
 		{
-			if ( data != null )
+			if ( data != null
+					&& !e.getErrorCode( ).equals( DesignFileException.DESIGN_EXCEPTION_INVALID_XML )
+					&& !e.getErrorCode( ).equals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR ) )
 			{
 				VersionParserHandler handler = new VersionParserHandler( );
 
