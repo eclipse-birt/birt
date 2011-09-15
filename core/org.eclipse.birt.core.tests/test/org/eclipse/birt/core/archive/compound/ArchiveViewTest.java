@@ -18,6 +18,9 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.archive.RAOutputStream;
+
 public class ArchiveViewTest extends TestCase
 {
 
@@ -187,6 +190,84 @@ public class ArchiveViewTest extends TestCase
 			{
 				entry.close( );
 			}
+		}
+	}
+
+	public void testFlush( ) throws IOException
+	{
+		ArchiveWriter writer = new ArchiveWriter( ARCHIVE_FILE );
+		try
+		{
+			RAOutputStream out = writer.createOutputStream( "/test" );
+			try
+			{
+				out.writeInt( 15 );
+			}
+			finally
+			{
+				out.close( );
+			}
+		}
+		finally
+		{
+			writer.finish( );
+		}
+
+		ArchiveView view = new ArchiveView( VIEW_FILE, ARCHIVE_FILE, "rw" );
+		try
+		{
+			ArchiveReader reader = new ArchiveReader( view );
+			// read out the old value
+			assertEquals( 15, readInt( reader, "/test" ) );
+			writer = new ArchiveWriter( view );
+			RAOutputStream out = writer.getOutputStream( "/test" );
+			out.writeInt( 30 );
+			assertEquals( 15, readInt( reader, "/test" ) );
+			view.flush( );
+			assertEquals( 30, readInt( reader, "/test" ) );
+			out.close( );
+
+			out = writer.createOutputStream( "/testnew" );
+			out.writeInt( 30 );
+			assertEquals( 0, getLength( reader, "/testnew" ) );
+			view.flush( );
+			assertEquals( 30, readInt( reader, "/testnew" ) );
+			out.close( );
+
+			reader.close( );
+			writer.finish( );
+		}
+		finally
+		{
+			view.close( );
+		}
+	}
+
+	protected int readInt( ArchiveReader reader, String name )
+			throws IOException
+	{
+		RAInputStream in = reader.getInputStream( name );
+		try
+		{
+			return in.readInt( );
+		}
+		finally
+		{
+			in.close( );
+		}
+	}
+
+	protected int getLength( ArchiveReader reader, String name )
+			throws IOException
+	{
+		RAInputStream in = reader.getInputStream( name );
+		try
+		{
+			return in.available( );
+		}
+		finally
+		{
+			in.close( );
 		}
 	}
 }
