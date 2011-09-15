@@ -132,4 +132,4 @@ Error.ResourceNotAccessible = Zugriff auf {0} nicht möglich.
 Error.ElementID = Element-ID
 
 ###########################################################
-Message.TaskCancel = The task is cancelled.
+Message.TaskCancel = Die Aufgabe wird abgebrochen.

@@ -132,4 +132,4 @@ Error.ResourceNotAccessible = {0} n'est pas accessible.
 Error.ElementID = ID de l'élément
 
 ###########################################################
-Message.TaskCancel = The task is cancelled.
+Message.TaskCancel = La tâche a été annulée.

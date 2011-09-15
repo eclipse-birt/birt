@@ -132,4 +132,4 @@ Error.ResourceNotAccessible = {0} にアクセスできません。
 Error.ElementID = 要素 ID
 
 ###########################################################
-Message.TaskCancel = The task is cancelled.
+Message.TaskCancel = タスクがキャンセルされました。
