@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf.util;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
+import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
@@ -44,6 +46,25 @@ public class PropertyUtil
 	
 	private static Pattern colorPattern = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
 	
+	private static HashMap<Value, Integer> fontWeightMap = new HashMap<Value, Integer>( );
+	static
+	{
+		fontWeightMap.put( IStyle.LIGHTER_VALUE, 200 );
+		fontWeightMap.put( IStyle.NORMAL_VALUE, 400 );
+		fontWeightMap.put( IStyle.BOLD_VALUE, 700 );
+		fontWeightMap.put( IStyle.BOLDER_VALUE, 900 );
+
+		fontWeightMap.put( IStyle.NUMBER_100, 100 );
+		fontWeightMap.put( IStyle.NUMBER_200, 200 );
+		fontWeightMap.put( IStyle.NUMBER_300, 300 );
+		fontWeightMap.put( IStyle.NUMBER_400, 400 );
+		fontWeightMap.put( IStyle.NUMBER_500, 500 );
+		fontWeightMap.put( IStyle.NUMBER_600, 600 );
+		fontWeightMap.put( IStyle.NUMBER_700, 700 );
+		fontWeightMap.put( IStyle.NUMBER_800, 800 );
+		fontWeightMap.put( IStyle.NUMBER_900, 900 );
+	};
+
 	/**
 	 * Checks if the font is bold
 	 * 
@@ -51,23 +72,27 @@ public class PropertyUtil
 	 *            the CSSValue
 	 * @return true if the font is bold false if not
 	 */
-	public static boolean isBoldFont( CSSValue value )
+	public static boolean isBoldFont( int fontWeight )
 	{
-		if ( value != null )
+		if ( fontWeight > 400 )
 		{
-			if ( IStyle.BOLD_VALUE.equals( value )
-					|| IStyle.BOLDER_VALUE.equals( value )
-					|| IStyle.NUMBER_600.equals( value )
-					|| IStyle.NUMBER_700.equals( value )
-					|| IStyle.NUMBER_800.equals( value )
-					|| IStyle.NUMBER_900.equals( value ) )
-			{
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
-	
+
+	public static int parseFontWeight( CSSValue value )
+	{
+		if ( fontWeightMap.containsKey( value ) )
+		{
+			return fontWeightMap.get( value );
+		}
+		else
+		{
+			return 400; // Normal
+		}
+	}
+
 	public static boolean isDisplayNone( IContent content )
 	{
 		IStyle style = content.getStyle( );

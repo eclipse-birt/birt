@@ -17,6 +17,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -755,22 +756,39 @@ public class PDFPage extends AbstractPage
 			}
 			case Font.BOLD :
 			{
-				simulateBold( cb );
+				simulateBold( cb, fi.getFontWeight( ) );
 				break;
 			}
 			case Font.BOLDITALIC :
 			{
-				simulateBold( cb );
+				simulateBold( cb, fi.getFontWeight( ) );
 				simulateItalic( cb );
 				break;
 			}
 		}
 	}
 
-	private void simulateBold( PdfContentByte cb )
+	static HashMap<Integer, Float>fontWeightLineWidthMap = new HashMap<Integer, Float>( );
+	static
+	{
+		fontWeightLineWidthMap.put( 500, 0.1f );
+		fontWeightLineWidthMap.put( 600, 0.185f );
+		fontWeightLineWidthMap.put( 700, 0.225f );
+		fontWeightLineWidthMap.put( 800, 0.3f );
+		fontWeightLineWidthMap.put( 900, 0.5f );
+	};
+
+	private void simulateBold( PdfContentByte cb, int fontWeight )
 	{
 		cb.setTextRenderingMode( PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE );
-		cb.setLineWidth( 0.225f );
+		if ( fontWeightLineWidthMap.containsKey( fontWeight ) )
+		{
+			cb.setLineWidth( fontWeightLineWidthMap.get( fontWeight ) );
+		}
+		else
+		{
+			cb.setLineWidth( 0.225f );
+		}
 		cb.setTextMatrix( 0, 0 );
 	}
 

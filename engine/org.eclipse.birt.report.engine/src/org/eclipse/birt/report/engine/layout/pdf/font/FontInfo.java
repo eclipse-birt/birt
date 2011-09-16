@@ -23,6 +23,8 @@ public class FontInfo
 
 	private int fontStyle;
 
+	private int fontWeight;
+
 	private boolean simulation;
 
 	private float lineWidth;
@@ -32,13 +34,14 @@ public class FontInfo
 	private float linethroughPosition;
 	private float overlinePosition;
 
-	public FontInfo( BaseFont bf, float fontSize, int fontStyle,
+	public FontInfo( BaseFont bf, float fontSize, int fontStyle, int fontWeight,
 			boolean simulation )
 	{
 		this.bf = bf;
 		this.fontStyle = fontStyle;
 		this.simulation = simulation;
 		this.fontSize = fontSize;
+		this.fontWeight = fontWeight;
 		setupFontSize( );
 	}
 
@@ -48,6 +51,7 @@ public class FontInfo
 		this.fontStyle = fontInfo.fontStyle;
 		this.simulation = fontInfo.simulation;
 		this.fontSize = fontInfo.fontSize;
+		this.fontWeight = fontInfo.fontWeight;
 		setupFontSize( );
 	}
 
@@ -138,6 +142,11 @@ public class FontInfo
 	public int getFontStyle( )
 	{
 		return this.fontStyle;
+	}
+
+	public int getFontWeight( )
+	{
+		return this.fontWeight;
 	}
 
 	public boolean getSimulation( )
