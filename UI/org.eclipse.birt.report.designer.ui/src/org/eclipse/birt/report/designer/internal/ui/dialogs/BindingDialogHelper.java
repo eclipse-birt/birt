@@ -111,7 +111,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String GROUP = Messages.getString( "BindingDialogHelper.text.Group" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
-	protected static final String ALLOW_EXPORT = Messages.getString( "BindingDialogHelper.text.allowExport" );
+	protected static final String ALLOW_EXPORT = Messages.getString( "BindingDialogHelper.text.allowExport" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME_ID = Messages.getString( "BindingDialogHelper.text.displayNameID" ); //$NON-NLS-1$
 
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
@@ -215,7 +215,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
 				{
 					e.detail = SWT.TRAVERSE_NONE;
-					openKeySelectionDialog( );
+					if ( btnDisplayNameID.isEnabled( ) )
+					{
+						openKeySelectionDialog( );
+					}
 				}
 			}
 		} );
