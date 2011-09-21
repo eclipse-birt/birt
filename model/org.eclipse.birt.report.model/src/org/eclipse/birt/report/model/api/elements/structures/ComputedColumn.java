@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -124,6 +125,29 @@ public class ComputedColumn extends PropertyStructure
 	 * Name of the allowExport member.
 	 */
 	public static final String ALLOW_EXPORT_MEMBER = "allowExport"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the base time period factor of a time
+	 * function.
+	 */
+	public static final String BASE_TIME_PERIOD_MEMBER = "baseTimePeriod"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies an expression by evaluate which the
+	 * reference date value can be acquired.
+	 */
+	public static final String REFERENCE_DATE_MEMBER = "referenceDate"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the offset factor of a time function.
+	 */
+	public static final String OFFSET_MEMBER = "offset"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the expression that returns the name of
+	 * time dimension.
+	 */
+	public static final String TIME_DIMENSION_MEMBER = "timeDimension"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -547,7 +571,7 @@ public class ComputedColumn extends PropertyStructure
 
 		arguments.remove( argument );
 	}
-	
+
 	/**
 	 * Gets the flag which indicates whether the computed column supports
 	 * export.
@@ -574,4 +598,43 @@ public class ComputedColumn extends PropertyStructure
 		setProperty( ALLOW_EXPORT_MEMBER, allowExport );
 	}
 
+	/**
+	 * Sets the base time period member.
+	 * 
+	 * @param baseTimePeriod
+	 */
+	public void setBaseTimePeriod( TimePeriod baseTimePeriod )
+	{
+		setProperty( BASE_TIME_PERIOD_MEMBER, baseTimePeriod );
+	}
+
+	/**
+	 * Sets the reference date with the expression value.
+	 * 
+	 * @param expr
+	 */
+	public void setReferenceDate( Expression expr )
+	{
+		setProperty( REFERENCE_DATE_MEMBER, expr );
+	}
+
+	/**
+	 * Sets the offset time period value.
+	 * 
+	 * @param offset
+	 */
+	public void setOffset( TimePeriod offset )
+	{
+		setProperty( OFFSET_MEMBER, offset );
+	}
+
+	/**
+	 * Sets the time dimension expression value.
+	 * 
+	 * @param expr
+	 */
+	public void setTimeDimension( Expression expr )
+	{
+		setProperty( TIME_DIMENSION_MEMBER, expr );
+	}
 }

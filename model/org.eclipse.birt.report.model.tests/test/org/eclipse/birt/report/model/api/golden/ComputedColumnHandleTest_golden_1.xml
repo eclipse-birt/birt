@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <parameters>
+        <scalar-parameter name="MyParam1" id="4">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_1</property>
+                    <expression name="expression">column1 expr</expression>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">sum 2</property>
+                    <structure name="baseTimePeriod">
+                        <property name="timePeriodType">year</property>
+                        <property name="numberOfUnit">3</property>
+                    </structure>
+                    <expression name="referenceDate">reference date expression</expression>
+                    <structure name="offset">
+                        <property name="timePeriodType">day</property>
+                        <property name="numberOfUnit">100</property>
+                    </structure>
+                    <expression name="timeDimension">time dimension expression</expression>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_2</property>
+                    <expression name="expression">column2 expr</expression>
+                    <property name="dataType">integer</property>
+                    <property name="aggregateFunction">MAX</property>
+                    <structure name="baseTimePeriod">
+                        <property name="timePeriodType">quarter</property>
+                        <property name="numberOfUnit">2</property>
+                    </structure>
+                    <structure name="offset">
+                        <property name="timePeriodType">quarter</property>
+                        <property name="numberOfUnit">2</property>
+                    </structure>
+			</structure>
+                <structure>
+                    <property name="name">newColumn</property>
+                    <structure name="baseTimePeriod">
+                        <property name="timePeriodType">quarter</property>
+                        <property name="numberOfUnit">2</property>
+                    </structure>
+                    <expression name="referenceDate" type="constant">newly reference date</expression>
+                    <structure name="offset">
+                        <property name="timePeriodType">quarter</property>
+                        <property name="numberOfUnit">2</property>
+                    </structure>
+                    <expression name="timeDimension" type="constant">newly time dimension</expression>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+    </parameters>
+</report>

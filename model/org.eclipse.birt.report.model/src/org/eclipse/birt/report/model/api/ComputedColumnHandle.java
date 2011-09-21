@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.TimePeriod;
 
 /**
  * Represents the handle of computed column. A computed column is a ¡°virtual¡±
@@ -492,7 +493,7 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setProperty( ComputedColumn.ARGUMENTS_MEMBER, null );
 	}
-	
+
 	/**
 	 * Gets the flag which indicates whether the computed column supports
 	 * export.
@@ -513,10 +514,95 @@ public class ComputedColumnHandle extends StructureHandle
 	 * 
 	 * @param allowExport
 	 *            the flag to set
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	public void setAllowExport( boolean allowExport ) throws SemanticException
 	{
 		setProperty( ComputedColumn.ALLOW_EXPORT_MEMBER, allowExport );
+	}
+
+	/**
+	 * Sets the base time period. May use
+	 * {@link StructureFactory#createTimePeriod()} to create base time period or
+	 * other method to get a time period structure and set it to computed
+	 * column.
+	 * 
+	 * @param baseTimePeriod
+	 * @throws SemanticException
+	 */
+	public void setBaseTimePeriod( TimePeriod baseTimePeriod )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.BASE_TIME_PERIOD_MEMBER, baseTimePeriod );
+	}
+
+	/**
+	 * Gets the base time period. If it is set, then return the time period
+	 * handle.
+	 * 
+	 * @return time period handle if set, otherwise null
+	 */
+	public TimePeriodHandle getBaseTimePeriod( )
+	{
+		MemberHandle memberHandle = getMember( ComputedColumn.BASE_TIME_PERIOD_MEMBER );
+		Object value = memberHandle.getValue( );
+		if ( value == null )
+			return null;
+
+		return (TimePeriodHandle) ( (TimePeriod) value )
+				.getHandle( memberHandle );
+	}
+
+	/**
+	 * Gets the expression handle for the reference date member. Then use the
+	 * returned handle to do get/set action.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getReferenceDate( )
+	{
+		return getExpressionProperty( ComputedColumn.REFERENCE_DATE_MEMBER );
+	}
+
+	/**
+	 * Sets the offset time period. May use
+	 * {@link StructureFactory#createTimePeriod()} to create base time period or
+	 * other method to get a time period structure and set it to computed
+	 * column.
+	 * 
+	 * @param offset
+	 * @throws SemanticException
+	 */
+	public void setOffset( TimePeriod offset ) throws SemanticException
+	{
+		setProperty( ComputedColumn.OFFSET_MEMBER, offset );
+	}
+
+	/**
+	 * Gets the offset time period. If it is set, then return the time period
+	 * handle.
+	 * 
+	 * @return time period handle if set, otherwise null
+	 */
+	public TimePeriodHandle getOffset( )
+	{
+		MemberHandle memberHandle = getMember( ComputedColumn.OFFSET_MEMBER );
+		Object value = memberHandle.getValue( );
+		if ( value == null )
+			return null;
+
+		return (TimePeriodHandle) ( (TimePeriod) value )
+				.getHandle( memberHandle );
+	}
+
+	/**
+	 * Gets the expression handle for the time dimension member. Then use the
+	 * returned handle to do get/set action.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getTimeDimension( )
+	{
+		return getExpressionProperty( ComputedColumn.TIME_DIMENSION_MEMBER );
 	}
 }

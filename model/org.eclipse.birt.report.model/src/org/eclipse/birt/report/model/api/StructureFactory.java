@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.elements.structures.TimeInterval;
+import org.eclipse.birt.report.model.api.elements.structures.TimePeriod;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
@@ -379,8 +380,8 @@ public class StructureFactory
 		Module module = baseImage.getModule( );
 		String namespace = module instanceof Library ? ( (Library) module )
 				.getNamespace( ) : null;
-		StructRefValue libReference = new StructRefValue( namespace, baseImage
-				.getName( ) );
+		StructRefValue libReference = new StructRefValue( namespace,
+				baseImage.getName( ) );
 		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
 				libReference );
 		return image;
@@ -427,8 +428,8 @@ public class StructureFactory
 		}
 
 		String namespace = lib.getNamespace( );
-		StructRefValue libReference = new StructRefValue( namespace, baseImage
-				.getName( ) );
+		StructRefValue libReference = new StructRefValue( namespace,
+				baseImage.getName( ) );
 		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
 				libReference );
 		image.setName( name );
@@ -458,8 +459,8 @@ public class StructureFactory
 		if ( baseImage == null )
 			return null;
 
-		EmbeddedImage newImage = newEmbeddedImageFrom( baseImage, baseImage
-				.getName( ), targetModule );
+		EmbeddedImage newImage = newEmbeddedImageFrom( baseImage,
+				baseImage.getName( ), targetModule );
 		targetModule.rename( newImage );
 		return newImage;
 	}
@@ -621,5 +622,15 @@ public class StructureFactory
 	public static FormatValue newFormatValue( )
 	{
 		return new FormatValue( );
+	}
+
+	/**
+	 * Creates a new time period structure.
+	 * 
+	 * @return a time period structure
+	 */
+	public static TimePeriod createTimePeriod( )
+	{
+		return new TimePeriod( );
 	}
 }
