@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.core.ui">
+<schema targetNamespace="org.eclipse.birt.core.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.core.ui" id="taskWizards" name="taskWizards"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="taskWizard" minOccurs="1" maxOccurs="unbounded"/>
@@ -63,7 +68,7 @@
          <attribute name="positionBefore" type="string">
             <annotation>
                <documentation>
-                  An ID for a task included in this wizard before which the tasks specified by &apos;tasklist&apos; are to be inserted.
+                  An ID for a task included in this wizard before which the tasks specified by &apos;tasklist&apos; are to be inserted. This can also be an integer index on which the tasks will be inserted. Default value is blank, which means inserting to the last.
                </documentation>
             </annotation>
          </attribute>
@@ -106,13 +111,5 @@
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>
