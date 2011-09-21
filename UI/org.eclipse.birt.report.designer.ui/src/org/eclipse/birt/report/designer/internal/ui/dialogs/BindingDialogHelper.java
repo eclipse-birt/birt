@@ -1029,6 +1029,20 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		messageLine.setLayoutData( layoutData );
 	}
 
+	public void setMessage( String message )
+	{
+		this.messageLine.setText( message );
+		this.messageLine.setImage( null );
+	}
+
+	public void setErrorMessage( String message )
+	{
+		this.messageLine.setText( message );
+		this.messageLine.setImage( PlatformUI.getWorkbench( )
+				.getSharedImages( )
+				.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+	}
+
 	private void verifyInput( )
 	{
 		if ( isRef )
@@ -1069,19 +1083,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
 				{
 					dialog.setCanFinish( false );
-					this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
+					setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
 							new Object[]{
 								txtName.getText( )
 							} ) );
-					this.messageLine.setImage( PlatformUI.getWorkbench( )
-							.getSharedImages( )
-							.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
 					return;
 				}
 			}
 		}
-		this.messageLine.setText( "" ); //$NON-NLS-1$
-		this.messageLine.setImage( null );
+
+		setMessage( "" ); //$NON-NLS-1$
+
 		if ( txtExpression != null
 				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
 						.trim( )
@@ -1125,6 +1137,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 									|| paramValue.trim( ).equals( "" ) ) //$NON-NLS-1$
 							{
 								dialog.setCanFinish( false );
+								setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.empty", //$NON-NLS-1$
+										new String[]{
+											param.getDisplayName( )
+										} ) );
 								return;
 							}
 						}
