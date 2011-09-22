@@ -77,6 +77,7 @@
 	<property name="module.name" value = "org.eclipse.birt.chart.doc.isv" />
 
 	<property name="chartengine.dir" value="../org.eclipse.birt.chart.engine" />
+	<property name="chartengine.ext.dir" value="../org.eclipse.birt.chart.engine.extension" />
 	<property name="chartengine.javadoc.dir" value="chart/api" />
 	<property name="chartexamples.dir" value="../org.eclipse.birt.chart.examples" />
 	<property name="chartui.dir" value="../org.eclipse.birt.chart.ui" />
@@ -280,7 +281,10 @@
 			${chartengine.dir}/src/org/eclipse/birt/chart/factory/IMessageLookup.java,
 			${chartengine.dir}/src/org/eclipse/birt/chart/factory/RunTimeContext.java,
 			${chartengine.dir}/src/org/eclipse/birt/chart/util/CDateTime.java,
-			${chartengine.dir}/src/org/eclipse/birt/chart/api/ChartEngine.java
+			${chartengine.dir}/src/org/eclipse/birt/chart/api/ChartEngine.java,
+			${chartengine.ext.dir}/src/org/eclipse/birt/chart/extension/datafeed/BubbleEntry.java,
+			${chartengine.ext.dir}/src/org/eclipse/birt/chart/extension/datafeed/DifferenceEntry.java,
+			${chartengine.ext.dir}/src/org/eclipse/birt/chart/extension/datafeed/StockEntry.java
 					"
 		sourcepath="${chartengine.dir}/src" splitindex="true" use="true" failonerror="true" version="true">
 			<classpath refid="class.path" />
