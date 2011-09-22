@@ -393,9 +393,7 @@ public class DTPUtil
 		}
 		try
 		{
-			return new URI( Utility.getReportModuleHandle( )
-					.getSystemId( )
-					.getPath( ) );
+			return Utility.getReportModuleHandle( ).getSystemId( ).toURI( );
 		}
 		catch ( URISyntaxException e )
 		{
