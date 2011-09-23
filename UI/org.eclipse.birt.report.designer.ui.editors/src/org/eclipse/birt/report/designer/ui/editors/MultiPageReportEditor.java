@@ -1122,6 +1122,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						{
 							updateRelatedViews( );
 							//doSave( null );
+							UIUtil.refreshCurrentEditorMarkers( );
 							curPage.markPageStale( IPageStaleType.NONE );
 							
 						}
