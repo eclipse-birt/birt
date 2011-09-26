@@ -1780,7 +1780,7 @@ public class ActivityStackTest extends BaseTestCase
 		// drop grid, ELEMENT_DELETED, container event, stack event.
 
 		gridHandle.drop( );
-		assertEquals( 122, listener.notifications.size( ) );
+		assertEquals( 124, listener.notifications.size( ) );
 		listener.restart( );
 
 		designHandle.addListener( listener );
@@ -1789,7 +1789,7 @@ public class ActivityStackTest extends BaseTestCase
 		// cells has been removed, so it is 242 - 100 = 142 notifications.
 
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( 122, listener.notifications.size( ) );
+		assertEquals( 144, listener.notifications.size( ) );
 	}
 
 	/**
@@ -1844,7 +1844,7 @@ public class ActivityStackTest extends BaseTestCase
 
 		stack.commit( );
 
-		assertEquals( 4, listener.notifications.size( ) );
+		assertEquals( 8, listener.notifications.size( ) );
 
 	}
 

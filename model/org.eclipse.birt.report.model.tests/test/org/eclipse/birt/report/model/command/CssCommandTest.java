@@ -126,7 +126,7 @@ public class CssCommandTest extends BaseTestCase
 
 		assertEquals( NotificationEvent.CSS_EVENT, listener.getEventType( ) );
 		assertEquals( CssEvent.ADD, listener.getAction( ) );
-		assertEquals( 1, listener.getEventCount( ) );
+		assertEquals( 2, listener.getEventCount( ) );
 
 		listener.clearEventCount( );
 
@@ -145,7 +145,7 @@ public class CssCommandTest extends BaseTestCase
 		designHandle.dropCss( sheetHandle );
 
 		assertEquals( CssEvent.DROP, listener.getAction( ) );
-		assertEquals( 1, listener.getEventCount( ) );
+		assertEquals( 2, listener.getEventCount( ) );
 	}
 
 	class MyListener implements Listener

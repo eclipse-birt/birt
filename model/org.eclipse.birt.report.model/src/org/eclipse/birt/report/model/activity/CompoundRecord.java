@@ -430,8 +430,8 @@ public class CompoundRecord extends ActivityRecord
 			assert options != null;
 			IEventFilter filter = options.getEventFilter( );
 			assert filter != null;
-			doTasks( transStack, filter
-					.filter( getNotificationTask( simpleTasks ) ) );
+			doTasks( transStack,
+					filter.filter( getNotificationTask( simpleTasks ) ) );
 
 		}
 		else if ( options != null
@@ -440,6 +440,14 @@ public class CompoundRecord extends ActivityRecord
 			// filter notification tasks and do them second
 
 			doTasks( transStack, getFilterNotificationTask( ) );
+		}
+
+		else if ( options == null )
+		{
+			// if options is not set, then hold the notification till
+			// transaction stack is empty
+			if ( transStack == null || transStack.isEmpty( ) )
+				doTasks( transStack, getNotificationTask( simpleTasks ) );
 		}
 
 		// do the validation task in the end
