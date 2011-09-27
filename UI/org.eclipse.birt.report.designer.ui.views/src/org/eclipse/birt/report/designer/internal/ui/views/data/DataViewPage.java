@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -308,9 +309,17 @@ public abstract class DataViewPage extends Page implements
 
 		// remove the mediator listener
 		if ( reportHandle != null )
-			SessionHandleAdapter.getInstance( )
-					.getMediator( reportHandle )
-					.removeColleague( this );
+		{
+			ReportMediator mediator = SessionHandleAdapter.getInstance( )
+							.getMediator( reportHandle, false );
+			if(mediator != null)
+			{
+				mediator.removeColleague( this );
+			}
+//			SessionHandleAdapter.getInstance( )
+//					.getMediator( reportHandle )
+//					.removeColleague( this );
+		}
 
 		super.dispose( );
 	}
