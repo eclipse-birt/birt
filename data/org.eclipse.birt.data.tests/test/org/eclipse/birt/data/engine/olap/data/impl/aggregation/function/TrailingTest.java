@@ -104,7 +104,7 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( "week",
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
 				3 )
 				.getResult( timeMember );
 		printMembers( timeMembers );
@@ -127,7 +127,7 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( "day",
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR,
 				3 )
 				.getResult( timeMember );
 		printMembers( timeMembers );

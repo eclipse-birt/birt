@@ -41,24 +41,36 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		int[] tmp;
 		for ( int i = 0; i < offset - 1; i++ )
 		{
-			if ( levelType.equals( YEAR ) )
+			if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
 			{
 				cal.add( Calendar.YEAR, -1 );
 			}
-			else if ( levelType.equals( MONTH ) )
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
 			{
 				cal.add( Calendar.MONTH, -1 );
 			}
-			else if ( levelType.equals( QUARTER ) )
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
 			{
 				// Calendar not support quarter, so add 3 month
 				cal.add( Calendar.MONTH, -3 );
 			}
-			else if ( levelType.equals( WEEK ) )
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
 			{
 				cal.add( Calendar.WEEK_OF_YEAR, -1 );
 			}
-			else if ( levelType.equals( DAY ) )
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+			{
+				cal.add( Calendar.WEEK_OF_YEAR, -1 );
+			}
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH) )
+			{
+				cal.add( Calendar.DATE, -1 );
+			}
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK) )
+			{
+				cal.add( Calendar.DATE, -1 );
+			}
+			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
 			{
 				cal.add( Calendar.DATE, -1 );
 			}
