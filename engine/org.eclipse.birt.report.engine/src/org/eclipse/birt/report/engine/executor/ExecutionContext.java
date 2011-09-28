@@ -1184,6 +1184,19 @@ public class ExecutionContext
 	 */
 	protected HashMap<DesignElementHandle, ElementExceptionInfo> elementExceptions = new HashMap<DesignElementHandle, ElementExceptionInfo>( );
 
+	public void clearExceptions()
+	{
+		errors.clear();
+		elementExceptions.clear();
+		if (reportContent != null)
+		{
+			reportContent.getErrors().clear();
+		} else
+		{
+			contentErrors.clear();
+		}
+	}
+
 	public void addException( ReportElementDesign design, BirtException ex )
 	{
 		DesignElementHandle handle = null;
