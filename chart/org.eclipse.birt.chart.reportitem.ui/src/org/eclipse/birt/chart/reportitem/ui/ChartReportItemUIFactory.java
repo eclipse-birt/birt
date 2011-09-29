@@ -61,4 +61,14 @@ public class ChartReportItemUIFactory extends ChartUIFactoryBase
 		return new DteAdapter( );
 	}
 
+	/**
+	 * Creates instance of <code>ChartReportItemBuilderImpl</code>.
+	 * 
+	 * @param taskId
+	 * @return
+	 */
+	public ChartReportItemBuilderImpl createReportItemBuilder(  String taskId )
+	{
+		return new ChartReportItemBuilderImpl( taskId );
+	}
 }

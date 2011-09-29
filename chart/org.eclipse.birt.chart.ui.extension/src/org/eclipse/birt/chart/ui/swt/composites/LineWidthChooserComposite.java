@@ -23,6 +23,7 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 {
 
 	private static final Integer[] iLineWidths = new Integer[]{
+		    Integer.valueOf( 0 ),
 			Integer.valueOf( 1 ),
 			Integer.valueOf( 2 ),
 			Integer.valueOf( 3 ),

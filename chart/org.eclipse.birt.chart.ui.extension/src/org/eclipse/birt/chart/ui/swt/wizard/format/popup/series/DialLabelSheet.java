@@ -16,8 +16,11 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
@@ -26,6 +29,7 @@ import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAt
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -49,7 +53,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 			SelectionListener
 {
 
-	private transient Composite cmpContent = null;
+	protected transient Composite cmpContent = null;
 
 	private transient LabelAttributesComposite lacTitle = null;
 
@@ -57,8 +61,17 @@ public class DialLabelSheet extends AbstractPopupSheet
 
 	private transient SeriesDefinition seriesDefn = null;
 
-	private FormatSpecifierPreview fsp;
+	protected FormatSpecifierPreview fsp;
 
+	private Series series;
+
+	/**
+	 * @param title
+	 * @param context
+	 * @param seriesDefn
+	 * 
+	 * @deprecated since 3.7
+	 */
 	public DialLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
@@ -66,6 +79,13 @@ public class DialLabelSheet extends AbstractPopupSheet
 		this.seriesDefn = seriesDefn;
 	}
 
+	public DialLabelSheet( String title, ChartWizardContext context,
+			Series series )
+	{
+		super( title, context, true );
+		this.series = series;
+	}
+	
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_DIAL_LABELS);
@@ -95,6 +115,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 		gdLACTitle.horizontalSpan = 2;
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );
+		lacTitle.setDefaultLabelValue( DefaultValueProvider.defDialSeries( ).getDial( ).getLabel( ) );
 
 		Label label = new Label( cmpContent, SWT.NONE );
 		{
@@ -141,8 +162,12 @@ public class DialLabelSheet extends AbstractPopupSheet
 		return cmpContent;
 	}
 
-	private DialSeries getSeriesForProcessing( )
+	protected DialSeries getSeriesForProcessing( )
 	{
+		if ( series != null )
+		{
+			return (DialSeries) series;
+		}
 		return (DialSeries) seriesDefn.getDesignTimeSeries( );
 	}
 
@@ -153,12 +178,16 @@ public class DialLabelSheet extends AbstractPopupSheet
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( lacTitle ) )
 		{
 			switch ( event.type )
 			{
 				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getLabel( ).setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getLabel( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
 					getLabel( ).getCaption( )
@@ -173,19 +202,26 @@ public class DialLabelSheet extends AbstractPopupSheet
 					getLabel( ).setShadowColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getLabel( ).getOutline( ).setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getLabel( ).getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					getLabel( ).getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getLabel( ).getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					getLabel( ).setInsets( (Insets) event.data );
@@ -203,15 +239,20 @@ public class DialLabelSheet extends AbstractPopupSheet
 	{
 		if ( e.getSource( ).equals( btnFormatSpecifier ) )
 		{
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					getSeriesForProcessing( ).getDial( ).getFormatSpecifier( ),
-					Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				getSeriesForProcessing( ).getDial( )
-						.setFormatSpecifier( editor.getFormatSpecifier( ) );
-				fsp.updatePreview( editor.getFormatSpecifier( ) );
-			}
+			handleFormatBtnSelected( );
+		}
+	}
+
+	protected void handleFormatBtnSelected( )
+	{
+		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+				getSeriesForProcessing( ).getDial( ).getFormatSpecifier( ),
+				Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
+		if ( editor.open( ) == Window.OK )
+		{
+			getSeriesForProcessing( ).getDial( )
+					.setFormatSpecifier( editor.getFormatSpecifier( ) );
+			fsp.updatePreview( editor.getFormatSpecifier( ) );
 		}
 	}
 

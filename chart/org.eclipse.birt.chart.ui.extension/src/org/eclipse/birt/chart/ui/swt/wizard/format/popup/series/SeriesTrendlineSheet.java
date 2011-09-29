@@ -22,7 +22,10 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.CurveFitting;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -32,6 +35,7 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -41,7 +45,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -59,13 +62,14 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 {
 
 	private transient SeriesDefinition seriesDefn = null;
+	private transient Series series = null;
 	private transient Composite cmpContent = null;
 	private transient LineAttributesComposite trendLineText;
 	private transient LineAttributesComposite outlineText;
 	private transient Combo cmbAnchor;
 	// private transient Button btnTriggers;
 	private transient ExternalizedTextEditorComposite txtValue;
-	private transient Button btnVisible;
+	private Combo cmbLabelVisible;
 	// private transient Label lblPosition;
 	// private transient Combo cmbPosition;
 	private transient Label lblFont;
@@ -79,6 +83,13 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient Label lblAnchor;
 	private transient ChartWizardContext context;
 
+	/**
+	 * @param title
+	 * @param context
+	 * @param seriesDefn
+	 * 
+	 * @deprecated since 3.7
+	 */
 	public SeriesTrendlineSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
@@ -87,6 +98,19 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		this.context = context;
 	}
 
+	/**
+	 * @param title
+	 * @param context
+	 * @param series
+	 */
+	public SeriesTrendlineSheet( String title, ChartWizardContext context,
+			Series series )
+	{
+		super( title, context, false );
+		this.series = series;
+		this.context = context;
+	}
+	
 	protected Composite getComponent( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent,
@@ -160,14 +184,16 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmpRight.setLayoutData( gd );
 		}
-
+		int lineStyles = LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+		
 		trendLineText = new LineAttributesComposite( cmpRight,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				getTrendline( ).getLineAttributes( ),
-				true,
-				true,
-				false );
+				getTrendline( ).getLineAttributes( ) );
 		trendLineText.addListener( this );
 
 		Group cmpLabel = new Group( cmpContent, SWT.NONE );
@@ -189,13 +215,17 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			cmpLabelInner.setLayoutData( gd );
 		}
 
-		btnVisible = new Button( cmpLabelInner, SWT.CHECK );
+		Label lbl = new Label(cmpLabelInner, SWT.NONE );
+		lbl.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+		
+		cmbLabelVisible = ChartUIExtensionUtil.createCombo( cmpLabelInner,
+				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
 		GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
-		gdCBVisible.horizontalSpan = 2;
-		btnVisible.setLayoutData( gdCBVisible );
-		btnVisible.setSelection( getTrendline( ).getLabel( ).isVisible( ) );
-		btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-		btnVisible.addSelectionListener( this );
+		cmbLabelVisible.setLayoutData( gdCBVisible );
+		cmbLabelVisible.select( getTrendline( ).getLabel( ).isSetVisible( ) ? ( getTrendline( ).getLabel( )
+				.isVisible( ) ? 1 : 2 )
+				: 0 );
+		cmbLabelVisible.addSelectionListener( this );
 
 		// lblPosition = new Label( cmpLabelInner, SWT.NONE );
 		// GridData gdLBLPosition = new GridData( );
@@ -232,13 +262,15 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		lblFill.setLayoutData( gdLFill );
 		lblFill.setText( Messages.getString( "LabelAttributesComposite.Lbl.Background" ) ); //$NON-NLS-1$
 
+		int fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.DISABLE_PATTERN_FILL;
 		fccBackground = new FillChooserComposite( cmpLabelInner,
 				SWT.NONE,
+				fillStyles,
 				getContext( ),
-				getTrendline( ).getLabel( ).getBackground( ),
-				false,
-				false,
-				false );
+				getTrendline( ).getLabel( ).getBackground( ) );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
@@ -250,11 +282,9 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 
 		fccShadow = new FillChooserComposite( cmpLabelInner,
 				SWT.NONE,
+				fillStyles,
 				getContext( ),
-				getTrendline( ).getLabel( ).getShadowColor( ),
-				false,
-				false,
-				false );
+				getTrendline( ).getLabel( ).getShadowColor( ) );
 		GridData gdFCCShadow = new GridData( GridData.FILL_BOTH );
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.addListener( this );
@@ -264,13 +294,16 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setText( Messages.getString( "SeriesTrendlineSheet.Label.Outline" ) ); //$NON-NLS-1$
 
+		lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		outlineText = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				getTrendline( ).getLabel( ).getOutline( ),
-				true,
-				true,
-				true );
+				getTrendline( ).getLabel( ).getOutline( ) );
 		outlineText.addListener( this );
 
 		icLabel = new InsetsComposite( cmpLabel,
@@ -283,14 +316,21 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		gdICBlock.horizontalSpan = 2;
 		icLabel.setLayoutData( gdICBlock );
 		icLabel.addListener( this );
+		icLabel.setDefaultInsetsValue( DefaultValueProvider.defSeries( )
+				.getLabel( )
+				.getInsets( ) );
 
 		populateLists( );
-		setState( btnVisible.getSelection( ) );
+		setState( cmbLabelVisible.getSelectionIndex( ) == 1 );
 		return cmpContent;
 	}
 
 	private CurveFitting getTrendline( )
 	{
+		if ( series != null )
+		{
+			return series.getCurveFitting( );
+		}
 		return seriesDefn.getDesignTimeSeries( ).getCurveFitting( );
 	}
 
@@ -316,10 +356,11 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		// Set block Anchor property
 		NameSet nameSet = LiteralHelper.anchorSet;
-		cmbAnchor.setItems( nameSet.getDisplayNames( ) );
-		cmbAnchor.select( nameSet.getSafeNameIndex( ChartUIUtil.getFlippedAnchor( getTrendline( ).getLabelAnchor( ),
+		cmbAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( nameSet.getDisplayNames( ) ) );
+		cmbAnchor.select( getTrendline( ).isSetLabelAnchor( ) ? ( nameSet.getSafeNameIndex( ChartUIUtil.getFlippedAnchor( getTrendline( ).getLabelAnchor( ),
 				isFlippedAxes( ) )
-				.getName( ) ) );
+				.getName( ) ) + 1 )
+				: 0 );
 
 		// Set Legend Position property
 		// nameSet = LiteralHelper.fullPositionSet;
@@ -332,6 +373,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( txtValue ) )
 		{
 			getTrendline( ).getLabel( )
@@ -365,20 +407,27 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getTrendline( ).getLineAttributes( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLineAttributes( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getTrendline( ).getLineAttributes( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLineAttributes( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
+					
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getTrendline( ).getLineAttributes( )
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getTrendline( ).getLineAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLineAttributes( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
@@ -387,14 +436,18 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getTrendline( ).getLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLabel( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getTrendline( ).getLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLabel( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getTrendline( ).getLabel( )
@@ -402,9 +455,11 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getTrendline( ).getLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLabel( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							 ( (Boolean) event.data ).booleanValue( ),
+							 isUnset );
 					break;
 			}
 		}
@@ -414,8 +469,15 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		if ( e.widget.equals( cmbAnchor ) )
 		{
-			getTrendline( ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ),
-					isFlippedAxes( ) ) );
+			if ( cmbAnchor.getSelectionIndex( ) == 0 )
+			{
+				getTrendline( ).unsetLabelAnchor( );
+			}
+			else
+			{
+				getTrendline( ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ),
+						isFlippedAxes( ) ) );
+			}
 		}
 		// else if ( e.widget.equals( btnTriggers ) )
 		// {
@@ -425,10 +487,17 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		// getTrendline( ).getLabel().getTriggers( ),
 		// sTitle );
 		// }
-		else if ( e.widget.equals( btnVisible ) )
+		else if ( e.widget == cmbLabelVisible )
 		{
-			getTrendline( ).getLabel( ).setVisible( btnVisible.getSelection( ) );
-			setState( btnVisible.getSelection( ) );
+			if(cmbLabelVisible.getSelectionIndex( ) == 0)
+			{
+				getTrendline( ).getLabel( ).unsetVisible( );
+			}
+			else
+			{
+				getTrendline( ).getLabel( ).setVisible( cmbLabelVisible.getSelectionIndex( ) == 1);
+			}
+			setState( cmbLabelVisible.getSelectionIndex( ) == 1 );
 		}
 		// else if ( e.widget.equals( cmbPosition ) )
 		// {

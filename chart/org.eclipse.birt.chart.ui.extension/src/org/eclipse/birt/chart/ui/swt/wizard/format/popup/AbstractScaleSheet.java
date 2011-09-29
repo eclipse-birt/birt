@@ -16,18 +16,21 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.ComboSelectionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -45,7 +48,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		implements
-			Listener
+			Listener, SelectionListener
 {
 
 	protected Label lblMin = null;
@@ -75,10 +78,10 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 	protected Label lblStepNumber = null;
 
 	protected Spinner spnStepNumber = null;
-
-	protected Button btnShowOutside = null;
-
-	protected Button btnAutoExpand;
+	
+	protected ComboSelectionComposite cscAutoExpand;
+	
+	protected ComboSelectionComposite cscShowOutside;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -158,9 +161,16 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			cmbScaleUnit.addListener( SWT.Selection, this );
 			// Populate origin types combo
 			NameSet ns = LiteralHelper.scaleUnitTypeSet;
-			cmbScaleUnit.setItems( ns.getDisplayNames( ) );
-			cmbScaleUnit.select( ns.getSafeNameIndex( getScale( ).getUnit( )
-					.getName( ) ) );
+			cmbScaleUnit.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+			if ( !getScale( ).isSetUnit( ) )
+			{
+				cmbScaleUnit.select( 0 );
+			}
+			else
+			{
+				cmbScaleUnit.select( ns.getSafeNameIndex( getScale( ).getUnit( )
+						.getName( ) ) + 1 );
+			}
 		}
 
 		btnStepNumber = new Button( grpScale, SWT.RADIO );
@@ -226,26 +236,32 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 		txtScaleMax = createValuePicker( cmpContent, getScale( ).getMax( ) );
 
-		btnAutoExpand = new Button( cmpContent, SWT.CHECK );
+		cscAutoExpand = new ComboSelectionComposite( cmpContent,
+				SWT.NONE,
+				Messages.getString( "AbstractScaleSheet.AutoExpand" ),//$NON-NLS-1$
+				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
-			btnAutoExpand.setLayoutData( gd );
-			btnAutoExpand.setSelection( getScale( ).isAutoExpand( ) );
-			btnAutoExpand.setText( Messages.getString( "AbstractScaleSheet.AutoExpand" ) ); //$NON-NLS-1$
-			btnAutoExpand.addListener( SWT.Selection, this );
+			cscAutoExpand.setLayoutData( gd );
+			cscAutoExpand.select( getScale( ).isSetAutoExpand( ) ? ( getScale( ).isAutoExpand( ) ? 1
+					: 2 )
+					: 0 );
+			cscAutoExpand.addSelectionListener( this );
 		}
 
-		btnShowOutside = new Button( cmpContent, SWT.CHECK );
+		cscShowOutside = new ComboSelectionComposite( cmpContent,
+				SWT.NONE,
+				Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ), //$NON-NLS-1$
+				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
-			btnShowOutside.setLayoutData( gd );
-			btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
-			btnShowOutside.setSelection( getScale( ).isShowOutside( ) );
-			btnShowOutside.addListener( SWT.Selection, this );
+			cscShowOutside.setLayoutData( gd );
+			cscShowOutside.select( getScale().isSetShowOutside( ) ? ( getScale( ).isShowOutside( ) ? 1 : 2 ) : 0 );
+			cscShowOutside.addSelectionListener( this );
 			// Only visible in number type
-			btnShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+			cscShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
 		}
 
 		// Set checkbox selection.
@@ -321,7 +337,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		txtScaleMin.setEnabled( bEnabled );
 		txtScaleMax.setEnabled( bEnabled );
 		// Enabled only min or max has been set
-		btnShowOutside.setEnabled( bEnabled
+		cscShowOutside.setEnabled( bEnabled
 				&& ( getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Min( ) ) || getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Max( ) ) ) );
 
 		lblUnit.setEnabled( bEnabled
@@ -446,7 +462,14 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( cmbScaleUnit ) )
 		{
-			getScale( ).setUnit( ScaleUnitType.getByName( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
+			if ( cmbScaleUnit.getSelectionIndex( ) == 0 )
+			{
+				getScale( ).unsetUnit( );
+			}
+			else
+			{
+				getScale( ).setUnit( ScaleUnitType.getByName( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
+			}
 		}
 		else if ( event.widget.equals( btnStepAuto ) )
 		{
@@ -467,17 +490,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
 			setState( );
 		}
-		else if ( event.widget.equals( btnShowOutside ) )
-		{
-			getScale( ).setShowOutside( btnShowOutside.getSelection( ) );
-		}
 		else if ( event.widget.equals( spnStepNumber ) )
 		{
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
-		}
-		else if ( event.widget == btnAutoExpand )
-		{
-			getScale( ).setAutoExpand( btnAutoExpand.getSelection( ) );
 		}
 		else if ( event.widget == btnFactor )
 		{
@@ -522,6 +537,51 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent arg0 )
+	{
+		// Nothing.
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent event )
+	{
+		if ( event.widget == cscShowOutside )
+		{
+			if ( cscShowOutside.getSelectionIndex( ) == 0 )
+			{
+				getScale( ).unsetShowOutside( );
+			}
+			else
+			{
+				getScale( ).setShowOutside( cscShowOutside.getSelectionIndex( ) == 1 );
+			}
+		}
+		else if ( event.widget == cscAutoExpand )
+		{
+			if ( cscAutoExpand.getSelectionIndex( ) == 0 )
+			{
+				getScale( ).unsetAutoExpand( );
+			}
+			else
+			{
+				getScale( ).setAutoExpand( cscAutoExpand.getSelectionIndex( ) == 1 );
+			}
+		}
+	}
+	
 	protected abstract Scale getScale( );
 
 	/**

@@ -178,7 +178,6 @@ public class MeterChart extends DefaultChartTypeImpl
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
@@ -189,7 +188,6 @@ public class MeterChart extends DefaultChartTypeImpl
 				.setValue( getDefaultTitle( ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		DialSeries valueSeries = (DialSeries) DialSeriesImpl.create( );
 		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
@@ -455,5 +453,11 @@ public class MeterChart extends DefaultChartTypeImpl
 	public String getValueDefinitionName( )
 	{
 		return Messages.getString( "DialBottomAreaComponent.Label.GaugeValueDefinition" ); //$NON-NLS-1$
+	}
+		
+	@Override
+	public boolean isChartWithAxes( )
+	{
+		return false;
 	}
 }

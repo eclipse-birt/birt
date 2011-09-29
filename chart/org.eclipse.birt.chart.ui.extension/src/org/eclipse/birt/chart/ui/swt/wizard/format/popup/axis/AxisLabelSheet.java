@@ -20,18 +20,22 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -55,7 +59,11 @@ public class AxisLabelSheet extends AbstractPopupSheet
 
 	private Spinner iscInterval;
 	
+	private Button btnIntervalAuto;
+	
 	private Spinner iscEllipsis;
+	
+	private Button btnEllipsisAuto;
 
 	// private Button chkWithinAxes;
 
@@ -84,7 +92,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		}
 
 		boolean isLabelEnabled = getAxisForProcessing( ).getLabel( )
-				.isVisible( );
+				.isSetVisible( )
+				&& getAxisForProcessing( ).getLabel( ).isVisible( );
 
 		Group grpLabel = new Group( cmpContent, SWT.NONE );
 		{
@@ -124,7 +133,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					null,
-					getAxisForProcessing( ).getLabelPosition( ),
+					getAxisForProcessing( ).isSetLabelPosition( ) ? getAxisForProcessing( ).getLabelPosition( )
+							: null,
 					getAxisForProcessing( ).getLabel( ),
 					getChart( ).getUnits( ),
 					getPositionScope( ) );
@@ -134,11 +144,23 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		lacLabel.setLayoutData( gdLACLabel );
 		lacLabel.addListener( this );
 		lacLabel.setEnabled( isLabelEnabled );
+		switch ( axisType )
+		{
+			case AngleType.X:
+				lacLabel.setDefaultLabelValue( DefaultValueProvider.defBaseAxis( ).getLabel( ) );
+				break;
+			case AngleType.Y:
+				lacLabel.setDefaultLabelValue( DefaultValueProvider.defOrthogonalAxis( ).getLabel( ) );
+				break;
+			case AngleType.Z:
+				lacLabel.setDefaultLabelValue( DefaultValueProvider.defAncillaryAxis( ).getLabel( ) );
+				break;
+		}
 		
 		Composite cmpOther = new Composite(grpLabel, SWT.NONE);
 		{
 			GridLayout glCmpOther = new GridLayout( );
-			glCmpOther.numColumns = 2;
+			glCmpOther.numColumns = 3;
 			glCmpOther.marginWidth = 0;
 			glCmpOther.marginHeight = 0;
 			cmpOther.setLayout( glCmpOther );
@@ -164,6 +186,16 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			iscInterval.setEnabled( isLabelEnabled );
 		}
 		
+		btnIntervalAuto = new Button( cmpOther, SWT.CHECK );
+		btnIntervalAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnIntervalAuto.setSelection( !getAxisForProcessing( ).isSetInterval( ) );
+		btnIntervalAuto.setEnabled( isLabelEnabled );
+		if ( iscInterval.isEnabled( ) && btnIntervalAuto.getSelection( ) )
+		{
+			iscInterval.setEnabled( false );
+		}
+		btnIntervalAuto.addSelectionListener( this );
+		
 		// Ellipsis
 		{
 			
@@ -176,6 +208,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 				lbEllipsis.setEnabled( true );
 			}
 			
+			boolean enableEllipsis = getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL
+			|| getAxisForProcessing( ).isCategoryAxis( );
 			iscEllipsis = new Spinner( cmpOther, SWT.BORDER );
 			{
 				iscEllipsis.setMinimum( 0 );
@@ -183,10 +217,19 @@ public class AxisLabelSheet extends AbstractPopupSheet
 				iscEllipsis.setLayoutData( gd );
 				iscEllipsis.setToolTipText( Messages.getString("AxisLabelSheet.Label.Ellipsis.Tooltip") ); //$NON-NLS-1$
 				iscEllipsis.addSelectionListener( this );
-				iscEllipsis.setEnabled( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL
-						|| getAxisForProcessing( ).isCategoryAxis( ) );
+				iscEllipsis.setEnabled( enableEllipsis );
 				iscEllipsis.setSelection( getAxisForProcessing( ).getLabel( ).getEllipsis( ) );
 			}
+			
+			btnEllipsisAuto = new Button( cmpOther, SWT.CHECK );
+			btnEllipsisAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnEllipsisAuto.setSelection( ! getAxisForProcessing( ).getLabel( ).isSetEllipsis( ) );
+			btnEllipsisAuto.setEnabled( enableEllipsis );
+			if ( iscEllipsis.isEnabled( ) && btnEllipsisAuto.getSelection( ) )
+			{
+				iscEllipsis.setEnabled( false );
+			}
+			btnEllipsisAuto.addSelectionListener( this );
 		}
 		
 		
@@ -220,14 +263,20 @@ public class AxisLabelSheet extends AbstractPopupSheet
 	{
 		if ( event.widget.equals( lacLabel ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET ); 
 			switch ( event.type )
 			{
 				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( ),
+							"visible",  //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
-					getAxisForProcessing( ).setLabelPosition( (Position) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ),
+							"labelPosition", //$NON-NLS-1$
+							(Position) event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
 					getAxisForProcessing( ).getLabel( )
@@ -246,14 +295,18 @@ public class AxisLabelSheet extends AbstractPopupSheet
 							.setShadowColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getLabel( )
@@ -261,9 +314,11 @@ public class AxisLabelSheet extends AbstractPopupSheet
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					getAxisForProcessing( ).getLabel( )
@@ -292,6 +347,22 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		else if ( e.getSource( ).equals( iscEllipsis ))
 		{
 			getAxisForProcessing( ).getLabel( ).setEllipsis( iscEllipsis.getSelection( ) );
+		}
+		else if ( e.widget == btnIntervalAuto )
+		{
+			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ),
+					"interval", //$NON-NLS-1$
+					iscInterval.getSelection( ),
+					btnIntervalAuto.getSelection( ) );
+			iscInterval.setEnabled( !btnIntervalAuto.getSelection( ) );
+		}
+		else if ( e.widget == btnEllipsisAuto )
+		{
+			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( ),
+					"ellipsis", //$NON-NLS-1$
+					iscEllipsis.getSelection( ),
+					btnEllipsisAuto.getSelection( ) );
+			iscEllipsis.setEnabled( btnEllipsisAuto.getSelection( ) );
 		}
 	}
 

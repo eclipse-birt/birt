@@ -354,6 +354,27 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	}
 
 	/**
+	 * @return
+	 */
+	public static final Needle createDefault( )
+	{
+		Needle nl = ComponentFactory.eINSTANCE.createNeedle( );
+		( (NeedleImpl) nl ).initDefault( );
+		return nl;
+	}
+
+	/**
+	 * 
+	 */
+	public final void initDefault( )
+	{
+		LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		setLineAttributes( lia );
+	}
+	
+	/**
 	 * @generated
 	 */
 	public Needle copyInstance( )

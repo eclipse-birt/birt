@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,6 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
@@ -39,6 +39,8 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
@@ -50,6 +52,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -79,11 +82,11 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		Listener
 {
 
-	private Composite cmpContent = null;
+	protected Composite cmpContent = null;
 
 	private Group grpDataPoint = null;
 
-	private List lstComponents = null;
+	protected List lstComponents = null;
 
 	private Combo cmbComponentTypes = null;
 
@@ -134,7 +137,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	private ChartWizardContext context;
 
 	/** Caches the pairs of datapoint display name and name */
-	private Map<String, String> mapDataPointNames;
+	protected Map<String, String> mapDataPointNames;
 
 	/**
 	 * Caches corresponding index in model of each List item
@@ -142,8 +145,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	private ArrayList<Integer> dataPointIndex;
 
 	/** The DataPointDefinition stores data point component for current Chart. */
-	private IDataPointDefinition foDataPointDefinition;
+	protected IDataPointDefinition foDataPointDefinition;
 
+	private Series series;
+
+	/**
+	 * @param title
+	 * @param context
+	 * @param seriesDefn
+	 * 
+	 * @deprecated since 3.7
+	 */
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			SeriesDefinition seriesDefn )
 	{
@@ -154,6 +166,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		dataPointIndex = new ArrayList<Integer>( );
 	}
 
+	public SeriesLabelSheet( String title, ChartWizardContext context,
+			Series series )
+	{
+		super( title, context, true );
+		this.series = series;
+		this.context = context;
+		mapDataPointNames = new HashMap<String, String>( );
+		dataPointIndex = new ArrayList<Integer>( );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -200,13 +222,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		grpOutline.setLayout( new FillLayout( ) );
 		// grpOutline.setEnabled(bEnableUI);
 
+		int iStyles = LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				iStyles,
 				getContext( ),
-				getSeriesForProcessing( ).getLabel( ).getOutline( ),
-				true,
-				true,
-				true );
+				getSeriesForProcessing( ).getLabel( ).getOutline( ) );
 		{
 			liacOutline.addListener( this );
 		}
@@ -223,12 +248,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			gdICInsets.grabExcessVerticalSpace = false;
 			icInsets.setLayoutData( gdICInsets );
 			icInsets.addListener( this );
+			icInsets.setDefaultInsetsValue( DefaultValueProvider.defSeries( )
+					.getLabel( )
+					.getInsets( ) );
 		}
 
 		// Populate lists
 		populateLists( getSeriesForProcessing( ) );
 
-		setEnabled( getSeriesForProcessing( ).getLabel( ).isVisible( ) );
+		setEnabled( getSeriesForProcessing( ).getLabel( ).isSetVisible( )
+				&& getSeriesForProcessing( ).getLabel( ).isVisible( ) );
 
 		refreshDataPointButtons( );
 
@@ -279,12 +308,14 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
 
 		// Position
-		cmbPosition.setItems( getSeriesForProcessing( ).getLabelPositionScope( getContext( ).getModel( )
+		java.util.List<String> posItems = new ArrayList<String>( Arrays.asList( getSeriesForProcessing( ).getLabelPositionScope( getContext( ).getModel( )
 				.getDimension( ) )
-				.getDisplayNames( ) );
+				.getDisplayNames( ) ) );
+		posItems.add(0, ChartUIExtensionUtil.getAutoMessage( ) );
+		cmbPosition.setItems( posItems.toArray( new String[]{} ) );
 
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
-		if ( lpCurrent != null )
+		if ( getSeriesForProcessing( ).isSetLabelPosition( ) && lpCurrent != null )
 		{
 			String positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
 					isFlippedAxes( ) ).getName( );
@@ -373,13 +404,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		lblFill.setLayoutData( gdLFill );
 		lblFill.setText( Messages.getString( "LabelAttributesComposite.Lbl.Background" ) ); //$NON-NLS-1$
 
+		int iFillOption = FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.DISABLE_PATTERN_FILL
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		
 		fccBackground = new FillChooserComposite( grpAttributes,
 				SWT.NONE,
+				iFillOption,
 				getContext( ),
-				getSeriesForProcessing( ).getLabel( ).getBackground( ),
-				false,
-				false,
-				false );
+				getSeriesForProcessing( ).getLabel( ).getBackground( ));
+				
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		gdFCCBackground.verticalAlignment = SWT.CENTER;
 		fccBackground.setLayoutData( gdFCCBackground );
@@ -390,9 +425,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		lblShadow.setLayoutData( gdLBLShadow );
 		lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
 
-		int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
-				| FillChooserComposite.ENABLE_TRANSPARENT
-				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 
 		fccShadow = new FillChooserComposite( grpAttributes,
 				SWT.DROP_DOWN | SWT.READ_ONLY,
@@ -539,12 +571,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		txtSeparator.addListener( this );
 	}
 
-	private Series getSeriesForProcessing( )
+	protected Series getSeriesForProcessing( )
 	{
+		if ( series != null )
+		{
+			return series;
+		}
 		return seriesDefn.getDesignTimeSeries( );
 	}
 	
-	private AxisType getAxisType( int type )
+	protected AxisType getAxisType( int type )
 	{
 		if ( type == IConstants.NUMERICAL )
 		{
@@ -557,7 +593,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		return AxisType.TEXT_LITERAL;
 	}
 
-	private AxisType getAxisType( DataPointComponentType dpct )
+	protected AxisType getAxisType( DataPointComponentType dpct )
 	{
 		if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
 		{
@@ -611,17 +647,22 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		}
 		else if ( event.widget.equals( liacOutline ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getSeriesForProcessing( ).getLabel( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getSeriesForProcessing( ).getLabel( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getSeriesForProcessing( ).getLabel( )
@@ -629,9 +670,13 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getSeriesForProcessing( ).getLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getSeriesForProcessing( ).getLabel( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							event.data,
+							isUnset );
+					
+					
 					break;
 			}
 		}
@@ -676,14 +721,22 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		if ( e.getSource( ).equals( cmbPosition ) )
 		{
-			if ( context.getModel( ) instanceof ChartWithAxes )
+			Series s = getSeriesForProcessing( );
+			if ( ChartUIExtensionUtil.isAutoSelection( cmbPosition ) )
 			{
-				getSeriesForProcessing( ).setLabelPosition( ChartUIUtil.getFlippedPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ),
+				if ( s.isSetLabelPosition( ) )
+				{
+					s.unsetLabelPosition( );
+				}
+			}
+			else if ( context.getModel( ) instanceof ChartWithAxes )
+			{
+				s.setLabelPosition( ChartUIUtil.getFlippedPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ),
 						isFlippedAxes( ) ) );
 			}
 			else
 			{
-				getSeriesForProcessing( ).setLabelPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+				s.setLabelPosition( Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
 			}
 		}
 		else if ( e.getSource( ).equals( btnAddComponent ) )
@@ -769,7 +822,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				.size( ) - 1 ) );
 	}
 
-	private void setDataPointComponentFormatSpecifier( int iComponentIndex )
+	protected void setDataPointComponentFormatSpecifier( int iComponentIndex )
 	{
 		DataPointComponent dpc = getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
@@ -818,7 +871,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		}
 	}
 
-	private int getIndexOfListItem( int indexOfListItem )
+	protected int getIndexOfListItem( int indexOfListItem )
 	{
 		return dataPointIndex.get( indexOfListItem );
 	}

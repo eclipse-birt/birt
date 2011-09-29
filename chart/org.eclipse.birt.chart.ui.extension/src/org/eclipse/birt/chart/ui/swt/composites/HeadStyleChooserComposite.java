@@ -22,8 +22,10 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class HeadStyleChooserComposite extends CustomChooserComposite
 {
-
+	public static final int LINE_DECORATOR_AUTO = -1;
+	
 	private static final Integer[] iLineDecorators = new Integer[]{
+			Integer.valueOf( LINE_DECORATOR_AUTO ),
 			Integer.valueOf( LineDecorator.ARROW ),
 			Integer.valueOf( LineDecorator.NONE ),
 			Integer.valueOf( LineDecorator.CIRCLE )

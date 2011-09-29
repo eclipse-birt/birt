@@ -692,6 +692,20 @@ public class Radar extends BaseRenderer
 		}
 	}
 
+	private Object getWebLabelDefaultFormat( Object value )
+	{
+		if ( value instanceof Number )
+		{
+			if ( dfNumericFormatCache == null )
+			{
+				dfNumericFormatCache = new ChartUtil.CacheDecimalFormat( rtc.getULocale( ) );
+			}
+			return dfNumericFormatCache.get( ValueFormatter.getNumericPattern( (Number) value ) );
+		}
+		
+		return null;
+	}
+	
 	private Object getCategoryDefaultFormat( Object value ) throws ChartException
 	{
 		if ( value instanceof Number )
@@ -1076,7 +1090,7 @@ public class Radar extends BaseRenderer
 					String weblabel = ValueFormatter.format( lblperc,
 							rsd.getWebLabelFormatSpecifier( ),
 							rtc.getULocale( ),
-							null );
+							getWebLabelDefaultFormat( lblperc ) );
 					la.getCaption( ).setValue( weblabel );
 
 					ScriptHandler.callFunction( sh,

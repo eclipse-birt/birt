@@ -14,13 +14,14 @@ package org.eclipse.birt.chart.model.type.impl;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -90,7 +91,42 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 */
 	protected void initialize( )
 	{
-		super.initialize( );
+		super.initDefault( );
+
+		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		{
+			Marker mk = (Marker) itr.next( );
+			try
+			{
+				ChartElementUtil.setDefaultValue( mk, "visible", false ); //$NON-NLS-1$
+			}
+			catch ( ChartException e )
+			{
+				// Do nothing.
+			}
+		}
+	}
+
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return
+	 */
+	public static Series createDefault( )
+	{
+		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries( );
+		( (AreaSeriesImpl) as ).initDefault( );
+		return as;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
+	 */
+	protected void initDefault( )
+	{
+		super.initDefault( );
 
 		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
@@ -98,7 +134,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 			mk.setVisible( false );
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -18,11 +18,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
+import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -140,5 +144,71 @@ public final class UIHelper
 			image = registry.getDescriptor( sPluginRelativePath );
 		}
 		return image;
+	}
+	
+	/**
+	 * Returns i18n 'Auto' sting.
+	 * 
+	 * @return
+	 */
+	public static String getAutoMessage( )
+	{
+		return Messages.getString( "ItemLabel.Auto" ); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Returns 'auto/true/false' i18n string array.
+	 * 
+	 * @return
+	 */
+	public static String[] getTrueFalseComboItems( )
+	{
+		String[] strs = new String[]{
+				getAutoMessage( ), Messages.getString( "ItemLabel.True" ),//$NON-NLS-1$
+				Messages.getString( "ItemLabel.False" )//$NON-NLS-1$
+		};
+		return strs;
+	}
+	
+	/**
+	 * Creates a combo with 'auto/true/false' items.
+	 * 
+	 * @param parent
+	 * @return
+	 */
+	public static Combo createTrueFalseItemsCombo( Composite parent )
+	{
+		Combo c = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+		c.setItems( getTrueFalseComboItems( ) );
+		return c;
+	}
+	
+
+	/**
+	 * Creates a combo with specified items.
+	 * 
+	 * @param parent
+	 * @param items
+	 * @return
+	 */
+	public static Combo createCombo( Composite parent, String[] items )
+	{
+		Combo c = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+		c.setItems( items );
+		return c;
+	}
+	
+	/**
+	 * Returns a 'auto/enable/disable' i18n string items.
+	 * 
+	 * @return
+	 */
+	public static String[] getEnableDisableComboItemds()
+	{
+		String[] strs = new String[]{
+				getAutoMessage( ), Messages.getString( "ItemLabel.Enable" ),//$NON-NLS-1$
+				Messages.getString( "ItemLabel.Disable" )//$NON-NLS-1$
+		};
+		return strs;
 	}
 }

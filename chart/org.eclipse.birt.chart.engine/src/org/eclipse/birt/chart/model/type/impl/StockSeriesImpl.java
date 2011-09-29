@@ -808,6 +808,33 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		setLineAttributes( lia );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance NOTE:
+	 * Manually written
+	 * 
+	 */
+	public static final Series createDefault( )
+	{
+		final StockSeries ss = TypeFactory.eINSTANCE.createStockSeries( );
+		( (StockSeriesImpl) ss ).initDefault( );
+		return ss;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.Series#initialize()
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+		labelPosition = Position.ABOVE_LITERAL;
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				0, true );
+		setLineAttributes( lia );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

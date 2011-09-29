@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.api;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -39,6 +40,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -81,6 +83,9 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.emf.common.util.EList;
+
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.NumberFormat;
 
 /**
  * Utility class for Chart integration as report item
@@ -1692,5 +1697,143 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		ReportRunnable ret = new ReportRunnable( reportEngine, moduleHandle );
 		ret.setReportName( moduleHandle.getFileName( ) );
 		return ret;
+	}
+	
+	/**
+	 * Returns the data type of specified expression.
+	 * 
+	 * @param expression
+	 * @param itemHandle
+	 * @return
+	 */
+	public static DataType getExpressionDataType( String expression, ReportItemHandle itemHandle )
+	{
+		if ( expression == null || expression.trim( ).length( ) == 0 )
+		{
+			return null;
+		}
+
+		// Find data types from self column bindings first
+		Object[] returnObj = findDataType( expression, itemHandle );
+		if ( ( (Boolean) returnObj[0] ).booleanValue( ) )
+		{
+			return (DataType) returnObj[1];
+		}
+
+		// Find data types from its container column bindings.
+		ReportItemHandle parentHandle = getBindingHolder( itemHandle );
+		if ( parentHandle != null )
+		{
+			returnObj = findDataType( expression, parentHandle );
+			if ( ( (Boolean) returnObj[0] ).booleanValue( ) )
+			{
+				return (DataType) returnObj[1];
+			}
+		}
+
+		// Try to parse with number format
+		try
+		{
+			NumberFormat.getInstance( ).parse( expression );
+			return DataType.NUMERIC_LITERAL;
+		}
+		catch ( ParseException e )
+		{
+		}
+
+		// Try to parse with date format
+		try
+		{
+			DateFormat.getInstance( ).parse( expression );
+			return DataType.DATE_TIME_LITERAL;
+		}
+		catch ( ParseException e )
+		{
+		}
+
+		// Return null for unknown data type.
+		return null;
+	}
+	
+	/**
+	 * Find data type of expression from specified item handle.
+	 * 
+	 * @param expression
+	 *            expression.
+	 * @param itemHandle
+	 *            specified item handle.
+	 * @return an object array, size is two, the first element is a boolean
+	 *         object, if its value is <code>true</code> then means the data
+	 *         type is found and the second element of array stores the data
+	 *         type; if its value is <code>false</code> then means that data
+	 *         type is not found.
+	 */
+	private static Object[] findDataType( String expression,
+			ReportItemHandle itemHandle )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		// Below calling 'ChartReportItemUtil.checkStringInExpression' exists
+		// problem, it just check special case, like row["a"]+"Q"+row["b"].
+		// In fact, if expression is a script, it should be no way to get the
+		// return type.
+		// Now the only thing we can do is to try to consider more situations
+		// and avoid wrong check, we will just check the single line expression.
+		// If it is not a single line expression, the data type will no be
+		// checked. Of course even if we just check single line expression, it
+		// still will get wrong result for valid expression, but it will avoid
+		// error check in many situations.
+		// The ChartReportItemUtil.checkStringInExpression will be refactored.
+
+		boolean complexScripts = false;
+		for ( int i = 0; i < expression.length( ); i++ )
+		{
+			if ( expression.charAt( i ) == '\n'
+					&& i != ( expression.length( ) - 1 ) )
+			{
+				complexScripts = true;
+				break;
+			}
+		}
+
+		// Checks if expression contains string
+		if ( !complexScripts
+				&& ChartExpressionUtil.checkStringInExpression( expression ) )
+		{
+			return new Object[]{
+					true, DataType.TEXT_LITERAL
+			};
+		}
+
+		exprCodec.decode( expression );
+
+		// simple means one binding expression without js function
+		if ( !exprCodec.isBinding( false ) )
+		{
+			return new Object[]{
+					false, null
+			};
+		}
+
+		Object[] returnObj = new Object[2];
+		returnObj[0] = Boolean.FALSE;
+		String columnName = exprCodec.getBindingName( );
+
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
+		while ( iterator.hasNext( ) )
+		{
+			ComputedColumnHandle cc = iterator.next( );
+			if ( cc.getName( ).equalsIgnoreCase( columnName ) )
+			{
+				String dataType = cc.getDataType( );
+				if ( dataType == null )
+				{
+					continue;
+				}
+				returnObj[0] = Boolean.TRUE;
+				returnObj[1] = ChartItemUtil.convertToDataType( dataType );
+			}
+		}
+		return returnObj;
 	}
 }

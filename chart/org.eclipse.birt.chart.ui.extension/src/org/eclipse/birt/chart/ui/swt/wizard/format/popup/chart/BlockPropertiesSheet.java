@@ -14,12 +14,15 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.layout.Block;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -72,6 +75,7 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.widthHint = 300;
 		ic.setLayoutData( gdInsets );
+		ic.setDefaultInsetsValue( DefaultValueProvider.defChartWithAxes( ).getBlock( ).getInsets( ) );
 
 		grpOutline = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
@@ -79,13 +83,16 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setText( Messages.getString( "BlockPropertiesSheet.Label.Outline" ) ); //$NON-NLS-1$
 
+		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ),
-				true,
-				true,
-				true );
+				getBlockForProcessing( ).getOutline( ) );
 		liacOutline.addListener( this );
 
 		return cmpContent;
@@ -100,23 +107,30 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 	{
 		if ( event.widget.equals( this.liacOutline ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getBlockForProcessing( ).getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}

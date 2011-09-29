@@ -153,7 +153,25 @@ public final class PaletteEditorComposite extends Composite implements
 			ChartWizardContext wizardContext, Palette pa1,
 			SeriesDefinition[] vSeriesDefns, int iFillChooserStyle )
 	{
-		super( coParent, SWT.NONE );
+		this(coParent, wizardContext, pa1, vSeriesDefns, iFillChooserStyle, SWT.NONE );
+	}
+	
+	/**
+	 * Composites for series palette
+	 * 
+	 * @param coParent
+	 * @param wizardContext
+	 * @param pa1
+	 * @param vSeriesDefns
+	 * @param iFillChooserStyle
+	 *            style to decide what fill types should display in fill chooser
+	 * @param styles custom UI styles
+	 */
+	public PaletteEditorComposite( Composite coParent,
+			ChartWizardContext wizardContext, Palette pa1,
+			SeriesDefinition[] vSeriesDefns, int iFillChooserStyle, int styles )
+	{
+		super( coParent, styles );
 		this.wizardContext = wizardContext;
 		this.vSeriesDefns = vSeriesDefns;
 		this.iFillChooserStyle = iFillChooserStyle;

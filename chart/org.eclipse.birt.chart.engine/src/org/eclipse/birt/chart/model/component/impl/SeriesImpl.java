@@ -1186,6 +1186,26 @@ public class SeriesImpl extends EObjectImpl implements Series
 		setSeriesIdentifier( IConstants.UNDEFINED_STRING );
 		setDataPoint( DataPointImpl.create( null, null, ", " ) ); //$NON-NLS-1$
 	}
+	
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return series instance
+	 */
+	public static Series createDefault( )
+	{
+		final Series se = ComponentFactory.eINSTANCE.createSeries( );
+		( (SeriesImpl) se ).initDefault( );
+		return se;
+	}
+
+	protected void initDefault( )
+	{
+		label = LabelImpl.createDefault( false );
+		labelPosition = Position.OUTSIDE_LITERAL;
+		seriesIdentifier = IConstants.UNDEFINED_STRING;
+		setDataPoint( DataPointImpl.create( null, null, ", " ) ); //$NON-NLS-1$
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -1236,7 +1256,7 @@ public class SeriesImpl extends EObjectImpl implements Series
 	{
 		return false;
 	}
-
+	
 	/**
 	 * @generated
 	 */

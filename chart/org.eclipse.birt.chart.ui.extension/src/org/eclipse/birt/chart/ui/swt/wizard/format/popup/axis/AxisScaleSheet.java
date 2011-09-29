@@ -69,15 +69,15 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		// Show outside is only available in Y axis
 		if ( axisAngleType != AngleType.Y )
 		{
-			btnShowOutside.setEnabled( false );
+			cscShowOutside.setEnabled( false );
 			// Unselect 'ShowOutSide'.
-			btnShowOutside.setSelection( false );
+			cscShowOutside.select( 2 ); //False
 			getScale().setShowOutside( false );
 		}
 		else
 		{
-			btnAutoExpand.setSelection( true );
 			getScale( ).setAutoExpand( true );
+			cscAutoExpand.select( 1 );
 		}
 
 		boolean bAxisX = ( axisAngleType == AngleType.X );
@@ -86,7 +86,7 @@ public class AxisScaleSheet extends AbstractScaleSheet
 				&& !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL )
 				&& !( getAxisForProcessing( ).isCategoryAxis( ) );
 
-		btnAutoExpand.setEnabled( bEnableAutoExpand );
+		cscAutoExpand.setEnabled( bEnableAutoExpand );
 
 		if ( getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL
 				&& !getAxisForProcessing( ).isCategoryAxis( ) )

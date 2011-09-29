@@ -199,7 +199,6 @@ public class StockChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		sdX.getSeriesPalette( ).shift( 0 );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
@@ -207,7 +206,6 @@ public class StockChart extends DefaultChartTypeImpl
 		yAxis.setType( AxisType.LINEAR_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = StockSeriesImpl.create( );
 		if ( BAR_STICK_SUBTYPE_LITERAL.equals( sSubType ) )
 		{

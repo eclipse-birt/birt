@@ -17,8 +17,10 @@ import java.text.ParseException;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.render.Radar;
+import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -28,6 +30,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -46,14 +49,17 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 
 	private final RadarSeries series;
 	private static final int MAX_STEPS = 20;
-	private Button btnAutoScale = null;
+	private Combo cmbAutoScale = null;
 	private Label lblWebMax = null;
 	private Label lblWebMin = null;
 	private TextEditorComposite webMax = null;
 	private TextEditorComposite webMin = null;
 	private LineAttributesComposite wliacLine = null;
 	private Spinner iscScaleCnt = null;
-	private Button btnTranslucentBullseye = null;
+	private Combo cmbTranslucentBullseye = null;
+	private Button btnScaleCntAuto;
+	private Button btnWebMinAuto;
+	private Button btnWebMaxAuto;
 
 	public RadarLineSheet( String title, ChartWizardContext context,
 			boolean needRefresh, RadarSeries series )
@@ -73,51 +79,53 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		}
 
 		Group grpLine = new Group( cmpContent, SWT.NONE );
-		GridLayout glLine = new GridLayout( 1, false );
+		GridLayout glLine = new GridLayout( 2, false );
 		grpLine.setLayout( glLine );
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Web" ) ); //$NON-NLS-1$
-
+		
+		int lineStyles = LineAttributesComposite.ENABLE_AUTO_COLOR
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_WIDTH;
 		wliacLine = new LineAttributesComposite( grpLine,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				series.getWebLineAttributes( ),
-				true,
-				true,
-				true );
+				series.getWebLineAttributes( ) );
 		GridData wgdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
+		wgdLIACLine.horizontalSpan = 2;
 		wgdLIACLine.widthHint = 200;
 		wliacLine.setLayoutData( wgdLIACLine );
 		wliacLine.addListener( this );
 
 		GridLayout glRangeValue = new GridLayout( );
-		glRangeValue.numColumns = 2;
+		glRangeValue.numColumns = 3;
 		glRangeValue.horizontalSpacing = 2;
 		glRangeValue.verticalSpacing = 5;
 		glRangeValue.marginHeight = 0;
 		glRangeValue.marginWidth = 0;
 
-		btnAutoScale = new Button( grpLine, SWT.CHECK );
-		{
-			btnAutoScale.setText( Messages.getString( "Radar.Composite.Label.ScaleAuto" ) ); //$NON-NLS-1$
-			btnAutoScale.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleAutoTooltip" ) ); //$NON-NLS-1$
-			if ( series.isSetRadarAutoScale( ) )
-			{
-				btnAutoScale.setSelection( series.isRadarAutoScale( ) );
-			}
-			else
-			{
-				btnAutoScale.setSelection( true );
-			}
-			btnAutoScale.addListener( SWT.Selection, this );
-			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			btnAutoScale.setLayoutData( gd );
-		}
-
 		Composite cmpMinMax = new Composite( grpLine, SWT.NONE );
 		GridData gdMinMax = new GridData( GridData.FILL_HORIZONTAL );
 		cmpMinMax.setLayoutData( gdMinMax );
 		cmpMinMax.setLayout( glRangeValue );
+		
+		Label lbl = new Label(cmpMinMax, SWT.NONE );
+		lbl.setText( Messages.getString( "Radar.Composite.Label.ScaleAuto" ) ); //$NON-NLS-1$
+		
+		cmbAutoScale = UIHelper.createCombo( cmpMinMax, UIHelper.getEnableDisableComboItemds( ) );
+		{
+			GridData gd = new GridData();
+			gd.horizontalSpan = 2;
+			cmbAutoScale.setLayoutData( gd );
+			cmbAutoScale.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleAutoTooltip" ) ); //$NON-NLS-1$
+			cmbAutoScale.select( series.isSetRadarAutoScale( ) ? ( series.isRadarAutoScale( ) ? 1
+					: 2 )
+					: 0 );
+			cmbAutoScale.addListener( SWT.Selection, this );
+		}
 
 		lblWebMin = new Label( cmpMinMax, SWT.NONE );
 		{
@@ -137,6 +145,13 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMin.addListener( this );
 		}
 
+		btnWebMinAuto = new Button( cmpMinMax, SWT.CHECK );
+		btnWebMinAuto.setText( UIHelper.getAutoMessage( ) );
+		btnWebMinAuto.setSelection( !series.isSetWebLabelMin( ) );
+		webMin.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+				&& !btnWebMinAuto.getSelection( ) );
+		btnWebMinAuto.addListener( SWT.Selection, this );
+		
 		lblWebMax = new Label( cmpMinMax, SWT.NONE );
 		{
 			lblWebMax.setText( Messages.getString( "Radar.Composite.Label.ScaleMax" ) ); //$NON-NLS-1$
@@ -154,10 +169,16 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMax.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMaxToolTip" ) ); //$NON-NLS-1$
 			webMax.addListener( this );
 		}
-		lblWebMin.setEnabled( !btnAutoScale.getSelection( ) );
-		lblWebMax.setEnabled( !btnAutoScale.getSelection( ) );
-		webMin.setEnabled( !btnAutoScale.getSelection( ) );
-		webMax.setEnabled( !btnAutoScale.getSelection( ) );
+		
+		btnWebMaxAuto = new Button( cmpMinMax, SWT.CHECK );
+		btnWebMaxAuto.setText( UIHelper.getAutoMessage( ) );
+		btnWebMaxAuto.setSelection( !series.isSetWebLabelMax( ) );
+		webMax.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+				&& !btnWebMaxAuto.getSelection( ) );
+		btnWebMaxAuto.addListener( SWT.Selection, this );
+		
+		boolean enabled = cmbAutoScale.getSelectionIndex( ) == 1;
+		updateScaleUI( enabled );
 
 		Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
 		{
@@ -174,20 +195,29 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		iscScaleCnt.setSelection( series.getPlotSteps( ).intValue( ) );
 		iscScaleCnt.addListener( SWT.Selection, this );
 
-		btnTranslucentBullseye = new Button( grpLine, SWT.CHECK );
+		btnScaleCntAuto = new Button( cmpMinMax, SWT.CHECK );
+		btnScaleCntAuto.setText( UIHelper.getAutoMessage( ) );
+		btnScaleCntAuto.setSelection( !series.isSetPlotSteps( ) );
+		iscScaleCnt.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+				&& !btnScaleCntAuto.getSelection( ) );
+		btnScaleCntAuto.addListener( SWT.Selection, this );
+		
+		if ( getChart( ).getSubType( )
+					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) )
 		{
-			btnTranslucentBullseye.setText( Messages.getString( "Radar.Composite.Label.bullsEye" ) ); //$NON-NLS-1$
-			btnTranslucentBullseye.setSelection( series.isBackgroundOvalTransparent( ) );
-			btnTranslucentBullseye.addListener( SWT.Selection, this );
-
+			lbl =new Label( cmpMinMax, SWT.NONE);
+			lbl.setText(  Messages.getString( "Radar.Composite.Label.bullsEye" ) ); //$NON-NLS-1$
+			
+			cmbTranslucentBullseye = UIHelper.createTrueFalseItemsCombo( cmpMinMax );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
 			gd.verticalAlignment = SWT.TOP;
-			btnTranslucentBullseye.setLayoutData( gd );
-			btnTranslucentBullseye.setVisible( getChart( ).getSubType( )
-					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) );
+			cmbTranslucentBullseye.setLayoutData( gd );
+			cmbTranslucentBullseye.select( series.isSetBackgroundOvalTransparent( ) ? ( series.isBackgroundOvalTransparent( ) ? 1
+					: 2 )
+					: 0 );
+			cmbTranslucentBullseye.addListener( SWT.Selection, this );
 		}
-
 		return cmpContent;
 	}
 
@@ -195,22 +225,29 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 	{
 		if ( event.widget.equals( wliacLine ) )
 		{
+			boolean isUnset = ( event.detail == ChartElementUtil.PROPERTY_UNSET );
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getWebLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getWebLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
 				// enableLineSettings( series.getWebLineAttributes( ).isVisible(
 				// ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getWebLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getWebLineAttributes( ),
+						"style",//$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getWebLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getWebLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -238,23 +275,64 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMax.setText( Double.toString( tmax ) );
 
 		}
-		else if ( event.widget.equals( btnTranslucentBullseye ) )
+		else if ( event.widget.equals( cmbTranslucentBullseye ) )
 		{
-			series.setBackgroundOvalTransparent( btnTranslucentBullseye.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"backgroundOvalTransparent",//$NON-NLS-1$
+					cmbTranslucentBullseye.getSelectionIndex( ) == 1,
+					cmbTranslucentBullseye.getSelectionIndex( ) == 0 );
 		}
 		else if ( event.widget.equals( iscScaleCnt ) )
 		{
 			series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getSelection( ) ) );
 		}
-		else if ( event.widget.equals( btnAutoScale ) )
+		else if ( event.widget.equals( cmbAutoScale ) )
 		{
-
-			series.setRadarAutoScale( btnAutoScale.getSelection( ) );
-			lblWebMin.setEnabled( !btnAutoScale.getSelection( ) );
-			lblWebMax.setEnabled( !btnAutoScale.getSelection( ) );
-			webMin.setEnabled( !btnAutoScale.getSelection( ) );
-			webMax.setEnabled( !btnAutoScale.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"radarAutoScale",//$NON-NLS-1$
+					cmbAutoScale.getSelectionIndex( ) == 1,
+					cmbAutoScale.getSelectionIndex( ) == 0 );
+			
+			boolean enabled = cmbAutoScale.getSelectionIndex( ) == 1;
+			updateScaleUI( enabled );
 		}
+		else if ( event.widget == btnScaleCntAuto )
+		{
+			ChartElementUtil.setEObjectAttribute( series,
+					"plotSteps",//$NON-NLS-1$
+					BigInteger.valueOf( iscScaleCnt.getSelection( ) ),
+					btnScaleCntAuto.getSelection( ) );
+			iscScaleCnt.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+					&& !btnScaleCntAuto.getSelection( ) );
+		}
+		else if ( event.widget == btnWebMinAuto )
+		{
+			double tmin = this.getTypedDataElement( webMin.getText( ) );
+			double tmax = this.getTypedDataElement( webMax.getText( ) );
+			if ( tmin > tmax )
+				tmin = tmax;
+			ChartElementUtil.setEObjectAttribute( series, "webLabelMin", tmin, btnWebMinAuto.getSelection( ) );
+			webMin.setEnabled( !btnWebMinAuto.getSelection( ) );
+		}
+		else if ( event.widget == btnWebMaxAuto )
+		{
+			double tmin = this.getTypedDataElement( webMin.getText( ) );
+			double tmax = this.getTypedDataElement( webMax.getText( ) );
+			if ( tmax < tmin )
+				tmax = tmin;
+			ChartElementUtil.setEObjectAttribute( series, "webLabelMax", tmax, btnWebMaxAuto.getSelection( ) );
+			webMax.setEnabled( !btnWebMaxAuto.getSelection( ) );
+		}
+	}
+
+	protected void updateScaleUI( boolean enabled )
+	{
+		lblWebMin.setEnabled( enabled );
+		lblWebMax.setEnabled( enabled );
+		btnWebMinAuto.setEnabled( enabled );
+		btnWebMaxAuto.setEnabled( enabled );
+		webMin.setEnabled( enabled && !btnWebMinAuto.getSelection( ) );
+		webMax.setEnabled( enabled && !btnWebMaxAuto.getSelection( ) );
 	}
 
 	private double getTypedDataElement( String strDataElement )

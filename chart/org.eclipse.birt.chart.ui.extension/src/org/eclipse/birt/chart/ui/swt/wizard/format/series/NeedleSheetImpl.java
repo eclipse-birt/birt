@@ -69,20 +69,24 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// Interactivity
-		ITaskPopupSheet popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
-				getContext( ),
-				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-						.getTriggers( ),
-				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
-				TriggerSupportMatrix.TYPE_DATAPOINT,
-				true,
-				false );
-		Button btnInteractivity = createToggleButton( cmp,
-				BUTTON_INTERACTIVITY,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup );
-		btnInteractivity.addSelectionListener( this );
-		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
+		if ( getContext( ).isInteractivityEnabled( ) )
+		{
+			ITaskPopupSheet popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+					getContext( ),
+					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+							.getTriggers( ),
+					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
+					TriggerSupportMatrix.TYPE_DATAPOINT,
+					true,
+					false );
+			Button btnInteractivity = createToggleButton( cmp,
+					BUTTON_INTERACTIVITY,
+					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+					popup );
+			btnInteractivity.addSelectionListener( this );
+			btnInteractivity.setEnabled( getChart( ).getInteractivity( )
+					.isEnable( ) );
+		}
 	}
 
 	public void widgetSelected( SelectionEvent e )

@@ -49,7 +49,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 			int iLineStyle )
 	{
 		this( parent, style, iLineStyle, new Integer[]{
-				SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
+				0, SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
 		} );
 	}
 

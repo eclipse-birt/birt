@@ -13,11 +13,13 @@ package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -93,6 +95,39 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 		getLineAttributes( ).setVisible( false );
 
 		getMarkers( ).get( 0 ).setType( MarkerType.CROSSHAIR_LITERAL );
+	}
+	
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return
+	 */
+	public static Series createDefault( )
+	{
+		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries( );
+		( (ScatterSeriesImpl) ss ).initDefault( );
+		return ss;
+	}
+
+	/**
+	 * Initializes all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( )
+	{
+		super.initDefault( );
+		try
+		{
+			ChartElementUtil.setDefaultValue( getLineAttributes( ),
+					"visible", false ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( getMarkers( ).get( 0 ),
+					"type", MarkerType.CROSSHAIR_LITERAL ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
 	}
 
 	/*

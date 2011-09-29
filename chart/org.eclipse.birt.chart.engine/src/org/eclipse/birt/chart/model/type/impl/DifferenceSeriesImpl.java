@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
@@ -322,6 +323,42 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 		getNegativeMarkers( ).add( m );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return series instance
+	 */
+	public static final Series createDefault( )
+	{
+		final DifferenceSeries ds = TypeFactory.eINSTANCE.createDifferenceSeries( );
+		( (DifferenceSeriesImpl) ds ).initDefault( );
+		return ds;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
+	 */
+	protected void initDefault( )
+	{
+		super.initDefault( );
+
+		// Set curve line by default
+		curve = true;
+
+		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1, true );
+
+		setNegativeLineAttributes( lia );
+
+		final Marker m = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4, false );
+		LineAttributes la = LineAttributesImpl.createDefault( true );
+		m.setOutline( la );
+		getNegativeMarkers( ).add( m );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

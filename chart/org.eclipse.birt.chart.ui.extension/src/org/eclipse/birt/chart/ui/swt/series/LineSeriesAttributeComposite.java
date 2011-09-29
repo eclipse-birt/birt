@@ -22,12 +22,14 @@ import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,7 +37,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -52,23 +54,29 @@ public class LineSeriesAttributeComposite extends Composite
 			Listener
 {
 
-	private transient Button btnCurve = null;
-
-	private transient Button btnMissingValue = null;
-
-	private transient Button btnPalette = null;
-
 	private transient Label lblShadow;
 
 	private transient FillChooserComposite fccShadow = null;
 
-	private transient Group grpLine = null;
+	protected transient Group grpLine = null;
 
 	private transient LineAttributesComposite liacLine = null;
 
-	private transient Series series = null;
+	protected transient Series series = null;
 
-	private transient ChartWizardContext context;
+	protected transient ChartWizardContext context;
+
+	private Label lblPalette;
+
+	private Combo cmbPalette;
+
+	private Label lblCurve;
+
+	private Combo cmbCurve;
+
+	private Label lblMissingValue;
+
+	private Combo cmbMissingValue;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -122,19 +130,25 @@ public class LineSeriesAttributeComposite extends Composite
 				getParent( ).getClientArea( ).height );
 	}
 
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		// Main content composite
 		this.setLayout( new GridLayout( ) );
-		
 		grpLine = new Group( this, SWT.NONE );
-		GridLayout glLine = new GridLayout( 2, false );
+		GridLayout glLine = new GridLayout( 2, true );
 		glLine.horizontalSpacing = 0;
 		grpLine.setLayout( glLine );	
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
+		initUIComponents( grpLine );
+		enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
+				.isVisible( ) );
+	}
 
-		Composite cmpLine = new Composite( grpLine, SWT.NONE );
+	protected void initUIComponents( Composite parent  )
+	{
+
+		Composite cmpLine = new Composite( parent, SWT.NONE );
 		{
 			GridLayout gl = new GridLayout( 2, false );
 			gl.marginHeight = 0;
@@ -145,15 +159,16 @@ public class LineSeriesAttributeComposite extends Composite
 			cmpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 		
+		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacLine = new LineAttributesComposite( cmpLine,
 				SWT.NONE,
+				lineStyles,
 				context,
-				( (LineSeries) series ).getLineAttributes( ),
-				true,
-				true,
-				true,
-				true,
-				true );
+				( (LineSeries) series ).getLineAttributes( ) );
 		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLine.horizontalSpan = 2;
 		liacLine.setLayoutData( gdLIACLine );
@@ -178,7 +193,8 @@ public class LineSeriesAttributeComposite extends Composite
 
 			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
 					| FillChooserComposite.ENABLE_TRANSPARENT
-					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+					| FillChooserComposite.ENABLE_AUTO;
 
 			fccShadow = new FillChooserComposite( cmpShadow,
 					SWT.DROP_DOWN | SWT.READ_ONLY,
@@ -192,34 +208,42 @@ public class LineSeriesAttributeComposite extends Composite
 		}
 
 		Composite cmp = new Composite( grpLine, SWT.NONE );
-		cmp.setLayout( new GridLayout( ) );
+		GridLayout gl = new GridLayout( 2, false ) ;
+		cmp.setLayout( gl );
 
-		btnPalette = new Button( cmp, SWT.CHECK );
+		lblPalette = new Label(cmp, SWT.NONE );
+		lblPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+		cmbPalette = ChartUIExtensionUtil.createCombo( cmp, ChartUIExtensionUtil.getTrueFalseComboItems( ) );
 		{
-			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
-			btnPalette.addSelectionListener( this );
+			cmbPalette.select( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? 1
+					: 2 )
+					: 0 );
+			cmbPalette.addSelectionListener( this );
+		}
+		
+		lblCurve = new Label(cmp, SWT.NONE );
+		lblCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
+		
+		cmbCurve = ChartUIExtensionUtil.createCombo( cmp, ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		{
+			cmbCurve.select( ( (LineSeries) series ).isSetCurve( ) ? ( ( (LineSeries) series ).isCurve( ) ? 1
+					: 2 )
+					: 0 );
+			cmbCurve.addSelectionListener( this );
 		}
 
-		btnCurve = new Button( cmp, SWT.CHECK );
+		if ( !( series instanceof AreaSeries && ( series.isSetStacked( ) && series.isStacked( ) ) ) )
 		{
-			btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-			btnCurve.setSelection( ( (LineSeries) series ).isCurve( ) );
-			btnCurve.addSelectionListener( this );
-		}
-
-		if ( !( series instanceof AreaSeries &&(series.isStacked( ))) )
-		{
-			btnMissingValue = new Button( cmp, SWT.CHECK );
+			lblMissingValue = new Label(cmp, SWT.NONE );
+			lblMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
+			cmbMissingValue = ChartUIExtensionUtil.createCombo( cmp, ChartUIExtensionUtil.getTrueFalseComboItems( ) );
 			{
-				btnMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
-				btnMissingValue.setSelection( ( (LineSeries) series ).isConnectMissingValue( ) );
-				btnMissingValue.addSelectionListener( this );
+				cmbMissingValue.select( ( (LineSeries) series ).isSetConnectMissingValue( ) ? ( ( (LineSeries) series ).isConnectMissingValue( ) ? 1
+						: 2 )
+						: 0 );
+				cmbMissingValue.addSelectionListener( this );
 			}
 		}
-
-		enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
-				.isVisible( ) );
 	}
 
 	public Point getPreferredSize( )
@@ -234,17 +258,26 @@ public class LineSeriesAttributeComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( btnCurve ) )
+		if ( e.widget == cmbCurve )
 		{
-			( (LineSeries) series ).setCurve( btnCurve.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"curve", //$NON-NLS-1$
+					cmbCurve.getSelectionIndex( ) == 1,
+					cmbCurve.getSelectionIndex( ) == 0 );
 		}
-		else if ( e.getSource( ).equals( btnPalette ) )
+		else if ( e.widget == cmbPalette )
 		{
-			( (LineSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"paletteLineColor", //$NON-NLS-1$
+					cmbPalette.getSelectionIndex( ) == 1,
+					cmbPalette.getSelectionIndex( ) == 0 );
 		}
-		else if ( e.getSource( ).equals( btnMissingValue ) )
+		else if ( e.widget == cmbMissingValue )
 		{
-			( (LineSeries) series ).setConnectMissingValue( btnMissingValue.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"connectMissingValue", //$NON-NLS-1$
+					cmbMissingValue.getSelectionIndex( ) == 1,
+					cmbMissingValue.getSelectionIndex( ) == 0 );
 		}
 	}
 
@@ -264,24 +297,34 @@ public class LineSeriesAttributeComposite extends Composite
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacLine ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (LineSeries) series ).getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				ChartElementUtil.setEObjectAttribute( ( (LineSeries) series ).getLineAttributes( ),
+						"visible", //$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				
 				enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
-						.isVisible( ) );
+						.isSetVisible( )
+						&& ( (LineSeries) series ).getLineAttributes( )
+								.isVisible( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (LineSeries) series ).getLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( ( (LineSeries) series ).getLineAttributes( ),
+						"style", //$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (LineSeries) series ).getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( ( (LineSeries) series ).getLineAttributes( ),
+						"thickness", //$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -301,7 +344,7 @@ public class LineSeriesAttributeComposite extends Composite
 				&& context.getModel( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
 	}
 
-	private void enableLineSettings( boolean isEnabled )
+	protected void enableLineSettings( boolean isEnabled )
 	{
 		if ( lblShadow != null )
 		{
@@ -311,15 +354,18 @@ public class LineSeriesAttributeComposite extends Composite
 		{
 			fccShadow.setEnabled( isEnabled );
 		}
-		if ( btnPalette != null )
+		if ( cmbPalette != null )
 		{
-			btnPalette.setEnabled( isEnabled );
+			lblPalette.setEnabled( isEnabled );
+			cmbPalette.setEnabled( isEnabled );
 		}
-		if ( btnMissingValue != null )
+		if ( cmbMissingValue != null )
 		{
-			btnMissingValue.setEnabled( isEnabled );
+			lblMissingValue.setEnabled( isEnabled );
+			cmbMissingValue.setEnabled( isEnabled );
 		}
-		btnCurve.setEnabled( isEnabled );
+		lblCurve.setEnabled( isEnabled );
+		cmbCurve.setEnabled( isEnabled );
 	}
 
 }

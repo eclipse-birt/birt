@@ -1268,6 +1268,63 @@ public class DialImpl extends EObjectImpl implements Dial
 	}
 
 	/**
+	 * @return
+	 */
+	public static final Dial createDefault( )
+	{
+		final Dial dl = ComponentFactory.eINSTANCE.createDial( );
+		( (DialImpl) dl ).initDefault( );
+		return dl;
+	}
+
+	/**
+	 * 
+	 */
+	protected final void initDefault( )
+	{
+		// Outline
+		LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1 );
+		setLineAttributes( lia );
+
+		// Label
+		Label lb = LabelImpl.createDefault( );
+		setLabel( lb );
+
+		// MAJOR GRID
+		Grid gr = ComponentFactory.eINSTANCE.createGrid( );
+		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 196,
+				196,
+				196 ), LineStyle.SOLID_LITERAL, 1 );
+		gr.setLineAttributes( lia );
+		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 196,
+				196,
+				196 ), LineStyle.SOLID_LITERAL, 1 );
+		gr.setTickAttributes( lia );
+		( (GridImpl) gr ).tickStyle = TickStyle.BELOW_LITERAL;
+		setMajorGrid( gr );
+
+		// MINOR GRID
+		gr = ComponentFactory.eINSTANCE.createGrid( );
+		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 225,
+				225,
+				225 ), LineStyle.SOLID_LITERAL, 1, false );
+		gr.setLineAttributes( lia );
+		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 225,
+				225,
+				225 ), LineStyle.SOLID_LITERAL, 1, false );
+		gr.setTickAttributes( lia );
+		( (GridImpl) gr ).tickStyle = TickStyle.BELOW_LITERAL;
+		setMinorGrid( gr );
+
+		// SCALE
+		Scale sc = ComponentFactory.eINSTANCE.createScale( );
+		((ScaleImpl)sc).minorGridsPerUnit = 5;
+		setScale( sc );
+	}
+	
+	/**
 	 * @generated
 	 */
 	public Dial copyInstance( )

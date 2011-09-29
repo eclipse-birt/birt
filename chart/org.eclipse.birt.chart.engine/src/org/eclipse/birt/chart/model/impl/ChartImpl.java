@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -42,6 +43,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -53,6 +55,7 @@ import org.eclipse.birt.chart.model.layout.impl.BlockImpl;
 import org.eclipse.birt.chart.model.layout.impl.LegendImpl;
 import org.eclipse.birt.chart.model.layout.impl.PlotImpl;
 import org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.notify.Notification;
@@ -1439,6 +1442,90 @@ public class ChartImpl extends EObjectImpl implements Chart
 				.updateExtendedProperties( getExtendedProperties( ) );
 	}
 
+	/**
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( )
+	{
+		version = VERSION;
+		// 1. CREATE AND INITIALIZE BLOCKS
+		block = BlockImpl.createDefault( ); // OUTERMOST BLOCK
+		// block.setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
+		// TED 12117-- default background is white color.
+		// block.setBackground( ColorDefinitionImpl.WHITE( ) );
+
+		TitleBlock tb = (TitleBlock) TitleBlockImpl.createDefault( ); // TITLE
+		Plot pl = (Plot) PlotImpl.createDefault( ); // PLOT
+		Legend lg = (Legend) LegendImpl.createDefault( ); // LEGEND
+
+		// 2. ADD THEM TO THE LAYOUT
+		block.add( tb );
+		block.add( pl );
+		block.add( lg );
+
+		// 3. INITIALIZE THE CHART TITLE
+		Text txtChartTitle = tb.getLabel( ).getCaption( );
+		txtChartTitle.setValue( Messages.getString("ChartImpl.ChartTitle") ); //$NON-NLS-1$
+		try
+		{
+			ChartElementUtil.setDefaultValue( txtChartTitle.getFont( ), "size", 16 ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( txtChartTitle.getFont( ), "bold", true ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
+		
+		TextAlignment taTitle = TextAlignmentImpl.createDefault( HorizontalAlignment.CENTER_LITERAL,
+				VerticalAlignment.CENTER_LITERAL );
+		txtChartTitle.getFont( ).setAlignment( taTitle );
+
+		// 4. SETUP OTHER BASIC PROPERTIES
+		dimension = ChartDimension.TWO_DIMENSIONAL_LITERAL;
+		seriesThickness = 10;
+
+		// 5. SETUP INTERACTIVITY
+		interactivity = InteractivityImpl.create( );
+
+		// 6. SETUP ALTTEXT
+		setEmptyMessage( newEmptyMessageDefault( ) );
+
+		// 7. Setup default extended properties
+		ChartModelHelper.instance( )
+				.updateExtendedProperties( getExtendedProperties( ) );
+	}
+	
+	private Label newEmptyMessageDefault( )
+	{
+		Label laAltText = LabelImpl.createDefault( false );
+
+		laAltText.setCaption( TextImpl.createDefault( Messages.getString( "ChartImpl.AltText" ) ) ); //$NON-NLS-1$
+		laAltText.getCaption( )
+				.getFont( )
+				.setAlignment( TextAlignmentImpl.createDefault( HorizontalAlignment.CENTER_LITERAL,
+						VerticalAlignment.CENTER_LITERAL ) );
+
+		ColorDefinition bgColor = ColorDefinitionImpl.GREY( );
+		try
+		{
+			ChartElementUtil.setDefaultValue( bgColor, "transparency", 64 ); //$NON-NLS-1$
+			laAltText.setBackground( bgColor );
+			laAltText.setInsets( InsetsImpl.createDefault( 10, 10, 10, 10 ) );
+
+			ColorDefinition outlineColor = ColorDefinitionImpl.GREY( );
+			ChartElementUtil.setDefaultValue( outlineColor, "transparency", 128 ); //$NON-NLS-1$
+			LineAttributes lia = AttributeFactory.eINSTANCE.createLineAttributes( );
+			lia.setColor( outlineColor );
+			ChartElementUtil.setDefaultValue( lia, "visible", true ); //$NON-NLS-1$
+			laAltText.setOutline( lia );
+		}
+		catch ( ChartException e )
+		{
+		}
+		return laAltText;
+	}
+	
 	private Label newEmptyMessage( )
 	{
 		Label laAltText = ComponentFactory.eINSTANCE.createLabel( );

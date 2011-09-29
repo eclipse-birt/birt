@@ -98,7 +98,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ChartUIUtil
 {
-
 	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
 
 	public static final String[] FONT_SIZES = new String[]{
@@ -199,16 +198,7 @@ public class ChartUIUtil
 	public static Query getDataQuery( SeriesDefinition seriesDefn,
 			int queryIndex )
 	{
-		if ( seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).size( ) <= queryIndex )
-		{
-			Query query = QueryImpl.create( "" ); //$NON-NLS-1$
-			query.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
-			seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
-			return query;
-		}
-		return seriesDefn.getDesignTimeSeries( )
-				.getDataDefinition( )
-				.get( queryIndex );
+		return ChartUtil.getDataQuery( seriesDefn, queryIndex );
 	}
 
 	/**
@@ -242,18 +232,7 @@ public class ChartUIUtil
 
 	public static int getOrthogonalAxisNumber( Chart chart )
 	{
-		if ( chart instanceof ChartWithAxes )
-		{
-			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.getAssociatedAxes( );
-			return axisList.size( );
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			return 1;
-		}
-		return 0;
+		return ChartUtil.getOrthogonalAxisNumber( chart );
 	}
 
 	/**
@@ -269,20 +248,7 @@ public class ChartUIUtil
 	public static EList<SeriesDefinition> getOrthogonalSeriesDefinitions(
 			Chart chart, int axisIndex )
 	{
-		if ( chart instanceof ChartWithAxes )
-		{
-			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.getAssociatedAxes( );
-			return axisList.get( axisIndex ).getSeriesDefinitions( );
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 )
-					.getSeriesDefinitions( );
-		}
-		return null;
+		return ChartUtil.getOrthogonalSeriesDefinitions( chart, axisIndex );
 	}
 
 	/**
@@ -788,10 +754,6 @@ public class ChartUIUtil
 			dds.get( i ).setDefinition( "" ); //$NON-NLS-1$
 		}
 		
-		// Shift the color in palette so that new axis can look different
-		sdOverlay.getSeriesPalette( )
-				.shift( -xAxis.getAssociatedAxes( ).size( ) );
-
 		// Update the sample values for the new overlay series
 		SampleData sd = chartModel.getSampleData( );
 		// Create a new OrthogonalSampleData instance from the existing
@@ -1240,7 +1202,7 @@ public class ChartUIUtil
 	public static Position getFlippedPosition( Position position,
 			boolean isFlippedAxes )
 	{
-		if ( isFlippedAxes )
+		if ( position != null && isFlippedAxes )
 		{
 			switch ( position.getValue( ) )
 			{
@@ -1904,6 +1866,16 @@ public class ChartUIUtil
 		}
 	}
 
+	/**
+	 * Returns all chart type instances.
+	 * 
+	 * @return
+	 */
+	public static Iterator<IChartType> getChartTypeInstancesIterator()
+	{
+		return htTypes.values( ).iterator( );
+	}
+	
 	public static Iterator<String> getChartTypeNameIterator( )
 	{
 		return htTypes.keySet( ).iterator( );

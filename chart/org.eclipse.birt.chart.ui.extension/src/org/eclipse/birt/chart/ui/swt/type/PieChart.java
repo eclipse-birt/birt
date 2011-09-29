@@ -157,7 +157,6 @@ public class PieChart extends DefaultChartTypeImpl
 		}
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
@@ -168,7 +167,6 @@ public class PieChart extends DefaultChartTypeImpl
 				.setValue( getDefaultTitle( ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = getSeries( );
 		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
@@ -492,5 +490,10 @@ public class PieChart extends DefaultChartTypeImpl
 	{
 		return Messages.getString("PieLeftAreaComponent.Label.SliceSizeDefinition"); //$NON-NLS-1$
 	}
-
+	
+	@Override
+	public boolean isChartWithAxes( )
+	{
+		return false;
+	}
 }

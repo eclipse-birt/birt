@@ -1833,6 +1833,45 @@ public class BlockImpl extends EObjectImpl implements Block
 	}
 
 	/**
+	 * A convenience method to create an initialized 'Block' instance
+	 * 
+	 * Note: Manually written
+	 * 
+	 * @return
+	 */
+	public static Block createDefault( )
+	{
+		final Block bl = LayoutFactory.eINSTANCE.createBlock( );
+		( (BlockImpl) bl ).initDefault( );
+		return bl;
+	}
+
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( )
+	{
+		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1, false );
+		setOutline( lia );
+
+		final Bounds bo = BoundsImpl.createDefault( 0, 0, 0, 0 );
+		setBounds( bo );
+
+		final Insets i = InsetsImpl.createDefault( 3, 3, 3, 3 );
+		setInsets( i );
+
+		row = -1;
+		column = -1;
+		rowspan = -1;
+		columnspan = -1;
+		visible = true;
+	}
+	
+	/**
 	 * @generated
 	 */
 	public Block copyInstance( )

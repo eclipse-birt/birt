@@ -387,6 +387,31 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		setVisible( true );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return series instance
+	 */
+	public static final Series createDefault( )
+	{
+		final BarSeries bs = TypeFactory.eINSTANCE.createBarSeries( );
+		( (BarSeriesImpl) bs ).initDefault( );
+		return bs;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.type.BarSeries#initialize()
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+		riserOutline = null;
+		riser = RiserType.RECTANGLE_LITERAL;
+		visible = true;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

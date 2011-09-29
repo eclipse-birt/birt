@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.PlotClientAreaSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -27,6 +28,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -41,10 +43,10 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	private Button btnIncludingVisible;
-
-	private Button btnWithinVisible;
-
+	private Combo cmbIncludingVisible;
+	
+	private Combo cmbWithinVisible;
+	
 	private FillChooserComposite cmbBlockColor;
 
 	private FillChooserComposite cmbClientAreaColor;
@@ -79,9 +81,16 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
-		cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
-				.getBackground( ), true, true );
+		int fillStyles = FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		cmbBlockColor = new FillChooserComposite( cmpBasic,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				fillStyles,
+				getContext( ),
+				getChart( ).getPlot( ).getBackground( ) );
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 200;
@@ -91,14 +100,14 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
 
-		btnIncludingVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnIncludingVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnIncludingVisible.addSelectionListener( this );
-			btnIncludingVisible.setSelection( getChart( ).getPlot( )
-					.getOutline( )
-					.isVisible( ) );
-		}
+		cmbIncludingVisible = ChartUIExtensionUtil.createCombo( cmpBasic,
+				ChartUIExtensionUtil.getShowHideComboItems( ) );
+		cmbIncludingVisible.select( getChart( ).getPlot( )
+				.getOutline( )
+				.isSetVisible( ) ? ( getChart( ).getPlot( )
+				.getOutline( )
+				.isVisible( ) ? 1 : 2 ) : 0 );
+		cmbIncludingVisible.addSelectionListener( this );
 
 		Label lblWithinAxes = new Label( cmpBasic, SWT.NONE );
 		{
@@ -116,10 +125,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 			cmbClientAreaColor = new FillChooserComposite( cmpBasic,
 					SWT.DROP_DOWN | SWT.READ_ONLY,
+					fillStyles,
 					getContext( ),
-					getChart( ).getPlot( ).getClientArea( ).getBackground( ),
-					true,
-					true );
+					getChart( ).getPlot( ).getClientArea( ).getBackground( ) );
 			{
 				GridData gridData = new GridData( );
 				gridData.widthHint = 200;
@@ -136,20 +144,21 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			lblVisibleWithin.setEnabled( is3DWallFloorSet );
 		}
 
-		btnWithinVisible = new Button( cmpBasic, SWT.CHECK );
+		cmbWithinVisible = ChartUIExtensionUtil.createCombo( cmpBasic,
+				ChartUIExtensionUtil.getShowHideComboItems( ) );
+		cmbWithinVisible.select( getChart( ).getPlot( )
+				.getClientArea( )
+				.getOutline( )
+				.isSetVisible( ) ? ( getChart( ).getPlot( )
+				.getClientArea( )
+				.getOutline( )
+				.isVisible( ) ? 1 : 2 ) : 0 );
+		cmbWithinVisible.setEnabled( is3DWallFloorSet );
+		if ( !cmbWithinVisible.getEnabled( ) )
 		{
-			btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible2" ) ); //$NON-NLS-1$
-			btnWithinVisible.addSelectionListener( this );
-			btnWithinVisible.setSelection( getChart( ).getPlot( )
-					.getClientArea( )
-					.getOutline( )
-					.isVisible( ) );
-			btnWithinVisible.setEnabled( is3DWallFloorSet );
-			if ( !btnWithinVisible.getEnabled( ) )
-			{
-				btnWithinVisible.setSelection( false );
-			}
+			cmbWithinVisible.select( 2 ); // Hide for 3D
 		}
+		cmbWithinVisible.addSelectionListener( this );
 
 		// This control is only for testing chart engine and not exposed in UI
 		final Button btnCV = new Button( cmpBasic, SWT.CHECK );
@@ -234,19 +243,36 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
-		if ( e.widget.equals( btnIncludingVisible ) )
+		if ( e.widget.equals( cmbIncludingVisible ) )
 		{
-			getChart( ).getPlot( )
-					.getOutline( )
-					.setVisible( ( (Button) e.widget ).getSelection( ) );
+			if ( cmbIncludingVisible.getSelectionIndex( ) == 0 )
+			{
+				getChart( ).getPlot( ).getOutline( ).unsetVisible( );
+			}
+			else
+			{
+				getChart( ).getPlot( )
+						.getOutline( )
+						.setVisible( ( (Combo) e.widget ).getSelectionIndex( ) == 1 );
+			}
 			refreshPopupSheet( );
 		}
-		else if ( e.widget.equals( btnWithinVisible ) )
+		else if ( e.widget.equals( cmbWithinVisible ) )
 		{
-			getChart( ).getPlot( )
-					.getClientArea( )
-					.getOutline( )
-					.setVisible( ( (Button) e.widget ).getSelection( ) );
+			if ( cmbWithinVisible.getSelectionIndex( ) == 0 )
+			{
+				getChart( ).getPlot( )
+						.getClientArea( )
+						.getOutline( )
+						.unsetVisible( );
+			}
+			else
+			{
+				getChart( ).getPlot( )
+						.getClientArea( )
+						.getOutline( )
+						.setVisible( ( (Combo) e.widget ).getSelectionIndex( ) == 1 );
+			}
 			refreshPopupSheet( );
 		}
 

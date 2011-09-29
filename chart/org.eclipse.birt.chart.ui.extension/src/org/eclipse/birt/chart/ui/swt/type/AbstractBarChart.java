@@ -375,7 +375,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		sdX.getSeriesPalette( ).shift( 0 );
 		( newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
@@ -391,7 +390,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = getSeries( );
 
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
@@ -448,7 +446,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					.setRotation( 0 );
 
 			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).shift( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 		}
@@ -750,7 +747,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					.add( zAxisAncillary );
 
 			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).shift( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 

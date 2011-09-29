@@ -591,6 +591,42 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	}
 
 	/**
+	 * A convenient method that facilitates implicit initialization of member
+	 * variables in creation of an instance.
+	 * 
+	 * Note: Manually written
+	 * 
+	 * @param cd
+	 * @param ls
+	 * @param iThickness
+	 * 
+	 * @return
+	 */
+	public static final LineAttributes createDefault( ColorDefinition cd,
+			LineStyle ls, int iThickness )
+	{
+		return createDefault( cd, ls, iThickness, false );
+	}
+	
+	public static final LineAttributes createDefault( boolean visible )
+	{
+		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
+		((LineAttributesImpl)la).visible = visible;
+		return la;
+	}
+	
+	public static final LineAttributes createDefault( ColorDefinition cd,
+			LineStyle ls, int iThickness, boolean visible )
+	{
+		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
+		( (LineAttributesImpl) la ).color = cd;
+		( (LineAttributesImpl) la ).style = ls;
+		( (LineAttributesImpl) la ).thickness = iThickness;
+		( (LineAttributesImpl) la ).visible = visible;
+		return la;
+	}
+	
+	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */

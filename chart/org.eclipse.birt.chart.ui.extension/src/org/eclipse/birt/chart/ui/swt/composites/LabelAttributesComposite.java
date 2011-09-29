@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -26,6 +29,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
@@ -35,7 +39,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -57,8 +60,8 @@ public class LabelAttributesComposite extends Composite implements
 	private transient Composite grpAttributes = null;
 
 	private transient Group grpOutline = null;
-
-	private transient Button cbVisible = null;
+	
+	private Combo cmbVisible = null;
 
 	private transient Label lblLabel = null;
 
@@ -143,6 +146,8 @@ public class LabelAttributesComposite extends Composite implements
 	private transient ChartWizardContext wizardContext;
 
 	private transient LabelAttributesContext attributesContext;
+
+	private org.eclipse.birt.chart.model.component.Label defLabel;
 
 	/**
 	 * 
@@ -366,16 +371,19 @@ public class LabelAttributesComposite extends Composite implements
 		boolean bEnableUI = bEnabled && this.lblCurrent.isVisible( );
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			cbVisible = new Button( cmpGeneral, SWT.CHECK );
+			Label lbl = new Label(cmpGeneral, SWT.NONE );
+			lbl.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+			
+			cmbVisible = ChartUIExtensionUtil.createTrueFalseItemsCombo( cmpGeneral );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
-			gdCBVisible.horizontalSpan = 2;
-			cbVisible.setLayoutData( gdCBVisible );
-			cbVisible.setSelection( this.lblCurrent.isVisible( ) );
-			cbVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-			cbVisible.addSelectionListener( this );
+			cmbVisible.setLayoutData( gdCBVisible );
+			cmbVisible.select( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? 1
+					: 2 )
+					: 0 );
+			cmbVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = cbVisible.getSelection( );
+				bEnableUI = ( cmbVisible.getSelectionIndex( ) == 1 );
 			}
 		}
 
@@ -445,14 +453,17 @@ public class LabelAttributesComposite extends Composite implements
 		lblFill.setLayoutData( gdLFill );
 		lblFill.setText( Messages.getString( "LabelAttributesComposite.Lbl.Background" ) ); //$NON-NLS-1$
 		lblFill.setEnabled( bEnableUI );
-
+		
+		int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.ENABLE_AUTO;
+		
 		fccBackground = new FillChooserComposite( cmpGeneral,
 				SWT.NONE,
+				iFillOption,
 				wizardContext,
-				fBackground,
-				false,
-				false,
-				false );
+				fBackground );
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
@@ -466,9 +477,6 @@ public class LabelAttributesComposite extends Composite implements
 			lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
 			lblShadow.setEnabled( bEnableUI );
 
-			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
-					| FillChooserComposite.ENABLE_TRANSPARENT
-					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 
 			fccShadow = new FillChooserComposite( cmpGeneral, SWT.DROP_DOWN
 					| SWT.READ_ONLY, iFillOption, wizardContext, cdShadow );
@@ -487,13 +495,16 @@ public class LabelAttributesComposite extends Composite implements
 		grpOutline.setLayout( flOutline );
 		grpOutline.setEnabled( bEnableUI );
 
+		int optionalStyles = LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				optionalStyles,
 				wizardContext,
-				laCurrent,
-				true,
-				true,
-				true );
+				laCurrent );
 		liacOutline.addListener( this );
 		liacOutline.setAttributesEnabled( bEnableUI );
 
@@ -509,6 +520,10 @@ public class LabelAttributesComposite extends Composite implements
 			icInsets.addListener( this );
 			icInsets.setLayoutData( gdICInsets );
 			icInsets.setEnabled( bEnableUI );
+			if ( defLabel != null )
+			{
+				icInsets.setDefaultInsetsValue( defLabel.getInsets( ) );
+			}
 		}
 
 		populateLists( );
@@ -519,8 +534,8 @@ public class LabelAttributesComposite extends Composite implements
 		boolean bEnableUI = true;
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			bEnableUI = cbVisible.getSelection( );
-			cbVisible.setEnabled( bState );
+			bEnableUI = ( cmbVisible.getSelectionIndex( ) == 1 );
+			cmbVisible.setEnabled( bState );
 		}
 
 		setVisibleState( bState & bEnableUI );
@@ -538,9 +553,12 @@ public class LabelAttributesComposite extends Composite implements
 	{
 		if ( attributesContext.isPositionEnabled )
 		{
-			cmbPosition.setItems( ChartUIUtil.getPositionDisplayNames( positionScope,
+			String[] names = ChartUIUtil.getPositionDisplayNames( positionScope,
 					( isAxisAttribute( ) || isSeriesAttribute( ) )
-							&& isFlippedAxes( ) ) );
+							&& isFlippedAxes( ) );
+			List<String> listNames = new ArrayList<String>( Arrays.asList( names ) );
+			listNames.add( 0, ChartUIExtensionUtil.getAutoMessage( ) );
+			cmbPosition.setItems( listNames.toArray( new String[]{} ) );
 			if ( lpCurrent != null )
 			{
 				String positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
@@ -554,6 +572,10 @@ public class LabelAttributesComposite extends Composite implements
 						cmbPosition.select( i );
 					}
 				}
+			}
+			else
+			{
+				cmbPosition.select( 0 ); // Auto case.
 			}
 		}
 	}
@@ -569,8 +591,10 @@ public class LabelAttributesComposite extends Composite implements
 		// update the UI
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			this.cbVisible.setSelection( lblCurrent.isVisible( ) );
-			setVisibleState( cbVisible.getSelection( ) && cbVisible.isEnabled( ) );
+			cmbVisible.select( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? 1
+					: 2 )
+					: 0 );
+			setVisibleState( ( cmbVisible.getSelectionIndex( ) == 1) && cmbVisible.isEnabled( ) );
 		}
 
 		if ( attributesContext.isLabelEnabled )
@@ -610,15 +634,22 @@ public class LabelAttributesComposite extends Composite implements
 		this.lpCurrent = pos;
 		if ( attributesContext.isPositionEnabled )
 		{
-			if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+			if ( lpCurrent == null )
 			{
-				this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( ChartUIUtil.getFlippedPosition( lpCurrent,
-						isFlippedAxes( ) )
-						.getName( ) ) );
+				cmbPosition.select( 0 );
 			}
 			else
 			{
-				this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( lpCurrent.getName( ) ) );
+				if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+				{
+					this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( ChartUIUtil.getFlippedPosition( lpCurrent,
+							isFlippedAxes( ) )
+							.getName( ) ) );
+				}
+				else
+				{
+					this.cmbPosition.setText( LiteralHelper.fullPositionSet.getDisplayNameByName( lpCurrent.getName( ) ) );
+				}
 			}
 		}
 	}
@@ -657,13 +688,22 @@ public class LabelAttributesComposite extends Composite implements
 				eLabel.data = Position.getByName( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) );
 			}
 			eLabel.type = POSITION_CHANGED_EVENT;
+			if ( cmbPosition.getSelectionIndex( ) == 0 )
+			{
+				// Unset position, auto case.
+				eLabel.detail = ChartUIExtensionUtil.PROPERTY_UNSET;
+			}	
+			else
+			{
+				eLabel.detail = ChartUIExtensionUtil.PROPERTY_UPDATE;
+			}
 		}
-		else if ( e.getSource( ).equals( cbVisible ) )
+		else if ( e.widget == cmbVisible )
 		{
-			eLabel.data = Boolean.valueOf( cbVisible.getSelection( ) );
+			eLabel.data = Boolean.valueOf( cmbVisible.getSelectionIndex( ) == 1);
 			eLabel.type = VISIBILITY_CHANGED_EVENT;
 
-			setVisibleState( cbVisible.getSelection( ) );
+			setVisibleState( cmbVisible.getSelectionIndex( ) == 1);
 		}
 		fireEvent( eLabel );
 	}
@@ -773,6 +813,7 @@ public class LabelAttributesComposite extends Composite implements
 			eLabel.type = LABEL_CHANGED_EVENT;
 		}
 		eLabel.data = event.data;
+		eLabel.detail = event.detail;
 		fireEvent( eLabel );
 	}
 
@@ -792,5 +833,11 @@ public class LabelAttributesComposite extends Composite implements
 	{
 		return ( wizardContext.getModel( ) instanceof ChartWithAxes )
 				&& ( lblCurrent.eContainer( ) instanceof Series );
+	}
+	
+	public void setDefaultLabelValue(org.eclipse.birt.chart.model.component.Label label)
+	{
+		this.defLabel = label;
+		icInsets.setDefaultInsetsValue( defLabel.getInsets( ) );
 	}
 }

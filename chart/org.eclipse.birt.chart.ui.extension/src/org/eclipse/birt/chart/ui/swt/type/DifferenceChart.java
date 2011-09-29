@@ -174,7 +174,6 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		sdX.getSeriesPalette( ).shift( 0 );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		newChart.getTitle( )
@@ -187,7 +186,6 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		yAxis.setType( AxisType.LINEAR_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = DifferenceSeriesImpl.create( );
 		( (DifferenceSeries) valueSeries ).getMarkers( ).get( 0 ).setVisible( false );
 		( (DifferenceSeries) valueSeries ).getLineAttributes( )

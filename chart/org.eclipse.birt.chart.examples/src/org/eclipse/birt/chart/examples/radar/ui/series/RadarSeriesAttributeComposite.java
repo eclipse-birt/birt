@@ -14,12 +14,14 @@ package org.eclipse.birt.chart.examples.radar.ui.series;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl;
+import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
@@ -29,7 +31,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -44,10 +46,6 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		Listener
 {
 
-	private Button btnPalette = null;
-	private Button btnFillPoly = null;
-	private Button btnConnectEndPoints = null;
-
 	private MarkerEditorComposite mec = null;
 
 	private RadarSeries series = null;
@@ -55,6 +53,17 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	private ChartWizardContext context;
 
 	private LineAttributesComposite liacLine = null;
+	private Label lblPalette;
+
+	private Combo cmbPalette;
+
+	private Label lblConnectEndPoints;
+
+	private Combo cmbConnectEndPoints;
+
+	private Label lblFillPoly;
+
+	private Combo cmbFillPoly;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/swt.series" ); //$NON-NLS-1$
 	
@@ -112,13 +121,16 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		grpLine2.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine2.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Series" ) ); //$NON-NLS-1$
 
+		int lineStyles = LineAttributesComposite.ENABLE_AUTO_COLOR
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_WIDTH;
 		liacLine = new LineAttributesComposite( grpLine2,
 				SWT.NONE,
+				lineStyles,
 				context,
-				series.getLineAttributes( ),
-				true,
-				true,
-				true );
+				series.getLineAttributes( ) );
 		GridData gdLIACLine = new GridData( );
 		gdLIACLine.verticalSpan = 4;
 		gdLIACLine.widthHint = 200;
@@ -127,29 +139,48 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 		Composite cmp = new Composite( grpLine2, SWT.NONE );
 		cmp.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		cmp.setLayout( new GridLayout( ) );
+		cmp.setLayout( new GridLayout(2, false) );
 
-		btnPalette = new Button( cmp, SWT.CHECK );
+		lblPalette = new Label( cmp, SWT.NONE );
+		lblPalette.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+		
+		cmbPalette = UIHelper.createTrueFalseItemsCombo( cmp );
 		{
-			btnPalette.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( series.isPaletteLineColor( ) );
-			btnPalette.addListener( SWT.Selection, this );
+			cmbPalette.select( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? 1
+					: 2 )
+					: 0 );
+			cmbPalette.addListener( SWT.Selection, this );
 		}
-		btnConnectEndPoints = new Button( cmp, SWT.CHECK );
+		
+		lblConnectEndPoints = new Label( cmp, SWT.NONE );
+		lblConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$
+		
+		cmbConnectEndPoints = UIHelper.createTrueFalseItemsCombo( cmp );
 		{
-			btnConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$
-			btnConnectEndPoints.setSelection( series.isConnectEndpoints( ) );
-			btnConnectEndPoints.addListener( SWT.Selection, this );
+			
+			cmbConnectEndPoints.select( series.isSetConnectEndpoints( ) ? ( series.isConnectEndpoints( ) ? 1
+					: 2 )
+					: 0 );
+			cmbConnectEndPoints.addListener( SWT.Selection, this );
 		}
-		btnFillPoly = new Button( cmp, SWT.CHECK );
+		
+		lblFillPoly = new Label( cmp, SWT.NONE );
+		lblFillPoly.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.FillPoly" ) ); //$NON-NLS-1$
+		
+		cmbFillPoly = UIHelper.createTrueFalseItemsCombo( cmp );
 		{
-			btnFillPoly.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.FillPoly" ) ); //$NON-NLS-1$
-			btnFillPoly.setSelection( series.isFillPolys( ) );
-			btnFillPoly.addListener( SWT.Selection, this );
-			btnFillPoly.setEnabled( btnConnectEndPoints.getSelection( ) );
+			cmbFillPoly.select( series.isSetFillPolys( ) ? ( series.isFillPolys( ) ? 1
+					: 2 )
+					: 0 );
+			cmbFillPoly.addListener( SWT.Selection, this );
+			lblFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
+			cmbFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
+		GridData gd = new GridData();
+		gd.horizontalSpan=2;
+		grpMarker.setLayoutData( gd );
 		grpMarker.setText( Messages.getString( "RadarSeriesMarkerSheet.GroupLabel.Markers" ) ); //$NON-NLS-1$
 		grpMarker.setLayout( new GridLayout( 2, false ) );
 
@@ -172,22 +203,31 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartElementUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacLine ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLineSettings( series.getLineAttributes( ).isVisible( ) );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				enableLineSettings( series.getLineAttributes( ).isSetVisible( )
+						&& series.getLineAttributes( ).isVisible( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getLineAttributes( ).setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"style",//$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -195,18 +235,28 @@ public class RadarSeriesAttributeComposite extends Composite implements
 						.setColor( (ColorDefinition) event.data );
 			}
 		}
-		else if ( event.widget.equals( btnPalette ) )
+		else if ( event.widget.equals( cmbPalette ) )
 		{
-			series.setPaletteLineColor( btnPalette.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"paletteLineColor",//$NON-NLS-1$
+					cmbPalette.getSelectionIndex( ) == 1,
+					cmbPalette.getSelectionIndex( ) == 0 );
 		}
-		else if ( event.widget.equals( btnFillPoly ) )
+		else if ( event.widget.equals( cmbFillPoly ) )
 		{
-			series.setFillPolys( btnFillPoly.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"fillPolys",//$NON-NLS-1$
+					cmbFillPoly.getSelectionIndex( ) == 1,
+					cmbFillPoly.getSelectionIndex( ) == 0 );
 		}
-		else if ( event.widget.equals( btnConnectEndPoints ) )
+		else if ( event.widget.equals( cmbConnectEndPoints ) )
 		{
-			series.setConnectEndpoints( btnConnectEndPoints.getSelection( ) );
-			btnFillPoly.setEnabled( btnConnectEndPoints.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"connectEndpoints",//$NON-NLS-1$
+					cmbConnectEndPoints.getSelectionIndex( ) == 1,
+					cmbConnectEndPoints.getSelectionIndex( ) == 0 );
+			lblFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
+			cmbFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
 		}
 		else if ( event.widget.equals( mec ) )
 		{
@@ -216,10 +266,10 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 	private void enableLineSettings( boolean isEnabled )
 	{
-		if ( btnPalette != null )
+		if ( cmbPalette != null )
 		{
-			btnPalette.setEnabled( isEnabled );
-			btnConnectEndPoints.setEnabled( isEnabled );
+			cmbPalette.setEnabled( isEnabled );
+			cmbConnectEndPoints.setEnabled( isEnabled );
 		}
 	}
 }

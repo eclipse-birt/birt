@@ -356,6 +356,11 @@ public class SubtaskSheetImpl implements
 	protected void setToggleButtonEnabled( String buttonId, boolean isEnabled )
 	{
 		String id = getNodePath( ) + buttonId;
+		if ( getToggleButton( id ) == null )
+		{
+			return;
+		}
+		
 		if ( getContext( ).isEnabled( id ) )
 		{
 			getToggleButton( id ).setEnabled( isEnabled );

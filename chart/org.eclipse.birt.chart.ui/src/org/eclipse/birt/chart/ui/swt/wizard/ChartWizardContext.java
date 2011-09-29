@@ -37,12 +37,12 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 public class ChartWizardContext implements IChartWizardContext
 {
 
-	private Chart chartModel = null;
+	protected Chart chartModel = null;
 	private IChartType chartType = null;
 	private Object extendedItem = null;
 	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
 	private String sOutputFormat = sDefaultOutputFormat;
-	final private IUIServiceProvider uiProvider;
+	final protected IUIServiceProvider uiProvider;
 	final private IDataServiceProvider dataProvider;
 	final private IChartDataSheet dataSheet;
 	private IStyleProcessor processor;
@@ -62,7 +62,7 @@ public class ChartWizardContext implements IChartWizardContext
 	 * The thread is responsible to manage live preview.
 	 */
 	private Thread livePreviewThread = null;
-
+	
 	// Default implementation of UI factory
 	private IChartUIFactory uiFactory = new ChartUIFactoryBase( );
 
@@ -73,9 +73,12 @@ public class ChartWizardContext implements IChartWizardContext
 		this.uiProvider = uiProvider;
 		this.dataProvider = dataProvider;
 		this.dataSheet = dataSheet;
-		this.dataSheet.setContext( this );
+		if ( this.dataSheet != null)
+		{
+			this.dataSheet.setContext( this );
+		}
 	}
-
+			
 	/**
 	 * Sets live preview thread reference.
 	 * 
@@ -454,5 +457,15 @@ public class ChartWizardContext implements IChartWizardContext
 	public void setUIFactory( IChartUIFactory factory )
 	{
 		this.uiFactory = factory;
+	}
+	
+	/**
+	 * Checks if interactivity is supported.
+	 * 
+	 * @return
+	 */
+	public boolean isInteractivityEnabled( )
+	{
+		return true;
 	}
 }

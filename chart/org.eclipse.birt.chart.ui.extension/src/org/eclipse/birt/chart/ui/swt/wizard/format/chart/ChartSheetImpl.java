@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSh
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.CustomPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.GeneralPropertiesChartSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -108,8 +109,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 	private Spinner spnCorverage;
 
 	private Button btnCoverageAuto;
+	
+	private Combo cmbStudyLayout;
 
-	private Button btnEnableStudy;
+	private Button btnMegAuto;
 
 	private static final int DEFAULT_COVERAGE = 50;
 	
@@ -134,13 +137,9 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			gd.horizontalSpan = 2;
 			cmpBasic.setLayoutData( gd );
 		}
-
-		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
-		{
-			cmp3D.setLayout( new GridLayout( ) );
-			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		}
-
+		
+		initOptionUI( cmpBasic );
+		
 		Label lblBackground = new Label( cmpBasic, SWT.NONE );
 		lblBackground.setText( Messages.getString( "ChartSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
@@ -199,21 +198,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			new Label( cmpBasic, SWT.NONE );
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Style" ) ); //$NON-NLS-1$
-
-		cmbStyle = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			cmbStyle.setLayoutData( gridData );
-			cmbStyle.addSelectionListener( this );
-		}
-
-		btnEnablePreview = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnEnablePreview.setText( Messages.getString( "ChartSheetImpl.Label.EnableInPreview" ) ); //$NON-NLS-1$
-			btnEnablePreview.setSelection( ChartPreviewPainterBase.isProcessorEnabled( ) );
-			btnEnablePreview.addSelectionListener( this );
-		}
+		createStyleNPreviewUI( cmpBasic );
 
 		Group grpEmptyMsg = new Group( cmpBasic, SWT.NONE );
 		{
@@ -227,12 +212,17 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 			org.eclipse.birt.chart.model.component.Label laEmptyMsg = getChart( ).getEmptyMessage( );
 
+			btnMegAuto = new Button( grpEmptyMsg, SWT.RADIO );
+			btnMegAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnMegAuto.setSelection( !laEmptyMsg.isSetVisible( ) );
+			btnMegAuto.addListener( SWT.Selection, this );
+			
 			btnAutoHide = new Button( grpEmptyMsg, SWT.RADIO );
 			{
 				btnAutoHide.setText( Messages.getString("ChartSheetImpl.Button.AutoHide") ); //$NON-NLS-1$
 				GridData gd = new GridData( );
 				btnAutoHide.setLayoutData( gd );
-				btnAutoHide.setSelection( !laEmptyMsg.isVisible( ) );
+				btnAutoHide.setSelection( laEmptyMsg.isSetVisible( ) && !laEmptyMsg.isVisible( ) );
 				btnAutoHide.addListener( SWT.Selection, this );
 			}
 
@@ -241,7 +231,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				btnShowEmptyMsg.setText( Messages.getString( "ChartSheetImpl.Button.ShowEmptyMsg" ) ); //$NON-NLS-1$
 				GridData gd = new GridData( );
 				btnShowEmptyMsg.setLayoutData( gd );
-				btnShowEmptyMsg.setSelection( laEmptyMsg.isVisible( ) );
+				btnShowEmptyMsg.setSelection( laEmptyMsg.isSetVisible( ) && laEmptyMsg.isVisible( ) );
 				btnShowEmptyMsg.addListener( SWT.Selection, this );
 			}
 
@@ -297,8 +287,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			updateEmptyMessageUIStates( );
 		}
 
+		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
+		{
+			cmp3D.setLayout( new GridLayout( ) );
+			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		
 		if ( ( getChart( ) instanceof ChartWithAxes )
-				&& ChartUIUtil.is3DType( getChart( ) ) )
+				&& is3DEnabled( ) )
 		{
 			Group cmpRotation = new Group( cmp3D, SWT.NONE );
 			{
@@ -380,21 +376,50 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		// #170985
 		if ( ChartUtil.hasMultipleYAxes( getChart( ) ) )
 		{
-			btnEnableStudy = new Button( cmpBasic, SWT.CHECK );
+			Label label = new Label( cmpBasic, SWT.NONE );
+			label.setText(Messages.getString("ChartSheetImpl.Label.StudyLayout")); //$NON-NLS-1$
+			
+			cmbStudyLayout = ChartUIExtensionUtil.createCombo( cmpBasic,
+					ChartUIExtensionUtil.getEnableDisableComboItemds( ) );
 			GridData gridData = new GridData( );
-			gridData.horizontalSpan = 3;
-			btnEnableStudy.setLayoutData( gridData );
-			btnEnableStudy.setText( Messages.getString("ChartSheetImpl.Button.EnableStudyLayout") ); //$NON-NLS-1$
-			btnEnableStudy.setSelection( ((ChartWithAxes)getChart( )).isStudyLayout( ) );
-			btnEnableStudy.addSelectionListener( this );
+			gridData.horizontalSpan = 2;
+			cmbStudyLayout.setLayoutData( gridData );
+			cmbStudyLayout.select( ((ChartWithAxes)getChart( )).isSetStudyLayout( ) ? ( ((ChartWithAxes)getChart( )).isStudyLayout( ) ? 1:2):0 );
+			cmbStudyLayout.addSelectionListener( this );
 		}
 
 		populateLists( );
-
 		createButtonGroup( cmpContent );
 	}
 
+	protected void createStyleNPreviewUI( Composite cmpBasic )
+	{
+		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Style" ) ); //$NON-NLS-1$
 
+		cmbStyle = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			cmbStyle.setLayoutData( gridData );
+			cmbStyle.addSelectionListener( this );
+		}
+
+		btnEnablePreview = new Button( cmpBasic, SWT.CHECK );
+		{
+			btnEnablePreview.setText( Messages.getString( "ChartSheetImpl.Label.EnableInPreview" ) ); //$NON-NLS-1$
+			btnEnablePreview.setSelection( ChartPreviewPainterBase.isProcessorEnabled( ) );
+			btnEnablePreview.addSelectionListener( this );
+		}
+	}
+
+	protected boolean is3DEnabled( )
+	{
+		return ChartUIUtil.is3DType( getChart( ) );
+	}
+
+	protected void initOptionUI( Composite cmpBasic )
+	{
+		
+	}
 
 	private void init( )
 	{
@@ -409,6 +434,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private void populateLists( )
 	{
+		if ( cmbStyle == null )
+		{
+			return;
+		}
 		// POPULATE STYLE COMBO WITH AVAILABLE REPORT STYLES
 		IDataServiceProvider idsp = getContext( ).getDataServiceProvider( );
 		if ( idsp != null )
@@ -490,19 +519,22 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		btnCustomProp.addSelectionListener( this );
 
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "ChartSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
-				getContext( ),
-				getChart( ).getBlock( ).getTriggers( ),
-				getChart( ).getBlock( ),
-				TriggerSupportMatrix.TYPE_CHARTAREA,
-				false,
-				true );
-		Button btnInteractivity = createToggleButton( cmp,
-				BUTTON_INTERACTIVITY,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup,
-				getChart( ).getInteractivity( ).isEnable( ) );
-		btnInteractivity.addSelectionListener( this );
+		if ( getContext( ).isInteractivityEnabled( ) )
+		{
+			popup = new InteractivitySheet( Messages.getString( "ChartSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+					getContext( ),
+					getChart( ).getBlock( ).getTriggers( ),
+					getChart( ).getBlock( ),
+					TriggerSupportMatrix.TYPE_CHARTAREA,
+					false,
+					true );
+			Button btnInteractivity = createToggleButton( cmp,
+					BUTTON_INTERACTIVITY,
+					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+					popup,
+					getChart( ).getInteractivity( ).isEnable( ) );
+			btnInteractivity.addSelectionListener( this );
+		}
 	}
 
 	/*
@@ -537,10 +569,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					.setValue( txtEmptyMsg.getText( ) );
 		}
 		else if ( event.widget == btnAutoHide
-				|| event.widget == btnShowEmptyMsg )
+				|| event.widget == btnShowEmptyMsg
+				|| event.widget == btnMegAuto )
 		{
-			getChart( ).getEmptyMessage( )
+			if ( btnMegAuto.getSelection( ) )
+			{
+				getChart( ).getEmptyMessage( ).unsetVisible( );	
+			}
+			else
+			{
+				getChart( ).getEmptyMessage( )
 					.setVisible( !btnAutoHide.getSelection( ) );
+			}
 			updateEmptyMessageUIStates( );
 		}
 		else if ( event.widget == fdcEmptyMsg )
@@ -553,7 +593,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private void updateEmptyMessageUIStates( )
 	{
-		boolean bEnabled = getChart( ).getEmptyMessage( ).isVisible( );
+		boolean bEnabled = getChart( ).getEmptyMessage( ).isSetVisible( )
+				&& getChart( ).getEmptyMessage( ).isVisible( );
 		txtEmptyMsg.setEnabled( bEnabled );
 		fdcEmptyMsg.setEnabled( bEnabled );
 		lbTxtEmptyMsg.setEnabled( bEnabled );
@@ -607,12 +648,21 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 		else if ( e.widget.equals( btnResetValue ) )
 		{
-			setAxisAngle( AngleType.X, -20 );
-			xChooser.txtRotation.setValue( -20 );
-			setAxisAngle( AngleType.Y, 45 );
-			yChooser.txtRotation.setValue( 45 );
-			setAxisAngle( AngleType.Z, 0 );
-			zChooser.txtRotation.setValue( 0 );
+			if ( !xChooser.isAutoAngle( ) )
+			{
+				setAxisAngle( AngleType.X, -20 );
+				xChooser.txtRotation.setValue( -20 );
+			}
+			if ( !yChooser.isAutoAngle( ) )
+			{
+				setAxisAngle( AngleType.Y, 45 );
+				yChooser.txtRotation.setValue( 45 );
+			}
+			if ( !zChooser.isAutoAngle( ) )
+			{
+				setAxisAngle( AngleType.Z, 0 );
+				zChooser.txtRotation.setValue( 0 );
+			}
 		}
 		else if ( e.widget == btnCoverageAuto )
 		{
@@ -638,12 +688,19 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				cwa.setCoverage( spnCorverage.getSelection( ) / 100d );
 			}
 		}
-		else if ( e.widget == btnEnableStudy )
+		else if ( e.widget == cmbStudyLayout )
 		{
 			if ( getChart( ) instanceof ChartWithAxes )
 			{
 				ChartWithAxes cwa = (ChartWithAxes) getChart( );
-				cwa.setStudyLayout( btnEnableStudy.getSelection( ) );
+				if ( cmbStudyLayout.getSelectionIndex( ) == 0 )
+				{
+					cwa.unsetStudyLayout( );
+				}
+				else
+				{
+					cwa.setStudyLayout( cmbStudyLayout.getSelectionIndex( ) == 1 );
+				}
 			}
 		}
 		
@@ -687,6 +744,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 		private LocalizedNumberEditorComposite txtRotation;
 
+		private Button btnAuto;
+		
 		private int angleType;
 
 		public AxisRotationChooser( Axis axis, int angleType )
@@ -698,7 +757,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		{
 			Composite context = new Composite( parent, SWT.NONE );
 			{
-				GridLayout gl = new GridLayout( 3, false );
+				GridLayout gl = new GridLayout( 4, false );
 				gl.horizontalSpacing = 8;
 				context.setLayout( gl );
 				context.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -733,8 +792,26 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				txtRotation.setValue( getAxisAngle( angleType ) );
 				txtRotation.addModifyListener( this );
 			}
+			
+			btnAuto = new Button(context, SWT.CHECK );
+			btnAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnAuto.setSelection( !isSetAxisAngle( angleType ) );
+			btnAuto.addSelectionListener( this );
+			updateUIState( !btnAuto.getSelection( ) );
 		}
 
+		private boolean isAutoAngle( )
+		{
+			return btnAuto.getSelection( );
+		}
+		
+		private void updateUIState( boolean enabled )
+		{
+			btnAntiRotation.setEnabled( enabled );
+			btnRotation.setEnabled( enabled );
+			txtRotation.setEnabled( enabled );
+		}
+		
 		public void widgetSelected( SelectionEvent e )
 		{
 			if ( e.widget.equals( btnAntiRotation ) )
@@ -746,6 +823,19 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			{
 				setAxisAngle( angleType, (int) getAxisAngle( angleType ) + 10 );
 				txtRotation.setValue( getAxisAngle( angleType ) );
+			}
+			else if ( e.widget == btnAuto )
+			{
+				if( btnAuto.getSelection( ) )
+				{
+					// Auto case.
+					unsetAxisAngle( angleType );
+				}
+				else
+				{
+					setAxisAngle( angleType, (int) txtRotation.getValue( ) );
+				}
+				updateUIState( !btnAuto.getSelection( ) );
 			}
 		}
 
@@ -882,6 +972,38 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				}
 			}
 			setContents( numbersOnly.toString( ) );
+		}
+	}
+	
+	private boolean isSetAxisAngle( int angleType )
+	{
+		Angle3D angle3D = getAngle3D( );
+		switch ( angleType )
+		{
+			case AngleType.X :
+				return angle3D.isSetXAngle( );
+			case AngleType.Y :
+				return angle3D.isSetYAngle( );
+			case AngleType.Z :
+				return angle3D.isSetZAngle( );
+		}
+		return false;
+	}
+	
+	private void unsetAxisAngle(int angleType)
+	{
+		Angle3D angle3D = getAngle3D( );
+		switch ( angleType )
+		{
+			case AngleType.X :
+				angle3D.unsetXAngle( );
+				break;
+			case AngleType.Y :
+				angle3D.unsetYAngle( );
+				break;
+			case AngleType.Z :
+				angle3D.unsetZAngle( );
+				break;
 		}
 	}
 	

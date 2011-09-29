@@ -85,17 +85,17 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	// visible UI Sheets (Order IS important)
 	// Key: nodePath; Value: subtask or Vector
-	private LinkedHashMap<String, Object> htVisibleSheets = null;
+	protected LinkedHashMap<String, Object> htVisibleSheets = null;
 
-	private int iBaseSeriesCount = 0;
+	protected int iBaseSeriesCount = 0;
 
-	private int iOrthogonalSeriesCount = 0;
+	protected int iOrthogonalSeriesCount = 0;
 
-	private int iBaseAxisCount = 0;
+	protected int iBaseAxisCount = 0;
 
-	private int iOrthogonalAxisCount = 0;
+	protected int iOrthogonalAxisCount = 0;
 
-	private int iAncillaryAxisCount = 0;
+	protected int iAncillaryAxisCount = 0;
 
 	protected static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA"; //$NON-NLS-1$
 
@@ -447,7 +447,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 	}
 
-	private boolean registerSheetCollection( String sCollection )
+	protected boolean registerSheetCollection( String sCollection )
 	{
 		return registerSheetCollection( sCollection,
 				subtasksRegistry.get( sCollection ) );
@@ -892,7 +892,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
 	}
 
-	private void initialize( Chart chartModel )
+	protected void initialize( Chart chartModel )
 	{
 		// Register sheet collections
 		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
@@ -1075,9 +1075,15 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		return subtask instanceof ITaskPreviewable
 				&& ( (ITaskPreviewable) subtask ).isPreviewable( );
 	}
-
+	
+	protected Chart getPreviewChartModel( )
+	{
+		return getCurrentModelState( );
+	}
+	
 	public void doPreview( )
 	{
+		final Chart chart = getPreviewChartModel( );
 		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
 		// Add a task to retrieve data and bind data to chart.
 		lpt.addTask( new LivePreviewTask() {
@@ -1086,7 +1092,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				if ( previewPainter != null )
 				{
 					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL,
-							ChartUIUtil.prepareLivePreview( getCurrentModelState( ),
+							ChartUIUtil.prepareLivePreview( chart,
 									getDataServiceProvider( ),
 									( (ChartWizardContext) context ).getActionEvaluator( ) ) );
 				}

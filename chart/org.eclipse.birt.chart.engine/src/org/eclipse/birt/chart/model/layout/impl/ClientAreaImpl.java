@@ -623,6 +623,22 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 		setOutline( lia );
 		setInsets( InsetsImpl.create( 0, 0, 0, 0 ) );
 	}
+	
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	public final void initDefault( )
+	{
+		//setBackground( ColorDefinitionImpl.WHITE( ) );
+		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				0, false );
+		lia.setVisible( false );
+		setOutline( lia );
+		setInsets( InsetsImpl.createDefault( 0, 0, 0, 0 ) );
+	}
 
 	/**
 	 * @generated

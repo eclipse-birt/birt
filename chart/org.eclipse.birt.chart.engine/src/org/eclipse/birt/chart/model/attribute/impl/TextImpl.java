@@ -394,7 +394,35 @@ public class TextImpl extends EObjectImpl implements Text
 		tx.setValue( sValue );
 		return tx;
 	}
+	
+	/**
+	 * A convenience method provided to create a Text instance
+	 * 
+	 * @param sValue
+	 */
+	public static final Text createDefault( String sValue )
+	{
+		final Text tx = AttributeFactory.eINSTANCE.createText( );
+		( (TextImpl) tx ).initDefault( );
+		if ( sValue == null )
+		{
+			sValue = IConstants.UNDEFINED_STRING;
+		}
+		tx.setValue( sValue );
+		return tx;
+	}
 
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		// only initialize empty font here.
+		font = FontDefinitionImpl.createEmpty( );
+	}
+	
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().

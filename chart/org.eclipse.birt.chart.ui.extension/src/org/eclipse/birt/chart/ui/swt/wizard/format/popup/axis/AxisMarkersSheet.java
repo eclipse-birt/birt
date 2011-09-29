@@ -36,24 +36,26 @@ import org.eclipse.birt.chart.model.component.impl.MarkerLineImpl;
 import org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.TextDataElement;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
-import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -86,7 +88,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		Listener
 {
 
-	private Composite cmpContent;
+	protected Composite cmpContent;
 
 	private Composite cmpList = null;
 
@@ -302,13 +304,16 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		grpMarkerLine.setLayout( new FillLayout( ) );
 		grpMarkerLine.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes" ) ); //$NON-NLS-1$
 
+		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacMarkerLine = new LineAttributesComposite( grpMarkerLine,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				null,
-				true,
-				true,
-				true );
+				null );
 		liacMarkerLine.addListener( this );
 
 		btnLineTriggers = new Button( cmpLine, SWT.PUSH );
@@ -386,12 +391,16 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblRangeFill.setLayoutData( gdLBLRangeFill );
 		lblRangeFill.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 
+		int fillStyles = FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 		fccRange = new FillChooserComposite( cmpRange,
 				SWT.NONE,
+				fillStyles,
 				getContext( ),
-				null,
-				true,
-				true );
+				null );
 		GridData gdFCCRange = new GridData( GridData.FILL_HORIZONTAL );
 		gdFCCRange.horizontalSpan = 2;
 		fccRange.setLayoutData( gdFCCRange );
@@ -406,11 +415,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				null,
-				true,
-				true,
-				true );
+				null );
 		liacMarkerRange.addListener( this );
 
 		btnRangeTriggers = new Button( cmpRange, SWT.PUSH );
@@ -440,6 +447,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				| GridData.FILL_HORIZONTAL );
 		lacLabel.setLayoutData( gdLACLabel );
 		lacLabel.addListener( this );
+		lacLabel.setDefaultLabelValue( DefaultValueProvider.defLabel( ) );
 
 		slMarkers.topControl = cmpLine;
 
@@ -459,6 +467,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( lacLabel ) )
 		{
 			if ( this.lstMarkers.getSelection( ).length != 0 )
@@ -466,7 +475,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				switch ( event.type )
 				{
 					case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-						getSelectedMarkerLabel( ).setVisible( ( (Boolean) event.data ).booleanValue( ) );
+						ChartElementUtil.setEObjectAttribute( getSelectedMarkerLabel( ),
+								"visible", //$NON-NLS-1$
+								( (Boolean) event.data ).booleanValue( ),
+								isUnset );
 						break;
 					case LabelAttributesComposite.FONT_CHANGED_EVENT :
 						getSelectedMarkerLabel( ).getCaption( )
@@ -481,20 +493,26 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 						getSelectedMarkerLabel( ).setShadowColor( (ColorDefinition) event.data );
 						break;
 					case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-						getSelectedMarkerLabel( ).getOutline( )
-								.setStyle( (LineStyle) event.data );
+						ChartElementUtil.setEObjectAttribute( getSelectedMarkerLabel( ).getOutline( ),
+								"style", //$NON-NLS-1$
+								(LineStyle) event.data,
+								isUnset );
 						break;
 					case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-						getSelectedMarkerLabel( ).getOutline( )
-								.setThickness( ( (Integer) event.data ).intValue( ) );
+						ChartElementUtil.setEObjectAttribute( getSelectedMarkerLabel( ).getOutline( ),
+								"thickness", //$NON-NLS-1$
+								( (Integer) event.data ).intValue( ),
+								isUnset );
 						break;
 					case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 						getSelectedMarkerLabel( ).getOutline( )
 								.setColor( (ColorDefinition) event.data );
 						break;
 					case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-						getSelectedMarkerLabel( ).getOutline( )
-								.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+						ChartElementUtil.setEObjectAttribute( getSelectedMarkerLabel( ).getOutline( ),
+								"visible", //$NON-NLS-1$
+								( (Boolean) event.data ).booleanValue( ),
+								isUnset );
 						break;
 					case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 						getSelectedMarkerLabel( ).setInsets( (Insets) event.data );
@@ -570,17 +588,21 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		{
 			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				getAxisForProcessing( ).getMarkerLines( )
+				ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMarkerLines( )
 						.get( getMarkerIndex( ) )
-						.getLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+						.getLineAttributes( ),
+						"style", //$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				getAxisForProcessing( ).getMarkerLines( )
+				ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMarkerLines( )
 						.get( getMarkerIndex( ) )
-						.getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+						.getLineAttributes( ),
+						"thickness", //$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -591,27 +613,33 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 			else
 			{
-				getAxisForProcessing( ).getMarkerLines( )
+				ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMarkerLines( )
 						.get( getMarkerIndex( ) )
-						.getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+						.getLineAttributes( ),
+						"visible", //$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
 			}
 		}
 		else if ( event.widget.equals( liacMarkerRange ) )
 		{
 			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				getAxisForProcessing( ).getMarkerRanges( )
+				ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMarkerRanges( )
 						.get( getMarkerIndex( ) )
-						.getOutline( )
-						.setStyle( (LineStyle) event.data );
+						.getOutline( ),
+						"style", //$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				getAxisForProcessing( ).getMarkerRanges( )
+				ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMarkerRanges( )
 						.get( getMarkerIndex( ) )
-						.getOutline( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+						.getOutline( ),
+						"thickness", //$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -622,10 +650,12 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 			else
 			{
-				getAxisForProcessing( ).getMarkerRanges( )
+				ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMarkerRanges( )
 						.get( getMarkerIndex( ) )
-						.getOutline( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+						.getOutline( ),
+						"visible", //$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
 			}
 		}
 	}
@@ -718,110 +748,44 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		}
 		else if ( e.getSource( ).equals( cmbLineAnchor ) )
 		{
-			getAxisForProcessing( ).getMarkerLines( )
-					.get( getMarkerIndex( ) )
-					.setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbLineAnchor.getText( ) ) ),
-							isFlippedAxes( ) ) );
+			if ( cmbLineAnchor.getSelectionIndex( ) == 0 )
+			{
+				getAxisForProcessing( ).getMarkerLines( )
+						.get( getMarkerIndex( ) )
+						.unsetLabelAnchor( );
+			}
+			else
+			{
+				getAxisForProcessing( ).getMarkerLines( )
+						.get( getMarkerIndex( ) )
+						.setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbLineAnchor.getText( ) ) ),
+								isFlippedAxes( ) ) );
+			}
 		}
 		else if ( e.getSource( ).equals( cmbRangeAnchor ) )
 		{
-			getAxisForProcessing( ).getMarkerRanges( )
-					.get( getMarkerIndex( ) )
-					.setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbRangeAnchor.getText( ) ) ),
-							isFlippedAxes( ) ) );
+			if ( cmbRangeAnchor.getSelectionIndex( ) == 0 )
+			{
+				getAxisForProcessing( ).getMarkerRanges( )
+						.get( getMarkerIndex( ) )
+						.unsetLabelAnchor( );
+			}
+			else
+			{
+				getAxisForProcessing( ).getMarkerRanges( )
+						.get( getMarkerIndex( ) )
+						.setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbRangeAnchor.getText( ) ) ),
+								isFlippedAxes( ) ) );
+			}
 		}
 		else if ( e.getSource( ).equals( btnLineFormatSpecifier ) )
 		{
-			String sAxisTitle = ""; //$NON-NLS-1$
-			try
-			{
-				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( )} ); //$NON-NLS-1$
-			}
-			catch ( NullPointerException e1 )
-			{
-			}
-
-			FormatSpecifier formatspecifier = null;
-			if ( getAxisForProcessing( ).getMarkerLines( )
-					.get( getMarkerIndex( ) )
-					.getFormatSpecifier( ) != null )
-			{
-				formatspecifier = getAxisForProcessing( ).getMarkerLines( )
-						.get( getMarkerIndex( ) )
-						.getFormatSpecifier( );
-			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					getDataElementType( getAxisForProcessing( ).getMarkerLines( )
-							.get( getMarkerIndex( ) )
-							.getValue( ) ),
-					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				if ( editor.getFormatSpecifier( ) == null )
-				{
-					getAxisForProcessing( ).getMarkerLines( )
-							.get( getMarkerIndex( ) )
-							.eUnset( ComponentPackage.eINSTANCE.getMarkerLine_FormatSpecifier( ) );
-					return;
-				}
-				getAxisForProcessing( ).getMarkerLines( )
-						.get( getMarkerIndex( ) )
-						.setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			handleMarkerLineFormatBtnSelected( );
 		}
 		else if ( e.getSource( ).equals( btnStartFormatSpecifier )
 				|| e.getSource( ).equals( btnEndFormatSpecifier ) )
 		{
-			String sAxisTitle = ""; //$NON-NLS-1$
-			try
-			{
-				String sTitleString = getAxisForProcessing( ).getTitle( )
-						.getCaption( )
-						.getValue( );
-				int iSeparatorIndex = sTitleString.indexOf( ExternalizedTextEditorComposite.SEPARATOR );
-				if ( iSeparatorIndex > 0 )
-				{
-					sTitleString = sTitleString.substring( iSeparatorIndex );
-				}
-				else if ( iSeparatorIndex == 0 )
-				{
-					sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
-				}
-				sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ 
-			}
-			catch ( NullPointerException e1 )
-			{
-			}
-
-			FormatSpecifier formatspecifier = null;
-			if ( getAxisForProcessing( ).getMarkerRanges( )
-					.get( getMarkerIndex( ) )
-					.getFormatSpecifier( ) != null )
-			{
-				formatspecifier = getAxisForProcessing( ).getMarkerRanges( )
-						.get( getMarkerIndex( ) )
-						.getFormatSpecifier( );
-			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					getDataElementType( getAxisForProcessing( ).getMarkerRanges( )
-							.get( getMarkerIndex( ) )
-							.getStartValue( ) ),
-					new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				if ( editor.getFormatSpecifier( ) == null )
-				{
-					getAxisForProcessing( ).getMarkerRanges( )
-							.get( getMarkerIndex( ) )
-							.eUnset( ComponentPackage.eINSTANCE.getMarkerRange_FormatSpecifier( ) );
-					return;
-				}
-				getAxisForProcessing( ).getMarkerRanges( )
-						.get( getMarkerIndex( ) )
-						.setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			handleMarkerRangeFormatBtnSelected( );
 		}
 		else if ( e.widget.equals( btnLineTriggers ) )
 		{
@@ -847,6 +811,104 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		}
 	}
 
+	protected void handleMarkerRangeFormatBtnSelected( )
+	{
+		String sAxisTitle = ""; //$NON-NLS-1$
+		try
+		{
+			String sTitleString = getAxisForProcessing( ).getTitle( )
+					.getCaption( )
+					.getValue( );
+			int iSeparatorIndex = sTitleString.indexOf( ExternalizedTextEditorComposite.SEPARATOR );
+			if ( iSeparatorIndex > 0 )
+			{
+				sTitleString = sTitleString.substring( iSeparatorIndex );
+			}
+			else if ( iSeparatorIndex == 0 )
+			{
+				sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
+			}
+			sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{sTitleString} ); //$NON-NLS-1$ 
+		}
+		catch ( NullPointerException e1 )
+		{
+		}
+
+		FormatSpecifier formatspecifier = null;
+		if ( getAxisForProcessing( ).getMarkerRanges( )
+				.get( getMarkerIndex( ) )
+				.getFormatSpecifier( ) != null )
+		{
+			formatspecifier = getAxisForProcessing( ).getMarkerRanges( )
+					.get( getMarkerIndex( ) )
+					.getFormatSpecifier( );
+		}
+		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+				formatspecifier,
+				getDataElementType( getAxisForProcessing( ).getMarkerRanges( )
+						.get( getMarkerIndex( ) )
+						.getStartValue( ) ),
+				new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
+		if ( editor.open( ) == Window.OK )
+		{
+			if ( editor.getFormatSpecifier( ) == null )
+			{
+				getAxisForProcessing( ).getMarkerRanges( )
+						.get( getMarkerIndex( ) )
+						.eUnset( ComponentPackage.eINSTANCE.getMarkerRange_FormatSpecifier( ) );
+			}
+			else
+			{
+				getAxisForProcessing( ).getMarkerRanges( )
+					.get( getMarkerIndex( ) )
+					.setFormatSpecifier( editor.getFormatSpecifier( ) );
+			}
+		}
+	}
+
+	protected void handleMarkerLineFormatBtnSelected( )
+	{
+		String sAxisTitle = ""; //$NON-NLS-1$
+		try
+		{
+			sAxisTitle = new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis" ) ).format( new Object[]{getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( )} ); //$NON-NLS-1$
+		}
+		catch ( NullPointerException e1 )
+		{
+		}
+
+		FormatSpecifier formatspecifier = null;
+		if ( getAxisForProcessing( ).getMarkerLines( )
+				.get( getMarkerIndex( ) )
+				.getFormatSpecifier( ) != null )
+		{
+			formatspecifier = getAxisForProcessing( ).getMarkerLines( )
+					.get( getMarkerIndex( ) )
+					.getFormatSpecifier( );
+		}
+		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
+				formatspecifier,
+				getDataElementType( getAxisForProcessing( ).getMarkerLines( )
+						.get( getMarkerIndex( ) )
+						.getValue( ) ),
+				new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
+		if ( editor.open( ) == Window.OK )
+		{
+			if ( editor.getFormatSpecifier( ) == null )
+			{
+				getAxisForProcessing( ).getMarkerLines( )
+						.get( getMarkerIndex( ) )
+						.eUnset( ComponentPackage.eINSTANCE.getMarkerLine_FormatSpecifier( ) );
+			}
+			else
+			{
+				getAxisForProcessing( ).getMarkerLines( )
+					.get( getMarkerIndex( ) )
+					.setFormatSpecifier( editor.getFormatSpecifier( ) );
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -858,12 +920,12 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 	{
 	}
 
-	private Axis getAxisForProcessing( )
+	protected Axis getAxisForProcessing( )
 	{
 		return axis;
 	}
 
-	private int getMarkerIndex( )
+	protected int getMarkerIndex( )
 	{
 		String sSelectedMarker = lstMarkers.getSelection( )[0];
 		int iSelectionIndex = lstMarkers.getSelectionIndex( );
@@ -914,9 +976,16 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			txtValue.setDataElement( line.getValue( ) );
 
 			// Update the Anchor field
-			cmbLineAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( line.getLabelAnchor( ),
+			if ( !line.isSetLabelAnchor( ) )
+			{
+				cmbLineAnchor.select( 0 );
+			}
+			else
+			{
+				cmbLineAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( line.getLabelAnchor( ),
 					isFlippedAxes( ) )
 					.getName( ) ) );
+			}
 
 			// Update the Line attribute fields
 			liacMarkerLine.setLineAttributes( line.getLineAttributes( ) );
@@ -937,9 +1006,16 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			txtEndValue.setDataElement( range.getEndValue( ) );
 
 			// Update the anchor field
-			cmbRangeAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( range.getLabelAnchor( ),
-					isFlippedAxes( ) )
-					.getName( ) ) );
+			if ( !range.isSetLabelAnchor( ) )
+			{
+				cmbRangeAnchor.select( 0 );
+			}
+			else
+			{
+				cmbRangeAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( range.getLabelAnchor( ),
+						isFlippedAxes( ) )
+						.getName( ) ) );
+			}
 
 			// Update the fill
 			fccRange.setFill( range.getFill( ) );
@@ -959,10 +1035,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		NameSet ns = LiteralHelper.anchorSet;
 
 		// Populate combo boxes
-		cmbLineAnchor.setItems( ns.getDisplayNames( ) );
+		cmbLineAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
 		cmbLineAnchor.select( 0 );
 
-		cmbRangeAnchor.setItems( ns.getDisplayNames( ) );
+		cmbRangeAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
 		cmbRangeAnchor.select( 0 );
 
 		if ( lstMarkers.getItemCount( ) > 0 )
@@ -1054,7 +1130,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		return NumberDataElementImpl.create( 0.0 );
 	}
 
-	private AxisType getDataElementType( DataElement de )
+	protected AxisType getDataElementType( DataElement de )
 	{
 		if ( de instanceof TextDataElement )
 		{
@@ -1123,10 +1199,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 	private DataElement getNotNullDataElement( DataElement de )
 	{
-		if ( de == null )
-		{
-			return createDefaultDataElement( );
-		}
+//		if ( de == null )
+//		{
+//			return createDefaultDataElement( );
+//		}
 		return de;
 	}
 

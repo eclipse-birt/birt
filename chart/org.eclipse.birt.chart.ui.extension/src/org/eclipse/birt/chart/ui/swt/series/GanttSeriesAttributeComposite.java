@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.GanttSeries;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.GanttLineAttributesComposite;
@@ -28,6 +29,7 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -36,7 +38,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -48,7 +50,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			SelectionListener,
 			Listener
 {
-	private transient Button btnPalette = null;
+	private transient Combo cmbPalette = null;
 
 	private transient Group grpLine = null;
 
@@ -148,7 +150,7 @@ public class GanttSeriesAttributeComposite extends Composite
 		// Layout for Connection Line
 		grpLine = new Group( cmpGroup, SWT.NONE );
 		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-		grpLine.setLayout( new GridLayout( ) );
+		grpLine.setLayout( new GridLayout( 2, false ) );
 		grpLine.setLayoutData( gdGRPLine );
 		grpLine.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Bars" ) ); //$NON-NLS-1$
 
@@ -159,17 +161,23 @@ public class GanttSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true );
-		gliacGantt.setLayoutData(  new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		gliacGantt.setLayoutData( gd  );
 		gliacGantt.addListener( this );
 		
-		btnPalette = new Button( grpLine, SWT.CHECK );
+		Label lbl = new Label( grpLine, SWT.NONE );
+		lbl.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.BarPalette" ) ); //$NON-NLS-1$
+		
+		cmbPalette = ChartUIExtensionUtil.createTrueFalseItemsCombo( grpLine );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 4;
-			btnPalette.setLayoutData( gd );
-			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.BarPalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( series.isPaletteLineColor( ) );
-			btnPalette.addSelectionListener( this );
+			cmbPalette.setLayoutData( gd );
+			cmbPalette.select( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? 1
+					: 2 )
+					: 0 );
+			cmbPalette.addSelectionListener( this );
 		}
 
 		// Layout for Outine
@@ -203,9 +211,12 @@ public class GanttSeriesAttributeComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( btnPalette ) )
+		if ( e.getSource( ).equals( cmbPalette ) )
 		{
-			series.setPaletteLineColor( btnPalette.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"paletteLineColor", //$NON-NLS-1$
+					cmbPalette.getSelectionIndex( ) == 1,
+					cmbPalette.getSelectionIndex( ) == 0 );
 		}
 	}
 
@@ -225,22 +236,30 @@ public class GanttSeriesAttributeComposite extends Composite
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( gliacGantt ) )
 		{
 			if ( event.type == GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getConnectionLine( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				btnPalette.setEnabled( ( (Boolean) event.data ).booleanValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getConnectionLine( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				cmbPalette.setEnabled( !isUnset || ( (Boolean) event.data ).booleanValue( ) );
 			}
 			else if ( event.type == GanttLineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getConnectionLine( ).setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getConnectionLine( ),
+						"style",//$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == GanttLineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getConnectionLine( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getConnectionLine( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == GanttLineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -252,17 +271,24 @@ public class GanttSeriesAttributeComposite extends Composite
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getOutline( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getOutline( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getOutline( ).setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getOutline( ),
+						"style",//$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getOutline( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getOutline( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{

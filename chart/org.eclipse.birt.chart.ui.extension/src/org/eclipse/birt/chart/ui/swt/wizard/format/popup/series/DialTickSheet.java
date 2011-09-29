@@ -15,15 +15,18 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -46,6 +49,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 	private transient IntegerSpinControl iscGridCount = null;
 
 	private transient DialSeries series;
+
+	private Button btnGridCountAuto;
 
 	public DialTickSheet( String title, ChartWizardContext context,
 			DialSeries series )
@@ -104,7 +109,7 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 			GridData gdCMPGridCount = new GridData( GridData.FILL_HORIZONTAL );
 			gdCMPGridCount.horizontalSpan = 2;
 			cmpGridCount.setLayoutData( gdCMPGridCount );
-			cmpGridCount.setLayout( new GridLayout( 2, false ) );
+			cmpGridCount.setLayout( new GridLayout( 3, false ) );
 		}
 
 		lblGridCount = new Label( cmpGridCount, SWT.NONE );
@@ -119,6 +124,12 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 			iscGridCount.addListener( this );
 		}
 
+		btnGridCountAuto = new Button( cmpGridCount, SWT.CHECK );
+		btnGridCountAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnGridCountAuto.setSelection( !getDialForProcessing( ).getScale( )
+				.isSetMinorGridsPerUnit( ) );
+		btnGridCountAuto.addListener( SWT.Selection, this );
+		
 		setState( getDialForProcessing( ).getMinorGrid( )
 				.getTickAttributes( )
 				.isVisible( ) );
@@ -128,6 +139,7 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( this.gacMajor.equals( event.widget ) )
 		{
 			switch ( event.type )
@@ -138,13 +150,17 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
-					getDialForProcessing( ).getMajorGrid( )
-							.setTickStyle( (TickStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getMajorGrid( ),
+							"tickStyle",//$NON-NLS-1$
+							(TickStyle) event.data,
+							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
-					getDialForProcessing( ).getMajorGrid( )
-							.getTickAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getMajorGrid( )
+							.getTickAttributes( ),
+							"visible",//$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
@@ -158,16 +174,23 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
-					getDialForProcessing( ).getMinorGrid( )
-							.setTickStyle( (TickStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getMinorGrid( ),
+							"tickStyle",//$NON-NLS-1$
+							(TickStyle) event.data,
+							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
-					getDialForProcessing( ).getMinorGrid( )
-							.getTickAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getMinorGrid( )
+							.getTickAttributes( ),
+							"visible",//$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					setState( getDialForProcessing( ).getMinorGrid( )
 							.getTickAttributes( )
-							.isVisible( ) );
+							.isSetVisible( )
+							&& getDialForProcessing( ).getMinorGrid( )
+									.getTickAttributes( )
+									.isVisible( ) );
 					break;
 			}
 		}
@@ -175,6 +198,14 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 		{
 			getDialForProcessing( ).getScale( )
 					.setMinorGridsPerUnit( ( (Integer) event.data ).intValue( ) );
+		}
+		else if ( event.widget == btnGridCountAuto )
+		{
+			ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getScale( ),
+					"minorGridsPerUnit",//$NON-NLS-1$
+					iscGridCount.getValue( ),
+					btnGridCountAuto.getSelection( ) );
+			iscGridCount.setEnabled( !btnGridCountAuto.getSelection( ) ); 
 		}
 	}
 
@@ -187,6 +218,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 	{
 		lblGridCount.setEnabled( enabled );
 		iscGridCount.setEnabled( enabled );
+		btnGridCountAuto.setEnabled( enabled );
+		iscGridCount.setEnabled( !btnGridCountAuto.getSelection( ) );
 	}
 
 }

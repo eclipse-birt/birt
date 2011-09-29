@@ -65,7 +65,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -122,17 +121,17 @@ public class TaskSelectType extends SimpleTask implements
 
 	}
 
-	private Chart chartModel = null;
+	protected Chart chartModel = null;
 
-	private ChartAdapter adapter = null;
+	protected ChartAdapter adapter = null;
 
-	private Composite cmpType = null;
+	protected Composite cmpType = null;
 
-	private Composite cmpMisc = null;
+	protected Composite cmpMisc = null;
 
 	private Composite cmpRight = null;
 
-	private Composite cmpLeft = null;
+	protected Composite cmpLeft = null;
 
 	private Composite cmpTypeButtons = null;
 
@@ -145,12 +144,12 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected String sType = null;
 
-	private String sOldType = null;
+	protected String sOldType = null;
 
 	// Stored in IChartType
 	protected String sDimension = null;
 
-	private Table table = null;
+	protected Table table = null;
 
 	private Vector<String> vSubTypeNames = null;
 
@@ -171,13 +170,13 @@ public class TaskSelectType extends SimpleTask implements
 	protected Label lblOutput;
 	protected Combo cbOutput;
 
-	private SashForm foSashForm;
+	protected SashForm foSashForm;
 
 	protected int pageMargin = 80;
 
-	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
+	protected static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
-	private static Hashtable<String, Series> htSeriesNames = null;
+	protected static Hashtable<String, Series> htSeriesNames = null;
 	
 	private static String[] outputFormats, outputDisplayNames;
 	static
@@ -232,6 +231,11 @@ public class TaskSelectType extends SimpleTask implements
 			}
 			placeComponents( );
 			updateAdapters( );
+			updateComponentsState( false );
+		}
+		else
+		{
+			updateComponentsState( true );			
 		}
 
 		// Update dimension combo and related sub-types in case of axes changed
@@ -248,13 +252,18 @@ public class TaskSelectType extends SimpleTask implements
 		bindHelp( );
 	}
 
+	protected void updateComponentsState( boolean isUpdateUI )
+	{
+		// Do nothing.
+	}
+
 	protected void bindHelp( )
 	{
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_TYPE );
 	}
 
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		foSashForm = new SashForm( topControl, SWT.VERTICAL );
 		{
@@ -265,22 +274,31 @@ public class TaskSelectType extends SimpleTask implements
 			gridData.heightHint = 570;
 			foSashForm.setLayoutData( gridData );
 		}
+		createTopPreviewArea( foSashForm );
+		createBottomTypeArea( foSashForm );
+		
+		initUIPropertiesAndData( );
+	}
 
-		createPreviewArea( );
-		createTypeArea( );
+	protected void initUIPropertiesAndData( )
+	{
 		setDefaultTypeSelection( );
-
 		if ( chartModel == null )
 		{
 			// Do not reset model when it exists.
-			refreshChart( );
+			createChartModel( );
 		}
 		populateSeriesTypesList( );
 	}
 
-	private void createPreviewArea( )
+	protected void createChartModel( )
 	{
-		Composite cmpPreview = new Composite( foSashForm, SWT.NONE );
+		refreshChart( sType, sSubType );
+	}
+
+	protected void createTopPreviewArea( Composite parent )
+	{
+		Composite cmpPreview = new Composite( parent, SWT.NONE );
 		cmpPreview.setLayout( new GridLayout( ) );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
@@ -290,8 +308,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		Label label = new Label( cmpPreview, SWT.NONE );
 		{
-			label.setText( Messages.getString( "TaskSelectType.Label.Preview" ) ); //$NON-NLS-1$
-			label.setFont( JFaceResources.getBannerFont( ) );
+			label.setText( getChartPreviewTitle( ) );
 		}
 
 		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
@@ -302,14 +319,19 @@ public class TaskSelectType extends SimpleTask implements
 		previewPainter = createPreviewPainter( );
 	}
 
-	private void createTypeArea( )
+	protected String getChartPreviewTitle( )
 	{
-		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.V_SCROLL
+		return Messages.getString( "TaskSelectType.Label.Preview" ); //$NON-NLS-1$
+	}
+	
+	protected void createBottomTypeArea( Composite parent )
+	{
+		ScrolledComposite sc = new ScrolledComposite( parent, SWT.V_SCROLL
 				| SWT.H_SCROLL );
 		{
 			GridLayout layout = new GridLayout( );
 			sc.setLayout( layout );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gridData = new GridData( GridData.FILL_BOTH );
 			sc.setLayoutData( gridData );
 			sc.setExpandHorizontal( true );
 			sc.setExpandVertical( true );
@@ -320,90 +342,42 @@ public class TaskSelectType extends SimpleTask implements
 		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sc.setContent( cmpType );
 
-		createTypeTable( );
-		addChartTypes( );
+		createLeftTypeTable( cmpType );
+		populateChartTypes( );
 
-		createDetails( );
+		createRightDetails( cmpType );
 
 		Point size = cmpType.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		sc.setMinSize( size );
 	}
 
-	private void createDetails( )
+	private void createRightDetails( Composite parent )
 	{
-		cmpRight = new Composite( cmpType, SWT.NONE );
+		cmpRight = new Composite( parent, SWT.NONE );
 		cmpRight.setLayout( new GridLayout( ) );
 		cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		createComposite( new Vector<IChartSubType>( ) );
-		createMiscArea( );
+		createMiscArea( cmpRight );
 	}
 
-	private void createMiscArea( )
+	private void createMiscArea( Composite parent )
 	{
-		cmpMisc = new Composite( cmpRight, SWT.NONE );
+		cmpMisc = new Composite( parent, SWT.NONE );
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
 		cmpMisc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+		addDimensionUI( );
+		addMultipleAxesUI( );
+		addSeriesTypeUI( );
+		addOrientationUI(  );
 
-			public int getIndex( )
-			{
-				return 10;
-			}
+		addOptionalUIDescriptor( );
 
-			public void createControl( Composite parent )
-			{
-				lblDimension = new Label( parent, SWT.WRAP );
-				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					lblDimension.setLayoutData( gd );
-					lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
-				}
+		createUIDescriptors( cmpMisc );
+	}
 
-				// Add the ComboBox for Dimensions
-				cbDimension = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
-				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					cbDimension.setLayoutData( gd );
-					cbDimension.addSelectionListener( TaskSelectType.this );
-				}
-			}
-		} );
-
-		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
-
-			public int getIndex( )
-			{
-				return 30;
-			}
-
-			public void createControl( Composite parent )
-			{
-				lblMultipleY = new Label( parent, SWT.WRAP );
-				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					lblMultipleY.setLayoutData( gd );
-					lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
-				}
-
-				// Add the checkBox for Multiple Y Axis
-				cbMultipleY = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
-				{
-					cbMultipleY.setItems( new String[]{
-							Messages.getString( "TaskSelectType.Selection.None" ), //$NON-NLS-1$
-							Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
-							Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
-					} );
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					cbMultipleY.setLayoutData( gd );
-					cbMultipleY.addSelectionListener( TaskSelectType.this );
-
-					int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
-					selectMultipleAxis( axisNum );
-				}
-			}
-		} );
-
+	protected void addSeriesTypeUI( )
+	{
 		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
 
 			public int getIndex( )
@@ -432,7 +406,82 @@ public class TaskSelectType extends SimpleTask implements
 				}
 			}
 		} );
+	}
 
+	protected void addMultipleAxesUI( )
+	{
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 30;
+			}
+
+			public void createControl( Composite parent )
+			{
+				lblMultipleY = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					lblMultipleY.setLayoutData( gd );
+					lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
+				}
+
+				// Add the checkBox for Multiple Y Axis
+				cbMultipleY = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+				{
+					cbMultipleY.setItems( getMultipleYComboItems( ) );
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					cbMultipleY.setLayoutData( gd );
+					cbMultipleY.addSelectionListener( TaskSelectType.this );
+
+					int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+					selectMultipleAxis( axisNum );
+				}
+			}
+
+		} );
+	}
+
+	protected String[] getMultipleYComboItems( )
+	{
+		return new String[]{
+				Messages.getString( "TaskSelectType.Selection.None" ), //$NON-NLS-1$
+				Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
+				Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
+		};
+	}
+	
+	protected void addDimensionUI( )
+	{
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 10;
+			}
+
+			public void createControl( Composite parent )
+			{
+				lblDimension = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					lblDimension.setLayoutData( gd );
+					lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
+				}
+
+				// Add the ComboBox for Dimensions
+				cbDimension = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					cbDimension.setLayoutData( gd );
+					cbDimension.addSelectionListener( TaskSelectType.this );
+				}
+			}
+		} );
+	}
+
+	protected void addOrientationUI( )
+	{
 		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
 
 			public int getIndex( )
@@ -468,19 +517,15 @@ public class TaskSelectType extends SimpleTask implements
 				}
 			}
 		} );
-
-		addOptionalUIDescriptor( );
-
-		createUIDescriptors( cmpMisc );
 	}
 
 	/**
 	 * This method initializes table
 	 * 
 	 */
-	private void createTypeTable( )
+	protected void createLeftTypeTable( Composite parent )
 	{
-		cmpLeft = new Composite( cmpType, SWT.NONE );
+		cmpLeft = new Composite( parent, SWT.NONE );
 		cmpLeft.setLayout( new GridLayout( ) );
 		cmpLeft.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
@@ -503,7 +548,7 @@ public class TaskSelectType extends SimpleTask implements
 	/**
 	 * 
 	 */
-	private void addChartTypes( )
+	protected void populateChartTypes( )
 	{
 		ChartUIUtil.populateTypeTable( getContext( ) );
 		Iterator<String> iter = ChartUIUtil.getChartTypeNameIterator( );
@@ -527,7 +572,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * This method initializes cmpSubTypes
 	 * 
 	 */
-	private void createComposite( Vector<IChartSubType> vSubTypes )
+	protected void createComposite( Vector<IChartSubType> vSubTypes )
 	{
 		Label lblSubtypes = new Label( cmpRight, SWT.NO_FOCUS );
 		{
@@ -540,7 +585,7 @@ public class TaskSelectType extends SimpleTask implements
 		GridData gdTypes = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_FILL );
 		cmpSubTypes = new Composite( cmpRight, SWT.NONE );
-		createGroups( vSubTypes );
+		createSubtypeBtnGroups( vSubTypes );
 		cmpSubTypes.setLayoutData( gdTypes );
 		cmpSubTypes.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartSubtypes" ) ); //$NON-NLS-1$
 		cmpSubTypes.setLayout( new GridLayout( ) );
@@ -551,7 +596,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * This method initializes cmpTypeButtons
 	 * 
 	 */
-	private void createGroups( Vector<IChartSubType> vSubTypes )
+	protected void createSubtypeBtnGroups( Vector<IChartSubType> vSubTypes )
 	{
 		vSubTypeNames = new Vector<String>( );
 		if ( cmpTypeButtons != null && !cmpTypeButtons.isDisposed( ) )
@@ -660,248 +705,306 @@ public class TaskSelectType extends SimpleTask implements
 		// Indicates whether need to update chart model
 		boolean needUpdateModel = false;
 		Object oSelected = e.getSource( );
+		needUpdateModel = handleWidgetSelected( e );
+
+		// Following operations need new model
+		if ( needUpdateModel )
+		{
+			// Update apply button
+			refreshChartAndPreview( oSelected );
+		}
+	}
+
+	protected boolean handleWidgetSelected( SelectionEvent e )
+	{
+		boolean needUpdateModel = false;
+		Object oSelected = e.getSource( );
 		if ( oSelected.getClass( ).equals( Button.class ) )
 		{
 			needUpdateModel = true;
 
 			if ( oSelected.equals( cbOrientation ) )
 			{
-				if ( cbOrientation.getSelection( ) )
-				{
-					orientation = Orientation.HORIZONTAL_LITERAL;
-				}
-				else
-				{
-					orientation = Orientation.VERTICAL_LITERAL;
-				}
-				createAndDisplayTypesSheet( sType );
-				setDefaultSubtypeSelection( );
-				populateSeriesTypesList( );
-				ChartCacheManager.getInstance( ).cacheOrientation( sType,
-						orientation );
+				handleOrientationBtnSelected( );
 			}
 			else
 			{
-				Button btn = (Button) e.getSource( );
-				if ( btn.getSelection( ) )
-				{
-					if ( this.sSubType != null
-							&& !getSubtypeFromButton( btn ).equals( sSubType ) )
-					{
-						int iTypeIndex = vSubTypeNames.indexOf( sSubType );
-						if ( iTypeIndex >= 0 )
-						{
-							( (Button) cmpTypeButtons.getChildren( )[iTypeIndex] ).setSelection( false );
-							cmpTypeButtons.redraw( );
-						}
-					}
-
-					// Cache label position for stacked or non-stacked case.
-					ChartUIUtil.saveLabelPositionIntoCache( getSeriesDefinitionForProcessing( ) );
-
-					sSubType = getSubtypeFromButton( btn );
-					ChartCacheManager.getInstance( ).cacheSubtype( sType,
-							sSubType );
-				}
-				else
-				{
-					if ( this.sSubType != null
-							&& getSubtypeFromButton( btn ).equals( sSubType ) )
-					{
-						// Clicking on the same button should not cause it to be
-						// unselected
-						btn.setSelection( true );
-
-						// Disable the statement to avoid when un-check all
-						// stacked attributes of series on format tab, the
-						// default chart is painted as side-by-side, but it
-						// can't select stacked button to change chart type to
-						// stacked in chart type tab.
-						// needUpdateModel = false;
-					}
-				}
+				handleSubtypeBtnSelected( e );
 			}
 		}
 		else if ( oSelected.getClass( ).equals( Table.class ) )
 		{
-			sType = ( (String) ( (TableItem) e.item ).getData( ) ).trim( );
-			if ( !sOldType.equals( sType ) )
-			{
-				sOldType = sType;
-
-				// Get orientation for non-xtab case. In xtab, orientation won't
-				// be changed
-				if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
-				{
-					// Get the cached orientation
-					if ( chartModel != null
-							&& chartModel instanceof ChartWithAxes )
-					{
-						Orientation lastOrientation = ChartCacheManager.getInstance( )
-								.findOrientation( sType );
-
-						if ( lastOrientation != null
-								&& this.orientation != lastOrientation )
-						{
-							this.orientation = lastOrientation;
-							this.rotateAxisTitle( (ChartWithAxes) chartModel );
-						}
-						if ( lastOrientation == null )
-						{
-							Orientation currentOrientation = this.orientation;
-							this.orientation = ChartUIUtil.getChartType( sType )
-									.getDefaultOrientation( );
-							if ( currentOrientation != this.orientation )
-							{
-								this.rotateAxisTitle( (ChartWithAxes) chartModel );
-							}
-						}
-					}
-				}
-
-				if ( chartModel != null
-						&& chartModel instanceof ChartWithAxes
-						&& ChartCacheManager.getInstance( )
-								.findCategory( sType ) != null )
-				{
-					boolean bCategory = ChartCacheManager.getInstance( )
-							.findCategory( sType )
-							.booleanValue( );
-					( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ).setCategoryAxis( bCategory );
-				}
-				sSubType = null;
-				createAndDisplayTypesSheet( sType );
-				setDefaultSubtypeSelection( );
-
-				cmpMisc.layout( );
-
-				needUpdateModel = true;
-			}
+			needUpdateModel = handleTableItemSelected( e );
 		}
 		else if ( oSelected.equals( cbMultipleY ) )
 		{
-			needUpdateModel = true;
-			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
-
-			Axis xAxis = ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 );
-
-			getContext( ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
-
-			if ( chartModel instanceof ChartWithoutAxes )
-			{
-				throw new IllegalArgumentException( Messages.getString( "TaskSelectType.Exception.CannotSupportAxes" ) ); //$NON-NLS-1$
-			}
-
-			// Prevent notifications rendering preview
-			ChartAdapter.beginIgnoreNotifications( );
-			int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
-			if ( cbMultipleY.getSelectionIndex( ) == 0 )
-			{
-				// Remove series type cache
-				ChartCacheManager.getInstance( ).cacheSeriesType( null );
-
-				// Keeps one axis
-				if ( iAxisNumber > 1 )
-				{
-					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
-							iAxisNumber - 1 );
-				}
-			}
-			else if ( cbMultipleY.getSelectionIndex( ) == 1 )
-			{
-				// Keeps two axes
-				if ( iAxisNumber == 1 )
-				{
-					ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
-				}
-				else if ( iAxisNumber > 2 )
-				{
-					ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
-							iAxisNumber - 2 );
-				}
-			}
-			ChartAdapter.endIgnoreNotifications( );
-
-			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
-			{
-				String lastSeriesType = ChartCacheManager.getInstance( )
-						.findSeriesType( );
-				if ( lastSeriesType != null )
-				{
-					cbSeriesType.setText( lastSeriesType );
-				}
-				else
-				{
-					Axis overlayAxis = xAxis.getAssociatedAxes( ).get( 1 );
-					String sDisplayName = overlayAxis.getSeriesDefinitions( )
-							.get( 0 )
-							.getDesignTimeSeries( )
-							.getDisplayName( );
-					cbSeriesType.setText( sDisplayName );
-				}
-				changeOverlaySeriesType( );
-			}
-			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
-
-			// Update dimension combo and related sub-types
-			if ( updateDimensionCombo( sType ) )
-			{
-				createAndDisplayTypesSheet( sType );
-				setDefaultSubtypeSelection( );
-			}
-
-			// Pack to display enough space for combo
-			cmpMisc.layout( );
+			needUpdateModel = handleMultipleAxesComboSelected( );
 		}
 		else if ( oSelected.equals( cbDimension ) )
 		{
-			String newDimension = ( (String[]) cbDimension.getData( ) )[cbDimension.getSelectionIndex( )];
-			if ( !newDimension.equals( sDimension ) )
-			{
-				sDimension = newDimension;
-				ChartCacheManager.getInstance( ).cacheDimension( sType,
-						sDimension );
-				createAndDisplayTypesSheet( sType );
-				setDefaultSubtypeSelection( );
-
-				populateSeriesTypesList( );
-				needUpdateModel = true;
-			}
+			needUpdateModel = handleDimensionComboSelected( );
 		}
 		else if ( oSelected.equals( cbSeriesType ) )
 		{
-			// if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
-			// {
-			needUpdateModel = true;
-			changeOverlaySeriesType( );
-			updateDimensionCombo( sType );
-			// }
+			needUpdateModel = handleSeriesTypeComboSelected( );
+		}
+		return needUpdateModel;
+	}
+
+	protected boolean handleSeriesTypeComboSelected( )
+	{
+		boolean needUpdateModel;
+		// if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
+		// {
+		needUpdateModel = true;
+		changeOverlaySeriesType( );
+		updateDimensionCombo( sType );
+		// }
+		return needUpdateModel;
+	}
+
+	protected boolean handleDimensionComboSelected(  )
+	{
+		String newDimension = ( (String[]) cbDimension.getData( ) )[cbDimension.getSelectionIndex( )];
+		if ( !newDimension.equals( sDimension ) )
+		{
+			handleDimensionBtnSelected( newDimension );
+			return true;
+		}
+		return false;
+	}
+
+	protected boolean handleMultipleAxesComboSelected( )
+	{
+		boolean needUpdateModel;
+		needUpdateModel = true;
+		lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
+
+		Axis xAxis = ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 );
+
+		getContext( ).setMoreAxesSupported( cbMultipleY.getSelectionIndex( ) == 2 );
+
+		if ( chartModel instanceof ChartWithoutAxes )
+		{
+			throw new IllegalArgumentException( Messages.getString( "TaskSelectType.Exception.CannotSupportAxes" ) ); //$NON-NLS-1$
 		}
 
-		// Following operations need new model
-		if ( needUpdateModel )
+		// Prevent notifications rendering preview
+		ChartAdapter.beginIgnoreNotifications( );
+		int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+		if ( cbMultipleY.getSelectionIndex( ) == 0 )
 		{
-			// Update apply button
-			ChartAdapter.notifyUpdateApply( );
-			// Update chart model
-			refreshChart( );
+			// Remove series type cache
+			ChartCacheManager.getInstance( ).cacheSeriesType( null );
 
-			if ( oSelected.getClass( ).equals( Table.class ) )
+			// Keeps one axis
+			if ( iAxisNumber > 1 )
 			{
-				// Ensure populate list after chart model generated
-				populateSeriesTypesList( );
+				ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+						iAxisNumber - 1 );
 			}
-			else if ( oSelected.equals( cbOrientation ) )
+		}
+		else if ( cbMultipleY.getSelectionIndex( ) == 1 )
+		{
+			// Keeps two axes
+			if ( iAxisNumber == 1 )
 			{
-				// Auto rotates Axis title when transposing
-				if ( chartModel instanceof ChartWithAxes )
+				ChartUIUtil.addAxis( (ChartWithAxes) chartModel );
+			}
+			else if ( iAxisNumber > 2 )
+			{
+				ChartUIUtil.removeLastAxes( (ChartWithAxes) chartModel,
+						iAxisNumber - 2 );
+			}
+		}
+		ChartAdapter.endIgnoreNotifications( );
+
+		if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
+		{
+			String lastSeriesType = ChartCacheManager.getInstance( )
+					.findSeriesType( );
+			if ( lastSeriesType != null )
+			{
+				cbSeriesType.setText( lastSeriesType );
+			}
+			else
+			{
+				Axis overlayAxis = xAxis.getAssociatedAxes( ).get( 1 );
+				String sDisplayName = overlayAxis.getSeriesDefinitions( )
+						.get( 0 )
+						.getDesignTimeSeries( )
+						.getDisplayName( );
+				cbSeriesType.setText( sDisplayName );
+			}
+			changeOverlaySeriesType( );
+		}
+		cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
+
+		// Update dimension combo and related sub-types
+		if ( updateDimensionCombo( sType ) )
+		{
+			createAndDisplayTypesSheet( sType );
+			setDefaultSubtypeSelection( );
+		}
+
+		// Pack to display enough space for combo
+		cmpMisc.layout( );
+		return needUpdateModel;
+	}
+
+	protected boolean handleTableItemSelected( SelectionEvent e )
+	{
+		sType = ( (String) ( (TableItem) e.item ).getData( ) ).trim( );
+		if ( !sOldType.equals( sType ) )
+		{
+			handleChartTypeSelected( );
+			( (ChartWizardContext) context ).setChartType( ChartUIUtil.getChartType( sType ) );
+			return true;
+		}
+		return false;
+	}
+
+	protected void refreshChartAndPreview( Object oSelected )
+	{
+		ChartAdapter.notifyUpdateApply( );
+		refreshChart( sType, sSubType );
+
+		if ( oSelected.getClass( ).equals( Table.class ) )
+		{
+			// Ensure populate list after chart model generated
+			populateSeriesTypesList( );
+		}
+		else if ( oSelected.equals( cbOrientation ) )
+		{
+			// Auto rotates Axis title when transposing
+			if ( chartModel instanceof ChartWithAxes )
+			{
+				rotateAxisTitle( (ChartWithAxes) chartModel );
+			}
+		}
+		// Preview after all model changes
+		doPreview( );
+	}
+
+	protected void handleDimensionBtnSelected( String newDimension )
+	{
+		sDimension = newDimension;
+		ChartCacheManager.getInstance( ).cacheDimension( sType,
+				sDimension );
+		createAndDisplayTypesSheet( sType );
+		setDefaultSubtypeSelection( );
+
+		populateSeriesTypesList( );
+	}
+
+	protected void handleChartTypeSelected( )
+	{
+		sOldType = sType;
+
+		// Get orientation for non-xtab case. In xtab, orientation won't
+		// be changed
+		if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
+		{
+			// Get the cached orientation
+			if ( chartModel != null
+					&& chartModel instanceof ChartWithAxes )
+			{
+				Orientation lastOrientation = ChartCacheManager.getInstance( )
+						.findOrientation( sType );
+
+				if ( lastOrientation != null
+						&& this.orientation != lastOrientation )
 				{
-					rotateAxisTitle( (ChartWithAxes) chartModel );
+					this.orientation = lastOrientation;
+					this.rotateAxisTitle( (ChartWithAxes) chartModel );
+				}
+				if ( lastOrientation == null )
+				{
+					Orientation currentOrientation = this.orientation;
+					this.orientation = ChartUIUtil.getChartType( sType )
+							.getDefaultOrientation( );
+					if ( currentOrientation != this.orientation )
+					{
+						this.rotateAxisTitle( (ChartWithAxes) chartModel );
+					}
 				}
 			}
-			// Preview after all model changes
-			doPreview( );
 		}
+
+		if ( chartModel != null
+				&& chartModel instanceof ChartWithAxes
+				&& ChartCacheManager.getInstance( )
+						.findCategory( sType ) != null )
+		{
+			boolean bCategory = ChartCacheManager.getInstance( )
+					.findCategory( sType )
+					.booleanValue( );
+			( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ).setCategoryAxis( bCategory );
+		}
+		sSubType = null;
+		createAndDisplayTypesSheet( sType );
+		setDefaultSubtypeSelection( );
+
+		cmpMisc.layout( );
+	}
+
+	protected void handleSubtypeBtnSelected( SelectionEvent e )
+	{
+		Button btn = (Button) e.getSource( );
+		if ( btn.getSelection( ) )
+		{
+			if ( this.sSubType != null
+					&& !getSubtypeFromButton( btn ).equals( sSubType ) )
+			{
+				int iTypeIndex = vSubTypeNames.indexOf( sSubType );
+				if ( iTypeIndex >= 0 )
+				{
+					( (Button) cmpTypeButtons.getChildren( )[iTypeIndex] ).setSelection( false );
+					cmpTypeButtons.redraw( );
+				}
+			}
+
+			// Cache label position for stacked or non-stacked case.
+			ChartUIUtil.saveLabelPositionIntoCache( getSeriesDefinitionForProcessing( ) );
+
+			sSubType = getSubtypeFromButton( btn );
+			ChartCacheManager.getInstance( ).cacheSubtype( sType,
+					sSubType );
+		}
+		else
+		{
+			if ( this.sSubType != null
+					&& getSubtypeFromButton( btn ).equals( sSubType ) )
+			{
+				// Clicking on the same button should not cause it to be
+				// unselected
+				btn.setSelection( true );
+
+				// Disable the statement to avoid when un-check all
+				// stacked attributes of series on format tab, the
+				// default chart is painted as side-by-side, but it
+				// can't select stacked button to change chart type to
+				// stacked in chart type tab.
+				// needUpdateModel = false;
+			}
+		}
+	}
+
+	protected void handleOrientationBtnSelected( )
+	{
+		if ( cbOrientation.getSelection( ) )
+		{
+			orientation = Orientation.HORIZONTAL_LITERAL;
+		}
+		else
+		{
+			orientation = Orientation.VERTICAL_LITERAL;
+		}
+		createAndDisplayTypesSheet( sType );
+		setDefaultSubtypeSelection( );
+		populateSeriesTypesList( );
+		ChartCacheManager.getInstance( ).cacheOrientation( sType,
+				orientation );
 	}
 
 	private boolean isAreaSeriesMixed( )
@@ -992,7 +1095,7 @@ public class TaskSelectType extends SimpleTask implements
 		return !isOldExist;
 	}
 
-	private boolean isTwoAxesEnabled( )
+	protected boolean isTwoAxesEnabled( )
 	{
 		return cbMultipleY.getSelectionIndex( ) == 1;
 	}
@@ -1007,7 +1110,7 @@ public class TaskSelectType extends SimpleTask implements
 		return ( (ChartWizardContext) context ).getModel( );
 	}
 	
-	private void updateAdapters( )
+	protected void updateAdapters( )
 	{
 		EObject model = getChartModelObject( );
 		
@@ -1049,7 +1152,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 	}
 
-	private boolean is3D( )
+	protected boolean is3D( )
 	{
 		return IChartType.THREE_DIMENSION_TYPE.equals( sDimension );
 	}
@@ -1060,7 +1163,7 @@ public class TaskSelectType extends SimpleTask implements
 		return bOutXtab &&!is3D() && !(IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( sDimension )&&ChartUIConstants.TYPE_AREA.equals( sType )); 
 	}
 
-	private void changeOverlaySeriesType( )
+	protected void changeOverlaySeriesType( )
 	{
 		// cache the second axis series type if it can be combined.
 		if ( getCurrentChartType( ).canCombine( ) )
@@ -1125,7 +1228,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 	}
 
-	private void populateSeriesTypesList( )
+	protected void populateSeriesTypesList( )
 	{
 		if ( cbSeriesType == null )
 		{
@@ -1267,7 +1370,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		// Update the UI with information for selected type
-		createGroups( vSubTypes );
+		createSubtypeBtnGroups( vSubTypes );
 		if ( this.cbOrientation != null )
 		{
 			if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
@@ -1282,7 +1385,7 @@ public class TaskSelectType extends SimpleTask implements
 		cmpRight.layout( );
 	}
 
-	private void setDefaultSubtypeSelection( )
+	protected void setDefaultSubtypeSelection( )
 	{
 		if ( sSubType == null )
 		{
@@ -1369,14 +1472,14 @@ public class TaskSelectType extends SimpleTask implements
 		orientation = null;
 	}
 
-	private void refreshChart( )
+	protected void refreshChart( String type, String subType )
 	{
 		// DISABLE PREVIEW REFRESH DURING CONVERSION
 		ChartAdapter.beginIgnoreNotifications( );
-		IChartType chartType = ChartUIUtil.getChartType( sType );
+		IChartType chartType = ChartUIUtil.getChartType( type );
 		try
 		{
-			chartModel = chartType.getModel( sSubType,
+			chartModel = chartType.getModel( subType,
 					this.orientation,
 					this.sDimension,
 					this.chartModel );
@@ -1878,11 +1981,21 @@ public class TaskSelectType extends SimpleTask implements
 		return painter;
 	}
 
+	protected Chart getPreviewChartModel( )
+	{
+		if ( getContext( ) == null )
+		{
+			return null;
+		}
+		return ( (ChartWizardContext) getContext( ) ).getModel( );
+	}
+	
 	public void doPreview( )
 	{
 		// To update data type after chart type
 		// conversion
-		if ( chartModel instanceof ChartWithAxes )
+		final Chart chart = getPreviewChartModel( ); 
+		if ( chart instanceof ChartWithAxes )
 		{
 			ChartAdapter.beginIgnoreNotifications( );
 			// should use design time model rather than
@@ -1901,7 +2014,7 @@ public class TaskSelectType extends SimpleTask implements
 			{
 				if ( previewPainter != null )
 				{
-					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview( chartModel,
+					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview( chart,
 						getDataServiceProvider( ),
 						( (ChartWizardContext) context ).getActionEvaluator( ) ) );
 				}

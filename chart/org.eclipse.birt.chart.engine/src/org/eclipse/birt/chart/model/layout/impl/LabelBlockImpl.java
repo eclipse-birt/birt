@@ -252,6 +252,29 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		super.initialize( );
 		setLabel( LabelImpl.create( ) );
 	}
+	
+	/**
+	 * A convenience method to create an initialized 'LabelBlock' instance
+	 * 
+	 * @return
+	 */
+	public static Block createDefault( )
+	{
+		final LabelBlock lb = LayoutFactory.eINSTANCE.createLabelBlock( );
+		( (LabelBlockImpl) lb ).initDefault( );
+		return lb;
+	}
+
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( )
+	{
+		super.initDefault( );
+		setLabel( LabelImpl.createDefault( ) );
+	}
 
 	/*
 	 * (non-Javadoc)

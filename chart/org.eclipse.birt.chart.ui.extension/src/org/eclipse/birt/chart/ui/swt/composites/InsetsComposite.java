@@ -13,18 +13,25 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -34,7 +41,7 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class InsetsComposite extends Composite implements ModifyListener
+public class InsetsComposite extends Composite implements ModifyListener, SelectionListener
 {
 
 	private transient String sUnits = null;
@@ -68,6 +75,10 @@ public class InsetsComposite extends Composite implements ModifyListener
 	private transient boolean bEnabled = true;
 
 	private transient int numberRows = 2;
+
+	private Button btnAuto;
+
+	private Insets defaultInsets = null;
 
 	/**
 	 * Creates a composite for <code>Inserts</code>. Default row number is 2.
@@ -140,6 +151,13 @@ public class InsetsComposite extends Composite implements ModifyListener
 				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits,
 						sUnits ) ) );
 
+		btnAuto = new Button( grpInsets, SWT.CHECK );
+		btnAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnAuto.addSelectionListener( this );
+		GridData gd = new GridData();
+		gd.horizontalSpan = glGroup.numColumns;
+		btnAuto.setLayoutData( gd );
+		
 		lblTop = new Label( grpInsets, SWT.NONE );
 		GridData gdLTop = new GridData( GridData.VERTICAL_ALIGN_CENTER );
 		// gdLTop.heightHint = 20;
@@ -153,12 +171,7 @@ public class InsetsComposite extends Composite implements ModifyListener
 		// gdTTop.heightHint = 20;
 		gdTTop.widthHint = 45;
 		txtTop.setLayoutData( gdTTop );
-		double dblPoints = insets.getTop( );
-		double dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-				"Points", sUnits ); //$NON-NLS-1$
-		txtTop.setValue( dblCurrent );
-		txtTop.addModifyListener( this );
-		
+
 		lblLeft = new Label( grpInsets, SWT.NONE );
 		GridData gdLLeft = new GridData( GridData.VERTICAL_ALIGN_CENTER );
 		// gdLLeft.heightHint = 20;
@@ -172,11 +185,6 @@ public class InsetsComposite extends Composite implements ModifyListener
 		// gdTLeft.heightHint = 20;
 		gdTLeft.widthHint = 45;
 		txtLeft.setLayoutData( gdTLeft );
-		dblPoints = insets.getLeft( );
-		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-				"Points", sUnits ); //$NON-NLS-1$
-		txtLeft.setValue( dblCurrent );
-		txtLeft.addModifyListener( this );
 
 		lblBottom = new Label( grpInsets, SWT.NONE );
 		GridData gdLBottom = new GridData( GridData.VERTICAL_ALIGN_CENTER );
@@ -191,11 +199,6 @@ public class InsetsComposite extends Composite implements ModifyListener
 		// gdTBottom.heightHint = 20;
 		gdTBottom.widthHint = 45;
 		txtBottom.setLayoutData( gdTBottom );
-		dblPoints = insets.getBottom( );
-		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
-				"Points", sUnits ); //$NON-NLS-1$
-		txtBottom.setValue( dblCurrent );
-		txtBottom.addModifyListener( this );
 
 		lblRight = new Label( grpInsets, SWT.NONE );
 		GridData gdLRight = new GridData( GridData.VERTICAL_ALIGN_CENTER );
@@ -210,24 +213,65 @@ public class InsetsComposite extends Composite implements ModifyListener
 		// gdTRight.heightHint = 20;
 		gdTRight.widthHint = 45;
 		txtRight.setLayoutData( gdTRight );
+
+		updateInsetsData( insets );
+		initStatus( );
+		
+		txtTop.addModifyListener( this );
+		txtLeft.addModifyListener( this );
+		txtRight.addModifyListener( this );
+		txtBottom.addModifyListener( this );
+	}
+
+	private void updateInsetsData( Insets insets )
+	{
+		double dblPoints = insets.getTop( );
+		double dblCurrent = serviceprovider.getConvertedValue( dblPoints,
+				"Points", sUnits ); //$NON-NLS-1$
+		txtTop.setValue( dblCurrent );
+
+		dblPoints = insets.getLeft( );
+		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
+				"Points", sUnits ); //$NON-NLS-1$
+		txtLeft.setValue( dblCurrent );
+
+		dblPoints = insets.getBottom( );
+		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
+				"Points", sUnits ); //$NON-NLS-1$
+		txtBottom.setValue( dblCurrent );
+
 		dblPoints = insets.getRight( );
 		dblCurrent = serviceprovider.getConvertedValue( dblPoints,
 				"Points", sUnits ); //$NON-NLS-1$
 		txtRight.setValue( dblCurrent );
-		txtRight.addModifyListener( this );
 	}
-
+	
+	private void initStatus( )
+	{
+		if ( !ChartElementUtil.isSetInsets( insets ) )
+		{
+			btnAuto.setSelection( true );
+			updateInsetsButtons( false );
+		}
+		else
+		{
+			btnAuto.setSelection( false );
+			updateInsetsButtons( true );
+		}
+	}
+	
 	public void setEnabled( boolean bState )
 	{
-		lblTop.setEnabled( bState );
-		txtTop.setEnabled( bState );
-		lblLeft.setEnabled( bState );
-		txtLeft.setEnabled( bState );
-		lblBottom.setEnabled( bState );
-		txtBottom.setEnabled( bState );
-		lblRight.setEnabled( bState );
-		txtRight.setEnabled( bState );
+		btnAuto.setEnabled( bState );
 		grpInsets.setEnabled( bState );
+		if ( btnAuto.getSelection( ) )
+		{
+			updateInsetsButtons( false );
+		}
+		else
+		{
+			updateInsetsButtons( true && bState );
+		}
 		bEnabled = bState;
 	}
 
@@ -244,7 +288,10 @@ public class InsetsComposite extends Composite implements ModifyListener
 		}
 		this.insets = insets;
 		this.sUnits = sUnits;
-
+		
+		btnAuto.setSelection( !ChartElementUtil.isSetInsets( insets ) );
+		updateInsetsButtons( bEnabled && ChartElementUtil.isSetInsets( insets ) );
+		
 		// Update the UI
 		double dblPoints = insets.getBottom( );
 		double dblCurrent = serviceprovider.getConvertedValue( dblPoints,
@@ -321,5 +368,66 @@ public class InsetsComposite extends Composite implements ModifyListener
 					"Points" ); //$NON-NLS-1$
 			insets.setRight( dblPoints );
 		}
+	}
+
+	public void widgetDefaultSelected( SelectionEvent arg0 )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void widgetSelected( SelectionEvent event )
+	{
+		if ( event.widget == btnAuto )
+		{
+			if ( btnAuto.getSelection( ) )
+			{
+				updateInsetsButtons( false );
+				if ( defaultInsets != null )
+				{
+					insets.unsetTop( );
+					insets.unsetBottom( );
+					insets.unsetLeft( );
+					insets.unsetRight( );
+					try
+					{
+						ChartElementUtil.setDefaultValue( insets, "top", defaultInsets.getTop( ) );
+						ChartElementUtil.setDefaultValue( insets, "bottom", defaultInsets.getBottom( ) );
+						ChartElementUtil.setDefaultValue( insets, "left", defaultInsets.getLeft( ) );
+						ChartElementUtil.setDefaultValue( insets, "right", defaultInsets.getRight( ) );
+					}
+					catch ( ChartException e )
+					{
+						ChartWizard.displayException( e );
+					}
+				}
+			}
+			else
+			{
+				updateInsetsButtons( true );
+				insets.setTop( txtTop.getValue( ) );
+				insets.setLeft( txtLeft.getValue( ) );
+				insets.setRight( txtRight.getValue( ) );
+				insets.setBottom( txtBottom.getValue( ) );
+			}
+		}
+		
+	}
+
+	private void updateInsetsButtons( boolean bState )
+	{
+		lblTop.setEnabled( bState );
+		txtTop.setEnabled( bState );
+		lblLeft.setEnabled( bState );
+		txtLeft.setEnabled( bState );
+		lblBottom.setEnabled( bState );
+		txtBottom.setEnabled( bState );
+		lblRight.setEnabled( bState );
+		txtRight.setEnabled( bState );
+	}
+	
+	public void setDefaultInsetsValue(Insets insets )
+	{
+		this.defaultInsets  = insets;
 	}
 }

@@ -18,12 +18,15 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -70,7 +73,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				attributesContext,
 				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-				getLegend( ).getTitlePosition( ),
+				getLegend().isSetTitlePosition( ) ? getLegend( ).getTitlePosition( ) : null,
 				getLegend( ).getTitle( ),
 				getChart( ).getUnits( ),
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
@@ -81,6 +84,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 			lacTitle.setLayoutData( gdLACTitle );
 			lacTitle.addListener( this );
 			lacTitle.setEnabled( getLegend( ).getTitle( ).isVisible( ) );
+			lacTitle.setDefaultLabelValue( DefaultValueProvider.defLegend( ).getTitle( ) );
 		}
 
 		return cmpContent;
@@ -95,15 +99,23 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 	{
 		if ( event.widget.equals( lacTitle ) )
 		{
+			boolean isUnset = ChartUIExtensionUtil.PROPERTY_UNSET == event.detail;
 			switch ( event.type )
 			{
 				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getLegend( ).getTitle( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
+					
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
-					getLegend( ).setTitlePosition( (Position) event.data );
+					ChartElementUtil.setEObjectAttribute( getLegend( ),
+							"titlePosition", //$NON-NLS-1$
+							(Position) event.data,
+							isUnset );
 					break;
+					
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
 					getLegend( ).getTitle( )
 							.getCaption( )
@@ -112,33 +124,46 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 							.getCaption( )
 							.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
 					break;
+					
 				case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
 					getLegend( ).getTitle( ).setBackground( (Fill) event.data );
 					break;
+					
 				case LabelAttributesComposite.SHADOW_CHANGED_EVENT :
 					getLegend( ).getTitle( )
 							.setShadowColor( (ColorDefinition) event.data );
 					break;
+					
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getLegend( ).getTitle( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
+					
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getLegend( ).getTitle( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
+					
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					getLegend( ).getTitle( )
 							.getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
+					
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getLegend( ).getTitle( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
+					
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					getLegend( ).getTitle( ).setInsets( (Insets) event.data );
 					break;

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -24,6 +25,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
@@ -367,6 +369,46 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 		firstMarker.setVisible( true );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return series instance
+	 */
+	public static final Series createDefault( )
+	{
+		final BubbleSeries bs = TypeFactory.eINSTANCE.createBubbleSeries( );
+		( (BubbleSeriesImpl) bs ).initDefault( );
+		return bs;
+	}
+
+	/**
+	 * Initializes all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+
+		LineAttributes la = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1, false );
+
+		setAccLineAttributes( la );
+
+		Marker firstMarker = getMarkers( ).get( 0 );
+		try
+		{
+			ChartElementUtil.setDefaultValue( firstMarker,
+					"type", MarkerType.CIRCLE_LITERAL ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( firstMarker, "visible", true ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -412,4 +412,12 @@ public class DefaultChartTypeImpl implements IChartType
 	{
 		return Messages.getString( "DefaultChartTypeImpl.Label.ValueDefinitionName" ); //$NON-NLS-1$
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#isChartWithAxis()
+	 */
+	public boolean isChartWithAxes( )
+	{
+		return true;
+	}
 }

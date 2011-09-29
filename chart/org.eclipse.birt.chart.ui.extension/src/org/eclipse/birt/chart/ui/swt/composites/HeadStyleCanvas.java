@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -90,6 +91,12 @@ public class HeadStyleCanvas extends Canvas
 		}
 
 		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
+		
+		if( iLineDecorator == HeadStyleChooserComposite.LINE_DECORATOR_AUTO )
+		{
+			gc.drawText( ChartUIExtensionUtil.getAutoMessage( ), 10, 2 );
+			return;
+		}
 		gc.setLineWidth( 1 );
 		gc.drawLine( 10,
 				this.getSize( ).y / 2,

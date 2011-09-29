@@ -21,6 +21,8 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
@@ -30,6 +32,7 @@ import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -41,6 +44,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -96,6 +100,12 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private Spinner spnTitlePercent;
 
+	private Button btnWrapping;
+
+	private Button btnMaxPercent;
+
+	private Button btnTitlePercent;
+
 	public LegendLayoutSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, false );
@@ -117,7 +127,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		Composite cmpLegLeft = new Composite( grpLegendArea, SWT.NONE );
 		{
-			GridLayout gl = new GridLayout( 2, false );
+			GridLayout gl = new GridLayout( 3, false );
 			gl.marginHeight = 0;
 			gl.marginWidth = 0;
 			gl.marginRight = 4;
@@ -155,14 +165,19 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		Spinner spn = new Spinner( cmp, SWT.BORDER );
 		{
-			int spnValue = (int) ( dValue * 100 );
-			spn.setValues( spnValue, 1, 100, 0, 1, 10 );
+			setSpinnerValue( spn, dValue );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			spn.setLayoutData( gd );
 			spn.setEnabled( bEnableUI );
 			spn.addListener( SWT.Selection, this );
 		}
 		return spn;
+	}
+
+	protected void setSpinnerValue( Spinner spn, double dValue )
+	{
+		int spnValue = (int) ( dValue * 100 );
+		spn.setValues( spnValue, 1, 100, 0, 1, 10 );
 	}
 
 	private void getComponentLegendLeftArea( Composite cmpLegLeft )
@@ -175,6 +190,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		cmbOrientation = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBOrientation.horizontalSpan = 2;
 		cmbOrientation.setLayoutData( gdCMBOrientation );
 		cmbOrientation.addSelectionListener( this );
 		cmbOrientation.setEnabled( bEnableUI );
@@ -185,6 +201,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		cmbPosition = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBPosition = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBPosition.horizontalSpan = 2;
 		cmbPosition.setLayoutData( gdCMBPosition );
 		cmbPosition.addSelectionListener( this );
 		cmbPosition.setEnabled( bEnableUI );
@@ -195,6 +212,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		cmbAnchor = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
+		gdCBAnchor.horizontalSpan = 2;
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
 		cmbAnchor.setEnabled( bEnableUI );
@@ -205,6 +223,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		cmbStretch = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBStretch = new GridData( GridData.FILL_HORIZONTAL );
+		gdCBStretch.horizontalSpan = 2;
 		cmbStretch.setLayoutData( gdCBStretch );
 		cmbStretch.addSelectionListener( this );
 		cmbStretch.setEnabled( bEnableUI );
@@ -213,13 +232,18 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
 		lblBackground.setEnabled( bEnableUI );
 
+		int fillOptions = FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 		fccBackground = new FillChooserComposite( cmpLegLeft,
 				SWT.NONE,
+				fillOptions,
 				getContext( ),
-				getBlockForProcessing( ).getBackground( ),
-				true,
-				true );
+				getBlockForProcessing( ).getBackground( ) );
 		GridData gdFCCBackground = new GridData( GridData.FILL_HORIZONTAL );
+		gdFCCBackground.horizontalSpan = 2;
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
 		fccBackground.setEnabled( bEnableUI );
@@ -230,6 +254,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 		cmbDirection = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBDirection = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMBDirection.horizontalSpan = 2;
 		cmbDirection.setLayoutData( gdCMBDirection );
 		cmbDirection.addSelectionListener( this );
 		cmbDirection.setEnabled( bEnableUI );
@@ -248,18 +273,42 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			txtWrapping.addModifyListener( this );
 			txtWrapping.setEnabled( bEnableUI );
 		}
-
+		
+		btnWrapping = new Button( cmpLegLeft, SWT.CHECK );
+		btnWrapping.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnWrapping.setSelection( !getBlockForProcessing( ).isSetWrappingSize( ) );
+		btnWrapping.addSelectionListener( this );
+		
 		spnMaxPercent = createSpinner( cmpLegLeft,
 				Messages.getString( "LegendLayoutSheet.Label.MaxPercent" ), //$NON-NLS-1$
 				getBlockForProcessing( ).getMaxPercent( ),
 				bEnableUI );
-
+		
+		btnMaxPercent = new Button(cmpLegLeft, SWT.CHECK );
+		btnMaxPercent.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnMaxPercent.setSelection( !getBlockForProcessing( ).isSetMaxPercent( ) );
+		btnMaxPercent.addSelectionListener( this );
+		
 		spnTitlePercent = createSpinner( cmpLegLeft,
 				Messages.getString( "LegendLayoutSheet.Label.TitlePercent" ), //$NON-NLS-1$
 				getBlockForProcessing( ).getTitlePercent( ),
 				bEnableUI );
+		
+		btnTitlePercent = new Button(cmpLegLeft, SWT.CHECK );
+		btnTitlePercent.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnTitlePercent.setSelection( !getBlockForProcessing( ).isSetTitlePercent( ) );
+		btnTitlePercent.addSelectionListener( this );
+		updateUIState( );
 	}
 
+	private void updateUIState()
+	{
+		Legend l = this.getBlockForProcessing( );
+		txtWrapping.setEnabled( l.isSetWrappingSize( ) );
+		spnMaxPercent.setEnabled( l.isSetMaxPercent( ) );
+		spnTitlePercent.setEnabled( l.isSetTitlePercent( ) );
+	}
+	
 	private void getComponentLegendRightArea( Composite cmpLegRight )
 	{
 		Group grpOutline = new Group( cmpLegRight, SWT.NONE );
@@ -271,13 +320,16 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 
 		boolean bEnableUI = getBlockForProcessing( ).isVisible( );
+		int lineOptions = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		outlineLegend = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				lineOptions,
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ),
-				true,
-				true,
-				true );
+				getBlockForProcessing( ).getOutline( ) );
 		{
 			outlineLegend.addListener( this );
 			outlineLegend.setAttributesEnabled( bEnableUI );
@@ -293,6 +345,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			icLegend.setLayoutData( gdICBlock );
 			icLegend.addListener( this );
 			icLegend.setEnabled( bEnableUI );
+			icLegend.setDefaultInsetsValue( DefaultValueProvider.defLegend( ).getInsets( ) );
 		}
 	}
 
@@ -300,27 +353,31 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	{
 		// Set the block Stretch property
 		NameSet ns = LiteralHelper.stretchSet;
-		cmbStretch.setItems( ns.getDisplayNames( ) );
-		cmbStretch.select( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
-				.getName( ) ) );
+		cmbStretch.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbStretch.select( getBlockForProcessing( ).isSetStretch( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
+				.getName( ) ) + 1 )
+				: 0 );
 
 		// Set Legend Orientation property
 		ns = LiteralHelper.orientationSet;
-		cmbOrientation.setItems( ns.getDisplayNames( ) );
-		cmbOrientation.select( ns.getSafeNameIndex( getBlockForProcessing( ).getOrientation( )
-				.getName( ) ) );
+		cmbOrientation.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbOrientation.select( getBlockForProcessing( ).isSetOrientation( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getOrientation( )
+				.getName( ) ) + 1 )
+				: 0 );
 
 		// Set Legend Direction property
 		ns = LiteralHelper.directionSet;
-		cmbDirection.setItems( ns.getDisplayNames( ) );
-		cmbDirection.select( ns.getSafeNameIndex( getBlockForProcessing( ).getDirection( )
-				.getName( ) ) );
+		cmbDirection.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbDirection.select( getBlockForProcessing( ).isSetDirection( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getDirection( )
+				.getName( ) ) + 1 )
+				: 0 );
 
 		// Set Legend Position property
 		ns = LiteralHelper.notOutPositionSet;
-		cmbPosition.setItems( ns.getDisplayNames( ) );
-		cmbPosition.select( ns.getSafeNameIndex( getBlockForProcessing( ).getPosition( )
-				.getName( ) ) );
+		cmbPosition.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbPosition.select( getBlockForProcessing( ).isSetPosition( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getPosition( )
+				.getName( ) ) + 1 )
+				: 0 );
 
 		// Set block Anchor property
 		getAnchorSet( );
@@ -335,8 +392,13 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	{
 		if ( e.widget.equals( txtWrapping ) )
 		{
-			getBlockForProcessing( ).setWrappingSize( txtWrapping.getValue( ) );
+			setWrappingSizeAttr( );
 		}
+	}
+
+	protected void setWrappingSizeAttr( )
+	{
+		getBlockForProcessing( ).setWrappingSize( txtWrapping.getValue( ) );
 	}
 
 	/*
@@ -352,23 +414,30 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( outlineLegend ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getBlockForProcessing( ).getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
@@ -378,13 +447,23 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget == spnMaxPercent )
 		{
-			getBlockForProcessing( ).setMaxPercent( spnMaxPercent.getSelection( ) / 100d );
+			setMaxPercentAttr( );
 		}
 		else if ( event.widget == spnTitlePercent )
 		{
-			getBlockForProcessing( ).setTitlePercent( spnTitlePercent.getSelection( ) / 100d );
+			setTitlePercentAttr( );
 
 		}
+	}
+
+	protected void setTitlePercentAttr( )
+	{
+		getBlockForProcessing( ).setTitlePercent( spnTitlePercent.getSelection( ) / 100d );
+	}
+
+	protected void setMaxPercentAttr( )
+	{
+		getBlockForProcessing( ).setMaxPercent( spnMaxPercent.getSelection( ) / 100d );
 	}
 
 	/*
@@ -404,43 +483,118 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
+		Legend legend = getBlockForProcessing( );
 		if ( oSource.equals( cmbAnchor ) )
 		{
-			String positionValue = getBlockForProcessing( ).getPosition( )
-					.getLiteral( );
-			NameSet ns;
-			if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
-					|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) ) )
+			if ( cmbAnchor.getSelectionIndex( ) == 0 )
 			{
-				ns = LiteralHelper.verticalAnchorSet;
-			}
-			else if ( positionValue.equals( Position.ABOVE_LITERAL.getLiteral( ) )
-					|| positionValue.equals( Position.BELOW_LITERAL.getLiteral( ) ) )
-			{
-				ns = LiteralHelper.horizontalAnchorSet;
+				legend.unsetAnchor( ); // Auto case.
 			}
 			else
 			{
-				ns = LiteralHelper.anchorSet;
+				String positionValue = legend.getPosition( ).getLiteral( );
+				NameSet ns;
+				if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
+						|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) ) )
+				{
+					ns = LiteralHelper.verticalAnchorSet;
+				}
+				else if ( positionValue.equals( Position.ABOVE_LITERAL.getLiteral( ) )
+						|| positionValue.equals( Position.BELOW_LITERAL.getLiteral( ) ) )
+				{
+					ns = LiteralHelper.horizontalAnchorSet;
+				}
+				else
+				{
+					ns = LiteralHelper.anchorSet;
+				}
+				legend.setAnchor( Anchor.getByName( ns.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
 			}
-			getBlockForProcessing( ).setAnchor( Anchor.getByName( ns.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
 		}
 		else if ( oSource.equals( cmbStretch ) )
 		{
-			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+			if ( cmbStretch.getSelectionIndex( ) == 0 )
+			{
+				legend.unsetStretch( );
+			}
+			else
+			{
+				legend.setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+			}
 		}
 		else if ( oSource.equals( cmbOrientation ) )
 		{
-			getBlockForProcessing( ).setOrientation( Orientation.getByName( LiteralHelper.orientationSet.getNameByDisplayName( cmbOrientation.getText( ) ) ) );
+			if ( cmbOrientation.getSelectionIndex( ) == 0 )
+			{
+				legend.unsetOrientation( ); // Auto case.
+			}
+			else
+			{
+				legend.setOrientation( Orientation.getByName( LiteralHelper.orientationSet.getNameByDisplayName( cmbOrientation.getText( ) ) ) );
+			}
 		}
 		else if ( oSource.equals( cmbDirection ) )
 		{
-			getBlockForProcessing( ).setDirection( Direction.getByName( LiteralHelper.directionSet.getNameByDisplayName( cmbDirection.getText( ) ) ) );
+			if ( cmbDirection.getSelectionIndex( ) == 0 )
+			{
+				legend.unsetDirection( );
+			}
+			else
+			{
+				legend.setDirection( Direction.getByName( LiteralHelper.directionSet.getNameByDisplayName( cmbDirection.getText( ) ) ) );
+			}
 		}
 		else if ( oSource.equals( cmbPosition ) )
 		{
-			getBlockForProcessing( ).setPosition( Position.getByName( LiteralHelper.notOutPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			if ( cmbPosition.getSelectionIndex( ) == 0 )
+			{
+				legend.unsetPosition( );
+			}
+			else
+			{
+				legend.setPosition( Position.getByName( LiteralHelper.notOutPositionSet.getNameByDisplayName( cmbPosition.getText( ) ) ) );
+			}
 			getAnchorSet( );
+		}
+		else if ( oSource == btnWrapping )
+		{
+			if ( btnWrapping.getSelection( ) )
+			{
+				legend.unsetWrappingSize( );
+				txtWrapping.setEnabled( false );
+			}
+			else
+			{
+				setWrappingSizeAttr( );
+				txtWrapping.setEnabled( true );
+			}
+		}
+		else if ( oSource == btnMaxPercent )
+		{
+			if ( btnMaxPercent.getSelection( ) )
+			{
+				legend.unsetMaxPercent( );
+				spnMaxPercent.setEnabled( false );
+			}
+			else
+			{
+				setMaxPercentAttr( );
+				spnMaxPercent.setEnabled( true );
+			}
+
+		}
+		else if ( oSource == btnTitlePercent )
+		{
+			if ( btnTitlePercent.getSelection( ) )
+			{
+				legend.unsetTitlePercent( );
+				spnTitlePercent.setEnabled( false );
+			}
+			else
+			{
+				setTitlePercentAttr( );
+				spnTitlePercent.setEnabled( true );
+			}
 		}
 	}
 
@@ -468,8 +622,10 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		{
 			ns = LiteralHelper.anchorSet;
 		}
-		cmbAnchor.setItems( ns.getDisplayNames( ) );
-		cmbAnchor.select( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
-				.getName( ) ) );
+		
+		cmbAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbAnchor.select( getBlockForProcessing( ).isSetAnchor( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
+				.getName( ) ) + 1 )
+				: 0 );
 	}
 }

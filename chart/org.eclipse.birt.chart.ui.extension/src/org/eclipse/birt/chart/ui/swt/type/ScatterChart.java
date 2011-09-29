@@ -177,7 +177,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series baseSeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( baseSeries );
-		sdX.getSeriesPalette( ).shift( 0 );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		newChart.getTitle( )
@@ -190,7 +189,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 		yAxis.setType( AxisType.LINEAR_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		Series orthogonalSeries = ScatterSeriesImpl.create( );
 		( (ScatterSeries) orthogonalSeries ).setStacked( false );
 		sdY.getSeries( ).add( orthogonalSeries );

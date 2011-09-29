@@ -17,12 +17,14 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -31,6 +33,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -49,18 +52,12 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private Composite cmpContent;
 
-	private Composite cmpGeneral = null;
-
-	// private Composite cmpGapWidth = null;
-
 	private FillChooserComposite fccLine = null;
 
-	// private IntegerSpinControl iscGapWidth = null;
+	private Combo cmbHidden = null;
 
-	private Button cbHidden = null;
-
-	private Button cbTickBetweenCategory = null;
-
+	private Combo cmbTickBetweenCategory = null;
+	
 	private Group grpMajor = null;
 
 	private Group grpMinor = null;
@@ -82,6 +79,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 	private Label lblGridStepNum;
 
 	private Label lblColor;
+
+	private Button btnMajStpNum;
+
+	private Button btnGridCountUnit;
 
 	/**
 	 * @param title
@@ -129,39 +130,33 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		// Choices composite
-		Composite choiceComposite = new Composite( cmpContent, SWT.NONE );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		choiceComposite.setLayoutData( gd );
-		choiceComposite.setLayout( new GridLayout( 2, true ) );
-
 		// Axis Visibility
-		cbHidden = new Button( choiceComposite, SWT.CHECK );
-		cbHidden.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		cbHidden.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.HideAxisLine" ) ); //$NON-NLS-1$
-		cbHidden.setSelection( !axis.getLineAttributes( ).isVisible( ) );
-		cbHidden.addSelectionListener( this );
+		Label lbl = new Label(cmpContent, SWT.NONE );
+		lbl.setText(Messages.getString("AxisGridLinesSheet.Label.AxisLine")); //$NON-NLS-1$
+		
+		cmbHidden = ChartUIExtensionUtil.createCombo( cmpContent, ChartUIExtensionUtil.getShowHideComboItems( ) );
+		cmbHidden.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		cmbHidden.select( axis.getLineAttributes( ).isSetVisible( ) ? ( axis.getLineAttributes( )
+				.isVisible( ) ? 1 : 2 )
+				: 0 );
+		cmbHidden.addSelectionListener( this );
 
 		// Axis as Category / Value type
-		cbTickBetweenCategory = new Button( choiceComposite, SWT.CHECK );
-		cbTickBetweenCategory.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
-		cbTickBetweenCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories" ) ); //$NON-NLS-1$
-		cbTickBetweenCategory.setSelection( axis.getScale( )
-				.isTickBetweenCategories( ) );
-		cbTickBetweenCategory.addSelectionListener( this );
-		cbTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
-		cbTickBetweenCategory.setVisible( (angleType == AngleType.X ) && axis.isCategoryAxis( ) );
+		if ( isTickBetweenCategory( ) )
+		{
+			lbl = new Label( cmpContent, SWT.NONE );
+			lbl.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories" ) ); //$NON-NLS-1$
+			cmbTickBetweenCategory = ChartUIExtensionUtil.createCombo( cmpContent,
+					ChartUIExtensionUtil.getEnableDisableComboItemds( ) );
+			cmbTickBetweenCategory.select( axis.getScale( )
+					.isSetTickBetweenCategories( ) ? ( axis.getScale( )
+					.isTickBetweenCategories( ) ? 1 : 2 ) : 0 );
+			cmbTickBetweenCategory.addSelectionListener( this );
+			cmbTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
+			lbl.setVisible( isTickBetweenCategory( ) );
+		}
 
-		// General attributes composite
-		cmpGeneral = new Composite( cmpContent, SWT.NONE );
-		GridData gdCMPGeneral = new GridData( GridData.FILL_BOTH );
-		gdCMPGeneral.horizontalSpan = 2;
-		gdCMPGeneral.grabExcessVerticalSpace = false;
-		cmpGeneral.setLayoutData( gdCMPGeneral );
-		cmpGeneral.setLayout( glGeneral );
-
-		lblColor = new Label( cmpGeneral, SWT.NONE );
+		lblColor = new Label( cmpContent, SWT.NONE );
 		GridData gdLBLColor = new GridData( GridData.FILL );
 		lblColor.setLayoutData( gdLBLColor );
 		lblColor.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.AxisLineColor" ) ); //$NON-NLS-1$
@@ -171,7 +166,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			clrCurrent = axis.getLineAttributes( ).getColor( );
 		}
-		fccLine = new FillChooserComposite( cmpGeneral,
+		fccLine = new FillChooserComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),
 				clrCurrent,
@@ -182,23 +177,29 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				false,
 				false );
 		GridData gdFCCLine = new GridData( GridData.FILL_BOTH );
-		gdFCCLine.horizontalSpan = 9;
+		gdFCCLine.horizontalSpan = 1;
 		gdFCCLine.heightHint = fccLine.getPreferredSize( ).y;
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
-		lblColor.setEnabled( !cbHidden.getSelection( ) );
-		fccLine.setEnabled( !cbHidden.getSelection( ) );
+		lblColor.setEnabled( cmbHidden.getSelectionIndex( ) == 1 );
+		fccLine.setEnabled( cmbHidden.getSelectionIndex( ) == 1  );
 
-		lblGridStepNum = new Label( cmpGeneral, SWT.NONE );
+		lblGridStepNum = new Label( cmpContent, SWT.NONE );
 		GridData gdLblGridStepNum = new GridData( GridData.FILL );
 		lblGridStepNum.setLayoutData( gdLblGridStepNum );
 		lblGridStepNum.setText( Messages.getString("BaseAxisDataSheetImpl.Lbl.MajorGridStepNum") ); //$NON-NLS-1$
 		
-		majGridStNum = new Spinner( cmpGeneral, SWT.BORDER );
+		Composite copMajGrid = new Composite( cmpContent, SWT.NONE );
+		GridLayout gl = new GridLayout( );
+		gl.numColumns = 2;
+		gl.marginWidth = 0;
+		gl.marginHeight = 0;
+		copMajGrid.setLayout( gl );
+		
+		majGridStNum = new Spinner( copMajGrid, SWT.BORDER );
 		{
-			gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 4;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			majGridStNum.setLayoutData( gd );
 			majGridStNum.setMinimum( 1 );
 			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
@@ -206,22 +207,40 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 			majGridStNum.addSelectionListener( this );
 		}
 		
-		lblGridCount = new Label( cmpGeneral, SWT.NONE );
+		btnMajStpNum = new Button( copMajGrid, SWT.CHECK);
+		btnMajStpNum.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnMajStpNum.setSelection( !getAxisForProcessing( ).getScale( ).isSetMajorGridsStepNumber( ) );
+		majGridStNum.setEnabled( !btnMajStpNum.getSelection( ) );
+		btnMajStpNum.addSelectionListener( this );
+		
+		lblGridCount = new Label( cmpContent, SWT.NONE );
 		GridData gdLBLGridCount = new GridData( );
 		lblGridCount.setLayoutData( gdLBLGridCount );
 		lblGridCount.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
 
-		iscGridCount = new Spinner( cmpGeneral, SWT.BORDER );
+		Composite copMinGrid = new Composite( cmpContent, SWT.NONE );
+		gl = new GridLayout( );
+		gl.numColumns = 2;
+		gl.marginWidth = 0;
+		gl.marginHeight = 0;
+		copMinGrid.setLayout( gl );
+		
+		iscGridCount = new Spinner( copMinGrid, SWT.BORDER );
 		{
-			gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 4;
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			iscGridCount.setLayoutData( gd );
 			iscGridCount.setMinimum( 1 );
 			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
 					.getMinorGridsPerUnit( ) );
 			iscGridCount.addSelectionListener( this );
 		}
-
+		
+		btnGridCountUnit = new Button( copMinGrid, SWT.CHECK);
+		btnGridCountUnit.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnGridCountUnit.setSelection( !getAxisForProcessing( ).getScale( ).isSetMinorGridsPerUnit( ));
+		iscGridCount.setEnabled( !btnGridCountUnit.getSelection( ) );
+		btnGridCountUnit.addSelectionListener( this );
+		
 		// Comments out for deficient support
 		// Axis gap width
 		// cmpGapWidth = new Composite( cmpGeneral, SWT.NONE );
@@ -292,6 +311,11 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		return cmpContent;
 	}
 
+	protected boolean isTickBetweenCategory( )
+	{
+		return (angleType == AngleType.X ) && axis.isCategoryAxis( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -316,17 +340,22 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		}
 		else if ( this.gacMajor.equals( event.widget ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case GridAttributesComposite.LINE_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getMajorGrid( )
-							.getLineAttributes( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( )
+							.getLineAttributes( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case GridAttributesComposite.LINE_WIDTH_CHANGED_EVENT :
-					getAxisForProcessing( ).getMajorGrid( )
-							.getLineAttributes( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( )
+							.getLineAttributes( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case GridAttributesComposite.LINE_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getMajorGrid( )
@@ -334,9 +363,11 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case GridAttributesComposite.LINE_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getMajorGrid( )
-							.getLineAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( )
+							.getLineAttributes( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					setStateOfMajorGrid( );
 					break;
 				case GridAttributesComposite.TICK_COLOR_CHANGED_EVENT :
@@ -345,29 +376,38 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getMajorGrid( )
-							.setTickStyle( (TickStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( ),
+							"tickStyle", //$NON-NLS-1$
+							(TickStyle) event.data,
+							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getMajorGrid( )
-							.getTickAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( )
+							.getTickAttributes( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
 		else if ( this.gacMinor.equals( event.widget ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case GridAttributesComposite.LINE_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getMinorGrid( )
-							.getLineAttributes( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( )
+							.getLineAttributes( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case GridAttributesComposite.LINE_WIDTH_CHANGED_EVENT :
-					getAxisForProcessing( ).getMinorGrid( )
-							.getLineAttributes( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( )
+							.getLineAttributes( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case GridAttributesComposite.LINE_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getMinorGrid( )
@@ -375,9 +415,11 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case GridAttributesComposite.LINE_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getMinorGrid( )
-							.getLineAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( )
+							.getLineAttributes( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					setStateOfMinorGrid( );
 					break;
 				case GridAttributesComposite.TICK_COLOR_CHANGED_EVENT :
@@ -386,13 +428,17 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getMinorGrid( )
-							.setTickStyle( (TickStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( ),
+							"tickStyle", //$NON-NLS-1$
+							(TickStyle) event.data,
+							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getMinorGrid( )
-							.getTickAttributes( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( )
+							.getTickAttributes( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					setStateOfMinorGrid( );
 					break;
 			}
@@ -405,15 +451,19 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
 		{
 			enabled = getAxisForProcessing( ).getMinorGrid( )
-				.getLineAttributes( )
-				.isVisible( )
-				;
+					.getLineAttributes( )
+					.isSetVisible( )
+					&& getAxisForProcessing( ).getMinorGrid( )
+							.getLineAttributes( )
+							.isVisible( );
 			if ( !ChartUIUtil.is3DType( getChart( ) ) )
 			{
 				enabled = enabled
-						|| getAxisForProcessing( ).getMinorGrid( )
+						|| ( getAxisForProcessing( ).getMinorGrid( )
 								.getTickAttributes( )
-								.isVisible( );
+								.isSetVisible( ) && getAxisForProcessing( ).getMinorGrid( )
+								.getTickAttributes( )
+								.isVisible( ) );
 			}
 		}
 		else
@@ -431,7 +481,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			enabled = getAxisForProcessing( ).getMajorGrid( )
 					.getLineAttributes( )
-					.isVisible( );
+					.isSetVisible( )
+					&& getAxisForProcessing( ).getMajorGrid( )
+							.getLineAttributes( )
+							.isVisible( );
 		}
 		else
 		{
@@ -450,19 +503,24 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( oSource.equals( cbHidden ) )
+		if ( e.widget == cmbHidden )
 		{
+			boolean visible = cmbHidden.getSelectionIndex( ) == 1;
 			// Process hiding showing of axis
-			getAxisForProcessing( ).getLineAttributes( )
-					.setVisible( !cbHidden.getSelection( ) );
-			lblColor.setEnabled( !cbHidden.getSelection( ) );
-			fccLine.setEnabled( !cbHidden.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLineAttributes( ),
+					"visible", //$NON-NLS-1$
+					visible,
+					cmbHidden.getSelectionIndex( ) == 0 );
+			lblColor.setEnabled( visible );
+			fccLine.setEnabled( visible );
 		}
-		else if ( oSource.equals( cbTickBetweenCategory ) )
+		else if ( oSource.equals( cmbTickBetweenCategory ) )
 		{
 			// Process setting of cross categories
-			getAxisForProcessing( ).getScale( )
-					.setTickBetweenCategories( cbTickBetweenCategory.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getScale( ),
+					"tickBetweenCategories", //$NON-NLS-1$
+					cmbTickBetweenCategory.getSelectionIndex( ) == 1,
+					cmbTickBetweenCategory.getSelectionIndex( ) == 0 );
 		}
 		if ( oSource.equals( iscGridCount ) )
 		{
@@ -473,6 +531,22 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			getAxisForProcessing( ).getScale( )
 					.setMajorGridsStepNumber( majGridStNum.getSelection( ) );
+		}
+		else if ( e.widget == btnMajStpNum )
+		{
+			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getScale( ),
+					"majorGridsStepNumber", //$NON-NLS-1$
+					majGridStNum.getSelection( ),
+					btnMajStpNum.getSelection( ) );
+			majGridStNum.setEnabled( !btnMajStpNum.getSelection( ) );
+		}
+		else if ( e.widget == btnGridCountUnit )
+		{
+			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getScale( ),
+					"minorGridsPerUnit", //$NON-NLS-1$
+					iscGridCount.getSelection( ),
+					btnGridCountUnit.getSelection( ) );
+			iscGridCount.setEnabled( !btnGridCountUnit.getSelection( ) );
 		}
 	}
 

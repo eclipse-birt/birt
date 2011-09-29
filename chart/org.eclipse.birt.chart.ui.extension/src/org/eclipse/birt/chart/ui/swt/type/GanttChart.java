@@ -183,7 +183,6 @@ public class GanttChart extends DefaultChartTypeImpl
 		yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = GanttSeriesImpl.create( );
 		valueSeries.setLabelPosition( Position.ABOVE_LITERAL );
 		sdY.getSeries( ).add( valueSeries );

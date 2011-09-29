@@ -28,10 +28,12 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -60,11 +62,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
@@ -327,11 +331,11 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		final MarkerRenderer mr = new MarkerRenderer( idrSWT,
 				StructureSource.createUnknown( null ),
 				location,
-				LineAttributesImpl.create( getMarker( ).isVisible( ) ? ColorDefinitionImpl.BLUE( )
+				LineAttributesImpl.create( ( getMarker( ).isSetVisible( ) && getMarker( ).isVisible( ) ) ? ColorDefinitionImpl.BLUE( )
 						: ColorDefinitionImpl.GREY( ),
 						LineStyle.SOLID_LITERAL,
 						1 ),
-				getMarker( ).isVisible( ) ? ColorDefinitionImpl.create( 80,
+				( getMarker( ).isSetVisible( ) && getMarker( ).isVisible( ) ) ? ColorDefinitionImpl.create( 80,
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
@@ -436,9 +440,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private Spinner iscMarkerSize;
 
-		private Button btnMarkerVisible;
+		private Combo cmbMarkerVisible;
 		
-		private Button btnOutline;
+		private Combo cmbOutline;
 		
 		private Composite cmpType;
 
@@ -451,6 +455,10 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private int markerTypeIndex = -1;
 
+		private Button btnMarkerSizeAuto;
+
+		private Label lblOutline;
+
 		MarkerDropDownEditorComposite( Composite parent, int style )
 		{
 			super( parent, style );
@@ -459,18 +467,25 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private void placeComponents( )
 		{
-			GridLayout glDropDown = new GridLayout( );
+			GridLayout glDropDown = new GridLayout( 2, false );
 			this.setLayout( glDropDown );
 
-			btnMarkerVisible = new Button( this, SWT.CHECK );
+			Label lbl = new Label(this, SWT.NONE);
+			lbl.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+			
+			cmbMarkerVisible = ChartUIExtensionUtil.createTrueFalseItemsCombo( this );
 			{
-				btnMarkerVisible.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-				btnMarkerVisible.setSelection( getMarker( ).isVisible( ) );
-				btnMarkerVisible.addListener( SWT.Selection, this );
-				btnMarkerVisible.addListener( SWT.FocusOut, this );
-				btnMarkerVisible.addListener( SWT.KeyDown, this );
-				btnMarkerVisible.addListener( SWT.Traverse, this );
-				btnMarkerVisible.setFocus( );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 1;
+				cmbMarkerVisible.setLayoutData( gd );
+				cmbMarkerVisible.select( getMarker( ).isSetVisible( ) ? ( getMarker( ).isVisible( ) ? 1
+						: 2 )
+						: 0 );
+				cmbMarkerVisible.addListener( SWT.Selection, this );
+				cmbMarkerVisible.addListener( SWT.FocusOut, this );
+				cmbMarkerVisible.addListener( SWT.KeyDown, this );
+				cmbMarkerVisible.addListener( SWT.Traverse, this );
+				cmbMarkerVisible.setFocus( );
 			}
 
 			cmpType = new Composite( this, SWT.NONE );
@@ -482,7 +497,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				layout.horizontalSpacing = 0;
 				layout.verticalSpacing = 0;
 				cmpType.setLayout( layout );
-				cmpType.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+				GridData gd = new GridData( GridData.FILL_BOTH );
+				gd.horizontalSpan = 2;
+				cmpType.setLayoutData( gd );
 				cmpType.addListener( SWT.Traverse, this );
 				cmpType.addListener( SWT.KeyDown, this );
 				cmpType.addListener( SWT.FocusOut, this );
@@ -511,14 +528,17 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 			grpSize = new Group( this, SWT.NONE );
 			{
-				grpSize.setLayout( new GridLayout( ) );
-				grpSize.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				grpSize.setLayout( new GridLayout( 2, false ) );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 2;
+				grpSize.setLayoutData( gd );
 				grpSize.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Size" ) ); //$NON-NLS-1$
 			}
 
 			iscMarkerSize = new Spinner( grpSize, SWT.BORDER );
 			{
-				iscMarkerSize.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				iscMarkerSize.setLayoutData( gd );
 				iscMarkerSize.setMinimum( 0 );
 				iscMarkerSize.setMaximum( 100 );
 				iscMarkerSize.addListener( SWT.Selection, this );
@@ -527,20 +547,29 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				iscMarkerSize.setSelection( getMarker( ).getSize( ) );
 			}
 			
-			btnOutline = new Button( this, SWT.CHECK );
+			btnMarkerSizeAuto = new Button(grpSize, SWT.CHECK );
+			btnMarkerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnMarkerSizeAuto.setSelection( !getMarker().isSetSize( ) );
+			iscMarkerSize.setEnabled( ( cmbMarkerVisible.getSelectionIndex( ) != 0 )
+					&& !btnMarkerSizeAuto.getSelection( ) );
+			btnMarkerSizeAuto.addListener( SWT.Selection, this );
+			
+			lblOutline = new Label(this, SWT.NONE );
+			if ( outlineText != null )
+			{
+				lblOutline.setText( outlineText + ":" );//$NON-NLS-1$
+			}
+			else
+			{
+				lblOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) + ":" ); //$NON-NLS-1$
+			}
+			
+			cmbOutline = ChartUIExtensionUtil.createCombo( this, ChartUIExtensionUtil.getShowHideComboItems( ) );
 			{	
-				if ( outlineText != null )
-				{
-					btnOutline.setText( outlineText );
-				}
-				else
-				{
-					btnOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) ); //$NON-NLS-1$
-				}
-				btnOutline.addListener( SWT.Selection, this );
-				btnOutline.addListener( SWT.FocusOut, this );
-				btnOutline.addListener( SWT.KeyDown, this );
-				btnOutline.addListener( SWT.Traverse, this );
+				cmbOutline.addListener( SWT.Selection, this );
+				cmbOutline.addListener( SWT.FocusOut, this );
+				cmbOutline.addListener( SWT.KeyDown, this );
+				cmbOutline.addListener( SWT.Traverse, this );
 
 				LineAttributes la = getMarker( ).getOutline( );
 				if ( la == null )
@@ -564,18 +593,22 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				}
 
 				getMarker( ).setOutline( la );
-				btnOutline.setSelection( la.isVisible( ) );
+				cmbOutline.select( la.isSetVisible( ) ? ( la.isVisible( ) ? 1
+						: 2 ) : 0 );
 				updateOutlineBtn( );
 			}
-			setEnabledState( btnMarkerVisible.getSelection( ) );
+			setEnabledState( cmbMarkerVisible.getSelectionIndex( ) == 1);
 		}
 
 		void widgetSelected( SelectionEvent e )
 		{
-			if ( e.widget.equals( btnMarkerVisible ) )
+			if ( e.widget.equals( cmbMarkerVisible ) )
 			{
-				getMarker( ).setVisible( btnMarkerVisible.getSelection( ) );
-				setEnabledState( btnMarkerVisible.getSelection( ) );
+				ChartElementUtil.setEObjectAttribute( getMarker( ),
+						"visible", //$NON-NLS-1$
+						cmbMarkerVisible.getSelectionIndex( ) == 1,
+						cmbMarkerVisible.getSelectionIndex( ) == 0 );
+				setEnabledState( cmbMarkerVisible.getSelectionIndex( ) == 1 );
 				cnvMarker.redraw( );
 				updateOutlineBtn( );
 			}
@@ -583,12 +616,23 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			{
 				getMarker( ).setSize( iscMarkerSize.getSelection( ) );
 			}
-			else if ( e.widget == btnOutline )
+			else if ( e.widget == cmbOutline )
 			{
 				// Initialize default outline visible state to true.
 				LineAttributes la =  getMarker().getOutline( );
-				la.setVisible( btnOutline.getSelection( ) );
+				ChartElementUtil.setEObjectAttribute( la,
+						"visible", //$NON-NLS-1$
+						cmbOutline.getSelectionIndex( ) == 1,
+						cmbOutline.getSelectionIndex( ) == 0 );
 				cnvMarker.redraw( );
+			}
+			else if ( e.widget == btnMarkerSizeAuto )
+			{
+				ChartElementUtil.setEObjectAttribute( getMarker( ),
+						"size", //$NON-NLS-1$
+						iscMarkerSize.getSelection( ),
+						btnMarkerSizeAuto.getSelection( ) );
+				iscMarkerSize.setEnabled( !btnMarkerSizeAuto.getSelection( ) );
 			}
 		}
 
@@ -596,7 +640,15 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		{
 			cmpType.setEnabled( isEnabled );
 			grpSize.setEnabled( isEnabled );
-			iscMarkerSize.setEnabled( isEnabled );
+			btnMarkerSizeAuto.setEnabled( isEnabled );
+			if ( btnMarkerSizeAuto.getSelection( ) )
+			{
+				iscMarkerSize.setEnabled( false );	
+			}
+			else
+			{
+				iscMarkerSize.setEnabled( isEnabled );
+			}
 
 			Control[] cnvTypes = cmpType.getChildren( );
 			for ( int i = 0; i < cnvTypes.length; i++ )
@@ -840,7 +892,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		
 		private void updateOutlineBtn()
 		{
-			btnOutline.setEnabled( btnMarkerVisible.getSelection( ) );
+			lblOutline.setEnabled( cmbMarkerVisible.getSelectionIndex( ) == 1 );
+			cmbOutline.setEnabled( cmbMarkerVisible.getSelectionIndex( ) == 1 );
 		}
 
 	}

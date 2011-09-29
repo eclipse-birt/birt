@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -61,7 +63,7 @@ public class NeedleComposite extends Composite implements Listener
 
 		cmbHeadStyle = new HeadStyleAttributeComposite( this,
 				SWT.NONE,
-				series.getNeedle( ).getDecorator( ) );
+				series.getNeedle( ).isSetDecorator( ) ? series.getNeedle( ).getDecorator( ) : null );
 		GridData gdCMBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
 		cmbHeadStyle.setLayoutData( gdCMBHeadStyle );
 		cmbHeadStyle.addListener( this );
@@ -72,27 +74,35 @@ public class NeedleComposite extends Composite implements Listener
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacNeedle ) )
+		{
+			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
-				{
-					series.getNeedle( )
-							.getLineAttributes( )
-							.setStyle( (LineStyle) event.data );
-				}
-				else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
-				{
-					series.getNeedle( )
-							.getLineAttributes( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
-				}
+				ChartElementUtil.setEObjectAttribute( series.getNeedle( )
+						.getLineAttributes( ),
+						"style", //$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
-			else if ( event.widget.equals( cmbHeadStyle ) )
+			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				if ( event.type == HeadStyleAttributeComposite.STYLE_CHANGED_EVENT )
-				{
-					series.getNeedle( ).setDecorator( (LineDecorator) event.data );
-				}
+				ChartElementUtil.setEObjectAttribute( series.getNeedle( )
+						.getLineAttributes( ),
+						"thickness", //$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
+		}
+		else if ( event.widget.equals( cmbHeadStyle ) )
+		{
+			if ( event.type == HeadStyleAttributeComposite.STYLE_CHANGED_EVENT )
+			{
+				ChartElementUtil.setEObjectAttribute( series.getNeedle( ),
+						"decorator", //$NON-NLS-1$
+						(LineDecorator) event.data,
+						isUnset );
+			}
+		}
 	}
 }

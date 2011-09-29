@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 
@@ -28,6 +29,16 @@ public class ChartStyleProcessorProxy
 
 	private FormatInfo categoryFormat = null;
 
+	protected ChartValueUpdater chartValueUpdater;
+	
+	/**
+	 * Constructor.
+	 */
+	public ChartStyleProcessorProxy()
+	{
+		chartValueUpdater = new ChartValueUpdater( );
+	}
+	
 	/**
 	 * Sets chart's report handle.
 	 * 
@@ -76,5 +87,15 @@ public class ChartStyleProcessorProxy
 	{
 		public FormatValue formatValue = null;
 		public String dataType = null;
+	}
+	
+	/**
+	 * Updates chart values.
+	 * 
+	 * @param cm
+	 */
+	public void updateChart( Chart cm )
+	{
+		chartValueUpdater.update( cm, null );
 	}
 }

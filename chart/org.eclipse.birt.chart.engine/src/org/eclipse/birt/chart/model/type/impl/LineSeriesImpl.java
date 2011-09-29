@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -956,6 +957,39 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		getMarkers( ).add( m );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return
+	 */
+	public static Series createDefault( ) // SUBCLASSED BY ScatterSeriesImpl
+	{
+		final LineSeries ls = TypeFactory.eINSTANCE.createLineSeries( );
+		( (LineSeriesImpl) ls ).initDefault( );
+		return ls;
+	}
+
+	/**
+	 * Initializes all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( ) // SUBCLASSED BY ScatterSeriesImpl
+	{
+		super.initDefault( );
+
+		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+				LineStyle.SOLID_LITERAL,
+				1, true );
+		setLineAttributes( lia );
+		labelPosition = Position.ABOVE_LITERAL;
+
+		final Marker m = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4, true );
+		LineAttributes la = LineAttributesImpl.createDefault( true );
+		m.setOutline( la );
+		getMarkers( ).add( m );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

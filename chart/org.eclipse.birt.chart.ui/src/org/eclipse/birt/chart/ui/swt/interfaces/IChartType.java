@@ -217,4 +217,11 @@ public interface IChartType
 	 * @since 4.0
 	 */
 	String getValueDefinitionName( );
+	
+	/**
+	 * Check if the chart type supports axes.
+	 * 
+	 * @return
+	 */
+	boolean isChartWithAxes( );
 }

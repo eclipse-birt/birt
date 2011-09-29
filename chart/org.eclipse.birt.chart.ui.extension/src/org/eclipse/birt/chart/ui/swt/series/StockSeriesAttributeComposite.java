@@ -18,11 +18,13 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -52,9 +54,9 @@ public class StockSeriesAttributeComposite extends Composite implements
 
 	private Spinner iscStick = null;
 
-	private StockSeries series = null;
+	protected StockSeries series = null;
 
-	private transient ChartWizardContext context;
+	protected transient ChartWizardContext context;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -93,7 +95,7 @@ public class StockSeriesAttributeComposite extends Composite implements
 				getParent( ).getClientArea( ).height );
 	}
 
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		// Main content composite
 		this.setLayout( new GridLayout( ) );
@@ -107,6 +109,11 @@ public class StockSeriesAttributeComposite extends Composite implements
 			grpLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
+		initUIComponents( grpLine );
+	}
+
+	protected void initUIComponents( Group grpLine )
+	{
 		// Line Attributes composite
 		liacStock = new LineAttributesComposite( grpLine,
 				SWT.NONE,
@@ -173,21 +180,29 @@ public class StockSeriesAttributeComposite extends Composite implements
 		// {
 		// series.setFill( (Fill) event.data );
 		// }
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacStock ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getLineAttributes( ).setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"style",//$NON-NLS-1$
+						(LineStyle) event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{

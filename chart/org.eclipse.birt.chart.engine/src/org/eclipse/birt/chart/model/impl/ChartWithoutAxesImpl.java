@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
@@ -25,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -576,6 +578,37 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 		super.initialize( );
 		setGridColumnCount( 0 );
 		getLegend( ).setItemType( LegendItemType.CATEGORIES_LITERAL );
+	}
+	
+	/**
+	 * A convenience method to create an initialized 'ChartWithoutAxes' instance
+	 * 
+	 * @return chart model
+	 */
+	public static ChartWithoutAxes createDefault( )
+	{
+		final ChartWithoutAxes cwoa = ModelFactory.eINSTANCE.createChartWithoutAxes( );
+		( (ChartWithoutAxesImpl) cwoa ).initDefault( );
+		return cwoa;
+	}
+
+	/**
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( )
+	{
+		// INITIALIZE SUPER'S MEMBERS
+		super.initDefault( );
+		gridColumnCount = 0;
+		try
+		{
+			ChartElementUtil.setDefaultValue( getLegend( ),
+					"itemType", LegendItemType.CATEGORIES_LITERAL ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+		}
 	}
 
 	/*

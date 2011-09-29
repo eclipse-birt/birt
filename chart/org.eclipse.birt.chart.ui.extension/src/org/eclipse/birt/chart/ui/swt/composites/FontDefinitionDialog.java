@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite.IFontDefinitionDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -109,9 +110,13 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient boolean isAlignmentEnabled = true;
 
-	private transient List listAlighmentButtons = new ArrayList( 9 );
+	private transient List listAlignmentButtons = new ArrayList( 9 );
 
 	private transient ChartWizardContext wizardContext;
+
+	private Button btnAlignmentAuto;
+
+	private Button btnAutoRotation;
 
 	private static final String[] FONT_SIZE = new String[]{
 			ChartUIUtil.FONT_AUTO,
@@ -305,11 +310,15 @@ public class FontDefinitionDialog extends TrayDialog implements
 			GridData gdCMPAlignment = new GridData( GridData.FILL_HORIZONTAL );
 			gdCMPAlignment.horizontalSpan = 8;
 			cmpAlignment.setLayoutData( gdCMPAlignment );
-			GridLayout glAlignment = new GridLayout( 11, false );
+			GridLayout glAlignment = new GridLayout( 12, false );
 			glAlignment.marginWidth = 2;
 			glAlignment.marginHeight = 0;
 			cmpAlignment.setLayout( glAlignment );
 		}
+		
+		btnAlignmentAuto = new Button(cmpAlignment, SWT.CHECK );
+		btnAlignmentAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnAlignmentAuto.addSelectionListener( this );
 		
 		btnATopLeft = createAlighmentButton( cmpAlignment );
 		btnATopCenter = createAlighmentButton( cmpAlignment );
@@ -419,6 +428,16 @@ public class FontDefinitionDialog extends TrayDialog implements
 			btnABottomRight.getImage( )
 					.setBackground( btnABottomRight.getBackground( ) );	
 		}
+		btnAlignmentAuto.setSelection( !isSetAlignment( ) );
+		if ( btnAlignmentAuto.getSelection( ) )
+		{
+			disableAlignmentBtns( );
+		}
+	}
+
+	protected boolean isSetAlignment( )
+	{
+		return fdCurrent.getAlignment( ).isSetHorizontalAlignment( ) || fdCurrent.getAlignment( ).isSetVerticalAlignment( );
 	}
 
 	private Button createAlighmentButton( Composite parent )
@@ -429,15 +448,15 @@ public class FontDefinitionDialog extends TrayDialog implements
 		gd.heightHint = 32;
 		button.setLayoutData( gd );
 		button.addSelectionListener( this );
-		listAlighmentButtons.add( button );
+		listAlignmentButtons.add( button );
 		return button;
 	}
 
 	private void selectAllToggleButtons( boolean selection )
 	{
-		for ( int i = 0; i < listAlighmentButtons.size( ); i++ )
+		for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
 		{
-			( (Button) listAlighmentButtons.get( i ) ).setSelection( selection );
+			( (Button) listAlignmentButtons.get( i ) ).setSelection( selection );
 		}
 	}
 
@@ -488,12 +507,17 @@ public class FontDefinitionDialog extends TrayDialog implements
 				SWT.NONE,
 				ChartUIUtil.getFontRotation( fdCurrent ) );
 		GridData gdISCRotation = new GridData( GridData.FILL_HORIZONTAL );
-		gdISCRotation.horizontalSpan = 2;
+		gdISCRotation.horizontalSpan = 1;
+		gdISCRotation.minimumWidth = 40;
 		iscRotation.setLayoutData( gdISCRotation );
 		iscRotation.setMinimum( -90 );
 		iscRotation.setMaximum( 90 );
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
+		
+		btnAutoRotation = new Button( cmpRotation, SWT.CHECK );
+		btnAutoRotation.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnAutoRotation.addSelectionListener( this );
 		
 		Label lblPreview = new Label( cmpContent, SWT.NONE );
 		{
@@ -632,7 +656,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 		Object oSource = e.getSource( );
 
 		// Handle with alignment buttons
-		if ( listAlighmentButtons.contains( oSource ) )
+		if ( listAlignmentButtons.contains( oSource ) )
 		{
 			if ( !( (Button) oSource ).getSelection( ) )
 			{
@@ -645,6 +669,38 @@ public class FontDefinitionDialog extends TrayDialog implements
 			}
 			selectAllToggleButtons( false );
 			( (Button) oSource ).setSelection( true );
+		}
+		else if ( e.widget == btnAlignmentAuto )
+		{
+			if ( btnAlignmentAuto.getSelection( ) )
+			{
+				disableAlignmentBtns( );
+				fdCurrent.getAlignment( ).unsetHorizontalAlignment( );
+				fdCurrent.getAlignment( ).unsetVerticalAlignment( );
+			}
+			else
+			{
+				for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
+				{
+					( (Button) listAlignmentButtons.get( i ) ).setEnabled( true );
+				}
+			}
+			return;
+		}
+		else if ( e.widget == btnAutoRotation )
+		{
+			if ( btnAutoRotation.getSelection( ) )
+			{
+				iscRotation.setEnabled( false );
+				ascRotation.setEnabled( false );
+				fdCurrent.unsetRotation( );	
+			}
+			else
+			{
+				iscRotation.setEnabled( true );
+				ascRotation.setEnabled( true );
+			}
+			return;
 		}
 
 		if ( oSource.equals( btnBold ) )
@@ -782,6 +838,15 @@ public class FontDefinitionDialog extends TrayDialog implements
 			fdCurrent.getAlignment( )
 					.setVerticalAlignment( VerticalAlignment.BOTTOM_LITERAL );
 			updatePreview( );
+		}
+	}
+
+	protected void disableAlignmentBtns( )
+	{
+		for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
+		{
+			( (Button) listAlignmentButtons.get( i ) ).setSelection( false );
+			( (Button) listAlignmentButtons.get( i ) ).setEnabled( false );
 		}
 	}
 

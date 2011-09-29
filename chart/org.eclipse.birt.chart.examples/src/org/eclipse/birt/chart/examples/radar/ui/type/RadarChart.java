@@ -189,7 +189,6 @@ public class RadarChart extends DefaultChartTypeImpl
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
@@ -201,7 +200,6 @@ public class RadarChart extends DefaultChartTypeImpl
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.setZOrder( 1 );
-		sdY.getSeriesPalette( ).shift( 0 );
 		RadarSeries valueSeries = RadarSeriesImpl.create( );
 
 		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
@@ -477,5 +475,10 @@ public class RadarChart extends DefaultChartTypeImpl
 	{
 		return Messages.getString( "RadarSeriesUIProvider.Label.ValueDefinition" ); //$NON-NLS-1$
 	}
-
+	
+	@Override
+	public boolean isChartWithAxes( )
+	{
+		return false;
+	}
 }

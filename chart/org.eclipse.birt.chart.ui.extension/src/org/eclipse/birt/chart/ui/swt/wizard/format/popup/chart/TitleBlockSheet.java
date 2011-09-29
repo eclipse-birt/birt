@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
@@ -24,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -136,12 +139,16 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		lblBackground.setLayoutData( gdLBLBackground );
 		lblBackground.setText( Messages.getString( "TitlePropertiesSheet.Label.Background" ) ); //$NON-NLS-1$
 
+		int fillStyels = FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 		fccBackground = new FillChooserComposite( cmpGeneralTop,
 				SWT.NONE,
+				fillStyels,
 				getContext( ),
-				getBlockForProcessing( ).getBackground( ),
-				true,
-				true );
+				getBlockForProcessing( ).getBackground( ) );
 		GridData gdFCCBackground = new GridData( GridData.FILL_HORIZONTAL );
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
@@ -152,13 +159,16 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setText( Messages.getString( "TitlePropertiesSheet.Label.Outline" ) ); //$NON-NLS-1$
 
+		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ),
-				true,
-				true,
-				true );
+				getBlockForProcessing( ).getOutline( ) );
 		liacOutline.addListener( this );
 
 		ic = new InsetsComposite( grpGeneral,
@@ -168,6 +178,7 @@ public class TitleBlockSheet extends AbstractPopupSheet
 				getContext( ).getUIServiceProvider( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		ic.setLayoutData( gdInsets );
+		ic.setDefaultInsetsValue( DefaultValueProvider.defTitleBlock( ).getInsets( ) );
 
 		populateLists( );
 
@@ -187,23 +198,30 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( this.liacOutline ) )
 		{
+			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"style", //$NON-NLS-1$
+							(LineStyle) event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getBlockForProcessing( ).getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
@@ -225,26 +243,40 @@ public class TitleBlockSheet extends AbstractPopupSheet
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbAnchor ) )
 		{
-			boolean bAnchorVerticalOld = isAnchorVertical( getBlockForProcessing( ).getAnchor( ) );
-			getBlockForProcessing( ).setAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
-			boolean bAnchorVerticalNew = isAnchorVertical( getBlockForProcessing( ).getAnchor( ) );
-			if ( bAnchorVerticalOld != bAnchorVerticalNew )
+			if ( cmbAnchor.getSelectionIndex( ) == 0 )
 			{
-				double rotationOld = getBlockForProcessing( ).getLabel( )
-						.getCaption( )
-						.getFont( )
-						.getRotation( );
-				double rotationNew = rotationOld >= 0 ? 90 - rotationOld : -90
-						- rotationOld;
-				getBlockForProcessing( ).getLabel( )
-						.getCaption( )
-						.getFont( )
-						.setRotation( rotationNew );
+				getBlockForProcessing( ).unsetAnchor( );
+			}
+			else
+			{
+				boolean bAnchorVerticalOld = isAnchorVertical( getBlockForProcessing( ).getAnchor( ) );
+				getBlockForProcessing( ).setAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+				boolean bAnchorVerticalNew = isAnchorVertical( getBlockForProcessing( ).getAnchor( ) );
+				if ( bAnchorVerticalOld != bAnchorVerticalNew )
+				{
+					double rotationOld = getBlockForProcessing( ).getLabel( )
+							.getCaption( )
+							.getFont( )
+							.getRotation( );
+					double rotationNew = rotationOld >= 0 ? 90 - rotationOld
+							: -90 - rotationOld;
+					getBlockForProcessing( ).getLabel( )
+							.getCaption( )
+							.getFont( )
+							.setRotation( rotationNew );
+				}
 			}
 		}
 		else if ( oSource.equals( cmbStretch ) )
 		{
-			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+			if ( cmbStretch.getSelectionIndex( ) == 0 )
+			{
+				getBlockForProcessing( ).unsetStretch( );
+			}
+			else
+			{
+				getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+			}
 		}
 	}
 
@@ -266,15 +298,17 @@ public class TitleBlockSheet extends AbstractPopupSheet
 	{
 		// Set block Anchor property
 		NameSet ns = LiteralHelper.titleAnchorSet;
-		cmbAnchor.setItems( ns.getDisplayNames( ) );
-		cmbAnchor.select( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
-				.getName( ) ) );
+		cmbAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbAnchor.select( getBlockForProcessing( ).isSetAnchor( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
+				.getName( ) ) + 1 )
+				: 0 );
 
 		// Set the block Stretch property
 		ns = LiteralHelper.stretchSet;
-		cmbStretch.setItems( ns.getDisplayNames( ) );
-		cmbStretch.select( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
-				.getName( ) ) );
+		cmbStretch.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbStretch.select( getBlockForProcessing( ).isSetStretch( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
+				.getName( ) ) + 1 )
+				: 0 );
 	}
 
 }

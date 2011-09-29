@@ -241,7 +241,6 @@ public class AreaChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		sdX.getSeriesPalette( ).shift( 0 );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		newChart.getTitle( )
@@ -255,7 +254,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = getSeries( );
 			( (AreaSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -268,7 +266,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			yAxis.setPercent( true );
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = getSeries( );
 			( (AreaSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -280,7 +277,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = getSeries( );
 			( (AreaSeries) valueSeries ).setStacked( false );
 			sdY.getSeries( ).add( valueSeries );
@@ -321,7 +317,6 @@ public class AreaChart extends DefaultChartTypeImpl
 					.setRotation( 0 );
 
 			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).shift( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 		}
@@ -633,7 +628,6 @@ public class AreaChart extends DefaultChartTypeImpl
 					.add( zAxisAncillary );
 
 			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).shift( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 

@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -90,8 +91,10 @@ public class HeadStyleAttributeComposite extends Composite implements
 		lblHeadStyle.setLayoutData( gdLHeadStyle );
 		lblHeadStyle.setText( Messages.getString( "HeadStyleAttributeComposite.Lbl.HeadStyle" ) ); //$NON-NLS-1$
 
-		cmbHeadStyle = new HeadStyleChooserComposite( cmpContent, SWT.DROP_DOWN
-				| SWT.READ_ONLY, laCurrent.getValue( ) );
+		cmbHeadStyle = new HeadStyleChooserComposite( cmpContent,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				laCurrent == null ? HeadStyleChooserComposite.LINE_DECORATOR_AUTO
+						: laCurrent.getValue( ) );
 		GridData gdCBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
 		gdCBHeadStyle.horizontalSpan = 5;
 		cmbHeadStyle.setLayoutData( gdCBHeadStyle );
@@ -110,7 +113,7 @@ public class HeadStyleAttributeComposite extends Composite implements
 
 		if ( laCurrent == null )
 		{
-			cmbHeadStyle.setHeadStyle( LineDecorator.ARROW );
+			cmbHeadStyle.setHeadStyle( HeadStyleChooserComposite.LINE_DECORATOR_AUTO );
 		}
 		else
 		{
@@ -145,6 +148,8 @@ public class HeadStyleAttributeComposite extends Composite implements
 			se.widget = this;
 			se.data = data;
 			se.type = iEventType;
+			se.detail = ( data == null ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+					: ChartUIExtensionUtil.PROPERTY_UPDATE;
 			( (Listener) vListeners.get( iL ) ).handleEvent( se );
 		}
 	}
