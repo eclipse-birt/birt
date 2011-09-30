@@ -995,4 +995,25 @@ public final class PaletteEditorComposite extends Composite implements
 	{
 		return ChartUIUtil.getOrthogonalAxisNumber( wizardContext.getModel( ) ) > 1;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
+	 */
+	@Override
+	public void setEnabled(boolean enabled )
+	{
+		super.setEnabled( enabled );
+		btnAdd.setEnabled( enabled );
+		btnRemove.setEnabled( enabled );
+		btnDown.setEnabled( enabled );
+		btnUp.setEnabled( enabled );
+		if ( coEditor != null )
+		{
+			coEditor.setEnabled( enabled );
+		}
+		if ( coPaletteEntries != null )
+		{
+			coPaletteEntries.setEnabled( enabled );
+		}
+	}
 }

@@ -87,8 +87,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	protected static final int HORIZONTAL_SPACING = 5;
 
 	protected Composite cmpList = null;
-	private Button btnAutoPals;
-	private Button btnSeriesPals;
 
 	public void createControl( Composite parent )
 	{
@@ -116,9 +114,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			cmbColorBy.setLayoutData( gridData );
 			NameSet ns = LiteralHelper.legendItemTypeSet;
 			cmbColorBy.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
-			cmbColorBy.select( getChart( ).getLegend( ).isSetItemType( ) ? ( ns.getSafeNameIndex( getChart( ).getLegend( )
-					.getItemType( )
-					.getName( ) ) + 1 ) : 0 );
+			cmbColorBy.select( getColorByComboDefaultIndex( ) );
 			cmbColorBy.addSelectionListener( this );
 		}
 
@@ -136,6 +132,14 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		createSeriesOptions( cmpScroll );
 
 		createButtonGroup( cmpContent );
+	}
+
+	private int getColorByComboDefaultIndex(  )
+	{
+		return getChart( ).getLegend( ).isSetItemType( ) ? ( LiteralHelper.legendItemTypeSet.getSafeNameIndex( getChart( ).getLegend( )
+				.getItemType( )
+				.getName( ) ) + 1 )
+				: 0;
 	}
 
 	protected void createSeriesOptions( ScrolledComposite cmpScroll )
@@ -288,43 +292,12 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				FillChooserComposite.ENABLE_GRADIENT
 						| FillChooserComposite.ENABLE_IMAGE
 						| FillChooserComposite.ENABLE_POSITIVE_NEGATIVE );
-		Composite cmpPalette = new Composite( cmp, SWT.BORDER );
-		cmpPalette.setLayoutData( new GridData() );
-		cmpPalette.setLayout( new GridLayout(2, false) );
-		
-		btnAutoPals = new Button( cmpPalette, SWT.CHECK );
-		btnAutoPals.setText( "&Auto" );
-		btnAutoPals.addSelectionListener( this );
-		
-		btnSeriesPals = createToggleButton( cmpPalette,
+
+		Button btnSeriesPals = createToggleButton( cmp,
 				BUTTON_PALETTE,
 				Messages.getString( "SeriesSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
 				popup );
 		btnSeriesPals.addSelectionListener( this );
-		
-		updateButtonStatus();
-		boolean disabled = cmbColorBy.getSelectionIndex( ) == 0;
-		if ( disabled )
-		{
-			btnAutoPals.setEnabled( false );
-			btnSeriesPals.setEnabled( false );
-		}
-	}
-
-	private void updateButtonStatus( )
-	{
-		SeriesDefinition sd = getCategorySeriesDefinition();
-		if ( sd.getSeriesPalette( ).getEntries( ).size( ) == 0 )
-		{
-			// It means there isn't specified color palette, it is Auto mode.
-			btnAutoPals.setSelection( true );
-			btnSeriesPals.setEnabled( false );
-		}
-		else
-		{
-			btnAutoPals.setSelection( false );
-			btnSeriesPals.setEnabled( true );			
-		}
 	}
 
 	private SeriesDefinition getCategorySeriesDefinition( )
@@ -844,24 +817,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		// Detach popup dialog if there's selected popup button.
-		if ( btnAutoPals == e.widget )
-		{
-			if ( btnAutoPals.getSelection( ) )
-			{
-				detachPopup( );
-				btnSeriesPals.setEnabled( false );
-				
-				// Disable series palettes, removed all palettes from series definitions of chart.
-				ChartDefaultValueUtil.removeSerlesPalettes( getChart( ) );
-			}
-			else
-			{
-				btnSeriesPals.setEnabled( true );
-				// Add series palettes, user can specify/modify color palette for series defintions.
-				ChartDefaultValueUtil.updateSeriesPalettes( getChart( ), getChart( ).eAdapters( ) );
-			}
-		}
-		else if ( detachPopup( e.widget ) )
+		if ( detachPopup( e.widget ) )
 		{
 			return;
 		}
@@ -874,15 +830,14 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			if ( cmbColorBy.getSelectionIndex( ) == 0 )
 			{
 				getChart( ).getLegend( ).unsetItemType( );
-				btnAutoPals.setEnabled( false );
-				btnSeriesPals.setEnabled( false );
 			}
 			else
 			{
 				getChart( ).getLegend( )
 						.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
 				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
-						&& isGroupedSeries( ) && !btnAutoPals.getSelection( ))
+						&& isGroupedSeries( )
+						&& !ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) ) )
 				{
 					ChartAdapter.beginIgnoreNotifications( );
 
@@ -902,8 +857,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 					ChartAdapter.endIgnoreNotifications( );
 				}
-				btnAutoPals.setEnabled( true );
-				btnSeriesPals.setEnabled( !btnAutoPals.getSelection( ) );
 			}
 			( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedSeries( ) );
 			refreshPopupSheet( );
@@ -912,8 +865,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-		// TODO Auto-generated method stub
-
+		// Do nothing.
 	}
 
 	private boolean isGroupedSeries( )

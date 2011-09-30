@@ -27,6 +27,18 @@ public class ChartDefaultValueUtil
 {
 
 	/**
+	 * Check if current chart use auto series palette.
+	 * 
+	 * @param chart
+	 * @return
+	 */
+	public static boolean isAutoSeriesPalette( Chart chart )
+	{
+		SeriesDefinition sd = ChartUtil.getCategorySeriesDefinition( chart );
+		return ( sd.getSeriesPalette( ).getEntries( ).size( ) == 0 );
+	}
+	
+	/**
 	 * Removes all series palettes.
 	 * 
 	 * @param chart
