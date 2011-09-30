@@ -547,6 +547,7 @@ public class OlapExpressionUtil
 									: ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
+							binding.getTimeFunction( ),
 							convertToDimLevelAttribute( binding.getArguments( ),
 									bindings ),
 							binding.getFilter( ) ) );

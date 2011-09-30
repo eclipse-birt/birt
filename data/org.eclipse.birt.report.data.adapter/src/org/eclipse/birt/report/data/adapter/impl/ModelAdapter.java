@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -33,7 +35,14 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ITimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
+import org.eclipse.birt.data.engine.api.timefunction.TimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -71,6 +80,7 @@ import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.SortHintHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
+import org.eclipse.birt.report.model.api.TimePeriodHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.mozilla.javascript.Scriptable;
@@ -348,6 +358,7 @@ public class ModelAdapter implements IModelAdapter
 			result.setDisplayName( handle.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
 					org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
 					this.context.getDataEngineContext( ).getLocale( ) ) );
+			result.setTimeFunction( adaptTimeFunction( handle ) );
 			result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 			result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
 			result.setFilter( handle.getFilterExpression( ) == null
@@ -368,6 +379,48 @@ public class ModelAdapter implements IModelAdapter
 
 	}
 
+	private ITimeFunction adaptTimeFunction( ComputedColumnHandle handle )
+	{
+		TimeFunction timeFunction = new TimeFunction( );
+		IBaseExpression sciptExpr = this.adaptExpression( (Expression)handle.getReferenceDate( ).getExpression( ) );
+		Object referenceDate = ScriptEvalUtil.evalExpr( sciptExpr, this.context.getDataEngineContext( ).getScriptContext( ), "", 0 );
+		timeFunction.setReferenceDate( new ReferenceDate( DataTypeUtil.toDate(referenceDate) ) );
+		timeFunction.setTimeDimension( handle.getTimeDimension( ).getStringValue( ) );
+		timeFunction.setBaseTimePeriod( populateTimePeriod( handle.getBaseTimePeriod( ) ) );
+		timeFunction.setRelativeTimePeriod( populateTimePeriod( handle.getOffset( ) ) );
+
+		return timeFunction;
+	}
+	
+	private ITimePeriod populateTimePeriod( TimePeriodHandle periodHandle )
+	{
+		String periodType = periodHandle.getTimePeriodType( );
+		ITimePeriod period;
+		
+		if ( DesignChoiceConstants.INTERVAL_YEAR.equals( periodType ) ) 
+		{
+			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.YEAR );
+		}
+		else if ( DesignChoiceConstants.INTERVAL_QUARTER.equals( periodType ) )
+		{
+			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.QUARTER );
+		}
+		else if ( DesignChoiceConstants.INTERVAL_MONTH.equals( periodType ) ) 
+		{
+			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.MONTH );
+		}
+		else if ( DesignChoiceConstants.INTERVAL_WEEK.equals( periodType ) )
+		{
+			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.WEEK );
+		}
+		else if ( DesignChoiceConstants.INTERVAL_DAY.equals( periodType ) ) 
+		{
+			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.DAY );
+		}
+		
+		return period;
+	}
+	
 	/**
 	 * 
 	 * @param handle
