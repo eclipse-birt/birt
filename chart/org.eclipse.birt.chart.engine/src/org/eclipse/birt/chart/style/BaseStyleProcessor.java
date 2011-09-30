@@ -52,4 +52,12 @@ public class BaseStyleProcessor implements IStyleProcessor
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.style.IStyleProcessor#updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
+	 */
+	public boolean updateChart( Chart model, Object obj )
+	{
+		return false;
+	}
+
 }

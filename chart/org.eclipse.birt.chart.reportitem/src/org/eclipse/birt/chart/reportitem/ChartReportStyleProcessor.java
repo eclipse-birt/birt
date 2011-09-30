@@ -790,8 +790,6 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
     @Override
 	public void processStyle( Chart cm )
 	{
-    	styleProcessorProxy.updateChart( cm );
-    	
     	// Apply dataset column's style.
     	DataSetHandle dataset = ChartItemUtil.getBindingDataSet(handle);
     	if ( dataset != null )
@@ -1280,5 +1278,19 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			return factory;
 		}
 		return new ChartStyleProcessorProxy();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.style.BaseStyleProcessor#updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
+	 */
+	@Override
+	public boolean updateChart( Chart model, Object obj )
+	{
+		if ( styleProcessorProxy != null )
+		{
+			styleProcessorProxy.updateChart( model );
+			return true;
+		}
+		return false;
 	}
 }

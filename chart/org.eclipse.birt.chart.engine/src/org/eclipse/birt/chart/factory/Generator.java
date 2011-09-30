@@ -64,6 +64,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.DeferredCache;
@@ -106,6 +107,8 @@ public final class Generator implements IGenerator
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
+	private static final ChartValueUpdater chartValueUpdater = new ChartValueUpdater( );
+	
 	/**
 	 * A private constructor.
 	 */
@@ -137,6 +140,19 @@ public final class Generator implements IGenerator
 	public final void prepareStyles( Chart model,
 			IStyleProcessor externalProcessor )
 	{
+		boolean updatedModel = false;
+		if ( externalProcessor != null )
+		{
+			updatedModel = externalProcessor.updateChart( model, null );
+		}
+		
+		// If chart model is not updated by external processor, use default
+		// value of chart to update current model.
+		if ( !updatedModel )
+		{
+			chartValueUpdater.update( model, null );
+		}
+		
 		// Process styles for the whole chart model at first
 		if ( externalProcessor != null )
 		{
