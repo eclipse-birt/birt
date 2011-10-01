@@ -379,7 +379,7 @@ public class ModelAdapter implements IModelAdapter
 
 	}
 
-	private ITimeFunction adaptTimeFunction( ComputedColumnHandle handle )
+	private ITimeFunction adaptTimeFunction( ComputedColumnHandle handle ) throws DataException, BirtException
 	{
 		TimeFunction timeFunction = new TimeFunction( );
 		IBaseExpression sciptExpr = this.adaptExpression( (Expression)handle.getReferenceDate( ).getExpression( ) );
@@ -395,27 +395,27 @@ public class ModelAdapter implements IModelAdapter
 	private ITimePeriod populateTimePeriod( TimePeriodHandle periodHandle )
 	{
 		String periodType = periodHandle.getTimePeriodType( );
-		ITimePeriod period;
+		ITimePeriod period = null;
 		
 		if ( DesignChoiceConstants.INTERVAL_YEAR.equals( periodType ) ) 
 		{
-			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.YEAR );
+			period = new TimePeriod( periodHandle.getNumberOfUnit( ), TimePeriodType.YEAR );
 		}
 		else if ( DesignChoiceConstants.INTERVAL_QUARTER.equals( periodType ) )
 		{
-			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.QUARTER );
+			period = new TimePeriod( periodHandle.getNumberOfUnit( ), TimePeriodType.QUARTER );
 		}
 		else if ( DesignChoiceConstants.INTERVAL_MONTH.equals( periodType ) ) 
 		{
-			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.MONTH );
+			period = new TimePeriod( periodHandle.getNumberOfUnit( ), TimePeriodType.MONTH );
 		}
 		else if ( DesignChoiceConstants.INTERVAL_WEEK.equals( periodType ) )
 		{
-			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.WEEK );
+			period = new TimePeriod( periodHandle.getNumberOfUnit( ), TimePeriodType.WEEK );
 		}
 		else if ( DesignChoiceConstants.INTERVAL_DAY.equals( periodType ) ) 
 		{
-			period = new TimePeriod( baseTimePeriod.getNumberOfUnit( ), TimePeriodType.DAY );
+			period = new TimePeriod( periodHandle.getNumberOfUnit( ), TimePeriodType.DAY );
 		}
 		
 		return period;

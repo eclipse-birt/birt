@@ -10,7 +10,6 @@ import java.util.List;
  * Use the WTD function to return a set of members of the Time hierarchy from
  * the same week, up to and including a particular member.
  * 
- * @author peng.shi
  * 
  */
 public class WeekToDateFunciton extends AbstractMDX implements IPeriodsFunction
@@ -18,7 +17,9 @@ public class WeekToDateFunciton extends AbstractMDX implements IPeriodsFunction
 
 	private final long dayTimeInMills = 24 * 3600 * 1000;
 
-	@Override
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IPeriodsFunction#getResult(org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember)
+	 */
 	public List<TimeMember> getResult( TimeMember member )
 	{
 		List timeMembers = new ArrayList<TimeMember>( );

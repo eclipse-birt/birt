@@ -13,7 +13,6 @@ import java.util.List;
  * might use the function to return the set of days in 2007.8 up to and
  * including 2007.8.21.
  * 
- * @author peng.shi
  * 
  */
 public class MonthToDateFunction extends AbstractMDX
@@ -21,7 +20,10 @@ public class MonthToDateFunction extends AbstractMDX
 			IPeriodsFunction
 {
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IPeriodsFunction#getResult(org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember)
+	 */
 	public List<TimeMember> getResult( TimeMember member )
 	{
 		List timeMembers = new ArrayList<TimeMember>( );

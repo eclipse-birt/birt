@@ -11,7 +11,6 @@ import java.util.List;
  * include a specified member and can be located by the member and the Offset
  * number.Now we support trailing in 5 level, Year, Quarter, Month, Week, Day
  * 
- * @author peng.shi
  * 
  */
 public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
@@ -26,7 +25,9 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		this.offset = offset;
 	}
 
-	@Override
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IPeriodsFunction#getResult(org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember)
+	 */
 	public List<TimeMember> getResult( TimeMember member )
 	{
 		List<TimeMember> timeMembers = new ArrayList<TimeMember>( );

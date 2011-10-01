@@ -128,6 +128,7 @@ public class CubeQueryDefinitionUtil
 					measureAggrOns,
 					adaptAggrFunction( measureDefn ),
 					null,
+					null,
 					null ),
 					0 );
 			index++;
