@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2011 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,27 +34,27 @@ public final class RDGroupUtil implements IRDGroupUtil
 	/*
 	 * groups[level] is an CachedList of GroupInfo objects at the specified level.
 	 * Level is a 0-based group index, with 0 denoting the outermost group, etc.
-	 * Example: 
-	 * Row GroupKey1 	GroupKey2 	GroupKey3 	Column4 	Column5 
-	 * 0: 	CHINA 		BEIJING 	2003 		Cola 		$100 
-	 * 1: 	CHINA		BEIJING		2003		Pizza 		$320 
-	 * 2: 	CHINA		BEIJING		2004 		Cola 		$402 
-	 * 3: 	CHINA		SHANGHAI	2003		Cola		$553 
+	 * Example:
+	 * Row GroupKey1 	GroupKey2 	GroupKey3 	Column4 	Column5
+	 * 0: 	CHINA 		BEIJING 	2003 		Cola 		$100
+	 * 1: 	CHINA		BEIJING		2003		Pizza 		$320
+	 * 2: 	CHINA		BEIJING		2004 		Cola 		$402
+	 * 3: 	CHINA		SHANGHAI	2003		Cola		$553
 	 * 4:	CHINA		SHANGHAI	2003		Pizza		$223
 	 * 5: 	CHINA 		SHANGHAI	2004		Cola		$226
 	 * 6: 	USA 		CHICAGO		2004		Pizza		$133
 	 * 7: 	USA			NEW YORK	2004		Cola		$339
 	 * 8: 	USA 		NEW YORK	2004		Cola		$297
-	 * 
-	 * groups: (parent, child) 
+	 *
+	 * groups: (parent, child)
 	 * 		LEVEL 0 		LEVEL 1 		LEVEL 2
-	 * ============================================ 
-	 * 0: 	-,0 			0,0 			0,0 
-	 * 1: 	-,2 			0,2 			0,2 
-	 * 2:	 				1,4 			1,3 
-	 * 3: 					1,5 			1,5 
-	 * 4: 									2,6 
-	 * 5: 									3,7 
+	 * ============================================
+	 * 0: 	-,0 			0,0 			0,0
+	 * 1: 	-,2 			0,2 			0,2
+	 * 2:	 				1,4 			1,3
+	 * 3: 					1,5 			1,5
+	 * 4: 									2,6
+	 * 5: 									3,7
 	 */
 	private List[] groups;
 
@@ -63,11 +63,11 @@ public final class RDGroupUtil implements IRDGroupUtil
 
 	// provide service of current data cache
 	private CacheProvider cacheProvider;
-	
+
 	private Map<Integer,int[]> groupStartEndIndexCache = new HashMap<Integer,int[]>();
-	
+
 	private List<RAInputStream> inputStreams;
-	
+
 	/**
 	 * @param inputStream
 	 * @param cacheProvider
@@ -85,7 +85,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 		this.cacheProvider = cacheProvider;
 		this.inputStreams = inputStreams;
 	}
-	
+
 	/**
 	 * @param inputStream
 	 * @param cacheProvider
@@ -95,7 +95,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 	{
 		this( tempDir, groupNumber, inputStreams, null );
 	}
-	
+
 	/**
 	 * @param cacheProvider
 	 */
@@ -103,10 +103,10 @@ public final class RDGroupUtil implements IRDGroupUtil
 	{
 		this.cacheProvider = cacheProvider;
 	}
-	
+
 	/**
 	 * use if with care
-	 * 
+	 *
 	 * @param groups
 	 */
 	public List[] getGroups( )
@@ -116,14 +116,14 @@ public final class RDGroupUtil implements IRDGroupUtil
 
 	/**
 	 * use if with care
-	 * 
+	 *
 	 * @param groups
 	 */
 	public void setGroups( List[] groups )
 	{
 		this.groups = groups;
 	}
-	
+
 	public void close( ) throws DataException
 	{
 		try
@@ -142,16 +142,25 @@ public final class RDGroupUtil implements IRDGroupUtil
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 	}
-	
+
 	// Helper function to find information about a group, given the group level
 	// and the group index at that level. Returns null if groupIndex exceeds
 	// max group index
-	private GroupInfo findGroup( int groupLevel, int groupIndex )
+	private GroupInfo findGroup(int groupLevel, int groupIndex)
 	{
-		if ( groupIndex >= groups[groupLevel].size( ) )
+		if (groupIndex >= groups[groupLevel].size())
 			return null;
 		else
-			return (GroupInfo) groups[groupLevel].get( groupIndex );
+		{
+			try
+			{
+				return (GroupInfo) groups[groupLevel].get(groupIndex);
+			}
+			catch ( Exception e )
+			{
+				return null;
+			}
+		}
 	}
 
 	private void checkStarted( ) throws DataException
@@ -169,14 +178,14 @@ public final class RDGroupUtil implements IRDGroupUtil
 
 	/**
 	 * Returns the 1-based index of the outermost group
-	 * in which the current row is the last row. 
-	 * For example, if a query contain N groups 
-	 * (group with index 1 being the outermost group, and group with 
+	 * in which the current row is the last row.
+	 * For example, if a query contain N groups
+	 * (group with index 1 being the outermost group, and group with
 	 * index N being the innermost group),
-	 * and this function returns a value M, it indicates that the 
-	 * current row is the last row in groups with 
-	 * indexes (M, M+1, ..., N ). 
-	 * @return	The 1-based index of the outermost group in which 
+	 * and this function returns a value M, it indicates that the
+	 * current row is the last row in groups with
+	 * indexes (M, M+1, ..., N ).
+	 * @return	The 1-based index of the outermost group in which
 	 * 			the current row is the last row;
 	 * 			(N+1) if the current row is not at the end of any group;
 	 */
@@ -218,14 +227,14 @@ public final class RDGroupUtil implements IRDGroupUtil
 
 	/**
 	 * Returns the 1-based index of the outermost group
-	 * in which the current row is the first row. 
-	 * For example, if a query contain N groups 
-	 * (group with index 1 being the outermost group, and group with 
+	 * in which the current row is the first row.
+	 * For example, if a query contain N groups
+	 * (group with index 1 being the outermost group, and group with
 	 * index N being the innermost group),
-	 * and this function returns a value M, it indicates that the 
-	 * current row is the first row in groups with 
+	 * and this function returns a value M, it indicates that the
+	 * current row is the first row in groups with
 	 * indexes (M, M+1, ..., N ).
-	 * @return	The 1-based index of the outermost group in which 
+	 * @return	The 1-based index of the outermost group in which
 	 * 			the current row is the first row;
 	 * 			(N+1) if the current row is not at the start of any group;
 	 */
@@ -278,7 +287,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 
 	/**
 	 * Advances row cursor to the last row at the specified group level
-	 * 
+	 *
 	 * @param groupLevel
 	 *            the specified group level that will be skipped, 1 indicate the
 	 *            highest level. 0 indicates whole list.
@@ -303,7 +312,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 			// Move to last row in entire list
 			// Last row is in the last leaf group
 			int currentRowID = cacheProvider.getCount( ) - 1;
-			
+
 			cacheProvider.moveTo( currentRowID );
 			if ( groups.length > 0 )
 				leafGroupIdx = groups[groups.length - 1].size( ) - 1;
@@ -323,7 +332,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 		cacheProvider.moveTo( currentRowID );
 		leafGroupIdx = currentGroupIdx - 1;
 	}
-	
+
 	/**
 	 * When the smartCache is proceed (IResultIterator.next() is called), the leafGroupIdx
 	 * should be re-calculated.
@@ -346,11 +355,11 @@ public final class RDGroupUtil implements IRDGroupUtil
 			}
 		}
 	}
-	
+
 	/**
 	 * Advance the leaf group with offset.
 	 * @param offset
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	public void move( ) throws DataException
 	{
@@ -359,9 +368,9 @@ public final class RDGroupUtil implements IRDGroupUtil
 			binaryMove( );
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void binaryMove( ) throws DataException
@@ -375,6 +384,9 @@ public final class RDGroupUtil implements IRDGroupUtil
 			while( true )
 			{
 				GroupInfo info = groupList.get( i );
+				//In progressive viewing mode, there exist possibility
+				//that group info is not flush to stream yet.Simply do not handle
+				//this case.
 				if( info == null )
 					return;
 				if( info.firstChild > cacheProvider.getCurrentIndex( ) )
@@ -384,10 +396,10 @@ public final class RDGroupUtil implements IRDGroupUtil
 				}
 				i++;
 			}
-		}	
+		}
 		int high = groupList.size( ) - 1;
 		int mid;
-		
+
 		while ( low <= high )
 		{
 			mid = ( high + low ) / 2;
@@ -407,8 +419,8 @@ public final class RDGroupUtil implements IRDGroupUtil
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * @return
 	 */
@@ -416,18 +428,18 @@ public final class RDGroupUtil implements IRDGroupUtil
 	{
 		return this.groups.length;
 	}
-	
+
 	/**
 	 * Gets the index of the current group at the specified group level.
-	 * The index starts at 0  
+	 * The index starts at 0
 	 */
 	public int getCurrentGroupIndex( int groupLevel ) throws DataException
 	{
 		checkHasCurrentRow( );
-		
+
 		if( groupLevel == 0 )
 			return 0;
-		
+
 		if ( groupLevel < 0 || groupLevel > groups.length )
 			throw new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
 					Integer.valueOf( groupLevel ) );
@@ -441,12 +453,12 @@ public final class RDGroupUtil implements IRDGroupUtil
 		}
 		return currentGroupIdx;
 	}
-	
+
 	/**
 	 * For a particual group level, it might consists of several group units.
 	 * For each group unit, it has its start row index and end row index + 1, and
 	 * then the total index will be the group unit number*2.
-	 * 
+	 *
 	 * @param groupLevel
 	 * @return int[]
 	 */
@@ -500,7 +512,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 			return this.groupStartEndIndexCache.get( groupLevel );
 		}
 	}
-	
+
 	private static class GroupCachedList implements List<GroupInfo>
 	{
 		private int size;
@@ -509,8 +521,8 @@ public final class RDGroupUtil implements IRDGroupUtil
 		public GroupCachedList( RAInputStream input ) throws DataException
 		{
 			//We need not buffer stream here, for all the RA input stream is already buffered.
-			this.dataSource = input; 
-			
+			this.dataSource = input;
+
 			try
 			{
 				initOffset = dataSource.getOffset( );
@@ -523,16 +535,16 @@ public final class RDGroupUtil implements IRDGroupUtil
 						"Group Info" );
 			}
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public int size( )
 		{
 			return this.size;
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * @see java.util.List#get(int)
@@ -551,19 +563,19 @@ public final class RDGroupUtil implements IRDGroupUtil
 			{
 				try
 				{
-					//In progressive viewing mode, it is possible that the next group info is not available yet. 
+					//In progressive viewing mode, it is possible that the next group info is not available yet.
 					//See TED 42519
-					if( this.dataSource.length( ) == (( index*2 + 1 )*IOUtil.INT_LENGTH + this.initOffset))
+					if( this.dataSource.length( ) == (( index*2+1)*IOUtil.INT_LENGTH+this.initOffset))
 					{
 						return null;
-					}	
+					}
 				}
 				catch ( IOException e1 )
 				{
 				}
 				throw new RuntimeException( e );
 			}
-			
+
 			return groupInfo;
 		}
 
