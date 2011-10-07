@@ -52,8 +52,11 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	protected HashMap rsetRelations2 = new HashMap( );
 
+	private boolean needAccessFactTable = false;
+
 	public DataPresentationEngine( DataEngineFactory factory,
-			ExecutionContext context, IDocArchiveReader reader )
+	        ExecutionContext context, IDocArchiveReader reader,
+	        boolean needAccessFactTable )
 			throws Exception
 	{
 		super( factory, context );
@@ -78,6 +81,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		
 		// try to load the meta data informations
 		loadDteMetaInfo( reader );
+		this.needAccessFactTable = needAccessFactTable;
 	}
 
 	protected void doPrepareQuery( Report report, Map appContext )
@@ -207,6 +211,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 		query.setQueryResultsID( resultSetID );
 		IBasePreparedQuery pQuery = dteSession.prepare( query,
 				context.getAppContext( ) );
+
+		query.setNeedAccessFactTable( needAccessFactTable );
 		ScriptContext scriptContext = context.getScriptContext( );
 		if ( parentResult != null )
 		{

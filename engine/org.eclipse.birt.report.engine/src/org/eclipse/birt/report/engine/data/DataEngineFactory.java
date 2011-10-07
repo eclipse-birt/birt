@@ -95,7 +95,7 @@ public class DataEngineFactory
 						.getReportDocument( ).getArchive( ), null );
 			}
 			return new DataPresentationEngine( this, context, context
-					.getReportDocument( ).getArchive( ) );
+			        .getReportDocument( ).getArchive( ), needCache );
 		}
 		return new DteDataEngine( this, context, needCache );
 	}
