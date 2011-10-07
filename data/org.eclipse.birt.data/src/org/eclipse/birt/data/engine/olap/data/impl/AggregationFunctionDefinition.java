@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 
@@ -29,7 +30,7 @@ public class AggregationFunctionDefinition
 	private DimLevel paraLevel;
 	private IJSFacttableFilterEvalHelper filterEvalHelper;
 	private Object paraValue;
-
+	private ITimeFunction timeFunction;
 	
 	public Object getParaValue( )
 	{
@@ -56,6 +57,18 @@ public class AggregationFunctionDefinition
 		this( name , measureName, null, null, functionName, null );
 	}
 	
+	public ITimeFunction getTimeFunction()
+	{
+		return timeFunction;
+	}
+
+
+	public void setTimeFunction(ITimeFunction timeFunction)
+	{
+		this.timeFunction = timeFunction;
+	}
+
+
 	/**
 	 * 
 	 * @param name

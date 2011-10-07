@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
@@ -44,6 +43,7 @@ public class AggregationExecutor
 {
 	private AggregationCalculator[] aggregationCalculators = null;
 	private DiskSortedStackWrapper[] sortedFactRows = null;
+	private TimeFunctionCalculator[] timeFunctionCalculator = null;
 	private List allSortedFactRows = null;
 	private int[][] levelIndex = null;
 	
@@ -54,6 +54,9 @@ public class AggregationExecutor
 	private ColumnInfo[] paraInfos;
 	
 	private IDataSet4Aggregation dataSet4Aggregation;
+	
+	private ICubeDimensionReader cubeDimensionReader;
+	
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
 	public int maxDataObjectRows = -1;
@@ -96,8 +99,12 @@ public class AggregationExecutor
 				}
 			}
 		}
+		this.cubeDimensionReader = cubeDimensionReader;
+		timeFunctionCalculator = new TimeFunctionCalculator[aggregations.length];
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
+			this.timeFunctionCalculator[i] = new TimeFunctionCalculator( aggregations[i], paraColumns, 
+					dataSet4Aggregation.getMetaInfo( ), this.cubeDimensionReader );
 			if( i == detailAggregationIndex )
 				this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
 						dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader, 
@@ -108,13 +115,12 @@ public class AggregationExecutor
 					this.memoryCacheSize / 5 / this.aggregationCalculators.length );
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
-		
 		getAggregationLevelIndex( );
 		
 		logger.exiting( AggregationExecutor.class.getName( ),
 				"AggregationExecutor" );
 	}
-
+	
 	/**
 	 * 
 	 * @param stopSign
@@ -147,6 +153,10 @@ public class AggregationExecutor
 				{
 //					aggregationCalculators[calculatorIndexs[j]].onRow( cut( row,
 //							levelIndex[calculatorIndexs[j]].length / 2 ) );
+					if( timeFunctionCalculator[calculatorIndexs[j]].existTimeFunction() )
+					{
+						timeFunctionCalculator[calculatorIndexs[j]].onRow( row );
+					}
 					aggregationCalculators[calculatorIndexs[j]].onRow( row );
 				}
 			}
@@ -159,6 +169,11 @@ public class AggregationExecutor
 					aggregationCalculators[i].getResult( ),
 					getKeyNames( i ),
 					getAttributeNames( i ) );
+			if( timeFunctionCalculator[i].existTimeFunction() )
+			{
+				List<TimeResultRow> timeResultSet = timeFunctionCalculator[i].getAggregationResultSet( resultSets[i] );
+				( (AggregationResultSet)resultSets[i]).addTimeFunctionResultSet(timeResultSet);
+			}
 		}
 		this.dataSet4Aggregation.close( );
 		return resultSets;

@@ -38,5 +38,38 @@ public class TimeMember
 		return levelType;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	public int hashCode()
+	{
+		int h = 0;
+
+	    for (int i = 0; i < memberValue.length; i++)
+	    {
+	    	if( i == 1 )
+	    		h = 365 * h + memberValue[i];
+	    	else
+	    		h = 31*h + memberValue[i];
+	    }
+	    return h;
+	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object anObject)
+	{
+		int[] oMemberValue = ((TimeMember)anObject).memberValue;
+		for( int i = 0; i < memberValue.length; i++ )
+		{
+			if( oMemberValue[i] != memberValue[i] )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
 }
