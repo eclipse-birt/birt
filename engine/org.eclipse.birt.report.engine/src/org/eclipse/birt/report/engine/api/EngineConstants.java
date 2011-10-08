@@ -50,4 +50,10 @@ public class EngineConstants {
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
 	
 	public static final String USER_ACL_KEY = "USER_ACL";
+
+	/**
+	 * The name of the key set in appContext to specify the "__format" value in
+	 * user's request parameter.
+	 */
+	public static final String APPCONTEXT_URL_PARAM_FORMAT_KEY = "URL_PARAM_FORMAT"; //$NON-NLS-1$
 }
