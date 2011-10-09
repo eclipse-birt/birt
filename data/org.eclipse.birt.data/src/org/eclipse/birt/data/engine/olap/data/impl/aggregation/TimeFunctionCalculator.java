@@ -203,17 +203,22 @@ public class TimeFunctionCalculator
 		{
 			ITimeFunction function = timeFunction[i].getTimeFunction();
 			toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
+			if( function.getBaseTimePeriod( ).countOfUnit() < 1 )
+			{
+				periodsFunction[i] = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
+			}
+			else
+			{
+				periodsFunction[i] = TimeFunctionFactory.createTrailingFunction( 
+								toDatelevelType,function.getBaseTimePeriod( ).countOfUnit() );
+			}
 			if( function.getRelativeTimePeriod( ) != null )
 			{
 				paralevelType = toLevelType( function.getRelativeTimePeriod( ).getType( ) );
 				IParallelPeriod parallelPeriod = TimeFunctionFactory.createParallelPeriodFunction(paralevelType, 
 						function.getRelativeTimePeriod( ).countOfUnit());
 				periodsFunction[i] = new PeriodsToDateWithParallel( parallelPeriod,
-						TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType) );
-			}
-			else
-			{
-				periodsFunction[i] = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
+						periodsFunction[i] );
 			}
 		}
 		

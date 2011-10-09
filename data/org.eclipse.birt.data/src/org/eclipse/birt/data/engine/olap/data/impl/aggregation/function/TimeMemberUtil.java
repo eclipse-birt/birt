@@ -131,6 +131,55 @@ public class TimeMemberUtil
 		return new TimeMember( levelValue, levelType );
 	}
 	
+	public static TimeMember toMember( IDimension timeDimension, Date referenceDate )
+	{
+		ILevel[] levels = timeDimension.getHierarchy( ).getLevels();
+		String[] levelType = null;
+		levelType = new String[levels.length - 1];
+		
+		int[] levelValue = new int[levelType.length];
+		Calendar cal = getCalendar( referenceDate );
+		
+		for( int i = 0; i < levelType.length; i++ )
+		{
+			levelType[i] = levels[i].getLeveType( );
+			if( TimeMember.TIME_LEVEL_TYPE_YEAR.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.YEAR );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_QUARTER.equals( levelType[i] ) )
+			{
+				levelValue[i] = quarter( cal );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_MONTH.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.MONTH );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.DAY_OF_MONTH );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.DAY_OF_WEEK );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.DAY_OF_YEAR );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.WEEK_OF_YEAR );
+			}
+			else if( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( levelType[i] ) )
+			{
+				levelValue[i] = cal.get( Calendar.WEEK_OF_MONTH );
+			}
+		}
+		
+		return new TimeMember( levelValue, levelType );
+	}
+	
 	private static int quarter( Calendar cal )
 	{
 		int month = cal.get( Calendar.MONTH );

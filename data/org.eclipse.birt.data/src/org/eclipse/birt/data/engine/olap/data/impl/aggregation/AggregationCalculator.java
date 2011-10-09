@@ -12,13 +12,17 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
-import org.eclipse.birt.data.engine.cache.Constants;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -26,9 +30,15 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
+import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IParallelPeriod;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IPeriodsFunction;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMemberUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -43,6 +53,9 @@ public class AggregationCalculator
 {
 	AggregationDefinition aggregation;
 	private Accumulator[] accumulators;
+	private Set<TimeMember>[] timeFunctionFilter;
+	private int[] timeFilterDimensionIndex;
+	private int[] timeFilterLevelCount;
 	private int levelCount;
 	private int[] measureIndexes;
 	private MeasureInfo[] measureInfos;
@@ -50,7 +63,7 @@ public class AggregationCalculator
 	private IAggregationResultRow currentResultObj = null;
 	private int[] parameterColIndex;
 	private FacttableRow facttableRow;
-	
+	private ICubeDimensionReader cubeDimensionReader;
 	private static Logger logger = Logger.getLogger( AggregationCalculator.class.getName( ) );
 
 	/**
@@ -80,6 +93,9 @@ public class AggregationCalculator
 		if ( aggregationFunction != null )
 		{
 			this.accumulators = new Accumulator[aggregationFunction.length];
+			this.timeFunctionFilter = new Set[aggregationFunction.length];
+			this.timeFilterDimensionIndex = new int[aggregationFunction.length];
+			this.timeFilterLevelCount = new int[aggregationFunction.length];
 			this.measureIndexes = new int[aggregationFunction.length];
 			this.parameterColIndex = new int[aggregationFunction.length];
 				
@@ -87,6 +103,14 @@ public class AggregationCalculator
 			{
 				IAggrFunction aggregation = AggregationManager.getInstance( )
 						.getAggregation( aggregationFunction[i].getFunctionName( ) );
+				if( aggregationFunction[i].getTimeFunctionFilter() != null )
+				{
+					String tDimName = aggregationFunction[i].getTimeFunctionFilter().getTimeDimension( );
+					IDimension timeDimension = cubeDimensionReader.getDimension( tDimName );
+					this.timeFunctionFilter[i] = getTimeFunctinResult( timeDimension, aggregationFunction[i].getTimeFunctionFilter() );
+					this.timeFilterDimensionIndex[i] = cubeDimensionReader.getDimensionIndex( tDimName );
+					this.timeFilterLevelCount[i] = cubeDimensionReader.getlowestLevelIndex( tDimName ) - 1;
+				}
 				if (aggregation == null)
 				{
 					throw new DataException(
@@ -135,8 +159,77 @@ public class AggregationCalculator
 		}
 		measureInfos = metaInfo.getMeasureInfos( );
 		facttableRow = new FacttableRow( measureInfos, cubeDimensionReader, metaInfo );
+		this.cubeDimensionReader = cubeDimensionReader;
+		
 		logger.exiting( AggregationCalculator.class.getName( ),
 				"AggregationCalculator" );
+	}
+	
+	private static Set<TimeMember> getTimeFunctinResult( IDimension timeDimension, ITimeFunction function ) throws DataException
+	{
+		 Set<TimeMember> set = new HashSet<TimeMember>( );
+		 
+		 IPeriodsFunction periodsFunction = createTimeFunction( function );
+		 TimeMember member = TimeMemberUtil.toMember( timeDimension, function.getReferenceDate().getDate() );
+		 List<TimeMember> result = periodsFunction.getResult(member);
+		 for( int i = 0; i < result.size(); i++ )
+		 {
+			 set.add( result.get(i) );
+		 }
+		 return set;
+	}
+	
+	private static IPeriodsFunction createTimeFunction( ITimeFunction function ) throws DataException
+	{
+		IPeriodsFunction periodsFunction = null;
+		String toDatelevelType = null;
+		String paralevelType = null;
+		
+		toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
+		if( function.getBaseTimePeriod( ).countOfUnit() < 1 )
+		{
+			periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
+		}
+		else
+		{
+			periodsFunction = TimeFunctionFactory.createTrailingFunction( 
+							toDatelevelType,function.getBaseTimePeriod( ).countOfUnit() );
+		}
+		if( function.getRelativeTimePeriod( ) != null )
+		{
+			paralevelType = toLevelType( function.getRelativeTimePeriod( ).getType( ) );
+			IParallelPeriod parallelPeriod = TimeFunctionFactory.createParallelPeriodFunction(paralevelType, 
+					function.getRelativeTimePeriod( ).countOfUnit());
+			periodsFunction = new PeriodsToDateWithParallel( parallelPeriod,
+					periodsFunction );
+		}
+		
+		return periodsFunction;
+	}
+	
+	private static String toLevelType( TimePeriodType timePeriodType )
+	{
+		if( timePeriodType == TimePeriodType.YEAR )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_YEAR;
+		}
+		else if( timePeriodType == TimePeriodType.QUARTER )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_QUARTER;
+		}
+		else if( timePeriodType == TimePeriodType.MONTH )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_MONTH;
+		}
+		else if( timePeriodType == TimePeriodType.WEEK )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR;
+		}
+		else if( timePeriodType == TimePeriodType.DAY )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH;
+		}
+		return null;
 	}
 	
 	private int getLevelSize( IDataSet4Aggregation.MetaInfo metaInfo, DimLevel[] dimLevel ) throws DataException
@@ -234,21 +327,39 @@ public class AggregationCalculator
 	 * @param functionNo
 	 * @return
 	 * @throws DataException 
+	 * @throws IOException 
 	 */
 	private boolean getFilterResult( Row4Aggregation row, int functionNo )
-			throws DataException
+			throws DataException, IOException
 	{
+		boolean result = true;
 		facttableRow.setDimPos( row.getDimPos( ) );
 		facttableRow.setMeasure( row.getMeasures( ) );
-		IJSFacttableFilterEvalHelper filterEvalHelper = ( aggregation.getAggregationFunctions( )[functionNo] ).getFilterEvalHelper( );
-		if ( filterEvalHelper == null )
+		IJSFacttableFilterEvalHelper filterEvalHelper = 
+				( aggregation.getAggregationFunctions( )[functionNo] ).getFilterEvalHelper( );
+		if ( filterEvalHelper != null )
 		{
-			return true;
+			 result = filterEvalHelper.evaluateFilter( facttableRow );
 		}
-		else
+		if( !result )
+			return result;
+		if( this.timeFunctionFilter[functionNo] != null )
 		{
-			return filterEvalHelper.evaluateFilter( facttableRow );
+			Member[] members = this.cubeDimensionReader.getLevelMembers( timeFilterDimensionIndex[functionNo]
+			    , timeFilterLevelCount[functionNo], row.getDimPos()[timeFilterDimensionIndex[functionNo]]);
+			int[] timeMember = new int[members.length];
+			for( int i = 0; i < timeMember.length; i++ )
+			{
+				timeMember[i] = ((Integer)(members[i].getKeyValues()[0] )).intValue( );
+			}
+			TimeMember tMember = new TimeMember( timeMember, null );
+			if( this.timeFunctionFilter[functionNo].contains( tMember ) )
+				return true;
+			else
+				return false;
 		}
+		return result;
+		
 	}
 	
 	/**
@@ -280,8 +391,9 @@ public class AggregationCalculator
 	 * 
 	 * @param row
 	 * @throws DataException
+	 * @throws IOException 
 	 */
-	private void newAggregationResultRow( Row4Aggregation row ) throws DataException
+	private void newAggregationResultRow( Row4Aggregation row ) throws DataException, IOException
 	{
 		currentResultObj = new AggregationResultRow( );
 		if ( levelCount > 0 )

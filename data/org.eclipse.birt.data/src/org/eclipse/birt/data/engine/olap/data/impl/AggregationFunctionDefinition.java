@@ -31,7 +31,20 @@ public class AggregationFunctionDefinition
 	private IJSFacttableFilterEvalHelper filterEvalHelper;
 	private Object paraValue;
 	private ITimeFunction timeFunction;
+	private ITimeFunction timeFunctionFilter;
 	
+	public ITimeFunction getTimeFunctionFilter()
+	{
+		return timeFunctionFilter;
+	}
+
+
+	public void setTimeFunctionFilter(ITimeFunction timeFunctionFilter)
+	{
+		this.timeFunctionFilter = timeFunctionFilter;
+	}
+
+
 	public Object getParaValue( )
 	{
 		return paraValue;
