@@ -159,7 +159,6 @@ public class GanttLineAttributesComposite extends Composite implements
 		if ( bEnableVisibility )
 		{
 			btnVisible = new TristateCheckbox( cmpContent, SWT.NONE );
-			btnVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 6;
 			btnVisible.setLayoutData( gdCBVisible );

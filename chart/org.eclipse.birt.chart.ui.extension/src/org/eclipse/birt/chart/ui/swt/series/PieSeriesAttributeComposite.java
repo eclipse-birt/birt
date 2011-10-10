@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -92,7 +93,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private Button btnRotationAuto;
 
-	private Combo cmbDirection;
+	private TristateCheckbox btnDirection;
 
 	private Button btnExplosionAuto;
 	
@@ -305,20 +306,17 @@ public class PieSeriesAttributeComposite extends Composite implements
 		sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
 		btnRotationAuto.addSelectionListener( this );
 		
-		Label lbl = new Label(cmpRight, SWT.NONE);
-		lbl.setText(  Messages.getString("PieSeriesAttributeComposite.Button.Direction") ); //$NON-NLS-1$
-		
-		cmbDirection = ChartUIExtensionUtil.createCombo( cmpRight,  new String[]{
-				ChartUIExtensionUtil.getAutoMessage( ),
-				Messages.getString("PieSeriesAttributeComposite.ItemLabel.Clockwise"), //$NON-NLS-1$
-				Messages.getString("PieSeriesAttributeComposite.ItemLabel.AntiClockwise") //$NON-NLS-1$
-		});
+		btnDirection = new TristateCheckbox( cmpRight, SWT.NONE );
 		{
-			cmbDirection.setToolTipText( Messages.getString("PieSeriesAttributeComposite.Button.Direction.ToolTipText") ); //$NON-NLS-1$
-			cmbDirection.select( series.isSetClockwise( ) ? ( series.isClockwise( ) ? 1
-					: 2 )
-					: 0 );
-			cmbDirection.addListener( SWT.Selection, this );
+			GridData gd = new GridData();
+			gd.horizontalSpan = 3;
+			btnDirection.setLayoutData(  gd );
+			btnDirection.setText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction" ) ); //$NON-NLS-1$
+			btnDirection.setToolTipText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction.ToolTipText" ) ); //$NON-NLS-1$
+			btnDirection.setSelectionState( series.isSetClockwise( ) ? ( series.isClockwise( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnDirection.addListener( SWT.Selection, this );
 		}
 
 		Group grpSlice = new Group( cmpRight, SWT.NONE );
@@ -464,12 +462,12 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			series.setExplosionExpression( txtExplode.getText( ) );
 		}
-		else if ( event.widget == cmbDirection )
+		else if ( event.widget == btnDirection )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"clockwise", //$NON-NLS-1$
-					cmbDirection.getSelectionIndex( ) == 1,
-					cmbDirection.getSelectionIndex( ) == 0 );
+					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 	}
 

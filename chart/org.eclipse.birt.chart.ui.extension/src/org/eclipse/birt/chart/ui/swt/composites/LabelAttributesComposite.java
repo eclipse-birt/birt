@@ -61,7 +61,7 @@ public class LabelAttributesComposite extends Composite implements
 
 	private transient Group grpOutline = null;
 	
-	private TristateCheckbox cmbVisible = null;
+	private TristateCheckbox btnVisible = null;
 
 	private transient Label lblLabel = null;
 
@@ -371,18 +371,18 @@ public class LabelAttributesComposite extends Composite implements
 		boolean bEnableUI = bEnabled && this.lblCurrent.isVisible( );
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			cmbVisible = new TristateCheckbox( cmpGeneral, SWT.NONE );
-			cmbVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+			btnVisible = new TristateCheckbox( cmpGeneral, SWT.NONE );
+			btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 2;
-			cmbVisible.setLayoutData( gdCBVisible );
-			cmbVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+			btnVisible.setLayoutData( gdCBVisible );
+			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
-			cmbVisible.addSelectionListener( this );
+			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = ( cmbVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
 
@@ -533,8 +533,8 @@ public class LabelAttributesComposite extends Composite implements
 		boolean bEnableUI = true;
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			bEnableUI = ( cmbVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
-			cmbVisible.setEnabled( bState );
+			bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			btnVisible.setEnabled( bState );
 		}
 
 		setVisibleState( bState & bEnableUI );
@@ -590,10 +590,10 @@ public class LabelAttributesComposite extends Composite implements
 		// update the UI
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			cmbVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
-			setVisibleState( ( cmbVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED) && cmbVisible.isEnabled( ) );
+			setVisibleState( ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED) && btnVisible.isEnabled( ) );
 		}
 
 		if ( attributesContext.isLabelEnabled )
@@ -697,12 +697,12 @@ public class LabelAttributesComposite extends Composite implements
 				eLabel.detail = ChartUIExtensionUtil.PROPERTY_UPDATE;
 			}
 		}
-		else if ( e.widget == cmbVisible )
+		else if ( e.widget == btnVisible )
 		{
-			eLabel.data = Boolean.valueOf( cmbVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			eLabel.data = Boolean.valueOf( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			eLabel.type = VISIBILITY_CHANGED_EVENT;
 
-			setVisibleState( cmbVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			setVisibleState( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 		fireEvent( eLabel );
 	}

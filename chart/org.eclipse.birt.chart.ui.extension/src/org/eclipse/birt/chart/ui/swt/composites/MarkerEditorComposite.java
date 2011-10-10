@@ -468,7 +468,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 			btnMarkerVisible = new TristateCheckbox( this, SWT.NONE );
 			{
-				btnMarkerVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+				btnMarkerVisible.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalSpan = 2;
 				btnMarkerVisible.setLayoutData( gd );

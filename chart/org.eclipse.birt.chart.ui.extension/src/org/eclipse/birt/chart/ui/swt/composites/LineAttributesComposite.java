@@ -219,7 +219,7 @@ public class LineAttributesComposite extends Composite implements
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 6;
 			btnVisible.setLayoutData( gdCBVisible );
-			btnVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+			btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 			
 			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
