@@ -32,7 +32,7 @@ public class AggregationFunctionDefinition
 	private Object paraValue;
 	private ITimeFunction timeFunction;
 	private ITimeFunction timeFunctionFilter;
-	
+	 
 	public ITimeFunction getTimeFunctionFilter()
 	{
 		return timeFunctionFilter;

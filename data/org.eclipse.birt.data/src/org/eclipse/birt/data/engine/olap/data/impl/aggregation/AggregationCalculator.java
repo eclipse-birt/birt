@@ -186,7 +186,7 @@ public class AggregationCalculator
 		String paralevelType = null;
 		
 		toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
-		if( function.getBaseTimePeriod( ).countOfUnit() < 1 )
+		if( function.getBaseTimePeriod( ).countOfUnit() == 0 )
 		{
 			periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
 		}

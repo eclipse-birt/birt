@@ -68,7 +68,7 @@ public class TimeMemberUtil
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_MONTH.equals( cellTimeMember.getLevelType()[i] ) )
 			{
-				cal.set( Calendar.MONTH, cellTimeMember.getMemberValue()[i] );
+				cal.set( Calendar.MONTH, cellTimeMember.getMemberValue()[i] - 1 );
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( cellTimeMember.getLevelType()[i] ) )
 			{
@@ -104,7 +104,7 @@ public class TimeMemberUtil
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_MONTH.equals( levelType[i] ) )
 			{
-				levelValue[i] = cal.get( Calendar.MONTH );
+				levelValue[i] = cal.get( Calendar.MONTH ) + 1;
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( levelType[i] ) )
 			{
@@ -153,7 +153,7 @@ public class TimeMemberUtil
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_MONTH.equals( levelType[i] ) )
 			{
-				levelValue[i] = cal.get( Calendar.MONTH );
+				levelValue[i] = cal.get( Calendar.MONTH ) + 1;
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( levelType[i] ) )
 			{
