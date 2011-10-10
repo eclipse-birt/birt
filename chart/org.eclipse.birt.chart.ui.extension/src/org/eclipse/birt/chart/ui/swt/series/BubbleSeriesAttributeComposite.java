@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -68,9 +69,9 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 
 	ChartWizardContext context;
 
-	private Combo cmbPalette;
+	private TristateCheckbox btnPalette;
 
-	private Combo cmbCurve;
+	private TristateCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -227,27 +228,24 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		fccShadow.addListener( this );
 
 		Composite cmp = new Composite( grpLine, SWT.NONE );
-		cmp.setLayout( new GridLayout( 2, false ) );
+		cmp.setLayout( new GridLayout( 1, false ) );
 
-		Label lbl = new Label( cmp, SWT.NONE );
-		lbl.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-
-		cmbPalette = ChartUIExtensionUtil.createTrueFalseItemsCombo( cmp );
+		btnPalette = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			cmbPalette.select( ( (BubbleSeries) series ).isSetPaletteLineColor( ) ? ( ( (BubbleSeries) series ).isPaletteLineColor( ) ? 1
-					: 2 )
-					: 0 );
-			cmbPalette.addSelectionListener( this );
+			btnPalette.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelectionState( ( (BubbleSeries) series ).isSetPaletteLineColor( ) ? ( ( (BubbleSeries) series ).isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.addSelectionListener( this );
 		}
 
-		lbl = new Label( cmp, SWT.NONE );
-		lbl.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-		cmbCurve = ChartUIExtensionUtil.createTrueFalseItemsCombo( cmp );
+		btnCurve = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			cmbCurve.select( ( (BubbleSeries) series ).isSetCurve( ) ? ( ( (BubbleSeries) series ).isCurve( ) ? 1
-					: 2 )
-					: 0 );
-			cmbCurve.addSelectionListener( this );
+			btnCurve.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
+			btnCurve.setSelectionState( ( (BubbleSeries) series ).isSetCurve( ) ? ( ( (BubbleSeries) series ).isCurve( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnCurve.addSelectionListener( this );
 		}
 
 		enableLineSettings( ( (BubbleSeries) series ).getLineAttributes( )
@@ -280,19 +278,19 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( cmbCurve ) )
+		if ( e.getSource( ).equals( btnCurve ) )
 		{
 			ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ),
 					"curve", //$NON-NLS-1$
-					cmbCurve.getSelectionIndex( ) == 1,
-					cmbCurve.getSelectionIndex( ) == 0 );
+					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
-		else if ( e.getSource( ).equals( cmbPalette ) )
+		else if ( e.getSource( ).equals( btnPalette ) )
 		{
 			ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ),
 					"paletteLineColor", //$NON-NLS-1$
-					cmbPalette.getSelectionIndex( ) == 1,
-					cmbPalette.getSelectionIndex( ) == 0 );
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( cmbOrientation ) )
 		{
@@ -402,11 +400,11 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		{
 			fccShadow.setEnabled( isEnabled );
 		}
-		if ( cmbPalette != null )
+		if ( btnPalette != null )
 		{
-			cmbPalette.setEnabled( isEnabled );
+			btnPalette.setEnabled( isEnabled );
 		}
-		cmbCurve.setEnabled( isEnabled );
+		btnCurve.setEnabled( isEnabled );
 	}
 	
 	private void enableAccLineSettings( boolean isEnabled )

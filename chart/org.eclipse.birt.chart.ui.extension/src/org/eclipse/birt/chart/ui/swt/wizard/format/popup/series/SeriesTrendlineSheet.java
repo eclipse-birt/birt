@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -69,7 +70,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient Combo cmbAnchor;
 	// private transient Button btnTriggers;
 	private transient ExternalizedTextEditorComposite txtValue;
-	private Combo cmbLabelVisible;
+	private TristateCheckbox btnLabelVisible;
 	// private transient Label lblPosition;
 	// private transient Combo cmbPosition;
 	private transient Label lblFont;
@@ -215,17 +216,16 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			cmpLabelInner.setLayoutData( gd );
 		}
 
-		Label lbl = new Label(cmpLabelInner, SWT.NONE );
-		lbl.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
-		
-		cmbLabelVisible = ChartUIExtensionUtil.createCombo( cmpLabelInner,
-				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnLabelVisible = new TristateCheckbox( cmpLabelInner, SWT.NONE );
 		GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
-		cmbLabelVisible.setLayoutData( gdCBVisible );
-		cmbLabelVisible.select( getTrendline( ).getLabel( ).isSetVisible( ) ? ( getTrendline( ).getLabel( )
-				.isVisible( ) ? 1 : 2 )
-				: 0 );
-		cmbLabelVisible.addSelectionListener( this );
+		gdCBVisible.horizontalSpan = 2 ;
+		btnLabelVisible.setLayoutData( gdCBVisible );
+		btnLabelVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
+		btnLabelVisible.setSelectionState( getTrendline( ).getLabel( )
+				.isSetVisible( ) ? ( getTrendline( ).getLabel( ).isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED );
+		btnLabelVisible.addSelectionListener( this );
 
 		// lblPosition = new Label( cmpLabelInner, SWT.NONE );
 		// GridData gdLBLPosition = new GridData( );
@@ -321,7 +321,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				.getInsets( ) );
 
 		populateLists( );
-		setState( cmbLabelVisible.getSelectionIndex( ) == 1 );
+		setState( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		return cmpContent;
 	}
 
@@ -487,17 +487,18 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		// getTrendline( ).getLabel().getTriggers( ),
 		// sTitle );
 		// }
-		else if ( e.widget == cmbLabelVisible )
+		else if ( e.widget == btnLabelVisible )
 		{
-			if(cmbLabelVisible.getSelectionIndex( ) == 0)
+			if(btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getTrendline( ).getLabel( ).unsetVisible( );
 			}
 			else
 			{
-				getTrendline( ).getLabel( ).setVisible( cmbLabelVisible.getSelectionIndex( ) == 1);
+				getTrendline( ).getLabel( )
+						.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
-			setState( cmbLabelVisible.getSelectionIndex( ) == 1 );
+			setState( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 		// else if ( e.widget.equals( cmbPosition ) )
 		// {

@@ -32,14 +32,13 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.ComboSelectionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
-import org.eclipse.birt.chart.ui.swt.composites.VisibleComboSelection;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
@@ -86,17 +85,13 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		ModifyListener
 {
 	
-	private Label lblCategoryAxis;
+	private TristateCheckbox btnCategoryAxis;
 	
-	private Combo cmbCategoryAxis;
-	
-	private Label lblReverse;
-	
-	private Combo cmbReverse;
+	private TristateCheckbox btnReverse;
 
 	private ExternalizedTextEditorComposite txtTitle;
 	
-	private VisibleComboSelection vcsTitleVisible;
+	private TristateCheckbox btnTitleVisible;
 
 	private Combo cmbTypes;
 
@@ -108,11 +103,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private IDataElementComposite txtValue;
 
-	private VisibleComboSelection vcsLabelVisible;
+	private TristateCheckbox btnLabelVisible;
 
 	private FontDefinitionComposite fdcFont;
 
-	private ComboSelectionComposite cscStaggered;
+	private TristateCheckbox btnStaggered;
 	
 	private LocalizedNumberEditorComposite lneLabelSpan;
 
@@ -163,31 +158,26 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		if ( getAxisAngleType( ) == AngleType.X )
 		{
-			lblCategoryAxis = new Label( cmpBasic, SWT.NONE );
-			lblCategoryAxis.setText( Messages.getString("AbstractAxisSubtask.Label.IsCategoryAxis") ); //$NON-NLS-1$
-			
-			cmbCategoryAxis = ChartUIExtensionUtil.createCombo( cmpBasic,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnCategoryAxis = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnCategoryAxis.setText( Messages.getString( "AbstractAxisSubtask.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
-			gd.horizontalIndent = 5;
-			cmbCategoryAxis.setLayoutData( gd );
-			cmbCategoryAxis.select( getAxisForProcessing( ).isSetCategoryAxis( ) ? (getAxisForProcessing( ).isCategoryAxis( ) ? 1 : 2 ): 0 );
-			updateCategoryAxisUI( !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );	
-			cmbCategoryAxis.addSelectionListener( this );
+			btnCategoryAxis.setLayoutData( gd );
+			btnCategoryAxis.setSelectionState( getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			updateCategoryAxisUI( !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
+			btnCategoryAxis.addSelectionListener( this );
 
-			lblReverse = new Label( cmpBasic, SWT.NONE );
-			lblReverse.setText( Messages.getString("AbstractAxisSubtask.Label.ReverseCategories") ); //$NON-NLS-1$
-			
-			cmbReverse = ChartUIExtensionUtil.createCombo( cmpBasic,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnReverse = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnReverse.setText( Messages.getString( "AbstractAxisSubtask.Label.ReverseCategory" ) ); //$NON-NLS-1$
 			gd = new GridData( );
-			gd.horizontalSpan = 2;
-			gd.horizontalIndent = 5;
-			cmbReverse.setLayoutData( gd );
-			cmbReverse.select( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? 1 : 2 ) : 0 );
-			updateReverseUI( cmbCategoryAxis.getSelectionIndex( ) == 1 );
-			cmbReverse.addSelectionListener( this );
+			btnReverse.setLayoutData( gd );
+			btnReverse.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			updateReverseUI( btnCategoryAxis.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			btnReverse.addSelectionListener( this );
 		}
 
 		Label lblTitle = new Label( cmpBasic, SWT.NONE );
@@ -215,9 +205,14 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			txtTitle.addListener( this );
 		}
 
-		vcsTitleVisible = new VisibleComboSelection( cmpBasic, SWT.NONE );
-		vcsTitleVisible.select( getAxisForProcessing( ).getTitle( ).isSetVisible( ) ? (getAxisForProcessing( ).getTitle( ).isVisible( ) ? 1 :2 ) :0 );
-		vcsTitleVisible.addSelectionListener( this );
+		btnTitleVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnTitleVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+		btnTitleVisible.setSelectionState( getAxisForProcessing( ).getTitle( )
+				.isSetVisible( ) ? ( getAxisForProcessing( ).getTitle( )
+				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED );
+		btnTitleVisible.addSelectionListener( this );
 
 		if ( getAxisAngleType( ) != AngleType.Z )
 		{
@@ -332,26 +327,27 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 
 		
-		vcsLabelVisible = new VisibleComboSelection( cmpLabel, SWT.NONE );
+		btnLabelVisible = new TristateCheckbox( cmpLabel, SWT.NONE );
+		btnLabelVisible.setText( Messages.getString( "AbstractAxisSubtask.Label.Visible2" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		vcsLabelVisible.setLayoutData( gd );
-		vcsLabelVisible.select( getAxisForProcessing( ).getLabel( )
+		btnLabelVisible.setLayoutData( gd );
+		btnLabelVisible.setSelectionState( getAxisForProcessing( ).getLabel( )
 				.isSetVisible( ) ? ( getAxisForProcessing( ).getLabel( )
-				.isVisible( ) ? 1 : 2 ) : 0 );
-		vcsLabelVisible.addSelectionListener( this );
+				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED );
+		btnLabelVisible.addSelectionListener( this );
 			
-		cscStaggered = new ComboSelectionComposite( cmpLabel, SWT.NONE, Messages.getString("AbstractAxisSubtask.Label.Staggered"), //$NON-NLS-1$
-				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnStaggered = new TristateCheckbox( cmpLabel, SWT.NONE );
+		btnStaggered.setText( Messages.getString("AbstractAxisSubtask.Label.Stagger") ); //$NON-NLS-1$
 		{
 			Axis ax = getAxisForProcessing( );
-			boolean bStaggered = ax.isSetStaggered( ) && ax.isStaggered( );
 			boolean bNot3D = !isChart3D( );
-
-			cscStaggered.select( ax.isSetStaggered( ) ? ( ( ax.isStaggered( ) && bNot3D ) ? 1
-					: 2 )
-					: 0 );
-			cscStaggered.setEnabled( bNot3D );
-			cscStaggered.addSelectionListener( this );
+			btnStaggered.setSelectionState( ax.isSetStaggered( ) ? ( ( ax.isStaggered( ) && bNot3D ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnStaggered.setEnabled( bNot3D );
+			btnStaggered.addSelectionListener( this );
 		}
 
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
@@ -399,17 +395,14 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		setStateOfLabel( );
 	}
 
-
 	protected void updateCategoryAxisUI( boolean enabled )
 	{
-		cmbCategoryAxis.setEnabled( enabled );
-		lblCategoryAxis.setEnabled( enabled );
+		btnCategoryAxis.setEnabled( enabled );
 	}
 
 	protected void updateReverseUI( boolean enabled )
 	{
-		cmbReverse.setEnabled( enabled );
-		lblReverse.setEnabled( enabled );
+		btnReverse.setEnabled( enabled );
 	}
 
 	private void setStateOfTitle( )
@@ -427,7 +420,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		boolean isLabelEnabled = ax.getLabel( ).isSetVisible( )
 				&& ax.getLabel( ).isVisible( );
 		fdcFont.setEnabled( isLabelEnabled );
-		cscStaggered.setEnabled( !isChart3D( ) && isLabelEnabled );
+		btnStaggered.setEnabled( !isChart3D( ) && isLabelEnabled );
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
 	}
 
@@ -468,7 +461,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				BUTTON_TITLE,
 				Messages.getString( "AxisYSheetImpl.Label.TitleFormat&" ), //$NON-NLS-1$
 				popup,
-				vcsTitleVisible.getSelectionIndex( ) == 1);
+				btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		btnAxisTitle.addSelectionListener( this );
 
 		// Label
@@ -480,7 +473,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				BUTTON_LABEL,
 				Messages.getString( "AxisYSheetImpl.Label.LabelFormat&" ), //$NON-NLS-1$
 				popup,
-				vcsLabelVisible.getSelectionIndex( ) == 1 );
+				btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		btnAxisLabel.addSelectionListener( this );
 
 		// Gridlines
@@ -717,7 +710,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				getAxisForProcessing( ).setType( axisType );
 			}
-			if ( cmbCategoryAxis != null )
+			if ( btnCategoryAxis != null )
 			{
 				updateCategoryAxisUI( !AxisType.TEXT_LITERAL.equals( axisType ) );
 			}
@@ -764,63 +757,63 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 						.setValue( txtValue.getDataElement( ) );
 			}
 		}
-		else if ( e.widget.equals( cmbCategoryAxis ) )
+		else if ( e.widget.equals( btnCategoryAxis ) )
 		{
-			int index = cmbCategoryAxis.getSelectionIndex( );
-			if ( cmbCategoryAxis.getSelectionIndex( ) == 0 )
+			int state = btnCategoryAxis.getSelectionState( );
+			if ( state == TristateCheckbox.STATE_GRAYED )
 			{
 				// Auto case.
 				getAxisForProcessing( ).unsetCategoryAxis( );
 			}
 			else
 			{
-				getAxisForProcessing( ).setCategoryAxis( index == 1 );
+				getAxisForProcessing( ).setCategoryAxis( state == TristateCheckbox.STATE_SELECTED );
 			}
 			ChartCacheManager.getInstance( )
 					.cacheCategory( ( (ChartWithAxes) getChart( ) ).getType( ),
-							index == 1 );
+							state == TristateCheckbox.STATE_SELECTED );
 			refreshPopupSheet( );
 
 			// Reset reverse category settings which is only available when axis
 			// is category
-			cmbReverse.setEnabled( index == 1 );
-			updateReverseUI( index == 1 );
-			if ( index == 0 )
+			btnReverse.setEnabled( state == TristateCheckbox.STATE_SELECTED );
+			updateReverseUI( state == TristateCheckbox.STATE_SELECTED );
+			if ( state == TristateCheckbox.STATE_GRAYED )
 			{
-				cmbReverse.select( 0 );
+				btnReverse.setSelectionState( TristateCheckbox.STATE_GRAYED );
 				( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
 			}
-			else if ( index == 2 )
+			else if ( state == TristateCheckbox.STATE_UNSELECTED )
 			{
-				cmbReverse.select( 2 );
+				btnReverse.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
 				( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
 			}
 		}
-		else if ( e.widget.equals( cmbReverse ) )
+		else if ( e.widget.equals( btnReverse ) )
 		{
-			if ( cmbReverse.getSelectionIndex( ) ==  0 )
+			if ( btnReverse.getSelectionState( ) ==  TristateCheckbox.STATE_GRAYED )
 			{
 				( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
 			}
 			else
 			{
-				( (ChartWithAxes) getChart( ) ).setReverseCategory( cmbReverse.getSelectionIndex( ) == 1 );
+				( (ChartWithAxes) getChart( ) ).setReverseCategory( btnReverse.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
-		else if ( e.widget == vcsTitleVisible )
+		else if ( e.widget == btnTitleVisible )
 		{
-			if ( vcsTitleVisible.getSelectionIndex( ) == 0 )
+			if ( btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getAxisForProcessing( ).getTitle( ).unsetVisible( );
 			}
 			else
 			{
 				getAxisForProcessing( ).getTitle( )
-					.setVisible( vcsTitleVisible.getSelectionIndex( ) == 1 );
+						.setVisible( btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 			setStateOfTitle( );
 			Button btnAxisTitle = getToggleButton( BUTTON_TITLE );
-			if ( !( vcsTitleVisible.getSelectionIndex( ) == 1 )
+			if ( !( btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED )
 					&& btnAxisTitle.getSelection( ) )
 			{
 				btnAxisTitle.setSelection( false );
@@ -831,20 +824,20 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				refreshPopupSheet( );
 			}
 		}
-		else if ( e.widget == vcsLabelVisible )
+		else if ( e.widget == btnLabelVisible )
 		{
-			if ( vcsLabelVisible.getSelectionIndex( ) == 0 )
+			if ( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getAxisForProcessing( ).getLabel( ).unsetVisible( );
 			}
 			else
 			{
 				getAxisForProcessing( ).getLabel( )
-					.setVisible( vcsLabelVisible.getSelectionIndex( ) == 1 );
+						.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 			setStateOfLabel( );
 			Button btnAxisLabel = getToggleButton( BUTTON_LABEL );
-			if ( !( vcsLabelVisible.getSelectionIndex( ) == 1 ) 
+			if ( !( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED ) 
 					&& btnAxisLabel.getSelection( ) )
 			{
 				btnAxisLabel.setSelection( false );
@@ -859,15 +852,15 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			handleFormatBtnSelected( );
 		}
-		else if ( e.widget == cscStaggered )
+		else if ( e.widget == btnStaggered )
 		{
-			if ( cscStaggered.getSelectionIndex( ) == 0 )
+			if ( btnStaggered.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getAxisForProcessing( ).unsetStaggered( );
 			}
 			else
 			{
-				getAxisForProcessing( ).setStaggered( cscStaggered.getSelectionIndex( ) == 1);
+				getAxisForProcessing( ).setStaggered( btnStaggered.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
 	}

@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.examples.radar.ui.series;
 
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
-import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -26,6 +25,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.jface.window.Window;
@@ -33,11 +33,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -51,7 +49,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 
 	private Composite cmpContent = null;
 
-	private Combo cmbWebLabels = null;
+	private TristateCheckbox btnWebLabels = null;
 
 	private LabelAttributesComposite webLabelAttr = null;
 
@@ -74,23 +72,22 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 			cmpContent.setLayout( glMain );
 		}
 
-		Group grpLine1a = new Group( cmpContent, SWT.NONE );
+		Group grpLine = new Group( cmpContent, SWT.NONE );
 		GridLayout glLine1a = new GridLayout( 2, false );
-		grpLine1a.setLayout( glLine1a );
-		grpLine1a.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		grpLine1a.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.WebLabel" ) ); //$NON-NLS-1$
+		grpLine.setLayout( glLine1a );
+		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.WebLabel" ) ); //$NON-NLS-1$
 		
-		Label lbl = new Label( grpLine1a, SWT.NONE);
-		lbl.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowWeb" ) ); //$NON-NLS-1$
-		
-		cmbWebLabels = UIHelper.createTrueFalseItemsCombo( grpLine1a );
+		btnWebLabels = new TristateCheckbox( grpLine, SWT.NONE );
 		{
+			btnWebLabels.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowWeb" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			cmbWebLabels.setLayoutData( gd );
-			cmbWebLabels.select( series.isSetShowWebLabels( ) ? ( series.isShowWebLabels( ) ? 1
-					: 2 )
-					: 0 );
-			cmbWebLabels.addListener( SWT.Selection, this );
+			gd.horizontalSpan = 2;
+			btnWebLabels.setLayoutData( gd );
+			btnWebLabels.setSelectionState( series.isSetShowWebLabels( ) ? ( series.isShowWebLabels( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnWebLabels.addListener( SWT.Selection, this );
 		}
 		// Web Label Configuration
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
@@ -103,7 +100,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 			series.setWebLabel( lab );
 		}
 
-		webLabelAttr = new LabelAttributesComposite( grpLine1a,
+		webLabelAttr = new LabelAttributesComposite( grpLine,
 				SWT.NONE,
 				getContext( ),
 				attributesContext,
@@ -118,7 +115,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		webLabelAttr.addListener( this );
 		webLabelAttr.setDefaultLabelValue( LabelImpl.createDefault( ) );
 
-		btnWLFormatSpecifier = new Button( grpLine1a, SWT.PUSH );
+		btnWLFormatSpecifier = new Button( grpLine, SWT.PUSH );
 		{
 			GridData gdBTNFormatSpecifier = new GridData( );
 			gdBTNFormatSpecifier.horizontalIndent = -3;
@@ -194,12 +191,12 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 					break;
 			}
 		}
-		else if ( event.widget.equals( cmbWebLabels ) )
+		else if ( event.widget.equals( btnWebLabels ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"showWebLabels",//$NON-NLS-1$
-					cmbWebLabels.getSelectionIndex( ) == 1,
-					cmbWebLabels.getSelectionIndex( ) == 0 );
+					btnWebLabels.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnWebLabels.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 			boolean enabled = series.isSetShowWebLabels( ) && series.isShowWebLabels( );
 			webLabelAttr.setEnabled( enabled );
 			btnWLFormatSpecifier.setEnabled( enabled );

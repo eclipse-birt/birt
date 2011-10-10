@@ -23,7 +23,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
-import org.eclipse.birt.chart.ui.swt.composites.VisibleComboSelection;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -59,13 +59,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private Combo cmbVisible;
+	private TristateCheckbox btnVisible;
 	
 	private ExternalizedTextEditorComposite txtTitle;
 	
-	private VisibleComboSelection vcsTitleVisible;
+	private TristateCheckbox btnTitleVisible;
 	
-	private Combo cmbShowValue;
+	private TristateCheckbox btnShowValue;
 
 	private Label lblTitle;
 
@@ -102,14 +102,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			cmpBasic.setText( Messages.getString( "ChartLegendSheetImpl.Label.Legend" ) ); //$NON-NLS-1$
 		}
 
-		Label l = new Label( cmpBasic, SWT.NONE );
-		l.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
-		
-		cmbVisible = ChartUIExtensionUtil.createTrueFalseItemsCombo( cmpBasic );
+		btnVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
 		{
 			GridData gdBTNVisible = new GridData( );
-			gdBTNVisible.horizontalSpan = 2;
-			cmbVisible.setLayoutData( gdBTNVisible );
+			gdBTNVisible.horizontalSpan = 3;
+			btnVisible.setLayoutData( gdBTNVisible );
+			btnVisible.setText( Messages.getString( "Shared.mne.Visibile_v" ) );//$NON-NLS-1$
 		}
 
 		lblTitle = new Label( cmpBasic, SWT.NONE );
@@ -134,8 +132,9 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			txtTitle.addListener( this );
 		}
 
-		vcsTitleVisible = new VisibleComboSelection( cmpBasic, SWT.NONE );
-
+		btnTitleVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnTitleVisible.setText( Messages.getString( "Shared.mne.Visibile_s" ) ); //$NON-NLS-1$
+		
 		lblLegendBehavior = new Label( cmpBasic, SWT.NONE );
 		{
 			lblLegendBehavior.setText( Messages.getString( "ChartLegendSheetImpl.Label.LegendBehaviorType" ) ); //$NON-NLS-1$
@@ -157,13 +156,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			lblShowValue = new Label( cmpBasic, SWT.NONE );
 			lblShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
 
-			cmbShowValue = ChartUIExtensionUtil.createCombo( cmpBasic,
-					ChartUIExtensionUtil.getShowHideComboItems( ) );
+			btnShowValue = new TristateCheckbox( cmpBasic, SWT.NONE );
 			{
 				GridData gdBTNVisible = new GridData( );
 				gdBTNVisible.horizontalSpan = 2;
-				cmbShowValue.setLayoutData( gdBTNVisible );
-				cmbShowValue.setToolTipText( Messages.getString( "ChartLegendSheetImpl.Tooltip.ShowDataPointValue" ) ); //$NON-NLS-1$
+				btnShowValue.setLayoutData( gdBTNVisible );
+				btnShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.ShowValue" ) ); //$NON-NLS-1$
+				btnShowValue.setToolTipText( Messages.getString( "ChartLegendSheetImpl.Tooltip.ShowDataPointValue" ) ); //$NON-NLS-1$
 			}
 		}
 
@@ -189,19 +188,25 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	protected void initDataNListeners( )
 	{
 		Legend l = getChart( ).getLegend( );
-		int index = l.isSetVisible( ) ? ( l.isVisible( ) ? 1 : 2 ) : 0;
-		cmbVisible.select( index );
-		cmbVisible.addSelectionListener( this );
+		int state = l.isSetVisible( ) ? ( l.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED;
+		btnVisible.setSelectionState( state );
+		btnVisible.addSelectionListener( this );
 
-		index = l.getTitle( ).isSetVisible( ) ? ( l.getTitle( ).isVisible( ) ? 1 : 2 ) : 0;
-		vcsTitleVisible.select( index );
-		vcsTitleVisible.addSelectionListener( this );
+		state = l.getTitle( ).isSetVisible( ) ? ( l.getTitle( ).isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED;
+		btnTitleVisible.setSelectionState( state );
+		btnTitleVisible.addSelectionListener( this );
 
 		if ( isShowValueEnabled( ) )
 		{
-			index = l.isSetShowValue( ) ? ( l.isShowValue( ) ? 1 : 2 ) : 0;
-			cmbShowValue.addSelectionListener( this );
-			cmbShowValue.select( index );
+			state = l.isSetShowValue( ) ? ( l.isShowValue( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED;
+			btnShowValue.addSelectionListener( this );
+			btnShowValue.setSelectionState( state );
 		}
 	}
 
@@ -227,11 +232,11 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 	{
 		lblTitle.setEnabled( enabled );
 		txtTitle.setEnabled( enabled &&  getTitleVisibleSelection( ) );
-		vcsTitleVisible.setEnabled( enabled );
+		btnTitleVisible.setEnabled( enabled );
 		if ( isShowValueEnabled( ) )
 		{
 			lblShowValue.setEnabled( enabled );
-			cmbShowValue.setEnabled( enabled );
+			btnShowValue.setEnabled( enabled );
 		}
 
 		// Adjust the button selection according to visibility
@@ -359,21 +364,21 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
-		if ( e.widget.equals( cmbVisible ) )
+		if ( e.widget.equals( btnVisible ) )
 		{
 			boolean enabled = false;
-			int index = cmbVisible.getSelectionIndex( );
-			switch(index)
+			int state = btnVisible.getSelectionState( );
+			switch ( state )
 			{
-				case 0:
+				case TristateCheckbox.STATE_GRAYED :
 					getChart( ).getLegend( ).unsetVisible( );
 					enabled = false;
 					break;
-				case 1:
+				case TristateCheckbox.STATE_SELECTED :
 					getChart( ).getLegend( ).setVisible( true );
 					enabled = true;
 					break;
-				case 2:
+				case TristateCheckbox.STATE_UNSELECTED :
 					getChart( ).getLegend( ).setVisible( false );
 					enabled = false;
 					break;
@@ -387,24 +392,24 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			// Adjust the UI according to visibility
 			setState( enabled );
 		}
-		else if ( e.widget.equals( vcsTitleVisible ) )
+		else if ( e.widget.equals( btnTitleVisible ) )
 		{
 
 			setToggleButtonEnabled( BUTTON_TITLE,
 					getTitleVisibleSelection( ) );
-			int index = vcsTitleVisible.getSelectionIndex( );
+			int state = btnTitleVisible.getSelectionState( );
 			boolean enabled = false;
-			switch(index)
+			switch ( state )
 			{
-				case 0:
+				case TristateCheckbox.STATE_GRAYED :
 					getChart( ).getLegend( ).getTitle( ).unsetVisible( );
 					enabled = false;
 					break;
-				case 1:
+				case TristateCheckbox.STATE_SELECTED :
 					getChart( ).getLegend( ).getTitle( ).setVisible( true );
 					enabled = true;
 					break;
-				case 2:
+				case TristateCheckbox.STATE_UNSELECTED :
 					getChart( ).getLegend( ).getTitle( ).setVisible( false );
 					enabled = false;
 					break;
@@ -434,18 +439,18 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 						.setLegendBehavior( LegendBehaviorType.getByName( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbLegendBehavior.getText( ) ) ) );
 			}
 		}
-		else if ( e.widget.equals( cmbShowValue ) )
+		else if ( e.widget.equals( btnShowValue ) )
 		{
-			int index = cmbShowValue.getSelectionIndex( );
-			switch ( index )
+			int state = btnShowValue.getSelectionState( );
+			switch ( state )
 			{
-				case 0:
+				case TristateCheckbox.STATE_GRAYED :
 					getChart( ).getLegend( ).unsetShowValue( );
 					break;
-				case 1:
+				case TristateCheckbox.STATE_SELECTED :
 					getChart( ).getLegend( ).setShowValue( true );
 					break;
-				case 2:
+				case TristateCheckbox.STATE_UNSELECTED :
 					getChart( ).getLegend( ).setShowValue( false );
 			}
 		}
@@ -461,11 +466,11 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-		// TODO Auto-generated method stub
+		// Do nothing.
 	}
 
 	private boolean getTitleVisibleSelection()
 	{
-		return vcsTitleVisible.getSelectionIndex() == 1;
+		return btnTitleVisible.getSelectionState() == TristateCheckbox.STATE_SELECTED;
 	}
 }

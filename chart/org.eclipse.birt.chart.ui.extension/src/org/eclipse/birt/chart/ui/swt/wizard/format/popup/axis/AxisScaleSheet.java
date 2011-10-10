@@ -16,11 +16,12 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
 
 /**
- * 
+ * AxisScaleSheet
  */
 
 public class AxisScaleSheet extends AbstractScaleSheet
@@ -69,15 +70,15 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		// Show outside is only available in Y axis
 		if ( axisAngleType != AngleType.Y )
 		{
-			cscShowOutside.setEnabled( false );
+			btnShowOutside.setEnabled( false );
 			// Unselect 'ShowOutSide'.
-			cscShowOutside.select( 2 ); //False
+			btnShowOutside.setSelectionState( TristateCheckbox.STATE_UNSELECTED ); //False
 			getScale().setShowOutside( false );
 		}
 		else
 		{
 			getScale( ).setAutoExpand( true );
-			cscAutoExpand.select( 1 );
+			btnAutoExpand.setSelectionState( TristateCheckbox.STATE_SELECTED );
 		}
 
 		boolean bAxisX = ( axisAngleType == AngleType.X );
@@ -86,7 +87,7 @@ public class AxisScaleSheet extends AbstractScaleSheet
 				&& !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL )
 				&& !( getAxisForProcessing( ).isCategoryAxis( ) );
 
-		cscAutoExpand.setEnabled( bEnableAutoExpand );
+		btnAutoExpand.setEnabled( bEnableAutoExpand );
 
 		if ( getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL
 				&& !getAxisForProcessing( ).isCategoryAxis( ) )

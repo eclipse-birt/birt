@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -33,7 +34,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -54,9 +54,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private FillChooserComposite fccLine = null;
 
-	private Combo cmbHidden = null;
+	private TristateCheckbox btnHidden = null;
 
-	private Combo cmbTickBetweenCategory = null;
+	private TristateCheckbox btnTickBetweenCategory = null;
 	
 	private Group grpMajor = null;
 
@@ -131,29 +131,27 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cmpContent.setLayout( glContent );
 
 		// Axis Visibility
-		Label lbl = new Label(cmpContent, SWT.NONE );
-		lbl.setText(Messages.getString("AxisGridLinesSheet.Label.AxisLine")); //$NON-NLS-1$
-		
-		cmbHidden = ChartUIExtensionUtil.createCombo( cmpContent, ChartUIExtensionUtil.getShowHideComboItems( ) );
-		cmbHidden.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		cmbHidden.select( axis.getLineAttributes( ).isSetVisible( ) ? ( axis.getLineAttributes( )
-				.isVisible( ) ? 1 : 2 )
-				: 0 );
-		cmbHidden.addSelectionListener( this );
+		btnHidden = new TristateCheckbox( cmpContent, SWT.NONE );
+		btnHidden.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.HideAxisLine" ) ); //$NON-NLS-1$
+		btnHidden.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		btnHidden.setSelectionState( axis.getLineAttributes( ).isSetVisible( ) ? ( axis.getLineAttributes( )
+				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED );
+		btnHidden.addSelectionListener( this );
 
 		// Axis as Category / Value type
 		if ( isTickBetweenCategory( ) )
 		{
-			lbl = new Label( cmpContent, SWT.NONE );
-			lbl.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories" ) ); //$NON-NLS-1$
-			cmbTickBetweenCategory = ChartUIExtensionUtil.createCombo( cmpContent,
-					ChartUIExtensionUtil.getEnableDisableComboItemds( ) );
-			cmbTickBetweenCategory.select( axis.getScale( )
+			btnTickBetweenCategory = new TristateCheckbox( cmpContent, SWT.NONE );
+			btnTickBetweenCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories" ) ); //$NON-NLS-1$
+			btnTickBetweenCategory.setSelectionState( axis.getScale( )
 					.isSetTickBetweenCategories( ) ? ( axis.getScale( )
-					.isTickBetweenCategories( ) ? 1 : 2 ) : 0 );
-			cmbTickBetweenCategory.addSelectionListener( this );
-			cmbTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
-			lbl.setVisible( isTickBetweenCategory( ) );
+					.isTickBetweenCategories( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnTickBetweenCategory.addSelectionListener( this );
+			btnTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
 		}
 
 		lblColor = new Label( cmpContent, SWT.NONE );
@@ -182,8 +180,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
-		lblColor.setEnabled( cmbHidden.getSelectionIndex( ) == 1 );
-		fccLine.setEnabled( cmbHidden.getSelectionIndex( ) == 1  );
+		lblColor.setEnabled( btnHidden.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+		fccLine.setEnabled( btnHidden.getSelectionState( ) == TristateCheckbox.STATE_SELECTED  );
 
 		lblGridStepNum = new Label( cmpContent, SWT.NONE );
 		GridData gdLblGridStepNum = new GridData( GridData.FILL );
@@ -503,24 +501,24 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( e.widget == cmbHidden )
+		if ( e.widget == btnHidden )
 		{
-			boolean visible = cmbHidden.getSelectionIndex( ) == 1;
+			boolean visible = btnHidden.getSelectionState( ) == TristateCheckbox.STATE_SELECTED;
 			// Process hiding showing of axis
 			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLineAttributes( ),
 					"visible", //$NON-NLS-1$
 					visible,
-					cmbHidden.getSelectionIndex( ) == 0 );
+					btnHidden.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 			lblColor.setEnabled( visible );
 			fccLine.setEnabled( visible );
 		}
-		else if ( oSource.equals( cmbTickBetweenCategory ) )
+		else if ( oSource.equals( btnTickBetweenCategory ) )
 		{
 			// Process setting of cross categories
 			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getScale( ),
 					"tickBetweenCategories", //$NON-NLS-1$
-					cmbTickBetweenCategory.getSelectionIndex( ) == 1,
-					cmbTickBetweenCategory.getSelectionIndex( ) == 0 );
+					btnTickBetweenCategory.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnTickBetweenCategory.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 		if ( oSource.equals( iscGridCount ) )
 		{

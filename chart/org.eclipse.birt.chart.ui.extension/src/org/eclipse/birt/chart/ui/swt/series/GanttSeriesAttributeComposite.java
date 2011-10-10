@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.GanttLineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -38,7 +39,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -50,7 +50,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			SelectionListener,
 			Listener
 {
-	private transient Combo cmbPalette = null;
+	private transient TristateCheckbox btnPalette = null;
 
 	private transient Group grpLine = null;
 
@@ -150,7 +150,7 @@ public class GanttSeriesAttributeComposite extends Composite
 		// Layout for Connection Line
 		grpLine = new Group( cmpGroup, SWT.NONE );
 		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-		grpLine.setLayout( new GridLayout( 2, false ) );
+		grpLine.setLayout( new GridLayout( 1, false ) );
 		grpLine.setLayoutData( gdGRPLine );
 		grpLine.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Bars" ) ); //$NON-NLS-1$
 
@@ -166,18 +166,16 @@ public class GanttSeriesAttributeComposite extends Composite
 		gliacGantt.setLayoutData( gd  );
 		gliacGantt.addListener( this );
 		
-		Label lbl = new Label( grpLine, SWT.NONE );
-		lbl.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.BarPalette" ) ); //$NON-NLS-1$
-		
-		cmbPalette = ChartUIExtensionUtil.createTrueFalseItemsCombo( grpLine );
+		btnPalette = new TristateCheckbox( grpLine, SWT.NONE );
 		{
+			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.BarPalette" ) ); //$NON-NLS-1$
 			gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 4;
-			cmbPalette.setLayoutData( gd );
-			cmbPalette.select( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? 1
-					: 2 )
-					: 0 );
-			cmbPalette.addSelectionListener( this );
+			btnPalette.setLayoutData( gd );
+			btnPalette.setSelectionState( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.addSelectionListener( this );
 		}
 
 		// Layout for Outine
@@ -211,12 +209,12 @@ public class GanttSeriesAttributeComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( cmbPalette ) )
+		if ( e.getSource( ).equals( btnPalette ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor", //$NON-NLS-1$
-					cmbPalette.getSelectionIndex( ) == 1,
-					cmbPalette.getSelectionIndex( ) == 0 );
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 	}
 
@@ -245,7 +243,7 @@ public class GanttSeriesAttributeComposite extends Composite
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				cmbPalette.setEnabled( !isUnset || ( (Boolean) event.data ).booleanValue( ) );
+				btnPalette.setEnabled( !isUnset || ( (Boolean) event.data ).booleanValue( ) );
 			}
 			else if ( event.type == GanttLineAttributesComposite.STYLE_CHANGED_EVENT )
 			{

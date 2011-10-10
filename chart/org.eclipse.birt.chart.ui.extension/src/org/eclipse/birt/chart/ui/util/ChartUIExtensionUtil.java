@@ -30,45 +30,36 @@ public class ChartUIExtensionUtil
 	public static int PROPERTY_UPDATE = ChartElementUtil.PROPERTY_UPDATE;
 	public static int PROPERTY_UNSET = ChartElementUtil.PROPERTY_UNSET;
 	
+	/**
+	 * Returns 'auto' string.
+	 * 
+	 * @return
+	 */
 	public static String getAutoMessage( )
 	{
 		return Messages.getString( "ItemLabel.Auto" ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Returns an string array and start with 'auto' item.
+	 * 
+	 * @param items
+	 * @return
+	 */
 	public static String[] getItemsWithAuto( String[] items )
 	{
 		List<String> names = new ArrayList<String>( Arrays.asList( items ) );
 		names.add( 0, getAutoMessage( ) );
 		return names.toArray( new String[]{} );
 	}
-	
-	public static String[] getTrueFalseComboItems( )
-	{
-		String[] strs = new String[]{
-				getAutoMessage( ), Messages.getString( "ItemLabel.True" ),//$NON-NLS-1$
-				Messages.getString( "ItemLabel.False" )//$NON-NLS-1$
-		};
-		return strs;
-	}
 
-	public static String[] getShowHideComboItems( )
-	{
-		String[] strs = new String[]{
-				getAutoMessage( ), Messages.getString( "ItemLabel.Show" ),//$NON-NLS-1$
-				Messages.getString( "ItemLabel.Hide" )//$NON-NLS-1$
-		};
-		return strs;
-	}
-	
-	public static String[] getEnableDisableComboItemds()
-	{
-		String[] strs = new String[]{
-				getAutoMessage( ), Messages.getString( "ItemLabel.Enable" ),//$NON-NLS-1$
-				Messages.getString( "ItemLabel.Disable" )//$NON-NLS-1$
-		};
-		return strs;
-	}
-
+	/**
+	 * Creates a combo list with specified items. 
+	 * 
+	 * @param parent
+	 * @param items
+	 * @return
+	 */
 	public static Combo createCombo( Composite parent, String[] items )
 	{
 		Combo c = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -76,16 +67,14 @@ public class ChartUIExtensionUtil
 		return c;
 	}
 
-	public static Combo createTrueFalseItemsCombo( Composite parent )
-	{
-		Combo c = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
-		c.setItems( getTrueFalseComboItems( ) );
-		return c;
-	}
-
+	/**
+	 * Checks if the 'auto' item is selected in specified combo list.
+	 * 
+	 * @param combo
+	 * @return
+	 */
 	public static boolean isAutoSelection( Combo combo )
 	{
 		return combo != null && ( combo.getSelectionIndex( ) == 0 );
 	}
-
 }

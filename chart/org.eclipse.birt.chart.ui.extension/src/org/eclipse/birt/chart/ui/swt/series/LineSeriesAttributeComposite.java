@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -37,7 +38,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -66,17 +66,11 @@ public class LineSeriesAttributeComposite extends Composite
 
 	protected transient ChartWizardContext context;
 
-	private Label lblPalette;
+	private TristateCheckbox btnPalette;
 
-	private Combo cmbPalette;
+	private TristateCheckbox btnCurve;
 
-	private Label lblCurve;
-
-	private Combo cmbCurve;
-
-	private Label lblMissingValue;
-
-	private Combo cmbMissingValue;
+	private TristateCheckbox btnMissingValue;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -208,40 +202,36 @@ public class LineSeriesAttributeComposite extends Composite
 		}
 
 		Composite cmp = new Composite( grpLine, SWT.NONE );
-		GridLayout gl = new GridLayout( 2, false ) ;
+		GridLayout gl = new GridLayout( 1, false ) ;
 		cmp.setLayout( gl );
 
-		lblPalette = new Label(cmp, SWT.NONE );
-		lblPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-		cmbPalette = ChartUIExtensionUtil.createCombo( cmp, ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnPalette = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			cmbPalette.select( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? 1
-					: 2 )
-					: 0 );
-			cmbPalette.addSelectionListener( this );
+			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelectionState( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.addSelectionListener( this );
 		}
 		
-		lblCurve = new Label(cmp, SWT.NONE );
-		lblCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-		
-		cmbCurve = ChartUIExtensionUtil.createCombo( cmp, ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnCurve = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			cmbCurve.select( ( (LineSeries) series ).isSetCurve( ) ? ( ( (LineSeries) series ).isCurve( ) ? 1
-					: 2 )
-					: 0 );
-			cmbCurve.addSelectionListener( this );
+			btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
+			btnCurve.setSelectionState( ( (LineSeries) series ).isSetCurve( ) ? ( ( (LineSeries) series ).isCurve( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnCurve.addSelectionListener( this );
 		}
 
 		if ( !( series instanceof AreaSeries && ( series.isSetStacked( ) && series.isStacked( ) ) ) )
 		{
-			lblMissingValue = new Label(cmp, SWT.NONE );
-			lblMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
-			cmbMissingValue = ChartUIExtensionUtil.createCombo( cmp, ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnMissingValue = new TristateCheckbox( cmp, SWT.NONE );
 			{
-				cmbMissingValue.select( ( (LineSeries) series ).isSetConnectMissingValue( ) ? ( ( (LineSeries) series ).isConnectMissingValue( ) ? 1
-						: 2 )
-						: 0 );
-				cmbMissingValue.addSelectionListener( this );
+				btnMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
+				btnMissingValue.setSelectionState( ( (LineSeries) series ).isSetConnectMissingValue( ) ? ( ( (LineSeries) series ).isConnectMissingValue( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnMissingValue.addSelectionListener( this );
 			}
 		}
 	}
@@ -258,26 +248,26 @@ public class LineSeriesAttributeComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.widget == cmbCurve )
+		if ( e.widget == btnCurve )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"curve", //$NON-NLS-1$
-					cmbCurve.getSelectionIndex( ) == 1,
-					cmbCurve.getSelectionIndex( ) == 0 );
+					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
-		else if ( e.widget == cmbPalette )
+		else if ( e.widget == btnPalette )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor", //$NON-NLS-1$
-					cmbPalette.getSelectionIndex( ) == 1,
-					cmbPalette.getSelectionIndex( ) == 0 );
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
-		else if ( e.widget == cmbMissingValue )
+		else if ( e.widget == btnMissingValue )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"connectMissingValue", //$NON-NLS-1$
-					cmbMissingValue.getSelectionIndex( ) == 1,
-					cmbMissingValue.getSelectionIndex( ) == 0 );
+					btnMissingValue.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnMissingValue.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 	}
 
@@ -354,18 +344,15 @@ public class LineSeriesAttributeComposite extends Composite
 		{
 			fccShadow.setEnabled( isEnabled );
 		}
-		if ( cmbPalette != null )
+		if ( btnPalette != null )
 		{
-			lblPalette.setEnabled( isEnabled );
-			cmbPalette.setEnabled( isEnabled );
+			btnPalette.setEnabled( isEnabled );
 		}
-		if ( cmbMissingValue != null )
+		if ( btnMissingValue != null )
 		{
-			lblMissingValue.setEnabled( isEnabled );
-			cmbMissingValue.setEnabled( isEnabled );
+			btnMissingValue.setEnabled( isEnabled );
 		}
-		lblCurve.setEnabled( isEnabled );
-		cmbCurve.setEnabled( isEnabled );
+		btnCurve.setEnabled( isEnabled );
 	}
 
 }

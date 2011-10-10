@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.type.BubbleChart;
@@ -320,9 +321,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private ExternalizedTextEditorComposite txtTitle;
 		private Combo cmbTypes;
 		private Spinner spnZOrder;
-		private Combo cmbVisible;
-		private Combo cmbStack;
-		private Combo cmbTranslucent;
+		private TristateCheckbox btnVisible;
+		private TristateCheckbox btnStack;
+		private TristateCheckbox btnTranslucent;
 
 		private boolean canStack;
 
@@ -435,58 +436,55 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		protected void initTranslucentUI( Composite parent, Series series )
 		{
-			cmbTranslucent = ChartUIExtensionUtil.createCombo( parent,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnTranslucent = new TristateCheckbox( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				cmbTranslucent.setLayoutData( gd );
-				cmbTranslucent.select( series.isSetTranslucent( ) ? ( series.isTranslucent( ) ? 1
-						: 2 )
-						: 0 );
-				cmbTranslucent.addSelectionListener( this );
+				btnTranslucent.setLayoutData( gd );
+				btnTranslucent.setSelectionState( series.isSetTranslucent( ) ? ( series.isTranslucent( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnTranslucent.addSelectionListener( this );
 			}
 		}
 
 		protected void initVisibleUI( Composite parent, Series series )
 		{
-			cmbVisible = ChartUIExtensionUtil.createCombo( parent,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnVisible = new TristateCheckbox( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				cmbVisible.setLayoutData( gd );
-				cmbVisible.select( series.isSetVisible( ) ? ( series.isVisible( ) ? 1
-						: 2 )
-						: 0 );
-				cmbVisible.addSelectionListener( this );
+				btnVisible.setLayoutData( gd );
+				btnVisible.setSelectionState( series.isSetVisible( ) ? ( series.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnVisible.addSelectionListener( this );
 			}
 		}
 
 		protected void initStackUI( Composite parent, Series series )
 		{
-			cmbStack = ChartUIExtensionUtil.createCombo( parent,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnStack = new TristateCheckbox( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				cmbStack.setLayoutData( gd );
-				cmbStack.setEnabled( canStack
+				btnStack.setLayoutData( gd );
+				btnStack.setEnabled( canStack
 						&& series.canBeStacked( )
 						&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL
 						&& !bStackedPercent );
 				if ( series.isStacked( ) && !canStack )
 				{
-					cmbStack.select( 2 );
+					btnStack.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
 					series.setStacked( false );
 				}
 				else
 				{
-					cmbStack.select( series.isSetStacked( ) ? ( series.isStacked( ) ? 1
-							: 2 )
-							: 0 );
+					btnStack.setSelectionState( series.isSetStacked( ) ? ( series.isStacked( ) ? TristateCheckbox.STATE_SELECTED
+							: TristateCheckbox.STATE_UNSELECTED )
+							: TristateCheckbox.STATE_GRAYED );
 				}
-				cmbStack.addSelectionListener( this );
+				btnStack.addSelectionListener( this );
 			}
 		}
 
@@ -530,26 +528,26 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					convertSeriesType( series, typeName );
 				}
 			}
-			else if ( e.widget == cmbVisible )
+			else if ( e.widget == btnVisible )
 			{
-				if ( cmbVisible.getSelectionIndex( ) == 0 )
+				if ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					series.unsetVisible( );
 				}
 				else
 				{
-					series.setVisible( cmbVisible.getSelectionIndex( ) == 1);
+					series.setVisible( btnVisible.getSelectionState( ) == 1);
 				}
 			}
-			else if ( e.widget == cmbStack )
+			else if ( e.widget == btnStack )
 			{
-				if ( cmbStack.getSelectionIndex( ) == 0 )
+				if ( btnStack.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					series.unsetStacked( );
 				}
 				else
 				{
-					series.setStacked( cmbStack.getSelectionIndex( ) == 1 );
+					series.setStacked( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 				
 				// Default label position is inside if Stacked checkbox is
@@ -561,15 +559,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 				setTypeComboState( );
 			}
-			else if ( e.widget == cmbTranslucent )
+			else if ( e.widget == btnTranslucent )
 			{
-				if ( cmbTranslucent.getSelectionIndex( ) == 0 )
+				if ( btnTranslucent.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					series.unsetTranslucent( );
 				}
 				else
 				{
-					series.setTranslucent( cmbTranslucent.getSelectionIndex( ) == 1 );
+					series.setTranslucent( btnTranslucent.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 			}
 			else if ( e.getSource( ).equals( linkSeries ) )
@@ -738,7 +736,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		 */
 		public void setTypeComboState( )
 		{
-			if ( cmbStack == null )
+			if ( btnStack == null )
 			{
 				return;
 			}
@@ -747,7 +745,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			if ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL
 					|| cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
 			{
-				if ( cmbStack.getSelectionIndex( ) == 1)
+				if ( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED)
 				{
 					cmbTypes.setEnabled( false );
 				}
@@ -783,7 +781,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		 */
 		private void setStackedBoxState( )
 		{
-			if ( cmbStack == null )
+			if ( btnStack == null )
 			{
 				return;
 			}
@@ -802,12 +800,12 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 							&& seriesDefn.getDesignTimeSeries( ).canBeStacked( )
 							&& !bStackedPercent )
 					{
-						cmbStack.setEnabled( true );
+						btnStack.setEnabled( true );
 					}
 				}
 				else
 				{
-					cmbStack.setEnabled( false );
+					btnStack.setEnabled( false );
 					cmbTypes.setEnabled( true );
 				}
 			}

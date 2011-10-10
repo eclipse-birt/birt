@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -30,7 +31,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -49,14 +49,14 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 
 	private final RadarSeries series;
 	private static final int MAX_STEPS = 20;
-	private Combo cmbAutoScale = null;
+	private TristateCheckbox btnAutoScale = null;
 	private Label lblWebMax = null;
 	private Label lblWebMin = null;
 	private TextEditorComposite webMax = null;
 	private TextEditorComposite webMin = null;
 	private LineAttributesComposite wliacLine = null;
 	private Spinner iscScaleCnt = null;
-	private Combo cmbTranslucentBullseye = null;
+	private TristateCheckbox btnTranslucentBullseye = null;
 	private Button btnScaleCntAuto;
 	private Button btnWebMinAuto;
 	private Button btnWebMaxAuto;
@@ -112,19 +112,17 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		cmpMinMax.setLayoutData( gdMinMax );
 		cmpMinMax.setLayout( glRangeValue );
 		
-		Label lbl = new Label(cmpMinMax, SWT.NONE );
-		lbl.setText( Messages.getString( "Radar.Composite.Label.ScaleAuto" ) ); //$NON-NLS-1$
-		
-		cmbAutoScale = UIHelper.createCombo( cmpMinMax, UIHelper.getEnableDisableComboItemds( ) );
+		btnAutoScale = new TristateCheckbox( cmpMinMax, SWT.NONE );
 		{
+			btnAutoScale.setText( Messages.getString( "Radar.Composite.Label.ScaleAuto" ) ); //$NON-NLS-1$
 			GridData gd = new GridData();
-			gd.horizontalSpan = 2;
-			cmbAutoScale.setLayoutData( gd );
-			cmbAutoScale.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleAutoTooltip" ) ); //$NON-NLS-1$
-			cmbAutoScale.select( series.isSetRadarAutoScale( ) ? ( series.isRadarAutoScale( ) ? 1
-					: 2 )
-					: 0 );
-			cmbAutoScale.addListener( SWT.Selection, this );
+			gd.horizontalSpan = 3;
+			btnAutoScale.setLayoutData( gd );
+			btnAutoScale.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleAutoTooltip" ) ); //$NON-NLS-1$
+			btnAutoScale.setSelectionState( series.isSetRadarAutoScale( ) ? ( series.isRadarAutoScale( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnAutoScale.addListener( SWT.Selection, this );
 		}
 
 		lblWebMin = new Label( cmpMinMax, SWT.NONE );
@@ -148,7 +146,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		btnWebMinAuto = new Button( cmpMinMax, SWT.CHECK );
 		btnWebMinAuto.setText( UIHelper.getAutoMessage( ) );
 		btnWebMinAuto.setSelection( !series.isSetWebLabelMin( ) );
-		webMin.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+		webMin.setEnabled( btnAutoScale.getSelectionState( ) != TristateCheckbox.STATE_GRAYED
 				&& !btnWebMinAuto.getSelection( ) );
 		btnWebMinAuto.addListener( SWT.Selection, this );
 		
@@ -173,11 +171,11 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		btnWebMaxAuto = new Button( cmpMinMax, SWT.CHECK );
 		btnWebMaxAuto.setText( UIHelper.getAutoMessage( ) );
 		btnWebMaxAuto.setSelection( !series.isSetWebLabelMax( ) );
-		webMax.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+		webMax.setEnabled( btnAutoScale.getSelectionState( ) != TristateCheckbox.STATE_GRAYED
 				&& !btnWebMaxAuto.getSelection( ) );
 		btnWebMaxAuto.addListener( SWT.Selection, this );
 		
-		boolean enabled = cmbAutoScale.getSelectionIndex( ) == 1;
+		boolean enabled = btnAutoScale.getSelectionState( ) == TristateCheckbox.STATE_SELECTED;
 		updateScaleUI( enabled );
 
 		Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
@@ -198,25 +196,23 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		btnScaleCntAuto = new Button( cmpMinMax, SWT.CHECK );
 		btnScaleCntAuto.setText( UIHelper.getAutoMessage( ) );
 		btnScaleCntAuto.setSelection( !series.isSetPlotSteps( ) );
-		iscScaleCnt.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+		iscScaleCnt.setEnabled( btnAutoScale.getSelectionState( ) != TristateCheckbox.STATE_GRAYED
 				&& !btnScaleCntAuto.getSelection( ) );
 		btnScaleCntAuto.addListener( SWT.Selection, this );
 		
 		if ( getChart( ).getSubType( )
 					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) )
 		{
-			lbl =new Label( cmpMinMax, SWT.NONE);
-			lbl.setText(  Messages.getString( "Radar.Composite.Label.bullsEye" ) ); //$NON-NLS-1$
-			
-			cmbTranslucentBullseye = UIHelper.createTrueFalseItemsCombo( cmpMinMax );
+			btnTranslucentBullseye = new TristateCheckbox( cmpMinMax, SWT.NONE );
+			btnTranslucentBullseye.setText(  Messages.getString( "Radar.Composite.Label.bullsEye" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 2;
+			gd.horizontalSpan = 3;
 			gd.verticalAlignment = SWT.TOP;
-			cmbTranslucentBullseye.setLayoutData( gd );
-			cmbTranslucentBullseye.select( series.isSetBackgroundOvalTransparent( ) ? ( series.isBackgroundOvalTransparent( ) ? 1
-					: 2 )
-					: 0 );
-			cmbTranslucentBullseye.addListener( SWT.Selection, this );
+			btnTranslucentBullseye.setLayoutData( gd );
+			btnTranslucentBullseye.setSelectionState( series.isSetBackgroundOvalTransparent( ) ? ( series.isBackgroundOvalTransparent( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnTranslucentBullseye.addListener( SWT.Selection, this );
 		}
 		return cmpContent;
 	}
@@ -275,25 +271,25 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMax.setText( Double.toString( tmax ) );
 
 		}
-		else if ( event.widget.equals( cmbTranslucentBullseye ) )
+		else if ( event.widget.equals( btnTranslucentBullseye ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"backgroundOvalTransparent",//$NON-NLS-1$
-					cmbTranslucentBullseye.getSelectionIndex( ) == 1,
-					cmbTranslucentBullseye.getSelectionIndex( ) == 0 );
+					btnTranslucentBullseye.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnTranslucentBullseye.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 		else if ( event.widget.equals( iscScaleCnt ) )
 		{
 			series.setPlotSteps( BigInteger.valueOf( iscScaleCnt.getSelection( ) ) );
 		}
-		else if ( event.widget.equals( cmbAutoScale ) )
+		else if ( event.widget.equals( btnAutoScale ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"radarAutoScale",//$NON-NLS-1$
-					cmbAutoScale.getSelectionIndex( ) == 1,
-					cmbAutoScale.getSelectionIndex( ) == 0 );
+					btnAutoScale.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnAutoScale.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 			
-			boolean enabled = cmbAutoScale.getSelectionIndex( ) == 1;
+			boolean enabled = btnAutoScale.getSelectionState( ) == TristateCheckbox.STATE_SELECTED;
 			updateScaleUI( enabled );
 		}
 		else if ( event.widget == btnScaleCntAuto )
@@ -302,7 +298,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 					"plotSteps",//$NON-NLS-1$
 					BigInteger.valueOf( iscScaleCnt.getSelection( ) ),
 					btnScaleCntAuto.getSelection( ) );
-			iscScaleCnt.setEnabled( cmbAutoScale.getSelectionIndex( ) != 0
+			iscScaleCnt.setEnabled( btnAutoScale.getSelectionState( ) != TristateCheckbox.STATE_GRAYED
 					&& !btnScaleCntAuto.getSelection( ) );
 		}
 		else if ( event.widget == btnWebMinAuto )

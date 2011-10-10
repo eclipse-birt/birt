@@ -500,7 +500,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"leaderLineLength", //$NON-NLS-1$
-					iscLeaderLength.getSelection( ),
+					(double)iscLeaderLength.getSelection( ),
 					btnLeaderLengthAuto.getSelection( ) );
 			iscLeaderLength.setEnabled( !btnLeaderLengthAuto.getSelection( ) );
 		}

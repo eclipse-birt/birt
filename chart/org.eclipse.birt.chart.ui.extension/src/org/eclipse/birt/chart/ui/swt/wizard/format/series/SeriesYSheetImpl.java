@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
@@ -40,7 +41,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
@@ -50,11 +50,9 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -69,9 +67,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 	private Button btnShowCurveLine;
 
-	protected Combo cmbLabelVisible;
+	protected TristateCheckbox btnLabelVisible;
 
-	private Combo cmbDecoVisible;
+	private TristateCheckbox btnDecoVisible;
 
 	public void createControl( Composite parent )
 	{
@@ -99,17 +97,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		GridLayout glBottom = new GridLayout( 4, false );
 		cmpBottom.setLayout( glBottom );
 
-		Label lblVisible = new Label(cmpBottom, SWT.NONE);
-		if ( isMeterSeries( ) )
-		{
-			lblVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDialLabels" ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			lblVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
-		}
-		cmbLabelVisible = ChartUIExtensionUtil.createCombo( cmpBottom,
-				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnLabelVisible = new TristateCheckbox( cmpBottom, SWT.NONE );
 		{
 			org.eclipse.birt.chart.model.component.Label l = null;
 			if ( isMeterSeries( ) )
@@ -122,25 +110,32 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				l = getCurrentDesignTimeSeries( )
 						.getLabel( );
 			}
-			cmbLabelVisible.select( l.isSetVisible( ) ? ( l.isVisible( ) ? 1
-					: 2 ) : 0 );
-			cmbLabelVisible.addSelectionListener( this );
+			btnLabelVisible.setSelectionState( l.isSetVisible( ) ? ( l.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnLabelVisible.addSelectionListener( this );
+			
+			if ( isMeterSeries( ) )
+			{
+				btnLabelVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDialLabels" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				btnLabelVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
+			}
 		}
 
 
 		if ( isGanttSeries( ) )
 		{
-			lblVisible = new Label(cmpBottom, SWT.NONE);
-			lblVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1
-			
-			cmbDecoVisible =  ChartUIExtensionUtil.createCombo( cmpBottom,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnDecoVisible =  new TristateCheckbox( cmpBottom, SWT.NONE );
 			{
 				org.eclipse.birt.chart.model.component.Label l = ( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( );
-				cmbDecoVisible.select( l.isSetVisible( ) ? ( l.isVisible( ) ? 1
-						: 2 ) : 0 );
-				cmbDecoVisible.addSelectionListener( this );
+				btnDecoVisible.setSelectionState( l.isSetVisible( ) ? ( l.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED ) : TristateCheckbox.STATE_GRAYED );
+				btnDecoVisible.addSelectionListener( this );
 			}
+			btnDecoVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1
 		}
 
 		if ( isTrendlineAvailable( ) )
@@ -291,7 +286,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					BUTTON_DECORATION,
 					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
 					popup,
-					cmbDecoVisible.getSelectionIndex( ) == 1);
+					btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			btnDecoration.addSelectionListener( this );
 		}
 
@@ -351,7 +346,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				BUTTON_LABEL,
 				Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
 				popup,
-				cmbLabelVisible.getSelectionIndex( ) == 1);
+				btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		btnLabel.addSelectionListener( this );
 	}
 
@@ -365,7 +360,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				BUTTON_DIAL_LABELS,
 				Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
 				popup,
-				cmbLabelVisible.getSelectionIndex( ) == 1 );
+				btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		btnDialLabel.addSelectionListener( this );
 	}
 
@@ -423,13 +418,13 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				}
 			}
 		}
-		else if ( e.widget == cmbLabelVisible )
+		else if ( e.widget == btnLabelVisible )
 		{
-			boolean isAuto = ( cmbLabelVisible.getSelectionIndex( ) == 0 );
+			boolean isAuto = ( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 			if ( isMeterSeries( ) )
 			{
 				setToggleButtonEnabled( BUTTON_DIAL_LABELS,
-						cmbLabelVisible.getSelectionIndex( ) == 1 );
+						btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				if ( isAuto )
 				{
 					( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
@@ -440,10 +435,10 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				{
 					( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
 							.getLabel( )
-							.setVisible( cmbLabelVisible.getSelectionIndex( ) == 1 );
+							.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 				Button btnDialLabel = getToggleButton( BUTTON_DIAL_LABELS );
-				if ( cmbLabelVisible.getSelectionIndex( ) != 1
+				if ( btnLabelVisible.getSelectionState( ) != TristateCheckbox.STATE_SELECTED
 						&& btnDialLabel.getSelection( ) )
 				{
 					btnDialLabel.setSelection( false );
@@ -453,7 +448,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			else
 			{
 				setToggleButtonEnabled( BUTTON_LABEL,
-						cmbLabelVisible.getSelectionIndex( ) == 1 );
+						btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				if ( isAuto )
 				{
 					getCurrentDesignTimeSeries( )
@@ -464,17 +459,17 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				{
 					getCurrentDesignTimeSeries( )
 							.getLabel( )
-							.setVisible( cmbLabelVisible.getSelectionIndex( ) == 1 );
+							.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 			}
 
 			refreshPopupSheet( );
 		}
-		else if ( e.widget == cmbDecoVisible )
+		else if ( e.widget == btnDecoVisible )
 		{
 			setToggleButtonEnabled( BUTTON_DECORATION,
-					cmbDecoVisible.getSelectionIndex( ) == 1 );
-			if ( cmbDecoVisible.getSelectionIndex( ) == 0 )
+					btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			if ( btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( )
 						.unsetVisible( );
@@ -482,10 +477,10 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			else
 			{
 				( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( )
-						.setVisible( cmbDecoVisible.getSelectionIndex( ) == 1 );
+						.setVisible( btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 			Button btnDecoration = getToggleButton( BUTTON_DECORATION );
-			if ( cmbDecoVisible.getSelectionIndex( ) != 1
+			if ( btnDecoVisible.getSelectionState( ) != TristateCheckbox.STATE_SELECTED
 					&& btnDecoration.getSelection( ) )
 			{
 				btnDecoration.setSelection( false );

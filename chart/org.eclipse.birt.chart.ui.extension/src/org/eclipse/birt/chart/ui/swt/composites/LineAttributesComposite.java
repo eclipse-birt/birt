@@ -26,7 +26,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -55,7 +54,7 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient FillChooserComposite cmbColor = null;
 	
-	private Combo cmbVisible = null;
+	private TristateCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -82,8 +81,6 @@ public class LineAttributesComposite extends Composite implements
 	private transient boolean bEnableColor = true;
 
 	private transient ChartWizardContext wizardContext;
-
-	private Label lblVisible;
 
 	/**
 	 * @param parent
@@ -218,20 +215,20 @@ public class LineAttributesComposite extends Composite implements
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
-			lblVisible = new Label( cmpContent, SWT.NONE );
-			lblVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
-			
-			cmbVisible = ChartUIExtensionUtil.createTrueFalseItemsCombo( cmpContent );
+			btnVisible = new TristateCheckbox( cmpContent, SWT.NONE );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
-			gdCBVisible.horizontalSpan = 5;
-			cmbVisible.setLayoutData( gdCBVisible );
+			gdCBVisible.horizontalSpan = 6;
+			btnVisible.setLayoutData( gdCBVisible );
+			btnVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
 			
-			int index = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? 1 : 2 ) : 0;
-			cmbVisible.select( index );
-			cmbVisible.addSelectionListener( this );
+			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED;
+			btnVisible.setSelectionState( state );
+			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = ( index == 1 );
+				bEnableUI = ( state == TristateCheckbox.STATE_SELECTED );
 			}
 		}
 
@@ -336,8 +333,7 @@ public class LineAttributesComposite extends Composite implements
 		boolean bEnableUI = this.laCurrent.isVisible( );
 		if ( this.bEnableVisibility )
 		{
-			lblVisible.setEnabled( bState );
-			cmbVisible.setEnabled( bState );
+			btnVisible.setEnabled( bState );
 		}
 		if ( this.bEnableStyles )
 		{
@@ -378,9 +374,11 @@ public class LineAttributesComposite extends Composite implements
 
 		if ( bEnableVisibility )
 		{
-			int index = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? 1 : 2 ) : 0;
-			cmbVisible.select( index );
-			boolean bUIEnabled = ( index == 1 );
+			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED;
+			btnVisible.setSelectionState( state );
+			boolean bUIEnabled = ( state == TristateCheckbox.STATE_SELECTED );
 			if ( bEnableStyles )
 			{
 				cmbStyle.setEnabled( bUIEnabled );
@@ -425,13 +423,13 @@ public class LineAttributesComposite extends Composite implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( oSource.equals( cmbVisible ) )
+		if ( oSource.equals( btnVisible ) )
 		{
 			// Notify Listeners that a change has occurred in the value
-			int index = cmbVisible.getSelectionIndex( );
+			int state = btnVisible.getSelectionState( );
 			fireValueChangedEvent( LineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					Boolean.valueOf( index == 1 ),
-					( index == 0) ? ChartUIExtensionUtil.PROPERTY_UNSET
+					Boolean.valueOf( state == TristateCheckbox.STATE_SELECTED ),
+					( state == TristateCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
 							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )
@@ -439,7 +437,7 @@ public class LineAttributesComposite extends Composite implements
 				return;
 			}
 			// Enable/Disable UI Elements
-			boolean bEnableUI = ( index == 1 );
+			boolean bEnableUI = ( state == 1 );
 			if ( bEnableStyles )
 			{
 				lblStyle.setEnabled( bEnableUI );

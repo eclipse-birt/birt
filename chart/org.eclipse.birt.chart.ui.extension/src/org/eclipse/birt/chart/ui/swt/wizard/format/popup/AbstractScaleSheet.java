@@ -17,10 +17,10 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.ComboSelectionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -79,9 +79,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected Spinner spnStepNumber = null;
 	
-	protected ComboSelectionComposite cscAutoExpand;
+	protected TristateCheckbox btnAutoExpand;
 	
-	protected ComboSelectionComposite cscShowOutside;
+	protected TristateCheckbox btnShowOutside;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -236,32 +236,31 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 		txtScaleMax = createValuePicker( cmpContent, getScale( ).getMax( ) );
 
-		cscAutoExpand = new ComboSelectionComposite( cmpContent,
-				SWT.NONE,
-				Messages.getString( "AbstractScaleSheet.AutoExpand" ),//$NON-NLS-1$
-				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnAutoExpand = new TristateCheckbox( cmpContent, SWT.NONE );
+		btnAutoExpand.setText( Messages.getString( "AbstractScaleSheet.AutoExpand" ) );//$NON-NLS-1$
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
-			cscAutoExpand.setLayoutData( gd );
-			cscAutoExpand.select( getScale( ).isSetAutoExpand( ) ? ( getScale( ).isAutoExpand( ) ? 1
-					: 2 )
-					: 0 );
-			cscAutoExpand.addSelectionListener( this );
+			btnAutoExpand.setLayoutData( gd );
+			btnAutoExpand.setSelectionState( getScale( ).isSetAutoExpand( ) ? ( getScale( ).isAutoExpand( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnAutoExpand.addSelectionListener( this );
 		}
 
-		cscShowOutside = new ComboSelectionComposite( cmpContent,
-				SWT.NONE,
-				Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ), //$NON-NLS-1$
-				ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+		btnShowOutside = new TristateCheckbox( cmpContent,
+				SWT.NONE );
+		btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
-			cscShowOutside.setLayoutData( gd );
-			cscShowOutside.select( getScale().isSetShowOutside( ) ? ( getScale( ).isShowOutside( ) ? 1 : 2 ) : 0 );
-			cscShowOutside.addSelectionListener( this );
+			btnShowOutside.setLayoutData( gd );
+			btnShowOutside.setSelectionState( getScale( ).isSetShowOutside( ) ? ( getScale( ).isShowOutside( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnShowOutside.addSelectionListener( this );
 			// Only visible in number type
-			cscShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+			btnShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
 		}
 
 		// Set checkbox selection.
@@ -337,7 +336,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		txtScaleMin.setEnabled( bEnabled );
 		txtScaleMax.setEnabled( bEnabled );
 		// Enabled only min or max has been set
-		cscShowOutside.setEnabled( bEnabled
+		btnShowOutside.setEnabled( bEnabled
 				&& ( getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Min( ) ) || getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Max( ) ) ) );
 
 		lblUnit.setEnabled( bEnabled
@@ -558,26 +557,26 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 	 */
 	public void widgetSelected( SelectionEvent event )
 	{
-		if ( event.widget == cscShowOutside )
+		if ( event.widget == btnShowOutside )
 		{
-			if ( cscShowOutside.getSelectionIndex( ) == 0 )
+			if ( btnShowOutside.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getScale( ).unsetShowOutside( );
 			}
 			else
 			{
-				getScale( ).setShowOutside( cscShowOutside.getSelectionIndex( ) == 1 );
+				getScale( ).setShowOutside( btnShowOutside.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
-		else if ( event.widget == cscAutoExpand )
+		else if ( event.widget == btnAutoExpand )
 		{
-			if ( cscAutoExpand.getSelectionIndex( ) == 0 )
+			if ( btnAutoExpand.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getScale( ).unsetAutoExpand( );
 			}
 			else
 			{
-				getScale( ).setAutoExpand( cscAutoExpand.getSelectionIndex( ) == 1 );
+				getScale( ).setAutoExpand( btnAutoExpand.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
 	}

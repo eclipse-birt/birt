@@ -27,7 +27,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -52,7 +51,7 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private transient FillChooserComposite cmbColor = null;
 
-	private transient Combo cmbVisible = null;
+	private transient TristateCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -159,21 +158,19 @@ public class GanttLineAttributesComposite extends Composite implements
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
-			Label lbl = new Label( cmpContent, SWT.NONE );
-			lbl.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
-			
-			cmbVisible = ChartUIExtensionUtil.createTrueFalseItemsCombo( cmpContent);
+			btnVisible = new TristateCheckbox( cmpContent, SWT.NONE );
+			btnVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
-			gdCBVisible.horizontalSpan = 5;
-			cmbVisible.setLayoutData( gdCBVisible );
-			cmbVisible.setText( Messages.getString( "LineAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-			cmbVisible.select( laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? 1
-					: 2 )
-					: 0 );
-			cmbVisible.addSelectionListener( this );
+			gdCBVisible.horizontalSpan = 6;
+			btnVisible.setLayoutData( gdCBVisible );
+			btnVisible.setText( Messages.getString( "LineAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
+			btnVisible.setSelectionState( laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = ( cmbVisible.getSelectionIndex( ) == 1 );
+				bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
 
@@ -270,8 +267,8 @@ public class GanttLineAttributesComposite extends Composite implements
 		boolean bEnableUI = true;
 		if ( this.bEnableVisibility )
 		{
-			cmbVisible.setEnabled( bState );
-			bEnableUI = ( cmbVisible.getSelectionIndex( ) == 1 );
+			btnVisible.setEnabled( bState );
+			bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 		if ( this.bEnableStyles )
 		{
@@ -309,13 +306,13 @@ public class GanttLineAttributesComposite extends Composite implements
 		{
 			if ( laCurrent == null || !laCurrent.isSetVisible( ) )
 			{
-				cmbVisible.select( 0 );
+				btnVisible.setSelectionState( TristateCheckbox.STATE_GRAYED );
 			}
 			else
 			{
-				cmbVisible.select( attributes.isVisible( ) ? 1 : 2 );
+				btnVisible.setSelectionState( attributes.isVisible( ) ? TristateCheckbox.STATE_SELECTED : TristateCheckbox.STATE_UNSELECTED );
 			}
-			boolean bUIEnabled = ( cmbVisible.getSelectionIndex( ) == 1 );
+			boolean bUIEnabled = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			if ( bEnableStyles )
 			{
 				cmbStyle.setEnabled( bUIEnabled );
@@ -377,12 +374,12 @@ public class GanttLineAttributesComposite extends Composite implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( oSource.equals( cmbVisible ) )
+		if ( oSource.equals( btnVisible ) )
 		{
 			// Notify Listeners that a change has occurred in the value
 			fireValueChangedEvent( GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					Boolean.valueOf( cmbVisible.getSelectionIndex( ) == 1 ),
-					( cmbVisible.getSelectionIndex( ) == 0 ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+					Boolean.valueOf( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED ),
+					( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
 							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )
@@ -390,7 +387,7 @@ public class GanttLineAttributesComposite extends Composite implements
 				return;
 			}
 			// Enable/Disable UI Elements
-			boolean bEnableUI = ( cmbVisible.getSelectionIndex( ) == 1 );
+			boolean bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			if ( bEnableStyles )
 			{
 				lblStyle.setEnabled( bEnableUI );

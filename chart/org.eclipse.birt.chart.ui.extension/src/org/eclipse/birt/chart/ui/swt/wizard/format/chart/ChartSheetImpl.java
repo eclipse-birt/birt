@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
@@ -110,7 +111,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private Button btnCoverageAuto;
 	
-	private Combo cmbStudyLayout;
+	private TristateCheckbox btnStudyLayout;
 
 	private Button btnMegAuto;
 
@@ -376,16 +377,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		// #170985
 		if ( ChartUtil.hasMultipleYAxes( getChart( ) ) )
 		{
-			Label label = new Label( cmpBasic, SWT.NONE );
-			label.setText(Messages.getString("ChartSheetImpl.Label.StudyLayout")); //$NON-NLS-1$
-			
-			cmbStudyLayout = ChartUIExtensionUtil.createCombo( cmpBasic,
-					ChartUIExtensionUtil.getEnableDisableComboItemds( ) );
+			btnStudyLayout = new TristateCheckbox( cmpBasic, SWT.NONE );
 			GridData gridData = new GridData( );
-			gridData.horizontalSpan = 2;
-			cmbStudyLayout.setLayoutData( gridData );
-			cmbStudyLayout.select( ((ChartWithAxes)getChart( )).isSetStudyLayout( ) ? ( ((ChartWithAxes)getChart( )).isStudyLayout( ) ? 1:2):0 );
-			cmbStudyLayout.addSelectionListener( this );
+			gridData.horizontalSpan = 3;
+			btnStudyLayout.setLayoutData( gridData );
+			btnStudyLayout.setText( Messages.getString("ChartSheetImpl.Button.EnableStudyLayout") ); //$NON-NLS-1$
+			btnStudyLayout.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetStudyLayout( ) ? ( ( (ChartWithAxes) getChart( ) ).isStudyLayout( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnStudyLayout.addSelectionListener( this );
 		}
 
 		populateLists( );
@@ -688,18 +688,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 				cwa.setCoverage( spnCorverage.getSelection( ) / 100d );
 			}
 		}
-		else if ( e.widget == cmbStudyLayout )
+		else if ( e.widget == btnStudyLayout )
 		{
 			if ( getChart( ) instanceof ChartWithAxes )
 			{
 				ChartWithAxes cwa = (ChartWithAxes) getChart( );
-				if ( cmbStudyLayout.getSelectionIndex( ) == 0 )
+				if ( btnStudyLayout.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					cwa.unsetStudyLayout( );
 				}
 				else
 				{
-					cwa.setStudyLayout( cmbStudyLayout.getSelectionIndex( ) == 1 );
+					cwa.setStudyLayout( btnStudyLayout.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 			}
 		}

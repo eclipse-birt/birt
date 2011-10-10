@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.examples.radar.ui.series;
 
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
-import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -26,6 +25,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.jface.window.Window;
@@ -33,11 +33,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -52,7 +50,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 
 	private Composite cmpContent = null;
 
-	private Combo cmbCatLabels = null;
+	private TristateCheckbox btnCatLabels = null;
 
 	private Button btnCLFormatSpecifier = null;
 
@@ -76,22 +74,22 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		}
 
 		// Category label configuration
-		Group grpLine1b = new Group( cmpContent, SWT.NONE );
+		Group grpLine = new Group( cmpContent, SWT.NONE );
 		GridLayout glLine1b = new GridLayout( 2, false );
-		grpLine1b.setLayout( glLine1b );
-		grpLine1b.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		grpLine1b.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.CatLabel" ) ); //$NON-NLS-1$
+		grpLine.setLayout( glLine1b );
+		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.CatLabel" ) ); //$NON-NLS-1$
 		
-		Label lbl = new Label( grpLine1b, SWT.NONE);
-		lbl.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowCat" ) ); //$NON-NLS-1$
-		
-		cmbCatLabels = UIHelper.createTrueFalseItemsCombo( grpLine1b );
+		btnCatLabels = new TristateCheckbox( grpLine, SWT.NONE );
 		{
+			btnCatLabels.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowCat" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			gd.horizontalSpan = 1;
-			cmbCatLabels.setLayoutData( gd );
-			cmbCatLabels.select( series.isSetShowCatLabels( ) ? ( series.isShowCatLabels( ) ? 1:2):0);
-			cmbCatLabels.addListener( SWT.Selection, this );
+			gd.horizontalSpan = 2;
+			btnCatLabels.setLayoutData( gd );
+			btnCatLabels.setSelectionState( series.isSetShowCatLabels( ) ? ( series.isShowCatLabels( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnCatLabels.addListener( SWT.Selection, this );
 		}
 
 		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
@@ -104,7 +102,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 			series.setCatLabel( lab );
 		}
 
-		catLabelAttr = new LabelAttributesComposite( grpLine1b,
+		catLabelAttr = new LabelAttributesComposite( grpLine,
 				SWT.NONE,
 				getContext( ),
 				clattributesContext,
@@ -118,7 +116,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		catLabelAttr.addListener( this );
 		catLabelAttr.setDefaultLabelValue( LabelImpl.createDefault( ) );
 		
-		btnCLFormatSpecifier = new Button( grpLine1b, SWT.PUSH );
+		btnCLFormatSpecifier = new Button( grpLine, SWT.PUSH );
 		{
 			GridData gdBTNFormatSpecifier = new GridData( );
 			gdBTNFormatSpecifier.horizontalIndent = -3;
@@ -202,12 +200,12 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 					break;
 			}
 		}
-		else if ( event.widget.equals( cmbCatLabels ) )
+		else if ( event.widget.equals( btnCatLabels ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"showCatLabels",//$NON-NLS-1$
-					cmbCatLabels.getSelectionIndex( ) == 1,
-					cmbCatLabels.getSelectionIndex( ) == 0 );
+					btnCatLabels.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnCatLabels.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 			boolean enabled = series.isSetShowCatLabels( ) && series.isShowCatLabels( );
 			catLabelAttr.setEnabled( enabled );
 			btnCLFormatSpecifier.setEnabled( enabled );

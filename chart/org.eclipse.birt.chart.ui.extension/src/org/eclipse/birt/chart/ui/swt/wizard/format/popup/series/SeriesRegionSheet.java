@@ -580,6 +580,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			else
 			{
 				setState( false );
+				setAutoButtonsState( false );
 				resetUI( );
 			}
 
@@ -646,7 +647,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	private void updateUIForSelection( )
 	{
 		grpGeneral.layout( );
-
+		setAutoButtonsState( true );
 		int iRangeIndex = getMarkerIndex( );
 		DialRegion range = (DialRegion) getDialForProcessing( ).getDialRegions( )
 				.get( iRangeIndex );
@@ -706,7 +707,16 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		else
 		{
 			setState( false );
+			setAutoButtonsState( false );
 		}
+	}
+
+	private void setAutoButtonsState(boolean enabled )
+	{
+		btnStartValueAuto.setEnabled( enabled );
+		btnEndValueAuto.setEnabled( enabled );
+		btnInnerRadiusAuto.setEnabled( enabled );
+		btnOuterRadiusAuto.setEnabled( enabled );
 	}
 
 	private void setState( boolean bState )
@@ -719,6 +729,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtInnerRadius.setEnabled( bState );
 		lblOuterRadius.setEnabled( bState );
 		txtOuterRadius.setEnabled( bState );
+		
 		liacMarkerRange.setAttributesEnabled( bState );
 		// lacLabel.setEnabled( bState );
 		lblRangeFill.setEnabled( bState );

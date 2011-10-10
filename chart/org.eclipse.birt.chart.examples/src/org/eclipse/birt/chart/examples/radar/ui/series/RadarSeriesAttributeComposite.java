@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.examples.radar.ui.series;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl;
-import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -25,13 +24,13 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -53,17 +52,12 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	private ChartWizardContext context;
 
 	private LineAttributesComposite liacLine = null;
-	private Label lblPalette;
 
-	private Combo cmbPalette;
+	private TristateCheckbox btnPalette;
 
-	private Label lblConnectEndPoints;
+	private TristateCheckbox btnConnectEndPoints;
 
-	private Combo cmbConnectEndPoints;
-
-	private Label lblFillPoly;
-
-	private Combo cmbFillPoly;
+	private TristateCheckbox btnFillPoly;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/swt.series" ); //$NON-NLS-1$
 	
@@ -139,42 +133,34 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 		Composite cmp = new Composite( grpLine2, SWT.NONE );
 		cmp.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		cmp.setLayout( new GridLayout(2, false) );
+		cmp.setLayout( new GridLayout( 1, false) );
 
-		lblPalette = new Label( cmp, SWT.NONE );
-		lblPalette.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-		
-		cmbPalette = UIHelper.createTrueFalseItemsCombo( cmp );
+		btnPalette = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			cmbPalette.select( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? 1
-					: 2 )
-					: 0 );
-			cmbPalette.addListener( SWT.Selection, this );
+			btnPalette.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelectionState( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.addListener( SWT.Selection, this );
 		}
 		
-		lblConnectEndPoints = new Label( cmp, SWT.NONE );
-		lblConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$
-		
-		cmbConnectEndPoints = UIHelper.createTrueFalseItemsCombo( cmp );
+		btnConnectEndPoints = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			
-			cmbConnectEndPoints.select( series.isSetConnectEndpoints( ) ? ( series.isConnectEndpoints( ) ? 1
-					: 2 )
-					: 0 );
-			cmbConnectEndPoints.addListener( SWT.Selection, this );
+			btnConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$	
+			btnConnectEndPoints.setSelectionState( series.isSetConnectEndpoints( ) ? ( series.isConnectEndpoints( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnConnectEndPoints.addListener( SWT.Selection, this );
 		}
 		
-		lblFillPoly = new Label( cmp, SWT.NONE );
-		lblFillPoly.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.FillPoly" ) ); //$NON-NLS-1$
-		
-		cmbFillPoly = UIHelper.createTrueFalseItemsCombo( cmp );
+		btnFillPoly = new TristateCheckbox( cmp, SWT.NONE );
 		{
-			cmbFillPoly.select( series.isSetFillPolys( ) ? ( series.isFillPolys( ) ? 1
-					: 2 )
-					: 0 );
-			cmbFillPoly.addListener( SWT.Selection, this );
-			lblFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
-			cmbFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
+			btnFillPoly.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.FillPoly" ) ); //$NON-NLS-1$
+			btnFillPoly.setSelectionState( series.isSetFillPolys( ) ? ( series.isFillPolys( ) ? TristateCheckbox.STATE_SELECTED
+					: TristateCheckbox.STATE_UNSELECTED )
+					: TristateCheckbox.STATE_GRAYED );
+			btnFillPoly.addListener( SWT.Selection, this );
+			btnFillPoly.setEnabled( btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
@@ -235,28 +221,27 @@ public class RadarSeriesAttributeComposite extends Composite implements
 						.setColor( (ColorDefinition) event.data );
 			}
 		}
-		else if ( event.widget.equals( cmbPalette ) )
+		else if ( event.widget.equals( btnPalette ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor",//$NON-NLS-1$
-					cmbPalette.getSelectionIndex( ) == 1,
-					cmbPalette.getSelectionIndex( ) == 0 );
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
-		else if ( event.widget.equals( cmbFillPoly ) )
+		else if ( event.widget.equals( btnFillPoly ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"fillPolys",//$NON-NLS-1$
-					cmbFillPoly.getSelectionIndex( ) == 1,
-					cmbFillPoly.getSelectionIndex( ) == 0 );
+					btnFillPoly.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnFillPoly.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
-		else if ( event.widget.equals( cmbConnectEndPoints ) )
+		else if ( event.widget.equals( btnConnectEndPoints ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"connectEndpoints",//$NON-NLS-1$
-					cmbConnectEndPoints.getSelectionIndex( ) == 1,
-					cmbConnectEndPoints.getSelectionIndex( ) == 0 );
-			lblFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
-			cmbFillPoly.setEnabled( cmbConnectEndPoints.getSelectionIndex( ) == 1 );
+					btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+					btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+			btnFillPoly.setEnabled( btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 		else if ( event.widget.equals( mec ) )
 		{
@@ -266,10 +251,10 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 	private void enableLineSettings( boolean isEnabled )
 	{
-		if ( cmbPalette != null )
+		if ( btnPalette != null )
 		{
-			cmbPalette.setEnabled( isEnabled );
-			cmbConnectEndPoints.setEnabled( isEnabled );
+			btnPalette.setEnabled( isEnabled );
+			btnConnectEndPoints.setEnabled( isEnabled );
 		}
 	}
 }

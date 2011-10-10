@@ -62,13 +62,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
@@ -440,9 +438,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private Spinner iscMarkerSize;
 
-		private Combo cmbMarkerVisible;
+		private TristateCheckbox btnMarkerVisible;
 		
-		private Combo cmbOutline;
+		private TristateCheckbox btnOutline;
 		
 		private Composite cmpType;
 
@@ -457,8 +455,6 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private Button btnMarkerSizeAuto;
 
-		private Label lblOutline;
-
 		MarkerDropDownEditorComposite( Composite parent, int style )
 		{
 			super( parent, style );
@@ -470,22 +466,20 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			GridLayout glDropDown = new GridLayout( 2, false );
 			this.setLayout( glDropDown );
 
-			Label lbl = new Label(this, SWT.NONE);
-			lbl.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
-			
-			cmbMarkerVisible = ChartUIExtensionUtil.createTrueFalseItemsCombo( this );
+			btnMarkerVisible = new TristateCheckbox( this, SWT.NONE );
 			{
+				btnMarkerVisible.setText( Messages.getString( "ItemLabel.Visible" ) ); //$NON-NLS-1$
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-				gd.horizontalSpan = 1;
-				cmbMarkerVisible.setLayoutData( gd );
-				cmbMarkerVisible.select( getMarker( ).isSetVisible( ) ? ( getMarker( ).isVisible( ) ? 1
-						: 2 )
-						: 0 );
-				cmbMarkerVisible.addListener( SWT.Selection, this );
-				cmbMarkerVisible.addListener( SWT.FocusOut, this );
-				cmbMarkerVisible.addListener( SWT.KeyDown, this );
-				cmbMarkerVisible.addListener( SWT.Traverse, this );
-				cmbMarkerVisible.setFocus( );
+				gd.horizontalSpan = 2;
+				btnMarkerVisible.setLayoutData( gd );
+				btnMarkerVisible.setSelectionState( getMarker( ).isSetVisible( ) ? ( getMarker( ).isVisible( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnMarkerVisible.addListener( SWT.Selection, this );
+				btnMarkerVisible.addListener( SWT.FocusOut, this );
+				btnMarkerVisible.addListener( SWT.KeyDown, this );
+				btnMarkerVisible.addListener( SWT.Traverse, this );
+				btnMarkerVisible.setFocus( );
 			}
 
 			cmpType = new Composite( this, SWT.NONE );
@@ -550,26 +544,29 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			btnMarkerSizeAuto = new Button(grpSize, SWT.CHECK );
 			btnMarkerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 			btnMarkerSizeAuto.setSelection( !getMarker().isSetSize( ) );
-			iscMarkerSize.setEnabled( ( cmbMarkerVisible.getSelectionIndex( ) != 0 )
+			iscMarkerSize.setEnabled( ( btnMarkerVisible.getSelectionState( ) != TristateCheckbox.STATE_GRAYED )
 					&& !btnMarkerSizeAuto.getSelection( ) );
 			btnMarkerSizeAuto.addListener( SWT.Selection, this );
 			
-			lblOutline = new Label(this, SWT.NONE );
-			if ( outlineText != null )
+			btnOutline = new TristateCheckbox( this, SWT.NONE );
 			{
-				lblOutline.setText( outlineText + ":" );//$NON-NLS-1$
-			}
-			else
-			{
-				lblOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) + ":" ); //$NON-NLS-1$
-			}
-			
-			cmbOutline = ChartUIExtensionUtil.createCombo( this, ChartUIExtensionUtil.getShowHideComboItems( ) );
-			{	
-				cmbOutline.addListener( SWT.Selection, this );
-				cmbOutline.addListener( SWT.FocusOut, this );
-				cmbOutline.addListener( SWT.KeyDown, this );
-				cmbOutline.addListener( SWT.Traverse, this );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 2;
+				btnOutline.setLayoutData( gd );
+				
+				if ( outlineText != null )
+				{
+					btnOutline.setText( outlineText + ":" );//$NON-NLS-1$
+				}
+				else
+				{
+					btnOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) + ":" ); //$NON-NLS-1$
+				}
+				
+				btnOutline.addListener( SWT.Selection, this );
+				btnOutline.addListener( SWT.FocusOut, this );
+				btnOutline.addListener( SWT.KeyDown, this );
+				btnOutline.addListener( SWT.Traverse, this );
 
 				LineAttributes la = getMarker( ).getOutline( );
 				if ( la == null )
@@ -593,22 +590,23 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				}
 
 				getMarker( ).setOutline( la );
-				cmbOutline.select( la.isSetVisible( ) ? ( la.isVisible( ) ? 1
-						: 2 ) : 0 );
+				btnOutline.setSelectionState( la.isSetVisible( ) ? ( la.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
 				updateOutlineBtn( );
 			}
-			setEnabledState( cmbMarkerVisible.getSelectionIndex( ) == 1);
+			setEnabledState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 
 		void widgetSelected( SelectionEvent e )
 		{
-			if ( e.widget.equals( cmbMarkerVisible ) )
+			if ( e.widget.equals( btnMarkerVisible ) )
 			{
 				ChartElementUtil.setEObjectAttribute( getMarker( ),
 						"visible", //$NON-NLS-1$
-						cmbMarkerVisible.getSelectionIndex( ) == 1,
-						cmbMarkerVisible.getSelectionIndex( ) == 0 );
-				setEnabledState( cmbMarkerVisible.getSelectionIndex( ) == 1 );
+						btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+						btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+				setEnabledState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				cnvMarker.redraw( );
 				updateOutlineBtn( );
 			}
@@ -616,14 +614,14 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			{
 				getMarker( ).setSize( iscMarkerSize.getSelection( ) );
 			}
-			else if ( e.widget == cmbOutline )
+			else if ( e.widget == btnOutline )
 			{
 				// Initialize default outline visible state to true.
 				LineAttributes la =  getMarker().getOutline( );
 				ChartElementUtil.setEObjectAttribute( la,
 						"visible", //$NON-NLS-1$
-						cmbOutline.getSelectionIndex( ) == 1,
-						cmbOutline.getSelectionIndex( ) == 0 );
+						btnOutline.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
+						btnOutline.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 				cnvMarker.redraw( );
 			}
 			else if ( e.widget == btnMarkerSizeAuto )
@@ -892,8 +890,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		
 		private void updateOutlineBtn()
 		{
-			lblOutline.setEnabled( cmbMarkerVisible.getSelectionIndex( ) == 1 );
-			cmbOutline.setEnabled( cmbMarkerVisible.getSelectionIndex( ) == 1 );
+			btnOutline.setEnabled( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 		}
 
 	}

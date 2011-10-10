@@ -15,11 +15,11 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.PlotClientAreaSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -28,7 +28,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -43,9 +42,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	private Combo cmbIncludingVisible;
+	private TristateCheckbox btnIncludingVisible;
 	
-	private Combo cmbWithinVisible;
+	private TristateCheckbox btnWithinVisible;
 	
 	private FillChooserComposite cmbBlockColor;
 
@@ -100,14 +99,16 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
 
-		cmbIncludingVisible = ChartUIExtensionUtil.createCombo( cmpBasic,
-				ChartUIExtensionUtil.getShowHideComboItems( ) );
-		cmbIncludingVisible.select( getChart( ).getPlot( )
+		btnIncludingVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnIncludingVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+		btnIncludingVisible.setSelectionState( getChart( ).getPlot( )
 				.getOutline( )
 				.isSetVisible( ) ? ( getChart( ).getPlot( )
 				.getOutline( )
-				.isVisible( ) ? 1 : 2 ) : 0 );
-		cmbIncludingVisible.addSelectionListener( this );
+				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED );
+		btnIncludingVisible.addSelectionListener( this );
 
 		Label lblWithinAxes = new Label( cmpBasic, SWT.NONE );
 		{
@@ -144,21 +145,23 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			lblVisibleWithin.setEnabled( is3DWallFloorSet );
 		}
 
-		cmbWithinVisible = ChartUIExtensionUtil.createCombo( cmpBasic,
-				ChartUIExtensionUtil.getShowHideComboItems( ) );
-		cmbWithinVisible.select( getChart( ).getPlot( )
+		btnWithinVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible2" ) ); //$NON-NLS-1$
+		btnWithinVisible.setSelectionState( getChart( ).getPlot( )
 				.getClientArea( )
 				.getOutline( )
 				.isSetVisible( ) ? ( getChart( ).getPlot( )
 				.getClientArea( )
 				.getOutline( )
-				.isVisible( ) ? 1 : 2 ) : 0 );
-		cmbWithinVisible.setEnabled( is3DWallFloorSet );
-		if ( !cmbWithinVisible.getEnabled( ) )
+				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+				: TristateCheckbox.STATE_UNSELECTED )
+				: TristateCheckbox.STATE_GRAYED );
+		btnWithinVisible.setEnabled( is3DWallFloorSet );
+		if ( !btnWithinVisible.getEnabled( ) )
 		{
-			cmbWithinVisible.select( 2 ); // Hide for 3D
+			btnWithinVisible.setSelectionState( TristateCheckbox.STATE_UNSELECTED ); // Hide for 3D
 		}
-		cmbWithinVisible.addSelectionListener( this );
+		btnWithinVisible.addSelectionListener( this );
 
 		// This control is only for testing chart engine and not exposed in UI
 		final Button btnCV = new Button( cmpBasic, SWT.CHECK );
@@ -243,9 +246,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
-		if ( e.widget.equals( cmbIncludingVisible ) )
+		if ( e.widget.equals( btnIncludingVisible ) )
 		{
-			if ( cmbIncludingVisible.getSelectionIndex( ) == 0 )
+			if ( btnIncludingVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getPlot( ).getOutline( ).unsetVisible( );
 			}
@@ -253,13 +256,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			{
 				getChart( ).getPlot( )
 						.getOutline( )
-						.setVisible( ( (Combo) e.widget ).getSelectionIndex( ) == 1 );
+						.setVisible( ( (TristateCheckbox) e.widget ).getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 			refreshPopupSheet( );
 		}
-		else if ( e.widget.equals( cmbWithinVisible ) )
+		else if ( e.widget.equals( btnWithinVisible ) )
 		{
-			if ( cmbWithinVisible.getSelectionIndex( ) == 0 )
+			if ( btnWithinVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getPlot( )
 						.getClientArea( )
@@ -271,7 +274,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 				getChart( ).getPlot( )
 						.getClientArea( )
 						.getOutline( )
-						.setVisible( ( (Combo) e.widget ).getSelectionIndex( ) == 1 );
+						.setVisible( ( (TristateCheckbox) e.widget ).getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 			refreshPopupSheet( );
 		}

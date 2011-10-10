@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -41,7 +42,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -208,7 +208,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		private Link linkAxis;
 		private Combo cmbTypes;
-		private Combo cmbVisible;
+		private TristateCheckbox btnVisible;
 		private FillChooserComposite cmbColor;
 		private Axis axis;
 		private String axisName;
@@ -217,8 +217,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
 
-		private Combo cmbAligned;
-		private Combo cmbSideBySide;
+		private TristateCheckbox btnAligned;
+		private TristateCheckbox btnSideBySide;
 		
 		private TextEditorComposite compAxisPercent;
 
@@ -274,42 +274,41 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				cmbColor.addListener( this );
 			}
 
-			cmbVisible = ChartUIExtensionUtil.createCombo( parent,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnVisible = new TristateCheckbox( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				cmbVisible.setLayoutData( gd );
-				cmbVisible.select( axis.getLineAttributes( ).isSetVisible( ) ? ( axis.getLineAttributes( )
-						.isVisible( ) ? 1 : 2 )
-						: 0 );
-				cmbVisible.addSelectionListener( this );
+				btnVisible.setLayoutData( gd );
+				btnVisible.setSelectionState( axis.getLineAttributes( )
+						.isSetVisible( ) ? ( axis.getLineAttributes( )
+						.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnVisible.addSelectionListener( this );
 			}
 
-			cmbAligned = ChartUIExtensionUtil.createCombo( parent,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnAligned = new TristateCheckbox( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				cmbAligned.setLayoutData( gd );
-				cmbAligned.select( axis.isSetAligned( ) ? ( axis.isAligned( ) ? 1
-						: 2 )
-						: 0 );
-				cmbAligned.addSelectionListener( this );
+				btnAligned.setLayoutData( gd );
+				btnAligned.setSelectionState( axis.isSetAligned( ) ? ( axis.isAligned( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnAligned.addSelectionListener( this );
 				
 				updateBtnAlignedStatus( );
 			}
 
-			cmbSideBySide = ChartUIExtensionUtil.createCombo( parent,
-					ChartUIExtensionUtil.getTrueFalseComboItems( ) );
+			btnSideBySide = new TristateCheckbox( parent, SWT.NONE );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
-				cmbSideBySide.setLayoutData( gd );
-				cmbSideBySide.select( axis.isSetSideBySide( ) ? ( axis.isSideBySide( ) ? 1
-						: 2 )
-						: 0 );
-				cmbSideBySide.addSelectionListener( this );
+				btnSideBySide.setLayoutData( gd );
+				btnSideBySide.setSelectionState( axis.isSetSideBySide( ) ? ( axis.isSideBySide( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED )
+						: TristateCheckbox.STATE_GRAYED );
+				btnSideBySide.addSelectionListener( this );
 				updateBtnSideBySidStatus( );
 			}
 
@@ -352,29 +351,29 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		private void updateBtnAlignedStatus( )
 		{
-			cmbAligned.setEnabled( ( angleType == AngleType.Y )
+			btnAligned.setEnabled( ( angleType == AngleType.Y )
 					&& ( axis.isSetType( ) && axis.getType( ).getValue( ) == AxisType.LINEAR ) );
 		}
 
 		private void updateBtnSideBySidStatus( )
 		{
-			cmbSideBySide.setEnabled( ( angleType == AngleType.Y )
+			btnSideBySide.setEnabled( ( angleType == AngleType.Y )
 					&& ( ( (SeriesDefinition) axis.getSeriesDefinitions( )
 							.get( 0 ) ).getDesignTimeSeries( ) instanceof BarSeries ) );
 		}
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			if ( e.widget == cmbVisible )
+			if ( e.widget == btnVisible )
 			{
-				if ( cmbVisible.getSelectionIndex( ) == 0 )
+				if ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					axis.getLineAttributes( ).unsetVisible( );
 				}
 				else
 				{
 					axis.getLineAttributes( )
-						.setVisible( cmbVisible.getSelectionIndex( ) == 1);
+							.setVisible( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 			}
 			else if ( e.widget.equals( cmbTypes ) )
@@ -402,26 +401,26 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			{
 				switchTo( treeIndex );
 			}
-			else if ( e.widget == cmbAligned )
+			else if ( e.widget == btnAligned )
 			{
-				if ( cmbAligned.getSelectionIndex( ) == 0 )
+				if ( btnAligned.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					axis.unsetAligned( );
 				}
 				else
 				{
-					axis.setAligned( cmbAligned.getSelectionIndex( ) == 1 );
+					axis.setAligned( btnAligned.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 			}
-			else if ( e.widget == cmbSideBySide )
+			else if ( e.widget == btnSideBySide )
 			{
-				if ( cmbSideBySide.getSelectionIndex( ) == 0 )
+				if ( btnSideBySide.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 				{
 					axis.unsetSideBySide( );
 				}
 				else
 				{
-					axis.setSideBySide( cmbSideBySide.getSelectionIndex( ) == 1);
+					axis.setSideBySide( btnSideBySide.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
 			}
 			
