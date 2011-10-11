@@ -226,7 +226,13 @@ public class Connection implements IConnection
 		}
 		catch ( Exception e )
 		{
-			// ignore it
+			if( e instanceof SQLException )
+			{
+				SQLException e1 = (SQLException)e;
+				//First try to identify the authorization info. 28000 is xOpen standard for login failure
+				if( "28000".equals( e1.getSQLState( )))
+					throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e1 );
+			}
 		}
 		try
 		{

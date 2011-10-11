@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,18 +64,15 @@ public class JDBCDriverManager
 	
 	public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
-    public static final String DRIVER_REGISTERED = "registered";
-    public static final String DRIVER_DEREGISTERED = "deregistered";
-    public static final String DRIVER_RELOAD = "registerAfterDeregistered";
 
     // Driver classes that we have registered with JDBC DriverManager
-	private  HashMap registeredDrivers = new HashMap();
-	
+	private HashMap<String, Driver> registeredDrivers = new HashMap<String, Driver>();
+
 	//
-	private HashMap cachedDriversMap = new HashMap();
-	
+	private Hashtable<String, Driver> testedDrivers = new Hashtable<String, Driver>();
+
 	// A HashMap of JDBC driver instances
-	private HashMap<String, Driver> cachedJdbcDriver = new HashMap<String, Driver>( );
+	private Hashtable<String, Driver> cachedJdbcDrivers = new Hashtable<String, Driver>();
 
 	// A HashMap of driverinfo extensions which provides IConnectionFactory implementation
 	// Map is from driverClass (String) to either IConfigurationElement or IConnectionFactory 
@@ -107,26 +106,34 @@ public class JDBCDriverManager
 	public Driver getDriverInstance( Class driver, boolean refreshDriver ) throws OdaException
 	{
 		String driverName = driver.getName( );
-		if ( refreshDriver || !this.cachedJdbcDriver.containsKey( driverName ) )
+		Driver drv = getDriverInstance( driverName );
+
+		if ( refreshDriver || drv == null )
 		{
 			Driver instance = null;
 			try
 			{
-				instance = (Driver) driver.newInstance( );
+				instance = new WrappedDriver( (Driver) driver.newInstance( ), driverName );
 			}
 			catch ( Exception e )
 			{
 				throw new OdaException( e );
 			}
-			this.cachedJdbcDriver.put( driverName, instance );
+			cachedJdbcDrivers.put( driverName, instance );
+
 			return instance;
 		}
 		else
 		{
-			return this.cachedJdbcDriver.get( driverName );
+			return drv;
 		}
 	}
 	
+	private Driver getDriverInstance( String driverName )
+	{
+		return cachedJdbcDrivers.get( driverName );
+	}
+
 	/**
 	 * Release all the resources 
 	 */
@@ -137,9 +144,14 @@ public class JDBCDriverManager
 			this.extraDriverLoader.close();
 			this.extraDriverLoader = null;
 		}
-		this.cachedJdbcDriver.clear( );
-		this.cachedDriversMap.clear( );
-		this.registeredDrivers.clear( );
+
+		synchronized( registeredDrivers )
+		{
+			this.registeredDrivers.clear( );
+		}
+
+		this.cachedJdbcDrivers.clear( );
+		this.testedDrivers.clear( );
 	}
 	
 	/**
@@ -248,23 +260,29 @@ public class JDBCDriverManager
 		loadAndRegisterDriver( driverClass, driverClassPath );
 		if ( logger.isLoggable( Level.FINER ))
 			logger.finer( "Calling DriverManager.getConnection. url=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
+
+		try
+		{
+			Driver driver = DriverManager.getDriver( url );
+			if( driver!= null )
+				return driver.connect( url, connectionProperties );
+		}
+		catch ( SQLException e1 )
+		{
+			//First try to identify the authorization info. 28000 is xOpen standard for login failure
+			if( "28000".equals( e1.getSQLState( )))
+				throw e1;
+		}
+
 		try
 		{
 			return DriverManager.getConnection( url, connectionProperties );
 		}
-		catch ( Exception e )
+		catch ( SQLException e )
 		{
-			registerDriver( driverClass, null, true, true );
-			try
-			{
-				return DriverManager.getConnection( url, connectionProperties );
-			}
-			catch ( Exception ex )
-			{
-				throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
-						null,
-						truncate( ex.getLocalizedMessage( ) ) );
-			}
+			throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
+					null,
+					truncate( e.getLocalizedMessage( ) ) );
 		}
 	}
 
@@ -510,14 +528,6 @@ public class JDBCDriverManager
 		}
 	}
 	
-	public void updateStatusForRegister( String className )
-	{
-		if ( isDeregistered( className ) )
-		{
-			registeredDrivers.put( className, DRIVER_RELOAD );
-		}
-	}
-
 	/**
 	 * The method which test whether the give connection properties can be used
 	 * to create a connection
@@ -610,34 +620,29 @@ public class JDBCDriverManager
 			// available
 			// drivers in DriverManager
 
-			if ( cachedDriversMap.get( driverClassName ) == null )
+			if ( testedDrivers.get( driverClassName ) == null )
 			{
-				Enumeration enumeration = DriverManager.getDrivers( );
-				while ( enumeration.hasMoreElements( ) )
-				{
-					Driver driver = (Driver) enumeration.nextElement( );
+				Driver driver = (Driver) getRegisteredDriver( driverClassName );
 
-					// The driver might be a wrapped driver. The toString()
-					// method
-					// of a wrapped driver is overriden
-					// so that the name of driver being wrapped is returned.
-					if ( isExpectedDriver( driver, driverClassName ) )
+				// The driver might be a wrapped driver. The toString()
+				// method
+				// of a wrapped driver is overriden
+				// so that the name of driver being wrapped is returned.
+				if ( isExpectedDriver( driver, driverClassName ) )
+				{
+					if ( driver.acceptsURL( connectionString ) )
 					{
-						if ( driver.acceptsURL( connectionString ) )
-						{
-							cachedDriversMap.put( driverClassName, driver );
-							// if connection can be built then the test
-							// connection
-							// succeed. Otherwise Exception would be thrown. The
-							// source
-							// of the exception is
-							tryCreateConnection( driverClassName,
-									connectionString,
-									userId,
-									password );
-							canConnect = true;
-							break;
-						}
+						testedDrivers.put( driverClassName, driver );
+						// if connection can be built then the test
+						// connection
+						// succeed. Otherwise Exception would be thrown. The
+						// source
+						// of the exception is
+						tryCreateConnection( driverClassName,
+								connectionString,
+								userId,
+								password );
+						canConnect = true;
 					}
 				}
 				// If the test url can be accepted by DriverManager (because the
@@ -651,7 +656,7 @@ public class JDBCDriverManager
 			}
 			else
 			{
-				if ( ( (Driver) this.cachedDriversMap.get( driverClassName ) ).acceptsURL( connectionString ) )
+				if ( ( (Driver) this.testedDrivers.get( driverClassName ) ).acceptsURL( connectionString ) )
 				{
 					tryCreateConnection( driverClassName,
 							connectionString,
@@ -738,7 +743,7 @@ public class JDBCDriverManager
 	 * @return Driver instance
 	 * @throws OdaException 
 	 */
-	private Driver findDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader, boolean refreshDriver ) throws OdaException
+	private Driver findDriver( String className, Collection<String> driverClassPath, boolean refresh ) throws OdaException
 	{
 		Class driverClass = null;
 		try
@@ -757,7 +762,7 @@ public class JDBCDriverManager
 			}
 
 			// Driver not in plugin class path; find it in drivers directory
-			driverClass = loadExtraDriver( className, true, refreshClassLoader, driverClassPath );
+			driverClass = loadExtraDriver( className, true, refresh, driverClassPath );
 
 			// if driver class still cannot be found,
 			if ( driverClass == null )
@@ -786,7 +791,7 @@ public class JDBCDriverManager
 		Driver driver = null;
 		try
 		{
-			driver = this.getDriverInstance( driverClass, refreshDriver );
+			driver = this.getDriverInstance( driverClass, refresh );
 		}
 		catch ( Exception e )
 		{
@@ -809,23 +814,25 @@ public class JDBCDriverManager
 		if ( className == null || className.length() == 0)
 			// no driver class; assume class already deregistered
 			return false;
-		if ( isDeregistered( className ) )
-		{
-			return true;
-		}
-		Driver driver = findDriver( className, null, false, false );
+
+		Driver driver = getRegisteredDriver( className );
+		if ( driver == null )
+			return false;
+
 		if ( driver != null )
 		{
 			try
 			{
 				if (logger.isLoggable(Level.FINER))
 					logger.finer("Registering with DriverManager: wrapped driver for " + className );
-				if ( registeredDrivers.containsKey( className ) )
+
+				synchronized( registeredDrivers )
 				{
-					DriverManager.deregisterDriver( new WrappedDriver( driver, className ) );
 					registeredDrivers.remove( className );
+					DriverManager.deregisterDriver( driver );
 				}
-				registeredDrivers.put( className, DRIVER_DEREGISTERED );
+				cachedJdbcDrivers.remove( className );
+				testedDrivers.remove( className );
 			}
 			catch ( SQLException e)
 			{
@@ -837,52 +844,53 @@ public class JDBCDriverManager
 		return true;
 	}
 	
-	/**
-	 * Update the driver by the given class name from DriverManager
-	 * 
-	 * @param String className
-	 */
-	public void updateStatus( String className )
-	{
-		if ( isDeregistered( className ) )
-		{
-			registeredDrivers.remove( className );
-		}
-	}
-	
-	/**
-	 * Check whether the driver class name is deregistered
-	 * 
-	 * @param String className
-	 * @return true if the driver class name is deregistered
-	 */
-	private boolean isDeregistered( String className )
-	{
-		return this.registeredDrivers.containsKey( className )
-				&& registeredDrivers.get( className ).equals( DRIVER_DEREGISTERED );
-	}
-	
 	public void loadAndRegisterDriver( String className, Collection<String> driverClassPath ) 
 		throws OdaException
 	{
 		if ( className == null || className.length() == 0)
 			// no driver class; assume class already loaded
 			return;
-		if ( isDeregistered( className ) )
-		{
-			throw new JDBCException( ResourceConstants.CANNOT_LOAD_DRIVER,
-					null,
-					className );
-		}
-		else if ( this.registeredDrivers.containsKey( className ) )
-		{
+
+		if ( isDriverRegistered( className ) )
 			return;
-		}
-		if ( logger.isLoggable( Level.FINE ))
+
+		if ( logger.isLoggable( Level.FINEST ))
 		{
-			logger.fine( "Loading JDBC driver class: " + className );
-		}		
-		registerDriver( className, driverClassPath, false, false );
+			logger.info( "Loading JDBC driver class: " + className );
+		}
+
+		try
+		{
+			loadAndRegisterDriver( className, driverClassPath, false );
+		}
+		catch ( JDBCException ex )
+		{
+			// Try a refresh load.
+			loadAndRegisterDriver( className, driverClassPath, true );
+		}
+	}
+
+	private boolean isDriverRegistered( String className )
+	{
+		synchronized( registeredDrivers )
+		{
+			return registeredDrivers.containsKey( className );
+		}
+	}
+
+	private Driver getRegisteredDriver( String className )
+	{
+		synchronized( registeredDrivers )
+		{
+			return registeredDrivers.get( className );
+		}
+	}
+
+	private void loadAndRegisterDriver( String className, Collection<String> driverClassPath, boolean refreshClassLoader )
+			throws OdaException
+	{
+		Driver driver = findDriver( className, driverClassPath, refreshClassLoader );
+		registerDriver( driver, className );
 	}
 	
 	/**
@@ -896,33 +904,26 @@ public class JDBCDriverManager
 	 * @param refreshClassLoader
 	 * @throws OdaException
 	 */
-	private void registerDriver( String className,
-			Collection<String> driverClassPath, boolean refreshClassLoader,
-			boolean refreshDriver ) throws OdaException
+	private void registerDriver( Driver driver, String className )
 	{
-		Driver driver = findDriver( className,
-				driverClassPath,
-				refreshClassLoader,
-				refreshDriver );
-		if ( driver != null )
+		assert driver != null;
+		try
 		{
-			try
+			if (logger.isLoggable(Level.FINER))
+				logger.finer("Registering with DriverManager: wrapped driver for " + className );
+
+			synchronized ( registeredDrivers )
 			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.finer( "Registering with DriverManager: wrapped driver for "
-							+ className );
-				DriverManager.registerDriver( new WrappedDriver( driver,
-						className ) );
-			}
-			catch ( SQLException e )
-			{
-				// This shouldn't happen
-				logger.log( Level.WARNING,
-						"Failed to register wrapped driver instance.",
-						e );
+				DriverManager.registerDriver( driver );
+				registeredDrivers.put( className, driver );
 			}
 		}
-		registeredDrivers.put( className, DRIVER_REGISTERED );
+		catch ( SQLException e )
+		{
+			// This shouldn't happen
+			logger.log( Level.WARNING,
+					"Failed to register wrapped driver instance from DriverManager.", e);
+		}
 	}
 
 	/**
@@ -940,13 +941,33 @@ public class JDBCDriverManager
 		if ( extraDriverLoader == null || refreshClassLoader )
 		{
 			if( extraDriverLoader!= null )
-				extraDriverLoader.close( );
+			{
+				synchronized( registeredDrivers )
+				{
+					for ( Map.Entry<String, Driver> e : registeredDrivers.entrySet( ) )
+					{
+						try
+						{
+							DriverManager.deregisterDriver( e.getValue( ) );
+						}
+						catch ( SQLException ignore )
+						{
+							logger.log( Level.WARNING,
+									"Failed to deregister wrapped driver instance from DriverManager.", ignore );
+						}
+					}
+					registeredDrivers.clear( );
+					testedDrivers.clear( );
+					cachedJdbcDrivers.clear( );
+					extraDriverLoader.close( );
+				}
+			}
 			extraDriverLoader = new DriverClassLoader( driverClassPath );
 		}
 
 		try
 		{
-			return extraDriverLoader.loadClass(className);
+			return Class.forName( className, true, extraDriverLoader );
 		}
 		catch ( ClassNotFoundException e )
 		{
