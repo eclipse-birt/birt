@@ -4,9 +4,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionFactory;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember;
-
 import testutil.BaseTestCase;
 
 /**
@@ -36,7 +33,7 @@ public class TrailingTest extends BaseTestCase
 		};
 		TimeMember timeMember = new TimeMember( values, types );
 		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
-				3 )
+				-3 )
 				.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
@@ -59,7 +56,7 @@ public class TrailingTest extends BaseTestCase
 		};
 		TimeMember timeMember = new TimeMember( values, types );
 		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
-				3 )
+				-3 )
 				.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
@@ -82,7 +79,7 @@ public class TrailingTest extends BaseTestCase
 		};
 		TimeMember timeMember = new TimeMember( values, types );
 		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_MONTH,
-				3 )
+				-3 )
 				.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
@@ -169,6 +166,149 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 
+	}
+
+	public void testTrailing8( ) throws IOException
+	{
+		int[] values = new int[]{
+				2008, 1
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				1 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing9( ) throws IOException
+	{
+		int[] values = new int[]{
+				2008, 1, 20
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				-1 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing10( ) throws IOException
+	{
+		int[] values = new int[]{
+				2008, 1, 2
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				-1 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing11( ) throws IOException
+	{
+		int[] values = new int[]{
+				2008, 2, 20
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				-1 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing12( ) throws IOException
+	{
+		int[] values = new int[]{
+				2008, 1, 2, 20
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				-1 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing13( ) throws IOException
+	{
+		int[] values = new int[]{
+				2011, 3, 9, 4, 39
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_MONTH,
+				-3 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing14( ) throws IOException
+	{
+		int[] values = new int[]{
+				2011, 3
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
+				-1 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
+	public void testTrailing15( ) throws IOException
+	{
+		int[] values = new int[]{
+			2011
+		};
+		String[] types = new String[]{
+			TimeMember.TIME_LEVEL_TYPE_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
+				-3 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
 	}
 
 	private void printMembers( List<TimeMember> timeMembers )

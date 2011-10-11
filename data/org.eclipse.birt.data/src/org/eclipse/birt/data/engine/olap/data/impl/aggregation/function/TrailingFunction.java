@@ -35,62 +35,124 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		String[] levelTypes = member.getLevelType( );
 		int[] values = member.getMemberValue( );
 
-		Calendar cal = new GregorianCalendar( );
-		translateToCal( cal, levelTypes, values );
+		Calendar cal1 = new GregorianCalendar( );
+		String calculateUnit = translateToCal( cal1, levelTypes, values );
+		Calendar cal2 = (Calendar) cal1.clone( );
+
+		if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
+		{
+			cal1.add( Calendar.YEAR, offset );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
+		{
+			cal1.add( Calendar.MONTH, offset );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
+		{
+			// Calendar not support quarter, so add 3 month
+			cal1.add( Calendar.MONTH, offset * 3 );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
+		{
+			cal1.add( Calendar.WEEK_OF_YEAR, offset );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+		{
+			cal1.add( Calendar.WEEK_OF_YEAR, offset );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
+		{
+			cal1.add( Calendar.DATE, offset );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
+		{
+			cal1.add( Calendar.DATE, offset );
+		}
+		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
+		{
+			cal1.add( Calendar.DATE, offset );
+		}
 
 		timeMembers.add( member );
-		int[] tmp;
-		for ( int i = 0; i < offset - 1; i++ )
+
+		// TimeMember.levelTypes=["year"(2009),"month"(3)],TrailingFunciton.levelType="Quarter",offset=1
+		// the result will be 2009.3,2009.2,2009.1. when we add quarter to the
+		// calendar, the date will be
+		// 2008.12, so we must set it to 2009.1,here we should add the date
+		// based on the calculateUnit.
+		if ( calculateUnit.equals( YEAR ) )
 		{
-			if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
+			cal1.add( Calendar.YEAR, -Math.abs( offset ) / offset );
+		}
+		else if ( calculateUnit.equals( QUARTER ) )
+		{
+			cal1.add( Calendar.MONTH, -Math.abs( offset ) / offset * 3 );
+		}
+		else if ( calculateUnit.equals( WEEK ) )
+		{
+			cal1.add( Calendar.WEEK_OF_YEAR, -Math.abs( offset ) / offset );
+		}
+		else if ( calculateUnit.equals( MONTH ) )
+		{
+			cal1.add( Calendar.MONTH, -Math.abs( offset ) / offset );
+		}
+		else if ( calculateUnit.equals( DAY ) )
+		{
+			cal1.add( Calendar.DATE, -Math.abs( offset ) / offset );
+		}
+
+		int[] fillDateTmp;
+		TimeMember timeMember;
+		int step = Math.abs( offset ) / offset;
+		int[] cal1Value = getValueFromCal( cal1, levelTypes );
+		int[] cal2Value = getValueFromCal( cal2, levelTypes );
+
+		while ( !compareIntArray( cal1Value, cal2Value ) )
+		{
+			if ( calculateUnit.equals( YEAR ) )
 			{
-				cal.add( Calendar.YEAR, -1 );
+				cal2.add( Calendar.YEAR, step );
 			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
+			if ( calculateUnit.equals( QUARTER ) )
 			{
-				cal.add( Calendar.MONTH, -1 );
+				cal2.add( Calendar.MONTH, step * 3 );
 			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
+			else if ( calculateUnit.equals( MONTH ) )
 			{
-				// Calendar not support quarter, so add 3 month
-				cal.add( Calendar.MONTH, -3 );
+				cal2.add( Calendar.MONTH, step );
 			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
+			else if ( calculateUnit.equals( WEEK ) )
 			{
-				cal.add( Calendar.WEEK_OF_YEAR, -1 );
+				cal2.add( Calendar.WEEK_OF_YEAR, step );
 			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+			else if ( calculateUnit.equals( DAY ) )
 			{
-				cal.add( Calendar.WEEK_OF_YEAR, -1 );
-			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH) )
-			{
-				cal.add( Calendar.DATE, -1 );
-			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK) )
-			{
-				cal.add( Calendar.DATE, -1 );
-			}
-			else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
-			{
-				cal.add( Calendar.DATE, -1 );
+				cal2.add( Calendar.DATE, step );
 			}
 
-			tmp = getValueFromCal( cal, levelTypes );
-
-			TimeMember timeMember = new TimeMember( tmp, levelTypes );
+			fillDateTmp = getValueFromCal( cal2, levelTypes );
+			timeMember = new TimeMember( fillDateTmp, levelTypes );
 			timeMembers.add( timeMember );
+			cal2Value = getValueFromCal( cal2, levelTypes );
 		}
 
-		// sort the member by ascending in time dimension
-		List<TimeMember> newTimeMemebers = new ArrayList<TimeMember>( );
-		for ( int i = timeMembers.size( ) - 1; i >= 0; i-- )
-		{
-			newTimeMemebers.add( timeMembers.get( i ) );
-		}
-
-		return newTimeMemebers;
-
+		return timeMembers;
 	}
 
+	private boolean compareIntArray( int[] tmp1, int[] tmp2 )
+	{
+		if ( tmp1.length != tmp2.length )
+		{
+			return false;
+		}
+		for ( int i = 0; i < tmp1.length; i++ )
+		{
+			if ( tmp1[i] != tmp2[i] )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
