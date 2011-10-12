@@ -16,8 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.log.ILogger;
@@ -99,7 +101,7 @@ public class ChartUIExtensionsImpl
 	private static ChartUIExtensionsImpl uiExtensions = null;
 
 	private static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt.wizard" ); //$NON-NLS-1$
-	
+
 	private static final String NS_NATIVE_IMPL = "org.eclipse.birt.chart.ui.extension";//$NON-NLS-1$
 
 	/**
@@ -138,7 +140,7 @@ public class ChartUIExtensionsImpl
 				{
 					id = defaultExtensionId;
 				}
-				List<IRegisteredSubtaskEntry> cSheets = new ArrayList<IRegisteredSubtaskEntry>( );
+				Set<IRegisteredSubtaskEntry> cSheets = new LinkedHashSet<IRegisteredSubtaskEntry>( );
 				for ( int i = 0; i < configElements.length; i++ )
 				{
 					IConfigurationElement currentTag = configElements[i];
@@ -161,15 +163,23 @@ public class ChartUIExtensionsImpl
 					// Combine the entries of the same id extension
 					if ( mSheets.containsKey( id ) )
 					{
-						if ( extension.getNamespace( ).equals( NS_NATIVE_IMPL ) )
+						Collection<IRegisteredSubtaskEntry> oldSheets = mSheets.get( id );
+						Map<Integer, IRegisteredSubtaskEntry> oldSheetsMap = new HashMap<Integer, IRegisteredSubtaskEntry>( );
+						for ( IRegisteredSubtaskEntry entry : oldSheets )
 						{
-							// Always let native charts be first
-							cSheets.addAll( mSheets.get( id ) );
-							mSheets.put( id, cSheets );
+							oldSheetsMap.put( entry.getNodeIndex( ), entry );
 						}
-						else
+						for ( IRegisteredSubtaskEntry entry : cSheets )
 						{
-							mSheets.get( id ).addAll( cSheets );
+							// If current sheet is new or has higher priority
+							IRegisteredSubtaskEntry oldEntry = oldSheetsMap.get( entry.getNodeIndex( ) );
+							if ( oldEntry == null
+									|| ( (DefaultRegisteredSubtaskEntryImpl) entry ).getPriority( ) > ( (DefaultRegisteredSubtaskEntryImpl) oldEntry ).getPriority( ) )
+							{
+								// Add or replace the entry according to the
+								// node index
+								oldSheets.add( entry );
+							}
 						}
 					}
 					else

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004-2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,33 +14,31 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 
-/**
- * @author Actuate Corporation
- * 
- */
-public class DefaultRegisteredSubtaskEntryImpl
-		implements
-			IRegisteredSubtaskEntry
+public class DefaultRegisteredSubtaskEntryImpl implements
+		IRegisteredSubtaskEntry
 {
 
-	private transient String sNodeIndex = ""; //$NON-NLS-1$
+	private int nodeIndex = 0;
 
-	private transient String sNodePath = ""; //$NON-NLS-1$
+	private int priority = 0;
 
-	private transient String sDisplayName = null;
+	private String sNodePath = ""; //$NON-NLS-1$
 
-	private transient ISubtaskSheet sheetImpl = null;
+	private String sDisplayName = null;
+
+	private ISubtaskSheet sheetImpl = null;
 
 	public DefaultRegisteredSubtaskEntryImpl( String sNodeIndex,
 			String sNodePath, String sDisplayName, ISubtaskSheet sheet )
 	{
 		try
 		{
-			this.sNodeIndex = Integer.valueOf( sNodeIndex ).toString( );
+			double nodeIndexWithPriority = Double.valueOf( sNodeIndex );
+			nodeIndex = (int) nodeIndexWithPriority;
+			priority = (int) ( nodeIndexWithPriority * 10 - nodeIndex * 10 );
 		}
 		catch ( NumberFormatException e )
 		{
-			sNodeIndex = "100"; //$NON-NLS-1$
 		}
 		this.sNodePath = sNodePath;
 		this.sDisplayName = sDisplayName;
@@ -50,17 +48,19 @@ public class DefaultRegisteredSubtaskEntryImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#getRegisteredNodePath()
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#
+	 * getRegisteredNodePath()
 	 */
 	public int getNodeIndex( )
 	{
-		return Integer.valueOf( sNodeIndex ).intValue( );
+		return nodeIndex;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#getRegisteredNodePath()
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#
+	 * getRegisteredNodePath()
 	 */
 	public String getNodePath( )
 	{
@@ -70,7 +70,9 @@ public class DefaultRegisteredSubtaskEntryImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#getSheetClass()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#getSheetClass
+	 * ()
 	 */
 	public ISubtaskSheet getSheet( )
 	{
@@ -82,4 +84,23 @@ public class DefaultRegisteredSubtaskEntryImpl
 		return sDisplayName;
 	}
 
+	/**
+	 * Returns the priority when multiple entries has the same node index. The
+	 * values are between 0 to 9. For instance, nodeIndex in extension point is
+	 * 10.1, which means priority is 1.
+	 * 
+	 * @return priority value
+	 * @since 3.7
+	 */
+	public int getPriority( )
+	{
+		return priority;
+	}
+
+	@Override
+	public int hashCode( )
+	{
+		// Use node index as unique key in hash map or set
+		return getNodeIndex( );
+	}
 }
