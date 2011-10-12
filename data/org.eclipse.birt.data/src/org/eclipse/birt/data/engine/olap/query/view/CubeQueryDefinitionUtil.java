@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -306,6 +307,15 @@ public class CubeQueryDefinitionUtil
 						list.get( index ).getCubeAggrDefn( ).getAggrName( ),
 						list.get( index ).getFilterEvalHelper( ) );
 				
+				if( containsTimeDimension( query,list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) ) )
+				{
+					funcitons[index].setTimeFunction( list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) );					
+				}
+				else
+				{
+					funcitons[index].setTimeFunctionFilter( list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) );					
+				}
+				
 				CubeAggrDefn cad = ( (CalculatedMember) list.get( index ) ).getCubeAggrDefn( );
 				if ( cad instanceof CubeRunningNestAggrDefn )
 				{
@@ -340,6 +350,35 @@ public class CubeQueryDefinitionUtil
 						funcitons ));
 		}
 		return result.toArray( new AggregationDefinition[0] );
+	}
+	
+	private static boolean containsTimeDimension( ICubeQueryDefinition query, ITimeFunction timeFunction ) throws DataException
+	{
+		if( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
+		{
+			IEdgeDefinition definition = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) ;
+			List<IDimensionDefinition> dimension = definition.getDimensions( );
+			for( int i=0; i< dimension.size( ); i++ )
+			{
+				if( dimension.get( i ).getName( ).equals( timeFunction.getTimeDimension( ) ) )
+				{
+					return true;
+				}
+			}
+		}
+		if( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
+		{
+			IEdgeDefinition definition = query.getEdge( ICubeQueryDefinition.ROW_EDGE ) ;
+			List<IDimensionDefinition> dimension = definition.getDimensions( );
+			for( int i=0; i< dimension.size( ); i++ )
+			{
+				if( dimension.get( i ).getName( ).equals( timeFunction.getTimeDimension( ) ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
