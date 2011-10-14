@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.util;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,7 +103,7 @@ public class ChartValueUpdater
 	 *        reference chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void update( Chart eObj, Chart eRefObj )
 	{
 		if ( eObj != null )
@@ -124,7 +123,7 @@ public class ChartValueUpdater
 	 *        reference chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateChart( String name, EObject eParentObj, Chart eObj,
 			Chart eRefObj )
 	{
@@ -173,10 +172,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateChartImpl( String name, EObject eParentObj,
 			Chart eObj, Chart eRefObj, Chart eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -302,10 +321,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateChartWithAxes( String name, EObject eParentObj,
 			ChartWithAxes eObj, ChartWithAxes eRefObj, ChartWithAxes eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -530,15 +569,36 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateChartWithoutAxes( String name, EObject eParentObj,
 			ChartWithoutAxes eObj, ChartWithoutAxes eRefObj,
 			ChartWithoutAxes eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		if ( eObj instanceof DialChart )
 		{
 			updateDialChart( name,
@@ -568,11 +628,31 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateChartWithoutAxesImpl( String name, EObject eParentObj,
 			ChartWithoutAxes eObj, ChartWithoutAxes eRefObj,
 			ChartWithoutAxes eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -780,10 +860,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateDialChart( String name, EObject eParentObj,
 			DialChart eObj, DialChart eRefObj, DialChart eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -1005,14 +1105,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateAreaSeries( String name, EObject eParentObj,
 			AreaSeries eObj, AreaSeries eRefObj, AreaSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
 		if ( !eObj.isSetVisible( ) )
 		{
@@ -1063,10 +1184,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateAreaSeriesImpl( String name, EObject eParentObj,
 			AreaSeries eObj, AreaSeries eRefObj, AreaSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -1259,10 +1400,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateBarSeries( String name, EObject eParentObj,
 			BarSeries eObj, BarSeries eRefObj, BarSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -1408,10 +1569,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateBubbleSeries( String name, EObject eParentObj,
 			BubbleSeries eObj, BubbleSeries eRefObj, BubbleSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -1621,10 +1802,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateDialSeries( String name, EObject eParentObj,
 			DialSeries eObj, DialSeries eRefObj, DialSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -1763,11 +1964,31 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateDifferenceSeries( String name, EObject eParentObj,
 			DifferenceSeries eObj, DifferenceSeries eRefObj,
 			DifferenceSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -1979,10 +2200,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateGanttSeries( String name, EObject eParentObj,
 			GanttSeries eObj, GanttSeries eRefObj, GanttSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -2203,14 +2444,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateLineSeries( String name, EObject eParentObj,
 			LineSeries eObj, LineSeries eRefObj, LineSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
 		if ( !eObj.isSetVisible( ) )
 		{
@@ -2285,10 +2547,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateLineSeriesImpl( String name, EObject eParentObj,
 			LineSeries eObj, LineSeries eRefObj, LineSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -2481,10 +2763,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updatePieSeries( String name, EObject eParentObj,
 			PieSeries eObj, PieSeries eRefObj, PieSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -2727,14 +3029,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateScatterSeries( String name, EObject eParentObj,
 			ScatterSeries eObj, ScatterSeries eRefObj, ScatterSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
 		if ( !eObj.isSetVisible( ) )
 		{
@@ -2785,10 +3108,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateScatterSeriesImpl( String name, EObject eParentObj,
 			ScatterSeries eObj, ScatterSeries eRefObj, ScatterSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -2981,10 +3324,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateStockSeries( String name, EObject eParentObj,
 			StockSeries eObj, StockSeries eRefObj, StockSeries eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3149,10 +3512,30 @@ public class ChartValueUpdater
 	 *        index of axis.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateAxis( String name, EObject eParentObj, Axis eObj,
 			Axis eRefObj, Axis eDefObj, int axisIndex )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3439,10 +3822,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateCurveFitting( String name, EObject eParentObj,
 			CurveFitting eObj, CurveFitting eRefObj, CurveFitting eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3488,10 +3891,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateDial( String name, EObject eParentObj, Dial eObj,
 			Dial eRefObj, Dial eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3605,10 +4028,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateDialRegion( String name, EObject eParentObj,
 			DialRegion eObj, DialRegion eRefObj, DialRegion eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3709,10 +4152,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateGrid( String name, EObject eParentObj, Grid eObj,
 			Grid eRefObj, Grid eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3782,10 +4245,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateLabel( String name, EObject eParentObj, Label eObj,
 			Label eRefObj, Label eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3883,10 +4366,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateMarkerLine( String name, EObject eParentObj,
 			MarkerLine eObj, MarkerLine eRefObj, MarkerLine eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -3952,14 +4455,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateMarkerRange( String name, EObject eParentObj,
 			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		if ( eObj instanceof DialRegion )
 		{
 			updateDialRegion( name,
@@ -3985,10 +4509,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateMarkerRangeImpl( String name, EObject eParentObj,
 			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4065,10 +4609,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateNeedle( String name, EObject eParentObj, Needle eObj,
 			Needle eRefObj, Needle eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4109,10 +4673,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateScale( String name, EObject eParentObj, Scale eObj,
 			Scale eRefObj, Scale eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4262,7 +4846,7 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateSeries( String name, EObject eParentObj, Series eObj,
 			Map<String, Series> eRefObj, Series eDefObj )
 	{
@@ -4275,18 +4859,7 @@ public class ChartValueUpdater
 			EObject seriesDefault = extUpdater.getDefault( ComponentPackage.eINSTANCE.getSeries( ),
 					name,
 					eObj );
-			Type[] iface = eObj.getClass( ).getGenericInterfaces( );
-			String key = "";
-			for ( Type t : iface )
-			{
-				if ( eObj.getClass( )
-						.getSimpleName( )
-						.equals( t.getClass( ).getSimpleName( ) + "Impl" ) )
-				{
-					key = t.getClass( ).getName( );
-					break;
-				}
-			}
+			String key = getSeriesID( eObj );
 			extUpdater.update( ComponentPackage.eINSTANCE.getSeries( ),
 					name,
 					eParentObj,
@@ -4397,10 +4970,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateSeriesImpl( String name, EObject eParentObj,
 			Series eObj, Series eRefObj, Series eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4533,11 +5126,31 @@ public class ChartValueUpdater
 	 *        index of series definition.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateSeriesDefinition( String name, EObject eParentObj,
 			SeriesDefinition eObj, SeriesDefinition eRefObj,
 			SeriesDefinition eDefObj, int axisIndex, int seriesDefIndex )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4583,7 +5196,7 @@ public class ChartValueUpdater
 		{
 			for ( Series series : eRefObj.getSeries( ) )
 			{
-				seriesRefMap.put( series.getClass( ).getName( ), series );
+				seriesRefMap.put( getSeriesID( series ), series );
 			}
 		}
 		for ( Series element : eObj.getSeries( ) )
@@ -4606,14 +5219,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateBlock( String name, EObject eParentObj, Block eObj,
 			Block eRefObj, Block eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
 		if ( !eObj.isSetVisible( ) )
 		{
@@ -4688,10 +5322,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateBlockImpl( String name, EObject eParentObj,
 			Block eObj, Block eRefObj, Block eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4885,10 +5539,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateClientArea( String name, EObject eParentObj,
 			ClientArea eObj, ClientArea eRefObj, ClientArea eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -4971,14 +5645,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateLabelBlock( String name, EObject eParentObj,
 			LabelBlock eObj, LabelBlock eRefObj, LabelBlock eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
 		if ( !eObj.isSetVisible( ) )
 		{
@@ -5029,10 +5724,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateLabelBlockImpl( String name, EObject eParentObj,
 			LabelBlock eObj, LabelBlock eRefObj, LabelBlock eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -5231,10 +5946,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateLegend( String name, EObject eParentObj, Legend eObj,
 			Legend eRefObj, Legend eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -5621,10 +6356,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updatePlot( String name, EObject eParentObj, Plot eObj,
 			Plot eRefObj, Plot eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -5847,10 +6602,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateTitleBlock( String name, EObject eParentObj,
 			TitleBlock eObj, TitleBlock eRefObj, TitleBlock eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6061,10 +6836,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateAngle3D( String name, EObject eParentObj, Angle3D eObj,
 			Angle3D eRefObj, Angle3D eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6136,10 +6931,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateAxisOrigin( String name, EObject eParentObj,
 			AxisOrigin eObj, AxisOrigin eRefObj, AxisOrigin eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6183,10 +6998,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateBounds( String name, EObject eParentObj, Bounds eObj,
 			Bounds eRefObj, Bounds eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6258,11 +7093,31 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateColorDefinition( String name, EObject eParentObj,
 			ColorDefinition eObj, ColorDefinition eRefObj,
 			ColorDefinition eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6346,10 +7201,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateCursor( String name, EObject eParentObj, Cursor eObj,
 			Cursor eRefObj, Cursor eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6391,10 +7266,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateDataPoint( String name, EObject eParentObj,
 			DataPoint eObj, DataPoint eRefObj, DataPoint eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6499,11 +7394,31 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateDataPointComponent( String name, EObject eParentObj,
 			DataPointComponent eObj, DataPointComponent eRefObj,
 			DataPointComponent eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6556,10 +7471,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateEmbeddedImage( String name, EObject eParentObj,
 			EmbeddedImage eObj, EmbeddedImage eRefObj, EmbeddedImage eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6619,11 +7554,31 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateExtendedProperty( String name, EObject eParentObj,
 			ExtendedProperty eObj, ExtendedProperty eRefObj,
 			ExtendedProperty eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6673,14 +7628,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateFill( String name, EObject eParentObj, Fill eObj,
 			Fill eRefObj, Fill eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		if ( eObj instanceof EmbeddedImage )
 		{
 			updateEmbeddedImage( name,
@@ -6750,10 +7726,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateFillImpl( String name, EObject eParentObj, Fill eObj,
 			Fill eRefObj, Fill eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6789,10 +7785,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateFontDefinition( String name, EObject eParentObj,
 			FontDefinition eObj, FontDefinition eRefObj, FontDefinition eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -6919,7 +7935,7 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateFormatSpecifier( String name, EObject eParentObj,
 			FormatSpecifier eObj, FormatSpecifier eRefObj,
 			FormatSpecifier eDefObj )
@@ -6945,7 +7961,7 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateFormatSpecifierImpl( String name, EObject eParentObj,
 			FormatSpecifier eObj, FormatSpecifier eRefObj,
 			FormatSpecifier eDefObj )
@@ -6982,10 +7998,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateGradient( String name, EObject eParentObj,
 			Gradient eObj, Gradient eRefObj, Gradient eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7069,14 +8105,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateImage( String name, EObject eParentObj, Image eObj,
 			Image eRefObj, Image eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		if ( eObj instanceof EmbeddedImage )
 		{
 			updateEmbeddedImage( name,
@@ -7112,10 +8169,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateImageImpl( String name, EObject eParentObj,
 			Image eObj, Image eRefObj, Image eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7163,10 +8240,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateInsets( String name, EObject eParentObj, Insets eObj,
 			Insets eRefObj, Insets eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7238,10 +8335,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateInteractivity( String name, EObject eParentObj,
 			Interactivity eObj, Interactivity eRefObj, Interactivity eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7289,10 +8406,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateLineAttributes( String name, EObject eParentObj,
 			LineAttributes eObj, LineAttributes eRefObj, LineAttributes eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7384,14 +8521,35 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated
-	 **/
+	 */
 	public void updateLocation( String name, EObject eParentObj, Location eObj,
 			Location eRefObj, Location eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
+
 		if ( eObj instanceof Location3D )
 		{
 			updateLocation3D( name,
@@ -7417,10 +8575,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateLocationImpl( String name, EObject eParentObj,
 			Location eObj, Location eRefObj, Location eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7468,10 +8646,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateLocation3D( String name, EObject eParentObj,
 			Location3D eObj, Location3D eRefObj, Location3D eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7531,10 +8729,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateMarker( String name, EObject eParentObj, Marker eObj,
 			Marker eRefObj, Marker eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7636,10 +8854,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updateMultipleFill( String name, EObject eParentObj,
 			MultipleFill eObj, MultipleFill eRefObj, MultipleFill eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7685,10 +8923,30 @@ public class ChartValueUpdater
 	 *        index of series definition.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updatePalette( String name, EObject eParentObj, Palette eObj,
 			Palette eRefObj, Palette eDefObj, int axisIndex, int seriesDefIndex )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7739,10 +8997,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	protected void updatePatternImage( String name, EObject eParentObj,
 			PatternImage eObj, PatternImage eRefObj, PatternImage eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7812,10 +9090,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateRotation3D( String name, EObject eParentObj,
 			Rotation3D eObj, Rotation3D eRefObj, Rotation3D eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7845,10 +9143,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateSize( String name, EObject eParentObj, Size eObj,
 			Size eRefObj, Size eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7896,10 +9214,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateStyle( String name, EObject eParentObj, Style eObj,
 			Style eRefObj, Style eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7948,10 +9286,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateText( String name, EObject eParentObj, Text eObj,
 			Text eRefObj, Text eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -7997,10 +9355,30 @@ public class ChartValueUpdater
 	 *        default chart element object.
 	 *
 	 * @generated Don't change this method manually.
-	 **/
+	 */
 	public void updateTextAlignment( String name, EObject eParentObj,
 			TextAlignment eObj, TextAlignment eRefObj, TextAlignment eDefObj )
 	{
+		if ( eObj == null )
+		{
+			if ( eRefObj != null )
+			{
+				eObj = eRefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+			}
+			else if ( eDefObj != null )
+			{
+				eObj = eDefObj.copyInstance( );
+				ChartElementUtil.setEObjectAttribute( eParentObj,
+						name,
+						eObj,
+						false );
+				return;
+			}
+		}
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
@@ -8035,6 +9413,24 @@ public class ChartValueUpdater
 
 		// references
 
+	}
+
+	/**
+	 * Generates series ID according to specified series.
+	 *
+	 * @param series 
+	 *        chart series object.
+	 *
+	 * @generated
+	 */
+	protected String getSeriesID( Series series )
+	{
+		String simpleName = series.getClass( ).getSimpleName( );
+		if ( simpleName.endsWith( "Impl" ) )
+		{
+			simpleName = simpleName.substring( 0, simpleName.indexOf( "Impl" ) );
+		}
+		return simpleName;
 	}
 
 }

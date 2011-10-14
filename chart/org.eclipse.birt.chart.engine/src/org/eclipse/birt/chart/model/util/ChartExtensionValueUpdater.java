@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Label;
@@ -183,6 +184,32 @@ public class ChartExtensionValueUpdater
 	public void update( EClass expected, String name, EObject eParentObj,
 			EObject eObj, EObject eRef, EObject eDef )
 	{
+		if ( eObj == null )
+		{
+			if ( eRef != null )
+			{
+				if ( eRef instanceof IChartObject )
+				{
+					eObj = ( (IChartObject) eRef ).copyInstance( );
+					ChartElementUtil.setEObjectAttribute( eParentObj,
+							name,
+							eObj,
+							false );
+				}
+			}
+			else if ( eDef != null )
+			{
+				if ( eDef instanceof IChartObject )
+				{
+					eObj = ( (IChartObject) eDef ).copyInstance( );
+					ChartElementUtil.setEObjectAttribute( eParentObj,
+							name,
+							eObj,
+							false );
+					return;
+				}
+			}
+		}
 		if ( eObj == null || ( eRef == null && eDef == null ) )
 		{
 			return;
@@ -233,9 +260,39 @@ public class ChartExtensionValueUpdater
 		// references
 		for ( EReference ref : eClass.getEAllReferences( ) )
 		{
+			String childName = ref.getName( );
 			Object child = eObj.eGet( ref );
 			Object refChild = eRef != null ? eRef.eGet( ref ) : null;
 			Object defChild = eDef != null ? eDef.eGet( ref ) : null;
+			EObject eChildParntObj = eObj;
+			if ( child == null )
+			{
+				if ( refChild != null )
+				{
+					if ( refChild instanceof IChartObject )
+					{
+						child = ( (IChartObject) refChild ).copyInstance( );
+						ChartElementUtil.setEObjectAttribute( eChildParntObj,
+								childName,
+								child,
+								false );
+					}
+				}
+				else if ( defChild != null )
+				{
+					if ( defChild instanceof IChartObject )
+					{
+						child = ( (IChartObject) defChild ).copyInstance( );
+						ChartElementUtil.setEObjectAttribute( eChildParntObj,
+								childName,
+								child,
+								false );
+						continue;
+					}
+				}
+			}
+			
+			
 			if ( child != null )
 			{
 				if ( ref.isMany( ) )
