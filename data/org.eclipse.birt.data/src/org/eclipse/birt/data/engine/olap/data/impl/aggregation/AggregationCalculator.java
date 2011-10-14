@@ -109,7 +109,7 @@ public class AggregationCalculator
 					IDimension timeDimension = cubeDimensionReader.getDimension( tDimName );
 					this.timeFunctionFilter[i] = getTimeFunctinResult( timeDimension, aggregationFunction[i].getTimeFunctionFilter() );
 					this.timeFilterDimensionIndex[i] = cubeDimensionReader.getDimensionIndex( tDimName );
-					this.timeFilterLevelCount[i] = cubeDimensionReader.getlowestLevelIndex( tDimName ) - 1;
+					this.timeFilterLevelCount[i] = cubeDimensionReader.getlowestLevelIndex( tDimName ) ;
 				}
 				if (aggregation == null)
 				{

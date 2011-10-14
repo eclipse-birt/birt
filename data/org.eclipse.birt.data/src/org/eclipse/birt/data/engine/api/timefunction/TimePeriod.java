@@ -30,7 +30,7 @@ public class TimePeriod implements ITimePeriod
 	}
 
 	public TimePeriodType getType() {
-		return null;
+		return type;
 	}
 
 }

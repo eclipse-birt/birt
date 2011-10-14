@@ -307,13 +307,17 @@ public class CubeQueryDefinitionUtil
 						list.get( index ).getCubeAggrDefn( ).getAggrName( ),
 						list.get( index ).getFilterEvalHelper( ) );
 				
-				if( containsTimeDimension( query,list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) ) )
+				ITimeFunction timeFunction = list.get( index ).getCubeAggrDefn( ).getTimeFunction( );
+				if (timeFunction != null)
 				{
-					funcitons[index].setTimeFunction( list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) );					
-				}
-				else
-				{
-					funcitons[index].setTimeFunctionFilter( list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) );					
+					if( containsTimeDimension( query,list.get( index ).getCubeAggrDefn( ) ) )
+					{
+						funcitons[index].setTimeFunction( list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) );					
+					}
+					else
+					{
+						funcitons[index].setTimeFunctionFilter( list.get( index ).getCubeAggrDefn( ).getTimeFunction( ) );					
+					}
 				}
 				
 				CubeAggrDefn cad = ( (CalculatedMember) list.get( index ) ).getCubeAggrDefn( );
@@ -352,29 +356,55 @@ public class CubeQueryDefinitionUtil
 		return result.toArray( new AggregationDefinition[0] );
 	}
 	
-	private static boolean containsTimeDimension( ICubeQueryDefinition query, ITimeFunction timeFunction ) throws DataException
-	{
-		if( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
+	private static boolean containsTimeDimension( ICubeQueryDefinition query, CubeAggrDefn aggrDefn ) throws DataException
+ {
+		ITimeFunction timeFunction = aggrDefn.getTimeFunction( );
+		List onlevels = aggrDefn.getAggrLevelsInAggregationResult( );
+
+		if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
 		{
-			IEdgeDefinition definition = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) ;
+			IEdgeDefinition definition = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 			List<IDimensionDefinition> dimension = definition.getDimensions( );
-			for( int i=0; i< dimension.size( ); i++ )
+			for ( int i = 0; i < dimension.size( ); i++ )
 			{
-				if( dimension.get( i ).getName( ).equals( timeFunction.getTimeDimension( ) ) )
+				if ( dimension.get( i )
+						.getName( )
+						.equals( timeFunction.getTimeDimension( ) ) )
 				{
-					return true;
+
+					List<ILevelDefinition> levels = dimension.get( i )
+							.getHierarchy( )
+							.get( 0 )
+							.getLevels( );
+					for ( int j = 0; j < levels.size( ); j++ )
+					{
+						if ( onlevels.contains( new DimLevel( levels.get( j ) ) ) )
+							return true;
+					}
+					return false;
 				}
 			}
 		}
-		if( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
+		if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
 		{
-			IEdgeDefinition definition = query.getEdge( ICubeQueryDefinition.ROW_EDGE ) ;
+			IEdgeDefinition definition = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
 			List<IDimensionDefinition> dimension = definition.getDimensions( );
-			for( int i=0; i< dimension.size( ); i++ )
+			for ( int i = 0; i < dimension.size( ); i++ )
 			{
-				if( dimension.get( i ).getName( ).equals( timeFunction.getTimeDimension( ) ) )
+				if ( dimension.get( i )
+						.getName( )
+						.equals( timeFunction.getTimeDimension( ) ) )
 				{
-					return true;
+					List<ILevelDefinition> levels = dimension.get( i )
+							.getHierarchy( )
+							.get( 0 )
+							.getLevels( );
+					for ( int j = 0; j < levels.size( ); j++ )
+					{
+						if ( onlevels.contains( new DimLevel( levels.get( j ) ) ) )
+							return true;
+					}
+					return false;
 				}
 			}
 		}

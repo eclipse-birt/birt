@@ -108,7 +108,7 @@ public class TimeFunctionCalculator
 		}
 		if( existReferenceDate )
 		{
-			endLevelIndex = cubeDimensionReader.getlowestLevelIndex( tDimName ) - 1;
+			endLevelIndex = cubeDimensionReader.getlowestLevelIndex( tDimName );
 		}
 		else
 		{
@@ -203,9 +203,9 @@ public class TimeFunctionCalculator
 		{
 			ITimeFunction function = timeFunction[i].getTimeFunction();
 			toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
-			if( function.getBaseTimePeriod( ).countOfUnit() < 1 )
-			{
-				periodsFunction[i] = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
+			if (Math.abs(function.getBaseTimePeriod().countOfUnit()) < 1) {
+				periodsFunction[i] = TimeFunctionFactory
+						.createPeriodsToDateFunction(toDatelevelType);
 			}
 			else
 			{
@@ -554,7 +554,7 @@ public class TimeFunctionCalculator
 	private static int compare( Row4Aggregation r, MemberCellIndex m )
 	{
 		int result = 0;
-		for( int i = 0; i < r.getLevelMembers().length; i++ )
+		for( int i = 0; i < m.member.length; i++ )
 		{
 			result = r.getLevelMembers()[i].compareTo(m.member[i] );
 			if( result != 0 )

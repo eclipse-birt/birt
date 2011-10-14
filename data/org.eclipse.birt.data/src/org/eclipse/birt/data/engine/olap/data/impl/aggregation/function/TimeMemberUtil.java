@@ -48,7 +48,7 @@ public class TimeMemberUtil
 		ILevel[] levels = timeDimension.getHierarchy( ).getLevels();
 		String[] levelType = null;
 		if( referenceDate != null )
-			levelType = new String[levels.length - 1];
+			levelType = new String[levels.length];
 		else
 		{
 			levelType = new String[getLowestLevelIndex(timeDimension, cellTimeMember)+1];
@@ -135,7 +135,7 @@ public class TimeMemberUtil
 	{
 		ILevel[] levels = timeDimension.getHierarchy( ).getLevels();
 		String[] levelType = null;
-		levelType = new String[levels.length - 1];
+		levelType = new String[levels.length];
 		
 		int[] levelValue = new int[levelType.length];
 		Calendar cal = getCalendar( referenceDate );
