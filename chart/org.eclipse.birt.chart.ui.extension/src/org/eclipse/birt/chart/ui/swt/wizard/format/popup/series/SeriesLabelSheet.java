@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
@@ -44,7 +43,6 @@ import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
@@ -57,7 +55,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -835,7 +832,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			sContext = Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDataPoint" ); //$NON-NLS-1$
 		}
 
-		FormatSpecifierDialog editor = null;
 		AxisType axisType = getAxisType( dpc.getType( ) );
 		if ( axisType != null )
 		{
@@ -848,27 +844,19 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 					axisType = getAxisType( iType );
 				}
 			}
-			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					axisType,
-					sContext );
-		}
-		else
-		{
-			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					sContext );
 		}
 
-		if ( editor.open( ) == Window.OK )
-		{
-			if ( editor.getFormatSpecifier( ) == null )
-			{
-				dpc.eUnset( AttributePackage.eINSTANCE.getDataPointComponent_FormatSpecifier( ) );
-				return;
-			}
-			dpc.setFormatSpecifier( editor.getFormatSpecifier( ) );
-		}
+		getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						sContext,
+						new AxisType[]{
+							axisType
+						},
+						formatspecifier,
+						dpc,
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
 	}
 
 	protected int getIndexOfListItem( int indexOfListItem )

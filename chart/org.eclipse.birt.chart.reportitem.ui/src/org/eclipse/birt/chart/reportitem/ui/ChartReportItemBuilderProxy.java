@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -139,6 +140,14 @@ public class ChartReportItemBuilderProxy extends ReportItemBuilderUI implements
 	public boolean isEclipseModeSupported( )
 	{
 		return instance.isEclipseModeSupported( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getFormatSpecifierHandler()
+	 */
+	public IFormatSpecifierHandler getFormatSpecifierHandler( )
+	{
+		return instance.getFormatSpecifierHandler( );
 	}
 
 }

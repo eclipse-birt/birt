@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
@@ -25,7 +26,6 @@ import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -393,16 +392,18 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	protected void handleFormatBtnSelected( )
 	{
-		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-				getChart( ).getLegend( ).getFormatSpecifier( ),
-				getEntryType( ),
-				Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-		if ( editor.open( ) == Window.OK )
-		{
-			getChart( ).getLegend( )
-					.setFormatSpecifier( editor.getFormatSpecifier( ) );
-			fsp.updatePreview( editor.getFormatSpecifier( ) );
-		}
+		FormatSpecifier fs = getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ),//$NON-NLS-1$
+						new AxisType[]{
+							getEntryType( )
+						},
+						getChart( ).getLegend( ).getFormatSpecifier( ),
+						getChart( ).getLegend( ),
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
+		fsp.updatePreview( fs );
 	}
 
 	private Legend getLegend( )

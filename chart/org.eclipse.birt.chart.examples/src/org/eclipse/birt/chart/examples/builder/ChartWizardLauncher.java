@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.ui.integrate.SimpleUIServiceProviderImpl;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -253,6 +254,7 @@ public class ChartWizardLauncher implements ChartUIConstants
 				new SimpleUIServiceProviderImpl( ),
 				dataProvider,
 				ssd );
+		( (SimpleUIServiceProviderImpl) context.getUIServiceProvider( ) ).setFormatSpecifierHandler( new FormatSpecifierHandler( ) );
 		ssd.setContext( context );
 
 		// Use these methods to disable the UI you want.

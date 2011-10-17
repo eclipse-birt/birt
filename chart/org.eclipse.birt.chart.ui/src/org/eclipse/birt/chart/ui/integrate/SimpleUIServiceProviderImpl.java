@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
+import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -42,6 +43,8 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/integrate" ); //$NON-NLS-1$
+	
+	private IFormatSpecifierHandler formatSpecifierHandler;
 
 	/*
 	 * (non-Javadoc)
@@ -256,5 +259,23 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 				break;
 		}
 		return outData;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getFormatSpecifierHandler()
+	 */
+	public IFormatSpecifierHandler getFormatSpecifierHandler( )
+	{
+		return this.formatSpecifierHandler;
+	}
+	
+	/**
+	 * Sets format specifier handler object.
+	 * 
+	 * @param handler
+	 */
+	public void setFormatSpecifierHandler(IFormatSpecifierHandler handler )
+	{
+		formatSpecifierHandler = handler;
 	}
 }

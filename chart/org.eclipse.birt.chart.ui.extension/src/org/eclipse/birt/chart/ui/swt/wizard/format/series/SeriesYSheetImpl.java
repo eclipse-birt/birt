@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -135,7 +136,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 						: TristateCheckbox.STATE_UNSELECTED ) : TristateCheckbox.STATE_GRAYED );
 				btnDecoVisible.addSelectionListener( this );
 			}
-			btnDecoVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1
+			btnDecoVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1$
 		}
 
 		if ( isTrendlineAvailable( ) )
@@ -168,16 +169,14 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 		// For Meter series and other non-Stock series
 		ITaskPopupSheet popup;
-		SeriesDefinition sd = getSeriesDefinitionForProcessing( );
-		Series series = sd.getDesignTimeSeries( );
+		Series series = getCurrentDesignTimeSeries( );
 
 		if ( isMeterSeries( ) )
 		{
 			// Label
 			createDialLabelBtnUI( cmp );
 
-			if ( getChart( ) instanceof DialChart
-					&& !( (DialChart) getChart( ) ).isDialSuperimposition( ) )
+			if ( needDialNeedle( ) )
 			{
 				// Needles
 				popup = new NeedleSheet( Messages.getString( "SeriesYSheetImpl.Label.Needles" ), //$NON-NLS-1$
@@ -324,7 +323,8 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnInteractivity.addSelectionListener( this );
 		}
 		
-		for ( ISeriesButtonEntry buttonEntry : ChartUIUtil.getSeriesUIProvider( series )
+		SeriesDefinition sd = getSeriesDefinitionForProcessing( );
+		for ( ISeriesButtonEntry buttonEntry : getSeriesUIProvider( series )
 				.getCustomButtons( getContext( ), sd ) )
 		{
 			Button button = createToggleButton( cmp,
@@ -334,6 +334,21 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					buttonEntry.isEnabled( ) );
 			button.addSelectionListener( this );
 		}
+	}
+
+	/**
+	 * @param series
+	 * @return
+	 */
+	protected ISeriesUIProvider getSeriesUIProvider( Series series )
+	{
+		return ChartUIUtil.getSeriesUIProvider( series );
+	}
+
+	protected boolean needDialNeedle( )
+	{
+		return getChart( ) instanceof DialChart
+				&& !( (DialChart) getChart( ) ).isDialSuperimposition( );
 	}
 
 	protected void createSeriesLabelBtnUI( Composite cmp )
@@ -366,7 +381,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 	protected void getSeriesAttributeUI( Series series, Composite parent )
 	{
-		ChartUIUtil.getSeriesUIProvider( series )
+		getSeriesUIProvider( series )
 				.getSeriesAttributeSheet( parent, series, getContext( ) );
 	}
 

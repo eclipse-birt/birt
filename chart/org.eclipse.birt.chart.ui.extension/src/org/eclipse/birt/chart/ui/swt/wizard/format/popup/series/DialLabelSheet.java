@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
@@ -22,7 +23,6 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -245,15 +244,17 @@ public class DialLabelSheet extends AbstractPopupSheet
 
 	protected void handleFormatBtnSelected( )
 	{
-		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-				getSeriesForProcessing( ).getDial( ).getFormatSpecifier( ),
-				Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-		if ( editor.open( ) == Window.OK )
-		{
-			getSeriesForProcessing( ).getDial( )
-					.setFormatSpecifier( editor.getFormatSpecifier( ) );
-			fsp.updatePreview( editor.getFormatSpecifier( ) );
-		}
+		FormatSpecifier fs = getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ),//$NON-NLS-1$
+						null,
+						getSeriesForProcessing( ).getDial( )
+								.getFormatSpecifier( ),
+						getSeriesForProcessing( ).getDial( ),
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
+		fsp.updatePreview( fs );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )

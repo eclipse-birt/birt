@@ -153,6 +153,10 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 			btnTickBetweenCategory.addSelectionListener( this );
 			btnTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
 		}
+		else
+		{
+			new Label( cmpContent, SWT.NONE );
+		}
 
 		lblColor = new Label( cmpContent, SWT.NONE );
 		GridData gdLBLColor = new GridData( GridData.FILL );

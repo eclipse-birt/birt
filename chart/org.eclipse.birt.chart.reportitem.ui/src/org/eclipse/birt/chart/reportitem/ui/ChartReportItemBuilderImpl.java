@@ -44,10 +44,12 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ChartExpressionButton;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
+import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -98,6 +100,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	protected ChartWizardContext wizardContext = null;
 
 	protected final String taskId;
+
+	protected IFormatSpecifierHandler formatSpecifierHandler;
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -777,5 +781,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				break;
 		}
 		return outData;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getFormatSpecifierHandler()
+	 */
+	public IFormatSpecifierHandler getFormatSpecifierHandler( )
+	{
+		if ( formatSpecifierHandler == null )
+			formatSpecifierHandler = new FormatSpecifierHandler();
+		return formatSpecifierHandler;
 	}
 }

@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
@@ -37,6 +36,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.YOptionalDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -134,12 +135,10 @@ public class RadarSeriesUIProvider extends DefaultSeriesUIProvider
 	{
 		List<ISeriesButtonEntry> list = new ArrayList<ISeriesButtonEntry>( 3 );
 		// Only the first series can set advanced settings
-		if ( ( (ChartWithoutAxes) context.getModel( ) ).getSeriesDefinitions( )
-				.get( 0 )
-				.getSeriesDefinitions( )
+		if ( ChartUtil.getOrthogonalSeriesDefinitions( context.getModel( ), 0 )
 				.get( 0 ) == sd )
 		{
-			RadarSeries series = (RadarSeries) sd.getDesignTimeSeries( );
+			RadarSeries series = getDesignTimeSeries( sd );
 			ISeriesButtonEntry radarLineEntry = new SimpleSeriesButtonEntry( ".RadarLine", //$NON-NLS-1$
 					Messages.getString( "RadarSeriesUIProvider.Label.RadarLine" ), //$NON-NLS-1$
 					new RadarLineSheet( Messages.getString( "RadarSeriesUIProvider..Title.RadarLine" ), context, false, series ), //$NON-NLS-1$
@@ -165,5 +164,20 @@ public class RadarSeriesUIProvider extends DefaultSeriesUIProvider
 			list.add( categoryLabelEntry );
 		}
 		return list;
+	}
+
+	protected RadarSeries getDesignTimeSeries( SeriesDefinition sd )
+	{
+		final EList<Series> el = sd.getSeries( );
+		Series se;
+		for ( int i = 0; i < el.size( ); i++ )
+		{
+			se = (Series) el.get( i );
+			if ( se.getDataSet( ) == null && se instanceof RadarSeries)
+			{
+				return (RadarSeries) se;
+			}
+		}
+		return null;
 	}
 }

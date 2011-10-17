@@ -22,13 +22,11 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -218,18 +216,19 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 			{
 				formatspecifier = series.getCatLabelFormatSpecifier( );
 			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					new AxisType[]{
-							AxisType.LINEAR_LITERAL,
-							AxisType.TEXT_LITERAL,
-							AxisType.DATE_TIME_LITERAL
-					},
-					Messages.getString( "CatLabel.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				series.setCatLabelFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			getContext( ).getUIServiceProvider( )
+					.getFormatSpecifierHandler( )
+					.handleFormatSpecifier( cmpContent.getShell( ),
+							Messages.getString( "CatLabel.Tooltip.FormatSpecifier" ), //$NON-NLS-1$
+							new AxisType[]{
+									AxisType.LINEAR_LITERAL,
+									AxisType.TEXT_LITERAL,
+									AxisType.DATE_TIME_LITERAL
+							},
+							formatspecifier,
+							series,
+							"catLabelFormatSpecifier", //$NON-NLS-1$
+							getContext( ) );
 		}
 	}
 }

@@ -203,20 +203,22 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( btnWLFormatSpecifier ) )
 		{
-
 			FormatSpecifier formatspecifier = null;
 			if ( series.getWebLabelFormatSpecifier( ) != null )
 			{
 				formatspecifier = series.getWebLabelFormatSpecifier( );
 			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					AxisType.LINEAR_LITERAL,
-					Messages.getString( "WebLabel.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				series.setWebLabelFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			getContext( ).getUIServiceProvider( )
+					.getFormatSpecifierHandler( )
+					.handleFormatSpecifier( cmpContent.getShell( ),
+							Messages.getString( "WebLabel.Tooltip.FormatSpecifier" ), //$NON-NLS-1$
+							new AxisType[]{
+								AxisType.LINEAR_LITERAL
+							},
+							formatspecifier,
+							series,
+							"webLabelFormatSpecifier", //$NON-NLS-1$
+							getContext( ) );
 		}
 	}
 }

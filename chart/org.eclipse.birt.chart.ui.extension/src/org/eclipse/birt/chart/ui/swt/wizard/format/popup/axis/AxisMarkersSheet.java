@@ -28,7 +28,6 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
@@ -45,7 +44,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -60,7 +58,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -843,27 +840,21 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					.get( getMarkerIndex( ) )
 					.getFormatSpecifier( );
 		}
-		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-				formatspecifier,
-				getDataElementType( getAxisForProcessing( ).getMarkerRanges( )
-						.get( getMarkerIndex( ) )
-						.getStartValue( ) ),
-				new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
-		if ( editor.open( ) == Window.OK )
-		{
-			if ( editor.getFormatSpecifier( ) == null )
-			{
-				getAxisForProcessing( ).getMarkerRanges( )
-						.get( getMarkerIndex( ) )
-						.eUnset( ComponentPackage.eINSTANCE.getMarkerRange_FormatSpecifier( ) );
-			}
-			else
-			{
-				getAxisForProcessing( ).getMarkerRanges( )
-					.get( getMarkerIndex( ) )
-					.setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
-		}
+		
+		getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ), //$NON-NLS-1$
+						new AxisType[]{
+							getDataElementType( getAxisForProcessing( ).getMarkerRanges( )
+									.get( getMarkerIndex( ) )
+									.getStartValue( ) )
+						},
+						formatspecifier,
+						getAxisForProcessing( ).getMarkerRanges( )
+								.get( getMarkerIndex( ) ),
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
 	}
 
 	protected void handleMarkerLineFormatBtnSelected( )
@@ -886,27 +877,21 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					.get( getMarkerIndex( ) )
 					.getFormatSpecifier( );
 		}
-		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-				formatspecifier,
-				getDataElementType( getAxisForProcessing( ).getMarkerLines( )
-						.get( getMarkerIndex( ) )
-						.getValue( ) ),
-				new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ) ); //$NON-NLS-1$
-		if ( editor.open( ) == Window.OK )
-		{
-			if ( editor.getFormatSpecifier( ) == null )
-			{
-				getAxisForProcessing( ).getMarkerLines( )
-						.get( getMarkerIndex( ) )
-						.eUnset( ComponentPackage.eINSTANCE.getMarkerLine_FormatSpecifier( ) );
-			}
-			else
-			{
-				getAxisForProcessing( ).getMarkerLines( )
-					.get( getMarkerIndex( ) )
-					.setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
-		}
+
+		getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						new MessageFormat( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine" ) ).format( new Object[]{Integer.valueOf( getMarkerIndex( ) + 1 ), sAxisTitle} ), //$NON-NLS-1$
+						new AxisType[]{
+							getDataElementType( getAxisForProcessing( ).getMarkerLines( )
+									.get( getMarkerIndex( ) )
+									.getValue( ) )
+						},
+						formatspecifier,
+						getAxisForProcessing( ).getMarkerLines( )
+								.get( getMarkerIndex( ) ),
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
 	}
 
 	/*

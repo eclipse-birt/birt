@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -35,7 +34,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
@@ -60,7 +58,6 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -893,21 +890,17 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			formatspecifier = getAxisForProcessing( ).getFormatSpecifier( );
 		}
-		FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-				formatspecifier,
-				getAxisForProcessing( ).getType( ),
-				sAxisTitle );
-		if ( editor.open( ) == Window.OK )
-		{
-			if ( editor.getFormatSpecifier( ) == null )
-			{
-				getAxisForProcessing( ).eUnset( ComponentPackage.eINSTANCE.getAxis_FormatSpecifier( ) );
-			}
-			else
-			{
-				getAxisForProcessing( ).setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
-		}
+		getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						sAxisTitle,
+						new AxisType[]{
+							getAxisForProcessing( ).getType( )
+						},
+						formatspecifier,
+						getAxisForProcessing( ),
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
