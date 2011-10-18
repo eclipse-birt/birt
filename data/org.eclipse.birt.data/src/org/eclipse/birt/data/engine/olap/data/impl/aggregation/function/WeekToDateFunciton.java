@@ -2,9 +2,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
 
 /**
  * Use the WTD function to return a set of members of the Time hierarchy from
@@ -26,7 +27,8 @@ public class WeekToDateFunciton extends AbstractMDX implements IPeriodsFunction
 		String[] levelTypes = member.getLevelType( );
 		int[] values = member.getMemberValue( );
 
-		Calendar cal = new GregorianCalendar( );
+		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+				TimeMemberUtil.getDefaultLocale( ) );
 		String baseType = translateToCal( cal, levelTypes, values );
 
 		if ( baseType.equals( WEEK ) )
@@ -38,7 +40,8 @@ public class WeekToDateFunciton extends AbstractMDX implements IPeriodsFunction
 			int weekday = cal.get( Calendar.DAY_OF_WEEK );
 
 			int[] tmp;
-			Calendar newCal = new GregorianCalendar( );
+			Calendar newCal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+					TimeMemberUtil.getDefaultLocale( ) );
 			for ( int i = 1; i <= weekday; i++ )
 			{
 				newCal.setTimeInMillis( cal.getTimeInMillis( )

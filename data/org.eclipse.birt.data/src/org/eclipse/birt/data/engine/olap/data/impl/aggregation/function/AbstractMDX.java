@@ -1,7 +1,8 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
-import java.util.Calendar;
+import com.ibm.icu.util.Calendar;
+
 
 /**
  * This abstract class used for MDX function. MTD,YTD,trailing,etc,,, will
@@ -67,6 +68,9 @@ abstract public class AbstractMDX
 
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
 			{
+				// here seems a com.ibm.icu.util.Calendar bug, if do not call cal.get()
+				// sometimes cal.set() will change date to a wrong result.
+				cal.get( Calendar.DAY_OF_WEEK);
 				cal.set( Calendar.DAY_OF_WEEK, values[i] );
 				type = DAY;
 			}

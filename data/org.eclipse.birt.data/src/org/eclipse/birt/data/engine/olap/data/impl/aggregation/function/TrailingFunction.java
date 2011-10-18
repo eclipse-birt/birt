@@ -2,9 +2,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
 
 /**
  * The Trailing N Period function returns a set of consecutive members that
@@ -35,7 +36,8 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		String[] levelTypes = member.getLevelType( );
 		int[] values = member.getMemberValue( );
 
-		Calendar cal1 = new GregorianCalendar( );
+		Calendar cal1 = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+				TimeMemberUtil.getDefaultLocale( ) );
 		String calculateUnit = translateToCal( cal1, levelTypes, values );
 		Calendar cal2 = (Calendar) cal1.clone( );
 

@@ -24,6 +24,16 @@ public class TimeMemberUtil
 		TimeMemberUtil.timeZone = timeZone;
 	}
 	
+	public static ULocale getDefaultLocale()
+	{
+		return defaultLocale;
+	}
+
+	public static TimeZone getTimeZone()
+	{
+		return timeZone;
+	}
+	
 	public static TimeMember getCurrentMember( IDimension timeDimension, TimeMember cellTimeMember )
 	{
 		return toMember( timeDimension, null, cellTimeMember );
@@ -48,7 +58,7 @@ public class TimeMemberUtil
 		ILevel[] levels = timeDimension.getHierarchy( ).getLevels();
 		String[] levelType = null;
 		if( referenceDate != null )
-			levelType = new String[levels.length];
+			levelType = new String[levels.length - 1];
 		else
 		{
 			levelType = new String[getLowestLevelIndex(timeDimension, cellTimeMember)+1];
@@ -135,7 +145,7 @@ public class TimeMemberUtil
 	{
 		ILevel[] levels = timeDimension.getHierarchy( ).getLevels();
 		String[] levelType = null;
-		levelType = new String[levels.length];
+		levelType = new String[levels.length - 1];
 		
 		int[] levelValue = new int[levelType.length];
 		Calendar cal = getCalendar( referenceDate );

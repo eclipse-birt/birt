@@ -2,9 +2,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
 
 /**
  * 
@@ -30,7 +31,8 @@ public class MonthToDateFunction extends AbstractMDX
 		String[] levelTypes = member.getLevelType( );
 		int[] values = member.getMemberValue( );
 
-		Calendar cal = new GregorianCalendar( );
+		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+				TimeMemberUtil.getDefaultLocale( ) );
 
 		String baseType = translateToCal( cal, levelTypes, values );
 		int[] tmp;
