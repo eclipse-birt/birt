@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
@@ -29,9 +30,9 @@ import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * 
+ *
  * The class implements the org.eclipse.datatools.connectivity.oda.IResultSet interface.
- *  
+ *
  */
 public class ResultSet implements IResultSet
 {
@@ -46,12 +47,12 @@ public class ResultSet implements IResultSet
 	protected int currentRow;
 
 	private java.sql.Connection conn;
-	
-	private static Logger logger = Logger.getLogger( ResultSet.class.getName( ) );	
+
+	private static Logger logger = Logger.getLogger( ResultSet.class.getName( ) );
 
 	/**
 	 * assertNotNull(Object o)
-	 * 
+	 *
 	 * @param o
 	 *            the object that need to be tested null or not. if null, throw
 	 *            exception
@@ -67,10 +68,10 @@ public class ResultSet implements IResultSet
 	}
 
 	/**
-	 * 
+	 *
 	 * Constructor ResultSet(java.sql.ResultSet jrs) use JDBC's ResultSet to
 	 * construct it.
-	 *  
+	 *
 	 */
 	public ResultSet( java.sql.Connection connection, java.sql.ResultSet jrs ) throws OdaException
 	{
@@ -82,13 +83,13 @@ public class ResultSet implements IResultSet
 		maxRows = Integer.MAX_VALUE;
 
 		currentRow = 0;
-		
-		this.conn = connection;
+
+		conn = connection;
 
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getMetaData()
 	 */
 	public IResultSetMetaData getMetaData( ) throws OdaException
@@ -132,13 +133,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			try 
+			try
 			{
 				if (DBConfig.getInstance().qualifyPolicy(
 						this.conn.getMetaData().getDriverName(),
 						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
 					return;
-			} 
+			}
 			catch (SQLException e1) {
 
 			}
@@ -149,7 +150,7 @@ public class ResultSet implements IResultSet
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#setMaxRows(int)
 	 */
 	public void setMaxRows( int max )
@@ -169,7 +170,7 @@ public class ResultSet implements IResultSet
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#next()
 	 */
 	public boolean next( ) throws OdaException
@@ -198,7 +199,7 @@ public class ResultSet implements IResultSet
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getRow()
 	 */
 	public int getRow( ) throws OdaException
@@ -212,7 +213,7 @@ public class ResultSet implements IResultSet
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(int)
 	 */
 	public String getString( int index ) throws OdaException
@@ -226,13 +227,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getString(java.lang.String)
 	 */
 	public String getString( String columnName ) throws OdaException
@@ -246,13 +247,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(int)
 	 */
 	public int getInt( int index ) throws OdaException
@@ -277,20 +278,20 @@ public class ResultSet implements IResultSet
 						return 0;
 				}
 
-				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
-						e );
+				logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+				return 0;
 
 			}
 			catch ( SQLException ex )
 			{
-				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
-						e );
+				logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+				return 0;
 			}
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getInt(java.lang.String)
 	 */
 	public int getInt( String columnName ) throws OdaException
@@ -304,13 +305,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return 0;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(int)
 	 */
 	public double getDouble( int index ) throws OdaException
@@ -324,13 +325,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return 0;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDouble(java.lang.String)
 	 */
 	public double getDouble( String columnName ) throws OdaException
@@ -344,13 +345,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return 0;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(int)
 	 */
 	public BigDecimal getBigDecimal( int index ) throws OdaException
@@ -373,14 +374,13 @@ public class ResultSet implements IResultSet
 			catch ( SQLException e1 )
 			{
 			}
-
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBigDecimal(java.lang.String)
 	 */
 	public BigDecimal getBigDecimal( String columnName ) throws OdaException
@@ -403,13 +403,13 @@ public class ResultSet implements IResultSet
 			catch ( SQLException e1 )
 			{
 			}
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(int)
 	 */
 	public Date getDate( int index ) throws OdaException
@@ -424,13 +424,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getDate(java.lang.String)
 	 */
 	public Date getDate( String columnName ) throws OdaException
@@ -444,13 +444,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(int)
 	 */
 	public Time getTime( int index ) throws OdaException
@@ -464,13 +464,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTime(java.lang.String)
 	 */
 	public Time getTime( String columnName ) throws OdaException
@@ -484,13 +484,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(int)
 	 */
 	public Timestamp getTimestamp( int index ) throws OdaException
@@ -504,13 +504,13 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getTimestamp(java.lang.String)
 	 */
 	public Timestamp getTimestamp( String columnName ) throws OdaException
@@ -524,11 +524,11 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBlob(java.lang.String)
 	 */
@@ -550,8 +550,8 @@ public class ResultSet implements IResultSet
 			}
 			catch ( SQLException e2 )
 			{
-				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-						e2 );
+				logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+				return null;
 			}
 		}
 		catch ( SQLException e )
@@ -576,9 +576,9 @@ public class ResultSet implements IResultSet
 				catch ( SQLException ex )
 				{
 				}
-				
-				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-						e2 );
+
+				logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+				return null;
 			}
 		}
 	}
@@ -604,8 +604,8 @@ public class ResultSet implements IResultSet
 			}
 			catch ( SQLException e2 )
 			{
-				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-						e2 );
+				logger.log( Level.WARNING, e2.getLocalizedMessage( ) );
+				return null;
 			}
 		}
 		catch ( SQLException e )
@@ -630,9 +630,9 @@ public class ResultSet implements IResultSet
 				catch ( SQLException ex )
 				{
 				}
-				
-				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-						e2 );
+
+				logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+				return null;
 			}
 		}
 	}
@@ -659,9 +659,9 @@ public class ResultSet implements IResultSet
 			catch ( SQLException ex )
 			{
 			}
-			
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-					e );
+
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
@@ -687,9 +687,9 @@ public class ResultSet implements IResultSet
 			catch ( SQLException ex )
 			{
 			}
-			
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-					e );
+
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return null;
 		}
 	}
 
@@ -707,8 +707,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return false;
 		}
 	}
 
@@ -726,8 +726,8 @@ public class ResultSet implements IResultSet
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
-					e );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			return false;
 		}
 	}
 
@@ -739,7 +739,7 @@ public class ResultSet implements IResultSet
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
-	
+
 	/* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IResultSet#getObject(int)
      */
@@ -750,7 +750,7 @@ public class ResultSet implements IResultSet
     }
 
     /*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */
 	public boolean wasNull( ) throws OdaException
@@ -774,7 +774,7 @@ public class ResultSet implements IResultSet
 	}
 
 	/*
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#findColumn(java.lang.String)
 	 */
 	public int findColumn( String columnName ) throws OdaException
