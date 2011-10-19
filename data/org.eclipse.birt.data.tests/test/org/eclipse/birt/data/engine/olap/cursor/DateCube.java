@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerReleaser;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -83,7 +84,7 @@ public class DateCube
 		iterator.setLevelMember( 6, DateFactTable.DIM1_DAY_Col );
 		iterator.setLevelMember( 7, DateFactTable.ATTRIBUTE_Col );
 		
-		ILevelDefn[] levelDefs = new ILevelDefn[4];
+		ILevelDefn[] levelDefs = new ILevelDefn[5];
 
 		levelDefs[0] = new LevelDefinition( "level11", new String[]{
 			"level11"
@@ -113,6 +114,10 @@ public class DateCube
 			} );
 		levelDefs[3].setTimeType( "day-of-month" );
 			
+		levelDefs[4] = CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
+				new String[]{"year/DateTime", "quarter/DateTime", "month/DateTime", "day-of-month/DateTime"},
+			    new String[0] );
+		
 		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1",
 				documentManager,
 				iterator,
@@ -236,8 +241,8 @@ class DateFactTable implements IDatasetIterator
   static Date[] ATTRIBUTE_Col = {
 	  	new Date( 98, 0, 1),new Date( 98, 4, 1),
 	  	new Date( 99, 0, 1),new Date( 99, 4, 1),
-	  	new Date( 99, 0, 1),new Date( 99, 4, 1),
-	  	new Date( 98, 0, 1),new Date( 99, 4, 1)
+	  	new Date( 97, 0, 1),new Date( 96, 4, 1),
+	  	new Date( 95, 0, 1),new Date( 94, 4, 1)
 };
 
 	public void close( ) throws BirtException
