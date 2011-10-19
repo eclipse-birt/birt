@@ -44,7 +44,7 @@ public class ComparatorUtil
 	 * @param ob2
 	 * @return
 	 */
-	private static boolean isEqualObject( Object ob1, Object ob2 )
+	public static boolean isEqualObject( Object ob1, Object ob2 )
 	{
 		if ( ob1 == ob2 )
 			return true;

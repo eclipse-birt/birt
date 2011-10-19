@@ -83,6 +83,10 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	private boolean existMeasureFilter = false;
 	private boolean readMeasure = false;
 	private int[] measureSize;
+	private Bytes lastCombinedDimensionPosition;
+	private int[] lastCurrentPos;
+	private boolean lastFilterResult;
+	private boolean isDuplicatedRow;
 	
 	/**
 	 * 
@@ -233,10 +237,32 @@ public class FactTableRowIterator implements IFactTableRowIterator
 					return false;
 				}
 				Bytes combinedDimensionPosition = currentSegment.readBytes( );
-				
-				currentPos = factTable.getCombinedPositionCalculator( )
-						.calculateDimensionPosition( subDimensionIndex,
-								combinedDimensionPosition.bytesValue( ) );
+				if( this.lastCombinedDimensionPosition == null )
+				{
+					this.lastCombinedDimensionPosition = combinedDimensionPosition;
+					currentPos = factTable.getCombinedPositionCalculator( )
+							.calculateDimensionPosition( subDimensionIndex,
+									combinedDimensionPosition.bytesValue( ) );
+					this.lastCurrentPos = currentPos;
+					this.isDuplicatedRow = false;
+				}
+				else
+				{
+					if( this.lastCombinedDimensionPosition.equals( combinedDimensionPosition ) )
+					{
+						currentPos = this.lastCurrentPos;
+						this.isDuplicatedRow = true;
+					}
+					else
+					{
+						this.lastCombinedDimensionPosition = combinedDimensionPosition;
+						currentPos = factTable.getCombinedPositionCalculator( )
+								.calculateDimensionPosition( subDimensionIndex,
+										combinedDimensionPosition.bytesValue( ) );
+						this.lastCurrentPos = currentPos;
+						this.isDuplicatedRow = false;
+					}
+				}
 				readMeasure = false;
 				if ( !isSelectedRow( ) )
 				{
@@ -264,6 +290,15 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			return false;
 		}
 		return next( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#isDuplicatedRow()
+	 */
+	public boolean isDuplicatedRow( )
+	{
+		return this.isDuplicatedRow;
 	}
 	
 	public Member getMember( int dimIndex, int levelIndex )
@@ -349,20 +384,33 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	private boolean isSelectedRow( ) throws IOException, DataException
 	{
-		for ( int i = 0; i < currentPos.length; i++ )
+		if( !this.isDuplicatedRow )
 		{
-			if ( dimensionIndex[i] != -1 )
+			for ( int i = 0; i < currentPos.length; i++ )
 			{
-				if( Arrays.binarySearch( selectedPosOfCurSegment[i], currentPos[i] ) < 0 )
+				if ( dimensionIndex[i] != -1 )
+				{
+					if( Arrays.binarySearch( selectedPosOfCurSegment[i], currentPos[i] ) < 0 )
+					{
+						lastFilterResult = false;
+						return false;
+					}
+				}
+			}
+			for( int i=0;i<cubePosFilters.size( );i++)
+			{
+				if(!((CubePosFilterHelper)cubePosFilters.get( i )).getFilterResult( currentPos ))
+				{
+					lastFilterResult = false;
 					return false;
+				}
 			}
+			lastFilterResult = true;
 		}
-		for( int i=0;i<cubePosFilters.size( );i++)
+		else
 		{
-			if(!((CubePosFilterHelper)cubePosFilters.get( i )).getFilterResult( currentPos ))
-			{
+			if( !lastFilterResult )
 				return false;
-			}
 		}
 		if( existMeasureFilter )
 		{

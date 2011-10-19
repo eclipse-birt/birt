@@ -293,14 +293,18 @@ public class AggregationCalculator
 			{
 				if ( accumulators != null )
 				{
-					for ( int i = 0; i < accumulators.length; i++ )
+					while( row.nextMeasures( ) )
 					{
-						if ( !getFilterResult( row, i ) )
+						for ( int i = 0; i < accumulators.length; i++ )
 						{
-							continue;
+							if ( !getFilterResult( row, i ) )
+							{
+								continue;
+							}
+							accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 						}
-						accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 					}
+					row.firstMeasure( );
 				}
 			}
 			else
@@ -407,14 +411,18 @@ public class AggregationCalculator
 		}
 		if ( accumulators != null )
 		{
-			for ( int i = 0; i < accumulators.length; i++ )
+			while( row.nextMeasures( ) )
 			{
-				if ( !getFilterResult( row, i ) )
+				for ( int i = 0; i < accumulators.length; i++ )
 				{
-					continue;
+					if ( !getFilterResult( row, i ) )
+					{
+						continue;
+					}
+					accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 				}
-				accumulators[i].onRow( getAccumulatorParameter( row, i ) );
 			}
+			row.firstMeasure( );
 		}
 	}
 	
