@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ColumnAdapter;
@@ -377,6 +378,57 @@ public class ModelAdapter implements IModelAdapter
 			return null;
 		}
 
+	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
+	 */
+	public IBinding adaptBinding( ComputedColumnHandle handle, ExpressionLocation el )
+	{
+		if( el.equals( ExpressionLocation.TABLE ) )
+		{
+			return this.adaptBinding( handle );
+		}
+		else
+		{
+			try
+			{				
+				Binding binding = new Binding( handle.getName( ) );
+				binding.setAggrFunction( handle.getAggregateFunction( ) == null
+						? null
+						: DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
+				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+					.getValue( ),
+					ExpressionLocation.CUBE ) );
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
+
+				if ( handle.getFilterExpression( ) != null )
+				{
+					binding.setFilter( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )
+						.getValue( ),
+						ExpressionLocation.CUBE ) );
+				}
+
+				for ( Iterator argItr = handle.argumentsIterator( ); argItr.hasNext( ); )
+				{
+					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+
+					binding.addArgument( aah.getName( ),
+							adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
+				}
+				binding.setTimeFunction( adaptTimeFunction( handle ) );
+				return binding;
+				}
+				catch ( Exception e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e );
+					return null;
+				}
+		}
 	}
 
 	private ITimeFunction adaptTimeFunction( ComputedColumnHandle handle ) throws DataException, BirtException

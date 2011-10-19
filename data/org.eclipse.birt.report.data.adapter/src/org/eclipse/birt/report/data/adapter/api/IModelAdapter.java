@@ -145,4 +145,14 @@ public interface IModelAdapter
 	 * @throws AdapterException 
 	 */
 	public IBinding adaptBinding( ComputedColumnHandle handle ) throws AdapterException;
+
+	/**
+	 * 
+	 * Adapt a model computed column handle to an IBinding instance based on ExpressionLocation, which could be TABLE, CUBE.
+	 * @param handle
+	 * @param expressionLocation
+	 * @return
+	 * @throws AdapterException
+	 */
+	public IBinding adaptBinding( ComputedColumnHandle handle, ExpressionLocation expressionLocation ) throws AdapterException;
 }
