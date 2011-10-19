@@ -1996,7 +1996,6 @@ public class ChartUtil
 					.createExtendedProperty( );
 			extendedProperty.setName( propertyName );
 			extendedProperty.setValue( propertyValue );
-			cm.getExtendedProperties( ).clear( );
 			cm.getExtendedProperties( ).add( extendedProperty );
 			return extendedProperty;
 		}

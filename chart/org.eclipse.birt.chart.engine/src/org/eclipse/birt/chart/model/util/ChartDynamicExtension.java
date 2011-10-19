@@ -109,9 +109,7 @@ public class ChartDynamicExtension
 					.getExtChartModelPackages( )
 					.entrySet( ) )
 			{
-
 				EPackage.Registry.INSTANCE.put( e.getKey( ), e.getValue( ) );
-
 			}
 		}
 		catch ( ChartException e )

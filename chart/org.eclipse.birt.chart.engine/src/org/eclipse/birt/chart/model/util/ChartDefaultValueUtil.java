@@ -14,7 +14,18 @@ package org.eclipse.birt.chart.model.util;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.AreaSeries;
+import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.DifferenceSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.ScatterSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.notify.Adapter;
 
@@ -126,5 +137,57 @@ public class ChartDefaultValueUtil
 				i++;
 			}
 		}
+	}
+	
+	/**
+	 * Returns default values of specified series object.
+	 * 
+	 * @param runtimeSeries specified series object.
+	 * @return
+	 */
+	public static Series getSeriesDefault( Series runtimeSeries )
+	{
+		if ( runtimeSeries instanceof BarSeries )
+		{
+			return DefaultValueProvider.defBarSeries( );
+		}
+		else if ( runtimeSeries instanceof BubbleSeries )
+		{
+			return DefaultValueProvider.defBubbleSeries( );
+		}
+		else if ( runtimeSeries instanceof ScatterSeries )
+		{
+			return DefaultValueProvider.defScatterSeries( );
+		}
+		else if ( runtimeSeries instanceof DifferenceSeries )
+		{
+			return DefaultValueProvider.defDifferenceSeries( );
+		}
+		else if ( runtimeSeries instanceof AreaSeries )
+		{
+			return DefaultValueProvider.defAreaSeries( );
+		}
+		else if ( runtimeSeries instanceof LineSeries )
+		{
+			return DefaultValueProvider.defLineSeries( );
+		}
+		else if( runtimeSeries instanceof GanttSeries )
+		{
+			return DefaultValueProvider.defGanttSeries( );
+		}
+		else if( runtimeSeries instanceof DialSeries )
+		{
+			return DefaultValueProvider.defDialSeries( );
+		}
+		else if( runtimeSeries instanceof PieSeries )
+		{
+			return DefaultValueProvider.defPieSeries( );
+		}
+		else if( runtimeSeries instanceof StockSeries )
+		{
+			return DefaultValueProvider.defStockSeries( );
+		}
+		
+		return null;
 	}
 }

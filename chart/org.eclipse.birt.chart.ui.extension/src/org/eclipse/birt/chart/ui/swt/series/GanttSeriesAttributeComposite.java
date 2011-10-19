@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.GanttLineAttributesComposite;
@@ -130,14 +131,16 @@ public class GanttSeriesAttributeComposite extends Composite
 		lblStart.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Start" ) ); //$NON-NLS-1$
 
 		new MarkerEditorComposite( grpMarker,
-				createMarker( series.getStartMarker( ) ) );
+				createMarker( series.getStartMarker( ) ),
+				DefaultValueProvider.defGanttSeries( ).getStartMarker( ) );
 
 		// Layout for the End Marker
 		Label lblEnd = new Label( grpMarker, SWT.NONE );
 		lblEnd.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.End" ) ); //$NON-NLS-1$
 
 		new MarkerEditorComposite( grpMarker,
-				createMarker( series.getEndMarker( ) ) );
+				createMarker( series.getEndMarker( ) ),
+				DefaultValueProvider.defGanttSeries( ).getEndMarker( ) );
 
 		Composite cmpGroup = new Composite( this, SWT.NONE );
 		{

@@ -100,6 +100,14 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 	private String outlineText = null;
 
+	private Marker defaultMarker;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent
+	 * @param marker
+	 */
 	public MarkerEditorComposite( Composite parent, Marker marker )
 	{
 		super( parent, SWT.BORDER );
@@ -107,6 +115,19 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		placeComponents( );
 		initAccessible( );
 		updateMarkerPreview( );
+	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent
+	 * @param marker
+	 * @param defaultMarker
+	 */
+	public MarkerEditorComposite( Composite parent, Marker marker, Marker defaultMarker )
+	{
+		this( parent, marker );
+		this.defaultMarker = defaultMarker;
 	}
 	
 	private void placeComponents( )
@@ -333,7 +354,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						: ColorDefinitionImpl.GREY( ),
 						LineStyle.SOLID_LITERAL,
 						1 ),
-				( getMarker( ).isSetVisible( ) && getMarker( ).isVisible( ) ) ? ColorDefinitionImpl.create( 80,
+				isMarkerTypeEnabled( ) ? ColorDefinitionImpl.create( 80,
 						168,
 						218 ) : ColorDefinitionImpl.GREY( ),
 				renderMarker,
@@ -429,6 +450,13 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 	{
 		this.outlineText = text;
 	}
+
+	private boolean isMarkerTypeEnabled( )
+	{
+		return getMarker( ).isSetVisible( )
+				&& getMarker( ).isVisible( )
+				&& getMarker( ).isSetType( );
+	}
 	
 	private class MarkerDropDownEditorComposite extends Composite
 			implements
@@ -454,6 +482,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		private int markerTypeIndex = -1;
 
 		private Button btnMarkerSizeAuto;
+
+		private Button btnAutotype;
 
 		MarkerDropDownEditorComposite( Composite parent, int style )
 		{
@@ -482,7 +512,21 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				btnMarkerVisible.setFocus( );
 			}
 
-			cmpType = new Composite( this, SWT.NONE );
+			Group grpType = new Group( this, SWT.NONE );
+			{
+				grpType.setLayout( new GridLayout( 1, false ) );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 2;
+				grpType.setLayoutData( gd );
+				grpType.setText( Messages.getString("MarkerEditorComposite.Label.MarkerType") ); //$NON-NLS-1$
+			}
+			
+			btnAutotype = new Button( grpType, SWT.CHECK );
+			btnAutotype.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnAutotype.setSelection( !getMarker( ).isSetType( ) );
+			btnAutotype.addListener( SWT.Selection, this );
+			
+			cmpType = new Composite( grpType, SWT.NONE );
 			{
 				GridLayout layout = new GridLayout( );
 				layout.numColumns = MARKER_ROW_MAX_NUMBER;
@@ -498,7 +542,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				cmpType.addListener( SWT.KeyDown, this );
 				cmpType.addListener( SWT.FocusOut, this );
 			}
-
+			
 			int modifiedSize = ( typeDisplayNameSet.length
 					/ MARKER_ROW_MAX_NUMBER + 1 )
 					* MARKER_ROW_MAX_NUMBER;
@@ -560,7 +604,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				}
 				else
 				{
-					btnOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) + ":" ); //$NON-NLS-1$
+					btnOutline.setText( Messages.getString( "MarkerEditorComposite.Button.Outline" ) + ":" ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				
 				btnOutline.addListener( SWT.Selection, this );
@@ -596,6 +640,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				updateOutlineBtn( );
 			}
 			setEnabledState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			setMarkerTypesState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED && !btnAutotype.getSelection( ) );
 		}
 
 		void widgetSelected( SelectionEvent e )
@@ -632,12 +677,34 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						btnMarkerSizeAuto.getSelection( ) );
 				iscMarkerSize.setEnabled( !btnMarkerSizeAuto.getSelection( ) );
 			}
+			else if ( e.widget == btnAutotype )
+			{
+				if ( btnAutotype.getSelection( ) )
+				{
+					getMarker().unsetType( );
+					setMarkerTypesState( false );
+				}
+				else
+				{
+					if ( defaultMarker != null && defaultMarker.isSetType( ) )
+					{
+						switchMarkerTypeImpl( defaultMarker.getType( ) );
+					}
+					else
+					{
+						switchMarkerType( 0 );
+					}
+					
+					setMarkerTypesState( true );
+				}
+				cnvMarker.redraw( );
+			}
 		}
 
 		private void setEnabledState( boolean isEnabled )
 		{
-			cmpType.setEnabled( isEnabled );
 			grpSize.setEnabled( isEnabled );
+			btnAutotype.setEnabled( isEnabled );
 			btnMarkerSizeAuto.setEnabled( isEnabled );
 			if ( btnMarkerSizeAuto.getSelection( ) )
 			{
@@ -648,6 +715,12 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				iscMarkerSize.setEnabled( isEnabled );
 			}
 
+			setMarkerTypesState( isEnabled );
+		}
+
+		protected void setMarkerTypesState( boolean isEnabled )
+		{
+			cmpType.setEnabled( isEnabled );
 			Control[] cnvTypes = cmpType.getChildren( );
 			for ( int i = 0; i < cnvTypes.length; i++ )
 			{
@@ -703,7 +776,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 
 			int lineWidth = 1;
-			if ( getMarker( ).isVisible( ) )
+			if ( isMarkerTypeEnabled( ) )
 			{
 				gc.setForeground( Display.getDefault( )
 						.getSystemColor( SWT.COLOR_BLACK ) );
@@ -771,6 +844,11 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		private void switchMarkerType( int newMarkerTypeIndex )
 		{
 			MarkerType newType = MarkerType.getByName( typeNameSet[newMarkerTypeIndex] );
+			switchMarkerTypeImpl( newType );
+		}
+
+		private void switchMarkerTypeImpl( MarkerType newType )
+		{
 			if ( newType == MarkerType.ICON_LITERAL )
 			{
 				MarkerIconDialog iconDialog = new MarkerIconDialog( new Shell( ),

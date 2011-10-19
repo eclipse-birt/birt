@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
@@ -187,7 +188,9 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			btnAdd.addSelectionListener( this );
 		}
 
-		newMarkerEditor = new MarkerEditorComposite( grpTop, createMarker( ) );
+		newMarkerEditor = new MarkerEditorComposite( grpTop,
+				createMarker( ),
+				getDefaultMarker( ) );
 		if ( markerTypeSet != null )
 		{
 			newMarkerEditor.setSupportedMarkerTypes( markerTypeSet );
@@ -232,7 +235,8 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			}
 		}
 		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
-				getMarkers( ).get( 0 ) );
+				getMarkers( ).get( 0 ),
+				getDefaultMarker( ) );
 		{
 			currentMarkerEditor.setBounds( 0,
 					0,
@@ -528,6 +532,15 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			return series.getMarkers( );
 		}
 		return ( (DifferenceSeries) series ).getNegativeMarkers( );		
+	}
+	
+	private Marker getDefaultMarker( )
+	{
+		if ( bPositive )
+		{
+			return ((LineSeries)ChartDefaultValueUtil.getSeriesDefault( series )).getMarkers( ).get( 0 );
+		}
+		return ( (DifferenceSeries) ChartDefaultValueUtil.getSeriesDefault( series ) ).getNegativeMarkers( ).get( 0 );		
 	}
 
 	private void updateScrollBar( )

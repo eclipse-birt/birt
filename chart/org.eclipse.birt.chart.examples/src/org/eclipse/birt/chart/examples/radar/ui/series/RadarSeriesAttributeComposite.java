@@ -174,7 +174,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		Label lblMarker = new Label( grpMarker, SWT.NONE );
 		lblMarker.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Markers" ) ); //$NON-NLS-1$
 
-		mec = new MarkerEditorComposite( grpMarker, series.getMarker( ) );
+		mec = new MarkerEditorComposite( grpMarker, series.getMarker( ), RadarSeriesImpl.create( ).getMarker( ) );
 
 		enableLineSettings( series.getWebLineAttributes( ).isVisible( ) );
 		enableLineSettings( series.getLineAttributes( ).isVisible( ) );

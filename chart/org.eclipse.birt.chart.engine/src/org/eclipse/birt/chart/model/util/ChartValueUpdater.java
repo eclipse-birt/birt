@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.model.util;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -1135,28 +1137,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		if ( eObj instanceof DifferenceSeries )
@@ -1214,28 +1217,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -1358,19 +1362,13 @@ public class ChartValueUpdater
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ) );
-		if ( eObj.getMarkers( ).size( ) == 0 )
+		int index_AreaSeries_markers = 0;
+		for ( Marker element : eObj.getMarkers( ) )
 		{
-			if ( eRefObj != null && eRefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eRefObj.getMarkers( ) ) );
-			}
-			else if ( eDefObj != null && eDefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eDefObj.getMarkers( ) ) );
-			}
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_AreaSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_AreaSeries_markers ) ); //$NON-NLS-1$ 
+			index_AreaSeries_markers++;
 		}
+
 		updateMarker( "marker",
 				eObj,
 				eObj.getMarker( ),
@@ -1430,28 +1428,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -1599,28 +1598,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -1755,19 +1755,13 @@ public class ChartValueUpdater
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ) );
-		if ( eObj.getMarkers( ).size( ) == 0 )
+		int index_BubbleSeries_markers = 0;
+		for ( Marker element : eObj.getMarkers( ) )
 		{
-			if ( eRefObj != null && eRefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eRefObj.getMarkers( ) ) );
-			}
-			else if ( eDefObj != null && eDefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eDefObj.getMarkers( ) ) );
-			}
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_BubbleSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_BubbleSeries_markers ) ); //$NON-NLS-1$ 
+			index_BubbleSeries_markers++;
 		}
+
 		updateMarker( "marker",
 				eObj,
 				eObj.getMarker( ),
@@ -1832,28 +1826,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -1995,28 +1990,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -2139,19 +2135,13 @@ public class ChartValueUpdater
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ) );
-		if ( eObj.getMarkers( ).size( ) == 0 )
+		int index_DifferenceSeries_markers = 0;
+		for ( Marker element : eObj.getMarkers( ) )
 		{
-			if ( eRefObj != null && eRefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eRefObj.getMarkers( ) ) );
-			}
-			else if ( eDefObj != null && eDefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eDefObj.getMarkers( ) ) );
-			}
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_DifferenceSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_DifferenceSeries_markers ) ); //$NON-NLS-1$ 
+			index_DifferenceSeries_markers++;
 		}
+
 		updateMarker( "marker",
 				eObj,
 				eObj.getMarker( ),
@@ -2167,20 +2157,13 @@ public class ChartValueUpdater
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ) );
-		if ( eObj.getNegativeMarkers( ).size( ) == 0 )
+		int index_DifferenceSeries_negativeMarkers = 0;
+		for ( Marker element : eObj.getNegativeMarkers( ) )
 		{
-			if ( eRefObj != null && eRefObj.getNegativeMarkers( ).size( ) > 0 )
-			{
-				eObj.getNegativeMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eRefObj.getNegativeMarkers( ) ) );
-			}
-			else if ( eDefObj != null
-					&& eDefObj.getNegativeMarkers( ).size( ) > 0 )
-			{
-				eObj.getNegativeMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eDefObj.getNegativeMarkers( ) ) );
-			}
+			updateMarker( "negativeMarkers", eObj, element, getValidMarkerRef( eRefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), getValidMarkerRef( eDefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ) ); //$NON-NLS-1$ 
+			index_DifferenceSeries_negativeMarkers++;
 		}
+
 		updateLineAttributes( "negativeLineAttributes",
 				eObj,
 				eObj.getNegativeLineAttributes( ),
@@ -2230,28 +2213,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -2474,28 +2458,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		if ( eObj instanceof BubbleSeries )
@@ -2577,28 +2562,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -2721,19 +2707,13 @@ public class ChartValueUpdater
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ) );
-		if ( eObj.getMarkers( ).size( ) == 0 )
+		int index_LineSeries_markers = 0;
+		for ( Marker element : eObj.getMarkers( ) )
 		{
-			if ( eRefObj != null && eRefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eRefObj.getMarkers( ) ) );
-			}
-			else if ( eDefObj != null && eDefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eDefObj.getMarkers( ) ) );
-			}
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_LineSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_LineSeries_markers ) ); //$NON-NLS-1$ 
+			index_LineSeries_markers++;
 		}
+
 		updateMarker( "marker",
 				eObj,
 				eObj.getMarker( ),
@@ -2793,28 +2773,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -3059,28 +3040,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		if ( eObj instanceof BubbleSeries )
@@ -3138,28 +3120,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -3282,19 +3265,13 @@ public class ChartValueUpdater
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ) );
-		if ( eObj.getMarkers( ).size( ) == 0 )
+		int index_ScatterSeries_markers = 0;
+		for ( Marker element : eObj.getMarkers( ) )
 		{
-			if ( eRefObj != null && eRefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eRefObj.getMarkers( ) ) );
-			}
-			else if ( eDefObj != null && eDefObj.getMarkers( ).size( ) > 0 )
-			{
-				eObj.getMarkers( )
-						.addAll( ChartElementUtil.copyInstance( eDefObj.getMarkers( ) ) );
-			}
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_ScatterSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_ScatterSeries_markers ) ); //$NON-NLS-1$ 
+			index_ScatterSeries_markers++;
 		}
+
 		updateMarker( "marker",
 				eObj,
 				eObj.getMarker( ),
@@ -3354,28 +3331,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -4275,28 +4253,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -5000,28 +4979,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -5249,28 +5229,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		if ( eObj instanceof TitleBlock )
@@ -5352,28 +5333,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -5569,28 +5551,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -5675,28 +5658,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		if ( eObj instanceof TitleBlock )
@@ -5754,28 +5738,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -5976,28 +5961,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -6386,28 +6372,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -6632,28 +6619,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -8436,28 +8424,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -8759,28 +8748,29 @@ public class ChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( !eObj.isSetVisible( ) )
+		if ( eObj.isSetVisible( ) )
 		{
-			// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-			if ( eRefObj != null
-					&& eRefObj.isSetVisible( )
-					&& !eRefObj.isVisible( ) )
+			if ( !eObj.isVisible( ) )
 			{
-				eObj.setVisible( false );
+				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
 				return;
 			}
-			else if ( eDefObj != null
-					&& eDefObj.isSetVisible( )
-					&& !eDefObj.isVisible( ) )
+		}
+		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
+		{
+			if ( !eRefObj.isVisible( ) )
 			{
 				eObj.setVisible( false );
 				return;
 			}
 		}
-		else if ( !eObj.isVisible( ) )
+		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 		{
-			// If the visible attribute is false, directly return, no need to udpate other attributes.;
-			return;
+			if ( !eDefObj.isVisible( ) )
+			{
+				eObj.setVisible( false );
+				return;
+			}
 		}
 
 		// attributes
@@ -9431,6 +9421,43 @@ public class ChartValueUpdater
 			simpleName = simpleName.substring( 0, simpleName.indexOf( "Impl" ) );
 		}
 		return simpleName;
+	}
+
+	/**
+	 * Get valid marker refenerce.
+	 *
+	 * @param marker parent
+	 *        the parent object which contains markers.
+	 * @param attribute
+	 *        attribute name of marker.
+	 * @param index
+	 *        the index of marker object.
+	 *
+	 * @generated
+	 */
+	private Marker getValidMarkerRef( EObject obj, String attribute, int index )
+	{
+		try
+		{
+			String methodName = "get"
+					+ attribute.substring( 0, 1 ).toUpperCase( )
+					+ attribute.substring( 1 );
+			Method m = obj.getClass( ).getMethod( methodName );
+			List<Marker> mList = (List<Marker>) m.invoke( obj );
+			if ( ( mList.size( ) - 1 ) >= index )
+			{
+				return mList.get( index );
+			}
+			else if ( mList.size( ) == 1 )
+			{
+				return mList.get( 0 );
+			}
+		}
+		catch ( Exception e )
+		{
+			//Do nothing.;
+		}
+		return null;
 	}
 
 }
