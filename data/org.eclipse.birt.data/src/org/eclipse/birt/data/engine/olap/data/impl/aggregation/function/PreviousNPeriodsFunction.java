@@ -1,7 +1,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
 
 public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPeriod
 {
@@ -29,7 +29,8 @@ public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPe
 		String[] levels = member.getLevelType( );
 		int[] values = member.getMemberValue( );
 
-		Calendar cal = new GregorianCalendar( );
+		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+				TimeMemberUtil.getDefaultLocale( ) );
 		translateToCal( cal, levels, values );
 
 		if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )

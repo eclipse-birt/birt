@@ -172,7 +172,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		
 		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH, 5 ).getResult( member );
 		int[] result = new int[]{
-				2002, 7, 2
+				2002, 7, 3
 		};
 		assertEquals( resultMember.getMemberValue( )[0], result[0] );
 		assertEquals( resultMember.getMemberValue( )[1], result[1] );

@@ -37,6 +37,7 @@ abstract public class AbstractMDX
 		{
 			if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
 			{
+				//cal.get(Calendar.YEAR );
 				cal.set( Calendar.YEAR, values[i] );
 				type = YEAR;
 			}
@@ -62,15 +63,15 @@ abstract public class AbstractMDX
 
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
 			{
+				cal.get( Calendar.WEEK_OF_YEAR );
 				cal.set( Calendar.WEEK_OF_YEAR, values[i] );
 				type = WEEK;
 			}
-
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
 			{
 				// here seems a com.ibm.icu.util.Calendar bug, if do not call cal.get()
 				// sometimes cal.set() will change date to a wrong result.
-				cal.get( Calendar.DAY_OF_WEEK);
+				cal.get( Calendar.DAY_OF_WEEK );
 				cal.set( Calendar.DAY_OF_WEEK, values[i] );
 				type = DAY;
 			}

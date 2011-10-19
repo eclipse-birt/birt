@@ -1,9 +1,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
 
 public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFunction
 {
@@ -13,7 +14,8 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 		String[] levels = member.getLevelType( );
 		int[] values = member.getMemberValue( );
 		
-		Calendar cal = new GregorianCalendar();
+		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
+				TimeMemberUtil.getDefaultLocale( ) );
 		String calculateUnit = this.translateToCal( cal, levels, values ) ;
 		
 		List<TimeMember> list = new ArrayList<TimeMember>( );
