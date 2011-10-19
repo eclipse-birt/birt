@@ -142,7 +142,7 @@ public class TimeFunctionManager
 	 * @param name
 	 * @return
 	 */
-	public ITimeFunction getCalculationType( String name )
+	public static ITimeFunction getCalculationType( String name )
 	{
 		if( IBuildInBaseTimeFunction.CURRENT_QUARTER.equals( name ) )
 		{
