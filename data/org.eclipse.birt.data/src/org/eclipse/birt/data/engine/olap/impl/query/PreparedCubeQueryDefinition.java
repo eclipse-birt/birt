@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,9 +26,12 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.ExprUtil;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
 import org.eclipse.birt.data.engine.impl.util.GraphNode;
@@ -35,8 +39,10 @@ import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 
@@ -83,10 +89,202 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 			}
 			realBindings.add( binding );
 		}
+		
+		List calculatedMeasures = cqd.getDerivedMeasures( );
+		if ( calculatedMeasures != null && calculatedMeasures.size( ) > 0 )
+			createBindingsForCalculatedMeasures( cqd );
+		
 		List<ICubeOperation> convertedCubeOperations = getConvertedCubeOperations( );
 		List<ICubeOperation> all = new ArrayList<ICubeOperation>( Arrays.asList( cqd.getCubeOperations( )));
 		all.addAll( convertedCubeOperations );
 		realCubeOperations = all.toArray( new ICubeOperation[0] );
+	}
+	
+	private String getRollUpAggregationFunctionName( String function )
+	{
+		if ( function.equalsIgnoreCase( "COUNT" )
+				|| function.equalsIgnoreCase( "COUNTDISTINCT" )
+				|| function.equalsIgnoreCase( "AVE" ) )
+		{
+			return "SUM";
+		}
+		return function;
+	}
+	
+	private IBinding getSameBindingInQuery( IBinding binding, List bindings ) throws DataException
+	{
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			IBinding b = (IBinding) bindings.get( i );
+			if ( b.getDataType( ) != binding.getDataType( ) )
+			{
+				continue;
+			}
+			if ( binding.getAggrFunction( ) != null
+					&& ( !( binding.getAggrFunction( ).equals( b.getAggrFunction( ) ) ) ) )
+			{
+				continue;
+			}
+			if ( !ExprUtil.isEqualExpression( b.getExpression( ),
+					binding.getExpression( ) ) )
+			{
+				continue;
+			}
+			if ( !ExprUtil.isEqualExpression( b.getFilter( ),
+					binding.getFilter( ) ) )
+			{
+				continue;
+			}
+			if ( b.getArguments( ).size( ) != binding.getArguments( ).size( ) )
+			{
+				continue;
+			}
+			Iterator itr1 = b.getArguments( ).iterator( );
+			Iterator itr2 = binding.getArguments( ).iterator( );
+			while ( itr1.hasNext( ) )
+			{
+				IBaseExpression expr1 = (IBaseExpression) itr1.next( );
+				IBaseExpression expr2 = (IBaseExpression) itr2.next( );
+				if ( !ExprUtil.isEqualExpression( expr1, expr2 ) )
+				{
+					continue;
+				}
+			}
+			if ( !Arrays.deepEquals( b.getAggregatOns( ).toArray( ),
+					binding.getAggregatOns( ).toArray( ) ) )
+			{
+				continue;
+			}
+			return b;
+		}
+		
+		return null;
+	}
+	
+	private void createBindingsForCalculatedMeasures( 
+			ICubeQueryDefinition cqd ) throws DataException
+	{
+		List<String> levelNames = new ArrayList( );
+		List aggrOns = org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil.populateMeasureAggrOns( cqd );
+		for ( int i = 0; i < aggrOns.size( ); i++ )
+		{
+			DimLevel level = (DimLevel) aggrOns.get( i );
+			levelNames.add( ExpressionUtil.createJSDimensionExpression( level.getDimensionName( ),
+					level.getLevelName( ) ) );
+		}
+
+		List measures = cqd.getMeasures( );
+		Map measureMap = new HashMap( );
+		for ( int i = 0; i < measures.size( ); i++ )
+		{
+			measureMap.put( ( (MeasureDefinition) measures.get( i ) ).getName( ),
+					measures.get( i ) );
+		}
+		List calculatedMeasures = cqd.getDerivedMeasures( );
+		Map derivedMeasureMap = new HashMap( );
+		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
+		{
+			derivedMeasureMap.put( ( (DerivedMeasureDefinition) calculatedMeasures.get( i ) ).getName( ),
+					calculatedMeasures.get( i ) );
+		}
+		
+		Map createdBindings = new HashMap();
+		List bindingsInCubeQuery = cqd.getBindings( );
+		
+		//step 1: find the actual measures that a calculated measure refers to. And create internal bindings for them.
+		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
+		{
+			DerivedMeasureDefinition measureDefinition = (DerivedMeasureDefinition) calculatedMeasures.get( i );
+			List referencedMeasures = ExpressionCompilerUtil.extractColumnExpression( measureDefinition.getExpression( ),
+					ExpressionUtil.MEASURE_INDICATOR );
+			for ( int j = 0; j < referencedMeasures.size( ); j++ )
+			{
+				String measureName = referencedMeasures.get( j ).toString( );
+				if ( measureMap.containsKey( measureName ) )
+				{
+					if ( !createdBindings.containsKey( measureName ) )
+					{
+						MeasureDefinition md = (MeasureDefinition) measureMap.get( measureName );
+						IBinding newBinding = new Binding( "temp_"
+								+ measureName );
+						newBinding.setDataType( md.getDataType( ) );
+						newBinding.setExpression( new ScriptExpression( ExpressionUtil.createJSMeasureExpression( measureName ) ) );
+						newBinding.setAggrFunction( getRollUpAggregationFunctionName( md.getAggrFunction( ) ) );
+						for ( int a = 0; a < levelNames.size( ); a++ )
+							newBinding.addAggregateOn( levelNames.get( a ) );
+
+						IBinding b = getSameBindingInQuery( newBinding,
+								bindingsInCubeQuery );
+						if ( b != null )
+						{
+							createdBindings.put( measureName, b );
+						}
+						else
+						{
+							createdBindings.put( measureName, newBinding );
+							realBindings.add( newBinding );
+						}
+					}
+				}
+			}
+		}
+		
+		//step 2: replace all the expression texts in those bindings in cube query if necessary
+		for ( int i = 0; i < bindingsInCubeQuery.size( ); i++ )
+		{
+			IBinding binding = (IBinding) bindingsInCubeQuery.get( i );
+			ScriptExpression expression = (ScriptExpression) binding.getExpression( );
+			List measureName = ExpressionCompilerUtil.extractColumnExpression( expression,
+					ExpressionUtil.MEASURE_INDICATOR );
+			if ( measureName != null && measureName.size( ) > 0
+					&& derivedMeasureMap.containsKey( measureName.get( 0 )
+							.toString( ) ) )
+			{
+				expression.setText( "("
+						+ ( (ScriptExpression) ( (DerivedMeasureDefinition) derivedMeasureMap.get( measureName.get( 0 )
+								.toString( ) ) ).getExpression( ) ).getText( )
+						+ ")" );
+				expression.setText( getReplacedExpressionText( expression.getText( ),
+						measureMap,
+						derivedMeasureMap, createdBindings ) );
+				expression.setText( expression.getText( ).substring( 1,
+						expression.getText( ).length( ) - 1 ) );
+				binding.getAggregatOns( ).clear( );
+				binding.setAggrFunction( null );
+			}
+		}
+	}
+	
+	private String getReplacedExpressionText( String text, Map measureMap,
+			Map derivedMeasureMap, Map createdBindings ) throws DataException
+	{
+		List measureNames = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( text ),
+				ExpressionUtil.MEASURE_INDICATOR );
+
+		for ( int i = 0; i < measureNames.size( ); i++ )
+		{
+			if ( measureMap.containsKey( measureNames.get( i ).toString( ) ) )
+			{
+				text = text.replace( ExpressionUtil.createJSMeasureExpression( measureNames.get( i )
+						.toString( ) ),
+						ExpressionUtil.createJSDataExpression( ( (IBinding) createdBindings.get( measureNames.get( i )
+								.toString( ) ) ).getBindingName( ) ) );
+			}
+			else if ( derivedMeasureMap.containsKey( measureNames.get( i )
+					.toString( ) ) )
+			{
+				text = text.replace( ExpressionUtil.createJSMeasureExpression( measureNames.get( i )
+						.toString( ) ),
+						"(" + ( (ScriptExpression) ( (DerivedMeasureDefinition) derivedMeasureMap.get( measureNames.get( i )
+										.toString( ) ) ).getExpression( ) ).getText( )
+								+ ")" );
+				text = getReplacedExpressionText( text,
+						measureMap,
+						derivedMeasureMap, createdBindings );
+			}
+		}
+
+		return text;
 	}
 	
 	public ICubeQueryDefinition getCubeQueryDefinition( )
@@ -178,6 +376,13 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	{
 		return cqd.createComputedMeasure( measureName, type, expr );
 	}
+	
+	public IDerivedMeasureDefinition createDerivedMeasure(
+			String measureName, int type, IBaseExpression expr )
+			throws DataException
+	{
+		return cqd.createDerivedMeasure( measureName, type, expr );
+	}
 
 	public IEdgeDefinition createEdge( int type )
 	{
@@ -227,6 +432,11 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	public List getMeasures( )
 	{
 		return cqd.getMeasures( );
+	}
+	
+	public List getDerivedMeasures( )
+	{
+		return cqd.getDerivedMeasures( );
 	}
 
 	public String getQueryResultsID( )

@@ -139,7 +139,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private DataEngineImpl dataEngine;
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
-	private Map cubeHandleMap;
+	private Map cubeHandleMap, cubeMetaDataHandleMap;
 
 	private Map<ReportElementHandle, QueryDefinition> cubeQueryMap = new HashMap<ReportElementHandle, QueryDefinition>();
 	private Map<ReportElementHandle, List<ColumnMeta>> cubeMetaMap = new HashMap<ReportElementHandle, List<ColumnMeta>>();
@@ -184,6 +184,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
+		cubeMetaDataHandleMap = new HashMap( );
 		createdDimensions = new HashMap<String, IDimension>( );
 		if( sessionContext!= null )
 		{
@@ -680,6 +681,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
 		CubeHandleUtil.defineCube( dataEngine, cubeHandle, this.sessionContext.getAppContext( ) );
+		this.cubeMetaDataHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
 
 		ICubeInterceptor cubeInterceptor = CubeInterceptorFinder.find( cubeHandle );
 		if ( cubeInterceptor != null )
@@ -802,7 +804,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 			for ( int j = 0; j < measures.size( ); j++ )
 			{
 				MeasureHandle measure = (MeasureHandle) measures.get( j );
-				measureNames.add( measure.getName( ) );
+				if( !measure.isCalculated( ) )
+				{
+					measureNames.add( measure.getName( ) );				
+				}
 			}
 		}
 
@@ -1621,11 +1626,31 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Map appContext ) throws BirtException
 	{
 		refactorCubeQueryDefinition( query );
+		setMeasureDataTypeForCubeQuery ( query );
 		QueryAdapter.adaptQuery( query );
 		dataEngine.getSession( ).getStopSign( ).start( );
 		setModuleHandleToAppContext( appContext );
 
 		return this.dataEngine.prepare( query, appContext );
+	}
+	
+	private void setMeasureDataTypeForCubeQuery( ICubeQueryDefinition query )
+	{
+		List measures = query.getMeasures( );
+
+		if ( this.cubeMetaDataHandleMap != null
+				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+		{
+			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+
+			for ( int i = 0; i < measures.size( ); i++ )
+			{
+				IMeasureDefinition measureDef = ( IMeasureDefinition ) measures.get( i );
+				MeasureHandle measureHandle = cubeHandle.getMeasure( measureDef.getName( ) );
+				if ( measureHandle != null )
+					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
+			}
+		}
 	}
 
 	private void refactorCubeQueryDefinition( ICubeQueryDefinition query )
