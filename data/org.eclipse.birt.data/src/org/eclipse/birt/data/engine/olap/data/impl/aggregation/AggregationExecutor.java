@@ -104,7 +104,8 @@ public class AggregationExecutor
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
 			this.timeFunctionCalculator[i] = new TimeFunctionCalculator( aggregations[i], paraColumns, 
-					dataSet4Aggregation.getMetaInfo( ), this.cubeDimensionReader );
+					dataSet4Aggregation.getMetaInfo( ), this.cubeDimensionReader,
+					this.memoryCacheSize / 5 / this.aggregationCalculators.length );
 			if( i == detailAggregationIndex )
 				this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
 						dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader, 

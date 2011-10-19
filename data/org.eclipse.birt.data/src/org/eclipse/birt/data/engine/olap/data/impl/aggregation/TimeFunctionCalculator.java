@@ -15,6 +15,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -75,7 +76,8 @@ public class TimeFunctionCalculator
 	private int orignalLevelCount;
 	
 	TimeFunctionCalculator( AggregationDefinition aggr, DimColumn[] parameterColNames,  
-			IDataSet4Aggregation.MetaInfo metaInfo, ICubeDimensionReader cubeDimensionReader ) throws DataException, IOException
+			IDataSet4Aggregation.MetaInfo metaInfo, ICubeDimensionReader cubeDimensionReader,
+			long memoryCacheSize) throws DataException, IOException
 	{
 		AggregationFunctionDefinition[] timeFunction = aggr.getAggregationTimeFunctions();
 		if( timeFunction == null )
@@ -121,7 +123,27 @@ public class TimeFunctionCalculator
 			
 		Comparator comparator = new Row4AggregationComparator( 
 					getSortType( aggr, cubeDimensionReader ) );
-		sortedFactRows = new DiskSortedStack( 100,
+		
+		int levelCount = 0;
+		if(aggr.getLevels( )==null)
+			levelCount = 0;
+		else
+			levelCount = aggr.getLevels( ).length;
+		int levelSize = 0;
+		if( levelCount != 0 )
+		{
+			levelSize = getLevelSize( metaInfo, aggr.getLevels( ) );
+		}
+		int measureSize = 0;
+		if( aggregationFunction != null && aggregationFunction.length > 0 )
+		{
+			measureSize = aggregationFunction.length * 64;
+		}
+		int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
+		int bufferSize = (int) ( memoryCacheSize / rowSize );
+		if( bufferSize < 100 )
+			bufferSize = 100;
+		sortedFactRows = new DiskSortedStack( bufferSize,
 				false,
 				comparator,
 				Row4Aggregation.getCreator( ) );
@@ -131,7 +153,7 @@ public class TimeFunctionCalculator
 		timeMemberFilters = new DiskSortedStack[timeFunction.length];
 		for( int i = 0; i < timeMemberFilters.length; i++ )
 		{
-			timeMemberFilters[i] = new DiskSortedStack( 100,
+			timeMemberFilters[i] = new DiskSortedStack( bufferSize,
 					false,
 					comparator,
 					MemberCellIndex.getCreator( ) );
@@ -176,6 +198,26 @@ public class TimeFunctionCalculator
 		getLevelType( );
 	}
 	
+	private int getLevelSize( IDataSet4Aggregation.MetaInfo metaInfo, DimLevel[] dimLevel ) throws DataException
+	{
+		if( dimLevel == null || dimLevel.length == 0 )
+		{
+			return 0;
+		}
+		int[] dataType = new int[dimLevel.length];
+		for( int i = 0; i < dimLevel.length; i++ )
+		{
+			DimColumn dimColumn = null;
+			if( dimLevel[i].getAttrName( ) == null )
+				dimColumn = new DimColumn( dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getLevelName( ) );
+			else
+				dimColumn = new DimColumn( dimLevel[i].getDimensionName( ), dimLevel[i].getLevelName( ), dimLevel[i].getAttrName( ) );
+			ColumnInfo columnInfo = metaInfo.getColumnInfo( dimColumn ); 
+			dataType[i] = columnInfo.getDataType( );
+		}
+		return SizeOfUtil.getObjectSize( dataType);
+	}
+	
 	private void getLevelType( )
 	{
 		DimLevel[] aggrLevel = this.aggregation.getLevels( );
@@ -203,9 +245,9 @@ public class TimeFunctionCalculator
 		{
 			ITimeFunction function = timeFunction[i].getTimeFunction();
 			toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
-			if (Math.abs(function.getBaseTimePeriod().countOfUnit()) < 1) {
-				periodsFunction[i] = TimeFunctionFactory
-						.createPeriodsToDateFunction(toDatelevelType);
+			if( function.getBaseTimePeriod( ).countOfUnit() == 0 )
+			{
+				periodsFunction[i] = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
 			}
 			else
 			{
@@ -554,7 +596,7 @@ public class TimeFunctionCalculator
 	private static int compare( Row4Aggregation r, MemberCellIndex m )
 	{
 		int result = 0;
-		for( int i = 0; i < m.member.length; i++ )
+		for( int i = 0; i < r.getLevelMembers().length; i++ )
 		{
 			result = r.getLevelMembers()[i].compareTo(m.member[i] );
 			if( result != 0 )
