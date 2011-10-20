@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -189,7 +190,8 @@ public class AggregationExecutor
 				}
 			}
 		}
-		if( func != null && isSimepleFunction( func.getFunctionName() ) )
+		if( func != null && isSimepleFunction( func.getFunctionName() )
+					&& func.getTimeFunction() == null )
 			return func;
 		else
 			return null;

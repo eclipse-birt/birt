@@ -502,10 +502,13 @@ public class TimeFunctionCalculator
 		{
 			if( !getFilterResult( currentRowList.get( i ), functionIndex ) )
 				continue;
-			Object[] para = getAccumulatorParameter( currentRowList.get( i ), functionIndex );
-			for( int j = 0; j < currentFilterList[functionIndex].size(); j++ )
+			while( currentRowList.get( i ).nextMeasures() )
 			{
-				this.accumulators[currentFilterList[functionIndex].get( j ).cellPosition][functionIndex].onRow( para );
+				Object[] para = getAccumulatorParameter( currentRowList.get( i ), functionIndex );
+				for( int j = 0; j < currentFilterList[functionIndex].size(); j++ )
+				{
+					this.accumulators[currentFilterList[functionIndex].get( j ).cellPosition][functionIndex].onRow( para );
+				}
 			}
 		}
 	}
