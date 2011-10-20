@@ -106,7 +106,18 @@ public class Row4Aggregation implements IStructure
 	{
 		this.measures = measures;
 	}
-
+	
+	public void setMeasureList( List<Object[]> measureList )
+	{
+		this.measureList = measureList;
+	}
+	
+	public List<Object[]> getMeasureList( )
+	{
+		return this.measureList;
+	}
+	
+	
 	public void addMeasure( Object[] measures )
 	{
 		this.measureList.add( measures );
