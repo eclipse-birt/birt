@@ -379,8 +379,8 @@ public class StructureFactory
 		Module module = baseImage.getModule( );
 		String namespace = module instanceof Library ? ( (Library) module )
 				.getNamespace( ) : null;
-		StructRefValue libReference = new StructRefValue( namespace, baseImage
-				.getName( ) );
+		StructRefValue libReference = new StructRefValue( namespace,
+				baseImage.getName( ) );
 		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
 				libReference );
 		return image;
@@ -427,8 +427,8 @@ public class StructureFactory
 		}
 
 		String namespace = lib.getNamespace( );
-		StructRefValue libReference = new StructRefValue( namespace, baseImage
-				.getName( ) );
+		StructRefValue libReference = new StructRefValue( namespace,
+				baseImage.getName( ) );
 		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
 				libReference );
 		image.setName( name );
@@ -458,8 +458,8 @@ public class StructureFactory
 		if ( baseImage == null )
 			return null;
 
-		EmbeddedImage newImage = newEmbeddedImageFrom( baseImage, baseImage
-				.getName( ), targetModule );
+		EmbeddedImage newImage = newEmbeddedImageFrom( baseImage,
+				baseImage.getName( ), targetModule );
 		targetModule.rename( newImage );
 		return newImage;
 	}
@@ -502,6 +502,39 @@ public class StructureFactory
 		column.setName( tmpName );
 
 		return column;
+	}
+
+	/**
+	 * Makes a unique name for computed column. It checks all the existing
+	 * computed columns in given element, such as report items, scalar
+	 * parameters and group elements. If any one has a duplicate column name
+	 * with the <code>newColumn</code>, it will generate a unique column name
+	 * for newColumn and rename it; Otherwise, do nothing.This possible rename
+	 * action is not undoable.
+	 *
+	 * @param element
+	 *            the element whose existing computed columns needs to be
+	 *            checked or newColumn want to be inserted
+	 * @param newColumn
+	 *            the computed column to be checked and renamed
+	 */
+	public static void makeUniqueNameComputedColumn(
+			DesignElementHandle element, ComputedColumn newColumn )
+	{
+		if ( element == null || newColumn == null )
+			return;
+		String newName = newColumn.getName( );
+		if ( newName == null )
+			return;
+
+		if ( !( element instanceof ReportItemHandle
+				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
+			return;
+
+		// make a unique column name
+		String tmpName = BoundDataColumnUtil.makeUniqueName( element, newName,
+				null );
+		newColumn.setName( tmpName );
 	}
 
 	/**
