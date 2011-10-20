@@ -57,7 +57,7 @@ public class ArchiveView implements IArchiveFile
 		{
 			for ( ViewEntry entry : openedEntries )
 			{
-				entry.close( );
+				entry.doClose( );
 			}
 			openedEntries.clear( );
 		}
@@ -177,8 +177,13 @@ public class ArchiveView implements IArchiveFile
 		public void close( ) throws IOException
 		{
 			view.closeEntry( this );
-			super.close( );
+			doClose( );
 		}
+
+		private void doClose( ) throws IOException
+        {
+	        super.close( );
+        }
 
 		protected void setOutputStream( RAOutputStream output )
 		{
