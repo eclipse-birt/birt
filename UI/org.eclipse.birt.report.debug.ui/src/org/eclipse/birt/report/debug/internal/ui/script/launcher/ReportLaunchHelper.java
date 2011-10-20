@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterFactory;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.core.resources.IFile;
@@ -331,11 +332,13 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 			int taskType, IReportEngine engine )
 	{
 		IGetParameterDefinitionTask task = null;
+		IReportDocument document = null;
 		try
 		{
 			if ( taskType == TASK_TYPE_RENDER )
 			{
-				task = engine.createGetParameterDefinitionTask( engine.openReportDocument( reportDesignFile )
+				document = engine.openReportDocument( reportDesignFile );
+				task = engine.createGetParameterDefinitionTask( document
 						.getReportRunnable( ) );
 			}
 			else
@@ -345,6 +348,10 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 			ParameterFactory factory = new ParameterFactory( task );
 			List parameters = factory.getRootChildren( false );
 			task.close( );
+			if (document != null)
+			{
+				document.close();
+			}
 			task = null;
 			return parameters;
 		}
