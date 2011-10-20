@@ -69,6 +69,7 @@ public class AggregationExecutor
 	public long memoryCacheSize = 0;
 	public Row4Aggregation[] aggregationRow;
 	private AggregationFunctionDefinition simpleFunc;
+	private boolean existReferenceDate = false;
 	
 	private static String[] simpleFuncNames = new String[]{
 		"SUM",
@@ -101,6 +102,7 @@ public class AggregationExecutor
 		this.dataSet4Aggregation = dataSet4Aggregation;
 		this.memoryCacheSize = memoryCacheSize;
 		getParameterColIndex( aggregations );
+		existReferenceDate = existReferenceDate( aggregations );
 		simpleFunc = getFunctionName( aggregations );
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		int detailAggregationIndex = -1;
@@ -148,9 +150,26 @@ public class AggregationExecutor
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
 		getAggregationLevelIndex( );
-		
 		logger.exiting( AggregationExecutor.class.getName( ),
 				"AggregationExecutor" );
+	}
+	
+	private static boolean existReferenceDate( AggregationDefinition[] aggregations ) throws DataException
+	{
+		for( int i = 0; i < aggregations.length; i++ )
+		{
+			AggregationFunctionDefinition[] aggrFunc = aggregations[i].getAggregationFunctions();
+			if( aggrFunc == null )
+				continue;
+			for( int j = 0; j < aggrFunc.length; j++ )
+			{
+				if( aggrFunc[j].getTimeFunction() != null && aggrFunc[j].getTimeFunction().getReferenceDate() != null )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	private static int find( DimColumn[] colArray, DimColumn col )
@@ -169,7 +188,7 @@ public class AggregationExecutor
 		return -1;
 	}
 	
-	private static AggregationFunctionDefinition getFunctionName( AggregationDefinition[] aggregations ) throws DataException
+	private AggregationFunctionDefinition getFunctionName( AggregationDefinition[] aggregations ) throws DataException
 	{
 		AggregationFunctionDefinition func = null;
 		for( int i = 0; i < aggregations.length; i++ )
@@ -191,7 +210,7 @@ public class AggregationExecutor
 			}
 		}
 		if( func != null && isSimepleFunction( func.getFunctionName() )
-					&& func.getTimeFunction() == null )
+					&& existReferenceDate )
 			return func;
 		else
 			return null;
@@ -373,9 +392,16 @@ public class AggregationExecutor
 						Member[] members = getLevelMembers( levelIndex );
 						if( aggregationRow[i] != null )
 						{
-							Row4Aggregation popRow = this.mergeRow4Aggregations[i].push( aggregationRow[i] );
-							if( popRow != null )
-								diskSortedStackWrapper[i].diskSortedStack.push( popRow );
+							if( existReferenceDate )
+							{
+								diskSortedStackWrapper[i].diskSortedStack.push( aggregationRow[i] );
+							}
+							else
+							{
+								Row4Aggregation popRow = this.mergeRow4Aggregations[i].push( aggregationRow[i] );
+								if( popRow != null )
+									diskSortedStackWrapper[i].diskSortedStack.push( popRow );
+							}
 						}
 						aggregationRow[i] = new Row4Aggregation( );
 						aggregationRow[i].setDimPos( dataSet4Aggregation.getDimensionPosition( ) );
@@ -410,16 +436,26 @@ public class AggregationExecutor
 			{
 				if( aggregationRow[i] != null )
 				{
-					Row4Aggregation popRow = this.mergeRow4Aggregations[i].push( aggregationRow[i] );
-					if( popRow != null )
-						diskSortedStackWrapper[i].diskSortedStack.push( popRow );
+					if( existReferenceDate )
+					{
+						diskSortedStackWrapper[i].diskSortedStack.push( aggregationRow[i] );
+					}
+					else
+					{
+						Row4Aggregation popRow = this.mergeRow4Aggregations[i].push( aggregationRow[i] );
+						if( popRow != null )
+							diskSortedStackWrapper[i].diskSortedStack.push( popRow );
+					}
 				}
-				List<Row4Aggregation> remainRows = this.mergeRow4Aggregations[i].getAll( );
-				for( int j = 0; j < remainRows.size(); j++ )
+				if( !existReferenceDate )
 				{
-					diskSortedStackWrapper[i].diskSortedStack.push( remainRows.get( j ) );
+					List<Row4Aggregation> remainRows = this.mergeRow4Aggregations[i].getAll( );
+					for( int j = 0; j < remainRows.size(); j++ )
+					{
+						diskSortedStackWrapper[i].diskSortedStack.push( remainRows.get( j ) );
+					}
+					this.mergeRow4Aggregations[i] = null;
 				}
-				this.mergeRow4Aggregations[i] = null;
 			}
 		}
 		catch ( BirtException e )

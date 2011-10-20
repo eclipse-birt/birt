@@ -410,6 +410,7 @@ public class TimeFunctionCalculator
 		}		
 		newRow.setDimPos( row.getDimPos() );
 		newRow.setMeasures( row.getMeasures() );
+		newRow.setMeasureList( row.getMeasureList() );
 		newRow.setParameterValues( row.getParameterValues() );
 		sortedFactRows.push( newRow );
 	}
