@@ -519,6 +519,7 @@ public class TimeFunctionCalculator
 					this.accumulators[currentFilterList[functionIndex].get( j ).cellPosition][functionIndex].onRow( para );
 				}
 			}
+			currentRowList.get( i ).firstMeasure();
 		}
 	}
 	
