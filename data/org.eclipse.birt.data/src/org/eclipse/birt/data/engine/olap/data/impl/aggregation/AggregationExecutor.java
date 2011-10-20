@@ -163,7 +163,8 @@ public class AggregationExecutor
 				continue;
 			for( int j = 0; j < aggrFunc.length; j++ )
 			{
-				if( aggrFunc[j].getTimeFunction() != null && aggrFunc[j].getTimeFunction().getReferenceDate() != null )
+				if( ( aggrFunc[j].getTimeFunction() != null && aggrFunc[j].getTimeFunction().getReferenceDate() != null )
+						|| ( aggrFunc[j].getTimeFunctionFilter() != null && aggrFunc[j].getTimeFunctionFilter().getReferenceDate() != null ) )
 				{
 					return true;
 				}
@@ -210,7 +211,7 @@ public class AggregationExecutor
 			}
 		}
 		if( func != null && isSimepleFunction( func.getFunctionName() )
-					&& existReferenceDate )
+					&& !existReferenceDate )
 			return func;
 		else
 			return null;

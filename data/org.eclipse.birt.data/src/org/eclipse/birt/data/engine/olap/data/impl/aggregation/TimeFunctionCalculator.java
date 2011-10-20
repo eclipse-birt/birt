@@ -147,6 +147,10 @@ public class TimeFunctionCalculator
 				false,
 				comparator,
 				Row4Aggregation.getCreator( ) );
+		if( memoryCacheSize == 0 )
+		{
+			sortedFactRows.setUseMemoryOnly( true );
+		}
 		
 		comparator = new MemberCellIndexComparator( 
 				getSortType( aggr, cubeDimensionReader ) );
@@ -157,6 +161,10 @@ public class TimeFunctionCalculator
 					false,
 					comparator,
 					MemberCellIndex.getCreator( ) );
+			if( memoryCacheSize == 0 )
+			{
+				timeMemberFilters[i].setUseMemoryOnly( true );
+			}
 		}
 		this.aggregation = aggr;
 		
