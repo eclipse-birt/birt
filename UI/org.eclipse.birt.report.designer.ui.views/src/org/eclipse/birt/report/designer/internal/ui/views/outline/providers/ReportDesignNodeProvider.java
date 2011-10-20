@@ -69,10 +69,10 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 		list.add( new EmbeddedImageNode( handle ) );
 
 		// list.add( new ReportElementModel( ) );
-		if ( handle.getTheme( ) != null )
-		{
-			list.add( handle.getTheme( ) );
-		}
+//		if ( handle.getTheme( ) != null )
+//		{
+//			list.add( handle.getTheme( ) );
+//		}
 
 		list.add( new LibraryNode( handle ) );
 
