@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.TimePeriod;
 
 /**
  * Represents the handle of computed column. A computed column is a ¡°virtual¡±
@@ -522,77 +522,125 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
-	 * Sets the base time period. May use
-	 * {@link StructureFactory#createTimePeriod()} to create base time period or
-	 * other method to get a time period structure and set it to computed
-	 * column.
+	 * Gets the calculation function name. The value is defined by customer DB
+	 * calculation executor.
 	 * 
-	 * @param baseTimePeriod
+	 * @param calculationType
 	 * @throws SemanticException
 	 */
-	public void setBaseTimePeriod( TimePeriod baseTimePeriod )
+	public void setCalculationType( String calculationType )
 			throws SemanticException
 	{
-		setProperty( ComputedColumn.BASE_TIME_PERIOD_MEMBER, baseTimePeriod );
+		setProperty( ComputedColumn.CALCULATION_TYPE_MEMBER, calculationType );
 	}
 
 	/**
-	 * Gets the base time period. If it is set, then return the time period
-	 * handle.
-	 * 
-	 * @return time period handle if set, otherwise null
-	 */
-	public TimePeriodHandle getBaseTimePeriod( )
-	{
-		MemberHandle memberHandle = getMember( ComputedColumn.BASE_TIME_PERIOD_MEMBER );
-		Object value = memberHandle.getValue( );
-		if ( value == null )
-			return null;
-
-		return (TimePeriodHandle) ( (TimePeriod) value )
-				.getHandle( memberHandle );
-	}
-
-	/**
-	 * Gets the expression handle for the reference date member. Then use the
-	 * returned handle to do get/set action.
+	 * Gets the calculation function name. The value is defined by customer DB
+	 * calculation executor.
 	 * 
 	 * @return
 	 */
-	public ExpressionHandle getReferenceDate( )
+	public String getCalculationType( )
 	{
-		return getExpressionProperty( ComputedColumn.REFERENCE_DATE_MEMBER );
+		return getStringProperty( ComputedColumn.CALCULATION_TYPE_MEMBER );
 	}
 
 	/**
-	 * Sets the offset time period. May use
-	 * {@link StructureFactory#createTimePeriod()} to create base time period or
-	 * other method to get a time period structure and set it to computed
-	 * column.
+	 * Returns a iterator of calculation arguments for specific calculation
+	 * type. Each item in the list is instance of
+	 * <code>CalculationAggregationArgumentHandle</code>.
 	 * 
-	 * @param offset
+	 * @return a list containing calculation arguments
+	 */
+
+	public Iterator calculationArgumentsIterator( )
+	{
+		MemberHandle propHandle = getMember( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Adds a calculation argument to list.
+	 * 
+	 * @param argument
+	 *            the calculation argument for specific calculation type
+	 * @return calculation argument handle.
 	 * @throws SemanticException
 	 */
-	public void setOffset( TimePeriod offset ) throws SemanticException
+
+	public CalculationArgumentHandle addCalculationArgument(
+			CalculationArgument argument ) throws SemanticException
 	{
-		setProperty( ComputedColumn.OFFSET_MEMBER, offset );
+		MemberHandle aggreHandle = getMember( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		return (CalculationArgumentHandle) aggreHandle.addItem( argument );
 	}
 
 	/**
-	 * Gets the offset time period. If it is set, then return the time period
-	 * handle.
+	 * Removes a calculation argument from list.
 	 * 
-	 * @return time period handle if set, otherwise null
+	 * @param argument
+	 *            the calculation argument
+	 * @throws SemanticException
 	 */
-	public TimePeriodHandle getOffset( )
-	{
-		MemberHandle memberHandle = getMember( ComputedColumn.OFFSET_MEMBER );
-		Object value = memberHandle.getValue( );
-		if ( value == null )
-			return null;
 
-		return (TimePeriodHandle) ( (TimePeriod) value )
-				.getHandle( memberHandle );
+	public void removeCalculationArgument( CalculationArgument argument )
+			throws SemanticException
+	{
+		MemberHandle aggreHandle = getMember( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		aggreHandle.removeItem( argument );
+	}
+
+	/**
+	 * 
+	 * Sets reference date type for the calculation in this column. The type is
+	 * one of following values:
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION
+	 * </ul>
+	 * 
+	 * 
+	 * @param refDateType
+	 *            the reference date type to set
+	 * @throws SemanticException
+	 *             if the <code>refDateType</code> is not one of above values.
+	 */
+	public void setReferenceDateType( String refDateType )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.REFERENCE_DATE_TYPE_MEMBER, refDateType );
+	}
+
+	/**
+	 * 
+	 * Returns reference date type for the calculation in this column. The type
+	 * is one of following values:
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION
+	 * </ul>
+	 * 
+	 * @return the reference date type
+	 */
+	public String getReferenceDateType( )
+	{
+		return getStringProperty( ComputedColumn.REFERENCE_DATE_TYPE_MEMBER );
+	}
+
+	/**
+	 * Gets the expression handle for the reference date value member. Then use
+	 * the returned handle to do get/set action.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getReferenceDateValue( )
+	{
+		return getExpressionProperty( ComputedColumn.REFERENCE_DATE_VALUE_MEMBER );
 	}
 
 	/**

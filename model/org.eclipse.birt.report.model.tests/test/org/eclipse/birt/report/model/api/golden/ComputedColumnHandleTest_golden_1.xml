@@ -8,15 +8,15 @@
                     <expression name="expression">column1 expr</expression>
                     <property name="dataType">integer</property>
                     <property name="aggregateFunction">sum 2</property>
-                    <structure name="baseTimePeriod">
-                        <property name="timePeriodType">year</property>
-                        <property name="numberOfUnit">3</property>
-                    </structure>
-                    <expression name="referenceDate">reference date expression</expression>
-                    <structure name="offset">
-                        <property name="timePeriodType">day</property>
-                        <property name="numberOfUnit">100</property>
-                    </structure>
+                    <property name="calculationType">next_n</property>
+                    <list-property name="calculationArguments">
+                        <structure>
+                            <property name="name">calculation_argument_1</property>
+                            <expression name="value">calculation_argument_1_value</expression>
+                        </structure>
+                    </list-property>
+                    <property name="refDateType">today</property>
+                    <expression name="refDateValue">12</expression>
                     <expression name="timeDimension">time dimension expression</expression>
                 </structure>
                 <structure>
@@ -24,26 +24,26 @@
                     <expression name="expression">column2 expr</expression>
                     <property name="dataType">integer</property>
                     <property name="aggregateFunction">MAX</property>
-                    <structure name="baseTimePeriod">
-                        <property name="timePeriodType">quarter</property>
-                        <property name="numberOfUnit">2</property>
-                    </structure>
-                    <structure name="offset">
-                        <property name="timePeriodType">quarter</property>
-                        <property name="numberOfUnit">2</property>
-                    </structure>
-			</structure>
+                    <property name="calculationType">current_year</property>
+                    <list-property name="calculationArguments">
+                        <structure>
+                            <property name="name">new_argument</property>
+                            <expression name="value" type="constant">new_argument_value</expression>
+                        </structure>
+                    </list-property>
+                    <property name="refDateType">endingDateInDimension</property>
+                </structure>
                 <structure>
                     <property name="name">newColumn</property>
-                    <structure name="baseTimePeriod">
-                        <property name="timePeriodType">quarter</property>
-                        <property name="numberOfUnit">2</property>
-                    </structure>
-                    <expression name="referenceDate" type="constant">newly reference date</expression>
-                    <structure name="offset">
-                        <property name="timePeriodType">quarter</property>
-                        <property name="numberOfUnit">2</property>
-                    </structure>
+                    <property name="calculationType">current_month</property>
+                    <list-property name="calculationArguments">
+                        <structure>
+                            <property name="name">new_argument</property>
+                            <expression name="value" type="constant">new_argument_value</expression>
+                        </structure>
+                    </list-property>
+                    <property name="refDateType">fixedDate</property>
+                    <expression name="refDateValue" type="constant">newly reference date</expression>
                     <expression name="timeDimension" type="constant">newly time dimension</expression>
                 </structure>
             </list-property>

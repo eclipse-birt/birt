@@ -127,21 +127,27 @@ public class ComputedColumn extends PropertyStructure
 	public static final String ALLOW_EXPORT_MEMBER = "allowExport"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member that specifies the base time period factor of a time
-	 * function.
+	 * Name of the member that specifies the calculation function name. The
+	 * function name is defined by customer DB executor.
 	 */
-	public static final String BASE_TIME_PERIOD_MEMBER = "baseTimePeriod"; //$NON-NLS-1$
+	public static final String CALCULATION_TYPE_MEMBER = "calculationType"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member that specifies an expression by evaluate which the
-	 * reference date value can be acquired.
+	 * Name of the member that specifies a list of calculation argument for the
+	 * specific calculation function.
 	 */
-	public static final String REFERENCE_DATE_MEMBER = "referenceDate"; //$NON-NLS-1$
+	public static final String CALCULATION_ARGUMENTS_MEMBER = "calculationArguments"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member that specifies the offset factor of a time function.
+	 * Name of the member that specifies the reference date type.
 	 */
-	public static final String OFFSET_MEMBER = "offset"; //$NON-NLS-1$
+	public static final String REFERENCE_DATE_TYPE_MEMBER = "refDateType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the reference date value. It is
+	 * required when reference date type is fixed date.
+	 */
+	public static final String REFERENCE_DATE_VALUE_MEMBER = "refDateValue"; //$NON-NLS-1$
 
 	/**
 	 * Name of the member that specifies the expression that returns the name of
@@ -599,33 +605,69 @@ public class ComputedColumn extends PropertyStructure
 	}
 
 	/**
-	 * Sets the base time period member.
+	 * Sets the calculation type.
 	 * 
-	 * @param baseTimePeriod
+	 * @param calculationType
 	 */
-	public void setBaseTimePeriod( TimePeriod baseTimePeriod )
+	public void setCalculationType( String calculationType )
 	{
-		setProperty( BASE_TIME_PERIOD_MEMBER, baseTimePeriod );
+		setProperty( CALCULATION_TYPE_MEMBER, calculationType );
 	}
 
 	/**
-	 * Sets the reference date with the expression value.
+	 * Adds a calculation argument to list.
+	 * 
+	 * @param argument
+	 *            the calculation argument
+	 */
+
+	public void addCalculationArgument( CalculationArgument argument )
+	{
+		List arguments = (List) getProperty( null, CALCULATION_ARGUMENTS_MEMBER );
+		if ( arguments == null )
+		{
+			arguments = new ArrayList( );
+			propValues.put( CALCULATION_ARGUMENTS_MEMBER, arguments );
+		}
+
+		arguments.add( argument );
+	}
+
+	/**
+	 * Removes a calculation argument from list.
+	 * 
+	 * @param argument
+	 *            the calculation argument
+	 */
+
+	public void removeCalculationArgument( CalculationArgument argument )
+	{
+		List arguments = (List) getProperty( null, CALCULATION_ARGUMENTS_MEMBER );
+		if ( arguments == null )
+			return;
+
+		arguments.remove( argument );
+	}
+
+	/**
+	 * Sets the reference date value with the expression value. It must be set
+	 * when reference date type is <code>TODAY</code>.
 	 * 
 	 * @param expr
 	 */
-	public void setReferenceDate( Expression expr )
+	public void setReferenceDateValue( Expression expr )
 	{
-		setProperty( REFERENCE_DATE_MEMBER, expr );
+		setProperty( REFERENCE_DATE_VALUE_MEMBER, expr );
 	}
 
 	/**
-	 * Sets the offset time period value.
+	 * Sets the reference date type.
 	 * 
 	 * @param offset
 	 */
-	public void setOffset( TimePeriod offset )
+	public void setReferenceDateType( String type )
 	{
-		setProperty( OFFSET_MEMBER, offset );
+		setProperty( REFERENCE_DATE_TYPE_MEMBER, type );
 	}
 
 	/**

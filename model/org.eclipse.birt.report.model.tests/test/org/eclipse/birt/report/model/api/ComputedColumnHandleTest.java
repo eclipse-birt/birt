@@ -16,8 +16,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.elements.structures.TimePeriod;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
@@ -257,35 +257,53 @@ public class ComputedColumnHandleTest extends BaseTestCase
 
 		// test getters
 		ComputedColumnHandle columnHandle = (ComputedColumnHandle) iter.next( );
-		TimePeriodHandle period = columnHandle.getBaseTimePeriod( );
-		assertEquals( DesignChoiceConstants.INTERVAL_YEAR,
-				period.getTimePeriodType( ) );
-		assertEquals( 3, period.getNumberOfUnit( ) );
-		ExpressionHandle exprHandle = columnHandle.getReferenceDate( );
-		assertEquals( "reference date expression", exprHandle.getStringValue( ) ); //$NON-NLS-1$
-		period = columnHandle.getOffset( );
-		assertEquals( DesignChoiceConstants.INTERVAL_DAY,
-				period.getTimePeriodType( ) );
-		assertEquals( 100, period.getNumberOfUnit( ) );
+		assertEquals( "next_n", columnHandle.getCalculationType( ) ); //$NON-NLS-1$
+		Iterator argumentIter = columnHandle.calculationArgumentsIterator( );
+		CalculationArgumentHandle argumentHandle = (CalculationArgumentHandle) argumentIter
+				.next( );
+		assertEquals( "calculation_argument_1", argumentHandle.getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"calculation_argument_1_value", argumentHandle.getValue( ).getStringValue( ) ); //$NON-NLS-1$
+		argumentHandle = (CalculationArgumentHandle) argumentIter.next( );
+		assertEquals( "calculation_argument_2", argumentHandle.getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"calculation_argument_2_value", argumentHandle.getValue( ).getStringValue( ) ); //$NON-NLS-1$
+
+		assertEquals( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY,
+				columnHandle.getReferenceDateType( ) );
+		assertEquals(
+				"12", columnHandle.getReferenceDateValue( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals(
+				"time dimension expression", columnHandle.getTimeDimension( ).getStringValue( ) ); //$NON-NLS-1$
 
 		// test writers, case 1: set in existing column
+		columnHandle
+				.removeCalculationArgument( (CalculationArgument) argumentHandle
+						.getStructure( ) );
 		columnHandle = (ComputedColumnHandle) iter.next( );
-		TimePeriod struct = StructureFactory.createTimePeriod( );
-		struct.setTimePeriodType( DesignChoiceConstants.INTERVAL_QUARTER );
-		struct.setNumberOfUnit( 2 );
-		columnHandle.setBaseTimePeriod( struct );
-		columnHandle.setOffset( struct );
-		
+		CalculationArgument struct = StructureFactory
+				.createCalculationArgument( );
+		struct.setName( "new_argument" ); //$NON-NLS-1$
+		struct.setValue( new Expression(
+				"new_argument_value", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		columnHandle.addCalculationArgument( struct );
+		columnHandle.setCalculationType( "current_year" ); //$NON-NLS-1$
+		columnHandle
+				.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION );
+
 		// case 2: create column and then set time period members
 		ComputedColumn column = StructureFactory.createComputedColumn( );
 		column.setName( "newColumn" ); //$NON-NLS-1$
-		column.setBaseTimePeriod( struct );
-		column.setReferenceDate( new Expression( "newly reference date", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
-		column.setOffset( struct );
-		column.setTimeDimension( new Expression( "newly time dimension", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		column.setCalculationType( "current_month" ); //$NON-NLS-1$
+		column.addCalculationArgument( struct );
+		column.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		column.setReferenceDateValue( new Expression(
+				"newly reference date", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		column.setTimeDimension( new Expression(
+				"newly time dimension", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 		paramHandle.addColumnBinding( column, false );
 
-		save( );
+		save( );		
 		assertTrue( compareFile( "ComputedColumnHandleTest_golden_1.xml" ) );//$NON-NLS-1$
 	}
 

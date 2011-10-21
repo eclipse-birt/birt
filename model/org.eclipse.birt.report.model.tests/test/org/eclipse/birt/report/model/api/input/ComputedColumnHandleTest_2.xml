@@ -8,15 +8,19 @@
                     <expression name="expression">column1 expr</expression>
                     <property name="aggregateFunction">sum 2</property>
                     <property name="dataType">integer</property>
-                    <structure name="baseTimePeriod">
-                    	<property name="timePeriodType">year</property>
-                    	<property name="numberOfUnit">3</property>
-                    </structure>
-                    <expression name="referenceDate">reference date expression</expression>
-                    <structure name="offset">
-                    	<property name="timePeriodType">day</property>
-                    	<property name="numberOfUnit">100</property>
-                    </structure>
+                    <property name="calculationType">next_n</property>
+                    <list-property name="calculationArguments">
+                    	<structure>
+                    		<property name="name">calculation_argument_1</property>
+                    		<expression name="value">calculation_argument_1_value</expression>
+                    	</structure>
+                    	<structure>
+                    		<property name="name">calculation_argument_2</property>
+                    		<expression name="value">calculation_argument_2_value</expression>
+                    	</structure>
+                    </list-property>
+                    <property name="refDateType">today</property>
+                    <expression name="refDateValue">12</expression>
                     <expression name="timeDimension">time dimension expression</expression>
                 </structure>
                 <structure>

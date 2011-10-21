@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -59,7 +60,6 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TimeInterval;
-import org.eclipse.birt.report.model.api.elements.structures.TimePeriod;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
@@ -603,7 +603,7 @@ public class StructureState extends AbstractPropertyState
 				SortHint.class );
 		structDict.put( TimeInterval.STRUCTURE_NAME.toLowerCase( ),
 				TimeInterval.class );
-		structDict.put( TimePeriod.STRUCTURE_NAME.toLowerCase( ),
-				TimePeriod.class );
+		structDict.put( CalculationArgument.STRUCTURE_NAME.toLowerCase( ),
+				CalculationArgument.class );
 	}
 }

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -49,7 +50,6 @@ import org.eclipse.birt.report.model.api.elements.structures.SortHint;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.elements.structures.TimeInterval;
-import org.eclipse.birt.report.model.api.elements.structures.TimePeriod;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
@@ -625,12 +625,12 @@ public class StructureFactory
 	}
 
 	/**
-	 * Creates a new time period structure.
+	 * Creates a new calculation argument structure.
 	 * 
-	 * @return a time period structure
+	 * @return the calculation argument created
 	 */
-	public static TimePeriod createTimePeriod( )
+	public static CalculationArgument createCalculationArgument( )
 	{
-		return new TimePeriod( );
+		return new CalculationArgument( );
 	}
 }
