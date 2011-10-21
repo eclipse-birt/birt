@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunc
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMemberUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructure;
@@ -59,6 +60,8 @@ public class TimeFunctionCalculator
 	private Accumulator[][] accumulators;
 	private IAggrFunction[] aggregationFunction;
 	private DiskSortedStack sortedFactRows;
+	private BufferedStructureArray factRows;
+	private int factRowPostion;
 	private DiskSortedStack timeMemberFilters[];
 	private boolean existTimeFunction;
 	private ICubeDimensionReader cubeDimensionReader;
@@ -120,7 +123,7 @@ public class TimeFunctionCalculator
 		orignalLevelCount = aggr.getLevels().length;
 		newMemberSize = aggr.getLevels().length - ( lowestTimeLevel 
 		        - firstTimeLevel + 1 ) + ( endLevelIndex + 1 );
-			
+		
 		Comparator comparator = new Row4AggregationComparator( 
 					getSortType( aggr, cubeDimensionReader ) );
 		
@@ -143,13 +146,26 @@ public class TimeFunctionCalculator
 		int bufferSize = (int) ( memoryCacheSize / rowSize );
 		if( bufferSize < 100 )
 			bufferSize = 100;
-		sortedFactRows = new DiskSortedStack( bufferSize,
+		if( this.existReferenceDate )
+		{
+			sortedFactRows = new DiskSortedStack( bufferSize,
 				false,
 				comparator,
 				Row4Aggregation.getCreator( ) );
-		if( memoryCacheSize == 0 )
+			if( memoryCacheSize == 0 )
+			{
+				sortedFactRows.setUseMemoryOnly( true );
+			}
+		}
+		else
 		{
-			sortedFactRows.setUseMemoryOnly( true );
+			factRows = new BufferedStructureArray( Row4Aggregation.getCreator( ),
+					bufferSize );
+			if( memoryCacheSize == 0 )
+			{
+				factRows.setUseMemoryOnly( true );
+			}
+			factRowPostion = 0;
 		}
 		
 		comparator = new MemberCellIndexComparator( 
@@ -397,7 +413,7 @@ public class TimeFunctionCalculator
 	public void onRow( Row4Aggregation row ) throws IOException, DataException
 	{
 		Row4Aggregation newRow = new Row4Aggregation( );
-		if( newMemberSize != orignalLevelCount )
+		if( this.existReferenceDate )
 		{
 			Member[] nMembers = new Member[newMemberSize];
 			System.arraycopy( row.getLevelMembers( ), 0, nMembers, 0, firstTimeLevel );
@@ -411,16 +427,25 @@ public class TimeFunctionCalculator
 						orignalLevelCount - (lowestTimeLevel + 1) ); 
 			}
 			newRow.setLevelMembers( nMembers );
+			newRow.setDimPos( row.getDimPos() );
+			newRow.setMeasures( row.getMeasures() );
+			newRow.setMeasureList( row.getMeasureList() );
+			newRow.setParameterValues( row.getParameterValues() );
+			sortedFactRows.push( newRow );
 		}
 		else
 		{
-			newRow.setLevelMembers( row.getLevelMembers( ) );
-		}		
-		newRow.setDimPos( row.getDimPos() );
-		newRow.setMeasures( row.getMeasures() );
-		newRow.setMeasureList( row.getMeasureList() );
-		newRow.setParameterValues( row.getParameterValues() );
-		sortedFactRows.push( newRow );
+			factRows.add( row );
+		}
+	}
+	
+	private Row4Aggregation getOneFactRow( ) throws IOException
+	{
+		if( factRowPostion >= this.factRows.size() )
+			return null;
+		Row4Aggregation row = (Row4Aggregation) this.factRows.get( this.factRowPostion );
+		this.factRowPostion++;
+		return row;
 	}
 	
 	public List<TimeResultRow> getAggregationResultSet( IAggregationResultSet resultSet ) throws DataException, IOException
@@ -468,8 +493,10 @@ public class TimeFunctionCalculator
 			retrieveFilter( i );
 		}
 		currentRowList = new ArrayList<Row4Aggregation>();
-		currentRow = (Row4Aggregation) this.sortedFactRows.pop();
-		retrieveRow( );
+		
+		currentRow = retrieveOneRow( );
+		retrieveGroupRows( );
+		
 		while( currentRowList.size() > 0 )
 		{
 			for( int i = 0; i < timeMemberFilters.length; i++ )
@@ -489,7 +516,7 @@ public class TimeFunctionCalculator
 					doCalculate( i );
 				}
 			}
-			retrieveRow( );
+			retrieveGroupRows( );
 		}
 		List<TimeResultRow> result = new ArrayList<TimeResultRow>();
 		for ( int i = 0; i < accumulators.length; i++ )
@@ -588,7 +615,7 @@ public class TimeFunctionCalculator
 		currentFilter[functionIndex] = filter;
 	}
 	
-	private void retrieveRow() throws IOException
+	private void retrieveGroupRows() throws IOException
 	{
 		Row4Aggregation row;
 		currentRowList.clear();
@@ -597,13 +624,27 @@ public class TimeFunctionCalculator
 			return;
 		}
 		currentRowList.add( currentRow );
-		row = (Row4Aggregation) this.sortedFactRows.pop();
+		row = retrieveOneRow();
 		while( row != null && compare( currentRow, row ) == 0 )
 		{
 			currentRowList.add( row );
-			row = (Row4Aggregation) this.sortedFactRows.pop();
+			row = retrieveOneRow();
 		}
 		currentRow = row;
+	}
+
+	private Row4Aggregation retrieveOneRow() throws IOException
+	{
+		Row4Aggregation row;
+		if( this.existReferenceDate )
+		{
+			row = (Row4Aggregation) this.sortedFactRows.pop();
+		}
+		else
+		{
+			row = getOneFactRow( );
+		}
+		return row;
 	}
 	
 	private static int compare( Row4Aggregation r, MemberCellIndex m )
