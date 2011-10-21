@@ -7820,6 +7820,448 @@ public class CubeFeaturesTest extends BaseTestCase
 
 	}
 
+	
+	/**
+	 * test add tow time functions
+	 * 
+	 * @throws Exception
+	 */
+	public void testRelativeTimePeriod14() throws Exception {
+		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
+
+		IEdgeDefinition rowEdge = cqd
+				.createEdge(ICubeQueryDefinition.COLUMN_EDGE);
+		IDimensionDefinition productLineDim1 = rowEdge
+				.createDimension("dimension2");
+		IHierarchyDefinition porductLineHie1 = productLineDim1
+				.createHierarchy("dimension2");
+		porductLineHie1.createLevel("level21");
+
+		IEdgeDefinition columnEdge = cqd
+				.createEdge(ICubeQueryDefinition.ROW_EDGE);
+		IDimensionDefinition dateDim = columnEdge.createDimension("dimension1");
+		IHierarchyDefinition dateHier = dateDim.createHierarchy("dimension1");
+
+		dateHier.createLevel("level11");
+		dateHier.createLevel("level12");
+		dateHier.createLevel("level13");
+		dateHier.createLevel("level14");
+		cqd.createMeasure("measure1");
+		
+		TimeFunction timeFunction = new TimeFunction();
+		TimePeriod timePeriod = new TimePeriod(3, TimePeriodType.YEAR);
+		ReferenceDate referenceDate = new ReferenceDate(new GregorianCalendar(
+				1998, 11, 20).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+
+		IBinding binding2 = new Binding("measure1");
+		binding2.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding2.setTimeFunction(timeFunction);
+		binding2.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding2.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+
+		cqd.addBinding(binding2);
+
+		timeFunction = new TimeFunction();
+		timePeriod = new TimePeriod(0, TimePeriodType.MONTH);
+		referenceDate = new ReferenceDate(new GregorianCalendar(
+				1999, 7, 19).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+		
+		IBinding binding3 = new Binding("measure2");
+		binding3.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding3.setTimeFunction(timeFunction);
+		binding3.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding3.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+
+		cqd.addBinding(binding3);
+
+		
+		DateCube util = new DateCube();
+		DataEngineImpl engine = (DataEngineImpl) DataEngine
+				.newDataEngine(createPresentationContext());
+		util.createCube(engine);
+
+		ICube cube = util.getCube(DateCube.cubeName, engine);
+		BirtCubeView cubeView = new BirtCubeView(new CubeQueryExecutor(null,
+				cqd, engine.getSession(), new ImporterTopLevel(),
+				engine.getContext()), cube, null, null);
+
+		CubeCursor cursor = cubeView.getCubeCursor(new StopSign(), cube);
+
+		List columnEdgeBindingNames = new ArrayList();
+
+		List rowEdgeBindingNames = new ArrayList();
+
+		List measureNameList = new ArrayList<String>();
+		measureNameList.add( "measure1" );
+		measureNameList.add( "measure2" );
+		this.printCube1(cursor, columnEdgeBindingNames, rowEdgeBindingNames,
+			measureNameList	);
+		engine.shutdown();
+
+	}
+	
+	/**
+	 * test add tow time functions
+	 * 
+	 * @throws Exception
+	 */
+	public void testRelativeTimePeriod15() throws Exception {
+		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
+
+		IEdgeDefinition rowEdge = cqd
+				.createEdge(ICubeQueryDefinition.COLUMN_EDGE);
+		IDimensionDefinition productLineDim1 = rowEdge
+				.createDimension("dimension2");
+		IHierarchyDefinition porductLineHie1 = productLineDim1
+				.createHierarchy("dimension2");
+		porductLineHie1.createLevel("level21");
+
+		IEdgeDefinition columnEdge = cqd
+				.createEdge(ICubeQueryDefinition.ROW_EDGE);
+		IDimensionDefinition dateDim = columnEdge.createDimension("dimension1");
+		IHierarchyDefinition dateHier = dateDim.createHierarchy("dimension1");
+
+		dateHier.createLevel("level11");
+		dateHier.createLevel("level12");
+		dateHier.createLevel("level13");
+		dateHier.createLevel("level14");
+		cqd.createMeasure("measure1");
+		
+		TimeFunction timeFunction = new TimeFunction();
+		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
+		ReferenceDate referenceDate = new ReferenceDate(new GregorianCalendar(
+				1999, 8, 20).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+
+		IBinding binding2 = new Binding("measure1");
+		binding2.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding2.setTimeFunction(timeFunction);
+		binding2.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level14\"]");
+		binding2.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding( binding2 );
+
+
+		IBinding binding3 = new Binding("measure2");
+		binding3.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding3.setTimeFunction(timeFunction);
+		binding3.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level14\"]");
+		binding3.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding(binding3);
+
+		
+		DateCube util = new DateCube();
+		DataEngineImpl engine = (DataEngineImpl) DataEngine
+				.newDataEngine(createPresentationContext());
+		util.createCube(engine);
+
+		ICube cube = util.getCube(DateCube.cubeName, engine);
+		BirtCubeView cubeView = new BirtCubeView(new CubeQueryExecutor(null,
+				cqd, engine.getSession(), new ImporterTopLevel(),
+				engine.getContext()), cube, null, null);
+
+		CubeCursor cursor = cubeView.getCubeCursor(new StopSign(), cube);
+
+		List columnEdgeBindingNames = new ArrayList();
+
+		List rowEdgeBindingNames = new ArrayList();
+
+		List measureNameList = new ArrayList<String>();
+		measureNameList.add( "measure1" );
+		measureNameList.add( "measure2" );
+		this.printCube1(cursor, columnEdgeBindingNames, rowEdgeBindingNames,
+			measureNameList	);
+		engine.shutdown();
+
+	}
+	
+	/**
+	 * test add two time functions
+	 * @throws Exception
+	 */
+	public void testRelativeTimePeriod16() throws Exception {
+		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
+
+		IEdgeDefinition rowEdge = cqd
+				.createEdge(ICubeQueryDefinition.COLUMN_EDGE);
+		IDimensionDefinition productLineDim1 = rowEdge
+				.createDimension("dimension2");
+		IHierarchyDefinition porductLineHie1 = productLineDim1
+				.createHierarchy("dimension2");
+		porductLineHie1.createLevel("level21");
+
+		IEdgeDefinition columnEdge = cqd
+				.createEdge(ICubeQueryDefinition.ROW_EDGE);
+		IDimensionDefinition dateDim = columnEdge.createDimension("dimension1");
+		IHierarchyDefinition dateHier = dateDim.createHierarchy("dimension1");
+
+		dateHier.createLevel("level11");
+		dateHier.createLevel("level12");
+		dateHier.createLevel("level13");
+		dateHier.createLevel("level14");
+		cqd.createMeasure("measure1");
+		
+		TimeFunction timeFunction = new TimeFunction();
+		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
+		ReferenceDate referenceDate = new ReferenceDate(new GregorianCalendar(
+				1999, 8, 20).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+
+		IBinding binding2 = new Binding("measure1");
+		binding2.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding2.setTimeFunction(timeFunction);
+		binding2.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding2.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding( binding2 );
+
+
+		IBinding binding3 = new Binding("measure2");
+		binding3.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		timeFunction = new TimeFunction();
+		timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
+		referenceDate = new ReferenceDate(new GregorianCalendar(
+				1999, 11, 20).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+		
+		binding3.setTimeFunction(timeFunction);
+		binding3.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding3.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding(binding3);
+
+		
+		DateCube util = new DateCube();
+		DataEngineImpl engine = (DataEngineImpl) DataEngine
+				.newDataEngine(createPresentationContext());
+		util.createCube(engine);
+
+		ICube cube = util.getCube(DateCube.cubeName, engine);
+		BirtCubeView cubeView = new BirtCubeView(new CubeQueryExecutor(null,
+				cqd, engine.getSession(), new ImporterTopLevel(),
+				engine.getContext()), cube, null, null);
+
+		CubeCursor cursor = cubeView.getCubeCursor(new StopSign(), cube);
+
+		List columnEdgeBindingNames = new ArrayList();
+
+		List rowEdgeBindingNames = new ArrayList();
+
+		List measureNameList = new ArrayList<String>();
+		measureNameList.add( "measure1" );
+		measureNameList.add( "measure2" );
+		this.printCube1(cursor, columnEdgeBindingNames, rowEdgeBindingNames,
+			measureNameList	);
+		engine.shutdown();
+
+	}
+	
+	/**
+	 * test add two time functions
+	 * @throws Exception
+	 */
+	public void testRelativeTimePeriod17() throws Exception {
+		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
+
+		IEdgeDefinition rowEdge = cqd
+				.createEdge(ICubeQueryDefinition.COLUMN_EDGE);
+		IDimensionDefinition productLineDim1 = rowEdge
+				.createDimension("dimension2");
+		IHierarchyDefinition porductLineHie1 = productLineDim1
+				.createHierarchy("dimension2");
+		porductLineHie1.createLevel("level21");
+
+		IEdgeDefinition columnEdge = cqd
+				.createEdge(ICubeQueryDefinition.ROW_EDGE);
+		IDimensionDefinition dateDim = columnEdge.createDimension("dimension1");
+		IHierarchyDefinition dateHier = dateDim.createHierarchy("dimension1");
+
+		dateHier.createLevel("level11");
+		dateHier.createLevel("level12");
+		dateHier.createLevel("level13");
+		dateHier.createLevel("level14");
+		cqd.createMeasure("measure1");
+		
+		TimeFunction timeFunction = new TimeFunction();
+		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.WEEK);
+		ReferenceDate referenceDate = new ReferenceDate(new GregorianCalendar(
+				1998, 7, 19).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+
+		IBinding binding2 = new Binding("measure1");
+		binding2.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding2.setTimeFunction(timeFunction);
+		binding2.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+
+		cqd.addBinding(binding2);
+
+
+		timeFunction = new TimeFunction();
+		timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
+		referenceDate = new ReferenceDate(new GregorianCalendar(
+				1998, 10, 20).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+		timePeriod = new TimePeriod(3, TimePeriodType.MONTH);
+		timeFunction.setRelativeTimePeriod(timePeriod);
+
+		Binding binding3 = new Binding("measure2");
+		binding3.setTimeFunction(timeFunction);
+		binding3.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding3.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding3.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		cqd.addBinding(binding3);
+		
+		timeFunction = new TimeFunction();
+		timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
+		referenceDate = new ReferenceDate(new GregorianCalendar(
+				1998, 10, 20).getTime());
+		timeFunction.setReferenceDate(referenceDate);
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+		timePeriod = new TimePeriod(3, TimePeriodType.MONTH);
+		timeFunction.setRelativeTimePeriod(timePeriod);
+
+		Binding binding4 = new Binding("measure3");
+		binding4.setTimeFunction(timeFunction);
+		binding4.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding4.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding4.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding4.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding4.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+		
+		cqd.addBinding(binding4);
+		
+		DateCube util = new DateCube();
+		DataEngineImpl engine = (DataEngineImpl) DataEngine
+				.newDataEngine(createPresentationContext());
+		util.createCube(engine);
+
+		ICube cube = util.getCube(DateCube.cubeName, engine);
+		BirtCubeView cubeView = new BirtCubeView(new CubeQueryExecutor(null,
+				cqd, engine.getSession(), new ImporterTopLevel(),
+				engine.getContext()), cube, null, null);
+
+		CubeCursor cursor = cubeView.getCubeCursor(new StopSign(), cube);
+
+		List columnEdgeBindingNames = new ArrayList();
+
+		List rowEdgeBindingNames = new ArrayList();
+
+		List measureNameList = new ArrayList<String>();
+		measureNameList.add( "measure1" );
+		measureNameList.add( "measure2" );
+		measureNameList.add( "measure3" );
+		this.printCube1(cursor, columnEdgeBindingNames, rowEdgeBindingNames,
+			measureNameList	);
+		engine.shutdown();
+
+	}
+	
+	/**
+	 * test year to date function using latest date in cube
+	 * 
+	 * @throws Exception
+	 */
+	public void testRelativeTimePeriod18() throws Exception {
+		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
+
+		IEdgeDefinition rowEdge = cqd
+				.createEdge(ICubeQueryDefinition.COLUMN_EDGE);
+		IDimensionDefinition productLineDim1 = rowEdge
+				.createDimension("dimension2");
+		IHierarchyDefinition porductLineHie1 = productLineDim1
+				.createHierarchy("dimension2");
+		porductLineHie1.createLevel("level21");
+
+		IEdgeDefinition columnEdge = cqd
+				.createEdge(ICubeQueryDefinition.ROW_EDGE);
+		IDimensionDefinition dateDim = columnEdge.createDimension("dimension1");
+		IHierarchyDefinition dateHier = dateDim.createHierarchy("dimension1");
+
+		dateHier.createLevel("level11");
+		dateHier.createLevel("level12");
+		dateHier.createLevel("level13");
+		dateHier.createLevel("level14");
+
+		cqd.createMeasure("measure1");
+
+		TimeFunction timeFunction = new TimeFunction();
+		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
+		timeFunction.setReferenceDate( null );
+		timeFunction.setBaseTimePeriod(timePeriod);
+		timeFunction.setTimeDimension("dimension1");
+
+		IBinding binding2 = new Binding("measure1");
+		binding2.setExpression(new ScriptExpression("measure[\"measure1\"]"));
+
+		binding2.setTimeFunction(timeFunction);
+		binding2.setAggrFunction(IBuildInAggregation.TOTAL_SUM_FUNC);
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding2.addAggregateOn("dimension[\"dimension1\"][\"level14\"]");
+		binding2.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+
+		cqd.addBinding(binding2);
+
+		DateCube util = new DateCube();
+		DataEngineImpl engine = (DataEngineImpl) DataEngine
+				.newDataEngine(createPresentationContext());
+		util.createCube(engine);
+
+		ICube cube = util.getCube(DateCube.cubeName, engine);
+		BirtCubeView cubeView = new BirtCubeView(new CubeQueryExecutor(null,
+				cqd, engine.getSession(), new ImporterTopLevel(),
+				engine.getContext()), cube, null, null);
+
+		CubeCursor cursor = cubeView.getCubeCursor(new StopSign(), cube);
+
+		List columnEdgeBindingNames = new ArrayList();
+
+		List rowEdgeBindingNames = new ArrayList();
+
+		this.printCube(cursor, columnEdgeBindingNames, rowEdgeBindingNames,
+				"measure1");
+		engine.shutdown();
+
+	}
+	
 	/**
 	 * test previous N period function
 	 * 
@@ -8317,6 +8759,19 @@ public class CubeFeaturesTest extends BaseTestCase
 				null );
 	}
 	
+	private void printCube1( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, List<String> measureBindingNameList )
+			throws Exception
+	{
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNameList,
+				null,
+				null,
+				null );
+	}
+	
 	private void printCubeWithPage( CubeCursor cursor,
 			List pageEdgeBindingNames, List columnEdgeBindingNames,
 			List rowEdgeBindingNames, String measureBindingNames,
@@ -8382,6 +8837,34 @@ public class CubeFeaturesTest extends BaseTestCase
 		close( cursor );
 	}
 
+	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, List<String> measureBindingNameList,
+			String columnAggr, String rowAggr, String overallAggr, boolean checkOutput )
+			throws Exception
+	{
+		String output = getOutputFromCursor( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNameList,
+				columnAggr,
+				rowAggr,
+				overallAggr );
+		this.testPrint( output );
+		if ( checkOutput )
+			this.checkOutputFile( );
+		close( cursor );
+	}
+	
+	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, List<String> measureBindingNameList,
+			String columnAggr, String rowAggr, String overallAggr )
+			throws Exception
+	{
+		this.printCube( cursor, columnEdgeBindingNames,
+			rowEdgeBindingNames, measureBindingNameList,
+			columnAggr, rowAggr, overallAggr, true );
+	}
+	
 	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
 			List rowEdgeBindingNames, String measureBindingNames,
 			String columnAggr, String rowAggr, String overallAggr )
@@ -8472,6 +8955,85 @@ public class CubeFeaturesTest extends BaseTestCase
 				{
 					line += cursor.getObject( measureBindingNames ) + "		";
 				}
+			}
+
+			if ( rowAggr != null )
+				line += cursor.getObject( rowAggr );
+			output += "\n" + line;
+		}
+
+		if ( columnAggr != null )
+		{
+			String line = "Total" + "		";
+			edge1.beforeFirst( );
+			while ( edge1.next( ) )
+			{
+				line += cursor.getObject( columnAggr ) + "		";
+			}
+			if ( overallAggr != null )
+				line += cursor.getObject( overallAggr );
+
+			output += "\n" + line;
+		}
+		
+		return output;
+	}
+	
+	private String getOutputFromCursor( CubeCursor cursor,
+			List columnEdgeBindingNames, List rowEdgeBindingNames,
+			List<String> measureBindingNameList, String columnAggr, String rowAggr,
+			String overallAggr ) throws OLAPException
+	{
+		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
+		EdgeCursor edge2 = null;
+		if( cursor.getOrdinateEdge( ).size( ) > 1 )
+			edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
+
+		String[] lines = new String[columnEdgeBindingNames.size( )];
+		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+		{
+			lines[i] = "		";
+		}
+
+		while ( edge1.next( ) )
+		{
+			for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+			{
+				lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
+						.toString( ) )
+						+ "		";
+			}
+		}
+
+		if ( rowAggr != null )
+			lines[lines.length - 1] += "Total";
+
+		String output = "";
+		for ( int i = 0; i < lines.length; i++ )
+		{
+			output += "\n" + lines[i];
+		}
+
+		while ( edge2 != null && edge2.next( ) )
+		{
+			String line = "";
+			for ( int i = 0; i < rowEdgeBindingNames.size( ); i++ )
+			{
+				line += cursor.getObject( rowEdgeBindingNames.get( i )
+						.toString( ) ).toString( )
+						+ "		";
+			}
+			edge1.beforeFirst( );
+			while ( edge1.next( ) )
+			{
+				for (String measureBindingNames : measureBindingNameList)
+				{
+					if ( measureBindingNames != null )
+					{
+						line += cursor.getObject( measureBindingNames ) + "		";
+					}
+				}
+				
 			}
 
 			if ( rowAggr != null )
