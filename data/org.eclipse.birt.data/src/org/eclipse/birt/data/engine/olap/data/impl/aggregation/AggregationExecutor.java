@@ -103,7 +103,7 @@ public class AggregationExecutor
 		this.memoryCacheSize = memoryCacheSize;
 		getParameterColIndex( aggregations );
 		existReferenceDate = existReferenceDate( aggregations );
-		simpleFunc = getFunctionName( aggregations );
+		simpleFunc = getSimpleFunction( aggregations );
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		int detailAggregationIndex = -1;
 		int detailLevelNum = 0;
@@ -189,7 +189,7 @@ public class AggregationExecutor
 		return -1;
 	}
 	
-	private AggregationFunctionDefinition getFunctionName( AggregationDefinition[] aggregations ) throws DataException
+	private AggregationFunctionDefinition getSimpleFunction( AggregationDefinition[] aggregations ) throws DataException
 	{
 		AggregationFunctionDefinition func = null;
 		for( int i = 0; i < aggregations.length; i++ )
@@ -227,7 +227,7 @@ public class AggregationExecutor
 			return false;
 		if( !ComparatorUtil.isEqualObject(func1.getParaValue(),func2.getParaValue() ))
 			return false;
-		if( func1.getFilterEvalHelper() == null && func2.getFilterEvalHelper() == null )
+		if( func1.getFilterEvalHelper() != null || func2.getFilterEvalHelper() != null )
 			return false;
 		return true;
 	}
