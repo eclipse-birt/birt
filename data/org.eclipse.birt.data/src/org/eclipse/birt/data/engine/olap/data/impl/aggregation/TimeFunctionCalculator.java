@@ -413,7 +413,7 @@ public class TimeFunctionCalculator
 	public void onRow( Row4Aggregation row ) throws IOException, DataException
 	{
 		Row4Aggregation newRow = new Row4Aggregation( );
-		if( this.existReferenceDate )
+		if( row.getLevelMembers().length != newMemberSize )
 		{
 			Member[] nMembers = new Member[newMemberSize];
 			System.arraycopy( row.getLevelMembers( ), 0, nMembers, 0, firstTimeLevel );
@@ -431,11 +431,19 @@ public class TimeFunctionCalculator
 			newRow.setMeasures( row.getMeasures() );
 			newRow.setMeasureList( row.getMeasureList() );
 			newRow.setParameterValues( row.getParameterValues() );
+			
+		}
+		else
+		{
+			newRow = row;
+		}
+		if( this.existReferenceDate )
+		{
 			sortedFactRows.push( newRow );
 		}
 		else
 		{
-			factRows.add( row );
+			factRows.add( newRow );
 		}
 	}
 	
