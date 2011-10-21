@@ -15,12 +15,23 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.timefunction.ITimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IBuildInBaseTimeFunction;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.TimeFunctionManager;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public class TimeFunctionManagerTest extends TestCase
@@ -126,5 +137,46 @@ public class TimeFunctionManagerTest extends TestCase
 		levelsInxTab.add( "month" );
 		List<ITimeFunction> function2 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, false );
 		assertTrue( function2.size( )==0 );
+	}
+	
+	public void testAdapterTimeFunction() throws BirtException
+	{
+		ComputedColumnHandle computedHandle = ModelUtil.createComputedColumnHandle( );
+		computedHandle.setAggregateFunction( "SUM" );
+		computedHandle.setCalculationType( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO );
+		computedHandle.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		computedHandle.getReferenceDateValue( )
+				.setExpression( new Expression( "\"2003-02-17\"", null ) );
+		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+				"dimension[\"time\"]" );
+		CalculationArgument argument1 = new CalculationArgument();
+		argument1.setName( IArgumentInfo.N_PERIOD1 );
+		argument1.setValue( new Expression("10", null ) );
+		
+		CalculationArgument argument2 = new CalculationArgument();
+		argument2.setName( IArgumentInfo.PERIOD_1 );
+		argument2.setValue( new Expression( "MONTH", null ) );
+		
+		CalculationArgument argument3 = new CalculationArgument();
+		argument3.setName( IArgumentInfo.N_PERIOD2 );
+		argument3.setValue( new Expression("5", null ) );
+		
+		CalculationArgument argument4 = new CalculationArgument();
+		argument4.setName( IArgumentInfo.PERIOD_2 );
+		argument4.setValue( new Expression("YEAR", null ) );
+		
+		computedHandle.addCalculationArgument( argument1 );
+		computedHandle.addCalculationArgument( argument2 );
+		computedHandle.addCalculationArgument( argument3 );
+		computedHandle.addCalculationArgument( argument4 );
+		
+		IBinding binding = new ModelAdapter( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) ).adaptBinding( computedHandle );
+		ITimePeriod basePeriod = binding.getTimeFunction( ).getBaseTimePeriod( );
+		ITimePeriod relativePeriod = binding.getTimeFunction( ).getRelativeTimePeriod( );
+		
+		assertTrue( basePeriod.getType( ).equals( TimePeriodType.MONTH ) );
+		assertTrue( basePeriod.countOfUnit( ) == -10 );
+		assertTrue( relativePeriod.getType( ).equals( TimePeriodType.YEAR ) );
+		assertTrue( relativePeriod.countOfUnit( ) == -5 );		
 	}
 }

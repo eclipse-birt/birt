@@ -165,7 +165,7 @@ public class BaseTimeFunction implements ITimeFunction
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
-			arguments.add( period2 );
+			arguments.add( period1 );
 		}
 		return arguments;
 	}
