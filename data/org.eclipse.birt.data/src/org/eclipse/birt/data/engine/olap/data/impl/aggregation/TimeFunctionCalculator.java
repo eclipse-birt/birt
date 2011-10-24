@@ -413,7 +413,7 @@ public class TimeFunctionCalculator
 	public void onRow( Row4Aggregation row ) throws IOException, DataException
 	{
 		Row4Aggregation newRow = new Row4Aggregation( );
-		if( row.getLevelMembers().length != newMemberSize )
+		if( row.getLevelMembers().length != newMemberSize && orignalLevelCount == newMemberSize )
 		{
 			Member[] nMembers = new Member[newMemberSize];
 			System.arraycopy( row.getLevelMembers( ), 0, nMembers, 0, firstTimeLevel );
