@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -70,5 +71,15 @@ public class ChartReportItemUIFactory extends ChartUIFactoryBase
 	public ChartReportItemBuilderImpl createReportItemBuilder(  String taskId )
 	{
 		return new ChartReportItemBuilderImpl( taskId );
+	}
+	
+	/**
+	 * Creates instance of <code>IMenuBuilder</code>.
+	 * 
+	 * @return
+	 */
+	public IMenuBuilder createMenuBuilder( )
+	{
+		return new ChartMenuBuilder();
 	}
 }
