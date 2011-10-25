@@ -91,6 +91,11 @@ public class AggregationFilterHelper
 				return null;
 			}
 			applyTopBottomFilters( aggregations, resultSet, levelFilterList );
+
+			if( levelFilterList.size( ) == 0 )
+			{
+				return null;
+			}
 		}
 		catch ( IOException e )
 		{
