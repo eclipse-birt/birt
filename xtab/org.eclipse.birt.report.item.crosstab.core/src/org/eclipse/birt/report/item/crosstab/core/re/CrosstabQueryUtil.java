@@ -20,11 +20,11 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
@@ -52,7 +52,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -62,8 +61,6 @@ import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
-import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
@@ -244,33 +241,11 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				{
 					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
 
-					Binding binding = new Binding( column.getName( ) );
-					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
-							.getValue( ),
-							ExpressionLocation.CUBE ) );
-					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+					// now user dte model adpater to transform the binding
+					IBinding binding = modelAdapter.adaptBinding( column,
+							ExpressionLocation.CUBE );
 
-					if ( column.getFilterExpression( ) != null )
-					{
-						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
-								.getValue( ),
-								ExpressionLocation.CUBE ) );
-					}
-
-					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-					{
-						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-						if ( aah.getValue( ) != null )
-						{
-							binding.addArgument( aah.getName( ),
-									modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-											.getValue( ),
-											ExpressionLocation.CUBE ) );
-						}
-					}
-
+					// still need add aggregateOn field
 					List aggrList = column.getAggregateOnList( );
 
 					if ( aggrList != null )
