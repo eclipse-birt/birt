@@ -437,6 +437,9 @@ public class ModelAdapter implements IModelAdapter
 	private ITimeFunction adaptTimeFunction( ComputedColumnHandle handle )
 			throws DataException, BirtException
 	{
+		if ( handle.getCalculationType( ) == null
+				|| handle.getCalculationType( ).trim( ).length( ) == 0 )
+			return null;
 		TimeFunction timeFunction = new TimeFunction( );
 		Object referenceDate = null;
 		if ( handle.getReferenceDateType( )
