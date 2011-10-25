@@ -9,9 +9,12 @@ Bundle-Localization: plugin
 Require-Bundle: org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)",
  org.eclipse.birt.chart.ui;bundle-version="[2.1.0,5.0.0)"
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.birt.chart.ui.extension.i18n,
+Export-Package: org.eclipse.birt.chart.ui.event,
+ org.eclipse.birt.chart.ui.extension.i18n,
  org.eclipse.birt.chart.ui.plugin,
  org.eclipse.birt.chart.ui.swt.composites,
+ org.eclipse.birt.chart.ui.swt.fieldassist,
+ org.eclipse.birt.chart.ui.swt.fieldassist.preferences,
  org.eclipse.birt.chart.ui.swt.series,
  org.eclipse.birt.chart.ui.swt.type,
  org.eclipse.birt.chart.ui.swt.wizard,

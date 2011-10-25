@@ -76,18 +76,18 @@ import org.eclipse.swt.widgets.Listener;
  * Axis subtask
  * 
  */
-abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
+public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Listener,
 		SelectionListener,
 		ModifyListener
 {
-	
+
 	private TristateCheckbox btnCategoryAxis;
-	
+
 	private TristateCheckbox btnReverse;
 
 	private ExternalizedTextEditorComposite txtTitle;
-	
+
 	private TristateCheckbox btnTitleVisible;
 
 	private Combo cmbTypes;
@@ -105,14 +105,14 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	private FontDefinitionComposite fdcFont;
 
 	private TristateCheckbox btnStaggered;
-	
+
 	private LocalizedNumberEditorComposite lneLabelSpan;
 
 	private Button btnFixLabelSpan;
 
 	private Button btnTxtValueAuto;
 
-	AbstractAxisSubtask( )
+	protected AbstractAxisSubtask( )
 	{
 		super( );
 	}
@@ -235,7 +235,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				btnFormatSpecifier.addSelectionListener( this );
 				// btnFormatSpecifier.getImage( )
 				// .setBackground( btnFormatSpecifier.getBackground( ) );
-				btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
+				btnFormatSpecifier.setText( Messages.getString( "Format.Button.Label" ) ); //$NON-NLS-1$
 			}
 
 			// Origin is not supported in 3D
@@ -282,7 +282,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					txtValue.addListener( this );
 					txtValue.setEnabled( bValueOrigin );
 				}
-				
+
 				btnTxtValueAuto = new Button( cmpBasic, SWT.CHECK );
 				btnTxtValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 				btnTxtValueAuto.setSelection( bValueOrigin
@@ -323,7 +323,6 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			cmpLabel.setLayout( layout );
 		}
 
-		
 		btnLabelVisible = new TristateCheckbox( cmpLabel, SWT.NONE );
 		btnLabelVisible.setText( Messages.getString( "AbstractAxisSubtask.Label.Visible2" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -334,9 +333,9 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				: TristateCheckbox.STATE_UNSELECTED )
 				: TristateCheckbox.STATE_GRAYED );
 		btnLabelVisible.addSelectionListener( this );
-			
+
 		btnStaggered = new TristateCheckbox( cmpLabel, SWT.NONE );
-		btnStaggered.setText( Messages.getString("AbstractAxisSubtask.Label.Stagger") ); //$NON-NLS-1$
+		btnStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
 		{
 			Axis ax = getAxisForProcessing( );
 			boolean bNot3D = !isChart3D( );
@@ -347,15 +346,25 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnStaggered.addSelectionListener( this );
 		}
 
+		createLabelSpan( cmpBasic );
+
+		createButtonGroup( cmpContent );
+
+		setStateOfTitle( );
+		setStateOfLabel( );
+	}
+
+	protected void createLabelSpan( Composite cmpBasic )
+	{
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
 		{
 			Label l = new Label( cmpBasic, SWT.NONE );
 			l.setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
 			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( l );
-			
+
 			Composite cmpEditorWithUnit = new Composite( cmpBasic, SWT.NONE );
 			{
-				gd = new GridData( );
+				GridData gd = new GridData( );
 				gd.widthHint = 250;
 				cmpEditorWithUnit.setLayoutData( gd );
 				GridLayout layout = new GridLayout( 2, false );
@@ -371,7 +380,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				lneLabelSpan.setValue( getAxisForProcessing( ).getLabelSpan( ) );
 				lneLabelSpan.addModifyListener( this );
-				gd = new GridData( GridData.FILL_HORIZONTAL );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalIndent = 5;
 				lneLabelSpan.setLayoutData( gd );
 				lneLabelSpan.setEnabled( getAxisForProcessing( ).isSetLabelSpan( ) );
@@ -385,11 +394,6 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				btnFixLabelSpan.setSelection( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
 		}
-
-		createButtonGroup( cmpContent );
-
-		setStateOfTitle( );
-		setStateOfLabel( );
 	}
 
 	protected void updateCategoryAxisUI( boolean enabled )
@@ -492,7 +496,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 
 		// Interactivity
-		if ( getContext().isInteractivityEnabled( ) )
+		if ( getContext( ).isInteractivityEnabled( ) )
 		{
 			popup = new InteractivitySheet( Messages.getString( "AbstractAxisSubtask.Label.Interactivity" ), //$NON-NLS-1$
 					getContext( ),
@@ -542,7 +546,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		else
 		{
 			cmbTypes.setText( ns.getDisplayNameByName( getAxisForProcessing( ).getType( )
-				.getName( ) ) );
+					.getName( ) ) );
 		}
 		// Populate origin types combo
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
@@ -556,8 +560,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			else
 			{
 				cmbOrigin.select( ns.getSafeNameIndex( getAxisForProcessing( ).getOrigin( )
-					.getType( )
-					.getName( ) ) + 1 );
+						.getType( )
+						.getName( ) ) + 1 );
 			}
 		}
 
@@ -720,10 +724,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					.equals( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) )
 			{
 				lblValue.setEnabled( true );
-				boolean enabled = true && ( getAxisForProcessing( ).getOrigin( ).getValue( ) != null );
+				boolean enabled = true && ( getAxisForProcessing( ).getOrigin( )
+						.getValue( ) != null );
 				txtValue.setEnabled( enabled );
 				btnTxtValueAuto.setEnabled( true );
-				
+
 				getAxisForProcessing( ).getOrigin( )
 						.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 			}
@@ -737,13 +742,13 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				else
 				{
 					getAxisForProcessing( ).getOrigin( )
-					.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
+							.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 				}
 				lblValue.setEnabled( false );
 				txtValue.setEnabled( false );
 				btnTxtValueAuto.setEnabled( false );
 			}
-			
+
 			if ( getAxisForProcessing( ).getOrigin( ).isSetType( )
 					&& getAxisForProcessing( ).getOrigin( )
 							.getType( )
@@ -788,7 +793,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnReverse ) )
 		{
-			if ( btnReverse.getSelectionState( ) ==  TristateCheckbox.STATE_GRAYED )
+			if ( btnReverse.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
 			}
@@ -834,7 +839,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			}
 			setStateOfLabel( );
 			Button btnAxisLabel = getToggleButton( BUTTON_LABEL );
-			if ( !( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED ) 
+			if ( !( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED )
 					&& btnAxisLabel.getSelection( ) )
 			{
 				btnAxisLabel.setSelection( false );
@@ -979,7 +984,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			getAxisForProcessing( ).setLabelSpan( lneLabelSpan.getValue( ) );
 		}
 	}
-	
+
 	private Axis getOppositeAxis( )
 	{
 		if ( getAxisAngleType( ) == AngleType.X )
