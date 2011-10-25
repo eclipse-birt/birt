@@ -1405,7 +1405,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * @return the localized design
 	 */
 
-	private void localizeDesign( ReportDesign source )
+	protected void localizeDesign( ReportDesign source )
 	{
 		targetDesign = new ReportDesign( source.getSession( ) );
 
