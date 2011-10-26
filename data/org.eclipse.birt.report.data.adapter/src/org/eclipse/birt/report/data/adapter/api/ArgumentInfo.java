@@ -20,10 +20,12 @@ public class ArgumentInfo implements IArgumentInfo
 	private boolean isOptional = false;
 	
 	private List<Period_Type> periodType;
+	private String displayName;
 
-	public ArgumentInfo( String name, String description, boolean isOptinal )
+	public ArgumentInfo( String name, String displayName, String description, boolean isOptinal )
 	{
 		this.name = name;
+		this.displayName = displayName;
 		this.description = description;
 		this.isOptional = isOptional;
 	}
@@ -69,4 +71,11 @@ public class ArgumentInfo implements IArgumentInfo
 		this.periodType = type;
 	}
 
+	/**
+	 * get display name for argument
+	 */
+	public String getDisplayName( )
+	{
+		return this.displayName;
+	}
 }

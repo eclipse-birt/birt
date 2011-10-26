@@ -93,4 +93,9 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_PERIOD2 = "timeFunction.PERIOD2";
 	public final static String TIMEFUNCITON_N1 = "timeFunction.N1";
 	public final static String TIMEFUNCITON_N2 = "timeFunction.N2";
+	
+	public final static String TIMEFUNCITON_PERIOD1_DISPLAYNAME = "timeFunction.PERIOD1.displayName";
+	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
+	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
+	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
 }

@@ -35,6 +35,12 @@ public interface IArgumentInfo
 	public String getName( );
 	
 	/**
+	 * Get argument display name for time function
+	 * @return
+	 */
+	public String getDisplayName( );
+	
+	/**
 	 * Is this argument required for this time function
 	 * @return
 	 */

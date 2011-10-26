@@ -71,17 +71,20 @@ public class BaseTimeFunction implements ITimeFunction
 	{
 		List<IArgumentInfo> arguments = new ArrayList<IArgumentInfo>( );
 		period1 = new ArgumentInfo( IArgumentInfo.PERIOD_1,
+				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD1_DISPLAYNAME ),
 				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD1 ),
 				false );
-		( (ArgumentInfo )period1 ).setPeriodChoices( timeType );
+		( (ArgumentInfo) period1 ).setPeriodChoices( timeType );
 		period2 = new ArgumentInfo( IArgumentInfo.PERIOD_2,
+				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD2_DISPLAYNAME ),
 				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD2 ),
 				false );
 		( (ArgumentInfo )period2 ).setPeriodChoices( timeType );
 		
-		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) )
+		if ( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );
 		}
@@ -89,6 +92,7 @@ public class BaseTimeFunction implements ITimeFunction
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_QUARTER ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );
 		}
@@ -96,6 +100,7 @@ public class BaseTimeFunction implements ITimeFunction
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );
 		}
@@ -103,6 +108,7 @@ public class BaseTimeFunction implements ITimeFunction
 		if( this.name.equals( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );			
 		}
@@ -110,6 +116,7 @@ public class BaseTimeFunction implements ITimeFunction
 		if( this.name.equals( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );			
 		}
@@ -117,12 +124,14 @@ public class BaseTimeFunction implements ITimeFunction
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );
 		}
 		else if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );
 			
@@ -130,6 +139,7 @@ public class BaseTimeFunction implements ITimeFunction
 		else if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE ))
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );
 		}
@@ -137,6 +147,7 @@ public class BaseTimeFunction implements ITimeFunction
 		{
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			arguments.add( period2 );
@@ -145,6 +156,7 @@ public class BaseTimeFunction implements ITimeFunction
 		{
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			arguments.add( period2);
@@ -152,10 +164,12 @@ public class BaseTimeFunction implements ITimeFunction
 		else if ( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			arguments.add( period2 );
@@ -163,6 +177,7 @@ public class BaseTimeFunction implements ITimeFunction
 		else if ( this.name.equals( IBuildInBaseTimeFunction.NEXT_N_PERIODS ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
 			arguments.add( period1 );
