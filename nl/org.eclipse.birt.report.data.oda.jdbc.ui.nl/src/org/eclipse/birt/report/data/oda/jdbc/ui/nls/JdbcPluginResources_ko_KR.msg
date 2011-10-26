@@ -127,3 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=µÎ ¹øÂ° ½Ã°£ Á¦Ç
 designer.preview.preference.resultset.maxrow.description=Ç¥½ÃÇÒ ÃÖ´ë Çà ¼ö(&R):
 designer.preview.preference.resultset.maxrow.errormessage=ÃÖ´ë Çà¿¡ ´ëÇØ 1°ú {0} »çÀÌÀÇ ¼ıÀÚ¸¦ ÀÔ·ÂÇÏ½Ê½Ã¿À.
 designer.preview.preference.resultset.sqldatasetpage.group.title=Äõ¸® ÆäÀÌÁö
+tablepage.label.filter.tooltip=% allows you to match any string of any length (including zero length) \n _ allows you to match on a single character
