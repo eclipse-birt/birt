@@ -75,6 +75,7 @@ import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -504,14 +505,29 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		schemaCombo.setLayoutData( gd );
 		schemaCombo.setVisibleItemCount( 30 );
 
-		Label FilterLabel = new Label( selectTableGroup, SWT.LEFT );
-		FilterLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.filter" ) );
+		final Label filterLabel = new Label( selectTableGroup, SWT.LEFT );
+		filterLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.filter" ) );
+		filterLabel.addMouseTrackListener( new MouseTrackAdapter( ) {
+
+			public void mouseHover( MouseEvent event )
+			{
+				filterLabel.setToolTipText( JdbcPlugin.getResourceString( "tablepage.label.filter.tooltip" ) );
+			}
+		} );
 
 		searchTxt = new Text( selectTableGroup, SWT.BORDER );
 		GridData searchTxtData = new GridData( GridData.FILL_HORIZONTAL );
 		searchTxtData.horizontalSpan = 2;
 		searchTxt.setLayoutData( searchTxtData );
+		searchTxt.addMouseTrackListener( new MouseTrackAdapter( ) {
 
+			public void mouseHover( MouseEvent event )
+			{
+				searchTxt.setToolTipText( JdbcPlugin.getResourceString( "tablepage.label.filter.tooltip" ) );
+			}
+		} );
+
+		
 		// Select Type
 		Label selectTypeLabel = new Label( selectTableGroup, SWT.NONE );
 		selectTypeLabel.setText( JdbcPlugin.getResourceString( "tablepage.label.selecttype" ) );
