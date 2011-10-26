@@ -37,17 +37,20 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 		super( dataSourceHandle, context );
 	}
 
-	protected void initEventHandler( String className )
+	protected void initEventHandler(  )
 	{
-		super.initEventHandler( className );
+		super.initEventHandler( );
 		if ( eventHandler != null )
 		{
 			try
 			{
-				scriptedEventHandler = ( IScriptedDataSourceEventHandler ) eventHandler;
-			} catch ( ClassCastException e )
+				scriptedEventHandler = (IScriptedDataSourceEventHandler) eventHandler;
+			}
+			catch ( ClassCastException e )
 			{
-				addClassCastException( context, e, dataSourceHandle,
+				addClassCastException( context,
+						e,
+						dataSourceHandle,
 						IScriptedDataSetEventHandler.class );
 			}
 		}
@@ -55,6 +58,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 
 	public void handleOpen( IDataSourceInstanceHandle dataSource )
 	{
+		initEventHandler( );
 		try
 		{
 			String id = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IScriptDataSourceModel.OPEN_METHOD ) );
@@ -74,6 +78,7 @@ public class ScriptDataSourceScriptExecutor extends DataSourceScriptExecutor
 
 	public void handleClose( IDataSourceInstanceHandle dataSource )
 	{
+		initEventHandler( );
 		try
 		{
 			String id = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IScriptDataSourceModel.CLOSE_METHOD ) );

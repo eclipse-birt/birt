@@ -36,15 +36,16 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 	private boolean useAfterOpenEventHandler = false;
 	private boolean useAfterCloseEventHandler = false;
 	
-	private final String beforeOpenMethodID, beforeCloseMethodID, afterOpenMethodID, afterCloseMethodID;
+	private final String beforeOpenMethodID, beforeCloseMethodID,
+			afterOpenMethodID, afterCloseMethodID, className;
 
+	private boolean flag = false;
 	public DataSourceScriptExecutor( DataSourceHandle dataSourceHandle,
 			ExecutionContext context ) throws BirtException
 	{
 		super( context );
 		this.dataSourceHandle = dataSourceHandle;
-		String className = dataSourceHandle.getEventHandlerClass( );
-		initEventHandler( className );
+		className = dataSourceHandle.getEventHandlerClass( );
 		this.useBeforeOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeOpen( ) );
 		this.useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeClose( ) );
 		this.useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterOpen( ) );
@@ -56,19 +57,24 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		afterCloseMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.AFTER_CLOSE_METHOD ) );
 	}
 
-	protected void initEventHandler( String className )
+	protected void initEventHandler( )
 	{
-		if ( className != null )
+		if ( className != null && !flag )
 		{
 			try
 			{
-				eventHandler = ( IDataSourceEventHandler ) getInstance(
-						className, context );
-			} catch ( ClassCastException e )
+				eventHandler = (IDataSourceEventHandler) getInstance( className,
+						context );
+				flag = true;
+			}
+			catch ( ClassCastException e )
 			{
-				addClassCastException( context, e, dataSourceHandle,
+				addClassCastException( context,
+						e,
+						dataSourceHandle,
 						IScriptedDataSetEventHandler.class );
-			} catch ( EngineException e )
+			}
+			catch ( EngineException e )
 			{
 				addException( context, e, dataSourceHandle );
 			}
@@ -77,6 +83,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleBeforeOpen( IDataSourceInstanceHandle dataSource )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -102,6 +109,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleBeforeClose( IDataSourceInstanceHandle dataSource )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -126,6 +134,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleAfterOpen( IDataSourceInstanceHandle dataSource )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -150,6 +159,7 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleAfterClose( IDataSourceInstanceHandle dataSource )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try

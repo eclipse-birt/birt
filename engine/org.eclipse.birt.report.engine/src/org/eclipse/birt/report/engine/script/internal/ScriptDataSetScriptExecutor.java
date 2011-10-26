@@ -71,9 +71,9 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 
 	}
 
-	protected void initEventHandler( String className )
+	protected void initEventHandler(  )
 	{
-		super.initEventHandler( className );
+		super.initEventHandler(  );
 		if ( eventHandler != null )
 		{
 			try
@@ -90,6 +90,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	public void handleOpen( IDataSetInstanceHandle dataSet )
 			throws BirtException
 	{
+		initEventHandler(  );
 		try
 		{
 			if ( !this.useOpenEventHandler )
@@ -111,6 +112,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	
 	public void handleClose( IDataSetInstanceHandle dataSet )
 	{
+		initEventHandler(  );
 		try
 		{
 			if ( !this.useCloseEventHandler )
@@ -133,6 +135,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 
 	public boolean handleFetch( IDataSetInstanceHandle dataSet, IDataRow row )
 	{
+		initEventHandler(  );
 		try
 		{
 			if ( !useFetchEventHandler )
@@ -167,6 +170,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	public boolean handleDescribe( IDataSetInstanceHandle dataSet,
 			IScriptDataSetMetaDataDefinition metaData ) throws BirtException
 	{
+		initEventHandler(  );
 		try
 		{
 			if ( !this.useDescribeEventHandler )
