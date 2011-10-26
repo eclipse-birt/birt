@@ -13,9 +13,11 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -291,11 +293,47 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 		return Collections.emptyList( );
 	}
 
+	/**
+	 * This method corrects binding name to avoid duplicate.
+	 * 
+	 * @param column
+	 * @param nameSet
+	 */
+	private static void correctBindingName( ComputedColumn column,
+			Set<String> nameSet )
+	{
+		String name = column.getName( );
+		if ( nameSet.contains( name ) )
+		{
+			String newName = name;
+			try
+			{
+				int num = Integer.valueOf( name.substring( name.length( ) - 1,
+						name.length( ) ) ).intValue( );
+				newName = name.substring( 0, name.length( ) - 1 )
+						+ String.valueOf( num + 1 );
+			}
+			catch ( Exception e )
+			{
+				// Do nothing.
+				newName = name + "1";
+			}
+			column.setName( newName );
+			nameSet.add( newName );
+		}
+		else
+		{
+			nameSet.add( name );
+		}
+	}
+	
 	public static List<ComputedColumn> generateComputedColumns(
 			ExtendedItemHandle itemHandle, CubeHandle cubeHandle )
 	{
 		if ( cubeHandle != null )
 		{
+			Set<String> bindingNameSet = new HashSet<String>();
+			
 			List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
 
 			String exprType = UIUtil.getDefaultScriptType( );
@@ -327,6 +365,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 								levelHandle.getName( ),
 								displayNameAttr ),
 								exprType ) );
+				correctBindingName( column, bindingNameSet);
 				columnList.add( column );
 
 				// Add LevelAttributes
@@ -345,6 +384,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 									levelHandle.getName( ),
 									laHandle.getName( ) ),
 									exprType ) );
+					correctBindingName( columnLA, bindingNameSet);
 					columnList.add( columnLA );
 				}
 
@@ -359,6 +399,7 @@ public class ChartXTabUIUtil extends ChartCubeUtil
 						new Expression( exprConverter.getMeasureExpression( measureHandle.getName( ) ),
 								exprType ) );
 				column.setAggregateFunction( DataAdapterUtil.getRollUpAggregationName( measureHandle.getFunction( ) ) );
+				correctBindingName( column, bindingNameSet);
 				columnList.add( column );
 			}
 			return columnList;
