@@ -34,7 +34,6 @@ public class RowDataAccessor implements IRowDataAccessor
 	private IAggregationResultSet rs;
 	// the dimension axis on this edge
 	protected DimensionAxis[] dimAxis;
-	private int fetchRowLimit = -1;
 	protected DimensionTraverse dimTraverse;
 	protected EdgeTraverse edgeTraverse;
 	protected EdgeDimensionRelation edgeDimensRelation;
@@ -75,10 +74,9 @@ public class RowDataAccessor implements IRowDataAccessor
 	{
 		ResultSetFetcher fetcher = new ResultSetFetcher( this.rs );
 
-		service.setFetchSize( fetchRowLimit );
 		edgeDimensRelation = new EdgeDimensionRelation( service,
 				fetcher,
-				this.fetchRowLimit, isPage );
+				isPage );
 		dimTraverse = new DimensionTraverse( dimAxis, edgeDimensRelation );
 		edgeTraverse = new EdgeTraverse( edgeDimensRelation );
 	}
@@ -545,15 +543,6 @@ public class RowDataAccessor implements IRowDataAccessor
 	public int getEdgeEnd( int dimAxisIndex )
 	{
 		return this.dimTraverse.getEdgeEnd( dimAxisIndex );
-	}
-	
-	/**
-	 * 
-	 * @param fetchSize
-	 */
-	public void setFetchSize( int fetchSize )
-	{
-		this.fetchRowLimit = fetchSize;
 	}
 	
 	/**
