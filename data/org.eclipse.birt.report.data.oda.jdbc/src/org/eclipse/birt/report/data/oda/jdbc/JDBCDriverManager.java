@@ -668,7 +668,13 @@ public class JDBCDriverManager
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e.getLocalizedMessage( ), null );
+			throw new JDBCException( ResourceConstants.TEST_CONNECTION_FAIL, e );
+		}
+		catch( RuntimeException e )
+		{
+			OdaException ex = new OdaException( e.getLocalizedMessage( ) );
+			ex.initCause( e );
+			throw ex;
 		}
 		// If the given url cannot be parsed.
 		if ( canConnect == false )
