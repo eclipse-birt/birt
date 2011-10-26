@@ -96,3 +96,4 @@ odajdbc.CannotInstantiateDriverClass=JDBC 드라이버 클래스의 인스턴스를 생성할 수
 odajdbc.CannotInstantiateFactory=드라이버 클래스 "{1}"의 확장명에 정의된 연결 팩토리 클래스 "{0}}의 인스턴스를 생성할 수 없습니다.
 
 odajdbc.jndi.InvalidJndiResource=JNDI 리소스 유형 ({0})을(를) 찾음, javax.sql.DataSource 형식 필요
+odajdbc.testfail=Test Fail
