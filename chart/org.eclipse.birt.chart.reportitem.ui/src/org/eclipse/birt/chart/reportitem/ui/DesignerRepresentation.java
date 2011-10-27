@@ -547,13 +547,32 @@ public final class DesignerRepresentation extends ReportElementFigure
 			{
 				rtc.setSharedScale( createSharedScaleFromSampleData( ) );
 			}
+			
+			// Here we override updateChart method to force updating chart with
+			// default value to ensure we can get a chart figure.
+			ChartReportStyleProcessor crsp = new ChartReportStyleProcessor( crii.getHandle( ),
+					true ) {
 
+				/* (non-Javadoc)
+				 * @see org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor#updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
+				 */
+				@Override
+				public boolean updateChart( Chart model, Object obj )
+				{
+					if ( styleProcessorProxy != null )
+					{
+						styleProcessorProxy.updateChart( model, true );
+						return true;
+					}
+					return false;
+				}
+			};
 			gr.render( idr, gr.build( idr.getDisplayServer( ),
 					cmRunTime,
 					bo,
 					null,
 					rtc,
-					new ChartReportStyleProcessor( crii.getHandle( ), true ) ) );
+					crsp ) );
 		}
 		catch ( ChartException gex )
 		{

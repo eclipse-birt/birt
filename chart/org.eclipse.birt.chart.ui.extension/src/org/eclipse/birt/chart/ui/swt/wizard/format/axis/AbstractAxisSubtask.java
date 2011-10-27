@@ -111,6 +111,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	private Button btnFixLabelSpan;
 
 	private Button btnTxtValueAuto;
+	
+	private static String KEY_TYPE_NAMES = "type_names"; //$NON-NLS-1$
 
 	protected AbstractAxisSubtask( )
 	{
@@ -539,6 +541,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		}
 		cmbTypes.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		String[] names = ns.getNames( );
+		cmbTypes.setData( KEY_TYPE_NAMES, names );
 		if ( !getAxisForProcessing( ).isSetType( ) )
 		{
 			cmbTypes.select( 0 );
@@ -713,7 +717,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			}
 			if ( btnCategoryAxis != null )
 			{
-				updateCategoryAxisUI( !AxisType.TEXT_LITERAL.equals( axisType ) );
+				boolean disableCategoryAxisUI = AxisType.TEXT_LITERAL.equals( axisType );
+				getAxisForProcessing( ).setCategoryAxis( disableCategoryAxisUI );
+				btnCategoryAxis.setSelectionState( TristateCheckbox.STATE_SELECTED );
+				updateCategoryAxisUI( !disableCategoryAxisUI );
+				updateReverseStateByCategoryAxisUI( );
 			}
 			// Update popup UI
 			refreshPopupSheet( );
@@ -778,18 +786,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 			// Reset reverse category settings which is only available when axis
 			// is category
-			btnReverse.setEnabled( state == TristateCheckbox.STATE_SELECTED );
-			updateReverseUI( state == TristateCheckbox.STATE_SELECTED );
-			if ( state == TristateCheckbox.STATE_GRAYED )
-			{
-				btnReverse.setSelectionState( TristateCheckbox.STATE_GRAYED );
-				( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
-			}
-			else if ( state == TristateCheckbox.STATE_UNSELECTED )
-			{
-				btnReverse.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
-				( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
-			}
+			updateReverseStateByCategoryAxisUI( );
 		}
 		else if ( e.widget.equals( btnReverse ) )
 		{
@@ -864,6 +861,23 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				getAxisForProcessing( ).setStaggered( btnStaggered.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
+		}
+	}
+
+	protected void updateReverseStateByCategoryAxisUI(  )
+	{
+		int state = btnCategoryAxis.getSelectionState( );
+		btnReverse.setEnabled( state == TristateCheckbox.STATE_SELECTED );
+		updateReverseUI( state == TristateCheckbox.STATE_SELECTED );
+		if ( state == TristateCheckbox.STATE_GRAYED )
+		{
+			btnReverse.setSelectionState( TristateCheckbox.STATE_GRAYED );
+			( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
+		}
+		else if ( state == TristateCheckbox.STATE_UNSELECTED )
+		{
+			btnReverse.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
+			( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
 		}
 	}
 

@@ -93,8 +93,11 @@ public class ChartStyleProcessorProxy
 	 * Updates chart values.
 	 * 
 	 * @param cm
+	 * @param formatDefault
+	 *            indicates if it force to use default values to update chart
+	 *            model.
 	 */
-	public void updateChart( Chart cm )
+	public void updateChart( Chart cm, boolean forceDefault )
 	{
 		chartValueUpdater.update( cm, null );
 	}

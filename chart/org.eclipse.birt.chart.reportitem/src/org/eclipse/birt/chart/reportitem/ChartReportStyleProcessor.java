@@ -1288,7 +1288,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	{
 		if ( styleProcessorProxy != null )
 		{
-			styleProcessorProxy.updateChart( model );
+			styleProcessorProxy.updateChart( model, false );
 			return true;
 		}
 		return false;

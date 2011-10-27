@@ -1977,6 +1977,26 @@ public class ChartUtil
 	}
 	
 	/**
+	 * Removes a extended property.
+	 * 
+	 * @param cm
+	 * @param propertyName the property name of target extended property.
+	 * @return <code>true</code> if specified property is remvoed.
+	 */
+	public static boolean remvoeExtendedProperty( Chart cm , String propertyName )
+	{
+		for ( ExtendedProperty property : cm.getExtendedProperties( ) )
+		{
+			if ( property.getName( ).equals( propertyName ) )
+			{
+				cm.getExtendedProperties( ).remove( property );
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Sets the value in extended property. If the property with specified name
 	 * is not found, insert one property.
 	 * 

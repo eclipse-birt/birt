@@ -26,5 +26,7 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.birt.chart.reportitem.ui,
  org.eclipse.birt.chart.reportitem.ui.dialogs,
+ org.eclipse.birt.chart.reportitem.ui.i18n,
+ org.eclipse.birt.chart.reportitem.ui.views.attributes,
  org.eclipse.birt.chart.reportitem.ui.views.attributes.page,
  org.eclipse.birt.chart.reportitem.ui.views.attributes.provider
