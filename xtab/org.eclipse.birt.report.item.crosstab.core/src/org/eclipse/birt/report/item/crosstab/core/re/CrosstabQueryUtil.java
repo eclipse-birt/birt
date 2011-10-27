@@ -31,7 +31,6 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
@@ -178,12 +177,11 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				if ( mHandle.isCalculated( ) )
 				{
-					IDerivedMeasureDefinition mDef = cubeQuery.createDerivedMeasure( mHandle.getName( ),
+					cubeQuery.createDerivedMeasure( mHandle.getName( ),
 							DataAdapterUtil.adaptModelDataType( mHandle.getDataType( ) ),
 							modelAdapter.adaptExpression( (Expression) mHandle.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP )
 									.getValue( ),
 									ExpressionLocation.CUBE ) );
-					mDef.setAggrFunction( DataAdapterUtil.getRollUpAggregationName( mHandle.getFunction( ) ) );
 				}
 				else
 				{
