@@ -7620,82 +7620,9 @@ public class ChartValueUpdater
 	public void updateFill( String name, EObject eParentObj, Fill eObj,
 			Fill eRefObj, Fill eDefObj )
 	{
-		if ( eObj == null )
-		{
-			if ( eRefObj != null )
-			{
-				eObj = eRefObj.copyInstance( );
-				ChartElementUtil.setEObjectAttribute( eParentObj,
-						name,
-						eObj,
-						false );
-			}
-			else if ( eDefObj != null )
-			{
-				eObj = eDefObj.copyInstance( );
-				ChartElementUtil.setEObjectAttribute( eParentObj,
-						name,
-						eObj,
-						false );
-				return;
-			}
-		}
-		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
+		if ( eObj != null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
-		}
-
-		if ( eObj instanceof EmbeddedImage )
-		{
-			updateEmbeddedImage( name,
-					eParentObj,
-					(EmbeddedImage) eObj,
-					(EmbeddedImage) eRefObj,
-					eDefObj instanceof EmbeddedImage ? (EmbeddedImage) eDefObj
-							: null );
-		}
-		else if ( eObj instanceof PatternImage )
-		{
-			updatePatternImage( name,
-					eParentObj,
-					(PatternImage) eObj,
-					(PatternImage) eRefObj,
-					eDefObj instanceof PatternImage ? (PatternImage) eDefObj
-							: null );
-		}
-		else if ( eObj instanceof ColorDefinition )
-		{
-			updateColorDefinition( name,
-					eParentObj,
-					(ColorDefinition) eObj,
-					(ColorDefinition) eRefObj,
-					eDefObj instanceof ColorDefinition ? (ColorDefinition) eDefObj
-							: null );
-		}
-		else if ( eObj instanceof Gradient )
-		{
-			updateGradient( name,
-					eParentObj,
-					(Gradient) eObj,
-					(Gradient) eRefObj,
-					eDefObj instanceof Gradient ? (Gradient) eDefObj : null );
-		}
-		else if ( eObj instanceof Image )
-		{
-			updateImage( name,
-					eParentObj,
-					(Image) eObj,
-					(Image) eRefObj,
-					eDefObj instanceof Image ? (Image) eDefObj : null );
-		}
-		else if ( eObj instanceof MultipleFill )
-		{
-			updateMultipleFill( name,
-					eParentObj,
-					(MultipleFill) eObj,
-					(MultipleFill) eRefObj,
-					eDefObj instanceof MultipleFill ? (MultipleFill) eDefObj
-							: null );
 		}
 		else
 		{
@@ -7718,48 +7645,25 @@ public class ChartValueUpdater
 	protected void updateFillImpl( String name, EObject eParentObj, Fill eObj,
 			Fill eRefObj, Fill eDefObj )
 	{
-		if ( eObj == null )
-		{
-			if ( eRefObj != null )
-			{
-				eObj = eRefObj.copyInstance( );
-				ChartElementUtil.setEObjectAttribute( eParentObj,
-						name,
-						eObj,
-						false );
-			}
-			else if ( eDefObj != null )
-			{
-				eObj = eDefObj.copyInstance( );
-				ChartElementUtil.setEObjectAttribute( eParentObj,
-						name,
-						eObj,
-						false );
-				return;
-			}
-		}
-		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
+		if ( eObj != null || ( eRefObj == null && eDefObj == null ) )
 		{
 			return;
 		}
 
-		// attributes
-		if ( !eObj.isSetType( ) )
+		if ( eRefObj != null )
 		{
-			if ( eRefObj != null && eRefObj.isSetType( ) )
-			{
-				eObj.setType( eRefObj.getType( ) );
-			}
-			else if ( eDefObj != null && eDefObj.isSetType( ) )
-			{
-				eObj.setType( eDefObj.getType( ) );
-			}
+			ChartElementUtil.setEObjectAttribute( eParentObj,
+					name,
+					eRefObj,
+					false );
 		}
-
-		// list attributes
-
-		// references
-
+		if ( eDefObj != null )
+		{
+			ChartElementUtil.setEObjectAttribute( eParentObj,
+					name,
+					eDefObj,
+					false );
+		}
 	}
 
 	/**
