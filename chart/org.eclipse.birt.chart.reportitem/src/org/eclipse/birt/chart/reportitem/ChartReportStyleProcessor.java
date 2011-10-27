@@ -120,7 +120,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected final int dpi;
 
 	protected SimpleStyle cache = null;
-
+	
 	/**
 	 * The object handle is used to process extra styles according to
 	 * current context.
@@ -1267,6 +1267,15 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	{
 		this.styleProcessorProxy = proxy;
 		this.styleProcessorProxy.setHandle( handle );
+	}
+	
+	/**
+	 * Returns instance of <code>ChartStyleProcessorProxy</code>.
+	 * @return
+	 */
+	public ChartStyleProcessorProxy getStyleProcessorProxy(  )
+	{
+		return this.styleProcessorProxy;
 	}
 	
 	private static ChartStyleProcessorProxy getChartStyleProcessorProxy( ChartReportStyleProcessor processor )
