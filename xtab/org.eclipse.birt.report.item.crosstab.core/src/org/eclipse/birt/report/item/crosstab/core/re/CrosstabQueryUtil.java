@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
@@ -63,7 +64,9 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 
@@ -165,17 +168,28 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					continue;
 				}
 
-				if ( mv.getCubeMeasure( ) == null )
+				MeasureHandle mHandle = mv.getCubeMeasure( );
+
+				if ( mHandle == null )
 				{
 					throw new CrosstabException( Messages.getString( "CrosstabQueryHelper.error.invalid.measure", //$NON-NLS-1$
 							mv.getCubeMeasureName( ) ) );
 				}
 
-				IMeasureDefinition mDef = cubeQuery.createMeasure( mv.getCubeMeasure( )
-						.getName( ) );
-				mDef.setAggrFunction( mv.getCubeMeasure( ).getFunction( ) == null ? null
-						: DataAdapterUtil.getRollUpAggregationName( mv.getCubeMeasure( )
-								.getFunction( ) ) );
+				if ( mHandle.isCalculated( ) )
+				{
+					IDerivedMeasureDefinition mDef = cubeQuery.createDerivedMeasure( mHandle.getName( ),
+							DataAdapterUtil.adaptModelDataType( mHandle.getDataType( ) ),
+							modelAdapter.adaptExpression( (Expression) mHandle.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP )
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
+					mDef.setAggrFunction( DataAdapterUtil.getRollUpAggregationName( mHandle.getFunction( ) ) );
+				}
+				else
+				{
+					IMeasureDefinition mDef = cubeQuery.createMeasure( mHandle.getName( ) );
+					mDef.setAggrFunction( DataAdapterUtil.getRollUpAggregationName( mHandle.getFunction( ) ) );
+				}
 			}
 		}
 
