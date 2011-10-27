@@ -14,11 +14,4 @@ public interface IDerivedMeasureDefinition extends IMeasureDefinition
 	 */
 	public IBaseExpression getExpression( ) throws DataException;
 	
-	/**
-	 * Return the type of the derived measure.
-	 * 
-	 * @return
-	 * @throws DataException
-	 */
-	public int getType() throws DataException;
 }

@@ -8,7 +8,6 @@ public class DerivedMeasureDefinition extends MeasureDefinition implements IDeri
 {
 	//
 	private IBaseExpression expr;
-	private int type;
 	
 	/**
 	 * Constructor.
@@ -20,25 +19,16 @@ public class DerivedMeasureDefinition extends MeasureDefinition implements IDeri
 	public DerivedMeasureDefinition( String name, int type, IBaseExpression expr )
 	{
 		super( name );
+		super.setDataType( type );
 		this.expr = expr;
-		this.type = type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition#getExpression()
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition#getExpression()
 	 */
 	public IBaseExpression getExpression( )
 	{
 		return this.expr;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition#getType()
-	 */
-	public int getType()
-	{
-		return this.type;
 	}
 }
