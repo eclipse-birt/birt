@@ -407,7 +407,7 @@ public class CubeQueryDefinitionUtil
 			{
 				return false;
 			}
-			return cmd1.getType( ) == cmd2.getType( );
+			return cmd1.getDataType( ) == cmd2.getDataType( );
 		}
 		return true;
 	}

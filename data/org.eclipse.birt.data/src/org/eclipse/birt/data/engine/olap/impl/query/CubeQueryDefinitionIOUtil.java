@@ -544,7 +544,7 @@ public class CubeQueryDefinitionIOUtil
 			IComputedMeasureDefinition md = loadComputedMeasure( dis );
 			IMeasureDefinition md1 = qd.createComputedMeasure( 
 					md.getName( ),
-					md.getType( ),
+					md.getDataType( ),
 					md.getExpression( ));
 			md1.setAggrFunction( md.getAggrFunction( ) );
 		}
@@ -558,7 +558,7 @@ public class CubeQueryDefinitionIOUtil
 			return;
 		}
 		saveMeasure( dos, m );
-		IOUtil.writeInt( dos, m.getType( ) );
+		IOUtil.writeInt( dos, m.getDataType( ) );
 		ExprUtil.saveBaseExpr( dos, m.getExpression( ) );
 	}
 	
