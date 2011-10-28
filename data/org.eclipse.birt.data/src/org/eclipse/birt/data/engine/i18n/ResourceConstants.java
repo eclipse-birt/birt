@@ -413,7 +413,9 @@ public class ResourceConstants
 	public final static String INVALID_AGGREGATION_FILTER_EXPRESSION="data.olap.InvalidAggregationFilterExpr";
 
 	public final static String RESULT_LENGTH_EXCEED_LIMIT="data.olap.ExceedIntegerLimit";
-
+	public final static String RESULT_LENGTH_EXCEED_COLUMN_LIMIT="data.olap.ExceedColumnLimit";
+	public final static String RESULT_LENGTH_EXCEED_ROW_LIMIT="data.olap.ExceedRowLimit";
+	
 	//derived dataSet
 	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
 	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";

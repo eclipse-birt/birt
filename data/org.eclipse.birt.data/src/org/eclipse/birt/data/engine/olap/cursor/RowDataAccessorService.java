@@ -9,8 +9,6 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
  */
 public class RowDataAccessorService
 {
-
-	private int fetchLimit = -1;
 	private DimensionAxis[] dimAxis;
 	private BirtEdgeView view;
 
@@ -35,16 +33,5 @@ public class RowDataAccessorService
 	public int getPagePosition( )
 	{
 		return this.view.getPageEndingIndex( );
-	}
-	
-	public int getFetchSize( )
-	{
-		return fetchLimit;
-	}
-	
-	public void setFetchSize( int fetchSize )
-	{
-		this.fetchLimit = fetchSize;	
-	}
-	
+	}	
 }
