@@ -355,6 +355,15 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
+	
+	public static boolean isTimeDimension(DimensionHandle dim)
+	{
+		if (dim == null)
+		{
+			return false;
+		}
+		return dim.isTimeType() || dim.getProperty("startTimePoint") != null;
+	}
 
 	public static CubeHandle getCubeHandle( DesignElementHandle levelHandle )
 	{

@@ -85,6 +85,7 @@ public class CrosstabUIHelper
 	public static final String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif"; //$NON-NLS-1$
 	public static final String OPTIONS_ICON = "icons/pal/options.gif";//$NON-NLS-1$
 	public static final String ADD_DERIVED_MEASURE = "icons/pal/derived-measure.gif";//$NON-NLS-1$
+	public static final String ADD_RELATIVETIMEPERIOD = "icons/pal/relativetime.gif";//$NON-NLS-1$
 
 	
 	private static Image createImage( String sPluginRelativePath )

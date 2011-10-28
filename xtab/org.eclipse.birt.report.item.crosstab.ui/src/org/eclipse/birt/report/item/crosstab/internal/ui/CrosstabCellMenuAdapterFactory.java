@@ -32,6 +32,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddRelativeTimePeriodAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
@@ -81,7 +82,13 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 			buildShowMenu( menu, element, firstId );
 
-			IAction action = new AddComputedMeasureAction( element );
+			IAction action = new AddRelativeTimePeriodAction( element );
+			//if (action.isEnabled( ))
+			{
+				menu.insertBefore( firstId, action );
+			}
+			
+			action = new AddComputedMeasureAction( element );
 			menu.insertBefore( firstId, action );
 
 			action = new AddMeasureViewHandleAction( element );

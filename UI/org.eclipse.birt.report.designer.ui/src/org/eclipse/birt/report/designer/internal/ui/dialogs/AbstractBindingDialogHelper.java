@@ -30,6 +30,8 @@ public abstract class AbstractBindingDialogHelper implements
 	protected ComputedColumnHandle binding;
 	protected DataColumnBindingDialog dialog;
 	private boolean isAggregate = false;
+	private boolean isTimePeriod = false;
+
 	protected ExpressionProvider expressionProvider;
 	private Object itemContainer;
 
@@ -41,6 +43,16 @@ public abstract class AbstractBindingDialogHelper implements
 	public void setAggregate( boolean isAggregate )
 	{
 		this.isAggregate = isAggregate;
+	}
+	
+	public boolean isTimePeriod()
+	{
+		return isTimePeriod;
+	}
+
+	public void setTimePeriod(boolean timePeriod)
+	{
+		this.isTimePeriod = timePeriod;
 	}
 
 	public ReportItemHandle getBindingHolder( )
@@ -64,6 +76,11 @@ public abstract class AbstractBindingDialogHelper implements
 		if ( this.binding != null )
 			setAggregate( this.binding.getAggregateFunction( ) != null
 					&& !this.binding.getAggregateFunction( ).equals( "" ) ); //$NON-NLS-1$
+		if (this.binding != null)
+		{
+			setTimePeriod(this.binding.getTimeDimension() != null
+					&& this.binding.getTimeDimension().getExpression() != null);
+		}
 	}
 
 	public ComputedColumnHandle getBindingColumn( )
