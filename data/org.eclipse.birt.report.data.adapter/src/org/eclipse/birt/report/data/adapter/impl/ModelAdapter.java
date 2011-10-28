@@ -442,8 +442,8 @@ public class ModelAdapter implements IModelAdapter
 			return null;
 		TimeFunction timeFunction = new TimeFunction( );
 		Object referenceDate = null;
-		if ( handle.getReferenceDateType( )
-				.equals( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY ) )
+		if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY 
+				.equals(  handle.getReferenceDateType( ) ) )
 		{
 			referenceDate = ScriptEvalUtil.evalExpr( new ScriptExpression( "new java.util.Date()" ),
 					this.context.getDataEngineContext( ).getScriptContext( ),
@@ -460,8 +460,7 @@ public class ModelAdapter implements IModelAdapter
 					0 );
 		}
 		timeFunction.setReferenceDate( new ReferenceDate( DataTypeUtil.toDate( referenceDate ) ) );
-		timeFunction.setTimeDimension( OlapExpressionUtil.getDimensionName( handle.getTimeDimension( )
-				.getStringExpression( ) ) );
+		timeFunction.setTimeDimension(  handle.getTimeDimension( ) );
 		timeFunction.setBaseTimePeriod( populateBaseTimePeriod( handle ) );
 		timeFunction.setRelativeTimePeriod( populateRelativeTimePeriod( handle ) );
 		return timeFunction;
