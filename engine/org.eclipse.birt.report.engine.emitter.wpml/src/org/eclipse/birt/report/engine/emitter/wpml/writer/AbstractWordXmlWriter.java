@@ -820,9 +820,22 @@ public abstract class AbstractWordXmlWriter
 
 	public void endTableCell( boolean empty )
 	{
+		endTableCell( empty, false );
+	}
+	
+	public void endTableCell( boolean empty, boolean inForeign )
+	{
+
 		if ( empty )
 		{
-			insertEmptyParagraph( );
+			if ( inForeign )
+			{
+				insertEmptyParagraphInForeign( );
+			}
+			else
+			{
+				insertEmptyParagraph( );
+			}
 		}
 		writer.closeTag( "w:tc" );
 	}
@@ -852,6 +865,12 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag("w:p");
 	}
 
+	public void insertEmptyParagraphInForeign( )
+	{
+		writer.openTag("w:p");
+		writer.closeTag("w:p");
+	}
+	
 	public void insertHiddenParagraph( )
 	{
 		writer.openTag( "w:p" );
