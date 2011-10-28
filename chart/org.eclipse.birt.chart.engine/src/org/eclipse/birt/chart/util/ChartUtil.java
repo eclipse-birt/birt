@@ -2014,6 +2014,7 @@ public class ChartUtil
 		{
 			ExtendedProperty extendedProperty = AttributeFactoryImpl.init( )
 					.createExtendedProperty( );
+			extendedProperty.eAdapters( ).addAll(cm.eAdapters( ) );
 			extendedProperty.setName( propertyName );
 			extendedProperty.setValue( propertyValue );
 			cm.getExtendedProperties( ).add( extendedProperty );

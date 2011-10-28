@@ -78,9 +78,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 {
 
 	private static Hashtable<String, Series> htSeriesNames = null;
-	private Collection<IChartType> cTypes = null;
+	protected Collection<IChartType> cTypes = null;
 
-	private Combo cmbColorBy;
+	protected Combo cmbColorBy;
 
 	private ITaskPopupSheet popup = null;
 
@@ -135,7 +135,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		createButtonGroup( cmpContent );
 	}
 
-	private int getColorByComboDefaultIndex(  )
+	protected int getColorByComboDefaultIndex(  )
 	{
 		return getChart( ).getLegend( ).isSetItemType( ) ? ( LiteralHelper.legendItemTypeSet.getSafeNameIndex( getChart( ).getLegend( )
 				.getItemType( )
@@ -273,7 +273,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
