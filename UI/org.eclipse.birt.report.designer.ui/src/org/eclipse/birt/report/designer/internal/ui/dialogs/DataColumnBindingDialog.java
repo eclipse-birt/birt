@@ -44,7 +44,7 @@ public class DataColumnBindingDialog extends BaseDialog
 	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ); //$NON-NLS-1$
 
 	protected static final String AGG_BUILDER_TITLE = Messages.getString( "DataColumBindingDialog.title.AggBuilder" ); //$NON-NLS-1$
-	protected static final String TIMEPERIOD_BUILDER_TITLE = "TimePeriod Builder"; //$NON-NLS-1$
+	protected static final String TIMEPERIOD_BUILDER_TITLE = Messages.getString("DataColumnBindingDialog.title.TimePeriodBuild"); //$NON-NLS-1$
 
 	IBindingDialogHelper dialogHelper;
 

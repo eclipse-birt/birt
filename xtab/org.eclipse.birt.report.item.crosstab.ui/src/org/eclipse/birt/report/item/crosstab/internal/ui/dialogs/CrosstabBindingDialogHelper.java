@@ -127,8 +127,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String DISPLAY_NAME_ID = Messages.getString( "BindingDialogHelper.text.displayNameID" ); //$NON-NLS-1$
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
-	private static final String DEFAULT_TIMEPERIOD_NAME = "Period";
-	private static final String CALCULATION_TYPE = "Calculation Type";
+	private static final String DEFAULT_TIMEPERIOD_NAME = Messages.getString("CrosstabBindingDialogHelper.bindngName.timeperiod"); //$NON-NLS-1$
+	private static final String CALCULATION_TYPE = Messages.getString("CrosstabBindingDialogHelper.calculation.labe"); //$NON-NLS-1$
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
@@ -292,7 +292,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		if ( isTimePeriod( ) )
 		{
-			new Label( composite, SWT.NONE ).setText( "Time Dimension" );
+			new Label( composite, SWT.NONE ).setText( Messages.getString("CrosstabBindingDialogHelper.timedimension.label") ); //$NON-NLS-1$
 			timeDimension = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 			timeDimension.setLayoutData( gd );
 			timeDimension.setVisibleItemCount( 30 );
@@ -326,7 +326,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void createDataSelection( Composite composite )
 	{
 		Label referDataLabel = new Label( composite, SWT.NONE );
-		referDataLabel.setText( "Reference Date:" );
+		referDataLabel.setText( Messages.getString("CrosstabBindingDialogHelper.referencedate.label") ); //$NON-NLS-1$
 
 		GridData gd = new GridData( );
 		gd.verticalAlignment = SWT.BEGINNING;
@@ -351,7 +351,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 		} );
-		new Label( radioContainer, SWT.NONE ).setText( "Today" );
+		new Label( radioContainer, SWT.NONE ).setText( Messages.getString("CrosstabBindingDialogHelper.today.label") ); //$NON-NLS-1$
 
 		dateSelectionButton = new Button( radioContainer, SWT.RADIO );
 		dateSelectionButton.addSelectionListener( new SelectionAdapter( ) {
@@ -371,7 +371,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		layout.numColumns = 3;
 		dateContainer.setLayout( layout );
 
-		new Label( dateContainer, SWT.NONE ).setText( "This date:" );
+		new Label( dateContainer, SWT.NONE ).setText( Messages.getString("CrosstabBindingDialogHelper.thisdate.label") ); //$NON-NLS-1$
 
 		Composite dateSelecionContainer = new Composite( dateContainer,
 				SWT.NONE );
@@ -405,7 +405,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 		recentLabel = new Label( radioContainer, SWT.NONE );
-		recentLabel.setText( "Most recent date in Time Dimension" );
+		recentLabel.setText( Messages.getString("CrosstabBindingDialogHelper.recentday.description") ); //$NON-NLS-1$
 	}
 
 	private void handleTimeDimensionSelectEvent( )
@@ -2039,7 +2039,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				if ( !isUseDimension( dimensionName )
 						&& recentButton.getSelection( ) )
 				{
-					this.messageLine.setText( "This Dimension don't support the recent reference date " );
+					this.messageLine.setText( Messages.getString("CrosstabBindingDialogHelper.timeperiod.wrongdate") ); //$NON-NLS-1$
 					this.messageLine.setImage( PlatformUI.getWorkbench( )
 							.getSharedImages( )
 							.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
@@ -2049,7 +2049,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				if ( dateSelectionButton.getSelection( )
 						&& ( dateText.getText( ) == null || dateText.getText( )
 								.trim( )
-								.equals( "" ) ) )
+								.equals( "" ) ) ) //$NON-NLS-1$
 
 				{
 					dialog.setCanFinish( false );

@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -25,9 +24,9 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AddRelativeTimePeriodDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -43,7 +42,6 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -60,7 +58,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	{
 		super( selectedObject );
 		setId( ID );
-		setText( "Add Relative Time Period" );
+		setText( Messages.getString("AddRelativeTimePeriodAction_action_label") ); //$NON-NLS-1$
 		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.ADD_RELATIVETIMEPERIOD );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
@@ -68,7 +66,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	public void run( )
 	{ 
 		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
-		reportHandle.getModuleHandle( ).getCommandStack( ).startTrans(  "test" );
+		reportHandle.getModuleHandle( ).getCommandStack( ).startTrans(  Messages.getString("AddRelativeTimePeriodAction_trans_label") ); //$NON-NLS-1$
 //		AddRelativeTimePeriodDialog computedSummaryDialog = new AddRelativeTimePeriodDialog(UIUtil.getDefaultShell( ), "Add Relative TimeP eriod");
 //		computedSummaryDialog.setBindingHolder( (ReportItemHandle)reportHandle.getModelHandle( ) );
 //		String measureName = "TempName";
