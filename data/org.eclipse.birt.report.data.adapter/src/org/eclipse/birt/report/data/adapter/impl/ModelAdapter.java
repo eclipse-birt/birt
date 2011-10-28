@@ -450,10 +450,10 @@ public class ModelAdapter implements IModelAdapter
 					"",
 					0 );
 		}
-		else if ( handle.getReferenceDateType( )
-				.equals( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE ) )
+		else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
+				.equals( handle.getReferenceDateType( ) ) )
 		{
-			IBaseExpression sciptExpr = this.adaptExpression( (Expression) ( handle.getReferenceDateValue( ).getExpression( ) ) );
+			IBaseExpression sciptExpr = this.adaptExpression( (Expression) ( handle.getReferenceDateValue( ).getValue( ) ) );
 			referenceDate = ScriptEvalUtil.evalExpr( sciptExpr,
 					this.context.getDataEngineContext( ).getScriptContext( ),
 					"",
