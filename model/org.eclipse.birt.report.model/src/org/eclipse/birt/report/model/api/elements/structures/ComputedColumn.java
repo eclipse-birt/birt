@@ -675,7 +675,7 @@ public class ComputedColumn extends PropertyStructure
 	 * 
 	 * @param expr
 	 */
-	public void setTimeDimension( Expression expr )
+	public void setTimeDimension( String expr )
 	{
 		setProperty( TIME_DIMENSION_MEMBER, expr );
 	}

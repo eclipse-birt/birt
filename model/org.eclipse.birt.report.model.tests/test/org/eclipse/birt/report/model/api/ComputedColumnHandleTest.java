@@ -274,7 +274,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		assertEquals(
 				"12", columnHandle.getReferenceDateValue( ).getStringValue( ) ); //$NON-NLS-1$
 		assertEquals(
-				"time dimension expression", columnHandle.getTimeDimension( ).getStringValue( ) ); //$NON-NLS-1$
+				"time dimension expression", columnHandle.getTimeDimension( ) ); //$NON-NLS-1$
 
 		// test writers, case 1: set in existing column
 		columnHandle
@@ -299,8 +299,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		column.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
 		column.setReferenceDateValue( new Expression(
 				"newly reference date", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
-		column.setTimeDimension( new Expression(
-				"newly time dimension", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		column.setTimeDimension( "newly time dimension"); //$NON-NLS-1$
 		paramHandle.addColumnBinding( column, false );
 
 		save( );		

@@ -644,13 +644,13 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets the expression handle for the time dimension member. Then use the
-	 * returned handle to do get/set action.
+	 * Gets the time dimension string value. It is the name of the referenced
+	 * time dimension.
 	 * 
-	 * @return
+	 * @return the referred time dimension name
 	 */
-	public ExpressionHandle getTimeDimension( )
+	public String getTimeDimension( )
 	{
-		return getExpressionProperty( ComputedColumn.TIME_DIMENSION_MEMBER );
+		return getStringProperty( ComputedColumn.TIME_DIMENSION_MEMBER );
 	}
 }

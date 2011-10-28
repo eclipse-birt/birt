@@ -21,7 +21,7 @@
                     </list-property>
                     <property name="refDateType">today</property>
                     <expression name="refDateValue">12</expression>
-                    <expression name="timeDimension">time dimension expression</expression>
+                    <property name="timeDimension">time dimension expression</property>
                 </structure>
                 <structure>
                     <property name="name">COLUMN_2</property>

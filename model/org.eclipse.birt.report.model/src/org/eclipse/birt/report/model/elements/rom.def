@@ -1515,7 +1515,7 @@
 	<Member detailType="CalculationArgument" displayNameID="Structure.ComputedColumn.calculationArguments" isList="true" name="calculationArguments" since="3.7" type="structure" />
 	<Member detailType="referenceDateType" displayNameID="Structure.ComputedColumn.refDateType" name="refDateType" runtimeSettable="false" since="3.7" type="choice"/>
 	<Member displayNameID="Structure.ComputedColumn.refDateValue" name="refDateValue" since="3.7" type="expression" />
-	<Member displayNameID="Structure.ComputedColumn.timeDimension" name="timeDimension" since="3.7" type="expression" />	     	  	  	  
+	<Member displayNameID="Structure.ComputedColumn.timeDimension" name="timeDimension" since="3.7" type="string" />	     	  	  	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
