@@ -153,12 +153,31 @@ public final class Generator implements IGenerator
 			chartValueUpdater.update( model, null );
 		}
 		
+		boolean needInheritingStyles = true;
 		// Process styles for the whole chart model at first
 		if ( externalProcessor != null )
 		{
 			externalProcessor.processStyle( model );
+			needInheritingStyles = externalProcessor.needInheritingStyles( );
 		}
 		
+		if ( needInheritingStyles )
+		{
+			updateWithInhertingtyles( model, externalProcessor );
+		}
+
+	}
+
+	/**
+	 * Update chart UI attributes with inherited styles if those UI attributes
+	 * don't be set or updated.
+	 * 
+	 * @param model
+	 * @param externalProcessor
+	 */
+	protected void updateWithInhertingtyles( Chart model,
+			IStyleProcessor externalProcessor )
+	{
 		Stack<StyledComponent> token = new Stack<StyledComponent>( );
 
 		token.push( StyledComponent.CHART_ALL_LITERAL );
@@ -166,7 +185,6 @@ public final class Generator implements IGenerator
 		prepareComponent( model, token, model, externalProcessor );
 
 		token.clear( );
-
 	}
 
 	private void prepareComponent( Chart model, Stack<StyledComponent> token,

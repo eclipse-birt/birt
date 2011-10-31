@@ -561,10 +561,22 @@ public final class DesignerRepresentation extends ReportElementFigure
 				{
 					if ( styleProcessorProxy != null )
 					{
+						// Enforce update chart with default value for image chart.
 						styleProcessorProxy.updateChart( model, true );
 						return true;
 					}
 					return false;
+				}
+				
+				/* (non-Javadoc)
+				 * @see org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor#needChartBasicStyles()
+				 */
+				public boolean needInheritingStyles( )
+				{
+					// Since the designer presentation is still rendering chart
+					// with SWT, it is image chart, it still returns true for
+					// updating chart with necessary styles.
+					return true;
 				}
 			};
 			gr.render( idr, gr.build( idr.getDisplayServer( ),

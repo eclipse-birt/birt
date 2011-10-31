@@ -65,4 +65,11 @@ public interface IStyleProcessor
 	 * @return <code>true</code> means updated successfully.
 	 */
 	boolean updateChart( Chart model, Object obj );
+	
+	/**
+	 * Indicates if chart need to inherit some basic styles from container.
+	 * 
+	 * @return
+	 */
+	boolean needInheritingStyles( );
 }

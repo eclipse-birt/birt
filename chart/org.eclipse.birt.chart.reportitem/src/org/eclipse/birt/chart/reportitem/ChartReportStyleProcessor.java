@@ -1302,4 +1302,17 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		}
 		return false;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.style.BaseStyleProcessor#needInheritingStyles()
+	 */
+	@Override
+	public boolean needInheritingStyles( )
+	{
+		if ( styleProcessorProxy != null )
+		{
+			return styleProcessorProxy.needInheritingStyles();
+		}
+		return super.needInheritingStyles( );
+	}
 }

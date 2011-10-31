@@ -60,4 +60,12 @@ public class BaseStyleProcessor implements IStyleProcessor
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.style.IStyleProcessor#needInheritingStyles()
+	 */
+	public boolean needInheritingStyles( )
+	{
+		return true;
+	}
+
 }

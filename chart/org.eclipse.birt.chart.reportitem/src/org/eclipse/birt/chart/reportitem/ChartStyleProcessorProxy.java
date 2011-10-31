@@ -101,4 +101,14 @@ public class ChartStyleProcessorProxy
 	{
 		chartValueUpdater.update( cm, null );
 	}
+
+	/**
+	 * Indicates if chart need to inherit basic styles from container.
+	 * 
+	 * @return
+	 */
+	public boolean needInheritingStyles( )
+	{
+		return true;
+	}
 }
