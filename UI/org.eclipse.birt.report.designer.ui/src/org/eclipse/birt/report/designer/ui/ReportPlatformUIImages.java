@@ -773,6 +773,9 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION,
 				ICONS_PATH + OBJ16_PATH + "aggregation.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_TIMEPERIOD,
+				ICONS_PATH + OBJ16_PATH + "relativetime.gif" ); //$NON-NLS-1$
 
 		// Scripts Node Icon
 		declareImage( IReportGraphicConstants.ICON_SCRIPTS_NODE, ICONS_PATH
