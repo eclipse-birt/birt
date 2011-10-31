@@ -13,11 +13,12 @@ package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Image;
 import java.awt.MediaTracker;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
@@ -84,9 +85,9 @@ public final class SwingImageCache
 							new Object[]{
 								url
 							}, idsSWING.getULocale( ) ) );
-			img = ( new ImageIcon( url ) ).getImage( );
 			try
 			{
+				img = ImageIO.read( url );
 				final MediaTracker tracker = new MediaTracker( p );
 				tracker.addImage( img, 0 );
 				tracker.waitForAll( );
@@ -119,6 +120,12 @@ public final class SwingImageCache
 				throw new ChartException( ChartDeviceExtensionPlugin.ID,
 						ChartException.IMAGE_LOADING,
 						ex );
+			}
+			catch ( IOException e )
+			{
+				throw new ChartException( ChartDeviceExtensionPlugin.ID,
+						ChartException.IMAGE_LOADING,
+						e );
 			}
 			htCache.put( sUrl, img );
 		}
