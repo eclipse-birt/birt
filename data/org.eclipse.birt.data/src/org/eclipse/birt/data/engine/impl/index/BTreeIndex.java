@@ -161,7 +161,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 					rowIDList.add( (Integer) keyRowID.rowID );
 					isFirst = false;
 				}
-				else if( equals( lastKey, keyRowID.key ) )
+				else if( equals( lastKey, keyRowID.key ) && rowIDList.size( ) < 1000 )
 				{
 					rowIDList.add( (Integer) keyRowID.rowID );
 				}
