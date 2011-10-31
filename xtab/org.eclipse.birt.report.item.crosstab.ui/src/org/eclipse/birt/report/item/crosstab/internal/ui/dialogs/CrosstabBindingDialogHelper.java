@@ -2320,7 +2320,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 //
 //			binding.setExpressionProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 //					dimensionExpression );
-			binding.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER, dimensionName );
+			binding.setTimeDimension( dimensionName );
 
 			binding.setCalculationType( timeFunction.getName( ) );
 			binding.setProperty( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER,
