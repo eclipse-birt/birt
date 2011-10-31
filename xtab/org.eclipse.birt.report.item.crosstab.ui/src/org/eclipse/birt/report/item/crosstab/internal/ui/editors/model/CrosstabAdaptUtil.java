@@ -22,9 +22,11 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -362,7 +364,25 @@ public class CrosstabAdaptUtil
 		{
 			return false;
 		}
-		return dim.isTimeType() || dim.getProperty("startTimePoint") != null;
+		if (dim.isTimeType( ))
+		{
+			return true;
+		}
+		Object[] objs = ElementAdapterManager.getAdapters( dim,
+					ITimeDimensionCheck.class );
+		if (objs == null)
+		{
+			return false;
+		}
+		for (int i=0; i<objs.length; i++)
+		{
+			ITimeDimensionCheck check = (ITimeDimensionCheck)objs[i];
+			if (check.isTimeDimension( dim ))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static CubeHandle getCubeHandle( DesignElementHandle levelHandle )
