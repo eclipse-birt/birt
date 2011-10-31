@@ -79,7 +79,7 @@ public abstract class AbstractBindingDialogHelper implements
 		if (this.binding != null)
 		{
 			setTimePeriod(this.binding.getTimeDimension() != null
-					&& this.binding.getTimeDimension().getExpression() != null);
+					&& !this.binding.getTimeDimension().equals( "" ));//$NON-NLS-1$
 		}
 	}
 

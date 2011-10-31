@@ -171,7 +171,7 @@ public class DataColumnBindingDialog extends BaseDialog
 		
 		if ( isTimePeriod
 				|| ( bindingColumn != null
-						&& bindingColumn.getTimeDimension( ) != null && bindingColumn.getTimeDimension( ).getExpression( ) != null)) //$NON-NLS-1$
+						&& bindingColumn.getTimeDimension( ) != null && !bindingColumn.getTimeDimension( ).equals( "" ))) //$NON-NLS-1$
 		{
 			setTitle( TIMEPERIOD_BUILDER_TITLE );
 		}

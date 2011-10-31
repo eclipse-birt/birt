@@ -17,13 +17,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IDimLevel;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
@@ -36,9 +33,9 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
-import org.eclipse.birt.report.data.adapter.api.timeFunction.TimeFunctionManager;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo.Period_Type;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.TimeFunctionManager;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
@@ -486,7 +483,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			ITimeFunction function = getTimeFunctionByDisplaName( getBinding( ).getCalculationType( ) );
 			String name = function.getName( );
 			int itemIndex = getItemIndex( names, name );
-			calculationType.select( itemIndex );
+			if (itemIndex >= 0)
+			{
+				calculationType.select( itemIndex );
+			}
+			else
+			{
+				calculationType.select( 0 );
+			}
 			handleCalculationSelectEvent( );
 
 			List<IArgumentInfo> infos = function.getArguments( );
@@ -611,22 +615,23 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private String getTimeDimsionName( )
 	{
 		String dimensionName = timeDimension.getText( );
-		Set<IDimLevel> sets;
-		try
-		{
-			sets = ExpressionUtil.getReferencedDimLevel( dimensionName );
-		}
-		catch ( CoreException e )
-		{
-			return null;
-		}
-		Iterator<IDimLevel> iter = sets.iterator( );
-		if ( iter.hasNext( ) )
-		{
-			return iter.next( ).getDimensionName( );
-		}
-
-		return null;
+		return dimensionName;
+//		Set<IDimLevel> sets;
+//		try
+//		{
+//			sets = ExpressionUtil.getReferencedDimLevel( dimensionName );
+//		}
+//		catch ( CoreException e )
+//		{
+//			return null;
+//		}
+//		Iterator<IDimLevel> iter = sets.iterator( );
+//		if ( iter.hasNext( ) )
+//		{
+//			return iter.next( ).getDimensionName( );
+//		}
+//
+//		return null;
 	}
 
 	private void createCalculationSelection( Composite composite )
@@ -720,7 +725,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					final String name = infos.get( i ).getName( );
 					Label lblParam = new Label( calculationComposite, SWT.NONE );
-					lblParam.setText( infos.get( i ).getName( ) + ":" ); //$NON-NLS-1$
+					lblParam.setText( infos.get( i ).getDisplayName( ) + ":" ); //$NON-NLS-1$
 					GridData gd = new GridData( );
 					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
 							SWT.DEFAULT ).x;
@@ -999,11 +1004,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			ExpressionHandle value = getBinding( ).getTimeDimension( );
-			value.getExpression( );
-			String stringValue = value == null
-					|| value.getExpression( ) == null ? "" : ( (Expression) value.getValue( ) ).getStringExpression( ); //$NON-NLS-1$
-			int itemIndex = getItemIndex( strs, stringValue );
+			String value = getBinding( ).getTimeDimension( );
+			int itemIndex = getItemIndex( strs, value );
 			timeDimension.select( itemIndex );
 		}
 	}
@@ -1018,9 +1020,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					i );
 			if ( isAvaliableTimeDimension( viewHandle.getCubeDimension( ) ) )
 			{
-				return ExpressionUtil.createJSDimensionExpression( viewHandle.getCubeDimension( )
-						.getName( ),
-						null );
+//				return ExpressionUtil.createJSDimensionExpression( viewHandle.getCubeDimension( )
+//						.getName( ),
+//						null );
+				return viewHandle.getCubeDimension( ).getName( );
 			}
 		}
 
@@ -1031,9 +1034,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					i );
 			if ( isAvaliableTimeDimension( viewHandle.getCubeDimension( ) ) )
 			{
-				return ExpressionUtil.createJSDimensionExpression( viewHandle.getCubeDimension( )
-						.getName( ),
-						null );
+//				return ExpressionUtil.createJSDimensionExpression( viewHandle.getCubeDimension( )
+//						.getName( ),
+//						null );
+				return viewHandle.getCubeDimension( ).getName( );
 			}
 		}
 		return null;
@@ -1090,8 +1094,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			DimensionHandle dimension = (DimensionHandle) list.get( i );
 			if ( isAvaliableTimeDimension( dimension ) )
 			{
-				strs.add( ExpressionUtil.createJSDimensionExpression( dimension.getName( ),
-						null ) );
+//				strs.add( ExpressionUtil.createJSDimensionExpression( dimension.getName( ),
+//						null ) );
+				strs.add( dimension.getName( ) );
 			}
 		}
 
@@ -2310,11 +2315,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			ITimeFunction timeFunction = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
 
 			String dimensionName = timeDimension.getText( );
-			Expression dimensionExpression = new Expression( dimensionName,
-					ExpressionType.JAVASCRIPT );
-
-			binding.setExpressionProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
-					dimensionExpression );
+//			Expression dimensionExpression = new Expression( dimensionName,
+//					ExpressionType.JAVASCRIPT );
+//
+//			binding.setExpressionProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+//					dimensionExpression );
+			binding.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER, dimensionName );
 
 			binding.setCalculationType( timeFunction.getName( ) );
 			binding.setProperty( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER,
