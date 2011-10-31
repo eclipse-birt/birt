@@ -72,7 +72,7 @@ public class AggregationDropAdapter implements IDropAdapter
 			EditPart editPart = (EditPart) target;
 
 			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
-			if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE ))
+			if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( transfer ))
 			{
 				stack.startTrans( "Add TimePeriod" ); //$NON-NLS-1$
 			}
@@ -91,7 +91,7 @@ public class AggregationDropAdapter implements IDropAdapter
 				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
 				dialog.setInput( dataHandle, null, cellHandle );
 				dialog.setAggreate( true );
-				if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE ))
+				if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( transfer ))
 				{
 					dialog.setTimePeriod( true );
 				}
