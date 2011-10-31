@@ -653,4 +653,17 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		return getStringProperty( ComputedColumn.TIME_DIMENSION_MEMBER );
 	}
+
+	/**
+	 * Sets the time dimension string value. It is the name of the referred time
+	 * dimension element.
+	 * 
+	 * @param timeDimension
+	 * @throws SemanticException
+	 */
+	public void setTimeDimension( String timeDimension )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.TIME_DIMENSION_MEMBER, timeDimension );
+	}
 }
