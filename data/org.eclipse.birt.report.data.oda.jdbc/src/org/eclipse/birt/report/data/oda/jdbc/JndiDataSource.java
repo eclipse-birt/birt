@@ -142,38 +142,55 @@ class JndiDataSource implements IConnectionFactory
     private Connection getDataSourceConnection( DataSource ds, Properties connProps )
         throws SQLException
     {
+        Exception error = null;
+        
+    	// First try to obtain connection without user credential.
+        if( sm_logger.isLoggable( Level.FINER ) )
+            sm_logger.finer( "getDataSourceConnection: using getConnection() from data source pool." ); //$NON-NLS-1$
+        
+        try
+        {
+        	return ds.getConnection(); 
+        }
+        catch ( Exception ex )
+        {
+        	error = ex;
+        	sm_logger.info( ex.toString() );
+        }
+        
         // check if specified connection properties contain user authentication properties
         String username = connProps.getProperty( JDBCDriverManager.JDBC_USER_PROP_NAME );
         String password = connProps.getProperty( JDBCDriverManager.JDBC_PASSWORD_PROP_NAME );
         
+        // Try obtain connection with user credential if username/passwords are available.
         if( username != null && username.length() > 0 )  // user name is explicitly specified
         {
             if( sm_logger.isLoggable( Level.FINER ) )
                 sm_logger.finer( "getDataSourceConnection: using getConnection( username, password ) from data source pool." ); //$NON-NLS-1$
             
-            Connection conn = null;
             try
             {
-                conn = ds.getConnection( username, password );
+                return ds.getConnection( username, password );
             }
-            catch( SQLException ex )
+            catch( Exception ex )
             {
-                sm_logger.info( ex.toString() );
+                error = ex;
+            	sm_logger.info( ex.toString() );
             }
-            catch( UnsupportedOperationException unEx )
-            {
-                sm_logger.fine( unEx.toString() );
-            }
-            
-            if( conn != null )  // successful
-                return conn;    // done
-            // else try again below without explicit username and password
         }
             
-        if( sm_logger.isLoggable( Level.FINER ) )
-            sm_logger.finer( "getDataSourceConnection: using getConnection() from data source pool." ); //$NON-NLS-1$
-
-        return ds.getConnection();     
+		SQLException sqlEx = null;
+		// All attempts failed, report error.
+		if ( error instanceof SQLException )
+		{
+			sqlEx = (SQLException) error;
+		}
+		else
+		{
+			sqlEx = new SQLException( error.getLocalizedMessage( ) );
+			sqlEx.initCause( error );
+		}
+		throw sqlEx; 
     }
 
     /**

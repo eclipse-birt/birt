@@ -127,3 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=Introduzca un nú
 designer.preview.preference.resultset.maxrow.description=Número máximo de &filas que mostrar:
 designer.preview.preference.resultset.maxrow.errormessage=Introduzca un número entre 1 y {0} para el número máximo de filas.
 designer.preview.preference.resultset.sqldatasetpage.group.title=Página de consulta
+tablepage.label.filter.tooltip=% allows you to match any string of any length (including zero length) \n _ allows you to match on a single character

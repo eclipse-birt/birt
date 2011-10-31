@@ -127,3 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=saisissez un chi
 designer.preview.preference.resultset.maxrow.description=Nombre maximum de lignes à affiche&r :
 designer.preview.preference.resultset.maxrow.errormessage=Entrez un nombre compris entre 1 et {0} pour le nombre maximal de lignes.
 designer.preview.preference.resultset.sqldatasetpage.group.title=Page de requête
+tablepage.label.filter.tooltip=% allows you to match any string of any length (including zero length) \n _ allows you to match on a single character

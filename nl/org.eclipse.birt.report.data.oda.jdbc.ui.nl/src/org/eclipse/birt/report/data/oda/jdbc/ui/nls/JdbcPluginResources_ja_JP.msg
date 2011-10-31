@@ -127,3 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=タイムアウト制限
 designer.preview.preference.resultset.maxrow.description=表示するロウの最大数(&R) :
 designer.preview.preference.resultset.maxrow.errormessage=最大ロウ数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
+tablepage.label.filter.tooltip=% allows you to match any string of any length (including zero length) \n _ allows you to match on a single character

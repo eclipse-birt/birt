@@ -96,3 +96,4 @@ odajdbc.CannotInstantiateDriverClass=Instanz von JDBC-Treiberklasse kann nicht e
 odajdbc.CannotInstantiateFactory=Die in der Erweiterung für Treiberklasse "{1}" definierte Instanz für die Verbindungs-Factory-Klasse "{0}" kann nicht erstellt werden.
 
 odajdbc.jndi.InvalidJndiResource=JNDI-Ressourcentyp ({0}) gefunden; javax.sql.DataSource-Typ erwartet.
+odajdbc.testfail=Test Fail

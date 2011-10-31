@@ -69,7 +69,7 @@ class EdgeDimensionRelation
 	private List sectionList;
 	
 	EdgeDimensionRelation( RowDataAccessorService service,
-			ResultSetFetcher fetcher, int fetchSize, boolean isPage )
+			ResultSetFetcher fetcher, boolean isPage )
 			throws IOException
 	{
 		IAggregationResultSet rs = fetcher.getAggrResultSet( );
@@ -79,15 +79,8 @@ class EdgeDimensionRelation
 		this.fetcher = fetcher;
 		int customDimSize = dimAxis.length;
 
-		if ( fetchSize > 0 && rs.length( ) > fetchSize )
-		{
-			this.traverseLength = fetchSize;
-		}
-		else
-		{
-			this.traverseLength = rs.length( );
-		}
-			
+		this.traverseLength = rs.length( );
+		
 		Object[] preValue = new Object[customDimSize];
 		Object[] currValue = new Object[customDimSize];
 		
