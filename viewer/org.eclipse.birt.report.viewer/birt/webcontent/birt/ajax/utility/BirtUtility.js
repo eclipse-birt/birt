@@ -768,7 +768,7 @@ BirtUtility.prototype =
 				if ( el._tabIndexSaved )
 				{
 					el.tabIndex = el._tabIndexSaved;
-					delete el._tabIndexSaved;
+					el._tabIndexSaved = null;
 				}
 				else
 				{
