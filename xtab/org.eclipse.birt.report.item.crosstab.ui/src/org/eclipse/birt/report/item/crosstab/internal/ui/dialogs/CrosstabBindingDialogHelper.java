@@ -157,7 +157,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Label recentLabel;
 	private Map<String, Control> calculationParamsMap = new HashMap<String, Control>( );
 	private Map<String, String> calculationParamsValueMap = new HashMap<String, String>( );
-
+	private boolean isStatic = true;
 	public void createContent( Composite parent )
 	{
 		composite = parent;
@@ -344,6 +344,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent event )
 			{
+				if (!isStatic)
+				{
+					isStatic = true;
+					initCalculationTypeCombo( getTimeDimsionName( ) );
+				}
 				modifyDialogContent( );
 				validate( );
 			}
@@ -355,6 +360,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent event )
 			{
+				if (!isStatic)
+				{
+					isStatic = true;
+					initCalculationTypeCombo( getTimeDimsionName( ) );
+				}
 				modifyDialogContent( );
 				validate( );
 			}
@@ -397,6 +407,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent event )
 			{
+				if (isStatic)
+				{
+					isStatic = false;
+					initCalculationTypeCombo( getTimeDimsionName( ) );
+				}
 				modifyDialogContent( );
 				validate( );
 			}
@@ -455,15 +470,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		DimensionHandle handle = getCrosstabReportItemHandle( ).getCube( )
 				.getDimension( dimensionName );
-
-		boolean isStatic = true;
+		String cal = calculationType.getText( );
+		isStatic = true;
 		if ( recentButton.getSelection( ) )
 		{
 			isStatic = false;
 		}
 		times = TimeFunctionManager.getCalculationTypes( handle,
 				getUseLevels( dimensionName ),
-				true );
+				isStatic );
 		String[] items = new String[times.size( )];
 		String[] names = new String[times.size( )];
 		for ( int i = 0; i < times.size( ); i++ )
@@ -475,24 +490,38 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		calculationType.setItems( items );
 		if ( getBinding( ) == null )
 		{
-			calculationType.select( 0 );
-			handleCalculationSelectEvent( );
-		}
-		else
-		{
-			ITimeFunction function = getTimeFunctionByDisplaName( getBinding( ).getCalculationType( ) );
-			String name = function.getName( );
-			int itemIndex = getItemIndex( names, name );
-			if (itemIndex >= 0)
+			if (cal != null && getItemIndex( items, cal ) >= 0)
 			{
-				calculationType.select( itemIndex );
+				calculationType.select(getItemIndex( items, cal ));
 			}
 			else
 			{
 				calculationType.select( 0 );
 			}
 			handleCalculationSelectEvent( );
-
+		}
+		else
+		{
+			if (cal != null && getItemIndex( items, cal ) >= 0)
+			{
+				calculationType.select(getItemIndex( items, cal ));
+			}
+			else
+			{
+				ITimeFunction function = getTimeFunctionByDisplaName( getBinding( ).getCalculationType( ) );
+				String name = function.getName( );
+				int itemIndex = getItemIndex( names, name );
+				if (itemIndex >= 0)
+				{
+					calculationType.select( itemIndex );
+				}
+				else
+				{
+					calculationType.select( 0 );
+				}
+			}
+			handleCalculationSelectEvent( );
+			ITimeFunction function = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
 			List<IArgumentInfo> infos = function.getArguments( );
 			for ( int i = 0; i < infos.size( ); i++ )
 			{
