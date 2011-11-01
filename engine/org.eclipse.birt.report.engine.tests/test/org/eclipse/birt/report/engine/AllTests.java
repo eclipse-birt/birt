@@ -68,7 +68,6 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.InstanceIDTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.MutipleThreadRenderTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.PageHandlerTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.api.ParameterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.ParameterConverterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.ParameterValidationTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.ProgressiveViewingTest.class );

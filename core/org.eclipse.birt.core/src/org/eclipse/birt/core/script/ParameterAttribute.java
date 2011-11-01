@@ -18,14 +18,8 @@ public class ParameterAttribute implements Serializable
 
 	private static final long serialVersionUID = 3172532636112306947L;
 	private Object value;
-	private Object displayText;
+	private String displayText;
 
-	public ParameterAttribute( Object[] values, String[] displayTexts)
-	{
-		this.value = values;
-		this.displayText = displayTexts;
-	}
-	
 	public ParameterAttribute( Object value, String displayText )
 	{
 		this.value = value;
@@ -36,7 +30,7 @@ public class ParameterAttribute implements Serializable
 	{
 	}
 
-	public Object getDisplayText( )
+	public String getDisplayText( )
 	{
 		return displayText;
 	}
@@ -46,11 +40,6 @@ public class ParameterAttribute implements Serializable
 		this.displayText = displayText;
 	}
 
-	public void setDisplayText( String[] displayTexts)
-	{
-		this.displayText = displayTexts;
-	}
-	
 	public Object getValue( )
 	{
 		return value;

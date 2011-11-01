@@ -138,13 +138,6 @@ public interface IEngineTask {
 	public abstract void setParameterValue(String name, Object value);
 	
 	/**
-	 * sets one parameter values
-	 * @param name parameter name
-	 * @param values parameter values
-	 */
-	public abstract void setParameterValue(String name, Object[] values);
-
-	/**
 	 * returns the parameter name/value collection
 	 * @return the parameter names/values in a hash map
 	 */
@@ -174,25 +167,13 @@ public interface IEngineTask {
 	public void setParameter( String name, Object value, String displayText );
 
 	/**
-	 * Sets parameter value and display text.
-	 * 
-	 * @param name
-	 *            parameter name.
-	 * @param values
-	 *            values.
-	 * @param displayText
-	 *            display text.
-	 */
-	public void setParameter(String name, Object[] values, String[] displayText);
-
-	/**
 	 * Gets parameter display text by parameter name.
 	 * 
 	 * @param name
 	 *            parameter name.
 	 * @return display text.
 	 */
-	public Object getParameterDisplayText( String name);
+	public String getParameterDisplayText( String name);
 
 
 	/**
@@ -202,14 +183,6 @@ public interface IEngineTask {
 	 * @param displayText display text to set.
 	 */
 	public void setParameterDisplayText( String name, String displayText );
-	
-	/**
-	 * Sets display text of a parameter with specified name.
-	 *
-	 * @param name name of the parameter.
-	 * @param displayText display text to set.
-	 */
-	public void setParameterDisplayText(String name, String[] text);
 
 	/**
 	 * set the cancel flag if the task is running.

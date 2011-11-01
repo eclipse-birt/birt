@@ -250,7 +250,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			Object key = entry.getKey( );
 			ParameterAttribute valueObj = (ParameterAttribute) entry.getValue( );
 			Object value = valueObj.getValue( );
-			Object display = valueObj.getDisplayText( );
+			String display = valueObj.getDisplayText( );
 			paramters.put( key, new Object[]{value, display} );
 		}
 	}

@@ -98,15 +98,7 @@ public class ScriptableParameters extends BaseScriptable
 		{
 			ParameterAttribute param = (ParameterAttribute) value;
 			entry.setValue( param.getValue( ) );
-			Object displayText = param.getDisplayText( );
-			if ( displayText == null || displayText instanceof String )
-			{
-				entry.setDisplayText( (String) param.getDisplayText( ) );
-			}
-			else if ( displayText instanceof String[] )
-			{
-				entry.setDisplayText( (String[]) param.getDisplayText( ) );
-			}
+			entry.setDisplayText( param.getDisplayText( ) );
 		}
 		else
 		{

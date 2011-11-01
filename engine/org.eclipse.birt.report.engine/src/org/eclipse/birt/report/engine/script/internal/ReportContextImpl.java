@@ -167,7 +167,7 @@ public class ReportContextImpl implements IReportContext
 		return formatter.format( params, new StringBuffer(), null ).toString();
 	}
 
-	public Object getParameterDisplayText( String name )
+	public String getParameterDisplayText( String name )
 	{
 		return context.getParameterDisplayText( name );
 	}
