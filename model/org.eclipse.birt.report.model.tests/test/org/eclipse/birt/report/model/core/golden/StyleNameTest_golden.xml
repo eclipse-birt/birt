@@ -2,12 +2,12 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
     <property name="layoutPreference">auto layout</property>
     <styles>
-        <style name="My-style1" id="2"/>
+    	<style name="My style" id="2"/>
         <style name="my-style" id="3"/>
         <style name="Test-style" id="4"/>
         <style name="test-Style1" id="5"/>
-        <style name="s2style" id="6"/>
-        <style name="s2-style" id="7"/>
-        <style name="sstyle" id="8"/>
+        <style name="12style" id="6"/>
+        <style name="12 style" id="7"/>
+        <style name="-style" id="8"/>
     </styles>
 </report>

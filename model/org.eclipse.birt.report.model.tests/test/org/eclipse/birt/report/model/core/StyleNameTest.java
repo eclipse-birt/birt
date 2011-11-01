@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
@@ -137,7 +138,7 @@ public class StyleNameTest extends BaseTestCase
 		// this style name has spaces, then we rename it and the referring label
 		// changes the style property to ensure the right resolve
 		DesignElementHandle styleHandle = designHandle.getStyles( ).get( 0 );
-		assertEquals( "My-style", styleHandle.getName( ) ); //$NON-NLS-1$
+		assertEquals( "My style", styleHandle.getName( ) ); //$NON-NLS-1$
 		DesignElementHandle labelHandle = designHandle.findElement( "label_1" ); //$NON-NLS-1$
 		assertEquals( styleHandle, labelHandle.getStyle( ) );
 
@@ -193,7 +194,11 @@ public class StyleNameTest extends BaseTestCase
 		// renamed for the invalidation, so the style will not be resolved
 		DesignElementHandle labelHandle = designHandle.findElement( "label_1" ); //$NON-NLS-1$
 		assertNotNull( labelHandle.getStringProperty( StyledElement.STYLE_PROP ) );
-		assertNull( labelHandle.getStyle( ) );
+		assertNotNull( labelHandle.getStyle( ) );
+		ThemeHandle themeHandle = designHandle.getTheme( );
+		assertNotNull( themeHandle );
+		StyleHandle libStyle = themeHandle.findStyle( "My style" ); //$NON-NLS-1$
+		assertEquals( libStyle, labelHandle.getStyle( ) );
 
 		// this label refers a style in library theme, however the style is
 		// renamed for its duplicate name, so the style will be resolved to

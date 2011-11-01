@@ -9,13 +9,13 @@
         </structure>
     </list-property>
     <styles>
-        <style name="My-Style1" id="2"/>
+        <style name="My Style1" id="2"/>
         <style name="TEST-style2" id="3"/>
         <style name="TEST-Style11" id="4"/>
     </styles>
     <body>
         <label name="label_1" id="5">
-            <property name="style">My-Style1</property>
+            <property name="style">My Style1</property>
         </label>
         <label name="label_2" id="6">
             <property name="style">TEST-style2</property>
