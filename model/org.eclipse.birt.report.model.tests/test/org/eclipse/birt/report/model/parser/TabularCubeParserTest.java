@@ -123,13 +123,13 @@ public class TabularCubeParserTest extends BaseTestCase
 		PropertyHandle propHandle = cube
 				.getPropertyHandle( TabularCubeHandle.DIMENSIONS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, cube
-				.getContentCount( TabularCubeHandle.DIMENSIONS_PROP ) );
+		assertEquals( 1,
+				cube.getContentCount( TabularCubeHandle.DIMENSIONS_PROP ) );
 
 		// dimension
 		DimensionHandle dimension = (DimensionHandle) propHandle.getContent( 0 );
-		assertEquals( dimension, cube.getContent(
-				TabularCubeHandle.DIMENSIONS_PROP, 0 ) );
+		assertEquals( dimension,
+				cube.getContent( TabularCubeHandle.DIMENSIONS_PROP, 0 ) );
 		assertEquals( "testDimension", dimension.getName( ) ); //$NON-NLS-1$
 		assertTrue( dimension.isTimeType( ) );
 		expressionHandle = dimension.getACLExpression( );
@@ -139,14 +139,14 @@ public class TabularCubeParserTest extends BaseTestCase
 		propHandle = dimension
 				.getPropertyHandle( DimensionHandle.HIERARCHIES_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, dimension
-				.getContentCount( DimensionHandle.HIERARCHIES_PROP ) );
+		assertEquals( 1,
+				dimension.getContentCount( DimensionHandle.HIERARCHIES_PROP ) );
 
 		// hierarchy
 		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) propHandle
 				.getContent( 0 );
-		assertEquals( hierarchy, dimension.getContent(
-				DimensionHandle.HIERARCHIES_PROP, 0 ) );
+		assertEquals( hierarchy,
+				dimension.getContent( DimensionHandle.HIERARCHIES_PROP, 0 ) );
 		// test getDefaultHierarchy in dimension
 		assertEquals( hierarchy, dimension.getDefaultHierarchy( ) );
 		assertEquals( "testHierarchy", hierarchy.getName( ) ); //$NON-NLS-1$
@@ -159,8 +159,8 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		propHandle = cube.getPropertyHandle( TabularCubeHandle.DIMENSIONS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, cube
-				.getContentCount( TabularCubeHandle.DIMENSIONS_PROP ) );
+		assertEquals( 1,
+				cube.getContentCount( TabularCubeHandle.DIMENSIONS_PROP ) );
 
 		// filter
 		iter = hierarchy.filtersIterator( );
@@ -174,26 +174,26 @@ public class TabularCubeParserTest extends BaseTestCase
 		propHandle = hierarchy
 				.getPropertyHandle( TabularHierarchyHandle.LEVELS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, hierarchy
-				.getContentCount( TabularHierarchyHandle.LEVELS_PROP ) );
+		assertEquals( 1,
+				hierarchy.getContentCount( TabularHierarchyHandle.LEVELS_PROP ) );
 
 		// level
 		level = (TabularLevelHandle) propHandle.getContent( 0 );
-		assertEquals( level, hierarchy.getContent(
-				TabularHierarchyHandle.LEVELS_PROP, 0 ) );
+		assertEquals( level,
+				hierarchy.getContent( TabularHierarchyHandle.LEVELS_PROP, 0 ) );
 		assertEquals( "testLevel", level.getName( ) ); //$NON-NLS-1$
 		assertEquals( "column1", level.getColumnName( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, level
-				.getDataType( ) );
-		assertEquals( DesignChoiceConstants.INTERVAL_TYPE_PREFIX, level
-				.getInterval( ) );
-		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH, level
-				.getDateTimeLevelType( ) );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+				level.getDataType( ) );
+		assertEquals( DesignChoiceConstants.INTERVAL_TYPE_PREFIX,
+				level.getInterval( ) );
+		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH,
+				level.getDateTimeLevelType( ) );
 		assertEquals( "mmm", level.getDateTimeFormat( ) ); //$NON-NLS-1$
 		assertEquals( 3.0, level.getIntervalRange( ), 0.00 );
 		assertEquals( "Jan", level.getIntervalBase( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC, level
-				.getLevelType( ) );
+		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC,
+				level.getLevelType( ) );
 		expressionHandle = level.getACLExpression( );
 		value = (Expression) expressionHandle.getValue( );
 		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
@@ -214,12 +214,12 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		LevelAttributeHandle attribute = (LevelAttributeHandle) iter.next( );
 		assertEquals( "var1", attribute.getName( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, attribute
-				.getDataType( ) );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+				attribute.getDataType( ) );
 		attribute = (LevelAttributeHandle) iter.next( );
 		assertEquals( "var2", attribute.getName( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, attribute
-				.getDataType( ) );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER,
+				attribute.getDataType( ) );
 
 		ActionHandle action = level.getActionHandle( );
 		assertEquals( "http://localhost:8080/bluehero", action.getURI( ) ); //$NON-NLS-1$
@@ -234,12 +234,12 @@ public class TabularCubeParserTest extends BaseTestCase
 		propHandle = cube
 				.getPropertyHandle( TabularCubeHandle.MEASURE_GROUPS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, cube
-				.getContentCount( TabularCubeHandle.MEASURE_GROUPS_PROP ) );
+		assertEquals( 1,
+				cube.getContentCount( TabularCubeHandle.MEASURE_GROUPS_PROP ) );
 		MeasureGroupHandle measureGroup = (MeasureGroupHandle) propHandle
 				.getContent( 0 );
-		assertEquals( measureGroup, cube.getContent(
-				TabularCubeHandle.MEASURE_GROUPS_PROP, 0 ) );
+		assertEquals( measureGroup,
+				cube.getContent( TabularCubeHandle.MEASURE_GROUPS_PROP, 0 ) );
 		assertEquals( "testMeasureGroup", measureGroup.getName( ) ); //$NON-NLS-1$
 
 		propHandle = measureGroup
@@ -249,11 +249,11 @@ public class TabularCubeParserTest extends BaseTestCase
 		MeasureHandle measure = (MeasureHandle) propHandle.getContent( 0 );
 		assertEquals( "testMeasure", measure.getName( ) ); //$NON-NLS-1$
 		assertEquals( "column", measure.getMeasureExpression( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_MIN, measure
-				.getFunction( ) );
+		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_MIN,
+				measure.getFunction( ) );
 		assertFalse( measure.isCalculated( ) );
-		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, measure
-				.getDataType( ) );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+				measure.getDataType( ) );
 		expressionHandle = measure.getACLExpression( );
 		value = (Expression) expressionHandle.getValue( );
 		assertEquals( "ACL expression", value.getStringExpression( ) ); //$NON-NLS-1$
@@ -269,8 +269,13 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertNull( format.getLocale( ) );
 
 		// test alignment
-		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, level.getAlignment( ) );
-		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY, measure.getAlignment( ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY,
+				level.getAlignment( ) );
+		assertEquals( DesignChoiceConstants.TEXT_ALIGN_JUSTIFY,
+				measure.getAlignment( ) );
+
+		// test isVisible
+		assertFalse( measure.isVisible( ) );
 
 	}
 
@@ -316,8 +321,8 @@ public class TabularCubeParserTest extends BaseTestCase
 		structHandle.removeJoinCondition( 1 );
 
 		// dimension
-		cube.add( TabularCubeHandle.DIMENSIONS_PROP, factory
-				.newTabularDimension( null ) );
+		cube.add( TabularCubeHandle.DIMENSIONS_PROP,
+				factory.newTabularDimension( null ) );
 		DimensionHandle dimension = (DimensionHandle) cube.getContent(
 				TabularCubeHandle.DIMENSIONS_PROP, 0 );
 		dimension.setName( namePrix + dimension.getName( ) );
@@ -330,8 +335,8 @@ public class TabularCubeParserTest extends BaseTestCase
 						"new " + expressionHandle.getStringValue( ), IExpressionType.CONSTANT ) ); //$NON-NLS-1$
 
 		// hierarchy
-		dimension.add( DimensionHandle.HIERARCHIES_PROP, factory
-				.newTabularHierarchy( null ) );
+		dimension.add( DimensionHandle.HIERARCHIES_PROP,
+				factory.newTabularHierarchy( null ) );
 		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension
 				.getContent( DimensionHandle.HIERARCHIES_PROP, 0 );
 		hierarchy.setName( namePrix + hierarchy.getName( ) );
@@ -342,8 +347,8 @@ public class TabularCubeParserTest extends BaseTestCase
 		propHandle.addItem( valuePrix + "key" ); //$NON-NLS-1$
 
 		// level
-		hierarchy.add( TabularHierarchyHandle.LEVELS_PROP, factory
-				.newTabularLevel( dimension, null ) );
+		hierarchy.add( TabularHierarchyHandle.LEVELS_PROP,
+				factory.newTabularLevel( dimension, null ) );
 		TabularLevelHandle level = (TabularLevelHandle) hierarchy.getContent(
 				TabularHierarchyHandle.LEVELS_PROP, 0 );
 		level.setName( namePrix + level.getName( ) );
@@ -387,15 +392,15 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setFormat( levelFormat );
 
 		// measure group
-		cube.add( TabularCubeHandle.MEASURE_GROUPS_PROP, factory
-				.newTabularMeasureGroup( null ) );
+		cube.add( TabularCubeHandle.MEASURE_GROUPS_PROP,
+				factory.newTabularMeasureGroup( null ) );
 		MeasureGroupHandle measureGroup = (MeasureGroupHandle) cube.getContent(
 				TabularCubeHandle.MEASURE_GROUPS_PROP, 0 );
 		measureGroup.setName( namePrix + measureGroup.getName( ) );
 
 		// measure
-		measureGroup.add( MeasureGroupHandle.MEASURES_PROP, factory
-				.newTabularMeasure( null ) );
+		measureGroup.add( MeasureGroupHandle.MEASURES_PROP,
+				factory.newTabularMeasure( null ) );
 		MeasureHandle measure = (MeasureHandle) measureGroup.getContent(
 				MeasureGroupHandle.MEASURES_PROP, 0 );
 		measure.setName( namePrix + measure.getName( ) );
@@ -421,6 +426,9 @@ public class TabularCubeParserTest extends BaseTestCase
 		// test alignment
 		level.setAlignment( DesignChoiceConstants.TEXT_ALIGN_CENTER );
 		measure.setAlignment( DesignChoiceConstants.TEXT_ALIGN_CENTER );
+
+		// isVisible
+		measure.setVisible( true );
 
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
@@ -535,8 +543,8 @@ public class TabularCubeParserTest extends BaseTestCase
 	private static void checkNotificationStatus( MyListener listener )
 	{
 		assertEquals( NotificationEvent.PROPERTY_EVENT, listener.getEventType( ) );
-		assertEquals( TabularCubeHandle.ACCESS_CONTROLS_PROP, listener
-				.getPropName( ) );
+		assertEquals( TabularCubeHandle.ACCESS_CONTROLS_PROP,
+				listener.getPropName( ) );
 
 		listener.reset( );
 	}
