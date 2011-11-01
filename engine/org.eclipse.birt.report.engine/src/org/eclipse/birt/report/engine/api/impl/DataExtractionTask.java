@@ -119,7 +119,7 @@ public class DataExtractionTask implements IDataExtractionTask
 		return task.getMetaData( );
 	}
 
-	public String getParameterDisplayText( String name )
+	public Object getParameterDisplayText( String name )
 	{
 		return task.getParameterDisplayText( name );
 	}
@@ -222,15 +222,30 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.setParameter( name, value, displayText );
 	}
+	
+	public void setParameter( String name, Object[] values, String[] displayText )
+	{
+		task.setParameter( name, values, displayText );
+	}
 
 	public void setParameterDisplayText( String name, String displayText )
 	{
 		task.setParameterDisplayText( name, displayText );
 	}
 
+	public void setParameterDisplayText(String name, String[] displayText)	
+	{
+		task.setParameterDisplayText( name, displayText );
+	}
+	
 	public void setParameterValue( String name, Object value )
 	{
 		task.setParameterValue( name, value );
+	}
+	
+	public void setParameterValue( String name, Object[] values )
+	{
+		task.setParameterValue( name, values );
 	}
 
 	public void setParameterValues( Map params )
