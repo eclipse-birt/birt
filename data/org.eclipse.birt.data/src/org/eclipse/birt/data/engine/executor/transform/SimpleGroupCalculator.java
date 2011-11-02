@@ -226,7 +226,10 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			}
 			this.aggrHelper.onRow( this.getStartingGroup( ), this.getEndingGroup( ), this.current, rowId);
 
-			if ( this.runningAggrs.size( ) > 0 )
+			if ( this.runningAggrs.size( ) > 0
+					&& this.combinedAggrOutput != null
+					&& this.combinedAggrRAOutput != null 
+					&& this.combinedAggrIndexOutput != null)
 			{
 				for ( String aggrName : this.runningAggrs )
 				{
@@ -246,7 +249,11 @@ public class SimpleGroupCalculator implements IGroupCalculator
 					saveToAggrValuesToDocument( i, rowId );
 				}
 				
-				if( this.overallAggrs.size( ) > 0 && this.combinedAggrIndexOutput!= null )
+				if ( this.overallAggrs.size( ) > 0
+						&& this.combinedAggrIndexOutput != null
+						&& this.combinedAggrIndexRAOutput != null
+						&& this.combinedAggrRAOutput != null
+						&& this.combinedAggrOutput != null )
 				{
 					this.combinedAggrIndexRAOutput.seek( 0 );
 					IOUtil.writeLong( this.combinedAggrIndexOutput, this.combinedAggrRAOutput.getOffset( ) );
