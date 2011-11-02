@@ -33,6 +33,8 @@ MeasureComboPropertyDescriptorProvider.TransName=Modifier l'orientation du table
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Ajouter une dimension
 AddMeasureViewHandleCommand.TransName=Ajouter une mesure
+AddRelativeTimePeriodAction_action_label=Add Relative Time Period
+AddRelativeTimePeriodAction_trans_label=Add Relative Time Period 
 ChangeAreaCommand.TransName=Ignorer la dimension
 ChangeMeasureOrderCommand.TransName=Modifier l'ordre de mesure
 CreateDimensionViewCommand.TransName=Créer une dimension
