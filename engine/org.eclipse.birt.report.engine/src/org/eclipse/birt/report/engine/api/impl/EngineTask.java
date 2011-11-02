@@ -984,6 +984,24 @@ public abstract class EngineTask implements IEngineTask
 			inputValues.put( name, new ParameterAttribute( value, null ) );
 		}
 	}
+	
+	public void setParameterValue( String name, Object[] values )
+	{
+		log.log( Level.FINE, "EngineTask.setParameterValue: {0}={1} [{2}]",
+				new Object[]{name, values,
+						values == null ? null : values.getClass( ).getName( )} );
+		parameterChanged = true;
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			( (ParameterAttribute) parameter ).setValue( values );
+		}
+		else
+		{
+			inputValues.put( name, new ParameterAttribute( values, new String[]{null}) );
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -994,6 +1012,17 @@ public abstract class EngineTask implements IEngineTask
 	public void setValue( String name, Object value )
 	{
 		setParameterValue( name, value );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public void setValue( String name, Object[] values )
+	{
+		setParameterValue( name, values );
 	}
 
 	/*
@@ -1036,8 +1065,14 @@ public abstract class EngineTask implements IEngineTask
 		parameterChanged = true;
 		inputValues.put( name, new ParameterAttribute( value, displayText ) );
 	}
+	
+	public void setParameter( String name, Object[] values, String[] displayText )
+	{
+		parameterChanged = true;
+		inputValues.put( name, new ParameterAttribute( values, displayText ) );
+	}
 
-	public String getParameterDisplayText( String name )
+	public Object getParameterDisplayText( String name )
 	{
 		Object parameter = inputValues.get( name );
 		if ( parameter != null )
@@ -1075,6 +1110,20 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 	
+	public void setParameterDisplayText( String name, String[] displayText )
+	{
+		parameterChanged = true;
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			( (ParameterAttribute) parameter ).setDisplayText( displayText );
+		}
+		else
+		{
+			inputValues.put( name, new ParameterAttribute( null, displayText ) );
+		}
+	}
 	
 	protected Object evaluateDefaultValue( AbstractScalarParameterHandle parameter )
 	{

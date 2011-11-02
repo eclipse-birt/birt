@@ -99,8 +99,9 @@ public class StylesState extends SlotState
 				DesignElement style = styles.get( i );
 				String oldName = style.getName( );
 
-				// first, check the validation of the name
-				checkValidation( style, styleMap );
+				// we need NOT check the validation of the style name, Engine
+				// should ensure the validation of the style name in html output
+				//checkValidation( style, styleMap );
 
 				NameSpace ns = null;
 				if ( style.getContainer( ) instanceof ReportDesign )
@@ -180,48 +181,48 @@ public class StylesState extends SlotState
 		return styleMap;
 	}
 
-	private void checkValidation( DesignElement style,
-			Map<String, DesignElement> styleMap )
-	{
-		String styleName = style.getName( );
-
-		// first, check the validation of the name
-		if ( !NameCommand.styleNamePattern.matcher( styleName ).matches( ) )
-		{
-			String newName = styleName;
-			newName = newName.replaceAll( STYLE_NAME_FORBIDDEN_PATTERN,
-					MIDDLE_LINE );
-
-			// if the new name is not start with letters, it is illegal too
-			String firstChar = newName.substring( 0, 1 );
-			if ( !styleNameStartPattern.matcher( firstChar ).matches( ) )
-			{
-				if ( newName.length( ) <= 1 )
-					newName = REPLACE_LETTER;
-				else
-					newName = REPLACE_LETTER + newName.substring( 1 );
-			}
-
-			// TODO: ensure the new name is valid for the css2 spec; the
-			// worst way is setting the name to NULL and then calling
-			// makeUnique to generate a valid and unique name
-			assert NameCommand.styleNamePattern.matcher( newName ).matches( );
-			style.setName( newName );
-			// set-up name-map
-			Map<String, String> nameMap = (Map<String, String>) handler.tempValue
-					.get( style.getContainer( ) );
-			if ( nameMap == null )
-			{
-				nameMap = new HashMap<String, String>( );
-				handler.tempValue.put( style.getContainer( ), nameMap );
-			}
-			nameMap.put( styleName, newName );
-
-			if ( !styleMap.containsKey( newName.toLowerCase( ) ) )
-				styleMap.put( newName.toLowerCase( ), style );
-			// remove the old name
-			if ( styleMap.get( styleName.toLowerCase( ) ) == style )
-				styleMap.remove( styleName.toLowerCase( ) );
-		}
-	}
+//	private void checkValidation( DesignElement style,
+//			Map<String, DesignElement> styleMap )
+//	{
+//		String styleName = style.getName( );
+//
+//		// first, check the validation of the name
+//		if ( !NameCommand.styleNamePattern.matcher( styleName ).matches( ) )
+//		{
+//			String newName = styleName;
+//			newName = newName.replaceAll( STYLE_NAME_FORBIDDEN_PATTERN,
+//					MIDDLE_LINE );
+//
+//			// if the new name is not start with letters, it is illegal too
+//			String firstChar = newName.substring( 0, 1 );
+//			if ( !styleNameStartPattern.matcher( firstChar ).matches( ) )
+//			{
+//				if ( newName.length( ) <= 1 )
+//					newName = REPLACE_LETTER;
+//				else
+//					newName = REPLACE_LETTER + newName.substring( 1 );
+//			}
+//
+//			// TODO: ensure the new name is valid for the css2 spec; the
+//			// worst way is setting the name to NULL and then calling
+//			// makeUnique to generate a valid and unique name
+//			assert NameCommand.styleNamePattern.matcher( newName ).matches( );
+//			style.setName( newName );
+//			// set-up name-map
+//			Map<String, String> nameMap = (Map<String, String>) handler.tempValue
+//					.get( style.getContainer( ) );
+//			if ( nameMap == null )
+//			{
+//				nameMap = new HashMap<String, String>( );
+//				handler.tempValue.put( style.getContainer( ), nameMap );
+//			}
+//			nameMap.put( styleName, newName );
+//
+//			if ( !styleMap.containsKey( newName.toLowerCase( ) ) )
+//				styleMap.put( newName.toLowerCase( ), style );
+//			// remove the old name
+//			if ( styleMap.get( styleName.toLowerCase( ) ) == style )
+//				styleMap.remove( styleName.toLowerCase( ) );
+//		}
+//	}
 }

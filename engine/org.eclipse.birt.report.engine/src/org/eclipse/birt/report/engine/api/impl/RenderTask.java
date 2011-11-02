@@ -894,7 +894,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		return (HashMap)executionContext.getParameterValues( );
 	}
 
-	public String getParameterDisplayText( String name )
+	public Object getParameterDisplayText( String name )
 	{
 		loadDocument();
 		return executionContext.getParameterDisplayText(name);

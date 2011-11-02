@@ -39,7 +39,7 @@ public class ResultSetDataSet implements IResultSetDataSet
 	/**
 	 * An internal iterator capable of visiting each row in the resultset subset
 	 */
-	protected final Iterator it;
+	protected Iterator<?> it;
 
 	/**
 	 * The current row number being visited
@@ -50,6 +50,7 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * The parent resultset wrapper of which this instance is a subset
 	 */
 	protected final ResultSetWrapper rsw;
+	protected final List<?> lst;
 
 	/**
 	 * Temporary variable used in conjunction with the iterator
@@ -78,6 +79,7 @@ public class ResultSetDataSet implements IResultSetDataSet
 			long lStartRow, long lEndRow )
 	{
 		this.rsw = rsw;
+		this.lst = null;
 		this.iColumnCount = iaColumnIndexes.length;
 		this.iaColumnIndexes = iaColumnIndexes;
 		this.lStartRow = lStartRow;
@@ -87,16 +89,7 @@ public class ResultSetDataSet implements IResultSetDataSet
 		this.listMode = false;
 		this.listDataType = IConstants.UNDEFINED;
 
-		// SCROLL TO START ROW
-		it = rsw.iterator( );
-		if ( lRow < lStartRow )
-		{
-			while ( lRow < lStartRow )
-			{
-				lRow++;
-				it.next( );
-			}
-		}
+		this.reset( );
 	}
 
 	/**
@@ -104,9 +97,10 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * 
 	 * @param lst
 	 */
-	public ResultSetDataSet( List lst, int dataType )
+	public ResultSetDataSet( List<?> lst, int dataType )
 	{
 		this.rsw = null;
+		this.lst = lst;
 		this.iColumnCount = 1;
 		this.iaColumnIndexes = new int[]{
 			0
@@ -117,8 +111,8 @@ public class ResultSetDataSet implements IResultSetDataSet
 
 		this.listMode = true;
 		this.listDataType = dataType;
-
-		it = lst.iterator( );
+		
+		this.reset( );
 	}
 
 	/*
@@ -214,5 +208,27 @@ public class ResultSetDataSet implements IResultSetDataSet
 	public long getSize( )
 	{
 		return lEndRow - lStartRow;
+	}
+
+	public void reset( )
+	{
+		this.lRow = 0;
+		if ( this.rsw != null )
+		{
+			this.it = rsw.iterator( );
+			// SCROLL TO START ROW
+			if ( lRow < lStartRow )
+			{
+				while ( lRow < lStartRow )
+				{
+					lRow++;
+					it.next( );
+				}
+			}
+		}
+		else
+		{
+			this.it = lst.iterator( );
+		}
 	}
 }

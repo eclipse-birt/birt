@@ -161,7 +161,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 					rowIDList.add( (Integer) keyRowID.rowID );
 					isFirst = false;
 				}
-				else if( equals( lastKey, keyRowID.key ) )
+				else if( equals( lastKey, keyRowID.key ) && rowIDList.size( ) < 1000 )
 				{
 					rowIDList.add( (Integer) keyRowID.rowID );
 				}
@@ -356,7 +356,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			if( !bCursor.first( ) )
 				return result;
-			if( ( (Comparable)bCursor.getKey( ) ).compareTo( key ) > 0 )
+			if( bCursor.getKey( ) != null && ( (Comparable)bCursor.getKey( ) ).compareTo( key ) > 0 )
 			{
 				bCursor.beforeFirst( );
 			}
@@ -397,7 +397,15 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			while( bCursor.next( ) )
 			{
-				int cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
+				int cr = 0;
+				if( bCursor.getKey( ) == null )
+				{
+					cr = -1;
+				}
+				else
+				{
+					cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
+				}
 				if( cr < 0 ||( cr == 0 && includeKey ) )
 					result.addAll( bCursor.getValues( ) );
 				else
@@ -625,7 +633,7 @@ class ArchiveOutputFile implements BTreeFile
 		{
 			totalBlock = blockId + 1;
 		}
-		output.seek( blockId * BLOCK_SIZE );
+		output.seek( ( long ) blockId * BLOCK_SIZE );
 		output.write( bytes );
 		output.flush( );
 	}
