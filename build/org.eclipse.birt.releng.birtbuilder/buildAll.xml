@@ -292,10 +292,17 @@
 		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
                     tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
 
+		<antcall target="renameOSGIruntimePackage"/>
+		
 		<antcall target="renameNLPackage"/>
 		
 		<antcall target="removeBirtAllForNightly"/>
 		
+	</target>
+	
+	<target name="renameOSGIruntimePackage" if="build.runtimeOSGI">
+			<move file="${postingDirectory}/${buildId}/birt-runtime-osgi-${package.version}.zip"
+		                tofile="${postingDirectory}/${buildId}/birt-runtime-osgi-${package.version}-${build.date}.zip"/>
 	</target>
 	
 	<target name="renameNLPackage" unless="skip.build.NL">
