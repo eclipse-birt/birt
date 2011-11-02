@@ -1009,6 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=Insertar un bloque de texto (texto
 DesignerPaletteFactory.quicktool.title=Herramientas rápidas
 DesignerPaletteFactory.quicktool.agg.title=Agregación
 DesignerPaletteFactory.quicktool.agg.toolTip=Insertar elemento de agregación
+DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -4471,6 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Sí
 DataColumnBindingDialog.NewBindingDialogButtonNo=No
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Cancelar
 DataColumnBindingDialog.NewBindingDialogTitle=¿Desea crear un nuevo enlace de datos?
+DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
 DataColumBindingDialog.stackMsg.resetReference=Restablecer referencia
 
 ###########################################################
@@ -4630,6 +4633,14 @@ ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Todos
+CrosstabBindingDialogHelper.bindngName.timeperiod=Period
+CrosstabBindingDialogHelper.calculation.labe=Calculation Type
+CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
+CrosstabBindingDialogHelper.referencedate.label=Reference Date:
+CrosstabBindingDialogHelper.thisdate.label=This date:
+CrosstabBindingDialogHelper.timedimension.label=Time Dimension
+CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
+CrosstabBindingDialogHelper.today.label=Today
 
 AddEditCascadingParameterDialog.label.name=&Nombre:
 AddEditCascadingParameterDialog.label.dataset=&Conjunto de datos:

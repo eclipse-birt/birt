@@ -1009,6 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 �
 DesignerPaletteFactory.quicktool.title=빠른 도구
 DesignerPaletteFactory.quicktool.agg.title=집계
 DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
+DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -4471,6 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=예
 DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
 DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
 DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니까?
+DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
 DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
@@ -4630,6 +4633,14 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
+CrosstabBindingDialogHelper.bindngName.timeperiod=Period
+CrosstabBindingDialogHelper.calculation.labe=Calculation Type
+CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
+CrosstabBindingDialogHelper.referencedate.label=Reference Date:
+CrosstabBindingDialogHelper.thisdate.label=This date:
+CrosstabBindingDialogHelper.timedimension.label=Time Dimension
+CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
+CrosstabBindingDialogHelper.today.label=Today
 
 AddEditCascadingParameterDialog.label.name=이름(&N):
 AddEditCascadingParameterDialog.label.dataset=데이터 집합(&D):
