@@ -115,10 +115,17 @@ public abstract class EngineTask implements IEngineTask
 
 	protected final static String FORMAT_HTML = "html";
 	protected final static String FORMAT_XHTML = "xhtml";
+	
 	/**
 	 * is cancel called
 	 */
 	protected boolean cancelFlag;
+	
+	/**
+	 *	the fatal errors occurs that will terminate the engine task.
+	 */
+	protected EngineException fatalError = null;
+	
 	protected int runningStatus;
 
 	/**
@@ -1929,7 +1936,13 @@ public abstract class EngineTask implements IEngineTask
 
 	public List getErrors( )
 	{
-		return executionContext.getErrors( );
+		ArrayList errorList = new ArrayList( );
+		if ( fatalError != null )
+		{
+			errorList.add( fatalError );
+		}
+		errorList.addAll( executionContext.getErrors( ) );
+		return errorList;
 	}
 
 	public IReportContext getReportContext( )
@@ -2181,13 +2194,49 @@ public abstract class EngineTask implements IEngineTask
 		{
 			runningStatus = STATUS_CANCELLED;
 		}
-		else if ( executionContext.hasErrors( ) )
+		else if ( fatalError != null || executionContext.hasErrors( ) )
 		{
 			runningStatus = STATUS_FAILED;
 		}
 		else
 		{
 			runningStatus = STATUS_SUCCEEDED;
+		}
+	}
+	
+	protected void handleFatalExceptions( Throwable t ) throws EngineException
+	{
+		if ( t instanceof EngineException )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", t ); //$NON-NLS-1$
+			fatalError = (EngineException) t;
+			throw fatalError;
+		}
+		else if ( t instanceof Exception )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", t ); //$NON-NLS-1$
+			fatalError = new EngineException(
+					MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
+			throw fatalError;
+		}
+		else if ( t instanceof OutOfMemoryError )
+		{
+			log.log( Level.SEVERE,
+					"There is insufficient memory to execute this report." ); //$NON-NLS-1$
+			fatalError = new EngineException(
+					MessageConstants.REPORT_RUN_ERROR, t );
+			throw (OutOfMemoryError) t;
+		}
+		else
+		// Throwable t
+		{
+			log.log( Level.SEVERE,
+					"Error happened while running the report.", t ); //$NON-NLS-1$
+			fatalError = new EngineException(
+					MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
+			throw fatalError;
 		}
 	}
 
@@ -2220,7 +2269,7 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void switchToOsgiClassLoader( )
 	{
-		platformContext = Platform.enterPlatformContext( );;
+		platformContext = Platform.enterPlatformContext( );
 	}
 
 	protected void switchClassLoaderBack( )
