@@ -584,7 +584,6 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
-					break;
 				}
 			}
 			baseTimePeriod = new TimePeriod( Integer.valueOf( n ),
