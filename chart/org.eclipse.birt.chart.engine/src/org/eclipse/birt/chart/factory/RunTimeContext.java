@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.computation.withaxes.SharedScaleContext;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.render.IActionRenderer;
@@ -130,6 +131,8 @@ public final class RunTimeContext implements Serializable
 	private transient IResourceFinder resourceFinder = null;
 	
 	private transient IExternalizer externalizer = null;
+	
+	private transient Chart defaultValueChart;
 	
 	/**
 	 * A default zero-arg public constructor used for object creation.
@@ -730,4 +733,23 @@ public final class RunTimeContext implements Serializable
 		public final static StateKey<IChartComputation> CHART_COMPUTATION_KEY = StateKey.create( false );
 	}
 
+	/**
+	 * Sets instance of default value chart.
+	 * 
+	 * @param cm
+	 */
+	public void setDefaultValueChart( Chart cm )
+	{
+		this.defaultValueChart = cm;
+	}
+	
+	/**
+	 * Returns instance of default value chart.
+	 * 
+	 * @return
+	 */
+	public Chart getDefaultValueChart( )
+	{
+		return this.defaultValueChart;
+	}
 }

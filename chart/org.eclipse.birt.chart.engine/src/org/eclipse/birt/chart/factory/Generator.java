@@ -64,6 +64,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
@@ -136,9 +137,10 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param model
 	 * @param externalProcessor
+	 * @param rtc runtime context.
 	 */
 	public final void prepareStyles( Chart model,
-			IStyleProcessor externalProcessor )
+			IStyleProcessor externalProcessor, RunTimeContext rtc )
 	{
 		boolean updatedModel = false;
 		if ( externalProcessor != null )
@@ -165,7 +167,40 @@ public final class Generator implements IGenerator
 		{
 			updateWithInhertingtyles( model, externalProcessor );
 		}
-
+		else
+		{
+			// If no need to inherit styles, just set inherited styles into a
+			// default value chart, user can get these styles from default value
+			// chart later.
+			if ( rtc != null )
+			{
+				Chart defChart = rtc.getDefaultValueChart( );
+				if ( rtc.getDefaultValueChart( ) == null )
+				{
+					defChart = ChartDefaultValueUtil.getDefaultValueChartInstance( model ).copyInstance( );
+					rtc.setDefaultValueChart( defChart );
+				}
+				updateWithInhertingtyles( defChart, externalProcessor );
+			}
+		}
+		
+		// Still set default value chart instance to avoid null.
+		if ( rtc != null && rtc.getDefaultValueChart( ) == null )
+		{
+			rtc.setDefaultValueChart( ChartDefaultValueUtil.getDefaultValueChartInstance( model ) );
+		}
+	}
+	
+	/**
+	 * Prepare all default styles for various StyledComponent.
+	 * 
+	 * @param model
+	 * @param externalProcessor
+	 */
+	public final void prepareStyles( Chart model,
+			IStyleProcessor externalProcessor )
+	{
+		prepareStyles( model, externalProcessor, null );
 	}
 
 	/**
@@ -1041,7 +1076,7 @@ public final class Generator implements IGenerator
 		checkDataEmpty( cmRunTime, rtc );
 
 		// flatten the default styles.
-		prepareStyles( cmRunTime, externalProcessor );
+		prepareStyles( cmRunTime, externalProcessor, rtc );
 
 		PlotComputation oComputations = null;
 		if ( cmRunTime instanceof ChartWithAxes )

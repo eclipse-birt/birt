@@ -14,6 +14,9 @@ package org.eclipse.birt.chart.model.util;
 import java.util.Collection;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.AreaSeries;
@@ -189,5 +192,25 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Creates instance of default value chart according to specified chart type.
+	 * 
+	 * @param cm
+	 * @return
+	 */
+	public static Chart getDefaultValueChartInstance(Chart cm )
+	{
+		if ( cm instanceof DialChart )
+		{
+			return DefaultValueProvider.defDialChart( );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			return DefaultValueProvider.defChartWithoutAxes( );
+		}
+		
+		return DefaultValueProvider.defChartWithAxes( );
 	}
 }
