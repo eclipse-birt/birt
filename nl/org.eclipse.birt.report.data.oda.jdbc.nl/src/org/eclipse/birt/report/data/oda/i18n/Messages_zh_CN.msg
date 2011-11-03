@@ -96,4 +96,4 @@ odajdbc.CannotInstantiateDriverClass=无法创建 JDBC 驱动程序类的实例: {0}。
 odajdbc.CannotInstantiateFactory=无法创建驱动程序类 "{1}" 的扩展中定义的连接工厂类 "{0}" 的实例。
 
 odajdbc.jndi.InvalidJndiResource=找到 JNDI 资源类型({0})；需要 javax.sql.DataSource 类型。
-odajdbc.testfail=Test Fail
+odajdbc.testfail=测试失败

@@ -127,4 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=请输入一个介于 0
 designer.preview.preference.resultset.maxrow.description=要显示的最大行数(&R):
 designer.preview.preference.resultset.maxrow.errormessage=请为最大行数输入一个介于 1 和 {0} 之间的数。
 designer.preview.preference.resultset.sqldatasetpage.group.title=查询页面
-tablepage.label.filter.tooltip=% allows you to match any string of any length (including zero length) \n _ allows you to match on a single character
+tablepage.label.filter.tooltip=% 使您能够匹配任何长度的字符串(包括 0 长度) \n _ 使您能够基于单个字符匹配

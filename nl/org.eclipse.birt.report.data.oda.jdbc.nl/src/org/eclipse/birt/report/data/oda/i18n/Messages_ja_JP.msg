@@ -96,4 +96,4 @@ odajdbc.CannotInstantiateDriverClass=JDBC ドライバクラスのインスタンスを作成でき
 odajdbc.CannotInstantiateFactory=ドライバクラス "{1}" のエクステンションに定義されている、接続ファクトリクラス "{0}" のインスタンスを作成できません。
 
 odajdbc.jndi.InvalidJndiResource=JNDI のリソースタイプ ({0}) が見つかりましたが、タイプ javax.sql.DataSource が必要です。
-odajdbc.testfail=Test Fail
+odajdbc.testfail=テストでエラーが発生しました。
