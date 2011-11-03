@@ -62,9 +62,7 @@ public class EmitterUtil
 			String defaultOutputFile ) throws EngineException
 	{
 		OutputStream out = null;
-		
-//		Object fd = services.getOption( RenderOption.OUTPUT_FILE_NAME );
-		Object fd = "D:/1.pdf";
+		Object fd = services.getOption( RenderOption.OUTPUT_FILE_NAME );
 		File file = null;
 		try
 		{
