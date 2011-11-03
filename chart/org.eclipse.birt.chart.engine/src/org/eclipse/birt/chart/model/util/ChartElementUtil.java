@@ -165,7 +165,7 @@ public class ChartElementUtil
 
 	public static boolean isSetStringProperty( String s )
 	{
-		return !( s == null || s.trim( ).equals( "" ) );
+		return !( s == null || s.trim( ).equals( "" ) ); //$NON-NLS-1$
 	}
 
 	/**

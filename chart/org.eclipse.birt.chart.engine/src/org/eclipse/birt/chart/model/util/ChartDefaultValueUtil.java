@@ -34,7 +34,7 @@ import org.eclipse.emf.common.notify.Adapter;
  * 
  */
 
-public class ChartDefaultValueUtil
+public class ChartDefaultValueUtil extends ChartElementUtil
 {
 
 	/**
