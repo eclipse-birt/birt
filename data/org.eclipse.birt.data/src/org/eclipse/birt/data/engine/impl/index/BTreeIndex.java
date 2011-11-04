@@ -541,7 +541,7 @@ class ArchiveInputFile implements BTreeFile
 
 	public void readBlock( int blockId, byte[] bytes ) throws IOException
 	{
-		input.seek( blockId * BLOCK_SIZE );
+		input.seek( ( long ) blockId * BLOCK_SIZE );
 		input.read( bytes );
 	}
 
@@ -618,7 +618,7 @@ class ArchiveOutputFile implements BTreeFile
 	public void readBlock( int blockId, byte[] bytes ) throws IOException
 	{
 		input.refresh( );
-		input.seek( blockId * BLOCK_SIZE );
+		input.seek( ( long ) blockId * BLOCK_SIZE );
 		input.read( bytes );
 	}
 
