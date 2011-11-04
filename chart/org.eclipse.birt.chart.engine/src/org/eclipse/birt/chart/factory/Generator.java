@@ -177,7 +177,7 @@ public final class Generator implements IGenerator
 				Chart defChart = rtc.getDefaultValueChart( );
 				if ( rtc.getDefaultValueChart( ) == null )
 				{
-					defChart = ChartDefaultValueUtil.getDefaultValueChartInstance( model ).copyInstance( );
+					defChart = ChartDefaultValueUtil.createDefaultValueChartInstance( model );
 					rtc.setDefaultValueChart( defChart );
 				}
 				updateWithInhertingtyles( defChart, externalProcessor );
@@ -187,7 +187,7 @@ public final class Generator implements IGenerator
 		// Still set default value chart instance to avoid null.
 		if ( rtc != null && rtc.getDefaultValueChart( ) == null )
 		{
-			rtc.setDefaultValueChart( ChartDefaultValueUtil.getDefaultValueChartInstance( model ) );
+			rtc.setDefaultValueChart( ChartDefaultValueUtil.createDefaultValueChartInstance( model ) );
 		}
 	}
 	

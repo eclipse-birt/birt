@@ -12,11 +12,13 @@
 package org.eclipse.birt.chart.model.util;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.AreaSeries;
@@ -190,7 +192,12 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		{
 			return DefaultValueProvider.defStockSeries( );
 		}
-		
+		else if ( ChartDynamicExtension.isExtended( runtimeSeries ) )
+		{
+			return (Series) new ChartExtensionValueUpdater( ).getDefault( ComponentPackage.eINSTANCE.getSeries( ),
+					"series", //$NON-NLS-1$
+					runtimeSeries );
+		}
 		return null;
 	}
 	
@@ -200,17 +207,44 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * @param cm
 	 * @return
 	 */
-	public static Chart getDefaultValueChartInstance(Chart cm )
+	public static Chart createDefaultValueChartInstance(Chart cm )
 	{
+		Chart instance = null;
 		if ( cm instanceof DialChart )
 		{
-			return DefaultValueProvider.defDialChart( );
+			instance = DefaultValueProvider.defDialChart( ).copyInstance( );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
-			return DefaultValueProvider.defChartWithoutAxes( );
+			instance = DefaultValueProvider.defChartWithoutAxes( ).copyInstance( );
+		}
+		else
+		{
+			instance = DefaultValueProvider.defChartWithAxes( ).copyInstance( );
 		}
 		
-		return DefaultValueProvider.defChartWithAxes( );
+		// Add all different series instances.
+		SeriesDefinition sd = ChartUtil.getOrthogonalSeriesDefinitions( instance,
+				0 )
+				.get( 0 );
+		List<Series> seriesList = sd.getSeries( );
+		seriesList.clear( );
+		if ( instance instanceof ChartWithAxes )
+		{
+			seriesList.add( DefaultValueProvider.defBarSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defBubbleSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defScatterSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defDifferenceSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defAreaSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defLineSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defGanttSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defStockSeries( ).copyInstance( ) );
+		}
+		else
+		{
+			seriesList.add( DefaultValueProvider.defDialSeries( ).copyInstance( ) );
+			seriesList.add( DefaultValueProvider.defPieSeries( ).copyInstance( ) );
+		}
+		return instance;
 	}
 }
