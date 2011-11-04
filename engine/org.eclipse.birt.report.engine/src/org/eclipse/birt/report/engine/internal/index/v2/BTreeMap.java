@@ -185,7 +185,7 @@ class BTreeMap extends BTree<String, Object>
 
 		public void readBlock( int blockId, byte[] bytes ) throws IOException
 		{
-			input.seek( blockId * BLOCK_SIZE );
+			input.seek( (long) blockId * BLOCK_SIZE );
 			input.read( bytes );
 		}
 
@@ -254,7 +254,7 @@ class BTreeMap extends BTree<String, Object>
 		public void readBlock( int blockId, byte[] bytes ) throws IOException
 		{
 			input.refresh( );
-			input.seek( blockId * BLOCK_SIZE );
+			input.seek( (long) blockId * BLOCK_SIZE );
 			input.read( bytes );
 		}
 
@@ -269,7 +269,7 @@ class BTreeMap extends BTree<String, Object>
 			{
 				totalBlock = blockId + 1;
 			}
-			output.seek( blockId * BLOCK_SIZE );
+			output.seek( (long) blockId * BLOCK_SIZE );
 			output.write( bytes );
 			output.flush( );
 		}
