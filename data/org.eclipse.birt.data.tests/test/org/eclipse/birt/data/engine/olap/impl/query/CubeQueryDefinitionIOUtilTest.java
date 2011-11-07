@@ -381,7 +381,7 @@ public class CubeQueryDefinitionIOUtilTest extends TestCase
 	private void assertEqualComputedMeasure( IComputedMeasureDefinition md1, IComputedMeasureDefinition md2 ) throws DataException
 	{
 		assertEqualMeasure( md1, md2 );
-		assertEquals( md1.getType( ), md2.getType( ));
+		assertEquals( md1.getDataType( ), md2.getDataType( ) );
 		assertEqualExpr( md1.getExpression( ), md2.getExpression( ));
 	}
 	
