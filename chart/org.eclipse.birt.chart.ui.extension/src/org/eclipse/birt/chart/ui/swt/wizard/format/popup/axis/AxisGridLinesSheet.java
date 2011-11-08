@@ -472,8 +472,20 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			enabled = false;
 		}
-		lblGridCount.setEnabled( enabled );
-		iscGridCount.setEnabled( enabled );
+
+		if ( enabled )
+		{
+			boolean isAuto = btnGridCountUnit.getSelection( );
+			lblGridCount.setEnabled( true );
+			iscGridCount.setEnabled( true && !isAuto );
+			btnGridCountUnit.setEnabled( true );
+		}
+		else
+		{
+			lblGridCount.setEnabled( false );
+			iscGridCount.setEnabled( false );
+			btnGridCountUnit.setEnabled( false );
+		}
 	}
 	
 	private void setStateOfMajorGrid( )
@@ -492,9 +504,20 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			enabled = false;
 		}
-		lblGridStepNum.setEnabled( enabled );
-		majGridStNum.setEnabled( enabled );
 		
+		if ( enabled )
+		{
+			boolean isAuto = btnMajStpNum.getSelection( );
+			lblGridStepNum.setEnabled( true);
+			majGridStNum.setEnabled( true && !isAuto  );
+			btnMajStpNum.setEnabled( true );
+		}
+		else
+		{
+			lblGridStepNum.setEnabled( false );
+			majGridStNum.setEnabled( false  );
+			btnMajStpNum.setEnabled( false );
+		}
 	}
 
 	/*
@@ -540,7 +563,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					"majorGridsStepNumber", //$NON-NLS-1$
 					majGridStNum.getSelection( ),
 					btnMajStpNum.getSelection( ) );
-			majGridStNum.setEnabled( !btnMajStpNum.getSelection( ) );
+			setStateOfMajorGrid( );
 		}
 		else if ( e.widget == btnGridCountUnit )
 		{
@@ -548,7 +571,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					"minorGridsPerUnit", //$NON-NLS-1$
 					iscGridCount.getSelection( ),
 					btnGridCountUnit.getSelection( ) );
-			iscGridCount.setEnabled( !btnGridCountUnit.getSelection( ) );
+			setStateOfMinorGrid( );
 		}
 	}
 
