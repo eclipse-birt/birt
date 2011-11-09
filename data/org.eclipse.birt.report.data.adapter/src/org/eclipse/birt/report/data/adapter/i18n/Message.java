@@ -18,6 +18,8 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import com.ibm.icu.util.ULocale;
+
 public class Message
 {
 	private static ResourceBundle rb = AdapterResourceHandle.getInstance( ).getUResourceBundle( );
@@ -26,6 +28,21 @@ public class Message
 	{
 		try
 		{
+			if ( rb != null )
+				return rb.getString( key );
+			// Fall through to return key
+		}
+		catch ( MissingResourceException e )
+		{
+		}
+		return  " #" + key + "# ";		
+	}
+	
+	public static String getMessage( String key, ULocale local )
+	{
+		try
+		{
+			ResourceBundle rb = AdapterResourceHandle.getInstance( local ).getUResourceBundle( );
 			if ( rb != null )
 				return rb.getString( key );
 			// Fall through to return key
