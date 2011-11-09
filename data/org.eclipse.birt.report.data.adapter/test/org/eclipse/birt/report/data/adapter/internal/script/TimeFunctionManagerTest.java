@@ -129,6 +129,28 @@ public class TimeFunctionManagerTest extends TestCase
 		}
 	}
 	
+	public void testCalculationTypeInCube3() throws SemanticException, AdapterException
+	{
+		cube1 = ModelUtil.prepareCube2( );
+		
+		List levelsInxTab = new ArrayList( );
+		levelsInxTab.add( "year" );
+		levelsInxTab.add( "quarter" );
+		List<ITimeFunction> function1 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, true );
+		assertTrue( function1.size( ) ==20 );
+		
+		ITimeFunction function = function1.get( 16 );
+		assertTrue( function.getName( ).equals( "CURRENT PERIOD FROM N PERIODS AGO" ));
+		
+		List<IArgumentInfo> arguments = function.getArguments( );
+		assert( arguments.size( ) ==3 );
+		assertTrue( arguments.get( 0 ).getName( ).equals( IArgumentInfo.PERIOD_1 ) );
+		assertTrue(arguments.get( 0 ).getPeriodChoices( ).size( ) == 3 );
+		assertTrue( arguments.get( 1 ).getName( ).equals( IArgumentInfo.N_PERIOD2 ) );
+		assertTrue( arguments.get( 2 ).getName( ).equals( IArgumentInfo.PERIOD_2 ) );
+		assertTrue( arguments.get( 2 ).getPeriodChoices( ).size( ) == 4 );
+	}
+	
 	public void testInvalidCalculationTypeInCube1() throws SemanticException, AdapterException
 	{
 		cube1 = ModelUtil.prepareCube1( );

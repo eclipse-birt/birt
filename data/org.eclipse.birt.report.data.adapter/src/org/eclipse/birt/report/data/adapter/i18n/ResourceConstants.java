@@ -62,7 +62,7 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_TRAILING_90_DAYS = "timeFunction.TRAILING_90_DAYS.name"; 
 	public final static String TIMEFUNCITON_TRAILING_90_DAYS_DES ="timeFunction.TRAILING_90_DAYS.description";
 	public final static String TIMEFUNCITON_TRAILING_12_MONTHS = "timeFunction.TRAILING_12_MONTHS.name"; 
-	public final static String TIMEFUNCITON_TRAILING_12_MONTHS_DES ="timeFunction.TRAILING_90_DAYS.description";
+	public final static String TIMEFUNCITON_TRAILING_12_MONTHS_DES ="timeFunction.TRAILING_12_MONTHS.description";
 	public final static String TIMEFUNCITON_YEAR_TO_DATE = "timeFunction.YEAR_TO_DATE.name"; 
 	public final static String TIMEFUNCITON_YEAR_TO_DATE_DES = "timeFunction.YEAR_TO_DATE.description";
 	public final static String TIMEFUNCITON_QUARTER_TO_DATE = "timeFunction.QUARTER_TO_DATE.name"; 
@@ -86,7 +86,7 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO = "timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name"; 
 	public final static String TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO_DES ="timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description";
 	public final static String TIMEFUNCITON_NEXT_N_PERIODS = "timeFunction.NEXT_N_PERIODS.name"; 
-	public final static String TIMEFUNCITON_NEXT_N_PERIODS_DES = "timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description";
+	public final static String TIMEFUNCITON_NEXT_N_PERIODS_DES = "timeFunction.NEXT_N_PERIODS.description";
 
 	//arguments
 	public final static String TIMEFUNCITON_PERIOD1 = "timeFunction.PERIOD1";

@@ -110,4 +110,77 @@ public class ModelUtil
 
 		return cubeHandle;
 	}
+	
+
+	/**
+	 * Create simple cube handle.
+	 * 
+	 * @param module
+	 * @return
+	 */
+
+	public static CubeHandle prepareCube2( ) throws SemanticException
+	{
+		// Create report design with several report parameters
+		SessionHandle session = DesignEngine.newSession( ULocale.getDefault());
+		ReportDesignHandle designHandle = session.createDesign();
+		ElementFactory factory = designHandle.getElementFactory( );
+
+		// create cube
+		CubeHandle cubeHandle = factory.newTabularCube( "timeCube" );//$NON-NLS-1$
+		designHandle.getCubes( ).add( cubeHandle );
+
+		DimensionHandle dimensionHandle = factory.newTabularDimension( "Customer" );//$NON-NLS-1$
+		cubeHandle.add( CubeHandle.DIMENSIONS_PROP, dimensionHandle );
+
+		HierarchyHandle hierarchyHandle = factory.newTabularHierarchy( "Hierarchy" );//$NON-NLS-1$
+		dimensionHandle.add( DimensionHandle.HIERARCHIES_PROP, hierarchyHandle );
+		dimensionHandle.setDefaultHierarchy( hierarchyHandle );
+
+		LevelHandle levelHandle = factory.newTabularLevel( dimensionHandle,
+				"CUSTOMER_SEX" );//$NON-NLS-1$
+		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
+
+		levelHandle = factory.newTabularLevel( dimensionHandle,
+				"CUSTOMER_REGION" );//$NON-NLS-1$
+		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
+
+		DimensionHandle dimensionHandle2 = factory.newTabularDimension( "TimeDimension" );//$NON-NLS-1$
+		cubeHandle.add( CubeHandle.DIMENSIONS_PROP, dimensionHandle2 );
+		dimensionHandle2.setTimeType( true );
+		
+		HierarchyHandle hierarchyHandle2 = factory.newTabularHierarchy( "Hierarchy2" );//$NON-NLS-1$
+		dimensionHandle2.add( DimensionHandle.HIERARCHIES_PROP,
+				hierarchyHandle2 );
+		dimensionHandle2.setDefaultHierarchy( hierarchyHandle2 );
+
+
+		LevelHandle levelHandle2 = factory.newTabularLevel( dimensionHandle2,
+				"year" );//$NON-NLS-1$
+		levelHandle2.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR );
+		hierarchyHandle2.add( HierarchyHandle.LEVELS_PROP, levelHandle2 );
+
+		levelHandle2 = factory.newTabularLevel( dimensionHandle2,
+				"quarter" );//$NON-NLS-1$
+		levelHandle2.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
+		hierarchyHandle2.add( HierarchyHandle.LEVELS_PROP, levelHandle2 );
+
+		levelHandle2 = factory.newTabularLevel( dimensionHandle2,
+				"month" );//$NON-NLS-1$
+		levelHandle2.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH );
+		hierarchyHandle2.add( HierarchyHandle.LEVELS_PROP, levelHandle2 );
+
+		levelHandle2 = factory.newTabularLevel( dimensionHandle2,
+				"day-of-year" );//$NON-NLS-1$
+		levelHandle2.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR );
+		hierarchyHandle2.add( HierarchyHandle.LEVELS_PROP, levelHandle2 );
+		
+		MeasureGroupHandle groupHandle = factory.newTabularMeasureGroup( "measure group" );//$NON-NLS-1$
+		cubeHandle.add( CubeHandle.MEASURE_GROUPS_PROP, groupHandle );
+
+		MeasureHandle measureHandle = factory.newTabularMeasure( "QUANTITY_PRICE" );//$NON-NLS-1$
+		groupHandle.add( MeasureGroupHandle.MEASURES_PROP, measureHandle );
+
+		return cubeHandle;
+	}
 }

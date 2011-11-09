@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.data.adapter.api.ArgumentInfo;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo.Period_Type;
 import org.eclipse.birt.report.data.adapter.i18n.Message;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 
@@ -22,7 +23,7 @@ public class BaseTimeFunction implements ITimeFunction
 
 	private String name, displayName, description;
 	private IArgumentInfo period1, period2;
-	private List<IArgumentInfo.Period_Type> timeType;
+	private List<IArgumentInfo.Period_Type> period_type1, period_type2;
 		
 	public BaseTimeFunction( String functionName, String displayName, String description )
 	{
@@ -34,7 +35,10 @@ public class BaseTimeFunction implements ITimeFunction
 	public BaseTimeFunction( ITimeFunction function, List<IArgumentInfo.Period_Type> timeType )
 	{
 		this( function.getName( ), function.getDisplayName( ), function.getDescription( ) );
-		this.timeType = timeType;
+		period_type1 = new ArrayList<Period_Type>( );
+		period_type2 = new ArrayList<Period_Type>( );
+		period_type1.addAll( timeType );
+		period_type2.addAll( timeType );
 	}
 	
 	/**
@@ -74,12 +78,10 @@ public class BaseTimeFunction implements ITimeFunction
 				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD1_DISPLAYNAME ),
 				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD1 ),
 				false );
-		( (ArgumentInfo) period1 ).setPeriodChoices( timeType );
 		period2 = new ArgumentInfo( IArgumentInfo.PERIOD_2,
 				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD2_DISPLAYNAME ),
 				Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD2 ),
 				false );
-		( (ArgumentInfo )period2 ).setPeriodChoices( timeType );
 		
 		if ( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) )
 		{
@@ -145,24 +147,31 @@ public class BaseTimeFunction implements ITimeFunction
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ) )
 		{
+			this.period_type1.remove( IArgumentInfo.Period_Type.DAY );
+			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
+			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
 			arguments.add( period2 );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ) )
 		{
+			this.period_type1.remove( IArgumentInfo.Period_Type.DAY );
+			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
+			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
 			arguments.add( period2);
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO ) )
 		{
+			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
@@ -172,6 +181,7 @@ public class BaseTimeFunction implements ITimeFunction
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
+			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
 			arguments.add( period2 );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.NEXT_N_PERIODS ) )
@@ -180,6 +190,7 @@ public class BaseTimeFunction implements ITimeFunction
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
+			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 		}
 		return arguments;
