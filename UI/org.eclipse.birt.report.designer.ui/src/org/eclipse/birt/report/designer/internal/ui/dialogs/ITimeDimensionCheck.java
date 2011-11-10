@@ -9,7 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
+package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 

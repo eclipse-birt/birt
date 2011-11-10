@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ITimeDimensionCheck;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
