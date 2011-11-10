@@ -908,7 +908,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			initFunction( );
 			initFilter( );
-			if (!isTimePeriod( ))
+			//if (!isTimePeriod( ))
 			{
 				initAggOn( );
 			}
@@ -1727,7 +1727,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		createExpressionButton( composite, txtFilter );
 
-		if (!isTimePeriod( ))
+		//if (!isTimePeriod( ))
 		{
 			Label lblAggOn = new Label( composite, SWT.NONE );
 			lblAggOn.setText( AGGREGATE_ON );
@@ -2133,7 +2133,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					.getValue( ),
 					ExpressionButtonUtil.getExpression( txtFilter ) ) )
 				return true;
-			if (!isTimePeriod( ) && !strEquals( cmbAggOn.getText( ),
+			if (/*!isTimePeriod( ) &&*/ !strEquals( cmbAggOn.getText( ),
 					DEUtil.getAggregateOn( binding ) ) )
 				return true;
 
@@ -2273,7 +2273,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					ComputedColumn.FILTER_MEMBER );
 
 			binding.clearAggregateOnList( );
-			if (!isTimePeriod( ))
+			//if (!isTimePeriod( ))
 			{
 				String aggStr = cmbAggOn.getText( );
 				StringTokenizer token = new StringTokenizer( aggStr, "," ); //$NON-NLS-1$
