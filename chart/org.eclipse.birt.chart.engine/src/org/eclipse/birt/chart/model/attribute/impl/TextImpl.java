@@ -420,7 +420,7 @@ public class TextImpl extends EObjectImpl implements Text
 	protected final void initDefault( )
 	{
 		// only initialize empty font here.
-		font = FontDefinitionImpl.createEmpty( );
+		font = FontDefinitionImpl.createEmptyDefault( );
 	}
 	
 	/**

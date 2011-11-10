@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.DialRegion;
-import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -335,6 +334,13 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 		( (DialRegionImpl) dr ).initialize( );
 		return dr;
 	}
+	
+	public static final DialRegion createDefault( )
+	{
+		DialRegion dr = ComponentFactory.eINSTANCE.createDialRegion( );
+		( (DialRegionImpl) dr ).initDefault( );
+		return dr;
+	}
 
 	/**
 	 * 
@@ -348,6 +354,17 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 		setOutline( liaOutline );
 		setLabel( LabelImpl.create( ) );
 		setLabelAnchor( Anchor.NORTH_LITERAL );
+	}
+	
+	public final void initDefault( )
+	{
+		LineAttributes liaOutline = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1,
+				false );
+		setOutline( liaOutline );
+		setLabel( LabelImpl.createDefault( ) );
+		labelAnchor = Anchor.NORTH_LITERAL;
 	}
 
 	/**

@@ -54,7 +54,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private FillChooserComposite fccLine = null;
 
-	private TristateCheckbox btnHidden = null;
+	private TristateCheckbox btnShow = null;
 
 	private TristateCheckbox btnTickBetweenCategory = null;
 	
@@ -131,14 +131,14 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cmpContent.setLayout( glContent );
 
 		// Axis Visibility
-		btnHidden = new TristateCheckbox( cmpContent, SWT.NONE );
-		btnHidden.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.HideAxisLine" ) ); //$NON-NLS-1$
-		btnHidden.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		btnHidden.setSelectionState( axis.getLineAttributes( ).isSetVisible( ) ? ( axis.getLineAttributes( )
+		btnShow = new TristateCheckbox( cmpContent, SWT.NONE );
+		btnShow.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.ShowAxisLine" ) ); //$NON-NLS-1$
+		btnShow.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		btnShow.setSelectionState( axis.getLineAttributes( ).isSetVisible( ) ? ( axis.getLineAttributes( )
 				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
 				: TristateCheckbox.STATE_UNSELECTED )
 				: TristateCheckbox.STATE_GRAYED );
-		btnHidden.addSelectionListener( this );
+		btnShow.addSelectionListener( this );
 
 		// Axis as Category / Value type
 		if ( isTickBetweenCategory( ) )
@@ -184,8 +184,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
-		lblColor.setEnabled( btnHidden.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
-		fccLine.setEnabled( btnHidden.getSelectionState( ) == TristateCheckbox.STATE_SELECTED  );
+		lblColor.setEnabled( btnShow.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+		fccLine.setEnabled( btnShow.getSelectionState( ) == TristateCheckbox.STATE_SELECTED  );
 
 		lblGridStepNum = new Label( cmpContent, SWT.NONE );
 		GridData gdLblGridStepNum = new GridData( GridData.FILL );
@@ -528,14 +528,14 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( e.widget == btnHidden )
+		if ( e.widget == btnShow )
 		{
-			boolean visible = btnHidden.getSelectionState( ) == TristateCheckbox.STATE_SELECTED;
+			boolean visible = btnShow.getSelectionState( ) == TristateCheckbox.STATE_SELECTED;
 			// Process hiding showing of axis
 			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLineAttributes( ),
 					"visible", //$NON-NLS-1$
 					visible,
-					btnHidden.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnShow.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 			lblColor.setEnabled( visible );
 			fccLine.setEnabled( visible );
 		}

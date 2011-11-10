@@ -287,14 +287,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 				btnTxtValueAuto = new Button( cmpBasic, SWT.CHECK );
 				btnTxtValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-				btnTxtValueAuto.setSelection( bValueOrigin
-						&& getAxisForProcessing( ).getOrigin( ).getValue( ) == null );
+				btnTxtValueAuto.setSelection( !bValueOrigin
+						|| getAxisForProcessing( ).getOrigin( ).getValue( ) == null );
 				btnTxtValueAuto.setEnabled( bValueOrigin );
+				txtValue.setEnabled( bValueOrigin && !btnTxtValueAuto.getSelection( ) );
 				btnTxtValueAuto.addSelectionListener( this );
-				if ( btnTxtValueAuto.getSelection( ) )
-				{
-					txtValue.setEnabled( false );
-				}
 			}
 
 			populateLists( );
@@ -734,7 +731,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				lblValue.setEnabled( true );
 				boolean enabled = true && ( getAxisForProcessing( ).getOrigin( )
 						.getValue( ) != null );
-				txtValue.setEnabled( enabled );
+				txtValue.setEnabled( enabled && !btnTxtValueAuto.getSelection( ) );
 				btnTxtValueAuto.setEnabled( true );
 
 				getAxisForProcessing( ).getOrigin( )

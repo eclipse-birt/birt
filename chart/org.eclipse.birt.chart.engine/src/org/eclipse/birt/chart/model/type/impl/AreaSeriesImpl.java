@@ -91,19 +91,12 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 */
 	protected void initialize( )
 	{
-		super.initDefault( );
+		super.initialize( );
 
 		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
 			Marker mk = (Marker) itr.next( );
-			try
-			{
-				ChartElementUtil.setDefaultValue( mk, "visible", false ); //$NON-NLS-1$
-			}
-			catch ( ChartException e )
-			{
-				// Do nothing.
-			}
+			mk.setVisible( false );
 		}
 	}
 
@@ -131,7 +124,14 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
 			Marker mk = (Marker) itr.next( );
-			mk.setVisible( false );
+			try
+			{
+				ChartElementUtil.setDefaultValue( mk, "visible", false ); //$NON-NLS-1$
+			}
+			catch ( ChartException e )
+			{
+				// Do nothing.
+			}
 		}
 	}
 	

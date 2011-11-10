@@ -962,32 +962,35 @@ public class ChartUIUtil
 		}
 
 		// Label position
-		if ( oldSeries.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| oldSeries.getLabelPosition( )
-						.equals( Position.OUTSIDE_LITERAL ) )
+		if ( oldSeries.isSetLabelPosition( ) )
 		{
-			if ( newSeries instanceof LineSeries
-					|| newSeries instanceof StockSeries
-					|| newSeries instanceof GanttSeries )
+			if ( ( oldSeries.getLabelPosition( )
+					.equals( Position.INSIDE_LITERAL ) || oldSeries.getLabelPosition( )
+					.equals( Position.OUTSIDE_LITERAL ) ) )
 			{
-				newSeries.setLabelPosition( Position.ABOVE_LITERAL );
+				if ( newSeries instanceof LineSeries
+						|| newSeries instanceof StockSeries
+						|| newSeries instanceof GanttSeries )
+				{
+					newSeries.setLabelPosition( Position.ABOVE_LITERAL );
+				}
+				else
+				{
+					newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
+				}
 			}
 			else
 			{
-				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
-			}
-		}
-		else
-		{
-			if ( newSeries instanceof LineSeries
-					|| newSeries instanceof StockSeries
-					|| newSeries instanceof GanttSeries )
-			{
-				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
-			}
-			else
-			{
-				newSeries.setLabelPosition( Position.OUTSIDE_LITERAL );
+				if ( newSeries instanceof LineSeries
+						|| newSeries instanceof StockSeries
+						|| newSeries instanceof GanttSeries )
+				{
+					newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
+				}
+				else
+				{
+					newSeries.setLabelPosition( Position.OUTSIDE_LITERAL );
+				}
 			}
 		}
 

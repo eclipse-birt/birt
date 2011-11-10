@@ -183,6 +183,14 @@ public interface IChartType
 	public Series getSeries( );
 
 	/**
+	 * Creates the corresponding series model with set 'isSet' flag for series properties.
+	 * 
+	 * @param needInitialing
+	 * @return
+	 */
+	public Series getSeries(boolean needInitialing );
+	
+	/**
 	 * Return true if the type can be used in a combination chart.
 	 * 
 	 * 

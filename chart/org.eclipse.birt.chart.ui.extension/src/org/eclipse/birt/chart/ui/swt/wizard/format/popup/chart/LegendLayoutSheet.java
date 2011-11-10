@@ -247,6 +247,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
 		fccBackground.setEnabled( bEnableUI );
+		fccBackground.setTextIndent( 0 );
 
 		lblDirection = new Label( cmpLegLeft, SWT.NONE );
 		lblDirection.setText( Messages.getString( "BlockAttributeComposite.Lbl.Direction" ) ); //$NON-NLS-1$

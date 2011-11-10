@@ -518,6 +518,9 @@ public class FontDefinitionDialog extends TrayDialog implements
 		btnAutoRotation = new Button( cmpRotation, SWT.CHECK );
 		btnAutoRotation.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnAutoRotation.addSelectionListener( this );
+		btnAutoRotation.setSelection( fdCurrent == null || !fdCurrent.isSetRotation( ) );
+		iscRotation.setEnabled( !btnAutoRotation.getSelection( ) );
+		ascRotation.setEnabled( !btnAutoRotation.getSelection( ) );
 		
 		Label lblPreview = new Label( cmpContent, SWT.NONE );
 		{

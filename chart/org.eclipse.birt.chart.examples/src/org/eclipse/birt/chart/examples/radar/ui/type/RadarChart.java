@@ -25,12 +25,8 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.LineAttributes;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
-import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -176,11 +172,11 @@ public class RadarChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithoutAxesImpl.create( );
+		newChart = ChartWithoutAxesImpl.createDefault( );
 		newChart.setType( Radar.TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
+//		newChart.setUnits( "Points" ); //$NON-NLS-1$
 		if ( newChart.getDimension( )
 				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 		{
@@ -188,8 +184,8 @@ public class RadarChart extends DefaultChartTypeImpl
 		}
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
@@ -198,16 +194,16 @@ public class RadarChart extends DefaultChartTypeImpl
 				.getCaption( )
 				.setValue( getDefaultTitle( ) );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.setZOrder( 1 );
-		RadarSeries valueSeries = RadarSeriesImpl.create( );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+//		sdY.setZOrder( 1 );
+		RadarSeries valueSeries = RadarSeriesImpl.createDefault( );
 
-		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.GREY( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		valueSeries.setWebLineAttributes( lia );
-
-		valueSeries.getLabel( ).setVisible( true );
+//		LineAttributes lia = LineAttributesImpl.createDefault( null,
+//				LineStyle.SOLID_LITERAL,
+//				1 );
+//		valueSeries.setWebLineAttributes( lia );
+//
+//		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "Series 1" ); //$NON-NLS-1$
 
 		sdY.getSeries( ).add( valueSeries );
@@ -261,7 +257,7 @@ public class RadarChart extends DefaultChartTypeImpl
 
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithoutAxesImpl.create( );
+			currentChart = ChartWithoutAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( Radar.TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
@@ -322,7 +318,7 @@ public class RadarChart extends DefaultChartTypeImpl
 			{
 				// Create a new instance of the correct type and set initial
 				// properties
-				currentChart = ChartWithoutAxesImpl.create( );
+				currentChart = ChartWithoutAxesImpl.createDefault( );
 				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( Radar.TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
@@ -351,8 +347,8 @@ public class RadarChart extends DefaultChartTypeImpl
 					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 
-				currentChart.getLegend( )
-						.setItemType( LegendItemType.SERIES_LITERAL );
+//				currentChart.getLegend( )
+//						.setItemType( LegendItemType.SERIES_LITERAL );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 				if ( title.getValue( ) == null
 						|| title.getValue( ).trim( ).length( ) == 0
@@ -383,7 +379,7 @@ public class RadarChart extends DefaultChartTypeImpl
 				.findSeries( RadarSeriesImpl.class.getName( ), seriesIndex );
 		if ( radarseries == null )
 		{
-			radarseries = RadarSeriesImpl.create( );
+			radarseries = RadarSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -468,7 +464,22 @@ public class RadarChart extends DefaultChartTypeImpl
 	@Override
 	public Series getSeries( )
 	{
-		return RadarSeriesImpl.create( );
+		return getSeries( true );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return RadarSeriesImpl.create( );
+		}
+		else
+		{
+			return RadarSeriesImpl.createDefault( );
+		}
 	}
 		
 	public String getValueDefinitionName( )

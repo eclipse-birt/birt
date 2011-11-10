@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
@@ -99,7 +100,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private Button btnResetValue;
 
-	private Button btnEnable;
+	private TristateCheckbox btnEnable;
 
 	private AxisRotationChooser xChooser;
 
@@ -364,13 +365,16 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnCoverageAuto.addSelectionListener( this );
 		}
 
-		btnEnable = new Button( cmpBasic, SWT.CHECK );
+		btnEnable = new TristateCheckbox( cmpBasic, SWT.NONE );
 		{
 			GridData gridData = new GridData( );
 			gridData.horizontalSpan = 3;
 			btnEnable.setLayoutData( gridData );
 			btnEnable.setText( Messages.getString( "ChartSheetImpl.Label.InteractivityEnable" ) ); //$NON-NLS-1$
-			btnEnable.setSelection( getChart( ).getInteractivity( ).isEnable( ) );
+			btnEnable.setSelectionState( !getChart( ).getInteractivity( )
+					.isSetEnable( ) ? TristateCheckbox.STATE_GRAYED
+					: ( getChart( ).getInteractivity( ).isEnable( ) ? TristateCheckbox.STATE_SELECTED
+							: TristateCheckbox.STATE_UNSELECTED ) );
 			btnEnable.addSelectionListener( this );
 		}
 		
@@ -636,10 +640,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		}
 		else if ( e.widget.equals( btnEnable ) )
 		{
-			getChart( ).getInteractivity( )
-					.setEnable( btnEnable.getSelection( ) );
+			int state = btnEnable.getSelectionState( );
+			ChartElementUtil.setEObjectAttribute( getChart( ).getInteractivity( ),
+					"enable", //$NON-NLS-1$
+					state == TristateCheckbox.STATE_SELECTED,
+					state == TristateCheckbox.STATE_GRAYED );
 			setToggleButtonEnabled( BUTTON_INTERACTIVITY,
-					btnEnable.getSelection( ) );
+					state == TristateCheckbox.STATE_SELECTED );
 
 			if ( getToggleButton( BUTTON_INTERACTIVITY ).getSelection( ) )
 			{

@@ -22,10 +22,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
@@ -267,20 +264,16 @@ public class LineChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setOrientation( orientation );
 		newChart.setDimension( ChartUIUtil.getDimensionType( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
-		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxis.setType( AxisType.TEXT_LITERAL );
-		xAxis.setCategoryAxis( true );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
@@ -292,74 +285,47 @@ public class LineChart extends DefaultChartTypeImpl
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
-
-			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			Series valueSeries = getSeries( );
+			SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+			Series valueSeries = getSeries( false );
 			valueSeries.setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			yAxis.getSeriesDefinitions( ).add( sdY );
 		}
 		else if ( sSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 		{
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
-			yAxis.setPercent( true );
-
-			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			Series valueSeries = getSeries( );
+			SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+			Series valueSeries = getSeries( false );
 			valueSeries.setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			yAxis.getSeriesDefinitions( ).add( sdY );
 		}
 		else if ( sSubType.equalsIgnoreCase( OVERLAY_SUBTYPE_LITERAL ) )
 		{
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
-
-			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			Series valueSeries = getSeries( );
-			valueSeries.setStacked( false );
+			SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+			Series valueSeries = getSeries( false );
 			sdY.getSeries( ).add( valueSeries );
 			yAxis.getSeriesDefinitions( ).add( sdY );
 		}
 
 		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{
-			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
-				Angle3DImpl.create( -20, 45, 0 )
+			newChart.setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
+				Angle3DImpl.createDefault( -20, 45, 0 )
 			} ) );
-
-			newChart.setUnitSpacing( 50 );
 
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
-			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
-			zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
 			zAxisAncillary.getTitle( )
 					.getCaption( )
 					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
-			zAxisAncillary.getTitle( ).setVisible( true );
-			zAxisAncillary.setPrimaryAxis( true );
-			zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
-			zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
-			zAxisAncillary.getTitle( ).setVisible( false );
-			zAxisAncillary.setType( AxisType.TEXT_LITERAL );
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.add( zAxisAncillary );
 
-			newChart.getPrimaryOrthogonalAxis( newChart.getPrimaryBaseAxes( )[0] )
-					.getTitle( )
-					.getCaption( )
-					.getFont( )
-					.setRotation( 0 );
-
-			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeries( ).add( SeriesImpl.create( ) );
+			SeriesDefinition sdZ = SeriesDefinitionImpl.createDefault( );
+			sdZ.getSeries( ).add( SeriesImpl.createDefault( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 		}
 
@@ -445,6 +411,7 @@ public class LineChart extends DefaultChartTypeImpl
 							}
 							seriesIndex++;
 							if ( !ChartPreviewPainter.isLivePreviewActive( )
+									&& axes.get( i ).isSetType( )
 									&& !isNumbericAxis( axes.get( i ) ) )
 							{
 								axes.get( i ).setType( AxisType.LINEAR_LITERAL );
@@ -487,6 +454,7 @@ public class LineChart extends DefaultChartTypeImpl
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& axes.get( i ).isSetType( )
 							&& !isNumbericAxis( axes.get( i ) ) )
 					{
 						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
@@ -498,8 +466,8 @@ public class LineChart extends DefaultChartTypeImpl
 						Series series = seriesdefinitions.get( j )
 								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						( (LineSeries) series ).setPaletteLineColor( true );
 						if ( !ChartPreviewPainter.isLivePreviewActive( )
+								&& axes.get( i ).isSetType( )
 								&& !isNumbericAxis( axes.get( i ) ) )
 						{
 							axes.get( i ).setType( AxisType.LINEAR_LITERAL );
@@ -523,7 +491,7 @@ public class LineChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
@@ -531,13 +499,8 @@ public class LineChart extends DefaultChartTypeImpl
 			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			xAxis.setType( AxisType.TEXT_LITERAL );
-			xAxis.setCategoryAxis( true );
 
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			{
 				// Clear existing series definitions
@@ -578,8 +541,6 @@ public class LineChart extends DefaultChartTypeImpl
 				{
 					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
-					series.getLabel( ).setVisible( false );
-					( (LineSeries) series ).setPaletteLineColor( true );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
@@ -595,8 +556,6 @@ public class LineChart extends DefaultChartTypeImpl
 				}
 			}
 
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 			if ( title.getValue( ) == null
 					|| title.getValue( ).trim( ).length( ) == 0
@@ -621,32 +580,24 @@ public class LineChart extends DefaultChartTypeImpl
 		if ( sNewDimension.equals( THREE_DIMENSION_TYPE )
 				&& ChartUIUtil.getDimensionType( sNewDimension ) != oldDimension )
 		{
-			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
-				Angle3DImpl.create( -20, 45, 0 )
+			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
+				Angle3DImpl.createDefault( -20, 45, 0 )
 			} ) );
 
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );
 
-			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
-			zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
 			zAxisAncillary.getTitle( )
 					.getCaption( )
 					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
-			zAxisAncillary.getTitle( ).setVisible( true );
-			zAxisAncillary.setPrimaryAxis( true );
-			zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
-			zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
-			zAxisAncillary.getTitle( ).setVisible( false );
-			zAxisAncillary.setType( AxisType.TEXT_LITERAL );
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.add( zAxisAncillary );
 
-			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeries( ).add( SeriesImpl.create( ) );
+			SeriesDefinition sdZ = SeriesDefinitionImpl.createDefault( );
+			sdZ.getSeries( ).add( SeriesImpl.createDefault( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 
 			if ( currentChart.getSampleData( )
@@ -693,7 +644,7 @@ public class LineChart extends DefaultChartTypeImpl
 				.findSeries( LineSeriesImpl.class.getName( ), seriesIndex );
 		if ( lineseries == null )
 		{
-			lineseries = (LineSeries) getSeries( );
+			lineseries = (LineSeries) getSeries( false );
 		}
 
 		// Copy generic series properties
@@ -783,10 +734,26 @@ public class LineChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		LineSeries series = (LineSeries) LineSeriesImpl.create( );
-		series.getMarkers( ).get( 0 ).setVisible( true );
-		series.setPaletteLineColor( true );
-		return series;
+		return getSeries( true );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitializing )
+	{
+		if ( needInitializing )
+		{
+			LineSeries series = (LineSeries) LineSeriesImpl.create( );
+			series.getMarkers( ).get( 0 ).setVisible( true );
+			series.setPaletteLineColor( true );
+			return series;
+		}
+		else
+		{
+			LineSeries series = (LineSeries) LineSeriesImpl.createDefault( );
+			return series;
+		}
 	}
 
 	@Override

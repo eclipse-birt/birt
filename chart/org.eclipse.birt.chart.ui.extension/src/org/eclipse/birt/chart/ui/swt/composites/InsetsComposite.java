@@ -217,10 +217,25 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 		updateInsetsData( insets );
 		initStatus( );
 		
-		txtTop.addModifyListener( this );
-		txtLeft.addModifyListener( this );
-		txtRight.addModifyListener( this );
-		txtBottom.addModifyListener( this );
+		setModifyListener( true );
+	}
+
+	protected void setModifyListener( boolean enabled )
+	{
+		if ( enabled )
+		{
+			txtTop.addModifyListener( this );
+			txtLeft.addModifyListener( this );
+			txtRight.addModifyListener( this );
+			txtBottom.addModifyListener( this );
+		}
+		else
+		{
+			txtTop.removeModifyListener( this );
+			txtLeft.removeModifyListener( this );
+			txtRight.removeModifyListener( this );
+			txtBottom.removeModifyListener( this );
+		}
 	}
 
 	private void updateInsetsData( Insets insets )
@@ -286,6 +301,8 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 		{
 			return;
 		}
+		setModifyListener( false );
+		
 		this.insets = insets;
 		this.sUnits = sUnits;
 		
@@ -313,6 +330,8 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 				"Points", sUnits ); //$NON-NLS-1$
 		txtRight.setValue( dblCurrent );
 
+		setModifyListener( true );
+		
 		this.grpInsets.setText( Messages.getFormattedString( "InsetsComposite.Lbl.Insets", //$NON-NLS-1$
 				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( sUnits ) ) );
 	}

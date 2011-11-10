@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -162,20 +161,16 @@ public class ScatterChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setOrientation( orientation );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
-		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxis.setType( AxisType.LINEAR_LITERAL );
-		xAxis.setCategoryAxis( false );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series baseSeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series baseSeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( baseSeries );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
@@ -185,12 +180,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 				.setValue( getDefaultTitle( ) );
 
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-		yAxis.setType( AxisType.LINEAR_LITERAL );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		Series orthogonalSeries = ScatterSeriesImpl.create( );
-		( (ScatterSeries) orthogonalSeries ).setStacked( false );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series orthogonalSeries = ScatterSeriesImpl.createDefault( );
 		sdY.getSeries( ).add( orthogonalSeries );
 		yAxis.getSeriesDefinitions( ).add( sdY );
 
@@ -256,7 +248,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 						for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 						{
 							Series series = seriesdefinitions.get( j ).getDesignTimeSeries( );
-							series.setStacked( false );
+							series.unsetStacked( );
 						}
 					}
 				}
@@ -276,7 +268,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 					|| currentChart.getType( ).equals( GanttChart.TYPE_LITERAL ) )
 			{
 				currentChart.setType( TYPE_LITERAL );
-				( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ).setCategoryAxis( false );
 				currentChart.setSubType( sNewSubType );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 				if ( title.getValue( ) == null
@@ -299,19 +290,20 @@ public class ScatterChart extends DefaultChartTypeImpl
 					// data is bound, the actual axis type will be reset
 					// correctly according to the real data type.
 					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& axes.get( i ).isSetType( )
 							&& !isNumbericAxis( axes.get( i ) ) )
 					{
 						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 					}
 					
-					axes.get( i ).setPercent( false );
+					axes.get( i ).unsetPercent( );
 					EList<SeriesDefinition> seriesdefinitions = axes.get( i ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = seriesdefinitions.get( j )
 								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						series.setStacked( false );
+						series.unsetStacked( );
 						seriesdefinitions.get( j ).getSeries( ).clear( );
 						seriesdefinitions.get( j ).getSeries( ).add( series );
 						axisTypes.add( axes.get( i ).getType( ) );
@@ -335,7 +327,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
@@ -343,13 +335,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			xAxis.setType( AxisType.TEXT_LITERAL );
-			xAxis.setCategoryAxis( false );
 
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			{
 				// Clear existing series definitions
@@ -388,8 +375,8 @@ public class ScatterChart extends DefaultChartTypeImpl
 				{
 					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
-					series.getLabel( ).setVisible( false );
-					series.setStacked( false );
+					series.getLabel( ).unsetVisible( );
+					series.unsetStacked( );
 					// Clear any existing series
 					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
@@ -397,8 +384,6 @@ public class ScatterChart extends DefaultChartTypeImpl
 				}
 			}
 
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 			if ( title.getValue( ) == null
 					|| title.getValue( ).trim( ).length( ) == 0
@@ -434,7 +419,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				.findSeries( ScatterSeriesImpl.class.getName( ), seriesIndex );
 		if ( scatterseries == null )
 		{
-			scatterseries = (ScatterSeries) ScatterSeriesImpl.create( );
+			scatterseries = (ScatterSeries) ScatterSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -506,9 +491,24 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return ScatterSeriesImpl.create( );
+		return getSeries( true );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return ScatterSeriesImpl.create( );
+		}
+		else
+		{
+			return ScatterSeriesImpl.createDefault( );
+		}
+	}
+	
 	private boolean isNumbericAxis( Axis axis )
 	{
 		return ( axis.getType( ).getValue( ) == AxisType.LINEAR )

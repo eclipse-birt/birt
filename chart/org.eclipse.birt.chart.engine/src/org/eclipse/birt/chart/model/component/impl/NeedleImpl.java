@@ -368,9 +368,9 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	 */
 	public final void initDefault( )
 	{
-		LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
-				1 );
+				1, true );
 		setLineAttributes( lia );
 	}
 	

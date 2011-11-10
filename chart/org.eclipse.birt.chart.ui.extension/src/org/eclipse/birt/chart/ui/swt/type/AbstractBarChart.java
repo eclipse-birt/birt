@@ -22,8 +22,6 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
@@ -361,19 +359,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( fsTypeLiteral );
 		newChart.setSubType( sSubType );
 		newChart.setOrientation( orientation );
 		newChart.setDimension( ChartUIUtil.getDimensionType( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
-		( newChart.getAxes( ).get( 0 ) ).setOrientation( Orientation.HORIZONTAL_LITERAL );
-		( newChart.getAxes( ).get( 0 ) ).setType( AxisType.TEXT_LITERAL );
-		( newChart.getAxes( ).get( 0 ) ).setCategoryAxis( true );
-
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		( newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
@@ -383,14 +376,8 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				.getCaption( )
 				.setValue( getDefaultTitle( ) );
 
-		newChart.setUnitSpacing( 50 );
-
-		( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
-		( ( newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
-				.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		Series valueSeries = getSeries( );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series valueSeries = getSeries( false );
 
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
@@ -402,11 +389,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					.get( 0 ) ).setPercent( true );
 
 			valueSeries.setStacked( true );
-			( (BarSeries) valueSeries ).setStacked( true );
 		}
 		else if ( sSubType.equalsIgnoreCase( SIDE_SUBTYPE_LITERAL ) )
 		{
-			( (BarSeries) valueSeries ).setStacked( false );
 		}
 
 		sdY.getSeries( ).add( valueSeries );
@@ -416,37 +401,23 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{
-			newChart.setRotation( Rotation3DImpl.create( new Angle3D[]{
-				Angle3DImpl.create( -20, 45, 0 )
+			newChart.setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
+				Angle3DImpl.createDefault( -20, 45, 0 )
 			} ) );
 
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
-			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
-			zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
 			zAxisAncillary.getTitle( )
 					.getCaption( )
 					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
-			zAxisAncillary.getTitle( ).setVisible( true );
-			zAxisAncillary.setPrimaryAxis( true );
-			zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
-			zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
-			zAxisAncillary.getTitle( ).setVisible( false );
-			zAxisAncillary.setType( AxisType.TEXT_LITERAL );
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.add( zAxisAncillary );
 
-			newChart.getPrimaryOrthogonalAxis( newChart.getPrimaryBaseAxes( )[0] )
-					.getTitle( )
-					.getCaption( )
-					.getFont( )
-					.setRotation( 0 );
-
-			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeries( ).add( SeriesImpl.create( ) );
+			SeriesDefinition sdZ = SeriesDefinitionImpl.createDefault( );
+			sdZ.getSeries( ).add( SeriesImpl.createDefault( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 		}
 
@@ -514,6 +485,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+							&& axes.get( i ).isSetType( )
 							&& !isNumbericAxis( axes.get( i ) ) )
 					{
 						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
@@ -528,6 +500,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
 						if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+								&& axes.get( i ).isSetType( )
 								&& !isNumbericAxis( axes.get( i ) ) )
 						{
 							axes.get( i ).setType( AxisType.LINEAR_LITERAL );
@@ -588,6 +561,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 							}
 							seriesIndex++;
 							if ( !ChartPreviewPainterBase.isLivePreviewActive( )
+									&& axes.get( i ).isSetType( )
 									&& !isNumbericAxis( axes.get( i ) ) )
 							{
 								( axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
@@ -617,22 +591,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( fsTypeLiteral );
 			currentChart.setSubType( sNewSubType );
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
-
-			( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 )
-					.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 )
-					.setCategoryAxis( true );
-
-			( ( ( (ChartWithAxes) currentChart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( ).get( 0 ) ).setOrientation( Orientation.VERTICAL_LITERAL );
 
 			{
 				// Clear existing series definitions
@@ -677,7 +641,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				{
 					series = ( seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
-					series.getLabel( ).setVisible( false );
 					if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 					{
 						series.setStacked( true );
@@ -695,8 +658,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				}
 			}
 
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 			if ( title.getValue( ) == null
 					|| title.getValue( ).trim( ).length( ) == 0
@@ -709,7 +670,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 		}
 		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-						.equals( newOrientation ) )
+				.equals( newOrientation ) )
 		{
 			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
 		}
@@ -722,32 +683,24 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		if ( sNewDimension.equals( THREE_DIMENSION_TYPE )
 				&& ChartUIUtil.getDimensionType( sNewDimension ) != oldDimension )
 		{
-			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.create( new Angle3D[]{
-				Angle3DImpl.create( -20, 45, 0 )
+			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
+				Angle3DImpl.createDefault( -20, 45, 0 )
 			} ) );
 
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.clear( );
 
-			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
-			zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
 			zAxisAncillary.getTitle( )
 					.getCaption( )
 					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
-			zAxisAncillary.getTitle( ).setVisible( true );
-			zAxisAncillary.setPrimaryAxis( true );
-			zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
-			zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
-			zAxisAncillary.getTitle( ).setVisible( false );
-			zAxisAncillary.setType( AxisType.TEXT_LITERAL );
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.add( zAxisAncillary );
 
-			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeries( ).add( SeriesImpl.create( ) );
+			SeriesDefinition sdZ = SeriesDefinitionImpl.createDefault( );
+			sdZ.getSeries( ).add( SeriesImpl.createDefault( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 
 			if ( currentChart.getSampleData( )
@@ -772,7 +725,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					( (BarSeries) series ).setRiser( foRiserType );
 				}
 				series.setStacked( false );// Stacked is unsupported in 3D
-				if ( ( series instanceof BarSeries )
+				if ( ( series instanceof BarSeries ) && series.isSetLabelPosition( )
 						&& ( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
 				{
 					series.setLabelPosition( Position.OUTSIDE_LITERAL );
@@ -788,7 +741,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 	private boolean isNumbericAxis( Axis axis )
 	{
-		return ( axis.getType( ).getValue( ) == AxisType.LINEAR )
+		return axis.isSetType( ) &&  ( axis.getType( ).getValue( ) == AxisType.LINEAR )
 				|| ( axis.getType( ).getValue( ) == AxisType.LOGARITHMIC );
 	}
 
@@ -804,7 +757,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				.findSeries( BarSeriesImpl.class.getName( ), seriesIndex );
 		if ( barseries == null )
 		{
-			barseries = (BarSeries) getSeries( );
+			barseries = (BarSeries) getSeries( false );
 		}
 
 		// Copy generic series properties
@@ -924,11 +877,28 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	@Override
 	public Series getSeries( )
 	{
-		BarSeries barseries = (BarSeries) BarSeriesImpl.create( );
-		barseries.setRiser( foRiserType );
-		return barseries;
+		return getSeries( true );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			BarSeries barseries = (BarSeries) BarSeriesImpl.create( );
+			barseries.setRiser( foRiserType );
+			return barseries;
+		}
+		else
+		{
+			BarSeries barseries = (BarSeries) BarSeriesImpl.createDefault( );
+			barseries.setRiser( foRiserType );
+			return barseries;
+		}
+	}
+	
 	@Override
 	public boolean canCombine( )
 	{

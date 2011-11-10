@@ -160,6 +160,11 @@ public class LocalizedNumberEditorComposite extends Composite
 		vModifyListeners.add( listener );
 	}
 
+	public void removeModifyListener( ModifyListener listener )
+	{
+		vModifyListeners.remove( listener );
+	}
+	
 	public void addFractionListener( Listener listener )
 	{
 		vFractionListeners.add( listener );

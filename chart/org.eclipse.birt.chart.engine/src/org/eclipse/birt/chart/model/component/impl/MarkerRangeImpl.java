@@ -1001,18 +1001,19 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 	private void initDefault( Axis ax, DataElement deStart, DataElement deEnd,
 			Fill fillColor, ColorDefinition outlineColor )
 	{
-		outline = LineAttributesImpl.create( outlineColor,
+		outline = LineAttributesImpl.createDefault( outlineColor,
 				LineStyle.SOLID_LITERAL,
 				1 );
 		fill = fillColor;
 		startValue = deStart;
 		endValue = deEnd;
-		label = LabelImpl.create( );
+		label = LabelImpl.createDefault( );
 
-		labelAnchor = ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL ? Anchor.NORTH_EAST_LITERAL
+		labelAnchor = ( ax.isSetOrientation( ) && ax.getOrientation( )
+				.getValue( ) == Orientation.HORIZONTAL ) ? Anchor.NORTH_EAST_LITERAL
 				: Anchor.NORTH_WEST_LITERAL;
 
-		if ( ax.getOrientation( ).getValue( ) == Orientation.VERTICAL )
+		if ( ax.isSetOrientation( ) && ax.getOrientation( ).getValue( ) == Orientation.VERTICAL )
 		{
 			try
 			{
@@ -1024,7 +1025,7 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 			}
 		}
 
-		if ( ax.getFormatSpecifier( ) != null && !ax.isCategoryAxis( ) )
+		if ( ax.getFormatSpecifier( ) != null && ax.isSetCategoryAxis( ) && !ax.isCategoryAxis( ) )
 		{
 			formatSpecifier = ax.getFormatSpecifier( ).copyInstance( );
 		}

@@ -1216,8 +1216,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		setLeaderLineAttributes( LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
 				1 ) );
-		setLeaderLineLength( 40 );
-		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
+		setLeaderLineLength( 10 );
+//		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
 		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
 		getLabel( ).setVisible( true );
@@ -1250,11 +1250,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		super.initDefault( );
 		explosion = 0;
 		labelPosition = Position.OUTSIDE_LITERAL;
-		setLeaderLineAttributes( LineAttributesImpl.create( null,
+		setLeaderLineAttributes( LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1 ) );
-		leaderLineLength = 40;
-		leaderLineStyle = LeaderLineStyle.STRETCH_TO_SIDE_LITERAL;
+		leaderLineLength = 10;
+//		leaderLineStyle = LeaderLineStyle.STRETCH_TO_SIDE_LITERAL;
 		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
 		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
 		try

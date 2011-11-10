@@ -1283,7 +1283,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	protected final void initDefault( )
 	{
 		// Outline
-		LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1 );
 		setLineAttributes( lia );
@@ -1294,26 +1294,18 @@ public class DialImpl extends EObjectImpl implements Dial
 
 		// MAJOR GRID
 		Grid gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 196,
-				196,
-				196 ), LineStyle.SOLID_LITERAL, 1 );
+		lia = LineAttributesImpl.createDefault( null, LineStyle.SOLID_LITERAL, 1 );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 196,
-				196,
-				196 ), LineStyle.SOLID_LITERAL, 1 );
+		lia = LineAttributesImpl.createDefault( null, LineStyle.SOLID_LITERAL, 1 );
 		gr.setTickAttributes( lia );
 		( (GridImpl) gr ).tickStyle = TickStyle.BELOW_LITERAL;
 		setMajorGrid( gr );
 
 		// MINOR GRID
 		gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 225,
-				225,
-				225 ), LineStyle.SOLID_LITERAL, 1, false );
+		lia = LineAttributesImpl.createDefault( null, LineStyle.SOLID_LITERAL, 1, false );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 225,
-				225,
-				225 ), LineStyle.SOLID_LITERAL, 1, false );
+		lia = LineAttributesImpl.createDefault( null, LineStyle.SOLID_LITERAL, 1, false );
 		gr.setTickAttributes( lia );
 		( (GridImpl) gr ).tickStyle = TickStyle.BELOW_LITERAL;
 		setMinorGrid( gr );

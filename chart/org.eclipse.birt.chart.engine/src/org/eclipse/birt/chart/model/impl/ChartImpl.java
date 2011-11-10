@@ -1479,8 +1479,15 @@ public class ChartImpl extends EObjectImpl implements Chart
 		
 		TextAlignment taTitle = TextAlignmentImpl.createDefault( HorizontalAlignment.CENTER_LITERAL,
 				VerticalAlignment.CENTER_LITERAL );
-		txtChartTitle.getFont( ).setAlignment( taTitle );
-
+		try
+		{
+			ChartElementUtil.setDefaultValue( txtChartTitle.getFont( ), "alignment", taTitle ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
+		
 		// 4. SETUP OTHER BASIC PROPERTIES
 		dimension = ChartDimension.TWO_DIMENSIONAL_LITERAL;
 		seriesThickness = 10;

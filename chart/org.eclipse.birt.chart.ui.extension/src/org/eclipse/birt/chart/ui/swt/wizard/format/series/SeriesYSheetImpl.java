@@ -413,7 +413,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			setToggleButtonEnabled( BUTTON_CURVE, btnShowCurveLine.getSelection( ) );
 			if ( btnShowCurveLine.getSelection( ) )
 			{
-				CurveFitting cf = CurveFittingImpl.create( );
+				CurveFitting cf = CurveFittingImpl.createDefault( );
 				cf.eAdapters( )
 						.addAll( getCurrentDesignTimeSeries( )
 								.eAdapters( ) );
@@ -584,7 +584,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		return iSeriesDefinitionIndex;
 	}
 
-	private boolean isTrendlineAvailable( )
+	protected boolean isTrendlineAvailable( )
 	{
 		return ( getChart( ) instanceof ChartWithAxes )
 				&& ( !isGanttSeries( ) )
@@ -594,7 +594,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 						+ ChartUIConstants.BUTTON_CURVE );
 	}
 
-	private boolean isMeterSeries( )
+	protected boolean isMeterSeries( )
 	{
 		return getCurrentDesignTimeSeries( ) instanceof DialSeries;
 	}
@@ -604,12 +604,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 	}
 
-	private boolean isGanttSeries( )
+	protected boolean isGanttSeries( )
 	{
 		return getCurrentDesignTimeSeries( ) instanceof GanttSeries;
 	}
 
-	private boolean isDifferenceSeries( )
+	protected boolean isDifferenceSeries( )
 	{
 		return getCurrentDesignTimeSeries( ) instanceof DifferenceSeries;
 	}

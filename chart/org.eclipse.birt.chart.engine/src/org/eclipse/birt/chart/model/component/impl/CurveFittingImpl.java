@@ -109,6 +109,13 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 		( (CurveFittingImpl) cf ).initialize( );
 		return cf;
 	}
+	
+	public static CurveFitting createDefault( )
+	{
+		final CurveFitting cf = ComponentFactory.eINSTANCE.createCurveFitting( );
+		( (CurveFittingImpl) cf ).initDefault( );
+		return cf;
+	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -453,6 +460,25 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 				LineStyle.SOLID_LITERAL,
 				1 );
 		lia.setVisible( true );
+		setLineAttributes( lia );
+	}
+	
+	/**
+	 * Initialize the curve setting without setting 'isSet' flag.
+	 */
+	protected void initDefault( )
+	{
+		final Label la = LabelImpl.createDefault( );
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1, false );
+		la.setOutline( lia );
+		setLabel( la );
+		labelAnchor = Anchor.NORTH_LITERAL;
+
+		lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1, true );
 		setLineAttributes( lia );
 	}
 

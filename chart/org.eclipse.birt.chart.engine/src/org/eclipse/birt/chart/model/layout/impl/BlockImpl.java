@@ -1853,7 +1853,7 @@ public class BlockImpl extends EObjectImpl implements Block
 	 */
 	protected void initDefault( )
 	{
-		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1, false );
 		setOutline( lia );

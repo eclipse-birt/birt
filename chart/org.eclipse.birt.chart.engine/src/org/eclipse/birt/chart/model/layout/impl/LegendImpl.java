@@ -2142,14 +2142,14 @@ public class LegendImpl extends BlockImpl implements Legend
 		itemType = LegendItemType.SERIES_LITERAL;
 
 		Label la = LabelImpl.createDefault( false );
-		LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1, false );
 		la.setOutline( lia );
 		setTitle( la );
 		titlePosition = Position.ABOVE_LITERAL;
 
-		LineAttributes separator = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		LineAttributes separator = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1 );
 		setSeparator( separator );

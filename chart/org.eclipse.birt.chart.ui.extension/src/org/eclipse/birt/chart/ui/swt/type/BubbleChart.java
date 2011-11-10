@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -158,20 +157,16 @@ public class BubbleChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setOrientation( orientation );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
-		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxis.setType( AxisType.LINEAR_LITERAL );
-		xAxis.setCategoryAxis( false );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series baseSeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series baseSeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( baseSeries );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
@@ -181,13 +176,9 @@ public class BubbleChart extends DefaultChartTypeImpl
 				.setValue( getDefaultTitle( ) );
 
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-		yAxis.setType( AxisType.LINEAR_LITERAL );
-
 		
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		Series orthogonalSeries = BubbleSeriesImpl.create( );
-		( (BubbleSeries) orthogonalSeries ).setStacked( false );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series orthogonalSeries = BubbleSeriesImpl.createDefault( );
 		sdY.getSeries( ).add( orthogonalSeries );
 		yAxis.getSeriesDefinitions( ).add( sdY );
 
@@ -247,7 +238,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 						{
 							Series series = seriesdefinitions.get( j )
 									.getDesignTimeSeries( );
-							series.setStacked( false );
+							series.unsetStacked( );
 						}
 					}
 				}
@@ -279,25 +270,25 @@ public class BubbleChart extends DefaultChartTypeImpl
 				}
 			
 				Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-				xAxis.setCategoryAxis( false );
 
 				EList<Axis> axes = ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ).getAssociatedAxes( );
 				List<AxisType> axisTypes = new ArrayList<AxisType>( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					if ( ! ChartPreviewPainter.isLivePreviewActive( ) )
+					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& axes.get( i ).isSetType( ) )
 					{
 						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 					}
-					axes.get( i ).setPercent( false );
+					axes.get( i ).unsetPercent( );
 					EList<SeriesDefinition> seriesdefinitions = axes.get( i ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = seriesdefinitions.get( j )
 								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						series.setStacked( false );
+						series.unsetStacked( );
 
 						seriesdefinitions.get( j ).getSeries( ).clear( );
 						seriesdefinitions.get( j ).getSeries( ).add( series );
@@ -321,7 +312,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
@@ -329,12 +320,8 @@ public class BubbleChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			xAxis.setCategoryAxis( false );
 
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			{
 				// Clear existing series definitions
@@ -372,8 +359,8 @@ public class BubbleChart extends DefaultChartTypeImpl
 				{
 					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
-					series.getLabel( ).setVisible( false );
-					series.setStacked( false );
+					series.getLabel( ).unsetVisible( );
+					series.unsetStacked( );
 					// Clear any existing series
 					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
@@ -381,8 +368,6 @@ public class BubbleChart extends DefaultChartTypeImpl
 				}
 			}
 			
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 			if ( title.getValue( ) == null
 					|| title.getValue( ).trim( ).length( ) == 0
@@ -419,7 +404,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 				.findSeries( BubbleSeriesImpl.class.getName( ), seriesIndex );
 		if ( bubbleSeries == null )
 		{
-			bubbleSeries = (BubbleSeries) BubbleSeriesImpl.create( );
+			bubbleSeries = (BubbleSeries) BubbleSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -492,7 +477,21 @@ public class BubbleChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return BubbleSeriesImpl.create( );
+		return getSeries( true );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return BubbleSeriesImpl.create( );
+		}
+		else
+		{
+			return BubbleSeriesImpl.createDefault( );
+		}
+	}
 }

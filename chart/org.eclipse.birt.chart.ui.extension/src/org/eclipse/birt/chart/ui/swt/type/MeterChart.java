@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -168,17 +167,15 @@ public class MeterChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = (DialChart) DialChartImpl.create( );
+		newChart = (DialChart) DialChartImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		newChart.setDialSuperimposition( sSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
-		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
@@ -187,9 +184,8 @@ public class MeterChart extends DefaultChartTypeImpl
 				.getCaption( )
 				.setValue( getDefaultTitle( ) );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		DialSeries valueSeries = (DialSeries) DialSeriesImpl.create( );
-		valueSeries.getLabel( ).setVisible( true );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		DialSeries valueSeries = (DialSeries) DialSeriesImpl.createDefault( );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
 		sdY.getSeries( ).add( valueSeries );
 
@@ -243,7 +239,7 @@ public class MeterChart extends DefaultChartTypeImpl
 
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = DialChartImpl.create( );
+			currentChart = DialChartImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
@@ -280,8 +276,6 @@ public class MeterChart extends DefaultChartTypeImpl
 					.getSeriesDefinitions( )
 					.addAll( vOSD );
 
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 			if ( title.getValue( ) == null
 					|| title.getValue( ).trim( ).length( ) == 0
@@ -308,7 +302,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			{
 				// Create a new instance of the correct type and set initial
 				// properties
-				currentChart = DialChartImpl.create( );
+				currentChart = DialChartImpl.createDefault( );
 				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
@@ -341,8 +335,6 @@ public class MeterChart extends DefaultChartTypeImpl
 					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 
-				currentChart.getLegend( )
-						.setItemType( LegendItemType.SERIES_LITERAL );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 				if ( title.getValue( ) == null
 						|| title.getValue( ).trim( ).length( ) == 0
@@ -373,7 +365,7 @@ public class MeterChart extends DefaultChartTypeImpl
 				.findSeries( DialSeriesImpl.class.getName( ), seriesIndex );
 		if ( dialseries == null )
 		{
-			dialseries = (DialSeries) DialSeriesImpl.create( );
+			dialseries = (DialSeries) DialSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -447,9 +439,23 @@ public class MeterChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return DialSeriesImpl.create( );
+		return getSeries( true );
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return DialSeriesImpl.create( );
+		}
+		else
+		{
+			return DialSeriesImpl.createDefault( );
+		}
+	}
 	public String getValueDefinitionName( )
 	{
 		return Messages.getString( "DialBottomAreaComponent.Label.GaugeValueDefinition" ); //$NON-NLS-1$

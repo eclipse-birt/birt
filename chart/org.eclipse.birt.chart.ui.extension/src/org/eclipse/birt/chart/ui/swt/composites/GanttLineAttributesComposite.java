@@ -215,8 +215,9 @@ public class GanttLineAttributesComposite extends Composite implements
 			btnWidthAuto = new Button(cmpContent, SWT.CHECK );
 			btnWidthAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 			btnWidthAuto.setSelection( !laCurrent.isSetThickness( ) );
+			btnWidthAuto.setEnabled( bEnableUI );
 			iscWidth.setEnabled( !btnWidthAuto.getSelection( ) );
-			btnWidthAuto.addSelectionListener( this );
+			btnWidthAuto.addListener( SWT.Selection, this );
 		}
 
 		if ( bEnableColor )
@@ -372,8 +373,8 @@ public class GanttLineAttributesComposite extends Composite implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		Object oSource = e.getSource( );
-		if ( oSource.equals( btnVisible ) )
+		Object widget = e.widget;
+		if ( widget == btnVisible )
 		{
 			// Notify Listeners that a change has occurred in the value
 			fireValueChangedEvent( GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT,
@@ -392,10 +393,11 @@ public class GanttLineAttributesComposite extends Composite implements
 				lblStyle.setEnabled( bEnableUI );
 				cmbStyle.setEnabled( bEnableUI );
 			}
+			btnWidthAuto.setEnabled( bEnableUI );
 			if ( bEnableWidths )
 			{
-				lblWidth.setEnabled( bEnableUI );
-				iscWidth.setEnabled( bEnableUI );
+				lblWidth.setEnabled( bEnableUI && !btnWidthAuto.getSelection( ) );
+				iscWidth.setEnabled( bEnableUI && !btnWidthAuto.getSelection( ) );
 			}
 			if ( bEnableColor )
 			{
@@ -503,6 +505,23 @@ public class GanttLineAttributesComposite extends Composite implements
 					Integer.valueOf( iscWidth.getValue( ) ),
 					( iscWidth.getValue( ) == 0 ) ? ChartUIExtensionUtil.PROPERTY_UNSET
 							: ChartUIExtensionUtil.PROPERTY_UPDATE );
+		}
+		else if ( btnWidthAuto != null && event.widget == btnWidthAuto )
+		{
+			if ( btnWidthAuto.getSelection( ) )
+			{
+				lblWidth.setEnabled( false );
+				iscWidth.setEnabled( false );
+				fireValueChangedEvent( GanttLineAttributesComposite.WIDTH_CHANGED_EVENT,
+						Integer.valueOf( iscWidth.getValue( ) ), ChartUIExtensionUtil.PROPERTY_UNSET );
+			}
+			else
+			{
+				lblWidth.setEnabled( true );
+				iscWidth.setEnabled( true );
+				fireValueChangedEvent( GanttLineAttributesComposite.WIDTH_CHANGED_EVENT,
+						Integer.valueOf( iscWidth.getValue( ) ), ChartUIExtensionUtil.PROPERTY_UPDATE );
+			}
 		}
 	}
 }

@@ -473,7 +473,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						&& series.canBeStacked( )
 						&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL
 						&& !bStackedPercent );
-				if ( series.isStacked( ) && !canStack )
+				if ( series.isSetStacked( ) && series.isStacked( ) && !canStack )
 				{
 					btnStack.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
 					series.setStacked( false );

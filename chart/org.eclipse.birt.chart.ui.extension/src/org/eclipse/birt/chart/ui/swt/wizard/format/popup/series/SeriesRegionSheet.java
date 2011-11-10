@@ -543,7 +543,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		}
 		else if ( e.getSource( ).equals( btnAddRange ) )
 		{
-			DialRegion range = DialRegionImpl.create( );
+			DialRegion range = DialRegionImpl.createDefault( );
 			range.setStartValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
 			range.setEndValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
 			getDialForProcessing( ).getDialRegions( ).add( range );
@@ -725,10 +725,10 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		txtStartValue.setEnabled( bState );
 		lblEndValue.setEnabled( bState );
 		txtEndValue.setEnabled( bState );
-		lblInnerRadius.setEnabled( bState );
-		txtInnerRadius.setEnabled( bState );
-		lblOuterRadius.setEnabled( bState );
-		txtOuterRadius.setEnabled( bState );
+		lblInnerRadius.setEnabled( bState && !btnInnerRadiusAuto.getSelection( ) );
+		txtInnerRadius.setEnabled( bState && !btnInnerRadiusAuto.getSelection( ) );
+		lblOuterRadius.setEnabled( bState && !btnOuterRadiusAuto.getSelection( ) );
+		txtOuterRadius.setEnabled( bState && !btnOuterRadiusAuto.getSelection( )  );
 		
 		liacMarkerRange.setAttributesEnabled( bState );
 		// lacLabel.setEnabled( bState );

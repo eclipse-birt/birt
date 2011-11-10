@@ -939,7 +939,10 @@ public class TaskSelectType extends SimpleTask implements
 			boolean bCategory = ChartCacheManager.getInstance( )
 					.findCategory( sType )
 					.booleanValue( );
-			( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ).setCategoryAxis( bCategory );
+			if ( ( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ).isSetCategoryAxis( ) )
+			{
+				( (ChartWithAxes) chartModel ).getAxes( ).get( 0 ).setCategoryAxis( bCategory );
+			}
 		}
 		sSubType = null;
 		createAndDisplayTypesSheet( sType );

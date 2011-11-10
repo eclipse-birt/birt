@@ -632,10 +632,9 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	public final void initDefault( )
 	{
 		//setBackground( ColorDefinitionImpl.WHITE( ) );
-		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				0, false );
-		lia.setVisible( false );
 		setOutline( lia );
 		setInsets( InsetsImpl.createDefault( 0, 0, 0, 0 ) );
 	}

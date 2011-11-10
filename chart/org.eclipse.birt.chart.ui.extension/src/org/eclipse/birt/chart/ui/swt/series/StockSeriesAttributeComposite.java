@@ -32,6 +32,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -57,6 +58,8 @@ public class StockSeriesAttributeComposite extends Composite implements
 	protected StockSeries series = null;
 
 	protected transient ChartWizardContext context;
+
+	private Button btnAuto;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -104,7 +107,7 @@ public class StockSeriesAttributeComposite extends Composite implements
 		{
 			grpLine.setText(  Messages.getString( "StockSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 			GridLayout glLine = new GridLayout( );
-			glLine.numColumns = series.isShowAsBarStick( ) ? 3 : 1;
+			glLine.numColumns = series.isShowAsBarStick( ) ? 4 : 1;
 			grpLine.setLayout( glLine );
 			grpLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
@@ -139,6 +142,14 @@ public class StockSeriesAttributeComposite extends Composite implements
 			iscStick.setMaximum( Integer.MAX_VALUE );
 			iscStick.setSelection( series.getStickLength( ) );
 			iscStick.addSelectionListener( this );
+			
+			btnAuto = new Button( grpLine, SWT.CHECK );
+			btnAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnAuto.addSelectionListener( this );
+			GridData gd = new GridData();
+			btnAuto.setLayoutData( gd );
+			btnAuto.setSelection( !series.isSetStickLength( ) );
+			iscStick.setEnabled( !btnAuto.getSelection( ) );
 		}
 	}
 
@@ -166,6 +177,21 @@ public class StockSeriesAttributeComposite extends Composite implements
 		if ( e.widget.equals( iscStick ) )
 		{
 			series.setStickLength( iscStick.getSelection( ) );
+		}
+		else if ( e.widget == btnAuto )
+		{
+			if ( btnAuto.getSelection( ) )
+			{
+				iscStick.setEnabled( false );
+			}
+			else
+			{
+				iscStick.setEnabled( true );
+			}
+			ChartElementUtil.setEObjectAttribute( series,
+					"stickLength", //$NON-NLS-1$
+					Integer.valueOf( iscStick.getSelection( ) ),
+					btnAuto.getSelection( ) );
 		}
 	}
 

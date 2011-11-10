@@ -809,15 +809,15 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 
 	private void initDefault( Axis ax, DataElement de, ColorDefinition lineColor )
 	{
-		lineAttributes = LineAttributesImpl.create( lineColor,
+		lineAttributes = LineAttributesImpl.createDefault( lineColor,
 				LineStyle.DASHED_LITERAL,
 				1 );
 		value = de;
-		label = LabelImpl.create( );
-		labelAnchor = ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL ? Anchor.NORTH_WEST_LITERAL
+		label = LabelImpl.createDefault( );
+		labelAnchor = ( ax.isSetOrientation( ) && ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL ) ? Anchor.NORTH_WEST_LITERAL
 				: Anchor.NORTH_EAST_LITERAL;
 
-		if ( ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL )
+		if ( ax.isSetOrientation( ) && ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL )
 		{
 			try
 			{
@@ -829,7 +829,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			}
 		}
 
-		if ( ax.getFormatSpecifier( ) != null && !ax.isCategoryAxis( ) )
+		if ( ax.getFormatSpecifier( ) != null && ax.isSetCategoryAxis( ) && !ax.isCategoryAxis( ) )
 		{
 			formatSpecifier = ax.getFormatSpecifier( ).copyInstance( );
 		}

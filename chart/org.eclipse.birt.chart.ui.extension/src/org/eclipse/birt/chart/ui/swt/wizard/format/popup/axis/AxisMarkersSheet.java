@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -668,9 +667,9 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 	{
 		if ( e.getSource( ).equals( btnAddLine ) )
 		{
-			MarkerLine line = MarkerLineImpl.create( getAxisForProcessing( ),
+			MarkerLine line = MarkerLineImpl.createDefault( getAxisForProcessing( ),
 					createDefaultDataElement( ),
-					ColorDefinitionImpl.RED( ) );
+					null );
 			line.eAdapters( ).addAll( getAxisForProcessing( ).eAdapters( ) );
 			iLineCount++;
 			buildList( );
@@ -686,11 +685,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		}
 		else if ( e.getSource( ).equals( btnAddRange ) )
 		{
-			MarkerRange range = MarkerRangeImpl.create( getAxisForProcessing( ),
+			MarkerRange range = MarkerRangeImpl.createDefault( getAxisForProcessing( ),
 					createDefaultDataElement( ),
 					createDefaultDataElement( ),
-					ColorDefinitionImpl.TRANSPARENT( ),
-					ColorDefinitionImpl.RED( ) );
+					null,
+					null );
 			range.eAdapters( ).addAll( getAxisForProcessing( ).eAdapters( ) );
 			iRangeCount++;
 			buildList( );

@@ -21,10 +21,8 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -159,20 +157,16 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setOrientation( orientation );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
-		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxis.setType( AxisType.TEXT_LITERAL );
-		xAxis.setCategoryAxis( true );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
@@ -182,15 +176,9 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				.setValue( getDefaultTitle( ) );
 
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-		yAxis.setType( AxisType.LINEAR_LITERAL );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		Series valueSeries = DifferenceSeriesImpl.create( );
-		( (DifferenceSeries) valueSeries ).getMarkers( ).get( 0 ).setVisible( false );
-		( (DifferenceSeries) valueSeries ).getLineAttributes( )
-				.setColor( ColorDefinitionImpl.BLUE( ) );
-		( (DifferenceSeries) valueSeries ).setStacked( false );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series valueSeries = DifferenceSeriesImpl.createDefault( );
 		sdY.getSeries( ).add( valueSeries );
 		yAxis.getSeriesDefinitions( ).add( sdY );
 
@@ -275,17 +263,17 @@ public class DifferenceChart extends DefaultChartTypeImpl
 					title.setValue( getDefaultTitle( ) );
 				}
 				Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-				xAxis.setCategoryAxis( true );
 
 				EList<Axis> axes = xAxis.getAssociatedAxes( );
 				List<AxisType> axisTypes = new ArrayList<AxisType>( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					if ( !ChartPreviewPainter.isLivePreviewActive( ) )
+					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& axes.get( i ).isSetType( ) )
 					{
 						axes.get( i ).setType( AxisType.LINEAR_LITERAL );
 					}
-					axes.get( i ).setPercent( false );
+					axes.get( i ).unsetPercent( );
 					EList<SeriesDefinition> seriesdefinitions = axes.get( i )
 							.getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
@@ -293,7 +281,7 @@ public class DifferenceChart extends DefaultChartTypeImpl
 						Series series = seriesdefinitions.get( j )
 								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						series.setStacked( false );
+						series.unsetStacked( );
 						seriesdefinitions.get( j ).getSeries( ).clear( );
 						seriesdefinitions.get( j ).getSeries( ).add( series );
 						axisTypes.add( axes.get( i ).getType( ) );
@@ -313,7 +301,7 @@ public class DifferenceChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
@@ -321,13 +309,8 @@ public class DifferenceChart extends DefaultChartTypeImpl
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			xAxis.setType( AxisType.TEXT_LITERAL );
-			xAxis.setCategoryAxis( true );
 
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
 
 			{
 				// Clear existing series definitions
@@ -367,8 +350,7 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				{
 					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
-					series.getLabel( ).setVisible( false );
-					series.setStacked( false );
+					series.unsetStacked( );
 					// Clear any existing series
 					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
@@ -376,8 +358,6 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				}
 			}
 			
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
 			if ( title.getValue( ) == null
 					|| title.getValue( ).trim( ).length( ) == 0
@@ -414,7 +394,7 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				.findSeries( DifferenceSeriesImpl.class.getName( ), seriesIndex );
 		if ( diffseries == null )
 		{
-			diffseries = (DifferenceSeries) DifferenceSeriesImpl.create( );
+			diffseries = (DifferenceSeries) DifferenceSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -501,6 +481,21 @@ public class DifferenceChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return DifferenceSeriesImpl.create( );
+		return getSeries( true );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return DifferenceSeriesImpl.create( );
+		}
+		else
+		{
+			return DifferenceSeriesImpl.createDefault( );
+		}
 	}
 }

@@ -12,13 +12,13 @@
 package org.eclipse.birt.chart.model.util;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
@@ -32,7 +32,11 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
+import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.component.impl.MarkerLineImpl;
+import org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
@@ -270,19 +274,26 @@ public class DefaultValueProvider
 	{
 
 		ChartWithAxes newChart = ChartWithAxesImpl.create( );
+		newChart.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 
 		Axis axBase = newChart.getAxes( ).get( 0 );
-		try
-		{
-			ChartElementUtil.setDefaultValue( axBase, "categoryAxis", true );
-		}
-		catch ( ChartException e )
-		{
-		}
+		axBase.getMarkerLines( ).add( MarkerLineImpl.create( axBase, null ) );
+		axBase.getMarkerRanges( ).add( MarkerRangeImpl.create( axBase,
+				null,
+				null,
+				ColorDefinitionImpl.TRANSPARENT( ),
+				ColorDefinitionImpl.RED( ) ) );
+		axBase.setCategoryAxis( true );
 		axBase.getSeriesDefinitions( ).add( createSeriesDefinition( 0 ) );
 		axBase.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
 
 		Axis axOrth = axBase.getAssociatedAxes( ).get( 0 );
+		axOrth.getMarkerLines( ).add( MarkerLineImpl.create( axOrth, null ) );
+		axOrth.getMarkerRanges( ).add( MarkerRangeImpl.create( axOrth,
+				null,
+				null,
+				ColorDefinitionImpl.TRANSPARENT( ),
+				ColorDefinitionImpl.RED( ) ) );
 		axOrth.getSeriesDefinitions( ).add( createSeriesDefinition( 0 ) );
 		axOrth.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
 		createAncillaryAxis( newChart );
@@ -295,52 +306,29 @@ public class DefaultValueProvider
 			Angle3DImpl.create( -20, 45, 0 )
 		} ) );
 
-		try
-		{
-			chart.setUnitSpacing( 50 );
+		chart.setUnitSpacing( 50 );
 
-			Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
-			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"titlePosition",
-					Position.BELOW_LITERAL );
-			zAxisAncillary.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
-			ChartElementUtil.setDefaultValue( zAxisAncillary.getTitle( ),
-					"visible",
-					false );
-			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"primaryAxis",
-					true );
-			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"labelPosition",
-					Position.BELOW_LITERAL );
-			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"orientation",
-					Orientation.HORIZONTAL_LITERAL );
-			ChartElementUtil.setDefaultValue( zAxisAncillary.getOrigin( ),
-					"type",
-					IntersectionType.MIN_LITERAL );
-			zAxisAncillary.getOrigin( )
-					.setValue( NumberDataElementImpl.create( 0 ) );
-			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"type",
-					AxisType.TEXT_LITERAL );
-			chart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
-					.add( zAxisAncillary );
+		Axis zAxisAncillary = AxisImpl.create( Axis.ANCILLARY_BASE );
+		zAxisAncillary.setTitlePosition( Position.BELOW_LITERAL );
+		zAxisAncillary.getTitle( )
+				.getCaption( )
+				.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
+		zAxisAncillary.getTitle( ).setVisible( false );
+		zAxisAncillary.setPrimaryAxis( true );
+		zAxisAncillary.setLabelPosition( Position.BELOW_LITERAL );
+		zAxisAncillary.setOrientation( Orientation.HORIZONTAL_LITERAL );
+		zAxisAncillary.getOrigin( ).setType( IntersectionType.MIN_LITERAL );
+		zAxisAncillary.getOrigin( )
+				.setValue( NumberDataElementImpl.create( 0 ) );
+		zAxisAncillary.setType( AxisType.TEXT_LITERAL );
+		chart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).add( zAxisAncillary );
 
-			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).shift( 0 );
-			sdZ.getSeries( ).add( SeriesImpl.create( ) );
-			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
+		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
+		sdZ.getSeriesPalette( ).shift( 0 );
+		sdZ.getSeries( ).add( SeriesImpl.create( ) );
+		zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 
-			return zAxisAncillary;
-		}
-		catch ( ChartException e )
-		{
-			// Do nothing.
-		}
-		return null;
+		return zAxisAncillary;
 	}
 	
 	private static final TitleBlock defTitleBlock = getTitleBlock( defChartWithAxes );
@@ -350,6 +338,10 @@ public class DefaultValueProvider
 	private static final GanttSeries defGanttSeries = (GanttSeries) GanttSeriesImpl.create( );
 	private static final ScatterSeries defScatterSeries = (ScatterSeries) ScatterSeriesImpl.create( );
 	private static final DialSeries defDialSeries = (DialSeries) DialSeriesImpl.create( );
+	static
+	{
+		defDialSeries.getDial( ).getDialRegions( ).add( DialRegionImpl.create( ) );
+	}
 	private static final PieSeries defPieSeries = (PieSeries) PieSeriesImpl.create( );
 	private static final DifferenceSeries defDifferenceSeries = (DifferenceSeries) DifferenceSeriesImpl.create( );
 	private static final StockSeries defStockSeries = (StockSeries) StockSeriesImpl.create( );
@@ -357,6 +349,17 @@ public class DefaultValueProvider
 	private static final AreaSeries defAreaSeries = (AreaSeries) AreaSeriesImpl.create( );
 	private static final BarSeries defBarSeries = (BarSeries) BarSeriesImpl.create( );
 	private static final BubbleSeries defBubbleSeries = (BubbleSeries) BubbleSeriesImpl.create( );
+	static
+	{
+		defSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defGanttSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defScatterSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defStockSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defLineSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defAreaSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defBarSeries.setCurveFitting( CurveFittingImpl.create( ) );
+		defBubbleSeries.setCurveFitting( CurveFittingImpl.create( ) );
+	}
 	private static final Axis defBaseAxis = defChartWithAxes.getAxes( ).get( 0 );
 	private static final Axis defOrthAxis = defBaseAxis.getAssociatedAxes( )
 			.get( 0 );
@@ -378,10 +381,25 @@ public class DefaultValueProvider
 	
 	private static final DefSeriesDefinitionPool defSeriesDefinitions = new DefSeriesDefinitionPool( );
 
-	private static class DefSeriesDefinitionPool
+	public static class DefSeriesDefinitionPool
 	{
 
-		private int size = 8;
+		protected int size = 8;
+		protected SeriesDefinition[] pool = null;
+
+		public DefSeriesDefinitionPool( )
+		{
+			pool = new SeriesDefinition[]{
+					createSeriesDefinition( 0 ),
+					createSeriesDefinition( -1 ),
+					createSeriesDefinition( -2 ),
+					createSeriesDefinition( -3 ),
+					createSeriesDefinition( -4 ),
+					createSeriesDefinition( -5 ),
+					createSeriesDefinition( -6 ),
+					createSeriesDefinition( -7 ),
+			};
+		}
 
 		public SeriesDefinition get( int id )
 		{
@@ -402,17 +420,6 @@ public class DefaultValueProvider
 			}
 			return pool[id];
 		}
-
-		private SeriesDefinition[] pool = {
-				createSeriesDefinition( 0 ),
-				createSeriesDefinition( -1 ),
-				createSeriesDefinition( -2 ),
-				createSeriesDefinition( -3 ),
-				createSeriesDefinition( -4 ),
-				createSeriesDefinition( -5 ),
-				createSeriesDefinition( -6 ),
-				createSeriesDefinition( -7 ),
-		};
 
 	}
 
@@ -490,7 +497,7 @@ public class DefaultValueProvider
 		return null;
 	}
 
-	private static SeriesDefinition createSeriesDefinition(
+	protected static SeriesDefinition createSeriesDefinition(
 			int paletteShift )
 	{
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );

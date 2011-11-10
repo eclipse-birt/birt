@@ -2972,11 +2972,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 		try
 		{
 			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
-					"size",
-					14 ); // $NON-NLS_1$
+					"size", //$NON-NLS-1$
+					14 ); 
 			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
-					"bold",
-					true ); // $NON-NLS_1$
+					"bold", //$NON-NLS-1$
+					true );
 		}
 		catch ( ChartException e )
 		{
@@ -2984,21 +2984,26 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 		TextAlignment ta = TextAlignmentImpl.createDefault( HorizontalAlignment.CENTER_LITERAL,
 				VerticalAlignment.CENTER_LITERAL );
-		la.getCaption( ).getFont( ).setAlignment( ta );
+		try
+		{
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"alignment",//$NON-NLS-1$
+					ta ); 
+		}
+		catch ( ChartException e )
+		{
+		}
+
 		setTitle( la );
 
 		// MAJOR GRID
 		Grid gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 196,
-				196,
-				196 ),
+		lia = LineAttributesImpl.createDefault( null ,
 				LineStyle.SOLID_LITERAL,
 				1,
 				false );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 196,
-				196,
-				196 ),
+		lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1 );
 		gr.setTickAttributes( lia );
@@ -3007,16 +3012,12 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 		// MINOR GRID
 		gr = ComponentFactory.eINSTANCE.createGrid( );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 225,
-				225,
-				225 ),
+		lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1,
 				false );
 		gr.setLineAttributes( lia );
-		lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.create( 225,
-				225,
-				225 ),
+		lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1,
 				false );

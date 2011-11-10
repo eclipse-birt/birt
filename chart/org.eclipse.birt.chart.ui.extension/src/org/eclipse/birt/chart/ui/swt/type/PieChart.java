@@ -145,19 +145,18 @@ public class PieChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithoutAxesImpl.create( );
+		newChart = ChartWithoutAxesImpl.createDefault( );
 		newChart.setType( getName( ) );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
 		if ( newChart.getDimension( )
 				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 		{
 			newChart.setSeriesThickness( 15 );
 		}
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
@@ -166,9 +165,8 @@ public class PieChart extends DefaultChartTypeImpl
 				.getCaption( )
 				.setValue( getDefaultTitle( ) );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		Series valueSeries = getSeries( );
-		valueSeries.getLabel( ).setVisible( true );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series valueSeries = getSeries( false);
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
 		( (PieSeries) valueSeries ).getTitle( )
 				.getCaption( )
@@ -232,7 +230,7 @@ public class PieChart extends DefaultChartTypeImpl
 
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithoutAxesImpl.create( );
+			currentChart = ChartWithoutAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( getName( ) );
 			currentChart.setSubType( sNewSubType );
@@ -307,7 +305,7 @@ public class PieChart extends DefaultChartTypeImpl
 			{
 				// Create a new instance of the correct type and set initial
 				// properties
-				currentChart = ChartWithoutAxesImpl.create( );
+				currentChart = ChartWithoutAxesImpl.createDefault( );
 				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( getName( ) );
 				currentChart.setSubType( sNewSubType );
@@ -369,12 +367,11 @@ public class PieChart extends DefaultChartTypeImpl
 				.findSeries( PieSeriesImpl.class.getName( ), seriesIndex );
 		if ( pieseries == null )
 		{
-			pieseries = (PieSeries) getSeries( );
+			pieseries = (PieSeries) getSeries( false );
 		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, pieseries );
-		pieseries.getLabel( ).setVisible( true );
 
 		return pieseries;
 	}
@@ -454,11 +451,27 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		PieSeries pieseries = (PieSeries) PieSeriesImpl.create( );
-		pieseries.setExplosion( 0 );
-		pieseries.setLeaderLineLength( 10.0 );
-		pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
-		return pieseries;
+		return getSeries( true );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitializing )
+	{
+		if ( needInitializing )
+		{
+			PieSeries pieseries = (PieSeries) PieSeriesImpl.create( );
+			pieseries.setExplosion( 0 );
+			pieseries.setLeaderLineLength( 10.0 );
+			pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
+			return pieseries;
+		}
+		else
+		{
+			PieSeries pieseries = (PieSeries) PieSeriesImpl.createDefault( );
+			return pieseries;
+		}
 	}
 
 	protected String getDescriptionForSubtype( String sDimension )

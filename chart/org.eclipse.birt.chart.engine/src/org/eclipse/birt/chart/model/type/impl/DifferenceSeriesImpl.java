@@ -347,7 +347,7 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 		// Set curve line by default
 		curve = true;
 
-		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1, true );
 

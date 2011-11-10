@@ -1255,19 +1255,19 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 
 		labelPosition = Position.ABOVE_LITERAL;
 
-		LineAttributes la = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		LineAttributes la = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				8 );
 		paletteLineColor = true;
 		setConnectionLine( la );
 
-		la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
+		la = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
-				1 );
-		la.setVisible( true );
+				1,
+				true );
 		setOutline( la );
 
-		Label lb = LabelImpl.create( );
+		Label lb = LabelImpl.createDefault( );
 		setDecorationLabel( lb );
 	}
 	

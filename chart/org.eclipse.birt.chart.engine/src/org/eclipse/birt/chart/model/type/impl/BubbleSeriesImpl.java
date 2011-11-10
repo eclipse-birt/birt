@@ -390,7 +390,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	{
 		super.initDefault( );
 
-		LineAttributes la = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		LineAttributes la = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1, false );
 

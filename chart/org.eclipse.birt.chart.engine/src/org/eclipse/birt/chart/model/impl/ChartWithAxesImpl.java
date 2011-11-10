@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.birt.chart.model.Chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -1078,7 +1077,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		try
 		{
 			ChartElementUtil.setDefaultValue( xAxisBase,
-					"titlePosition",
+					"titlePosition",//$NON-NLS-1$
 					Position.BELOW_LITERAL );
 			xAxisBase.getTitle( )
 					.getCaption( )
@@ -1099,7 +1098,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			// SETUP AN ORTHOGONAL AXIS
 			Axis yAxisOrthogonal = AxisImpl.createDefault( Axis.ORTHOGONAL );
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
-					"titlePosition",
+					"titlePosition",//$NON-NLS-1$
 					Position.LEFT_LITERAL );
 			yAxisOrthogonal.getTitle( )
 					.getCaption( )

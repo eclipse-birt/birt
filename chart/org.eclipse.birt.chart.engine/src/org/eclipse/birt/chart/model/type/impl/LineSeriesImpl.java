@@ -946,7 +946,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		lia.setVisible( true );
 		setLineAttributes( lia );
 		setLabelPosition( Position.ABOVE_LITERAL );
-
+		
 		final Marker m = AttributeFactory.eINSTANCE.createMarker( );
 		m.setType( MarkerType.BOX_LITERAL );
 		m.setSize( 4 );
@@ -955,6 +955,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		la.setVisible( true );
 		m.setOutline( la );
 		getMarkers( ).add( m );
+		setPaletteLineColor( true );
 	}
 
 	/**
@@ -978,7 +979,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	{
 		super.initDefault( );
 
-		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1, true );
 		setLineAttributes( lia );
@@ -988,6 +989,8 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		LineAttributes la = LineAttributesImpl.createDefault( true );
 		m.setOutline( la );
 		getMarkers( ).add( m );
+		
+		paletteLineColor = true;
 	}
 	
 	/*
