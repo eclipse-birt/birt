@@ -30,7 +30,14 @@ public class DocManagerMap
 {
 	private static DocManagerMap instance = new DocManagerMap( );
 	
-	private Map map = new Hashtable( );
+	private ThreadLocal<Map> tmap = new ThreadLocal<Map>( ) {
+
+		protected Map initialValue( )
+		{
+			return new HashMap();
+		}
+
+	};
 	
 	protected static Logger logger = Logger.getLogger( DocManagerMap.class.getName( ) );
 	/**
@@ -50,6 +57,7 @@ public class DocManagerMap
 	public void set( String dataEngineKey, String key, IDocumentManager manager )
 	{
 		Map docManagerMap = null;
+		Map map = tmap.get( );
 		if ( map.containsKey( dataEngineKey ) )
 		{
 			docManagerMap = (Map) map.get( dataEngineKey );
@@ -70,6 +78,7 @@ public class DocManagerMap
 	public IDocumentManager get( String dataEngineKey, String key )
 	{
 		Map docManagerMap = null;
+		Map map = tmap.get( );
 		if ( !map.containsKey( dataEngineKey ) )
 		{
 			return null;
@@ -89,6 +98,7 @@ public class DocManagerMap
 	public void close( String dataEngineKey )
 	{
 		Map docManagerMap = null;
+		Map map = tmap.get( );
 		if ( !map.containsKey( dataEngineKey ) )
 			return;
 		docManagerMap = (Map) map.get( dataEngineKey );
@@ -110,6 +120,7 @@ public class DocManagerMap
 		}
 		docManagerMap.clear( );
 		map.remove( dataEngineKey );
+		tmap.remove( );
 	}
 
 }

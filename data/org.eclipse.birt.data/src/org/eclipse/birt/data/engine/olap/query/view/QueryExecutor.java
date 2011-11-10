@@ -181,7 +181,7 @@ public class QueryExecutor
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
-					
+
 					rs = processOperationOnQuery( view,
 							stopSign,
 							rs,
@@ -541,7 +541,7 @@ public class QueryExecutor
 		//process mirror operation
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 		rs = moe.execute( rs, view, cubeQueryExecutorHelper );
-		
+
 		//If need save to local dir
 		if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 		{

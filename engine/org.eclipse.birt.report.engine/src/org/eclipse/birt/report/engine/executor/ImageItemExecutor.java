@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
@@ -145,26 +146,54 @@ public class ImageItemExecutor extends QueryItemExecutor
 				iw = iw < 0 ? 1 : iw;
 				ih = ih < 0 ? 1 : ih;
 
-				double rw = width.convertTo( UNITS_IN );
-				double rh = height.convertTo( UNITS_IN );
+				double rw = 0;
+				double rh = 0;
+				String targetUnit = UNITS_IN;
+				if ( width.getUnits( ).equalsIgnoreCase( height.getUnits( ) ) )
+				{
+					targetUnit = width.getUnits( );
+					rw = width.getMeasure( );
+					rh = height.getMeasure( );
+				}
+				else
+				{
+					try
+					{
+						rw = width.convertTo( UNITS_IN );
+						rh = height.convertTo( UNITS_IN );
+					}
+					catch ( IllegalArgumentException e )
+					{
+						rw = PropertyUtil.getDimensionValue( imageContent,
+								width ) / 1000.0;
+						rh = PropertyUtil.getDimensionValue( imageContent,
+								height ) / 1000.0;
+						if ( rw == 0 || rh == 0 )
+						{
+							return;
+						}
+						targetUnit = DimensionType.UNITS_PT;
+					}
+				}
 
 				double wRatio = rw / iw;
 				double hRatio = rh / ih;
 
 				if ( wRatio < hRatio )
 				{
-					height = new DimensionType( ih * wRatio, UNITS_IN );
+					height = new DimensionType( ih * wRatio, targetUnit );
 					imageContent.setHeight( height );
 				}
 				else
 				{
-					width = new DimensionType( iw * hRatio, UNITS_IN );
+					width = new DimensionType( iw * hRatio, targetUnit );
 					imageContent.setWidth( width );
 				}
 			}
 		}
 	}
-	
+
+
 	public void close( ) throws BirtException
 	{
 		finishTOCEntry( );

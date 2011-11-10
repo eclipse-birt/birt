@@ -76,7 +76,7 @@ ShowSummaryFieldDialog.ViewStatus=Mantener vista actual
 
 DeleteBindingDialog.Title=¿Eliminar los enlaces no utilizados?
 DeleteBindingDialog.Message=Esta acción producirá enlaces de datos no utilizados.\n\n¿Desea eliminar los enlaces no utilizados?
-DeleteBindingDialog.ToggleMessage=No &volver a mostrar este mensaje
+DeleteBindingDialog.ToggleMessage=&Recordar mi decisión
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=Área de columna

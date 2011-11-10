@@ -73,9 +73,8 @@ echo mkdir -p \$org_eclipse_datatools_workspacepath >> $2/genReport.sh
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat
 
-awk  'NR==1 {printf "export BIRTCLASSPATH=\"$BIRT_HOME/ReportEngine/lib/"$1}'  lib.path >> $2/genReport.sh
-awk  'NR>=2  {printf ":$BIRT_HOME/ReportEngine/lib/"$1}'  lib.path >> $2/genReport.sh
-echo \" >> $2/genReport.sh
+echo unset BIRTCLASSPATH >> $2/genReport.sh
+echo 'for i in `ls $BIRT_HOME/ReportEngine/lib/*.jar`;do export BIRTCLASSPATH=$i:$BIRTCLASSPATH;done' >> $2/genReport.sh
 
 echo "" >> $2/genReport.sh
 echo JAVACMD=\'java\'\; >> $2/genReport.sh
@@ -152,9 +151,9 @@ echo "" >> $2/genReport.bat
 
 echo REM set the birt class path. >> $2/genReport.bat
 
-awk  'NR==1 {printf "SET BIRTCLASSPATH=%BIRT_HOME%\\ReportEngine\\lib\\"$1}'  lib.path >> $2/genReport.bat
-awk  'NR>=2  {printf ";%BIRT_HOME%\\ReportEngine\\lib\\"$1}'  lib.path >> $2/genReport.bat
-echo \; >> $2/genReport.bat
+echo setlocal enabledelayedexpansion >> $2/genReport.bat
+echo set BIRTCLASSPATH= >> $2/genReport.bat
+echo 'for %%i in (%BIRT_HOME%\ReportEngine\lib\*.jar) do set BIRTCLASSPATH=%%i;!BIRTCLASSPATH!' >> $2/genReport.bat
 
 echo "" >> $2/genReport.bat
 echo "" >> $2/genReport.bat

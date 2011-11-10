@@ -248,4 +248,14 @@ public class ReportContextImpl implements IReportContext
 	{
 		return context.evaluate( script );
 	}
+
+
+	public void cancel()
+	{
+		IEngineTask task = context.getEngineTask( );
+		if ( task != null )
+		{
+			task.cancel( );
+		}
+	}
 }

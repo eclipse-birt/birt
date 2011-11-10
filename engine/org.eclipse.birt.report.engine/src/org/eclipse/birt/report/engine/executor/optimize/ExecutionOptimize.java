@@ -86,7 +86,8 @@ public class ExecutionOptimize
 			ExecutionPolicy policies = new ExecutionPolicy( );
 
 			if ( report.getOnPageStart( ) != null
-					|| report.getOnPageEnd( ) != null )
+					|| report.getOnPageEnd( ) != null
+					|| report.getJavaClass( ) != null )
 			{
 				disableOptimization = true;
 				return null;

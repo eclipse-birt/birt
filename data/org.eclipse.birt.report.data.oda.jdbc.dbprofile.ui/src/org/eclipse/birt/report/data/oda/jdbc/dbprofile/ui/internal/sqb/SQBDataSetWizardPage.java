@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
@@ -22,8 +23,10 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.SortSpecification;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
@@ -75,8 +78,9 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
                 OdaProfileExplorer.getInstance().refresh();
  
             java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
-                                getEditingDesign().getDataSourceDesign() );           
-            m_dataSourceProfile = loadConnectionProfile( connProps );
+                                getEditingDesign().getDataSourceDesign() );
+            m_dataSourceProfile = loadConnectionProfile( connProps,
+                                    getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers() );
             
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
@@ -86,11 +90,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	    return m_dataSourceProfile;
 	}
     
-	private static IConnectionProfile loadConnectionProfile( java.util.Properties connProps )
+	private static IConnectionProfile loadConnectionProfile( java.util.Properties connProps,
+            ResourceIdentifiers designResourceIdentifiers )
 	{
+        Map<String, Object> designSessionContext =
+                DesignSessionUtil.createResourceIdentifiersContext( designResourceIdentifiers );
 	    try
         {
-            return Connection.loadProfileFromProperties( connProps );
+            return Connection.loadProfileFromProperties( connProps, designSessionContext );
         }
         catch( OdaException ex )
         {

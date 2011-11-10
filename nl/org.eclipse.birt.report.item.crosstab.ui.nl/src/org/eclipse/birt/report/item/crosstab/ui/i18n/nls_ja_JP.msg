@@ -76,7 +76,7 @@ ShowSummaryFieldDialog.ViewStatus=現在のビューの保存
 
 DeleteBindingDialog.Title=未使用のバインドの削除
 DeleteBindingDialog.Message=この操作により、未使用のデータバインドが削除されます。\n\n未使用のバインドを削除しますか ?
-DeleteBindingDialog.ToggleMessage=今後、このメッセージを表示しない(&D)
+DeleteBindingDialog.ToggleMessage=次回から同じ設定を使う(&R)
 ###########################################################
 # Crosstab Outline Node
 AreaNodeProvider.ColumnArea=列領域

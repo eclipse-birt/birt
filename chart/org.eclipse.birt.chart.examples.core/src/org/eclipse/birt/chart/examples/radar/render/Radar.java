@@ -173,8 +173,10 @@ public class Radar extends BaseRenderer
 		{
 			iDSP = ps.getDataSetProcessor( sea[i].getClass( ) );
 			dst = sea[i].getDataSet( );
-			Double min = ( (Number) iDSP.getMinimum( dst ) ).doubleValue( );
-			Double max = ( (Number) iDSP.getMaximum( dst ) ).doubleValue( );
+			Object oMin = iDSP.getMinimum( dst );
+			Object oMax = iDSP.getMaximum( dst );
+			Double min = oMin == null ? null : ( (Number) oMin ).doubleValue( );
+			Double max = oMax == null ? null : ( (Number) oMax ).doubleValue( );
 
 			if ( min != null && min < calcMin )
 			{
@@ -558,7 +560,7 @@ public class Radar extends BaseRenderer
 			Series se, double magnitude ) throws ChartException
 	{
 
-		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( StructureSource.createSeries( se ),
+		final OvalRenderEvent ore = ( (EventObjectCache) idr ).getEventObject( StructureSource.createPlot( cm.getPlot( ) ),
 				OvalRenderEvent.class );
 
 		LineAttributes lia = null;

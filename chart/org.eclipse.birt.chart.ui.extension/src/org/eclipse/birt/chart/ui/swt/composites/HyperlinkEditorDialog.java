@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.fieldassist.AssistField;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
@@ -325,6 +326,15 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		int type = this.fTriggerMatrix.getType( );
 		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
 		{
+			boolean useCube = fContext.getDataServiceProvider( )
+					.checkState( IDataServiceProvider.HAS_CUBE )
+					|| fContext.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY );
+			if ( useCube )
+			{
+				// Remove column bindings in data cube case
+				return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS_SIMPLE;
+			}
 			return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS;
 		}
 		if ( ( type & TriggerSupportMatrix.TYPE_LEGEND ) == TriggerSupportMatrix.TYPE_LEGEND )
@@ -429,9 +439,6 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 		return null;
 	}
 
-	/**
-	 * @return
-	 */
 	public URLValue getURLValue( )
 	{
 		return fURLValue;

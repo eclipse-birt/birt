@@ -283,7 +283,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				return visitParametersInGroup( group, userData );
 			}
-		}.visit( executionContext.getDesign( ) );
+		}.visit( executionContext.getDesign( ), executionContext );
 		return values;
 	}
 

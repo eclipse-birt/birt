@@ -371,6 +371,11 @@ public class SessionHandleAdapter
 		return null;
 	}
 
+	public ReportMediator getMediator( ModuleHandle handle )
+	{
+		return getMediator( handle, true );
+	}
+
 	/**
 	 * Returns the mediator associated with given report handle
 	 * 
@@ -378,14 +383,14 @@ public class SessionHandleAdapter
 	 *            the model
 	 * @return corresponding mediator
 	 */
-	public ReportMediator getMediator( ModuleHandle handle )
+	public ReportMediator getMediator( ModuleHandle handle, boolean force )
 	{
 		if ( handle != null )
 		{
 			handle.addDisposeListener( disposeListener );
 		}
 		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
-		if ( mediator == null )
+		if ( mediator == null && force)
 		{
 			mediator = new ReportMediator( );
 			mediatorMap.put( handle, mediator );

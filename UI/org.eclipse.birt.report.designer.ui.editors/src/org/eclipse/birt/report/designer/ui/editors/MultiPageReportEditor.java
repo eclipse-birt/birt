@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.api.IVersionInfo;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -1121,6 +1122,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						{
 							updateRelatedViews( );
 							//doSave( null );
+							UIUtil.refreshCurrentEditorMarkers( );
 							curPage.markPageStale( IPageStaleType.NONE );
 							
 						}
@@ -1431,7 +1433,16 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 			if ( request.getSelectionModelList( ).get( 0 ) instanceof ScriptObjectNode )
 			{
-				handleOpenScriptPage( request );
+				ScriptObjectNode node = (ScriptObjectNode)request.getSelectionModelList( ).get( 0 );
+				if (node.getParent( ) instanceof PropertyHandle)
+				{
+					PropertyHandle proHandle = (PropertyHandle)node.getParent( );
+					if (proHandle.getElementHandle( ).getModuleHandle( ).equals( getModel() ))
+					{
+						handleOpenScriptPage( request );
+					}
+				}
+				//handleOpenScriptPage( request );
 				return;
 			}
 

@@ -31,7 +31,8 @@ public class DBConfigTest extends TestCase
 		//Policy 1
 		String[] policy1Drivers = new String[]{
 				"Oracle JDBC driver",
-				"MySQL-AB JDBC Driver"
+				"MySQL-AB JDBC Driver",
+				"jConnect (TM) for JDBC (TM)"
 		};
 		for( int i = 0; i < policy1Drivers.length; i++ )
 		{
@@ -44,7 +45,7 @@ public class DBConfigTest extends TestCase
 		};
 		for( int i = 0; i < policy2Drivers.length; i++ )
 		{
-			assertTrue( DBConfig.getInstance().qualifyPolicy(policy2Drivers[i], 2));
+			assertFalse( DBConfig.getInstance().qualifyPolicy(policy2Drivers[i], 2));
 		}
 		
 		

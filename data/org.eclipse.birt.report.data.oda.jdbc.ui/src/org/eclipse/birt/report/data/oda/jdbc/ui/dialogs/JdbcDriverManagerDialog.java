@@ -1320,10 +1320,8 @@ public class JdbcDriverManagerDialog extends TrayDialog
 				try
 				{
 					String driverClassName = info.getDriverClassName( );
-					manager.updateStatusForRegister( driverClassName );
 					manager.loadAndRegisterDriver( driverClassName,
 							null );
-					manager.updateStatus( driverClassName );
 				}
 				catch ( OdaException e )
 				{

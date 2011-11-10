@@ -1429,7 +1429,16 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 	{
 		if ( handle != null && handle.getStyle( ) == null )
 		{
-			size.setFontSizeValue( handle.getFontSize( ).getStringValue( ) );
+			// Only check and display the local value, this is a special case,
+			// as font-size prop for highlight rule has a default value.
+			if ( handle.isLocal( HighlightRule.FONT_SIZE_MEMBER ) )
+			{
+				size.setFontSizeValue( handle.getFontSize( ).getStringValue( ) );
+			}
+			else
+			{
+				size.setFontSizeValue( null );
+			}
 		}
 	}
 

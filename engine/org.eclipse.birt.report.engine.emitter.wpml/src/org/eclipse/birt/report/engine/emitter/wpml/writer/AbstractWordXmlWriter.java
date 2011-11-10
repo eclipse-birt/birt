@@ -11,20 +11,22 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml.writer;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
+import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo;
+import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo.Line;
 import org.eclipse.birt.report.engine.emitter.wpml.HyperlinkInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
-import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
-import org.eclipse.birt.report.engine.emitter.wpml.DiagonalLineInfo.Line;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
-import java.util.regex.*;
 
 public abstract class AbstractWordXmlWriter
 {
@@ -53,9 +55,9 @@ public abstract class AbstractWordXmlWriter
 	protected abstract void writeFontSize( IStyle style );
 
 	protected abstract void writeFont( String fontFamily );
-	
+
 	protected abstract void writeFontStyle( IStyle style );
-	
+
 	protected abstract void writeFontWeight(IStyle style);
 
 	protected abstract void openHyperlink( HyperlinkInfo info );
@@ -216,7 +218,7 @@ public abstract class AbstractWordXmlWriter
 	{
 		startTable( style, tablewidth, false );
 	}
-	
+
 	// write the table properties to the output stream
 	public void startTable( IStyle style, int tablewidth, boolean inForeign )
 	{
@@ -391,7 +393,7 @@ public abstract class AbstractWordXmlWriter
 
 	/**
 	 * @param direction
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	private void writeBidiTable( )
@@ -545,7 +547,7 @@ public abstract class AbstractWordXmlWriter
 		}
 
 		writer.openTag( "w:t" );
-		
+
 		Pattern p = Pattern.compile( "\r|\n" );
 		Matcher m = p.matcher( txt );
 		int length = txt.length( );
@@ -612,7 +614,7 @@ public abstract class AbstractWordXmlWriter
 
 	/**
 	 * @param direction
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 	protected void writeBidi( boolean rtl )
@@ -629,7 +631,7 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:fldChar" );
 		writer.closeTag( "w:r" );
 	}
-	
+
 	protected void writeField( boolean isStart, IStyle style, String fontName )
 	{
 		String fldCharType = isStart ? "begin" : "end";
@@ -654,7 +656,7 @@ public abstract class AbstractWordXmlWriter
 	}
 
 	/**
-	 * 
+	 *
 	 * @param style
 	 *            style of the row
 	 * @param height
@@ -776,7 +778,7 @@ public abstract class AbstractWordXmlWriter
 		insertEmptyParagraph( );
 		writer.closeTag( "w:tc" );
 	}
-	
+
 	public void insertEmptyParagraph( )
 	{
 		writer.openTag( "w:p" );
@@ -819,7 +821,7 @@ public abstract class AbstractWordXmlWriter
 	/**
 	 * If the cell properties is not set, then check the row properties and
 	 * write those properties.
-	 * 
+	 *
 	 * @param style
 	 *            this cell style
 	 */
@@ -845,14 +847,14 @@ public abstract class AbstractWordXmlWriter
 				.getWhiteSpace( ) ) ? "on" : "off";
 		writeAttrTag( "w:noWrap", noWrap );
 	}
-	
+
 	private void writeCellBorders( IStyle style )
 	{
 		writer.openTag( "w:tcBorders" );
 		writeBorders( style, 0, 0, 0, 0 );
 		writer.closeTag( "w:tcBorders" );
 	}
-	
+
 	private void writeCellPadding( IStyle style )
 	{
 		int bottomPadding = PropertyUtil.getDimensionValue( style
@@ -888,9 +890,9 @@ public abstract class AbstractWordXmlWriter
 		}
 		writer.closeTag( "w:tcMar" );
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param padding  milliPoint
 	 * @param position top/right/bottom/left
 	 */
@@ -1074,7 +1076,7 @@ public abstract class AbstractWordXmlWriter
 		writeFontStyle( style );
 		writeFontWeight( style );
 	}
-	
+
 	protected void writeFieldRunProperties( IStyle style, String fontFamily )
 	{
 		writeFont( fontFamily );
@@ -1114,6 +1116,12 @@ public abstract class AbstractWordXmlWriter
 
 	protected void startHeaderFooterContainer( int headerHeight, int headerWidth )
 	{
+		startHeaderFooterContainer( headerHeight, headerWidth, false );
+	}
+
+	protected void startHeaderFooterContainer( int headerHeight,
+	        int headerWidth, boolean writeColumns )
+	{
 		// the tableGrid in DOC has a 0.19cm cell margin by default on left and right.
 		// so the header or footer width should be 2*0.19cm larger. that is 215.433 twips.
 		headerWidth += 215;
@@ -1123,6 +1131,10 @@ public abstract class AbstractWordXmlWriter
 		writeAttrTag( "w:tblLook", "01E0" );
 		writeTableLayout( );
 		writer.closeTag( "w:tblPr" );
+		if ( writeColumns )
+		{
+			writeColumn( new int[]{headerWidth} );
+		}
 		writer.openTag( "w:tr" );
 		// write the row height, unit: twips
 		writer.openTag( "w:trPr" );

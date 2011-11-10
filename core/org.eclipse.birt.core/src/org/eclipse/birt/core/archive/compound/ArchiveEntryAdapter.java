@@ -13,50 +13,41 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.archive.RAOutputStream;
+
 public class ArchiveEntryAdapter extends ArchiveEntry
 {
 
 	protected ArchiveEntry entry;
-	protected String entryName;
 
 	public ArchiveEntryAdapter( String name, ArchiveEntry entry )
 	{
-		this.entryName = name;
+		super( name);
 		this.entry = entry;
 	}
 
 	@Override
-	public String getName( ) throws IOException
+	public long getLength( ) throws IOException
 	{
-		if ( entryName == null )
-		{
-			return entry.getName( );
-		}
-		return entryName;
+		return entry.getLength( );
 	}
 
 	@Override
-	protected long _getLength( ) throws IOException
+	public void setLength( long length ) throws IOException
 	{
-		return entry._getLength( );
+		entry.setLength( length );
 	}
 
 	@Override
-	protected void _setLength( long length ) throws IOException
+	public void flush( ) throws IOException
 	{
-		entry._setLength( length );
+		entry.flush( );
 	}
 
 	@Override
-	protected void _flush( ) throws IOException
+	public void refresh( ) throws IOException
 	{
-		entry._flush( );
-	}
-
-	@Override
-	protected void _refresh( ) throws IOException
-	{
-		entry._refresh( );
+		entry.refresh( );
 	}
 
 	@Override
@@ -77,5 +68,10 @@ public class ArchiveEntryAdapter extends ArchiveEntry
 	public void close( ) throws IOException
 	{
 		entry.close( );
+	}
+
+	protected void setOutputStream( RAOutputStream output )
+	{
+		entry.setOutputStream( output );
 	}
 }

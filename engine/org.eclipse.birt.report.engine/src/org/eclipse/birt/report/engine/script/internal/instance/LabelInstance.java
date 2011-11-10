@@ -46,6 +46,22 @@ public class LabelInstance extends ReportItemInstance implements ILabelInstance
 		( ( ILabelContent ) content ).setLabelText( value );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ILabelInstance#getTextKey()
+	 */
+	public String getTextKey( )
+	{
+		return ( ( ILabelContent ) content ).getLabelKey( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ILabelInstance#setTextKey(java.lang.String)
+	 */
+	public void setTextKey( String key )
+	{
+		( ( ILabelContent ) content ).setLabelKey( key );
+	}
+
 	private IActionInstance actionInstance;
 
 	/*

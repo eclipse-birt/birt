@@ -62,6 +62,14 @@
                   name="%driver.template.property.password"
                   required="false"
                   visible="false"/>
+            <property
+                  generated="false"
+                  id="org.eclipse.datatools.connectivity.db.savePWD"
+                  name="%driver.template.property.save.password"
+                  required="true"
+                  value="true"
+                  visible="false">
+            </property>
          </properties>
       </driverTemplate>
    </extension>

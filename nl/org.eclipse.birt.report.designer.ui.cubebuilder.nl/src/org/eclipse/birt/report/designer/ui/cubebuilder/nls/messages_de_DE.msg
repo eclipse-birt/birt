@@ -51,7 +51,7 @@ LinkGroupsPage.Title=Gruppen verknüpfen
 DatasetPage.Label.Name=&Name:
 DateGroupDialog.Title=Gruppenebene hinzufügen/bearbeiten
 DateGroupDialog.Message.NumericName=Gruppenname darf keine reine Zahl sein.
-DateGroupDialog.Message.DuplicateName=The name is a duplicate of an existing name.
+DateGroupDialog.Message.DuplicateName=Der Name wird bereits verwendet.
 DateGroupDialog.Message.BlankName=Gruppenname darf nicht leer sein.
 DateLevelDialog.Access.Control.List.Expression=Zugriffssteuerlisten-&Ausdruck:
 DateLevelDialog.Button.Text.Edit=&Bearbeiten...
@@ -177,7 +177,7 @@ RenameInputDialog.DialogTitle=Eingabe umbenennen
 RenameInputDialog.DialogMessage=Geben Sie den neuen Namen ein.
 RenameInputDialog.Message.BlankName=Name darf nicht leer sein.
 RenameInputDialog.Message.NumericName=Name darf keine reine Zahl sein.
-RenameInputDialog.Message.DuplicateName=The name is a duplicate of an existing name.
+RenameInputDialog.Message.DuplicateName=Der Name wird bereits verwendet.
 ############################################################
 #ExpressionBuilder properties
 ExpressionProvider.Category.DataSets=Verfügbare Datensätze

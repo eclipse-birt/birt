@@ -75,8 +75,7 @@ public class VariableDropAdapter implements IDropAdapter
 				}
 				// variable can drop to gridin master page, bug 293121
 				if ( getMasterPageHandle( editPart ) != null
-						|| ( (VariableElementHandle) transfer ).getType( )
-								.equals( DesignChoiceConstants.VARIABLE_TYPE_REPORT ) )
+						|| DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals( ( (VariableElementHandle) transfer ).getType( ) ) )
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;

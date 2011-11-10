@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2009 Actuate Corporation.
+ * Copyright (c) 2004, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.jdbc;
@@ -226,7 +226,13 @@ public class Connection implements IConnection
 		}
 		catch ( Exception e )
 		{
-			// ignore it
+			if( e instanceof SQLException )
+			{
+				SQLException e1 = (SQLException)e;
+				//First try to identify the authorization info. 28000 is xOpen standard for login failure
+				if( "28000".equals( e1.getSQLState( )))
+					throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e1 );
+			}
 		}
 		try
 		{
@@ -477,7 +483,16 @@ public class Connection implements IConnection
 		if( context instanceof Map )
 			this.appContext = (Map) context;
 	}
-	
+
+	/**
+	 * Returns the application context Map set by {@link #setAppContext(Object)}.
+	 * @return the application context Map; may be null if none was set
+     * @since 3.7.2
+	 */
+    protected Map<?,?> getAppContextMap()
+    {
+        return this.appContext;
+    }
 
 	/**
 	 * Assert the connection is opened.

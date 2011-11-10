@@ -1803,7 +1803,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 					}
 					else if (adapters[adapterRow-1][adapterColumn-1] != adapter)
 					{
-						return false;
+						//return false;
 					}
 				}
 			}

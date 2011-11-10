@@ -34,6 +34,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
+
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
 		// create the report engine using default config
 		engine = createReportEngine( );

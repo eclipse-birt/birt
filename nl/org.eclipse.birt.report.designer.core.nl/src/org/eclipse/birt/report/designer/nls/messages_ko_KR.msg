@@ -1497,8 +1497,8 @@ ExportToCPSouceAction.action.text=연결 프로필로 외부화(&O)...
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=요소가 지정된 명시적 데이터 집합이 없는 로컬 바인딩을 포함합니다. 이로 인해 실행 시 성능이 저하될 수 있습니다. 성능 향상을 위해 로컬 바인딩을 상위로 이동하시겠습니까?
-LibraryElementsToolHandleExtends_question=확인
-LibraryElementsToolHandleExtends_toggle=&Remember my decision
+LibraryElementsToolHandleExtends_question=성능 향상을 위해 로컬 바인딩을 상위로 이동하시겠습니까?
+LibraryElementsToolHandleExtends_toggle=선택 저장(&R)
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=윤곽선 보기로 끌어서 놓기
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=레이아웃 편집기로 끌어서 놓기
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=윤곽선 보기 또는 레이아웃 편집기로 끌어서 놓기
@@ -4330,7 +4330,7 @@ PublishLibraryDialog.TitleArea=라이브러리 공유
 PublishLibraryDialog.Message=공유 리소스 폴더로 라이브러리를 복사합니다.
 PublishLibraryDialog.Label.SourceFileName=원본 파일(&S):
 PublishLibraryDialog.Label.FileName=파일 이름(&N):
-PublishLibraryDialog.Label.Folder=폴더(&F):
+PublishLibraryDialog.Label.Folder=폴더(&D):
 PublishLibraryDialog.Label.Browse=찾아보기(&B)...
 PublishLibraryDialog.Message.FileNameEmpty=파일 이름이 필요합니다.
 PublishLibraryDialog.Message.FileNameError=파일 이름은 .rptlibrary로 끝나야 합니다.
@@ -4741,10 +4741,10 @@ GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택(&G)
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N)
 GeneralConfigurationBlock.group.label=묻기
 GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표시(&P)
-GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
-GeneralConfigurationBlock.move.binding.always=Al&ways
-GeneralConfigurationBlock.move.binding.never=Ne&ver
-GeneralConfigurationBlock.move.binding.prompt=P&rompt
+GeneralConfigurationBlock.move.binding.group=성능 향상을 위해 로컬 바인딩을 상위로 이동
+GeneralConfigurationBlock.move.binding.always=항상(&W)
+GeneralConfigurationBlock.move.binding.never=안 함(&V)
+GeneralConfigurationBlock.move.binding.prompt=묻기(&R)
 
 
 ###########################################################

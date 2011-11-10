@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.script.internal.OnPageBreakScriptVisitor;
+import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ScriptExecutor;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -50,11 +51,22 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 	protected boolean bufferAllContents;
 	protected ArrayList<IContent> contents;
 
+	protected boolean existPageScript = false;
+
 	public OnPageBreakLayoutPageHandle( ExecutionContext executionContext )
 	{
 		this.executionContext = executionContext;
 		this.emitter = new PageContentBuilder( );
 		this.contents = new ArrayList<IContent>( );
+		Report report = executionContext.getReport( );
+		if ( report != null )
+		{
+			existPageScript = ReportScriptExecutor.existPageScript( report,
+					executionContext )
+					|| report.getOnPageStart( ) != null
+					|| report.getOnPageEnd( ) != null;
+		}
+
 	}
 
 	public IContentEmitter getEmitter( )
@@ -68,9 +80,7 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 				.getGenerateBy( );
 		Report report = pageContent.getReportContent( ).getDesign( );
 		if ( pageDesign.getOnPageStart( ) != null
-				|| pageDesign.getOnPageEnd( ) != null
-				|| report.getOnPageStart( ) != null
-				|| report.getOnPageEnd( ) != null )
+				|| pageDesign.getOnPageEnd( ) != null || existPageScript )
 		{
 			bufferAllContents = true;
 		}

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.script.eventhandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
+import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
 
 /**
  * Script event handler interface for a report
@@ -50,4 +51,18 @@ public interface IReportEventHandler
 	 * Handle the onPrepare event
 	 */
 	void onPrepare( IReportContext reportContext ) throws ScriptException;
+
+	/**
+	 *
+	 * Handle the onPageStart event
+	 */
+	void onPageStart( IPageInstance page, IReportContext reportContext ) throws ScriptException;
+
+	/**
+	 *
+	 * Handle the onPageEnd event
+	 */
+	void onPageEnd( IPageInstance page, IReportContext reportContext ) throws ScriptException;
+
+
 }

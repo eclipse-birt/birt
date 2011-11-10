@@ -194,7 +194,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
 				{
 					e.detail = SWT.TRAVERSE_NONE;
-					openKeySelectionDialog( );
+					if ( btnDisplayNameID.isEnabled( ) )
+					{
+						openKeySelectionDialog( );
+					}
 				}
 			}
 		} );

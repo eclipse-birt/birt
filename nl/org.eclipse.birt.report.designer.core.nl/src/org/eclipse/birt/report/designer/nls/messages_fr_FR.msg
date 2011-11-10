@@ -1497,8 +1497,8 @@ ExportToCPSouceAction.action.text=Externaliser vers le profil de c&onnexion...
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=L'élément contient des liaisons locales sans jeu de données explicite spécifié. Cela peut ralentir les performances lors de l'exécution. Souhaitez-vous déplacer les liaisons locales vers le parent pour améliorer les performances ?
-LibraryElementsToolHandleExtends_question=Invite
-LibraryElementsToolHandleExtends_toggle=&Remember my decision
+LibraryElementsToolHandleExtends_question=Déplacer les liaisons locales vers le parent pour améliorer les performances ?
+LibraryElementsToolHandleExtends_toggle=Mémo&riser ma décision
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Glisser-déplacer vers la vue de contour
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=Glisser-déplacer vers l'éditeur de présentation
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Glisser-déplacer vers la vue de contour ou l'éditeur de présentation
@@ -4741,10 +4741,10 @@ GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &d
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
 GeneralConfigurationBlock.group.label=Invite
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
-GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
-GeneralConfigurationBlock.move.binding.always=Al&ways
-GeneralConfigurationBlock.move.binding.never=Ne&ver
-GeneralConfigurationBlock.move.binding.prompt=P&rompt
+GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers le parent pour améliorer les performances
+GeneralConfigurationBlock.move.binding.always=&Toujours
+GeneralConfigurationBlock.move.binding.never=Ja&mais
+GeneralConfigurationBlock.move.binding.prompt=Invite&r
 
 
 ###########################################################

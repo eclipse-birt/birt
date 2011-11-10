@@ -702,7 +702,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		IFigure child;
 		IFigure lastChild = null;
 		Dimension childSize;
-
+		int caleHint ;
 		// Build the sizes for each row, and update prefSize accordingly
 		for ( int i = 0; i < children.size( ); i++ )
 		{
@@ -718,10 +718,14 @@ public class ReportFlowLayout extends AbstractHintLayout
 			// added by gao, if figure is in-line, wHint is -1
 			if ( getDisplay( child ) != ReportItemConstraint.BLOCK )
 			{
-				wHint = -1;
+				caleHint = -1;
+			}
+			else
+			{
+				caleHint = wHint;
 			}
 
-			childSize = getChildSize( child, wHint, hHint );
+			childSize = getChildSize( child, caleHint, hHint );
 
 			if ( i == 0 )
 			{

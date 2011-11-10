@@ -190,23 +190,18 @@ public class TableRow extends StyledElement implements ITableRowModel
 		String propName = prop.getName( );
 		if ( IStyleModel.PAGE_BREAK_INSIDE_PROP.equals( propName ) )
 		{
-			Object value = cachedPropStrategy.getPropertyExceptRomDefault(
-					module, this, prop );
-			if ( value != null )
-			{
-				return value;
-			}
-
 			// get default in different cases
 			DesignElement container = getContainer( );
 			if ( container instanceof TableItem
 					|| container instanceof TableGroup )
 			{
+				Object value = cachedPropStrategy.getPropertyFromElement(module, this, prop);
+				if ( value != null )
+					return value;
+
 				// row in table or table group: default is avoid
 				return DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID;
 			}
-
-			return prop.getDefault( );
 		}
 
 		return super.getProperty( module, prop );

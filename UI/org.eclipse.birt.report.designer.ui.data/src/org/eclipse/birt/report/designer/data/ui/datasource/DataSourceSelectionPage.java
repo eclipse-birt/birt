@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005, 2008 Actuate Corporation.
+ * Copyright (c) 2005, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,7 +40,9 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession.IDesignNameValidator;
@@ -388,7 +390,14 @@ public class DataSourceSelectionPage extends WizardPage
         try
         {
             if ( m_designSession == null )
-                m_designSession = DataSourceDesignSession.startNewDesignFromProfile();
+            {
+                ResourceIdentifiers designResourceIds =
+                    DesignFactory.eINSTANCE.createResourceIdentifiers();
+                designResourceIds.setApplResourceBaseURI( DTPUtil.getInstance().getBIRTResourcePath() );
+                designResourceIds.setDesignResourceBaseURI( DTPUtil.getInstance().getReportDesignPath() );
+
+                m_designSession = DataSourceDesignSession.startNewDesignFromProfile( designResourceIds );
+            }
             m_designSession.setDesignNameValidator( 
                     new DataSourceDesignNameValidator() );
             m_designSession.setUseProfileSelectionPage( true );

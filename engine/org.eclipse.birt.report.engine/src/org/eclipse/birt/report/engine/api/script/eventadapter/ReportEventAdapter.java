@@ -14,6 +14,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IReportEventHandler;
+import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
 
 /**
  * Default (empty) implementation of the IReportEventHandler interface
@@ -52,6 +53,18 @@ public class ReportEventAdapter implements IReportEventHandler
 	}
 	
 	public void onPrepare( IReportContext reportContext )
+			throws ScriptException
+	{
+
+	}
+
+	public void onPageStart( IPageInstance page, IReportContext reportContext )
+			throws ScriptException
+	{
+
+	}
+
+	public void onPageEnd( IPageInstance page, IReportContext reportContext )
 			throws ScriptException
 	{
 

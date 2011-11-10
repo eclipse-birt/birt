@@ -658,8 +658,7 @@ public abstract class EngineTask implements IEngineTask
 		// set the parameter values into the execution context
 		try
 		{
-			doValidateParameters( );
-			return true;
+			return doValidateParameters( );
 		}
 		catch(ParameterValidationException ex)
 		{
@@ -679,7 +678,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 		// validate each parameter to see if it is validate
 		ParameterValidationVisitor pv = new ParameterValidationVisitor( );
-		boolean result = pv.visit( executionContext.getDesign( ), null );
+		boolean result = pv.visit( executionContext.getDesign( ), null, executionContext );
 		if ( pv.engineException != null )
 		{
 			throw pv.engineException;
@@ -689,8 +688,6 @@ public abstract class EngineTask implements IEngineTask
 	
 	private class ParameterValidationVisitor extends ParameterVisitor
 	{
-		ParameterValidationException engineException;
-
 		boolean visitScalarParameter( ScalarParameterHandle param, Object value )
 		{
 			try
@@ -750,7 +747,7 @@ public abstract class EngineTask implements IEngineTask
 				{
 					return visitParametersInGroup( group, value );
 				}
-			}.visit( executionContext.getDesign( ), null );
+			}.visit( executionContext.getDesign( ), null, executionContext );
 			log.log( Level.FINE, "Running the report with paramters: {0}",
 					buffer );
 		}
@@ -907,6 +904,14 @@ public abstract class EngineTask implements IEngineTask
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 		{
 			if ( paramValue instanceof Boolean )
+				return true;
+			throw new ParameterValidationException(
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
+					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+		{
+			if ( paramValue instanceof Integer )
 				return true;
 			throw new ParameterValidationException(
 					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
@@ -1333,6 +1338,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	static abstract class ParameterVisitor
 	{
+		ParameterValidationException engineException;
 
 		boolean visitParametersInGroup( ParameterGroupHandle group, Object value )
 		{
@@ -1399,13 +1405,14 @@ public abstract class EngineTask implements IEngineTask
 			return false;
 		}
 
-		boolean visit( ModuleHandle report )
+		boolean visit( ModuleHandle report, ExecutionContext executionContext )
 		{
-			return visit( report, null );
+			return visit( report, null, executionContext );
 		}
 
-		boolean visit( ModuleHandle report, Object value )
+		boolean visit( ModuleHandle report, Object value, ExecutionContext executionContext )
 		{
+			executionContext.clearExceptions();
 			SlotHandle parameters = report.getParameters( );
 			Iterator iter = parameters.iterator( );
 			while ( iter.hasNext( ) )
@@ -1413,36 +1420,46 @@ public abstract class EngineTask implements IEngineTask
 				Object param = iter.next( );
 				if ( param instanceof CascadingParameterGroupHandle )
 				{
-					if ( !visitCascadingParamterGroup(
-							(CascadingParameterGroupHandle) param, value ) )
+					if (!visitCascadingParamterGroup(
+							(CascadingParameterGroupHandle) param, value))
 					{
-						return false;
+						executionContext.addException(
+								(CascadingParameterGroupHandle) param,
+								engineException);
 					}
 				}
 				else if ( param instanceof ParameterGroupHandle )
 				{
-					if ( !visitParameterGroup( (ParameterGroupHandle) param,
-							value ) )
+					if (!visitParameterGroup((ParameterGroupHandle) param,
+							value))
 					{
-						return false;
+						executionContext.addException(
+								(ParameterGroupHandle) param, engineException);
 					}
 				}
 				else if ( param instanceof ScalarParameterHandle )
 				{
-					if ( !visitScalarParameter( (ScalarParameterHandle) param,
-							value ) )
+					if (!visitScalarParameter((ScalarParameterHandle) param,
+							value))
 					{
-						return false;
+						executionContext.addException(
+								(ScalarParameterHandle) param, engineException);
 					}
 				}
 				else if ( param instanceof DynamicFilterParameterHandle )
 				{
-					if ( !visitDynamicFilterParameter(
-							(DynamicFilterParameterHandle) param, value ) )
+					if (!visitDynamicFilterParameter(
+							(DynamicFilterParameterHandle) param, value))
 					{
-						return false;
+						executionContext.addException(
+								(DynamicFilterParameterHandle) param,
+								engineException);
 					}
 				}
+			}
+			if (executionContext.hasErrors())
+			{
+				return false;
 			}
 			return true;
 		}
@@ -1532,7 +1549,7 @@ public abstract class EngineTask implements IEngineTask
 			{
 				return visitParametersInGroup( group, value );
 			}
-		}.visit( (ModuleHandle) runnable.getDesignHandle( ) );
+		}.visit( (ModuleHandle) runnable.getDesignHandle( ), executionContext );
 	}
 
 	public void close( )

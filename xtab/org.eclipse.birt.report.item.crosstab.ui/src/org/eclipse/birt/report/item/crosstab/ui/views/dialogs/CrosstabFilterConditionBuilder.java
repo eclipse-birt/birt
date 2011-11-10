@@ -1353,9 +1353,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			}
 
 			boolean change = false;
+			List strValues = new ArrayList( );
+			for ( int i = 0; i < valueList.size( ); i++ )
+			{
+				strValues.add( ( (Expression) valueList.get( i ) ).getStringExpression( ) );
+			}
 			for ( int i = 0; i < retValue.length; i++ )
 			{
-				if ( valueList.indexOf( DEUtil.resolveNull( retValue[i] ) ) < 0 )
+				if ( strValues.indexOf( DEUtil.resolveNull( retValue[i] ) ) < 0 )
 				{
 					valueList.add( new Expression( DEUtil.resolveNull( retValue[i] ),
 							ExpressionButtonUtil.getExpressionButton( CCombo )

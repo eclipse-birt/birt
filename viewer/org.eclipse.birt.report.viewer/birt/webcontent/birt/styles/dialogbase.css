@@ -107,6 +107,7 @@
 	position: relative;
 	text-align: center;
 	padding-top: 4px; /* distance from bottom of content area to top of divider bar*/
+	overflow: hidden;
 }
 
 /* Top divider line between dialog content area and button area */

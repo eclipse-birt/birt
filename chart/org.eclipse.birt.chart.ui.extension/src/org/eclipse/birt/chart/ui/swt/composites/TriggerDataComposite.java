@@ -646,11 +646,11 @@ public class TriggerDataComposite extends Composite implements
 			stParameters.setLayoutData( gd );
 			stParameters.setText( Messages.getString( "TriggerDataComposite.Label.OptionalURLParameters" ) ); //$NON-NLS-1$
 			StyleRange[] sr = {
-					new StyleRange( 0,
-							4,
-							this.getForeground( ),
-							this.getBackground( ),
-							SWT.ITALIC ),
+			new StyleRange( 0,
+					4,
+					this.getForeground( ),
+					this.getBackground( ),
+					SWT.ITALIC ),
 					new StyleRange( 4,
 							stParameters.getText( ).length( ) - 4,
 							this.getForeground( ),
@@ -1162,11 +1162,10 @@ public class TriggerDataComposite extends Composite implements
 		{
 			Cursor c = getMouseCursor( );
 
-			CursorImageDialog idlg = new CursorImageDialog( this.getShell( ),
-					c );
+			CursorImageDialog idlg = new CursorImageDialog( this.getShell( ), c );
 			idlg.open( );
 		}
-		
+
 		updateCursorArea( );
 	}
 
@@ -1279,6 +1278,15 @@ public class TriggerDataComposite extends Composite implements
 		int type = this.triggerMatrix.getType( );
 		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
 		{
+			boolean useCube = wizardContext.getDataServiceProvider( )
+					.checkState( IDataServiceProvider.HAS_CUBE )
+					|| wizardContext.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY );
+			if ( useCube )
+			{
+				// Remove column bindings in data cube case
+				return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS_SIMPLE;
+			}
 			return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS;
 		}
 		if ( ( type & TriggerSupportMatrix.TYPE_LEGEND ) == TriggerSupportMatrix.TYPE_LEGEND )
@@ -1309,8 +1317,8 @@ public class TriggerDataComposite extends Composite implements
 
 		c.setType( type );
 	}
-	
-	private void updateCursorArea()
+
+	private void updateCursorArea( )
 	{
 		boolean enableCursor = ( this.triggersList.size( ) > 0 )
 				|| ( cmbActionType.getSelectionIndex( ) > 0 );

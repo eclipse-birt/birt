@@ -506,6 +506,39 @@ public class StructureFactory
 	}
 
 	/**
+	 * Makes a unique name for computed column. It checks all the existing
+	 * computed columns in given element, such as report items, scalar
+	 * parameters and group elements. If any one has a duplicate column name
+	 * with the <code>newColumn</code>, it will generate a unique column name
+	 * for newColumn and rename it; Otherwise, do nothing.This possible rename
+	 * action is not undoable.
+	 *
+	 * @param element
+	 *            the element whose existing computed columns needs to be
+	 *            checked or newColumn want to be inserted
+	 * @param newColumn
+	 *            the computed column to be checked and renamed
+	 */
+	public static void makeUniqueNameComputedColumn(
+			DesignElementHandle element, ComputedColumn newColumn )
+	{
+		if ( element == null || newColumn == null )
+			return;
+		String newName = newColumn.getName( );
+		if ( newName == null )
+			return;
+
+		if ( !( element instanceof ReportItemHandle
+				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
+			return;
+
+		// make a unique column name
+		String tmpName = BoundDataColumnUtil.makeUniqueName( element, newName,
+				null );
+		newColumn.setName( tmpName );
+	}
+
+	/**
 	 * Create TOC structure.
 	 * 
 	 * @return toc object
