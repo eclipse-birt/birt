@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -267,8 +268,14 @@ public class LineChart extends DefaultChartTypeImpl
 		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setOrientation( orientation );
-		newChart.setDimension( ChartUIUtil.getDimensionType( sDimension ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"orientation", //$NON-NLS-1$
+				orientation,
+				orientation == null );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				ChartUIUtil.getDimensionType( sDimension ),
+				sDimension == null );
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
 
@@ -307,7 +314,7 @@ public class LineChart extends DefaultChartTypeImpl
 			yAxis.getSeriesDefinitions( ).add( sdY );
 		}
 
-		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
+		if ( sDimension != null && sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{
 			newChart.setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
 				Angle3DImpl.createDefault( -20, 45, 0 )
@@ -495,8 +502,14 @@ public class LineChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"orientation", //$NON-NLS-1$
+					newOrientation,
+					newOrientation == null );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"dimension",//$NON-NLS-1$
+					ChartUIUtil.getDimensionType( sNewDimension ),
+					sNewDimension == null );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
 
@@ -566,18 +579,16 @@ public class LineChart extends DefaultChartTypeImpl
 				title.setValue( getDefaultTitle( ) );
 			}
 		}
-		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-						.equals( newOrientation ) )
-		{
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-		}
-		if ( !currentChart.getDimension( )
-				.equals( ChartUIUtil.getDimensionType( sNewDimension ) ) )
-		{
-			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
-		}
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"orientation", //$NON-NLS-1$
+				newOrientation,
+				newOrientation == null );
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"dimension",//$NON-NLS-1$
+				ChartUIUtil.getDimensionType( sNewDimension ),
+				sNewDimension == null );
 
-		if ( sNewDimension.equals( THREE_DIMENSION_TYPE )
+		if ( sNewDimension!= null && sNewDimension.equals( THREE_DIMENSION_TYPE )
 				&& ChartUIUtil.getDimensionType( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.createDefault( new Angle3D[]{

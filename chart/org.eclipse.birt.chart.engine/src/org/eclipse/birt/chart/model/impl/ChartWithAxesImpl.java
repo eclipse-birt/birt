@@ -1028,7 +1028,15 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		yAxisOrthogonal.getTitle( )
 				.getCaption( )
 				.setValue( Messages.getString( "ChartWithAxesImpl.Y_Axis.title" ) ); //$NON-NLS-1$
-		yAxisOrthogonal.getTitle( ).getCaption( ).getFont( ).setRotation( 90 );
+		// Only title rotation, we make special process, not set its 'isSet' flag for default.
+		try
+		{
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getTitle( ).getCaption( ).getFont( ), "rotation", 90 ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
 		yAxisOrthogonal.getTitle( ).setVisible( false );
 		yAxisOrthogonal.setPrimaryAxis( true );
 		yAxisOrthogonal.setLabelPosition( Position.LEFT_LITERAL );

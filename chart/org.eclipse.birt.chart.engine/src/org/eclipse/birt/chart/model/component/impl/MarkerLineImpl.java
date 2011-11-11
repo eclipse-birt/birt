@@ -821,7 +821,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 		{
 			try
 			{
-				ChartElementUtil.setDefaultValue( getLabel( ).getCaption( ).getFont( ), "rotation", 90 );
+				ChartElementUtil.setDefaultValue( getLabel( ).getCaption( ).getFont( ), "rotation", 90 );  //$NON-NLS-1$
 			}
 			catch ( ChartException e )
 			{

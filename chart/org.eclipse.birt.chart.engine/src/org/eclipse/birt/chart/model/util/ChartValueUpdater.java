@@ -11,10 +11,19 @@
 
 package org.eclipse.birt.chart.model.util;
 
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 
@@ -24,6 +33,98 @@ import org.eclipse.emf.ecore.EObject;
 
 public class ChartValueUpdater extends BaseChartValueUpdater
 {
+	public void update( Chart eObj, Chart eRefObj )
+	{
+		super.update( eObj, eRefObj );
+		
+		revise( eObj, eRefObj );
+	}
+
+	/**
+	 * This method revise property values according to limit of different chart types.
+	 * 
+	 * @param eObj
+	 * @param eRefObj
+	 */
+	protected void revise(Chart eObj, Chart eRefObj )
+	{
+		// Revise Stock chart.
+		if ( hasStockSeries( eObj ) )
+		{
+			( (ChartWithAxes) eObj ).unsetOrientation( );
+		}
+		
+		// Revise axis title rotation.
+		if ( eObj != null)
+		{
+			if ( eObj instanceof ChartWithAxes && eObj.getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
+			{
+				rotateAxesTitle( (ChartWithAxes) eObj );
+			}
+		}
+	}
+
+	protected boolean hasStockSeries( Chart eObj )
+	{
+		if ( eObj instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes)eObj;
+			for ( Axis axis :cwa.getAxes( ).get( 0 ).getAssociatedAxes( ) )
+			{
+				for ( SeriesDefinition sd : axis.getSeriesDefinitions( ) )
+				{
+					for ( Series s: sd.getSeries( ) )
+					{
+						if( s instanceof StockSeries )
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	protected void rotateAxesTitle( ChartWithAxes cwa )
+	{
+		boolean isHorizontal = (cwa.getOrientation( ) == Orientation.HORIZONTAL_LITERAL );
+		Axis aX = cwa.getAxes( ).get( 0 );
+		if ( aX.getTitle( ).isSetVisible( )
+				&& aX.getTitle( ).isVisible( )
+				&& !aX.getTitle( ).getCaption( ).getFont( ).isSetRotation( ) )
+		{
+			if ( isHorizontal )
+			{
+				aX.getTitle( ).getCaption( ).getFont( ).setRotation( 90 );
+			}
+			else
+			{
+				aX.getTitle( ).getCaption( ).getFont( ).setRotation( 0 );
+			}
+		}
+
+		EList<Axis> aYs = aX.getAssociatedAxes( );
+		for ( int i = 0; i < aYs.size( ); i++ )
+		{
+
+			Axis aY = aYs.get( i );
+			if ( aY.getTitle( ).isSetVisible( )
+					&& aY.getTitle( ).isVisible( )
+					&& !aY.getTitle( ).getCaption( ).getFont( ).isSetRotation( ) )
+			{
+				if ( isHorizontal )
+				{
+					aY.getTitle( ).getCaption( ).getFont( ).setRotation( 0 );
+				}
+				else
+				{
+					aY.getTitle( ).getCaption( ).getFont( ).setRotation( 90 );
+				}
+			}
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateCurveFitting(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.CurveFitting, org.eclipse.birt.chart.model.component.CurveFitting, org.eclipse.birt.chart.model.component.CurveFitting)
 	 */

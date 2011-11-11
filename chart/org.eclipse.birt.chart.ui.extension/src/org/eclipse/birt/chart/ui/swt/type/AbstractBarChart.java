@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -362,8 +363,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( fsTypeLiteral );
 		newChart.setSubType( sSubType );
-		newChart.setOrientation( orientation );
-		newChart.setDimension( ChartUIUtil.getDimensionType( sDimension ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"orientation", //$NON-NLS-1$
+				orientation,
+				orientation == null );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				ChartUIUtil.getDimensionType( sDimension ),
+				sDimension == null );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
 		Series categorySeries = SeriesImpl.createDefault( );
@@ -399,7 +406,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
 		ChartUIUtil.setSeriesName( newChart );
 
-		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
+		if ( sDimension != null && sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{
 			newChart.setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
 				Angle3DImpl.createDefault( -20, 45, 0 )
@@ -595,9 +602,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( fsTypeLiteral );
 			currentChart.setSubType( sNewSubType );
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
-
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"orientation", //$NON-NLS-1$
+					newOrientation,
+					newOrientation == null );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"dimension",//$NON-NLS-1$
+					ChartUIUtil.getDimensionType( sNewDimension ),
+					sNewDimension == null );
 			{
 				// Clear existing series definitions
 				( ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
@@ -669,18 +681,16 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			}
 
 		}
-		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-				.equals( newOrientation ) )
-		{
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-		}
-		if ( !currentChart.getDimension( )
-				.equals( ChartUIUtil.getDimensionType( sNewDimension ) ) )
-		{
-			currentChart.setDimension( ChartUIUtil.getDimensionType( sNewDimension ) );
-		}
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"orientation", //$NON-NLS-1$
+				newOrientation,
+				newOrientation == null );
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"dimension",//$NON-NLS-1$
+				ChartUIUtil.getDimensionType( sNewDimension ),
+				sNewDimension == null );
 
-		if ( sNewDimension.equals( THREE_DIMENSION_TYPE )
+		if ( sNewDimension!= null && sNewDimension.equals( THREE_DIMENSION_TYPE )
 				&& ChartUIUtil.getDimensionType( sNewDimension ) != oldDimension )
 		{
 			( (ChartWithAxes) currentChart ).setRotation( Rotation3DImpl.createDefault( new Angle3D[]{

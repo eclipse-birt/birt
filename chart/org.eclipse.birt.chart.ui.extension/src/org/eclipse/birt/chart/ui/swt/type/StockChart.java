@@ -38,6 +38,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -181,8 +182,14 @@ public class StockChart extends DefaultChartTypeImpl
 		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setOrientation( orientation );
-		newChart.setDimension( getDimensionFor( sDimension ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"orientation", //$NON-NLS-1$
+				orientation,
+				orientation == null );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sDimension ),
+				sDimension == null );
 
 		newChart.getTitle( )
 				.getLabel( )
@@ -314,8 +321,13 @@ public class StockChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"orientation", //$NON-NLS-1$
+					newOrientation,
+					newOrientation == null );
+			ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+					getDimensionFor( sNewDimension ),
+					sNewDimension == null );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
 
@@ -377,16 +389,13 @@ public class StockChart extends DefaultChartTypeImpl
 				title.setValue( getDefaultTitle( ) );
 			}
 		}
-		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-						.equals( newOrientation ) )
-		{
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-		}
-		if ( !currentChart.getDimension( )
-				.equals( getDimensionFor( sNewDimension ) ) )
-		{
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
-		}
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"orientation", //$NON-NLS-1$
+				newOrientation,
+				newOrientation == null );
+		ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+				getDimensionFor( sNewDimension ),
+				sNewDimension == null );
 
 		// Restore label position for different sub type of chart.
 		ChartUIUtil.restoreLabelPositionFromCache( currentChart );

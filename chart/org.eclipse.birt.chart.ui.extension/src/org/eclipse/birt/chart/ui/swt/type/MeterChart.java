@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.DialChartImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -170,7 +171,10 @@ public class MeterChart extends DefaultChartTypeImpl
 		newChart = (DialChart) DialChartImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setDimension( getDimensionFor( sDimension ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sDimension ),
+				sDimension == null );
 
 		newChart.setDialSuperimposition( sSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
 
@@ -243,7 +247,9 @@ public class MeterChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+					getDimensionFor( sNewDimension ),
+					sNewDimension == null );
 			( (DialChart) currentChart ).setDialSuperimposition( false );
 
 			// Copy series definitions from old chart
@@ -292,11 +298,9 @@ public class MeterChart extends DefaultChartTypeImpl
 			{
 				currentChart.setSubType( sNewSubType );
 				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
-				if ( !currentChart.getDimension( )
-						.equals( getDimensionFor( sNewDimension ) ) )
-				{
-					currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				}
+				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+						getDimensionFor( sNewDimension ),
+						sNewDimension == null );
 			}
 			else
 			{
@@ -306,7 +310,9 @@ public class MeterChart extends DefaultChartTypeImpl
 				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
-				currentChart.setDimension( getDimensionFor( sNewDimension ) );
+				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+						getDimensionFor( sNewDimension ),
+						sNewDimension == null );
 
 				( (DialChart) currentChart ).setDialSuperimposition( sNewSubType.equals( SUPERIMPOSED_SUBTYPE_LITERAL ) );
 

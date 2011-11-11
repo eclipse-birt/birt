@@ -210,26 +210,37 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 	}
 
-	private void populateLists( )
+	protected void populateLists( )
 	{
 		NameSet nameSet = LiteralHelper.legendBehaviorTypeSet;
-		List<String> names = new ArrayList<String>(Arrays.asList(nameSet
-				.getDisplayNames()));
-		names.add(0, ChartUIExtensionUtil.getAutoMessage());
-		if (getContext().getOutputFormat().equalsIgnoreCase("SVG")) //$NON-NLS-1$
+		List<String> names = new ArrayList<String>( Arrays.asList( nameSet.getDisplayNames( ) ) );
+		names.add( 0, ChartUIExtensionUtil.getAutoMessage( ) );
+		if ( isBehaviorSupported( ) ) 
 		{
-			cmbLegendBehavior.setItems(names.toArray(new String[] {}));
-			if (!getChart().getInteractivity().isSetLegendBehavior()) {
-				cmbLegendBehavior.select(0);
-			} else {
-				cmbLegendBehavior.select(nameSet.getSafeNameIndex(getChart()
-						.getInteractivity().getLegendBehavior().getName()) + 1);
+			cmbLegendBehavior.setItems( names.toArray( new String[]{} ) );
+			if ( !getChart( ).getInteractivity( ).isSetLegendBehavior( ) )
+			{
+				cmbLegendBehavior.select( 0 );
 			}
-		} else {
-			cmbLegendBehavior
-					.setItems(new String[] { nameSet.getDisplayNames()[0] });
-			cmbLegendBehavior.select(0);
+			else
+			{
+				cmbLegendBehavior.select( nameSet.getSafeNameIndex( getChart( ).getInteractivity( )
+						.getLegendBehavior( )
+						.getName( ) ) + 1 );
+			}
 		}
+		else
+		{
+			cmbLegendBehavior.setItems( new String[]{
+				nameSet.getDisplayNames( )[0]
+			} );
+			cmbLegendBehavior.select( 0 );
+		}
+	}
+
+	protected boolean isBehaviorSupported( )
+	{
+		return "SVG".equalsIgnoreCase( getContext( ).getOutputFormat( ) ); //$NON-NLS-1$
 	}
 
 	private void setState( boolean enabled )

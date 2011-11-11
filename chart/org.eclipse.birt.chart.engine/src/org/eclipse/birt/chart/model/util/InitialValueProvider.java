@@ -71,7 +71,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of chart with axes.
 	 */
 	public static ChartWithAxes defChartWithAxes( )
 	{
@@ -80,7 +80,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of chart without axes.
 	 */
 	public static ChartWithoutAxes defChartWithoutAxes( )
 	{
@@ -89,7 +89,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of dial chart.
 	 */
 	public static DialChart defDialChart( )
 	{
@@ -98,7 +98,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of title.
 	 */
 	public static TitleBlock defTitleBlock( )
 	{
@@ -107,7 +107,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of plot.
 	 */
 	public static Plot defPlot( )
 	{
@@ -116,7 +116,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of legend.
 	 */
 	public static Legend defLegend( )
 	{
@@ -125,7 +125,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of series definition.
 	 */
 	public static SeriesDefinition defSeriesDefinition( int id )
 	{
@@ -134,7 +134,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of series.
 	 */
 	public static Series defSeries( )
 	{
@@ -143,7 +143,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of x axis or cateogry axis.
 	 */
 	public static Axis defBaseAxis( )
 	{
@@ -152,7 +152,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of y axis or value axis.
 	 */
 	public static Axis defOrthogonalAxis( )
 	{
@@ -161,7 +161,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of z axis.
 	 */
 	public static Axis defAncillaryAxis( )
 	{
@@ -170,7 +170,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of gantt series.
 	 */
 	public static GanttSeries defGanttSeries( )
 	{
@@ -179,7 +179,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of scatter series.
 	 */
 	public static ScatterSeries defScatterSeries( )
 	{
@@ -188,7 +188,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of dial series.
 	 */
 	public static DialSeries defDialSeries( )
 	{
@@ -196,9 +196,9 @@ public class InitialValueProvider
 	}
 
 	/**
-	 * 
-	 * @return
-	 */
+	 *  
+	 * @return default instance of pie series.
+	 */ 
 	public static PieSeries defPieSeries( )
 	{
 		return defPieSeries;
@@ -206,7 +206,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of difference series.
 	 */
 	public static DifferenceSeries defDifferenceSeries( )
 	{
@@ -215,7 +215,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of stock series.
 	 */
 	public static StockSeries defStockSeries( )
 	{
@@ -224,7 +224,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of line series.
 	 */
 	public static LineSeries defLineSeries( )
 	{
@@ -233,7 +233,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of area series.
 	 */
 	public static AreaSeries defAreaSeries( )
 	{
@@ -242,7 +242,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of bar series.
 	 */
 	public static BarSeries defBarSeries( )
 	{
@@ -251,7 +251,7 @@ public class InitialValueProvider
 
 	/**
 	 * 
-	 * @return
+	 * @return default instance of bubble series.
 	 */
 	public static BubbleSeries defBubbleSeries( )
 	{
@@ -268,7 +268,7 @@ public class InitialValueProvider
 		Axis axBase = newChart.getAxes( ).get( 0 );
 		try
 		{
-			ChartElementUtil.setDefaultValue( axBase, "categoryAxis", true );
+			ChartElementUtil.setDefaultValue( axBase, "categoryAxis", true );  //$NON-NLS-1$
 		}
 		catch ( ChartException e )
 		{
@@ -295,30 +295,30 @@ public class InitialValueProvider
 
 			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
 			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"titlePosition",
+					"titlePosition",  //$NON-NLS-1$
 					Position.BELOW_LITERAL );
 			zAxisAncillary.getTitle( )
 					.getCaption( )
 					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( zAxisAncillary.getTitle( ),
-					"visible",
+					"visible",  //$NON-NLS-1$
 					false );
 			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"primaryAxis",
+					"primaryAxis",  //$NON-NLS-1$
 					true );
 			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"labelPosition",
+					"labelPosition",  //$NON-NLS-1$
 					Position.BELOW_LITERAL );
 			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"orientation",
+					"orientation",  //$NON-NLS-1$
 					Orientation.HORIZONTAL_LITERAL );
 			ChartElementUtil.setDefaultValue( zAxisAncillary.getOrigin( ),
-					"type",
+					"type",  //$NON-NLS-1$
 					IntersectionType.MIN_LITERAL );
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
 			ChartElementUtil.setDefaultValue( zAxisAncillary,
-					"type",
+					"type",  //$NON-NLS-1$
 					AxisType.TEXT_LITERAL );
 			chart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
 					.add( zAxisAncillary );

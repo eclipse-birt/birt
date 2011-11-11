@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
@@ -155,8 +156,14 @@ public class GanttChart extends DefaultChartTypeImpl
 		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setOrientation( orientation );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sDimension ),
+				sDimension == null );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"orientation", //$NON-NLS-1$
+				orientation,
+				orientation == null );
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
 		xAxis.getLabel( ).setVisible( false );
@@ -236,11 +243,10 @@ public class GanttChart extends DefaultChartTypeImpl
 					}
 				}
 
-				if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-								.equals( newOrientation ) )
-				{
-					( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-				}
+				ChartElementUtil.setEObjectAttribute( currentChart,
+						"orientation", //$NON-NLS-1$
+						newOrientation,
+						newOrientation == null );
 				return currentChart;
 			}
 			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
@@ -310,8 +316,14 @@ public class GanttChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"orientation", //$NON-NLS-1$
+					newOrientation,
+					newOrientation == null );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"dimension",//$NON-NLS-1$
+					getDimensionFor( sNewDimension ),
+					sNewDimension == null );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
 
@@ -380,16 +392,14 @@ public class GanttChart extends DefaultChartTypeImpl
 				title.setValue( getDefaultTitle( ) );
 			}
 		}
-		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-						.equals( newOrientation ) )
-		{
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-		}
-		if ( !currentChart.getDimension( )
-				.equals( getDimensionFor( sNewDimension ) ) )
-		{
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
-		}
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"orientation", //$NON-NLS-1$
+				newOrientation,
+				newOrientation == null );
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sNewDimension ),
+				sNewDimension == null );
 
 		ChartUIUtil.updateDefaultAggregations( currentChart );
 

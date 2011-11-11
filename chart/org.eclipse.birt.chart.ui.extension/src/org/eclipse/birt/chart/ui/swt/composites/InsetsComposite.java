@@ -68,7 +68,7 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 
 	private transient LocalizedNumberEditorComposite txtRight = null;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	private transient IUIServiceProvider serviceprovider = null;
 
@@ -124,7 +124,7 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		this.vListeners = new Vector( );
+		this.vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -410,10 +410,10 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 					insets.unsetRight( );
 					try
 					{
-						ChartElementUtil.setDefaultValue( insets, "top", defaultInsets.getTop( ) );
-						ChartElementUtil.setDefaultValue( insets, "bottom", defaultInsets.getBottom( ) );
-						ChartElementUtil.setDefaultValue( insets, "left", defaultInsets.getLeft( ) );
-						ChartElementUtil.setDefaultValue( insets, "right", defaultInsets.getRight( ) );
+						ChartElementUtil.setDefaultValue( insets, "top", defaultInsets.getTop( ) );  //$NON-NLS-1$
+						ChartElementUtil.setDefaultValue( insets, "bottom", defaultInsets.getBottom( ) );  //$NON-NLS-1$
+						ChartElementUtil.setDefaultValue( insets, "left", defaultInsets.getLeft( ) );  //$NON-NLS-1$
+						ChartElementUtil.setDefaultValue( insets, "right", defaultInsets.getRight( ) );  //$NON-NLS-1$
 					}
 					catch ( ChartException e )
 					{

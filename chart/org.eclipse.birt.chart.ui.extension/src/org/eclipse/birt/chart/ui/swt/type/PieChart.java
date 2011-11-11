@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -148,7 +149,10 @@ public class PieChart extends DefaultChartTypeImpl
 		newChart = ChartWithoutAxesImpl.createDefault( );
 		newChart.setType( getName( ) );
 		newChart.setSubType( sSubType );
-		newChart.setDimension( getDimensionFor( sDimension ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sDimension ),
+				sDimension == null );
 		if ( newChart.getDimension( )
 				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 		{
@@ -234,7 +238,9 @@ public class PieChart extends DefaultChartTypeImpl
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( getName( ) );
 			currentChart.setSubType( sNewSubType );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+					getDimensionFor( sNewDimension ),
+					sNewDimension == null );
 
 			if ( !helperModel.isSetSeriesThickness( ) )
 			{
@@ -290,11 +296,9 @@ public class PieChart extends DefaultChartTypeImpl
 			if ( currentChart.getType( ).equals( getName( ) ) )
 			{
 				currentChart.setSubType( sNewSubType );
-				if ( !currentChart.getDimension( )
-						.equals( getDimensionFor( sNewDimension ) ) )
-				{
-					currentChart.setDimension( getDimensionFor( sNewDimension ) );
-				}
+				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+						getDimensionFor( sNewDimension ),
+						sNewDimension == null );
 
 				if ( !currentChart.isSetSeriesThickness( ) )
 				{
@@ -309,7 +313,9 @@ public class PieChart extends DefaultChartTypeImpl
 				copyChartProperties( helperModel, currentChart );
 				currentChart.setType( getName( ) );
 				currentChart.setSubType( sNewSubType );
-				currentChart.setDimension( getDimensionFor( sNewDimension ) );
+				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+						getDimensionFor( sNewDimension ),
+						sNewDimension == null );
 
 				// Clear existing series definitions
 				( (ChartWithoutAxes) currentChart ).getSeriesDefinitions( )

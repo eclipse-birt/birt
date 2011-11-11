@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -53,6 +54,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.preview.LivePreviewTask;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -156,7 +158,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected Orientation orientation = null;
 
 	protected Label lblOrientation = null;
-	protected Button cbOrientation = null;
+	protected TristateCheckbox cbOrientation = null;
 
 	protected Label lblMultipleY = null;
 	protected Combo cbMultipleY = null;
@@ -206,11 +208,19 @@ public class TaskSelectType extends SimpleTask implements
 			sType = chartModel.getType( );
 			sOldType = sType;
 			sSubType = chartModel.getSubType( );
-			sDimension = translateDimensionString( chartModel.getDimension( )
-					.getName( ) );
+			if ( chartModel.isSetDimension( ) )
+			{
+				sDimension = translateDimensionString( chartModel.getDimension( )
+						.getName( ) );
+				ChartCacheManager.getInstance( ).cacheDimension( sType,
+						sDimension );
+			}
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
+				orientation = ( (ChartWithAxes) chartModel ).isSetOrientation( ) ? ( (ChartWithAxes) chartModel ).getOrientation( )
+						: null;
+				ChartCacheManager.getInstance( ).cacheOrientation( sType,
+						orientation );
 			}
 		}
 	}
@@ -499,7 +509,7 @@ public class TaskSelectType extends SimpleTask implements
 				}
 
 				// Add the CheckBox for Orientation
-				cbOrientation = new Button( parent, SWT.CHECK );
+				cbOrientation = new TristateCheckbox( parent, SWT.NONE );
 				{
 					cbOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
 					GridData gd = new GridData( );
@@ -507,18 +517,33 @@ public class TaskSelectType extends SimpleTask implements
 					cbOrientation.addSelectionListener( TaskSelectType.this );
 				}
 
-				if ( TaskSelectType.this.orientation == Orientation.HORIZONTAL_LITERAL )
-				{
-					cbOrientation.setSelection( true );
-				}
-				else
-				{
-					cbOrientation.setSelection( false );
-				}
+				updateOrientationUIState( );
 			}
+
 		} );
 	}
 
+	protected void updateOrientationUIState( )
+	{
+		if ( cbOrientation == null )
+		{
+			return;
+		}
+		
+		if ( orientation == null )
+		{
+			cbOrientation.setSelectionState( TristateCheckbox.STATE_GRAYED );
+		} 
+		else if ( orientation == Orientation.HORIZONTAL_LITERAL )
+		{
+			cbOrientation.setSelectionState( TristateCheckbox.STATE_SELECTED );
+		}
+		else
+		{
+			cbOrientation.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
+		}
+	}
+	
 	/**
 	 * This method initializes table
 	 * 
@@ -652,7 +677,8 @@ public class TaskSelectType extends SimpleTask implements
 
 			if ( type.canCombine( ) )
 			{
-				if ( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( sDimension )
+				if ( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( getAvailableDimension( type,
+						sDimension ) )
 						&& newSeries instanceof AreaSeries )
 				{
 					continue;
@@ -719,18 +745,15 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		boolean needUpdateModel = false;
 		Object oSelected = e.getSource( );
-		if ( oSelected.getClass( ).equals( Button.class ) )
+		if ( e.widget == cbOrientation )
 		{
 			needUpdateModel = true;
-
-			if ( oSelected.equals( cbOrientation ) )
-			{
-				handleOrientationBtnSelected( );
-			}
-			else
-			{
-				handleSubtypeBtnSelected( e );
-			}
+			handleOrientationBtnSelected( );
+		}
+		else if ( oSelected.getClass( ).equals( Button.class ) )
+		{
+			needUpdateModel = true;
+			handleSubtypeBtnSelected( e );
 		}
 		else if ( oSelected.getClass( ).equals( Table.class ) )
 		{
@@ -765,8 +788,24 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected boolean handleDimensionComboSelected(  )
 	{
-		String newDimension = ( (String[]) cbDimension.getData( ) )[cbDimension.getSelectionIndex( )];
-		if ( !newDimension.equals( sDimension ) )
+		String newDimension = null;
+		if ( cbDimension.getSelectionIndex( ) == 0 )
+		{
+			// Auto case
+			newDimension = null;
+		}
+		else
+		{
+			newDimension = ( (String[]) cbDimension.getData( ) )[cbDimension.getSelectionIndex( )];
+		}
+		
+		if ( newDimension == null && sDimension == null )
+		{
+			return false;
+		}
+		
+		if ( ( newDimension != null && !newDimension.equals( sDimension ) )
+				|| ( sDimension != null && !sDimension.equals( newDimension ) ) )
 		{
 			handleDimensionBtnSelected( newDimension );
 			return true;
@@ -879,11 +918,39 @@ public class TaskSelectType extends SimpleTask implements
 			// Auto rotates Axis title when transposing
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				rotateAxisTitle( (ChartWithAxes) chartModel );
+				IChartType chartType = ChartUIUtil.getChartType( sType );
+				Orientation lastOrientation = ChartCacheManager.getInstance( )
+						.findOrientation( sType );
+				lastOrientation = getAvailableOrientation( chartType,
+						getAvailableDimension( chartType, sDimension ),
+						lastOrientation );
+				if ( lastOrientation != getAvailableOrientation( chartType,
+						getAvailableDimension( chartType, sDimension ),
+						orientation ) )
+				{
+					rotateAxisTitle( (ChartWithAxes) chartModel );
+				}
 			}
 		}
 		// Preview after all model changes
 		doPreview( );
+	}
+
+	/**
+	 * Returns available dimension.
+	 *  
+	 * @param ct
+	 * @param refDimension
+	 * @return dimension
+	 */
+	public String getAvailableDimension( IChartType ct, String refDimension )
+	{
+		if ( refDimension == null )
+		{
+			return ct.getDefaultDimension( );
+		}
+
+		return refDimension;
 	}
 
 	protected void handleDimensionBtnSelected( String newDimension )
@@ -899,7 +966,6 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected void handleChartTypeSelected( )
 	{
-		sOldType = sType;
 
 		// Get orientation for non-xtab case. In xtab, orientation won't
 		// be changed
@@ -910,23 +976,19 @@ public class TaskSelectType extends SimpleTask implements
 					&& chartModel instanceof ChartWithAxes )
 			{
 				Orientation lastOrientation = ChartCacheManager.getInstance( )
+						.findOrientation( sOldType );
+				this.orientation = ChartCacheManager.getInstance( )
 						.findOrientation( sType );
-
-				if ( lastOrientation != null
-						&& this.orientation != lastOrientation )
+				
+				if ( getAvailableOrientation( ChartUIUtil.getChartType( sOldType ),
+						getAvailableDimension( ChartUIUtil.getChartType( sOldType ),
+								sDimension ),
+						lastOrientation ) != getAvailableOrientation( ChartUIUtil.getChartType( sType ),
+						getAvailableDimension( ChartUIUtil.getChartType( sType ),
+								sDimension ),
+						this.orientation ) )
 				{
-					this.orientation = lastOrientation;
 					this.rotateAxisTitle( (ChartWithAxes) chartModel );
-				}
-				if ( lastOrientation == null )
-				{
-					Orientation currentOrientation = this.orientation;
-					this.orientation = ChartUIUtil.getChartType( sType )
-							.getDefaultOrientation( );
-					if ( currentOrientation != this.orientation )
-					{
-						this.rotateAxisTitle( (ChartWithAxes) chartModel );
-					}
 				}
 			}
 		}
@@ -947,7 +1009,7 @@ public class TaskSelectType extends SimpleTask implements
 		sSubType = null;
 		createAndDisplayTypesSheet( sType );
 		setDefaultSubtypeSelection( );
-
+		sOldType = sType;
 		cmpMisc.layout( );
 	}
 
@@ -995,7 +1057,12 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected void handleOrientationBtnSelected( )
 	{
-		if ( cbOrientation.getSelection( ) )
+		int state = cbOrientation.getSelectionState( );
+		if ( state == TristateCheckbox.STATE_GRAYED )
+		{
+			orientation = null;
+		}
+		else if ( state == TristateCheckbox.STATE_SELECTED )
 		{
 			orientation = Orientation.HORIZONTAL_LITERAL;
 		}
@@ -1051,13 +1118,9 @@ public class TaskSelectType extends SimpleTask implements
 		String[] dimensionArray = chartType.getSupportedDimensions( );
 		int axesNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 
-		if ( sDimension == null )
-		{
-			// Initialize dimension
-			sDimension = chartType.getDefaultDimension( );
-			isOldExist = true;
-		}
 		cbDimension.removeAll( );
+		cbDimension.add( ChartUIExtensionUtil.getAutoMessage( ) );
+		
 		boolean bAreaSeriesMixed = isAreaSeriesMixed( );
 		for ( int i = 0; i < dimensionArray.length; i++ )
 		{
@@ -1074,27 +1137,28 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				cbDimension.add( dimensionArray[i] );
 			}
-			if ( !isOldExist && sDimension.equals( dimensionArray[i] ) )
-			{
-				isOldExist = isSupported;
-			}
 		}
 		cbDimension.setData( cbDimension.getItems( ) );
 		
 		String cache = ChartCacheManager.getInstance( )
 				.getDimension( sSelectedType );
-		if ( cache != null )
+		String availableCache = getAvailableDimension( chartType, cache );
+		String thisDimension = getAvailableDimension( chartType, sDimension );
+		if ( availableCache != thisDimension )
 		{
-			sDimension = cache;
 			isOldExist = true;
 		}
+		sDimension = cache;
 
 		// Select the previous selection or the default
-		if ( !isOldExist )
+		if ( sDimension == null )
 		{
-			sDimension = chartType.getDefaultDimension( );
+			cbDimension.select( 0 ); //Set as Auto.
 		}
-		cbDimension.setText( sDimension );
+		else
+		{
+			cbDimension.setText( sDimension );
+		}
 		return !isOldExist;
 	}
 
@@ -1157,13 +1221,17 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected boolean is3D( )
 	{
-		return IChartType.THREE_DIMENSION_TYPE.equals( sDimension );
+		return IChartType.THREE_DIMENSION_TYPE.equals( getAvailableDimension( ChartUIUtil.getChartType( sType ),
+				sDimension ) );
 	}
 	
 	private boolean isMultiAxisSupported()
 	{
 		boolean bOutXtab = !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
-		return bOutXtab &&!is3D() && !(IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( sDimension )&&ChartUIConstants.TYPE_AREA.equals( sType )); 
+		return bOutXtab
+				&& !is3D( )
+				&& !( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( getAvailableDimension( ChartUIUtil.getChartType( sType ),
+						sDimension ) ) && ChartUIConstants.TYPE_AREA.equals( sType ) ); 
 	}
 
 	protected void changeOverlaySeriesType( )
@@ -1248,10 +1316,13 @@ public class TaskSelectType extends SimpleTask implements
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		if ( getCurrentChartType( ).canCombine( ) )
 		{
+			IChartType chartType = ChartUIUtil.getChartType( this.sType );
 			populateSeriesTypes( ChartUIExtensionsImpl.instance( )
 					.getUIChartTypeExtensions( getContext( ).getIdentifier( ) ),
 					series,
-					this.orientation );
+					getAvailableOrientation( chartType,
+							getAvailableDimension( chartType, sDimension ),
+							this.orientation ) );
 		}
 		else
 		{
@@ -1308,6 +1379,29 @@ public class TaskSelectType extends SimpleTask implements
 	}
 
 	/**
+	 * Return available orientation even if it is not set.
+	 * 
+	 * @param chartType
+	 * @param dimension
+	 * @param refOrientation
+	 * @return available orientation
+	 */
+	public Orientation getAvailableOrientation( IChartType chartType, String dimension, Orientation refOrientation )
+	{
+		if ( refOrientation == null )
+		{
+			return chartType.getDefaultOrientation( );
+		}
+		else if ( refOrientation == Orientation.HORIZONTAL_LITERAL
+				&& !chartType.supportsTransposition( dimension ) )
+		{
+			return chartType.getDefaultOrientation( );
+		}
+		
+		return refOrientation;
+	}
+	
+	/**
 	 * This method populates the subtype panel (creating its components if
 	 * necessary). It gets called when the type selection changes or when the
 	 * dimension selection changes (since not all sub types are supported for
@@ -1330,32 +1424,26 @@ public class TaskSelectType extends SimpleTask implements
 		// Update dimension
 		updateDimensionCombo( sSelectedType );
 
-		if ( this.sDimension == null )
-		{
-			this.sDimension = chartType.getDefaultDimension( );
-		}
-		if ( this.orientation == null )
-		{
-			this.orientation = chartType.getDefaultOrientation( );
-		}
-
 		// Show the subtypes for the selected type based on current selections
 		// of dimension and orientation
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( sDimension,
-				orientation ) );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( getAvailableDimension( chartType,
+				sDimension ),
+				getAvailableOrientation( chartType,
+						sDimension,
+						this.orientation ) ) );
 
 		if ( vSubTypes.size( ) == 0 )
 		{
 			vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
 					chartType.getDefaultOrientation( ) ) );
-			this.sDimension = chartType.getDefaultDimension( );
-			this.orientation = chartType.getDefaultOrientation( );
+			this.sDimension = null;
+			this.orientation = null;
 		}
 
 		// If two orientations are not supported, to get the default.
 		if ( cbOrientation == null || !cbOrientation.isEnabled( ) )
 		{
-			this.orientation = chartType.getDefaultOrientation( );
+			this.orientation = null;
 		}
 		// Cache the orientation for each chart type.
 		ChartCacheManager.getInstance( ).cacheOrientation( sType, orientation );
@@ -1374,17 +1462,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		// Update the UI with information for selected type
 		createSubtypeBtnGroups( vSubTypes );
-		if ( this.cbOrientation != null )
-		{
-			if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
-			{
-				this.cbOrientation.setSelection( true );
-			}
-			else
-			{
-				this.cbOrientation.setSelection( false );
-			}
-		}
+		updateOrientationUIState();
 		cmpRight.layout( );
 	}
 
@@ -1606,11 +1684,18 @@ public class TaskSelectType extends SimpleTask implements
 			this.sType = ( (ChartWizardContext) context ).getChartType( )
 					.getName( );
 			this.sSubType = chartModel.getSubType( );
-			this.sDimension = translateDimensionString( chartModel.getDimension( )
-					.getName( ) );
+			if ( chartModel.isSetDimension( ) )
+			{
+				this.sDimension = translateDimensionString( chartModel.getDimension( )
+						.getName( ) );
+				ChartCacheManager.getInstance( ).cacheDimension( sType,
+						sDimension );
+			}
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				this.orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
+				this.orientation = ( (ChartWithAxes) chartModel ).isSetOrientation( ) ? ( (ChartWithAxes) chartModel ).getOrientation( )
+						: null;
+				ChartCacheManager.getInstance( ).cacheOrientation( sType, this.orientation );
 				int iYAxesCount = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 				// IF THE UI HAS BEEN INITIALIZED...I.E. IF setContext() IS
 				// CALLED AFTER getUI()
@@ -1937,36 +2022,39 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	private void rotateAxisTitle( ChartWithAxes cwa )
 	{
-		boolean bRender = false;
+		// Still rendering, it has auto case and use default behavior, different
+		// chart type has different default behavior.
+		boolean bRender = true;
 		ChartAdapter.beginIgnoreNotifications( );
 		Axis aX = ChartUIUtil.getAxisXForProcessing( cwa );
-		if ( aX.getTitle( ).isVisible( ) )
+		if ( aX.getTitle( ).getCaption( ).getFont( ).isSetRotation( ) )
 		{
-			bRender = true;
-		}
-		double curRotation = aX.getTitle( )
-				.getCaption( )
-				.getFont( )
-				.getRotation( );
-		aX.getTitle( )
-				.getCaption( )
-				.getFont( )
-				.setRotation( curRotation >= 0 ? 90 - curRotation : -90
-						- curRotation );
-		EList<Axis> aYs = aX.getAssociatedAxes( );
-		for ( int i = 0; i < aYs.size( ); i++ )
-		{
-			Axis aY = aYs.get( i );
-			if ( aY.getTitle( ).isVisible( ) )
-			{
-				bRender = true;
-			}
-			curRotation = aY.getTitle( ).getCaption( ).getFont( ).getRotation( );
-			aY.getTitle( )
+			double curRotation = aX.getTitle( )
+					.getCaption( )
+					.getFont( )
+					.getRotation( );
+			aX.getTitle( )
 					.getCaption( )
 					.getFont( )
 					.setRotation( curRotation >= 0 ? 90 - curRotation : -90
 							- curRotation );
+		}
+		EList<Axis> aYs = aX.getAssociatedAxes( );
+		for ( int i = 0; i < aYs.size( ); i++ )
+		{
+			Axis aY = aYs.get( i );
+			if ( aY.getTitle( ).getCaption( ).getFont( ).isSetRotation( ) )
+			{
+				double curRotation = aY.getTitle( )
+						.getCaption( )
+						.getFont( )
+						.getRotation( );
+				aY.getTitle( )
+						.getCaption( )
+						.getFont( )
+						.setRotation( curRotation >= 0 ? 90 - curRotation : -90
+								- curRotation );
+			}
 		}
 		ChartAdapter.endIgnoreNotifications( );
 		if ( bRender )
@@ -1990,7 +2078,7 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			return null;
 		}
-		return ( (ChartWizardContext) getContext( ) ).getModel( );
+		return getContext( ).getModel( );
 	}
 	
 	public void doPreview( )
