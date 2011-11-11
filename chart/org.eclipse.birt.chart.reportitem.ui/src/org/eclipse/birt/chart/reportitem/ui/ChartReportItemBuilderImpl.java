@@ -294,6 +294,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				// Window.CANCEL to tell invoker to break following tasks.
 				if ( !chartBuilder.isOkPressed( ))
 				{
+					commandStack.rollback( );
 					return Window.CANCEL;
 				}
 				
