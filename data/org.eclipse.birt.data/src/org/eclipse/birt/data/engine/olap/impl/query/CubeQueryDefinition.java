@@ -146,6 +146,7 @@ public class CubeQueryDefinition extends NamedObject
 			newBinding.setDataType( binding.getDataType() );
 			newBinding.setDisplayName( binding.getDisplayName() );
 			newBinding.setFilter( binding.getFilter() );
+			newBinding.setTimeFunction( binding.getTimeFunction( ) );
 		}
 		catch (DataException e)
 		{
