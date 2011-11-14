@@ -660,6 +660,8 @@ public class TimeFunctionCalculator
 		int result = 0;
 		for( int i = 0; i < r.getLevelMembers().length; i++ )
 		{
+			if( m.member[i] == null )
+				continue;
 			result = r.getLevelMembers()[i].compareTo(m.member[i] );
 			if( result != 0 )
 				return result;
@@ -684,6 +686,12 @@ public class TimeFunctionCalculator
 		int result = 0;
 		for( int i = 0; i < m1.member.length; i++ )
 		{
+			if( m1.member[i] == null && m2.member[i] == null )
+				continue;
+			if( m1.member[i] == null )
+				return -1;
+			if( m2.member[i] == null )
+				return 1;
 			result = m1.member[i].compareTo( m2.member[i] );
 			if( result != 0 )
 				return result;
@@ -871,6 +879,8 @@ class MemberCellIndexComparator implements Comparator
 					|| sortType[i] == IDimensionSortDefn.SORT_UNDEFINED
 					|| sortType[i] == IDimensionSortDefn.SORT_ASC )
 			{
+				if( m1.member[i] == null && m2.member[i] == null )
+					continue;
 				if ( m1.member[i].compareTo( m2.member[i] ) < 0 )
 				{
 					return -1;
@@ -882,6 +892,8 @@ class MemberCellIndexComparator implements Comparator
 			}
 			else
 			{
+				if( m1.member[i] == null && m2.member[i] == null )
+					continue;
 				if ( m1.member[i].compareTo( m2.member[i] ) < 0 )
 				{
 					return 1;
