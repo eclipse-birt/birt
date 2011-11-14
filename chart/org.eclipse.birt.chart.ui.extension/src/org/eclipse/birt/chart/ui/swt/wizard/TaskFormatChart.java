@@ -606,6 +606,9 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	 */
 	private void initControl( Composite parent )
 	{
+		// Initialize chart types first.
+		ChartUIUtil.populateTypeTable( getContext( ) );
+		
 		if ( topControl == null || topControl.isDisposed( ) )
 		{
 			// 1. Create top level composite of the shell.

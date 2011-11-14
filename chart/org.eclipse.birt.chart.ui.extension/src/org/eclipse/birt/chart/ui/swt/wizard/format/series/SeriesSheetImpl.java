@@ -13,21 +13,17 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
@@ -135,7 +131,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		createButtonGroup( cmpContent );
 	}
 
-	protected int getColorByComboDefaultIndex(  )
+	protected int getColorByComboDefaultIndex( )
 	{
 		return getChart( ).getLegend( ).isSetItemType( ) ? ( LiteralHelper.legendItemTypeSet.getSafeNameIndex( getChart( ).getLegend( )
 				.getItemType( )
@@ -190,7 +186,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			lblType.setFont( JFaceResources.getBannerFont( ) );
 			lblType.setText( Messages.getString( "SeriesSheetImpl.Label.Type" ) ); //$NON-NLS-1$
 		}
-		
+
 		Label lblZOrder = new Label( cmpList, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
@@ -490,7 +486,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		protected void initZOrderUI( Composite parent )
 		{
-			spnZOrder = new Spinner(parent, SWT.BORDER);
+			spnZOrder = new Spinner( parent, SWT.BORDER );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
@@ -498,8 +494,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				spnZOrder.setMinimum( 0 );
 				spnZOrder.setMaximum( 10 );
 				if ( getChart( ) instanceof ChartWithAxes
-						&& !( getContext( ).getChartType( ) instanceof BubbleChart ) 
-						&& getChart( ).getDimension( )==ChartDimension.TWO_DIMENSIONAL_LITERAL)
+						&& !( getContext( ).getChartType( ) instanceof BubbleChart )
+						&& getChart( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_LITERAL )
 				{
 					// Bubble chart has special z order
 					spnZOrder.setSelection( seriesDefn.getZOrder( ) );
@@ -536,7 +532,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				}
 				else
 				{
-					series.setVisible( btnVisible.getSelectionState( ) == 1);
+					series.setVisible( btnVisible.getSelectionState( ) == 1 );
 				}
 			}
 			else if ( e.widget == btnStack )
@@ -549,10 +545,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					series.setStacked( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 				}
-				
+
 				// Default label position is inside if Stacked checkbox is
 				// selected.
-				if ( series instanceof BarSeries && (series.isSetStacked( ) && series.isStacked( ) ) )
+				if ( series instanceof BarSeries
+						&& ( series.isSetStacked( ) && series.isStacked( ) ) )
 				{
 					series.setLabelPosition( Position.INSIDE_LITERAL );
 				}
@@ -662,61 +659,17 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		private void populateLists( Series series )
 		{
+			if ( htSeriesNames == null )
+			{
+				htSeriesNames = new Hashtable<String, Series>( 20 );
+			}
+
 			// Populate Series Types List
-			if ( getCurrentChartType( ).canCombine( ) )
-			{
-				populateSeriesTypes( cTypes,
-						series,
-						( (ChartWithAxes) getChart( ) ).getOrientation( ) );
-				String sDisplayName = series.getDisplayName( );
-				cmbTypes.setText( sDisplayName );
-			}
-			else
-			{
-				String seriesName = series.getDisplayName( );
-				cmbTypes.add( seriesName );
-				cmbTypes.select( 0 );
-			}
-		}
-
-		private void populateSeriesTypes( Collection<IChartType> allChartType,
-				Series series, Orientation orientation )
-		{
-			boolean is25D = getChart( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL;
-
-			Iterator<IChartType> iterTypes = allChartType.iterator( );
-			while ( iterTypes.hasNext( ) )
-			{
-				IChartType type = iterTypes.next( );
-				Series newSeries = type.getSeries( );
-
-				if ( htSeriesNames == null )
-				{
-					htSeriesNames = new Hashtable<String, Series>( 20 );
-				}
-				
-				if ( series.getClass( ).equals( newSeries.getClass( ) ) )
-				{
-					// Always accept the same series type
-					String sDisplayName = newSeries.getDisplayName( );
-					htSeriesNames.put( sDisplayName, newSeries );
-					cmbTypes.add( sDisplayName );
-				}
-				else if ( type.canCombine( ) )
-				{
-					if ( newSeries instanceof AreaSeries && is25D )
-					{
-						continue;
-					}
-					if ( !( newSeries instanceof StockSeries )
-							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
-					{
-						String sDisplayName = newSeries.getDisplayName( );
-						htSeriesNames.put( sDisplayName, newSeries );
-						cmbTypes.add( sDisplayName );
-					}
-				}
-			}
+			ChartUIExtensionUtil.populateSeriesTypesList( htSeriesNames,
+					cmbTypes,
+					getContext( ),
+					cTypes,
+					series );
 		}
 
 		private void switchTo( int index )
@@ -745,7 +698,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			if ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL
 					|| cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
 			{
-				if ( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED)
+				if ( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED )
 				{
 					cmbTypes.setEnabled( false );
 				}
@@ -845,11 +798,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					bsd.getSeriesPalette( ).shift( 0 );
 					for ( int i = 0; i < osds.length; i++ )
 					{
-						bsd.getSeriesPalette( ).getEntries( ).set( i,
-								osds[i].getSeriesPalette( )
-										.getEntries( )
-										.get( 0 )
-										.copyInstance( ) );
+						bsd.getSeriesPalette( )
+								.getEntries( )
+								.set( i,
+										osds[i].getSeriesPalette( )
+												.getEntries( )
+												.get( 0 )
+												.copyInstance( ) );
 					}
 					( (SeriesPaletteSheet) popup ).setCategorySeries( bsd );
 

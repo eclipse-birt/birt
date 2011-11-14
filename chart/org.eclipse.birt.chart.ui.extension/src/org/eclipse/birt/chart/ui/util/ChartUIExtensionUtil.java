@@ -13,10 +13,22 @@ package org.eclipse.birt.chart.ui.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.type.AreaSeries;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -27,13 +39,14 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ChartUIExtensionUtil
 {
+
 	public static int PROPERTY_UPDATE = ChartElementUtil.PROPERTY_UPDATE;
 	public static int PROPERTY_UNSET = ChartElementUtil.PROPERTY_UNSET;
-	
+
 	/**
 	 * Returns 'auto' string.
 	 * 
-	 * @return
+	 * @return Auto message
 	 */
 	public static String getAutoMessage( )
 	{
@@ -44,7 +57,7 @@ public class ChartUIExtensionUtil
 	 * Returns an string array and start with 'auto' item.
 	 * 
 	 * @param items
-	 * @return
+	 * @return string items with Auto
 	 */
 	public static String[] getItemsWithAuto( String[] items )
 	{
@@ -54,11 +67,11 @@ public class ChartUIExtensionUtil
 	}
 
 	/**
-	 * Creates a combo list with specified items. 
+	 * Creates a combo list with specified items.
 	 * 
 	 * @param parent
 	 * @param items
-	 * @return
+	 * @return new Combo
 	 */
 	public static Combo createCombo( Composite parent, String[] items )
 	{
@@ -71,10 +84,74 @@ public class ChartUIExtensionUtil
 	 * Checks if the 'auto' item is selected in specified combo list.
 	 * 
 	 * @param combo
-	 * @return
+	 * @return true means Auto is selected
 	 */
 	public static boolean isAutoSelection( Combo combo )
 	{
 		return combo != null && ( combo.getSelectionIndex( ) == 0 );
+	}
+
+	/**
+	 * Populates series type list.
+	 * 
+	 * @param htSeriesNames
+	 * @param cmbTypes
+	 * @param context
+	 * @param allChartType
+	 * @param currentSeries
+	 */
+	public static void populateSeriesTypesList(
+			Hashtable<String, Series> htSeriesNames, Combo cmbTypes,
+			ChartWizardContext context, Collection<IChartType> allChartType,
+			Series currentSeries )
+	{
+		IChartUIHelper helper = context.getUIFactory( ).createUIHelper( );
+		IChartType currentChartType = ChartUIUtil.getChartType( context.getModel( )
+				.getType( ) );
+
+		// Populate Series Types List
+		cmbTypes.removeAll( );
+		if ( helper.canCombine( currentChartType, context ) )
+		{
+			Orientation orientation = ( (ChartWithAxes) context.getModel( ) ).getOrientation( );
+			Iterator<IChartType> iterTypes = allChartType.iterator( );
+			while ( iterTypes.hasNext( ) )
+			{
+				IChartType type = iterTypes.next( );
+				Series newSeries = type.getSeries( );
+
+				if ( helper.canCombine( type, context ) )
+				{
+					if ( newSeries instanceof AreaSeries
+							&& context.getModel( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
+					{
+						continue;
+					}
+					if ( !( newSeries instanceof StockSeries )
+							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
+					{
+						String sDisplayName = newSeries.getDisplayName( );
+						htSeriesNames.put( sDisplayName, newSeries );
+						cmbTypes.add( sDisplayName );
+					}
+
+					// Select the same series type
+					if ( type.getName( )
+							.equals( context.getModel( ).getType( ) ) )
+					{
+						cmbTypes.select( cmbTypes.getItemCount( ) - 1 );
+					}
+				}
+			}
+			String sDisplayName = currentSeries.getDisplayName( );
+			cmbTypes.setText( sDisplayName );
+		}
+		else
+		{
+			String seriesName = currentSeries.getDisplayName( );
+			cmbTypes.add( seriesName );
+			cmbTypes.select( 0 );
+		}
+
 	}
 }

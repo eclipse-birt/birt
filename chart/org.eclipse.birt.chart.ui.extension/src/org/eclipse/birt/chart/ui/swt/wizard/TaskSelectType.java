@@ -38,7 +38,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
@@ -180,7 +179,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected static Hashtable<String, Series> htSeriesNames = null;
 	
-	private static String[] outputFormats, outputDisplayNames;
+	protected static String[] outputFormats, outputDisplayNames;
 	static
 	{
 		try
@@ -664,40 +663,6 @@ public class TaskSelectType extends SimpleTask implements
 			}
 		}
 		cmpSubTypes.layout( true );
-	}
-
-	private void populateSeriesTypes( Collection<IChartType> allChartType,
-			Series series, Orientation orientation )
-	{
-		Iterator<IChartType> iterTypes = allChartType.iterator( );
-		while ( iterTypes.hasNext( ) )
-		{
-			IChartType type = iterTypes.next( );
-			Series newSeries = type.getSeries( );
-
-			if ( type.canCombine( ) )
-			{
-				if ( IChartType.TWO_DIMENSION_WITH_DEPTH_TYPE.equals( getAvailableDimension( type,
-						sDimension ) )
-						&& newSeries instanceof AreaSeries )
-				{
-					continue;
-				}
-				// Horizontal Stock is not supported and can't be mixed with
-				// other charts
-				if ( !( newSeries instanceof StockSeries )
-						|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
-				{
-					String sDisplayName = newSeries.getDisplayName( );
-					htSeriesNames.put( sDisplayName, newSeries );
-					cbSeriesType.add( sDisplayName );
-				}
-				if ( type.getName( ).equals( chartModel.getType( ) ) )
-				{
-					cbSeriesType.select( cbSeriesType.getItemCount( ) - 1 );
-				}
-			}
-		}
 	}
 
 	/*
@@ -1312,24 +1277,13 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		
 		// Populate Series Types List
-		cbSeriesType.removeAll( );
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
-		if ( getCurrentChartType( ).canCombine( ) )
-		{
-			IChartType chartType = ChartUIUtil.getChartType( this.sType );
-			populateSeriesTypes( ChartUIExtensionsImpl.instance( )
-					.getUIChartTypeExtensions( getContext( ).getIdentifier( ) ),
-					series,
-					getAvailableOrientation( chartType,
-							getAvailableDimension( chartType, sDimension ),
-							this.orientation ) );
-		}
-		else
-		{
-			String seriesName = series.getDisplayName( );
-			cbSeriesType.add( seriesName );
-			cbSeriesType.select( 0 );
-		}
+		ChartUIExtensionUtil.populateSeriesTypesList( htSeriesNames,
+				cbSeriesType,
+				getContext( ),
+				ChartUIExtensionsImpl.instance( )
+						.getUIChartTypeExtensions( getContext( ).getIdentifier( ) ),
+				series );
 
 		// Select the appropriate current series type if overlay series exists
 		if ( this.chartModel instanceof ChartWithAxes )

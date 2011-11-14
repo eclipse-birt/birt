@@ -43,12 +43,12 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 {
 
 	private TristateCheckbox btnIncludingVisible;
-	
+
 	private TristateCheckbox btnWithinVisible;
-	
+
 	private FillChooserComposite cmbBlockColor;
 
-	private FillChooserComposite cmbClientAreaColor;
+	protected FillChooserComposite cmbClientAreaColor;
 
 	public void createControl( Composite parent )
 	{
@@ -69,6 +69,20 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			cmpBasic.setLayoutData( gd );
 		}
 
+		final int fillStyles = FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		createControlForAreaIncludingAxes( cmpBasic, fillStyles );
+		createControlForAreaWithinAxes( cmpBasic, fillStyles );
+
+		createButtonGroup( cmpContent );
+	}
+
+	protected void createControlForAreaIncludingAxes( Composite cmpBasic,
+			int fillStyles )
+	{
 		Label lblIncludingAxes = new Label( cmpBasic, SWT.NONE );
 		{
 			GridData gd = new GridData( );
@@ -80,11 +94,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
-		int fillStyles = FillChooserComposite.ENABLE_AUTO
-				| FillChooserComposite.ENABLE_GRADIENT
-				| FillChooserComposite.ENABLE_IMAGE
-				| FillChooserComposite.ENABLE_TRANSPARENT
-				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 		cmbBlockColor = new FillChooserComposite( cmpBasic,
 				SWT.DROP_DOWN | SWT.READ_ONLY,
 				fillStyles,
@@ -109,7 +118,11 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 				: TristateCheckbox.STATE_UNSELECTED )
 				: TristateCheckbox.STATE_GRAYED );
 		btnIncludingVisible.addSelectionListener( this );
+	}
 
+	protected void createControlForAreaWithinAxes( Composite cmpBasic,
+			int fillStyles )
+	{
 		Label lblWithinAxes = new Label( cmpBasic, SWT.NONE );
 		{
 			GridData gd = new GridData( );
@@ -159,36 +172,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		btnWithinVisible.setEnabled( is3DWallFloorSet );
 		if ( !btnWithinVisible.getEnabled( ) )
 		{
-			btnWithinVisible.setSelectionState( TristateCheckbox.STATE_UNSELECTED ); // Hide for 3D
+			// Hide for 3D
+			btnWithinVisible.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
 		}
 		btnWithinVisible.addSelectionListener( this );
-
-		// This control is only for testing chart engine and not exposed in UI
-		final Button btnCV = new Button( cmpBasic, SWT.CHECK );
-		btnCV.setText( "Plot Visible" ); //$NON-NLS-1$
-		btnCV.setSelection( getChart( ).getPlot( ).getClientArea( ).isVisible( ) );
-		btnCV.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				getChart( ).getPlot( )
-						.getClientArea( )
-						.setVisible( btnCV.getSelection( ) );
-
-			}
-		} );
-		btnCV.setVisible( false );
-
-		createButtonGroup( cmpContent );
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
@@ -211,7 +201,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{

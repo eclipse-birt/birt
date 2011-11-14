@@ -73,7 +73,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	private Label lblLegendBehavior;
 
-	private Combo cmbLegendBehavior;
+	protected Combo cmbLegendBehavior;
 
 	// private Button btnTooltip;
 
@@ -113,7 +113,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		lblTitle = new Label( cmpBasic, SWT.NONE );
 		lblTitle.setText( Messages.getString( "ChartLegendSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
-		List keys = null;
+		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
@@ -166,23 +166,11 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		// Label lblTooltip = new Label( cmpBasic, SWT.NONE );
-		// {
-		// lblTooltip.setText( Messages.getString(
-		// "ChartTitleSheetImpl.Label.Tooltip" ) ); //$NON-NLS-1$
-		// }
-		//		
-		// btnTooltip = new Button( cmpBasic, SWT.PUSH );
-		// {
-		// btnTooltip.setImage( UIHelper.getImage( "icons/obj16/tooltip.gif" )
-		// ); //$NON-NLS-1$
-		// btnTooltip.addSelectionListener( this );
-		// }
-
 		populateLists( );
 		initDataNListeners( );
 		createButtonGroup( cmpContent );
-		setState( getChart( ).getLegend( ).isSetVisible( ) ? getChart( ).getLegend( ).isVisible( ) : false );
+		setState( getChart( ).getLegend( ).isSetVisible( )
+				&& getChart( ).getLegend( ).isVisible( ) );
 	}
 
 	protected void initDataNListeners( )
@@ -248,6 +236,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		lblTitle.setEnabled( enabled );
 		txtTitle.setEnabled( enabled &&  getTitleVisibleSelection( ) );
 		btnTitleVisible.setEnabled( enabled );
+		lblLegendBehavior.setEnabled( enabled );
+		cmbLegendBehavior.setEnabled( enabled );
 		if ( isShowValueEnabled( ) )
 		{
 			lblShowValue.setEnabled( enabled );
@@ -255,10 +245,10 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		}
 
 		// Adjust the button selection according to visibility
-		Iterator buttons = getToggleButtons( ).iterator( );
+		Iterator<Button> buttons = getToggleButtons( ).iterator( );
 		while ( buttons.hasNext( ) )
 		{
-			Button toggle = (Button) buttons.next( );
+			Button toggle = buttons.next( );
 			toggle.setEnabled( enabled
 					&& getContext( ).isEnabled( SUBTASK_LEGEND
 							+ toggle.getData( ) ) );
@@ -286,7 +276,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
