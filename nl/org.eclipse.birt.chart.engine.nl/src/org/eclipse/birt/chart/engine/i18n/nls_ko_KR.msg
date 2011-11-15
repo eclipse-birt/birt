@@ -345,6 +345,12 @@ DateFormatType.Full.displayName=전체
 DateFormatDetail.Date.displayName=날짜
 DateFormatDetail.DateTime.displayName=날짜/시간
 
+DefaultValueProvider_BaseSeries=Base Series
+DefaultValueProvider_ChartSubType.Standard=Standard
+DefaultValueProvider_ChartSubType.StandardMeterChart=Standard Meter Chart
+DefaultValueProvider_ChartTitle=Chart Title
+DefaultValueProvider_ChartUnits.Points=Points
+
 LegendBehaviorType.None.displayName=없음
 LegendBehaviorType.ToggleSerieVisibility.displayName=계열 표시 유형 전환
 LegendBehaviorType.HighlightSerie.displayName=계열 강조

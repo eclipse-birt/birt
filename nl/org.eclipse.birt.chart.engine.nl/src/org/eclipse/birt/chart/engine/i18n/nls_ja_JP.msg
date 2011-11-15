@@ -345,6 +345,12 @@ DateFormatType.Full.displayName=Full Œ^
 DateFormatDetail.Date.displayName=“ú•t
 DateFormatDetail.DateTime.displayName=“ú
 
+DefaultValueProvider_BaseSeries=Base Series
+DefaultValueProvider_ChartSubType.Standard=Standard
+DefaultValueProvider_ChartSubType.StandardMeterChart=Standard Meter Chart
+DefaultValueProvider_ChartTitle=Chart Title
+DefaultValueProvider_ChartUnits.Points=Points
+
 LegendBehaviorType.None.displayName=‚È‚µ
 LegendBehaviorType.ToggleSerieVisibility.displayName=Œn—ñ‚Ì•\¦‚Æ”ñ•\¦‚ğØ‚è‘Ö‚¦‚é
 LegendBehaviorType.HighlightSerie.displayName=Œn—ñ‚ğ‹­’²•\¦‚·‚é

@@ -345,6 +345,12 @@ DateFormatType.Full.displayName=Vollständig
 DateFormatDetail.Date.displayName=Datum
 DateFormatDetail.DateTime.displayName=Datum/Uhrzeit
 
+DefaultValueProvider_BaseSeries=Base Series
+DefaultValueProvider_ChartSubType.Standard=Standard
+DefaultValueProvider_ChartSubType.StandardMeterChart=Standard Meter Chart
+DefaultValueProvider_ChartTitle=Chart Title
+DefaultValueProvider_ChartUnits.Points=Points
+
 LegendBehaviorType.None.displayName=Keine
 LegendBehaviorType.ToggleSerieVisibility.displayName=Sichtbarkeit der Datenreihe ein/aus
 LegendBehaviorType.HighlightSerie.displayName=Datenreihe markieren

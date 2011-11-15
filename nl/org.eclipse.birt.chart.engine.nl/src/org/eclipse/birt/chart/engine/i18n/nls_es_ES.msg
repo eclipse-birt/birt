@@ -345,6 +345,12 @@ DateFormatType.Full.displayName=Lleno
 DateFormatDetail.Date.displayName=Fecha
 DateFormatDetail.DateTime.displayName=Fecha Hora
 
+DefaultValueProvider_BaseSeries=Base Series
+DefaultValueProvider_ChartSubType.Standard=Standard
+DefaultValueProvider_ChartSubType.StandardMeterChart=Standard Meter Chart
+DefaultValueProvider_ChartTitle=Chart Title
+DefaultValueProvider_ChartUnits.Points=Points
+
 LegendBehaviorType.None.displayName=Ninguno
 LegendBehaviorType.ToggleSerieVisibility.displayName=Alternar visibilidad de serie
 LegendBehaviorType.HighlightSerie.displayName=Resaltar serie
