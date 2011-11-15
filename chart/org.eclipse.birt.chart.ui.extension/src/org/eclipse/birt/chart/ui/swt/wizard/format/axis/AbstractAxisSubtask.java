@@ -153,7 +153,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
 		{
-			cmpBasic.setLayout( new GridLayout( 3, false ) );
+			cmpBasic.setLayout( new GridLayout( 4, false ) );
 			cmpBasic.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
@@ -173,6 +173,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnReverse = new TristateCheckbox( cmpBasic, SWT.NONE );
 			btnReverse.setText( Messages.getString( "AbstractAxisSubtask.Label.ReverseCategory" ) ); //$NON-NLS-1$
 			gd = new GridData( );
+			gd.horizontalSpan = 2;
 			btnReverse.setLayoutData( gd );
 			btnReverse.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
@@ -184,19 +185,6 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Label lblTitle = new Label( cmpBasic, SWT.NONE );
 		lblTitle.setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
-		Composite titleComp = new Composite( cmpBasic, SWT.NONE );
-		GridLayout gl = new GridLayout();
-		gl.numColumns = 2;
-		gl.marginLeft = 0;
-		gl.marginRight = 0;
-		gl.marginTop = 0;
-		gl.marginBottom = 0;
-		titleComp.setLayout( gl );
-		
-		btnTitleContentAuto = new Button( titleComp, SWT.CHECK );
-		btnTitleContentAuto.setSelection( getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) == null );
-		btnTitleContentAuto.addSelectionListener( this );
-		
 		List<String> keys = null;
 		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
 		if ( serviceprovider != null )
@@ -204,7 +192,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			keys = serviceprovider.getRegisteredKeys( );
 		}
 
-		txtTitle = new ExternalizedTextEditorComposite( titleComp,
+		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
 				SWT.BORDER | SWT.SINGLE,
 				-1,
 				-1,
@@ -214,6 +202,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 230;
+			gd.horizontalIndent = 5;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
 		}
@@ -227,6 +216,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				: TristateCheckbox.STATE_GRAYED );
 		btnTitleVisible.addSelectionListener( this );
 
+		btnTitleContentAuto = new Button( cmpBasic, SWT.CHECK );
+		btnTitleContentAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnTitleContentAuto.setSelection( getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) == null );
+		btnTitleContentAuto.addSelectionListener( this );
+		
 		if ( getAxisAngleType( ) != AngleType.Z )
 		{
 			Label lblType = new Label( cmpBasic, SWT.NONE );
@@ -245,6 +239,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				GridData gdBTNFormatSpecifier = new GridData( );
 				gdBTNFormatSpecifier.horizontalIndent = -3;
+				gdBTNFormatSpecifier.horizontalSpan = 2;
 				btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 				//btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 				btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
@@ -264,7 +259,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				{
 					GridData gd = new GridData( );
 					gd.widthHint = 220;
-					gd.horizontalSpan = 2;
+					gd.horizontalSpan = 3;
 					gd.horizontalIndent = 5;
 					cmbOrigin.setLayoutData( gd );
 					cmbOrigin.addSelectionListener( this );
@@ -300,6 +295,9 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				}
 
 				btnTxtValueAuto = new Button( cmpBasic, SWT.CHECK );
+				GridData gd = new GridData();
+				gd.horizontalSpan = 2;
+				btnTxtValueAuto.setLayoutData( gd );
 				btnTxtValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 				btnTxtValueAuto.setSelection( !bValueOrigin
 						|| getAxisForProcessing( ).getOrigin( ).getValue( ) == null );
@@ -329,6 +327,9 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 
 		Composite cmpLabel = new Composite( cmpBasic, SWT.NONE );
+		GridData gd = new GridData( );
+		gd.horizontalSpan = 2;
+		cmpLabel.setLayoutData( gd );
 		{
 			GridLayout layout = new GridLayout( 2, false );
 			layout.marginHeight = 0;
@@ -338,7 +339,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		btnLabelVisible = new TristateCheckbox( cmpLabel, SWT.NONE );
 		btnLabelVisible.setText( Messages.getString( "AbstractAxisSubtask.Label.Visible2" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		btnLabelVisible.setLayoutData( gd );
 		btnLabelVisible.setSelectionState( getAxisForProcessing( ).getLabel( )
 				.isSetVisible( ) ? ( getAxisForProcessing( ).getLabel( )
@@ -348,6 +349,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		btnLabelVisible.addSelectionListener( this );
 
 		btnStaggered = new TristateCheckbox( cmpLabel, SWT.NONE );
+
 		btnStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
 		{
 			Axis ax = getAxisForProcessing( );

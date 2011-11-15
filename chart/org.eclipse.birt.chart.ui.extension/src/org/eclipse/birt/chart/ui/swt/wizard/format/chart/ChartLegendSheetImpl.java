@@ -95,7 +95,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 		Group cmpBasic = new Group( cmpContent, SWT.NONE );
 		{
-			GridLayout layout = new GridLayout( 3, false );
+			GridLayout layout = new GridLayout( 4, false );
 			layout.marginWidth = 10;
 			layout.marginHeight = 10;
 			cmpBasic.setLayout( layout );
@@ -107,7 +107,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		btnVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
 		{
 			GridData gdBTNVisible = new GridData( );
-			gdBTNVisible.horizontalSpan = 3;
+			gdBTNVisible.horizontalSpan = 4;
 			btnVisible.setLayoutData( gdBTNVisible );
 			btnVisible.setText( Messages.getString( "Shared.mne.Visibile_v" ) );//$NON-NLS-1$
 		}
@@ -115,28 +115,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		lblTitle = new Label( cmpBasic, SWT.NONE );
 		lblTitle.setText( Messages.getString( "ChartLegendSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
-		Composite titleComp = new Composite( cmpBasic, SWT.NONE );
-		GridLayout gl = new GridLayout( );
-		gl.numColumns = 2;
-		gl.marginLeft = 0;
-		gl.marginRight = 0;
-		gl.marginTop = 0;
-		gl.marginBottom = 0;
-		titleComp.setLayout( gl );
-
-		btnTitleContentAuto = new Button( titleComp, SWT.CHECK );
-		btnTitleContentAuto.setSelection( getChart( ).getLegend( )
-				.getTitle( )
-				.getCaption( )
-				.getValue( ) == null );
-		btnTitleContentAuto.addSelectionListener( this );
-		
 		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
 		}
-		txtTitle = new ExternalizedTextEditorComposite( titleComp,
+		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
 				SWT.BORDER,
 				-1,
 				-1,
@@ -152,6 +136,14 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 		btnTitleVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
 		btnTitleVisible.setText( Messages.getString( "Shared.mne.Visibile_s" ) ); //$NON-NLS-1$
+
+		btnTitleContentAuto = new Button( cmpBasic, SWT.CHECK );
+		btnTitleContentAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnTitleContentAuto.setSelection( getChart( ).getLegend( )
+				.getTitle( )
+				.getCaption( )
+				.getValue( ) == null );
+		btnTitleContentAuto.addSelectionListener( this );
 		
 		lblLegendBehavior = new Label( cmpBasic, SWT.NONE );
 		{
