@@ -200,6 +200,14 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 */
 	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>(
 			ModelUtil.MAP_CAPACITY_MEDIUM );
+	
+	/**
+	 * this map maintain the mapping of created ReportItemTheme and the created report items which should use the ReportItemTheme.
+	 * This map is used to update the ReportItemTheme name in report item after referred  ReportItemTheme is renamed.
+	 */
+	protected Map<ReportItemTheme, List<ReportItem>> ReportItemThemeMapping = new LinkedHashMap<ReportItemTheme, List<ReportItem>>(
+			ModelUtil.MAP_CAPACITY_MEDIUM );
+	
 
 	/**
 	 * Returns the newly created report design.
@@ -916,6 +924,20 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				assert targetTheme != null;
 				targetItem.setProperty( IReportItemModel.THEME_PROP,
 						new ElementRefValue( null, targetTheme.getName( ) ) );
+				List<ReportItem> reportItems = ReportItemThemeMapping
+						.get( targetTheme );
+				{
+					if ( reportItems == null )
+					{
+						reportItems = new ArrayList<ReportItem>( );
+						reportItems.add( targetItem );
+						ReportItemThemeMapping.put( targetTheme, reportItems );
+					}
+					else
+					{
+						reportItems.add( targetItem );
+					}
+				}
 
 			}
 
@@ -1515,8 +1537,26 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			// add external library theme
 			ContainerContext context = new ContainerContext( targetDesign,
 					IReportDesignModel.THEMES_SLOT );
+			String originalName = newTheme.getName( );
 			addElement( targetDesign, context, newTheme );
 			targetDesign.manageId( newTheme, true );
+			if ( !originalName.equals( newTheme.getName( ) ) )
+			{
+				// the theme is renamed, all referred item should be updated
+				List<ReportItem> reportItems = this.ReportItemThemeMapping
+						.get( newTheme );
+				if ( reportItems != null && !reportItems.isEmpty( ) )
+				{
+					String newName = newTheme.getName( );
+					for ( ReportItem reportItem : reportItems )
+					{
+						reportItem.setProperty( IReportItemModel.THEME_PROP,
+								new ElementRefValue( null, newName ) );
+					}
+				}
+
+			}
+
 		}
 	}
 
