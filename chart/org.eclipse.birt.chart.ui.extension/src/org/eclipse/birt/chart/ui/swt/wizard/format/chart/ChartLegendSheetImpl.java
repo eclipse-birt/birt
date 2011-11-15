@@ -75,6 +75,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	protected Combo cmbLegendBehavior;
 
+	private Button btnTitleContentAuto;
+
 	// private Button btnTooltip;
 
 	public void createControl( Composite parent )
@@ -113,18 +115,34 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		lblTitle = new Label( cmpBasic, SWT.NONE );
 		lblTitle.setText( Messages.getString( "ChartLegendSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
+		Composite titleComp = new Composite( cmpBasic, SWT.NONE );
+		GridLayout gl = new GridLayout( );
+		gl.numColumns = 2;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginBottom = 0;
+		titleComp.setLayout( gl );
+
+		btnTitleContentAuto = new Button( titleComp, SWT.CHECK );
+		btnTitleContentAuto.setSelection( getChart( ).getLegend( )
+				.getTitle( )
+				.getCaption( )
+				.getValue( ) == null );
+		btnTitleContentAuto.addSelectionListener( this );
+		
 		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
 		}
-		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
+		txtTitle = new ExternalizedTextEditorComposite( titleComp,
 				SWT.BORDER,
 				-1,
 				-1,
 				keys,
 				getContext( ).getUIServiceProvider( ),
-				getChart( ).getLegend( ).getTitle( ).getCaption( ).getValue( ) );
+				getLegendTitle( ) );
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 180;
@@ -143,7 +161,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		cmbLegendBehavior = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
 		{
 			GridData gridData = new GridData( );
-			gridData.widthHint = 150;
+			gridData.widthHint = 180;
 			cmbLegendBehavior.setLayoutData( gridData );
 			cmbLegendBehavior.addSelectionListener( this );
 			cmbLegendBehavior.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
@@ -233,8 +251,9 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	private void setState( boolean enabled )
 	{
+		btnTitleContentAuto.setEnabled( getTitleVisibleSelection() );
 		lblTitle.setEnabled( enabled );
-		txtTitle.setEnabled( enabled &&  getTitleVisibleSelection( ) );
+		txtTitle.setEnabled( enabled &&  getTitleVisibleSelection( ) && !btnTitleContentAuto.getSelection( ) );
 		btnTitleVisible.setEnabled( enabled );
 		lblLegendBehavior.setEnabled( enabled );
 		cmbLegendBehavior.setEnabled( enabled );
@@ -269,7 +288,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		// Make it compatible with old model
 		if ( getChart( ).getLegend( ).getTitle( ) == null )
 		{
-			org.eclipse.birt.chart.model.component.Label label = LabelImpl.create( );
+			org.eclipse.birt.chart.model.component.Label label = LabelImpl.createDefault( );
 			label.eAdapters( ).addAll( getChart( ).getLegend( ).eAdapters( ) );
 			getChart( ).getLegend( ).setTitle( label );
 		}
@@ -419,7 +438,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 					enabled = false;
 					break;
 			}
-			txtTitle.setEnabled( enabled );
+			txtTitle.setEnabled( enabled && !btnTitleContentAuto.getSelection( ) );
+			btnTitleContentAuto.setEnabled( enabled );
 			Button btnLegendTitle = getToggleButton( BUTTON_TITLE );
 			if ( !getTitleVisibleSelection( )
 					&& btnLegendTitle.getSelection( ) )
@@ -459,6 +479,19 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 					getChart( ).getLegend( ).setShowValue( false );
 			}
 		}
+		else if ( e.widget == btnTitleContentAuto )
+		{
+			if ( btnTitleContentAuto.getSelection( ) )
+			{
+				getChart( ).getLegend( ).getTitle( ).getCaption( ).setValue( null );
+			}
+			else
+			{
+				getChart( ).getLegend( ).getTitle( ).getCaption( ).setValue( "" ); //$NON-NLS-1$
+			}
+			txtTitle.setEnabled( !btnTitleContentAuto.getSelection( ) );
+			txtTitle.setText( getLegendTitle( ) );
+		}
 		// else if ( e.widget.equals( btnTooltip ) )
 		// {
 		// new TooltipDialog( cmpContent.getShell( ),
@@ -469,6 +502,16 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		// }
 	}
 
+	protected String getLegendTitle()
+	{
+		String value = getChart( ).getLegend( ).getTitle( ).getCaption( ).getValue( );
+		if ( value == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return value;
+	}
+	
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// Do nothing.

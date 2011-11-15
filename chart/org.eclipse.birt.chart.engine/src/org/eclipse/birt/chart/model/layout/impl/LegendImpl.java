@@ -2012,7 +2012,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return true if this block is legend.
 	 */
 	public boolean isLegend( )
 	{
@@ -2023,7 +2023,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return true if this is custom block.
 	 */
 	public boolean isCustom( )
 	{
@@ -2068,9 +2068,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * A convenience method to create an initialized 'Legendt' instance
+	 * A convenience method to create an initialized 'Legend' instance
 	 * 
-	 * @return
+	 * @return legend instance with setting 'isSet' flag.
 	 */
 	public static final Block create( )
 	{
@@ -2117,9 +2117,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 	
 	/**
-	 * A convenience method to create an initialized 'Legendt' instance
+	 * A convenience method to create an initialized 'Legend' instance
 	 * 
-	 * @return
+	 * @return legend instance without setting 'isSet' flag.
 	 */
 	public static final Block createDefault( )
 	{
@@ -2146,6 +2146,7 @@ public class LegendImpl extends BlockImpl implements Legend
 				LineStyle.SOLID_LITERAL,
 				1, false );
 		la.setOutline( lia );
+		la.getCaption( ).setValue( null );
 		setTitle( la );
 		titlePosition = Position.ABOVE_LITERAL;
 
@@ -2172,7 +2173,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	{
 		final Legend lg = this;
 		final Plot pl = cm.getPlot( );
-		final EList el = pl.getChildren( );
+		final EList<Block> el = pl.getChildren( );
 		final Position p = lg.getPosition( );
 		final boolean bLegendInsidePlot = p.getValue( ) == Position.INSIDE;
 		final boolean bPlotContainsLegend = el.indexOf( lg ) >= 0;

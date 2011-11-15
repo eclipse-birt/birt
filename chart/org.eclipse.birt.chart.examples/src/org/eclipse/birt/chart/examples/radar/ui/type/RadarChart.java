@@ -176,7 +176,6 @@ public class RadarChart extends DefaultChartTypeImpl
 		newChart.setType( Radar.TYPE_LITERAL );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
-//		newChart.setUnits( "Points" ); //$NON-NLS-1$
 		if ( newChart.getDimension( )
 				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 		{
@@ -189,21 +188,9 @@ public class RadarChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( getDefaultTitle( ) );
-
 		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
-//		sdY.setZOrder( 1 );
 		RadarSeries valueSeries = RadarSeriesImpl.createDefault( );
 
-//		LineAttributes lia = LineAttributesImpl.createDefault( null,
-//				LineStyle.SOLID_LITERAL,
-//				1 );
-//		valueSeries.setWebLineAttributes( lia );
-//
-//		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "Series 1" ); //$NON-NLS-1$
 
 		sdY.getSeries( ).add( valueSeries );
@@ -292,11 +279,10 @@ public class RadarChart extends DefaultChartTypeImpl
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) == null
-					|| title.getValue( ).trim( ).length( ) == 0
-					|| title.getValue( )
+			if ( title.getValue( ) != null
+					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 							.trim( )
-							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 			{
 				title.setValue( getDefaultTitle( ) );
 			}
@@ -347,14 +333,11 @@ public class RadarChart extends DefaultChartTypeImpl
 					seriesdefinitions.get( j ).getSeries( ).add( series );
 				}
 
-//				currentChart.getLegend( )
-//						.setItemType( LegendItemType.SERIES_LITERAL );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) == null
-						|| title.getValue( ).trim( ).length( ) == 0
-						|| title.getValue( )
+				if ( title.getValue( ) != null
+						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 								.trim( )
-								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 				{
 					title.setValue( getDefaultTitle( ) );
 				}

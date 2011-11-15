@@ -1087,9 +1087,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			ChartElementUtil.setDefaultValue( xAxisBase,
 					"titlePosition",//$NON-NLS-1$
 					Position.BELOW_LITERAL );
-			xAxisBase.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.X_Axis.title" ) ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( xAxisBase.getTitle( ),
 					"visible", false ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( xAxisBase, "primaryAxis", true ); //$NON-NLS-1$
@@ -1108,9 +1105,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
 					"titlePosition",//$NON-NLS-1$
 					Position.LEFT_LITERAL );
-			yAxisOrthogonal.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.Y_Axis.title" ) ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getTitle( )
 					.getCaption( )
 					.getFont( ), "rotation", 90 ); //$NON-NLS-1$

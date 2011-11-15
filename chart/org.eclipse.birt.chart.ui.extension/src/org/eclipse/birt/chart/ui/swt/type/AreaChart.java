@@ -243,11 +243,6 @@ public class AreaChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( getDefaultTitle( ) );
-
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
 			SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
@@ -281,9 +276,6 @@ public class AreaChart extends DefaultChartTypeImpl
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
 			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
-			zAxisAncillary.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
@@ -414,11 +406,10 @@ public class AreaChart extends DefaultChartTypeImpl
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) == null
-						|| title.getValue( ).trim( ).length( ) == 0
-						|| title.getValue( )
+				if ( title.getValue( ) != null
+						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 								.trim( )
-								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 				{
 					title.setValue( getDefaultTitle( ) );
 				}
@@ -553,11 +544,10 @@ public class AreaChart extends DefaultChartTypeImpl
 			}
 
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) == null
-					|| title.getValue( ).trim( ).length( ) == 0
-					|| title.getValue( )
+			if ( title.getValue( ) != null
+					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 							.trim( )
-							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 			{
 				title.setValue( getDefaultTitle( ) );
 			}
@@ -583,9 +573,6 @@ public class AreaChart extends DefaultChartTypeImpl
 					.clear( );
 
 			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
-			zAxisAncillary.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )

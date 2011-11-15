@@ -378,11 +378,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		( newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( getDefaultTitle( ) );
-
 		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
 		Series valueSeries = getSeries( false );
 
@@ -415,9 +410,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( ).clear( );
 
 			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
-			zAxisAncillary.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
 			newChart.getPrimaryBaseAxes( )[0].getAncillaryAxes( )
@@ -476,11 +468,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				currentChart.setType( fsTypeLiteral );
 				currentChart.setSubType( sNewSubType );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) == null
-						|| title.getValue( ).trim( ).length( ) == 0
-						|| title.getValue( )
+				if ( title != null
+						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 								.trim( )
-								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 				{
 					title.setValue( getDefaultTitle( ) );
 				}
@@ -671,11 +662,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			}
 
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) == null
-					|| title.getValue( ).trim( ).length( ) == 0
-					|| title.getValue( )
+			if ( title.getValue( ) != null
+					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 							.trim( )
-							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 			{
 				title.setValue( getDefaultTitle( ) );
 			}
@@ -701,9 +691,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					.clear( );
 
 			Axis zAxisAncillary = AxisImpl.createDefault( Axis.ANCILLARY_BASE );
-			zAxisAncillary.getTitle( )
-					.getCaption( )
-					.setValue( Messages.getString( "ChartWithAxesImpl.Z_Axis.title" ) ); //$NON-NLS-1$
 			zAxisAncillary.getOrigin( )
 					.setValue( NumberDataElementImpl.create( 0 ) );
 			( (ChartWithAxes) currentChart ).getPrimaryBaseAxes( )[0].getAncillaryAxes( )

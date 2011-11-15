@@ -49,6 +49,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		Listener
 {
 
+	private Button btnTitleContentAuto = null;
 	private ExternalizedTextEditorComposite txtTitle = null;
 	private FontDefinitionComposite fdcFont;
 	private TristateCheckbox btnVisible;
@@ -78,13 +79,29 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		{
 			lblTitle.setText( Messages.getString( "ChartTitleSheetImpl.Label.ChartTitle" ) ); //$NON-NLS-1$
 		}
+		
+		Composite titleComp = new Composite( cmpBasic, SWT.NONE );
+		GridLayout gl = new GridLayout( );
+		gl.numColumns = 2;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginBottom = 0;
+		titleComp.setLayout( gl );
+
+		btnTitleContentAuto = new Button( titleComp, SWT.CHECK );
+		btnTitleContentAuto.setSelection( getChart( ).getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.getValue( ) == null );
+		btnTitleContentAuto.addSelectionListener( this );
 
 		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
 		}
-		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
+		txtTitle = new ExternalizedTextEditorComposite( titleComp,
 				SWT.BORDER,
 				-1,
 				-1,
@@ -134,7 +151,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				true );
 		GridData gdFDCFont = new GridData( );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
-		gdFDCFont.widthHint = 200;
+		gdFDCFont.widthHint = 220;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );
@@ -276,16 +293,33 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			}
 			updateTextTitleState( );
 		}
+		else if ( e.widget == btnTitleContentAuto )
+		{
+			if ( btnTitleContentAuto.getSelection( ) )
+			{
+				getChart( ).getTitle( ).getLabel( ).getCaption( ).setValue( null );
+			}
+			else
+			{
+				String title = ChartUIUtil.getChartType( getChart().getType( ) ).getDefaultTitle( );
+				getChart( ).getTitle( ).getLabel( ).getCaption( ).setValue( title );
+			}
+			updateTextTitleState( );
+		}
 	}
 
 	protected void updateTextTitleState( )
 	{
+		btnTitleContentAuto.setEnabled( getChart( ).getTitle( ).isSetVisible( )
+				&& getChart( ).getTitle( ).isVisible( )
+				&& !isAutoTitle( ) );
 		txtTitle.setEnabled( isTitleEnabled( ) );
 		txtTitle.setText( getTitleText( ) );
 	}
 
 	protected void updateUIState( boolean enabled )
 	{
+		btnTitleContentAuto.setEnabled( enabled && !isAutoTitle( ) );
 		txtTitle.setEnabled( isTitleEnabled( ) );
 		btnAutoTitle.setEnabled( isAutoEnabled( ) );
 		setToggleButtonEnabled( BUTTON_TEXT, enabled );
@@ -308,8 +342,14 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		return getChart( ).getTitle( ).isSetVisible( )
 				&& getChart( ).getTitle( ).isVisible( )
-				&& !( getChart( ).getTitle( ).isSetAuto( ) && getChart( ).getTitle( )
-						.isAuto( ) );
+				&& getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) != null
+				&& !isAutoTitle( );
+	}
+
+	protected boolean isAutoTitle( )
+	{
+		return getChart( ).getTitle( ).isSetAuto( ) && getChart( ).getTitle( )
+				.isAuto( );
 	}
 
 	private String getTitleText( )
@@ -320,7 +360,8 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 					.createUIHelper( )
 					.getDefaultTitle( getContext( ) );
 		}
-		return getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( );
+		String title = getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( );
+		return ( title == null ) ? "" : title; //$NON-NLS-1$
 	}
 
 }

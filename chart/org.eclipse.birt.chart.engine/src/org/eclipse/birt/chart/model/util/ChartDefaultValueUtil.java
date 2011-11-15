@@ -46,7 +46,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * Check if current chart use auto series palette.
 	 * 
 	 * @param chart
-	 * @return
+	 * @return true if series palette is not set.
 	 */
 	public static boolean isAutoSeriesPalette( Chart chart )
 	{
@@ -148,7 +148,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * Returns default values of specified series object.
 	 * 
 	 * @param runtimeSeries specified series object.
-	 * @return
+	 * @return series object with default value.
 	 */
 	public static Series getSeriesDefault( Series runtimeSeries )
 	{
@@ -205,7 +205,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * Creates instance of default value chart according to specified chart type.
 	 * 
 	 * @param cm
-	 * @return
+	 * @return chart instance with default values.
 	 */
 	public static Chart createDefaultValueChartInstance(Chart cm )
 	{

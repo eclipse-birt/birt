@@ -276,6 +276,7 @@ public class DefaultValueProvider
 		ChartWithAxes newChart = ChartWithAxesImpl.create( );
 		newChart.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
 		newChart.setOrientation( Orientation.VERTICAL_LITERAL );
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( Messages.getString("DefaultValueProvider_ChartTitle") ); //$NON-NLS-1$
 
 		Axis axBase = newChart.getAxes( ).get( 0 );
 		axBase.getMarkerLines( ).add( MarkerLineImpl.create( axBase, null ) );
@@ -429,10 +430,11 @@ public class DefaultValueProvider
 	private static ChartWithoutAxes createChartWithoutAxes( )
 	{
 		ChartWithoutAxes newChart = ChartWithoutAxesImpl.create( );
-		newChart.setSubType( "Standard" ); //$NON-NLS-1$
-
+		newChart.setSubType( Messages.getString("DefaultValueProvider_ChartSubType.Standard") ); //$NON-NLS-1$
+		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( Messages.getString("DefaultValueProvider_ChartTitle") ); //$NON-NLS-1$
+		
 		SeriesDefinition sdX = createSeriesDefinition( 0 );
-		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
+		sdX.getQuery( ).setDefinition( Messages.getString("DefaultValueProvider_BaseSeries") ); //$NON-NLS-1$
 
 		SeriesDefinition sdY = createSeriesDefinition( 0 );
 		sdX.getSeriesDefinitions( ).add( sdY );
@@ -446,13 +448,13 @@ public class DefaultValueProvider
 	private static DialChart createDialChart( )
 	{
 		DialChart newChart = (DialChart) DialChartImpl.create( );
-		newChart.setSubType( "Standard Meter Chart" ); //$NON-NLS-1$
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
+		newChart.setSubType( Messages.getString("DefaultValueProvider_ChartSubType.StandardMeterChart") );  //$NON-NLS-1$
+		newChart.setUnits( Messages.getString("DefaultValueProvider_ChartUnits.Points") ); //$NON-NLS-1$
 		newChart.setDialSuperimposition( false );
 		newChart.getLegend( ).setItemType( LegendItemType.SERIES_LITERAL );
 
 		SeriesDefinition sdX = createSeriesDefinition( 0 );
-		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
+		sdX.getQuery( ).setDefinition( Messages.getString("DefaultValueProvider_BaseSeries") ); //$NON-NLS-1$
 
 		SeriesDefinition sdY = createSeriesDefinition( 0 );
 		sdX.getSeriesDefinitions( ).add( sdY );
@@ -503,9 +505,6 @@ public class DefaultValueProvider
 	{
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		sd.getSeries( ).add( SeriesImpl.create( ) );
-//		Palette p = PaletteImpl.create( ColorDefinitionImpl.GREY( ) );
-//		p.shift( paletteShift );
-//		sd.setSeriesPalette( p );
 		sd.getSeriesPalette( ).shift( paletteShift );
 		return sd;
 	}

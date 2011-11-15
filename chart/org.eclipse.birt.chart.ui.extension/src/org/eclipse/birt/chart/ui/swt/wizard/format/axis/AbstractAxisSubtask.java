@@ -111,6 +111,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	private Button btnFixLabelSpan;
 
 	private Button btnTxtValueAuto;
+
+	private Button btnTitleContentAuto;
 	
 	private static String KEY_TYPE_NAMES = "type_names"; //$NON-NLS-1$
 
@@ -182,6 +184,19 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Label lblTitle = new Label( cmpBasic, SWT.NONE );
 		lblTitle.setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
 
+		Composite titleComp = new Composite( cmpBasic, SWT.NONE );
+		GridLayout gl = new GridLayout();
+		gl.numColumns = 2;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginBottom = 0;
+		titleComp.setLayout( gl );
+		
+		btnTitleContentAuto = new Button( titleComp, SWT.CHECK );
+		btnTitleContentAuto.setSelection( getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) == null );
+		btnTitleContentAuto.addSelectionListener( this );
+		
 		List<String> keys = null;
 		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
 		if ( serviceprovider != null )
@@ -189,17 +204,16 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			keys = serviceprovider.getRegisteredKeys( );
 		}
 
-		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
+		txtTitle = new ExternalizedTextEditorComposite( titleComp,
 				SWT.BORDER | SWT.SINGLE,
 				-1,
 				-1,
 				keys,
 				serviceprovider,
-				getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) );
+				getTitleValue( ) );
 		{
 			GridData gd = new GridData( );
-			gd.widthHint = 250;
-			gd.horizontalIndent = 5;
+			gd.widthHint = 230;
 			txtTitle.setLayoutData( gd );
 			txtTitle.addListener( this );
 		}
@@ -353,6 +367,15 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		setStateOfLabel( );
 	}
 
+	protected String getTitleValue( )
+	{
+		if ( getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( );
+	}
+
 	protected void createLabelSpan( Composite cmpBasic )
 	{
 		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
@@ -407,11 +430,19 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private void setStateOfTitle( )
 	{
-		boolean isTitleEnabled = getAxisForProcessing( ).getTitle( )
+		btnTitleContentAuto.setEnabled( getAxisForProcessing( ).getTitle( )
 				.isSetVisible( )
-				&& getAxisForProcessing( ).getTitle( ).isVisible( );
+				&& getAxisForProcessing( ).getTitle( ).isVisible( ) );
+		boolean isTitleEnabled = isTitleEnabled( );
 		txtTitle.setEnabled( isTitleEnabled );
 		setToggleButtonEnabled( BUTTON_TITLE, isTitleEnabled );
+	}
+
+	protected boolean isTitleEnabled( )
+	{
+		return getAxisForProcessing( ).getTitle( ).isSetVisible( )
+				&& getAxisForProcessing( ).getTitle( ).isVisible( )
+				&& getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) != null;
 	}
 
 	private void setStateOfLabel( )
@@ -859,7 +890,27 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				getAxisForProcessing( ).setStaggered( btnStaggered.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
 		}
+		else if ( e.widget == btnTitleContentAuto )
+		{
+			if ( btnTitleContentAuto.getSelection( ) )
+			{
+				getAxisForProcessing( ).getTitle( )
+						.getCaption( )
+						.setValue( null );
+			}
+			else
+			{
+				getAxisForProcessing( ).getTitle( )
+						.getCaption( )
+						.setValue( getDefaultAxisTitle( ) );
+			}
+			setStateOfTitle( );
+			txtTitle.setText( getTitleValue( ) );
+		}
 	}
+
+	abstract protected String getDefaultAxisTitle( );
+	
 
 	protected void updateReverseStateByCategoryAxisUI(  )
 	{
@@ -883,9 +934,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		String sAxisTitle = Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.OrthogonalAxis" ); //$NON-NLS-1$
 		try
 		{
-			String sTitleString = getAxisForProcessing( ).getTitle( )
-					.getCaption( )
-					.getValue( );
+			String sTitleString = getTitleValue( );
 			int iSeparatorIndex = sTitleString.indexOf( ExternalizedTextEditorComposite.SEPARATOR );
 			if ( iSeparatorIndex > 0 )
 			{

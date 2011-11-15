@@ -2832,7 +2832,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * 
 	 * @param iAxisType
 	 *            The type of axis defined by Axis.BASE or Axis.ORTHOGONAL
-	 * @return
+	 * @return axis instance with 'isSet' flag.
 	 */
 	public static final Axis create( int iAxisType )
 	{
@@ -2932,7 +2932,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * 
 	 * @param iAxisType
 	 *            The type of axis defined by Axis.BASE or Axis.ORTHOGONAL
-	 * @return
+	 * @return axis instance without 'isSet' flag.
 	 */
 	public static final Axis createDefault( int iAxisType )
 	{
@@ -2968,7 +2968,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 
 		// AXIS TITLE
 		Label la = LabelImpl.createDefault( false );
-		la.getCaption( ).setValue( "Axis Title" ); //$NON-NLS-1$
+		la.getCaption( ).setValue( null );
 		try
 		{
 			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
