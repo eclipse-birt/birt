@@ -1628,6 +1628,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 		refactorCubeQueryDefinition( query );
 		setMeasureDataTypeForCubeQuery ( query );
 		QueryAdapter.adaptQuery( query );
+		
+		CubeHandle cubeHandle = null;
+		if ( this.cubeMetaDataHandleMap != null
+				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+		{
+			cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+		}
+		QueryValidator.validateTimeFunctionInCubeQuery( query, cubeHandle );
+		
 		dataEngine.getSession( ).getStopSign( ).start( );
 		setModuleHandleToAppContext( appContext );
 

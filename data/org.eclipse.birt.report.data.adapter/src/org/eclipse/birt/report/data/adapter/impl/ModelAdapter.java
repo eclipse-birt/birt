@@ -549,7 +549,7 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			baseTimePeriod = new TimePeriod( 0, getTimePeriodType( period1 ) );
+			baseTimePeriod = new TimePeriod( 0, DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
 		{
@@ -568,7 +568,7 @@ public class ModelAdapter implements IModelAdapter
 				}
 			}
 			baseTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
-					getTimePeriodType( period1 ) );
+					DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		else if ( IBuildInBaseTimeFunction.NEXT_N_PERIODS.equals( calculateType ) )
 		{
@@ -587,7 +587,7 @@ public class ModelAdapter implements IModelAdapter
 				}
 			}
 			baseTimePeriod = new TimePeriod( Integer.valueOf( n ),
-					getTimePeriodType( period1 ) );
+					DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		return baseTimePeriod;
 	}
@@ -703,7 +703,7 @@ public class ModelAdapter implements IModelAdapter
 				}
 			}
 			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
-					getTimePeriodType( period2 ) );
+					DataAdapterUtil.toTimePeriodType( period2 ) );
 		}
 		return relativeTimePeriod;
 	}
@@ -808,31 +808,5 @@ public class ModelAdapter implements IModelAdapter
 		}
 
 		return jsExpr;
-	}
-	
-	private TimePeriodType getTimePeriodType( String type )
-	{
-		if ( type.equals( TimePeriodType.YEAR.toString( ) ) )
-		{
-			return TimePeriodType.YEAR;
-		}
-		else if ( type.equals( TimePeriodType.QUARTER.toString( ) ) )
-		{
-			return TimePeriodType.QUARTER;
-		}
-		else if ( type.equals( TimePeriodType.MONTH.toString( ) ) )
-		{
-			return TimePeriodType.MONTH;
-		}
-		else if ( type.equals( TimePeriodType.WEEK.toString( ) ) )
-		{
-			return TimePeriodType.WEEK;
-		}
-		else if ( type.equals( TimePeriodType.DAY.toString( ) ) )
-		{
-			return TimePeriodType.DAY;
-		}
-		return null;
-	}
-	
+	}	
 }

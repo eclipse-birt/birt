@@ -40,6 +40,9 @@ public class ResourceConstants
 	public final static String CUBE_MISS_DATASET_ERROR = "cube.error.datasetmiss";
 	public final static String CUBE_JOINT_COLUMN_NOT_IN_LEVELS = "cube.jointColumnNotInLevels";
 	public final static String UNSUPPORTED_AGGR_IN_BINDING = "cube.unsupportedAggregationInBinding";
+	public final static String CUBE_QUERY_MISS_DIMENSION = "cube.query.error.dimensionMiss";
+	public final static String CUBE_QUERY_MISS_LEVEL = "cube.query.error.levelMiss";
+	public final static String MISS_TIME_TYPE_LEVEL = "cube.edge.error.levelMiss";
 	
 	public final static String TIMEFUNCITON_CURRENT_QUARTER= "timeFunction.CURRENT_QUARTER.name"; 
 	public final static String TIMEFUNCITON_CURRENT_QUARTER_DES = "timeFunction.CURRENT_QUARTER.description";
