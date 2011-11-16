@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -130,9 +129,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 				.isSetMinorGridsPerUnit( ) );
 		btnGridCountAuto.addListener( SWT.Selection, this );
 		
-		setState( getDialForProcessing( ).getMinorGrid( )
-				.getTickAttributes( )
-				.isVisible( ) );
+		setState( !ChartUIExtensionUtil.isSetInvisible( getDialForProcessing( ).getMinorGrid( )
+				.getTickAttributes( ) ) );
 
 		return cmpContent;
 	}
@@ -152,7 +150,7 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getMajorGrid( ),
 							"tickStyle",//$NON-NLS-1$
-							(TickStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
@@ -176,7 +174,7 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getMinorGrid( ),
 							"tickStyle",//$NON-NLS-1$
-							(TickStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
@@ -185,12 +183,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 							"visible",//$NON-NLS-1$
 							( (Boolean) event.data ).booleanValue( ),
 							isUnset );
-					setState( getDialForProcessing( ).getMinorGrid( )
-							.getTickAttributes( )
-							.isSetVisible( )
-							&& getDialForProcessing( ).getMinorGrid( )
-									.getTickAttributes( )
-									.isVisible( ) );
+					setState( !ChartUIExtensionUtil.isSetInvisible( getDialForProcessing( ).getMinorGrid( )
+							.getTickAttributes( ) ) );
 					break;
 			}
 		}

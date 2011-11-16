@@ -2170,6 +2170,7 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		final Label clab = LabelImpl.create( );
 		setCatLabel( clab );
 
+		setPaletteLineColor( true );
 	}
 	
 	protected void initDefault( )
@@ -2192,6 +2193,7 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		final Label clab = LabelImpl.createDefault( );
 		setCatLabel( clab );
 
+		paletteLineColor = true;
 	}
 
 	@Override

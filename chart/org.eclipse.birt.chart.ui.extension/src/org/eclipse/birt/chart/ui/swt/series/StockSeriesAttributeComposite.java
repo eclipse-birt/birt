@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -220,7 +219,7 @@ public class StockSeriesAttributeComposite extends Composite implements
 			{
 				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )

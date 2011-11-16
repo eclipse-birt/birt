@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -246,8 +245,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalAlignment = SWT.CENTER;
 				cmbTypes.setLayoutData( gd );
-				NameSet ns = ChartUIUtil.getCompatibleAxisType( ( (SeriesDefinition) axis.getSeriesDefinitions( )
-						.get( 0 ) ).getDesignTimeSeries( ) );
+				NameSet ns = ChartUIUtil.getCompatibleAxisType( axis.getSeriesDefinitions( )
+						.get( 0 )
+						.getDesignTimeSeries( ) );
 				cmbTypes.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
 				cmbTypes.select( axis.isSetType( ) ? ( ns.getSafeNameIndex( axis.getType( )
 						.getName( ) ) + 1 )
@@ -358,8 +358,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		private void updateBtnSideBySidStatus( )
 		{
 			btnSideBySide.setEnabled( ( angleType == AngleType.Y )
-					&& ( ( (SeriesDefinition) axis.getSeriesDefinitions( )
-							.get( 0 ) ).getDesignTimeSeries( ) instanceof BarSeries ) );
+					&& ( axis.getSeriesDefinitions( )
+							.get( 0 ).getDesignTimeSeries( ) instanceof BarSeries ) );
 		}
 
 		public void widgetSelected( SelectionEvent e )
@@ -474,7 +474,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				{
 					axisType = AxisType.TEXT_LITERAL;
 				}
-				BaseSampleData bsd = (BaseSampleData) getChart( ).getSampleData( )
+				BaseSampleData bsd = getChart( ).getSampleData( )
 						.getBaseSampleData( )
 						.get( 0 );
 				bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
@@ -501,7 +501,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						.size( );
 				for ( int i = 0; i < iOSDSize; i++ )
 				{
-					OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+					OrthogonalSampleData osd = getChart( ).getSampleData( )
 							.getOrthogonalSampleData( )
 							.get( i );
 					if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex

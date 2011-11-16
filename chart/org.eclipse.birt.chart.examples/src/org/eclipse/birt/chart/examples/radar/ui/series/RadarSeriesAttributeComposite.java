@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
@@ -27,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -160,7 +160,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
 			btnFillPoly.addListener( SWT.Selection, this );
-			btnFillPoly.setEnabled( btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			btnFillPoly.setEnabled( ChartUIExtensionUtil.canEnableUI( btnConnectEndPoints ) );
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
@@ -176,8 +176,8 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 		mec = new MarkerEditorComposite( grpMarker, series.getMarker( ), RadarSeriesImpl.create( ).getMarker( ) );
 
-		enableLineSettings( series.getWebLineAttributes( ).isVisible( ) );
-		enableLineSettings( series.getLineAttributes( ).isVisible( ) );
+		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( series.getWebLineAttributes( ) ) );
+		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( series.getLineAttributes( ) ) );
 	}
 
 	/*
@@ -198,14 +198,13 @@ public class RadarSeriesAttributeComposite extends Composite implements
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableLineSettings( series.getLineAttributes( ).isSetVisible( )
-						&& series.getLineAttributes( ).isVisible( ) );
+				enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( series.getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -241,7 +240,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 					"connectEndpoints",//$NON-NLS-1$
 					btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
-			btnFillPoly.setEnabled( btnConnectEndPoints.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			btnFillPoly.setEnabled( ChartUIExtensionUtil.canEnableUI( btnConnectEndPoints ) );
 		}
 		else if ( event.widget.equals( mec ) )
 		{

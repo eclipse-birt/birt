@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
@@ -203,7 +202,7 @@ public class DialLabelSheet extends AbstractPopupSheet
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :

@@ -211,7 +211,7 @@ public class LineAttributesComposite extends Composite implements
 		cmpContent = new Composite( this, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		bEnabled = laCurrent.isVisible( );
+		bEnabled = !ChartUIExtensionUtil.isSetInvisible( laCurrent );
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
@@ -228,7 +228,7 @@ public class LineAttributesComposite extends Composite implements
 			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = ( state == TristateCheckbox.STATE_SELECTED );
+				bEnableUI = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			}
 		}
 
@@ -330,7 +330,7 @@ public class LineAttributesComposite extends Composite implements
 
 	public void setAttributesEnabled( boolean bState )
 	{
-		boolean bEnableUI = this.laCurrent.isVisible( );
+		boolean bEnableUI = !ChartUIExtensionUtil.isSetInvisible( laCurrent );
 		if ( this.bEnableVisibility )
 		{
 			btnVisible.setEnabled( bState );
@@ -378,7 +378,7 @@ public class LineAttributesComposite extends Composite implements
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED;
 			btnVisible.setSelectionState( state );
-			boolean bUIEnabled = ( state == TristateCheckbox.STATE_SELECTED );
+			boolean bUIEnabled = ( ChartUIExtensionUtil.canEnableUI( btnVisible ) );
 			if ( bEnableStyles )
 			{
 				cmbStyle.setEnabled( bUIEnabled );
@@ -437,7 +437,7 @@ public class LineAttributesComposite extends Composite implements
 				return;
 			}
 			// Enable/Disable UI Elements
-			boolean bEnableUI = ( state == 1 );
+			boolean bEnableUI = ( ChartUIExtensionUtil.canEnableUI( btnVisible ) );
 			if ( bEnableStyles )
 			{
 				lblStyle.setEnabled( bEnableUI );

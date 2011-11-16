@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * AxisScaleSheet
@@ -38,11 +39,22 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		this.axisAngleType = axisAngleType;
 	}
 
-	private Axis getAxisForProcessing( )
+	protected Axis getAxisForProcessing( )
 	{
 		return axis;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet#getComponent(org.eclipse.swt.widgets.Composite)
+	 */
+	protected Composite getComponent( Composite parent )
+	{
+		Composite comp = super.getComponent( parent );
+		this.btnShowOutside.setVisible( !getAxisForProcessing( ).isSetType( )
+				|| getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+		return comp;
+	}
+	
 	protected Scale getScale( )
 	{
 		return getAxisForProcessing( ).getScale( );
@@ -65,7 +77,8 @@ public class AxisScaleSheet extends AbstractScaleSheet
 	{
 		// Bugzilla#103961 Marker line and range only work for non-category
 		// style X-axis,
-		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL );
+		boolean bEnabled = ( !getAxisForProcessing( ).isSetCategoryAxis( ) || !getAxisForProcessing( ).isCategoryAxis( ) )
+				&& ( !getAxisForProcessing( ).isSetType( ) || getAxisForProcessing( ).getType( ) != AxisType.TEXT_LITERAL );
 		setState( bEnabled );
 		// Show outside is only available in Y axis
 		if ( axisAngleType != AngleType.Y )
@@ -84,13 +97,13 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		boolean bAxisX = ( axisAngleType == AngleType.X );
 		boolean bEnableAutoExpand = btnStepAuto.getSelection( )
 				&& bAxisX
-				&& !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL )
-				&& !( getAxisForProcessing( ).isCategoryAxis( ) );
+				&& ( !getAxisForProcessing( ).isSetType( ) || !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL ) )
+				&& ( !getAxisForProcessing( ).isSetCategoryAxis( ) || !( getAxisForProcessing( ).isCategoryAxis( ) ) );
 
 		btnAutoExpand.setEnabled( bEnableAutoExpand );
 
-		if ( getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL
-				&& !getAxisForProcessing( ).isCategoryAxis( ) )
+		if ( ( !getAxisForProcessing( ).isSetType( ) || getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL )
+				&& ( getAxisForProcessing( ).isSetCategoryAxis( ) || !getAxisForProcessing( ).isCategoryAxis( )  ) )
 		{
 			if ( !getAxisForProcessing( ).getScale( ).isSetStepNumber( ) )
 			{

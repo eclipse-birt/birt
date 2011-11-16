@@ -468,7 +468,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				currentChart.setType( fsTypeLiteral );
 				currentChart.setSubType( sNewSubType );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title != null
+				if ( title != null && title.getValue( ) != null 
 						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 								.trim( )
 								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
@@ -662,7 +662,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			}
 
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) != null
+			if ( title != null && title.getValue( ) != null
 					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 							.trim( )
 							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )

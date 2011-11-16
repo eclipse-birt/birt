@@ -113,10 +113,10 @@ public class StockSeriesUIProvider extends DefaultSeriesUIProvider
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException
 	{
-		Iterator iterEntries = series.getDataDefinition( ).iterator( );
+		Iterator<Query> iterEntries = series.getDataDefinition( ).iterator( );
 		while ( iterEntries.hasNext( ) )
 		{
-			Query query = (Query) iterEntries.next( );
+			Query query = iterEntries.next( );
 			DataType dataType = idsp.getDataType( query.getDefinition( ) );
 			if ( dataType == DataType.TEXT_LITERAL
 					|| dataType == DataType.DATE_TIME_LITERAL )

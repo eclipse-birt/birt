@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
@@ -140,7 +139,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			lblValue.setText( Messages.getString( "SeriesTrendlineSheet.Label.Label&" ) ); //$NON-NLS-1$ 
 		}
 
-		List keys = null;
+		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
@@ -321,7 +320,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				.getInsets( ) );
 
 		populateLists( );
-		setState( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+		setState( ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 		return cmpContent;
 	}
 
@@ -409,7 +408,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLineAttributes( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
@@ -439,7 +438,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 					ChartElementUtil.setEObjectAttribute( getTrendline( ).getLabel( )
 							.getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
@@ -498,7 +497,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				getTrendline( ).getLabel( )
 						.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			}
-			setState( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			setState( ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 		}
 		// else if ( e.widget.equals( cmbPosition ) )
 		// {

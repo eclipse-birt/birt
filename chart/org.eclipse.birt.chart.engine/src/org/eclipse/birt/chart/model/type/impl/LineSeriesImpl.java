@@ -867,12 +867,12 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		// changed
 
 		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			if ( i == iSeriesDefinitionIndex )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
+				OrthogonalSampleData osd = osdList.get( i );
 				osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
 				currentSampleData.getOrthogonalSampleData( ).set( i, osd );
 			}
@@ -921,7 +921,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return line series instance with setting 'isSet' flag.
 	 */
 	public static Series create( ) // SUBCLASSED BY ScatterSeriesImpl
 	{
@@ -961,7 +961,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return line series instance without setting 'isSet' flag.
 	 */
 	public static Series createDefault( ) // SUBCLASSED BY ScatterSeriesImpl
 	{

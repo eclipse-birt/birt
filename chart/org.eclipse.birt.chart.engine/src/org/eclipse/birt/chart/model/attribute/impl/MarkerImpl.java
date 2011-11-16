@@ -752,7 +752,7 @@ public class MarkerImpl extends EObjectImpl implements Marker
 	 * many cases. Using the setFillSimple to set the fill faster.
 	 * 
 	 * @param src
-	 * @return
+	 * @return marker instance
 	 */
 	public static final Marker copyInstanceNoFill( Marker src )
 	{

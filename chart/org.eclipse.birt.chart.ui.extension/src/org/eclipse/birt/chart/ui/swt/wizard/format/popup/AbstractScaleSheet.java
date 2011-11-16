@@ -349,7 +349,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected void setState( )
 	{
-		// Could be overriden if needed
+		// Could be override if needed
 		setState( true );
 	}
 

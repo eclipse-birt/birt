@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
@@ -248,11 +247,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 			btnCurve.addSelectionListener( this );
 		}
 
-		enableLineSettings( ( (BubbleSeries) series ).getLineAttributes( )
-				.isVisible( ) );
-		
-		enableAccLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
-				.isVisible( ) );
+		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
+		enableAccLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
 
 		populateLists( );
 	}
@@ -280,21 +276,21 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( btnCurve ) )
 		{
-			ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ),
+			ChartElementUtil.setEObjectAttribute( ( series ),
 					"curve", //$NON-NLS-1$
 					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
-			ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ),
+			ChartElementUtil.setEObjectAttribute( ( series ),
 					"paletteLineColor", //$NON-NLS-1$
 					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( cmbOrientation ) )
 		{
-			ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ),
+			ChartElementUtil.setEObjectAttribute( ( series ),
 					"accOrientation", //$NON-NLS-1$
 					Orientation.getByName( LiteralHelper.orientationSet.getNameByDisplayName( cmbOrientation.getText( ) ) ),
 					cmbOrientation.getSelectionIndex( ) == 0 );
@@ -326,16 +322,13 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableLineSettings( ( (BubbleSeries) series ).getLineAttributes( )
-						.isSetVisible( )
-						&& ( (BubbleSeries) series ).getLineAttributes( )
-								.isVisible( ) );
+				enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getLineAttributes( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -359,16 +352,13 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableAccLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
-						.isSetVisible( )
-						&& ( (BubbleSeries) series ).getAccLineAttributes( )
-								.isVisible( ) );
+				enableAccLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getAccLineAttributes( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )

@@ -19,16 +19,14 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.jface.window.Window;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -93,7 +91,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isPositionEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = false;
+		attributesContext.isVisibilityEnabled = ChartUIExtensionUtil.canEnableUI( btnWebLabels );
 		if ( series.getWebLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
@@ -108,7 +106,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 				null,
 				series.getWebLabel( ),
 				getChart( ).getUnits( ) );
-		webLabelAttr.setEnabled( series.isShowWebLabels( ) );
+		webLabelAttr.setEnabled( !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) ) );
 		GridData wla = new GridData( GridData.FILL_HORIZONTAL );
 		wla.horizontalSpan = 2;
 		webLabelAttr.setLayoutData( wla );
@@ -126,8 +124,8 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 			btnWLFormatSpecifier.setText( Messages.getString( "Format.Button.Web.Label" ) ); //$NON-NLS-1$
 		}
 
-		webLabelAttr.setEnabled( series.isShowWebLabels( ) );
-		btnWLFormatSpecifier.setEnabled( series.isShowWebLabels( ) );
+		webLabelAttr.setEnabled( !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) ) );
+		btnWLFormatSpecifier.setEnabled( !( series.isSetShowCatLabels( ) && !series.isShowWebLabels( ) ) );
 
 		return cmpContent;
 	}
@@ -164,7 +162,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 					ChartElementUtil.setEObjectAttribute( series.getWebLabel( )
 							.getOutline( ),
 							"style",//$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
@@ -197,7 +195,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 					"showWebLabels",//$NON-NLS-1$
 					btnWebLabels.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnWebLabels.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
-			boolean enabled = series.isSetShowWebLabels( ) && series.isShowWebLabels( );
+			boolean enabled = !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) );
 			webLabelAttr.setEnabled( enabled );
 			btnWLFormatSpecifier.setEnabled( enabled );
 		}

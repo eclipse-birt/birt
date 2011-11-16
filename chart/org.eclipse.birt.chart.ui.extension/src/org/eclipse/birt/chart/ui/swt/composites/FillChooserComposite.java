@@ -1234,10 +1234,10 @@ public class FillChooserComposite extends Composite implements
 			this.addListener( SWT.FocusIn, this );
 		}
 
-		public Color getColor( )
-		{
-			return colorSelection;
-		}
+//		public Color getColor( )
+//		{
+//			return colorSelection;
+//		}
 
 		public void setColor( Color color )
 		{

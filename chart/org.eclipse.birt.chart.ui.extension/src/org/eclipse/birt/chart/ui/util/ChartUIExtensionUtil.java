@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.util;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,9 +28,11 @@ import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -153,5 +157,57 @@ public class ChartUIExtensionUtil
 			cmbTypes.select( 0 );
 		}
 
+	}
+	
+	/**
+	 * Check if the state of specified button allows to enable UI component.
+	 * 
+	 * @param button
+	 * @return true if the state of specified button allows to enable UI component.
+	 */
+	public static boolean canEnableUI( TristateCheckbox button )
+	{
+		return button.getSelectionState( ) != TristateCheckbox.STATE_UNSELECTED;
+	}
+	
+	/**
+	 * Checks if specified EMF object is set invisible.
+	 * 
+	 * @param obj
+	 * @return true if specified EMF object is set invisible.
+	 */
+	public static boolean isSetInvisible( EObject obj )
+	{
+		boolean isSetInvisible = false;
+		try
+		{
+			Method m;
+			m = obj.getClass( ).getMethod( "isSetVisible" ); //$NON-NLS-1$
+			isSetInvisible = (Boolean)m.invoke( obj );
+			
+			m = obj.getClass( ).getMethod( "isVisible" ); //$NON-NLS-1$
+			isSetInvisible = isSetInvisible && !( (Boolean)m.invoke( obj ) );
+		}
+		catch ( SecurityException e )
+		{
+			// Do nothing.
+		}
+		catch ( NoSuchMethodException e )
+		{
+			// Do nothing.
+		}
+		catch ( IllegalArgumentException e )
+		{
+			// Do nothing.
+		}
+		catch ( IllegalAccessException e )
+		{
+			// Do nothing.
+		}
+		catch ( InvocationTargetException e )
+		{
+			// Do nothing.
+		}
+		return isSetInvisible;
 	}
 }

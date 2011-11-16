@@ -588,7 +588,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			btnMarkerSizeAuto = new Button(grpSize, SWT.CHECK );
 			btnMarkerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 			btnMarkerSizeAuto.setSelection( !getMarker().isSetSize( ) );
-			iscMarkerSize.setEnabled( ( btnMarkerVisible.getSelectionState( ) != TristateCheckbox.STATE_GRAYED )
+			iscMarkerSize.setEnabled( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible )
 					&& !btnMarkerSizeAuto.getSelection( ) );
 			btnMarkerSizeAuto.addListener( SWT.Selection, this );
 			
@@ -639,8 +639,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						: TristateCheckbox.STATE_GRAYED );
 				updateOutlineBtn( );
 			}
-			setEnabledState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
-			setMarkerTypesState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED && !btnAutotype.getSelection( ) );
+			setEnabledState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
+			setMarkerTypesState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible )
+					&& !btnAutotype.getSelection( ) );
 		}
 
 		void widgetSelected( SelectionEvent e )
@@ -651,7 +652,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						"visible", //$NON-NLS-1$
 						btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 						btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
-				setEnabledState( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				setEnabledState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
 				cnvMarker.redraw( );
 				updateOutlineBtn( );
 			}
@@ -968,7 +969,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		
 		private void updateOutlineBtn()
 		{
-			btnOutline.setEnabled( btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			btnOutline.setEnabled( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
 		}
 
 	}

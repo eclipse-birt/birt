@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
@@ -66,7 +64,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 		}
 
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isVisibilityEnabled = false;
+		attributesContext.isVisibilityEnabled = !ChartUIExtensionUtil.isSetInvisible( getChart( ).getTitle( ) );
 		attributesContext.isFontAlignmentEnabled = false;
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
@@ -83,7 +81,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 			gdLACTitle.verticalSpan = 2;
 			lacTitle.setLayoutData( gdLACTitle );
 			lacTitle.addListener( this );
-			lacTitle.setEnabled( getLegend( ).getTitle( ).isVisible( ) );
+			lacTitle.setEnabled( !ChartUIExtensionUtil.isSetInvisible( getLegend( ).getTitle( ) ) );
 			lacTitle.setDefaultLabelValue( DefaultValueProvider.defLegend( ).getTitle( ) );
 		}
 
@@ -112,7 +110,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getLegend( ),
 							"titlePosition", //$NON-NLS-1$
-							(Position) event.data,
+							event.data,
 							isUnset );
 					break;
 					
@@ -138,7 +136,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 					ChartElementUtil.setEObjectAttribute( getLegend( ).getTitle( )
 							.getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 					

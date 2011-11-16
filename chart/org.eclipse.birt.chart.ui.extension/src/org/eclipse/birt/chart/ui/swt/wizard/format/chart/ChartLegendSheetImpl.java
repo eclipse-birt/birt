@@ -154,6 +154,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gridData = new GridData( );
 			gridData.widthHint = 180;
+			gridData.horizontalSpan = 2;
 			cmbLegendBehavior.setLayoutData( gridData );
 			cmbLegendBehavior.addSelectionListener( this );
 			cmbLegendBehavior.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
@@ -179,8 +180,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		populateLists( );
 		initDataNListeners( );
 		createButtonGroup( cmpContent );
-		setState( getChart( ).getLegend( ).isSetVisible( )
-				&& getChart( ).getLegend( ).isVisible( ) );
+		setState( !ChartUIExtensionUtil.isSetInvisible( getChart( ).getLegend( ) ) );
 	}
 
 	protected void initDataNListeners( )
@@ -388,7 +388,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			{
 				case TristateCheckbox.STATE_GRAYED :
 					getChart( ).getLegend( ).unsetVisible( );
-					enabled = false;
+					enabled = true;
 					break;
 				case TristateCheckbox.STATE_SELECTED :
 					getChart( ).getLegend( ).setVisible( true );
@@ -419,7 +419,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			{
 				case TristateCheckbox.STATE_GRAYED :
 					getChart( ).getLegend( ).getTitle( ).unsetVisible( );
-					enabled = false;
+					enabled = true;
 					break;
 				case TristateCheckbox.STATE_SELECTED :
 					getChart( ).getLegend( ).getTitle( ).setVisible( true );
@@ -511,6 +511,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 
 	private boolean getTitleVisibleSelection()
 	{
-		return btnTitleVisible.getSelectionState() == TristateCheckbox.STATE_SELECTED;
+		return ChartUIExtensionUtil.canEnableUI( btnTitleVisible );
 	}
 }

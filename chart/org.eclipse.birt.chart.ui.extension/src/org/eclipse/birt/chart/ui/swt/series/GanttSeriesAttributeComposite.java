@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
@@ -181,7 +180,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			btnPalette.addSelectionListener( this );
 		}
 
-		// Layout for Outine
+		// Layout for Outline
 		grpOutline = new Group( cmpGroup, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_BOTH );
 		grpOutline.setLayout( new FillLayout( ) );
@@ -246,13 +245,13 @@ public class GanttSeriesAttributeComposite extends Composite
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				btnPalette.setEnabled( !isUnset || ( (Boolean) event.data ).booleanValue( ) );
+				btnPalette.setEnabled( !( !isUnset && !( (Boolean) event.data ).booleanValue( ) ) );
 			}
 			else if ( event.type == GanttLineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( series.getConnectionLine( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == GanttLineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -281,7 +280,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			{
 				ChartElementUtil.setEObjectAttribute( series.getOutline( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )

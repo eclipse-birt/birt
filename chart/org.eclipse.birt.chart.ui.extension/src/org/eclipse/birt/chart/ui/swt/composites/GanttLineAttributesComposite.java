@@ -61,7 +61,7 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private transient boolean bEnableVisibility = true;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	public static final int STYLE_CHANGED_EVENT = 1;
 
@@ -130,7 +130,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		cmpContent = new Composite( this, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		bEnabled = laCurrent.isVisible( );
+		bEnabled = !ChartUIExtensionUtil.isSetInvisible( laCurrent );
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
@@ -169,7 +169,7 @@ public class GanttLineAttributesComposite extends Composite implements
 			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				bEnableUI = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			}
 		}
 
@@ -268,7 +268,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		if ( this.bEnableVisibility )
 		{
 			btnVisible.setEnabled( bState );
-			bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			bEnableUI = ChartUIExtensionUtil.canEnableUI( btnVisible );
 		}
 		if ( this.bEnableStyles )
 		{
@@ -310,9 +310,10 @@ public class GanttLineAttributesComposite extends Composite implements
 			}
 			else
 			{
-				btnVisible.setSelectionState( attributes.isVisible( ) ? TristateCheckbox.STATE_SELECTED : TristateCheckbox.STATE_UNSELECTED );
+				btnVisible.setSelectionState( attributes.isVisible( ) ? TristateCheckbox.STATE_SELECTED
+						: TristateCheckbox.STATE_UNSELECTED );
 			}
-			boolean bUIEnabled = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			boolean bUIEnabled = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			if ( bEnableStyles )
 			{
 				cmbStyle.setEnabled( bUIEnabled );
@@ -387,7 +388,7 @@ public class GanttLineAttributesComposite extends Composite implements
 				return;
 			}
 			// Enable/Disable UI Elements
-			boolean bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			boolean bEnableUI = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			if ( bEnableStyles )
 			{
 				lblStyle.setEnabled( bEnableUI );
@@ -425,7 +426,7 @@ public class GanttLineAttributesComposite extends Composite implements
 			se.data = data;
 			se.type = iEventType;
 			se.detail = detail;
-			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+			vListeners.get( iL ).handleEvent( se );
 		}
 	}
 

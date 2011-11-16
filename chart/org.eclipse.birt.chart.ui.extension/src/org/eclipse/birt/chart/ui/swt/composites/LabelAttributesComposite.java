@@ -107,7 +107,7 @@ public class LabelAttributesComposite extends Composite implements
 
 	private transient ExternalizedTextEditorComposite txtLabel = null;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	public static final int VISIBILITY_CHANGED_EVENT = 1;
 
@@ -325,7 +325,7 @@ public class LabelAttributesComposite extends Composite implements
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -382,7 +382,7 @@ public class LabelAttributesComposite extends Composite implements
 			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				bEnableUI = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			}
 		}
 
@@ -533,7 +533,7 @@ public class LabelAttributesComposite extends Composite implements
 		boolean bEnableUI = true;
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			bEnableUI = ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			bEnableUI = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			btnVisible.setEnabled( bState );
 		}
 
@@ -593,7 +593,8 @@ public class LabelAttributesComposite extends Composite implements
 			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
-			setVisibleState( ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED) && btnVisible.isEnabled( ) );
+			setVisibleState( ChartUIExtensionUtil.canEnableUI( btnVisible )
+					&& btnVisible.isEnabled( ) );
 		}
 
 		if ( attributesContext.isLabelEnabled )
@@ -662,7 +663,7 @@ public class LabelAttributesComposite extends Composite implements
 	{
 		for ( int iL = 0; iL < vListeners.size( ); iL++ )
 		{
-			( (Listener) vListeners.get( iL ) ).handleEvent( e );
+			vListeners.get( iL ).handleEvent( e );
 		}
 	}
 
@@ -699,10 +700,12 @@ public class LabelAttributesComposite extends Composite implements
 		}
 		else if ( e.widget == btnVisible )
 		{
-			eLabel.data = Boolean.valueOf( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
 			eLabel.type = VISIBILITY_CHANGED_EVENT;
+			eLabel.data = Boolean.valueOf( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			eLabel.detail = btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED ? ChartUIExtensionUtil.PROPERTY_UNSET
+					: ChartUIExtensionUtil.PROPERTY_UPDATE;
 
-			setVisibleState( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			setVisibleState( ChartUIExtensionUtil.canEnableUI( btnVisible ) );
 		}
 		fireEvent( eLabel );
 	}

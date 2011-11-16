@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -137,7 +135,7 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getSeriesForProcessing( ),
 							"titlePosition", //$NON-NLS-1$
-							(Position) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
@@ -155,7 +153,7 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :

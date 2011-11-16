@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -193,10 +192,7 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			btnCurve.addSelectionListener( this );
 		}
 
-		enableLinePaletteSetting( ( (DifferenceSeries) series ).getLineAttributes( )
-				.isVisible( )
-				|| ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.isVisible( ) );
+		enableLinePaletteSetting( canEnableLinePalette( ) );
 	}
 
 	public Point getPreferredSize( )
@@ -213,14 +209,14 @@ public class DifferenceSeriesAttributeComposite extends Composite
 	{
 		if ( e.getSource( ).equals( btnCurve ) )
 		{
-			ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ),
+			ChartElementUtil.setEObjectAttribute( series,
 					"curve", //$NON-NLS-1$
 					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
-			ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ),
+			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor", //$NON-NLS-1$
 					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
@@ -252,18 +248,13 @@ public class DifferenceSeriesAttributeComposite extends Composite
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableLinePaletteSetting( ( ( (DifferenceSeries) series ).getLineAttributes( )
-						.isSetVisible( ) && ( (DifferenceSeries) series ).getLineAttributes( )
-						.isVisible( ) )
-						|| ( ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-								.isSetVisible( ) && ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-								.isVisible( ) ) );
+				enableLinePaletteSetting( canEnableLinePalette( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getLineAttributes( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -287,18 +278,13 @@ public class DifferenceSeriesAttributeComposite extends Composite
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableLinePaletteSetting( ( ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.isSetVisible( ) && ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.isVisible( ) )
-						|| ( ( (DifferenceSeries) series ).getLineAttributes( )
-								.isSetVisible( ) && ( (DifferenceSeries) series ).getLineAttributes( )
-								.isVisible( ) ) );
+				enableLinePaletteSetting( canEnableLinePalette( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getNegativeLineAttributes( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -314,6 +300,12 @@ public class DifferenceSeriesAttributeComposite extends Composite
 						.setColor( (ColorDefinition) event.data );
 			}
 		}
+	}
+
+	protected boolean canEnableLinePalette( )
+	{
+		return !ChartUIExtensionUtil.isSetInvisible( ( ( (DifferenceSeries) series ).getLineAttributes( ) ) )
+				|| !ChartUIExtensionUtil.isSetInvisible( ( ( (DifferenceSeries) series ).getNegativeLineAttributes( ) ) );
 	}
 
 	/**

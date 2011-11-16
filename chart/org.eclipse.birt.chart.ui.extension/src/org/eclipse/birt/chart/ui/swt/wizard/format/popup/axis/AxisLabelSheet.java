@@ -17,8 +17,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
@@ -91,9 +89,7 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			cmpContent.setLayout( glMain );
 		}
 
-		boolean isLabelEnabled = getAxisForProcessing( ).getLabel( )
-				.isSetVisible( )
-				&& getAxisForProcessing( ).getLabel( ).isVisible( );
+		boolean isLabelEnabled = !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getLabel( ) );
 
 		Group grpLabel = new Group( cmpContent, SWT.NONE );
 		{
@@ -275,7 +271,7 @@ public class AxisLabelSheet extends AbstractPopupSheet
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ),
 							"labelPosition", //$NON-NLS-1$
-							(Position) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
@@ -298,7 +294,7 @@ public class AxisLabelSheet extends AbstractPopupSheet
 					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
 							.getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :

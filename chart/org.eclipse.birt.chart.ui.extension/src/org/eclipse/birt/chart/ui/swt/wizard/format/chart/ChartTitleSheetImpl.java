@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleBlockSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleTextSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
@@ -156,7 +157,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		fdcFont.addListener( this );
 
 		createButtonGroup( cmpContent );
-		updateUIState( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+		updateUIState( ChartUIExtensionUtil.canEnableUI( btnVisible ) );
 	}
 
 	private void init( )
@@ -271,7 +272,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			{
 				getChart( ).getTitle( ).setVisible( visible );
 			}
-			updateUIState( visible );
+			updateUIState( ChartUIExtensionUtil.canEnableUI( btnVisible ) );
 
 			if ( getToggleButton( BUTTON_TEXT ).getSelection( )
 					|| getToggleButton( BUTTON_LAYOUT ).getSelection( ) )
@@ -340,16 +341,14 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private boolean isAutoEnabled( )
 	{
-		return getChart( ).getTitle( ).isSetVisible( )
-				&& getChart( ).getTitle( ).isVisible( );
+		return !ChartUIExtensionUtil.isSetInvisible( getChart( ).getTitle( ) );
 	}
 
 	private boolean isTitleEnabled( )
 	{
 		if ( btnAutoTitle != null )
 		{
-			return getChart( ).getTitle( ).isSetVisible( )
-					&& getChart( ).getTitle( ).isVisible( )
+			return !ChartUIExtensionUtil.isSetInvisible( getChart( ).getTitle( ) )
 					&& !isAutoTitle( );
 		}
 		else

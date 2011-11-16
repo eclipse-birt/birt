@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Direction;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Stretch;
@@ -421,7 +420,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :

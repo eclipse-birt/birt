@@ -15,7 +15,6 @@ import java.text.ParseException;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.Series;
@@ -417,47 +416,49 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		// }
 		if ( event.widget.equals( fccRange ) )
 		{
-			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setFill( (Fill) event.data );
+			( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setFill( (Fill) event.data );
 		}
 		else if ( event.widget.equals( txtStartValue ) )
 		{
 			int iMarkerIndex = getMarkerIndex( );
-			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ) ).setStartValue( this.getTypedDataElement( txtStartValue.getText( ) ) );
+			( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ).setStartValue( this.getTypedDataElement( txtStartValue.getText( ) ) );
 		}
 		else if ( event.widget.equals( txtEndValue ) )
 		{
 			int iMarkerIndex = getMarkerIndex( );
-			( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ) ).setEndValue( this.getTypedDataElement( txtEndValue.getText( ) ) );
+			( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ).setEndValue( this.getTypedDataElement( txtEndValue.getText( ) ) );
 		}
 		else if ( event.widget.equals( liacMarkerRange ) )
 		{
 			boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				ChartElementUtil.setEObjectAttribute( ( (DialRegion) getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ) ).getOutline( ),
+				ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getDialRegions( )
+						.get( getMarkerIndex( ) ).getOutline( ),
 						"style",//$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				ChartElementUtil.setEObjectAttribute( ( (DialRegion) getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ) ).getOutline( ),
+				ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getDialRegions( )
+						.get( getMarkerIndex( ) ).getOutline( ),
 						"thickness",//$NON-NLS-1$
 						( (Integer) event.data ).intValue( ),
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
-				( (DialRegion) getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ) ).getOutline( )
+				getDialForProcessing( ).getDialRegions( )
+						.get( getMarkerIndex( ) )
+						.getOutline( )
 						.setColor( (ColorDefinition) event.data );
 			}
 			else
 			{
-				ChartElementUtil.setEObjectAttribute( ( (DialRegion) getDialForProcessing( ).getDialRegions( )
-						.get( getMarkerIndex( ) ) ).getOutline( ),
+				ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getDialRegions( )
+						.get( getMarkerIndex( ) )
+						.getOutline( ),
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
@@ -479,22 +480,22 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			{
 				if ( txtInnerRadius.isSetValue( ) )
 				{
-					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setInnerRadius( txtInnerRadius.getValue( ) );
+					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setInnerRadius( txtInnerRadius.getValue( ) );
 				}
 				else
 				{
-					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetInnerRadius( );
+					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).unsetInnerRadius( );
 				}
 			}
 			else if ( e.widget.equals( txtOuterRadius ) )
 			{
 				if ( txtOuterRadius.isSetValue( ) )
 				{
-					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setOuterRadius( txtOuterRadius.getValue( ) );
+					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setOuterRadius( txtOuterRadius.getValue( ) );
 				}
 				else
 				{
-					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetOuterRadius( );
+					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).unsetOuterRadius( );
 				}
 			}
 		}
@@ -510,7 +511,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		if ( e.widget == btnStartValueAuto )
 		{
 			int iMarkerIndex = getMarkerIndex( );
-			ChartElementUtil.setEObjectAttribute( ( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ) ),
+			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ),
 					"startValue",//$NON-NLS-1$
 					this.getTypedDataElement( txtStartValue.getText( ) ),
 					btnStartValueAuto.getSelection( ) );
@@ -519,7 +520,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		else if ( e.widget == btnEndValueAuto )
 		{
 			int iMarkerIndex = getMarkerIndex( );
-			ChartElementUtil.setEObjectAttribute( ( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ) ),
+			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ),
 					"endValue",//$NON-NLS-1$
 					this.getTypedDataElement( txtEndValue.getText( ) ),
 					btnEndValueAuto.getSelection( ) );
@@ -527,7 +528,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		}
 		else if ( e.widget == btnInnerRadiusAuto )
 		{
-			ChartElementUtil.setEObjectAttribute( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ),
+			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ),
 					"innerRadius",//$NON-NLS-1$
 					txtInnerRadius.getValue( ),
 					btnInnerRadiusAuto.getSelection( ) );
@@ -535,7 +536,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		}
 		else if ( e.widget == btnOuterRadiusAuto )
 		{
-			ChartElementUtil.setEObjectAttribute( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ),
+			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ),
 					"outerRadius",//$NON-NLS-1$
 					txtOuterRadius.getValue( ),
 					btnOuterRadiusAuto.getSelection( ) );
@@ -579,9 +580,9 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			}
 			else
 			{
+				resetUI( );
 				setState( false );
 				setAutoButtonsState( false );
-				resetUI( );
 			}
 
 			refreshButtons( );
@@ -649,7 +650,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		grpGeneral.layout( );
 		setAutoButtonsState( true );
 		int iRangeIndex = getMarkerIndex( );
-		DialRegion range = (DialRegion) getDialForProcessing( ).getDialRegions( )
+		DialRegion range = getDialForProcessing( ).getDialRegions( )
 				.get( iRangeIndex );
 
 		// Update the value fields

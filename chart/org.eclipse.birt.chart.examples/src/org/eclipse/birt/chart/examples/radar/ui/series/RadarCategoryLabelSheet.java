@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
@@ -27,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAt
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -93,7 +93,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
 		clattributesContext.isPositionEnabled = false;
 		clattributesContext.isFontAlignmentEnabled = false;
-		clattributesContext.isVisibilityEnabled = false;
+		clattributesContext.isVisibilityEnabled = ChartUIExtensionUtil.canEnableUI( btnCatLabels );
 		if ( series.getCatLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
@@ -125,17 +125,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 			btnCLFormatSpecifier.setText( Messages.getString( "Format.Button.Cat.Label" ) ); //$NON-NLS-1$
 		}
 
-		if ( series.isSetShowCatLabels( ) )
-		{
-			catLabelAttr.setEnabled( series.isShowCatLabels( ) );
-			btnCLFormatSpecifier.setEnabled( series.isShowCatLabels( ) );
-		}
-		else
-		{
-			catLabelAttr.setEnabled( true );
-			btnCLFormatSpecifier.setEnabled( true );
-		}
-
+		updateUIState( );
 		return cmpContent;
 	}
 
@@ -171,7 +161,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 					ChartElementUtil.setEObjectAttribute( series.getCatLabel( )
 							.getOutline( ),
 							"style",//$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
@@ -204,9 +194,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 					"showCatLabels",//$NON-NLS-1$
 					btnCatLabels.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnCatLabels.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
-			boolean enabled = series.isSetShowCatLabels( ) && series.isShowCatLabels( );
-			catLabelAttr.setEnabled( enabled );
-			btnCLFormatSpecifier.setEnabled( enabled );
+			updateUIState( );
 		}
 		else if ( event.widget.equals( btnCLFormatSpecifier ) )
 		{
@@ -230,5 +218,12 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 							"catLabelFormatSpecifier", //$NON-NLS-1$
 							getContext( ) );
 		}
+	}
+
+	protected void updateUIState( )
+	{
+		boolean enabled = !( series.isSetShowCatLabels( ) && !series.isShowCatLabels( ) );
+		catLabelAttr.setEnabled( enabled );
+		btnCLFormatSpecifier.setEnabled( enabled );
 	}
 }

@@ -448,24 +448,24 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 	}
 
-	/**
-	 * Updates series palette of series definition list without the series to be
-	 * moved
-	 * 
-	 * @param removedIndex
-	 *            the index of the series to be removed
-	 */
-	private void updateSeriesPalette( int removedIndex )
-	{
-		for ( int i = 0, j = 0; i < seriesDefns.size( ); i++ )
-		{
-			if ( i != removedIndex )
-			{
-				seriesDefns.get( i ).getSeriesPalette( )
-						.shift( -j++ );
-			}
-		}
-	}
+//	/**
+//	 * Updates series palette of series definition list without the series to be
+//	 * moved
+//	 * 
+//	 * @param removedIndex
+//	 *            the index of the series to be removed
+//	 */
+//	private void updateSeriesPalette( int removedIndex )
+//	{
+//		for ( int i = 0, j = 0; i < seriesDefns.size( ); i++ )
+//		{
+//			if ( i != removedIndex )
+//			{
+//				seriesDefns.get( i ).getSeriesPalette( )
+//						.shift( -j++ );
+//			}
+//		}
+//	}
 
 	protected void removeSeriesDefinition( )
 	{

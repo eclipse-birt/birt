@@ -160,7 +160,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 		Iterator<IChartSubType> iter = vSubType.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IChartSubType cSubType = (IChartSubType) iter.next( );
+			IChartSubType cSubType = iter.next( );
 			if ( cSubType.getName( ).equals( getChart( ).getSubType( ) ) )
 			{
 				txtSubType.setText( cSubType.getDisplayName( ) );

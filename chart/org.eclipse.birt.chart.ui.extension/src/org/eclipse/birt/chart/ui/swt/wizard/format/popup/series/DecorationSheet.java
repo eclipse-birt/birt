@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
@@ -101,7 +99,7 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( series,
 							"decorationLabelPosition",//$NON-NLS-1$
-							(Position) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
@@ -124,7 +122,7 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 					ChartElementUtil.setEObjectAttribute( series.getDecorationLabel( )
 							.getOutline( ),
 							"style",//$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :

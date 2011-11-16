@@ -167,7 +167,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnCategoryAxis.setSelectionState( getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
-			updateCategoryAxisUI( !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
+			updateCategoryAxisUI( !getAxisForProcessing( ).isSetType( )
+					|| !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
 			btnCategoryAxis.addSelectionListener( this );
 
 			btnReverse = new TristateCheckbox( cmpBasic, SWT.NONE );
@@ -178,7 +179,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnReverse.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? TristateCheckbox.STATE_SELECTED
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
-			updateReverseUI( btnCategoryAxis.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+			updateReverseUI( ChartUIExtensionUtil.canEnableUI( btnCategoryAxis ) );
 			btnReverse.addSelectionListener( this );
 		}
 
@@ -432,26 +433,21 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private void setStateOfTitle( )
 	{
-		btnTitleContentAuto.setEnabled( getAxisForProcessing( ).getTitle( )
-				.isSetVisible( )
-				&& getAxisForProcessing( ).getTitle( ).isVisible( ) );
+		btnTitleContentAuto.setEnabled( !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getTitle( ) ) );
 		boolean isTitleEnabled = isTitleEnabled( );
-		txtTitle.setEnabled( isTitleEnabled );
+		txtTitle.setEnabled( !btnTitleContentAuto.getSelection( ) );
 		setToggleButtonEnabled( BUTTON_TITLE, isTitleEnabled );
 	}
 
 	protected boolean isTitleEnabled( )
 	{
-		return getAxisForProcessing( ).getTitle( ).isSetVisible( )
-				&& getAxisForProcessing( ).getTitle( ).isVisible( )
-				&& getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) != null;
+		return !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getTitle( ) );
 	}
 
 	private void setStateOfLabel( )
 	{
 		Axis ax = getAxisForProcessing( );
-		boolean isLabelEnabled = ax.getLabel( ).isSetVisible( )
-				&& ax.getLabel( ).isVisible( );
+		boolean isLabelEnabled = !ChartUIExtensionUtil.isSetInvisible( ax.getLabel( ) );
 		fdcFont.setEnabled( isLabelEnabled );
 		btnStaggered.setEnabled( !isChart3D( ) && isLabelEnabled );
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
@@ -494,7 +490,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				BUTTON_TITLE,
 				Messages.getString( "AxisYSheetImpl.Label.TitleFormat&" ), //$NON-NLS-1$
 				popup,
-				btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				ChartUIExtensionUtil.canEnableUI( btnTitleVisible ) );
 		btnAxisTitle.addSelectionListener( this );
 
 		// Label
@@ -506,7 +502,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				BUTTON_LABEL,
 				Messages.getString( "AxisYSheetImpl.Label.LabelFormat&" ), //$NON-NLS-1$
 				popup,
-				btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 		btnAxisLabel.addSelectionListener( this );
 
 		// Gridlines
@@ -917,8 +913,9 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	protected void updateReverseStateByCategoryAxisUI(  )
 	{
 		int state = btnCategoryAxis.getSelectionState( );
-		btnReverse.setEnabled( state == TristateCheckbox.STATE_SELECTED );
-		updateReverseUI( state == TristateCheckbox.STATE_SELECTED );
+		boolean enabledUI = ChartUIExtensionUtil.canEnableUI( btnCategoryAxis );
+		btnReverse.setEnabled( enabledUI );
+		updateReverseUI( enabledUI );
 		if ( state == TristateCheckbox.STATE_GRAYED )
 		{
 			btnReverse.setSelectionState( TristateCheckbox.STATE_GRAYED );

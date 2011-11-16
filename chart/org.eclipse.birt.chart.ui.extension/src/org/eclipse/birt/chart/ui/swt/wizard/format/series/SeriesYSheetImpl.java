@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
@@ -285,7 +286,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					BUTTON_DECORATION,
 					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
 					popup,
-					btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					ChartUIExtensionUtil.canEnableUI( btnDecoVisible ) );
 			btnDecoration.addSelectionListener( this );
 		}
 
@@ -361,7 +362,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				BUTTON_LABEL,
 				Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
 				popup,
-				btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 		btnLabel.addSelectionListener( this );
 	}
 
@@ -375,7 +376,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				BUTTON_DIAL_LABELS,
 				Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
 				popup,
-				btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 		btnDialLabel.addSelectionListener( this );
 	}
 
@@ -439,7 +440,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			if ( isMeterSeries( ) )
 			{
 				setToggleButtonEnabled( BUTTON_DIAL_LABELS,
-						btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 				if ( isAuto )
 				{
 					( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
@@ -463,7 +464,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			else
 			{
 				setToggleButtonEnabled( BUTTON_LABEL,
-						btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 				if ( isAuto )
 				{
 					getCurrentDesignTimeSeries( )
@@ -483,7 +484,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget == btnDecoVisible )
 		{
 			setToggleButtonEnabled( BUTTON_DECORATION,
-					btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					ChartUIExtensionUtil.canEnableUI( btnDecoVisible ) );
 			if ( btnDecoVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
 			{
 				( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( )

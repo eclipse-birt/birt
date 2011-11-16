@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
@@ -135,8 +134,7 @@ public class LineSeriesAttributeComposite extends Composite
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 		initUIComponents( grpLine );
-		enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
-				.isVisible( ) );
+		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (LineSeries) series ).getLineAttributes( ) ) );
 	}
 
 	protected void initUIComponents( Composite parent  )
@@ -297,16 +295,13 @@ public class LineSeriesAttributeComposite extends Composite
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
 				
-				enableLineSettings( ( (LineSeries) series ).getLineAttributes( )
-						.isSetVisible( )
-						&& ( (LineSeries) series ).getLineAttributes( )
-								.isVisible( ) );
+				enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (LineSeries) series ).getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
 				ChartElementUtil.setEObjectAttribute( ( (LineSeries) series ).getLineAttributes( ),
 						"style", //$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )

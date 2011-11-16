@@ -142,7 +142,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			lblLabel.setToolTipText( TOOLTIP_MINIMUM_SLICE );
 		}
 
-		List keys = null;
+		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );

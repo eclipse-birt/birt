@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -443,7 +442,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( series.getLeaderLineAttributes( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :

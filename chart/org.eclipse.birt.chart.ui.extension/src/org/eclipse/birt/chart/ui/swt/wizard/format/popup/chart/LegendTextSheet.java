@@ -19,7 +19,6 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
@@ -319,7 +318,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 					ChartElementUtil.setEObjectAttribute( getLegend( ).getClientArea( )
 							.getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
@@ -350,7 +349,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getLegend( ).getSeparator( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :

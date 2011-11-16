@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -450,7 +449,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
@@ -479,7 +478,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getClientArea( )
 							.getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :

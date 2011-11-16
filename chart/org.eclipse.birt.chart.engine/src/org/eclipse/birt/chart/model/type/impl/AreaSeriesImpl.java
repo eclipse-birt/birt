@@ -65,9 +65,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	{
 		super.translateFrom( series, iSeriesDefinitionIndex, chart );
 
-		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
-			Marker mk = (Marker) itr.next( );
+			Marker mk = itr.next( );
 			mk.setVisible( false );
 		}
 	}
@@ -75,7 +75,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance with setting 'isSet' flag.
 	 */
 	public static Series create( )
 	{
@@ -93,9 +93,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	{
 		super.initialize( );
 
-		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
-			Marker mk = (Marker) itr.next( );
+			Marker mk = itr.next( );
 			mk.setVisible( false );
 		}
 	}
@@ -103,7 +103,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return instance of ares series without setting 'isSet' flag.
 	 */
 	public static Series createDefault( )
 	{
@@ -121,9 +121,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	{
 		super.initDefault( );
 
-		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
-			Marker mk = (Marker) itr.next( );
+			Marker mk = itr.next( );
 			try
 			{
 				ChartElementUtil.setDefaultValue( mk, "visible", false ); //$NON-NLS-1$

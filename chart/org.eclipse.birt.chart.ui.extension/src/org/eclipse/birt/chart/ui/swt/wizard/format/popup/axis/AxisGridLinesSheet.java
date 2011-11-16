@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -151,7 +149,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
 			btnTickBetweenCategory.addSelectionListener( this );
-			btnTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
+			btnTickBetweenCategory.setEnabled( !( axis.isSetCategoryAxis( ) && ! axis.isCategoryAxis( )  ) );
 		}
 		else
 		{
@@ -184,8 +182,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
-		lblColor.setEnabled( btnShow.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
-		fccLine.setEnabled( btnShow.getSelectionState( ) == TristateCheckbox.STATE_SELECTED  );
+		lblColor.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
+		fccLine.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow )  );
 
 		lblGridStepNum = new Label( cmpContent, SWT.NONE );
 		GridData gdLblGridStepNum = new GridData( GridData.FILL );
@@ -315,7 +313,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	protected boolean isTickBetweenCategory( )
 	{
-		return (angleType == AngleType.X ) && axis.isCategoryAxis( );
+		return ( angleType == AngleType.X )
+				&& !( axis.isSetCategoryAxis( ) && !axis.isCategoryAxis( ) );
 	}
 
 	/*
@@ -349,7 +348,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( )
 							.getLineAttributes( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case GridAttributesComposite.LINE_WIDTH_CHANGED_EVENT :
@@ -380,7 +379,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMajorGrid( ),
 							"tickStyle", //$NON-NLS-1$
-							(TickStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
@@ -401,7 +400,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( )
 							.getLineAttributes( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case GridAttributesComposite.LINE_WIDTH_CHANGED_EVENT :
@@ -432,7 +431,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				case GridAttributesComposite.TICK_STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getMinorGrid( ),
 							"tickStyle", //$NON-NLS-1$
-							(TickStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case GridAttributesComposite.TICK_VISIBILITY_CHANGED_EVENT :
@@ -452,20 +451,13 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		boolean enabled;
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
 		{
-			enabled = getAxisForProcessing( ).getMinorGrid( )
-					.getLineAttributes( )
-					.isSetVisible( )
-					&& getAxisForProcessing( ).getMinorGrid( )
-							.getLineAttributes( )
-							.isVisible( );
+			enabled = !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getMinorGrid( )
+					.getLineAttributes( ) );
 			if ( !ChartUIUtil.is3DType( getChart( ) ) )
 			{
 				enabled = enabled
-						|| ( getAxisForProcessing( ).getMinorGrid( )
-								.getTickAttributes( )
-								.isSetVisible( ) && getAxisForProcessing( ).getMinorGrid( )
-								.getTickAttributes( )
-								.isVisible( ) );
+						|| !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getMinorGrid( )
+								.getTickAttributes( ) );
 			}
 		}
 		else
@@ -493,12 +485,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		boolean enabled;
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
 		{
-			enabled = getAxisForProcessing( ).getMajorGrid( )
-					.getLineAttributes( )
-					.isSetVisible( )
-					&& getAxisForProcessing( ).getMajorGrid( )
-							.getLineAttributes( )
-							.isVisible( );
+			enabled = !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getMajorGrid( )
+					.getLineAttributes( ) );
 		}
 		else
 		{
@@ -536,8 +524,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					"visible", //$NON-NLS-1$
 					visible,
 					btnShow.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
-			lblColor.setEnabled( visible );
-			fccLine.setEnabled( visible );
+			lblColor.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
+			fccLine.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
 		}
 		else if ( oSource.equals( btnTickBetweenCategory ) )
 		{

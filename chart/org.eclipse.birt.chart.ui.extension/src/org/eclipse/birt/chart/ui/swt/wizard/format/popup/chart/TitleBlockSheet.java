@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -204,7 +203,7 @@ public class TitleBlockSheet extends AbstractPopupSheet
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :

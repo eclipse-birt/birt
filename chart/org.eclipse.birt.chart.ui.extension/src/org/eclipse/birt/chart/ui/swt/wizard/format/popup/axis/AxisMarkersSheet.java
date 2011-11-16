@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
@@ -491,7 +490,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
 						ChartElementUtil.setEObjectAttribute( getSelectedMarkerLabel( ).getOutline( ),
 								"style", //$NON-NLS-1$
-								(LineStyle) event.data,
+								event.data,
 								isUnset );
 						break;
 					case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
@@ -588,7 +587,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 						.get( getMarkerIndex( ) )
 						.getLineAttributes( ),
 						"style", //$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -625,7 +624,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 						.get( getMarkerIndex( ) )
 						.getOutline( ),
 						"style", //$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )

@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
@@ -113,7 +112,7 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
 					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
 							"style", //$NON-NLS-1$
-							(LineStyle) event.data,
+							event.data,
 							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 
+import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -29,10 +30,10 @@ import org.eclipse.swt.widgets.Composite;
 public class InteractivitySheet extends AbstractPopupSheet
 {
 
-	private final EList triggers;
+	private final EList<Trigger> triggers;
 	private final EObject cursorContainer;
-	private final boolean bEnableURLParameters;
-	private final boolean bEnableShowTooltipValue;
+//	private final boolean bEnableURLParameters;
+//	private final boolean bEnableShowTooltipValue;
 	private final int iInteractivityType;
 	private int optionalStyle;
 
@@ -47,7 +48,7 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param bEnableShowTooltipValue
 	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList triggers, EObject cursorContainer, int iInteractivityType, int optionalStyle )
+			EList<Trigger> triggers, EObject cursorContainer, int iInteractivityType, int optionalStyle )
 	{
 		this( title,
 				context,
@@ -70,14 +71,14 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param bEnableShowTooltipValue
 	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList triggers, EObject cursorContainer, int iInteractivityType,
+			EList<Trigger> triggers, EObject cursorContainer, int iInteractivityType,
 			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
 	{
 		super( title, context, false );
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
-		this.bEnableURLParameters = bEnableURLParameters;
-		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
+//		this.bEnableURLParameters = bEnableURLParameters;
+//		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.iInteractivityType = iInteractivityType;
 		if ( bEnableShowTooltipValue )
 		{

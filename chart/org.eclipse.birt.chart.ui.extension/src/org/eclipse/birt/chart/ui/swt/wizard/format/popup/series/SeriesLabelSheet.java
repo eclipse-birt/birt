@@ -253,8 +253,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		// Populate lists
 		populateLists( getSeriesForProcessing( ) );
 
-		setEnabled( getSeriesForProcessing( ).getLabel( ).isSetVisible( )
-				&& getSeriesForProcessing( ).getLabel( ).isVisible( ) );
+		setEnabled( !ChartUIExtensionUtil.isSetInvisible( getSeriesForProcessing( ).getLabel( ) ) );
 
 		refreshDataPointButtons( );
 

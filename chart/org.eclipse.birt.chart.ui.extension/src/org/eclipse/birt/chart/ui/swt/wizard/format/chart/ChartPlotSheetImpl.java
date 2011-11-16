@@ -44,11 +44,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 	private TristateCheckbox btnIncludingVisible;
 
-	private TristateCheckbox btnWithinVisible;
+	protected TristateCheckbox btnWithinVisible;
 
 	private FillChooserComposite cmbBlockColor;
 
 	protected FillChooserComposite cmbClientAreaColor;
+
+	protected Label lblVisibleWithin;
 
 	public void createControl( Composite parent )
 	{
@@ -133,7 +135,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// WithinAxes area is not supported in 3D
-		if ( !ChartUIUtil.is3DType( getChart( ) ) )
+		if ( enableAreaWithinAxesUI( ) )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
 
@@ -152,7 +154,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		// Following settings only work in some criteria
 		boolean is3DWallFloorSet = ChartUIUtil.is3DWallFloorSet( getChart( ) );
-		Label lblVisibleWithin = new Label( cmpBasic, SWT.NONE );
+		lblVisibleWithin = new Label( cmpBasic, SWT.NONE );
 		{
 			lblVisibleWithin.setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
 			lblVisibleWithin.setEnabled( is3DWallFloorSet );
@@ -176,6 +178,11 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			btnWithinVisible.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
 		}
 		btnWithinVisible.addSelectionListener( this );
+	}
+
+	protected boolean enableAreaWithinAxesUI( )
+	{
+		return !ChartUIUtil.is3DType( getChart( ) );
 	}
 
 	protected void createButtonGroup( Composite parent )

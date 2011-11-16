@@ -138,7 +138,7 @@ public class ChartElementUtil
 	 * Check if series palette is set.
 	 * 
 	 * @param chart
-	 * @return
+	 * @return true if chart specify series palette.
 	 */
 	public static boolean isSetSeriesPalette( Chart chart )
 	{
@@ -173,7 +173,7 @@ public class ChartElementUtil
 	 * 
 	 * @param <T>
 	 * @param objs
-	 * @return
+	 * @return list of type T
 	 */
 	public static <T> List<T> copyInstance( List<T> objs )
 	{
@@ -198,7 +198,7 @@ public class ChartElementUtil
 	 * @param <T>
 	 * @param <J>
 	 * @param objs
-	 * @return
+	 * @return map of type <T, J>
 	 */
 	public static <T, J> Map<T, J> copyInstance( Map<T, J> objs )
 	{
@@ -207,12 +207,12 @@ public class ChartElementUtil
 		{
 			if ( o.getValue( ) instanceof IChartObject )
 			{
-				map.put( (T) o.getKey( ),
+				map.put( o.getKey( ),
 						(J) ( (IChartObject) o.getValue( ) ).copyInstance( ) );
 			}
 			else
 			{
-				map.put( (T) o.getKey( ), (J) o.getValue( ) );
+				map.put( o.getKey( ), o.getValue( ) );
 			}
 		}
 		return map;

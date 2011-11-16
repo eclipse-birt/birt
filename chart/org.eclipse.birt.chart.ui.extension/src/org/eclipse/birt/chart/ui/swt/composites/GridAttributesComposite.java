@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Grid;
@@ -56,7 +55,7 @@ public class GridAttributesComposite extends Composite implements
 
 	private transient Grid grid = null;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	private int orientation;
 
@@ -111,7 +110,7 @@ public class GridAttributesComposite extends Composite implements
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
 		this.grid = grid;
-		this.vListeners = new Vector( );
+		this.vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -209,13 +208,14 @@ public class GridAttributesComposite extends Composite implements
 			}
 
 			// Tick Styles
+			boolean tickUIEnabled = !ChartUIExtensionUtil.isSetInvisible( grid.getTickAttributes( ) );
 			lblStyle = new Label( grpTicks, SWT.NONE );
 			{
 				GridData gdLBLStyle = new GridData( );
 				gdLBLStyle.horizontalIndent = 4;
 				lblStyle.setLayoutData( gdLBLStyle );
 				lblStyle.setText( Messages.getString( "GridAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
-				lblStyle.setEnabled( grid.getTickAttributes( ).isVisible( ) );
+				lblStyle.setEnabled( tickUIEnabled );
 			}
 
 			cmbTickStyle = new Combo( grpTicks, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -223,7 +223,7 @@ public class GridAttributesComposite extends Composite implements
 				GridData gdCMBTickStyle = new GridData( GridData.FILL_HORIZONTAL );
 				cmbTickStyle.setLayoutData( gdCMBTickStyle );
 				cmbTickStyle.addSelectionListener( this );
-				cmbTickStyle.setEnabled( grid.getTickAttributes( ).isVisible( ) );
+				cmbTickStyle.setEnabled( tickUIEnabled );
 			}
 
 			populateLists( );
@@ -318,27 +318,21 @@ public class GridAttributesComposite extends Composite implements
 			{
 				eGrid.type = LINE_STYLE_CHANGED_EVENT;
 				eGrid.data = event.data;
-				// grid.getStyle().setStyle((LineStyle) event.data);
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
 				eGrid.type = LINE_WIDTH_CHANGED_EVENT;
 				eGrid.data = event.data;
-				// grid.getStyle().setThickness(((Integer)
-				// event.data).intValue());
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
 				eGrid.type = LINE_COLOR_CHANGED_EVENT;
 				eGrid.data = event.data;
-				// grid.getStyle().setColor((ColorDefinition) event.data);
 			}
 			else
 			{
 				eGrid.type = LINE_VISIBILITY_CHANGED_EVENT;
 				eGrid.data = event.data;
-				// grid.getStyle().setVisible(((Boolean)
-				// event.data).booleanValue());
 			}
 		}
 		else if ( event.widget.equals( liacTicks ) )
@@ -347,17 +341,15 @@ public class GridAttributesComposite extends Composite implements
 			{
 				eGrid.type = TICK_COLOR_CHANGED_EVENT;
 				eGrid.data = event.data;
-				grid.getTickAttributes( )
-						.setColor( (ColorDefinition) event.data );
 			}
 			else
 			{
 				eGrid.type = TICK_VISIBILITY_CHANGED_EVENT;
 				eGrid.data = event.data;
-				grid.getTickAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				lblStyle.setEnabled( ( (Boolean) event.data ).booleanValue( ) );
-				cmbTickStyle.setEnabled( ( (Boolean) event.data ).booleanValue( ) );
+				boolean enabledUI = !( ( eGrid.detail != ChartUIExtensionUtil.PROPERTY_UNSET )
+						&& !( (Boolean) event.data ).booleanValue( ) );
+				lblStyle.setEnabled( enabledUI );
+				cmbTickStyle.setEnabled( enabledUI );
 			}
 		}
 		else
@@ -372,7 +364,7 @@ public class GridAttributesComposite extends Composite implements
 	{
 		for ( int i = 0; i < vListeners.size( ); i++ )
 		{
-			( (Listener) vListeners.get( i ) ).handleEvent( event );
+			vListeners.get( i ).handleEvent( event );
 		}
 	}
 

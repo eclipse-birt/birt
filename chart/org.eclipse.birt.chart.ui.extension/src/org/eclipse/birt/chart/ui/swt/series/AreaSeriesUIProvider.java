@@ -120,10 +120,10 @@ public class AreaSeriesUIProvider extends DefaultSeriesUIProvider
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException
 	{
-		Iterator iterEntries = series.getDataDefinition( ).iterator( );
+		Iterator<Query> iterEntries = series.getDataDefinition( ).iterator( );
 		while ( iterEntries.hasNext( ) )
 		{
-			Query query = (Query) iterEntries.next( );
+			Query query = iterEntries.next( );
 			if ( idsp.getDataType( query.getDefinition( ) ) == DataType.TEXT_LITERAL )
 			{
 				final ExpressionCodec codec = ChartModelHelper.instance( )
