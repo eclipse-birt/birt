@@ -75,6 +75,7 @@ public class TimeFunctionCalculator
 	private MemberCellIndex[] currentFilter;
 	private Row4Aggregation currentRow;
 	private boolean existReferenceDate;
+	private boolean existLastDate;
 	private Date[] referenceDate;
 	private int orignalLevelCount;
 	
@@ -101,6 +102,7 @@ public class TimeFunctionCalculator
 		lowestTimeLevel = getLowestTimeLevel( aggr );
 		firstTimeLevel = getFirstTimeLevel( aggr );
 		existReferenceDate = false;
+		existLastDate = false;
 		referenceDate = new Date[timeFunction.length];
 		for( int i = 0; i < timeFunction.length; i++ )
 		{
@@ -109,6 +111,10 @@ public class TimeFunctionCalculator
 			if( referenceDate[i] !=null )
 			{
 				existReferenceDate = true;
+			}
+			else
+			{
+				existLastDate = true;
 			}
 		}
 		if( existReferenceDate )
@@ -157,7 +163,7 @@ public class TimeFunctionCalculator
 				sortedFactRows.setUseMemoryOnly( true );
 			}
 		}
-		else
+		if( this.existLastDate )
 		{
 			factRows = new BufferedStructureArray( Row4Aggregation.getCreator( ),
 					bufferSize );
@@ -441,13 +447,13 @@ public class TimeFunctionCalculator
 		{
 			sortedFactRows.push( newRow );
 		}
-		else
+		if( this.existLastDate )
 		{
 			factRows.add( newRow );
 		}
 	}
 	
-	private Row4Aggregation getOneFactRow( ) throws IOException
+	private Row4Aggregation retrieveOneFactRow( ) throws IOException
 	{
 		if( factRowPostion >= this.factRows.size() )
 			return null;
@@ -496,36 +502,82 @@ public class TimeFunctionCalculator
 		currentFilter = new MemberCellIndex[timeMemberFilters.length];
 		for( int i = 0; i < timeMemberFilters.length; i++ )
 		{
+			if( referenceDate[i] == null )
+				continue;
 			currentFilterList[i] = new ArrayList<MemberCellIndex>();
 			currentFilter[i] = (MemberCellIndex) this.timeMemberFilters[i].pop();
 			retrieveFilter( i );
 		}
 		currentRowList = new ArrayList<Row4Aggregation>();
-		
-		currentRow = retrieveOneRow( );
-		retrieveGroupRows( );
-		
-		while( currentRowList.size() > 0 )
+		if( this.existReferenceDate )
 		{
-			for( int i = 0; i < timeMemberFilters.length; i++ )
+			currentRow = retrieveOneDetailRow( );
+			retrieveGroupRows( true );
+		
+			while( currentRowList.size() > 0 )
 			{
-				if( currentFilterList[i].size() == 0 )
-					continue;
-				int compareResult = compare( currentRowList.get( 0 ), currentFilterList[i].get( 0 ) );
-				while( compareResult > 0 )
+				for( int i = 0; i < timeMemberFilters.length; i++ )
 				{
-					retrieveFilter( i );
-					if( currentFilterList[i].size( ) == 0 )
-						break;
-					compareResult = compare( currentRowList.get( 0 ), currentFilterList[i].get( 0 ) );
+					if( referenceDate[i] == null )
+						continue;
+					if( currentFilterList[i].size() == 0 )
+						continue;
+					int compareResult = compare( currentRowList.get( 0 ), currentFilterList[i].get( 0 ) );
+					while( compareResult > 0 )
+					{
+						retrieveFilter( i );
+						if( currentFilterList[i].size( ) == 0 )
+							break;
+						compareResult = compare( currentRowList.get( 0 ), currentFilterList[i].get( 0 ) );
+					}
+					if( compareResult == 0 )
+					{
+						doCalculate( i );
+					}
 				}
-				if( compareResult == 0 )
-				{
-					doCalculate( i );
-				}
+				retrieveGroupRows( true );
 			}
-			retrieveGroupRows( );
 		}
+		
+		for( int i = 0; i < timeMemberFilters.length; i++ )
+		{
+			if( referenceDate[i] != null )
+				continue;
+			currentFilterList[i] = new ArrayList<MemberCellIndex>();
+			currentFilter[i] = (MemberCellIndex) this.timeMemberFilters[i].pop();
+			retrieveFilter( i );
+		}
+		currentRowList = new ArrayList<Row4Aggregation>();
+		if( this.existLastDate )
+		{
+			currentRow = retrieveOneFactRow( );
+			retrieveGroupRows( false );
+		
+			while( currentRowList.size() > 0 )
+			{
+				for( int i = 0; i < timeMemberFilters.length; i++ )
+				{
+					if( referenceDate[i] != null )
+						continue;
+					if( currentFilterList[i].size() == 0 )
+						continue;
+					int compareResult = compare( currentRowList.get( 0 ), currentFilterList[i].get( 0 ) );
+					while( compareResult > 0 )
+					{
+						retrieveFilter( i );
+						if( currentFilterList[i].size( ) == 0 )
+							break;
+						compareResult = compare( currentRowList.get( 0 ), currentFilterList[i].get( 0 ) );
+					}
+					if( compareResult == 0 )
+					{
+						doCalculate( i );
+					}
+				}
+				retrieveGroupRows( false );
+			}
+		}
+		
 		List<TimeResultRow> result = new ArrayList<TimeResultRow>();
 		for ( int i = 0; i < accumulators.length; i++ )
 		{
@@ -623,7 +675,7 @@ public class TimeFunctionCalculator
 		currentFilter[functionIndex] = filter;
 	}
 	
-	private void retrieveGroupRows() throws IOException
+	private void retrieveGroupRows( boolean isDetailRow ) throws IOException
 	{
 		Row4Aggregation row;
 		currentRowList.clear();
@@ -632,26 +684,33 @@ public class TimeFunctionCalculator
 			return;
 		}
 		currentRowList.add( currentRow );
-		row = retrieveOneRow();
+		if( isDetailRow )
+			row = retrieveOneDetailRow();
+		else
+			row = retrieveOneFactRow();
 		while( row != null && compare( currentRow, row ) == 0 )
 		{
 			currentRowList.add( row );
-			row = retrieveOneRow();
+			if( isDetailRow )
+				row = retrieveOneDetailRow();
+			else
+				row = retrieveOneFactRow();
 		}
 		currentRow = row;
 	}
 
-	private Row4Aggregation retrieveOneRow() throws IOException
+	private Row4Aggregation retrieveOneDetailRow() throws IOException
 	{
-		Row4Aggregation row;
+		Row4Aggregation row = null;
 		if( this.existReferenceDate )
 		{
 			row = (Row4Aggregation) this.sortedFactRows.pop();
 		}
-		else
-		{
-			row = getOneFactRow( );
-		}
+//		else
+//		{
+//			row = getOneFactRow( );
+		
+//		}
 		return row;
 	}
 	
