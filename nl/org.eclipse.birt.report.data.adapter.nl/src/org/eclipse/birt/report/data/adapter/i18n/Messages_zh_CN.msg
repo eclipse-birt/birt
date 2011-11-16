@@ -38,6 +38,10 @@ cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。
 cube.jointColumnNotInLevels=联接列“{0}”未定义为维“{1}”中任何级别的关键字字段。
 cube.unsupportedAggregationInBinding=xTab 中不支持绑定“{0}”中的 TopN/BottomN 函数。
 
+cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
+cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
+cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
 timeFunction.CURRENT_MONTH.name = Current Month

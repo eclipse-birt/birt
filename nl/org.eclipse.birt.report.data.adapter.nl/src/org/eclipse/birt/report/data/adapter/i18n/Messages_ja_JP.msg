@@ -38,6 +38,10 @@ cube.error.datasetmiss=ŠÖ˜A‚·‚éƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚ç‚È‚¢‚½‚ßAƒLƒ…[ƒu‚ğì¬‚Å‚
 cube.jointColumnNotInLevels=Œ‹‡—ñ "{0}" ‚ÍƒfƒBƒƒ“ƒVƒ‡ƒ“ "{1}" ‚Ì‚¢‚¸‚ê‚ÌƒŒƒxƒ‹‚ÌƒL[ƒtƒB[ƒ‹ƒh‚Æ‚µ‚Ä‚à’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 cube.unsupportedAggregationInBinding=ƒoƒCƒ“ƒh "{0}" ‚Ì TopN ‚Æ BottomN ŠÖ”‚ÍAxTab ‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
+cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
+cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
+cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
 timeFunction.CURRENT_MONTH.name = Current Month
