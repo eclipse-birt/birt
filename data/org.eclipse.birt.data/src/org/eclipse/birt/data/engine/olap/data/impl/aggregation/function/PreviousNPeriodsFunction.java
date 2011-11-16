@@ -32,23 +32,23 @@ public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPe
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
 		translateToCal( cal, levels, values );
-
+		
 		if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
-			cal.add( Calendar.YEAR, -offset );
+			cal.add( Calendar.YEAR, offset );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
-			cal.add( Calendar.MONTH, -offset * 3 );
+			cal.add( Calendar.MONTH, offset * 3 );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
-			cal.add( Calendar.MONTH, -offset );
+			cal.add( Calendar.MONTH, offset );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
-			cal.add( Calendar.WEEK_OF_MONTH, -offset );
+			cal.add( Calendar.WEEK_OF_MONTH, offset );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
-			cal.add( Calendar.WEEK_OF_YEAR, -offset );
+			cal.add( Calendar.WEEK_OF_YEAR, offset );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
-			cal.add( Calendar.DAY_OF_MONTH, -offset );
+			cal.add( Calendar.DAY_OF_MONTH, offset );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
-			cal.add( Calendar.DAY_OF_YEAR, -offset );
+			cal.add( Calendar.DAY_OF_YEAR, offset );
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
-			cal.add( Calendar.DAY_OF_WEEK, -offset );
+			cal.add( Calendar.DAY_OF_WEEK, offset );
 
 		int[] newValues = getValueFromCal( cal, levels );
 
