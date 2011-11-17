@@ -1528,9 +1528,7 @@ public class TaskSelectType extends SimpleTask implements
 					cwa.setReverseCategory( true );
 				}
 			}
-			( (ChartWizardContext) context ).setModel( chartModel );
-			( (ChartWizardContext) context ).setChartType( chartType );
-			
+
 			updateAdapters( );
 			ChartWizard.removeException( ChartWizard.TaskSelType_refreCh_ID );
 		}

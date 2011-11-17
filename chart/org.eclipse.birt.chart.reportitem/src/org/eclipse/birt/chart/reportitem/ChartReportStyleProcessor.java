@@ -1271,7 +1271,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	
 	/**
 	 * Returns instance of <code>ChartStyleProcessorProxy</code>.
-	 * @return
+	 * @return instance of ChartStyleProcessorProxy.
 	 */
 	public ChartStyleProcessorProxy getStyleProcessorProxy(  )
 	{

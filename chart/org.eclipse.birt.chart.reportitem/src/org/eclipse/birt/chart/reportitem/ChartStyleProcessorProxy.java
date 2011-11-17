@@ -73,7 +73,7 @@ public class ChartStyleProcessorProxy
 	/**
 	 * Returns format info of chart's category.
 	 * 
-	 * @return
+	 * @return object of format info.
 	 */
 	public FormatInfo getCategoryFormat( )
 	{
@@ -105,7 +105,7 @@ public class ChartStyleProcessorProxy
 	/**
 	 * Indicates if chart need to inherit basic styles from container.
 	 * 
-	 * @return
+	 * @return true if it needs to inherit styles.
 	 */
 	public boolean needInheritingStyles( )
 	{

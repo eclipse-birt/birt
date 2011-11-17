@@ -33,7 +33,7 @@ public interface IFormatSpecifierHandler
 	 * @param target
 	 * @param attrName
 	 * @param context
-	 * @return
+	 * @return instance of format specifier
 	 */
 	FormatSpecifier handleFormatSpecifier( Shell shellParent, String title,
 			AxisType[] axisTypes, FormatSpecifier formatspecifier, EObject target,
