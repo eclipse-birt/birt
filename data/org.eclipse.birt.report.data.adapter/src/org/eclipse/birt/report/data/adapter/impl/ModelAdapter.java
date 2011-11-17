@@ -473,11 +473,11 @@ public class ModelAdapter implements IModelAdapter
 		TimePeriod baseTimePeriod = null;
 		if ( IBuildInBaseTimeFunction.CURRENT_QUARTER.equals( calculateType ) )
 		{
-			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER );
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER, true );
 		}
 		else if ( IBuildInBaseTimeFunction.CURRENT_MONTH.equals( calculateType ) )
 		{
-			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH );
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH, true );
 		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_30_DAYS.equals( calculateType ) )
 		{
@@ -509,7 +509,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 		else if ( IBuildInBaseTimeFunction.CURRENT_YEAR.equals( calculateType ) )
 		{
-			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR );
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR, true );
 		}
 		else if ( IBuildInBaseTimeFunction.WEEK_TO_DATE.equals( calculateType ) )
 		{

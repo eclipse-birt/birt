@@ -139,6 +139,44 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
+	
+	public void testMTD8( ) throws IOException
+	{
+		int[] values = new int[]{
+				2011, 3, 9, 6
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		MonthToDateFunction func = new MonthToDateFunction( );
+		func.setIsCurrent( true );
+		List<TimeMember> timeMembers = func.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+	
+	public void testMTD9( ) throws IOException
+	{
+		int[] values = new int[]{
+				2011, 4, 10, 2
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		MonthToDateFunction func = new MonthToDateFunction( );
+		func.setIsCurrent( true );
+		List<TimeMember> timeMembers = func.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
 
 	private void printMembers( List<TimeMember> timeMembers )
 	{

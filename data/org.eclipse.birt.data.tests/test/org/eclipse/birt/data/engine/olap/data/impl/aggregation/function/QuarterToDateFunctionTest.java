@@ -47,7 +47,7 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER ).getResult( member );
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, false ).getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
@@ -63,7 +63,7 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER ).getResult( member );
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, false ).getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
@@ -80,7 +80,7 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		 
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER ).getResult( member );
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, false ).getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
@@ -98,7 +98,7 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER ).getResult( member );
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, false ).getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
@@ -116,7 +116,59 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER ).getResult( member );
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, false ).getResult( member );
+		printResult( resultMember );
+		this.checkOutputFile( );
+	}
+	
+	public void testFunctions5( ) throws IOException
+	{
+		int[] values = new int[]{
+				2002, 3, 8, 3
+		};
+		String[] levels = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
+		};
+		TimeMember member = new TimeMember( values, levels );
+		
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, true ).getResult( member );
+		printResult( resultMember );
+		this.checkOutputFile( );
+	}
+	
+	public void testFunctions6( ) throws IOException
+	{
+		int[] values = new int[]{
+				2002, 3, 8, 18
+		};
+		String[] levels = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH
+		};
+		TimeMember member = new TimeMember( values, levels );
+		
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, true ).getResult( member );
+		printResult( resultMember );
+		this.checkOutputFile( );
+	}
+	
+	public void testFunctions7( ) throws IOException
+	{
+		int[] values = new int[]{
+				2002, 8
+		};
+		String[] levels = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH
+		};
+		TimeMember member = new TimeMember( values, levels );
+		
+		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, true ).getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}

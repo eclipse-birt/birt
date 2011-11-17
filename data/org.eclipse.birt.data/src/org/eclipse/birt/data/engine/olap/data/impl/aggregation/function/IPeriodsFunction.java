@@ -6,5 +6,5 @@ import java.util.List;
 public interface IPeriodsFunction
 {
 	//return a set of members of the Time hierarchy
-	List<TimeMember> getResult( TimeMember member );
+	List<TimeMember> getResult( TimeMember member );		
 }

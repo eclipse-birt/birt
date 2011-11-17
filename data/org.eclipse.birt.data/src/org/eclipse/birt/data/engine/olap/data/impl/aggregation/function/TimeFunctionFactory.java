@@ -15,19 +15,22 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 public class TimeFunctionFactory
 {
-	public static IPeriodsFunction createPeriodsToDateFunction( String levelType )
+	public static IPeriodsFunction createPeriodsToDateFunction( String levelType, boolean isCurrent )
 	{
+		IPeriodsFunction function = null;
 		if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
-			return new YearToDateFunction( );
+			function = new YearToDateFunction( );
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
-			return new QuarterToDateFunction( );
+			function = new QuarterToDateFunction( );
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
-			return new MonthToDateFunction( );
+			function = new MonthToDateFunction( );
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
-			return new WeekToDateFunciton( );
+			function = new WeekToDateFunciton( );
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
-			return new WeekToDateFunciton( );
-		return null;
+			function = new WeekToDateFunciton( );
+		if ( isCurrent )
+			( (AbstractMDX) function ).setIsCurrent( isCurrent );
+		return function;
 	}
 	
 	public static IPeriodsFunction createTrailingFunction( String levelType, int Offset )

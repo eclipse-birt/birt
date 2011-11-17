@@ -94,6 +94,7 @@ public class BindingIOUtil
 						IOUtil.writeBool( dos, true );
 						IOUtil.writeString( dos, baseTimePeriod.getType( ).toString( ) );
 						IOUtil.writeInt( dos, baseTimePeriod.countOfUnit( ) );
+						IOUtil.writeBool( dos,baseTimePeriod.isCurrent() );
 					}
 					else
 					{
@@ -166,8 +167,9 @@ public class BindingIOUtil
 					{
 						TimePeriodType periodType = getPeriodType( IOUtil.readString( dis ) );
 						int unit = IOUtil.readInt( dis );
+						boolean isCurrent = IOUtil.readBool ( dis );
 						TimePeriod basedTimePeriod = new TimePeriod( unit,
-								periodType );
+								periodType, isCurrent );
 						time.setBaseTimePeriod( basedTimePeriod );
 					}
 					boolean containsRelativePeriod = IOUtil.readBool( dis );

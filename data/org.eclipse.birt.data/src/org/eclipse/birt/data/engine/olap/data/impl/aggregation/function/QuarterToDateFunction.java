@@ -18,7 +18,11 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.setMinimalDaysInFirstWeek(1);
 		String calculateUnit = this.translateToCal( cal, levels, values ) ;
-		
+		Calendar isCurrentCal = null;
+		if ( isCurrent )
+		{
+			isCurrentCal = (Calendar) cal.clone( );
+		}
 		List<TimeMember> list = new ArrayList<TimeMember>( );
 		
 		if ( calculateUnit.equals( QUARTER ) )
@@ -39,6 +43,18 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				list.add( newMember );
 				cal.add( Calendar.MONTH, -1 );
 			}
+			if( isCurrent )
+			{
+				int currentQuarter = isCurrentCal.get( Calendar.MONTH ) / 3 + 1;
+				isCurrentCal.add( Calendar.MONTH, 1 );
+				while( currentQuarter == isCurrentCal.get( Calendar.MONTH ) / 3 + 1)
+				{
+					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					newMember = new TimeMember( newValues, levels );
+					list.add( newMember );
+					isCurrentCal.add( Calendar.MONTH, 1 );
+				}
+			}
 		}
 		else if ( calculateUnit.equals( WEEK ) )
 		{
@@ -58,6 +74,18 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				list.add( newMember );
 				cal.add( Calendar.WEEK_OF_YEAR, -1 );
 			}
+			if( isCurrent )
+			{
+				int currentQuarter = isCurrentCal.get( Calendar.MONTH ) / 3 + 1;
+				isCurrentCal.add( Calendar.WEEK_OF_YEAR, 1 );
+				while( currentQuarter == isCurrentCal.get( Calendar.MONTH ) / 3 + 1)
+				{
+					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					newMember = new TimeMember( newValues, levels );
+					list.add( newMember );
+					isCurrentCal.add( Calendar.WEEK_OF_YEAR, 1 );
+				}
+			}
 		}
 		else if ( calculateUnit.equals( DAY ) )
 		{
@@ -75,6 +103,18 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
 				cal.add( Calendar.DAY_OF_YEAR, -1 );
+			}
+			if( isCurrent )
+			{
+				int currentQuarter = isCurrentCal.get( Calendar.MONTH ) / 3 + 1;
+				isCurrentCal.add( Calendar.DAY_OF_YEAR, 1 );
+				while( currentQuarter == isCurrentCal.get( Calendar.MONTH ) / 3 + 1)
+				{
+					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					newMember = new TimeMember( newValues, levels );
+					list.add( newMember );
+					isCurrentCal.add( Calendar.DAY_OF_YEAR, 1 );
+				}
 			}
 		}
 

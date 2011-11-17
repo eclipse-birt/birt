@@ -277,7 +277,7 @@ public class TimeFunctionCalculator
 			toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
 			if( function.getBaseTimePeriod( ).countOfUnit() == 0 )
 			{
-				periodsFunction[i] = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
+				periodsFunction[i] = TimeFunctionFactory.createPeriodsToDateFunction( toDatelevelType, function.getBaseTimePeriod( ).isCurrent() );
 			}
 			else
 			{

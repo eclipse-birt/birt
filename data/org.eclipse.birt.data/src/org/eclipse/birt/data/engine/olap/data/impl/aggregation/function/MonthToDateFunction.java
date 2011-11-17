@@ -33,8 +33,14 @@ public class MonthToDateFunction extends AbstractMDX
 
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
-
+		cal.setMinimalDaysInFirstWeek(1);
+		
 		String baseType = translateToCal( cal, levelTypes, values );
+		Calendar isCurrentCal = null;
+		if ( isCurrent )
+		{
+			isCurrentCal = (Calendar) cal.clone( );
+		}
 		int[] tmp;
 		if ( baseType.equals( MONTH ) )
 		{
@@ -54,6 +60,18 @@ public class MonthToDateFunction extends AbstractMDX
 				TimeMember timeMember = new TimeMember( tmp, levelTypes );
 				timeMembers.add( timeMember );
 			}
+			if( isCurrent )
+			{
+				int currentMonth = isCurrentCal.get( Calendar.MONTH );
+				isCurrentCal.add( Calendar.WEEK_OF_MONTH, 1 );
+				while( currentMonth == isCurrentCal.get( Calendar.MONTH ))
+				{
+					int[] newValues = getValueFromCal( isCurrentCal, levelTypes );
+					TimeMember newMember = new TimeMember( newValues, levelTypes );
+					timeMembers.add( newMember );
+					isCurrentCal.add( Calendar.WEEK_OF_MONTH, 1 );
+				}
+			}
 		}
 		else if ( baseType.equals( DAY ) )
 		{
@@ -64,6 +82,18 @@ public class MonthToDateFunction extends AbstractMDX
 				tmp = getValueFromCal( cal, levelTypes );
 				TimeMember timeMember = new TimeMember( tmp, levelTypes );
 				timeMembers.add( timeMember );
+			}
+			if( isCurrent )
+			{
+				int currentMonth = isCurrentCal.get( Calendar.MONTH );
+				isCurrentCal.add( Calendar.DAY_OF_MONTH, 1 );
+				while( currentMonth == isCurrentCal.get( Calendar.MONTH ))
+				{
+					int[] newValues = getValueFromCal( isCurrentCal, levelTypes );
+					TimeMember newMember = new TimeMember( newValues, levelTypes );
+					timeMembers.add( newMember );
+					isCurrentCal.add( Calendar.DAY_OF_MONTH, 1 );
+				}
 			}
 		}
 

@@ -188,7 +188,7 @@ public class AggregationCalculator
 		toDatelevelType = toLevelType( function.getBaseTimePeriod( ).getType( ) );
 		if( function.getBaseTimePeriod( ).countOfUnit() == 0 )
 		{
-			periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction(toDatelevelType);
+			periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction( toDatelevelType, function.getBaseTimePeriod( ).isCurrent() );
 		}
 		else
 		{

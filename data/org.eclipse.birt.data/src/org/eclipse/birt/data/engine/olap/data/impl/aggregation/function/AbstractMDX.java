@@ -19,6 +19,8 @@ abstract public class AbstractMDX
 	protected static final String MONTH = "month";
 	protected static final String WEEK = "week";
 	protected static final String DAY = "day";
+	
+	protected boolean isCurrent = false;
 
 	/**
 	 * translate the TimeMember.values to Calendar return the base
@@ -57,6 +59,7 @@ abstract public class AbstractMDX
 
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
 			{
+				cal.get( Calendar.WEEK_OF_MONTH );
 				cal.set( Calendar.WEEK_OF_MONTH, values[i] );
 				type = WEEK;
 			}
@@ -147,5 +150,10 @@ abstract public class AbstractMDX
 		}
 
 		return tmp;
+	}
+	
+	public void setIsCurrent( boolean isCurrent )
+	{
+		this.isCurrent = isCurrent;
 	}
 }

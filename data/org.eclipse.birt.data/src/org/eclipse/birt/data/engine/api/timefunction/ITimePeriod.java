@@ -27,4 +27,10 @@ public interface ITimePeriod
 	 * @return
 	 */
 	public TimePeriodType getType( );
+	
+	/**
+	 * Represent whether it should be calculated in the scope of a current period
+	 * @return
+	 */
+	public boolean isCurrent( );
 }

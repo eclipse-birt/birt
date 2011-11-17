@@ -17,11 +17,19 @@ public class TimePeriod implements ITimePeriod
 {
 	public int countOfUnit =0;
 	public TimePeriodType type;
+	public boolean isCurrent = false;
 	
 	public TimePeriod( int countOfUnit, TimePeriodType type )
 	{
 		this.countOfUnit = countOfUnit;
 		this.type = type;
+	}
+	
+	public TimePeriod( int countOfUnit, TimePeriodType type, boolean isCurrent )
+	{
+		this.countOfUnit = countOfUnit;
+		this.type = type;
+		this.isCurrent = isCurrent;
 	}
 	
 	public int countOfUnit( ) 
@@ -31,6 +39,11 @@ public class TimePeriod implements ITimePeriod
 
 	public TimePeriodType getType() {
 		return type;
+	}
+	
+	public boolean isCurrent()
+	{
+		return this.isCurrent;
 	}
 
 }
