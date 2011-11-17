@@ -34,7 +34,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		TimeMember member = new TimeMember( values, levels );
 		
 		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
-				1 )
+				-1 )
 				.getResult( member );
 		int[] result = new int[]{
 				2001, 3, 8, 7
@@ -58,7 +58,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, 5 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, -5 ).getResult( member );
 		int[] result = new int[]{
 				2001, 2, 5, 7
 		};
@@ -81,7 +81,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_MONTH, 4 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_MONTH, -4 ).getResult( member );
 		int[] result = new int[]{
 				2002, 2, 4, 7
 		};
@@ -104,7 +104,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, 4 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, -4 ).getResult( member );
 		int[] result = new int[]{
 				2002, 3, 8, 3
 		};
@@ -127,7 +127,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, 10 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, -10 ).getResult( member );
 		int[] result = new int[]{
 				2002, 3, 7, 28
 		};
@@ -149,7 +149,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, 10 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH, -10 ).getResult( member );
 		int[] result = new int[]{
 				2002, 7, 28
 		};
@@ -170,9 +170,9 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH, 5 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH, -5 ).getResult( member );
 		int[] result = new int[]{
-				2002, 7, 3
+				2002, 7, 2
 		};
 		assertEquals( resultMember.getMemberValue( )[0], result[0] );
 		assertEquals( resultMember.getMemberValue( )[1], result[1] );
@@ -190,7 +190,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR, 25 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR, -25 ).getResult( member );
 		int[] result = new int[]{
 				2002, 100
 		};
@@ -209,7 +209,7 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR, 10 ).getResult( member );
+		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR, -10 ).getResult( member );
 		int[] result = new int[]{
 				2002, 13
 		};

@@ -8134,7 +8134,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		timeFunction.setReferenceDate(referenceDate);
 		timeFunction.setBaseTimePeriod(timePeriod);
 		timeFunction.setTimeDimension("dimension1");
-		timePeriod = new TimePeriod(3, TimePeriodType.MONTH);
+		timePeriod = new TimePeriod(-3, TimePeriodType.MONTH);
 		timeFunction.setRelativeTimePeriod(timePeriod);
 
 		Binding binding3 = new Binding("measure2");
@@ -8154,7 +8154,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		timeFunction.setReferenceDate(referenceDate);
 		timeFunction.setBaseTimePeriod(timePeriod);
 		timeFunction.setTimeDimension("dimension1");
-		timePeriod = new TimePeriod(3, TimePeriodType.MONTH);
+		timePeriod = new TimePeriod(-3, TimePeriodType.MONTH);
 		timeFunction.setRelativeTimePeriod(timePeriod);
 
 		Binding binding4 = new Binding("measure3");
@@ -8296,7 +8296,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		timeFunction.setReferenceDate(referenceDate);
 		timeFunction.setBaseTimePeriod(timePeriod);
 		timeFunction.setTimeDimension("dimension1");
-		timePeriod = new TimePeriod(3, TimePeriodType.MONTH);
+		timePeriod = new TimePeriod(-3, TimePeriodType.MONTH);
 		timeFunction.setRelativeTimePeriod(timePeriod);
 
 		IBinding binding2 = new Binding("measure1");
@@ -8364,7 +8364,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		timeFunction.setReferenceDate(referenceDate);
 		timeFunction.setBaseTimePeriod(timePeriod);
 		timeFunction.setTimeDimension("dimension1");
-		timePeriod = new TimePeriod(3, TimePeriodType.WEEK);
+		timePeriod = new TimePeriod(-3, TimePeriodType.WEEK);
 		timeFunction.setRelativeTimePeriod(timePeriod);
 
 		IBinding binding2 = new Binding("measure1");
