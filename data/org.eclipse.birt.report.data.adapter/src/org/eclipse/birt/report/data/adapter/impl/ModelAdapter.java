@@ -475,6 +475,18 @@ public class ModelAdapter implements IModelAdapter
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER, true );
 		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR, true );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER, true );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH, true );
+		}
 		else if ( IBuildInBaseTimeFunction.CURRENT_MONTH.equals( calculateType ) )
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH, true );
@@ -624,7 +636,8 @@ public class ModelAdapter implements IModelAdapter
 			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
 					TimePeriodType.YEAR );
 		}
-		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType ) )
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_MONTH.equals( calculateType ) )
 		{
 			Iterator iter = periodHandle.calculationArgumentsIterator( );
 			String n = null;
@@ -644,7 +657,8 @@ public class ModelAdapter implements IModelAdapter
 			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
 					TimePeriodType.MONTH );
 		}
-		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE.equals( calculateType ) )
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_QUARTER.equals( calculateType ) )
 		{
 			Iterator iter = periodHandle.calculationArgumentsIterator( );
 			String n = null;
@@ -664,7 +678,8 @@ public class ModelAdapter implements IModelAdapter
 			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
 					TimePeriodType.QUARTER );
 		}
-		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE.equals( calculateType ) )
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_YEAR.equals( calculateType ) )
 		{
 			Iterator iter = periodHandle.calculationArgumentsIterator( );
 			String n = null;
