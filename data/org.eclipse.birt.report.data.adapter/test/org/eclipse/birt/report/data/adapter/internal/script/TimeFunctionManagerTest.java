@@ -28,6 +28,7 @@ import org.eclipse.birt.report.data.adapter.api.timeFunction.TimeFunctionManager
 import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
@@ -89,7 +90,7 @@ public class TimeFunctionManagerTest extends TestCase
 		levelsInxTab.add( "year" );
 		levelsInxTab.add( "quarter" );
 		List<ITimeFunction> function1 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, true );
-		assertTrue( function1.size( ) ==17 );
+		assertTrue( function1.size( ) == 19 );
 		
 		for( int i=0; i< function1.size( ); i++ )
 		{
@@ -108,7 +109,7 @@ public class TimeFunctionManagerTest extends TestCase
 			}
 		}
 		List<ITimeFunction> function2 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, false );
-		assertTrue( function2.size( ) ==12 );
+		assertTrue( function2.size( ) ==13 );
 		
 		for( int i=0; i< function2.size( ); i++ )
 		{
@@ -137,9 +138,9 @@ public class TimeFunctionManagerTest extends TestCase
 		levelsInxTab.add( "year" );
 		levelsInxTab.add( "quarter" );
 		List<ITimeFunction> function1 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, true );
-		assertTrue( function1.size( ) ==20 );
+		assertTrue( function1.size( ) ==22 );
 		
-		ITimeFunction function = function1.get( 16 );
+		ITimeFunction function = function1.get( 18 );
 		assertTrue( function.getName( ).equals( "CURRENT PERIOD FROM N PERIODS AGO" ));
 		
 		List<IArgumentInfo> arguments = function.getArguments( );
@@ -200,5 +201,126 @@ public class TimeFunctionManagerTest extends TestCase
 		assertTrue( basePeriod.countOfUnit( ) == -10 );
 		assertTrue( relativePeriod.getType( ).equals( TimePeriodType.YEAR ) );
 		assertTrue( relativePeriod.countOfUnit( ) == -5 );		
+	}
+	
+	public void testGetTimeType() throws SemanticException 
+	{
+		ComputedColumnHandle computedHandle = ModelUtil.createComputedColumnHandle( );
+		computedHandle.setAggregateFunction( "SUM" );
+	
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.CURRENT_QUARTER );
+		String[] timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
+		
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.CURRENT_MONTH );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_30_DAYS );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_60_DAYS );		
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_90_DAYS );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_12_MONTHS );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.YEAR_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
+		
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.QUARTER_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.MONTH_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.CURRENT_YEAR );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.WEEK_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PREVIOUS_MONTH );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PREVIOUS_QUARTER );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PREVIOUS_YEAR );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+		
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+		
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
+
+		CalculationArgument period1 = new CalculationArgument( );
+		CalculationArgument period2 = new CalculationArgument( );
+		
+		period1.setName( IArgumentInfo.PERIOD_1 );
+		period2.setName( IArgumentInfo.PERIOD_2 );
+		
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.YEAR, ExpressionType.CONSTANT ) );
+		period2.setValue( new Expression( IArgumentInfo.Period_Type.DAY, ExpressionType.CONSTANT ) );
+
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO );
+		computedHandle.addCalculationArgument( period1 );
+		computedHandle.addCalculationArgument( period2 );		
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
+		assertTrue( timeTypes[1].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+		
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.QUARTER, ExpressionType.CONSTANT ) );
+		period2.setValue( new Expression( IArgumentInfo.Period_Type.MONTH, ExpressionType.CONSTANT ) );
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO );
+		computedHandle.addCalculationArgument( period1 );
+		computedHandle.addCalculationArgument( period2 );		
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
+		assertTrue( timeTypes[1].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+				
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.DAY, ExpressionType.CONSTANT ) );
+		period2.setValue( new Expression( IArgumentInfo.Period_Type.MONTH, ExpressionType.CONSTANT ) );
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO );
+		computedHandle.addCalculationArgument( period1 );
+		computedHandle.addCalculationArgument( period2 );		
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+		assertTrue( timeTypes[1].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
+
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.DAY, ExpressionType.CONSTANT ) );
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.NEXT_N_PERIODS );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
 	}
 }
