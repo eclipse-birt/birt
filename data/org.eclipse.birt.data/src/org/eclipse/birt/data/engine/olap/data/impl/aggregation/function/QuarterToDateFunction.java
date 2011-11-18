@@ -16,6 +16,7 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 		
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
+		cal.clear();
 		cal.setMinimalDaysInFirstWeek(1);
 		String calculateUnit = this.translateToCal( cal, levels, values ) ;
 		Calendar isCurrentCal = null;

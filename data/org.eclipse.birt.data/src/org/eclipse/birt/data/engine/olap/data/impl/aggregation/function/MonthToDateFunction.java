@@ -33,6 +33,7 @@ public class MonthToDateFunction extends AbstractMDX
 
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
+		cal.clear( );
 		cal.setMinimalDaysInFirstWeek(1);
 		
 		String baseType = translateToCal( cal, levelTypes, values );
