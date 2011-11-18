@@ -20,6 +20,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 
@@ -76,6 +77,9 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 					false,
 					result.getColumnEdgeResult( ),
 					this );
+			//the fetch size limit on column edge cursor
+			if ( appContext != null )
+				columnEdgeCursor.setFetchSize( populateFetchLimitSize( appContext.get( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE ) ) );
 			
 			result.getColumnEdgeResult( ).populateEdgeInfo( false );
 			ordinateEdge.add( columnEdgeCursor );
@@ -87,6 +91,8 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 					false,
 					result.getRowEdgeResult( ),
 					this );
+			if ( appContext != null )
+				rowEdgeCursor.setFetchSize( populateFetchLimitSize( appContext.get( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE ) ) );
 
 			result.getRowEdgeResult( ).populateEdgeInfo( false );
 			ordinateEdge.add( rowEdgeCursor );
@@ -136,5 +142,21 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 				cursor.synchronizedPages( (int)position );				
 			}
 		}
+	}
+	
+	/**
+	 * 
+	 * @param propValue
+	 * @return
+	 */
+	private int populateFetchLimitSize( Object propValue )
+	{
+		int fetchLimit = -1;
+		String fetchLimitSize = propValue == null ? "-1" : propValue.toString( );
+
+		if ( fetchLimitSize != null )
+			fetchLimit = Integer.parseInt( fetchLimitSize );
+
+		return fetchLimit;
 	}
 }

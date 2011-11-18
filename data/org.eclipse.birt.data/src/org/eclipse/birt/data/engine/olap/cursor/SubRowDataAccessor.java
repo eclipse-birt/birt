@@ -51,7 +51,16 @@ public class SubRowDataAccessor extends RowDataAccessor
 		if ( startingLevel < 0 )
 		{
 			edgeStart = 0;
-			edgeEnd = this.parentNavigator.edgeDimensRelation.traverseLength - 1;
+			int fetchSize = this.parentNavigator.getRowDataAccessorService( )
+					.getFetchSize( );
+			if ( fetchSize > 0 && this.rs.length( ) > fetchSize )
+			{
+				edgeEnd = fetchSize - 1;
+			}
+			else
+			{
+				edgeEnd = this.parentNavigator.edgeDimensRelation.traverseLength - 1;
+			}
 		}
 		else
 		{

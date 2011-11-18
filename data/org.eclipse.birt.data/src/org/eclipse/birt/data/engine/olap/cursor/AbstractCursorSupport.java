@@ -44,6 +44,7 @@ public class AbstractCursorSupport implements
 
 	INavigator navigator;
 	private Accessor accessor;
+	private int fetchDirection = 0, fetchSize = -1;
 	private String name;
 	
 	/**
@@ -580,6 +581,22 @@ public class AbstractCursorSupport implements
 	}
 
 	/*
+	 * @see javax.olap.cursor.RowDataNavigation#getFetchDirection()
+	 */
+	public int getFetchDirection( ) throws OLAPException
+	{
+		return fetchDirection;
+	}
+
+	/*
+	 * @see javax.olap.cursor.RowDataNavigation#getFetchSize()
+	 */
+	public int getFetchSize( ) throws OLAPException
+	{
+		return this.fetchSize;
+	}
+
+	/*
 	 * @see javax.olap.cursor.RowDataNavigation#getPosition()
 	 */
 	public long getPosition( ) throws OLAPException
@@ -686,6 +703,23 @@ public class AbstractCursorSupport implements
 		if ( this.navigator != null )
 			return this.navigator.relative( arg0 );
 		return false;
+	}
+
+	/*
+	 * @see javax.olap.cursor.RowDataNavigation#setFetchDirection(int)
+	 */
+	public void setFetchDirection( int arg0 ) throws OLAPException
+	{
+		fetchDirection = arg0;
+	}
+
+	/*
+	 * @see javax.olap.cursor.RowDataNavigation#setFetchSize(int)
+	 */
+	public void setFetchSize( int arg0 ) throws OLAPException
+	{
+		this.fetchSize = arg0;
+		this.navigator.setFetchSize( this.fetchSize );
 	}
 
 	/*

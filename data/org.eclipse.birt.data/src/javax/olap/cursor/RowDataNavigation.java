@@ -33,9 +33,17 @@ public interface RowDataNavigation
 
 	public boolean relative( int arg0 ) throws javax.olap.OLAPException;
 
+	public void setFetchDirection( int arg0 ) throws javax.olap.OLAPException;
+
+	public void setFetchSize( int arg0 ) throws javax.olap.OLAPException;
+
 	public void clearWarnings( ) throws javax.olap.OLAPException;
 
 	public java.util.Collection getWarnings( ) throws javax.olap.OLAPException;
+
+	public int getFetchDirection( ) throws javax.olap.OLAPException;
+
+	public int getFetchSize( ) throws javax.olap.OLAPException;
 
 	public long getExtent( ) throws javax.olap.OLAPException;
 
