@@ -53,31 +53,28 @@ import org.eclipse.swt.widgets.Listener;
  * Legend subtask
  * 
  */
-public class ChartLegendSheetImpl extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
+		Listener,
+		SelectionListener
 {
 
-	private TristateCheckbox btnVisible;
-	
+	protected TristateCheckbox btnVisible;
+
 	private ExternalizedTextEditorComposite txtTitle;
-	
+
 	private TristateCheckbox btnTitleVisible;
-	
+
 	private TristateCheckbox btnShowValue;
 
 	private Label lblTitle;
 
 	private Label lblShowValue;
 
-	private Label lblLegendBehavior;
+	protected Label lblLegendBehavior;
 
 	protected Combo cmbLegendBehavior;
 
 	private Button btnTitleContentAuto;
-
-	// private Button btnTooltip;
 
 	public void createControl( Composite parent )
 	{
@@ -144,7 +141,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 				.getCaption( )
 				.getValue( ) == null );
 		btnTitleContentAuto.addSelectionListener( this );
-		
+
 		lblLegendBehavior = new Label( cmpBasic, SWT.NONE );
 		{
 			lblLegendBehavior.setText( Messages.getString( "ChartLegendSheetImpl.Label.LegendBehaviorType" ) ); //$NON-NLS-1$
@@ -157,7 +154,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			gridData.horizontalSpan = 2;
 			cmbLegendBehavior.setLayoutData( gridData );
 			cmbLegendBehavior.addSelectionListener( this );
-			cmbLegendBehavior.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
+			cmbLegendBehavior.setEnabled( getChart( ).getInteractivity( )
+					.isEnable( ) );
 		}
 
 		new Label( cmpBasic, SWT.NONE );
@@ -213,7 +211,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		NameSet nameSet = LiteralHelper.legendBehaviorTypeSet;
 		List<String> names = new ArrayList<String>( Arrays.asList( nameSet.getDisplayNames( ) ) );
 		names.add( 0, ChartUIExtensionUtil.getAutoMessage( ) );
-		if ( isBehaviorSupported( ) ) 
+		if ( isBehaviorSupported( ) )
 		{
 			cmbLegendBehavior.setItems( names.toArray( new String[]{} ) );
 			if ( !getChart( ).getInteractivity( ).isSetLegendBehavior( ) )
@@ -241,11 +239,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		return "SVG".equalsIgnoreCase( getContext( ).getOutputFormat( ) ); //$NON-NLS-1$
 	}
 
-	private void setState( boolean enabled )
+	protected void setState( boolean enabled )
 	{
-		btnTitleContentAuto.setEnabled( getTitleVisibleSelection() );
+		btnTitleContentAuto.setEnabled( getTitleVisibleSelection( ) );
 		lblTitle.setEnabled( enabled );
-		txtTitle.setEnabled( enabled &&  getTitleVisibleSelection( ) && !btnTitleContentAuto.getSelection( ) );
+		txtTitle.setEnabled( enabled
+				&& getTitleVisibleSelection( )
+				&& !btnTitleContentAuto.getSelection( ) );
 		btnTitleVisible.setEnabled( enabled );
 		lblLegendBehavior.setEnabled( enabled );
 		cmbLegendBehavior.setEnabled( enabled );
@@ -350,12 +350,6 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		btnLegendText.addSelectionListener( this );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
-	 */
-
 	public void handleEvent( Event event )
 	{
 		if ( event.widget.equals( txtTitle ) )
@@ -411,8 +405,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		else if ( e.widget.equals( btnTitleVisible ) )
 		{
 
-			setToggleButtonEnabled( BUTTON_TITLE,
-					getTitleVisibleSelection( ) );
+			setToggleButtonEnabled( BUTTON_TITLE, getTitleVisibleSelection( ) );
 			int state = btnTitleVisible.getSelectionState( );
 			boolean enabled = false;
 			switch ( state )
@@ -433,8 +426,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			txtTitle.setEnabled( enabled && !btnTitleContentAuto.getSelection( ) );
 			btnTitleContentAuto.setEnabled( enabled );
 			Button btnLegendTitle = getToggleButton( BUTTON_TITLE );
-			if ( !getTitleVisibleSelection( )
-					&& btnLegendTitle.getSelection( ) )
+			if ( !getTitleVisibleSelection( ) && btnLegendTitle.getSelection( ) )
 			{
 				btnLegendTitle.setSelection( false );
 				detachPopup( );
@@ -475,41 +467,42 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		{
 			if ( btnTitleContentAuto.getSelection( ) )
 			{
-				getChart( ).getLegend( ).getTitle( ).getCaption( ).setValue( null );
+				getChart( ).getLegend( )
+						.getTitle( )
+						.getCaption( )
+						.setValue( null );
 			}
 			else
 			{
-				getChart( ).getLegend( ).getTitle( ).getCaption( ).setValue( "" ); //$NON-NLS-1$
+				getChart( ).getLegend( )
+						.getTitle( )
+						.getCaption( )
+						.setValue( "" ); //$NON-NLS-1$
 			}
 			txtTitle.setEnabled( !btnTitleContentAuto.getSelection( ) );
 			txtTitle.setText( getLegendTitle( ) );
 		}
-		// else if ( e.widget.equals( btnTooltip ) )
-		// {
-		// new TooltipDialog( cmpContent.getShell( ),
-		// getChart( ).getLegend( ).getTriggers( ),
-		// getContext( ),
-		// Messages.getString( "ChartLegendSheetImpl.Title.Tooltip" ), false,
-		// true ).open( ); //$NON-NLS-1$
-		// }
 	}
 
-	protected String getLegendTitle()
+	protected String getLegendTitle( )
 	{
-		String value = getChart( ).getLegend( ).getTitle( ).getCaption( ).getValue( );
+		String value = getChart( ).getLegend( )
+				.getTitle( )
+				.getCaption( )
+				.getValue( );
 		if ( value == null )
 		{
 			return ""; //$NON-NLS-1$
 		}
 		return value;
 	}
-	
+
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// Do nothing.
 	}
 
-	private boolean getTitleVisibleSelection()
+	private boolean getTitleVisibleSelection( )
 	{
 		return ChartUIExtensionUtil.canEnableUI( btnTitleVisible );
 	}

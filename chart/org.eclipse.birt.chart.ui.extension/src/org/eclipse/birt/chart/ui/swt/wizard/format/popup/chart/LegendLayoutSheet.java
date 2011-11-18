@@ -56,50 +56,35 @@ import org.eclipse.swt.widgets.Spinner;
  * Legend - Layout
  */
 
-public class LegendLayoutSheet extends AbstractPopupSheet
-		implements
-			Listener,
-			ModifyListener,
-			SelectionListener
+public class LegendLayoutSheet extends AbstractPopupSheet implements
+		Listener,
+		ModifyListener,
+		SelectionListener
 {
 
-	private transient Combo cmbAnchor;
+	protected Combo cmbAnchor;
 
-	private transient Combo cmbStretch;
+	private Combo cmbStretch;
 
-	private transient LineAttributesComposite outlineLegend;
+	protected LineAttributesComposite outlineLegend;
 
-	private transient InsetsComposite icLegend;
+	private InsetsComposite icLegend;
 
-	private transient Combo cmbOrientation;
+	protected Combo cmbOrientation;
 
-	private transient Combo cmbPosition;
+	protected Combo cmbPosition;
 
-	private transient FillChooserComposite fccBackground;
+	protected FillChooserComposite fccBackground;
 
-	private transient Combo cmbDirection;
+	private Combo cmbDirection;
 
-	private transient LocalizedNumberEditorComposite txtWrapping;
-
-	private transient Label lblDirection;
-
-	private transient Label lblBackground;
-
-	private transient Label lblStretch;
-
-	private transient Label lblAnchor;
-
-	private transient Label lblPosition;
-
-	private transient Label lblOrientation;
-
-	private transient Label lblWrapping;
+	protected LocalizedNumberEditorComposite txtWrapping;
 
 	private Spinner spnMaxPercent;
 
 	private Spinner spnTitlePercent;
 
-	private Button btnWrapping;
+	protected Button btnWrapping;
 
 	private Button btnMaxPercent;
 
@@ -110,10 +95,14 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		super( title, context, false );
 	}
 
-	protected Composite getComponent( Composite parent )
+	@Override
+	protected void bindHelp( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_LEGEND_LAYOUT );
+	}
 
+	protected Composite getComponent( Composite parent )
+	{
 		Composite cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( new GridLayout( ) );
 
@@ -179,11 +168,11 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		spn.setValues( spnValue, 1, 100, 0, 1, 10 );
 	}
 
-	private void getComponentLegendLeftArea( Composite cmpLegLeft )
+	protected void getComponentLegendLeftArea( Composite cmpLegLeft )
 	{
 		boolean bEnableUI = getBlockForProcessing( ).isVisible( );
 
-		lblOrientation = new Label( cmpLegLeft, SWT.NONE );
+		Label lblOrientation = new Label( cmpLegLeft, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "BlockAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
 		lblOrientation.setEnabled( bEnableUI );
 
@@ -194,7 +183,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbOrientation.addSelectionListener( this );
 		cmbOrientation.setEnabled( bEnableUI );
 
-		lblPosition = new Label( cmpLegLeft, SWT.NONE );
+		Label lblPosition = new Label( cmpLegLeft, SWT.NONE );
 		lblPosition.setText( Messages.getString( "BlockAttributeComposite.Lbl.Position" ) ); //$NON-NLS-1$
 		lblPosition.setEnabled( bEnableUI );
 
@@ -205,7 +194,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbPosition.addSelectionListener( this );
 		cmbPosition.setEnabled( bEnableUI );
 
-		lblAnchor = new Label( cmpLegLeft, SWT.NONE );
+		Label lblAnchor = new Label( cmpLegLeft, SWT.NONE );
 		lblAnchor.setText( Messages.getString( "BlockAttributeComposite.Lbl.Anchor" ) ); //$NON-NLS-1$
 		lblAnchor.setEnabled( bEnableUI );
 
@@ -216,7 +205,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbAnchor.addSelectionListener( this );
 		cmbAnchor.setEnabled( bEnableUI );
 
-		lblStretch = new Label( cmpLegLeft, SWT.NONE );
+		Label lblStretch = new Label( cmpLegLeft, SWT.NONE );
 		lblStretch.setText( Messages.getString( "BlockAttributeComposite.Lbl.Stretch" ) ); //$NON-NLS-1$
 		lblStretch.setEnabled( bEnableUI );
 
@@ -227,7 +216,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbStretch.addSelectionListener( this );
 		cmbStretch.setEnabled( bEnableUI );
 
-		lblBackground = new Label( cmpLegLeft, SWT.NONE );
+		Label lblBackground = new Label( cmpLegLeft, SWT.NONE );
 		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
 		lblBackground.setEnabled( bEnableUI );
 
@@ -248,7 +237,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		fccBackground.setEnabled( bEnableUI );
 		fccBackground.setTextIndent( 0 );
 
-		lblDirection = new Label( cmpLegLeft, SWT.NONE );
+		Label lblDirection = new Label( cmpLegLeft, SWT.NONE );
 		lblDirection.setText( Messages.getString( "BlockAttributeComposite.Lbl.Direction" ) ); //$NON-NLS-1$
 		lblDirection.setEnabled( bEnableUI );
 
@@ -259,7 +248,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbDirection.addSelectionListener( this );
 		cmbDirection.setEnabled( bEnableUI );
 
-		lblWrapping = new Label( cmpLegLeft, SWT.NONE );
+		Label lblWrapping = new Label( cmpLegLeft, SWT.NONE );
 		lblWrapping.setText( Messages.getString( "LegendLayoutSheet.Label.WrappingWidth" ) ); //$NON-NLS-1$
 		lblWrapping.setEnabled( bEnableUI );
 
@@ -273,43 +262,43 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			txtWrapping.addModifyListener( this );
 			txtWrapping.setEnabled( bEnableUI );
 		}
-		
+
 		btnWrapping = new Button( cmpLegLeft, SWT.CHECK );
 		btnWrapping.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnWrapping.setSelection( !getBlockForProcessing( ).isSetWrappingSize( ) );
+		btnWrapping.setSelection( !getBlockForProcessing( ).isSetWrappingSize( )
+				&& getBlockForProcessing( ).isSetWrappingSize( ) );
 		btnWrapping.addSelectionListener( this );
-		
+
 		spnMaxPercent = createSpinner( cmpLegLeft,
 				Messages.getString( "LegendLayoutSheet.Label.MaxPercent" ), //$NON-NLS-1$
 				getBlockForProcessing( ).getMaxPercent( ),
 				bEnableUI );
-		
-		btnMaxPercent = new Button(cmpLegLeft, SWT.CHECK );
+
+		btnMaxPercent = new Button( cmpLegLeft, SWT.CHECK );
 		btnMaxPercent.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnMaxPercent.setSelection( !getBlockForProcessing( ).isSetMaxPercent( ) );
 		btnMaxPercent.addSelectionListener( this );
-		
+
 		spnTitlePercent = createSpinner( cmpLegLeft,
 				Messages.getString( "LegendLayoutSheet.Label.TitlePercent" ), //$NON-NLS-1$
 				getBlockForProcessing( ).getTitlePercent( ),
 				bEnableUI );
-		
-		btnTitlePercent = new Button(cmpLegLeft, SWT.CHECK );
+
+		btnTitlePercent = new Button( cmpLegLeft, SWT.CHECK );
 		btnTitlePercent.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnTitlePercent.setSelection( !getBlockForProcessing( ).isSetTitlePercent( ) );
 		btnTitlePercent.addSelectionListener( this );
 		updateUIState( );
 	}
 
-	private void updateUIState()
+	private void updateUIState( )
 	{
 		Legend l = this.getBlockForProcessing( );
-		txtWrapping.setEnabled( l.isSetWrappingSize( ) );
 		spnMaxPercent.setEnabled( l.isSetMaxPercent( ) );
 		spnTitlePercent.setEnabled( l.isSetTitlePercent( ) );
 	}
-	
-	private void getComponentLegendRightArea( Composite cmpLegRight )
+
+	protected void getComponentLegendRightArea( Composite cmpLegRight )
 	{
 		Group grpOutline = new Group( cmpLegRight, SWT.NONE );
 		{
@@ -345,11 +334,12 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			icLegend.setLayoutData( gdICBlock );
 			icLegend.addListener( this );
 			icLegend.setEnabled( bEnableUI );
-			icLegend.setDefaultInsetsValue( DefaultValueProvider.defLegend( ).getInsets( ) );
+			icLegend.setDefaultInsetsValue( DefaultValueProvider.defLegend( )
+					.getInsets( ) );
 		}
 	}
 
-	private void populateLists( )
+	protected void populateLists( )
 	{
 		// Set the block Stretch property
 		NameSet ns = LiteralHelper.stretchSet;
@@ -386,7 +376,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 * @see
+	 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
+	 * .ModifyEvent)
 	 */
 	public void modifyText( ModifyEvent e )
 	{
@@ -404,7 +396,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -469,7 +463,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -478,7 +474,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -598,12 +596,12 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 	}
 
-	private Legend getBlockForProcessing( )
+	protected Legend getBlockForProcessing( )
 	{
 		return getChart( ).getLegend( );
 	}
 
-	private void getAnchorSet( )
+	protected void getAnchorSet( )
 	{
 		String positionValue = getBlockForProcessing( ).getPosition( )
 				.getLiteral( );
@@ -622,7 +620,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		{
 			ns = LiteralHelper.anchorSet;
 		}
-		
+
 		cmbAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
 		cmbAnchor.select( getBlockForProcessing( ).isSetAnchor( ) ? ( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
 				.getName( ) ) + 1 )
