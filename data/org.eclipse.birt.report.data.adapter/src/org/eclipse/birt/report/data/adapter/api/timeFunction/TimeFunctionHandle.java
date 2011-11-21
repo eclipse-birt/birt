@@ -76,6 +76,12 @@ public class TimeFunctionHandle
 								local ),
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_PREVIOUS_MONTH_DES,
 								local ) ) );
+		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE,
+				new BaseTimeFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE,
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_PREVIOUS_WEEK_TO_DATE,
+								local ),
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_PREVIOUS_WEEK_TO_DATE_DES,
+								local ) ) );
 		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE,
 				new BaseTimeFunction( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE,
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_PREVIOUS_MONTH_TO_DATE,

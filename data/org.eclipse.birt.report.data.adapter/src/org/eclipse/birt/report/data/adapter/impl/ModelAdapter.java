@@ -539,6 +539,10 @@ public class ModelAdapter implements IModelAdapter
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER );
 		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.WEEK );
+		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType ) )
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH );
@@ -639,6 +643,26 @@ public class ModelAdapter implements IModelAdapter
 			}
 			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
 					TimePeriodType.YEAR );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			if ( n == null || n.trim( ).equals( "" ) )
+			{
+				n = "1";
+			}
+			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+					TimePeriodType.WEEK );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType )
 				|| IBuildInBaseTimeFunction.PREVIOUS_MONTH.equals( calculateType ) )

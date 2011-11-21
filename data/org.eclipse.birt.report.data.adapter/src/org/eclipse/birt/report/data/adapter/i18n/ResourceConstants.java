@@ -50,6 +50,8 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_CURRENT_MONTH_DES = "timeFunction.CURRENT_MONTH.description";
 	public final static String TIMEFUNCITON_PREVIOUS_MONTH = "timeFunction.PREVIOUS_MONTH.name";
 	public final static String TIMEFUNCITON_PREVIOUS_MONTH_DES = "timeFunction.PREVIOUS_MONTH.description";
+	public final static String TIMEFUNCITON_PREVIOUS_WEEK_TO_DATE = "timeFunction.PREVIOUS_WEEK_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_PREVIOUS_WEEK_TO_DATE_DES = "timeFunction.PREVIOUS_WEEK_TO_DATE.description";
 	public final static String TIMEFUNCITON_PREVIOUS_MONTH_TO_DATE = "timeFunction.PREVIOUS_MONTH_TO_DATE.name"; 
 	public final static String TIMEFUNCITON_PREVIOUS_MONTH_TO_DATE_DES = "timeFunction.PREVIOUS_MONTH_TO_DATE.description";
 	public final static String TIMEFUNCITON_PREVIOUS_QUARTER = "timeFunction.PREVIOUS_QUARTER.name";

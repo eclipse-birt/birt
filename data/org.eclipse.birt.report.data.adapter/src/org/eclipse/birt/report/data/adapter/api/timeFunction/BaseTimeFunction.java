@@ -122,6 +122,13 @@ public class BaseTimeFunction implements ITimeFunction
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					true ) );			
 		}
+		else if ( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) )
+		{
+			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					true ) );
+		}
 		else
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE ) )
 		{

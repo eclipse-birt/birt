@@ -45,16 +45,14 @@ public class TimeFunctionManager
 		List<String> timeType = new ArrayList<String>( );
 		if ( dim != null && dim.isTimeType( ) )
 		{
-			String mostDetailedLevel = null, startingLevels = null;
+			String startingLevels = null;
 			if ( !timeLevelsInXtab.isEmpty( ) && !isStaticReferenceDate )
 			{
 				startingLevels = timeLevelsInXtab.get( 0 ).toString( );
-				mostDetailedLevel = timeLevelsInXtab.get( timeLevelsInXtab.size( ) - 1 )
-						.toString( );
 			}
 			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
 			List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
-			for ( int i = 0; i < levels.size( ); i++ )
+			for ( int i = 0, j = 0; i < levels.size( ); i++ )
 			{
 				TabularLevelHandle level = (TabularLevelHandle) levels.get( i );
 				if ( startingLevels != null
@@ -64,16 +62,20 @@ public class TimeFunctionManager
 							.equalsIgnoreCase( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) )
 						return availableFunctions;
 				}
-
-				if ( mostDetailedLevel != null
-						&& level.getName( ).equals( mostDetailedLevel ) )
+				if (timeLevelsInXtab.isEmpty() || isStaticReferenceDate)
 				{
 					timeType.add( level.getDateTimeLevelType( ) );
-					break;
 				}
 				else
 				{
-					timeType.add( level.getDateTimeLevelType( ) );
+					if (level.getName().equals(timeLevelsInXtab.get(j)))
+					{
+						timeType.add( level.getDateTimeLevelType( ) );
+						if ( ++j >= timeLevelsInXtab.size() )
+						{
+							break;
+						}
+					}
 				}
 			}
 			// no year level in time dimension
@@ -99,7 +101,9 @@ public class TimeFunctionManager
 
 			periodType.add( IArgumentInfo.Period_Type.YEAR );
 		}
-		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) )
+		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) 
+				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
+				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR))
 		{
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_QUARTER ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_QUARTER ) );
@@ -109,7 +113,9 @@ public class TimeFunctionManager
 
 			periodType.add( IArgumentInfo.Period_Type.QUARTER );
 		}
-		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) )
+		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) 
+				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
+				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR) )
 		{
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_MONTH ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) );
@@ -129,10 +135,12 @@ public class TimeFunctionManager
 			periodType.add( IArgumentInfo.Period_Type.DAY );
 		}
 		// for WTD, only support static reference date
-		if ( isStaticReferenceDate
-				&& timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+		if ( timeLevelsInXtab.isEmpty()
+				&& (timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
+				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR )))
 		{
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE ) );
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) );
 			periodType.add( IArgumentInfo.Period_Type.WEEK );
 		}
 
@@ -148,6 +156,7 @@ public class TimeFunctionManager
 		return availableFunctions;
 	}
 
+	
 	/**
 	 * get a list of TimeFunction instances for the specified type under default
 	 * local
@@ -186,6 +195,10 @@ public class TimeFunctionManager
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH.equals( name ) )
 		{
 			return handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( name ) )
+		{
+			return handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( name ) )
 		{
@@ -346,7 +359,8 @@ public class TimeFunctionManager
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR
 			};
 		}
-		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE.equals( calculationType ) )
+		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE.equals( calculationType ) 
+				|| IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculationType ))
 		{
 			return new String[]{
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR
