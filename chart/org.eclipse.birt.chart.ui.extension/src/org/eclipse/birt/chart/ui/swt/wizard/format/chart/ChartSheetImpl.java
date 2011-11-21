@@ -597,8 +597,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 	private void updateEmptyMessageUIStates( )
 	{
-		boolean bEnabled = getChart( ).getEmptyMessage( ).isSetVisible( )
-				&& getChart( ).getEmptyMessage( ).isVisible( );
+		boolean bEnabled = !ChartUIExtensionUtil.isSetInvisible( getChart( ).getEmptyMessage( ) );
 		txtEmptyMsg.setEnabled( bEnabled );
 		fdcEmptyMsg.setEnabled( bEnabled );
 		lbTxtEmptyMsg.setEnabled( bEnabled );

@@ -437,12 +437,12 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		Marker marker;
 		if ( markerTypeSet != null )
 		{
-			marker = MarkerImpl.create( MarkerType.getByName( markerTypeSet.getNames( )[0] ),
-					4 );
+			marker = MarkerImpl.createDefault( MarkerType.getByName( markerTypeSet.getNames( )[0] ),
+					4, false );
 		}
 		else
 		{
-			marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 4 );
+			marker = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4, false );
 		}
 		marker.eAdapters( ).addAll( series.eAdapters( ) );
 		return marker;

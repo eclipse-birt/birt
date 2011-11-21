@@ -269,10 +269,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				boolean bValueOrigin = false;
 				if ( getAxisForProcessing( ).getOrigin( ) != null )
 				{
-					if ( getAxisForProcessing( ).getOrigin( ).isSetType( )
-							&& getAxisForProcessing( ).getOrigin( )
+					if ( !getAxisForProcessing( ).getOrigin( ).isSetType( )
+							|| ( getAxisForProcessing( ).getOrigin( )
+									.isSetType( ) && getAxisForProcessing( ).getOrigin( )
 									.getType( )
-									.equals( IntersectionType.VALUE_LITERAL ) )
+									.equals( IntersectionType.VALUE_LITERAL ) ) )
 					{
 						bValueOrigin = true;
 					}
@@ -300,8 +301,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				gd.horizontalSpan = 2;
 				btnTxtValueAuto.setLayoutData( gd );
 				btnTxtValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-				btnTxtValueAuto.setSelection( !bValueOrigin
-						|| getAxisForProcessing( ).getOrigin( ).getValue( ) == null );
+				btnTxtValueAuto.setSelection( getAxisForProcessing( ).getOrigin( ).getValue( ) == null );
 				btnTxtValueAuto.setEnabled( bValueOrigin );
 				txtValue.setEnabled( bValueOrigin && !btnTxtValueAuto.getSelection( ) );
 				btnTxtValueAuto.addSelectionListener( this );
@@ -757,30 +757,35 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			if ( IntersectionType.VALUE_LITERAL.getName( )
 					.equals( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) )
 			{
-				lblValue.setEnabled( true );
+				
 				boolean enabled = true && ( getAxisForProcessing( ).getOrigin( )
 						.getValue( ) != null );
-				txtValue.setEnabled( enabled && !btnTxtValueAuto.getSelection( ) );
+
 				btnTxtValueAuto.setEnabled( true );
+				lblValue.setEnabled( true );
+				txtValue.setEnabled( enabled && !btnTxtValueAuto.getSelection( ) );
 
 				getAxisForProcessing( ).getOrigin( )
 						.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 			}
 			else
 			{
+				boolean enabled = false;
 				if ( cmbOrigin.getSelectionIndex( ) == 0 )
 				{
 					getAxisForProcessing( ).getOrigin( ).unsetType( );
 					getAxisForProcessing( ).getOrigin( ).setValue( null );
+					enabled = true;
 				}
 				else
 				{
 					getAxisForProcessing( ).getOrigin( )
 							.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 				}
-				lblValue.setEnabled( false );
-				txtValue.setEnabled( false );
-				btnTxtValueAuto.setEnabled( false );
+				
+				btnTxtValueAuto.setEnabled( enabled );
+				lblValue.setEnabled( enabled );
+				txtValue.setEnabled( enabled && !btnTxtValueAuto.getSelection( )  );
 			}
 
 			if ( getAxisForProcessing( ).getOrigin( ).isSetType( )

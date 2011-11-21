@@ -264,6 +264,10 @@ public class MeterSeriesAttributeComposite extends Composite implements
 					txtRadius.getValue( ),
 					btnRadiusAuto.getSelection( ) );
 			txtRadius.setEnabled( !btnRadiusAuto.getSelection( ) );
+			if ( !series.getDial( ).isSetRadius( ) )
+			{
+				txtRadius.unsetValue( );
+			}
 		}
 		else if ( event.widget == btnStartAngleAuto )
 		{
@@ -272,6 +276,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 					(double)iscStartAngle.getValue( ),
 					btnStartAngleAuto.getSelection( ) );
 			iscStartAngle.setEnabled( !btnStartAngleAuto.getSelection( ) );
+			iscStartAngle.setValue( (int) ( series.getDial( ).getStartAngle( ) ) );
 		}
 		else if ( event.widget == btnStopAngleAuto )
 		{
@@ -280,6 +285,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 					(double)iscStopAngle.getValue( ),
 					btnStopAngleAuto.getSelection( ) );
 			iscStopAngle.setEnabled( !btnStopAngleAuto.getSelection( ) );
+			iscStopAngle.setValue( (int) ( series.getDial( ).getStopAngle( ) ) );
 		}
 	}
 

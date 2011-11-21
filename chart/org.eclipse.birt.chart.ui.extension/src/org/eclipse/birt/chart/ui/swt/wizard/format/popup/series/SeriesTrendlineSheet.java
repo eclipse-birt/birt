@@ -151,7 +151,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				-1,
 				keys,
 				getContext( ).getUIServiceProvider( ),
-				getTrendline( ).getLabel( ).getCaption( ).getValue( ) );
+				getTrendlineText( ) );
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 125;
@@ -324,6 +324,15 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		return cmpContent;
 	}
 
+	protected String getTrendlineText( )
+	{
+		if ( getTrendline( ).getLabel( ).getCaption( ).getValue( ) == null )
+		{
+			return "";//$NON-NLS-1$
+		}
+		return getTrendline( ).getLabel( ).getCaption( ).getValue( );
+	}
+
 	private CurveFitting getTrendline( )
 	{
 		if ( series != null )
@@ -375,9 +384,17 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( txtValue ) )
 		{
-			getTrendline( ).getLabel( )
-					.getCaption( )
-					.setValue( txtValue.getText( ) );
+			String text = txtValue.getText( );
+			if ( text == null || text.trim( ).length( ) == 0 )
+			{
+				getTrendline( ).getLabel( ).getCaption( ).setValue( null );
+			}
+			else
+			{
+				getTrendline( ).getLabel( )
+						.getCaption( )
+						.setValue( txtValue.getText( ) );
+			}
 		}
 		else if ( event.widget.equals( icLabel ) )
 		{

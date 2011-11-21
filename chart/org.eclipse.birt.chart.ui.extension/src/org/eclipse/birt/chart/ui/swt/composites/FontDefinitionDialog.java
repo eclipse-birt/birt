@@ -110,7 +110,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient boolean isAlignmentEnabled = true;
 
-	private transient List listAlignmentButtons = new ArrayList( 9 );
+	private transient List<Button> listAlignmentButtons = new ArrayList<Button>( 9 );
 
 	private transient ChartWizardContext wizardContext;
 
@@ -456,7 +456,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 	{
 		for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
 		{
-			( (Button) listAlignmentButtons.get( i ) ).setSelection( selection );
+			listAlignmentButtons.get( i ).setSelection( selection );
 		}
 	}
 
@@ -685,10 +685,10 @@ public class FontDefinitionDialog extends TrayDialog implements
 			{
 				for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
 				{
-					( (Button) listAlignmentButtons.get( i ) ).setEnabled( true );
+					listAlignmentButtons.get( i ).setEnabled( true );
 				}
 			}
-			return;
+			updatePreview( );
 		}
 		else if ( e.widget == btnAutoRotation )
 		{
@@ -703,10 +703,12 @@ public class FontDefinitionDialog extends TrayDialog implements
 				iscRotation.setEnabled( true );
 				ascRotation.setEnabled( true );
 			}
-			return;
+			iscRotation.setValue( ChartUIUtil.getFontRotation( fdCurrent ) );
+			ascRotation.setAngle( ChartUIUtil.getFontRotation( fdCurrent ) );
+			ascRotation.redraw( );
+			updatePreview( );
 		}
-
-		if ( oSource.equals( btnBold ) )
+		else if ( oSource.equals( btnBold ) )
 		{
 			if ( btnBold.getSelection( ) )
 			{
@@ -848,8 +850,8 @@ public class FontDefinitionDialog extends TrayDialog implements
 	{
 		for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
 		{
-			( (Button) listAlignmentButtons.get( i ) ).setSelection( false );
-			( (Button) listAlignmentButtons.get( i ) ).setEnabled( false );
+			listAlignmentButtons.get( i ).setSelection( false );
+			listAlignmentButtons.get( i ).setEnabled( false );
 		}
 	}
 

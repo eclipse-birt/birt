@@ -1208,7 +1208,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	}
 
 	/**
-	 * @return
+	 * @return dial instance with setting 'isSet' flag.
 	 */
 	public static final Dial create( )
 	{
@@ -1268,7 +1268,7 @@ public class DialImpl extends EObjectImpl implements Dial
 	}
 
 	/**
-	 * @return
+	 * @return dial instance without setting 'isSet' flag.
 	 */
 	public static final Dial createDefault( )
 	{

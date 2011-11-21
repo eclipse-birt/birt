@@ -1096,7 +1096,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					"orientation", Orientation.HORIZONTAL_LITERAL ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( xAxisBase.getOrigin( ),
 					"type", IntersectionType.MIN_LITERAL ); //$NON-NLS-1$
-			xAxisBase.getOrigin( ).setValue( NumberDataElementImpl.create( 0 ) );
+			xAxisBase.getOrigin( ).setValue( null );
 			ChartElementUtil.setDefaultValue( xAxisBase,
 					"type", AxisType.TEXT_LITERAL ); //$NON-NLS-1$
 
@@ -1119,7 +1119,7 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getOrigin( ),
 					"type", IntersectionType.MIN_LITERAL ); //$NON-NLS-1$
 			yAxisOrthogonal.getOrigin( )
-					.setValue( NumberDataElementImpl.create( 0 ) );
+					.setValue( null );
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
 					"type", AxisType.LINEAR_LITERAL ); //$NON-NLS-1$
 

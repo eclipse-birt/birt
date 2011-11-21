@@ -204,8 +204,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 				lbEllipsis.setEnabled( true );
 			}
 			
-			boolean enableEllipsis = getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL
-			|| getAxisForProcessing( ).isCategoryAxis( );
+			boolean enableEllipsis = ( !getAxisForProcessing( ).isSetType( )
+					|| getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL || getAxisForProcessing( ).isCategoryAxis( ) );
 			iscEllipsis = new Spinner( cmpOther, SWT.BORDER );
 			{
 				iscEllipsis.setMinimum( 0 );
@@ -351,6 +351,7 @@ public class AxisLabelSheet extends AbstractPopupSheet
 					iscInterval.getSelection( ),
 					btnIntervalAuto.getSelection( ) );
 			iscInterval.setEnabled( !btnIntervalAuto.getSelection( ) );
+			iscInterval.setSelection( getAxisForProcessing( ).getInterval( ) );
 		}
 		else if ( e.widget == btnEllipsisAuto )
 		{
@@ -358,7 +359,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 					"ellipsis", //$NON-NLS-1$
 					iscEllipsis.getSelection( ),
 					btnEllipsisAuto.getSelection( ) );
-			iscEllipsis.setEnabled( btnEllipsisAuto.getSelection( ) );
+			iscEllipsis.setEnabled( !btnEllipsisAuto.getSelection( ) );
+			iscEllipsis.setSelection( getAxisForProcessing( ).getLabel( ).getEllipsis( ) );
 		}
 	}
 

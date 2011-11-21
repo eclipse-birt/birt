@@ -552,6 +552,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					majGridStNum.getSelection( ),
 					btnMajStpNum.getSelection( ) );
 			setStateOfMajorGrid( );
+			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
+					.getMajorGridsStepNumber( ) );
 		}
 		else if ( e.widget == btnGridCountUnit )
 		{
@@ -560,6 +562,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					iscGridCount.getSelection( ),
 					btnGridCountUnit.getSelection( ) );
 			setStateOfMinorGrid( );
+			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
+					.getMinorGridsPerUnit( ) );
 		}
 	}
 

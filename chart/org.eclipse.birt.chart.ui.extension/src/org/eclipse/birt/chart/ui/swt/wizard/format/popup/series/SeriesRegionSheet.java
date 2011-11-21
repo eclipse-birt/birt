@@ -545,8 +545,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		else if ( e.getSource( ).equals( btnAddRange ) )
 		{
 			DialRegion range = DialRegionImpl.createDefault( );
-			range.setStartValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
-			range.setEndValue( getTypedDataElement( "" ) ); //$NON-NLS-1$
+			range.setStartValue( getTypedDataElement( null ) );
+			range.setEndValue( getTypedDataElement( null ) );
 			getDialForProcessing( ).getDialRegions( ).add( range );
 			range.eAdapters( ).addAll( getDialForProcessing( ).eAdapters( ) );
 			iRangeCount++;
@@ -723,12 +723,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	private void setState( boolean bState )
 	{
 		lblStartValue.setEnabled( bState );
-		txtStartValue.setEnabled( bState );
+		txtStartValue.setEnabled( bState && !btnStartValueAuto.getSelection( ) );
 		lblEndValue.setEnabled( bState );
-		txtEndValue.setEnabled( bState );
-		lblInnerRadius.setEnabled( bState && !btnInnerRadiusAuto.getSelection( ) );
+		txtEndValue.setEnabled( bState && !btnEndValueAuto.getSelection( ) );
+		lblInnerRadius.setEnabled( bState );
 		txtInnerRadius.setEnabled( bState && !btnInnerRadiusAuto.getSelection( ) );
-		lblOuterRadius.setEnabled( bState && !btnOuterRadiusAuto.getSelection( ) );
+		lblOuterRadius.setEnabled( bState );
 		txtOuterRadius.setEnabled( bState && !btnOuterRadiusAuto.getSelection( )  );
 		
 		liacMarkerRange.setAttributesEnabled( bState );
@@ -763,6 +763,10 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 	private DataElement getTypedDataElement( String strDataElement )
 	{
+		if ( strDataElement == null )
+		{
+			return null;
+		}
 		if ( strDataElement.trim( ).length( ) == 0 )
 		{
 			return NumberDataElementImpl.create( 0.0 );

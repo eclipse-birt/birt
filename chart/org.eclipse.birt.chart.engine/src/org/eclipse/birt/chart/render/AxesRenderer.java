@@ -2501,16 +2501,18 @@ public abstract class AxesRenderer extends BaseRenderer
 						ml );
 
 				deValue = ml.getValue( );
-				if ( deValue == null )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							"exception.marker.line.null.value", //$NON-NLS-1$
-							new Object[]{
-								ml
-							},
-							Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
-				}
+				// Don't check null case again, like the logic of marker range,
+				// if marker value is null, still use min value to set.
+//				if ( deValue == null )
+//				{
+//					throw new ChartException( ChartEnginePlugin.ID,
+//							ChartException.RENDERING,
+//							"exception.marker.line.null.value", //$NON-NLS-1$
+//							new Object[]{
+//								ml
+//							},
+//							Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
+//				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
 				la = goFactory.copyOf( ml.getLabel( ) );
@@ -2553,7 +2555,10 @@ public abstract class AxesRenderer extends BaseRenderer
 				// COMPUTE THE LOCATION
 				try
 				{
-					dCoordinate = Methods.getLocation( asc, deValue );
+					dCoordinate = ( deValue == null ) ? ( ( iOrientation == Orientation.HORIZONTAL ) ? boPlotClientArea.getLeft( )
+							: boPlotClientArea.getTop( )
+									+ boPlotClientArea.getHeight( ) )
+							: Methods.getLocation( asc, deValue );
 				}
 				catch ( Exception ex )
 				{

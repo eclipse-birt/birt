@@ -793,7 +793,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	/**
 	 * A convenience method to create an initialized 'Label' instance
 	 * 
-	 * @return
+	 * @return label instance with setting 'isSet' flag.
 	 */
 	public static final Label create( )
 	{
@@ -829,7 +829,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	/**
 	 * A convenience method to create an initialized 'Label' instance
 	 * 
-	 * @return
+	 * @return label instance without setting 'isSet' flag.
 	 */
 	public static final Label createDefault( )
 	{
@@ -841,7 +841,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	/**
 	 * A convenience method to create an initialized 'Label' instance
 	 * 
-	 * @return
+	 * @return label instance without setting 'isSet' flag.
 	 */
 	public static final Label createDefault( boolean visible )
 	{
@@ -859,14 +859,9 @@ public class LabelImpl extends EObjectImpl implements Label
 	{
 		setCaption( TextImpl.createDefault( (String) null ) );
 
-//		setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
-
 		final Insets ins = InsetsImpl.createDefault( 0, 2, 0, 3 );
 		setInsets( ins );
 
-//		final LineAttributes lia = LineAttributesImpl.createDefault( ColorDefinitionImpl.BLACK( ),
-//				LineStyle.SOLID_LITERAL,
-//				1 );
 		final LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
 				1 );
@@ -959,10 +954,10 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * 
 	 * Note this method only copies those working properties of the label. e.g.
 	 * which could affect renderer. This is different with the copyInstance()
-	 * method, which copis all attribuetes.
+	 * method, which copies all attributes.
 	 * 
 	 * @param src
-	 * @return
+	 * @return new label instance.
 	 */
 	public static Label copyCompactInstance( Label src )
 	{

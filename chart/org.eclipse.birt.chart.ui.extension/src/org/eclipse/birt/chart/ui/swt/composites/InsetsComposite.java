@@ -429,6 +429,8 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 				insets.setRight( txtRight.getValue( ) );
 				insets.setBottom( txtBottom.getValue( ) );
 			}
+			
+			updateInsetsData( insets );
 		}
 		
 	}

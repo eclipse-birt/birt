@@ -599,7 +599,7 @@ public class LabelAttributesComposite extends Composite implements
 
 		if ( attributesContext.isLabelEnabled )
 		{
-			this.txtLabel.setText( lbl.getCaption( ).getValue( ) );
+			this.txtLabel.setText( getLabelText( lbl ) );
 		}
 
 		if ( attributesContext.isInsetsEnabled )
@@ -627,6 +627,16 @@ public class LabelAttributesComposite extends Composite implements
 
 		redraw( );
 
+	}
+
+	protected String getLabelText(
+			org.eclipse.birt.chart.model.component.Label lbl )
+	{
+		if ( lbl.getCaption( ).getValue( ) == null )
+		{
+			return "";//$NON-NLS-1$
+		}
+		return lbl.getCaption( ).getValue( );
 	}
 
 	public void setLabelPosition( Position pos )

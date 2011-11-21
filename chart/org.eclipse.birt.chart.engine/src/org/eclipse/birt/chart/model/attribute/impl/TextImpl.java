@@ -404,10 +404,6 @@ public class TextImpl extends EObjectImpl implements Text
 	{
 		final Text tx = AttributeFactory.eINSTANCE.createText( );
 		( (TextImpl) tx ).initDefault( );
-		if ( sValue == null )
-		{
-			sValue = IConstants.UNDEFINED_STRING;
-		}
 		tx.setValue( sValue );
 		return tx;
 	}

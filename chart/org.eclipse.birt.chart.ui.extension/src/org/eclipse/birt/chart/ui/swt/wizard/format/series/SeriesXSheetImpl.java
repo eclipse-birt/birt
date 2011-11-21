@@ -222,6 +222,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 				{
 					( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
 				}
+				txtMinSlice.setValue( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) );
 				updateUIState( );
 			}
 		}
@@ -229,25 +230,23 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	private void updateUIState( )
 	{
-		if ( cmbMinSlice.getSelectionIndex( ) ==  0 )
+		btnTxtMinSliceAuto.setEnabled( true );
+		txtMinSlice.setEnabled( !btnTxtMinSliceAuto.getSelection( ) );
+		if ( cmbMinSlice.getSelectionIndex( ) == 0 )
 		{
-			txtMinSlice.setEnabled( false );
 			lblBottomPercent.setVisible( false );
 			txtLabel.setEnabled( false );
-			btnTxtMinSliceAuto.setEnabled( false );
 		}
 		else
 		{
-			btnTxtMinSliceAuto.setEnabled( true );
 			if ( btnTxtMinSliceAuto.getSelection( ) )
 			{
-				txtMinSlice.setEnabled( false );
 				lblBottomPercent.setVisible( false );
 			}
 			else
 			{
-				txtMinSlice.setEnabled( true );
-				lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( ) && ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
+				lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
+						&& ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
 			}
 			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
 					&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
