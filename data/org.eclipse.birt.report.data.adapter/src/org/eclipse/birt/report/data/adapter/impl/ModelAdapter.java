@@ -503,6 +503,10 @@ public class ModelAdapter implements IModelAdapter
 		{
 			baseTimePeriod = new TimePeriod( -90, TimePeriodType.DAY );
 		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_120_DAYS.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( -120, TimePeriodType.DAY );
+		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_12_MONTHS.equals( calculateType ) )
 		{
 			baseTimePeriod = new TimePeriod( -12, TimePeriodType.MONTH );

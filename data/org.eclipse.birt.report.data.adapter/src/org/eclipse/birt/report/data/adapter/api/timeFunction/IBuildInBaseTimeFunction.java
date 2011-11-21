@@ -18,6 +18,7 @@ public interface IBuildInBaseTimeFunction
 	public static final String TRAILING_30_DAYS = "TRAILING 30 DAYS";
 	public static final String TRAILING_60_DAYS = "TRAILING 60 DAYS";
 	public static final String TRAILING_90_DAYS = "TRAILING 90 DAYS";
+	public static final String TRAILING_120_DAYS = "TRAILING 120 DAYS";
 	public static final String TRAILING_12_MONTHS = "TRAILING 12 MONTHS";
 	public static final String YEAR_TO_DATE = "YEAR TO DATE";
 	public static final String QUARTER_TO_DATE = "QUARTER TO DATE";

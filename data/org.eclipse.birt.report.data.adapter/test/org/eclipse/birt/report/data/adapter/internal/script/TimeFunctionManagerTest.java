@@ -138,9 +138,9 @@ public class TimeFunctionManagerTest extends TestCase
 		levelsInxTab.add( "year" );
 		levelsInxTab.add( "quarter" );
 		List<ITimeFunction> function1 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, true );
-		assertTrue( function1.size( ) ==22 );
+		assertTrue( function1.size( ) ==23 );
 		
-		ITimeFunction function = function1.get( 18 );
+		ITimeFunction function = function1.get( 19 );
 		assertTrue( function.getName( ).equals( "CURRENT PERIOD FROM N PERIODS AGO" ));
 		
 		List<IArgumentInfo> arguments = function.getArguments( );
@@ -228,6 +228,10 @@ public class TimeFunctionManagerTest extends TestCase
 		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
 
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_120_DAYS );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+		
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_12_MONTHS );
 		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );

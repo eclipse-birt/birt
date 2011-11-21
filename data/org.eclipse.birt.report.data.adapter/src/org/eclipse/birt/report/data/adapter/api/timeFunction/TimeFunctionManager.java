@@ -125,7 +125,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_30_DAYS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_60_DAYS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS ) );
-
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
 			periodType.add( IArgumentInfo.Period_Type.DAY );
 		}
 		// for WTD, only support static reference date
@@ -222,6 +222,10 @@ public class TimeFunctionManager
 		else if ( IBuildInBaseTimeFunction.TRAILING_90_DAYS.equals( name ) )
 		{
 			return handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_120_DAYS.equals( name ) )
+		{
+			return handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS );
 		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_12_MONTHS.equals( name ) )
 		{
@@ -335,7 +339,8 @@ public class TimeFunctionManager
 		}
 		if ( IBuildInBaseTimeFunction.TRAILING_30_DAYS.equals( calculationType )
 				|| IBuildInBaseTimeFunction.TRAILING_60_DAYS.equals( calculationType )
-				|| IBuildInBaseTimeFunction.TRAILING_90_DAYS.equals( calculationType ) )
+				|| IBuildInBaseTimeFunction.TRAILING_90_DAYS.equals( calculationType ) 
+				|| IBuildInBaseTimeFunction.TRAILING_120_DAYS.equals( calculationType ) )
 		{
 			return new String[]{
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR

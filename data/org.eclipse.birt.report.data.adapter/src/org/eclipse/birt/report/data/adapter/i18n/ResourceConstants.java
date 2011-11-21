@@ -63,7 +63,9 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_TRAILING_60_DAYS ="timeFunction.TRAILING_60_DAYS.name"; 
 	public final static String TIMEFUNCITON_TRAILING_60_DAYS_DES = "timeFunction.TRAILING_60_DAYS.description";
 	public final static String TIMEFUNCITON_TRAILING_90_DAYS = "timeFunction.TRAILING_90_DAYS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_120_DAYS = "timeFunction.TRAILING_120_DAYS.name";
 	public final static String TIMEFUNCITON_TRAILING_90_DAYS_DES ="timeFunction.TRAILING_90_DAYS.description";
+	public final static String TIMEFUNCITON_TRAILING_120_DAYS_DES ="timeFunction.TRAILING_120_DAYS.description";
 	public final static String TIMEFUNCITON_TRAILING_12_MONTHS = "timeFunction.TRAILING_12_MONTHS.name"; 
 	public final static String TIMEFUNCITON_TRAILING_12_MONTHS_DES ="timeFunction.TRAILING_12_MONTHS.description";
 	public final static String TIMEFUNCITON_YEAR_TO_DATE = "timeFunction.YEAR_TO_DATE.name"; 

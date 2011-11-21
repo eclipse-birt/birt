@@ -118,6 +118,12 @@ public class TimeFunctionHandle
 								local ),
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_90_DAYS_DES,
 								local ) ) );
+		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.TRAILING_120_DAYS,
+				new BaseTimeFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS,
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_120_DAYS,
+								local ),
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_120_DAYS_DES,
+								local ) ) );
 		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.TRAILING_12_MONTHS,
 				new BaseTimeFunction( IBuildInBaseTimeFunction.TRAILING_12_MONTHS,
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_12_MONTHS,
