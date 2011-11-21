@@ -12,6 +12,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.StringCharacterIterator;
+import java.util.Properties;
 
 import org.eclipse.birt.report.data.bidi.utils.core.BidiConstants;
 import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
@@ -29,16 +30,25 @@ public final class DriverLoader
 	public static Connection getConnection( String driverClassName,
 			String connectionString, String userId, String password ) throws SQLException, OdaException
 	{
-		return JDBCDriverManager.getInstance( )
-				.getConnection( driverClassName,
+		return getConnection( driverClassName,
 						connectionString,
 						userId,
 						password, null );
 	}
 	
-	public static Connection getConnectionWithExceptionTip( String driverClassName,
-			String connectionString, String userId, String password )
-			throws SQLException
+	public static Connection getConnection( String driverClassName,
+			String connectionString, String userId, String password, Properties props ) throws SQLException, OdaException
+	{
+		return JDBCDriverManager.getInstance( )
+				.getConnection( driverClassName,
+						connectionString,
+						userId,
+						password, null, props );
+	}
+	
+	public static Connection getConnectionWithExceptionTip(
+			String driverClassName, String connectionString, String userId,
+			String password ) throws SQLException
 	{
 		try
 		{
@@ -59,7 +69,7 @@ public final class DriverLoader
 			return null;
 		}
 	}
-
+	
 	static String escapeCharacters( String value )
 	{
 		final StringCharacterIterator iterator = new StringCharacterIterator( value );
@@ -98,7 +108,15 @@ public final class DriverLoader
 			String password ) throws OdaException 
 	{
         return testConnection( driverClassName, connectionString, null,
-                                userId, password );
+                                userId, password, new Properties( ) );
+    }
+	
+	public static boolean testConnection( String driverClassName,
+			String connectionString, String userId,
+			String password, Properties props ) throws OdaException 
+	{
+        return testConnection( driverClassName, connectionString, null,
+                                userId, password, props );
     }
 
     /**
@@ -113,12 +131,21 @@ public final class DriverLoader
      *          false otherwise
      * @throws OdaException 
      */
+	public static boolean testConnection( String driverClassName,
+			String connectionString, String jndiNameUrl, String userId,
+			String password ) throws OdaException
+	{
+		return testConnection( driverClassName, 
+                connectionString, jndiNameUrl, userId, password, new Properties( ) );
+	}
+	 
+	 
     public static boolean testConnection( String driverClassName,
             String connectionString, String jndiNameUrl, String userId,
-            String password ) throws OdaException 
+            String password, Properties props ) throws OdaException 
     {
 		return JDBCDriverManager.getInstance().testConnection( driverClassName, 
-                connectionString, jndiNameUrl, userId, password );
+                connectionString, jndiNameUrl, userId, password, props );
 	}
    	//bidi_hcg: if Bidi format is defined - perform required Bidi transformations
    	//on connection properties before testing the connection
@@ -126,11 +153,31 @@ public final class DriverLoader
             String connectionString, String jndiNameUrl, String userId,
             String password, String bidiFormatStr ) throws OdaException {
     	
-    	userId = BidiTransform.transform(userId, BidiConstants.DEFAULT_BIDI_FORMAT_STR, bidiFormatStr);
-    	password = BidiTransform.transform(password, BidiConstants.DEFAULT_BIDI_FORMAT_STR, bidiFormatStr);
-    	connectionString = BidiTransform.transformURL(connectionString, BidiConstants.DEFAULT_BIDI_FORMAT_STR, bidiFormatStr);
-    	
-    	return testConnection(driverClassName, connectionString, jndiNameUrl,userId, password);
+    	return testConnection(driverClassName, connectionString, jndiNameUrl,userId, password, null, new Properties( ) );
     }
+    
+	public static boolean testConnection( String driverClassName,
+			String connectionString, String jndiNameUrl, String userId,
+			String password, String bidiFormatStr, Properties props )
+			throws OdaException
+	{
+
+		userId = BidiTransform.transform( userId,
+				BidiConstants.DEFAULT_BIDI_FORMAT_STR,
+				bidiFormatStr );
+		password = BidiTransform.transform( password,
+				BidiConstants.DEFAULT_BIDI_FORMAT_STR,
+				bidiFormatStr );
+		connectionString = BidiTransform.transformURL( connectionString,
+				BidiConstants.DEFAULT_BIDI_FORMAT_STR,
+				bidiFormatStr );
+
+		return testConnection( driverClassName,
+				connectionString,
+				jndiNameUrl,
+				userId,
+				password,
+				props );
+	}
 }
 
