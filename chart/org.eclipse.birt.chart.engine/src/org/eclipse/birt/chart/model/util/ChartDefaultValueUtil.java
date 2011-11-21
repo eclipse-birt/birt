@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -33,6 +36,7 @@ import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * This class provides methods to set default value into chart elements.
@@ -246,5 +250,59 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 			seriesList.add( DefaultValueProvider.defPieSeries( ).copyInstance( ) );
 		}
 		return instance;
+	}
+	
+	/**
+	 * 
+	 * Shifts the colors in palette with the offset.
+	 * 
+	 * @param offset
+	 *            moving offset to rotate the color. If the offset is zero or
+	 *            the absolute value is greater than the size of list, do
+	 *            nothing. Negative value means moving to the left side, and
+	 *            positive value is to the right side.
+	 */
+	public static void shiftPaletteColors( Palette p, int offset )
+	{
+		if ( p.getEntries( ).size( ) == 0 )
+		{
+			p.shift( offset );
+			return;
+		}
+
+		final EList<Fill> el = p.getEntries( );
+		int size = el.size( );
+		
+
+		if ( offset == 0 || Math.abs( offset ) >= size )
+		{
+			// Do nothing
+			offset = 0;
+			return;
+		}
+		
+		List<Fill> colorList = new ArrayList<Fill>( );
+		colorList.addAll( el );
+		el.clear( );
+		if ( offset < 0 )
+		{
+			// Move to the left side
+			offset = -offset;
+		}
+		else if ( offset > 0 )
+		{
+			// Move to the right side
+			offset = size - offset;
+		}
+
+		for ( int i = offset; i < size; i++ )
+		{
+			el.add( ( colorList.get( i ) ) );
+		}
+		for ( int i = 0; i < offset; i++ )
+		{
+			el.add( ( colorList.get( i ) ) );
+		}
+		return;
 	}
 }

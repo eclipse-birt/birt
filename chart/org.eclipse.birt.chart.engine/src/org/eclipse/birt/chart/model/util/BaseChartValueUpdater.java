@@ -9310,7 +9310,8 @@ public class BaseChartValueUpdater
 		if ( eRefObj != null && eRefObj.getEntries( ).size( ) > 0 )
 		{
 			Palette p = eRefObj.copyInstance( );
-			p.shift( ( axisIndex + seriesDefIndex ) * -1 );
+			ChartDefaultValueUtil.shiftPaletteColors( p,
+					( axisIndex + seriesDefIndex ) * -1 );
 			eObj.getEntries( ).addAll( p.getEntries( ) );
 		}
 		else if ( eDefObj != null )
