@@ -73,7 +73,7 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 		{
 			LabelAttributesContext attributesContext = new LabelAttributesContext( );
 			attributesContext.isPositionEnabled = false;
-			attributesContext.isVisibilityEnabled = !ChartUIExtensionUtil.isSetInvisible( axis.getTitle( ) );
+			attributesContext.isVisibilityEnabled = false;
 			lacTitle = new LabelAttributesComposite( cmpContent,
 					SWT.NONE,
 					getContext( ),
@@ -87,7 +87,7 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 		else
 		{
 			LabelAttributesContext attributesContext = new LabelAttributesContext( );
-			attributesContext.isVisibilityEnabled = !ChartUIExtensionUtil.isSetInvisible( axis.getTitle( ) );
+			attributesContext.isVisibilityEnabled = false;
 			lacTitle = new LabelAttributesComposite( cmpContent,
 					SWT.NONE,
 					getContext( ),

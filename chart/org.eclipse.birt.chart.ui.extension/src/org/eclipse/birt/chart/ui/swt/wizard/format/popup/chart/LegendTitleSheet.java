@@ -64,7 +64,7 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 		}
 
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isVisibilityEnabled = !ChartUIExtensionUtil.isSetInvisible( getChart( ).getTitle( ) );
+		attributesContext.isVisibilityEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
 		lacTitle = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,

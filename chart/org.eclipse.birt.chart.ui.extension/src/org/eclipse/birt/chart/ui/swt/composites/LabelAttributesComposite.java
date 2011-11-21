@@ -368,7 +368,7 @@ public class LabelAttributesComposite extends Composite implements
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
 
-		boolean bEnableUI = bEnabled && this.lblCurrent.isVisible( );
+		boolean bEnableUI = bEnabled && !ChartUIExtensionUtil.isSetInvisible( lblCurrent );
 		if ( attributesContext.isVisibilityEnabled )
 		{
 			btnVisible = new TristateCheckbox( cmpGeneral, SWT.NONE );
