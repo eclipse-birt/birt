@@ -47,12 +47,8 @@ public class Row4Aggregation implements IStructure
 		{
 			objectArrays[i+1] = getLevelMembers()[i].getFieldValues( );
 		}
-		objectArrays[getLevelMembers().length+1] = measures;
-		for( int i = 0; i < measureList.size(); i++ )
-		{
-			objectArrays[getLevelMembers().length + i + 2] = measureList.get( i );
-		}
-		objectArrays[objectArrays.length-2] = parameterValues;
+		
+		objectArrays[getLevelMembers().length+1] = parameterValues;
 		Integer[] dimPosObj = null;
 		if( dimPos == null )
 		{
@@ -68,7 +64,13 @@ public class Row4Aggregation implements IStructure
 				dimPosObj[i + 1] = Integer.valueOf( dimPos[i] );
 			}
 		}
-		objectArrays[objectArrays.length-1] = dimPosObj;
+		objectArrays[getLevelMembers().length+2] = dimPosObj;
+		
+		objectArrays[getLevelMembers().length+3] = measures;
+		for( int i = 0; i < measureList.size(); i++ )
+		{
+			objectArrays[getLevelMembers().length + i + 4] = measureList.get( i );
+		}
 		return ObjectArrayUtil.convert( objectArrays );
 	}
 	
@@ -202,21 +204,23 @@ class Row4AggregationCreator implements IStructureCreator
 		{
 			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i+1] );
 		}
-		result.setMeasures( objectArrays[memberSize+1] );
-		for( int i = 0; i < ( objectArrays.length - memberSize -1 - 3 ); i++ )
+		result.setParameterValues( objectArrays[memberSize+1] );
+		if( objectArrays[memberSize+2][0].equals( Integer.valueOf( 1 ) ) )
 		{
-			result.addMeasure( objectArrays[memberSize+1+i+1] );
-		}
-		result.setParameterValues( objectArrays[objectArrays.length-2] );
-		if( objectArrays[objectArrays.length-1][0].equals( Integer.valueOf( 1 ) ) )
-		{
-			int[] dimPos = new int[objectArrays[objectArrays.length - 1].length - 1];
+			int[] dimPos = new int[objectArrays[memberSize+2].length - 1];
 			for ( int i = 0; i < dimPos.length; i++ )
 			{
-				dimPos[i] = ((Integer)(objectArrays[objectArrays.length-1][i+1])).intValue( );
+				dimPos[i] = ((Integer)(objectArrays[memberSize+2][i+1])).intValue( );
 			}
 			result.setDimPos( dimPos );
 		}
+		
+		result.setMeasures( objectArrays[memberSize+3] );
+		for( int i = 0; i < ( objectArrays.length - memberSize -1 - 3 ); i++ )
+		{
+			result.addMeasure( objectArrays[memberSize+3+i+1] );
+		}
+		
 		
 		return result;
 	}
