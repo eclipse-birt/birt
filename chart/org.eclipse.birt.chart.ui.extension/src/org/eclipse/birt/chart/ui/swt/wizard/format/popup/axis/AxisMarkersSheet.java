@@ -707,7 +707,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			buildList( );
 			lstMarkers.select( lstMarkers.getItemCount( ) - 1 );
 			updateUIForSelection( );
-			if ( lstMarkers.getItemCount( ) == 1 )
+			if ( lstMarkers.getItemCount( ) >= 1 )
 			{
 				// Enable UI elements
 				setState( true );
@@ -727,7 +727,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			buildList( );
 			lstMarkers.select( lstMarkers.getItemCount( ) - 1 );
 			updateUIForSelection( );
-			if ( lstMarkers.getItemCount( ) == 1 )
+			if ( lstMarkers.getItemCount( ) >= 1 )
 			{
 				// Enable UI elements
 				setState( true );
@@ -760,6 +760,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			{
 				lstMarkers.select( 0 );
 				updateUIForSelection( );
+				setState( true );
 			}
 			else
 			{
@@ -772,6 +773,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		else if ( e.getSource( ).equals( lstMarkers ) )
 		{
 			updateUIForSelection( );
+			setState( true );
 			refreshButtons( );
 		}
 		else if ( e.getSource( ).equals( cmbLineAnchor ) )
@@ -1098,6 +1100,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		{
 			lstMarkers.select( 0 );
 			updateUIForSelection( );
+			setState( true );
 		}
 		else
 		{
