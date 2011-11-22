@@ -100,11 +100,15 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		this.axis = axis;
 		this.angleType = angleType;
 	}
+	
+	@Override
+	protected void bindHelp( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_GRIDLINES );
+	}
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_GRIDLINES );
-
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
@@ -185,61 +189,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		lblColor.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
 		fccLine.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow )  );
 
-		lblGridStepNum = new Label( cmpContent, SWT.NONE );
-		GridData gdLblGridStepNum = new GridData( GridData.FILL );
-		lblGridStepNum.setLayoutData( gdLblGridStepNum );
-		lblGridStepNum.setText( Messages.getString("BaseAxisDataSheetImpl.Lbl.MajorGridStepNum") ); //$NON-NLS-1$
-		
-		Composite copMajGrid = new Composite( cmpContent, SWT.NONE );
-		GridLayout gl = new GridLayout( );
-		gl.numColumns = 2;
-		gl.marginWidth = 0;
-		gl.marginHeight = 0;
-		copMajGrid.setLayout( gl );
-		
-		majGridStNum = new Spinner( copMajGrid, SWT.BORDER );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			majGridStNum.setLayoutData( gd );
-			majGridStNum.setMinimum( 1 );
-			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
-					.getMajorGridsStepNumber( ) );
-			majGridStNum.addSelectionListener( this );
-		}
-		
-		btnMajStpNum = new Button( copMajGrid, SWT.CHECK);
-		btnMajStpNum.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnMajStpNum.setSelection( !getAxisForProcessing( ).getScale( ).isSetMajorGridsStepNumber( ) );
-		majGridStNum.setEnabled( !btnMajStpNum.getSelection( ) );
-		btnMajStpNum.addSelectionListener( this );
-		
-		lblGridCount = new Label( cmpContent, SWT.NONE );
-		GridData gdLBLGridCount = new GridData( );
-		lblGridCount.setLayoutData( gdLBLGridCount );
-		lblGridCount.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
-
-		Composite copMinGrid = new Composite( cmpContent, SWT.NONE );
-		gl = new GridLayout( );
-		gl.numColumns = 2;
-		gl.marginWidth = 0;
-		gl.marginHeight = 0;
-		copMinGrid.setLayout( gl );
-		
-		iscGridCount = new Spinner( copMinGrid, SWT.BORDER );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			iscGridCount.setLayoutData( gd );
-			iscGridCount.setMinimum( 1 );
-			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
-					.getMinorGridsPerUnit( ) );
-			iscGridCount.addSelectionListener( this );
-		}
-		
-		btnGridCountUnit = new Button( copMinGrid, SWT.CHECK);
-		btnGridCountUnit.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnGridCountUnit.setSelection( !getAxisForProcessing( ).getScale( ).isSetMinorGridsPerUnit( ));
-		iscGridCount.setEnabled( !btnGridCountUnit.getSelection( ) );
-		btnGridCountUnit.addSelectionListener( this );
+		createGridSteps( );
 		
 		// Comments out for deficient support
 		// Axis gap width
@@ -309,6 +259,65 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		setStateOfMinorGrid( );
 
 		return cmpContent;
+	}
+	
+	protected void createGridSteps()
+	{
+		lblGridStepNum = new Label( cmpContent, SWT.NONE );
+		GridData gdLblGridStepNum = new GridData( GridData.FILL );
+		lblGridStepNum.setLayoutData( gdLblGridStepNum );
+		lblGridStepNum.setText( Messages.getString("BaseAxisDataSheetImpl.Lbl.MajorGridStepNum") ); //$NON-NLS-1$
+		
+		Composite copMajGrid = new Composite( cmpContent, SWT.NONE );
+		GridLayout gl = new GridLayout( );
+		gl.numColumns = 2;
+		gl.marginWidth = 0;
+		gl.marginHeight = 0;
+		copMajGrid.setLayout( gl );
+		
+		majGridStNum = new Spinner( copMajGrid, SWT.BORDER );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			majGridStNum.setLayoutData( gd );
+			majGridStNum.setMinimum( 1 );
+			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
+					.getMajorGridsStepNumber( ) );
+			majGridStNum.addSelectionListener( this );
+		}
+		
+		btnMajStpNum = new Button( copMajGrid, SWT.CHECK);
+		btnMajStpNum.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnMajStpNum.setSelection( !getAxisForProcessing( ).getScale( ).isSetMajorGridsStepNumber( ) );
+		majGridStNum.setEnabled( !btnMajStpNum.getSelection( ) );
+		btnMajStpNum.addSelectionListener( this );
+		
+		lblGridCount = new Label( cmpContent, SWT.NONE );
+		GridData gdLBLGridCount = new GridData( );
+		lblGridCount.setLayoutData( gdLBLGridCount );
+		lblGridCount.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
+
+		Composite copMinGrid = new Composite( cmpContent, SWT.NONE );
+		gl = new GridLayout( );
+		gl.numColumns = 2;
+		gl.marginWidth = 0;
+		gl.marginHeight = 0;
+		copMinGrid.setLayout( gl );
+		
+		iscGridCount = new Spinner( copMinGrid, SWT.BORDER );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			iscGridCount.setLayoutData( gd );
+			iscGridCount.setMinimum( 1 );
+			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
+					.getMinorGridsPerUnit( ) );
+			iscGridCount.addSelectionListener( this );
+		}
+		
+		btnGridCountUnit = new Button( copMinGrid, SWT.CHECK);
+		btnGridCountUnit.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnGridCountUnit.setSelection( !getAxisForProcessing( ).getScale( ).isSetMinorGridsPerUnit( ));
+		iscGridCount.setEnabled( !btnGridCountUnit.getSelection( ) );
+		btnGridCountUnit.addSelectionListener( this );
 	}
 
 	protected boolean isTickBetweenCategory( )
@@ -446,7 +455,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		}
 	}
 
-	private void setStateOfMinorGrid( )
+	protected void setStateOfMinorGrid( )
 	{
 		boolean enabled;
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
@@ -480,7 +489,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		}
 	}
 	
-	private void setStateOfMajorGrid( )
+	protected void setStateOfMajorGrid( )
 	{
 		boolean enabled;
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )

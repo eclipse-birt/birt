@@ -41,13 +41,13 @@ import org.eclipse.swt.widgets.Listener;
 public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 {
 
-	private transient Composite cmpContent = null;
+	private Composite cmpContent = null;
 
-	private transient LabelAttributesComposite lacTitle = null;
+	private LabelAttributesComposite lacTitle = null;
 
-	private transient Axis axis;
+	private Axis axis;
 
-	private transient int axisType;
+	private int axisType;
 
 	public AxisTitleSheet( String title, ChartWizardContext context, Axis axis,
 			int axisType )
@@ -57,10 +57,14 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 		this.axisType = axisType;
 	}
 
-	protected Composite getComponent( Composite parent )
+	@Override
+	protected void bindHelp( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_TEXT_FORMAT );
+	}
 
+	protected Composite getComponent( Composite parent )
+	{
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glMain = new GridLayout( );
@@ -69,43 +73,33 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 			cmpContent.setLayout( glMain );
 		}
 
+		lacTitle = new LabelAttributesComposite( cmpContent,
+				SWT.NONE,
+				getContext( ),
+				getLabelAttributesContext( ),
+				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
+				getAxisForProcessing( ).isSetTitlePosition( ) ? getAxisForProcessing( ).getTitlePosition( )
+						: null,
+				getAxisForProcessing( ).getTitle( ),
+				getChart( ).getUnits( ),
+				getPositionScope( ) );
 		if ( axisType == AngleType.Z )
 		{
-			LabelAttributesContext attributesContext = new LabelAttributesContext( );
-			attributesContext.isPositionEnabled = false;
-			attributesContext.isVisibilityEnabled = false;
-			lacTitle = new LabelAttributesComposite( cmpContent,
-					SWT.NONE,
-					getContext( ),
-					attributesContext,
-					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-					getAxisForProcessing( ).isSetTitlePosition( ) ? getAxisForProcessing( ).getTitlePosition( ) : null,
-					getAxisForProcessing( ).getTitle( ),
-					getChart( ).getUnits( ) );
-			lacTitle.setDefaultLabelValue( DefaultValueProvider.defAncillaryAxis( ).getTitle( ) );
+			lacTitle.setDefaultLabelValue( DefaultValueProvider.defAncillaryAxis( )
+					.getTitle( ) );
 		}
 		else
 		{
-			LabelAttributesContext attributesContext = new LabelAttributesContext( );
-			attributesContext.isVisibilityEnabled = false;
-			lacTitle = new LabelAttributesComposite( cmpContent,
-					SWT.NONE,
-					getContext( ),
-					attributesContext,
-					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-					getAxisForProcessing( ).isSetTitlePosition( ) ? getAxisForProcessing( ).getTitlePosition( ) : null,
-					getAxisForProcessing( ).getTitle( ),
-					getChart( ).getUnits( ),
-					getPositionScope( ) );
 			if ( axisType == AngleType.X )
 			{
-				lacTitle.setDefaultLabelValue( DefaultValueProvider.defBaseAxis( ).getTitle( ) );
+				lacTitle.setDefaultLabelValue( DefaultValueProvider.defBaseAxis( )
+						.getTitle( ) );
 			}
 			else
 			{
-				lacTitle.setDefaultLabelValue( DefaultValueProvider.defOrthogonalAxis( ).getTitle( ) );
+				lacTitle.setDefaultLabelValue( DefaultValueProvider.defOrthogonalAxis( )
+						.getTitle( ) );
 			}
-
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING );
@@ -115,10 +109,27 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 		return cmpContent;
 	}
 
+	protected LabelAttributesContext getLabelAttributesContext( )
+	{
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		if ( axisType == AngleType.Z )
+		{
+			attributesContext.isPositionEnabled = false;
+			attributesContext.isVisibilityEnabled = false;
+		}
+		else
+		{
+			attributesContext.isVisibilityEnabled = false;
+		}
+		return attributesContext;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{

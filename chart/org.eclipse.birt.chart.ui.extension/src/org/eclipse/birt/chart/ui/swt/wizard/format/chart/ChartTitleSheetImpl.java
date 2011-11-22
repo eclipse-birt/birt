@@ -152,6 +152,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		GridData gdFDCFont = new GridData( );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 220;
+		gdFDCFont.horizontalSpan = 3;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );
@@ -171,7 +172,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{

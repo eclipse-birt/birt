@@ -175,11 +175,15 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		this.axis = axis;
 		this.context = context;
 	}
+	
+	@Override
+	protected void bindHelp( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_MARKERS );
+	}
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_MARKERS );
-
 		// Layout for the main composite
 		GridLayout glContent = new GridLayout( );
 		glContent.numColumns = 2;
@@ -450,14 +454,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					.isEnable( ) );
 		}
 
-		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isPositionEnabled = false;
-		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isLabelEnabled = true;
 		lacLabel = new LabelAttributesComposite( cmpContent,
 				SWT.NONE,
 				getContext( ),
-				attributesContext,
+				getLabelAttributesContext( ),
 				Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties" ), //$NON-NLS-1$
 				Position.ABOVE_LITERAL,
 				LabelImpl.create( ),
@@ -475,6 +475,15 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		refreshButtons( );
 
 		return cmpContent;
+	}
+	
+	protected LabelAttributesContext getLabelAttributesContext( )
+	{
+		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+		attributesContext.isPositionEnabled = false;
+		attributesContext.isFontAlignmentEnabled = false;
+		attributesContext.isLabelEnabled = true;
+		return attributesContext;
 	}
 
 	/*

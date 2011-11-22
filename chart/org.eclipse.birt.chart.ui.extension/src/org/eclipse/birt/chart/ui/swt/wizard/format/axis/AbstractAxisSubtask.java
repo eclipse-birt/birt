@@ -359,6 +359,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					: TristateCheckbox.STATE_UNSELECTED )
 					: TristateCheckbox.STATE_GRAYED );
 			btnStaggered.setEnabled( bNot3D );
+			btnStaggered.setVisible( isStaggerSupported( ) );
 			btnStaggered.addSelectionListener( this );
 		}
 
@@ -368,6 +369,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		setStateOfTitle( );
 		setStateOfLabel( );
+	}
+	
+	protected boolean isStaggerSupported( )
+	{
+		return true;
 	}
 
 	protected String getTitleValue( )
@@ -453,7 +459,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{

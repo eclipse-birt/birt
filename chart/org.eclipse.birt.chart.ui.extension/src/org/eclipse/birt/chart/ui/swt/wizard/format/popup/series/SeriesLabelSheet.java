@@ -37,7 +37,6 @@ import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -103,23 +102,21 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private InsetsComposite icInsets = null;
 
-	private SeriesDefinition seriesDefn = null;
+	protected Label lblPosition;
 
-	private Label lblPosition;
-
-	private Combo cmbPosition;
+	protected Combo cmbPosition;
 
 	private Label lblFont;
 
 	private FontDefinitionComposite fdcFont;
 
-	private Label lblFill;
+	protected Label lblFill;
 
-	private FillChooserComposite fccBackground;
+	protected FillChooserComposite fccBackground;
 
-	private Label lblShadow;
+	protected Label lblShadow;
 
-	private FillChooserComposite fccShadow;
+	protected FillChooserComposite fccShadow;
 
 	private Group grpAttributes;
 
@@ -146,23 +143,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private Series series;
 
-	/**
-	 * @param title
-	 * @param context
-	 * @param seriesDefn
-	 * 
-	 * @deprecated since 3.7
-	 */
-	public SeriesLabelSheet( String title, ChartWizardContext context,
-			SeriesDefinition seriesDefn )
-	{
-		super( title, context, true );
-		this.seriesDefn = seriesDefn;
-		this.context = context;
-		mapDataPointNames = new HashMap<String, String>( );
-		dataPointIndex = new ArrayList<Integer>( );
-	}
-
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			Series series )
 	{
@@ -172,16 +152,25 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		mapDataPointNames = new HashMap<String, String>( );
 		dataPointIndex = new ArrayList<Integer>( );
 	}
-	
+
+	@Override
+	protected void bindHelp( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_LABEL );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.ISheet#getComponent(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	@Override
 	public Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_LABEL );
+		final boolean bEnableUI = !ChartUIExtensionUtil.isSetInvisible( getSeriesForProcessing( ).getLabel( ) );
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			// Layout for the content composite
@@ -210,14 +199,27 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 
-		createAttributeArea( cmpLeft );
+		createAttributeArea( cmpLeft, bEnableUI );
+		createOutline( cmpLeft, bEnableUI );
+		createDataPointArea( cmpRight );
+		createInsets( cmpRight, bEnableUI );
 
+		// Populate lists
+		populateLists( getSeriesForProcessing( ) );
+
+		refreshDataPointButtons( );
+
+		return cmpContent;
+	}
+
+	protected void createOutline( Composite cmpLeft, boolean bEnableUI )
+	{
 		grpOutline = new Group( cmpLeft, SWT.NONE );
 		GridData gdGOutline = new GridData( GridData.FILL_HORIZONTAL );
 		grpOutline.setLayoutData( gdGOutline );
 		grpOutline.setText( Messages.getString( "LabelAttributesComposite.Lbl.Outline" ) ); //$NON-NLS-1$
 		grpOutline.setLayout( new FillLayout( ) );
-		// grpOutline.setEnabled(bEnableUI);
+		grpOutline.setEnabled( bEnableUI );
 
 		int iStyles = LineAttributesComposite.ENABLE_WIDTH
 				| LineAttributesComposite.ENABLE_STYLES
@@ -229,12 +231,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				iStyles,
 				getContext( ),
 				getSeriesForProcessing( ).getLabel( ).getOutline( ) );
-		{
-			liacOutline.addListener( this );
-		}
+		liacOutline.addListener( this );
+		liacOutline.setAttributesEnabled( bEnableUI );
+	}
 
-		createDataPointArea( cmpRight );
-
+	protected void createInsets( Composite cmpRight, boolean bEnableUI )
+	{
 		icInsets = new InsetsComposite( cmpRight,
 				SWT.NONE,
 				getSeriesForProcessing( ).getLabel( ).getInsets( ),
@@ -248,16 +250,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 			icInsets.setDefaultInsetsValue( DefaultValueProvider.defSeries( )
 					.getLabel( )
 					.getInsets( ) );
+			icInsets.setEnabled( bEnableUI );
 		}
-
-		// Populate lists
-		populateLists( getSeriesForProcessing( ) );
-
-		setEnabled( !ChartUIExtensionUtil.isSetInvisible( getSeriesForProcessing( ).getLabel( ) ) );
-
-		refreshDataPointButtons( );
-
-		return cmpContent;
 	}
 
 	private void populateLists( Series series )
@@ -307,11 +301,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		java.util.List<String> posItems = new ArrayList<String>( Arrays.asList( getSeriesForProcessing( ).getLabelPositionScope( getContext( ).getModel( )
 				.getDimension( ) )
 				.getDisplayNames( ) ) );
-		posItems.add(0, ChartUIExtensionUtil.getAutoMessage( ) );
+		posItems.add( 0, ChartUIExtensionUtil.getAutoMessage( ) );
 		cmbPosition.setItems( posItems.toArray( new String[]{} ) );
 
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
-		if ( getSeriesForProcessing( ).isSetLabelPosition( ) && lpCurrent != null )
+		if ( getSeriesForProcessing( ).isSetLabelPosition( )
+				&& lpCurrent != null )
 		{
 			String positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
 					isFlippedAxes( ) ).getName( );
@@ -357,7 +352,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		return sArr.toArray( new String[0] );
 	}
 
-	private void createAttributeArea( Composite parent )
+	protected void createAttributeArea( Composite parent, boolean bEnableUI )
 	{
 		grpAttributes = new Group( parent, SWT.NONE );
 		{
@@ -404,13 +399,13 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				| FillChooserComposite.DISABLE_PATTERN_FILL
 				| FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
-		
+
 		fccBackground = new FillChooserComposite( grpAttributes,
 				SWT.NONE,
 				iFillOption,
 				getContext( ),
-				getSeriesForProcessing( ).getLabel( ).getBackground( ));
-				
+				getSeriesForProcessing( ).getLabel( ).getBackground( ) );
+
 		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
 		gdFCCBackground.verticalAlignment = SWT.CENTER;
 		fccBackground.setLayoutData( gdFCCBackground );
@@ -420,7 +415,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		GridData gdLBLShadow = new GridData( );
 		lblShadow.setLayoutData( gdLBLShadow );
 		lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
-
 
 		fccShadow = new FillChooserComposite( grpAttributes,
 				SWT.DROP_DOWN | SWT.READ_ONLY,
@@ -433,14 +427,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.addListener( this );
 
-	}
-
-	private void setEnabled( boolean bEnableUI )
-	{
-		grpOutline.setEnabled( bEnableUI );
-		liacOutline.setAttributesEnabled( bEnableUI );
-		icInsets.setEnabled( bEnableUI );
-
 		grpAttributes.setEnabled( bEnableUI );
 		lblPosition.setEnabled( bEnableUI );
 		cmbPosition.setEnabled( bEnableUI );
@@ -450,22 +436,6 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		fccBackground.setEnabled( bEnableUI );
 		lblShadow.setEnabled( bEnableUI );
 		fccShadow.setEnabled( bEnableUI );
-
-		// Do not disable data point labels even if the label is visible,
-		// because it can be used as tooltips
-		
-		// grpDataPoint.setEnabled( bEnableUI );
-		// lstComponents.setEnabled( bEnableUI );
-		// btnFormatSpecifier.setEnabled( bEnableUI );
-		// btnRemoveComponent.setEnabled( bEnableUI );
-		// btnAddComponent.setEnabled( bEnableUI );
-		// cmbComponentTypes.setEnabled( bEnableUI );
-		// lblPrefix.setEnabled( bEnableUI );
-		// lblSuffix.setEnabled( bEnableUI );
-		// lblSeparator.setEnabled( bEnableUI );
-		// txtPrefix.setEnabled( bEnableUI );
-		// txtSuffix.setEnabled( bEnableUI );
-		// txtSeparator.setEnabled( bEnableUI );
 	}
 
 	private void createDataPointArea( Composite parent )
@@ -565,17 +535,29 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		gdTXTSeparator.horizontalSpan = 3;
 		txtSeparator.setLayoutData( gdTXTSeparator );
 		txtSeparator.addListener( this );
+
+		// Do not disable data point labels even if the label is visible,
+		// because it can be used as tooltips
+
+		// grpDataPoint.setEnabled( bEnableUI );
+		// lstComponents.setEnabled( bEnableUI );
+		// btnFormatSpecifier.setEnabled( bEnableUI );
+		// btnRemoveComponent.setEnabled( bEnableUI );
+		// btnAddComponent.setEnabled( bEnableUI );
+		// cmbComponentTypes.setEnabled( bEnableUI );
+		// lblPrefix.setEnabled( bEnableUI );
+		// lblSuffix.setEnabled( bEnableUI );
+		// lblSeparator.setEnabled( bEnableUI );
+		// txtPrefix.setEnabled( bEnableUI );
+		// txtSuffix.setEnabled( bEnableUI );
+		// txtSeparator.setEnabled( bEnableUI );
 	}
 
 	protected Series getSeriesForProcessing( )
 	{
-		if ( series != null )
-		{
-			return series;
-		}
-		return seriesDefn.getDesignTimeSeries( );
+		return series;
 	}
-	
+
 	protected AxisType getAxisType( int type )
 	{
 		if ( type == IConstants.NUMERICAL )
@@ -628,7 +610,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -671,8 +655,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 							"visible", //$NON-NLS-1$
 							event.data,
 							isUnset );
-					
-					
+
 					break;
 			}
 		}
@@ -711,7 +694,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -776,7 +761,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -814,8 +801,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		dpc.eAdapters( ).addAll( dp.eAdapters( ) );
 		dp.getComponents( ).add( dpc );
 
-		dataPointIndex.add( iComponentIndex, Integer.valueOf( dp.getComponents( )
-				.size( ) - 1 ) );
+		dataPointIndex.add( iComponentIndex,
+				Integer.valueOf( dp.getComponents( ).size( ) - 1 ) );
 	}
 
 	protected void setDataPointComponentFormatSpecifier( int iComponentIndex )

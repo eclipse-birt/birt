@@ -36,28 +36,31 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class BlockPropertiesSheet extends AbstractPopupSheet
-		implements
-			Listener
+public class BlockPropertiesSheet extends AbstractPopupSheet implements
+		Listener
 {
 
-	private transient Composite cmpContent;
+	private Composite cmpContent;
 
-	protected transient Group grpOutline;
+	protected Group grpOutline;
 
-	protected transient LineAttributesComposite liacOutline;
+	protected LineAttributesComposite liacOutline;
 
-	protected transient InsetsComposite ic;
+	protected InsetsComposite ic;
 
 	public BlockPropertiesSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, true );
 	}
+	
+	@Override
+	protected void bindHelp( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_CHART_OUTLINE );
+	}
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_CHART_OUTLINE );
-		
 		// Sheet content composite
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
@@ -74,7 +77,9 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.widthHint = 300;
 		ic.setLayoutData( gdInsets );
-		ic.setDefaultInsetsValue( DefaultValueProvider.defChartWithAxes( ).getBlock( ).getInsets( ) );
+		ic.setDefaultInsetsValue( DefaultValueProvider.defChartWithAxes( )
+				.getBlock( )
+				.getInsets( ) );
 
 		grpOutline = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
@@ -82,14 +87,9 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setText( Messages.getString( "BlockPropertiesSheet.Label.Outline" ) ); //$NON-NLS-1$
 
-		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
-				| LineAttributesComposite.ENABLE_STYLES
-				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
 		liacOutline = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
-				lineStyles,
+				getOutlineAttributesStyle( ),
 				getContext( ),
 				getBlockForProcessing( ).getOutline( ) );
 		liacOutline.addListener( this );
@@ -97,10 +97,21 @@ public class BlockPropertiesSheet extends AbstractPopupSheet
 		return cmpContent;
 	}
 
+	protected int getOutlineAttributesStyle( )
+	{
+		return LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{

@@ -55,59 +55,59 @@ public class LabelAttributesComposite extends Composite implements
 		Listener
 {
 
-	private transient Composite cmpGeneral = null;
+	private Composite cmpGeneral = null;
 
-	private transient Composite grpAttributes = null;
+	private Composite grpAttributes = null;
 
-	private transient Group grpOutline = null;
-	
+	private Group grpOutline = null;
+
 	private TristateCheckbox btnVisible = null;
 
-	private transient Label lblLabel = null;
+	private Label lblLabel = null;
 
-	private transient Label lblPosition = null;
+	private Label lblPosition = null;
 
-	private transient Label lblFill = null;
+	private Label lblFill = null;
 
-	private transient Label lblShadow = null;
+	private Label lblShadow = null;
 
-	private transient Label lblFont = null;
+	private Label lblFont = null;
 
-	private transient Combo cmbPosition = null;
+	private Combo cmbPosition = null;
 
-	private transient FontDefinitionComposite fdcFont = null;
+	private FontDefinitionComposite fdcFont = null;
 
-	private transient FillChooserComposite fccBackground = null;
+	private FillChooserComposite fccBackground = null;
 
-	private transient FillChooserComposite fccShadow = null;
+	private FillChooserComposite fccShadow = null;
 
-	private transient InsetsComposite icInsets = null;
+	private InsetsComposite icInsets = null;
 
-	private transient String sGroupName = Messages.getString( "LabelAttributesComposite.Lbl.Label" ); //$NON-NLS-1$
+	private String sGroupName = Messages.getString( "LabelAttributesComposite.Lbl.Label" ); //$NON-NLS-1$
 
-	private transient Position lpCurrent = null;
+	private Position lpCurrent = null;
 
-	private transient Fill fBackground = null;
+	private Fill fBackground = null;
 
-	private transient ColorDefinition cdShadow = null;
+	private ColorDefinition cdShadow = null;
 
-	private transient FontDefinition fdCurrent = null;
+	private FontDefinition fdCurrent = null;
 
-	private transient ColorDefinition cdFont = null;
+	private ColorDefinition cdFont = null;
 
-	private transient LineAttributes laCurrent = null;
+	private LineAttributes laCurrent = null;
 
-	private transient org.eclipse.birt.chart.model.component.Label lblCurrent = null;
+	private org.eclipse.birt.chart.model.component.Label lblCurrent = null;
 
-	private transient Insets insets = null;
+	private Insets insets = null;
 
-	private transient String sUnits = null;
+	private String sUnits = null;
 
-	private transient LineAttributesComposite liacOutline = null;
+	private LineAttributesComposite liacOutline = null;
 
-	private transient ExternalizedTextEditorComposite txtLabel = null;
+	private ExternalizedTextEditorComposite txtLabel = null;
 
-	private transient Vector<Listener> vListeners = null;
+	private Vector<Listener> vListeners = null;
 
 	public static final int VISIBILITY_CHANGED_EVENT = 1;
 
@@ -139,13 +139,13 @@ public class LabelAttributesComposite extends Composite implements
 
 	public static final int ALLOW_INOUT_POSITION = ChartUIConstants.ALLOW_INOUT_POSITION;
 
-	private transient boolean bEnabled = true;
+	private boolean bEnabled = true;
 
 	private int positionScope = 0;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
-	private transient LabelAttributesContext attributesContext;
+	private LabelAttributesContext attributesContext;
 
 	private org.eclipse.birt.chart.model.component.Label defLabel;
 
@@ -163,8 +163,10 @@ public class LabelAttributesComposite extends Composite implements
 		public boolean isVisibilityEnabled = true;
 		public boolean isFontAlignmentEnabled = true;
 		public boolean isFontEnabled = true;
-		public boolean isInsetsEnabled = true;
+		public boolean isBackgroundEnabled = true;
 		public boolean isShadowEnabled = true;
+		public boolean isOutlineEnabled = true;
+		public boolean isInsetsEnabled = true;
 	}
 
 	/**
@@ -368,7 +370,8 @@ public class LabelAttributesComposite extends Composite implements
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
 
-		boolean bEnableUI = bEnabled && !ChartUIExtensionUtil.isSetInvisible( lblCurrent );
+		boolean bEnableUI = bEnabled
+				&& !ChartUIExtensionUtil.isSetInvisible( lblCurrent );
 		if ( attributesContext.isVisibilityEnabled )
 		{
 			btnVisible = new TristateCheckbox( cmpGeneral, SWT.NONE );
@@ -447,26 +450,29 @@ public class LabelAttributesComposite extends Composite implements
 			fdcFont.setEnabled( bEnableUI );
 		}
 
-		lblFill = new Label( cmpGeneral, SWT.NONE );
-		GridData gdLFill = new GridData( );
-		lblFill.setLayoutData( gdLFill );
-		lblFill.setText( Messages.getString( "LabelAttributesComposite.Lbl.Background" ) ); //$NON-NLS-1$
-		lblFill.setEnabled( bEnableUI );
-		
-		int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
-				| FillChooserComposite.ENABLE_TRANSPARENT
-				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
-				| FillChooserComposite.ENABLE_AUTO;
-		
-		fccBackground = new FillChooserComposite( cmpGeneral,
-				SWT.NONE,
-				iFillOption,
-				wizardContext,
-				fBackground );
-		GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
-		fccBackground.setLayoutData( gdFCCBackground );
-		fccBackground.addListener( this );
-		fccBackground.setEnabled( bEnableUI );
+		if ( attributesContext.isBackgroundEnabled )
+		{
+			lblFill = new Label( cmpGeneral, SWT.NONE );
+			GridData gdLFill = new GridData( );
+			lblFill.setLayoutData( gdLFill );
+			lblFill.setText( Messages.getString( "LabelAttributesComposite.Lbl.Background" ) ); //$NON-NLS-1$
+			lblFill.setEnabled( bEnableUI );
+
+			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+					| FillChooserComposite.ENABLE_TRANSPARENT
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+					| FillChooserComposite.ENABLE_AUTO;
+
+			fccBackground = new FillChooserComposite( cmpGeneral,
+					SWT.NONE,
+					iFillOption,
+					wizardContext,
+					fBackground );
+			GridData gdFCCBackground = new GridData( GridData.FILL_BOTH );
+			fccBackground.setLayoutData( gdFCCBackground );
+			fccBackground.addListener( this );
+			fccBackground.setEnabled( bEnableUI );
+		}
 
 		if ( attributesContext.isShadowEnabled )
 		{
@@ -476,6 +482,10 @@ public class LabelAttributesComposite extends Composite implements
 			lblShadow.setText( Messages.getString( "LabelAttributesComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
 			lblShadow.setEnabled( bEnableUI );
 
+			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
+					| FillChooserComposite.ENABLE_TRANSPARENT
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+					| FillChooserComposite.ENABLE_AUTO;
 
 			fccShadow = new FillChooserComposite( cmpGeneral, SWT.DROP_DOWN
 					| SWT.READ_ONLY, iFillOption, wizardContext, cdShadow );
@@ -486,26 +496,29 @@ public class LabelAttributesComposite extends Composite implements
 			fccShadow.setEnabled( bEnableUI );
 		}
 
-		grpOutline = new Group( grpAttributes, SWT.NONE );
-		GridData gdGOutline = new GridData( GridData.FILL_HORIZONTAL );
-		// gdGOutline.heightHint = 110;
-		grpOutline.setLayoutData( gdGOutline );
-		grpOutline.setText( Messages.getString( "LabelAttributesComposite.Lbl.Outline" ) ); //$NON-NLS-1$
-		grpOutline.setLayout( flOutline );
-		grpOutline.setEnabled( bEnableUI );
+		if ( attributesContext.isOutlineEnabled )
+		{
+			grpOutline = new Group( grpAttributes, SWT.NONE );
+			GridData gdGOutline = new GridData( GridData.FILL_HORIZONTAL );
+			// gdGOutline.heightHint = 110;
+			grpOutline.setLayoutData( gdGOutline );
+			grpOutline.setText( Messages.getString( "LabelAttributesComposite.Lbl.Outline" ) ); //$NON-NLS-1$
+			grpOutline.setLayout( flOutline );
+			grpOutline.setEnabled( bEnableUI );
 
-		int optionalStyles = LineAttributesComposite.ENABLE_STYLES
-				| LineAttributesComposite.ENABLE_VISIBILITY
-				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
-		liacOutline = new LineAttributesComposite( grpOutline,
-				SWT.NONE,
-				optionalStyles,
-				wizardContext,
-				laCurrent );
-		liacOutline.addListener( this );
-		liacOutline.setAttributesEnabled( bEnableUI );
+			int optionalStyles = LineAttributesComposite.ENABLE_STYLES
+					| LineAttributesComposite.ENABLE_VISIBILITY
+					| LineAttributesComposite.ENABLE_WIDTH
+					| LineAttributesComposite.ENABLE_COLOR
+					| LineAttributesComposite.ENABLE_AUTO_COLOR;
+			liacOutline = new LineAttributesComposite( grpOutline,
+					SWT.NONE,
+					optionalStyles,
+					wizardContext,
+					laCurrent );
+			liacOutline.addListener( this );
+			liacOutline.setAttributesEnabled( bEnableUI );
+		}
 
 		if ( attributesContext.isInsetsEnabled )
 		{
@@ -584,10 +597,19 @@ public class LabelAttributesComposite extends Composite implements
 	{
 		this.lblCurrent = lbl;
 		this.sUnits = sUnits;
-		this.fBackground = lblCurrent.getBackground( );
-		this.laCurrent = lblCurrent.getOutline( );
 
-		// update the UI
+		if ( attributesContext.isBackgroundEnabled )
+		{
+			this.fBackground = lblCurrent.getBackground( );
+			this.fccBackground.setFill( fBackground );
+		}
+
+		if ( attributesContext.isOutlineEnabled )
+		{
+			this.laCurrent = lblCurrent.getOutline( );
+			this.liacOutline.setLineAttributes( laCurrent );
+		}
+
 		if ( attributesContext.isVisibilityEnabled )
 		{
 			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
@@ -621,9 +643,6 @@ public class LabelAttributesComposite extends Composite implements
 			this.fdcFont.setFontDefinition( fdCurrent );
 			this.fdcFont.setFontColor( cdFont );
 		}
-
-		this.fccBackground.setFill( fBackground );
-		this.liacOutline.setLineAttributes( laCurrent );
 
 		redraw( );
 
@@ -680,7 +699,9 @@ public class LabelAttributesComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -702,7 +723,7 @@ public class LabelAttributesComposite extends Composite implements
 			{
 				// Unset position, auto case.
 				eLabel.detail = ChartUIExtensionUtil.PROPERTY_UNSET;
-			}	
+			}
 			else
 			{
 				eLabel.detail = ChartUIExtensionUtil.PROPERTY_UPDATE;
@@ -733,14 +754,16 @@ public class LabelAttributesComposite extends Composite implements
 			lblPosition.setEnabled( isVisible );
 			cmbPosition.setEnabled( isVisible );
 		}
-		lblFill.setEnabled( isVisible );
 		if ( attributesContext.isFontEnabled )
 		{
 			lblFont.setEnabled( isVisible );
 			fdcFont.setEnabled( isVisible );
 		}
-		fccBackground.setEnabled( isVisible );
-
+		if ( attributesContext.isBackgroundEnabled )
+		{
+			lblFill.setEnabled( isVisible );
+			fccBackground.setEnabled( isVisible );
+		}
 		if ( attributesContext.isShadowEnabled )
 		{
 			lblShadow.setEnabled( isVisible );
@@ -750,14 +773,19 @@ public class LabelAttributesComposite extends Composite implements
 		{
 			icInsets.setEnabled( isVisible );
 		}
-		grpOutline.setEnabled( isVisible );
-		liacOutline.setAttributesEnabled( isVisible );
+		if ( attributesContext.isOutlineEnabled )
+		{
+			grpOutline.setEnabled( isVisible );
+			liacOutline.setAttributesEnabled( isVisible );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -780,7 +808,9 @@ public class LabelAttributesComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -846,10 +876,14 @@ public class LabelAttributesComposite extends Composite implements
 		return ( wizardContext.getModel( ) instanceof ChartWithAxes )
 				&& ( lblCurrent.eContainer( ) instanceof Series );
 	}
-	
-	public void setDefaultLabelValue(org.eclipse.birt.chart.model.component.Label label)
+
+	public void setDefaultLabelValue(
+			org.eclipse.birt.chart.model.component.Label label )
 	{
 		this.defLabel = label;
-		icInsets.setDefaultInsetsValue( defLabel.getInsets( ) );
+		if ( attributesContext.isInsetsEnabled )
+		{
+			icInsets.setDefaultInsetsValue( defLabel.getInsets( ) );
+		}
 	}
 }

@@ -156,7 +156,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		createButtonGroup( cmpContent );
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{

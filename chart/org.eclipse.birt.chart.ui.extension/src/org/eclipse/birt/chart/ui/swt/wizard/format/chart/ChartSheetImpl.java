@@ -147,12 +147,9 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 
 		cmbBackground = new FillChooserComposite( cmpBasic,
 				SWT.NONE,
+				getBackgroundFillStyles( ),
 				getContext( ),
-				getChart( ).getBlock( ).getBackground( ),
-				true,
-				true,
-				true,
-				true );
+				getChart( ).getBlock( ).getBackground( ) );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			cmbBackground.setLayoutData( gridData );
@@ -484,7 +481,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 		return -1;
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
@@ -539,6 +536,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
 		}
+	}
+	
+	protected int getBackgroundFillStyles( )
+	{
+		return FillChooserComposite.ENABLE_AUTO
+				| FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
 	}
 
 	/*
