@@ -31,7 +31,6 @@ public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPe
 
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
-		cal.setMinimalDaysInFirstWeek(1);
 		translateToCal( cal, levels, values );
 		
 		if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )

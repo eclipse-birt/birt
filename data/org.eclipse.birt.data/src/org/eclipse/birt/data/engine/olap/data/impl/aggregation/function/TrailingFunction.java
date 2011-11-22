@@ -39,7 +39,6 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		Calendar cal1 = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal1.clear( );
-		cal1.setMinimalDaysInFirstWeek( 1 );
 		String calculateUnit = translateToCal( cal1, levelTypes, values );
 		Calendar cal2 = (Calendar) cal1.clone( );
 
