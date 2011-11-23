@@ -158,7 +158,7 @@ public class BaseTimeFunction implements ITimeFunction
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
@@ -170,7 +170,7 @@ public class BaseTimeFunction implements ITimeFunction
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
