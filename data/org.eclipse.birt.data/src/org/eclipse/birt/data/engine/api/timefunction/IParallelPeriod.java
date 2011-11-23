@@ -1,4 +1,6 @@
-package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
+package org.eclipse.birt.data.engine.api.timefunction;
+
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 
 public interface IParallelPeriod

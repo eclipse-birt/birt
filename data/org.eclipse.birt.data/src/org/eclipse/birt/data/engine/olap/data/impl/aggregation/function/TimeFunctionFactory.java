@@ -13,6 +13,10 @@
  */
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
+import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+
 public class TimeFunctionFactory
 {
 	public static IPeriodsFunction createPeriodsToDateFunction( String levelType, boolean isCurrent )

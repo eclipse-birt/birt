@@ -2,6 +2,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.util.Date;
 
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 

@@ -4,6 +4,9 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 

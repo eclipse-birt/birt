@@ -3,9 +3,10 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 import java.io.IOException;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
+
 public class QuarterToDateFunctionTest extends BaseTestCase
 {
 	protected void setUp( ) throws Exception

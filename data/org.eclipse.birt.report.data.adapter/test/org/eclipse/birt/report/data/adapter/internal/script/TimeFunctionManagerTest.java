@@ -35,6 +35,8 @@ import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
+import com.ibm.icu.util.ULocale;
+
 public class TimeFunctionManagerTest extends TestCase
 {
 	private CubeHandle cube1;//with year, quarter, month
@@ -330,5 +332,73 @@ public class TimeFunctionManagerTest extends TestCase
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.NEXT_N_PERIODS );
 		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
+	}
+	
+	public void testGettingToolTipForTimeFunction1() throws BirtException
+	{
+		cube1 = ModelUtil.prepareCube2( );
+		
+		ComputedColumnHandle computedHandle = ModelUtil.createComputedColumnHandle( );
+		computedHandle.setAggregateFunction( "SUM" );
+		computedHandle.setCalculationType( IBuildInBaseTimeFunction.QUARTER_TO_DATE );
+		computedHandle.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		computedHandle.getReferenceDateValue( )
+				.setExpression( new Expression( "\"2003-08-17\"", null ) );
+		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+				"dimension[\"TimeDimension\"]" );
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
+		assertTrue(desc.equals( "Quarter to Date  ( Year:2003 Quarter:3 Month:7 Day Of Year:182 To Year:2003 Quarter:3 Month:8 Day Of Year:229  )" ) );
+	}
+	
+	public void testGettingToolTipForTimeFunction2() throws BirtException
+	{
+		cube1 = ModelUtil.prepareCube2( );
+		
+		ComputedColumnHandle computedHandle = ModelUtil.createComputedColumnHandle( );
+		computedHandle.setAggregateFunction( "SUM" );
+		computedHandle.setCalculationType( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE );
+		
+		computedHandle.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		computedHandle.getReferenceDateValue( )
+				.setExpression( new Expression( "\"2003-08-17\"", null ) );
+		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+				"dimension[\"TimeDimension\"]" );
+		
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
+		assertTrue(desc.equals( "previous Year to Date  ( Year:2002 Quarter:1 Month:1 Day Of Year:1 To Year:2002 Quarter:3 Month:8 Day Of Year:229  )" ) );
+	}
+	
+	public void testGettingToolTipForTimeFunction3() throws BirtException
+	{
+		cube1 = ModelUtil.prepareCube2( );
+		
+		ComputedColumnHandle computedHandle = ModelUtil.createComputedColumnHandle( );
+		computedHandle.setAggregateFunction( "SUM" );
+		computedHandle.setCalculationType( IBuildInBaseTimeFunction.TRAILING_12_MONTHS );
+		
+		computedHandle.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		computedHandle.getReferenceDateValue( )
+				.setExpression( new Expression( "\"2003-08-17\"", null ) );
+		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+				"dimension[\"TimeDimension\"]" );
+		
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
+		assertTrue(desc.equals( "Trailing 12 Months  ( Year:2002 Quarter:3 Month:8 Day Of Year:230 To Year:2003 Quarter:3 Month:8 Day Of Year:229  )" ) );
+	}
+	
+	public void testGettingToolTipForTimeFunction4() throws BirtException
+	{
+		cube1 = ModelUtil.prepareCube2( );
+		
+		ComputedColumnHandle computedHandle = ModelUtil.createComputedColumnHandle( );
+		computedHandle.setAggregateFunction( "SUM" );
+		computedHandle.setCalculationType( IBuildInBaseTimeFunction.CURRENT_YEAR );
+		computedHandle.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		computedHandle.getReferenceDateValue( )
+				.setExpression( new Expression( "\"2003-08-17\"", null ) );
+		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+				"dimension[\"TimeDimension\"]" );
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
+		assertTrue(desc.equals( "Current Year  ( Year:2003 Quarter:1 Month:1 Day Of Year:1 To Year:2003 Quarter:4 Month:12 Day Of Year:365  )" ) );
 	}
 }

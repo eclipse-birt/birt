@@ -4,6 +4,9 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 
@@ -34,13 +37,8 @@ public class MonthToDateFunction extends AbstractMDX
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.clear( );
-		cal.set(Calendar.DAY_OF_MONTH, 28);
+		cal.set( Calendar.DAY_OF_MONTH, 28 );
 		String baseType = translateToCal( cal, levelTypes, values );
-		Calendar isCurrentCal = null;
-		if ( isCurrent )
-		{
-			isCurrentCal = (Calendar) cal.clone( );
-		}
 		int[] tmp;
 		if ( baseType.equals( MONTH ) )
 		{
@@ -62,14 +60,14 @@ public class MonthToDateFunction extends AbstractMDX
 			}
 			if( isCurrent )
 			{
-				int currentMonth = isCurrentCal.get( Calendar.MONTH );
-				isCurrentCal.add( Calendar.WEEK_OF_MONTH, 1 );
-				while( currentMonth == isCurrentCal.get( Calendar.MONTH ))
+				int currentMonth = cal.get( Calendar.MONTH );
+				cal.add( Calendar.WEEK_OF_MONTH, 1 );
+				while( currentMonth == cal.get( Calendar.MONTH ))
 				{
-					int[] newValues = getValueFromCal( isCurrentCal, levelTypes );
+					int[] newValues = getValueFromCal( cal, levelTypes );
 					TimeMember newMember = new TimeMember( newValues, levelTypes );
 					timeMembers.add( newMember );
-					isCurrentCal.add( Calendar.WEEK_OF_MONTH, 1 );
+					cal.add( Calendar.WEEK_OF_MONTH, 1 );
 				}
 			}
 		}
@@ -85,14 +83,14 @@ public class MonthToDateFunction extends AbstractMDX
 			}
 			if( isCurrent )
 			{
-				int currentMonth = isCurrentCal.get( Calendar.MONTH );
-				isCurrentCal.add( Calendar.DAY_OF_MONTH, 1 );
-				while( currentMonth == isCurrentCal.get( Calendar.MONTH ))
+				int currentMonth = cal.get( Calendar.MONTH );
+				cal.add( Calendar.DAY_OF_MONTH, 1 );
+				while( currentMonth == cal.get( Calendar.MONTH ))
 				{
-					int[] newValues = getValueFromCal( isCurrentCal, levelTypes );
+					int[] newValues = getValueFromCal( cal, levelTypes );
 					TimeMember newMember = new TimeMember( newValues, levelTypes );
 					timeMembers.add( newMember );
-					isCurrentCal.add( Calendar.DAY_OF_MONTH, 1 );
+					cal.add( Calendar.DAY_OF_MONTH, 1 );
 				}
 			}
 		}

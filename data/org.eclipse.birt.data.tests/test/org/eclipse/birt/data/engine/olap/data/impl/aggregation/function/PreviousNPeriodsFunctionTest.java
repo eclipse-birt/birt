@@ -2,6 +2,8 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+
 import junit.framework.TestCase;
 
 

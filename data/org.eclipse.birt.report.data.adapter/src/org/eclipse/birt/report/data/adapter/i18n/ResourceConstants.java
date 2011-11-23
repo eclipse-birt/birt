@@ -105,4 +105,15 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
 	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
 	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
+	
+	//toolTip
+	public final static String TIMEFUNCTION_TOOLTIP_TO = "timeFunction.toolTip.to";
+	public final static String TIMEFUNCTION_TOOLTIP_YEAR = "timeFunction.toolTip.year";
+	public final static String TIMEFUNCTION_TOOLTIP_QUARTER = "timeFunction.toolTip.quarter";
+	public final static String TIMEFUNCTION_TOOLTIP_MONTH = "timeFunction.toolTip.month";
+	public final static String TIMEFUNCTION_TOOLTIP_WEEKOFYEAR = "timeFunction.toolTip.weekOfYear";
+	public final static String TIMEFUNCTION_TOOLTIP_WEEKOFMONTH = "timeFunction.toolTip.weekOfMonth";
+	public final static String TIMEFUNCTION_TOOLTIP_DAYOFWEEK = "timeFunction.toolTip.dayOfWeek";
+	public final static String TIMEFUNCTION_TOOLTIP_DAYOFMONTH = "timeFunction.toolTip.dayOfMonth";
+	public final static String TIMEFUNCTION_TOOLTIP_DAYOFYEAR = "timeFunction.toolTip.dayOfYear";
 }

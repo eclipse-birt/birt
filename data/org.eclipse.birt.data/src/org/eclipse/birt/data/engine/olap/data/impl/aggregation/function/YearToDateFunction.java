@@ -3,6 +3,8 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 
@@ -18,11 +20,6 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.clear( );
 		String calculateUnit = this.translateToCal( cal, levels, values ) ;
-		Calendar isCurrentCal = null;
-		if ( isCurrent )
-		{
-			isCurrentCal = (Calendar) cal.clone( );
-		}
 		
 		List<TimeMember> list = new ArrayList<TimeMember>( );
 		if ( calculateUnit.equals( YEAR ) )
@@ -36,21 +33,21 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 			TimeMember newMember = null;
 			for ( int i = 1; i <= quarter; i++ )
 			{
+				cal.set( Calendar.MONTH, (i-1)*3 );
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
-				cal.add( Calendar.MONTH, -3 );
 			}
 			if( isCurrent )
 			{
-				int year = isCurrentCal.get( Calendar.YEAR );
-				isCurrentCal.add( Calendar.MONTH, 3 );
-				while( year == isCurrentCal.get( Calendar.YEAR ))
+				int year = cal.get( Calendar.YEAR );
+				cal.add( Calendar.MONTH, 3 );
+				while( year == cal.get( Calendar.YEAR ))
 				{
-					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					int[] newValues = getValueFromCal( cal, levels );
 					newMember = new TimeMember( newValues, levels );
 					list.add( newMember );
-					isCurrentCal.add( Calendar.MONTH, 3 );
+					cal.add( Calendar.MONTH, 3 );
 				}
 			}
 		}
@@ -60,21 +57,21 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 			TimeMember newMember = null;
 			for( int i=1; i<=month ; i++)
 			{
+				cal.set( Calendar.MONTH, i-1 );
 				int[] newValues = getValueFromCal( cal,levels);
 				newMember = new TimeMember(newValues,levels);
 				list.add( newMember );
-				cal.add( Calendar.MONTH, -1 );
 			}
 			if( isCurrent )
 			{
-				int year = isCurrentCal.get( Calendar.YEAR );
-				isCurrentCal.add( Calendar.MONTH, 1 );
-				while( year == isCurrentCal.get( Calendar.YEAR ))
+				int year = cal.get( Calendar.YEAR );
+				cal.add( Calendar.MONTH, 1 );
+				while( year == cal.get( Calendar.YEAR ))
 				{
-					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					int[] newValues = getValueFromCal( cal, levels );
 					newMember = new TimeMember( newValues, levels );
 					list.add( newMember );
-					isCurrentCal.add( Calendar.MONTH, 1 );
+					cal.add( Calendar.MONTH, 1 );
 				}
 			}
 		}
@@ -84,21 +81,21 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 			TimeMember newMember = null;
 			for ( int i = 1; i <= weekOfYear; i++ )
 			{
+				cal.set (Calendar.WEEK_OF_YEAR,i);
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
-				cal.add( Calendar.WEEK_OF_YEAR, -1 );
 			}
 			if( isCurrent )
 			{
-				int year = isCurrentCal.get( Calendar.YEAR );
-				isCurrentCal.add( Calendar.WEEK_OF_YEAR, 1 );
-				while( year == isCurrentCal.get( Calendar.YEAR ))
+				int year = cal.get( Calendar.YEAR );
+				cal.add( Calendar.WEEK_OF_YEAR, 1 );
+				while( year == cal.get( Calendar.YEAR ))
 				{
-					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					int[] newValues = getValueFromCal( cal, levels );
 					newMember = new TimeMember( newValues, levels );
 					list.add( newMember );
-					isCurrentCal.add( Calendar.WEEK_OF_YEAR, 1 );
+					cal.add( Calendar.WEEK_OF_YEAR, 1 );
 				}
 			}
 		}
@@ -108,21 +105,21 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 			TimeMember newMember = null;
 			for ( int i = 1; i <= dayOfYear; i++ )
 			{
+				cal.set( Calendar.DAY_OF_YEAR, i );
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
-				cal.add( Calendar.DAY_OF_YEAR, -1 );
 			}
 			if( isCurrent )
 			{
-				int year = isCurrentCal.get( Calendar.YEAR );
-				isCurrentCal.add( Calendar.DAY_OF_YEAR, 1 );
-				while( year == isCurrentCal.get( Calendar.YEAR ))
+				int year = cal.get( Calendar.YEAR );
+				cal.add( Calendar.DAY_OF_YEAR, 1 );
+				while( year == cal.get( Calendar.YEAR ))
 				{
-					int[] newValues = getValueFromCal( isCurrentCal, levels );
+					int[] newValues = getValueFromCal( cal, levels );
 					newMember = new TimeMember( newValues, levels );
 					list.add( newMember );
-					isCurrentCal.add( Calendar.DAY_OF_YEAR, 1 );
+					cal.add( Calendar.DAY_OF_YEAR, 1 );
 				}
 			}
 		}

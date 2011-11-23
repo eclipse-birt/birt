@@ -11,10 +11,23 @@
 package org.eclipse.birt.report.data.adapter.api.timeFunction;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ITimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.TimeFunctionCreatorEngine;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.i18n.Message;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CalculationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -22,6 +35,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 
+import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
 public class TimeFunctionManager
@@ -433,5 +447,204 @@ public class TimeFunctionManager
 			};
 		}
 		return new String[0];
+	}
+	
+	private static int[] getValueFromCal( Calendar cal, String[] levelTypes )
+	{
+		int[] tmp = new int[levelTypes.length];
+
+		for ( int i = 0; i < levelTypes.length; i++ )
+		{
+			if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
+			{
+				tmp[i] = cal.get( Calendar.YEAR );
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
+			{
+				tmp[i] = cal.get( Calendar.MONTH ) / 3 + 1;
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
+			{
+				tmp[i] = cal.get( Calendar.MONTH ) + 1;
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
+			{
+				tmp[i] = cal.get( Calendar.WEEK_OF_MONTH );
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+			{
+				tmp[i] = cal.get( Calendar.WEEK_OF_YEAR );
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
+			{
+				tmp[i] = cal.get( Calendar.DAY_OF_WEEK );
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
+			{
+				tmp[i] = cal.get( Calendar.DAY_OF_MONTH );
+			}
+
+			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
+			{
+				tmp[i] = cal.get( Calendar.DAY_OF_YEAR );
+			}
+		}
+
+		return tmp;
+	}
+	
+	/**
+	 * get the description for a specific time function
+	 * 
+	 * @param dim
+	 * @param timeLevelsInXtab
+	 * @param column
+	 * @return
+	 * @throws BirtException 
+	 */
+	public static String getTooltipForTimeFunction( DimensionHandle dim,
+			ComputedColumnHandle column, ULocale locale ) throws BirtException
+	{
+		String desc = null;
+		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+		IBinding functionBinding = session.getModelAdaptor( ).adaptBinding( column );
+		ITimePeriod basePeriod = functionBinding.getTimeFunction( ).getBaseTimePeriod( );
+		ITimePeriod relativePeriod = functionBinding.getTimeFunction( ).getRelativeTimePeriod( );
+	
+		Date date = functionBinding.getTimeFunction( ).getReferenceDate( ).getDate( );
+		Calendar cal = Calendar.getInstance( locale );
+		cal.setTime( date );
+		int levelCount = dim.getDefaultHierarchy( ).getLevelCount( );
+		int[] values = new int[levelCount];
+		String[] levelTypes = new String[levelCount];
+		
+		for ( int i = 0; i < levelCount; i++ )
+		{
+			levelTypes[i] = dim.getDefaultHierarchy( )
+					.getLevel( i )
+					.getDateTimeLevelType( );
+		}
+		values = getValueFromCal( cal, levelTypes );
+		TimeMember member = new TimeMember( values, levelTypes );
+		IPeriodsFunction periodsFunction = null;
+		String toDatelevelType = null;
+		String paralevelType = null;
+		
+		toDatelevelType = toLevelType( basePeriod.getType( ) );
+		boolean reverse = false;
+		if( basePeriod.countOfUnit() == 0 )
+		{
+			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator( ).createPeriodsToDateFunction( toDatelevelType, basePeriod.isCurrent() );
+		}
+		else
+		{
+			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator( ).createTrailingFunction( 
+							toDatelevelType,basePeriod.countOfUnit() );
+			if ( basePeriod.countOfUnit( ) < 0 )
+				reverse = true;
+		}
+		List<TimeMember> list = null;
+		if ( relativePeriod != null )
+		{
+			paralevelType = toLevelType( relativePeriod.getType( ) );
+			IParallelPeriod parallelPeriod = TimeFunctionCreatorEngine.newTimeFunctionCreator( ).createParallelPeriodFunction( paralevelType,
+					relativePeriod.countOfUnit( ) );
+			
+			list = periodsFunction.getResult( parallelPeriod.getResult( member ));
+		}
+		else
+		{
+			list = periodsFunction.getResult( member );
+		}
+		if ( reverse )
+		{
+			desc = constructTimeFunctionToolTip( list.get( list.size( ) - 1 ),
+					list.get( 0 ),
+					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ) );
+		}
+		else
+		{
+			desc = constructTimeFunctionToolTip( list.get( 0 ),
+					list.get( list.size( ) - 1 ),
+					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ) );
+		}
+		
+		
+		return desc;
+	}
+	
+	private static String constructTimeFunctionToolTip( TimeMember from,
+			TimeMember to, String funcName )
+	{
+		StringBuffer result = new StringBuffer( "" );
+		result.append( funcName ).append( " ( " );
+		for ( int i = 0; i < from.getLevelType( ).length; i++ )
+		{
+			result.append( getLocalizedDisplayTimeUnitName( from.getLevelType( )[i] ) );
+			result.append( from.getMemberValue( )[i] ).append( " " );
+		}
+		result.append( Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_TO ) ).append( " " );
+
+		for ( int i = 0; i < to.getLevelType( ).length; i++ )
+		{
+			result.append( getLocalizedDisplayTimeUnitName( to.getLevelType( )[i] ) );
+			result.append( to.getMemberValue( )[i] ).append( " " );
+		}
+		result.append( " )" );
+		return result.toString( );
+	}
+	
+	private static String getLocalizedDisplayTimeUnitName( String name )
+	{
+		if ( name.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_YEAR );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_QUARTER );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_MONTH );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_WEEKOFMONTH );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_WEEKOFYEAR );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_DAYOFMONTH );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_DAYOFWEEK );
+		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
+			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_DAYOFYEAR );
+
+		return "";
+	}
+	
+	
+	private static String toLevelType( TimePeriodType timePeriodType )
+	{
+		if( timePeriodType == TimePeriodType.YEAR )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_YEAR;
+		}
+		else if( timePeriodType == TimePeriodType.QUARTER )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_QUARTER;
+		}
+		else if( timePeriodType == TimePeriodType.MONTH )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_MONTH;
+		}
+		else if( timePeriodType == TimePeriodType.WEEK )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR;
+		}
+		else if( timePeriodType == TimePeriodType.DAY )
+		{
+			return TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH;
+		}
+		return null;
 	}
 }

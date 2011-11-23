@@ -14,6 +14,9 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
+import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -28,10 +31,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IParallelPeriod;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.IPeriodsFunction;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionFactory;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMember;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMemberUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -986,5 +986,10 @@ class PeriodsToDateWithParallel implements IPeriodsFunction
 	public List<TimeMember> getResult(TimeMember member)
 	{
 		return periodsToDateFunc.getResult( parallelFunc.getResult( member ) );
+	}
+	
+	public String getToolTip(TimeMember member)
+	{
+		return null;
 	}
 }
