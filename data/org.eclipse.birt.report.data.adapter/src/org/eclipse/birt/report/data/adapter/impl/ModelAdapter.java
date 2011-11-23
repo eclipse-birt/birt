@@ -569,7 +569,17 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			baseTimePeriod = new TimePeriod( 0, DataAdapterUtil.toTimePeriodType( period1 ) );
+			if ( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
+			{
+				baseTimePeriod = new TimePeriod( 0,
+						DataAdapterUtil.toTimePeriodType( period1 ),
+						true );
+			}
+			else
+			{
+				baseTimePeriod = new TimePeriod( 0,
+						DataAdapterUtil.toTimePeriodType( period1 ) );
+			}
 		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
 		{
