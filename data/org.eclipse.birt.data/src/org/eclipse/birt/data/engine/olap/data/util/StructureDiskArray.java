@@ -52,7 +52,7 @@ public class StructureDiskArray extends BaseDiskArray
 		IStructure cachedObject = (IStructure) object;
 		Object[] objects = cachedObject.getFieldValues( );
 		randomAccessFile.writeShort( (short) objects.length );
-		if ( fieldWriters == null )
+		if ( fieldWriters == null || fieldWriters.length < objects.length )
 		{
 			createReadersAndWriters( objects.length );
 		}
