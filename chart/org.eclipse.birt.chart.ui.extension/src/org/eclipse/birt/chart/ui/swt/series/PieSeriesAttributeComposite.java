@@ -76,11 +76,6 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private TextEditorComposite txtExplode;
 	private Button btnBuilder;
-
-	private Label lblExpSliWhen;
-	private Label lblExpDistance;
-	private Label lblRatio;
-	private Label lblRotation;
 	private Spinner iscExplosion;
 
 	private Slider sRatio;
@@ -95,11 +90,11 @@ public class PieSeriesAttributeComposite extends Composite implements
 	private TristateCheckbox btnDirection;
 
 	private Button btnExplosionAuto;
-	
+
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
 	private final static String TOOLTIP_RATIO = Messages.getString( "PieBottomAreaComponent.Label.TheRatioOfTheChart" ); //$NON-NLS-1$
-	private final static String TOOLTIP_ROTATION = Messages.getString("PiesBottomAreaComponent.Label.TheRotationOfTheChart"); //$NON-NLS-1$
+	private final static String TOOLTIP_ROTATION = Messages.getString( "PiesBottomAreaComponent.Label.TheRotationOfTheChart" ); //$NON-NLS-1$
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -168,13 +163,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 		// LeaderLine Attributes composite
 		liacLeaderLine = new LineAttributesComposite( grpLeaderLine,
 				SWT.NONE,
+				getLeaderLineAttributesStyle( ),
 				context,
-				series.getLeaderLineAttributes( ),
-				true,
-				true,
-				true,
-				true,
-				true );
+				series.getLeaderLineAttributes( ) );
 		GridData gdLIACLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLeaderLine.horizontalSpan = 2;
 		liacLeaderLine.setLayoutData( gdLIACLeaderLine );
@@ -190,17 +181,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 			gd.horizontalSpan = 2;
 			cmpStyle.setLayoutData( gd );
 		}
-		
-		// Leader Line Style composite
-		Label lblLeaderStyle = new Label( cmpStyle, SWT.NONE );
-		GridData gdLBLLeaderStyle = new GridData( );
-		lblLeaderStyle.setLayoutData( gdLBLLeaderStyle );
-		lblLeaderStyle.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLineStyle" ) ); //$NON-NLS-1$
 
-		cmbLeaderLine = new Combo( cmpStyle, SWT.DROP_DOWN | SWT.READ_ONLY );
-		GridData gdCMBLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
-		cmbLeaderLine.setLayoutData( gdCMBLeaderLine );
-		cmbLeaderLine.addSelectionListener( this );
+		createLeaderLineStyle( cmpStyle );
 
 		// Leader Line Size composite
 		Label lblLeaderSize = new Label( cmpStyle, SWT.NONE );
@@ -213,9 +195,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 		gl.marginWidth = 0;
 		gl.marginHeight = 0;
 		comp.setLayout( gl );
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		comp.setLayoutData( gd );
-		
+
 		iscLeaderLength = new Spinner( comp, SWT.BORDER );
 		GridData gdISCLeaderLength = new GridData( GridData.FILL_HORIZONTAL );
 		iscLeaderLength.setLayoutData( gdISCLeaderLength );
@@ -229,26 +211,54 @@ public class PieSeriesAttributeComposite extends Composite implements
 		btnLeaderLengthAuto.setSelection( !series.isSetLeaderLineLength( ) );
 		iscLeaderLength.setEnabled( !btnLeaderLengthAuto.getSelection( ) );
 		btnLeaderLengthAuto.addSelectionListener( this );
-		
+
 		Composite cmpRight = new Composite( this, SWT.NONE );
 		{
 			cmpRight.setLayout( new GridLayout( 3, false ) );
 			cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 
+		createRotation( cmpRight );
 		createSeriesDetail( cmpRight );
-
-		populateLists( );
 	}
 
-	private void createSeriesDetail( Composite cmpRight )
+	protected int getLeaderLineAttributesStyle( )
 	{
-		lblRatio = new Label( cmpRight, SWT.NONE );
+		return LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+	}
+
+	protected void createLeaderLineStyle( Composite cmpStyle )
+	{
+		// Leader Line Style composite
+		Label lblLeaderStyle = new Label( cmpStyle, SWT.NONE );
+		GridData gdLBLLeaderStyle = new GridData( );
+		lblLeaderStyle.setLayoutData( gdLBLLeaderStyle );
+		lblLeaderStyle.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLineStyle" ) ); //$NON-NLS-1$
+
+		cmbLeaderLine = new Combo( cmpStyle, SWT.DROP_DOWN | SWT.READ_ONLY );
+		GridData gdCMBLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
+		cmbLeaderLine.setLayoutData( gdCMBLeaderLine );
+		cmbLeaderLine.addSelectionListener( this );
+
+		NameSet ns = LiteralHelper.leaderLineStyleSet;
+		cmbLeaderLine.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
+		cmbLeaderLine.select( series.isSetLeaderLineStyle( ) ? ( ns.getSafeNameIndex( series.getLeaderLineStyle( )
+				.getName( ) ) + 1 )
+				: 0 );
+	}
+
+	protected void createRotation( Composite cmpRight )
+	{
+		Label lblRatio = new Label( cmpRight, SWT.NONE );
 		{
 			lblRatio.setText( Messages.getString( "PieBottomAreaComponent.Label.Ratio" ) ); //$NON-NLS-1$
 			lblRatio.setToolTipText( TOOLTIP_RATIO );
 		}
-		
+
 		sRatio = new Slider( cmpRight, SWT.HORIZONTAL );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
@@ -267,19 +277,19 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRatio.addListener( SWT.KeyDown, this );
 			sRatio.addListener( SWT.Traverse, this );
 		}
-		
-		btnRatioAuto = new Button(cmpRight, SWT.CHECK );
+
+		btnRatioAuto = new Button( cmpRight, SWT.CHECK );
 		btnRatioAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnRatioAuto.setSelection( !series.isSetRatio( ) );
 		sRatio.setEnabled( !btnRatioAuto.getSelection( ) );
 		btnRatioAuto.addSelectionListener( this );
-		
-		lblRotation = new Label( cmpRight, SWT.NONE );
+
+		Label lblRotation = new Label( cmpRight, SWT.NONE );
 		{
-			lblRotation.setText( Messages.getString("PieBottomAreaComponent.Label.Rotation") ); //$NON-NLS-1$
+			lblRotation.setText( Messages.getString( "PieBottomAreaComponent.Label.Rotation" ) ); //$NON-NLS-1$
 			lblRotation.setToolTipText( TOOLTIP_ROTATION );
 		}
-		
+
 		sRotation = new Slider( cmpRight, SWT.HORIZONTAL );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
@@ -298,18 +308,18 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRotation.addListener( SWT.KeyDown, this );
 			sRotation.addListener( SWT.Traverse, this );
 		}
-		
-		btnRotationAuto = new Button(cmpRight, SWT.CHECK );
+
+		btnRotationAuto = new Button( cmpRight, SWT.CHECK );
 		btnRotationAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnRotationAuto.setSelection( !series.isSetRotation( ) );
 		sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
 		btnRotationAuto.addSelectionListener( this );
-		
+
 		btnDirection = new TristateCheckbox( cmpRight, SWT.NONE );
 		{
-			GridData gd = new GridData();
+			GridData gd = new GridData( );
 			gd.horizontalSpan = 3;
-			btnDirection.setLayoutData(  gd );
+			btnDirection.setLayoutData( gd );
 			btnDirection.setText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction" ) ); //$NON-NLS-1$
 			btnDirection.setToolTipText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction.ToolTipText" ) ); //$NON-NLS-1$
 			btnDirection.setSelectionState( series.isSetClockwise( ) ? ( series.isClockwise( ) ? TristateCheckbox.STATE_SELECTED
@@ -317,7 +327,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 					: TristateCheckbox.STATE_GRAYED );
 			btnDirection.addListener( SWT.Selection, this );
 		}
+	}
 
+	private void createSeriesDetail( Composite cmpRight )
+	{
 		Group grpSlice = new Group( cmpRight, SWT.NONE );
 		{
 			GridLayout gridLayout = new GridLayout( 3, false );
@@ -326,17 +339,16 @@ public class PieSeriesAttributeComposite extends Composite implements
 			gd.horizontalSpan = 3;
 			grpSlice.setLayoutData( gd );
 			grpSlice.setLayout( gridLayout );
-			grpSlice.setText( Messages.getString("PieSeriesAttributeComposite.Grp.Slice") );//$NON-NLS-1$
+			grpSlice.setText( Messages.getString( "PieSeriesAttributeComposite.Grp.Slice" ) );//$NON-NLS-1$
 		}
 
-		lblExpSliWhen = new Label( grpSlice, SWT.NONE );
+		Label lblExpSliWhen = new Label( grpSlice, SWT.NONE );
 		{
 			lblExpSliWhen.setText( Messages.getString( "PieBottomAreaComponent.Label.ExplodeSliceWhen" ) ); //$NON-NLS-1$
 			lblExpSliWhen.setToolTipText( TOOLTIP_EXPLODE_SLICE_WHEN );
 		}
 
-		txtExplode = new TextEditorComposite( grpSlice, SWT.BORDER
-				| SWT.SINGLE );
+		txtExplode = new TextEditorComposite( grpSlice, SWT.BORDER | SWT.SINGLE );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			txtExplode.setLayoutData( gd );
@@ -364,7 +376,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			}
 		}
 
-		lblExpDistance = new Label( grpSlice, SWT.NONE );
+		Label lblExpDistance = new Label( grpSlice, SWT.NONE );
 		{
 			lblExpDistance.setText( Messages.getString( "PieBottomAreaComponent.Label.ByDistance" ) ); //$NON-NLS-1$
 			lblExpDistance.setToolTipText( TOOLTIP_EXPLOSION_DISTANCE );
@@ -380,12 +392,12 @@ public class PieSeriesAttributeComposite extends Composite implements
 			iscExplosion.addSelectionListener( this );
 		}
 
-		btnExplosionAuto = new Button(grpSlice, SWT.CHECK );
-		btnExplosionAuto.setText( ChartUIExtensionUtil.getAutoMessage() );
+		btnExplosionAuto = new Button( grpSlice, SWT.CHECK );
+		btnExplosionAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnExplosionAuto.setSelection( !series.isSetExplosion( ) );
 		iscExplosion.setEnabled( !btnExplosionAuto.getSelection( ) );
 		btnExplosionAuto.addSelectionListener( this );
-		
+
 		// Slice outline color composite
 		Label lblSliceOutline = new Label( grpSlice, SWT.NONE );
 		GridData gdLBLSliceOutline = new GridData( );
@@ -408,19 +420,12 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	}
 
-	private void populateLists( )
-	{
-		NameSet ns = LiteralHelper.leaderLineStyleSet;
-		cmbLeaderLine.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
-		cmbLeaderLine.select( series.isSetLeaderLineStyle( ) ? ( ns.getSafeNameIndex( series.getLeaderLineStyle( )
-				.getName( ) ) + 1 )
-				: 0 );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -463,8 +468,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		}
 		else if ( event.widget == btnDirection )
 		{
-			ChartElementUtil.setEObjectAttribute( series,
-					"clockwise", //$NON-NLS-1$
+			ChartElementUtil.setEObjectAttribute( series, "clockwise", //$NON-NLS-1$
 					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
@@ -473,7 +477,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -483,8 +489,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		}
 		else if ( e.widget == btnExplosionAuto )
 		{
-			ChartElementUtil.setEObjectAttribute( series,
-					"explosion", //$NON-NLS-1$
+			ChartElementUtil.setEObjectAttribute( series, "explosion", //$NON-NLS-1$
 					iscExplosion.getSelection( ),
 					btnExplosionAuto.getSelection( ) );
 			iscExplosion.setEnabled( !btnExplosionAuto.getSelection( ) );
@@ -495,16 +500,14 @@ public class PieSeriesAttributeComposite extends Composite implements
 		}
 		else if ( e.widget == btnLeaderLengthAuto )
 		{
-			ChartElementUtil.setEObjectAttribute( series,
-					"leaderLineLength", //$NON-NLS-1$
-					(double)iscLeaderLength.getSelection( ),
+			ChartElementUtil.setEObjectAttribute( series, "leaderLineLength", //$NON-NLS-1$
+					(double) iscLeaderLength.getSelection( ),
 					btnLeaderLengthAuto.getSelection( ) );
 			iscLeaderLength.setEnabled( !btnLeaderLengthAuto.getSelection( ) );
 		}
 		else if ( e.getSource( ).equals( cmbLeaderLine ) )
 		{
-			ChartElementUtil.setEObjectAttribute( series,
-					"leaderLineStyle", //$NON-NLS-1$
+			ChartElementUtil.setEObjectAttribute( series, "leaderLineStyle", //$NON-NLS-1$
 					LeaderLineStyle.getByName( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ),
 					cmbLeaderLine.getSelectionIndex( ) == 0 );
 		}
@@ -532,21 +535,21 @@ public class PieSeriesAttributeComposite extends Composite implements
 			series.setRatio( ( (double) sRatio.getSelection( ) ) / 10 );
 			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
 		}
-		else if( e.widget.equals( sRotation ))
+		else if ( e.widget.equals( sRotation ) )
 		{
-			series.setRotation(  sRotation.getSelection( )  );
+			series.setRotation( sRotation.getSelection( ) );
 			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 		}
 		else if ( e.widget == btnRotationAuto )
 		{
 			if ( btnRotationAuto.getSelection( ) )
 			{
-				series.unsetRotation();
+				series.unsetRotation( );
 				sRotation.setToolTipText( ChartUIExtensionUtil.getAutoMessage( ) );
 			}
 			else
 			{
-				series.setRotation(  sRotation.getSelection( )  );
+				series.setRotation( sRotation.getSelection( ) );
 				sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 			}
 			sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
@@ -570,7 +573,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{

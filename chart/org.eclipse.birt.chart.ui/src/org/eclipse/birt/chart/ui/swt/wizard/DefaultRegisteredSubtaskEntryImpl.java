@@ -14,7 +14,8 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 
-public class DefaultRegisteredSubtaskEntryImpl implements
+public class DefaultRegisteredSubtaskEntryImpl extends
+		DefaultRegisteredEntry<ISubtaskSheet> implements
 		IRegisteredSubtaskEntry
 {
 
@@ -24,13 +25,10 @@ public class DefaultRegisteredSubtaskEntryImpl implements
 
 	private String sNodePath = ""; //$NON-NLS-1$
 
-	private String sDisplayName = null;
-
-	private ISubtaskSheet sheetImpl = null;
-
 	public DefaultRegisteredSubtaskEntryImpl( String sNodeIndex,
 			String sNodePath, String sDisplayName, ISubtaskSheet sheet )
 	{
+		super( sheet, sDisplayName, sNodePath );
 		try
 		{
 			double nodeIndexWithPriority = Double.valueOf( sNodeIndex );
@@ -41,8 +39,6 @@ public class DefaultRegisteredSubtaskEntryImpl implements
 		{
 		}
 		this.sNodePath = sNodePath;
-		this.sDisplayName = sDisplayName;
-		this.sheetImpl = sheet;
 	}
 
 	/*
@@ -67,21 +63,14 @@ public class DefaultRegisteredSubtaskEntryImpl implements
 		return sNodePath;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#getSheetClass
-	 * ()
-	 */
 	public ISubtaskSheet getSheet( )
 	{
-		return sheetImpl;
+		return getInstance( );
 	}
 
 	public String getDisplayName( )
 	{
-		return sDisplayName;
+		return getName( );
 	}
 
 	/**
@@ -92,6 +81,7 @@ public class DefaultRegisteredSubtaskEntryImpl implements
 	 * @return priority value
 	 * @since 3.7
 	 */
+	@Override
 	public int getPriority( )
 	{
 		return priority;

@@ -53,17 +53,17 @@ public class LineSeriesAttributeComposite extends Composite
 			Listener
 {
 
-	private transient Label lblShadow;
+	private Label lblShadow;
 
-	private transient FillChooserComposite fccShadow = null;
+	private FillChooserComposite fccShadow = null;
 
-	protected transient Group grpLine = null;
+	protected Group grpLine = null;
 
-	private transient LineAttributesComposite liacLine = null;
+	private LineAttributesComposite liacLine = null;
 
-	protected transient Series series = null;
+	protected Series series = null;
 
-	protected transient ChartWizardContext context;
+	protected ChartWizardContext context;
 
 	private TristateCheckbox btnPalette;
 
@@ -323,7 +323,7 @@ public class LineSeriesAttributeComposite extends Composite
 		}
 	}
 
-	private boolean isShadowNeeded( )
+	protected boolean isShadowNeeded( )
 	{
 		return !( series instanceof AreaSeries )
 				&& context.getModel( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL;
