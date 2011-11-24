@@ -452,9 +452,7 @@ public class JdbcToolKit
 		{
 			for ( int i = 0; i < jdbcDriverFiles.length; i++ )
 			{
-				urlList[i] = new URL( "file",
-						null,
-						( (File) jdbcDriverFiles[i] ).getAbsolutePath( ) );
+				urlList[i] = ( (File) jdbcDriverFiles[i] ).toURI( ).toURL( );
 			}
 		}
 		catch ( MalformedURLException e )
