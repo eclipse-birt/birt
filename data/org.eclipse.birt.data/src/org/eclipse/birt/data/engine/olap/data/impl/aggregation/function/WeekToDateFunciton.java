@@ -54,6 +54,18 @@ public class WeekToDateFunciton extends AbstractMDX implements IPeriodsFunction
 				timeMembers.add( timeMember );
 			}
 
+			if ( isCurrent )
+			{
+				for ( int i = weekday + 1; i <= 7; i++ )
+				{
+					newCal.setTimeInMillis( cal.getTimeInMillis( )
+							+ ( i - weekday ) * dayTimeInMills );
+					tmp = getValueFromCal( newCal, levelTypes );
+					TimeMember timeMember = new TimeMember( tmp, levelTypes );
+					timeMembers.add( timeMember );
+				}
+			}
+			
 		}
 
 		return timeMembers;
