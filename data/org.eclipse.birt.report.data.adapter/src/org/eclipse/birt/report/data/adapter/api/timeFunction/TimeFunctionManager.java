@@ -140,6 +140,17 @@ public class TimeFunctionManager
 
 			periodType.add( IArgumentInfo.Period_Type.MONTH );
 		}
+		
+		// for WTD, only support static reference date
+		if ( timeLevelsInXtab.isEmpty( )
+				&& ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR ) ) )
+		{
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE ) );
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) );
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR ) );
+			periodType.add( IArgumentInfo.Period_Type.WEEK );
+		}
+
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
 		{
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_30_DAYS ) );
@@ -148,16 +159,6 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
 			periodType.add( IArgumentInfo.Period_Type.DAY );
 		}
-		// for WTD, only support static reference date
-		if ( timeLevelsInXtab.isEmpty( )
-				&& ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR ) ) )
-		{
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE ) );
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) );
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR) );
-			periodType.add( IArgumentInfo.Period_Type.WEEK );
-		}
-
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ),
 				periodType ) );
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ),
