@@ -96,7 +96,7 @@ public class QueryValidator
 						.getTimeDimension( );
 				QueryValidator.validateTimeFunction( cubeHandle,
 						binding.getTimeFunction( ) );
-				if ( dimensionMap.containsKey( dimensionName ) )
+				if ( dimensionMap.containsKey( dimensionName ) && binding.getTimeFunction().getReferenceDate() == null )
 				{
 					QueryValidator.validateTimeFunction( dimensionMap.get( dimensionName ),
 							cubeHandle,
