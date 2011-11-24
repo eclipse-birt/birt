@@ -160,6 +160,12 @@ public class TimeFunctionHandle
 								local ),
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_PREVIOUS_YEAR_TO_DATE_DES,
 								local ) ) );
+		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR,
+				new BaseTimeFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR,
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_WEEK_TO_DATE_LAST_YEAR,
+								local ),
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_WEEK_TO_DATE_LAST_YEAR_DES,
+								local ) ) );
 		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR,
 				new BaseTimeFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR,
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_MONTH_TO_DATE_LAST_YEAR,

@@ -78,6 +78,8 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_MONTH_TO_DATE_DES = "timeFunction.MONTH_TO_DATE.description";
 	public final static String TIMEFUNCITON_PREVIOUS_YEAR_TO_DATE = "timeFunction.PREVIOUS_YEAR_TO_DATE.name"; 
 	public final static String TIMEFUNCITON_PREVIOUS_YEAR_TO_DATE_DES ="timeFunction.PREVIOUS_YEAR_TO_DATE.description";
+	public final static String TIMEFUNCITON_WEEK_TO_DATE_LAST_YEAR = "timeFunction.WEEK_TO_DATE_LAST_YEAR.name";
+	public final static String TIMEFUNCITON_WEEK_TO_DATE_LAST_YEAR_DES = "timeFunction.WEEK_TO_DATE_LAST_YEAR.description";
 	public final static String TIMEFUNCITON_MONTH_TO_DATE_LAST_YEAR = "timeFunction.MONTH_TO_DATE_LAST_YEAR.name"; 
 	public final static String TIMEFUNCITON_MONTH_TO_DATE_LAST_YEAR_DES = "timeFunction.MONTH_TO_DATE_LAST_YEAR.description";
 	public final static String TIMEFUNCITON_QUARTER_TO_DATE_LAST_YEAR = "timeFunction.QUARTER_TO_DATE_LAST_YEAR.name"; 

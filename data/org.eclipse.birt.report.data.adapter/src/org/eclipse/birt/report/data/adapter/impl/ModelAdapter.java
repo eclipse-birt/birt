@@ -531,6 +531,10 @@ public class ModelAdapter implements IModelAdapter
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.WEEK );
 		}
+		else if ( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.WEEK );
+		}
 		else if ( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculateType ) )
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH );
@@ -633,7 +637,8 @@ public class ModelAdapter implements IModelAdapter
 		String calculateType = periodHandle.getCalculationType( );
 		TimePeriod relativeTimePeriod = null;
 
-		if ( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculateType )
+		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( calculateType )
+				|| IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculateType )
 				|| IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR.equals( calculateType ) )
 		{
 			Iterator iter = periodHandle.calculationArgumentsIterator( );

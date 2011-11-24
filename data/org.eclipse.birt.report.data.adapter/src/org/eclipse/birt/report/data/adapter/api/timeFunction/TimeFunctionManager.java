@@ -149,12 +149,12 @@ public class TimeFunctionManager
 			periodType.add( IArgumentInfo.Period_Type.DAY );
 		}
 		// for WTD, only support static reference date
-		if ( timeLevelsInXtab.isEmpty()
-				&& (timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
-				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR )))
+		if ( timeLevelsInXtab.isEmpty( )
+				&& ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR ) ) )
 		{
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) );
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR) );
 			periodType.add( IArgumentInfo.Period_Type.WEEK );
 		}
 
@@ -278,6 +278,10 @@ public class TimeFunctionManager
 		{
 			return handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR );
 		}
+		else if ( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( name ) )
+		{
+			return handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR );
+		}
 		else if ( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR.equals( name ) )
 		{
 			return handle.getFunction( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR );
@@ -373,14 +377,14 @@ public class TimeFunctionManager
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR
 			};
 		}
-		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE.equals( calculationType ) 
-				|| IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculationType ))
+		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE.equals( calculationType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculationType )
+				|| IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( calculationType ) )
 		{
 			return new String[]{
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR
 			};
 		}
-		
 		if( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculationType ) )
 		{
 			Iterator iter = handle.calculationArgumentsIterator( );

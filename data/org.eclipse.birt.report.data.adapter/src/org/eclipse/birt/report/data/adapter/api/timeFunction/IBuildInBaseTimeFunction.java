@@ -29,6 +29,7 @@ public interface IBuildInBaseTimeFunction
 	public static final String PREVIOUS_MONTH = "PREVIOUS MONTH";
 	public static final String PREVIOUS_QUARTER = "PREVIOUS QUARTER";
 	public static final String PREVIOUS_YEAR = "PREVIOUS YEAR";
+	public static final String WEEK_TO_DATE_LAST_YEAR = "WEEK TO DATE LAST YEAR";
 	public static final String MONTH_TO_DATE_LAST_YEAR = "MONTH TO DATE LAST YEAR";
 	public static final String QUARTER_TO_DATE_LAST_YEAR = "QUARTER TO DATE LAST YEAR";
 	public static final String PREVIOUS_WEEK_TO_DATE = "PREVIOUS WEEK TO DATE"; 

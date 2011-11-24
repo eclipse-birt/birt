@@ -270,6 +270,10 @@ public class TimeFunctionManagerTest extends TestCase
 		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
 
+		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR );
+		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
+		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR ) );
+		
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR );
 		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
