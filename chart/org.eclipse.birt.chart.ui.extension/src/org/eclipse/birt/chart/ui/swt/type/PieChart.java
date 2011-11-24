@@ -153,11 +153,6 @@ public class PieChart extends DefaultChartTypeImpl
 				"dimension",//$NON-NLS-1$
 				getDimensionFor( sDimension ),
 				sDimension == null );
-		if ( newChart.getDimension( )
-				.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
-		{
-			newChart.setSeriesThickness( 15 );
-		}
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
 		Series categorySeries = SeriesImpl.createDefault( );
@@ -237,9 +232,9 @@ public class PieChart extends DefaultChartTypeImpl
 					getDimensionFor( sNewDimension ),
 					sNewDimension == null );
 
-			if ( !helperModel.isSetSeriesThickness( ) )
+			if ( helperModel.isSetSeriesThickness( ) )
 			{
-				currentChart.setSeriesThickness( 15 );
+				currentChart.setSeriesThickness( helperModel.getSeriesThickness( ) );
 			}
 
 			// Copy series definitions from old chart
@@ -293,11 +288,6 @@ public class PieChart extends DefaultChartTypeImpl
 				ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
 						getDimensionFor( sNewDimension ),
 						sNewDimension == null );
-
-				if ( !currentChart.isSetSeriesThickness( ) )
-				{
-					currentChart.setSeriesThickness( 15 );
-				}
 			}
 			else
 			{

@@ -23,8 +23,10 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
+import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -35,6 +37,8 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -55,7 +59,7 @@ import org.eclipse.swt.widgets.Spinner;
  */
 public class PieSeriesAttributeComposite extends Composite implements
 		Listener,
-		SelectionListener
+		SelectionListener, ModifyListener
 {
 
 	private Group grpLeaderLine = null;
@@ -91,6 +95,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private Button btnExplosionAuto;
 
+	private LocalizedNumberEditorComposite txtInnerRadius;
+
+	private Button btnInnerSizeAuto;
+	
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
 	private final static String TOOLTIP_RATIO = Messages.getString( "PieBottomAreaComponent.Label.TheRatioOfTheChart" ); //$NON-NLS-1$
@@ -314,7 +322,26 @@ public class PieSeriesAttributeComposite extends Composite implements
 		btnRotationAuto.setSelection( !series.isSetRotation( ) );
 		sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
 		btnRotationAuto.addSelectionListener( this );
-
+		
+		Label lblInnerRadius = new Label(cmpRight, SWT.NONE );
+		lblInnerRadius.setText( Messages.getString("PieSeriesAttributeComposite.Button.InnerRadius") ); //$NON-NLS-1$
+		
+		txtInnerRadius = new LocalizedNumberEditorComposite( cmpRight,
+				SWT.BORDER );
+		new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			txtInnerRadius.setLayoutData( gridData );
+			txtInnerRadius.setValue( series.getInnerRadius( ) );
+			txtInnerRadius.addModifyListener( this );
+		}
+		
+		btnInnerSizeAuto = new Button( cmpRight, SWT.CHECK );
+		btnInnerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+		btnInnerSizeAuto.addListener( SWT.Selection, this );
+		btnInnerSizeAuto.setSelection( !series.isSetInnerRadius( ) );
+		txtInnerRadius.setEnabled( !btnInnerSizeAuto.getSelection( ) );
+		
 		btnDirection = new TristateCheckbox( cmpRight, SWT.NONE );
 		{
 			GridData gd = new GridData( );
@@ -472,6 +499,19 @@ public class PieSeriesAttributeComposite extends Composite implements
 					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
 					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
 		}
+		else if ( event.widget == btnInnerSizeAuto )
+		{
+			if ( btnInnerSizeAuto.getSelection( ) )
+			{
+				txtInnerRadius.setEnabled( false );
+				series.unsetInnerRadius( );
+			}
+			else
+			{
+				txtInnerRadius.setEnabled( true );
+				txtInnerRadius.setValue( series.getInnerRadius( ) );
+			}
+		}
 	}
 
 	/*
@@ -579,5 +619,13 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
+	}
+
+	public void modifyText( ModifyEvent event )
+	{
+		if ( event.widget == txtInnerRadius )
+		{
+			series.setInnerRadius( txtInnerRadius.getValue( ) );
+		}
 	}
 }

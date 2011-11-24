@@ -468,6 +468,17 @@
         <details key="name" value="Clockwise"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="innerRadius" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="0.5"
+        unsettable="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Defines inner radius, if inner radius greater than 0, it should be a dount pie. If value of inner radius is between 0 and 1, the inner radius is percentage value of width/height of pie, otherwise it is actual size."/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="InnerRadius"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ScatterSeries" eSuperTypes="#//LineSeries">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

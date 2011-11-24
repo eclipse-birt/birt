@@ -132,7 +132,7 @@ public class G2dRendererBase extends DeviceAdapter
 	 * co-ordinates to 'int' co-ordinates.
 	 * 
 	 * @param la
-	 * @return
+	 * @return array of coordinates
 	 */
 	public static final int[][] getCoordinatesAsInts( Location[] la )
 	{
@@ -851,30 +851,9 @@ public class G2dRendererBase extends DeviceAdapter
 		if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 		{
-			Bounds rctOuter, rctInner;
-			if ( are.getOuterRadius( ) > 0 )
-			{
-				rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) ) / 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
-								/ 2,
-						2 * are.getOuterRadius( ),
-						2 * are.getOuterRadius( ) );
-			}
-			else
-			{
-				rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( ),
-						are.getTopLeft( ).getY( ),
-						are.getWidth( ),
-						are.getHeight( ) );
-			}
-
-			rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
-					+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
-					/ 2, are.getTopLeft( ).getY( )
-					+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
-					/ 2, 2 * are.getInnerRadius( ), 2 * are.getInnerRadius( ) );
+			Bounds rctOuter = getOuterRectangle( are );
+			Bounds rctInner = getInnerRectangle( are );
+			
 			Shape outerArc = new Arc2D.Double( rctOuter.getLeft( ),
 					rctOuter.getTop( ),
 					rctOuter.getWidth( ),
@@ -940,6 +919,75 @@ public class G2dRendererBase extends DeviceAdapter
 		}
 	}
 
+	protected Bounds getOuterRectangle( ArcRenderEvent are )
+	{
+		Bounds rctOuter;
+		if ( are.getOuterRadius( ) > 0 )
+		{
+			double radio = are.getHeight( ) / are.getWidth( );
+			rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( )
+					+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) ) / 2,
+					are.getTopLeft( ).getY( )
+							+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) * radio )
+							/ 2,
+					2 * are.getOuterRadius( ),
+					2 * are.getOuterRadius( ) * radio );
+		}
+		else
+		{
+			rctOuter = BoundsImpl.create( are.getTopLeft( ).getX( ),
+					are.getTopLeft( ).getY( ),
+					are.getWidth( ),
+					are.getHeight( ) );
+		}
+		return rctOuter;
+	}
+
+	protected Bounds getInnerRectangle( ArcRenderEvent are )
+	{
+		Bounds rctInner;
+		double innerRadius = are.getInnerRadius( );
+		if ( innerRadius > 0 )
+		{
+			if ( innerRadius < 1d )
+			{
+				rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) * ( 1 - are.getInnerRadius( ) ) / 2 ),
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( )
+										* ( 1 - are.getInnerRadius( ) ) / 2 ),
+						are.getInnerRadius( ) * are.getWidth( ),
+						are.getInnerRadius( ) * are.getHeight( ) );
+			}
+			else
+			{
+				double radio = are.getHeight( ) / are.getWidth( );
+				rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
+						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+						/ 2,
+						are.getTopLeft( ).getY( )
+								+ ( are.getHeight( ) - 2
+										* are.getInnerRadius( )
+										* radio )
+								/ 2,
+						2 * are.getInnerRadius( ),
+						2 * are.getInnerRadius( ) * radio );
+			}
+		}
+		else
+		{
+			rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
+					+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+					/ 2,
+					are.getTopLeft( ).getY( )
+							+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
+							/ 2,
+					2 * are.getInnerRadius( ),
+					2 * are.getInnerRadius( ) );
+		}
+		return rctInner;
+	}
+
 	@Override
 	public void fillArc( ArcRenderEvent are ) throws ChartException
 	{
@@ -965,39 +1013,21 @@ public class G2dRendererBase extends DeviceAdapter
 			if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 					|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 			{
-				Shape outerArc, innerArc;
-				if ( are.getOuterRadius( ) > 0 )
-				{
-					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
-								/ 2,
-						2 * are.getOuterRadius( ),
-						2 * are.getOuterRadius( ),
+				Bounds rctOuter = getOuterRectangle( are );
+				Bounds rctInner = getInnerRectangle( are );
+
+				Shape outerArc = new Arc2D.Double( rctOuter.getLeft( ),
+						rctOuter.getTop( ),
+						rctOuter.getWidth( ),
+						rctOuter.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
-				}
-				else
-				{
-					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
-							are.getTopLeft( ).getY( ),
-							are.getWidth( ),
-							are.getHeight( ),
-							are.getStartAngle( ),
-							are.getAngleExtent( ),
-							Arc2D.PIE );
-				}
-				 innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
-								/ 2,
-						2 * are.getInnerRadius( ),
-						2 * are.getInnerRadius( ),
+
+				Shape innerArc = new Arc2D.Double( rctInner.getLeft( ),
+						rctInner.getTop( ),
+						rctInner.getWidth( ),
+						rctInner.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
@@ -1096,39 +1126,21 @@ public class G2dRendererBase extends DeviceAdapter
 			if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 					|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 			{
-				Shape outerArc, innerArc;
-				if ( are.getOuterRadius( ) > 0 )
-				{
-					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
-								/ 2,
-						2 * are.getOuterRadius( ),
-						2 * are.getOuterRadius( ),
+				Bounds rctOuter = getOuterRectangle( are );
+				Bounds rctInner = getInnerRectangle( are );
+
+				Shape outerArc = new Arc2D.Double( rctOuter.getLeft( ),
+						rctOuter.getTop( ),
+						rctOuter.getWidth( ),
+						rctOuter.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
-				}
-				else
-				{
-					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
-							are.getTopLeft( ).getY( ),
-							are.getWidth( ),
-							are.getHeight( ),
-							are.getStartAngle( ),
-							are.getAngleExtent( ),
-							Arc2D.PIE );
-				}
-				innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
-								/ 2,
-						2 * are.getInnerRadius( ),
-						2 * are.getInnerRadius( ),
+
+				Shape innerArc = new Arc2D.Double( rctInner.getLeft( ),
+						rctInner.getTop( ),
+						rctInner.getWidth( ),
+						rctInner.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
@@ -1174,39 +1186,21 @@ public class G2dRendererBase extends DeviceAdapter
 			if ( ( are.getInnerRadius( ) >= 0 && are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 					|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 			{
-				Shape outerArc, innerArc;
-				if ( are.getOuterRadius( ) > 0 )
-				{
-					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getOuterRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getOuterRadius( ) )
-								/ 2,
-						2 * are.getOuterRadius( ),
-						2 * are.getOuterRadius( ),
+				Bounds rctOuter = getOuterRectangle( are );
+				Bounds rctInner = getInnerRectangle( are );
+
+				Shape outerArc = new Arc2D.Double( rctOuter.getLeft( ),
+						rctOuter.getTop( ),
+						rctOuter.getWidth( ),
+						rctOuter.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );
-				}
-				else
-				{
-					outerArc = new Arc2D.Double( are.getTopLeft( ).getX( ),
-							are.getTopLeft( ).getY( ),
-							are.getWidth( ),
-							are.getHeight( ),
-							are.getStartAngle( ),
-							are.getAngleExtent( ),
-							Arc2D.PIE );
-				}
-				innerArc = new Arc2D.Double( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2 * are.getInnerRadius( ) )
-								/ 2,
-						2 * are.getInnerRadius( ),
-						2 * are.getInnerRadius( ),
+
+				Shape innerArc = new Arc2D.Double( rctInner.getLeft( ),
+						rctInner.getTop( ),
+						rctInner.getWidth( ),
+						rctInner.getHeight( ),
 						are.getStartAngle( ),
 						are.getAngleExtent( ),
 						Arc2D.PIE );

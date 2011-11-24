@@ -53,6 +53,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRatio <em>Ratio</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRotation <em>Rotation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#isClockwise <em>Clockwise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getInnerRadius <em>Inner Radius</em>}</li>
  * </ul>
  * </p>
  *
@@ -304,6 +305,35 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @ordered
 	 */
 	protected boolean clockwiseESet;
+
+	/**
+	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInnerRadius()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double INNER_RADIUS_EDEFAULT = 0.5;
+
+	/**
+	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInnerRadius()
+	 * @generated
+	 * @ordered
+	 */
+	protected double innerRadius = INNER_RADIUS_EDEFAULT;
+
+	/**
+	 * This is true if the Inner Radius attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean innerRadiusESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -956,6 +986,66 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getInnerRadius( )
+	{
+		return innerRadius;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInnerRadius( double newInnerRadius )
+	{
+		double oldInnerRadius = innerRadius;
+		innerRadius = newInnerRadius;
+		boolean oldInnerRadiusESet = innerRadiusESet;
+		innerRadiusESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__INNER_RADIUS,
+					oldInnerRadius,
+					innerRadius,
+					!oldInnerRadiusESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetInnerRadius( )
+	{
+		double oldInnerRadius = innerRadius;
+		boolean oldInnerRadiusESet = innerRadiusESet;
+		innerRadius = INNER_RADIUS_EDEFAULT;
+		innerRadiusESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__INNER_RADIUS,
+					oldInnerRadius,
+					INNER_RADIUS_EDEFAULT,
+					oldInnerRadiusESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetInnerRadius( )
+	{
+		return innerRadiusESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -1004,6 +1094,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return getRotation( );
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				return isClockwise( );
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				return getInnerRadius( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1050,6 +1142,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return;
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				setClockwise( (Boolean) newValue );
+				return;
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				setInnerRadius( (Double) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -1098,6 +1193,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				unsetClockwise( );
 				return;
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				unsetInnerRadius( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1135,6 +1233,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return isSetRotation( );
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				return isSetClockwise( );
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				return isSetInnerRadius( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1187,6 +1287,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			result.append( clockwise );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", innerRadius: " ); //$NON-NLS-1$
+		if ( innerRadiusESet )
+			result.append( innerRadius );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
@@ -1217,7 +1322,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				LineStyle.SOLID_LITERAL,
 				1 ) );
 		setLeaderLineLength( 10 );
-//		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
+		//		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
 		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
 		getLabel( ).setVisible( true );
@@ -1254,24 +1359,26 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				LineStyle.SOLID_LITERAL,
 				1 ) );
 		leaderLineLength = 10;
-//		leaderLineStyle = LeaderLineStyle.STRETCH_TO_SIDE_LITERAL;
+		//		leaderLineStyle = LeaderLineStyle.STRETCH_TO_SIDE_LITERAL;
 		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
 		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
 		try
 		{
 			ChartElementUtil.setDefaultValue( getLabel( ), "visible", true ); //$NON-NLS-1$
 			final Label la = LabelImpl.createDefault( true );
-			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ), "size", 16 ); //$NON-NLS-1$
-			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ), "bold", true ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"size", 16 ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"bold", true ); //$NON-NLS-1$
 			setTitle( la );
 		}
 		catch ( ChartException e )
 		{
 			// Do nothing.
-		} 
+		}
 		titlePosition = Position.BELOW_LITERAL;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1350,8 +1457,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 		clockwiseESet = src.isSetClockwise( );
 
+		innerRadius = src.getInnerRadius( );
+
+		innerRadiusESet = src.isSetInnerRadius( );
 	}
-	
+
 	@Override
 	public NameSet getLabelPositionScope( ChartDimension dimension )
 	{

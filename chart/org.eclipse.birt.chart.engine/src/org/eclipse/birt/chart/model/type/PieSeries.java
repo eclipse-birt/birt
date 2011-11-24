@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.model.component.Series;
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise <em>Clockwise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}</li>
  * </ul>
  * </p>
  *
@@ -548,6 +549,60 @@ public interface PieSeries extends Series
 	 * @generated
 	 */
 	boolean isSetClockwise( );
+
+	/**
+	 * Returns the value of the '<em><b>Inner Radius</b></em>' attribute.
+	 * The default value is <code>"0.5"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Defines inner radius, if inner radius greater than 0, it should be a dount pie. If value of inner radius is between 0 and 1, the inner radius is percentage value of width/height of pie, otherwise it is actual size.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Inner Radius</em>' attribute.
+	 * @see #isSetInnerRadius()
+	 * @see #unsetInnerRadius()
+	 * @see #setInnerRadius(double)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_InnerRadius()
+	 * @model default="0.5" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 *        extendedMetaData="kind='element' name='InnerRadius'"
+	 * @generated
+	 */
+	double getInnerRadius( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inner Radius</em>' attribute.
+	 * @see #isSetInnerRadius()
+	 * @see #unsetInnerRadius()
+	 * @see #getInnerRadius()
+	 * @generated
+	 */
+	void setInnerRadius( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetInnerRadius()
+	 * @see #getInnerRadius()
+	 * @see #setInnerRadius(double)
+	 * @generated
+	 */
+	void unsetInnerRadius( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Inner Radius</em>' attribute is set.
+	 * @see #unsetInnerRadius()
+	 * @see #getInnerRadius()
+	 * @see #setInnerRadius(double)
+	 * @generated
+	 */
+	boolean isSetInnerRadius( );
 
 	/**
 	 * @generated

@@ -637,6 +637,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPieSeries_InnerRadius( )
+	{
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 11 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -779,6 +789,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEAttribute( pieSeriesEClass, PIE_SERIES__RATIO );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__ROTATION );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__CLOCKWISE );
+		createEAttribute( pieSeriesEClass, PIE_SERIES__INNER_RADIUS );
 
 		scatterSeriesEClass = createEClass( SCATTER_SERIES );
 
@@ -1002,6 +1013,9 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		initEAttribute( getPieSeries_Clockwise( ),
 				theXMLTypePackage.getBoolean( ),
 				"clockwise", "false", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getPieSeries_InnerRadius( ),
+				theXMLTypePackage.getDouble( ),
+				"innerRadius", "0.5", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( scatterSeriesEClass,
 				ScatterSeries.class,
@@ -1244,6 +1258,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( getPieSeries_Clockwise( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Clockwise" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPieSeries_InnerRadius( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "InnerRadius" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( scatterSeriesEClass, source, new String[]{
 				"name", "ScatterSeries", //$NON-NLS-1$ //$NON-NLS-2$

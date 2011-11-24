@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
@@ -37,7 +36,6 @@ import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.PolygonRenderEvent;
-import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.event.WrappedStructureSource;
@@ -120,20 +118,7 @@ public final class PieRenderer
 	 * Holds list of deferred planes (flat and curved) to be sorted before
 	 * rendering
 	 */
-	/**
-	 * The list stores back curved planes whose angle are between 0 to 180 and
-	 * will be drown before drawing flat planes and front curved planes.
-	 */
-	private final List backCurvedPlanes = new ArrayList( );
-
-	/**
-	 * The list stores front curved planes whose angle are between 180 to 360
-	 * and will be drown after drawing back planes and front planes.
-	 */
-	private final List frontCurvedPlanes = new ArrayList( );
-
-	/** The list stores all flat planes of pie slices. */
-	private final List flatPlanes = new ArrayList( );
+	private final List<IDrawable> deferredPlanes = new ArrayList<IDrawable>( );
 
 	private final Palette pa;
 
@@ -166,8 +151,6 @@ public final class PieRenderer
 	private transient double dAbsoluteMinSlice = 0;
 
 	private transient boolean bPercentageMinSlice = false;
-
-	private transient boolean bMinSliceApplied = false;
 
 	private transient int orginalSliceCount = 0;
 
@@ -351,7 +334,6 @@ public final class PieRenderer
 				pieSliceList.add( new PieSlice( residualPos,
 						dphPos,
 						orginalSliceCount, true ) );
-				bMinSliceApplied = true;
 			}
 			if ( dphNeg != null )
 			{
@@ -360,7 +342,6 @@ public final class PieRenderer
 				pieSliceList.add( new PieSlice( residualNeg,
 						dphNeg,
 						orginalSliceCount, true ) );
-				bMinSliceApplied = true;
 			}
 		}
 		else
@@ -390,9 +371,9 @@ public final class PieRenderer
 
 		PieSlice slice = null;
 		double totalAngle = 0d;
-		for ( Iterator iter = pieSliceList.iterator( ); iter.hasNext( ); )
+		for ( Iterator<PieSlice> iter = pieSliceList.iterator( ); iter.hasNext( ); )
 		{
-			slice = (PieSlice) iter.next( );
+			slice = iter.next( );
 			double length = ( Math.abs( slice.getPrimitiveValue( ) ) / dTotal ) * 360d;
 			double percentage = ( slice.getPrimitiveValue( ) / dTotal ) * 100d;
 			slice.setStartAngle( startAngle );
@@ -420,7 +401,7 @@ public final class PieRenderer
 
 	private double wrapAngle( double angle )
 	{
-		return angle > 360 ? angle - 360 : angle;
+		return ChartUtil.mathGE( angle, 360d) ? angle - 360 : angle;
 	}
 
 	/**
@@ -551,8 +532,6 @@ public final class PieRenderer
 					
 					this.idLeftLast = -1;
 				}
-//				this.idLeftLast
-//				this.idLeftLast
 				
 				return;
 			}
@@ -777,7 +756,7 @@ public final class PieRenderer
 			 * add a slice label to the bottom of the list
 			 * @param sLabel
 			 * @param bRight
-			 * @return
+			 * @return true if label is added.
 			 */
 			public boolean addSliceLabel( SliceLabel sLabel, boolean bRight )
 			{
@@ -1146,11 +1125,6 @@ public final class PieRenderer
 				this.type = type;
 			}
 			
-			public boolean isHead()
-			{
-				return ( type == 1 );
-			}
-			
 			public boolean isTail()
 			{
 				return ( type == 2 );
@@ -1180,11 +1154,6 @@ public final class PieRenderer
 				width -= sLabel.width + HSPACE;
 				recomputeHeight( );
 				xStart = getXStartClosestToPie( );
-			}
-			
-			public void setTop(double top)
-			{
-				this.top = top;
 			}
 			
 			public abstract double getXStartClosestToPie( );
@@ -1244,7 +1213,6 @@ public final class PieRenderer
 				
 				return dMaxTop;
 			}
-			
 			
 			private double getBottomLast( )
 			{
@@ -1355,17 +1323,6 @@ public final class PieRenderer
 					this.lgLast.lgNext = this.lgNext;
 					this.lgNext.lgLast = this.lgLast;
 				}
-				
-				
-//				if ( this.lgLast != null )
-//				{
-//					this.lgLast.lgNext = this.lgNext;
-//				}
-//				
-//				if (this.lgNext!=null)
-//				{
-//					this.lgNext.lgLast = this.lgLast;
-//				}
 			}
 			
 			public abstract boolean addSliceLabel( SliceLabel sLabel );
@@ -1775,7 +1732,7 @@ public final class PieRenderer
 					pie.getRunTimeContext( )
 							.notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
 									slice.getDataPointHints( ) );
-
+					
 					slice.render( goFactory.createLocation( xc, yc ),
 							goFactory.createLocation( 0, dThickness ),
 							SizeImpl.create( w, h ),
@@ -1904,18 +1861,24 @@ public final class PieRenderer
 	 * 
 	 * @param planesList
 	 *            the list is used to receive the planes.
-	 * @param angle
+	 * @param startAngle
 	 *            angle of pie slice, normally it should be the start angle of
 	 *            pie slice.
+	 * @param angleExtent
+	 *            slice length.
 	 * @param areBentOrTwistedCurve
 	 * @param dX1
 	 * @param dX2
+	 * @param isInner
+	 * @return created drawable object.
 	 */
-	private final void deferCurvedPlane( List list, double angle,
-			AreaRenderEvent areBentOrTwistedCurve, double dX1, double dX2 )
+	private final IDrawable deferCurvedPlane( List<IDrawable> list, double startAngle, double angleExtent,
+			AreaRenderEvent areBentOrTwistedCurve, double dX1, double dX2, boolean isInner )
 	{
-		double newAngle = convertAngleForRenderingOrder( angle );
-		list.add( new CurvedPlane( newAngle, areBentOrTwistedCurve ) );
+		double newAngle = convertAngleForRenderingOrder( startAngle, startAngle + angleExtent );
+		IDrawable drawable = new CurvedPlane( newAngle, areBentOrTwistedCurve, isInner );
+		list.add( drawable );
+		return drawable;
 	}
 
 	/**
@@ -1923,17 +1886,21 @@ public final class PieRenderer
 	 * 
 	 * @param planesList
 	 *            the list is used to receive the planes.
-	 * @param angle
+	 * @param startAngle
 	 *            angle of pie slice, normally it should be the start angle of
 	 *            pie slice.
+	 * @param angleExtent
+	 *            length of pie slice.            
 	 * @param areBentOrTwistedCurve
 	 *            outline group.
+	 * @param isInner
+	 * @return drawable object.
 	 */
-	private final void deferCurvedOutline( List list, double angle,
-			AreaRenderEvent areBentOrTwistedCurve )
+	private final IDrawable deferCurvedOutline( List<IDrawable> list, double startAngle, double angleExtent,
+			AreaRenderEvent areBentOrTwistedCurve, boolean isInner )
 	{
-		double newAngle = convertAngleForRenderingOrder( angle );
-		list.add( new CurvedPlane( newAngle, areBentOrTwistedCurve ) );
+		double newAngle = convertAngleForRenderingOrder( startAngle, startAngle + angleExtent );
+		return new CurvedPlane( newAngle, areBentOrTwistedCurve, isInner );
 	}
 
 	/**
@@ -1944,14 +1911,20 @@ public final class PieRenderer
 	 * @param angle
 	 *            angle of pie slice, normally it should be the start angle of
 	 *            pie slice.
+	 * @param isSliceStart
+	 *            indicates if the flat plane is start of slice.
 	 * @param daXPoints
 	 * @param daYPoints
 	 * @param cd
 	 */
-	private final void deferFlatPlane( List planesList, double angle,
+	private final void deferFlatPlane( List<IDrawable> planesList, double angle, boolean isSliceStart,
 			double[] daXPoints, double[] daYPoints, Fill cd, DataPointHints dph )
 	{
-		double newAngle = convertAngleForRenderingOrder( angle );
+		// Here just plus/subtract 0.01 degree to make adjacent flat plane of
+		// slice get correct rendering orders.
+		double newAngle = isSliceStart ? angle + 0.01 : angle - 0.01; 
+		newAngle = convertAngleForRenderingOrder( newAngle,
+				 newAngle );
 		planesList.add( new FlatPlane( newAngle, daXPoints, daYPoints, cd, dph ) );
 	}
 
@@ -1959,22 +1932,52 @@ public final class PieRenderer
 	 * Convert angle of pie slice for getting correct rendering order before
 	 * rendering each pie slice.
 	 * 
-	 * @param angle
+	 * @param startAngle
 	 *            angle of pie slice, normally it should be the start angle of
 	 *            pie slice.
+	 * @param endAngle
+	 *            end angle of pie slice.           
 	 * @return adjusted angle.
 	 */
-	private double convertAngleForRenderingOrder( double angle )
+	private double convertAngleForRenderingOrder( double startAngle, double endAngle )
 	{
-		double newAngle = angle;
-		newAngle = wrapAngle( newAngle );
+		if ( !ChartUtil.mathEqual( startAngle, endAngle ) )
+		{
+			double sAngle = startAngle % 360;
+			double eAngle = endAngle % 360;
+			
+			// If end angle equals 0, it should be infinitely near to 360 angle,
+			// we set it as 359.99.
+			if ( ChartUtil.mathEqual( eAngle, 0d ) )
+			{
+				eAngle = 359.99d;
+			}
+			
+			// If computed start angle is greater than computed end angle,
+			// adjust computed start angle.
+			if ( ChartUtil.mathGT( sAngle, eAngle ) )
+			{
+				sAngle = sAngle - 360d;
+			}
+
+			if ( sAngle < 90 && eAngle >= 90 )
+			{
+				return 90;
+			}
+			else if ( sAngle < 270 && eAngle >= 270 )
+			{
+				return 270;
+			}
+		}
+
+		double newAngle = wrapAngle( ( startAngle + endAngle ) / 2 );
 		if ( newAngle < 180 )
 		{
-			newAngle = Math.abs( newAngle - 90 );
+			newAngle = 90 + Math.abs( newAngle - 90 );
 		}
 		else
 		{
-			newAngle = ( 90 - Math.abs( newAngle - 270 ) ) + 180;
+			newAngle = 270 - Math.abs( newAngle - 270 );
 		}
 		return newAngle;
 	}
@@ -1986,16 +1989,10 @@ public final class PieRenderer
 	 */
 	private final void sortAndRenderPlanes( ) throws ChartException
 	{
-		// Draw each planes, first draw the back curved planes of view, second
-		// draw the flat planes, last to draw the front curved planes of view.
-		renderPlanes( backCurvedPlanes );
-		backCurvedPlanes.clear( );
-
-		renderPlanes( flatPlanes );
-		flatPlanes.clear( );
-
-		renderPlanes( frontCurvedPlanes );
-		frontCurvedPlanes.clear( );
+		// Revised rendering algorithm of planes, no need to render different
+		// planes in different steps again.   
+		renderPlanes( deferredPlanes );
+		deferredPlanes.clear( );
 	}
 
 	/**
@@ -2005,18 +2002,19 @@ public final class PieRenderer
 	 *            the list contains plane objects.
 	 * @throws ChartException
 	 */
-	private void renderPlanes( List planesList ) throws ChartException
+	private void renderPlanes( List<IDrawable> planesList ) throws ChartException
 	{
-		Object[] planes = planesList.toArray( );
-		Arrays.sort( planes, new Comparator( ) {
+		IDrawable[] planes = planesList.toArray( new IDrawable[]{});
+		Arrays.sort( planes, new Comparator<IDrawable>( ) {
 
 			/**
 			 * 
 			 * @param arg0
 			 * @param arg1
-			 * @return
+			 * @return 1 if arg0 great than arg1, -1 if arg0 less than arg1, 0
+			 *         if arg0 equals arg1.
 			 */
-			public int compare( Object arg0, Object arg1 )
+			public int compare( IDrawable arg0, IDrawable arg1 )
 			{
 				double angleA = 0d;
 				double angleB = 0d;
@@ -2028,22 +2026,57 @@ public final class PieRenderer
 				{
 					angleA = ( (CurvedPlane) arg0 ).getAngle( );
 				}
+				
 				if ( arg1 instanceof FlatPlane )
 				{
 					angleB = ( (FlatPlane) arg1 ).getAngle( );
 				}
-				else if ( arg0 instanceof CurvedPlane )
+				else if ( arg1 instanceof CurvedPlane )
 				{
 					angleB = ( (CurvedPlane) arg1 ).getAngle( );
 				}
 
-				return Double.compare( angleA, angleB );
+				int result = Double.compare( angleA, angleB );
+				if ( result == 0 && arg0 instanceof CurvedPlane && arg1 instanceof CurvedPlane )
+				{
+					// It means these two curved planes are inner curved plane
+					// and outer curved plane of a pie slice, it needs to adjust
+					// their order according to their position to user view.
+					// If angle is between 0 - 180 angle, the outer curved plane
+					// should be rendered first. If angle is between 180 -0
+					// 360, the inner curved plane should be rendered first.
+					if ( ( ( (CurvedPlane) arg0 ).isInnerPlane( ) && !( (CurvedPlane) arg1 ).isInnerPlane( ) ) )
+					{
+						if ( angleA >=0 && angleA < 180 )
+						{
+							// Rendering outer curved plane first
+							return 1;
+						}
+						else
+						{
+							return -1;
+						}
+					}
+					else if ( !( ( (CurvedPlane) arg0 ).isInnerPlane( ) && ( (CurvedPlane) arg1 ).isInnerPlane( ) )  )
+					{
+						if ( angleA >=0 && angleA < 180 )
+						{
+							// Rendering outer curved plane first
+							return -1;
+						}
+						else
+						{
+							return 1;
+						}
+					}
+				}
+				return result;
 			}
 
 		} );
 		for ( int i = 0; i < planes.length; i++ )
 		{
-			IDrawable id = (IDrawable) planes[i];
+			IDrawable id = planes[i];
 			id.draw( );
 		}
 	}
@@ -2244,11 +2277,13 @@ public final class PieRenderer
 	 *            center point of top cycle.
 	 * @param sz
 	 *            width and height of cycle.
+	 * @param isInner
+	 *            indicates if it is inner radius's curved surface           
 	 */
 	private final void registerCurvedSurface( Bounds topBound,
 			Bounds bottomBound, double dStartAngle, double dAngleExtent,
 			LineRenderEvent lreStartB2T, LineRenderEvent lreEndB2T, Fill cd,
-			DataPointHints dph, Location loC, Location loCTop, Size sz )
+			DataPointHints dph, Location loC, Location loCTop, Size sz, boolean isInner )
 	{
 		// 1. Get all splited angles.
 		double[] anglePoints = new double[4];
@@ -2259,14 +2294,14 @@ public final class PieRenderer
 		anglePoints[i++] = dStartAngle;
 		if ( endAngle > 180 && dStartAngle < 180 )
 		{
-			anglePoints[i++] = 180;
+			anglePoints[i++] = 180.0d;
 		}
 		if ( endAngle > 360 && dStartAngle < 360 )
 		{
-			anglePoints[i++] = 360;
+			anglePoints[i++] = 360.0d;
 			if ( endAngle > 540 )
 			{
-				anglePoints[i++] = 540;
+				anglePoints[i++] = 540.0d;
 			}
 		}
 		anglePoints[i] = endAngle;
@@ -2300,25 +2335,27 @@ public final class PieRenderer
 			areRE.setBackground( getDepthGradient( cd, dStartAngle, dStartAngle
 					+ dAngleExtent ) );
 
-			deferCurvedPlane( selectPlanesList( dStartAngle ),
+			deferCurvedPlane( deferredPlanes,
 					dStartAngle,
+					dAngleExtent,
 					areRE,
 					lreStartB2T.getStart( ).getX( ),
-					lreEndB2T.getStart( ).getX( ) );
+					lreEndB2T.getStart( ).getX( ),
+					isInner );
 		}
 		else
 		// The multiple case, should be more curved plane.
 		{
-			Stack<PrimitiveRenderEvent> lineStack = new Stack<PrimitiveRenderEvent>( );
-			AreaRenderEvent areLine = new AreaRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
-					dph ) );
-			areLine.setOutline( goFactory.createLineAttributes( getSliceOutline( cd ),
-					LineStyle.SOLID_LITERAL,
-					1 ) );
-			areLine.setBackground( null );
-
+			IDrawable drawable = null;
 			for ( int j = 0; j < i; j++ )
 			{
+				AreaRenderEvent areLine = new AreaRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
+						dph ) );
+				areLine.setOutline( goFactory.createLineAttributes( getSliceOutline( cd ),
+						LineStyle.SOLID_LITERAL,
+						1 ) );
+				areLine.setBackground( null );
+				
 				double startAngle = anglePoints[j] + MIN_DOUBLE;
 				double angleExtent = anglePoints[j + 1] - anglePoints[j];
 				startAngle = wrapAngle( startAngle );
@@ -2359,63 +2396,43 @@ public final class PieRenderer
 				are.setBackground( getDepthGradient( cd,
 						wrapAngle( anglePoints[j] ),
 						wrapAngle( anglePoints[j + 1] ) ) );
-				deferCurvedPlane( selectPlanesList( startAngle ),
+				drawable = deferCurvedPlane( deferredPlanes,
 						startAngle,
+						angleExtent,
 						are,
 						( (LineRenderEvent) edgeLines[0] ).getStart( ).getX( ),
-						( (LineRenderEvent) edgeLines[1] ).getStart( ).getX( ) );
+						( (LineRenderEvent) edgeLines[1] ).getStart( ).getX( ),
+						isInner );
 
 				// Arrange pie slice outline.
 				if ( j == 0 ) // It is first sector of pie slice.
 				{
+					areLine.add(  arcRE2 );
 					areLine.add( (LineRenderEvent) edgeLines[0] );
 					areLine.add( arcRE1 );
-					lineStack.push( arcRE2 );
 				}
 				else if ( j == ( i - 1 ) ) // It is last sector of pie slice.
 				{
 					areLine.add( arcRE1 );
 					areLine.add( (LineRenderEvent) edgeLines[1] );
 					areLine.add( arcRE2 );
+					
 				}
 				else
 				{
 					areLine.add( arcRE1 );
-					lineStack.push( arcRE2 );
+					areLine.add( arcRE2 );
 				}
+				
+				// Set curved outline as next, it is rendered after current
+				// curved plane.
+				drawable.setNext( deferCurvedOutline( deferredPlanes,
+						dStartAngle,
+						dAngleExtent,
+						areLine,
+						isInner ) );
 			}
-
-			// Arrange pie slice outline.
-			while ( !lineStack.empty( ) )
-			{
-				areLine.add( lineStack.pop( ) );
-			}
-			double mid = dStartAngle + dAngleExtent / 2;
-			mid = wrapAngle( mid );
-			// Draw pie slice outline.
-			deferCurvedOutline( selectPlanesList( mid ), dStartAngle, areLine );
 		}
-	}
-
-	/**
-	 * Select a planes list by specified start angle of pie slice, the selected
-	 * list will curved rendering sides.
-	 * <p>
-	 * Saving curved rendering sides to different list is to ensure the correct
-	 * rendering order.
-	 * 
-	 * @param startAngle
-	 *            the start angle of pie slice.
-	 * @return the list contains curved rendering sides.
-	 */
-	private List selectPlanesList( double startAngle )
-	{
-		if ( startAngle < 180 )
-		{
-			return backCurvedPlanes;
-		}
-
-		return frontCurvedPlanes;
 	}
 
 	/**
@@ -2487,7 +2504,7 @@ public final class PieRenderer
 	/**
 	 * CurvedPlane
 	 */
-	private final class CurvedPlane implements Comparable, IDrawable
+	private final class CurvedPlane implements Comparable<IDrawable>, IDrawable
 	{
 
 		private final AreaRenderEvent _are;
@@ -2496,17 +2513,21 @@ public final class PieRenderer
 
 		private final double _angle;
 
+		private boolean _isInnerPlane = false;
+
+		private IDrawable _next;
+
 		/**
 		 * Constructor of the class.
 		 * 
 		 * 
 		 */
-		CurvedPlane( double angle, AreaRenderEvent are )
+		CurvedPlane( double angle, AreaRenderEvent are, boolean isInnerPlane )
 		{
 			_are = are;
 			_bo = are.getBounds( );
 			_angle = angle;
-
+			_isInnerPlane = isInnerPlane;
 		}
 
 		public final Bounds getBounds( )
@@ -2519,7 +2540,7 @@ public final class PieRenderer
 		 * 
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		public final int compareTo( Object o ) // Z-ORDER TEST
+		public final int compareTo( IDrawable o ) // Z-ORDER TEST
 		{
 			final CurvedPlane cp1 = this;
 			if ( o instanceof CurvedPlane )
@@ -2591,6 +2612,10 @@ public final class PieRenderer
 			 * dGradientStart2D)/2), 0, _c, true); g2d.setPaint(gp);
 			 * g2d.fill(_sh); g2d.setColor(_c.darker()); g2d.draw(_sh);
 			 */
+			if ( _next != null )
+			{
+				_next.draw( );
+			}
 		}
 
 		private final double getMinY( )
@@ -2617,12 +2642,22 @@ public final class PieRenderer
 		{
 			return _angle;
 		}
+
+		public boolean isInnerPlane( )
+		{
+			return _isInnerPlane ;
+		}
+
+		public void setNext( IDrawable next )
+		{
+			_next = next;
+		}
 	}
 
 	/**
 	 * FlatPlane
 	 */
-	private final class FlatPlane implements Comparable, IDrawable
+	private final class FlatPlane implements Comparable<IDrawable>, IDrawable
 	{
 
 		private final double[] _daXPoints, _daYPoints;
@@ -2634,6 +2669,8 @@ public final class PieRenderer
 		private final DataPointHints _dph;
 
 		private final double _angle;
+
+		private IDrawable _next;
 
 		/**
 		 * Constructor of the class.
@@ -2724,6 +2761,11 @@ public final class PieRenderer
 			pre.setBackground( getDepthGradient( _cd ) );
 			idr.fillPolygon( pre );
 			idr.drawPolygon( pre );
+			
+			if ( _next != null )
+			{
+				_next.draw( );
+			}
 		}
 
 		/*
@@ -2731,7 +2773,7 @@ public final class PieRenderer
 		 * 
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		public final int compareTo( Object o ) // Z-ORDER TEST
+		public final int compareTo( IDrawable o ) // Z-ORDER TEST
 		{
 			final FlatPlane pi1 = this;
 			if ( o instanceof FlatPlane )
@@ -2865,6 +2907,16 @@ public final class PieRenderer
 		{
 			return _angle;
 		}
+
+		public boolean isInnerPlane( )
+		{
+			return false;
+		}
+
+		public void setNext( IDrawable next )
+		{
+			_next = next;
+		}
 	}
 
 	/**
@@ -2876,6 +2928,10 @@ public final class PieRenderer
 		void draw( ) throws ChartException;
 
 		Bounds getBounds( );
+		
+		boolean isInnerPlane();
+		
+		void setNext(IDrawable next);
 	}
 
 	private static class OutsideLabelBoundCache
@@ -2883,12 +2939,12 @@ public final class PieRenderer
 
 		public int iLL = 0;
 		public BoundingBox bb = null;
-
-		public void reset( )
-		{
-			iLL = 0;
-			bb = null;
-		}
+//
+//		public void reset( )
+//		{
+//			iLL = 0;
+//			bb = null;
+//		}
 	}
 
 	public class PieSlice implements Cloneable
@@ -3090,6 +3146,11 @@ public final class PieRenderer
 			this.startAngle = startAngle;
 		}
 
+		/**
+		 * Set degrees of a slice in 360 circle.
+		 * 
+		 * @param newLength
+		 */
 		public void setSliceLength( double newLength )
 		{
 			sliceLength = newLength;
@@ -3126,6 +3187,11 @@ public final class PieRenderer
 		private final void render( Location loC, Location loOffset, Size sz,
 				Fill fi, int iPieceType ) throws ChartException
 		{
+			// If inner radius is greater than width/height, don't render it as
+			// dount.
+			boolean hasInnerRadius = ps.isSetInnerRadius( )
+					&& ps.getInnerRadius( ) > 0d
+					&& Math.min( sz.getHeight( ), sz.getWidth( ) ) > ps.getInnerRadius( );
 			loC.translate( loOffset.getX( ) / 2d, loOffset.getY( ) / 2d );
 
 			if ( isExploded && dExplosion != 0 )
@@ -3164,7 +3230,31 @@ public final class PieRenderer
 			double yE = ( sz.getHeight( ) * dSineThetaEnd );
 			double xS = ( sz.getWidth( ) * dCosThetaStart );
 			double yS = ( sz.getHeight( ) * dSineThetaStart );
-
+			
+			double xInnerE = 0d;
+			double yInnerE = 0d;
+			double xInnerS = 0d;
+			double yInnerS = 0d;
+			if ( hasInnerRadius )
+			{
+				double innerRadius = ps.getInnerRadius( );
+				if ( innerRadius < 1d )
+				{
+					xInnerE = innerRadius * sz.getWidth( ) * dCosThetaEnd;
+					yInnerE = innerRadius * sz.getHeight( ) * dSineThetaEnd;
+					xInnerS = innerRadius * sz.getWidth( ) * dCosThetaStart;
+					yInnerS = innerRadius * sz.getHeight( ) * dSineThetaStart;
+				}
+				else
+				{
+					double radio = sz.getHeight( ) / sz.getWidth( );
+					xInnerE = innerRadius * dCosThetaEnd;
+					yInnerE = innerRadius * radio * dSineThetaEnd;
+					xInnerS = innerRadius * dCosThetaStart;
+					yInnerS = innerRadius * radio * dSineThetaStart;
+				}
+			}
+ 
 			ArcRenderEvent are = null;
 			if ( iPieceType == LOWER )
 			{
@@ -3187,7 +3277,16 @@ public final class PieRenderer
 							+ ( iPieceType == LOWER ? dThickness : 0 ) ) );
 			are.setWidth( sz.getWidth( ) * 2 );
 			are.setHeight( sz.getHeight( ) * 2 );
-
+			
+			if ( hasInnerRadius )
+			{
+				// Use width as standard for radius, still use width as default
+				// outer radius, at render time, the
+				// Y location will be adjusted according to outer radius.
+				are.setOuterRadius( sz.getWidth( ) );
+				are.setInnerRadius( ps.getInnerRadius( ) );
+			}
+			
 			are.setStartAngle( startAngle );
 			are.setAngleExtent( sliceLength );
 			are.setStyle( ArcRenderEvent.SECTOR );
@@ -3196,94 +3295,154 @@ public final class PieRenderer
 			if ( iPieceType == LOWER )
 			{
 				// DRAWN INTO A BUFFER FOR DEFERRED RENDERING
-				double[] daXPoints = {
-						loC.getX( ),
-						loCTop.getX( ),
-						loCTop.getX( ) + xE,
-						loC.getX( ) + xE
-				};
-				double[] daYPoints = {
-						loC.getY( ),
-						loCTop.getY( ),
-						loCTop.getY( ) - yE,
-						loC.getY( ) - yE
-				};
-				deferFlatPlane( flatPlanes,
-						getStartAngle( ) + getSliceLength( ),
-						daXPoints,
-						daYPoints,
-						fi,
-						dataPointHints );
+				if ( !hasInnerRadius )
+				{
+					double[] daXPoints = {
+							loC.getX( ),
+							loCTop.getX( ),
+							loCTop.getX( ) + xE,
+							loC.getX( ) + xE
+					};
+					double[] daYPoints = {
+							loC.getY( ),
+							loCTop.getY( ),
+							loCTop.getY( ) - yE,
+							loC.getY( ) - yE
+					};
+					deferFlatPlane( deferredPlanes,
+							getStartAngle( ) + getSliceLength( ),
+							false,
+							daXPoints,
+							daYPoints,
+							fi,
+							dataPointHints );
 
-				daXPoints = new double[]{
-						loC.getX( ),
-						loC.getX( ) + xS,
-						loCTop.getX( ) + xS,
-						loCTop.getX( )
-				};
-				daYPoints = new double[]{
-						loC.getY( ),
-						loC.getY( ) - yS,
-						loCTop.getY( ) - yS,
-						loCTop.getY( )
-				};
-				deferFlatPlane( flatPlanes,
-						getStartAngle( ),
-						daXPoints,
-						daYPoints,
-						fi,
-						dataPointHints );
+					daXPoints = new double[]{
+							loC.getX( ),
+							loC.getX( ) + xS,
+							loCTop.getX( ) + xS,
+							loCTop.getX( )
+					};
+					daYPoints = new double[]{
+							loC.getY( ),
+							loC.getY( ) - yS,
+							loCTop.getY( ) - yS,
+							loCTop.getY( )
+					};
+					deferFlatPlane( deferredPlanes,
+							getStartAngle( ),
+							true,
+							daXPoints,
+							daYPoints,
+							fi,
+							dataPointHints );
 
-				daXPoints = new double[]{
-						loC.getX( ) + xS,
-						loCTop.getX( ) + xS,
-						loCTop.getX( ) + xE,
-						loC.getX( ) + xE
-				};
-				daYPoints = new double[]{
-						loC.getY( ) - yS,
-						loCTop.getY( ) - yS,
-						loCTop.getY( ) - yE,
-						loC.getY( ) - yE
-				};
+					daXPoints = new double[]{
+							loC.getX( ) + xS,
+							loCTop.getX( ) + xS,
+							loCTop.getX( ) + xE,
+							loC.getX( ) + xE
+					};
+					daYPoints = new double[]{
+							loC.getY( ) - yS,
+							loCTop.getY( ) - yS,
+							loCTop.getY( ) - yE,
+							loC.getY( ) - yE
+					};
+				}
+				else
+				{
+					double[] daXPoints = {
+							loC.getX( ) + xInnerE,
+							loCTop.getX( ) + xInnerE,
+							loCTop.getX( ) + xE,
+							loC.getX( ) + xE
+					};
+					double[] daYPoints = {
+							loC.getY( ) - yInnerE,
+							loCTop.getY( ) - yInnerE,
+							loCTop.getY( ) - yE,
+							loC.getY( ) - yE
+					};
+					deferFlatPlane( deferredPlanes,
+							getStartAngle( ) + getSliceLength( ),
+							false,
+							daXPoints,
+							daYPoints,
+							fi,
+							dataPointHints );
 
-				final LineRenderEvent lreStartB2T = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
-						dataPointHints ) );
-				lreStartB2T.setStart( goFactory.createLocation( loC.getX( )
-						+ xS,
-						loC.getY( ) - yS ) );
-				lreStartB2T.setEnd( goFactory.createLocation( loCTop.getX( )
-						+ xS,
-						loCTop.getY( ) - yS ) );
-				final LineRenderEvent lreEndT2B = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
-						dataPointHints ) );
-				lreEndT2B.setStart( goFactory.createLocation( loCTop.getX( )
-						+ xE,
-						loCTop.getY( ) - yE ) );
-				lreEndT2B.setEnd( goFactory.createLocation( loC.getX( ) + xE,
-						loC.getY( ) - yE ) );
-				Bounds r2ddTop = goFactory.createBounds( loCTop.getX( )
-						- sz.getWidth( ),
-						loCTop.getY( ) - sz.getHeight( ),
-						sz.getWidth( ) * 2,
-						sz.getHeight( ) * 2 );
-				Bounds r2ddBottom = goFactory.createBounds( loC.getX( )
-						- sz.getWidth( ),
-						loC.getY( ) - sz.getHeight( ),
-						sz.getWidth( ) * 2,
-						sz.getHeight( ) * 2 );
+					daXPoints = new double[]{
+							loC.getX( ) + xInnerS,
+							loC.getX( ) + xS,
+							loCTop.getX( ) + xS,
+							loCTop.getX( ) + xInnerS
+					};
+					daYPoints = new double[]{
+							loC.getY( ) - yInnerS,
+							loC.getY( ) - yS,
+							loCTop.getY( ) - yS,
+							loCTop.getY( ) - yInnerS
+					};
+					deferFlatPlane( deferredPlanes,
+							getStartAngle( ),
+							true,
+							daXPoints,
+							daYPoints,
+							fi,
+							dataPointHints );
 
-				registerCurvedSurface( r2ddTop,
-						r2ddBottom,
-						getStartAngle( ),
-						getSliceLength( ),
-						lreStartB2T,
-						lreEndT2B,
-						fi,
-						dataPointHints,
-						loC,
-						loCTop,
-						sz );
+					daXPoints = new double[]{
+							loC.getX( ) + xS,
+							loCTop.getX( ) + xS,
+							loCTop.getX( ) + xE,
+							loC.getX( ) + xE
+					};
+					daYPoints = new double[]{
+							loC.getY( ) - yS,
+							loCTop.getY( ) - yS,
+							loCTop.getY( ) - yE,
+							loC.getY( ) - yE
+					};
+				}
+
+				
+				if ( hasInnerRadius )
+				{
+					if ( ps.getInnerRadius( ) < 1d )
+					{
+						Size innerSize = SizeImpl.create( ps.getInnerRadius( )
+								* sz.getWidth( ),
+								ps.getInnerRadius( ) * sz.getHeight( ) );
+						renderCurvedSurface( loC,
+								loCTop,
+								innerSize,
+								xInnerE,
+								yInnerE,
+								xInnerS,
+								yInnerS,
+								fi,
+								true );
+					}
+					else
+					{
+						double radio = sz.getHeight( ) / sz.getWidth( );
+						Size innerSize = SizeImpl.create( ps.getInnerRadius( ),
+								ps.getInnerRadius( ) * radio );
+						renderCurvedSurface( loC,
+								loCTop,
+								innerSize,
+								xInnerE,
+								yInnerE,
+								xInnerS,
+								yInnerS,
+								fi,
+								true );
+					}
+				}
+				
+				renderCurvedSurface( loC, loCTop, sz, xE, yE, xS, yS, fi, false );
+
 			}
 
 			else if ( iPieceType == UPPER ) // DRAWN IMMEDIATELY
@@ -3293,7 +3452,7 @@ public final class PieRenderer
 					idr.drawArc( are );
 				}
 
-				if ( pie.isInteractivityEnabled( )&&!bMinSlice )
+				if ( pie.isInteractivityEnabled( ) && !bMinSlice )
 				{
 					final EList<Trigger> elTriggers = ps.getTriggers( );
 					if ( !elTriggers.isEmpty( ) )
@@ -3316,6 +3475,49 @@ public final class PieRenderer
 					}
 				}
 			}
+		}
+
+		protected void renderCurvedSurface( Location loC, Location loCTop,
+				Size sz, double xE, double yE, double xS, double yS, Fill fi, boolean isInner )
+		{
+			final LineRenderEvent lreStartB2T = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
+					dataPointHints ) );
+			lreStartB2T.setStart( goFactory.createLocation( loC.getX( )
+					+ xS,
+					loC.getY( ) - yS ) );
+			lreStartB2T.setEnd( goFactory.createLocation( loCTop.getX( )
+					+ xS,
+					loCTop.getY( ) - yS ) );
+			final LineRenderEvent lreEndT2B = new LineRenderEvent( WrappedStructureSource.createSeriesDataPoint( ps,
+					dataPointHints ) );
+			lreEndT2B.setStart( goFactory.createLocation( loCTop.getX( )
+					+ xE,
+					loCTop.getY( ) - yE ) );
+			lreEndT2B.setEnd( goFactory.createLocation( loC.getX( ) + xE,
+					loC.getY( ) - yE ) );
+			Bounds r2ddTop = goFactory.createBounds( loCTop.getX( )
+					- sz.getWidth( ),
+					loCTop.getY( ) - sz.getHeight( ),
+					sz.getWidth( ) * 2,
+					sz.getHeight( ) * 2 );
+			Bounds r2ddBottom = goFactory.createBounds( loC.getX( )
+					- sz.getWidth( ),
+					loC.getY( ) - sz.getHeight( ),
+					sz.getWidth( ) * 2,
+					sz.getHeight( ) * 2 );
+
+			registerCurvedSurface( r2ddTop,
+					r2ddBottom,
+					getStartAngle( ),
+					getSliceLength( ),
+					lreStartB2T,
+					lreEndT2B,
+					fi,
+					dataPointHints,
+					loC,
+					loCTop,
+					sz,
+					isInner );
 		}
 		
 		private void renderOneLine( IDeviceRenderer idr, Location lo1,

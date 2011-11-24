@@ -3093,6 +3093,18 @@ public class BaseChartValueUpdater
 			}
 		}
 
+		if ( !eObj.isSetInnerRadius( ) )
+		{
+			if ( eRefObj != null && eRefObj.isSetInnerRadius( ) )
+			{
+				eObj.setInnerRadius( eRefObj.getInnerRadius( ) );
+			}
+			else if ( eDefObj != null && eDefObj.isSetInnerRadius( ) )
+			{
+				eObj.setInnerRadius( eDefObj.getInnerRadius( ) );
+			}
+		}
+
 		// list attributes
 
 		// references
