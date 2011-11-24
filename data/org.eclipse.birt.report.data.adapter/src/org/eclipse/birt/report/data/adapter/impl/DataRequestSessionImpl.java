@@ -2148,6 +2148,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				for ( int j = 0; j < measures.size( ); j++ )
 				{
 					MeasureHandle measure = (MeasureHandle) measures.get( j );
+					if( measure.isCalculated( ) )
+					{
+						continue;
+					}
 					String function = measure.getFunction( );
 					String exprText = measure.getMeasureExpression( );
 					ExpressionHandle measureExprHandle = measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP );
