@@ -526,7 +526,8 @@ public class LabelAttributesComposite extends Composite implements
 					SWT.NONE,
 					insets,
 					sUnits,
-					wizardContext.getUIServiceProvider( ) );
+					wizardContext.getUIServiceProvider( ),
+					wizardContext );
 			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
 			gdICInsets.grabExcessVerticalSpace = false;
 			icInsets.addListener( this );

@@ -305,4 +305,28 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 		}
 		return;
 	}
+	
+	/**
+	 * Returns default units value of chart.
+	 * 
+	 * @param cm reference chart model.
+	 * @return default units value of chart.
+	 */
+	public static String getDefaultUnits( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			return DefaultValueProvider.defChartWithAxes( ).getUnits( );
+		}
+		else if ( cm instanceof DialChart )
+		{
+			return DefaultValueProvider.defDialChart( ).getUnits( );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			return DefaultValueProvider.defChartWithoutAxes( ).getUnits( );
+		}
+		
+		return null;
+	}
 }

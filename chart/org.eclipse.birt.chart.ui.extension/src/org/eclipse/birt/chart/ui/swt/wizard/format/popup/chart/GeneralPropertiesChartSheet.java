@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
@@ -206,7 +207,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			double dblPoints = getChart( ).getSeriesThickness( );
 			double dblCurrent = getContext( ).getUIServiceProvider( )
 					.getConvertedValue( dblPoints,
-							"Points", getChart( ).getUnits( ) ); //$NON-NLS-1$
+							"Points", getUnits( ) ); //$NON-NLS-1$
 			txtSeriesThickness.setValue( dblCurrent );
 			txtSeriesThickness.addModifyListener( this );
 
@@ -314,7 +315,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 		NameSet ns = LiteralHelper.unitsOfMeasurementSet;
 		cmbUnits.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
 
-		String str = getChart( ).getUnits( );
+		String str = getUnits( );
 		if ( str != null && str.trim( ).length( ) != 0 )
 		{
 			cmbUnits.setText( ns.getDisplayNameByName( str ) );
@@ -324,7 +325,17 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			cmbUnits.select( 0 ); // Auto case.
 		}
 		this.sOldUnits = ns.getNameByDisplayName( cmbUnits.getText( ) );
-		lblSeriesThickness.setText( new MessageFormat( Messages.getString( "GeneralSheetImpl.Lbl.SeriesWidth" ) ).format( new Object[]{LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getChart( ).getUnits( ) )} ) ); //$NON-NLS-1$
+		lblSeriesThickness.setText( new MessageFormat( Messages.getString( "GeneralSheetImpl.Lbl.SeriesWidth" ) ).format( new Object[]{LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getUnits( ) )} ) ); //$NON-NLS-1$
+	}
+
+	private String getUnits( )
+	{
+		String units = getChart( ).getUnits( );
+		if ( units == null )
+		{
+			units = ChartDefaultValueUtil.getDefaultUnits( getChart( ) );
+		}
+		return units;
 	}
 
 	private double recalculateUnitDependentValues( double value )
@@ -415,9 +426,9 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			}
 			// Update the Units for the Insets in Title properties
 			lblSeriesThickness.setText( new MessageFormat( Messages.getString( "GeneralSheetImpl.Lbl.SeriesWidth" ) ).format( new Object[]{ //$NON-NLS-1$
-				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getChart( ).getUnits( ) )
+				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getUnits( ) )
 			} ) );
-			sOldUnits = getChart( ).getUnits( );
+			sOldUnits = getUnits( );
 		}
 		else if ( e.getSource( ).equals( iscColumnCount ) )
 		{

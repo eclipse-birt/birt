@@ -247,7 +247,8 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				SWT.NONE,
 				getLegend( ).getClientArea( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.horizontalSpan = 3;
 		icText.setLayoutData( gdInsets );

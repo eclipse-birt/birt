@@ -241,7 +241,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getSeriesForProcessing( ).getLabel( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		{
 			GridData gdICInsets = new GridData( GridData.FILL_HORIZONTAL );
 			gdICInsets.grabExcessVerticalSpace = false;

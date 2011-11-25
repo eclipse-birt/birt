@@ -310,7 +310,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				1,
 				getTrendline( ).getLabel( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
 		gdICBlock.horizontalSpan = 2;
 		icLabel.setLayoutData( gdICBlock );

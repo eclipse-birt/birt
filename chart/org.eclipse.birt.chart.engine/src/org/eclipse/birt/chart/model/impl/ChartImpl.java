@@ -1440,6 +1440,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 		// 7. Setup default extended properties
 		ChartModelHelper.instance( )
 				.updateExtendedProperties( getExtendedProperties( ) );
+		
+		units = "Points";  //$NON-NLS-1$
 	}
 
 	/**

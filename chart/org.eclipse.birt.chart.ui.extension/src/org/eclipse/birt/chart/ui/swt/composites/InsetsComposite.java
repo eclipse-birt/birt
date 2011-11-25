@@ -15,11 +15,13 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Insets;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
@@ -80,6 +82,8 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 
 	private Insets defaultInsets = null;
 
+	private ChartWizardContext context;
+
 	/**
 	 * Creates a composite for <code>Inserts</code>. Default row number is 2.
 	 * 
@@ -88,11 +92,13 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 	 * @param insets
 	 * @param sUnits
 	 * @param serviceprovider
+	 * @param context
 	 */
 	public InsetsComposite( Composite parent, int style, Insets insets,
-			String sUnits, IUIServiceProvider serviceprovider )
+			String sUnits, IUIServiceProvider serviceprovider,
+			ChartWizardContext context )
 	{
-		this( parent, style, 2, insets, sUnits, serviceprovider );
+		this( parent, style, 2, insets, sUnits, serviceprovider, context );
 	}
 
 	/**
@@ -104,15 +110,23 @@ public class InsetsComposite extends Composite implements ModifyListener, Select
 	 * @param insets
 	 * @param sUnits
 	 * @param serviceprovider
+	 * @param context
 	 */
 	public InsetsComposite( Composite parent, int style, int numberRows,
-			Insets insets, String sUnits, IUIServiceProvider serviceprovider )
+			Insets insets, String sUnits, IUIServiceProvider serviceprovider,
+			ChartWizardContext context )
 	{
 		super( parent, style );
 		this.numberRows = numberRows;
 		this.insets = insets;
 		this.sUnits = sUnits;
 		this.serviceprovider = serviceprovider;
+		this.context = context;
+		if ( this.sUnits == null )
+		{
+			// Get default units.
+			this.sUnits = ChartDefaultValueUtil.getDefaultUnits( this.context.getModel( ) );
+		}
 		init( );
 		placeComponents( );
 	}

@@ -174,7 +174,8 @@ public class TitleBlockSheet extends AbstractPopupSheet
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		ic.setLayoutData( gdInsets );
 		ic.setDefaultInsetsValue( DefaultValueProvider.defTitleBlock( ).getInsets( ) );

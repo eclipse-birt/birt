@@ -304,7 +304,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		{
 			GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
 			icLegend.setLayoutData( gdICBlock );

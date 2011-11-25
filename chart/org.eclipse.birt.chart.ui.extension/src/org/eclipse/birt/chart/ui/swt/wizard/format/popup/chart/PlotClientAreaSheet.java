@@ -239,7 +239,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getBlockForProcessing( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		icIncluding.setLayoutData( gdInsets );
 		icIncluding.setDefaultInsetsValue( DefaultValueProvider.defPlot( ).getInsets( ) );
@@ -360,7 +361,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getBlockForProcessing( ).getClientArea( ).getInsets( ),
 				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+				getContext( ).getUIServiceProvider( ),
+				getContext( ) );
 		{
 			GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 			gdInsets.horizontalSpan = 2;
