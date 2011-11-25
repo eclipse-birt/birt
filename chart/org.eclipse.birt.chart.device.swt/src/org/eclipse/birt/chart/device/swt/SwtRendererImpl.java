@@ -768,28 +768,12 @@ public class SwtRendererImpl extends DeviceAdapter
 		Bounds rctInner;
 		if ( are.getInnerRadius( ) > 0 )
 		{
-			if ( are.getInnerRadius( ) < 1d )
-			{
-				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( )
-						* bo.getWidth( )
-						/ 2d ) ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( )
-								* bo.getHeight( )
-								/ 2 ) ) * dScale ),
-						( are.getInnerRadius( ) * bo.getWidth( ) * dScale ),
-						( are.getInnerRadius( ) * bo.getHeight( ) * dScale ) );
-			}
-			else
-			{
-				double radio = bo.getHeight( ) / bo.getWidth( );
-				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( )
-								* radio ) ) * dScale ),
-						( 2 * are.getInnerRadius( ) * dScale ),
-						( 2 * are.getInnerRadius( ) * dScale ) * radio );
-			}
+			double radio = bo.getHeight( ) / bo.getWidth( );
+			rctInner = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
+					( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( )
+							* radio ) ) * dScale ),
+					( 2 * are.getInnerRadius( ) * dScale ),
+					( 2 * are.getInnerRadius( ) * dScale ) * radio );
 		}
 		else
 		{

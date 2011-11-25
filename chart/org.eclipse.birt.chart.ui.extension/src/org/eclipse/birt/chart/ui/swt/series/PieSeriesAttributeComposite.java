@@ -62,6 +62,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 		SelectionListener, ModifyListener
 {
 
+	private final static String[] MINMUM_SLICE_ITEMS = new String[]{
+			Messages.getString( "PieBottomAreaComponent.Label.Percentage" ), Messages.getString( "PieBottomAreaComponent.Label.Value" ) //$NON-NLS-1$ //$NON-NLS-2$
+	};
+	
 	private Group grpLeaderLine = null;
 
 	private FillChooserComposite fccSliceOutline = null;
@@ -98,6 +102,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 	private LocalizedNumberEditorComposite txtInnerRadius;
 
 	private Button btnInnerSizeAuto;
+
+	private Combo cmbInnerRadiusPercent;
+
+	private Label lblInnerRadiusPercent;
 	
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
@@ -326,7 +334,29 @@ public class PieSeriesAttributeComposite extends Composite implements
 		Label lblInnerRadius = new Label(cmpRight, SWT.NONE );
 		lblInnerRadius.setText( Messages.getString("PieSeriesAttributeComposite.Button.InnerRadius") ); //$NON-NLS-1$
 		
-		txtInnerRadius = new LocalizedNumberEditorComposite( cmpRight,
+		Composite comp = new Composite( cmpRight, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		comp.setLayoutData( gd );
+		
+		GridLayout gl = new GridLayout( 3, false );
+		gl.marginLeft = 0;
+		gl.marginTop = 0;
+		gl.marginRight = 0;
+		gl.marginBottom = 0;
+		gl.marginWidth = 0;
+		gl.marginHeight = 0;
+		comp.setLayout( gl );
+		
+		cmbInnerRadiusPercent = new Combo( comp, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
+			cmbInnerRadiusPercent.setItems( ChartUIExtensionUtil.getItemsWithAuto( MINMUM_SLICE_ITEMS ) );
+			cmbInnerRadiusPercent.select( series.isSetInnerRadiusPercent( ) ? (  series.isInnerRadiusPercent( ) ? 1
+					: 2 )
+					: 0 );
+			cmbInnerRadiusPercent.addSelectionListener( this );
+		}
+		
+		txtInnerRadius = new LocalizedNumberEditorComposite( comp,
 				SWT.BORDER );
 		new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
 		{
@@ -336,15 +366,21 @@ public class PieSeriesAttributeComposite extends Composite implements
 			txtInnerRadius.addModifyListener( this );
 		}
 		
+		lblInnerRadiusPercent = new Label( comp, SWT.NONE );
+		lblInnerRadiusPercent.setText( "%" ); //$NON-NLS-1$
+		
 		btnInnerSizeAuto = new Button( cmpRight, SWT.CHECK );
 		btnInnerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnInnerSizeAuto.addListener( SWT.Selection, this );
 		btnInnerSizeAuto.setSelection( !series.isSetInnerRadius( ) );
 		txtInnerRadius.setEnabled( !btnInnerSizeAuto.getSelection( ) );
 		
+		lblInnerRadiusPercent.setVisible( series.isSetInnerRadiusPercent( )
+				&& ( series.isInnerRadiusPercent( ) && !btnInnerSizeAuto.getSelection( ) ) );
+		
 		btnDirection = new TristateCheckbox( cmpRight, SWT.NONE );
 		{
-			GridData gd = new GridData( );
+			gd = new GridData( );
 			gd.horizontalSpan = 3;
 			btnDirection.setLayoutData( gd );
 			btnDirection.setText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction" ) ); //$NON-NLS-1$
@@ -354,8 +390,29 @@ public class PieSeriesAttributeComposite extends Composite implements
 					: TristateCheckbox.STATE_GRAYED );
 			btnDirection.addListener( SWT.Selection, this );
 		}
+		updateUIStates( );
 	}
 
+	private void updateUIStates( )
+	{
+		btnInnerSizeAuto.setEnabled( true );
+		txtInnerRadius.setEnabled( !btnInnerSizeAuto.getSelection( ) );
+		if ( cmbInnerRadiusPercent.getSelectionIndex( ) == 0 )
+		{
+			lblInnerRadiusPercent.setVisible( false );
+		}
+		else
+		{
+			lblInnerRadiusPercent.setVisible( series.isSetInnerRadiusPercent( )
+					&& series.isInnerRadiusPercent( ) );
+			lblInnerRadiusPercent.setEnabled( !btnInnerSizeAuto.getSelection( ) );
+		}
+		if ( lblInnerRadiusPercent.isVisible( ) )
+		{
+			lblInnerRadiusPercent.setEnabled( !btnInnerSizeAuto.getSelection( ) );
+		}
+	}
+	
 	private void createSeriesDetail( Composite cmpRight )
 	{
 		Group grpSlice = new Group( cmpRight, SWT.NONE );
@@ -511,6 +568,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 				txtInnerRadius.setEnabled( true );
 				txtInnerRadius.setValue( series.getInnerRadius( ) );
 			}
+			updateUIStates( );
 		}
 	}
 
@@ -607,6 +665,18 @@ public class PieSeriesAttributeComposite extends Composite implements
 				sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
 			}
 			sRatio.setEnabled( !btnRatioAuto.getSelection( ) );
+		}
+		else if ( e.widget == cmbInnerRadiusPercent )
+		{
+			if ( cmbInnerRadiusPercent.getSelectionIndex( ) == 0 )
+			{
+				series.unsetInnerRadiusPercent( );
+			}
+			else
+			{
+				series.setInnerRadiusPercent( cmbInnerRadiusPercent.getSelectionIndex( ) == 1 );
+			}
+			updateUIStates( );
 		}
 	}
 

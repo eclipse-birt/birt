@@ -239,17 +239,15 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		}
 		else
 		{
-			if ( btnTxtMinSliceAuto.getSelection( ) )
-			{
-				lblBottomPercent.setVisible( false );
-			}
-			else
-			{
-				lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
-						&& ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
-			}
+			lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlicePercent( )
+					&& ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
 			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
 					&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+		}
+		
+		if ( lblBottomPercent.isVisible( ) )
+		{
+			lblBottomPercent.setEnabled( !btnTxtMinSliceAuto.getSelection( ) );
 		}
 		
 	}

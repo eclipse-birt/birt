@@ -1754,12 +1754,21 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES__INNER_RADIUS = ComponentPackage.SERIES_FEATURE_COUNT + 11;
 
 	/**
+	 * The feature id for the '<em><b>Inner Radius Percent</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PIE_SERIES__INNER_RADIUS_PERCENT = ComponentPackage.SERIES_FEATURE_COUNT + 12;
+
+	/**
 	 * The number of structural features of the '<em>Pie Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 12;
+	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 13;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl <em>Stock Series</em>}' class.
@@ -2398,6 +2407,17 @@ public interface TypePackage extends EPackage
 	EAttribute getPieSeries_InnerRadius( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent <em>Inner Radius Percent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Inner Radius Percent</em>'.
+	 * @see org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent()
+	 * @see #getPieSeries()
+	 * @generated
+	 */
+	EAttribute getPieSeries_InnerRadiusPercent( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Scatter Series</em>'.
@@ -2864,6 +2884,14 @@ public interface TypePackage extends EPackage
 		 * @generated
 		 */
 		EAttribute PIE_SERIES__INNER_RADIUS = eINSTANCE.getPieSeries_InnerRadius( );
+
+		/**
+		 * The meta object literal for the '<em><b>Inner Radius Percent</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__INNER_RADIUS_PERCENT = eINSTANCE.getPieSeries_InnerRadiusPercent( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl <em>Scatter Series</em>}' class.

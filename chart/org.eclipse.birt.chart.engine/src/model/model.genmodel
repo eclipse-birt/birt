@@ -782,6 +782,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/rotation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/clockwise"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/innerRadius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/innerRadiusPercent"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//ScatterSeries"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//StockSeries">

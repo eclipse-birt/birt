@@ -3187,11 +3187,16 @@ public final class PieRenderer
 		private final void render( Location loC, Location loOffset, Size sz,
 				Fill fi, int iPieceType ) throws ChartException
 		{
-			// If inner radius is greater than width/height, don't render it as
-			// dount.
 			boolean hasInnerRadius = ps.isSetInnerRadius( )
-					&& ps.getInnerRadius( ) > 0d
-					&& Math.min( sz.getHeight( ), sz.getWidth( ) ) > ps.getInnerRadius( );
+					&& ps.getInnerRadius( ) > 0d;
+			if ( !( ps.isSetInnerRadiusPercent( ) && ps.isInnerRadiusPercent( ) ) )
+			{
+				// If inner radius is greater than width/height, don't render it as
+				// dount.
+				hasInnerRadius = hasInnerRadius
+						&& Math.min( sz.getHeight( ), sz.getWidth( ) ) > ps.getInnerRadius( );
+			}
+					
 			loC.translate( loOffset.getX( ) / 2d, loOffset.getY( ) / 2d );
 
 			if ( isExploded && dExplosion != 0 )
@@ -3238,8 +3243,9 @@ public final class PieRenderer
 			if ( hasInnerRadius )
 			{
 				double innerRadius = ps.getInnerRadius( );
-				if ( innerRadius < 1d )
+				if ( ps.isInnerRadiusPercent( ) )
 				{
+					innerRadius *= 0.01d;
 					xInnerE = innerRadius * sz.getWidth( ) * dCosThetaEnd;
 					yInnerE = innerRadius * sz.getHeight( ) * dSineThetaEnd;
 					xInnerS = innerRadius * sz.getWidth( ) * dCosThetaStart;
@@ -3284,7 +3290,14 @@ public final class PieRenderer
 				// outer radius, at render time, the
 				// Y location will be adjusted according to outer radius.
 				are.setOuterRadius( sz.getWidth( ) );
-				are.setInnerRadius( ps.getInnerRadius( ) );
+				if ( ps.isInnerRadiusPercent( ) )
+				{
+					are.setInnerRadius( sz.getWidth( ) * ps.getInnerRadius( )  * 0.01d );
+				}
+				else
+				{
+					are.setInnerRadius( ps.getInnerRadius( ) );
+				}
 			}
 			
 			are.setStartAngle( startAngle );
@@ -3409,11 +3422,12 @@ public final class PieRenderer
 				
 				if ( hasInnerRadius )
 				{
-					if ( ps.getInnerRadius( ) < 1d )
+					if ( ps.isInnerRadiusPercent( ) )
 					{
-						Size innerSize = SizeImpl.create( ps.getInnerRadius( )
+						double innerRadius = ps.getInnerRadius( ) * 0.01d;
+						Size innerSize = SizeImpl.create( innerRadius
 								* sz.getWidth( ),
-								ps.getInnerRadius( ) * sz.getHeight( ) );
+								innerRadius * sz.getHeight( ) );
 						renderCurvedSurface( loC,
 								loCTop,
 								innerSize,

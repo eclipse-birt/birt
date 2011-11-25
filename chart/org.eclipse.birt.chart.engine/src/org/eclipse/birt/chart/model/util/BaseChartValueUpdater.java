@@ -3105,6 +3105,18 @@ public class BaseChartValueUpdater
 			}
 		}
 
+		if ( !eObj.isSetInnerRadiusPercent( ) )
+		{
+			if ( eRefObj != null && eRefObj.isSetInnerRadiusPercent( ) )
+			{
+				eObj.setInnerRadiusPercent( eRefObj.isInnerRadiusPercent( ) );
+			}
+			else if ( eDefObj != null && eDefObj.isSetInnerRadiusPercent( ) )
+			{
+				eObj.setInnerRadiusPercent( eDefObj.isInnerRadiusPercent( ) );
+			}
+		}
+
 		// list attributes
 
 		// references

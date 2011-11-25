@@ -946,33 +946,19 @@ public class G2dRendererBase extends DeviceAdapter
 	protected Bounds getInnerRectangle( ArcRenderEvent are )
 	{
 		Bounds rctInner;
-		double innerRadius = are.getInnerRadius( );
-		if ( innerRadius > 0 )
+		if ( are.getInnerRadius( ) > 0 )
 		{
-			if ( innerRadius < 1d )
-			{
-				rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) * ( 1 - are.getInnerRadius( ) ) / 2 ),
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( )
-										* ( 1 - are.getInnerRadius( ) ) / 2 ),
-						are.getInnerRadius( ) * are.getWidth( ),
-						are.getInnerRadius( ) * are.getHeight( ) );
-			}
-			else
-			{
-				double radio = are.getHeight( ) / are.getWidth( );
-				rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
-						+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
-						/ 2,
-						are.getTopLeft( ).getY( )
-								+ ( are.getHeight( ) - 2
-										* are.getInnerRadius( )
-										* radio )
-								/ 2,
-						2 * are.getInnerRadius( ),
-						2 * are.getInnerRadius( ) * radio );
-			}
+			double radio = are.getHeight( ) / are.getWidth( );
+			rctInner = BoundsImpl.create( are.getTopLeft( ).getX( )
+					+ ( are.getWidth( ) - 2 * are.getInnerRadius( ) )
+					/ 2,
+					are.getTopLeft( ).getY( )
+							+ ( are.getHeight( ) - 2
+									* are.getInnerRadius( )
+									* radio )
+							/ 2,
+					2 * are.getInnerRadius( ),
+					2 * are.getInnerRadius( ) * radio );
 		}
 		else
 		{
