@@ -170,55 +170,44 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 
 	protected void getComponentLegendLeftArea( Composite cmpLegLeft )
 	{
-		boolean bEnableUI = getBlockForProcessing( ).isVisible( );
-
 		Label lblOrientation = new Label( cmpLegLeft, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "BlockAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
-		lblOrientation.setEnabled( bEnableUI );
 
 		cmbOrientation = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
 		gdCMBOrientation.horizontalSpan = 2;
 		cmbOrientation.setLayoutData( gdCMBOrientation );
 		cmbOrientation.addSelectionListener( this );
-		cmbOrientation.setEnabled( bEnableUI );
 
 		Label lblPosition = new Label( cmpLegLeft, SWT.NONE );
 		lblPosition.setText( Messages.getString( "BlockAttributeComposite.Lbl.Position" ) ); //$NON-NLS-1$
-		lblPosition.setEnabled( bEnableUI );
 
 		cmbPosition = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBPosition = new GridData( GridData.FILL_HORIZONTAL );
 		gdCMBPosition.horizontalSpan = 2;
 		cmbPosition.setLayoutData( gdCMBPosition );
 		cmbPosition.addSelectionListener( this );
-		cmbPosition.setEnabled( bEnableUI );
 
 		Label lblAnchor = new Label( cmpLegLeft, SWT.NONE );
 		lblAnchor.setText( Messages.getString( "BlockAttributeComposite.Lbl.Anchor" ) ); //$NON-NLS-1$
-		lblAnchor.setEnabled( bEnableUI );
 
 		cmbAnchor = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		gdCBAnchor.horizontalSpan = 2;
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
-		cmbAnchor.setEnabled( bEnableUI );
 
 		Label lblStretch = new Label( cmpLegLeft, SWT.NONE );
 		lblStretch.setText( Messages.getString( "BlockAttributeComposite.Lbl.Stretch" ) ); //$NON-NLS-1$
-		lblStretch.setEnabled( bEnableUI );
 
 		cmbStretch = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCBStretch = new GridData( GridData.FILL_HORIZONTAL );
 		gdCBStretch.horizontalSpan = 2;
 		cmbStretch.setLayoutData( gdCBStretch );
 		cmbStretch.addSelectionListener( this );
-		cmbStretch.setEnabled( bEnableUI );
 
 		Label lblBackground = new Label( cmpLegLeft, SWT.NONE );
 		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
-		lblBackground.setEnabled( bEnableUI );
 
 		int fillOptions = FillChooserComposite.ENABLE_GRADIENT
 				| FillChooserComposite.ENABLE_IMAGE
@@ -234,23 +223,19 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 		gdFCCBackground.horizontalSpan = 2;
 		fccBackground.setLayoutData( gdFCCBackground );
 		fccBackground.addListener( this );
-		fccBackground.setEnabled( bEnableUI );
 		fccBackground.setTextIndent( 0 );
 
 		Label lblDirection = new Label( cmpLegLeft, SWT.NONE );
 		lblDirection.setText( Messages.getString( "BlockAttributeComposite.Lbl.Direction" ) ); //$NON-NLS-1$
-		lblDirection.setEnabled( bEnableUI );
 
 		cmbDirection = new Combo( cmpLegLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBDirection = new GridData( GridData.FILL_HORIZONTAL );
 		gdCMBDirection.horizontalSpan = 2;
 		cmbDirection.setLayoutData( gdCMBDirection );
 		cmbDirection.addSelectionListener( this );
-		cmbDirection.setEnabled( bEnableUI );
 
 		Label lblWrapping = new Label( cmpLegLeft, SWT.NONE );
 		lblWrapping.setText( Messages.getString( "LegendLayoutSheet.Label.WrappingWidth" ) ); //$NON-NLS-1$
-		lblWrapping.setEnabled( bEnableUI );
 
 		txtWrapping = new LocalizedNumberEditorComposite( cmpLegLeft,
 				SWT.BORDER | SWT.SINGLE );
@@ -260,19 +245,18 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 			txtWrapping.setLayoutData( gd );
 			txtWrapping.setValue( getBlockForProcessing( ).getWrappingSize( ) );
 			txtWrapping.addModifyListener( this );
-			txtWrapping.setEnabled( bEnableUI );
+			txtWrapping.setEnabled( getBlockForProcessing( ).isSetWrappingSize( ) );
 		}
 
 		btnWrapping = new Button( cmpLegLeft, SWT.CHECK );
 		btnWrapping.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnWrapping.setSelection( !getBlockForProcessing( ).isSetWrappingSize( )
-				&& getBlockForProcessing( ).isSetWrappingSize( ) );
+		btnWrapping.setSelection( !getBlockForProcessing( ).isSetWrappingSize( ) );
 		btnWrapping.addSelectionListener( this );
 
 		spnMaxPercent = createSpinner( cmpLegLeft,
 				Messages.getString( "LegendLayoutSheet.Label.MaxPercent" ), //$NON-NLS-1$
 				getBlockForProcessing( ).getMaxPercent( ),
-				bEnableUI );
+				getBlockForProcessing( ).isSetMaxPercent( ) );
 
 		btnMaxPercent = new Button( cmpLegLeft, SWT.CHECK );
 		btnMaxPercent.setText( ChartUIExtensionUtil.getAutoMessage( ) );
@@ -282,20 +266,12 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 		spnTitlePercent = createSpinner( cmpLegLeft,
 				Messages.getString( "LegendLayoutSheet.Label.TitlePercent" ), //$NON-NLS-1$
 				getBlockForProcessing( ).getTitlePercent( ),
-				bEnableUI );
+				getBlockForProcessing( ).isSetTitlePercent( ) );
 
 		btnTitlePercent = new Button( cmpLegLeft, SWT.CHECK );
 		btnTitlePercent.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnTitlePercent.setSelection( !getBlockForProcessing( ).isSetTitlePercent( ) );
 		btnTitlePercent.addSelectionListener( this );
-		updateUIState( );
-	}
-
-	private void updateUIState( )
-	{
-		Legend l = this.getBlockForProcessing( );
-		spnMaxPercent.setEnabled( l.isSetMaxPercent( ) );
-		spnTitlePercent.setEnabled( l.isSetTitlePercent( ) );
 	}
 
 	protected void getComponentLegendRightArea( Composite cmpLegRight )
