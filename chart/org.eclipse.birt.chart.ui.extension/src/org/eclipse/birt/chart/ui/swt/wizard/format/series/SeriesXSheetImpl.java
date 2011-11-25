@@ -222,7 +222,9 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 				{
 					( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
 				}
+				txtMinSlice.removeModifyListener( this );
 				txtMinSlice.setValue( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) );
+				txtMinSlice.addModifyListener( this );
 				updateUIState( );
 			}
 		}

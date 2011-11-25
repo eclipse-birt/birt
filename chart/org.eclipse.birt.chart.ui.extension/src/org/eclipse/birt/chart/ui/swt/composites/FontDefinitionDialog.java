@@ -702,6 +702,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			{
 				iscRotation.setEnabled( true );
 				ascRotation.setEnabled( true );
+				fdCurrent.setRotation( iscRotation.getValue( ) );
 			}
 			iscRotation.setValue( ChartUIUtil.getFontRotation( fdCurrent ) );
 			ascRotation.setAngle( ChartUIUtil.getFontRotation( fdCurrent ) );
