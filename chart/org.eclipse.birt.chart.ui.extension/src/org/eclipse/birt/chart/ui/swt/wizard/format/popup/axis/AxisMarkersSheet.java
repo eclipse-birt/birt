@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -24,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -43,6 +45,7 @@ import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
@@ -175,7 +178,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		this.axis = axis;
 		this.context = context;
 	}
-	
+
 	@Override
 	protected void bindHelp( Composite parent )
 	{
@@ -280,7 +283,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Value" ) ); //$NON-NLS-1$
 
 		txtValue = createValuePicker( cmpLine, null );
-		
+
 		btnTxtValueAuto = new Button( cmpLine, SWT.CHECK );
 		btnTxtValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnTxtValueAuto.addSelectionListener( this );
@@ -358,7 +361,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblStartValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue" ) ); //$NON-NLS-1$
 
 		txtStartValue = createValuePicker( cmpRange, null );
-		
+
 		btnTxtStartValueAuto = new Button( cmpRange, SWT.CHECK );
 		btnTxtStartValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnTxtStartValueAuto.addSelectionListener( this );
@@ -380,8 +383,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		lblEndValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue" ) ); //$NON-NLS-1$
 
 		txtEndValue = createValuePicker( cmpRange, null );
-		
-		btnTxtEndValueAuto = new Button(cmpRange, SWT.CHECK );
+
+		btnTxtEndValueAuto = new Button( cmpRange, SWT.CHECK );
 		btnTxtEndValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 		btnTxtEndValueAuto.addSelectionListener( this );
 		btnTxtEndValueAuto.setSelection( true );
@@ -425,7 +428,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				getContext( ),
 				null );
 		GridData gdFCCRange = new GridData( GridData.FILL_HORIZONTAL );
-		gdFCCRange.horizontalSpan = 3 	;
+		gdFCCRange.horizontalSpan = 3;
 		fccRange.setLayoutData( gdFCCRange );
 		fccRange.addListener( this );
 
@@ -476,7 +479,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 		return cmpContent;
 	}
-	
+
 	protected LabelAttributesContext getLabelAttributesContext( )
 	{
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
@@ -826,7 +829,11 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					getAxisForProcessing( ).getMarkerLines( )
 							.get( getMarkerIndex( ) ),
 					getContext( ),
-					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), TriggerSupportMatrix.TYPE_MARKERLINE, false, true ).open( ); //$NON-NLS-1$
+					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), //$NON-NLS-1$
+					TriggerSupportMatrix.TYPE_MARKERLINE,
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE,
+					getInteractivityConditionFilter( ),
+					getInteractivityCursorFilter( ) ).open( );
 		}
 		else if ( e.widget.equals( btnRangeTriggers ) )
 		{
@@ -837,14 +844,17 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					getAxisForProcessing( ).getMarkerRanges( )
 							.get( getMarkerIndex( ) ),
 					getContext( ),
-					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), TriggerSupportMatrix.TYPE_MARKERRANGE, false, true ).open( ); //$NON-NLS-1$
+					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), //$NON-NLS-1$
+					TriggerSupportMatrix.TYPE_MARKERRANGE,
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE,
+					getInteractivityConditionFilter( ),
+					getInteractivityCursorFilter( ) ).open( );
 		}
 		else if ( e.widget == btnTxtValueAuto )
 		{
 			MarkerLine line = getAxisForProcessing( ).getMarkerLines( )
 					.get( getMarkerIndex( ) );
-			ChartElementUtil.setEObjectAttribute( line,
-					"value", //$NON-NLS-1$
+			ChartElementUtil.setEObjectAttribute( line, "value", //$NON-NLS-1$
 					getNotNullDataElement( txtValue.getDataElement( ) ),
 					btnTxtValueAuto.getSelection( ) );
 			txtValue.setDataElement( line.getValue( ) );
@@ -854,8 +864,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		{
 			MarkerRange range = getAxisForProcessing( ).getMarkerRanges( )
 					.get( getMarkerIndex( ) );
-			ChartElementUtil.setEObjectAttribute( range,
-					"startValue", //$NON-NLS-1$
+			ChartElementUtil.setEObjectAttribute( range, "startValue", //$NON-NLS-1$
 					getNotNullDataElement( txtStartValue.getDataElement( ) ),
 					btnTxtStartValueAuto.getSelection( ) );
 			txtStartValue.setDataElement( range.getStartValue( ) );
@@ -865,13 +874,22 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		{
 			MarkerRange range = getAxisForProcessing( ).getMarkerRanges( )
 					.get( getMarkerIndex( ) );
-			ChartElementUtil.setEObjectAttribute( range,
-					"endValue", //$NON-NLS-1$
+			ChartElementUtil.setEObjectAttribute( range, "endValue", //$NON-NLS-1$
 					getNotNullDataElement( txtEndValue.getDataElement( ) ),
 					btnTxtEndValueAuto.getSelection( ) );
 			txtEndValue.setDataElement( range.getStartValue( ) );
 			txtEndValue.setEnabled( !btnTxtEndValueAuto.getSelection( ) );
 		}
+	}
+
+	protected TriggerCondition[] getInteractivityConditionFilter( )
+	{
+		return null;
+	}
+
+	protected CursorType[] getInteractivityCursorFilter( )
+	{
+		return null;
 	}
 
 	protected void handleMarkerRangeFormatBtnSelected( )
@@ -906,7 +924,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					.get( getMarkerIndex( ) )
 					.getFormatSpecifier( );
 		}
-		
+
 		getContext( ).getUIServiceProvider( )
 				.getFormatSpecifierHandler( )
 				.handleFormatSpecifier( cmpContent.getShell( ),
@@ -1035,8 +1053,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			else
 			{
 				cmbLineAnchor.setText( LiteralHelper.anchorSet.getDisplayNameByName( ChartUIUtil.getFlippedAnchor( line.getLabelAnchor( ),
-					isFlippedAxes( ) )
-					.getName( ) ) );
+						isFlippedAxes( ) )
+						.getName( ) ) );
 			}
 
 			// Update the Line attribute fields
@@ -1056,7 +1074,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			// Update the value fields
 			txtStartValue.setDataElement( range.getStartValue( ) );
 			btnTxtStartValueAuto.setSelection( range.getStartValue( ) == null );
-			
+
 			txtEndValue.setDataElement( range.getEndValue( ) );
 			btnTxtEndValueAuto.setSelection( range.getEndValue( ) == null );
 
@@ -1126,7 +1144,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		cmbRangeAnchor.setEnabled( bState );
 		lblStartValue.setEnabled( bState );
 		btnTxtStartValueAuto.setEnabled( bState );
-		txtStartValue.setEnabled( bState && !btnTxtStartValueAuto.getSelection( ) );
+		txtStartValue.setEnabled( bState
+				&& !btnTxtStartValueAuto.getSelection( ) );
 		lblEndValue.setEnabled( bState );
 		btnTxtEndValueAuto.setEnabled( bState );
 		txtEndValue.setEnabled( bState && !btnTxtEndValueAuto.getSelection( ) );
@@ -1178,7 +1197,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 	private DataElement createDefaultDataElement( )
 	{
 		Axis axis = getAxisForProcessing( );
-		
+
 		if ( axis.isSetType( ) )
 		{
 			if ( axis.getType( ).equals( AxisType.DATE_TIME_LITERAL )
@@ -1262,10 +1281,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 	private DataElement getNotNullDataElement( DataElement de )
 	{
-//		if ( de == null )
-//		{
-//			return createDefaultDataElement( );
-//		}
+		// if ( de == null )
+		// {
+		// return createDefaultDataElement( );
+		// }
 		return de;
 	}
 

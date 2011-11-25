@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -49,7 +50,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 
 		NeedleComposite cmpNeedle = new NeedleComposite( cmpContent,
 				getContext( ),
-				(DialSeries)getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
+				(DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
 		cmpNeedle.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		createButtonGroup( cmpContent );
@@ -76,8 +77,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 							.getTriggers( ),
 					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
 					TriggerSupportMatrix.TYPE_DATAPOINT,
-					true,
-					false );
+					TriggerDataComposite.ENABLE_URL_PARAMETERS );
 			Button btnInteractivity = createToggleButton( cmp,
 					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
@@ -124,7 +124,9 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 		else if ( getChart( ) instanceof ChartWithoutAxes )
 		{
 			sd = ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( 0 ).getSeriesDefinitions( ).get( getIndex( ) );
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( getIndex( ) );
 		}
 		return sd;
 	}
@@ -133,7 +135,9 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 	{
 		int iTmp = 0;
 		int iAxisCount = ( (ChartWithAxes) getChart( ) ).getAxes( )
-				.get( 0 ).getAssociatedAxes( ).size( );
+				.get( 0 )
+				.getAssociatedAxes( )
+				.size( );
 		for ( int i = 0; i < iAxisCount; i++ )
 		{
 			iTmp += ( (ChartWithAxes) getChart( ) ).getAxes( )

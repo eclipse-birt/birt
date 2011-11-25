@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 
+import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -32,10 +34,10 @@ public class InteractivitySheet extends AbstractPopupSheet
 
 	private final EList<Trigger> triggers;
 	private final EObject cursorContainer;
-//	private final boolean bEnableURLParameters;
-//	private final boolean bEnableShowTooltipValue;
 	private final int iInteractivityType;
-	private int optionalStyle;
+	private final int optionalStyle;
+	private final TriggerCondition[] conditionFilter;
+	private final CursorType[] cursorFilter;
 
 	/**
 	 * 
@@ -48,16 +50,17 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param bEnableShowTooltipValue
 	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList<Trigger> triggers, EObject cursorContainer, int iInteractivityType, int optionalStyle )
+			EList<Trigger> triggers, EObject cursorContainer,
+			int iInteractivityType, int optionalStyle )
 	{
 		this( title,
 				context,
 				triggers,
 				cursorContainer,
 				iInteractivityType,
-				( ( optionalStyle & TriggerDataComposite.ENABLE_URL_PARAMETERS ) == TriggerDataComposite.ENABLE_URL_PARAMETERS ),
-				( ( optionalStyle & TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ) == TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ) );
-		this.optionalStyle = optionalStyle;
+				optionalStyle,
+				null,
+				null );
 	}
 
 	/**
@@ -71,23 +74,17 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param bEnableShowTooltipValue
 	 */
 	public InteractivitySheet( String title, ChartWizardContext context,
-			EList<Trigger> triggers, EObject cursorContainer, int iInteractivityType,
-			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
+			EList<Trigger> triggers, EObject cursorContainer,
+			int iInteractivityType, int optionalStyle,
+			TriggerCondition[] conditionFilter, CursorType[] cursorFilter )
 	{
 		super( title, context, false );
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
-//		this.bEnableURLParameters = bEnableURLParameters;
-//		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.iInteractivityType = iInteractivityType;
-		if ( bEnableShowTooltipValue )
-		{
-			optionalStyle |= TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE;
-		}
-		if ( bEnableURLParameters )
-		{
-			optionalStyle |= TriggerDataComposite.ENABLE_URL_PARAMETERS;
-		}
+		this.optionalStyle = optionalStyle;
+		this.conditionFilter = conditionFilter;
+		this.cursorFilter = cursorFilter;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -99,7 +96,9 @@ public class InteractivitySheet extends AbstractPopupSheet
 				cursorContainer,
 				getContext( ),
 				iInteractivityType,
-				optionalStyle );
+				optionalStyle,
+				conditionFilter,
+				cursorFilter );
 		parent.getShell( ).addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )

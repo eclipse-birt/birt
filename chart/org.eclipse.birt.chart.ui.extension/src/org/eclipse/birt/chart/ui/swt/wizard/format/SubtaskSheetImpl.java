@@ -348,7 +348,10 @@ public class SubtaskSheetImpl implements
 	protected void updatePopupSheet( String buttonId, ITaskPopupSheet popupSheet )
 	{
 		String id = getNodePath( ) + buttonId;
-		popupSheetRegistry.put( id, popupSheet );
+		if ( popupSheetRegistry.containsKey( id ) )
+		{
+			popupSheetRegistry.put( id, popupSheet );
+		}
 	}
 
 	/**

@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.model.attribute.CursorType;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -43,13 +45,15 @@ public class TriggerEditorDialog extends TrayDialog
 
 	private final ChartWizardContext wizardContext;
 
-	private final boolean bEnableURLParameters;
-
-	private final boolean bEnableShowTooltipValue;
-
 	private final int iInteractivityType;
 
 	private final String sTitle;
+
+	private final int optionalStyle;
+
+	private final TriggerCondition[] conditionFilter;
+
+	private final CursorType[] cursorFilter;
 
 	private TriggerDataComposite triggerUI;
 
@@ -61,22 +65,26 @@ public class TriggerEditorDialog extends TrayDialog
 	 * @param sTitle
 	 * @param iInteractivityType
 	 *            see <code>TriggerSupportMatrix</code>
-	 * @param bEnableURLParameters
-	 * @param bEnableShowTooltipValue
+	 * @param optionalStyle
+	 * @param conditionFilter
+	 *            trigger condition filter. If null, no filter applied.
+	 * @param cursorFilter
+	 *            cursor filter. If null, no filter applied
 	 */
 	public TriggerEditorDialog( Shell shellParent, EList<Trigger> triggers,
 			EObject cursorContainer, ChartWizardContext wizardContext,
-			String sTitle, int iInteractivityType,
-			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
+			String sTitle, int iInteractivityType, int optionalStyle,
+			TriggerCondition[] conditionFilter, CursorType[] cursorFilter )
 	{
 		super( shellParent );
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
 		this.wizardContext = wizardContext;
-		this.bEnableURLParameters = bEnableURLParameters;
-		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
 		this.sTitle = sTitle;
 		this.iInteractivityType = iInteractivityType;
+		this.optionalStyle = optionalStyle;
+		this.conditionFilter = conditionFilter;
+		this.cursorFilter = cursorFilter;
 		vOriginalTriggers = EcoreUtil.copyAll( triggers );
 	}
 
@@ -103,8 +111,9 @@ public class TriggerEditorDialog extends TrayDialog
 				cursorContainer,
 				wizardContext,
 				iInteractivityType,
-				bEnableURLParameters,
-				bEnableShowTooltipValue );
+				optionalStyle,
+				conditionFilter,
+				cursorFilter );
 		GridData gdTriggerEditor = new GridData( GridData.FILL_BOTH );
 		triggerUI.setLayoutData( gdTriggerEditor );
 

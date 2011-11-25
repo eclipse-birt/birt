@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
@@ -113,7 +114,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	private Button btnTxtValueAuto;
 
 	private Button btnTitleContentAuto;
-	
+
 	private static String KEY_TYPE_NAMES = "type_names"; //$NON-NLS-1$
 
 	protected AbstractAxisSubtask( )
@@ -193,13 +194,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			keys = serviceprovider.getRegisteredKeys( );
 		}
 
-		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
-				SWT.BORDER | SWT.SINGLE,
-				-1,
-				-1,
-				keys,
-				serviceprovider,
-				getTitleValue( ) );
+		txtTitle = new ExternalizedTextEditorComposite( cmpBasic, SWT.BORDER
+				| SWT.SINGLE, -1, -1, keys, serviceprovider, getTitleValue( ) );
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 230;
@@ -219,9 +215,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		btnTitleContentAuto = new Button( cmpBasic, SWT.CHECK );
 		btnTitleContentAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnTitleContentAuto.setSelection( getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) == null );
+		btnTitleContentAuto.setSelection( getAxisForProcessing( ).getTitle( )
+				.getCaption( )
+				.getValue( ) == null );
 		btnTitleContentAuto.addSelectionListener( this );
-		
+
 		if ( getAxisAngleType( ) != AngleType.Z )
 		{
 			Label lblType = new Label( cmpBasic, SWT.NONE );
@@ -297,13 +295,15 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				}
 
 				btnTxtValueAuto = new Button( cmpBasic, SWT.CHECK );
-				GridData gd = new GridData();
+				GridData gd = new GridData( );
 				gd.horizontalSpan = 2;
 				btnTxtValueAuto.setLayoutData( gd );
 				btnTxtValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-				btnTxtValueAuto.setSelection( getAxisForProcessing( ).getOrigin( ).getValue( ) == null );
+				btnTxtValueAuto.setSelection( getAxisForProcessing( ).getOrigin( )
+						.getValue( ) == null );
 				btnTxtValueAuto.setEnabled( bValueOrigin );
-				txtValue.setEnabled( bValueOrigin && !btnTxtValueAuto.getSelection( ) );
+				txtValue.setEnabled( bValueOrigin
+						&& !btnTxtValueAuto.getSelection( ) );
 				btnTxtValueAuto.addSelectionListener( this );
 			}
 
@@ -370,7 +370,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		setStateOfTitle( );
 		setStateOfLabel( );
 	}
-	
+
 	protected boolean isStaggerSupported( )
 	{
 		return true;
@@ -530,15 +530,14 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 
 		// Interactivity
-		if ( getContext( ).isInteractivityEnabled( ) )
+		if ( isInteractivityEnabled( ) )
 		{
 			popup = new InteractivitySheet( Messages.getString( "AbstractAxisSubtask.Label.Interactivity" ), //$NON-NLS-1$
 					getContext( ),
 					getAxisForProcessing( ).getTriggers( ),
 					getAxisForProcessing( ),
 					TriggerSupportMatrix.TYPE_AXIS,
-					false,
-					true );
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE );
 			Button btnInteractivity = createToggleButton( cmp,
 					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
@@ -546,6 +545,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
 		}
+	}
+
+	protected boolean isInteractivityEnabled( )
+	{
+		return getContext( ).isInteractivityEnabled( );
 	}
 
 	protected void createMarkersUI( Composite cmp )
@@ -763,7 +767,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			if ( IntersectionType.VALUE_LITERAL.getName( )
 					.equals( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) )
 			{
-				
+
 				boolean enabled = true && ( getAxisForProcessing( ).getOrigin( )
 						.getValue( ) != null );
 
@@ -788,10 +792,10 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					getAxisForProcessing( ).getOrigin( )
 							.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
 				}
-				
+
 				btnTxtValueAuto.setEnabled( enabled );
 				lblValue.setEnabled( enabled );
-				txtValue.setEnabled( enabled && !btnTxtValueAuto.getSelection( )  );
+				txtValue.setEnabled( enabled && !btnTxtValueAuto.getSelection( ) );
 			}
 
 			if ( getAxisForProcessing( ).getOrigin( ).isSetType( )
@@ -919,9 +923,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	}
 
 	abstract protected String getDefaultAxisTitle( );
-	
 
-	protected void updateReverseStateByCategoryAxisUI(  )
+	protected void updateReverseStateByCategoryAxisUI( )
 	{
 		int state = btnCategoryAxis.getSelectionState( );
 		boolean enabledUI = ChartUIExtensionUtil.canEnableUI( btnCategoryAxis );
