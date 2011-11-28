@@ -37,6 +37,8 @@ abstract public class AbstractMDX
 			int[] values )
 	{
 		String type = "";
+		int year_woy = 1;
+		int year = 1;
 		for ( int i = 0; i < values.length; i++ )
 		{
 			if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
@@ -61,15 +63,31 @@ abstract public class AbstractMDX
 
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
 			{
-				cal.get( Calendar.WEEK_OF_MONTH );
+				year_woy = cal.get( Calendar.YEAR_WOY );
+				year = cal.get( Calendar.YEAR );
+				// year_woy < year, means last week of previous year
+				// for example. 2011/1/1, the year_woy is 2010
+				if ( year_woy < year )
+				{
+					cal.add( Calendar.DAY_OF_WEEK, 7 );
+				}
+				cal.set( Calendar.DAY_OF_WEEK, 1 );
 				cal.set( Calendar.WEEK_OF_MONTH, values[i] );
+
 				type = WEEK;
 			}
 
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
 			{
-				cal.get( Calendar.WEEK_OF_YEAR );
+				year_woy = cal.get( Calendar.YEAR_WOY );
+				year = cal.get( Calendar.YEAR );
+				if ( year_woy < year )
+				{
+					cal.add( Calendar.DAY_OF_WEEK, 7 );
+				}
+				cal.set( Calendar.DAY_OF_WEEK, 1 );
 				cal.set( Calendar.WEEK_OF_YEAR, values[i] );
+				
 				type = WEEK;
 			}
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )

@@ -37,7 +37,6 @@ public class MonthToDateFunction extends AbstractMDX
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.clear( );
-		cal.set( Calendar.DAY_OF_MONTH, 28 );
 		String baseType = translateToCal( cal, levelTypes, values );
 		int[] tmp;
 		if ( baseType.equals( MONTH ) )

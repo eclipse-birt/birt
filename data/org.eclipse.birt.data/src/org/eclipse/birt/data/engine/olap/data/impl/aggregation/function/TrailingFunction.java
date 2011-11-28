@@ -44,7 +44,9 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		cal1.clear( );
 		String calculateUnit = translateToCal( cal1, levelTypes, values );
 		Calendar cal2 = (Calendar) cal1.clone( );
-
+        int dayOfWeek = 1;
+        int year = 1;
+        int year_woy = 1;
 		if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
 		{
 			cal1.add( Calendar.YEAR, offset );
@@ -60,10 +62,42 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		}
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
 		{
+			if ( !calculateUnit.equals( DAY ) )
+			{
+				year_woy = cal1.get( Calendar.YEAR_WOY );
+				year = cal1.get( Calendar.YEAR );
+				// year_woy < year, means last week of previous year
+				// for example. 2011/1/1, the year_woy is 2010
+				if ( year_woy < year )
+				{
+					cal1.add( Calendar.DAY_OF_WEEK, 7 );
+				}
+				dayOfWeek = cal1.get( Calendar.DAY_OF_WEEK );
+				if ( dayOfWeek > 1 )
+				{
+					cal1.add( Calendar.DAY_OF_WEEK, 1 - dayOfWeek );
+				}
+			}
 			cal1.add( Calendar.WEEK_OF_YEAR, offset );
 		}
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
 		{
+			if ( !calculateUnit.equals( DAY ) )
+			{
+				year_woy = cal1.get( Calendar.YEAR_WOY );
+				year = cal1.get( Calendar.YEAR );
+				// year_woy < year, means last week of previous year
+				// for example. 2011/1/1, the year_woy is 2010
+				if ( year_woy < year )
+				{
+					cal1.add( Calendar.DAY_OF_WEEK, 7 );
+				}
+				dayOfWeek = cal1.get( Calendar.DAY_OF_WEEK );
+				if ( dayOfWeek > 1 )
+				{
+					cal1.add( Calendar.DAY_OF_WEEK, 1 - dayOfWeek );
+				}
+			}
 			cal1.add( Calendar.WEEK_OF_YEAR, offset );
 		}
 		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
@@ -78,7 +112,7 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		{
 			cal1.add( Calendar.DATE, offset );
 		}
-
+		
 		timeMembers.add( member );
 
 		// TimeMember.levelTypes=["year"(2009),"month"(3)],TrailingFunciton.levelType="Quarter",offset=1
@@ -96,6 +130,19 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		}
 		else if ( calculateUnit.equals( WEEK ) )
 		{
+			year_woy = cal1.get( Calendar.YEAR_WOY );
+			year = cal1.get( Calendar.YEAR );
+			// year_woy < year, means last week of previous year
+			// for example. 2011/1/1, the year_woy is 2010
+			if ( year_woy < year )
+			{
+				cal1.add( Calendar.DAY_OF_WEEK, 7 );
+			}
+			dayOfWeek = cal1.get( Calendar.DAY_OF_WEEK );
+			if ( dayOfWeek > 1 )
+			{
+				cal1.add( Calendar.DAY_OF_WEEK, 1 - dayOfWeek );
+			}
 			cal1.add( Calendar.WEEK_OF_YEAR, -Math.abs( offset ) / offset );
 		}
 		else if ( calculateUnit.equals( MONTH ) )

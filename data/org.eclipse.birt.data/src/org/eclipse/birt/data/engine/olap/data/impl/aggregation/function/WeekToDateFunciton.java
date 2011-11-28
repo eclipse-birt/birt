@@ -32,6 +32,7 @@ public class WeekToDateFunciton extends AbstractMDX implements IPeriodsFunction
 
 		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
 				TimeMemberUtil.getDefaultLocale( ) );
+		cal.clear( );
 		String baseType = translateToCal( cal, levelTypes, values );
 
 		if ( baseType.equals( WEEK ) )
