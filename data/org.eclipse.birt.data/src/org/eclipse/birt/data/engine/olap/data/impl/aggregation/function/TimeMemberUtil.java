@@ -66,6 +66,8 @@ public class TimeMemberUtil
 		}
 		int[] levelValue = new int[levelType.length];
 		Calendar cal = getCalendar( referenceDate );
+		int year_woy = 1;
+		int year = 1;
 		for( int i = 0; i < cellTimeMember.getLevelType().length; i++)
 		{
 			if( TimeMember.TIME_LEVEL_TYPE_YEAR.equals( cellTimeMember.getLevelType()[i] ) )
@@ -95,11 +97,31 @@ public class TimeMemberUtil
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( cellTimeMember.getLevelType()[i] ) )
 			{
-				cal.set( Calendar.WEEK_OF_YEAR, cellTimeMember.getMemberValue()[i] );
+				year_woy = cal.get( Calendar.YEAR_WOY );
+				year = cal.get( Calendar.YEAR );
+				// year_woy < year, means last week of previous year
+				// for example. 2011/1/1, the year_woy is 2010
+				if ( year_woy < year )
+				{
+					cal.add( Calendar.DAY_OF_WEEK, 7 );
+				}
+				cal.set( Calendar.DAY_OF_WEEK, 1 );
+				cal.set( Calendar.WEEK_OF_YEAR,
+						cellTimeMember.getMemberValue( )[i] );
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH.equals( cellTimeMember.getLevelType()[i] ) )
 			{
-				cal.set( Calendar.WEEK_OF_MONTH, cellTimeMember.getMemberValue()[i] );
+				year_woy = cal.get( Calendar.YEAR_WOY );
+				year = cal.get( Calendar.YEAR );
+				// year_woy < year, means last week of previous year
+				// for example. 2011/1/1, the year_woy is 2010
+				if ( year_woy < year )
+				{
+					cal.add( Calendar.DAY_OF_WEEK, 7 );
+				}
+				cal.set( Calendar.DAY_OF_WEEK, 1 );
+				cal.set( Calendar.WEEK_OF_MONTH,
+						cellTimeMember.getMemberValue( )[i] );
 			}
 		}
 		for( int i = 0; i < levelType.length; i++ )
