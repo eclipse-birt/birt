@@ -508,14 +508,12 @@ public class TimeFunctionManager
 	/**
 	 * get the description for a specific time function
 	 * 
-	 * @param dim
-	 * @param timeLevelsInXtab
 	 * @param column
+	 * @param locale
 	 * @return
 	 * @throws BirtException 
 	 */
-	public static String getTooltipForTimeFunction( DimensionHandle dim,
-			ComputedColumnHandle column, ULocale locale ) throws BirtException
+	public static String getTooltipForTimeFunction(	ComputedColumnHandle column, ULocale locale ) throws BirtException
 	{
 		String desc = null;
 		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
@@ -527,19 +525,12 @@ public class TimeFunctionManager
 		Date date = functionBinding.getTimeFunction( ).getReferenceDate( ).getDate( );
 		Calendar cal = Calendar.getInstance( locale );
 		cal.setTime( date );
-	//	int levelCount = dim.getDefaultHierarchy( ).getLevelCount( );
 		int[] values = new int[3];
 		String[] levelTypes = new String[3];
 		levelTypes[0] = TimeMember.TIME_LEVEL_TYPE_YEAR;
 		levelTypes[1] = TimeMember.TIME_LEVEL_TYPE_MONTH;
 		levelTypes[2] = TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH;
 		
-//		for ( int i = 0; i < levelCount; i++ )
-//		{
-//			levelTypes[i] = dim.getDefaultHierarchy( )
-//					.getLevel( i )
-//					.getDateTimeLevelType( );
-//		}
 		values = getValueFromCal( cal, levelTypes );
 		TimeMember member = new TimeMember( values, levelTypes );
 		IPeriodsFunction periodsFunction = null;
