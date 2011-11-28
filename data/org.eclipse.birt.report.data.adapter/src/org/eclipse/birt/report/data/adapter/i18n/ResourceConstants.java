@@ -110,12 +110,4 @@ public class ResourceConstants
 	
 	//toolTip
 	public final static String TIMEFUNCTION_TOOLTIP_TO = "timeFunction.toolTip.to";
-	public final static String TIMEFUNCTION_TOOLTIP_YEAR = "timeFunction.toolTip.year";
-	public final static String TIMEFUNCTION_TOOLTIP_QUARTER = "timeFunction.toolTip.quarter";
-	public final static String TIMEFUNCTION_TOOLTIP_MONTH = "timeFunction.toolTip.month";
-	public final static String TIMEFUNCTION_TOOLTIP_WEEKOFYEAR = "timeFunction.toolTip.weekOfYear";
-	public final static String TIMEFUNCTION_TOOLTIP_WEEKOFMONTH = "timeFunction.toolTip.weekOfMonth";
-	public final static String TIMEFUNCTION_TOOLTIP_DAYOFWEEK = "timeFunction.toolTip.dayOfWeek";
-	public final static String TIMEFUNCTION_TOOLTIP_DAYOFMONTH = "timeFunction.toolTip.dayOfMonth";
-	public final static String TIMEFUNCTION_TOOLTIP_DAYOFYEAR = "timeFunction.toolTip.dayOfYear";
 }
