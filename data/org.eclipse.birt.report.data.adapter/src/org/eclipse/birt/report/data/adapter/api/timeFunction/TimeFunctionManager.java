@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
 import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
@@ -526,16 +527,19 @@ public class TimeFunctionManager
 		Date date = functionBinding.getTimeFunction( ).getReferenceDate( ).getDate( );
 		Calendar cal = Calendar.getInstance( locale );
 		cal.setTime( date );
-		int levelCount = dim.getDefaultHierarchy( ).getLevelCount( );
-		int[] values = new int[levelCount];
-		String[] levelTypes = new String[levelCount];
+	//	int levelCount = dim.getDefaultHierarchy( ).getLevelCount( );
+		int[] values = new int[3];
+		String[] levelTypes = new String[3];
+		levelTypes[0] = TimeMember.TIME_LEVEL_TYPE_YEAR;
+		levelTypes[1] = TimeMember.TIME_LEVEL_TYPE_MONTH;
+		levelTypes[2] = TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH;
 		
-		for ( int i = 0; i < levelCount; i++ )
-		{
-			levelTypes[i] = dim.getDefaultHierarchy( )
-					.getLevel( i )
-					.getDateTimeLevelType( );
-		}
+//		for ( int i = 0; i < levelCount; i++ )
+//		{
+//			levelTypes[i] = dim.getDefaultHierarchy( )
+//					.getLevel( i )
+//					.getDateTimeLevelType( );
+//		}
 		values = getValueFromCal( cal, levelTypes );
 		TimeMember member = new TimeMember( values, levelTypes );
 		IPeriodsFunction periodsFunction = null;
@@ -590,44 +594,22 @@ public class TimeFunctionManager
 	{
 		StringBuffer result = new StringBuffer( "" );
 		result.append( funcName ).append( " ( " );
-		for ( int i = 0; i < from.getLevelType( ).length; i++ )
-		{
-			result.append( getLocalizedDisplayTimeUnitName( from.getLevelType( )[i] ) );
-			result.append( from.getMemberValue( )[i] ).append( " " );
-		}
-		result.append( Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_TO ) ).append( " " );
-
-		for ( int i = 0; i < to.getLevelType( ).length; i++ )
-		{
-			result.append( getLocalizedDisplayTimeUnitName( to.getLevelType( )[i] ) );
-			result.append( to.getMemberValue( )[i] ).append( " " );
-		}
+		result.append( from.getMemberValue( )[0] )
+				.append( "-" )
+				.append( from.getMemberValue( )[1] )
+				.append( "-" )
+				.append( from.getMemberValue( )[2] );
+		result.append( " " )
+				.append( Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_TO ) )
+				.append( " " );
+		result.append( to.getMemberValue( )[0] )
+				.append( "-" )
+				.append( to.getMemberValue( )[1] )
+				.append( "-" )
+				.append( to.getMemberValue( )[2] );
 		result.append( " )" );
 		return result.toString( );
 	}
-	
-	private static String getLocalizedDisplayTimeUnitName( String name )
-	{
-		if ( name.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_YEAR );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_QUARTER );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_MONTH );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_WEEKOFMONTH );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_WEEKOFYEAR );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_DAYOFMONTH );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_DAYOFWEEK );
-		else if ( name.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
-			return Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_DAYOFYEAR );
-
-		return "";
-	}
-	
 	
 	private static String toLevelType( TimePeriodType timePeriodType )
 	{

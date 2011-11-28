@@ -351,7 +351,7 @@ public class TimeFunctionManagerTest extends TestCase
 		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 				"dimension[\"TimeDimension\"]" );
 		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
-		assertTrue(desc.equals( "Quarter to Date  ( Year:2003 Quarter:3 Month:7 Day Of Year:182 To Year:2003 Quarter:3 Month:8 Day Of Year:229  )" ) );
+		assertTrue(desc.equals( "Quarter to Date  ( 2003-7-1 To 2003-8-17 )" ) );
 	}
 	
 	public void testGettingToolTipForTimeFunction2() throws BirtException
@@ -369,7 +369,7 @@ public class TimeFunctionManagerTest extends TestCase
 				"dimension[\"TimeDimension\"]" );
 		
 		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
-		assertTrue(desc.equals( "previous Year to Date  ( Year:2002 Quarter:1 Month:1 Day Of Year:1 To Year:2002 Quarter:3 Month:8 Day Of Year:229  )" ) );
+		assertTrue(desc.equals( "previous Year to Date  ( 2002-1-1 To 2002-8-17 )" ) );
 	}
 	
 	public void testGettingToolTipForTimeFunction3() throws BirtException
@@ -387,7 +387,7 @@ public class TimeFunctionManagerTest extends TestCase
 				"dimension[\"TimeDimension\"]" );
 		
 		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
-		assertTrue(desc.equals( "Trailing 12 Months  ( Year:2002 Quarter:3 Month:8 Day Of Year:230 To Year:2003 Quarter:3 Month:8 Day Of Year:229  )" ) );
+		assertTrue(desc.equals( "Trailing 12 Months  ( 2002-8-18 To 2003-8-17 )" ) );
 	}
 	
 	public void testGettingToolTipForTimeFunction4() throws BirtException
@@ -403,6 +403,6 @@ public class TimeFunctionManagerTest extends TestCase
 		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 				"dimension[\"TimeDimension\"]" );
 		String desc = TimeFunctionManager.getTooltipForTimeFunction( cube1.getDimension( "TimeDimension" ), computedHandle, ULocale.getDefault( ) );
-		assertTrue(desc.equals( "Current Year  ( Year:2003 Quarter:1 Month:1 Day Of Year:1 To Year:2003 Quarter:4 Month:12 Day Of Year:365  )" ) );
+		assertTrue(desc.equals( "Current Year  ( 2003-1-1 To 2003-12-31 )" ) );
 	}
 }
