@@ -505,6 +505,12 @@ public class TimeFunctionManager
 		return tmp;
 	}
 	
+	public static String getTooltipForTimeFunction(	DimensionHandle dim, ComputedColumnHandle column, ULocale locale ) throws BirtException
+	{ 
+		return getTooltipForTimeFunction( column,locale );
+	}
+	
+	
 	/**
 	 * get the description for a specific time function
 	 * 
