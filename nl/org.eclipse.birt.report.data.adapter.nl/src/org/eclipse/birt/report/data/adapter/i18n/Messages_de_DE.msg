@@ -101,3 +101,4 @@ timeFunction.PERIOD2.displayName = The second period
 timeFunction.N1.displayName = The fist N
 timeFunction.N2.displayName = The second N
  
+timeFunction.toolTip.to=To
