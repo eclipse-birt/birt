@@ -216,6 +216,7 @@ public class QueryExecutor
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+					this.validateLimitSetting( view, rs );
 				}
 				else
 				{
