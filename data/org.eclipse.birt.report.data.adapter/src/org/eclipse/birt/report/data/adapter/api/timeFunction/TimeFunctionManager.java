@@ -519,6 +519,7 @@ public class TimeFunctionManager
 		String desc = null;
 		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 		IBinding functionBinding = session.getModelAdaptor( ).adaptBinding( column );
+		session.shutdown( );
 		ITimePeriod basePeriod = functionBinding.getTimeFunction( ).getBaseTimePeriod( );
 		ITimePeriod relativePeriod = functionBinding.getTimeFunction( ).getRelativeTimePeriod( );
 	
