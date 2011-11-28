@@ -340,6 +340,7 @@ PieSeriesUIProvider.Lbl.SeriesDefinition=系列定义
 PieBottomAreaComponent.Label.Percentage=百分比
 PieSeriesAttributeComposite.Button.Direction=顺时针方向
 PieSeriesAttributeComposite.Button.Direction.ToolTipText=指定饼图扇面是否按顺时针方向呈现。
+PieSeriesAttributeComposite.Button.InnerRadius=Inner Radius:
 PieSeriesAttributeComposite.Grp.Slice=扇面
 PieSeriesAttributeComposite.Lbl.SliceOutline=扇面边框(&O):
 PieSeriesAttributeComposite.Lbl.LeaderLine=引线

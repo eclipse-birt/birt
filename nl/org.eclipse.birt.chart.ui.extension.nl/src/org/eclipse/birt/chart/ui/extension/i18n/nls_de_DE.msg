@@ -340,6 +340,7 @@ PieSeriesUIProvider.Lbl.SeriesDefinition=Datenreihendefinition
 PieBottomAreaComponent.Label.Percentage=Prozentsatz
 PieSeriesAttributeComposite.Button.Direction=Im Uhrzeigersinn
 PieSeriesAttributeComposite.Button.Direction.ToolTipText=Gibt an, ob Kreisausschnitte im Uhrzeigersinn gerendert werden.
+PieSeriesAttributeComposite.Button.InnerRadius=Inner Radius:
 PieSeriesAttributeComposite.Grp.Slice=Abschnitt
 PieSeriesAttributeComposite.Lbl.SliceOutline=Segment&umriss:
 PieSeriesAttributeComposite.Lbl.LeaderLine=Führungslinie

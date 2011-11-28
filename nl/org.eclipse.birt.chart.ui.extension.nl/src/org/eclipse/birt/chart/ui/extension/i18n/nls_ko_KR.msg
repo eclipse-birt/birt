@@ -340,6 +340,7 @@ PieSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
 PieBottomAreaComponent.Label.Percentage=백분율
 PieSeriesAttributeComposite.Button.Direction=시계 방향
 PieSeriesAttributeComposite.Button.Direction.ToolTipText=원형 조각이 시계 방향에서 렌더링되는지 여부를 지정합니다.
+PieSeriesAttributeComposite.Button.InnerRadius=Inner Radius:
 PieSeriesAttributeComposite.Grp.Slice=조각
 PieSeriesAttributeComposite.Lbl.SliceOutline=조각 윤곽선(&O):
 PieSeriesAttributeComposite.Lbl.LeaderLine=지시선

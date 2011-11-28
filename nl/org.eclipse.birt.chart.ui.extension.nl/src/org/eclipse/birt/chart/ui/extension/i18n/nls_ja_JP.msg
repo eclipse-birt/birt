@@ -340,6 +340,7 @@ PieSeriesUIProvider.Lbl.SeriesDefinition=系列の定義
 PieBottomAreaComponent.Label.Percentage=割合 (%)
 PieSeriesAttributeComposite.Button.Direction=時計回り方向
 PieSeriesAttributeComposite.Button.Direction.ToolTipText=パイスライスを時計回り方向にレンダリングするかどうかを指定します。
+PieSeriesAttributeComposite.Button.InnerRadius=Inner Radius:
 PieSeriesAttributeComposite.Grp.Slice=スライス
 PieSeriesAttributeComposite.Lbl.SliceOutline=スライスの外枠(&O) :
 PieSeriesAttributeComposite.Lbl.LeaderLine=引き出し線
