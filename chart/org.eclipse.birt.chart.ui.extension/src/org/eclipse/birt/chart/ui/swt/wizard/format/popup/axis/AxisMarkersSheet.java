@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -25,7 +24,6 @@ import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.FractionNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.MarkerLine;
@@ -45,10 +43,10 @@ import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -831,9 +829,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					getContext( ),
 					Messages.getString( "AxisMarkersSheet.Title.MarkerLine" ), //$NON-NLS-1$
 					TriggerSupportMatrix.TYPE_MARKERLINE,
-					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE,
-					getInteractivityConditionFilter( ),
-					getInteractivityCursorFilter( ) ).open( );
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ).open( );
 		}
 		else if ( e.widget.equals( btnRangeTriggers ) )
 		{
@@ -846,9 +842,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 					getContext( ),
 					Messages.getString( "AxisMarkersSheet.Title.MarkerRange" ), //$NON-NLS-1$
 					TriggerSupportMatrix.TYPE_MARKERRANGE,
-					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE,
-					getInteractivityConditionFilter( ),
-					getInteractivityCursorFilter( ) ).open( );
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE ).open( );
 		}
 		else if ( e.widget == btnTxtValueAuto )
 		{
@@ -880,16 +874,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			txtEndValue.setDataElement( range.getStartValue( ) );
 			txtEndValue.setEnabled( !btnTxtEndValueAuto.getSelection( ) );
 		}
-	}
-
-	protected TriggerCondition[] getInteractivityConditionFilter( )
-	{
-		return null;
-	}
-
-	protected CursorType[] getInteractivityCursorFilter( )
-	{
-		return null;
 	}
 
 	protected void handleMarkerRangeFormatBtnSelected( )

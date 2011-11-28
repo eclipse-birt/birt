@@ -19,12 +19,10 @@ import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.Text;
-import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -530,9 +528,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					getChart( ).getBlock( ).getTriggers( ),
 					getChart( ).getBlock( ),
 					TriggerSupportMatrix.TYPE_CHARTAREA,
-					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE,
-					getInteractivityConditionFilter( ),
-					getInteractivityCursorFilter( ) );
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE );
 			Button btnInteractivity = createToggleButton( cmp,
 					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
@@ -540,16 +536,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
 		}
-	}
-
-	protected TriggerCondition[] getInteractivityConditionFilter( )
-	{
-		return null;
-	}
-
-	protected CursorType[] getInteractivityCursorFilter( )
-	{
-		return null;
 	}
 
 	protected int getBackgroundFillStyles( )

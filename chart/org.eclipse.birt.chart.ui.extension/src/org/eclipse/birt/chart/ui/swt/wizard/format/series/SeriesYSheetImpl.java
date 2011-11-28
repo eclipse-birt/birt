@@ -15,8 +15,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.CursorType;
-import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
@@ -265,9 +263,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getCurrentDesignTimeSeries( ).getTriggers( ),
 					getCurrentDesignTimeSeries( ),
 					TriggerSupportMatrix.TYPE_DATAPOINT,
-					TriggerDataComposite.ENABLE_URL_PARAMETERS,
-					getInteractivityConditionFilter( ),
-					getInteractivityCursorFilter( ) );
+					TriggerDataComposite.ENABLE_URL_PARAMETERS );
 			Button btnInteractivity = createToggleButton( cmp,
 					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
@@ -287,16 +283,6 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					buttonEntry.isEnabled( ) );
 			button.addSelectionListener( this );
 		}
-	}
-
-	protected TriggerCondition[] getInteractivityConditionFilter( )
-	{
-		return null;
-	}
-
-	protected CursorType[] getInteractivityCursorFilter( )
-	{
-		return null;
 	}
 
 	protected void createSeriesSpecificButton( Composite cmp )

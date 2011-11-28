@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
+
 /**
- * UI factory used to create all kinds of UI classes.F
+ * UI factory used to create all kinds of UI classes.
  */
 
 public interface IChartUIFactory
@@ -24,4 +26,16 @@ public interface IChartUIFactory
 	 * @return UI helper
 	 */
 	IChartUIHelper createUIHelper( );
+
+	/**
+	 * Creates instance of <code>TriggerSupportMatrix</code>.
+	 * 
+	 * @param outputFormat
+	 *            output format
+	 * @param iType
+	 *            interactivity type
+	 * @return instance
+	 * @since 3.7
+	 */
+	TriggerSupportMatrix createSupportMatrix( String outputFormat, int iType );
 }

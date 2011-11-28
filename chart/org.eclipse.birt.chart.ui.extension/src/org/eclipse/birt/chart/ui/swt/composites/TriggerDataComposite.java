@@ -193,26 +193,22 @@ public class TriggerDataComposite extends Composite implements
 	 *            interactivity type. See {@link TriggerSupportMatrix}
 	 * @param optionalStyle
 	 *            optional UI settings
-	 * @param conditionFilter
-	 *            trigger condition filter. If null, no filter applied
-	 * @param cursorFilter
-	 *            cursor filter. If null, no filter applied
 	 */
 	public TriggerDataComposite( Composite parent, int style,
 			EList<Trigger> triggers, EObject cursorContainer,
 			ChartWizardContext wizardContext, int iInteractivityType,
-			int optionalStyle, TriggerCondition[] conditionFilter,
-			CursorType[] cursorFilter )
+			int optionalStyle )
 	{
 		super( parent, style );
 		this.wizardContext = wizardContext;
 		this.optionalStyle = optionalStyle;
 		this.triggersList = triggers;
 		this.cursorContainer = cursorContainer;
-		this.conditionFilter = conditionFilter;
-		this.cursorFilter = cursorFilter;
-		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
-				iInteractivityType );
+		this.triggerMatrix = wizardContext.getUIFactory( )
+				.createSupportMatrix( wizardContext.getOutputFormat( ),
+						iInteractivityType );
+		this.conditionFilter = triggerMatrix.getConditionFilters( );
+		this.cursorFilter = triggerMatrix.getCursorFilters( );
 		init( );
 
 		placeComponents( );
@@ -228,6 +224,12 @@ public class TriggerDataComposite extends Composite implements
 				}
 			}
 		} );
+	}
+
+	protected TriggerSupportMatrix createSupportMatrix( int iInteractivityType )
+	{
+		return new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
+				iInteractivityType );
 	}
 
 	private void init( )

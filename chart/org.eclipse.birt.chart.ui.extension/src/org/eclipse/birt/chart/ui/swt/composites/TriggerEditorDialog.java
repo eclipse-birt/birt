@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Collection;
 
-import org.eclipse.birt.chart.model.attribute.CursorType;
-import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -51,10 +49,6 @@ public class TriggerEditorDialog extends TrayDialog
 
 	private final int optionalStyle;
 
-	private final TriggerCondition[] conditionFilter;
-
-	private final CursorType[] cursorFilter;
-
 	private TriggerDataComposite triggerUI;
 
 	/**
@@ -73,8 +67,7 @@ public class TriggerEditorDialog extends TrayDialog
 	 */
 	public TriggerEditorDialog( Shell shellParent, EList<Trigger> triggers,
 			EObject cursorContainer, ChartWizardContext wizardContext,
-			String sTitle, int iInteractivityType, int optionalStyle,
-			TriggerCondition[] conditionFilter, CursorType[] cursorFilter )
+			String sTitle, int iInteractivityType, int optionalStyle )
 	{
 		super( shellParent );
 		this.triggers = triggers;
@@ -83,8 +76,6 @@ public class TriggerEditorDialog extends TrayDialog
 		this.sTitle = sTitle;
 		this.iInteractivityType = iInteractivityType;
 		this.optionalStyle = optionalStyle;
-		this.conditionFilter = conditionFilter;
-		this.cursorFilter = cursorFilter;
 		vOriginalTriggers = EcoreUtil.copyAll( triggers );
 	}
 
@@ -111,9 +102,7 @@ public class TriggerEditorDialog extends TrayDialog
 				cursorContainer,
 				wizardContext,
 				iInteractivityType,
-				optionalStyle,
-				conditionFilter,
-				cursorFilter );
+				optionalStyle );
 		GridData gdTriggerEditor = new GridData( GridData.FILL_BOTH );
 		triggerUI.setLayoutData( gdTriggerEditor );
 
