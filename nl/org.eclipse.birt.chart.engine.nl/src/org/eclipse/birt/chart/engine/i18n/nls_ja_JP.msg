@@ -345,11 +345,11 @@ DateFormatType.Full.displayName=Full 型
 DateFormatDetail.Date.displayName=日付
 DateFormatDetail.DateTime.displayName=日時
 
-DefaultValueProvider_BaseSeries=Base Series
-DefaultValueProvider_ChartSubType.Standard=Standard
-DefaultValueProvider_ChartSubType.StandardMeterChart=Standard Meter Chart
-DefaultValueProvider_ChartTitle=Chart Title
-DefaultValueProvider_ChartUnits.Points=Points
+DefaultValueProvider_BaseSeries=基本系列
+DefaultValueProvider_ChartSubType.Standard=標準
+DefaultValueProvider_ChartSubType.StandardMeterChart=標準メーターグラフ
+DefaultValueProvider_ChartTitle=グラフのタイトル
+DefaultValueProvider_ChartUnits.Points=ポイント
 
 LegendBehaviorType.None.displayName=なし
 LegendBehaviorType.ToggleSerieVisibility.displayName=系列の表示と非表示を切り替える
