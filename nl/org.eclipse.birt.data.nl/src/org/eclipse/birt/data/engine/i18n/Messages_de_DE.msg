@@ -412,7 +412,7 @@ data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur 
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
 data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.
 data.olap.MissingDimensionInCube=Der Quader muss mindestens eine Dimension enthalten: '{0}'
-data.olap.ExceedIntegerLimit= The result set length exceeds Integer.MAX.
+data.olap.ExceedIntegerLimit= Die Länge des Ergebnissatzes überschreitet Integer.MAX.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
