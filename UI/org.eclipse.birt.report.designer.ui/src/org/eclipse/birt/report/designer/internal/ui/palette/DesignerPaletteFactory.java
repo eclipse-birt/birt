@@ -139,7 +139,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 
 				protected void performCreation( int button )
 				{
-					DNDService.getInstance( ).performDrop( "DATA_AGG", //$NON-NLS-1$
+					DNDService.getInstance( ).performDrop( getTemplate( ), //$NON-NLS-1$
 							getTargetEditPart( ),
 							DND.DROP_DEFAULT,
 							new DNDLocation( getLocation( ) ) );
@@ -147,7 +147,7 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 
 				public void performCreation( EditPart editPart )
 				{
-					DNDService.getInstance( ).performDrop( "DATA_AGG", //$NON-NLS-1$
+					DNDService.getInstance( ).performDrop( getTemplate( ), //$NON-NLS-1$
 							editPart,
 							DND.DROP_DEFAULT,
 							new DNDLocation( getLocation( ) ) );
