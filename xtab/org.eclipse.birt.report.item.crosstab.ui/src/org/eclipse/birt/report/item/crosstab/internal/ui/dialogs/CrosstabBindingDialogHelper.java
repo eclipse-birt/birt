@@ -1157,6 +1157,25 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					i++;
 				}
 			}
+			else if (isTimePeriod( ))
+			{
+				List rowLevelList = getCrosstabViewHandleLevels( xtabHandle,
+						ICrosstabConstants.ROW_AXIS_TYPE );
+				List columnLevelList = getCrosstabViewHandleLevels( xtabHandle,
+						ICrosstabConstants.COLUMN_AXIS_TYPE );
+				if (rowLevelList.size( ) != 0 && columnLevelList .size( ) == 0)
+				{
+					aggstr = (String)rowLevelList.get( rowLevelList.size( ) - 1 );
+				}
+				else if (rowLevelList.size( )==0 && columnLevelList.size( ) != 0 )
+				{
+					aggstr = (String)columnLevelList.get( columnLevelList.size( ) - 1 );
+				}
+				else if (rowLevelList.size( )!=0 && columnLevelList.size( ) != 0 )
+				{
+					aggstr = (String)rowLevelList.get( rowLevelList.size( ) - 1 ) + "," + (String)columnLevelList.get( columnLevelList.size( ) - 1 );
+				}
+			}
 			else if ( getDataItemContainer( ) instanceof AggregationCellHandle )
 			{
 				AggregationCellHandle cellHandle = (AggregationCellHandle) getDataItemContainer( );
