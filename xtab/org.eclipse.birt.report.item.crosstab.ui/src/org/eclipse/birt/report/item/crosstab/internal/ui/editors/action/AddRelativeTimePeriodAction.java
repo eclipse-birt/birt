@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -139,6 +140,10 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		}
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		if ( measureViewHandle == null )
+		{
+			return false;
+		}
+		if (DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) ))
 		{
 			return false;
 		}
