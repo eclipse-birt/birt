@@ -38,9 +38,9 @@ cube.error.datasetmiss=El cubo no se puede crear porque falta el conjunto de dat
 cube.jointColumnNotInLevels=La columna de combinación "{0}" no está definida como campo clave de ningún nivel en la dimensión "{1}".
 cube.unsupportedAggregationInBinding=La función TopN/BottomN al enlazar "{0}" no se admite en xTab.
 
-cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
-cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
-cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+cube.query.error.dimensionMiss="{0}" de dimensión no existe en el cubo.
+cube.query.error.levelMiss=El nivel con "{0}" de tipo tiempo no existe en "{1}" de dimensión con tiempo en cubo.
+cube.edge.error.levelMiss=Falta el nivel con "{0}" de tipo tiempo en la definición de consulta.
 
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
