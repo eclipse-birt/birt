@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -2690,32 +2690,68 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		if ( needExportReferredElement( refElement ) )
 		{
-			DesignElement newRefEelement = getCache( refElement );
-			if ( newRefEelement == null )
+			DesignElement newRefElement = getCache( refElement );
+			if ( newRefElement == null )
 			{
 				// if the element is a referencable styled element such as:
 				// Chart -> hostChart.
 
 				if ( refElement instanceof ReferencableStyledElement )
-					newRefEelement = visitExternalReferencableStyledElement(
+					newRefElement = visitExternalReferencableStyledElement(
 							(ReferencableStyledElement) refElement,
 							sourceElement );
 				else
-					newRefEelement = visitExternalElement( refElement );
+					newRefElement = visitExternalElement( refElement );
 			}
 
 			// if it is theme, newRefElement can be null.
 
-			if ( newRefEelement != null )
+			if ( newRefElement != null )
 				newElement.setProperty( propDefn, new ElementRefValue( null,
-						newRefEelement ) );
+						newRefElement ) );
 			else
 				newElement.setProperty( propDefn, new ElementRefValue( null,
 						refElement.getName( ) ) );
 		}
 		else
-			newElement.setProperty( propDefn, new ElementRefValue( value
-					.getLibraryNamespace( ), value.getName( ) ) );
+		{
+			setElementRefProperty( newElement, propDefn, value );
+		}
+	}
+	
+	protected void setElementRefProperty( 
+			DesignElement newElement, PropertyDefn propDefn,
+			ElementRefValue value )
+	{
+		boolean isDynamicLinkerChildren = false;
+		DesignElement e = value.getElement( );
+		while ( e != null )
+		{
+			if ( e instanceof Cube )
+			{
+				Cube containerCube = (Cube) e;
+				if ( containerCube.getDynamicExtendsElement( sourceDesign ) != null )
+				{
+					isDynamicLinkerChildren = true;
+					break;
+				}
+			}
+			e = e.getContainer( );
+		}
+
+		if ( !isDynamicLinkerChildren )
+		{
+			assert false;
+			newElement.setProperty(
+					propDefn,
+					new ElementRefValue( value.getLibraryNamespace( ), value
+							.getName( ) ) );
+		}
+		else
+		{
+			newElement.setProperty( propDefn,
+					new ElementRefValue( null, value.getName( ) ) );
+		}
 	}
 
 	/**
