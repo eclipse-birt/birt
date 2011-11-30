@@ -38,9 +38,9 @@ cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。
 cube.jointColumnNotInLevels=联接列“{0}”未定义为维“{1}”中任何级别的关键字字段。
 cube.unsupportedAggregationInBinding=xTab 中不支持绑定“{0}”中的 TopN/BottomN 函数。
 
-cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
-cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
-cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+cube.query.error.dimensionMiss=多维数据集中不存在维 "{0}"。
+cube.query.error.levelMiss=时间类型为 "{0}" 的级别不存在于多维数据集时间维 "{1}" 中。
+cube.edge.error.levelMiss=查询定义中缺少时间类型为 "{0}" 的级别。
 
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
@@ -101,3 +101,4 @@ timeFunction.PERIOD2.displayName = The second period
 timeFunction.N1.displayName = The fist N
 timeFunction.N2.displayName = The second N
  
+timeFunction.toolTip.to=To

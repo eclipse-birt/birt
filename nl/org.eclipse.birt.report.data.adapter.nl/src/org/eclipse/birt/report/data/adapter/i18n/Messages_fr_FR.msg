@@ -38,9 +38,9 @@ cube.error.datasetmiss=Le cube ne peut pas être créé car le jeu de données corre
 cube.jointColumnNotInLevels=La colonne jointe "{0}" n'est pas définie en tant que champ clé pour aucun niveau dans la dimension "{1}".
 cube.unsupportedAggregationInBinding=Fonction TopN/BottomN dans la liaison "{0}" non prise en charge dans xTab.
 
-cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
-cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
-cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+cube.query.error.dimensionMiss=La dimension "{0}" n'existe pas dans le cube.
+cube.query.error.levelMiss=Le niveau associé au type Heure "{0}" n'existe pas dans la dimension Heure du cube "{1}".
+cube.edge.error.levelMiss=Le niveau associé au type Heure "{0}" est manquant dans la définition de requête.
 
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
@@ -100,4 +100,5 @@ timeFunction.PERIOD1.displayName = The first period
 timeFunction.PERIOD2.displayName = The second period
 timeFunction.N1.displayName = The fist N
 timeFunction.N2.displayName = The second N
- 
+
+timeFunction.toolTip.to=To

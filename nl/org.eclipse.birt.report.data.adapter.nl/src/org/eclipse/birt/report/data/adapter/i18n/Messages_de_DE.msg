@@ -38,9 +38,9 @@ cube.error.datasetmiss=Der Quader kann nicht erstellt werden, da der zugehörige 
 cube.jointColumnNotInLevels=Verknüpfungsspalte '{0}' ist nicht als Schlüsselfeld einer Ebene in Dimension '{1}' definiert.
 cube.unsupportedAggregationInBinding=Funktion 'TopN/BottomN' in Bindung '{0}' wird in xTab nicht unterstützt.
 
-cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
-cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
-cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+cube.query.error.dimensionMiss=Dimension "{0}" ist nicht im Quader vorhanden.
+cube.query.error.levelMiss=Ebene mit Uhrzeitformat "{0}" ist im Quader für die zeitliche Dimension "{1}" nicht vorhanden.
+cube.edge.error.levelMiss=Ebene mit Uhrzeitformat "{0}" fehlt in Abfragedefinition.
 
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
@@ -101,3 +101,4 @@ timeFunction.PERIOD2.displayName = The second period
 timeFunction.N1.displayName = The fist N
 timeFunction.N2.displayName = The second N
  
+timeFunction.toolTip.to=To

@@ -38,9 +38,9 @@ cube.error.datasetmiss=ŠÖ˜A‚·‚éƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚ç‚È‚¢‚½‚ßAƒLƒ…[ƒu‚ğì¬‚Å‚
 cube.jointColumnNotInLevels=Œ‹‡—ñ "{0}" ‚ÍƒfƒBƒƒ“ƒVƒ‡ƒ“ "{1}" ‚Ì‚¢‚¸‚ê‚ÌƒŒƒxƒ‹‚ÌƒL[ƒtƒB[ƒ‹ƒh‚Æ‚µ‚Ä‚à’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 cube.unsupportedAggregationInBinding=ƒoƒCƒ“ƒh "{0}" ‚Ì TopN ‚Æ BottomN ŠÖ”‚ÍAxTab ‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
-cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
-cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
-cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+cube.query.error.dimensionMiss=ƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚ªƒLƒ…[ƒu‚É‘¶İ‚µ‚Ü‚¹‚ñB
+cube.query.error.levelMiss=ŠÔ‚Ìí—Ş‚ª "{0}" ‚ÌƒŒƒxƒ‹‚ªƒLƒ…[ƒu‚ÌŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“ "{1}" ‚É‘¶İ‚µ‚Ü‚¹‚ñB
+cube.edge.error.levelMiss=ŠÔ‚Ìí—Ş‚ª "{0}" ‚ÌƒŒƒxƒ‹‚ªƒNƒGƒŠ’è‹`‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
@@ -101,3 +101,4 @@ timeFunction.PERIOD2.displayName = The second period
 timeFunction.N1.displayName = The fist N
 timeFunction.N2.displayName = The second N
  
+timeFunction.toolTip.to=To

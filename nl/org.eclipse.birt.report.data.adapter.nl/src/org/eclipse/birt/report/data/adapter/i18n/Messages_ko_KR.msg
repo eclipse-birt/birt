@@ -38,9 +38,9 @@ cube.error.datasetmiss=관련된 데이터 집합이 없어 큐브를 생성할 수 없습니다.
 cube.jointColumnNotInLevels=조인 열 "{0}"이(가) 차원 "{1}"에 있는 수준의 키 필드로 정의되지 않았습니다.
 cube.unsupportedAggregationInBinding=바인딩 "{0}"의 TopN/BottomN 함수는 xTab에서 지원되지 않습니다.
 
-cube.query.error.dimensionMiss=Dimension "{0}" does not exist in cube.
-cube.query.error.levelMiss=Level with time type "{0}" does not exist in cube time dimension "{1}".
-cube.edge.error.levelMiss=Level with time type "{0}" is missing in query definition.
+cube.query.error.dimensionMiss=큐브에 차원 "{0}"이(가) 없습니다.
+cube.query.error.levelMiss=큐브 시간 차원 "{1}"에 시간 유형 "{0}"의 수준이 없습니다.
+cube.edge.error.levelMiss=시간 유형 "{0}"의 수준이 쿼리 정의에 누락되었습니다.
 
 timeFunction.CURRENT_QUARTER.name = Current Quarter 
 timeFunction.CURRENT_QUARTER.description = Calculate the specified metric for current quarter
@@ -100,4 +100,5 @@ timeFunction.PERIOD1.displayName = The first period
 timeFunction.PERIOD2.displayName = The second period
 timeFunction.N1.displayName = The fist N
 timeFunction.N2.displayName = The second N
- 
+
+timeFunction.toolTip.to=To
