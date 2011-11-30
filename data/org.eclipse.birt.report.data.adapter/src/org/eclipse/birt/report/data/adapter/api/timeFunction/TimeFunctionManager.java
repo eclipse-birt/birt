@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -573,13 +574,13 @@ public class TimeFunctionManager
 		{
 			desc = constructTimeFunctionToolTip( list.get( list.size( ) - 1 ),
 					list.get( 0 ),
-					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ) );
+					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ), locale );
 		}
 		else
 		{
 			desc = constructTimeFunctionToolTip( list.get( 0 ),
 					list.get( list.size( ) - 1 ),
-					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ) );
+					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ), locale );
 		}
 		
 		
@@ -587,25 +588,30 @@ public class TimeFunctionManager
 	}
 	
 	private static String constructTimeFunctionToolTip( TimeMember from,
-			TimeMember to, String funcName )
+			TimeMember to, String funcName, ULocale locale ) throws BirtException
 	{
 		StringBuffer result = new StringBuffer( "" );
 		result.append( funcName ).append( " ( " );
-		result.append( from.getMemberValue( )[0] )
-				.append( "-" )
-				.append( from.getMemberValue( )[1] )
-				.append( "-" )
-				.append( from.getMemberValue( )[2] );
+		result.append( getFormattedDateStringFromTimeMember( from, locale ) );
 		result.append( " " )
 				.append( Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_TO ) )
 				.append( " " );
-		result.append( to.getMemberValue( )[0] )
-				.append( "-" )
-				.append( to.getMemberValue( )[1] )
-				.append( "-" )
-				.append( to.getMemberValue( )[2] );
+		result.append( getFormattedDateStringFromTimeMember( to, locale ) );
 		result.append( " )" );
 		return result.toString( );
+	}
+	
+	private static String getFormattedDateStringFromTimeMember( TimeMember member, ULocale locale ) throws BirtException
+	{
+		Calendar calendar = Calendar.getInstance( locale );
+		calendar.clear( );
+		calendar.set( Calendar.YEAR, member.getMemberValue( )[0] );
+		calendar.set( Calendar.MONTH, member.getMemberValue( )[1]-1 );
+		calendar.set( Calendar.DAY_OF_MONTH, member.getMemberValue( )[2] );
+		java.sql.Date date = (java.sql.Date) DataTypeUtil.toSqlDate( calendar.getTime( ) );
+		DateFormatter formatter = new DateFormatter(locale);
+		
+		return formatter.format( date );
 	}
 	
 	private static String toLevelType( TimePeriodType timePeriodType )
