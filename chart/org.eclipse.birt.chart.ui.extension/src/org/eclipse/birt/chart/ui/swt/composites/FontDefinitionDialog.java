@@ -673,7 +673,8 @@ public class FontDefinitionDialog extends TrayDialog implements
 			selectAllToggleButtons( false );
 			( (Button) oSource ).setSelection( true );
 		}
-		else if ( e.widget == btnAlignmentAuto )
+		
+		if ( e.widget == btnAlignmentAuto )
 		{
 			if ( btnAlignmentAuto.getSelection( ) )
 			{

@@ -228,10 +228,21 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		if ( event.widget.equals( txtTitle ) )
 		{
-			getChart( ).getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( txtTitle.getText( ) );
+			if ( txtTitle.getText( ) == null
+					|| txtTitle.getText( ).trim( ).length( ) == 0 )
+			{
+				getChart( ).getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( null );
+			}
+			else
+			{
+				getChart( ).getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( txtTitle.getText( ) );
+			}
 		}
 		else if ( event.widget.equals( fdcFont ) )
 		{

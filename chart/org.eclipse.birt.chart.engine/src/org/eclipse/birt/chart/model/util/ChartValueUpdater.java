@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -48,10 +49,17 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 	 */
 	protected void revise(Chart eObj, Chart eRefObj )
 	{
-		// Revise Stock chart.
-		if ( hasStockSeries( eObj ) )
+		// This hasSeries array indicates if specific series type is contained in chart.
+		boolean[] hasSeries = hasSpecificSeries( eObj );
+		if ( hasSeries[0] ) // Value of index 0 indicates Stock series.
 		{
+			// Stock chart just supports default vertical orientation.
 			( (ChartWithAxes) eObj ).unsetOrientation( );
+		}
+		if ( hasSeries[1] ) // Value of index 1 indicates gantt series.
+		{
+			// Gantt chart just supports horizontal orientation.
+			( (ChartWithAxes) eObj ).setOrientation( Orientation.HORIZONTAL_LITERAL );
 		}
 		
 		// Revise axis title rotation.
@@ -64,8 +72,17 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		}
 	}
 
-	protected boolean hasStockSeries( Chart eObj )
+	/**
+	 * This method iterate chart series to check if it contains specific series type.
+	 * 
+	 * @param eObj
+	 * @return
+	 */
+	protected boolean[] hasSpecificSeries( Chart eObj )
 	{
+		boolean[] hasSeries = new boolean[]{
+				false, false
+		};
 		if ( eObj instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes)eObj;
@@ -75,15 +92,24 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 				{
 					for ( Series s: sd.getSeries( ) )
 					{
-						if( s instanceof StockSeries )
+						// Since it is forbidden that a chart contains both stock
+						// series and gantt series, so only one condition is meet,
+						// we will return directly. 
+						if ( !hasSeries[0] && s instanceof StockSeries )
 						{
-							return true;
+							hasSeries[0] = true;
+							return hasSeries;
+						}
+						else if ( !hasSeries[1] && s instanceof GanttSeries )
+						{
+							hasSeries[1] = true;
+							return hasSeries;
 						}
 					}
 				}
 			}
 		}
-		return false;
+		return hasSeries;
 	}
 	
 	protected void rotateAxesTitle( ChartWithAxes cwa )
