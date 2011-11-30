@@ -68,7 +68,7 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
 			Marker mk = itr.next( );
-			mk.setVisible( false );
+			mk.unsetVisible( );
 		}
 	}
 

@@ -122,7 +122,7 @@ public class ChartUIExtensionUtil
 			while ( iterTypes.hasNext( ) )
 			{
 				IChartType type = iterTypes.next( );
-				Series newSeries = type.getSeries( );
+				Series newSeries = type.getSeries( false );
 
 				if ( helper.canCombine( type, context ) )
 				{

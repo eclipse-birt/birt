@@ -9831,6 +9831,11 @@ public class BaseChartValueUpdater
 	 */
 	private Marker getValidMarkerRef( EObject obj, String attribute, int index )
 	{
+		if ( obj == null )
+		{
+			return null;
+		}
+
 		try
 		{
 			String methodName = "get"

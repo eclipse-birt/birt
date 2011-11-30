@@ -722,16 +722,11 @@ public class ChartUIUtil
 		// Now update overlay axis to set the properties that are
 		// different from
 		// the original
-		overlayAxis.setAligned( false );
-		overlayAxis.setSideBySide( false );
 		overlayAxis.setPrimaryAxis( false );
 		overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
 				null ) );
 		overlayAxis.setLabelPosition( Position.RIGHT_LITERAL );
 		overlayAxis.setTitlePosition( Position.RIGHT_LITERAL );
-		overlayAxis.getTitle( )
-				.getCaption( )
-				.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
 		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
 
 		// Retain the first series of the axis. Remove others
