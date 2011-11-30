@@ -313,6 +313,38 @@ public class TrailingTest extends BaseTestCase
 		checkOutputFile( );
 	}
 
+	public void testTrailing16( ) throws IOException
+	{
+		int[] values = new int[]{
+			2003
+		};
+		String[] types = new String[]{
+			TimeMember.TIME_LEVEL_TYPE_YEAR
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR,
+				-120 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+	
+	public void testTrailing17( ) throws IOException
+	{
+		int[] values = new int[]{
+			2003
+		};
+		String[] types = new String[]{
+			TimeMember.TIME_LEVEL_TYPE_YEAR
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR,
+				120 )
+				.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+	
 	private void printMembers( List<TimeMember> timeMembers )
 	{
 		String[] levelTypes;

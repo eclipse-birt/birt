@@ -122,7 +122,10 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 		// based on the calculateUnit.
 		if ( calculateUnit.equals( YEAR ) )
 		{
-			cal1.add( Calendar.YEAR, -Math.abs( offset ) / offset );
+			if (levelType.equals( YEAR ))
+			{
+				cal1.add( Calendar.YEAR, -Math.abs( offset ) / offset );
+			}
 		}
 		else if ( calculateUnit.equals( QUARTER ) )
 		{
