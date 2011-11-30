@@ -42,7 +42,6 @@ public class AllUtilTests
 		test.addTestSuite( XPathUtilTest.class );
 		test.addTestSuite( CopyUtilTest.class );
 		test.addTestSuite( ColumnBindingUtilTest.class );
-		test.addTestSuite( ReportDesignSerializerTest.class );
 		// add all test classes here
 
 		return test;
