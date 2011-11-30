@@ -2741,7 +2741,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		if ( !isDynamicLinkerChildren )
 		{
-			assert false;
 			newElement.setProperty(
 					propDefn,
 					new ElementRefValue( value.getLibraryNamespace( ), value
