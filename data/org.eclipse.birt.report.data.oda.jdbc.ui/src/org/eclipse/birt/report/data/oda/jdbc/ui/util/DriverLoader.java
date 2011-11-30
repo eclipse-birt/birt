@@ -153,7 +153,7 @@ public final class DriverLoader
             String connectionString, String jndiNameUrl, String userId,
             String password, String bidiFormatStr ) throws OdaException {
     	
-    	return testConnection(driverClassName, connectionString, jndiNameUrl,userId, password, null, new Properties( ) );
+    	return testConnection(driverClassName, connectionString, jndiNameUrl,userId, password, bidiFormatStr, new Properties( ) );
     }
     
 	public static boolean testConnection( String driverClassName,
