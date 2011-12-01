@@ -242,7 +242,7 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper.setExpressionProvider( expressionProvider );
 		dialogHelper.createContent( content );
-		UIUtil.bindHelp( content, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
+		UIUtil.bindHelp( content, isTimePeriod? IHelpContextIds.RELATIVE_TIME_PERIOD_DIALOG : IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
 		return content;
 	}
 
