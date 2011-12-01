@@ -1884,30 +1884,26 @@ public abstract class EngineTask implements IEngineTask
 	protected void updateOptions( )
 	{
 		Map appContext = getAppContext( );
-		ReportRunnable runnable = executionContext.getRunnable( );
-		if ( runnable != null )
+		ReportDesignHandle handle = executionContext.getReportDesign( );
+		if ( handle != null )
 		{
-			ReportDesignHandle handle = runnable.getReport( );
-			if ( handle != null )
+			Map options = handle.getOptions( );
+			Map newOptions = new HashMap( );
+			newOptions.putAll( options );
+			if ( !newOptions.isEmpty( ) )
 			{
-				Map options = handle.getOptions( );
-				Map newOptions = new HashMap( );
-				newOptions.putAll( options );
-				if ( !newOptions.isEmpty( ) )
+				Set keyset = newOptions.keySet( );
+				Iterator iter = keyset.iterator( );
+				while ( iter.hasNext( ) )
 				{
-					Set keyset = newOptions.keySet( );
-					Iterator iter = keyset.iterator( );
-					while ( iter.hasNext( ) )
+					Object key = iter.next( );
+					if ( appContext.containsKey( key ) )
 					{
-						Object key = iter.next( );
-						if ( appContext.containsKey( key ) )
-						{
-							newOptions.put( key, appContext.get( key ) );
-						}
+						newOptions.put( key, appContext.get( key ) );
 					}
 				}
-				handle.setOptions( newOptions );
 			}
+			handle.setOptions( newOptions );
 		}
 	}
 
