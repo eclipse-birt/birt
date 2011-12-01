@@ -258,7 +258,8 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	private String getReplacedExpressionText( String text, Map measureMap,
 			Map derivedMeasureMap, Map createdBindings ) throws DataException
 	{
-		List measureNames = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( text ),
+		List measureNames = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( text.substring( 1,
+				text.length( ) - 1 ) ),
 				ExpressionUtil.MEASURE_INDICATOR );
 
 		for ( int i = 0; i < measureNames.size( ); i++ )
