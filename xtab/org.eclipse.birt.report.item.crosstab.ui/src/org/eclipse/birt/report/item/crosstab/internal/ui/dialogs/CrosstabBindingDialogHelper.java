@@ -923,7 +923,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		if ( getBinding( ) == null )// create
 		{
-			setTypeSelect( dataTypes[0] );
+			if (cmbType.getSelectionIndex( ) < 0)
+			{
+				setTypeSelect( dataTypes[0] );
+			}
 			if ( isTimePeriod( ) )
 			{
 				this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
