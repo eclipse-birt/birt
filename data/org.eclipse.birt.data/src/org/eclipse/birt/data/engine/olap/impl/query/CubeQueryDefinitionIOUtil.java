@@ -18,6 +18,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -28,6 +29,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.BindingIOUtil;
 import org.eclipse.birt.data.engine.impl.document.ExprUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.CubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.DimensionDefinition;
@@ -106,7 +108,7 @@ public class CubeQueryDefinitionIOUtil
 			IOUtil.writeInt( dos, qd.getFilterOption( ) );
 			
 			//save bindings	
-			saveBindings( dos, qd.getBindings( ));
+			saveBindings( dos, qd.getBindings( ), VersionManager.getLatestVersion( ) );
 			
 			//save filters
 			saveFilters( dos, qd.getFilters( ));
@@ -124,9 +126,11 @@ public class CubeQueryDefinitionIOUtil
 			saveEdges( dos, qd );
 			
 			//save cube operations
-			saveCubeOperations( dos, qd.getCubeOperations( ) );
+			saveCubeOperations( dos, qd.getCubeOperations( ), VersionManager.getLatestVersion( ) );
 			
 			dos.flush( );
+
+			saveVersion( queryResultID, writer );
 		}
 		finally
 		{
@@ -137,6 +141,15 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
+	private static void saveVersion(  String queryResultID, IDocArchiveWriter writer ) throws IOException
+	{
+		RAOutputStream outputStream = writer.createRandomAccessStream( queryResultID + "_VERSION" );
+		DataOutputStream dos = new DataOutputStream( outputStream );
+		
+		IOUtil.writeInt( dos, VersionManager.getLatestVersion( ) );
+		dos.close( );
+	}
+	
 	/**
 	 * Loads {@code CubeQueryDefinition} instance from report document
 	 * @param queryResultID
@@ -145,12 +158,22 @@ public class CubeQueryDefinitionIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static ICubeQueryDefinition load( String queryResultID, IDocArchiveReader reader ) 
+	public static ICubeQueryDefinition load( String queryResultID,  DataEngineContext context ) 
 		throws DataException, IOException
 	{
 		DataInputStream dis = null;
+		IDocArchiveReader reader = context.getDocReader( );
+		
+		int version = 0;
 		try 
 		{
+			if( reader.exists( queryResultID + "_VERSION" ) )
+			{
+				RAInputStream inputStream = reader.getStream( queryResultID + "_VERSION" );
+				DataInputStream stream = new DataInputStream( inputStream );
+				version = IOUtil.readInt( stream );
+			}
+			
 			RAInputStream inputStream = reader.getStream( queryResultID + STREAM_FLAG );
 			dis = new DataInputStream( inputStream );
 			
@@ -162,7 +185,7 @@ public class CubeQueryDefinitionIOUtil
 			cqd.setFilterOption( IOUtil.readInt( dis ) );
 			
 			//load bindings
-			loadBindings( dis, cqd );
+			loadBindings( dis, cqd , version );
 			
 			//load filters
 			loadFilters( dis, cqd );
@@ -180,7 +203,7 @@ public class CubeQueryDefinitionIOUtil
 			loadEdges( dis, cqd );
 			
 			//load cube operations
-			loadCubeOperations( dis, cqd );
+			loadCubeOperations( dis, cqd, version );
 			
 			return cqd;
 		}
@@ -224,28 +247,28 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
-	private static void saveCubeOperations( DataOutputStream dos, ICubeOperation[] cos ) throws DataException, IOException
+	private static void saveCubeOperations( DataOutputStream dos, ICubeOperation[] cos, int version ) throws DataException, IOException
 	{
 		if ( writeSize( dos, cos ) > 0 )
 		{
 			for ( ICubeOperation co : cos )
 			{
-				saveCubeOperation( dos, co );
+				saveCubeOperation( dos, co, version );
 			}
 		}
 	}
 	
-	private static void loadCubeOperations( DataInputStream dis, ICubeQueryDefinition qd ) throws DataException, IOException
+	private static void loadCubeOperations( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
 		int size = IOUtil.readInt( dis );
 		for ( int i = 0; i < size; i++)
 		{
-			ICubeOperation co = loadCubeOperation( dis );
+			ICubeOperation co = loadCubeOperation( dis, version );
 			qd.addCubeOperation( co );
 		}
 	}
 	
-	private static void saveCubeOperation( DataOutputStream dos, ICubeOperation co ) throws DataException, IOException
+	private static void saveCubeOperation( DataOutputStream dos, ICubeOperation co, int version ) throws DataException, IOException
 	{
 		if ( co == null )
 		{
@@ -256,11 +279,11 @@ public class CubeQueryDefinitionIOUtil
 		if ( co instanceof AddingNestAggregations )
 		{
 			IOUtil.writeInt( dos, CUBE_OPERATION_FLAG_ADDING_NEST_AGGRS );
-			saveBindings( dos, Arrays.asList( co.getNewBindings( ) ));
+			saveBindings( dos, Arrays.asList( co.getNewBindings( ) ), version );
 		}
 	}
 	
-	private static ICubeOperation loadCubeOperation( DataInputStream dis ) throws DataException, IOException
+	private static ICubeOperation loadCubeOperation( DataInputStream dis, int version ) throws DataException, IOException
 	{
 		if ( !IOUtil.readBool( dis ) )
 		{
@@ -273,7 +296,7 @@ public class CubeQueryDefinitionIOUtil
 			IBinding[] bs = new IBinding[count];
 			for ( int i=0; i<count; i++ )
 			{
-				bs[i] = BindingIOUtil.loadBinding( dis );
+				bs[i] = BindingIOUtil.loadBinding( dis, version );
 			}
 			return new AddingNestAggregations( bs );
 		}
@@ -457,23 +480,23 @@ public class CubeQueryDefinitionIOUtil
 		return edf;
 	}
 	
-	private static void saveBindings( DataOutputStream dos, List<IBinding> bindings ) throws DataException, IOException
+	private static void saveBindings( DataOutputStream dos, List<IBinding> bindings, int version ) throws DataException, IOException
 	{
 		if ( writeSize( dos, bindings ) > 0 )
 		{
 			for ( IBinding b : bindings )
 			{
-				BindingIOUtil.saveBinding( dos, b );
+				BindingIOUtil.saveBinding( dos, b, version );
 			}
 		}
 	}
 	
-	private static void loadBindings( DataInputStream dis, ICubeQueryDefinition qd ) throws DataException, IOException
+	private static void loadBindings( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
 		int size = IOUtil.readInt( dis );
 		for ( int i = 0; i < size; i++)
 		{
-			IBinding b = BindingIOUtil.loadBinding( dis );
+			IBinding b = BindingIOUtil.loadBinding( dis, version );
 			qd.addBinding( b );
 		}
 	}
