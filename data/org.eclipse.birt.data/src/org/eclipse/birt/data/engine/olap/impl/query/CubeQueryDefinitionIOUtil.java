@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
@@ -122,6 +123,9 @@ public class CubeQueryDefinitionIOUtil
 			//save computed measures
 			saveComputedMeasures( dos, qd.getComputedMeasures( ) );
 			
+			//save calculated measures
+			saveCalculatedMeasures( dos, qd.getDerivedMeasures( ) );
+			
 			//save edges
 			saveEdges( dos, qd );
 			
@@ -139,6 +143,61 @@ public class CubeQueryDefinitionIOUtil
 				dos.close( );
 			}
 		}
+	}
+	
+	private static void saveCalculatedMeasures( DataOutputStream dos, List<IDerivedMeasureDefinition> derivedMeasures ) throws IOException, DataException
+	{
+		if ( writeSize( dos, derivedMeasures ) > 0 )
+		{
+			for ( IDerivedMeasureDefinition m : derivedMeasures )
+			{
+				saveCalculatedMeasure( dos, m );
+			}
+		}
+	}
+	
+	private static void loadCalculatedMeasures( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
+	{
+		if ( version < VersionManager.getLatestVersion( ) )
+			return;
+		int size = IOUtil.readInt( dis );
+		for ( int i = 0; i < size; i++)
+		{
+			IDerivedMeasureDefinition md = loadCaculatedMeasure( dis );
+			IMeasureDefinition md1 = qd.createDerivedMeasure( 
+					md.getName( ),
+					md.getDataType( ),
+					md.getExpression( ));
+			md1.setAggrFunction( md.getAggrFunction( ) );
+		}
+		
+	}
+	
+	private static void saveCalculatedMeasure( DataOutputStream dos,IDerivedMeasureDefinition m ) throws IOException, DataException
+	{
+		if ( m == null )
+		{
+			IOUtil.writeBool( dos, false );
+			return;
+		}
+		saveMeasure( dos, m );
+		IOUtil.writeInt( dos, m.getDataType( ) );
+		ExprUtil.saveBaseExpr( dos, m.getExpression( ) );
+	}
+	
+	private static IDerivedMeasureDefinition loadCaculatedMeasure( DataInputStream dis ) throws DataException, IOException
+	{
+		IMeasureDefinition md = loadMeasure( dis );
+		if ( md == null )
+		{
+			return null;
+		}
+		String name = md.getName( );
+		int type = IOUtil.readInt( dis );
+		IBaseExpression expr = ExprUtil.loadBaseExpr( dis );
+		IDerivedMeasureDefinition dmd = new DerivedMeasureDefinition( name, type, expr );
+		dmd.setAggrFunction( md.getAggrFunction( ) );
+		return dmd;
 	}
 	
 	private static void saveVersion(  String queryResultID, IDocArchiveWriter writer ) throws IOException
@@ -198,6 +257,9 @@ public class CubeQueryDefinitionIOUtil
 			
 			//load computed measures
 			loadComputedMeasures( dis, cqd );
+			
+			//load calculated measures
+			loadCalculatedMeasures( dis, cqd , version );
 			
 			//load edges
 			loadEdges( dis, cqd );
