@@ -1675,10 +1675,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					IMeasureDefinition md = query.createMeasure( measureNames.get( j )
 							.toString( ) );
-					if ( this.cubeHandleMap != null
-							&& this.cubeHandleMap.containsKey( query.getName( ) ) )
+					if ( this.cubeMetaDataHandleMap != null
+							&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
 					{
-						CubeHandle cubeHandle = (CubeHandle) this.cubeHandleMap.get( query.getName( ) );
+						CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
 						MeasureHandle measureHandle = cubeHandle.getMeasure( measureNames.get( j )
 								.toString( ) );
 						md.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) ) );
