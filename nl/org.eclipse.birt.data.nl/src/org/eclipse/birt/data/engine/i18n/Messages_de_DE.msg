@@ -413,8 +413,6 @@ data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Qua
 data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.
 data.olap.MissingDimensionInCube=Der Quader muss mindestens eine Dimension enthalten: '{0}'
 data.olap.ExceedIntegerLimit= The result set length exceeds Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
