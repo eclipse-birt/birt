@@ -1213,9 +1213,27 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 							.getFullName( );
 				}
 			}
+			String[] strs = aggstr.split( "," );//$NON-NLS-1$
+			String temAddOns = "";//$NON-NLS-1$
+			if (strs != null && strs.length > 1)
+			{
+				for (int i=strs.length-1; i>=0; i--)
+				{
+					temAddOns = temAddOns + strs[i];
+					if (i != 0)
+					{
+						temAddOns = temAddOns + ",";//$NON-NLS-1$
+					}
+				}
+			}
 			for ( int j = 0; j < aggOns.length; j++ )
 			{
 				if ( aggOns[j].equals( aggstr ) )
+				{
+					cmbAggOn.select( j );
+					return;
+				}
+				if ( aggOns[j].equals( temAddOns ) )
 				{
 					cmbAggOn.select( j );
 					return;
