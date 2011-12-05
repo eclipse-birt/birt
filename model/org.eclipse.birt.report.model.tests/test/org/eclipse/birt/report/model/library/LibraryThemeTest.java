@@ -390,14 +390,14 @@ public class LibraryThemeTest extends BaseTestCase
 		assertEquals( ColorPropertyType.NAVY, text1
 				.getProperty( Style.COLOR_PROP ) );
 
-		assertEquals( 1, listener.counter );
+		assertEquals( 2, listener.counter );
 
 		libraryHandle.getCommandStack( ).undo( );
 
 		assertEquals( ColorPropertyType.BLACK, text1
 				.getProperty( Style.COLOR_PROP ) );
 
-		assertEquals( 2, listener.counter );
+		assertEquals( 4, listener.counter );
 	}
 
 	/**
@@ -491,7 +491,7 @@ public class LibraryThemeTest extends BaseTestCase
 		assertNotNull( textSelector );
 
 		textSelector.getColor( ).setStringValue( ColorPropertyType.BLUE );
-		assertEquals( 1, listener.counter );
+		assertEquals( 2, listener.counter );
 
 		assertEquals( ColorPropertyType.BLUE, text1
 				.getProperty( Style.COLOR_PROP ) );

@@ -87,7 +87,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	protected IConnectionProfile getProfile( Properties connProperties ) 
 	    throws OdaException
 	{
-	    return loadProfileFromProperties( connProperties );
+	    return loadProfileFromProperties( connProperties, getAppContextMap() );
 	}
 	
 	protected void openJdbcConnection( Properties profileProperties ) throws OdaException
@@ -149,6 +149,22 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
     public static IConnectionProfile loadProfileFromProperties( Properties connProperties ) 
         throws OdaException
     {
+        return loadProfileFromProperties( connProperties, null );
+    }
+
+    /**
+     * Returns a connection profile based on the specified connection properties and application context.
+     * If a profile store file is specified, load the referenced profile instance from the profile store.
+     * Otherwise, create a transient profile instance if profile base properties are available.
+     * @param connProperties
+     * @param appContext
+     * @return  the loaded connection profile; may be null if properties are invalid or insufficient
+     * @throws OdaException
+     * @since 3.7.2
+     */
+    public static IConnectionProfile loadProfileFromProperties( Properties connProperties, Map<?,?> appContext )
+        throws OdaException
+    {
         // adjust the effective db profile properties to use for loading a profile
         connProperties = adjustDbProfileProperties( connProperties );
 
@@ -157,7 +173,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         // when connecting with the properties defined in a connection profile instance
         // (i.e. a profile instance uses its own jarList property)
         IConnectionProfile dbProfile =  OdaProfileExplorer.getInstance()
-                                            .getProfileByName( connProperties, null );
+                                            .getProfileByName( connProperties, appContext );
         if( dbProfile != null )
             return dbProfile;   // found referenced external profile instance
 

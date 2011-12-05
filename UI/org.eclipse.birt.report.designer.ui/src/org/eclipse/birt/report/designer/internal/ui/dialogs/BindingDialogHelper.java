@@ -111,7 +111,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String GROUP = Messages.getString( "BindingDialogHelper.text.Group" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
-	protected static final String ALLOW_EXPORT = Messages.getString( "BindingDialogHelper.text.allowExport" );
+	protected static final String ALLOW_EXPORT = Messages.getString( "BindingDialogHelper.text.allowExport" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME_ID = Messages.getString( "BindingDialogHelper.text.displayNameID" ); //$NON-NLS-1$
 
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
@@ -215,7 +215,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
 				{
 					e.detail = SWT.TRAVERSE_NONE;
-					openKeySelectionDialog( );
+					if ( btnDisplayNameID.isEnabled( ) )
+					{
+						openKeySelectionDialog( );
+					}
 				}
 			}
 		} );
@@ -1029,6 +1032,20 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		messageLine.setLayoutData( layoutData );
 	}
 
+	public void setMessage( String message )
+	{
+		this.messageLine.setText( message );
+		this.messageLine.setImage( null );
+	}
+
+	public void setErrorMessage( String message )
+	{
+		this.messageLine.setText( message );
+		this.messageLine.setImage( PlatformUI.getWorkbench( )
+				.getSharedImages( )
+				.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+	}
+
 	private void verifyInput( )
 	{
 		if ( isRef )
@@ -1069,19 +1086,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				if ( computedColumn.getName( ).equals( txtName.getText( ) ) )
 				{
 					dialog.setCanFinish( false );
-					this.messageLine.setText( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
+					setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.nameduplicate", //$NON-NLS-1$
 							new Object[]{
 								txtName.getText( )
 							} ) );
-					this.messageLine.setImage( PlatformUI.getWorkbench( )
-							.getSharedImages( )
-							.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
 					return;
 				}
 			}
 		}
-		this.messageLine.setText( "" ); //$NON-NLS-1$
-		this.messageLine.setImage( null );
+
+		setMessage( "" ); //$NON-NLS-1$
+
 		if ( txtExpression != null
 				&& ( txtExpression.getText( ) == null || txtExpression.getText( )
 						.trim( )
@@ -1125,6 +1140,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 									|| paramValue.trim( ).equals( "" ) ) //$NON-NLS-1$
 							{
 								dialog.setCanFinish( false );
+								setErrorMessage( Messages.getFormattedString( "BindingDialogHelper.error.empty", //$NON-NLS-1$
+										new String[]{
+											param.getDisplayName( )
+										} ) );
 								return;
 							}
 						}

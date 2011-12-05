@@ -31,7 +31,7 @@ public class ChartReportItemUIUtil
 	 * Creates chart filter factory instance according to specified item handle.
 	 * 
 	 * @param item
-	 * @return
+	 * @return filter factory
 	 * @throws ExtendedElementException
 	 */
 	public static ChartFilterFactory createChartFilterFactory( Object item )
@@ -43,22 +43,24 @@ public class ChartReportItemUIUtil
 		}
 		else if ( item instanceof IReportItem )
 		{
-			return createChartFilterFactory( (IReportItem) item);
+			return createChartFilterFactory( item );
 		}
 		return new ChartFilterFactory( );
 	}
-	
-	private static ChartFilterFactory getChartFilterFactory( IReportItem adaptableObj )
+
+	private static ChartFilterFactory getChartFilterFactory(
+			IReportItem adaptableObj )
 	{
-		ChartFilterFactory factory = ChartUtil.getAdapter(  adaptableObj, ChartFilterFactory.class );
+		ChartFilterFactory factory = ChartUtil.getAdapter( adaptableObj,
+				ChartFilterFactory.class );
 		if ( factory != null )
 		{
 			return factory;
 		}
-		
+
 		return new ChartFilterFactory( );
 	}
-	
+
 	/**
 	 * Returns the categories list in BIRT chart expression builder
 	 * 
@@ -116,6 +118,13 @@ public class ChartReportItemUIUtil
 					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
 					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
 		}
+		else if ( builderCommand == IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS_SIMPLE )
+		{
+			// Used for data cube case, no column bindings allowed
+			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_DATA_POINTS;
+		}
 		else if ( builderCommand == IUIServiceProvider.COMMAND_HYPERLINK_LEGEND )
 		{
 			// Add Legend item variables and remove column bindings
@@ -125,4 +134,5 @@ public class ChartReportItemUIUtil
 					| ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES;
 		}
 		return ChartExpressionProvider.CATEGORY_BASE;
-	}}
+	}
+}

@@ -184,8 +184,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 		double dX = lo.getX( ), dY = lo.getY( );
 		final FontDefinition fd = la.getCaption( ).getFont( );
 
-		final double dAngleInDegrees = fd.getRotation( );
-		final double dAngleInRadians = Math.toRadians( dAngleInDegrees );
+		final int dAngleInDegrees = (int)fd.getRotation( );
 
 		final Color clrBackground = (Color) _sxs.getColor( la.getShadowColor( ) );
 
@@ -210,126 +209,6 @@ final class SwtTextRenderer extends TextRendererAdapter
 					(int) dFW,
 					(int) dFH );
 		}
-		// TEXT AT POSITIVE ANGLE < 90 (TOP RIGHT HIGHER THAN TOP LEFT CORNER)
-		else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-		{
-			/**
-			 * y = kx + a; (x-x0)^2 + (y-y0)^2 = 2t^2
-			 */
-			double k = Math.tan( dAngleInRadians - Math.PI / 4d );
-			double a = dY - k * dX;
-
-			double k21 = k * k + 1;
-
-			double A = 2
-					* scaledThickness
-					* scaledThickness
-					/ k21
-					- ( ( a - dY ) * ( a - dY ) + dX * dX )
-					/ k21
-					+ ( ( k * a - k * dY - dX ) / k21 )
-					* ( ( k * a - k * dY - dX ) / k21 );
-
-			double sqa = Math.sqrt( A );
-			double ax = ( ( k * a - k * dY - dX ) / k21 );
-
-			double xx1 = sqa - ax;
-			double yy1 = k * xx1 + a;
-
-			double xx2 = -sqa - ax;
-			double yy2 = k * xx2 + a;
-
-			if ( xx1 > dX )
-			{
-				dX = xx1;
-				dY = yy1;
-			}
-			else
-			{
-				dX = xx2;
-				dY = yy2;
-			}
-
-			int[] iPolyCoordinates = new int[8];
-			// BLC
-			iPolyCoordinates[0] = (int) dX;
-			iPolyCoordinates[1] = (int) dY;
-			// BRC
-			iPolyCoordinates[2] = (int) ( dX + dFW * Math.cos( dAngleInRadians ) );
-			iPolyCoordinates[3] = (int) ( dY - dFW * Math.sin( dAngleInRadians ) );
-			// TRC
-			iPolyCoordinates[4] = (int) ( dX + dFH * Math.sin( dAngleInRadians ) + dFW
-					* Math.cos( dAngleInRadians ) );
-			iPolyCoordinates[5] = (int) ( dY + dFH * Math.cos( dAngleInRadians ) - dFW
-					* Math.sin( dAngleInRadians ) );
-			// TLC
-			iPolyCoordinates[6] = (int) ( dX + dFH * Math.sin( dAngleInRadians ) );
-			iPolyCoordinates[7] = (int) ( dY + dFH * Math.cos( dAngleInRadians ) );
-			// RENDER IT
-			gc.fillPolygon( iPolyCoordinates );
-		}
-		// TEXT AT NEGATIVE ANGLE > -90 (TOP RIGHT LOWER THAN TOP LEFT CORNER)
-		else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-		{
-			/**
-			 * y = kx + a; (x-x0)^2 + (y-y0)^2 = 2t^2
-			 */
-			double k = Math.tan( dAngleInRadians - Math.PI / 4d );
-			double a = dY - k * dX;
-
-			double k21 = k * k + 1;
-
-			double A = 2
-					* scaledThickness
-					* scaledThickness
-					/ k21
-					- ( ( a - dY ) * ( a - dY ) + dX * dX )
-					/ k21
-					+ ( ( k * a - k * dY - dX ) / k21 )
-					* ( ( k * a - k * dY - dX ) / k21 );
-
-			double sqa = Math.sqrt( A );
-			double ax = ( ( k * a - k * dY - dX ) / k21 );
-
-			double xx1 = sqa - ax;
-			double yy1 = k * xx1 + a;
-
-			double xx2 = -sqa - ax;
-			double yy2 = k * xx2 + a;
-
-			if ( yy1 > dY )
-			{
-				dX = xx1;
-				dY = yy1;
-			}
-			else
-			{
-				dX = xx2;
-				dY = yy2;
-			}
-
-			int[] iPolyCoordinates = new int[8];
-			// BLC
-			iPolyCoordinates[0] = (int) dX;
-			iPolyCoordinates[1] = (int) dY;
-			// BRC
-			iPolyCoordinates[2] = (int) ( dX + dFW * Math.cos( dAngleInRadians ) );
-			iPolyCoordinates[3] = (int) ( dY + dFW
-					* Math.abs( Math.sin( dAngleInRadians ) ) );
-			// TRC
-			iPolyCoordinates[4] = (int) ( dX
-					- dFH
-					* Math.abs( Math.sin( dAngleInRadians ) ) + dFW
-					* Math.cos( dAngleInRadians ) );
-			iPolyCoordinates[5] = (int) ( dY + dFH * Math.cos( dAngleInRadians ) + dFW
-					* Math.abs( Math.sin( dAngleInRadians ) ) );
-			// TLC
-			iPolyCoordinates[6] = (int) ( dX - dFH
-					* Math.abs( Math.sin( dAngleInRadians ) ) );
-			iPolyCoordinates[7] = (int) ( dY + dFH * Math.cos( dAngleInRadians ) );
-			// RENDER IT
-			gc.fillPolygon( iPolyCoordinates );
-		}
 		// TEXT AT POSITIVE 90 (TOP RIGHT HIGHER THAN TOP LEFT CORNER)
 		else if ( dAngleInDegrees == 90 )
 		{
@@ -345,6 +224,19 @@ final class SwtTextRenderer extends TextRendererAdapter
 					(int) ( dY + scaledThickness ),
 					(int) dFH,
 					(int) dFW );
+		}
+		else
+		{
+			Transform transform = new Transform( getDevice( ) );
+			transform.translate( (float) dX, (float) dY );
+			transform.rotate( -dAngleInDegrees );
+			gc.setTransform( transform );
+			gc.fillRectangle( (int) scaledThickness,
+					(int) scaledThickness,
+					(int) dFW,
+					(int) dFH );
+			transform.dispose( );
+			gc.setTransform( null );
 		}
 	}
 

@@ -33,7 +33,7 @@ public class Base64PropertyState extends CompatiblePropertyState
 	 * The base 64 codec.
 	 */
 
-	private static Base64 base = new Base64( );
+	private Base64 base = new Base64( );
 
 	/**
 	 * Charset of the string.

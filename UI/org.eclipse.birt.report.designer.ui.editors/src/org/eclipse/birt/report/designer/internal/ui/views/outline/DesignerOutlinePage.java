@@ -17,13 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
@@ -453,9 +454,15 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		// }
 		reportHandle.removeValidationListener( this );
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( )
-				.getMediator( reportHandle )
-				.removeColleague( getSelectionSynchronizer( ) );
+		ReportMediator mediator = SessionHandleAdapter.getInstance( )
+				.getMediator( reportHandle, false );
+		if(mediator != null)
+		{
+			mediator.removeColleague( getSelectionSynchronizer( ) );
+		}
+//		SessionHandleAdapter.getInstance( )
+//				.getMediator( reportHandle )
+//				.removeColleague( getSelectionSynchronizer( ) );
 	}
 
 	/**

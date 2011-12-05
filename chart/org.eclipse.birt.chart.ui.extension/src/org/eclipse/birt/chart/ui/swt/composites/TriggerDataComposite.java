@@ -1322,6 +1322,15 @@ public class TriggerDataComposite extends Composite implements
 		int type = this.triggerMatrix.getType( );
 		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
 		{
+			boolean useCube = wizardContext.getDataServiceProvider( )
+					.checkState( IDataServiceProvider.HAS_CUBE )
+					|| wizardContext.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY );
+			if ( useCube )
+			{
+				// Remove column bindings in data cube case
+				return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS_SIMPLE;
+			}
 			return IUIServiceProvider.COMMAND_HYPERLINK_DATAPOINTS;
 		}
 		if ( ( type & TriggerSupportMatrix.TYPE_LEGEND ) == TriggerSupportMatrix.TYPE_LEGEND )

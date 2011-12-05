@@ -100,11 +100,6 @@ public class ArchiveFileV3 implements IArchiveFile
 			entry.flush( );
 		}
 		fs.flush( );
-		// then refresh all the opened files
-		for ( ArchiveEntryV3 entry : openedEntries )
-		{
-			entry.refresh( );
-		}
 	}
 
 	public String getDependId( )
@@ -170,12 +165,6 @@ public class ArchiveFileV3 implements IArchiveFile
 
 	synchronized public void refresh( ) throws IOException
 	{
-		fs.refresh( );
-		// refresh all the opened files
-		for ( ArchiveEntryV3 entry : openedEntries )
-		{
-			entry.refresh( );
-		}
 	}
 
 	public boolean removeEntry( String name ) throws IOException
@@ -208,75 +197,13 @@ public class ArchiveFileV3 implements IArchiveFile
 		assert ( locker instanceof Ext2Entry );
 	}
 
-	protected void openEntry( ArchiveEntryV3 entry )
+	synchronized protected void openEntry( ArchiveEntryV3 entry )
 	{
 		openedEntries.add( entry );
 	}
 
-	protected void closeEntry( ArchiveEntryV3 entry )
+	synchronized protected void closeEntry( ArchiveEntryV3 entry )
 	{
 		openedEntries.remove( entry );
-	}
-
-	private static class ArchiveEntryV3 extends ArchiveEntry
-	{
-
-		ArchiveFileV3 archive;
-		Ext2File file;
-
-		ArchiveEntryV3( ArchiveFileV3 archive, Ext2File file )
-		{
-			this.archive = archive;
-			this.file = file;
-			this.archive.openEntry( this );
-		}
-
-		public String getName( )
-		{
-			return file.getName( );
-		}
-
-		protected long _getLength( ) throws IOException
-		{
-			return file.length( );
-		}
-
-		public void close( ) throws IOException
-		{
-			archive.closeEntry( this );
-			file.close( );
-		}
-
-		@Override
-		protected void _flush( ) throws IOException
-		{
-		}
-
-		@Override
-		public int read( long pos, byte[] b, int off, int len )
-				throws IOException
-		{
-			file.seek( pos );
-			return file.read( b, off, len );
-		}
-
-		@Override
-		protected void _refresh( ) throws IOException
-		{
-		}
-
-		@Override
-		protected void _setLength( long length ) throws IOException
-		{
-			file.setLength( length );
-		}
-
-		@Override
-		public void write( long pos, byte[] b, int off, int len )
-				throws IOException
-		{
-			file.seek( pos );
-			file.write( b, off, len );
-		}
 	}
 }

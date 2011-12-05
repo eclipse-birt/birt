@@ -38,6 +38,9 @@ public class FontHandler
 	/** the style of the font, should be BOLD, ITALIC, BOLDITALIC or NORMAL */
 	private int fontStyle = Font.NORMAL;
 
+	/** the font weight from 100-900. 400 is NORMAL, and 700 is bold */
+	private int fontWeight = 400;
+
 	/** the font-size property */
 	private float fontSize = 0f;
 
@@ -80,14 +83,16 @@ public class FontHandler
 			fontFamilies[i] = families.item( i ).getCssText( );
 		}
 
+		this.fontWeight = PropertyUtil.parseFontWeight( style
+				.getProperty( StyleConstants.STYLE_FONT_WEIGHT ) );
+
 		if ( CSSConstants.CSS_OBLIQUE_VALUE.equals( style.getFontStyle( ) ) ||
 				CSSConstants.CSS_ITALIC_VALUE.equals( style.getFontStyle( ) ) )
 		{
 			this.fontStyle |= Font.ITALIC;
 		}
 
-		if ( PropertyUtil.isBoldFont( style
-				.getProperty( StyleConstants.STYLE_FONT_WEIGHT ) ) )
+		if ( PropertyUtil.isBoldFont( fontWeight ) )
 		{
 			this.fontStyle |= Font.BOLD;
 		}
@@ -140,7 +145,7 @@ public class FontHandler
 	 */
 	public FontInfo getFontInfo( )
 	{
-		return new FontInfo( bf, fontSize, fontStyle, simulation );
+		return new FontInfo( bf, fontSize, fontStyle, fontWeight, simulation );
 	}
 
 	public boolean isFontChanged( )
@@ -269,33 +274,37 @@ public class FontHandler
 	 */
 	private boolean needSimulate( BaseFont font )
 	{
-		if ( fontStyle != Font.NORMAL )
+		if ( fontStyle == Font.NORMAL )
 		{
-			String[][] fullNames = bf.getFullFontName( );
-			String fullName = getEnglishName( fullNames );
-			String lcf = fullName.toLowerCase( );
-			
-			int fs = Font.NORMAL;
-			if ( lcf.indexOf( "bold" ) != -1 )
+			return false;
+		}
+
+		String[][] fullNames = bf.getFullFontName( );
+		String fullName = getEnglishName( fullNames );
+		String lcf = fullName.toLowerCase( );
+
+		int fs = Font.NORMAL;
+		if ( lcf.indexOf( "bold" ) != -1 )
+		{
+			fs |= Font.BOLD;
+		}
+		if ( lcf.indexOf( "italic" ) != -1 || lcf.indexOf( "oblique" ) != -1 )
+		{
+			fs |= Font.ITALIC;
+		}
+		if ( ( fontStyle & Font.BOLDITALIC ) == fs )
+		{
+			if ( fontWeight > 400 && fontWeight != 700 )
 			{
-				fs |= Font.BOLD;
-			}
-			if ( lcf.indexOf( "italic" ) != -1
-					|| lcf.indexOf( "oblique" ) != -1 )
-			{
-				fs |= Font.ITALIC;
-			}
-			if ( ( fontStyle & Font.BOLDITALIC ) == fs )
-			{
-				return false;
+				// not a regular bold font.
+				return true;
 			}
 			else
 			{
-				return true;
+				return false;
 			}
-
 		}
-		return false;
+		return true;
 	}
 
 	/**

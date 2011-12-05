@@ -14,6 +14,7 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.EOFException;
 import java.io.IOException;
 
+import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
@@ -29,6 +30,16 @@ public class ArchiveEntryInputStream extends RAInputStream
 	private ArchiveEntry entry;
 
 	/**
+	 * buffer used to read the int/long
+	 */
+	private byte[] buffer;
+	private int buffer_size;
+	private int buffer_offset;
+
+	/** the current input position */
+	private long offset;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param fs
@@ -39,6 +50,10 @@ public class ArchiveEntryInputStream extends RAInputStream
 	ArchiveEntryInputStream( ArchiveEntry entry )
 	{
 		this.entry = entry;
+		this.offset = 0;
+		this.buffer = new byte[4096];
+		this.buffer_size = 0;
+		this.buffer_offset = 0;
 	}
 
 	public void close( ) throws IOException
@@ -63,7 +78,15 @@ public class ArchiveEntryInputStream extends RAInputStream
 	 */
 	public int read( ) throws IOException
 	{
-		return entry.read( );
+		if ( buffer_offset >= buffer_size )
+		{
+			refreshBuffer( );
+			if ( buffer_offset >= buffer_size )
+			{
+				return -1;
+			}
+		}
+		return buffer[buffer_offset++] & 0xff;
 	}
 
 	public int available( ) throws IOException
@@ -78,7 +101,7 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public long getOffset( ) throws IOException
 	{
-		return entry.getPosition( );
+		return offset + buffer_offset;
 	}
 
 	public long length( ) throws IOException
@@ -100,25 +123,89 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public int read( byte b[], int off, int len ) throws IOException
 	{
-		return entry.read( b, off, len );
+		// we need first read from the cache
+		if ( buffer_offset < buffer_size )
+		{
+			int size = buffer_size - buffer_offset;
+			if ( size > len )
+			{
+				size = len;
+			}
+			System.arraycopy( buffer, buffer_offset, b, off, size );
+			buffer_offset += size;
+			return size;
+		}
+		offset += buffer_offset;
+		buffer_offset = 0;
+		buffer_size = 0;
+		int size = entry.read( offset, b, off, len );
+		if ( size != -1 )
+		{
+			offset += size;
+		}
+		return size;
 	}
 
 	public int readInt( ) throws IOException
 	{
-		return entry.readInt( );
+		if ( buffer_offset + 4 > buffer_size )
+		{
+			refreshBuffer( );
+			if ( buffer_offset + 4 > buffer_size )
+			{
+				throw new EOFException( );
+			}
+		}
+		int v = ArchiveUtil.bytesToInteger( buffer, buffer_offset );
+		buffer_offset += 4;
+		return v;
 	}
 
 	public long readLong( ) throws IOException
 	{
-		return entry.readLong( );
+		if ( buffer_offset + 8 > buffer_size )
+		{
+			refreshBuffer( );
+			if ( buffer_offset + 8 > buffer_size )
+			{
+				throw new EOFException( );
+			}
+		}
+		long v = ArchiveUtil.bytesToLong( buffer, buffer_offset );
+		buffer_offset += 8;
+		return v;
+	}
+
+	private void refreshBuffer( ) throws IOException
+	{
+		if ( buffer_offset < buffer_size )
+		{
+			System.arraycopy( buffer, buffer_offset, buffer, 0, buffer_size
+					- buffer_offset );
+			offset += buffer_offset;
+			buffer_size = buffer_size - buffer_offset;
+			buffer_offset = 0;
+		}
+		else
+		{
+			offset += buffer_size;
+			buffer_size = 0;
+			buffer_offset = 0;
+		}
+		int readSize = entry.read( offset + buffer_size, buffer, buffer_size, buffer.length
+				- buffer_size);
+		if ( readSize != -1 )
+		{
+			buffer_size += readSize;
+		}
 	}
 
 	public void refresh( ) throws IOException
 	{
-		if ( entry != null )
-		{
-			entry.refresh( );
-		}
+		offset += buffer_offset;
+		buffer_offset = 0;
+		buffer_size = 0;
+		entry.refresh( );
 	}
 
 	public void seek( long localPos ) throws IOException
@@ -133,10 +220,18 @@ public class ArchiveEntryInputStream extends RAInputStream
 		if ( localPos >= entry.getLength( ) )
 		{
 			throw new EOFException(
-					CoreMessages
-							.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
+					CoreMessages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
 		}
-		entry.seek( localPos );
-		return;
+
+		if ( localPos < offset || localPos > offset + buffer_size )
+		{
+			offset = localPos;
+			buffer_size = 0;
+			buffer_offset = 0;
+			return;
+		}
+
+		buffer_offset = (int) ( localPos - offset );
 	}
+
 }

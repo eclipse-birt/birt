@@ -56,4 +56,10 @@ public class EngineConstants {
 	 * user's request parameter.
 	 */
 	public static final String APPCONTEXT_URL_PARAM_FORMAT_KEY = "URL_PARAM_FORMAT"; //$NON-NLS-1$
+	
+	/**
+	 * this option is used to control refreshing data. If this option is set to True, the original datasource should be ignore.
+	 * the default value is false;
+	 */
+	public static final String REFRESH_DATA = "REFRESH_DATA";
 }

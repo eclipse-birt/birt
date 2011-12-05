@@ -696,11 +696,11 @@ public class PeerExtensionTest extends BaseTestCase
 
 		style.setBorderLeftStyle( DesignChoiceConstants.LINE_STYLE_DOTTED );
 
-		assertEquals( 1, styleEventListener.getEventCount( ) );
+		assertEquals( 2, styleEventListener.getEventCount( ) );
 
 		style.setStringProperty( StyleHandle.COLOR_PROP, ColorPropertyType.RED );
 
-		assertEquals( 2, styleEventListener.getEventCount( ) );
+		assertEquals( 4, styleEventListener.getEventCount( ) );
 	}
 
 	/**

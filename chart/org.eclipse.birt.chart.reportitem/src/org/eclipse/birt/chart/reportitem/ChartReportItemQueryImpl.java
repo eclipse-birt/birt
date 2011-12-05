@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
@@ -106,6 +107,13 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		IDataQueryDefinition idqd = createQuery( eih, parent );
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.end" ) ); //$NON-NLS-1$
+
+		// Set push down flag into query.
+		if ( idqd instanceof IQueryDefinition )
+		{
+			( (IQueryDefinition) idqd ).getQueryExecutionHints( )
+					.setEnablePushDown( eih.pushDown( ) );
+		}
 
 		return new IDataQueryDefinition[]{
 			idqd

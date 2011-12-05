@@ -87,7 +87,7 @@ AbstractReportComponent.prototype =
 			    {
 			        window.execScript( scripts[i].innerHTML );
 			    }
-			    else if ( window.eval && ( BrowserUtility.__isSafari() || BrowserUtility.__isOpera() ) )
+			    else if ( window.eval )
 			    {
 			    	with( window )
 			    	{

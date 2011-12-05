@@ -248,6 +248,7 @@ public class ExcelLayoutEngine
 		if ( currentContainer == null )
 		{
 			addContainer( null );
+			tables.push( null );
 			return;
 		}
 		ContainerSizeInfo sizeInfo = currentContainer.getSizeInfo( );

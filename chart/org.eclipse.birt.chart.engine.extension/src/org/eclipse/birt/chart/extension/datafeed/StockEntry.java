@@ -177,7 +177,7 @@ public final class StockEntry implements IDataPointEntry
 			}
 			else
 			{
-				str = ValueFormatter.format( new Double( dClose ),
+				str = ValueFormatter.format( new Double( dValue ),
 						formatter,
 						locale,
 						null );

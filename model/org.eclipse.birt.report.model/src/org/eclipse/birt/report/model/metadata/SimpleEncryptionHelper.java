@@ -31,7 +31,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 	 */
 	static final public String ENCRYPTION_ID = "base64"; //$NON-NLS-1$
 
-	static final private Base64 codec = new Base64( );
+	final private Base64 codec = new Base64( );
 
 	private static final SimpleEncryptionHelper instance = new SimpleEncryptionHelper( );
 

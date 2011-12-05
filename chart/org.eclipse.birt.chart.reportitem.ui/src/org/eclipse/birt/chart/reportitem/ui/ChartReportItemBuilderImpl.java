@@ -671,6 +671,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		{
 			case COMMAND_HYPERLINK :
 			case COMMAND_HYPERLINK_DATAPOINTS :
+			case COMMAND_HYPERLINK_DATAPOINTS_SIMPLE :
 			case COMMAND_HYPERLINK_LEGEND :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE

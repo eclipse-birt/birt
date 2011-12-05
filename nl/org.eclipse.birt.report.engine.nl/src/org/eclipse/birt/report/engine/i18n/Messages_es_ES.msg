@@ -130,3 +130,6 @@ Error.ResourceNotAccessible = {0} no es accesible.
 
 ###########################################################
 Error.ElementID = ID del elemento
+
+###########################################################
+Message.TaskCancel = La tarea se ha cancelado.

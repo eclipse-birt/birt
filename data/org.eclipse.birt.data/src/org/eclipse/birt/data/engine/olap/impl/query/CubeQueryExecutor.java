@@ -166,7 +166,8 @@ public class CubeQueryExecutor
 	
 	private SimpleLevelFilter createSimpleLevelFilter( IFilterDefinition filter, List bindings )
 	{
-		if( ! ( filter instanceof CubeFilterDefinition ) )
+		if ( !( filter instanceof CubeFilterDefinition )
+				|| ( (CubeFilterDefinition) filter ).getAxisQualifierValues( ) != null )
 			return null;
 			
 		IBaseExpression expr = (( CubeFilterDefinition )filter).getExpression( );

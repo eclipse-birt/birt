@@ -13,8 +13,11 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.birt.core.archive.RAOutputStream;
 
 public class ArchiveView implements IArchiveFile
 {
@@ -22,6 +25,7 @@ public class ArchiveView implements IArchiveFile
 	private boolean sharedArchive = false;
 	private IArchiveFile view = null;
 	private IArchiveFile archive = null;
+	private HashSet<ViewEntry> openedEntries = new HashSet<ViewEntry>( );
 
 	public ArchiveView( IArchiveFile view, IArchiveFile archive,
 			boolean sharedArchive )
@@ -47,18 +51,29 @@ public class ArchiveView implements IArchiveFile
 		this.sharedArchive = true;
 	}
 
-	public void close( ) throws IOException
+	synchronized public void close( ) throws IOException
 	{
 		try
 		{
-			if ( !sharedArchive )
+			for ( ViewEntry entry : openedEntries )
 			{
-				archive.close( );
+				entry.doClose( );
 			}
+			openedEntries.clear( );
 		}
 		finally
 		{
-			view.close( );
+			try
+			{
+				if ( !sharedArchive )
+				{
+					archive.close( );
+				}
+			}
+			finally
+			{
+				view.close( );
+			}
 		}
 	}
 
@@ -135,28 +150,52 @@ public class ArchiveView implements IArchiveFile
 		return archive.getSystemId( );
 	}
 
+	synchronized protected void openEntry( ViewEntry entry )
+	{
+		openedEntries.add( entry );
+	}
+
+	synchronized protected void closeEntry( ViewEntry entry )
+	{
+		openedEntries.remove( entry );
+	}
+
 	static class ViewEntry extends ArchiveEntryAdapter
 	{
 
-		IArchiveFile view;
-		boolean writable;
+		protected ArchiveView view;
+		protected boolean writable;
 
-		ViewEntry( IArchiveFile view, String name, ArchiveEntry entry )
+		ViewEntry( ArchiveView view, String name, ArchiveEntry entry )
 		{
 			super( name, entry );
 			writable = false;
 			this.view = view;
+			view.openEntry( this );
 		}
 
-		protected void _setLength( long length ) throws IOException
+		public void close( ) throws IOException
 		{
-			ensureWritable( );
-			entry.setLength( length );
+			view.closeEntry( this );
+			doClose( );
 		}
 
-		protected void _flush( ) throws IOException
+		private void doClose( ) throws IOException
+        {
+	        super.close( );
+        }
+
+		protected void setOutputStream( RAOutputStream output )
 		{
-			ensureWritable( );
+			this.output = output;
+		}
+
+		public void flush( ) throws IOException
+		{
+			if ( output != null )
+			{
+				output.flush( );
+			}
 			entry.flush( );
 		}
 
@@ -167,12 +206,19 @@ public class ArchiveView implements IArchiveFile
 			entry.write( pos, b, off, len );
 		}
 
-		void ensureWritable( ) throws IOException
+		protected void ensureWritable( ) throws IOException
 		{
 			if ( !writable )
 			{
-				ArchiveEntry viewEntry = view.createEntry( entryName );
-				copyEntry( entry, viewEntry );
+				ArchiveEntry viewEntry = view.createEntry( entry.getName( ) );
+				try
+				{
+					copyEntry( entry, viewEntry );
+				}
+				finally
+				{
+					entry.close( );
+				}
 				entry = viewEntry;
 				writable = true;
 			}
@@ -198,8 +244,13 @@ public class ArchiveView implements IArchiveFile
 		return view.createEntry( name );
 	}
 
-	public void flush( ) throws IOException
+	synchronized public void flush( ) throws IOException
 	{
+		// first flush all the ext2 files
+		for ( ViewEntry entry : openedEntries )
+		{
+			entry.flush( );
+		}
 		view.flush( );
 	}
 

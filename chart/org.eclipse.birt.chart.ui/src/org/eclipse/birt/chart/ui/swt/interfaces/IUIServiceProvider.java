@@ -114,6 +114,12 @@ public interface IUIServiceProvider
 	public static final int COMMAND_HYPERLINK_LEGEND = 8;
 
 	/**
+	 * Constant indicating a builder to input hyper-link for data points but raw
+	 * data expression not allowed.
+	 */
+	public static final int COMMAND_HYPERLINK_DATAPOINTS_SIMPLE = 10;
+
+	/**
 	 * This method will be used by the Chart Builder UI to invoke the expression
 	 * builder with any previously defined expression. The parameter may be null
 	 * if a new expression is to be built.
@@ -180,7 +186,7 @@ public interface IUIServiceProvider
 	 * 
 	 * @param command
 	 * @param inData
-	 * @return
+	 * @return any objects that caller needs
 	 * @throws ChartException
 	 */
 	public Object invoke( Command command, Object... inData )

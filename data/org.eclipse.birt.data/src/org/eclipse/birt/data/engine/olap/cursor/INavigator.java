@@ -147,13 +147,6 @@ public interface INavigator
 	 * @return
 	 */
 	public int getType( );
-	
-	/**
-	 * Set fetch limit size
-	 * 
-	 * @param arg0
-	 */
-	public void setFetchSize( int arg0 ) throws OLAPException;
 
 	/**
 	 * Get the OLAP Warnings

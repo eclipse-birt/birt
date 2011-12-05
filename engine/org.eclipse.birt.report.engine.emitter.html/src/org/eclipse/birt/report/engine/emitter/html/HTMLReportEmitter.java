@@ -1470,7 +1470,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.attribute( "cellpadding", "0" );
 		writer.attribute( "rules", "none" );
-		styleBuffer.append( "empty-cells: show;" ); //$NON-NLS-1$
+		styleBuffer.append( "empty-cells: show; border-collapse:collapse;" ); //$NON-NLS-1$
 
 		if ( page != null && outputMasterPageContent )
 		{

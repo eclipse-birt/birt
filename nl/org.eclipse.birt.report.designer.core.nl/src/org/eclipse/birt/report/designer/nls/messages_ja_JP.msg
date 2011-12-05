@@ -1495,8 +1495,8 @@ ExportToCPSouceAction.action.text=接続プロファイルへの外部化(&O)...
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryElementsToolHandleExtends_message=要素には明示的にデータセットが指定されていないローカルバインドが含まれているため、実行時にパフォーマンスが低下する場合があります。 パフォーマンスを向上するためローカルバインドを親に移動しますか ?
-LibraryElementsToolHandleExtends_question=プロンプト
-LibraryElementsToolHandleExtends_toggle=&Remember my decision
+LibraryElementsToolHandleExtends_question=パフォーマンスを向上させるためにローカルバインドを親に移動しますか ?
+LibraryElementsToolHandleExtends_toggle=次回から同じ設定を使う(&R)
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=アウトラインビューへドラッグ＆ドロップ
 LibraryExplorerTreeViewPage.toolTips.DragAndDropLayout=レイアウトエディタへドラッグ＆ドロップ
 LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=アウトラインビューまたはレイアウトエディタへドラッグ＆ドロップ
@@ -4328,7 +4328,7 @@ PublishLibraryDialog.TitleArea=ライブラリの共有
 PublishLibraryDialog.Message=共有リソースフォルダにライブラリをコピーします。
 PublishLibraryDialog.Label.SourceFileName=ソースファイル(&S) :
 PublishLibraryDialog.Label.FileName=ファイル名(&N) :
-PublishLibraryDialog.Label.Folder=フォルダ(&F) :
+PublishLibraryDialog.Label.Folder=フォルダ(&D):
 PublishLibraryDialog.Label.Browse=参照(&B)...
 PublishLibraryDialog.Message.FileNameEmpty=ファイル名を指定してください。
 PublishLibraryDialog.Message.FileNameError=ファイル名の拡張子は、.rptlibrary にしてください。
@@ -4730,10 +4730,10 @@ GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
 GeneralConfigurationBlock.group.label=確認する
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
-GeneralConfigurationBlock.move.binding.group=Move local bindings to parent for better performance
-GeneralConfigurationBlock.move.binding.always=Al&ways
-GeneralConfigurationBlock.move.binding.never=Ne&ver
-GeneralConfigurationBlock.move.binding.prompt=P&rompt
+GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
+GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
+GeneralConfigurationBlock.move.binding.never=続行しない(&V)
+GeneralConfigurationBlock.move.binding.prompt=確認メッセージを表示する(&R)
 
 
 ###########################################################

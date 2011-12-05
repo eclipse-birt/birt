@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import javax.olap.OLAPException;
+
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -37,7 +40,7 @@ import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
  * another is no breakHierarchy. For the first one, we just use MemberTreeNode
  * for those axis who is not mirrored. For the second case, we just map all
  * members into one search tree
- * 
+ *
  */
 public class MirroredAggregationResultSet implements IAggregationResultSet
 {
@@ -45,18 +48,19 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 	private IAggregationResultSet rs = null;
 	private int mirrorLevel;
 	private int length = 0, position = -1, nodeLength, valueMapLength;
+	private long predictLength = 0;
 	private boolean breakHierarchy = false;
 	private Object[] resultObject;
 	private MemberTreeNode rootNode;
 	private List sortList;
-	
+
 	private List[] breakHierarchyList;
 	private Map valueMap;
 	private boolean isTimeMirror = false;
 	private MirrorMetaInfo service;
-	
+
 	public MirroredAggregationResultSet( IAggregationResultSet rs,
-			MirrorMetaInfo service, List sortList ) throws IOException
+			MirrorMetaInfo service, List sortList ) throws IOException, OLAPException
 	{
 		this.mirrorLevel = service.getMirrorStartPosition( );
 		this.breakHierarchy = service.isBreakHierarchy( );
@@ -99,9 +103,9 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			this.length = nodeLength * valueMapLength;
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param levelIndex
 	 * @return
 	 */
@@ -149,7 +153,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		MemberTreeNode child;
 		Object[] preValue = new Object[rs.getLevelCount( )];
 		Object[] currValue = new Object[rs.getLevelCount( )];
-		
+
 		final int sortType = this.getSortTypeOnMirroredLevel( this.mirrorLevel );
 		if ( sortType != IDimensionSortDefn.SORT_UNDEFINED )
 		{
@@ -181,7 +185,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 				else
 					currValue[j] = null;
 			}
-			
+
 			for ( int j = 0; j < this.mirrorLevel; j++ )
 			{
 				if ( !isEqualObject( preValue[j], currValue[j] ) )
@@ -214,7 +218,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					}
 				}
 			}
-			
+
 			Member mirrorMember = new Member( );
 			mirrorMember.setKeyValues( new Object[]{
 				currValue[this.mirrorLevel]
@@ -313,14 +317,14 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 				}
 
 			}
-			
+
 
 			for ( int k = 0; k < rs.getLevelCount( ); k++ )
 			{
 				preValue[k] = currValue[k];
 			}
 		}
-		
+
 		int level = mirrorLevel + 1;
 		List nodeList1 = new ArrayList( );
 		nodeList1.addAll( valueMap.values( ) );
@@ -365,7 +369,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 		}
 	}
 
-	private void populateMirror( ) throws IOException
+	private void populateMirror( ) throws IOException, OLAPException
 	{
 		MemberTreeNode parent;
 		MemberTreeNode child;
@@ -434,6 +438,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			}
 		}
 		this.length = getLength( this.rootNode );
+		this.predictLength = this.length;
 		for ( int k = 0; k < breakHierarchyList.length; k++ )
 		{
 			final int sortType = getSortTypeOnMirroredLevel( k + mirrorLevel );
@@ -450,10 +455,15 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 					}
 				} );
 			}
-			this.length *= breakHierarchyList[k].size( );
+			this.predictLength *= breakHierarchyList[k].size( );
+			if ( this.predictLength > Integer.MAX_VALUE )
+			{
+				throw new OLAPException( ResourceConstants.RESULT_LENGTH_EXCEED_LIMIT );
+			}
+			this.length = (int)predictLength;
 		}
 	}
-	
+
 	private int getSortTypeOnMirroredLevel( int level )
 	{
 		return this.findAggregationSort( level );
@@ -467,7 +477,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			length++;
 			return length;
 		}
-		
+
 		for ( int i = 0; i < node.childNodesList.size( ); i++ )
 		{
 			MemberTreeNode child = (MemberTreeNode) node.childNodesList.get( i );
@@ -708,11 +718,11 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			int nodePos = (int) Math.floor( (double) index
 					/ (double) this.valueMapLength );
 			int remainder = index % this.valueMapLength;
-			
+
 			MemberTreeNode node = findOuterMostChild( this.rootNode,
 					nodePos + 1,
 					0 );
-			
+
 			Iterator iter = this.valueMap.entrySet( ).iterator( );
 			int currentLength = 0;
 			MemberTreeNode findNode = null;
@@ -750,7 +760,7 @@ public class MirroredAggregationResultSet implements IAggregationResultSet
 			}
 		}
 	}
-	
+
 	private MemberTreeNode findOuterMostChild( MemberTreeNode node, int index,
 			int startIndex )
 	{

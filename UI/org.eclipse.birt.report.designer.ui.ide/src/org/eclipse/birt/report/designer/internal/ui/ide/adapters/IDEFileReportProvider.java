@@ -449,6 +449,9 @@ public class IDEFileReportProvider implements IReportProvider
 		{
 			return new Path( ( (IURIEditorInput) input ).getURI( ).getPath( ) );
 		}
+		if (input instanceof IFileEditorInput) {
+			return ((IFileEditorInput) input).getFile( ).getLocation( );
+}
 		return null;
 	}
 

@@ -17,7 +17,6 @@ class ArchiveEntryV1 extends ArchiveEntry
 {
 
 	protected ArchiveFileV1 af;
-	protected String name;
 	protected long start;
 	protected long end;
 	protected long length;
@@ -25,8 +24,8 @@ class ArchiveEntryV1 extends ArchiveEntry
 	ArchiveEntryV1( ArchiveFileV1 af, String name, long start, long length )
 			throws IOException
 	{
+		super( name );
 		this.af = af;
-		this.name = name;
 		this.start = start;
 		this.length = length;
 	}
@@ -35,28 +34,14 @@ class ArchiveEntryV1 extends ArchiveEntry
 	{
 	}
 
-	public String getName( )
-	{
-		return name;
-	}
-
-	protected long _getLength( ) throws IOException
+	public long getLength( ) throws IOException
 	{
 		return length;
 	}
 
-	protected void _setLength( long length ) throws IOException
+	public void setLength( long length ) throws IOException
 	{
 		throw new IOException( "" );
-	}
-
-	protected void _flush( ) throws IOException
-	{
-		throw new IOException( "" );
-	}
-
-	protected void _refresh( ) throws IOException
-	{
 	}
 
 	public int read( long pos, byte[] b, int off, int len ) throws IOException

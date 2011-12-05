@@ -37,15 +37,15 @@ public class ResourceConstants
 
 	public final static String MISSING_DATASOURCE_EXT_ID = "data.engine.DataSourceMissingExtId";
 	public final static String STARTING_GROUP_VALUE_CANNOT_BE_NULL = "data.engine.NullGroupStart";
-	
+
 	public final static String RESULT_CLOSED = "data.engine.ResultClosed";
 	public final static String NO_CURRENT_ROW = "data.engine.NoCurrentRow";
 	public final static String INVALID_JS_EXPR = "data.engine.InvalidJSExpr";
 	public final static String INVALID_TOTAL_NAME = "data.engine.InvalidTotalFuncName";
 	public final static String INVALID_TOTAL_EXPRESSION = "data.engine.InvalidTotalFunc";
 	public final static String INVALID_CALL_AGGR = "data.engine.NoAggrFunc";
-	public final static String INVALID_EXPR_HANDLE = "data.engine.InvalidExprHandle";	
-	
+	public final static String INVALID_EXPR_HANDLE = "data.engine.InvalidExprHandle";
+
 	public final static String INVALID_KEY_COLUMN = "data.engine.InvalidSortKeyColumn";
 	public final static String INVALID_GROUP_LEVEL = "data.engine.InvalidGroupLevel";
 	public final static String INVALID_GROUP_KEY_COLUMN = "data.engine.InvalidGroupKeyName";
@@ -66,9 +66,9 @@ public class ResourceConstants
 	public final static String DUPLICATE_ALIAS_NAME = "data.engine.DupAlias";
 	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
 	public final static String FAIL_PREPARE_EXECUTION = "data.engine.fail.prepareExecution";
-	
+
 	public final static String MATCH_ERROR = "data.engine.MatchError";
-	
+
 	public final static String SCIRPT_FUNCTION_EXECUTION_FAIL = "data.engine.FailToExecuteScript";
 	public final static String EXPECT_BOOLEAN_RETURN_TYPE = "data.engine.BadFetchScriptReturnType";
 	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
@@ -82,17 +82,17 @@ public class ResourceConstants
 	public final static String INVALID_TOP_BOTTOM_ARGUMENT="data.engine.InvalidTopBottomArgument";
 	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT="data.engine.InvalidTopBottomNArgument";
 	public final static String INVALID_TOP_BOTTOM_PERCENT_ARGUMENT="data.engine.InvalidTopBottomPercentArgument";
-	
+
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";
-	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
+	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";
 	public final static String AGGREGATION_ARGUMENT_CANNOT_BE_BLANK = "data.engine.AggregationBinding.EmptyArgument";
-			
+
 	public final static String INVALID_JOIN_TYPE="data.engine.InvalidJoinType";
 	public final static String INVALID_JOIN_OPERATOR="data.engine.InvalidJoinOperator";
 	public final static String NAMED_PARAMETER_NOT_FOUND  = "data.engine.BadDataSetParamName";
 	public final static String FAIL_COMPUTE_OUTPUT_PARAMETER_VALUE  = "data.engine.FailComputeOutputParameterValue";
 	public final static String Linked_REPORT_PARAM_ALLOW_MULTI_VALUES = "data.engine.LinkedReportParamAllowMultiValues";
-	
+
 	// column binding
 	public final static String EMPTY_BINDING_NAME = "data.engine.EmptyBindingName";
 	public final static String INVALID_BOUND_COLUMN_NAME = "data.engine.InvalidBoundColumnName";
@@ -109,31 +109,31 @@ public class ResourceConstants
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	public final static String COMPUTED_COLUMN_CYCLE = "data.engine.ComputedColumnCycle";
-	
+
 	// Data Type of computed column is not correct
 	public final static String FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN= "data.engine.CompCol.FailRetrieveValueComputedColumn";
 	public final static String WRONG_SYSTEM_COMPUTED_COLUMN= "data.engine.ScriptResult.WrongSystemComputedColumn";
-	
+
 	public final static String SORT_ON_AGGR = "data.engine.SortOnAggregation";
-	
+
 	// invalid expression
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";
 	public final static String INVALID_DEFINITION_IN_FILTER = "data.engine.BadFilterDefn";
 	public final static String BAD_GROUP_EXPRESSION = "data.engine.BadGroupExpr";
 	public final static String FILTER_EXPR_CONTAIN_ROW_NUM = "data.engine.filterExprContainRowNum";
 	public final static String SORT_EXPR_CONTAIN_ROW_NUM = "data.engine.sortExprContainRowNum";
-	
+
 	// clob and blob
 	public final static String CLOB_OPEN_ERROR = "data.engine.opencloberror";
 	public final static String CLOB_READ_ERROR = "data.engine.readcloberror";
 	public final static String BLOB_OPEN_ERROR = "data.engine.openbloberror";
 	public final static String BLOB_READ_ERROR = "data.engine.readbloberror";
-	
+
 	// resultsetcache exception
 	public final static String DESTINDEX_OUTOF_RANGE = "data.engine.BadDestIndex";
 	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";
 	public final static String READ_TEMPFILE_ERROR = "data.engine.ReadTempError";
-	
+
 	//resultiterator cache exception
 	public final static String CREATE_CACHE_TEMPFILE_ERROR = "data.engine.CreateCacheTempError";
 	public final static String OPEN_CACHE_TEMPFILE_ERROR = "data.engine.OpenCacheTempError";
@@ -142,22 +142,22 @@ public class ResourceConstants
 	public final static String CLOSE_CACHE_TEMPFILE_ERROR = "data.engine.CloseCacheTempError";
 	public final static String FAIL_LOAD_COLUMN_VALUE = "data.engine.FailedLoadColumnValue";
 	public final static String FAIL_LOAD_CLASS = "data.engine.FailedLoadClass";
-	
-	
+
+
 	// data engine factory exception
 	public final static String LOAD_FACTORY_ERROR = "load.factory.error";
-	
+
 	// wrapped error
 	public final static String DATATYPEUTIL_ERROR = "data.engine.DataConversionError";
 	public final static String BAD_COMPARE_EXPR = "data.engine.BadCompareExpr";
 	public final static String BAD_COMPARE_SINGLE_WITH_MULITI = "data.engine.BadCompareSingleValueWithMultiValues";
 	public final static String WRAPPED_BIRT_EXCEPTION = "data.engine.BirtException";
-	
+
 	// data set cache error
 	public final static String DATASETCACHE_SAVE_ERROR = "data.engine.datasetcache.save.error";
 	public final static String DATASETCACHE_LOAD_ERROR = "data.engine.datasetcache.load.error";
 	public final static String EXCEED_MAX_DATA_OBJECT_ROWS = "data.engine.exceed.max.data.object.row";
-	
+
 	// error related with data engine context
 	public final static String RD_INVALID_MODE = "data.engine.InvalidMode";
 	public final static String RD_INVALID_ARCHIVE = "data.engine.InvalidArchive";
@@ -169,17 +169,17 @@ public class ResourceConstants
 	public final static String RD_EXPR_INVALID_ERROR = "data.engine.InValidExpr";
 	public final static String RD_EXPR_RESULT_SET_NOT_START = "data.engine.ResultSetNotStart";
 	public final static String RD_GET_LEVEL_MEMBER_ERROR = "data.engine.GetLevelMemberError";
-	
+
 	public final static String INVALID_ROW_INDEX = "data.engine.invalidRowIndex";
 	public final static String BACKWARD_SEEK_ERROR = "data.engine.backwardSeekError";
 	public final static String START_ERROR = "data.engine.startError";
-	
+
 	// query running based on report document
 	public final static String RD_INVALID_FILTER = "data.engine.rd.errorfilters";
-	
+
 	// other error
 	public final static String SCRIPT_EVAL_ERROR = "data.engine.ScriptEvalError";
-	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";	
+	public final static String PREPARED_QUERY_CLOSED = "data.engine.PreparedQueryClosed";
 	public final static String DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL = "data.engine.NullDefaultInParamValue";
 	public final static String INVALID_GROUP_EXPR = "data.engine.BadGroupKeyExpr";
 	public final static String GROUP_NOT_EXIST = "data.engine.GroupNotExist";
@@ -200,8 +200,8 @@ public class ResourceConstants
 	public static final String BAD_DATA_EXPRESSION="data.engine.BadDataExpression";
 	public static final String INVALID_AGGR_BINDING_EXPRESSION = "data.engine.aggregation.InvalidBindingExpression";
 	public static final String INVALID_EXPRESSION="data.engine.InvalidExpression";
-	
-	
+
+
 	public static final String CACHE_FUNCTION_WRONG_MODE="data.engine.cacheFunctionWrongMode";
 	public static final String INDEX_ARRAY_INVALID="data.engine.document.invalidIndexArray";
 	public static final String GROUP_ITEM_INCORRECT="data.engine.document.invalidGroupItem";
@@ -223,14 +223,14 @@ public class ResourceConstants
 	public final static String RESULT_SET_EMPTY = "data.engine.emptyResultSet";
 	public final static String ERROR_HAPPEN_WHEN_RETRIEVE_RESULTSET = "data.engine.errorHappenWhenRetrieveResultSet";
 	public final static String INVALID_AGGREGATION_BINDING_FOR_PLS = "data.engine.invalidAggregationBindingForPLSReport";
-	
+
 	public final static String DATASET_NOT_ACCESSIBLE = "data.engine.acl.dataSetCannotBeAccessed";
 	public final static String DATASET_COLUMN_CANNOT_ACCESS = "data.engine.acl.dataSetColumnCannotBeAccessed";
 	public final static String CUBE_CANNOT_ACCESS = "data.engine.acl.cubeCannotBeAccessed";
 	public final static String CUBE_LEVEL_CANNOT_ACCESS = "data.engine.acl.cubeLevelCannotBeAccessed";
 	public final static String CUBE_MEASURE_CANNOT_ACCESS = "data.engine.acl.cubeMeasureCannotBeAccessed";
 	public final static String CUBE_DIMENSION_CANNOT_ACCESS = "data.engine.acl.cubeDimensionCannotBeAccessed";
-	
+
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -381,7 +381,7 @@ public class ResourceConstants
 	public final static String NONEXISTENT_KEY_OR_ATTR = "data.olap.NonexistentKeyOrAttr";
 	public final static String UNSUPPORTED_FUNCTION = "data.olap.UnsupportedFunction";
 	public static final String INVALID_AGGR_TYPE_ON_MEASURE = "data.olap.InvalidAggrTypeOnMeasure";
-	
+
 	public final static String REFERENCED_BINDING_NOT_EXIST = "data.olap.referencedBindingNotExist";
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_DIMENSION = "data.olap.invalidBindingReferToInexitDim";
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_MEASURE = "data.olap.invalidBindingReferToInexitMeasure";
@@ -396,36 +396,40 @@ public class ResourceConstants
 	public static final String CUBE_QUERY_NO_CUBE_BINDING = "data.olap.query.noCubeBinding";
 	public static final String FAIL_LOAD_CUBE = "data.olap.FailLoadCube";
 	public static final String MISSING_DIMENSION_IN_CUBE = "data.olap.MissingDimensionInCube";
-	
+
 	public final static String CONFIG_FILE_PARSER_MODE_FAIL = "data.executor.configFileParser.getModeByID";
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_FORMAT_FAIL = "data.executor.configFileParser.getTSFormatByID";
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_COLUMN_FAIL = "data.executor.configFileParser.getTimeStampColumnByID";
 	public final static String CONFIG_FILE_PARSER_QUERYTEXT_FAIL = "data.executor.configFileParser.getQueryTextByID";
 	public final static String CONFIG_FILE_PARSER_PARAMETERS_FORMAT_FAIL = "data.executor.configFileParser.getParametersByID";
-	
+
 	public final static String AGGREGATION_EXPRESSION_DISPLAY_NAME = "data.aggregation.expression.displayName";
 	public static final String AGGREGATION_ARGUMENT_ERROR = "data.aggregation.argumentError";
-	
+
 	public final static String UNSPECIFIED_BINDING_NAME = "data.olap.UnspecifiedBindingName";
 	public final static String NOT_NEST_AGGREGATION_BINDING = "data.olap.NotNestAggregationBinding";
 	public final static String INVALID_NEST_AGGREGATION_EXPRESSION = "data.olap.InvalidNestAggregationExpression";
 	public final static String INVALID_NEST_AGGREGATION_ON="data.olap.InvalidNestAggregationOn";
 	public final static String INVALID_AGGREGATION_FILTER_EXPRESSION="data.olap.InvalidAggregationFilterExpr";
+
+	public final static String RESULT_LENGTH_EXCEED_LIMIT="data.olap.ExceedIntegerLimit";
+	public final static String RESULT_LENGTH_EXCEED_COLUMN_LIMIT="data.olap.ExceedColumnLimit";
+	public final static String RESULT_LENGTH_EXCEED_ROW_LIMIT="data.olap.ExceedRowLimit";
 	
 	//derived dataSet
 	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
 	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";
 	public final static String JOIN_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.JoinQueryTextParseError";
-	
+
 	public final static String ILLEGAL_CLASS_INSTANCE_ERROR = "data.derivedDataSet.illegalClassInstance";
 	public final static String CLASS_LODA_ERROR = "data.derivedDataSet.classLoadError";
 	public final static String CALCULATOR_NOT_EXIST = "data.derivedDataSet.calculatorNotExist";
 	public final static String INVALID_QUERY_TEXT = "data.derivedDataSet.invalidQueryText";
-	
+
 	//data mart data source
 	public final static String FAIL_LOAD_DATAOBJECT_DATASET= "data.datamart.failLoadDataSet";
 	public final static String ORIGINAL_DATASET_NOT_EXIST= "data.datamart.originalDataSetNotExist";
 	public final static String INCREMENTAL_DATASET_HAS_ERROR_METADATA= "data.datamart.incrementalDatasetMetaDataError";
-	
-	
+
+
 }

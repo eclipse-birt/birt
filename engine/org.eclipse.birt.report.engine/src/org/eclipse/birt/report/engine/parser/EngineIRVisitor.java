@@ -358,6 +358,8 @@ public class EngineIRVisitor extends DesignVisitor
 			report.setOnPageStart( onPageStartScript );
 		}
 
+		report.setJavaClass( handle.getEventHandlerClass( ) );
+
 		PageSetupDesign pageSetup = new PageSetupDesign( );
 		SlotHandle pageSlot = handle.getMasterPages( );
 		for ( int i = 0; i < pageSlot.getCount( ); i++ )

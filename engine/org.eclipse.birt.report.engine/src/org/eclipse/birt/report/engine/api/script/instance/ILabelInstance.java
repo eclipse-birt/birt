@@ -14,6 +14,16 @@ public interface ILabelInstance extends IReportItemInstance
 	void setText( String value );
 	
 	/**
+	 * Get the text key
+	 */
+	String getTextKey( );
+
+	/**
+	 * Set the text key
+	 */
+	void setTextKey( String key );
+
+	/**
 	 * Create a new action instance, witch can be bookmark, hyperlink or
 	 * drillThrough. The default action instance type is NULL.
 	 */

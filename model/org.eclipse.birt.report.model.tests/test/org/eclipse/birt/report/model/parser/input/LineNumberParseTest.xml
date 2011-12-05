@@ -472,5 +472,13 @@ from CLASSICMODELS.OFFICES</property>
             </property>
             <property name="dataSet">Data Set</property>
         </tabular-cube>
-    </cubes>    
+    </cubes>
+    <property name="pageVariables">
+        <variable-element name="report">
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="page">
+            <property name="type">page</property>
+        </variable-element>
+    </property>
 </report>

@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2009, 2010 Actuate Corporation.
+ * Copyright (c) 2009, 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,9 +24,9 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.consumer.services.impl.ProviderUtil;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
+import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 import org.eclipse.datatools.connectivity.oda.spec.ValueExpression;
-import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification.ParameterIdentifier;
 import org.eclipse.datatools.connectivity.oda.spec.manifest.ExtensionContributor;
 import org.eclipse.datatools.connectivity.oda.spec.manifest.ResultExtensionExplorer;
 import org.eclipse.datatools.connectivity.oda.spec.result.AggregateExpression;
@@ -36,6 +36,7 @@ import org.eclipse.datatools.connectivity.oda.spec.result.ResultSetSpecification
 import org.eclipse.datatools.connectivity.oda.spec.result.SortSpecification;
 import org.eclipse.datatools.connectivity.oda.spec.util.QuerySpecificationHelper;
 import org.eclipse.datatools.connectivity.oda.spec.util.ValidatorUtil;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 
 /**
  * Internal helper class to locate the appropriate ODA QuerySpecification factory and 
@@ -153,6 +154,23 @@ public class QuerySpecHelper
         
         // gets the effective connection properties to set in the validation context
         Properties effectiveProps = getEffectiveProperties( connProperties, appContext );
+
+        // if a set of effective properties was provided successfully,
+        // update the profile store file path property with the
+        // full path of the resolved profile store file, if referenced;
+        // so the QuerySpecification can use the effective properties directly, and
+        // no need to resolve the profile store file path again
+        if( effectiveProps != null && ! effectiveProps.equals( connProperties ) )
+        {
+            String profileStoreResolvedPath =
+                effectiveProps.getProperty( ConnectionProfileProperty.TRANSIENT_PROFILE_STORE_RESOLVED_PATH_PROP_KEY );
+            if( profileStoreResolvedPath != null && profileStoreResolvedPath.length() > 0 )
+            {
+                effectiveProps.setProperty( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY,
+                        profileStoreResolvedPath );
+            }
+        }
+
         if( validationContext.getConnection() != null )
             validationContext.getConnection().setProperties( effectiveProps );
         else
