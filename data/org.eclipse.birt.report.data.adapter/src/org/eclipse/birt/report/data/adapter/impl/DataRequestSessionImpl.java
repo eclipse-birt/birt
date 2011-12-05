@@ -66,11 +66,13 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.CubeCreationQueryDefinition;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.MemoryUsageSetting;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -1626,6 +1628,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Map appContext ) throws BirtException
 	{
 		refactorCubeQueryDefinition( query );
+		populateMeasureDefinitionForCalculateMeasures( query );
 		setMeasureDataTypeForCubeQuery ( query );
 		QueryAdapter.adaptQuery( query );
 		
@@ -1641,6 +1644,48 @@ public class DataRequestSessionImpl extends DataRequestSession
 		setModuleHandleToAppContext( appContext );
 
 		return this.dataEngine.prepare( query, appContext );
+	}
+	
+	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws DataException, AdapterException
+	{
+		List calculatedMeasures = query.getDerivedMeasures( );
+		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
+			return;
+		List measures = query.getMeasures( );
+		List measureNameList = new ArrayList( );
+		for ( int i = 0; i < measures.size( ); i++ )
+		{
+			measureNameList.add( ( (IMeasureDefinition) measures.get( i ) ).getName( ));
+		}
+		List derivedMeasureNameList = new ArrayList();
+		for ( int i = 0 ; i < calculatedMeasures.size( );i++)
+		{
+			derivedMeasureNameList.add( ( (IDerivedMeasureDefinition) calculatedMeasures.get( i ) ).getName( ) );
+		}
+		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
+		{
+			IDerivedMeasureDefinition dmd = (IDerivedMeasureDefinition) calculatedMeasures.get( i );
+			List measureNames = ExpressionCompilerUtil.extractColumnExpression( dmd.getExpression( ),
+					ExpressionUtil.MEASURE_INDICATOR );
+			for ( int j = 0; j < measureNames.size( ); j++ )
+			{
+				if ( !measureNameList.contains( measureNames.get( j ).toString( ) )
+						&& !derivedMeasureNameList.contains( measureNames.get( j )
+								.toString( ) ) )
+				{
+					IMeasureDefinition md = query.createMeasure( measureNames.get( j )
+							.toString( ) );
+					if ( this.cubeHandleMap != null
+							&& this.cubeHandleMap.containsKey( query.getName( ) ) )
+					{
+						CubeHandle cubeHandle = (CubeHandle) this.cubeHandleMap.get( query.getName( ) );
+						MeasureHandle measureHandle = cubeHandle.getMeasure( measureNames.get( j )
+								.toString( ) );
+						md.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) ) );
+					}
+				}
+			}
+		}
 	}
 	
 	private void setMeasureDataTypeForCubeQuery( ICubeQueryDefinition query )
