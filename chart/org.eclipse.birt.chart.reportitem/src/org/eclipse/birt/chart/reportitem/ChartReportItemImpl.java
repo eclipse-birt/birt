@@ -89,7 +89,8 @@ import com.ibm.icu.util.ULocale;
 /**
  * ChartReportItemImpl
  */
-public final class ChartReportItemImpl extends ReportItem implements
+@SuppressWarnings("unchecked")
+public class ChartReportItemImpl extends ReportItem implements
 		IChartReportItem,
 		ICompatibleReportItem,
 		IResourceFinder,
@@ -114,7 +115,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	private transient boolean bCopied = false;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	static
 	{
@@ -551,7 +552,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 		};
 	}
 
-	@SuppressWarnings("unchecked")
 	public IMethodInfo[] getMethods( String scriptName )
 	{
 		if ( scriptName != null
@@ -741,7 +741,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void checkScriptSyntax( String string ) throws RhinoException
 	{
 		if ( string == null )
@@ -1117,5 +1116,4 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 		return availableBindings.iterator( );
 	}
-
 }

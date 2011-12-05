@@ -488,7 +488,7 @@ public class InitialValueProvider
 		return null;
 	}
 
-	private static SeriesDefinition createDefaultSeriesDefinition(
+	protected static SeriesDefinition createDefaultSeriesDefinition(
 			int paletteShift )
 	{
 		SeriesDefinition sd = SeriesDefinitionImpl.createDefault( );

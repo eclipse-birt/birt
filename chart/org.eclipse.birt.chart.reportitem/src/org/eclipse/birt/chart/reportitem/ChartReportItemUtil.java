@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
+import org.eclipse.birt.chart.reportitem.api.IChartReportItem;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -67,7 +68,6 @@ import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.core.runtime.IAdapterManager;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -306,6 +306,17 @@ public class ChartReportItemUtil extends ChartItemUtil
 		return factory.createCubeEvaluator( cm, set );
 	}
 
+	public static IChartReportItem instanceChartReportItem( ExtendedItemHandle handle )
+	{
+		IChartReportItemFactory factory = getAdapter( handle,
+				IChartReportItemFactory.class );
+		if ( factory == null )
+		{
+			factory = baseFactory;
+		}
+		return factory.createChartReportItem( handle );
+	}
+	
 	/**
 	 * Checks if shared scale is needed when computation
 	 * 
