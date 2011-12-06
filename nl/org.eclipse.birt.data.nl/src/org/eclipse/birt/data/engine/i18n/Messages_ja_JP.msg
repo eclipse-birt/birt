@@ -412,6 +412,8 @@ data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含め
 data.olap.query.noCubeBinding=キューブのバインドが使用できないため、キューブクエリを実行できませんでした。
 data.olap.FailLoadCube=キューブを読み込めません : "{0}"
 data.olap.MissingDimensionInCube=キューブ "{0}" には少なくとも 1 つのディメンジョンが必要です。
+data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
+data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code
