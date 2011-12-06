@@ -1650,8 +1650,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws DataException, AdapterException
 	{	
 		List calculatedMeasures = query.getDerivedMeasures( );
-		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
-			return;
 		List measures = query.getMeasures( );
 		List measureNameList = new ArrayList( );
 		for ( int i = 0; i < measures.size( ); i++ )
@@ -1689,6 +1687,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				}
 			}
 		}
+		
+		calculatedMeasures = query.getDerivedMeasures( );
+		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
+			return;
 		
 		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
 		{
