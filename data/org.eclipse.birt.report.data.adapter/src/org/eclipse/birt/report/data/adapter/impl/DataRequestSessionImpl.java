@@ -96,6 +96,7 @@ import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -1647,7 +1648,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 	
 	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws DataException, AdapterException
-	{
+	{	
 		List calculatedMeasures = query.getDerivedMeasures( );
 		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
 			return;
@@ -1662,6 +1663,33 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			derivedMeasureNameList.add( ( (IDerivedMeasureDefinition) calculatedMeasures.get( i ) ).getName( ) );
 		}
+		
+		//populate all calculated measure in cube query.
+		if ( this.cubeMetaDataHandleMap != null
+				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+		{
+			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+			for ( int i = 0; i < measureGroups.size( ); i++ )
+			{
+				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
+				List measureGroup = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
+				for ( int j = 0; j < measureGroup.size( ); j++ )
+				{
+					MeasureHandle measure = (MeasureHandle) measureGroup.get( j );
+					if( measure.isCalculated( ) && !derivedMeasureNameList.contains( measure.getName( ) ) )
+					{
+						derivedMeasureNameList.add( measure.getName( ) );
+						query.createDerivedMeasure( measure.getName( ),
+								DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ),
+								modelAdaptor.adaptExpression( (Expression) measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP )
+										.getValue( ),
+										ExpressionLocation.CUBE ));
+					}
+				}
+			}
+		}
+		
 		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
 		{
 			IDerivedMeasureDefinition dmd = (IDerivedMeasureDefinition) calculatedMeasures.get( i );
