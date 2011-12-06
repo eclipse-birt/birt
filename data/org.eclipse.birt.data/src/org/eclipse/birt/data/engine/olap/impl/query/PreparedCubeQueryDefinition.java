@@ -33,9 +33,9 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.ExprUtil;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
 import org.eclipse.birt.data.engine.impl.util.GraphNode;
-import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -246,7 +246,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 						+ ")" );
 				expression.setText( getReplacedExpressionText( expression.getText( ),
 						measureMap,
-						derivedMeasureMap, createdBindings ) );
+						derivedMeasureMap, createdBindings, binding, bindingsInCubeQuery ) );
 				expression.setText( expression.getText( ).substring( 1,
 						expression.getText( ).length( ) - 1 ) );
 				binding.getAggregatOns( ).clear( );
@@ -256,19 +256,44 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	}
 	
 	private String getReplacedExpressionText( String text, Map measureMap,
-			Map derivedMeasureMap, Map createdBindings ) throws DataException
+			Map derivedMeasureMap, Map createdBindings, IBinding binding, List bindingsInCubeQuery ) throws DataException
 	{
-		List measureNames = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( text ),
+		List measureNames = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( text.substring( 1,
+				text.length( ) - 1 ) ),
 				ExpressionUtil.MEASURE_INDICATOR );
 
 		for ( int i = 0; i < measureNames.size( ); i++ )
 		{
 			if ( measureMap.containsKey( measureNames.get( i ).toString( ) ) )
-			{
+			{	
+				IBinding b = (IBinding)createdBindings.get( measureNames.get( i )
+					.toString( ));
+			
+				String bindingName = b.getBindingName( );
+				if ( !Arrays.deepEquals( b.getAggregatOns( ).toArray( ),
+						binding.getAggregatOns( ).toArray( ) ) )
+				{
+					IBinding newBinding = new Binding(bindingName+"_"+binding.getBindingName( ));
+					newBinding.setDataType( b.getDataType( ) );
+					newBinding.setAggrFunction( b.getAggrFunction( ) );
+					newBinding.setExpression( b.getExpression( ) );
+					newBinding.getAggregatOns( ).addAll( binding.getAggregatOns( ) );
+					IBinding sameBinding = getSameBindingInQuery( newBinding,
+							bindingsInCubeQuery );
+					if ( sameBinding != null )
+					{
+						bindingName = sameBinding.getBindingName( );
+					}
+					else
+					{
+						bindingName = newBinding.getBindingName( );
+						realBindings.add( newBinding );
+					}
+				}
+				
 				text = text.replace( ExpressionUtil.createJSMeasureExpression( measureNames.get( i )
 						.toString( ) ),
-						ExpressionUtil.createJSDataExpression( ( (IBinding) createdBindings.get( measureNames.get( i )
-								.toString( ) ) ).getBindingName( ) ) );
+						ExpressionUtil.createJSDataExpression( bindingName ));
 			}
 			else if ( derivedMeasureMap.containsKey( measureNames.get( i )
 					.toString( ) ) )
@@ -280,7 +305,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 								+ ")" );
 				text = getReplacedExpressionText( text,
 						measureMap,
-						derivedMeasureMap, createdBindings );
+						derivedMeasureMap, createdBindings, binding, bindingsInCubeQuery);
 			}
 		}
 

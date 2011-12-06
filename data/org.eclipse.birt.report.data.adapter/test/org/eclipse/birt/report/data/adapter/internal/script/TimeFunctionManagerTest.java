@@ -350,7 +350,7 @@ public class TimeFunctionManagerTest extends TestCase
 				.setExpression( new Expression( "\"2003-08-17\"", null ) );
 		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 				"dimension[\"TimeDimension\"]" );
-		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.getDefault( ) );
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.CHINA );
 		assertTrue(desc.equals( "Quarter to Date  ( 2003-7-1 To 2003-8-17 )" ) );
 	}
 	
@@ -368,8 +368,8 @@ public class TimeFunctionManagerTest extends TestCase
 		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 				"dimension[\"TimeDimension\"]" );
 		
-		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.getDefault( ) );
-		assertTrue(desc.equals( "previous Year to Date  ( 2002-1-1 To 2002-8-17 )" ) );
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.CHINA );
+		assertTrue(desc.equals( "Previous Year to Date  ( 2002-1-1 To 2002-8-17 )" ) );
 	}
 	
 	public void testGettingToolTipForTimeFunction3() throws BirtException
@@ -386,7 +386,7 @@ public class TimeFunctionManagerTest extends TestCase
 		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 				"dimension[\"TimeDimension\"]" );
 		
-		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.getDefault( ) );
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.CHINA );
 		assertTrue(desc.equals( "Trailing 12 Months  ( 2002-8-18 To 2003-8-17 )" ) );
 	}
 	
@@ -402,7 +402,7 @@ public class TimeFunctionManagerTest extends TestCase
 				.setExpression( new Expression( "\"2003-08-17\"", null ) );
 		computedHandle.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
 				"dimension[\"TimeDimension\"]" );
-		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.getDefault( ) );
+		String desc = TimeFunctionManager.getTooltipForTimeFunction( computedHandle, ULocale.CHINA );
 		assertTrue(desc.equals( "Current Year  ( 2003-1-1 To 2003-12-31 )" ) );
 	}
 }

@@ -577,7 +577,10 @@ public class CubeIVTest extends BaseTestCase
 		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
 		ArchiveWriter writer = new ArchiveWriter( new ArchiveFile(documentPath + "testTemp", "rw+") );
 		
-		ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( queryResults.getID( ), reader );
+		ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( queryResults.getID( ), DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer ) );
 		
 		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
 				null,

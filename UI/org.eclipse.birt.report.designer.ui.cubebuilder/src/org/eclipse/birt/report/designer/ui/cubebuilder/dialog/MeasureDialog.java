@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeMeasureExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.LinkToCubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -76,6 +77,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 	private boolean isEdit = false;
 	private boolean isAutoPrimaryKeyChecked = false;
+	private ExpressionButton exprBtn;
+	private CubeMeasureExpressionProvider provider;
 	private Combo typeCombo;
 	private Text expressionText;
 	private Combo functionCombo;
@@ -498,6 +501,11 @@ public class MeasureDialog extends TitleAreaDialog
 			{
 				functionCombo.setEnabled( !( derivedMeasureBtn.getSelection( ) || isAutoPrimaryKeyChecked ) );
 				exprDesc.setText( Messages.getString( derivedMeasureBtn.getSelection( ) ? "MeasureDialog.Label.ExprDesc.Derived" : "MeasureDialog.Label.ExprDesc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				provider.setDerivedMeasure(derivedMeasureBtn.getSelection( ));
+				if(!derivedMeasureBtn.getSelection())
+				{
+					handleTypeSelectEvent( );
+				}
 			}
 
 		} );
@@ -532,7 +540,10 @@ public class MeasureDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				handleTypeSelectEvent( );
+				if (!derivedMeasureBtn.getSelection())
+				{
+					handleTypeSelectEvent( );
+				}
 				checkOkButtonStatus( );
 				if ( formatHelper != null )
 				{
@@ -558,9 +569,10 @@ public class MeasureDialog extends TitleAreaDialog
 
 		} );
 
-		ExpressionButtonUtil.createExpressionButton( group,
+		provider = new CubeMeasureExpressionProvider( input, input.isCalculated() );
+		exprBtn = ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
-				new CubeExpressionProvider( input ),
+				provider,
 				input );
 
 		new Label( group, SWT.NONE );

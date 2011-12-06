@@ -149,6 +149,10 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		}
 		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
 		CubeHandle cube = reportHandle.getCube( );
+		if (cube == null)
+		{
+			return false;
+		}
 		List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ).getContents( );
 		for (int i=0; i<list.size( ); i++)
 		{
