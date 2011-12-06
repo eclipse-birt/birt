@@ -32,17 +32,27 @@ import org.eclipse.birt.report.data.adapter.i18n.Message;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CalculationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.GregorianCalendar;
 import com.ibm.icu.util.ULocale;
 
 public class TimeFunctionManager
 {
 
+	/**
+	 * day of the first month of 4 quarters,
+	 * quarter1, month1 31 day; quarter2, month4, 30day
+	 */
+	private static int[] quarterDay = new int[]{31, 30, 31, 31}; 
+	private static int[] monthDay = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
+	
 	/**
 	 * get a list of TimeFunction instances for the specified type under
 	 * specified local
@@ -518,12 +528,17 @@ public class TimeFunctionManager
 	{
 		String desc = null;
 		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-		IBinding functionBinding = session.getModelAdaptor( ).adaptBinding( column );
+		IBinding functionBinding = session.getModelAdaptor( )
+				.adaptBinding( column );
 		session.shutdown( );
-		ITimePeriod basePeriod = functionBinding.getTimeFunction( ).getBaseTimePeriod( );
-		ITimePeriod relativePeriod = functionBinding.getTimeFunction( ).getRelativeTimePeriod( );
-	
-		Date date = functionBinding.getTimeFunction( ).getReferenceDate( ).getDate( );
+		ITimePeriod basePeriod = functionBinding.getTimeFunction( )
+				.getBaseTimePeriod( );
+		ITimePeriod relativePeriod = functionBinding.getTimeFunction( )
+				.getRelativeTimePeriod( );
+
+		Date date = functionBinding.getTimeFunction( )
+				.getReferenceDate( )
+				.getDate( );
 		Calendar cal = Calendar.getInstance( locale );
 		cal.setTime( date );
 		int[] values = new int[3];
@@ -531,23 +546,35 @@ public class TimeFunctionManager
 		levelTypes[0] = TimeMember.TIME_LEVEL_TYPE_YEAR;
 		levelTypes[1] = TimeMember.TIME_LEVEL_TYPE_MONTH;
 		levelTypes[2] = TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH;
-		
 		values = getValueFromCal( cal, levelTypes );
 		TimeMember member = new TimeMember( values, levelTypes );
+
+		DesignElementHandle dHandle = column.getElementHandle( );
+		DimensionHandle dim = ( (ReportItemHandle) dHandle ).getCube( )
+				.getDimension( functionBinding.getTimeFunction( )
+						.getTimeDimension( ) );
+		int levelCount = dim.getDefaultHierarchy( ).getLevelCount( );
+		String type = dim.getDefaultHierarchy( )
+				.getLevel( levelCount - 1 )
+				.getDateTimeLevelType( );
+
 		IPeriodsFunction periodsFunction = null;
 		String toDatelevelType = null;
 		String paralevelType = null;
-		
+
 		toDatelevelType = toLevelType( basePeriod.getType( ) );
 		boolean reverse = false;
-		if( basePeriod.countOfUnit() == 0 )
+		if ( basePeriod.countOfUnit( ) == 0 )
 		{
-			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator( ).createPeriodsToDateFunction( toDatelevelType, basePeriod.isCurrent() );
+			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator( )
+					.createPeriodsToDateFunction( toDatelevelType,
+							basePeriod.isCurrent( ) );
 		}
 		else
 		{
-			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator( ).createTrailingFunction( 
-							toDatelevelType,basePeriod.countOfUnit() );
+			periodsFunction = TimeFunctionCreatorEngine.newTimeFunctionCreator( )
+					.createTrailingFunction( toDatelevelType,
+							basePeriod.countOfUnit( ) );
 			if ( basePeriod.countOfUnit( ) < 0 )
 				reverse = true;
 		}
@@ -555,29 +582,103 @@ public class TimeFunctionManager
 		if ( relativePeriod != null )
 		{
 			paralevelType = toLevelType( relativePeriod.getType( ) );
-			IParallelPeriod parallelPeriod = TimeFunctionCreatorEngine.newTimeFunctionCreator( ).createParallelPeriodFunction( paralevelType,
-					relativePeriod.countOfUnit( ) );
-			
-			list = periodsFunction.getResult( parallelPeriod.getResult( member ));
+			IParallelPeriod parallelPeriod = TimeFunctionCreatorEngine.newTimeFunctionCreator( )
+					.createParallelPeriodFunction( paralevelType,
+							relativePeriod.countOfUnit( ) );
+
+			list = periodsFunction.getResult( parallelPeriod.getResult( member ) );
 		}
 		else
 		{
 			list = periodsFunction.getResult( member );
 		}
+
+		TimeMember memberFrom = null;
+		TimeMember memberTo = null;
+		TimeMember tmpMember1 = null;
+		TimeMember tmpMember2 = null;
 		if ( reverse )
 		{
-			desc = constructTimeFunctionToolTip( list.get( list.size( ) - 1 ),
-					list.get( 0 ),
-					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ), locale );
+			tmpMember1 = list.get( list.size( ) - 1 );
+			tmpMember2 = list.get( 0 );
 		}
 		else
 		{
-			desc = constructTimeFunctionToolTip( list.get( 0 ),
-					list.get( list.size( ) - 1 ),
-					getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ), locale );
+			tmpMember1 = list.get( 0 );
+			tmpMember2 = list.get( list.size( ) - 1 );
 		}
-		
-		
+		int[] valuesFrom = tmpMember1.getMemberValue( ).clone( );
+		int[] valuesTo = tmpMember2.getMemberValue( ).clone( );
+
+		cal.clear( );
+		if ( type.equals( "year" ) )
+		{
+			valuesFrom[1] = 1;
+			valuesFrom[2] = 2;
+
+			valuesTo[1] = 12;
+			valuesTo[2] = 31;
+		}
+		else if ( type.equals( "quarter" ) )
+		{
+			int quarter = ( valuesFrom[1] - 1 ) / 3 + 1;
+			valuesFrom[1] = ( quarter - 1 ) * 3 + 1;
+			valuesFrom[2] = 1;
+
+			quarter = ( valuesTo[1] - 1 ) / 3 + 1;
+			valuesTo[1] = quarter * 3;
+			valuesTo[2] = quarterDay[quarter - 1];
+		}
+		else if ( type.equals( "month" ) )
+		{
+			valuesFrom[2] = 1;
+
+			if ( valuesTo[1] == 2
+					&& ( (GregorianCalendar) cal ).isLeapYear( valuesTo[0] ) )
+			{
+				valuesTo[2] = 29;
+			}
+			else
+			{
+				valuesTo[2] = monthDay[valuesTo[1] - 1];
+			}
+
+		}
+		else if ( type.equals( "week-of-month" )
+				|| type.equals( "week-of-year" ) )
+		{
+			cal.set( Calendar.YEAR, valuesFrom[0] );
+			cal.set( Calendar.MONTH, valuesFrom[1] - 1 );
+			cal.set( Calendar.DAY_OF_MONTH, valuesFrom[2] );
+			int dayofweek = cal.get( Calendar.DAY_OF_WEEK );
+
+			cal.add( Calendar.DAY_OF_WEEK, 1 - dayofweek );
+
+			valuesFrom[0] = cal.get( Calendar.YEAR );
+			valuesFrom[1] = cal.get( Calendar.MONTH ) + 1;
+			valuesFrom[2] = cal.get( Calendar.DAY_OF_MONTH );
+
+			cal.clear( );
+
+			cal.set( Calendar.YEAR, valuesTo[0] );
+			cal.set( Calendar.MONTH, valuesTo[1] - 1 );
+			cal.set( Calendar.DAY_OF_MONTH, valuesTo[2] );
+			dayofweek = cal.get( Calendar.DAY_OF_WEEK );
+			cal.add( Calendar.DAY_OF_WEEK, 7 - dayofweek );
+
+			valuesTo[0] = cal.get( Calendar.YEAR );
+			valuesTo[1] = cal.get( Calendar.MONTH ) + 1;
+			valuesTo[2] = cal.get( Calendar.DAY_OF_MONTH );
+
+		}
+		memberFrom = new TimeMember( valuesFrom, levelTypes.clone( ) );
+		memberTo = new TimeMember( valuesTo, levelTypes.clone( ) );
+
+		desc = constructTimeFunctionToolTip( memberFrom,
+				memberTo,
+				getCalculationType( column.getCalculationType( ), locale ).getDisplayName( ),
+				locale );
+
 		return desc;
 	}
 	
