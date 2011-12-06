@@ -38,6 +38,21 @@ public class MonthToDateFunction extends AbstractMDX
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.clear( );
 		String baseType = translateToCal( cal, levelTypes, values );
+		
+		if ( isCurrent )
+		{
+			int month = cal.get( Calendar.MONTH );
+			while ( true )
+			{
+				if ( cal.get( Calendar.MONTH ) != month )
+				{
+					cal.add( Calendar.DAY_OF_YEAR, -1 );
+					break;
+				}
+				cal.add( Calendar.DAY_OF_YEAR, 1 );
+			}
+
+		}
 		int[] tmp;
 		if ( baseType.equals( MONTH ) )
 		{
@@ -45,30 +60,7 @@ public class MonthToDateFunction extends AbstractMDX
 		}
 		else if ( baseType.equals( WEEK ) )
 		{
-			int weekOfMonth = cal.get( Calendar.WEEK_OF_MONTH );
-			int month = cal.get( Calendar.MONTH );
-			int year = cal.get( Calendar.YEAR );
-			for ( int i = 1; i <= weekOfMonth; i++ )
-			{
-				cal.set( Calendar.YEAR, year );
-				cal.set( Calendar.MONTH, month );
-				cal.set( Calendar.WEEK_OF_MONTH, i );
-				tmp = getValueFromCal( cal, levelTypes );
-				TimeMember timeMember = new TimeMember( tmp, levelTypes );
-				timeMembers.add( timeMember );
-			}
-			if( isCurrent )
-			{
-				int currentMonth = cal.get( Calendar.MONTH );
-				cal.add( Calendar.WEEK_OF_MONTH, 1 );
-				while( currentMonth == cal.get( Calendar.MONTH ))
-				{
-					int[] newValues = getValueFromCal( cal, levelTypes );
-					TimeMember newMember = new TimeMember( newValues, levelTypes );
-					timeMembers.add( newMember );
-					cal.add( Calendar.WEEK_OF_MONTH, 1 );
-				}
-			}
+			retrieveWeek( timeMembers, cal, levelTypes, "monthToDate" );
 		}
 		else if ( baseType.equals( DAY ) )
 		{
@@ -80,21 +72,9 @@ public class MonthToDateFunction extends AbstractMDX
 				TimeMember timeMember = new TimeMember( tmp, levelTypes );
 				timeMembers.add( timeMember );
 			}
-			if( isCurrent )
-			{
-				int currentMonth = cal.get( Calendar.MONTH );
-				cal.add( Calendar.DAY_OF_MONTH, 1 );
-				while( currentMonth == cal.get( Calendar.MONTH ))
-				{
-					int[] newValues = getValueFromCal( cal, levelTypes );
-					TimeMember newMember = new TimeMember( newValues, levelTypes );
-					timeMembers.add( newMember );
-					cal.add( Calendar.DAY_OF_MONTH, 1 );
-				}
-			}
 		}
 
 		return timeMembers;
 	}
-
+	
 }

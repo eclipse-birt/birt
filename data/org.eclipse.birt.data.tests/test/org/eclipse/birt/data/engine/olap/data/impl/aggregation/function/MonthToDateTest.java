@@ -2,9 +2,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.MonthToDateFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
@@ -64,7 +65,12 @@ public class MonthToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new MonthToDateFunction( ).getResult( timeMember );
+		
+		MonthToDateFunction monthToDate = new MonthToDateFunction( );
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2011, 8, 28 ) );
+		monthToDate.setReferenceDate( referenceDate );
+
+		List<TimeMember> timeMembers = monthToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 
@@ -82,7 +88,12 @@ public class MonthToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new MonthToDateFunction( ).getResult( timeMember );
+		
+		MonthToDateFunction monthToDate = new MonthToDateFunction( );
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2002, 1, 27 ) );
+		monthToDate.setReferenceDate( referenceDate );
+
+		List<TimeMember> timeMembers = monthToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 
@@ -119,7 +130,12 @@ public class MonthToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new MonthToDateFunction( ).getResult( timeMember );
+		
+		MonthToDateFunction monthToDate = new MonthToDateFunction( );
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2011, 8, 22 ) );
+		monthToDate.setReferenceDate( referenceDate );
+
+		List<TimeMember> timeMembers = monthToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -172,6 +188,10 @@ public class MonthToDateTest extends BaseTestCase
 		};
 		TimeMember timeMember = new TimeMember( values, types );
 		MonthToDateFunction func = new MonthToDateFunction( );
+		
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2011, 9, 12 ) );
+		func.setReferenceDate( referenceDate );
+		
 		func.setIsCurrent( true );
 		List<TimeMember> timeMembers = func.getResult( timeMember );
 		printMembers( timeMembers );

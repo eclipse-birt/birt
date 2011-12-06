@@ -2,8 +2,11 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
@@ -122,10 +125,15 @@ public class YearToDateFunctionTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_MONTH,
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
 		};
+
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2004, 7, 26 ) );
+		IPeriodsFunction periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
+				false );
+		( (AbstractMDX) periodsFunction ).setReferenceDate( referenceDate );
+
 		TimeMember member = new TimeMember( values, levels );
 
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_YEAR, false )
-				.getResult( member );
+		List<TimeMember> resultMember = periodsFunction.getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
@@ -141,10 +149,15 @@ public class YearToDateFunctionTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_MONTH,
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
 		};
+
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2004, 7, 26 ) );
+		IPeriodsFunction periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
+				true );
+		( (AbstractMDX) periodsFunction ).setReferenceDate( referenceDate );
+
 		TimeMember member = new TimeMember( values, levels );
 
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_YEAR, true )
-				.getResult( member );
+		List<TimeMember> resultMember = periodsFunction.getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}

@@ -1,8 +1,11 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
@@ -117,7 +120,12 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, false ).getResult( member );
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2002, 7, 20 ) );
+		IPeriodsFunction periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				false );
+		( (AbstractMDX) periodsFunction ).setReferenceDate( referenceDate );
+
+		List<TimeMember> resultMember = periodsFunction.getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
@@ -135,7 +143,12 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		List<TimeMember> resultMember = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER, true ).getResult( member );
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2002, 7, 20 ) );
+		IPeriodsFunction periodsFunction = TimeFunctionFactory.createPeriodsToDateFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				true );
+		( (AbstractMDX) periodsFunction ).setReferenceDate( referenceDate );
+
+		List<TimeMember> resultMember = periodsFunction.getResult( member );
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}

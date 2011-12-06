@@ -142,11 +142,11 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 				cal1.add( Calendar.DAY_OF_WEEK, 7 );
 			}
 			dayOfWeek = cal1.get( Calendar.DAY_OF_WEEK );
-			if ( dayOfWeek > 1 )
+			if ( dayOfWeek == 1 )
 			{
-				cal1.add( Calendar.DAY_OF_WEEK, 1 - dayOfWeek );
+				cal1.add( Calendar.WEEK_OF_YEAR, -Math.abs( offset ) / offset );
 			}
-			cal1.add( Calendar.WEEK_OF_YEAR, -Math.abs( offset ) / offset );
+			
 		}
 		else if ( calculateUnit.equals( MONTH ) )
 		{
@@ -189,6 +189,10 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction
 			fillDateTmp = getValueFromCal( cal2, levelTypes );
 			timeMember = new TimeMember( fillDateTmp, levelTypes );
 			timeMembers.add( timeMember );
+			if ( calculateUnit.equals( WEEK ) )
+			{
+				this.addExtraWeek( timeMembers, cal2, timeMember, levelTypes );
+			}
 			cal2Value = getValueFromCal( cal2, levelTypes );
 		}
 

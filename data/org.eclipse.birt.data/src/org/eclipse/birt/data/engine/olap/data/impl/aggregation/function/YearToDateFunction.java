@@ -20,6 +20,12 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.clear( );
 		String calculateUnit = this.translateToCal( cal, levels, values ) ;
+		if ( isCurrent )
+		{
+			cal.set( Calendar.MONTH, 11 );
+			cal.set( Calendar.DAY_OF_MONTH, 31 );
+		}
+		
 		
 		List<TimeMember> list = new ArrayList<TimeMember>( );
 		if ( calculateUnit.equals( YEAR ) )
@@ -33,71 +39,29 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 			TimeMember newMember = null;
 			for ( int i = 1; i <= quarter; i++ )
 			{
+				cal.set( Calendar.DAY_OF_MONTH, 1 );
 				cal.set( Calendar.MONTH, (i-1)*3 );
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
-			}
-			if( isCurrent )
-			{
-				int year = cal.get( Calendar.YEAR );
-				cal.add( Calendar.MONTH, 3 );
-				while( year == cal.get( Calendar.YEAR ))
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.MONTH, 3 );
-				}
 			}
 		}
 		else if ( calculateUnit.equals( MONTH ) )
 		{
 			int month = cal.get( Calendar.MONTH )+1;
 			TimeMember newMember = null;
-			for( int i=1; i<=month ; i++)
+			for ( int i = 1; i <= month; i++ )
 			{
-				cal.set( Calendar.MONTH, i-1 );
-				int[] newValues = getValueFromCal( cal,levels);
-				newMember = new TimeMember(newValues,levels);
-				list.add( newMember );
-			}
-			if( isCurrent )
-			{
-				int year = cal.get( Calendar.YEAR );
-				cal.add( Calendar.MONTH, 1 );
-				while( year == cal.get( Calendar.YEAR ))
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.MONTH, 1 );
-				}
-			}
-		}
-		else if ( calculateUnit.equals( WEEK ) )
-		{
-			int weekOfYear = cal.get( Calendar.WEEK_OF_YEAR );
-			TimeMember newMember = null;
-			for ( int i = 1; i <= weekOfYear; i++ )
-			{
-				cal.set (Calendar.WEEK_OF_YEAR,i);
+				cal.set( Calendar.DAY_OF_MONTH, 1 );
+				cal.set( Calendar.MONTH, i - 1 );
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
 			}
-			if( isCurrent )
-			{
-				int year = cal.get( Calendar.YEAR );
-				cal.add( Calendar.WEEK_OF_YEAR, 1 );
-				while( year == cal.get( Calendar.YEAR ))
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.WEEK_OF_YEAR, 1 );
-				}
-			}
+		}
+		else if ( calculateUnit.equals( WEEK ) )
+		{
+			retrieveWeek(list, cal, levels, "yearToDate");
 		}
 		else if ( calculateUnit.equals( DAY ) )
 		{
@@ -109,18 +73,6 @@ public class YearToDateFunction extends AbstractMDX implements IPeriodsFunction
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
-			}
-			if( isCurrent )
-			{
-				int year = cal.get( Calendar.YEAR );
-				cal.add( Calendar.DAY_OF_YEAR, 1 );
-				while( year == cal.get( Calendar.YEAR ))
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.DAY_OF_YEAR, 1 );
-				}
 			}
 		}
 

@@ -2,8 +2,11 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
@@ -34,9 +37,12 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
-				-3 )
-				.getResult( timeMember );
+		IPeriodsFunction periodsFunction = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_YEAR,
+				-3 );
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2011, 8, 22 ) );
+		( (AbstractMDX) periodsFunction ).setReferenceDate( referenceDate );
+
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -57,9 +63,12 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
-				-3 )
-				.getResult( timeMember );
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				-3 );
+		ReferenceDate referenceDate = new ReferenceDate ( new Date(2011,8,22));
+		((AbstractMDX)periodsFunction).setReferenceDate( referenceDate );		
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -80,9 +89,14 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_MONTH,
-				-3 )
-				.getResult( timeMember );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_MONTH,
+				-3 );
+		ReferenceDate referenceDate = new ReferenceDate ( new Date(2011,8,22));
+		((AbstractMDX)periodsFunction).setReferenceDate( referenceDate );		
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -103,9 +117,13 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
-				3 )
-				.getResult( timeMember );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
+				3 );
+		ReferenceDate referenceDate = new ReferenceDate ( new Date(2011,8,22));
+		((AbstractMDX)periodsFunction).setReferenceDate( referenceDate );		
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -126,9 +144,14 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR,
-				3 )
-				.getResult( timeMember );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR,
+				3 );
+		ReferenceDate referenceDate = new ReferenceDate ( new Date(2011,8,22));
+		((AbstractMDX)periodsFunction).setReferenceDate( referenceDate );		
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -273,9 +296,13 @@ public class TrailingTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_MONTH,
-				-3 )
-				.getResult( timeMember );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_MONTH,
+				-3 );
+		ReferenceDate referenceDate = new ReferenceDate ( new Date(2011,8,28));
+		((AbstractMDX)periodsFunction).setReferenceDate( referenceDate );
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -344,6 +371,29 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
+	
+	public void testTrailing18( ) throws IOException
+	{
+		int[] values = new int[]{
+				2011, 1, 0, 53
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+				-3 );
+		ReferenceDate referenceDate = new ReferenceDate ( new Date(2011,8,28));
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+
 	
 	private void printMembers( List<TimeMember> timeMembers )
 	{

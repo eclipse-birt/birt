@@ -1,7 +1,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
+import java.util.Date;
 
+import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import junit.framework.TestCase;
@@ -171,8 +174,13 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
 		};
 		TimeMember member = new TimeMember( values, levels );
-		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH, -5 ).getResult( member );
+		IParallelPeriod parallelPeriod = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
+				-5 );
+
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2002, 7, 20 ) );
+		( (AbstractMDX) parallelPeriod ).setReferenceDate( referenceDate );
+
+		TimeMember resultMember = parallelPeriod.getResult( member );
 		int[] result = new int[]{
 				2002, 7, 3
 		};
@@ -211,7 +219,13 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		};
 		TimeMember member = new TimeMember( values, levels );
 		
-		TimeMember resultMember = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR, -10 ).getResult( member );
+		IParallelPeriod parallelPeriod = TimeFunctionFactory.createParallelPeriodFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+				-10 );
+
+		ReferenceDate referenceDate = new ReferenceDate( new Date( 2002, 5, 5 ) );
+		( (AbstractMDX) parallelPeriod ).setReferenceDate( referenceDate );
+
+		TimeMember resultMember = parallelPeriod.getResult( member );
 		int[] result = new int[]{
 				2002, 13
 		};

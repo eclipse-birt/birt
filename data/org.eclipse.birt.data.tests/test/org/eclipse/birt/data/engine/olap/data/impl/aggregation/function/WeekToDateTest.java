@@ -2,8 +2,10 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.WeekToDateFunciton;
 
@@ -35,7 +37,10 @@ public class WeekToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR
 		};
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new WeekToDateFunciton( ).getResult( timeMember );
+		ReferenceDate referenceDate = new ReferenceDate(new Date(2011,8,22));
+		WeekToDateFunciton weekToDate = new WeekToDateFunciton( );
+		((AbstractMDX)weekToDate).setReferenceDate( referenceDate );
+		List<TimeMember> timeMembers = weekToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -50,8 +55,13 @@ public class WeekToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK
 		};
+		
+		ReferenceDate referenceDate = new ReferenceDate(new Date(2011,4,19));
+		WeekToDateFunciton weekToDate = new WeekToDateFunciton( );
+		((AbstractMDX)weekToDate).setReferenceDate( referenceDate );
+		
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new WeekToDateFunciton( ).getResult( timeMember );
+		List<TimeMember> timeMembers = weekToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -68,8 +78,13 @@ public class WeekToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
 				TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK
 		};
+		
+		ReferenceDate referenceDate = new ReferenceDate(new Date(2002,1,9));
+		WeekToDateFunciton weekToDate = new WeekToDateFunciton( );
+		((AbstractMDX)weekToDate).setReferenceDate( referenceDate );
+		
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new WeekToDateFunciton( ).getResult( timeMember );
+		List<TimeMember> timeMembers = weekToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
@@ -85,8 +100,13 @@ public class WeekToDateTest extends BaseTestCase
 				TimeMember.TIME_LEVEL_TYPE_MONTH,
 				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH
 		};
+		
+		ReferenceDate referenceDate = new ReferenceDate(new Date(2011,1,5));
+		WeekToDateFunciton weekToDate = new WeekToDateFunciton( );
+		((AbstractMDX)weekToDate).setReferenceDate( referenceDate );
+		
 		TimeMember timeMember = new TimeMember( values, types );
-		List<TimeMember> timeMembers = new WeekToDateFunciton( ).getResult( timeMember );
+		List<TimeMember> timeMembers = weekToDate.getResult( timeMember );
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}

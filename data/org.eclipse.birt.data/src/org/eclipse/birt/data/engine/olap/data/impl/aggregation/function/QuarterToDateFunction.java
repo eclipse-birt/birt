@@ -21,6 +21,21 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				TimeMemberUtil.getDefaultLocale( ) );
 		cal.clear();
 		String calculateUnit = this.translateToCal( cal, levels, values ) ;
+		if ( isCurrent )
+		{
+			int quarter = cal.get( Calendar.MONTH ) / 3 + 1;
+			while ( true )
+			{
+				if ( cal.get( Calendar.MONTH ) / 3 + 1 != quarter )
+				{
+					cal.add( Calendar.DAY_OF_YEAR, -1 );
+					break;
+				}
+
+				cal.add( Calendar.DAY_OF_YEAR, 1 );
+			}
+		}
+		
 		List<TimeMember> list = new ArrayList<TimeMember>( );
 		
 		if ( calculateUnit.equals( QUARTER ) )
@@ -42,49 +57,10 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				list.add( newMember );
 			}
 			
-			if( isCurrent )
-			{
-				int currentQuarter = cal.get( Calendar.MONTH ) / 3 + 1;
-				cal.add( Calendar.MONTH, 1 );
-				while( currentQuarter == cal.get( Calendar.MONTH ) / 3 + 1)
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.MONTH, 1 );
-				}
-			}
 		}
 		else if ( calculateUnit.equals( WEEK ) )
 		{
-			int weekOfYear = cal.get( Calendar.WEEK_OF_YEAR );
-			int quarter = cal.get( Calendar.MONTH ) / 3 + 1;
-			int startMonth = quarter * 3 - 2;
-			
-			Calendar startCal = (Calendar)cal.clone( );
-			startCal.set( Calendar.MONTH, startMonth-1 );
-			startCal.set( Calendar.DAY_OF_MONTH, 1 );
-			int starWeek = startCal.get( Calendar.WEEK_OF_YEAR );
-			TimeMember newMember = null;
-			for ( int i = starWeek; i <= weekOfYear; i++ )
-			{
-				cal.set (Calendar.WEEK_OF_YEAR,i);
-				int[] newValues = getValueFromCal( cal, levels );
-				newMember = new TimeMember( newValues, levels );
-				list.add( newMember );
-			}
-			if( isCurrent )
-			{
-				int currentQuarter = cal.get( Calendar.MONTH ) / 3 + 1;
-				cal.add( Calendar.WEEK_OF_YEAR, 1 );
-				while( currentQuarter == cal.get( Calendar.MONTH ) / 3 + 1)
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.WEEK_OF_YEAR, 1 );
-				}
-			}
+			retrieveWeek( list, cal, levels, "quarterToDate" );
 		}
 		else if ( calculateUnit.equals( DAY ) )
 		{
@@ -102,18 +78,6 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 				int[] newValues = getValueFromCal( cal, levels );
 				newMember = new TimeMember( newValues, levels );
 				list.add( newMember );
-			}
-			if( isCurrent )
-			{
-				int currentQuarter = cal.get( Calendar.MONTH ) / 3 + 1;
-				cal.add( Calendar.DAY_OF_YEAR, 1 );
-				while( currentQuarter == cal.get( Calendar.MONTH ) / 3 + 1)
-				{
-					int[] newValues = getValueFromCal( cal, levels );
-					newMember = new TimeMember( newValues, levels );
-					list.add( newMember );
-					cal.add( Calendar.DAY_OF_YEAR, 1 );
-				}
 			}
 		}
 

@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
 import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
@@ -37,6 +38,7 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.AbstractMDX;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMemberUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
@@ -195,11 +197,15 @@ public class AggregationCalculator
 			periodsFunction = TimeFunctionFactory.createTrailingFunction( 
 							toDatelevelType,function.getBaseTimePeriod( ).countOfUnit() );
 		}
+		( (AbstractMDX) periodsFunction ).setReferenceDate( (ReferenceDate) function.getReferenceDate( ) );
+		
 		if( function.getRelativeTimePeriod( ) != null )
 		{
 			paralevelType = toLevelType( function.getRelativeTimePeriod( ).getType( ) );
 			IParallelPeriod parallelPeriod = TimeFunctionFactory.createParallelPeriodFunction(paralevelType, 
 					function.getRelativeTimePeriod( ).countOfUnit());
+			( (AbstractMDX) parallelPeriod ).setReferenceDate( (ReferenceDate) function.getReferenceDate( ) );
+			
 			periodsFunction = new PeriodsToDateWithParallel( parallelPeriod,
 					periodsFunction );
 		}
