@@ -629,9 +629,11 @@ public class ModelAdapter implements IModelAdapter
 	 * 
 	 * @param periodHandle
 	 * @return
+	 * @throws BirtException 
+	 * @throws DataException 
 	 */
 	private ITimePeriod populateRelativeTimePeriod(
-			ComputedColumnHandle periodHandle )
+			ComputedColumnHandle periodHandle ) throws DataException, BirtException
 	{
 		String calculateType = periodHandle.getCalculationType( );
 		TimePeriod relativeTimePeriod = null;
@@ -651,11 +653,7 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			if ( n == null || n.trim( ).equals( "" ) )
-			{
-				n = "1";
-			}
-			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
 					TimePeriodType.YEAR );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculateType ) )
@@ -671,11 +669,7 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			if ( n == null || n.trim( ).equals( "" ) )
-			{
-				n = "1";
-			}
-			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
 					TimePeriodType.WEEK );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType )
@@ -692,11 +686,7 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			if ( n == null || n.trim( ).equals( "" ) )
-			{
-				n = "1";
-			}
-			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
 					TimePeriodType.MONTH );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE.equals( calculateType )
@@ -713,11 +703,7 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			if ( n == null || n.trim( ).equals( "" ) )
-			{
-				n = "1";
-			}
-			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
 					TimePeriodType.QUARTER );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE.equals( calculateType )
@@ -734,11 +720,7 @@ public class ModelAdapter implements IModelAdapter
 					break;
 				}
 			}
-			if ( n == null || n.trim( ).equals( "" ) )
-			{
-				n = "1";
-			}
-			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
 					TimePeriodType.YEAR );
 		}
 		else if ( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType )
@@ -759,10 +741,32 @@ public class ModelAdapter implements IModelAdapter
 					n = argument.getValue( ).getStringExpression( );
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
 					DataAdapterUtil.toTimePeriodType( period2 ) );
 		}
 		return relativeTimePeriod;
+	}
+	
+	private int evaluatePeriodsN( String n ) throws DataException,
+			BirtException
+	{
+		int num = 0;
+		if ( n == null || n.trim( ).equals( "" ) )
+		{
+			n = "1";
+		}
+		try
+		{
+			num = Integer.valueOf( n );
+		}
+		catch ( Exception e )
+		{
+			num = (Integer) ScriptEvalUtil.evalExpr( new ScriptExpression( n ),
+					this.context.getDataEngineContext( ).getScriptContext( ),
+					"",
+					0 );
+		}
+		return num;
 	}
 	
 	/**
