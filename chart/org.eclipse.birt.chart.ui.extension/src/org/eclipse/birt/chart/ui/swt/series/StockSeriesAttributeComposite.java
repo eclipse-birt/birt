@@ -52,13 +52,13 @@ public class StockSeriesAttributeComposite extends Composite implements
 
 	private LineAttributesComposite liacStock = null;
 
-	private Spinner iscStick = null;
+	protected Spinner iscStick = null;
 
 	protected StockSeries series = null;
 
 	protected transient ChartWizardContext context;
 
-	private Button btnAuto;
+	protected Button btnAuto;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -106,7 +106,7 @@ public class StockSeriesAttributeComposite extends Composite implements
 		{
 			grpLine.setText(  Messages.getString( "StockSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 			GridLayout glLine = new GridLayout( );
-			glLine.numColumns = series.isShowAsBarStick( ) ? 4 : 1;
+			glLine.numColumns = needStickLength( ) ? 4 : 1;
 			grpLine.setLayout( glLine );
 			grpLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
@@ -131,25 +131,45 @@ public class StockSeriesAttributeComposite extends Composite implements
 		liacStock.setLayoutData( gdLIACStock );
 		liacStock.addListener( this );
 
-		if ( series.isShowAsBarStick( ) )
+		if ( needStickLength( ) )
 		{
-			new Label( grpLine, SWT.NONE ).setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.StickLength" ) ); //$NON-NLS-1$
+			Composite comp = new Composite( grpLine, SWT.NONE );
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			comp.setLayoutData( gd );
+			GridLayout gl = new GridLayout();
+			gl.numColumns = 3;
+			gl.marginBottom = 0;
+			gl.marginHeight = 0;
+			gl.marginLeft = 0;
+			gl.marginRight = 0;
+			gl.marginTop = 0;
+			gl.marginWidth = 0;
+			comp.setLayout( gl );
+			
+			new Label( comp, SWT.NONE ).setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.StickLength" ) ); //$NON-NLS-1$
 
-			iscStick = new Spinner( grpLine, SWT.BORDER );
+			iscStick = new Spinner( comp, SWT.BORDER );
 			iscStick.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			iscStick.setMinimum( 0 );
 			iscStick.setMaximum( Integer.MAX_VALUE );
 			iscStick.setSelection( series.getStickLength( ) );
 			iscStick.addSelectionListener( this );
 			
-			btnAuto = new Button( grpLine, SWT.CHECK );
+			btnAuto = new Button( comp, SWT.CHECK );
 			btnAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
 			btnAuto.addSelectionListener( this );
-			GridData gd = new GridData();
+			gd = new GridData();
 			btnAuto.setLayoutData( gd );
-			btnAuto.setSelection( !series.isSetStickLength( ) );
+			btnAuto.setSelection( !series.isSetShowAsBarStick( )
+					|| series.isShowAsBarStick( ) );
 			iscStick.setEnabled( !btnAuto.getSelection( ) );
 		}
+	}
+
+	protected boolean needStickLength( )
+	{
+		return series.isShowAsBarStick( );
 	}
 
 	public Point getPreferredSize( )
