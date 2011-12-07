@@ -42,7 +42,6 @@ import org.eclipse.birt.data.engine.api.timefunction.TimeFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimePeriod;
 import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
@@ -434,7 +433,7 @@ public class ModelAdapter implements IModelAdapter
 		}
 	}
 
-	private ITimeFunction adaptTimeFunction( ComputedColumnHandle handle )
+	public ITimeFunction adaptTimeFunction( ComputedColumnHandle handle )
 			throws DataException, BirtException
 	{
 		if ( handle.getCalculationType( ) == null

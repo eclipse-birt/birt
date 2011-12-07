@@ -67,6 +67,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -518,7 +519,7 @@ public class ChartCubeQueryHelper
 
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
@@ -533,6 +534,11 @@ public class ChartCubeQueryHelper
 			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 
+			if ( modelAdapter instanceof ModelAdapter ) {
+				binding.setTimeFunction( ( (ModelAdapter)modelAdapter )
+						.adaptTimeFunction( column ) );
+			}
+			
 			ChartItemUtil.loadExpression( exprCodec, column );
 			// Even if expression is null, create the script expression
 			binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
