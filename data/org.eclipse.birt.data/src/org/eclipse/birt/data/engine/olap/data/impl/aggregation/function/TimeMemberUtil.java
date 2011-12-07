@@ -81,6 +81,10 @@ public class TimeMemberUtil
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_MONTH.equals( cellTimeMember.getLevelType()[i] ) )
 			{
+				// if level is month, and the reference date is 2011.3.31,
+				// the month is 2, so the date will set to 2011.2.31, the calendar will adapt the date to 2011.3
+				// here we set the month to 1.
+				cal.set( Calendar.DAY_OF_MONTH, 1 );
 				cal.set( Calendar.MONTH, cellTimeMember.getMemberValue()[i] - 1 );
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( cellTimeMember.getLevelType()[i] ) )

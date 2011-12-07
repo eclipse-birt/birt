@@ -42,6 +42,7 @@ abstract public class AbstractMDX
 	{
 		String type = "";
 		int dayOfWeek = 1;
+		int month = 1 ;
 		for ( int i = 0; i < values.length; i++ )
 		{
 			if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
@@ -62,6 +63,7 @@ abstract public class AbstractMDX
 			{
 				cal.set( Calendar.MONTH, values[i] - 1 );
 				type = MONTH;
+				month = values[i] - 1;
 			}
 
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
@@ -84,6 +86,7 @@ abstract public class AbstractMDX
 
 				cal.set( Calendar.WEEK_OF_MONTH, values[i] );
 
+				setAcrossMonthWeekDay(cal, month);
 				type = WEEK;
 			}
 
@@ -105,6 +108,8 @@ abstract public class AbstractMDX
 					cal.set( Calendar.DAY_OF_WEEK, 1 );
 				}
 				cal.set( Calendar.WEEK_OF_YEAR, values[i] );
+				
+				setAcrossMonthWeekDay(cal, month);
 				
 				type = WEEK;
 			}
@@ -134,6 +139,26 @@ abstract public class AbstractMDX
 		return type;
 	}
 
+	
+	private void setAcrossMonthWeekDay(Calendar cal, int monthBase)
+	{
+		int month = cal.get( Calendar.MONTH );
+		if ( month == monthBase )
+		{
+			return;
+		}
+
+		cal.set( Calendar.DAY_OF_WEEK, 1 );
+		int monthStart = cal.get( Calendar.MONTH );
+
+		if ( monthStart == monthBase )
+		{
+			return;
+		}
+
+		cal.set( Calendar.DAY_OF_WEEK, 7 );
+
+	}
 	/**
 	 * get the TimeMember.values from Calendar
 	 * 
@@ -215,9 +240,16 @@ abstract public class AbstractMDX
 		else if ( type.equals( "quarterToDate" ) )
 		{
 			int quarter = cal.get( Calendar.MONTH ) / 3 + 1;
-			startMonth = quarter * 3 - 2;
-			startCal.set( Calendar.MONTH, startMonth - 1 );
+			startMonth = quarter * 3 - 3;
+			startCal.set( Calendar.MONTH, startMonth  );
 			startCal.set( Calendar.DAY_OF_MONTH, 1 );
+			if ( startMonth == 0 && startCal.get( Calendar.WEEK_OF_YEAR ) > 1 )
+			{
+				int[] newValues = getValueFromCal( startCal, levels );
+				TimeMember newMember = new TimeMember( newValues, levels );
+				list.add( newMember );
+				startCal.add( Calendar.WEEK_OF_YEAR, 1 );
+			}
 			startWeek = startCal.get( Calendar.WEEK_OF_YEAR );
 		}
 		else if ( type.equals( "monthToDate" ) )
@@ -225,6 +257,13 @@ abstract public class AbstractMDX
 			startMonth = cal.get( Calendar.MONTH );
 			startCal.set( Calendar.MONTH, startMonth );
 			startCal.set( Calendar.DAY_OF_MONTH, 1 );
+			if ( startMonth == 0 && startCal.get( Calendar.WEEK_OF_YEAR ) > 1 )
+			{
+				int[] newValues = getValueFromCal( startCal, levels );
+				TimeMember newMember = new TimeMember( newValues, levels );
+				list.add( newMember );
+				startCal.add( Calendar.WEEK_OF_YEAR, 1 );
+			}
 			startWeek = startCal.get( Calendar.WEEK_OF_YEAR );
 		}
 

@@ -55,7 +55,6 @@ public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPe
 		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
 			cal.add( Calendar.DAY_OF_WEEK, offset );
 
-		setReferenceDate( new ReferenceDate(  cal.getTime( ) ));
 		int[] newValues = getValueFromCal( cal, levels );
 
 		TimeMember newMember = new TimeMember( newValues, levels );
