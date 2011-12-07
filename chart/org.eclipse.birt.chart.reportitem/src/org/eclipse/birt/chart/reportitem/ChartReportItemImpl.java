@@ -898,7 +898,7 @@ public class ChartReportItemImpl extends ReportItem implements
 	 */
 	public final IReportItem copy( )
 	{
-		final ChartReportItemImpl crii = new ChartReportItemImpl( handle );
+		final ChartReportItemImpl crii = (ChartReportItemImpl) ChartReportItemUtil.instanceChartReportItem( handle );
 		crii.bCopied = true;
 
 		// Do not copy model for axis chart since it uses reference

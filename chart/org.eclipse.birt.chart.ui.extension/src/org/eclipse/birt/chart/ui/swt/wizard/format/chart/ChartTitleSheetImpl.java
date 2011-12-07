@@ -387,7 +387,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private String getTitleText( )
 	{
-		if ( getChart( ).getTitle( ).isAuto( ) )
+		if ( getChart( ).getTitle( ).isAuto( ) && getContext( ).getExtendedItem( ) != null )
 		{
 			return getContext( ).getUIFactory( )
 					.createUIHelper( )

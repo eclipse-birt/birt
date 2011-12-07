@@ -20,8 +20,10 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
@@ -308,7 +310,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		icLabel = new InsetsComposite( cmpLabel,
 				SWT.NONE,
 				1,
-				getTrendline( ).getLabel( ).getInsets( ),
+				getInsets( ),
 				getChart( ).getUnits( ),
 				getContext( ).getUIServiceProvider( ),
 				getContext( ) );
@@ -325,8 +327,30 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		return cmpContent;
 	}
 
+	protected Insets getInsets( )
+	{
+		Insets insets = getTrendline( ).getLabel( ).getInsets( );
+		if ( insets == null )
+		{
+			insets = CurveFittingImpl.createDefault( ).getLabel( ).getInsets( );
+			getTrendline( ).getLabel( ).setInsets( insets );
+			insets.eAdapters( )
+					.addAll( getTrendline( ).getLabel( ).eAdapters( ) );
+		}
+		return insets;
+	}
+
 	protected String getTrendlineText( )
 	{
+		if ( getTrendline( ).getLabel( ).getCaption( ) == null )
+		{
+			Text caption = CurveFittingImpl.createDefault( )
+					.getLabel( )
+					.getCaption( );
+			getTrendline( ).getLabel( ).setCaption( caption );
+			caption.eAdapters( ).addAll( getTrendline( ).getLabel( ).eAdapters( ) );
+		}
+		
 		if ( getTrendline( ).getLabel( ).getCaption( ).getValue( ) == null )
 		{
 			return "";//$NON-NLS-1$
