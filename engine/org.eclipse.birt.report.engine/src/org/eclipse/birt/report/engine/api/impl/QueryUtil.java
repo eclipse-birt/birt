@@ -592,7 +592,7 @@ public class QueryUtil
 		newQuery.getBindings( ).putAll( query.getBindings( ) );
 		newQuery.getFilters( ).addAll( query.getFilters( ) );
 		newQuery.getSorts( ).addAll( query.getSorts( ) );
-		// newQuery.getSubqueries( ).addAll( query.getSubqueries( ) );//?
+		newQuery.getSubqueries( ).addAll( query.getSubqueries( ) );
 		newQuery.getGroups( ).addAll( query.getGroups( ) );
 		newQuery.setUsesDetails( query.usesDetails( ) );
 		newQuery.setMaxRows( query.getMaxRows( ) );

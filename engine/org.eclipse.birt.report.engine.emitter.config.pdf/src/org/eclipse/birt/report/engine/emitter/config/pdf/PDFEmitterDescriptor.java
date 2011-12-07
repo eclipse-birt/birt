@@ -39,7 +39,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.pdf.config" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.pdf" );
 		
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(

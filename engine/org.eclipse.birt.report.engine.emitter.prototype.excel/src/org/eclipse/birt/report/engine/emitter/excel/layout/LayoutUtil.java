@@ -187,10 +187,13 @@ public class LayoutUtil
 				{
 					columns[i] = resize( columns[i], totalAssigned, leftWidth );
 					lastAssignedIndex = i;
+					totalResized += columns[i];
 				}
-				totalResized += columns[i];
 			}
-			columns[lastAssignedIndex] += tableWidth - totalResized;
+			if ( !autoExtend )
+			{
+				columns[lastAssignedIndex] += tableWidth - totalResized;
+			}
 		}
 		else if ( leftWidth >= 0 && unassignedCount > 0 )
 		{

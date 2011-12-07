@@ -73,6 +73,7 @@ public class MeasureDialog extends TitleAreaDialog
 {
 
 	private boolean isEdit = false;
+	private boolean isAutoPrimaryKeyChecked = false;
 	private Combo typeCombo;
 	private Text expressionText;
 	private Combo functionCombo;
@@ -196,6 +197,11 @@ public class MeasureDialog extends TitleAreaDialog
 	public void setInput( TabularMeasureHandle input )
 	{
 		this.input = input;
+	}
+
+	public void setAutoPrimaryKeyStatus( boolean isChecked )
+	{
+		this.isAutoPrimaryKeyChecked = isChecked;
 	}
 
 	/*
@@ -485,6 +491,7 @@ public class MeasureDialog extends TitleAreaDialog
 			}
 
 		} );
+		functionCombo.setEnabled( !isAutoPrimaryKeyChecked );
 
 		Label typeLabel = new Label( group, SWT.NONE );
 		typeLabel.setText( Messages.getString( "MeasureDialog.Label.DataType" ) ); //$NON-NLS-1$
@@ -519,7 +526,6 @@ public class MeasureDialog extends TitleAreaDialog
 			public void modifyText( ModifyEvent e )
 			{
 				checkOkButtonStatus( );
-
 			}
 
 		} );

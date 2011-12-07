@@ -1205,6 +1205,8 @@ public class ResultIterator implements IResultIterator
 		// init flag
 		private boolean isBasicSaved;
 		
+		private boolean skipSaveEmpty = false;
+		
 		/**
 		 * @param context
 		 * @param queryDefn
@@ -1219,6 +1221,30 @@ public class ResultIterator implements IResultIterator
 			this.queryDefn = queryDefn;
 			this.odiResult = odiResult;
 			this.idInfo = idInfo;
+
+			try
+			{
+				if ( odiResult.getRowCount( ) == 0
+						&& resultService.getQueryDefn( ).getParentQuery( ) != null )
+
+				{
+					if ( resultService.getSession( )
+							.getEngineContext( )
+							.getMode( ) == DataEngineContext.MODE_GENERATION )
+					{
+						resultService.getSession( )
+								.getEmptyNestedResultSetID( )
+								.add( resultService.getQueryResults( ).getID( ) );
+						resultService.getSession( )
+								.updateNestedEmptyQueryID( resultService.getQueryResults( )
+										.getID( ) );
+					}
+					skipSaveEmpty = true;
+				}
+			}
+			catch ( DataException e )
+			{
+			}
 		}
 
 		/**
@@ -1257,7 +1283,7 @@ public class ResultIterator implements IResultIterator
 		private void doSave( Map valueMap, boolean finish )
 				throws DataException
 		{
-			if ( needsSaveToDoc( ) == false )
+			if ( needsSaveToDoc( ) == false || skipSaveEmpty  )
 				return;
 
 			doSaveBasic( );
@@ -1267,16 +1293,16 @@ public class ResultIterator implements IResultIterator
 						valueMap );
 			else
 			{
-				//TODO:enhance me
-				//Save the whole result set, the rows that have never be
-				//read will be saved as null value.
-				this.rdSave.saveFinish( odiResult.getRowCount() - 1 );
+				// TODO:enhance me
+				// Save the whole result set, the rows that have never be
+				// read will be saved as null value.
+				this.rdSave.saveFinish( odiResult.getRowCount( ) - 1 );
 			}
 		}
 
 		private void doSaveBasic( ) throws DataException
 		{
-			if ( needsSaveToDoc( ) == false )
+			if ( needsSaveToDoc( ) == false || skipSaveEmpty )
 				return;
 			
 			if ( isBasicSaved == false )
