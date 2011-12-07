@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -200,6 +202,19 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 */
 	protected Map<String, ReportItemTheme> reportItemThemes = new LinkedHashMap<String, ReportItemTheme>(
 			ModelUtil.MAP_CAPACITY_MEDIUM );
+	
+	/**
+	 * this map maintain the mapping of created ReportItemTheme and the created report items which should use the ReportItemTheme.
+	 * This map is used to update the ReportItemTheme name in report item after referred  ReportItemTheme is renamed.
+	 */
+	protected Map<ReportItemTheme, List<ReportItem>> ReportItemThemeMapping = new LinkedHashMap<ReportItemTheme, List<ReportItem>>(
+			ModelUtil.MAP_CAPACITY_MEDIUM );
+	
+	protected Map<ExtendedItem, StyleHandle[]> referencedStyleMap = new LinkedHashMap<ExtendedItem, StyleHandle[]>(
+			ModelUtil.MAP_CAPACITY_LOW );
+
+
+	
 
 	/**
 	 * Returns the newly created report design.
@@ -259,6 +274,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		// add report item themes to design tree
 		addReportItemThemes( );
+		
+		// add referenced style into report, also update the theme
+		processAllReferencedStyle( );
 
 		// do some memory release
 		release( );
@@ -318,6 +336,128 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		currentNewElement = newElement;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitContentElement
+	 * (org.eclipse.birt.report.model.elements.ContentElement)
+	 */
+
+	public void visitExtendedItem( ExtendedItem obj )
+	{
+		super.visitExtendedItem( obj );
+
+		assert ( currentNewElement instanceof ExtendedItem );
+		IReportItem extItem = obj.getExtendedElement( );
+		StyleHandle[] styles = extItem.getReferencedStyle( );
+		if ( styles != null && styles.length > 0 )
+		{
+			this.referencedStyleMap.put( (ExtendedItem) currentNewElement,
+					styles );
+		}
+	}
+
+	private String insertStyle( StyleHandle styleHandle )
+	{
+		Style style = (Style) styleHandle.getElement( );
+		Style newStyle = null;
+		try
+		{
+			newStyle = (Style) style.clone( );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert ( false );
+		}
+
+		if ( newStyle != null )
+		{
+			ContainerContext context = new ContainerContext( targetDesign,
+					IReportDesignModel.STYLE_SLOT );
+			addElement( targetDesign, context, newStyle );
+			targetDesign.manageId( newStyle, true );
+			return newStyle.getName( );
+		}
+		return null;
+	}
+
+	private void processAllReferencedStyle( )
+	{
+		if ( !referencedStyleMap.isEmpty( ) )
+		{
+			Map<StyleHandle, String> processedStyles = new HashMap<StyleHandle, String>( );
+			Iterator<ExtendedItem> iter = referencedStyleMap.keySet( )
+					.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				ExtendedItem item = iter.next( );
+				processExtendedItemReferencedStyle( item,
+						referencedStyleMap.get( item ), processedStyles );
+			}
+		}
+	}
+
+	private void processExtendedItemReferencedStyle( ExtendedItem extendedItem,
+			StyleHandle[] styles, Map<StyleHandle, String> processedStyles )
+	{
+
+		HashMap<String, String> styleMap = new HashMap<String, String>( );
+		// add style and get the style name maps.
+		for ( int i = 0; i < styles.length; i++ )
+		{
+			if ( !processedStyles.containsKey( styles[i] ) )
+			{
+				String originalName = styles[i].getName( );
+				String name = insertStyle( styles[i] );
+				if ( name != null )
+				{
+					if ( originalName != null && !originalName.equals( name ) )
+					{
+						styleMap.put( originalName, name );
+					}
+					processedStyles.put( styles[i], name );
+				}
+			}
+			else
+			{
+				String originalName = styles[i].getName( );
+				String name = processedStyles.get( styles[i] );
+				if ( !name.equals( originalName ) )
+				{
+					styleMap.put( originalName, name );
+				}
+			}
+		}
+		if ( !styleMap.isEmpty( ) )
+		{
+			IReportItem item = extendedItem.getExtendedElement( );
+			if ( item != null )
+			{
+				item.updateStyleReference( styleMap );
+			}
+			else
+			{
+				try
+				{
+					extendedItem.initializeReportItem( targetDesign );
+					item = extendedItem.getExtendedElement( );
+					if ( item != null )
+					{
+						item.updateStyleReference( styleMap );
+					}
+				}
+				catch ( ExtendedElementException e )
+				{
+					logger.log( java.util.logging.Level.WARNING,
+							"can not load extended item.", e ); //$NON-NLS-1$
+				}
+
+			}
+		}
+	}
+
 
 	/**
 	 * Adds structure values to the target. Currently only has cases with
@@ -914,11 +1054,32 @@ class ReportDesignSerializerImpl extends ElementVisitor
 						.get( sourceTheme.getHandle( sourceTheme.getRoot( ) )
 								.getQualifiedName( ) );
 				assert targetTheme != null;
-				targetItem.setProperty( IReportItemModel.THEME_PROP,
-						new ElementRefValue( null, targetTheme.getName( ) ) );
-
+				ElementRefValue themeRef = new ElementRefValue( null,
+						targetTheme.getName( ) );
+				themeRef.resolve( targetTheme );
+				targetItem.setProperty( IReportItemModel.THEME_PROP, themeRef );
+				addReportItemThemeMap( targetItem, targetTheme );
 			}
 
+		}
+	}
+
+	private void addReportItemThemeMap( ReportItem targetItem,
+			ReportItemTheme targetTheme )
+	{
+		List<ReportItem> reportItems = ReportItemThemeMapping
+				.get( targetTheme );
+		{
+			if ( reportItems == null )
+			{
+				reportItems = new ArrayList<ReportItem>( );
+				reportItems.add( targetItem );
+				ReportItemThemeMapping.put( targetTheme, reportItems );
+			}
+			else
+			{
+				reportItems.add( targetItem );
+			}
 		}
 	}
 
@@ -1405,7 +1566,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	 * @return the localized design
 	 */
 
-	private void localizeDesign( ReportDesign source )
+	protected void localizeDesign( ReportDesign source )
 	{
 		targetDesign = new ReportDesign( source.getSession( ) );
 
@@ -1515,8 +1676,28 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			// add external library theme
 			ContainerContext context = new ContainerContext( targetDesign,
 					IReportDesignModel.THEMES_SLOT );
+			String originalName = newTheme.getName( );
 			addElement( targetDesign, context, newTheme );
 			targetDesign.manageId( newTheme, true );
+			if ( !originalName.equals( newTheme.getName( ) ) )
+			{
+				// the theme is renamed, all referred item should be updated
+				List<ReportItem> reportItems = this.ReportItemThemeMapping
+						.get( newTheme );
+				if ( reportItems != null && !reportItems.isEmpty( ) )
+				{
+					for ( ReportItem reportItem : reportItems )
+					{
+						ElementRefValue themeRef = new ElementRefValue( null,
+								newTheme.getName( ) );
+						themeRef.resolve( newTheme );
+						reportItem.setProperty( IReportItemModel.THEME_PROP,
+								themeRef );
+					}
+				}
+
+			}
+
 		}
 	}
 
@@ -2650,32 +2831,67 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		if ( needExportReferredElement( refElement ) )
 		{
-			DesignElement newRefEelement = getCache( refElement );
-			if ( newRefEelement == null )
+			DesignElement newRefElement = getCache( refElement );
+			if ( newRefElement == null )
 			{
 				// if the element is a referencable styled element such as:
 				// Chart -> hostChart.
 
 				if ( refElement instanceof ReferencableStyledElement )
-					newRefEelement = visitExternalReferencableStyledElement(
+					newRefElement = visitExternalReferencableStyledElement(
 							(ReferencableStyledElement) refElement,
 							sourceElement );
 				else
-					newRefEelement = visitExternalElement( refElement );
+					newRefElement = visitExternalElement( refElement );
 			}
 
 			// if it is theme, newRefElement can be null.
 
-			if ( newRefEelement != null )
+			if ( newRefElement != null )
 				newElement.setProperty( propDefn, new ElementRefValue( null,
-						newRefEelement ) );
+						newRefElement ) );
 			else
 				newElement.setProperty( propDefn, new ElementRefValue( null,
 						refElement.getName( ) ) );
 		}
 		else
-			newElement.setProperty( propDefn, new ElementRefValue( value
-					.getLibraryNamespace( ), value.getName( ) ) );
+		{
+			setElementRefProperty( newElement, propDefn, value );
+		}
+	}
+	
+	protected void setElementRefProperty( 
+			DesignElement newElement, PropertyDefn propDefn,
+			ElementRefValue value )
+	{
+		boolean isDynamicLinkerChildren = false;
+		DesignElement e = value.getElement( );
+		while ( e != null )
+		{
+			if ( e instanceof Cube )
+			{
+				Cube containerCube = (Cube) e;
+				if ( containerCube.getDynamicExtendsElement( sourceDesign ) != null )
+				{
+					isDynamicLinkerChildren = true;
+					break;
+				}
+			}
+			e = e.getContainer( );
+		}
+
+		if ( !isDynamicLinkerChildren )
+		{
+			newElement.setProperty(
+					propDefn,
+					new ElementRefValue( value.getLibraryNamespace( ), value
+							.getName( ) ) );
+		}
+		else
+		{
+			newElement.setProperty( propDefn,
+					new ElementRefValue( null, value.getName( ) ) );
+		}
 	}
 
 	/**
