@@ -98,7 +98,8 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
 		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		if ( measureViewHandle == null
-				|| ( measureViewHandle instanceof ComputedMeasureViewHandle ) )
+				|| measureViewHandle instanceof ComputedMeasureViewHandle
+				|| (measureViewHandle.getCubeMeasure() != null && measureViewHandle.getCubeMeasure().isCalculated()))
 		{
 			return;
 		}

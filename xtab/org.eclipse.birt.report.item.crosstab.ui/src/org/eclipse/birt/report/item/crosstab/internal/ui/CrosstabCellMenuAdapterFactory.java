@@ -45,6 +45,7 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewPr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -106,7 +107,8 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
 		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		if ( measureViewHandle == null
-				|| ( measureViewHandle instanceof ComputedMeasureViewHandle ) )
+				|| measureViewHandle instanceof ComputedMeasureViewHandle
+				|| (measureViewHandle.getCubeMeasure() != null && measureViewHandle.getCubeMeasure().isCalculated()))
 		{
 			return;
 		}

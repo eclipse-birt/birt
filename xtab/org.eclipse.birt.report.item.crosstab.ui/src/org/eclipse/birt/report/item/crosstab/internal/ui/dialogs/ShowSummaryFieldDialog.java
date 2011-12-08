@@ -116,7 +116,9 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			}
 			MeasureInfo info = (MeasureInfo) element;
 			MeasureViewHandle measureView = crosstab.getMeasure( info.getMeasureName( ) );
-			if (measureView != null && measureView instanceof ComputedMeasureViewHandle )
+			if (measureView == null
+					|| measureView instanceof ComputedMeasureViewHandle
+					|| (measureView.getCubeMeasure() != null && measureView.getCubeMeasure().isCalculated()))
 			{
 				return false;
 			}
