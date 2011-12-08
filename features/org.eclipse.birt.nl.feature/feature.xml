@@ -407,7 +407,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.excel.config.nl1"
+         id="org.eclipse.birt.report.engine.emitter.config.excel.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -415,7 +415,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.pdf.config.nl1"
+         id="org.eclipse.birt.report.engine.emitter.config.pdf.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -423,7 +423,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.html.config.nl1"
+         id="org.eclipse.birt.report.engine.emitter.config.html.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -431,7 +431,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.ppt.config.nl1"
+         id="org.eclipse.birt.report.engine.emitter.config.ppt.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -439,7 +439,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.postscript.config.nl1"
+         id="org.eclipse.birt.report.engine.emitter.config.postscript.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -447,7 +447,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.wpml.config.nl1"
+         id="org.eclipse.birt.report.engine.emitter.config.wpml.nl1"
          download-size="0"
          install-size="0"
          version="0.0.0"

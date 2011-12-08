@@ -583,7 +583,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 			return false;
 	}
 
-	private void dealDataSetNullOrdering( )
+	protected void dealDataSetNullOrdering( )
 	{
 		if ( nullOrderingCombo != null && !nullOrderingCombo.isDisposed( ) )
 		{
@@ -606,7 +606,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	private void dealDataSetLocale( )
+	protected void dealDataSetLocale( )
 	{
 		if ( localeCombo != null && !localeCombo.isDisposed( ) )
 		{

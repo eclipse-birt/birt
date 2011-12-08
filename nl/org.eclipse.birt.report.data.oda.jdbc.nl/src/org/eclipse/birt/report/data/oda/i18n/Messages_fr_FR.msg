@@ -96,3 +96,4 @@ odajdbc.CannotInstantiateDriverClass=Impossible de créer l'instance de la classe
 odajdbc.CannotInstantiateFactory=Impossible de créer l''instance de la classe de génération de connexion "{0}" définie dans l''extension de la classe de pilote "{1}".
 
 odajdbc.jndi.InvalidJndiResource=Type de ressource JNDI identifié ({0}); type attendu : javax.sql.DataSource.
+odajdbc.testfail=Echec du test

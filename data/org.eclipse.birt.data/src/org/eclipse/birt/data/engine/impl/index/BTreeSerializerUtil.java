@@ -55,7 +55,7 @@ public class BTreeSerializerUtil
 		}
 		else if ( dataType == Timestamp.class )
 		{
-			return new TimeStampSerializer( );
+			return new DateTimeSerializer( );
 		}
 		else if ( dataType == Boolean.class )
 		{

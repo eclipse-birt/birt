@@ -1003,6 +1003,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 							b.setExpression( new ScriptExpression( "1" ) );
 						}
 					}
+					
+					if( b.getExpression( ) == null || ((ScriptExpression)b.getExpression( )).getText( ) == null )
+					{
+						throw new AdapterException( ResourceConstants.INVALID_MEASURE_EXPRESSION, measureName );
+					}
 
 					b.setAggrFunction( null );
 					if ( b.getAggregatOns( ) != null )

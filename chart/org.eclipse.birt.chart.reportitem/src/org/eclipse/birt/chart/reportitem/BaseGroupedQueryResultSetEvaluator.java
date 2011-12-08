@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
-import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -531,25 +530,32 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		exprCodec.decode( expr );
 		Set<String> bindingNameSet = exprCodec.getRowBindingNameSet( );
 		
-		if (bindingNameSet.isEmpty( ))
-		{
-			return -1;
-		}
-		
-		// Check if the expression is grouping expression.
+		boolean isJavaScript = ExpressionCodec.JAVASCRIPT.equals( exprCodec.getType( ) );
+		// Check if the expression is group expression.
 		for ( int i = 0; i < groupDefinitions.size( ); i++ )
 
 		{
-			// First to check if the expression is a grouping expression.
 			IGroupDefinition gd = groupDefinitions.get( i );
 			String exprGroupKey = gd.getKeyExpression( );
-			Set<String> grpBindings = exprCodec.getRowBindingNameSet( exprGroupKey );
-
-			for ( String grpBinding : grpBindings )
+			if ( isJavaScript )
 			{
-				if ( bindingNameSet.contains( grpBinding ) )
+				// If specified expr contains group expression, the expr is used as group key.
+				if ( expr.indexOf( exprGroupKey ) >= 0 )
 				{
 					return i;
+				}
+			}
+			
+			if ( !bindingNameSet.isEmpty( ) )
+			{
+				Set<String> grpBindings = exprCodec.getRowBindingNameSet( exprGroupKey );
+
+				for ( String grpBinding : grpBindings )
+				{
+					if ( bindingNameSet.contains( grpBinding ) )
+					{
+						return i;
+					}
 				}
 			}
 		}

@@ -589,7 +589,7 @@ public class JDBCSelectionPageHelper
 				{
 					ExceptionHandler.showException( getShell( ),
 							JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
-							JdbcPlugin.getResourceString( e1.getLocalizedMessage( ) ),
+							e1.getLocalizedMessage( ),
 							e1 );
 				}
 				testButton.setEnabled( true );

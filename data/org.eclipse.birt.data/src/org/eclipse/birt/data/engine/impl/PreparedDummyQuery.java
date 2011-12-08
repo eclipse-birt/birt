@@ -1180,6 +1180,15 @@ public class PreparedDummyQuery implements IPreparedQuery
 						"Result Class" );
 			}
 		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.CachedResultSet#getRowCount()
+		 */
+		public int getRowCount( ) throws DataException
+		{
+			return 1;
+		}
 	}
 
 	/*

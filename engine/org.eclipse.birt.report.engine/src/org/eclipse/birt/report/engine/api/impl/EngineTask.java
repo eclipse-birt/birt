@@ -115,10 +115,17 @@ public abstract class EngineTask implements IEngineTask
 
 	protected final static String FORMAT_HTML = "html";
 	protected final static String FORMAT_XHTML = "xhtml";
+	
 	/**
 	 * is cancel called
 	 */
 	protected boolean cancelFlag;
+	
+	/**
+	 *	the fatal errors occurs that will terminate the engine task.
+	 */
+	protected EngineException fatalError = null;
+	
 	protected int runningStatus;
 
 	/**
@@ -984,6 +991,24 @@ public abstract class EngineTask implements IEngineTask
 			inputValues.put( name, new ParameterAttribute( value, null ) );
 		}
 	}
+	
+	public void setParameterValue( String name, Object[] values )
+	{
+		log.log( Level.FINE, "EngineTask.setParameterValue: {0}={1} [{2}]",
+				new Object[]{name, values,
+						values == null ? null : values.getClass( ).getName( )} );
+		parameterChanged = true;
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			( (ParameterAttribute) parameter ).setValue( values );
+		}
+		else
+		{
+			inputValues.put( name, new ParameterAttribute( values, new String[]{null}) );
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -994,6 +1019,17 @@ public abstract class EngineTask implements IEngineTask
 	public void setValue( String name, Object value )
 	{
 		setParameterValue( name, value );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IEngineTask#setParameterValue(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public void setValue( String name, Object[] values )
+	{
+		setParameterValue( name, values );
 	}
 
 	/*
@@ -1036,8 +1072,14 @@ public abstract class EngineTask implements IEngineTask
 		parameterChanged = true;
 		inputValues.put( name, new ParameterAttribute( value, displayText ) );
 	}
+	
+	public void setParameter( String name, Object[] values, String[] displayText )
+	{
+		parameterChanged = true;
+		inputValues.put( name, new ParameterAttribute( values, displayText ) );
+	}
 
-	public String getParameterDisplayText( String name )
+	public Object getParameterDisplayText( String name )
 	{
 		Object parameter = inputValues.get( name );
 		if ( parameter != null )
@@ -1075,6 +1117,20 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 	
+	public void setParameterDisplayText( String name, String[] displayText )
+	{
+		parameterChanged = true;
+		Object parameter = inputValues.get( name );
+		if ( parameter != null )
+		{
+			assert parameter instanceof ParameterAttribute;
+			( (ParameterAttribute) parameter ).setDisplayText( displayText );
+		}
+		else
+		{
+			inputValues.put( name, new ParameterAttribute( null, displayText ) );
+		}
+	}
 	
 	protected Object evaluateDefaultValue( AbstractScalarParameterHandle parameter )
 	{
@@ -1822,6 +1878,33 @@ public abstract class EngineTask implements IEngineTask
 				}
 			}
 		}
+		updateOptions( );
+	}
+	
+	protected void updateOptions( )
+	{
+		Map appContext = getAppContext( );
+		ReportDesignHandle handle = executionContext.getReportDesign( );
+		if ( handle != null )
+		{
+			Map options = handle.getOptions( );
+			Map newOptions = new HashMap( );
+			newOptions.putAll( options );
+			if ( !newOptions.isEmpty( ) )
+			{
+				Set keyset = newOptions.keySet( );
+				Iterator iter = keyset.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Object key = iter.next( );
+					if ( appContext.containsKey( key ) )
+					{
+						newOptions.put( key, appContext.get( key ) );
+					}
+				}
+			}
+			handle.setOptions( newOptions );
+		}
 	}
 
 	protected void startFactory( )
@@ -1880,7 +1963,13 @@ public abstract class EngineTask implements IEngineTask
 
 	public List getErrors( )
 	{
-		return executionContext.getErrors( );
+		ArrayList errorList = new ArrayList( );
+		if ( fatalError != null )
+		{
+			errorList.add( fatalError );
+		}
+		errorList.addAll( executionContext.getErrors( ) );
+		return errorList;
 	}
 
 	public IReportContext getReportContext( )
@@ -2132,13 +2221,49 @@ public abstract class EngineTask implements IEngineTask
 		{
 			runningStatus = STATUS_CANCELLED;
 		}
-		else if ( executionContext.hasErrors( ) )
+		else if ( fatalError != null || executionContext.hasErrors( ) )
 		{
 			runningStatus = STATUS_FAILED;
 		}
 		else
 		{
 			runningStatus = STATUS_SUCCEEDED;
+		}
+	}
+	
+	protected void handleFatalExceptions( Throwable t ) throws EngineException
+	{
+		if ( t instanceof EngineException )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", t ); //$NON-NLS-1$
+			fatalError = (EngineException) t;
+			throw fatalError;
+		}
+		else if ( t instanceof Exception )
+		{
+			log.log( Level.SEVERE,
+					"An error happened while running the report. Cause:", t ); //$NON-NLS-1$
+			fatalError = new EngineException(
+					MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
+			throw fatalError;
+		}
+		else if ( t instanceof OutOfMemoryError )
+		{
+			log.log( Level.SEVERE,
+					"There is insufficient memory to execute this report." ); //$NON-NLS-1$
+			fatalError = new EngineException(
+					MessageConstants.REPORT_RUN_ERROR, t );
+			throw (OutOfMemoryError) t;
+		}
+		else
+		// Throwable t
+		{
+			log.log( Level.SEVERE,
+					"Error happened while running the report.", t ); //$NON-NLS-1$
+			fatalError = new EngineException(
+					MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
+			throw fatalError;
 		}
 	}
 
@@ -2171,7 +2296,7 @@ public abstract class EngineTask implements IEngineTask
 
 	protected void switchToOsgiClassLoader( )
 	{
-		platformContext = Platform.enterPlatformContext( );;
+		platformContext = Platform.enterPlatformContext( );
 	}
 
 	protected void switchClassLoaderBack( )
@@ -2203,8 +2328,14 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	protected void loadDataSource( ) throws EngineException
 	{
+		boolean refreshData = false;
+		Object obj = getAppContext( ).get( EngineConstants.REFRESH_DATA );
+		if ( obj != null && obj.equals( Boolean.TRUE ) )
+		{
+			refreshData = true;
+		}
 		// we only need setup the data source for the task which has dataSource
-		if ( dataSource == null )
+		if ( dataSource == null || refreshData )
 		{
 			return;
 		}

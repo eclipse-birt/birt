@@ -12,14 +12,17 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
@@ -31,6 +34,7 @@ import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.util.EmptyExprResultSet;
 import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet1;
 import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet2;
 import org.eclipse.birt.data.engine.impl.document.util.ExprResultSet;
@@ -53,7 +57,10 @@ public class RDLoad
 	private StreamManager streamManager;
 	private RDSubQueryUtil subQueryUtil;
 	
+	private QueryResultInfo queryResultInfo;
 	private String tempDir;
+
+	private DataEngineContext context;
 	
 	/**
 	 * @param context
@@ -66,6 +73,8 @@ public class RDLoad
 			throws DataException
 	{
 		this.tempDir = tempDir;
+		this.queryResultInfo = queryResultInfo;
+		this.context = context;
 		subQueryUtil = new RDSubQueryUtil( context,
 				QueryResultIDUtil.getRealStreamID( queryResultInfo.getRootQueryResultID( ),
 						queryResultInfo.getSelfQueryResultID( ) ),
@@ -112,15 +121,26 @@ public class RDLoad
 	{
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
-			return new ExprResultSet2( tempDir, streamManager,
+			return new ExprResultSet2( tempDir,
+					streamManager,
 					version,
-					streamManager.isSecondRD( ), rowIdStartingIndex );
-		return new ExprResultSet( tempDir, streamManager,
-				version,
-				streamManager.isSecondRD( ),
-				( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
-						? null : this.loadDataSetData( null, null, new HashMap() ), streamManager.isSubquery( ) ? rowIdStartingIndex:0,
-								qd );
+					streamManager.isSecondRD( ),
+					rowIdStartingIndex );
+		if ( isEmptyQueryResultID( this.queryResultInfo.getSelfQueryResultID( ) ) )
+		{
+			return new EmptyExprResultSet( );
+		}
+		else
+			return new ExprResultSet( tempDir,
+					streamManager,
+					version,
+					streamManager.isSecondRD( ),
+					( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
+							? null : this.loadDataSetData( null,
+									null,
+									new HashMap( ) ),
+					streamManager.isSubquery( ) ? rowIdStartingIndex : 0,
+					qd );
 	}
 	
 	/**
@@ -141,12 +161,17 @@ public class RDLoad
 		// of ExprDataResultSet
 		IExprDataResultSet exprDataResultSet = null;
 		if ( streamManager.isBasedOnSecondRD( ) == false )
+		{
 			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE ),
 					exprMetas,
 					version,
-					(isSummary || version < VersionManager.VERSION_2_2_1_3)?null:this.loadDataSetData( null, null, new HashMap() ));
+					( isSummary || version < VersionManager.VERSION_2_2_1_3 )
+							? null : this.loadDataSetData( null,
+									null,
+									new HashMap( ) ) );
+		}
 		else
 			exprDataResultSet = new ExprDataResultSet2( tempDir,
 					streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
@@ -193,8 +218,8 @@ public class RDLoad
 	public IResultClass loadResultClass( ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
 		IResultClass resultClass = new ResultClass( buffStream, version );
 		try
@@ -219,13 +244,13 @@ public class RDLoad
 	public DataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds, Map<String, StringTable> stringTableMap, Map index ) throws DataException
 	{
 		if( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE ) )
-			return null;
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE ) )
+				return null;
 		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
-	
+					StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );	
+
 		RAInputStream lensStream = null;
 		if( version >= VersionManager.VERSION_2_2_1_3 )
 			lensStream = streamManager.getInStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
@@ -357,4 +382,42 @@ public class RDLoad
 		return QueryDefinitionUtil.findSubQueryDefinition( subQueryName, baseQueryDefn );
 	}
 	
+	/**
+	 * Read query result ID which result set is empty.
+	 * 
+	 * @param reader
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean isEmptyQueryResultID( String queryResultID )
+			throws DataException
+	{
+		if ( !this.context.hasInStream( "DataEngine",
+				null,
+				DataEngineContext.EMPTY_NESTED_QUERY_ID ) )
+		{
+			return false;
+		}
+		DataInputStream emptyQueryResultStream = new DataInputStream( context.getInputStream( "DataEngine",
+				null,
+				DataEngineContext.EMPTY_NESTED_QUERY_ID ) );
+		Set emptyQueryResultID = new HashSet( );
+		try
+		{
+			int count = IOUtil.readInt( emptyQueryResultStream );
+			for ( int i = 0; i < count; i++ )
+			{
+				String temp = IOUtil.readString( emptyQueryResultStream );
+				emptyQueryResultID.add( temp );
+			}
+			emptyQueryResultStream.close( );
+			if ( emptyQueryResultID.contains( queryResultID ) )
+				return true;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		return false;
+	}	
 }

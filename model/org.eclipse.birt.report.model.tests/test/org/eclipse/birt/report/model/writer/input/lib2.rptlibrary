@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 3.7.2.v20111031-1610 Build &lt;3.7.2.v20111031-1610></property>
+    <property name="units">in</property>
+    <themes>
+        <report-item-theme type="Table" name="NewReportItemTheme" id="7">
+            <styles>
+                <style name="table" id="8">
+                    <property name="backgroundColor">#FF8080</property>
+                </style>
+            </styles>
+        </report-item-theme>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

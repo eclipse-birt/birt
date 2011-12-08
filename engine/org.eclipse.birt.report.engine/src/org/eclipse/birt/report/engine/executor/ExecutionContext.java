@@ -932,9 +932,18 @@ public class ExecutionContext
 	 * @param name
 	 * @param value
 	 */
-	public void setParameter( String name, Object value, String displayText )
+	public void setParameter( String name, Object value, Object displayText )
 	{
-		params.put( name, new ParameterAttribute( value, displayText ) );
+		if ( displayText == null || displayText instanceof String )
+		{
+			params.put( name, new ParameterAttribute( value,
+					(String) displayText ) );
+		}
+		else if ( displayText instanceof String[] )
+		{
+			params.put( name, new ParameterAttribute( (Object[]) value,
+					(String[]) displayText ) );
+		}
 	}
 
 	public void clearParameters( )
@@ -983,7 +992,7 @@ public class ExecutionContext
 		return result;
 	}
 
-	public String getParameterDisplayText( String name )
+	public Object getParameterDisplayText( String name )
 	{
 		Object parameter = params.get( name );
 		if ( parameter != null )

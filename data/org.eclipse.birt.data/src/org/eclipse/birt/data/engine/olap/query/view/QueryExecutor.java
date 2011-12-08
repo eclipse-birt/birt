@@ -21,6 +21,7 @@ import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -181,11 +182,13 @@ public class QueryExecutor
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+					validateLimitSetting( view, rs );
 
 					rs = processOperationOnQuery( view,
 							stopSign,
 							rs,
 							aggrDefns );
+					
 					break;
 				}
 			}
@@ -213,6 +216,7 @@ public class QueryExecutor
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
+					this.validateLimitSetting( view, rs );
 				}
 				else
 				{
@@ -542,6 +546,7 @@ public class QueryExecutor
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 		rs = moe.execute( rs, view, cubeQueryExecutorHelper );
 
+		validateLimitSetting( view, rs );	
 		//If need save to local dir
 		if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 		{
@@ -811,5 +816,64 @@ public class QueryExecutor
 		aggregations.addAll( Arrays.asList( fromCalculatedMembers ) );
 		
 		return aggregations.toArray( new AggregationDefinition[0] );
+	}
+	
+	/**
+	 * If the length of edge cursor exceed the limit setting, throw exception.
+	 * @param cubeView
+	 * @param rsArray
+	 * @throws DataException
+	 */
+	private void validateLimitSetting( BirtCubeView cubeView, IAggregationResultSet[] rsArray ) throws DataException
+	{
+		int count = 0;
+		if ( cubeView.getColumnEdgeView( ) != null )
+		{
+			if( cubeView.getAppContext( )!= null )
+			{
+				int limitSize = populateFetchLimitSize( cubeView.getAppContext( )
+						.get( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE ) );
+				if ( limitSize > 0 && limitSize < rsArray[count].length( ) )
+				{
+					throw new DataException( ResourceConstants.RESULT_LENGTH_EXCEED_COLUMN_LIMIT,
+							new Object[]{
+								limitSize
+							} );
+				}
+			}
+			count++;
+		}
+		if ( cubeView.getRowEdgeView( ) != null )
+		{
+			if ( cubeView.getAppContext( ) != null )
+			{
+				int limitSize = populateFetchLimitSize( cubeView.getAppContext( )
+						.get( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE ) );
+				if ( limitSize > 0 && limitSize < rsArray[count].length( ) )
+				{
+					throw new DataException( ResourceConstants.RESULT_LENGTH_EXCEED_ROW_LIMIT,
+							new Object[]{
+								limitSize
+							} );
+				}
+			}
+			count++;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param propValue
+	 * @return
+	 */
+	private int populateFetchLimitSize( Object propValue )
+	{
+		int fetchLimit = -1;
+		String fetchLimitSize = propValue == null ? "-1" : propValue.toString( );
+
+		if ( fetchLimitSize != null )
+			fetchLimit = Integer.parseInt( fetchLimitSize );
+
+		return fetchLimit;
 	}
 }

@@ -33,16 +33,24 @@ public class EmitterContext
 
 	private boolean isFirst = true;
 
-	private boolean lastTable = false;
+	private boolean isAfterTable = false;
 
-	public void setLastIsTable( boolean isTable )
+	/**
+	 * Set the flag to show if we just finished a table element.
+	 * @param isTable
+	 */
+	public void setIsAfterTable( boolean isTable )
 	{
-		this.lastTable = isTable;
+		this.isAfterTable = isTable;
 	}
 	
-	public boolean isLastTable()
+	/**
+	 * Checks if we just finished a table element.
+	 * @return
+	 */
+	public boolean isAfterTable()
 	{
-		return this.lastTable;
+		return this.isAfterTable;
 	}
 	
 	public void startInline( )

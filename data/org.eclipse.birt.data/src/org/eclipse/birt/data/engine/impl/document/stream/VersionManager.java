@@ -69,6 +69,9 @@ public class VersionManager
 	//Progressive Viewing Enhancement
 	public final static int VERSION_2_6_2_2 = 160;
 	
+	//Empty nest query Enhancement
+	public final static int VERSION_2_6_2_3 = 170;
+
 	//Relative Time period function support
 	public final static int VERSION_2_6_3_1 = 180;
 	

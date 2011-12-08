@@ -91,8 +91,14 @@ public class QueryCompUtil
 			return false;
 		if ( qd1.usesDetails( ) != qd2.usesDetails( ) )
 			return false;
-		if ( qd1.getMaxRows( ) != qd2.getMaxRows( ) )
+		// max row with 0 is same with negative number
+		if ( qd1.getMaxRows( ) >= 0 && qd2.getMaxRows( ) >= 0
+				&& qd1.getMaxRows( ) != qd2.getMaxRows( ) )
 			return false;
+		if ( (qd1.getMaxRows( ) > 0 && qd2.getMaxRows( ) < 0 )
+				|| ( qd1.getMaxRows( ) < 0 && qd2.getMaxRows( ) > 0 ) )
+			return false;
+		
 		//We should never need to compare there parent query for that will not have impact
 		//on the query results.
 		/*if ( !isQueryDefnEqual( qd1.getParentQuery( ), qd2.getParentQuery( ), onIVMode ) )

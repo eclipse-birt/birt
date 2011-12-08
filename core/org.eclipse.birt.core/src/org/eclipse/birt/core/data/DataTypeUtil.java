@@ -404,7 +404,7 @@ public final class DataTypeUtil
 	public static Boolean toBoolean( Object source ) throws BirtException
 	{
 		if ( source == null )
-			return Boolean.FALSE;
+			return null;
 
 		if ( source instanceof Boolean )
 		{
