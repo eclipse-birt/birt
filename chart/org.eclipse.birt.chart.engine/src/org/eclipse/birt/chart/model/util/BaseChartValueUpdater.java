@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
+import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -8054,17 +8055,21 @@ public class BaseChartValueUpdater
 
 		if ( eRefObj != null )
 		{
-			ChartElementUtil.setEObjectAttribute( eParentObj,
-					name,
-					eRefObj,
-					false );
+			Object v = eRefObj;
+			if ( eRefObj instanceof IChartObject )
+			{
+				v = eRefObj.copyInstance( );
+			}
+			ChartElementUtil.setEObjectAttribute( eParentObj, name, v, false );
 		}
-		if ( eDefObj != null )
+		else if ( eDefObj != null )
 		{
-			ChartElementUtil.setEObjectAttribute( eParentObj,
-					name,
-					eDefObj,
-					false );
+			Object v = eDefObj;
+			if ( eDefObj instanceof IChartObject )
+			{
+				v = eDefObj.copyInstance( );
+			}
+			ChartElementUtil.setEObjectAttribute( eParentObj, name, v, false );
 		}
 	}
 
@@ -8280,17 +8285,21 @@ public class BaseChartValueUpdater
 
 		if ( eRefObj != null )
 		{
-			ChartElementUtil.setEObjectAttribute( eParentObj,
-					name,
-					eRefObj,
-					false );
+			Object v = eRefObj;
+			if ( eRefObj instanceof IChartObject )
+			{
+				v = eRefObj.copyInstance( );
+			}
+			ChartElementUtil.setEObjectAttribute( eParentObj, name, v, false );
 		}
-		if ( eDefObj != null )
+		else if ( eDefObj != null )
 		{
-			ChartElementUtil.setEObjectAttribute( eParentObj,
-					name,
-					eDefObj,
-					false );
+			Object v = eDefObj;
+			if ( eDefObj instanceof IChartObject )
+			{
+				v = eDefObj.copyInstance( );
+			}
+			ChartElementUtil.setEObjectAttribute( eParentObj, name, v, false );
 		}
 	}
 

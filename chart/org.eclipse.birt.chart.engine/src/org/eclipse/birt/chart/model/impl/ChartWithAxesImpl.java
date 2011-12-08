@@ -21,12 +21,14 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
+import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -1130,7 +1132,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 			getAxes( ).add( xAxisBase ); // ADD THE BASE AXIS TO THE CHART
 
-			setRotation( Rotation3DImpl.createDefault( ) );
+			setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
+				Angle3DImpl.createDefault( -20, 45, 0 )
+			} ) );
 		}
 		catch ( ChartException e )
 		{

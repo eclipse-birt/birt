@@ -76,11 +76,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		Listener
 {
 
-	private FillChooserComposite cmbBackground;
+	protected FillChooserComposite cmbBackground;
 
-	private FillChooserComposite fccWall;
+	protected FillChooserComposite fccWall;
 
-	private FillChooserComposite fccFloor;
+	protected FillChooserComposite fccFloor;
 
 	private Combo cmbStyle;
 
@@ -740,7 +740,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		getChart( ).getTitle( ).setVisible( currentValue );
 	}
 
-	private boolean hasWallAndFloor( )
+	protected boolean hasWallAndFloor( )
 	{
 		return ( getChart( ) instanceof ChartWithAxes )
 				&& ( getChart( ).getDimension( ).getValue( ) != ChartDimension.TWO_DIMENSIONAL );
