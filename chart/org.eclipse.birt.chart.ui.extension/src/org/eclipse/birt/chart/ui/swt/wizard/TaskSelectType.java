@@ -887,10 +887,12 @@ public class TaskSelectType extends SimpleTask implements
 				Orientation lastOrientation = ChartCacheManager.getInstance( )
 						.findOrientation( sType );
 				lastOrientation = getAvailableOrientation( chartType,
-						getAvailableDimension( chartType, sDimension ),
+						getAvailableDimension( chartType,
+								sDimension ),
 						lastOrientation );
 				if ( lastOrientation != getAvailableOrientation( chartType,
-						getAvailableDimension( chartType, sDimension ),
+						getAvailableDimension( chartType,
+								sDimension ),
 						orientation ) )
 				{
 					rotateAxisTitle( (ChartWithAxes) chartModel );
@@ -899,23 +901,6 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		// Preview after all model changes
 		doPreview( );
-	}
-
-	/**
-	 * Returns available dimension.
-	 *  
-	 * @param ct
-	 * @param refDimension
-	 * @return dimension
-	 */
-	public String getAvailableDimension( IChartType ct, String refDimension )
-	{
-		if ( refDimension == null )
-		{
-			return ct.getDefaultDimension( );
-		}
-
-		return refDimension;
 	}
 
 	protected void handleDimensionBtnSelected( String newDimension )
@@ -1333,29 +1318,6 @@ public class TaskSelectType extends SimpleTask implements
 	}
 
 	/**
-	 * Return available orientation even if it is not set.
-	 * 
-	 * @param chartType
-	 * @param dimension
-	 * @param refOrientation
-	 * @return available orientation
-	 */
-	public Orientation getAvailableOrientation( IChartType chartType, String dimension, Orientation refOrientation )
-	{
-		if ( refOrientation == null )
-		{
-			return chartType.getDefaultOrientation( );
-		}
-		else if ( refOrientation == Orientation.HORIZONTAL_LITERAL
-				&& !chartType.supportsTransposition( dimension ) )
-		{
-			return chartType.getDefaultOrientation( );
-		}
-		
-		return refOrientation;
-	}
-	
-	/**
 	 * This method populates the subtype panel (creating its components if
 	 * necessary). It gets called when the type selection changes or when the
 	 * dimension selection changes (since not all sub types are supported for
@@ -1380,11 +1342,9 @@ public class TaskSelectType extends SimpleTask implements
 
 		// Show the subtypes for the selected type based on current selections
 		// of dimension and orientation
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( getAvailableDimension( chartType,
-				sDimension ),
-				getAvailableOrientation( chartType,
-						sDimension,
-						this.orientation ) ) );
+		String availDim = getAvailableDimension( chartType, sDimension );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( availDim,
+				getAvailableOrientation( chartType, availDim, this.orientation ) ) );
 
 		if ( vSubTypes.size( ) == 0 )
 		{
@@ -2198,5 +2158,47 @@ public class TaskSelectType extends SimpleTask implements
 				}				
 			}
 		} );
+	}
+	
+	
+	/**
+	 * Return available orientation even if it is not set.
+	 * 
+	 * @param chartType
+	 * @param dimension
+	 * @param refOrientation
+	 * @return available orientation
+	 */
+	protected Orientation getAvailableOrientation( IChartType chartType, String dimension, Orientation refOrientation )
+	{
+		if ( refOrientation == null )
+		{
+			return chartType.getDefaultOrientation( );
+		}
+		else if ( refOrientation == Orientation.HORIZONTAL_LITERAL
+				&& !chartType.supportsTransposition( dimension ) )
+		{
+			return chartType.getDefaultOrientation( );
+		}
+		
+		return refOrientation;
+	}
+	
+
+	/**
+	 * Returns available dimension.
+	 *  
+	 * @param ct
+	 * @param refDimension
+	 * @return dimension available dimension.
+	 */
+	protected String getAvailableDimension( IChartType ct, String refDimension )
+	{
+		if ( refDimension == null )
+		{
+			return ct.getDefaultDimension( );
+		}
+
+		return refDimension;
 	}
 }

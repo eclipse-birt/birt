@@ -96,6 +96,9 @@ public class ChartExtensionValueUpdater
 		return ( eClass.getInstanceClass( ) == Map.Entry.class );
 	}
 
+	@SuppressWarnings({
+			"unchecked", "rawtypes"
+	})
 	private void updateAttrs( EClass eClass, EObject eParentObj, EObject eObj,
 			EObject eRef, EObject eDef )
 	{
@@ -143,7 +146,7 @@ public class ChartExtensionValueUpdater
 					{
 						eObj.eSet( eAttr, eRef.eGet( eAttr ) );
 					}
-					else if ( eDef != null )
+					else if ( eDef != null && eDef.eIsSet( eAttr ) )
 					{
 						eObj.eSet( eAttr, eDef.eGet( eAttr ) );
 					}
@@ -218,35 +221,45 @@ public class ChartExtensionValueUpdater
 		// Process visible case.
 		if ( contanisVisibleElement( eObj.eClass( ) ) )
 		{
-			if ( !eObj.eIsSet( eObj.eClass( ).getEStructuralFeature( "visible" ) ) ) //$NON-NLS-1$
+			if ( eObj.eIsSet( eObj.eClass( ).getEStructuralFeature( "visible" ) ) ) //$NON-NLS-1$
 			{
-				// If the visible attribute of reference obj is false, directly
-				// return, no need to udpate other attributes.;
-				if ( eRef != null
-						&& eRef.eIsSet( eRef.eClass( )
-								.getEStructuralFeature( "visible" ) ) //$NON-NLS-1$
-						&& eRef.eGet( eRef.eClass( )
-								.getEStructuralFeature( "visible" ) ) != Boolean.TRUE ) //$NON-NLS-1$
+				if ( eObj.eGet( eObj.eClass( )
+						.getEStructuralFeature( "visible" ) ) != Boolean.TRUE ) //$NON-NLS-1$
 				{
-					eObj.eSet( eRef.eClass( ).getEStructuralFeature( "visible" ), Boolean.FALSE ); //$NON-NLS-1$
-					return;
-				}
-				else if ( eDef != null
-						&& eDef.eIsSet( eDef.eClass( )
-								.getEStructuralFeature( "visible" ) ) //$NON-NLS-1$
-						&& eDef.eGet( eDef.eClass( )
-								.getEStructuralFeature( "visible" ) ) != Boolean.TRUE ) //$NON-NLS-1$
-				{
-					eObj.eSet( eDef.eClass( ).getEStructuralFeature( "visible" ), Boolean.FALSE ); //$NON-NLS-1$
+					// If the visible attribute is set to false, directly return, no need
+					// to update other attributes.
 					return;
 				}
 			}
-			else if ( eObj.eGet( eObj.eClass( )
-					.getEStructuralFeature( "visible" ) ) != Boolean.TRUE ) //$NON-NLS-1$
+			else
 			{
-				// If the visible attribute is false, directly return, no need
-				// to udpate other attributes.;
-				return;
+				// If eObj isn't set visible and the visible attribute of
+				// reference object is set to false, directly return, no need to
+				// update other attributes.
+				if ( eRef != null
+						&& eRef.eIsSet( eRef.eClass( )
+								.getEStructuralFeature( "visible" ) ) ) //$NON-NLS-1$
+				{
+					if ( eRef.eGet( eRef.eClass( )
+							.getEStructuralFeature( "visible" ) ) != Boolean.TRUE ) //$NON-NLS-1$
+					{
+						eObj.eSet( eRef.eClass( )
+								.getEStructuralFeature( "visible" ), Boolean.FALSE ); //$NON-NLS-1$
+						return;
+					}
+				}
+				else if ( eDef != null
+						&& eDef.eIsSet( eDef.eClass( )
+								.getEStructuralFeature( "visible" ) ) ) //$NON-NLS-1$
+				{
+					if ( eDef.eGet( eDef.eClass( )
+							.getEStructuralFeature( "visible" ) ) != Boolean.TRUE ) //$NON-NLS-1$
+					{
+						eObj.eSet( eDef.eClass( )
+								.getEStructuralFeature( "visible" ), Boolean.FALSE ); //$NON-NLS-1$
+						return;
+					}
+				}
 			}
 		}
 
@@ -332,7 +345,7 @@ public class ChartExtensionValueUpdater
 	 * @param expected
 	 * @param name
 	 * @param eObj
-	 * @return
+	 * @return a chart element instance with default value.
 	 */
 	public EObject getDefault( EClass expected, String name, EObject eObj )
 	{

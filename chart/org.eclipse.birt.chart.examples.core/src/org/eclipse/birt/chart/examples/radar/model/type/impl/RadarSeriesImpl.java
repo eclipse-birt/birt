@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Label;
@@ -2152,7 +2153,7 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		setLineAttributes( lia );
 
 		final LineAttributes weblia = AttributeFactory.eINSTANCE.createLineAttributes( );
-		( (LineAttributesImpl) weblia ).set( null, LineStyle.SOLID_LITERAL, 1 );
+		( (LineAttributesImpl) weblia ).set( ColorDefinitionImpl.BLACK( ), LineStyle.SOLID_LITERAL, 1 );
 		weblia.setVisible( true );
 		setWebLineAttributes( weblia );
 
