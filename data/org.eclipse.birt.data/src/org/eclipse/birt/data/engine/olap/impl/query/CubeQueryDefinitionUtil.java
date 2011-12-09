@@ -775,6 +775,14 @@ public class CubeQueryDefinitionUtil
 		{
 			return false;
 		}
+		
+		boolean current1 = p1.isCurrent( );
+		boolean current2 = p2.isCurrent( );
+	
+		if (current1 != current2)
+		{
+			return false;
+		}
 		return true;
 	}
 }

@@ -79,9 +79,12 @@ abstract public class AbstractMDX
 					int year = cal.get( Calendar.YEAR );
 					if ( year_woy < year )
 					{
-						cal.add( Calendar.DAY_OF_WEEK, 7 );
+						cal.set( Calendar.DAY_OF_WEEK, 7 );
 					}
-					cal.set( Calendar.DAY_OF_WEEK, 1 );
+					else if (year_woy > year)
+					{
+						cal.set( Calendar.DAY_OF_WEEK, 1 );
+					}
 				}
 
 				cal.set( Calendar.WEEK_OF_MONTH, values[i] );
@@ -103,14 +106,15 @@ abstract public class AbstractMDX
 					int year = cal.get( Calendar.YEAR );
 					if ( year_woy < year )
 					{
-						cal.add( Calendar.DAY_OF_WEEK, 7 );
+						cal.set( Calendar.DAY_OF_WEEK, 7 );
 					}
-					cal.set( Calendar.DAY_OF_WEEK, 1 );
+					else if (year_woy > year)
+					{
+						cal.set( Calendar.DAY_OF_WEEK, 1 );
+					}
 				}
 				cal.set( Calendar.WEEK_OF_YEAR, values[i] );
-				
 				setAcrossMonthWeekDay(cal, month);
-				
 				type = WEEK;
 			}
 			else if ( levelTypes[i].equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )

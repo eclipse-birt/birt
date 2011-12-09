@@ -375,7 +375,7 @@ public class TrailingTest extends BaseTestCase
 	public void testTrailing18( ) throws IOException
 	{
 		int[] values = new int[]{
-				2011, 1, 0, 53
+				2011, 1, 0, 52
 		};
 		String[] types = new String[]{
 				TimeMember.TIME_LEVEL_TYPE_YEAR,
@@ -394,6 +394,68 @@ public class TrailingTest extends BaseTestCase
 		checkOutputFile( );
 	}
 
+	public void testTrailing19( ) throws IOException
+	{
+		int[] values = new int[]{
+				2011, 12, 4, 52
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+				3 );
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+	
+	public void testTrailing20( ) throws IOException
+	{
+		int[] values = new int[]{
+				2010, 12, 5, 52
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+				3 );
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
+	
+	public void testTrailing21( ) throws IOException
+	{
+		int[] values = new int[]{
+				2004, 1, 1, 53
+		};
+		String[] types = new String[]{
+				TimeMember.TIME_LEVEL_TYPE_YEAR,
+				TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				TimeMember.TIME_LEVEL_TYPE_MONTH,
+				TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR,
+		};
+		TimeMember timeMember = new TimeMember( values, types );
+		
+		IPeriodsFunction periodsFunction =  TimeFunctionFactory.createTrailingFunction( TimeMember.TIME_LEVEL_TYPE_QUARTER,
+				1 );
+		
+		List<TimeMember> timeMembers = periodsFunction.getResult( timeMember );
+		printMembers( timeMembers );
+		checkOutputFile( );
+	}
 	
 	private void printMembers( List<TimeMember> timeMembers )
 	{

@@ -68,6 +68,7 @@ public class TimeMemberUtil
 		Calendar cal = getCalendar( referenceDate );
 		int year_woy = 1;
 		int year = 1;
+		int dayOfMonth = cal.get( Calendar.DAY_OF_MONTH );
 		for( int i = 0; i < cellTimeMember.getLevelType().length; i++)
 		{
 			if( TimeMember.TIME_LEVEL_TYPE_YEAR.equals( cellTimeMember.getLevelType()[i] ) )
@@ -77,7 +78,19 @@ public class TimeMemberUtil
 			else if( TimeMember.TIME_LEVEL_TYPE_QUARTER.equals( cellTimeMember.getLevelType()[i] ) )
 			{
 				int month = cal.get( Calendar.MONTH ) % 3 + ( cellTimeMember.getMemberValue()[i] - 1 ) * 3;
-				cal.set( Calendar.MONTH, month );
+				// if level is month, and the reference date is 2011.3.31,
+				// the month is 2, so the date will set to 2011.2.31, the calendar will adapt the date to 2011.3
+				// here we set the month to 1.
+				cal.set( Calendar.DAY_OF_MONTH, 1 );
+				cal.set( Calendar.MONTH, month  );
+				if (cal.getActualMaximum( Calendar.DAY_OF_MONTH ) > dayOfMonth)
+				{
+					cal.set( Calendar.DAY_OF_MONTH, dayOfMonth );
+				}
+				else
+				{
+					cal.set( Calendar.DAY_OF_MONTH, cal.getActualMaximum( Calendar.DAY_OF_MONTH ) );
+				}
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_MONTH.equals( cellTimeMember.getLevelType()[i] ) )
 			{
@@ -86,6 +99,14 @@ public class TimeMemberUtil
 				// here we set the month to 1.
 				cal.set( Calendar.DAY_OF_MONTH, 1 );
 				cal.set( Calendar.MONTH, cellTimeMember.getMemberValue()[i] - 1 );
+				if (cal.getActualMaximum( Calendar.DAY_OF_MONTH ) > dayOfMonth)
+				{
+					cal.set( Calendar.DAY_OF_MONTH, dayOfMonth );
+				}
+				else
+				{
+					cal.set( Calendar.DAY_OF_MONTH, cal.getActualMaximum( Calendar.DAY_OF_MONTH ) );
+				}
 			}
 			else if( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH.equals( cellTimeMember.getLevelType()[i] ) )
 			{
@@ -107,9 +128,12 @@ public class TimeMemberUtil
 				// for example. 2011/1/1, the year_woy is 2010
 				if ( year_woy < year )
 				{
-					cal.add( Calendar.DAY_OF_WEEK, 7 );
+					cal.set( Calendar.DAY_OF_WEEK, 7 );
 				}
-				cal.set( Calendar.DAY_OF_WEEK, 1 );
+				else if (year_woy > year)
+				{
+					cal.set( Calendar.DAY_OF_WEEK, 1 );
+				}
 				cal.set( Calendar.WEEK_OF_YEAR,
 						cellTimeMember.getMemberValue( )[i] );
 			}
@@ -121,9 +145,12 @@ public class TimeMemberUtil
 				// for example. 2011/1/1, the year_woy is 2010
 				if ( year_woy < year )
 				{
-					cal.add( Calendar.DAY_OF_WEEK, 7 );
+					cal.set( Calendar.DAY_OF_WEEK, 7 );
 				}
-				cal.set( Calendar.DAY_OF_WEEK, 1 );
+				else if (year_woy > year)
+				{
+					cal.set( Calendar.DAY_OF_WEEK, 1 );
+				}
 				cal.set( Calendar.WEEK_OF_MONTH,
 						cellTimeMember.getMemberValue( )[i] );
 			}
