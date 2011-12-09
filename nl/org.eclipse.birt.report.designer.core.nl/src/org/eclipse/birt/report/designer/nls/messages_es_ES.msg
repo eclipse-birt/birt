@@ -1009,7 +1009,7 @@ DesignerPaletteFactory.toolTip.textReportItem=Insertar un bloque de texto (texto
 DesignerPaletteFactory.quicktool.title=Herramientas rápidas
 DesignerPaletteFactory.quicktool.agg.title=Agregación
 DesignerPaletteFactory.quicktool.agg.toolTip=Insertar elemento de agregación
-DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.title=Período de tiempo relativo
 DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
 
 ###########################################################
@@ -4634,11 +4634,11 @@ ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Todos
 CrosstabBindingDialogHelper.bindngName.timeperiod=Period
-CrosstabBindingDialogHelper.calculation.labe=Calculation Type
+CrosstabBindingDialogHelper.calculation.labe=Tipo de cá&lculo:
 CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
-CrosstabBindingDialogHelper.referencedate.label=Reference Date:
+CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
 CrosstabBindingDialogHelper.thisdate.label=This date:
-CrosstabBindingDialogHelper.timedimension.label=Time Dimension
+CrosstabBindingDialogHelper.timedimension.label=Di&mensión de tiempo:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
 CrosstabBindingDialogHelper.today.label=Today
 

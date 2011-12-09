@@ -1009,7 +1009,7 @@ DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 �
 DesignerPaletteFactory.quicktool.title=빠른 도구
 DesignerPaletteFactory.quicktool.agg.title=집계
 DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
-DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.title=상대 시간
 DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
 
 ###########################################################
@@ -4634,11 +4634,11 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
 CrosstabBindingDialogHelper.bindngName.timeperiod=Period
-CrosstabBindingDialogHelper.calculation.labe=Calculation Type
+CrosstabBindingDialogHelper.calculation.labe=계산 형식(&L):
 CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
-CrosstabBindingDialogHelper.referencedate.label=Reference Date:
+CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=This date:
-CrosstabBindingDialogHelper.timedimension.label=Time Dimension
+CrosstabBindingDialogHelper.timedimension.label=시간 차원(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
 CrosstabBindingDialogHelper.today.label=Today
 
