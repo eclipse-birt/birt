@@ -187,10 +187,6 @@ public class AggregationResultSet implements IAggregationResultSet
 				break;
 			}
 		}
-		int[] newAggregationDataType = new int[aggregationDataType.length+timeAggregationDataType.length];
-		System.arraycopy( aggregationDataType, 0, newAggregationDataType, 0, aggregationDataType.length );
-		System.arraycopy( timeAggregationDataType, 0, newAggregationDataType, aggregationDataType.length, timeAggregationDataType.length);
-		aggregationDataType = newAggregationDataType;
 	}
 	
 	/**
