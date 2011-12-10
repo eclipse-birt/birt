@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
+    <parameters>
+        <scalar-parameter name="MyParam1" id="4">
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">COLUMN_1</property>
+                    <expression name="expression">column1 expr</expression>
+                    <property name="aggregateFunction">sum 2</property>
+                    <property name="dataType">integer</property>
+                    <property name="calculationType">next_n</property>
+                    <list-property name="calculationArguments">
+                    	<structure>
+                    		<property name="name">calculation_argument_1</property>
+                    		<expression name="value">calculation_argument_1_value</expression>
+                    	</structure>
+                    	<structure>
+                    		<property name="name">calculation_argument_2</property>
+                    		<expression name="value">calculation_argument_2_value</expression>
+                    	</structure>
+                    </list-property>
+                    <property name="refDateType">today</property>
+                    <expression name="refDateValue">12</expression>
+                    <property name="timeDimension">time dimension expression</property>
+                </structure>
+                <structure>
+                    <property name="name">COLUMN_2</property>
+                    <expression name="expression">column2 expr</expression>
+                    <property name="aggregateFunction">MAX</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+    </parameters>
+</report>
+
+
+

@@ -114,8 +114,7 @@ public class DataItemExecutor extends QueryItemExecutor
 					}
 					catch ( OLAPException ex )
 					{
-						context.addException( dataDesign, new EngineException(
-								MessageConstants.BIND_DATA_RETRIVING_ERROR, ex ) );
+						context.addException( dataDesign, new EngineException( ex ) );
 					}
 				}
 			}

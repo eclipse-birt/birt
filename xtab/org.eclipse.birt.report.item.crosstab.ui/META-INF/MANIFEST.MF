@@ -23,6 +23,7 @@ Bundle-Activator: org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin
 Eclipse-LazyStart: true
 Bundle-Vendor: Eclipse BIRT Project
 Export-Package: org.eclipse.birt.report.item.crosstab.internal.ui.editors.action,
+ org.eclipse.birt.report.item.crosstab.internal.ui.editors.model,
  org.eclipse.birt.report.item.crosstab.internal.ui.util,
  org.eclipse.birt.report.item.crosstab.internal.ui.views.provider,
  org.eclipse.birt.report.item.crosstab.ui.extension,

@@ -27,12 +27,5 @@ public interface IComputedMeasureDefinition extends IMeasureDefinition
 	 * @throws DataException
 	 */
 	public IBaseExpression getExpression( ) throws DataException;
-	
-	/**
-	 * Return the type of computed measure.
-	 * 
-	 * @return
-	 * @throws DataException
-	 */
-	public int getType() throws DataException;
+
 }

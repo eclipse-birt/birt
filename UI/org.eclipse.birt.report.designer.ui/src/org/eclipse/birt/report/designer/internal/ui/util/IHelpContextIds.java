@@ -210,6 +210,9 @@ public interface IHelpContextIds
 
 	public static final String DATA_COLUMN_BINDING_DIALOG = PREFIX
 			+ "DataColumnBindingDialog_ID"; //$NON-NLS-1$
+	
+	public static final String RELATIVE_TIME_PERIOD_DIALOG = PREFIX
+			+ "RelativeTimePeriodDialog_ID"; //$NON-NLS-1$
 
 	public static final String DATA_ITEM_BINDING_DIALOG = PREFIX
 			+ "DataItemBindingDialog_ID"; //$NON-NLS-1$

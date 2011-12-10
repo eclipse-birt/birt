@@ -200,7 +200,7 @@ public class QueryExecutor
 						executor.getContext( ).getDocReader( ), id )) 
 				{
 					ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( 
-							id, executor.getContext( ).getDocReader( ) );
+							id, executor.getContext( ) );
 					ieh = org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionUtil.getIncrementExecutionHint( 
 							savedQuery, executor.getCubeQueryDefinition( ) );
 				}

@@ -32,6 +32,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddRelativeTimePeriodAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewPr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -81,7 +83,13 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 			buildShowMenu( menu, element, firstId );
 
-			IAction action = new AddComputedMeasureAction( element );
+			IAction action = new AddRelativeTimePeriodAction( element );
+			//if (action.isEnabled( ))
+			{
+				menu.insertBefore( firstId, action );
+			}
+			
+			action = new AddComputedMeasureAction( element );
 			menu.insertBefore( firstId, action );
 
 			action = new AddMeasureViewHandleAction( element );
@@ -99,7 +107,8 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
 		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		if ( measureViewHandle == null
-				|| ( measureViewHandle instanceof ComputedMeasureViewHandle ) )
+				|| measureViewHandle instanceof ComputedMeasureViewHandle
+				|| (measureViewHandle.getCubeMeasure() != null && measureViewHandle.getCubeMeasure().isCalculated()))
 		{
 			return;
 		}

@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
 public class MeasureDefinition extends NamedObject implements IMeasureDefinition
 {
 	private String aggrFunction;
-	
+	private int dataType;
 	/**
 	 * 
 	 * @param name
@@ -48,5 +48,21 @@ public class MeasureDefinition extends NamedObject implements IMeasureDefinition
 	{
 		return this.aggrFunction;
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition#setDataType(java.lang.Integer)
+	 */
+	public void setDataType( int type )
+	{
+		this.dataType = type;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition#getDataType()
+	 */
+	public int getDataType( )
+	{
+		return this.dataType;
+	}
 }

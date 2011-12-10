@@ -28,7 +28,7 @@ public class CubeNestAggrDefn extends CubeAggrDefn
 			IBaseExpression basedExpression, List aggrLevels, String aggrName,
 			List arguments, IBaseExpression filterExpression )
 	{
-		super( name, aggrLevels, aggrName, arguments, filterExpression );
+		super( name, aggrLevels, aggrName, null, arguments, filterExpression );
 		this.basedExpression = basedExpression;
 	}
 	

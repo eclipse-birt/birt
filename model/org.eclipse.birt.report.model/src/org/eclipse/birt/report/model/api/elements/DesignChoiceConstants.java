@@ -1063,4 +1063,12 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_FLYOUT_POSITION = "flyoutPosition"; //$NON-NLS-1$
 	public static final String FLYOUT_POSITION_LEFT = "left"; //$NON-NLS-1$
 	public static final String FLYOUT_POSITION_RIGHT = "right"; //$NON-NLS-1$
+	
+	/**
+	 * Choice constants for reference date type.
+	 */
+	public static final String CHOICE_REFERENCE_DATE_TYPE = "referenceDateType"; //$NON-NLS-1$
+	public static final String REFERENCE_DATE_TYPE_TODAY = "today"; //$NON-NLS-1$
+	public static final String REFERENCE_DATE_TYPE_FIXED_DATE = "fixedDate"; //$NON-NLS-1$
+	public static final String REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION = "endingDateInDimension"; //$NON-NLS-1$
 }

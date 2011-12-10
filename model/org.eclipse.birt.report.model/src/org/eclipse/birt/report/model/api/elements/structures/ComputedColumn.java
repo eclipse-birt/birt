@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -124,6 +125,35 @@ public class ComputedColumn extends PropertyStructure
 	 * Name of the allowExport member.
 	 */
 	public static final String ALLOW_EXPORT_MEMBER = "allowExport"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the calculation function name. The
+	 * function name is defined by customer DB executor.
+	 */
+	public static final String CALCULATION_TYPE_MEMBER = "calculationType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies a list of calculation argument for the
+	 * specific calculation function.
+	 */
+	public static final String CALCULATION_ARGUMENTS_MEMBER = "calculationArguments"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the reference date type.
+	 */
+	public static final String REFERENCE_DATE_TYPE_MEMBER = "refDateType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the reference date value. It is
+	 * required when reference date type is fixed date.
+	 */
+	public static final String REFERENCE_DATE_VALUE_MEMBER = "refDateValue"; //$NON-NLS-1$
+
+	/**
+	 * Name of the member that specifies the expression that returns the name of
+	 * time dimension.
+	 */
+	public static final String TIME_DIMENSION_MEMBER = "timeDimension"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -547,7 +577,7 @@ public class ComputedColumn extends PropertyStructure
 
 		arguments.remove( argument );
 	}
-	
+
 	/**
 	 * Gets the flag which indicates whether the computed column supports
 	 * export.
@@ -574,4 +604,79 @@ public class ComputedColumn extends PropertyStructure
 		setProperty( ALLOW_EXPORT_MEMBER, allowExport );
 	}
 
+	/**
+	 * Sets the calculation type.
+	 * 
+	 * @param calculationType
+	 */
+	public void setCalculationType( String calculationType )
+	{
+		setProperty( CALCULATION_TYPE_MEMBER, calculationType );
+	}
+
+	/**
+	 * Adds a calculation argument to list.
+	 * 
+	 * @param argument
+	 *            the calculation argument
+	 */
+
+	public void addCalculationArgument( CalculationArgument argument )
+	{
+		List arguments = (List) getProperty( null, CALCULATION_ARGUMENTS_MEMBER );
+		if ( arguments == null )
+		{
+			arguments = new ArrayList( );
+			propValues.put( CALCULATION_ARGUMENTS_MEMBER, arguments );
+		}
+
+		arguments.add( argument );
+	}
+
+	/**
+	 * Removes a calculation argument from list.
+	 * 
+	 * @param argument
+	 *            the calculation argument
+	 */
+
+	public void removeCalculationArgument( CalculationArgument argument )
+	{
+		List arguments = (List) getProperty( null, CALCULATION_ARGUMENTS_MEMBER );
+		if ( arguments == null )
+			return;
+
+		arguments.remove( argument );
+	}
+
+	/**
+	 * Sets the reference date value with the expression value. It must be set
+	 * when reference date type is <code>TODAY</code>.
+	 * 
+	 * @param expr
+	 */
+	public void setReferenceDateValue( Expression expr )
+	{
+		setProperty( REFERENCE_DATE_VALUE_MEMBER, expr );
+	}
+
+	/**
+	 * Sets the reference date type.
+	 * 
+	 * @param offset
+	 */
+	public void setReferenceDateType( String type )
+	{
+		setProperty( REFERENCE_DATE_TYPE_MEMBER, type );
+	}
+
+	/**
+	 * Sets the time dimension expression value.
+	 * 
+	 * @param expr
+	 */
+	public void setTimeDimension( String expr )
+	{
+		setProperty( TIME_DIMENSION_MEMBER, expr );
+	}
 }

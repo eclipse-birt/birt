@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -33,10 +35,20 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ITimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
+import org.eclipse.birt.data.engine.api.timefunction.TimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.IBuildInBaseTimeFunction;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ColumnAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ComputedColumnAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ConditionAdapter;
@@ -53,6 +65,7 @@ import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSourceAda
 import org.eclipse.birt.report.data.adapter.internal.adapter.SortAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.SortHintAdapter;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.CalculationArgumentHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -348,6 +361,7 @@ public class ModelAdapter implements IModelAdapter
 			result.setDisplayName( handle.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
 					org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
 					this.context.getDataEngineContext( ).getLocale( ) ) );
+			result.setTimeFunction( adaptTimeFunction( handle ) );
 			result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 			result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
 			result.setFilter( handle.getFilterExpression( ) == null
@@ -367,7 +381,394 @@ public class ModelAdapter implements IModelAdapter
 		}
 
 	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
+	 */
+	public IBinding adaptBinding( ComputedColumnHandle handle, ExpressionLocation el )
+	{
+		if( el.equals( ExpressionLocation.TABLE ) )
+		{
+			return this.adaptBinding( handle );
+		}
+		else
+		{
+			try
+			{				
+				Binding binding = new Binding( handle.getName( ) );
+				binding.setAggrFunction( handle.getAggregateFunction( ) == null
+						? null
+						: DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
+				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
+					.getValue( ),
+					ExpressionLocation.CUBE ) );
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 
+				if ( handle.getFilterExpression( ) != null )
+				{
+					binding.setFilter( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )
+						.getValue( ),
+						ExpressionLocation.CUBE ) );
+				}
+
+				for ( Iterator argItr = handle.argumentsIterator( ); argItr.hasNext( ); )
+				{
+					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+
+					binding.addArgument( aah.getName( ),
+							adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+									.getValue( ),
+									ExpressionLocation.CUBE ) );
+				}
+				binding.setTimeFunction( adaptTimeFunction( handle ) );
+				return binding;
+				}
+				catch ( Exception e )
+				{
+					logger.log( Level.WARNING, e.getMessage( ), e );
+					return null;
+				}
+		}
+	}
+
+	public ITimeFunction adaptTimeFunction( ComputedColumnHandle handle )
+			throws DataException, BirtException
+	{
+		if ( handle.getCalculationType( ) == null
+				|| handle.getCalculationType( ).trim( ).length( ) == 0 )
+			return null;
+		TimeFunction timeFunction = new TimeFunction( );
+		Object referenceDate = null;
+		if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY 
+				.equals(  handle.getReferenceDateType( ) ) )
+		{
+			referenceDate = ScriptEvalUtil.evalExpr( new ScriptExpression( "new java.util.Date()" ),
+					this.context.getDataEngineContext( ).getScriptContext( ),
+					"",
+					0 );
+		}
+		else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
+				.equals( handle.getReferenceDateType( ) ) )
+		{
+			IBaseExpression sciptExpr = this.adaptExpression( (Expression) ( handle.getReferenceDateValue( ).getValue( ) ) );
+			referenceDate = ScriptEvalUtil.evalExpr( sciptExpr,
+					this.context.getDataEngineContext( ).getScriptContext( ),
+					"",
+					0 );
+		}
+		timeFunction.setReferenceDate( new ReferenceDate( DataTypeUtil.toDate( referenceDate ) ) );
+		timeFunction.setTimeDimension(  handle.getTimeDimension( ) );
+		timeFunction.setBaseTimePeriod( populateBaseTimePeriod( handle ) );
+		timeFunction.setRelativeTimePeriod( populateRelativeTimePeriod( handle ) );
+		return timeFunction;
+	}
+	
+	private ITimePeriod populateBaseTimePeriod(
+			ComputedColumnHandle periodHandle )
+	{
+		String calculateType = periodHandle.getCalculationType( );
+		TimePeriod baseTimePeriod = null;
+		if ( IBuildInBaseTimeFunction.CURRENT_QUARTER.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER, true );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR, true );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER, true );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH, true );
+		}
+		else if ( IBuildInBaseTimeFunction.CURRENT_MONTH.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH, true );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_30_DAYS.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( -30, TimePeriodType.DAY );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_60_DAYS.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( -60, TimePeriodType.DAY );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_90_DAYS.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( -90, TimePeriodType.DAY );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_120_DAYS.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( -120, TimePeriodType.DAY );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_12_MONTHS.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( -12, TimePeriodType.MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.YEAR_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR );
+		}
+		else if ( IBuildInBaseTimeFunction.QUARTER_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER );
+		}
+		else if ( IBuildInBaseTimeFunction.MONTH_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.CURRENT_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR, true );
+		}
+		else if ( IBuildInBaseTimeFunction.WEEK_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.WEEK );
+		}
+		else if ( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.WEEK );
+		}
+		else if ( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.WEEK );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE.equals( calculateType ) )
+		{
+			baseTimePeriod = new TimePeriod( 0, TimePeriodType.YEAR );
+		}
+		else if ( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String period1 = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.PERIOD_1.equals( argument.getName( ) ) )
+				{
+					period1 = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			if ( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
+			{
+				baseTimePeriod = new TimePeriod( 0,
+						DataAdapterUtil.toTimePeriodType( period1 ),
+						true );
+			}
+			else
+			{
+				baseTimePeriod = new TimePeriod( 0,
+						DataAdapterUtil.toTimePeriodType( period1 ) );
+			}
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String period1 = null, n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.PERIOD_1.equals( argument.getName( ) ) )
+				{
+					period1 = argument.getValue( ).getStringExpression( );
+				}
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+				}
+			}
+			baseTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+					DataAdapterUtil.toTimePeriodType( period1 ) );
+		}
+		else if ( IBuildInBaseTimeFunction.NEXT_N_PERIODS.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null, period1 = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.PERIOD_1.equals( argument.getName( ) ) )
+				{
+					period1 = argument.getValue( ).getStringExpression( );
+				}
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+				}
+			}
+			baseTimePeriod = new TimePeriod( Integer.valueOf( n ),
+					DataAdapterUtil.toTimePeriodType( period1 ) );
+		}
+		return baseTimePeriod;
+	}
+
+	/**
+	 * 
+	 * @param periodHandle
+	 * @return
+	 * @throws BirtException 
+	 * @throws DataException 
+	 */
+	private ITimePeriod populateRelativeTimePeriod(
+			ComputedColumnHandle periodHandle ) throws DataException, BirtException
+	{
+		String calculateType = periodHandle.getCalculationType( );
+		TimePeriod relativeTimePeriod = null;
+
+		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( calculateType )
+				|| IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculateType )
+				|| IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+					TimePeriodType.YEAR );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+					TimePeriodType.WEEK );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_MONTH.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+					TimePeriodType.MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_QUARTER.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+					TimePeriodType.QUARTER );
+		}
+		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PREVIOUS_YEAR.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+					break;
+				}
+			}
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+					TimePeriodType.YEAR );
+		}
+		else if ( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType )
+				|| IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.equals( calculateType )
+				|| IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String period2 = null, n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.PERIOD_2.equals( argument.getName( ) ) )
+				{
+					period2 = argument.getValue( ).getStringExpression( );
+				}
+				if ( IArgumentInfo.N_PERIOD2.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+				}
+			}
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+					DataAdapterUtil.toTimePeriodType( period2 ) );
+		}
+		return relativeTimePeriod;
+	}
+	
+	private int evaluatePeriodsN( String n ) throws DataException,
+			BirtException
+	{
+		int num = 0;
+		if ( n == null || n.trim( ).equals( "" ) )
+		{
+			n = "1";
+		}
+		try
+		{
+			num = Integer.valueOf( n );
+		}
+		catch ( Exception e )
+		{
+			num = (Integer) ScriptEvalUtil.evalExpr( new ScriptExpression( n ),
+					this.context.getDataEngineContext( ).getScriptContext( ),
+					"",
+					0 );
+		}
+		return num;
+	}
+	
 	/**
 	 * 
 	 * @param handle
@@ -468,6 +869,5 @@ public class ModelAdapter implements IModelAdapter
 		}
 
 		return jsExpr;
-	}
-	
+	}	
 }

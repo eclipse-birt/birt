@@ -239,6 +239,15 @@ public class DataSetFromOriginalCube implements IDataSet4Aggregation
 		return factTableRowIterator.next( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation#isDuplicatedRow()
+	 */
+	public boolean isDuplicatedRow( )
+	{
+		return factTableRowIterator.isDuplicatedRow( );
+	}
+	
 	public int[] getDimensionPosition( )
 	{
 		return factTableRowIterator.getDimensionPosition( );

@@ -182,4 +182,13 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 		facttableRowIterator.close( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#isDuplicatedRow()
+	 */
+	public boolean isDuplicatedRow()
+	{
+		return false;
+	}
+
 }

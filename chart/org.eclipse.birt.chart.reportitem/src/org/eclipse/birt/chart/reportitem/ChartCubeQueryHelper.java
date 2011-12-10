@@ -65,7 +65,9 @@ import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.impl.DataModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.ModelAdapter;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -89,7 +91,9 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.CubeUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.emf.common.util.EList;
 
@@ -515,7 +519,7 @@ public class ChartCubeQueryHelper
 
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
@@ -530,6 +534,11 @@ public class ChartCubeQueryHelper
 			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 
+			if ( modelAdapter instanceof ModelAdapter ) {
+				binding.setTimeFunction( ( (ModelAdapter)modelAdapter )
+						.adaptTimeFunction( column ) );
+			}
+			
 			ChartItemUtil.loadExpression( exprCodec, column );
 			// Even if expression is null, create the script expression
 			binding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
@@ -680,7 +689,7 @@ public class ChartCubeQueryHelper
 		{
 			cubeQuery.addBinding( colBinding );
 		}
-
+		
 		String measure = exprCodec.getMeasureName( expr );
 		if ( measure != null )
 		{
@@ -688,15 +697,35 @@ public class ChartCubeQueryHelper
 			{
 				return;
 			}
+			
+			IMeasureDefinition mDef = null;
+			MeasureHandle measureHandle = cube.getMeasure(measure);
+			if (measureHandle != null && measureHandle.isCalculated())
+			{
+				mDef = cubeQuery
+						.createDerivedMeasure(
+								measure,
+								DataAdapterUtil
+										.adaptModelDataType(measureHandle
+												.getDataType()),
+								modelAdapter
+										.adaptExpression(
+												(Expression) measureHandle
+														.getExpressionProperty(
+																IMeasureModel.MEASURE_EXPRESSION_PROP)
+														.getValue(),
+												ExpressionLocation.CUBE));
+			}
+			else
+			{
+				// Add measure
+				mDef = cubeQuery.createMeasure( measure );
+			}
 
-			// Add measure
-			IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
-
+			registeredMeasures.put( bindingName, mDef );
 			String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
 					.getFunction( ) );
 			mDef.setAggrFunction( aggFun );
-			registeredMeasures.put( bindingName, mDef );
-
 			// AggregateOn has been added in binding when initializing
 			// column bindings
 		}

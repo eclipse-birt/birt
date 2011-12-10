@@ -9,5 +9,13 @@
          point="org.eclipse.birt.core.FactoryService">
    		<factory class="org.eclipse.birt.data.engine.impl.DataEngineFactory"/>
 	 </extension>
+	 
+	 <extension
+         id="TimeFunctionCreatorFactory"
+         name="TimeFunctionCreatorFactory"
+         point="org.eclipse.birt.core.FactoryService">
+   		<factory class="org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionCreatorFactory"/>
+	 </extension>
+	 
    
 </plugin>
