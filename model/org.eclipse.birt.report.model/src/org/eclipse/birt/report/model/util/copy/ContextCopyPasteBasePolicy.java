@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.model.util.copy;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.api.util.IPasteStatus;
@@ -171,6 +173,75 @@ class ContextCopyPasteBasePolicy
 
 		return status;
 	}
+	
+	private DesignElement findElement(String extendName, Module module)
+	{
+		if ( !StringUtil.isBlank( extendName ) )
+		{
+			String namespace = StringUtil.extractNamespace( extendName );
+			if ( namespace != null )
+			{
+				Library lib = module.getLibraryWithNamespace( namespace );
+				String name = StringUtil.extractName( extendName );
+				if ( lib != null && name!=null )
+				{
+					return lib.findElement( name );
+				}
+			}
+		}
+		return null;
+	}
+	
+	//handle some special case, the value is defined in report design and definition is defined in library
+	private void preWorkForElement( ContextCopiedElement copy, Module module )
+	{
+		DesignElement element = copy.getCopy( );
+		String extName = element.getExtendsName( );
+
+		DesignElement ext = findElement( extName, module );
+
+		if ( ext != null && ext.hasUserProperties( ) )
+		{
+			Iterator<String> iter = element.propertyWithLocalValueIterator( );
+			while ( iter.hasNext( ) )
+			{
+				String key = iter.next( );
+				if ( element.getLocalUserPropertyDefn( key ) == null
+						&& ext.getLocalUserPropertyDefn( key ) != null )
+				{
+					element.addUserPropertyDefn( ext
+							.getLocalUserPropertyDefn( key ) );
+				}
+			}
+		}
+
+	}
+	
+	//handle some special case, the value is defined in report design and definition is defined in library
+	private void postWorkForElement( ContextCopiedElement copy, Module module )
+	{
+		DesignElement element = copy.getCopy( );
+		String extName = element.getExtendsName( );
+		DesignElement ext = findElement( extName, module );
+
+		if ( ext != null && ext.hasUserProperties( ) )
+		{
+			Iterator<UserPropertyDefn> iter = ext.getLocalUserProperties( )
+					.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				UserPropertyDefn propertyDef = iter.next( );
+				String name = propertyDef.getName( );
+				if ( element.getLocalUserPropertyDefn( name ) != null )
+				{
+					element.dropUserPropertyDefn( element
+							.getLocalUserPropertyDefn( name ) );
+				}
+			}
+		}
+
+	}
+
 
 	/**
 	 * Checks whether the <code>content</code> can be pasted. And if
@@ -194,8 +265,11 @@ class ContextCopyPasteBasePolicy
 
 		try
 		{
+			preWorkForElement( (ContextCopiedElement) content,  module);
 			copy = (ContextCopiedElement) ( (ContextCopiedElement) content )
 					.clone( );
+			postWorkForElement( (ContextCopiedElement) content, module );
+			postWorkForElement( (ContextCopiedElement) copy, module );
 		}
 		catch ( CloneNotSupportedException e )
 		{
