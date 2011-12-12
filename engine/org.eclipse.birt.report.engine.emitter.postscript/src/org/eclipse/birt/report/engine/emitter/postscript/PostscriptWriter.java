@@ -156,6 +156,8 @@ public class PostscriptWriter
 	 */
 	private float pageHeight = DEFAULT_PAGE_HEIGHT;
 	
+	private float pageWidth = 0f;
+
 	private static Set<String> intrinsicFonts = new HashSet<String>( );
 
 	private int imageIndex = 0;
@@ -168,7 +170,7 @@ public class PostscriptWriter
 			"drawSBStr", "drawBStr", "drawSIStr", "drawIStr", "drawSBIStr",
 			"drawBIStr"};
 	
-	private boolean fitToPaper;
+	private boolean fitToPaper, isDuplex;
 
 	private int paperWidth, paperHeight;
 
@@ -1089,6 +1091,7 @@ public class PostscriptWriter
 			{
 				return;
 			}
+			isDuplex = true;
 			if ( "HORIZONTAL".equalsIgnoreCase( value ) )
 			{
 				duplexValue = "DuplexNoTumble";
@@ -1107,6 +1110,7 @@ public class PostscriptWriter
 			{
 				return;
 			}
+			isDuplex = true;
 			if ( value == IPostscriptRenderOption.DUPLEX_FLIP_ON_LONG_EDGE )
 			{
 				duplexValue = "DuplexNoTumble";
@@ -1242,12 +1246,16 @@ public class PostscriptWriter
 	 */
 	public void startPage( float pageWidth, float pageHeight, String orientation )
 	{
+		boolean isLandscape = isLandscape( orientation );
+		boolean paperChanged = this.pageHeight == pageHeight
+		        && this.pageWidth == pageWidth
+		        && isLandscape == isLandscape( this.orientation );
 		this.orientation = orientation;
 		this.pageHeight = pageHeight;
+		this.pageWidth = pageWidth;
 		out.println( "%%Page: " + pageIndex + " " + pageIndex );
-		boolean isLandscape = orientation != null
-		        && orientation.equalsIgnoreCase( "Landscape" );
-		if ( autoPaperSizeSelection )
+
+		if ( autoPaperSizeSelection && ( !isDuplex || paperChanged ) )
 		{
 			if ( isLandscape )
 			{
@@ -1279,6 +1287,13 @@ public class PostscriptWriter
 		}
 		setScale( (int) pageHeight, scale );
 		++pageIndex;
+	}
+
+	public boolean isLandscape( String orientation )
+	{
+		boolean isLandscape = orientation != null
+		        && orientation.equalsIgnoreCase( "Landscape" );
+		return isLandscape;
 	}
 
 	/*
