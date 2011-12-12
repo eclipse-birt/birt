@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -43,6 +44,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.NavTree;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.emf.common.notify.Notification;
@@ -1079,55 +1081,62 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				&& ( (ITaskPreviewable) subtask ).isPreviewable( );
 	}
 	
-	protected Chart getPreviewChartModel( )
+	protected Chart getPreviewChartModel( ) throws ChartException
 	{
 		return getCurrentModelState( );
 	}
 	
 	public void doPreview( )
 	{
-		final Chart chart = getPreviewChartModel( );
-		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
-		// Add a task to retrieve data and bind data to chart.
-		lpt.addTask( new LivePreviewTask() {
-			public void run()
-			{
-				if ( previewPainter != null )
+		try
+		{
+			final Chart chart = getPreviewChartModel( );
+			LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
+			// Add a task to retrieve data and bind data to chart.
+			lpt.addTask( new LivePreviewTask() {
+				public void run()
 				{
-					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL,
-							ChartUIUtil.prepareLivePreview( chart,
-									getDataServiceProvider( ),
-									( (ChartWizardContext) context ).getActionEvaluator( ) ) );
+					if ( previewPainter != null )
+					{
+						setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL,
+								ChartUIUtil.prepareLivePreview( chart,
+										getDataServiceProvider( ),
+										( (ChartWizardContext) context ).getActionEvaluator( ) ) );
+					}
 				}
-			}
-		});
-		
-		// Add a task to render chart.
-		lpt.addTask( new LivePreviewTask() {
-			public void run()
-			{
-				if ( previewCanvas != null
-						&& previewCanvas.getDisplay( ) != null
-						&& !previewCanvas.getDisplay( ).isDisposed( ) )
+			});
+			
+			// Add a task to render chart.
+			lpt.addTask( new LivePreviewTask() {
+				public void run()
 				{
-					previewCanvas.getDisplay( ).syncExec( new Runnable( ) {
+					if ( previewCanvas != null
+							&& previewCanvas.getDisplay( ) != null
+							&& !previewCanvas.getDisplay( ).isDisposed( ) )
+					{
+						previewCanvas.getDisplay( ).syncExec( new Runnable( ) {
 
-						public void run( )
-						{
-							// Repaint chart.
-							if ( previewPainter != null )
+							public void run( )
 							{
-								previewPainter.renderModel( (IChartObject) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL ) );
+								// Repaint chart.
+								if ( previewPainter != null )
+								{
+									previewPainter.renderModel( (IChartObject) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL ) );
+								}
 							}
-						}
-					} );
+						} );
+					}
 				}
-			}
-		});
-		
-		// Add live preview tasks to live preview thread.
-		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( getPreviewCanvas( ).getShell( ) );
-		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
+			});
+			
+			// Add live preview tasks to live preview thread.
+			((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( getPreviewCanvas( ).getShell( ) );
+			((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
+		}
+		catch ( ChartException e )
+		{
+			WizardBase.showException( e.getMessage( ) );
+		}
 	}
 
 	public Canvas getPreviewCanvas( )

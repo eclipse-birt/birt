@@ -389,7 +389,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					-1,
 					keys,
 					getContext( ).getUIServiceProvider( ),
-					series.getSeriesIdentifier( ).toString( ) );
+					getSeriesIdentifierText( series ) );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				txtTitle.setLayoutData( gd );
@@ -428,6 +428,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 
 			populateLists( seriesDefn.getDesignTimeSeries( ) );
+		}
+
+		protected String getSeriesIdentifierText( Series series )
+		{
+			if ( series.getSeriesIdentifier( ) == null )
+			{
+				return "";//$NON-NLS-1$
+			}
+			return series.getSeriesIdentifier( ).toString( );
 		}
 
 		protected void initTranslucentUI( Composite parent, Series series )
@@ -652,8 +661,17 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			if ( event.widget.equals( txtTitle ) )
 			{
-				seriesDefn.getDesignTimeSeries( )
+				String text = txtTitle.getText( );
+				if ( text == null || text.trim( ).length( ) == 0 )
+				{
+					seriesDefn.getDesignTimeSeries( )
+					.setSeriesIdentifier( null );
+				}
+				else
+				{
+					seriesDefn.getDesignTimeSeries( )
 						.setSeriesIdentifier( txtTitle.getText( ) );
+				}
 			}
 		}
 

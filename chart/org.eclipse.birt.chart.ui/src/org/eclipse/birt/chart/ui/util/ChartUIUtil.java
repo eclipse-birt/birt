@@ -786,6 +786,7 @@ public class ChartUIUtil
 		{
 			sd = seriesDefinitions.get( i );
 			if ( needSeriesName( sd.getDesignTimeSeries( )
+					.getSeriesIdentifier( ) == null ? null : sd.getDesignTimeSeries( )
 					.getSeriesIdentifier( )
 					.toString( ), seriesText ) )
 			{
@@ -802,6 +803,11 @@ public class ChartUIUtil
 
 	private static boolean needSeriesName( String name, String seriesText )
 	{
+		if ( name == null )
+		{
+			return false;
+		}
+		
 		String pattern = MessageFormat.format( seriesText, new Object[]{
 			"[0-9]+"} ); //$NON-NLS-1$
 		return name.trim( ).matches( pattern ) || name.trim( ).length( ) == 0;
@@ -1867,7 +1873,7 @@ public class ChartUIUtil
 	/**
 	 * Returns all chart type instances.
 	 * 
-	 * @return
+	 * @return chart type iterator.
 	 */
 	public static Iterator<IChartType> getChartTypeInstancesIterator()
 	{
