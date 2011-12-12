@@ -120,7 +120,10 @@ class CacheUtilFactory
 		for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
 		{
 			IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
-			binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+			if ( rsClass.getFieldAlias( i + 1 ) != null )
+				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldAlias( i + 1 ) ) ) );
+			else
+				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
 			result.add( binding );
 		}
 		return result;
