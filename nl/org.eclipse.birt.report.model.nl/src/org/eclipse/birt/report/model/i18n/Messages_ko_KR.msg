@@ -730,6 +730,11 @@ Choices.filterConditionType.simple=기본
 Choices.flyoutPosition.left=왼쪽
 Choices.flyoutPosition.right=오른쪽
 
+#94 referenceDateType
+Choices.referenceDateType.today=Today
+Choices.referenceDateType.fixedDate=Fixed Date
+Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+
 ###########################################################
 # Classes
 
@@ -3286,6 +3291,7 @@ Element.Measure.ACLExpression=ACL 식
 Element.Measure.action=작업
 Element.Measure.format=형식
 Element.Measure.alignment=맞춤
+Element.Measure.isVisible=Is visible
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값

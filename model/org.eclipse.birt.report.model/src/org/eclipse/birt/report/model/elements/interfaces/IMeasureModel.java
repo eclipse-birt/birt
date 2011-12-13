@@ -58,7 +58,7 @@ public interface IMeasureModel
 	 */
 
 	static final String ACTION_PROP = "action"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the format property, which saves the format of the measure.
 	 */
@@ -68,5 +68,11 @@ public interface IMeasureModel
 	 * Name of the alignment property.
 	 */
 	static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that indicates whether this measure is visible or
+	 * not.
+	 */
+	String IS_VISIBLE_PROP = "isVisible"; //$NON-NLS-1$
 
 }

@@ -62,4 +62,11 @@ public interface IResultSetDataSet
 	 * @return An 'Object[]' that represents a resultset subset tuple
 	 */
 	Object[] next( );
+	
+	/**
+	 * Resets data set if data has been iterated.
+	 * 
+	 * @since 3.7
+	 */
+	void reset( );
 }

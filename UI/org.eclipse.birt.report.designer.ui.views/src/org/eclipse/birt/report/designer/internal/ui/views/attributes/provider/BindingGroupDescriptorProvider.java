@@ -116,6 +116,8 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 			BindingInfo info = (BindingInfo) saveValue;
 			int type = info.getBindingType( );
 			String value = info.getBindingValue( ).toString( );
+			String oldValue = ( (BindingInfo) load( ) ).getBindingValue( )
+					.toString( );
 			switch ( type )
 			{
 				case ReportItemHandle.DATABINDING_TYPE_DATA :
@@ -124,10 +126,10 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 						value = null;
 					}
 					int ret = 0;
-					if ( ( !NONE.equals( ( (BindingInfo) load( ) ).getBindingValue( )
-							.toString( ) ) || getReportItemHandle( ).getColumnBindings( )
+					if ( ( !NONE.equals( oldValue ) || getReportItemHandle( ).getColumnBindings( )
 							.iterator( )
-							.hasNext( ) ) )
+							.hasNext( ) )
+							&& !( value != null && value.equals( oldValue ) ) )
 					{
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
@@ -179,11 +181,11 @@ public class BindingGroupDescriptorProvider extends AbstractDescriptorProvider
 						return;
 					}
 					int ret1 = 0;
-					if ( !NONE.equals( ( (BindingInfo) load( ) ).getBindingValue( )
-							.toString( ) )
+					if ( ( !NONE.equals( oldValue )
 							|| getReportItemHandle( ).getColumnBindings( )
-									.iterator( )
-									.hasNext( ) )
+							.iterator( )
+							.hasNext( ) )
+							&& !( value != null && value.equals( oldValue ) ) )
 					{
 
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),

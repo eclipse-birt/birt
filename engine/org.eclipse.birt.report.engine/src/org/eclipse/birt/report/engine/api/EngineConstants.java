@@ -50,4 +50,10 @@ public class EngineConstants {
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
 	
 	public static final String USER_ACL_KEY = "USER_ACL";
+	
+	/**
+	 * this option is used to control refreshing data. If this option is set to True, the original datasource should be ignore.
+	 * the default value is false;
+	 */
+	public static final String REFRESH_DATA = "REFRESH_DATA";
 }

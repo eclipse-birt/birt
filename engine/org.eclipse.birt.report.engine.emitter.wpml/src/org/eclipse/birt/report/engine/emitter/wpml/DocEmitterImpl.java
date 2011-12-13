@@ -87,7 +87,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 				{
 					context.addContainer( true );
 				}
-				context.setLastIsTable( true );
+				context.setIsAfterTable( true );
 			}
 		}
 	}
@@ -181,7 +181,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 			context.endCell( );
 			wordWriter.endTableRow( );
 			wordWriter.endTable( );
-			context.setLastIsTable( true );
+			context.setIsAfterTable( true );
 			context.addContainer( true );
 			hasPInside = false;
 			// restore the inline state after the HTML foreign.
@@ -239,7 +239,7 @@ public class DocEmitterImpl extends AbstractEmitterImpl
 		writeBookmark( content );
 		writeToc( content, inlineFlag == InlineFlag.MIDDLE_INLINE ); // element with Toc contains bookmark
 		writeText( type, txt, content, inlineFlag, computedStyle, inlineStyle );
-		context.setLastIsTable( false );
+		context.setIsAfterTable( false );
 	}
 
 

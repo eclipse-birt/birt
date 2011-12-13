@@ -372,6 +372,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				next( );
 				addAfterBreak = false;
 			}
+			if ( softBreakBefore )
+			{
+				softBreakBefore = false;
+			}
 			ignorePageBreak = true;
 		}
 	}

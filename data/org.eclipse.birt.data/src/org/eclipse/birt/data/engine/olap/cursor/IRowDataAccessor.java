@@ -90,8 +90,6 @@ public interface IRowDataAccessor
 	
 	public int getExtend( int dimAxisIndex );
 
-	public void setFetchSize( int fetchSize );
-	
 	public void sychronizedWithPage( int position );
 
 }

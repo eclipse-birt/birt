@@ -730,6 +730,11 @@ Choices.filterConditionType.simple=簡易
 Choices.flyoutPosition.left=左
 Choices.flyoutPosition.right=右
 
+#94 referenceDateType
+Choices.referenceDateType.today=Today
+Choices.referenceDateType.fixedDate=Fixed Date
+Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+
 ###########################################################
 # Classes
 
@@ -3286,6 +3291,7 @@ Element.Measure.ACLExpression=ACL 式
 Element.Measure.action=アクション
 Element.Measure.format=書式
 Element.Measure.alignment=配置
+Element.Measure.isVisible=Is visible
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー

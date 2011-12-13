@@ -51,6 +51,11 @@ public interface IBindingDialogHelper
 	 * @param isAggregate
 	 */
 	void setAggregate( boolean isAggregate );
+	
+	/**Set if the Binding is a time period.
+	 * @param timePeriod
+	 */
+	void setTimePeriod(boolean timePeriod);
 
 	/**
 	 * Set the ExpressionProvider for ExpressionBuilder open in the

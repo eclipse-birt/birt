@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.data.adapter.i18n;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
 import com.ibm.icu.util.ULocale;
@@ -21,6 +24,7 @@ import com.ibm.icu.util.ULocale;
 public class AdapterResourceHandle extends ResourceHandle
 {
 	private static AdapterResourceHandle resourceHandle;
+	private static Map localeResourceHandleMap;
 	
 	/**
 	 * @param locale
@@ -36,9 +40,27 @@ public class AdapterResourceHandle extends ResourceHandle
 	public synchronized static AdapterResourceHandle getInstance( )
 	{
 		if ( resourceHandle == null )
-			resourceHandle = new AdapterResourceHandle( ULocale.getDefault( ) );
+			resourceHandle = getInstance( ULocale.getDefault( ) );
 
 		return resourceHandle;
+	}
+	
+	/**
+	 * @return the DataResourceHandle with default ULocale
+	 */
+	public synchronized static AdapterResourceHandle getInstance( ULocale locale )
+	{
+		if ( localeResourceHandleMap == null )
+			localeResourceHandleMap = new HashMap( );
+
+		AdapterResourceHandle ret = (AdapterResourceHandle) localeResourceHandleMap.get( locale );
+
+		if ( ret == null )
+		{
+			ret = new AdapterResourceHandle( locale );
+			localeResourceHandleMap.put( locale, ret );
+		}
+		return ret;
 	}
 	
 }

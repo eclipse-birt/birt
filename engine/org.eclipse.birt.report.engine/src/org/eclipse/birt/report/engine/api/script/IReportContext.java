@@ -59,7 +59,7 @@ public interface IReportContext
 	 * @param name
 	 * @return
 	 */
-	String getParameterDisplayText( String name );
+	Object getParameterDisplayText( String name );
 
 	/**
 	 * 

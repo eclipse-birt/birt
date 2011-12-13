@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.IStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
@@ -24,9 +27,11 @@ public class Row4Aggregation implements IStructure
 {
 	private Member[] levelMembers;
 	private Object[] measures;
+	private List<Object[]> measureList = new ArrayList<Object[]>();
+	private int pos = -1;
 	private Object[] parameterValues;
 	private int[] dimPos;
-	
+	private Object[] firstMeasures;
 	
 	/*
 	 * (non-Javadoc)
@@ -34,13 +39,16 @@ public class Row4Aggregation implements IStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		Object[][] objectArrays = new Object[getLevelMembers().length + 3][];
+		Integer[] memberSize = new Integer[1];
+		memberSize[0] = Integer.valueOf(getLevelMembers().length);
+		Object[][] objectArrays = new Object[getLevelMembers().length + 1 + 3 + measureList.size() ][];
+		objectArrays[0] = memberSize;
 		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
-			objectArrays[i] = getLevelMembers()[i].getFieldValues( );
+			objectArrays[i+1] = getLevelMembers()[i].getFieldValues( );
 		}
-		objectArrays[objectArrays.length-3] = measures;
-		objectArrays[objectArrays.length-2] = parameterValues;
+		
+		objectArrays[getLevelMembers().length+1] = parameterValues;
 		Integer[] dimPosObj = null;
 		if( dimPos == null )
 		{
@@ -56,7 +64,13 @@ public class Row4Aggregation implements IStructure
 				dimPosObj[i + 1] = Integer.valueOf( dimPos[i] );
 			}
 		}
-		objectArrays[objectArrays.length-1] = dimPosObj;
+		objectArrays[getLevelMembers().length+2] = dimPosObj;
+		
+		objectArrays[getLevelMembers().length+3] = measures;
+		for( int i = 0; i < measureList.size(); i++ )
+		{
+			objectArrays[getLevelMembers().length + i + 4] = measureList.get( i );
+		}
 		return ObjectArrayUtil.convert( objectArrays );
 	}
 	
@@ -94,12 +108,66 @@ public class Row4Aggregation implements IStructure
 	{
 		this.measures = measures;
 	}
-
+	
+	public void setMeasureList( List<Object[]> measureList )
+	{
+		this.measureList = measureList;
+	}
+	
+	public List<Object[]> getMeasureList( )
+	{
+		return this.measureList;
+	}
+	
+	
+	public void addMeasure( Object[] measures )
+	{
+		this.measureList.add( measures );
+	}
+	
+	public void clearMeasure( )
+	{
+		this.measureList.clear( );
+	}
+	
 	public Object[] getMeasures( )
 	{
 		return measures;
 	}
-
+	
+	public boolean nextMeasures( )
+	{
+		if( pos == -1 )
+		{
+			firstMeasures = measures;
+			pos = 0;
+			return true;
+		}
+		else
+		{
+			if( pos < this.measureList.size() )
+			{
+				measures = this.measureList.get( pos );
+				pos++;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	
+	public void firstMeasure( )
+	{
+		measures = firstMeasures;
+		pos = -1;
+	}
+	
+	public void resetPosition( )
+	{
+		pos = -1;
+	}
 	
 	public Object[] getParameterValues( )
 	{
@@ -130,23 +198,29 @@ class Row4AggregationCreator implements IStructureCreator
 	{
 		Object[][] objectArrays = ObjectArrayUtil.convert( fields );
 		Row4Aggregation result = new Row4Aggregation( );
-		
-		result.setLevelMembers( new Member[objectArrays.length - 3] );
+		int memberSize = (Integer)objectArrays[0][0];
+		result.setLevelMembers( new Member[memberSize] );
 		for ( int i = 0; i < result.getLevelMembers().length; i++ )
 		{
-			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
+			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i+1] );
 		}
-		result.setMeasures( objectArrays[objectArrays.length-3] );
-		result.setParameterValues( objectArrays[objectArrays.length-2] );
-		if( objectArrays[objectArrays.length-1][0].equals( Integer.valueOf( 1 ) ) )
+		result.setParameterValues( objectArrays[memberSize+1] );
+		if( objectArrays[memberSize+2][0].equals( Integer.valueOf( 1 ) ) )
 		{
-			int[] dimPos = new int[objectArrays[objectArrays.length - 1].length - 1];
+			int[] dimPos = new int[objectArrays[memberSize+2].length - 1];
 			for ( int i = 0; i < dimPos.length; i++ )
 			{
-				dimPos[i] = ((Integer)(objectArrays[objectArrays.length-1][i+1])).intValue( );
+				dimPos[i] = ((Integer)(objectArrays[memberSize+2][i+1])).intValue( );
 			}
 			result.setDimPos( dimPos );
 		}
+		
+		result.setMeasures( objectArrays[memberSize+3] );
+		for( int i = 0; i < ( objectArrays.length - memberSize -1 - 3 ); i++ )
+		{
+			result.addMeasure( objectArrays[memberSize+3+i+1] );
+		}
+		
 		
 		return result;
 	}

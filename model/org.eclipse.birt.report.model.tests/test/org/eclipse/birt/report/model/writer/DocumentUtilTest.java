@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.writer;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,10 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
@@ -610,5 +615,40 @@ public class DocumentUtilTest extends BaseTestCase
 		DocumentUtil.serialize( designHandle, os );
 		
 		assertTrue( compareFile( "DocumentUtilTest_golden_17.xml" ) ); //$NON-NLS-1$
+	}
+	
+	public void testSameReportItemTheme( ) throws Exception
+	{
+		openDesign( "reportItemThemeFromLib.xml" ); //$NON-NLS-1$
+		ReportDesignHandle newDesign = DocumentUtil.serialize( designHandle,
+				new ByteArrayOutputStream( ) );
+		List<ReportElementHandle> themes = newDesign.getSlot(
+				IReportDesignModel.THEMES_SLOT ).getContents( );
+		HashSet<String> themeName = new HashSet<String>( );
+		for ( ReportElementHandle theme : themes )
+		{
+			if ( theme instanceof ReportItemThemeHandle )
+			{
+				ReportItemThemeHandle reportItemTheme = (ReportItemThemeHandle) theme;
+				String name = reportItemTheme.getName( );
+				assertFalse( themeName.contains( name ) );
+				themeName.add( name );
+			}
+		}
+
+		List<ReportItemHandle> items = newDesign.getSlot(
+				IReportDesignModel.BODY_SLOT ).getContents( );
+		themeName.clear( );
+		for ( ReportItemHandle item : items )
+		{
+			ReportItemHandle reportItem = (ReportItemHandle) item;
+			ReportItemThemeHandle theme = reportItem.getTheme( );
+			if ( theme != null )
+			{
+				assertFalse( themeName.contains( theme.getName( ) ) );
+				themeName.add( theme.getName( ) );
+			}
+		}
+
 	}
 }

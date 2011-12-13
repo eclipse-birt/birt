@@ -33,9 +33,10 @@ public class CubeResultSet implements IResultSet
 	 * @param rsArray
 	 * @param view
 	 * @throws IOException 
+	 * @throws DataException 
 	 */
 	public CubeResultSet( IAggregationResultSet[] rsArray, BirtCubeView view,
-			CubeQueryExecutorHelper cubeQueryExecutorHelper ) throws IOException
+			CubeQueryExecutorHelper cubeQueryExecutorHelper ) throws IOException, DataException
 	{
 		this.cubeView = view;
 		this.rsArray = rsArray;
@@ -65,8 +66,9 @@ public class CubeResultSet implements IResultSet
 	/**
 	 * 
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void populateEdge( ) throws IOException
+	private void populateEdge( ) throws IOException, DataException
 	{
 		int count = 0;
 		if ( cubeView.getColumnEdgeView( ) != null )
@@ -79,7 +81,7 @@ public class CubeResultSet implements IResultSet
 			count++;
 		}
 		if ( cubeView.getRowEdgeView( ) != null )
-		{
+		{		
 			this.rowEdgeAxis = new EdgeAxis( rsArray[count],
 						cubeView.getRowEdgeView( ),
 						cubeQueryExecutorHelper.getRowSort( ),

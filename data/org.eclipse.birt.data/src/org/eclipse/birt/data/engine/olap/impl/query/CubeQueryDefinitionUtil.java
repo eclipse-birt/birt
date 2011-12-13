@@ -15,6 +15,9 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
+import org.eclipse.birt.data.engine.api.timefunction.ITimePeriod;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.ExprUtil;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
@@ -275,6 +278,12 @@ public class CubeQueryDefinitionUtil
 		{
 			return false;
 		}
+		
+		if ( !isEqualTimeFunction( b1.getTimeFunction( ), b2.getTimeFunction( ) ) )
+		{
+			return false;
+		}
+
 		return true;
 	}
 	
@@ -407,7 +416,7 @@ public class CubeQueryDefinitionUtil
 			{
 				return false;
 			}
-			return cmd1.getType( ) == cmd2.getType( );
+			return cmd1.getDataType( ) == cmd2.getDataType( );
 		}
 		return true;
 	}
@@ -707,6 +716,72 @@ public class CubeQueryDefinitionUtil
 			{
 				return false;
 			}
+		}
+		return true;
+	}
+	
+	private static boolean isEqualTimeFunction( ITimeFunction f1,
+			ITimeFunction f2 ) throws DataException
+	{
+		if ( f1 == f2 )
+			return true;
+
+		if ( f1 == null || f2 == null )
+			return false;
+		
+		if ( !isEqual( f1.getTimeDimension( ), f2.getTimeDimension( ) ) )
+			return false;
+		
+		if ( f1.getReferenceDate( ).getDate( ) != null
+				&& !f1.getReferenceDate( )
+						.getDate( )
+						.equals( f2.getReferenceDate( ).getDate( ) ) )
+			return false;
+		
+		if ( f2.getReferenceDate( ).getDate( ) != null
+				&& !f2.getReferenceDate( )
+						.getDate( )
+						.equals( f1.getReferenceDate( ).getDate( ) ) )
+			return false;
+		
+		if ( !isEqualTimePeriod( f1.getBaseTimePeriod( ),
+				f2.getBaseTimePeriod( ) ) )
+			return false;
+
+		if ( !isEqualTimePeriod( f1.getRelativeTimePeriod( ),
+				f2.getRelativeTimePeriod( ) ) )
+			return false;
+		return true;
+	}
+	
+	private static boolean isEqualTimePeriod( ITimePeriod p1, ITimePeriod p2 )
+	{
+		if ( p1 == p2 )
+			return true;
+
+		if ( p1 == null || p2 == null )
+			return false;
+
+		TimePeriodType type1 = p1.getType( );
+		TimePeriodType type2 = p2.getType( );
+		if ( !type1.equals( type2 ) )
+		{
+			return false;
+		}
+
+		int unit1 = p1.countOfUnit( );
+		int unit2 = p2.countOfUnit( );
+		if ( unit1 != unit2 )
+		{
+			return false;
+		}
+		
+		boolean current1 = p1.isCurrent( );
+		boolean current2 = p2.isCurrent( );
+	
+		if (current1 != current2)
+		{
+			return false;
 		}
 		return true;
 	}

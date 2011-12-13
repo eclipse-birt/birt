@@ -23,6 +23,7 @@ public class AggregationDefinition
 	private DimLevel[] levels;
 	private int[] sortTypes;
 	private AggregationFunctionDefinition[] aggregationFunctions;
+	private AggregationFunctionDefinition[] aggregationTimeFunctions;
 	
 	/**
 	 * 
@@ -33,7 +34,42 @@ public class AggregationDefinition
 	public AggregationDefinition( DimLevel[] levels, int[] sortTypes, AggregationFunctionDefinition[] aggregationFunctions )
 	{
 		this.levels = levels;
-		this.aggregationFunctions = aggregationFunctions;
+		
+		int timeFunctionCount = 0;
+		if( aggregationFunctions != null )
+		{
+			for( int i = 0; i < aggregationFunctions.length; i++ )
+			{
+//				aggregationFunctions[i].setTimeFunction( new TestTimeFunction( ) );
+				if( aggregationFunctions[i].getTimeFunction() != null )
+				{
+					timeFunctionCount++;
+				}
+			}
+			this.aggregationFunctions = new AggregationFunctionDefinition[aggregationFunctions.length];
+			if( timeFunctionCount > 0 )
+				this.aggregationTimeFunctions = new AggregationFunctionDefinition[timeFunctionCount];
+			int ptr = 0;
+			int tPtr = 0;
+			for( int i = 0; i < aggregationFunctions.length; i++ )
+			{
+				if( aggregationFunctions[i].getTimeFunction() == null )
+				{
+					this.aggregationFunctions[ptr++] = aggregationFunctions[i];
+				}
+				else
+				{
+					this.aggregationTimeFunctions[tPtr++] = aggregationFunctions[i];
+				}
+			}
+			if( timeFunctionCount > 0 )
+			{
+				for( int i = 0; i < aggregationTimeFunctions.length; i++ )
+				{
+					this.aggregationFunctions[ptr++] = aggregationTimeFunctions[i];
+				}
+			}
+		}
 		this.sortTypes = sortTypes;
 		
 		if (this.levels != null && this.levels.length == 0)
@@ -44,6 +80,11 @@ public class AggregationDefinition
 		}
 	}
 
+	public AggregationFunctionDefinition[] getAggregationTimeFunctions()
+	{
+		return aggregationTimeFunctions;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -52,14 +93,33 @@ public class AggregationDefinition
 	{
 		return aggregationFunctions;
 	}
-	
-	
-
-	
+		
 	public void setAggregationFunctions(
 			AggregationFunctionDefinition[] aggregationFunctions )
 	{
-		this.aggregationFunctions = aggregationFunctions;
+		int timeFunctionCount = 0;
+		for( int i = 0; i < aggregationFunctions.length; i++ )
+		{
+			if( aggregationFunctions[i].getTimeFunction() != null )
+			{
+				timeFunctionCount++;
+			}
+		}
+		this.aggregationFunctions = new AggregationFunctionDefinition[aggregationFunctions.length - timeFunctionCount];
+		this.aggregationTimeFunctions = new AggregationFunctionDefinition[aggregationFunctions.length - timeFunctionCount];
+		int ptr = 0;
+		int tPtr = 0;
+		for( int i = 0; i < aggregationFunctions.length; i++ )
+		{
+			if( aggregationFunctions[i].getTimeFunction() == null )
+			{
+				this.aggregationFunctions[ptr++] = aggregationFunctions[i];
+			}
+			else
+			{
+				this.aggregationTimeFunctions[tPtr++] = aggregationFunctions[i];
+			}
+		}
 	}
 
 	/**

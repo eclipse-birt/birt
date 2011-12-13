@@ -55,6 +55,7 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -851,6 +852,16 @@ public final class Bar extends AxesRenderer
 				}
 			}
 
+			// Generate a compare bounds for 2D bar(including tube, cone,
+			// triangle)chart, this compare bounds will be used instead of
+			// actual bound of polygon for adjusting order of polygons.
+			Bounds compareBounds = null;
+			if ( getModel( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_LITERAL
+					|| getModel( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
+			{
+				compareBounds = BoundsImpl.create( dX, dY, dWidth, dHeight );
+			}
+			
 			// COMPUTE EACH RECTANGLE FACE
 			if ( rt.getValue( ) == RiserType.RECTANGLE )
 			{
@@ -1297,10 +1308,6 @@ public final class Bar extends AxesRenderer
 				{
 					if ( rt.getValue( ) == RiserType.TUBE )
 					{
-						
-						int zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
-								+ iSharedUnitIndex
-								: i * getSeriesCount( ) + getSeriesIndex( );
 						renderRiserTube2D( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
 										dpha[i] ),
@@ -1316,7 +1323,8 @@ public final class Bar extends AxesRenderer
 								true,
 								bInverted,
 								isStackedOrPercent( bs ),
-								zorder_hint );
+								0,
+								compareBounds );
 					}
 					else if ( rt.getValue( ) == RiserType.CONE )
 					{
@@ -1330,10 +1338,6 @@ public final class Bar extends AxesRenderer
 								loaFrontFace,
 								dValue,
 								isStacked );
-						
-						int zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
-								+ iSharedUnitIndex
-								: i * getSeriesCount( ) + getSeriesIndex( );
 						
 						renderRiserCone2D( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
@@ -1349,22 +1353,17 @@ public final class Bar extends AxesRenderer
 								true,
 								bInverted,
 								isStackedOrPercent( bs ),
-								coneBottomHeight, zorder_hint);
+								coneBottomHeight, 0,
+								compareBounds );
 					}
 					else if ( rt.getValue( ) == RiserType.TRIANGLE )
 					{
 						// The method invoking is to paint fliped triangle
 						// correctly.
 						double[] thicknesses = computeThicknessesWithTriangle2D( loaFrontFace, dWidth, dHeight, dSeriesThickness );
-						int zorder_hint = 0;
 						if ( cwa.getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) {
 							adjustLocationsWithTriangle2D(loaFrontFace, thicknesses[0], thicknesses[1], dSeriesThickness);
-
-							zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
-									+ iSharedUnitIndex
-									: i * getSeriesCount( ) + getSeriesIndex( );
 						}
-						
 						renderRiserTriangle2D( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
 										dpha[i] ),
@@ -1375,14 +1374,11 @@ public final class Bar extends AxesRenderer
 								thicknesses[0],
 								thicknesses[1],
 								true, 
-								zorder_hint );
+								0,
+								compareBounds );
 					}
 					else
 					{
-						int zorder_hint = isStackedOrPercent( bs ) ? ( i * iSharedUnitCount )
-								+ iSharedUnitIndex
-								: i * getSeriesCount( ) + getSeriesIndex( );
-						
 						renderPlane( ipr,
 								WrappedStructureSource.createSeriesDataPoint( bs,
 										dpha[i] ),
@@ -1391,7 +1387,8 @@ public final class Bar extends AxesRenderer
 								lia,
 								cwa.getDimension( ),
 								dSeriesThickness,
-								true, zorder_hint );
+								true, 0,
+								compareBounds );
 					}
 				}
 			}
@@ -2673,7 +2670,8 @@ public final class Bar extends AxesRenderer
 					false,
 					false,
 					false,
-					0 );
+					0,
+					null );
 		}
 		else if ( bs.getRiser( ).getValue( ) == RiserType.CONE )
 		{
@@ -2691,7 +2689,8 @@ public final class Bar extends AxesRenderer
 					false,// Always upward
 					false,
 					2 * getDeviceScale( ),
-					0 );
+					0,
+					null );
 		}
 		else if ( bs.getRiser( ).getValue( ) == RiserType.TRIANGLE )
 		{
@@ -2713,7 +2712,8 @@ public final class Bar extends AxesRenderer
 					0d,
 					2 * getDeviceScale( ),
 					false,
-					0 );
+					0,
+					null );
 
 		}
 		else
@@ -2760,11 +2760,34 @@ public final class Bar extends AxesRenderer
 		// NOTE: This method is not used by the BAR renderer
 	}
 
+	/**
+	 * @param ipr
+	 * @param oSource
+	 * @param dpha
+	 * @param loaFront
+	 * @param f
+	 * @param lia
+	 * @param cd
+	 * @param dSeriesThickness
+	 * @param bOffset
+	 * @param bTransposed
+	 * @param bDeferred
+	 * @param bInverted
+	 * @param bStacked
+	 * @param zorder_hint
+	 * @param compareBounds
+	 *            this bounds is used to adjust the order of polygon, if this bound
+	 *            isn't null, chart will use this bounds instead of actual bounds of
+	 *            polygon for order.
+	 *             
+	 * @throws ChartException
+	 */
 	private void renderRiserTube2D( IPrimitiveRenderer ipr, Object oSource,
 			DataPointHints dpha, Location[] loaFront, Fill f,
 			LineAttributes lia, ChartDimension cd, double dSeriesThickness,
 			boolean bOffset, boolean bTransposed, boolean bDeferred,
-			boolean bInverted, boolean bStacked, int zorder_hint )
+			boolean bInverted, boolean bStacked, int zorder_hint,
+			Bounds compareBounds )
 			throws ChartException
 	{
 		ArrayList alModel = new ArrayList( ); 
@@ -2996,10 +3019,12 @@ public final class Bar extends AxesRenderer
 		// 6. Add deferred rendering to cache.
 		if ( !alModel.isEmpty( ) )
 		{
-			dc.addModel( new WrappedInstruction( getDeferredCache( ),
+			WrappedInstruction wi = new WrappedInstruction( getDeferredCache( ),
 					alModel,
 					PrimitiveRenderEvent.FILL,
-					zorder_hint ) );
+					zorder_hint );
+			wi.setCompareBounds( compareBounds );
+			dc.addModel( wi );
 		}
 	}
 
@@ -3019,13 +3044,19 @@ public final class Bar extends AxesRenderer
 	 * @param bInverted
 	 *            true: downward, false: upward
 	 * @param bIsStacked
+	 * @param compareBounds
+	 *            this bounds is used to adjust the order of polygon, if this bound
+	 *            isn't null, chart will use this bounds instead of actual bounds of
+	 *            polygon for order.
+	 *            
 	 * @throws ChartException
 	 */
 	private void renderRiserCone2D( IPrimitiveRenderer ipr, Object oSource,
 			DataPointHints dpha, Location[] loaFront, Fill f,
 			LineAttributes lia, ChartDimension cd, double dSeriesThickness,
 			boolean bOffset, boolean bTransposed, boolean bDeferred,
-			boolean bInverted, boolean bIsStacked, double ovalHeight, int zorder_hint) throws ChartException
+			boolean bInverted, boolean bIsStacked, double ovalHeight,
+			int zorder_hint, Bounds compareBounds ) throws ChartException
 	{
 		ArrayList alModel = new ArrayList( ); 
 		
@@ -3287,9 +3318,11 @@ public final class Bar extends AxesRenderer
 		// 6. Add deferred renderer to cache.
 		if ( !alModel.isEmpty( ) )
 		{
-			dc.addModel( new WrappedInstruction( getDeferredCache( ),
+			WrappedInstruction wi = new WrappedInstruction( getDeferredCache( ),
 					alModel,
-					PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW, zorder_hint ) );
+					PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW, zorder_hint ) ;
+			wi.setCompareBounds( compareBounds );
+			dc.addModel( wi );
 		}
 	}
 
@@ -3308,13 +3341,17 @@ public final class Bar extends AxesRenderer
 	 *            The edge color for the polygon
 	 * @param dSeriesThickness
 	 *            The thickness or the extrusion level (for 2.5D or 3D)
-	 * 
+	 * @param compareBounds
+	 *            this bounds is used to adjust the order of polygon, if this bound
+	 *            isn't null, chart will use this bounds instead of actual bounds of
+	 *            polygon for order.
+	 *             
 	 * @throws ChartException
 	 */	
 	private void renderRiserTriangle2D( IPrimitiveRenderer ipr, Object oSource,
 			Location[] loaFront, Fill f, LineAttributes lia, ChartDimension cd,
-			double dTopThickness, double dBottomThickness, boolean bDeferred, int zorder_hint )
-			throws ChartException
+			double dTopThickness, double dBottomThickness, boolean bDeferred,
+			int zorder_hint, Bounds compareBounds ) throws ChartException
 	{
 		// Process 2D case.
 		PolygonRenderEvent pre;
@@ -3516,10 +3553,12 @@ public final class Bar extends AxesRenderer
 		// 4. Add deferred rendering to cache.
 		if ( !alModel.isEmpty( ) )
 		{
-			dc.addModel( new WrappedInstruction( getDeferredCache( ),
+			WrappedInstruction wi = new WrappedInstruction( getDeferredCache( ),
 					alModel,
 					PrimitiveRenderEvent.FILL, 
-					zorder_hint ) );
+					zorder_hint );
+			wi.setCompareBounds( compareBounds );
+			dc.addModel( wi );
 		}
 	}
 	

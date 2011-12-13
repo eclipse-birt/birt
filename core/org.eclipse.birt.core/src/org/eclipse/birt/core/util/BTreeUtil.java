@@ -207,7 +207,7 @@ public class BTreeUtil
 		public void readBlock( int blockId, byte[] bytes ) throws IOException
 		{
 			input.refresh( );
-			input.seek( blockId * BLOCK_SIZE );
+			input.seek( (long) blockId * BLOCK_SIZE );
 			input.read( bytes );
 		}
 
@@ -284,7 +284,7 @@ public class BTreeUtil
 		public void readBlock( int blockId, byte[] bytes ) throws IOException
 		{
 			input.refresh( );
-			input.seek( blockId * BLOCK_SIZE );
+			input.seek( (long) blockId * BLOCK_SIZE );
 			input.read( bytes );
 		}
 
@@ -299,7 +299,7 @@ public class BTreeUtil
 			{
 				totalBlock = blockId + 1;
 			}
-			output.seek( blockId * BLOCK_SIZE );
+			output.seek( (long) blockId * BLOCK_SIZE );
 			output.write( bytes );
 			output.flush( );
 		}

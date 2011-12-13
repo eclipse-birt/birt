@@ -669,6 +669,11 @@
   	<Choice displayNameID="Choices.flyoutPosition.left" name="left"/>
   	<Choice displayNameID="Choices.flyoutPosition.right" name="right"/>
   </ChoiceType>
+  <ChoiceType name="referenceDateType">
+  	<Choice displayNameID="Choices.referenceDateType.today" name="today"/>
+  	<Choice displayNameID="Choices.referenceDateType.fixedDate" name="fixedDate"/>
+  	<Choice displayNameID="Choices.referenceDateType.endingDateInDimension" name="endingDateInDimension"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1505,7 +1510,12 @@
     <Member displayNameID="Structure.ComputedColumn.filterExpr" name="filterExpr" since="2.2" type="expression" />
 	<Member displayNameID="Structure.ComputedColumn.allowExport" name="allowExport" since="2.6.2" type="boolean">
 	  <Default>true</Default>
-	</Member>      	  	  	  
+	</Member>
+	<Member displayNameID="Structure.ComputedColumn.calculationType" name="calculationType" runtimeSettable="false" since="3.7" type="string"/>
+	<Member detailType="CalculationArgument" displayNameID="Structure.ComputedColumn.calculationArguments" isList="true" name="calculationArguments" since="3.7" type="structure" />
+	<Member detailType="referenceDateType" displayNameID="Structure.ComputedColumn.refDateType" name="refDateType" runtimeSettable="false" since="3.7" type="choice"/>
+	<Member displayNameID="Structure.ComputedColumn.refDateValue" name="refDateValue" since="3.7" type="expression" />
+	<Member displayNameID="Structure.ComputedColumn.timeDimension" name="timeDimension" since="3.7" type="string" />	     	  	  	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
@@ -1690,7 +1700,11 @@
     <Member detailType="interval" displayNameID="Structure.TimeInterval.unit" isIntrinsic="true" name="unit" since="2.5.2" type="choice">
     	<Allowed>hour,minute,second</Allowed>
     </Member>
-  </Structure>  
+  </Structure>
+  <Structure displayNameID="Structure.CalculationArgument" name="CalculationArgument" since="3.7">
+    <Member displayNameID="Structure.CalculationArgument.name" isIntrinsic="true" name="name" runtimeSettable="false" since="3.7" type="string" valueRequired="true"/>
+    <Member displayNameID="Structure.CalculationArgument.value" isIntrinsic="true" name="value" runtimeSettable="false" since="3.7" type="expression"/>
+  </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
   	<Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
   	<Property canInherit="false" displayNameID="Element.Module.title" name="title" runtimeSettable="false" since="1.0" type="string"/>
@@ -3748,6 +3762,9 @@
 	<Property detailType="Action" displayNameID="Element.Measure.action" isList="true" name="action" runtimeSettable="false" since="2.5" type="structure"/>
 	<Property detailType="FormatValue" displayNameID="Element.Measure.format" isList="false" name="format" runtimeSettable="false" since="2.6" type="structure"/>
 	<Property detailType="textAlign" displayNameID="Element.Measure.alignment" isList="false" name="alignment" runtimeSettable="false" since="2.6" type="choice"/>
+	<Property displayNameID="Element.Measure.isVisible" name="isVisible" since="3.7.2" type="boolean">
+    	<Default>true</Default>
+    </Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">
   </Element>    
@@ -3842,7 +3859,9 @@
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="(ReportDesign, variableElement)" since="2.3" xmlName="variable-element">
 	<Property displayNameID="Element.VariableElement.name" isIntrinsic="true" name="name" since="2.5" type="name" />  		
 	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />
-	<Property detailType="variableType" displayNameID="Element.VariableElement.type" name="type" runtimeSettable="false" since="2.5" type="choice"/>	
+	<Property detailType="variableType" displayNameID="Element.VariableElement.type" name="type" runtimeSettable="false" since="2.5" type="choice">
+	  <Default>report</Default>
+	</Property>	
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.DataGroup" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataGroup" name="DataGroup" nameSpace="none" since="2.2" xmlName="data-group">
     <Property displayNameID="Element.DataGroup.groupName" name="groupName" runtimeSettable="false" since="2.3" type="string"/>

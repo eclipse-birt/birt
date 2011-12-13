@@ -36,7 +36,7 @@ public interface IDataSet4Aggregation
 	//current row values
 	Object getMeasureValue(int measureIndex) throws DataException, IOException;
 	Member getMember(int dimIndex, int levelIndex) throws DataException, IOException;
-	
+	boolean isDuplicatedRow( );
 	int[] getDimensionPosition( );
 	
 	public static interface MetaInfo

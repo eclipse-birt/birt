@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.api;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -163,4 +164,17 @@ public interface IBinding
 	 * 
 	 */
 	public void setDisplayName( String displayName ) throws DataException;
+
+	/**
+	 * Set the time function name if used
+	 * 
+	 * @param timeFunction
+	 */
+	public void setTimeFunction( ITimeFunction timeFunction );
+
+	/**
+	 * 
+	 * @return the time function used in binding
+	 */
+	public ITimeFunction getTimeFunction( );
 }

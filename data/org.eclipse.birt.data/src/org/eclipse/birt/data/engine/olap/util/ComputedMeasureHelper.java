@@ -55,7 +55,7 @@ public class ComputedMeasureHelper implements IComputedMeasureHelper
 		for( int i = 0; i < measureInfos.length; i++ )
 		{
 			ComputedMeasureDefinition ccd = ((ComputedMeasureDefinition)computedColumns.get( i ));
-			this.measureInfos[i] = new MeasureInfo( ccd.getName( ), ccd.getType( ) );
+			this.measureInfos[i] = new MeasureInfo( ccd.getName( ), ccd.getDataType( ) );
 			this.exprMap.put( ccd.getName( ), ccd.getExpression( ) );
 		}
 

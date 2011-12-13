@@ -38,7 +38,7 @@ public class PostscriptEmitterDescriptor extends AbstractEmitterDescriptor
 
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.postscript.config" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.postscript" );
 		// Initializes the option for BIDIProcessing.
 		ConfigurableOption bidiProcessing = new ConfigurableOption(
 				BIDI_PROCESSING );

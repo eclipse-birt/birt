@@ -29,7 +29,7 @@ public class WordEmitterDescriptor extends AbstractEmitterDescriptor
 	protected static final String CHART_DPI = "ChartDpi";
 	protected void initOptions( )
 	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.wpml.config" );
+		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.wpml" );
 		// Initializes the option for chart DPI.
 		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
 		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$

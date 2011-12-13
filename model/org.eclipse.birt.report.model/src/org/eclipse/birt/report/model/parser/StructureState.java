@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -346,8 +347,8 @@ public class StructureState extends AbstractPropertyState
 
 	public void end( ) throws SAXException
 	{
-		if ( handler.markLineNumber && 
-				( LineNumberInfo.isLineNumberSuppoerted( struct ) ) )
+		if ( handler.markLineNumber
+				&& ( LineNumberInfo.isLineNumberSuppoerted( struct ) ) )
 			handler.tempLineNumbers.put( struct, Integer.valueOf( lineNumber ) );
 
 		if ( struct != null )
@@ -585,8 +586,9 @@ public class StructureState extends AbstractPropertyState
 				IncludedCssStyleSheet.class );
 
 		structDict.put( TOC.TOC_STRUCT.toLowerCase( ), TOC.class );
-		structDict.put( DimensionCondition.DIMENSION_CONDITION_STRUCT
-				.toLowerCase( ), DimensionCondition.class );
+		structDict.put(
+				DimensionCondition.DIMENSION_CONDITION_STRUCT.toLowerCase( ),
+				DimensionCondition.class );
 		structDict.put( Rule.RULE_STRUCTURE.toLowerCase( ), Rule.class );
 
 		structDict.put( LevelAttribute.STRUCTURE_NAME.toLowerCase( ),
@@ -601,5 +603,7 @@ public class StructureState extends AbstractPropertyState
 				SortHint.class );
 		structDict.put( TimeInterval.STRUCTURE_NAME.toLowerCase( ),
 				TimeInterval.class );
+		structDict.put( CalculationArgument.STRUCTURE_NAME.toLowerCase( ),
+				CalculationArgument.class );
 	}
 }

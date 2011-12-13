@@ -160,9 +160,9 @@ public class BIRTChartXtabResultSetEvaluator
 		{
 			if ( !bSubCursor )
 			{
-				return mainEdgeCursor.next( );
+				return hasNext( mainEdgeCursor );
 			}
-			return subEdgeCursor.next( );
+			return hasNext( subEdgeCursor );
 		}
 		catch ( OLAPException e )
 		{

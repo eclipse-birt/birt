@@ -419,31 +419,11 @@ public class CrosstabUtil implements ICrosstabConstants
 				{
 					ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
 
-					Binding binding = new Binding( column.getName( ) );
-					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-					binding.setExpression( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
-							.getValue( ),
-							ExpressionLocation.CUBE ) );
-					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+					// now user dte model adpater to transform the binding
+					IBinding binding = modelAdapter.adaptBinding( column,
+							ExpressionLocation.CUBE );
 
-					if ( column.getFilterExpression( ) != null )
-					{
-						binding.setFilter( modelAdapter.adaptExpression( (Expression) column.getExpressionProperty( ComputedColumn.FILTER_MEMBER )
-								.getValue( ),
-								ExpressionLocation.CUBE ) );
-					}
-
-					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-					{
-						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-
-						binding.addArgument( aah.getName( ),
-								modelAdapter.adaptExpression( (Expression) aah.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
-										.getValue( ),
-										ExpressionLocation.CUBE ) );
-					}
-
+					// still need add aggregateOn field
 					List aggrList = column.getAggregateOnList( );
 
 					if ( aggrList != null )
@@ -474,7 +454,7 @@ public class CrosstabUtil implements ICrosstabConstants
 	}
 
 	public static void addHierachyAggregateOn( ModuleHandle module,
-			Binding binding, String baseLevel, List<String> rowLevelList,
+			IBinding binding, String baseLevel, List<String> rowLevelList,
 			List<String> columnLevelList, Map<String, String> cache )
 			throws BirtException
 	{

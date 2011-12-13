@@ -87,4 +87,9 @@ public interface IFactTableRowIterator
 	 */
 	public void close() throws DataException, IOException;
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDuplicatedRow( );
 }

@@ -1,0 +1,8 @@
+year quarter 
+2011 3 
+year quarter 
+2011 2 
+year quarter 
+2011 1 
+year quarter 
+2010 4 

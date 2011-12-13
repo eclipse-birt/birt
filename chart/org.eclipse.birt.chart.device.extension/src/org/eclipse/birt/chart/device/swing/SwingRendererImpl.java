@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.device.swing;
 
-import java.awt.Image;
 import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import org.eclipse.birt.chart.device.IDeviceRenderer;
@@ -337,13 +335,4 @@ public class SwingRendererImpl extends G2dRendererBase
 		// FLUSH ALL IMAGES USED IN RENDERING THE CHART CONTENT
 		( (SwingDisplayServer) _ids ).getImageCache( ).flush( );
 	}
-
-	@Override
-	protected Image createImage( byte[] data )
-	{
-		ImageIcon ii = new ImageIcon( data );
-		return ii.getImage( );
-	}
-
-
 }

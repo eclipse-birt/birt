@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDia
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
+import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -41,7 +42,8 @@ public class AggregationDropAdapter implements IDropAdapter
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		if ( transfer.equals( "DATA_AGG" ) //$NON-NLS-1$
+		if ( (transfer.equals( DesignerPaletteFactory.AGG_TEMPLATE ) //$NON-NLS-1$
+				|| transfer.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE )) //$NON-NLS-1$
 				&& target instanceof CrosstabCellEditPart )
 		{
 			CrosstabCellAdapter adapter = (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( );
@@ -70,7 +72,14 @@ public class AggregationDropAdapter implements IDropAdapter
 			EditPart editPart = (EditPart) target;
 
 			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
-			stack.startTrans( "Add Aggregation" ); //$NON-NLS-1$
+			if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( transfer ))
+			{
+				stack.startTrans( "Add TimePeriod" ); //$NON-NLS-1$
+			}
+			else
+			{
+				stack.startTrans( "Add Aggregation" ); //$NON-NLS-1$
+			}
 
 			DataItemHandle dataHandle = DesignElementFactory.getInstance( ).newDataItem( null );
 
@@ -82,7 +91,10 @@ public class AggregationDropAdapter implements IDropAdapter
 				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
 				dialog.setInput( dataHandle, null, cellHandle );
 				dialog.setAggreate( true );
-
+				if (DesignerPaletteFactory.TIMEPERIOD_TEMPLATE.equals( transfer ))
+				{
+					dialog.setTimePeriod( true );
+				}
 				if ( dialog.open( ) == Window.OK )
 				{
 					CreateRequest request = new CreateRequest( );

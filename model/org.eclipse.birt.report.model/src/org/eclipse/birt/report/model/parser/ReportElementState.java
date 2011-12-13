@@ -516,9 +516,14 @@ public abstract class ReportElementState extends DesignParseState
 			{
 				if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
 				{
-					// not fire error and handle it when all the styles are
-					// parsed in design file or a theme slot
-					return;
+					// fire semantic warning error 
+					handler.getErrorHandler( )
+							.semanticWarning(
+									new NameException(
+											content,
+											name,
+											NameException.DESIGN_EXCEPTION_INVALID_NAME ) );
+					
 
 				}
 				else

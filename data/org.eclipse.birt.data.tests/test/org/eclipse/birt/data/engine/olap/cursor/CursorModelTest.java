@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -777,45 +778,20 @@ public class CursorModelTest extends BaseTestCase
 				"10" );
 		appContext.put( "org.eclipse.birt.data.engine.olap.cursor.onRow", "3" );
 		
-		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
-				de.getSession( ),
-				this.scope,
-				de.getContext( ) ),cube, appContext, null );
-
-		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
-
-		List columnEdgeBindingNames = new ArrayList();
-		columnEdgeBindingNames.add( "level11" );
-		columnEdgeBindingNames.add( "level12" );
-		columnEdgeBindingNames.add( "level13" );	
-		columnEdgeBindingNames.add( "level14" );
-		
-		List rowEdgeBindingNames = new ArrayList();
-		rowEdgeBindingNames.add( "level21" );
-		rowEdgeBindingNames.add( "level22" );
-		
-		List measureBindingNames = new ArrayList( );
-		measureBindingNames.add( "measure1" );
-		
-		List rowGrandTotalNames = new ArrayList();
-		rowGrandTotalNames.add( "rowGrandTotal" );
-				
 		try
 		{
-			testOut.print( creator.printCubeAlongEdge( dataCursor,
-					columnEdgeBindingNames,
-					rowEdgeBindingNames,
-					measureBindingNames,
-					rowGrandTotalNames,
-					"columnGrandTotal",
-					"totalGrandTotal",
-					null ) );
-			this.checkOutputFile( );
+			// Create cube view.
+			BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
+					de.getSession( ),
+					this.scope,
+					de.getContext( ) ),cube, appContext, null );
+
+			CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ), cube );
+			fail( "should not get here" );
 		}
-		catch ( Exception e )
+		catch( DataException e)
 		{
-			fail( "fail to get here!" );
+			assertTrue( e.getErrorCode( ).equals( ResourceConstants.RESULT_LENGTH_EXCEED_COLUMN_LIMIT ) );
 		}
 	}
 	
