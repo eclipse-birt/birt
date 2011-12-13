@@ -67,6 +67,7 @@ data.engine.DupColumnName=重复的列名称: {0}。
 data.engine.DupAlias=重复的列名称或别名: {0}。
 data.engine.InvalidFieldIndex=无效的字段索引: {0}。
 data.engine.fail.prepareExecution=无法为数据集准备查询执行: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0}。
 
@@ -412,6 +413,8 @@ data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 data.olap.query.noCubeBinding=由于没有可用的多维数据集绑定，无法执行多维数据集查询!
 data.olap.FailLoadCube=加载多维数据集失败:“{0}”。
 data.olap.MissingDimensionInCube=多维数据集中必须至少有一个维: {0}
+data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
+data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code
