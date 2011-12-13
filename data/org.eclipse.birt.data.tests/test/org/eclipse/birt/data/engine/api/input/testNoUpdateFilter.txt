@@ -1,0 +1,20 @@
+ID,COUNTRY,STATE,CITY,AMOUNT
+INT,STRING,STRING,STRING,INT
+1, 'China', 'Shanghai', 'Shanghai', 10          
+2, 'China', 'Beijing', 'Beijing', 20          
+3, 'China', 'Jiangshu', 'Nanjing', 30          
+4, 'China', 'Jiangshu', 'Suzhou', 40          
+5, 'China', 'Sichuan', 'Chengdu', 50          
+6, 'China', 'Sichuan', 'Mianyang', 60          
+7, 'US', 'Colombia', 'Washington', 70      
+8, 'US', 'California', 'Los Angeles', 10        
+9, 'US', 'California', 'Hollywood', 20        
+10, 'US', 'California', 'San Francisco', 30       
+11, 'UK', 'England', 'London', 10       
+12, 'UK', 'Scotland', 'Edinburgh', 20   
+13, 'China', 'Jiangshu', 'Nanjing', 31
+14, 'China', 'Jiangshu', 'Nanjing', 32
+15, 'US', 'California', 'Los Angeles', 11
+16, 'US', 'California', 'Los Angeles', 12    
+17, 'UK', 'England', 'London', 21
+18, 'UK', 'England', 'London', 22          

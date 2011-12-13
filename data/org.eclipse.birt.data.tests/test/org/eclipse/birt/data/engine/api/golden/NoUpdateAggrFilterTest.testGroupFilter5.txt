@@ -1,0 +1,9 @@
+*****A new Report Start!*****
+S:0 E:4 11    UK    England    London    10    4    3    3    73.0    false    
+S:4 E:4 17    UK    England    London    21    4    3    3    73.0    false    
+S:4 E:2 18    UK    England    London    22    4    3    3    73.0    false    
+S:2 E:1 12    UK    Scotland    Edinburgh    20    4    1    1    73.0    false    
+S:1 E:3 9    US    California    Hollywood    20    6    5    1    153.0    false    
+S:3 E:2 10    US    California    San Francisco    30    6    5    1    153.0    false    
+S:2 E:0 7    US    Colombia    Washington    70    6    1    1    153.0    false    
+

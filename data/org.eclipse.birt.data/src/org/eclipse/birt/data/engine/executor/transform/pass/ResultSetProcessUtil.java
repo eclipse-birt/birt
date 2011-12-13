@@ -12,18 +12,27 @@
 package org.eclipse.birt.data.engine.executor.transform.pass;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnRoundManager;
 import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
 import org.eclipse.birt.data.engine.executor.cache.SortSpec;
+import org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
+import org.eclipse.birt.data.engine.executor.transform.group.IncrementalUpdateGroupFilter;
+import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -85,7 +94,21 @@ class ResultSetProcessUtil extends RowProcessUtil
 		instance.populateResultSet( );
 
 	}
-
+	
+	public static void doPopulateAggregation( ResultSetPopulator populator,
+			ComputedColumnsState iccState,
+			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
+			PassStatusController psController, List sortList )
+			throws DataException
+	{
+		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
+				iccState,
+				computedColumnHelper,
+				filterByRow,
+				psController);
+		instance.cachedSort = sortList;
+		instance.populateAggregation( );
+	}
 	/**
 	 * 
 	 * @param stopSign
@@ -98,7 +121,6 @@ class ResultSetProcessUtil extends RowProcessUtil
 		
 		//Grouping will also be done in this method, for currently we only support simple group keys
 		//that is, group keys cannot contain aggregation.
-				
 		doRowFiltering( );
 		
 		//TODO remove me
@@ -118,11 +140,11 @@ class ResultSetProcessUtil extends RowProcessUtil
 		//Filter aggregation filters
 		doAggrRowFiltering(  );
 		
-		//Do row sorting
-		doRowSorting(  );
-		
-		//Do group sorting
-		doGroupSorting(  );
+		// Do row sorting
+		doRowSorting( );
+
+		// Do group sorting
+		doGroupSorting( );
 		
 		if ( !groupingDone )
 		{
@@ -133,6 +155,197 @@ class ResultSetProcessUtil extends RowProcessUtil
 		}
 		
 		clearTemporaryComputedColumns( iccState );
+		
+		populateAggregation( );
+		
+		// Do 2nd phase: no update aggregation filters here.
+		doNoUpdateAggrGroupFilter( );
+		
+		doNoUpdateAggrRowFilter( );
+	}
+	
+	private void populateAggregation ()  throws DataException
+	{
+		calculateAggregationsInColumnBinding( );
+
+		/************************************/
+		// TODO remove me
+		// Temp code util model makes the backward comp.
+		ExpressionCompiler compiler = new ExpressionCompiler( );
+		compiler.setDataSetMode( false );
+		for ( Iterator it = this.populator.getEventHandler( )
+				.getColumnBindings( )
+				.values( )
+				.iterator( ); it.hasNext( ); )
+		{
+			try
+			{
+				IBinding binding = (IBinding) it.next( );
+				compiler.compile( binding.getExpression( ),
+						this.populator.getSession( )
+								.getEngineContext( ).getScriptContext( ));
+			}
+			catch ( DataException e )
+			{
+				// do nothing
+			}
+		}
+
+		/*************************************/
+		//
+		populateAggregationInBinding( );
+	}
+	
+	private void calculateAggregationsInColumnBinding( ) throws DataException
+	{
+		IExpressionProcessor ep = populator.getExpressionProcessor();
+
+		Map results = populator.getEventHandler( ).getColumnBindings( );
+	
+		DummyICCState iccState = new DummyICCState( results );
+
+		ep.setResultIterator( populator.getResultIterator( ) );
+		
+		while ( !iccState.isFinish( ) )
+		{
+			ep.evaluateMultiPassExprOnCmp( iccState, false );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void populateAggregationInBinding( ) throws DataException
+	{
+		this.populator.getExpressionProcessor( )
+				.setResultIterator( this.populator.getResultIterator( ) );
+		this.populator.getResultIterator( ).clearAggrValueHolder( );
+		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
+
+		AggrDefnRoundManager factory = new AggrDefnRoundManager( aggrDefns );
+		for ( int i = 0; i < factory.getRound( ); i++ )
+		{
+			AggregationHelper helper = new AggregationHelper( factory.getAggrDefnManager( i ),
+					this.populator );
+			this.populator.getResultIterator( ).addAggrValueHolder( helper );
+
+		}
+	}
+	
+	/**
+	 * Class DummyICCState is used by ExpressionProcessor to calculate multipass 
+	 * aggregations.
+	 *
+	 */
+	private static class DummyICCState implements IComputedColumnsState
+	{
+		private Object[] exprs;
+		private Object[] names;
+		private boolean[] isValueAvailable;
+		
+		/**
+		 * 
+		 * @param exprs
+		 * @param names
+		 * @throws DataException 
+		 */
+		DummyICCState( Map columnMappings ) throws DataException
+		{
+			this.exprs = columnMappings.values( ).toArray( );
+			this.names = columnMappings.keySet( ).toArray( );
+			this.isValueAvailable= new boolean[exprs.length];
+/*			for( int i = 0; i < exprs.length; i ++ )
+			{
+				IBinding binding = ((IBinding)exprs[i]);
+				
+				if( binding.getExpression( ).getHandle( )== null )
+				{
+					this.isValueAvailable[i] = false;
+				}else
+				{
+					this.isValueAvailable[i] = true;
+				}
+				
+			}*/
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#isValueAvailable(int)
+		 */
+		public boolean isValueAvailable( int index )
+		{
+			return this.isValueAvailable[index];
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName(int)
+		 */
+		public String getName( int index )
+		{
+			return this.names[index].toString( );
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
+		 */
+		public IBaseExpression getExpression( int index ) throws DataException
+		{
+			return ((IBinding) exprs[index]).getExpression( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setValueAvailable(int)
+		 */
+		public void setValueAvailable( int index )
+		{
+			this.isValueAvailable[index] = true;		
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getCount()
+		 */
+		public int getCount( )
+		{
+			return this.isValueAvailable.length;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getComputedColumn(int)
+		 */
+		public IComputedColumn getComputedColumn( int index )
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setModel(int)
+		 */
+		public void setModel( int model )
+		{
+				
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isFinish()
+		{
+			for( int i = 0; i < isValueAvailable.length; i++ )
+			{
+				if( !isValueAvailable[i] )
+					return false;
+			}
+			return true;
+		}
 	}
 
 	/**
@@ -184,13 +397,20 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 * Indicate whether need to do group filtering.
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean needDoGroupFiltering( )
 	{
 		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
 		{
-			List groupFilters = this.populator.getQuery( ).getGrouping( )[i].getFilters( );
+			List<IFilterDefinition> groupFilters = this.populator.getQuery( ).getGrouping( )[i].getFilters( );
 			if( groupFilters != null && groupFilters.size( ) > 0 )
-				return true;
+			{
+				for ( int k =0; k < groupFilters.size( ); k++ )
+				{
+					if ( groupFilters.get( k ).updateAggregation() )
+						return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -461,5 +681,52 @@ class ResultSetProcessUtil extends RowProcessUtil
 		}
 		IResultClass result = new ResultClass( projectedColumns );
 		return result;
+	}
+	
+	private void doNoUpdateAggrRowFilter( ) throws DataException
+	{
+		if ( filterByRow == null )
+			return;
+
+		if ( !psController.needDoOperation( PassStatusController.NOUPDATE_ROW_FILTERING ) )
+			return;
+
+		NoUpdateFilterCalculator.applyFilters( this.populator, this.filterByRow );
+	}
+	
+	private void doNoUpdateAggrGroupFilter( ) throws DataException
+	{
+		if ( !needNoUpdateAggrGroupFiltering( ) )
+			return;
+
+		if ( !groupingDone )
+		{
+			PassUtil.pass( this.populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					true );
+			groupingDone = true;
+		}
+
+		new IncrementalUpdateGroupFilter( this.populator ).doFilters( );
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	private boolean needNoUpdateAggrGroupFiltering( )
+	{
+		for ( int i = 0; i < this.populator.getQuery( ).getGrouping( ).length; i++ )
+		{
+			List<IFilterDefinition> groupFilters = this.populator.getQuery( )
+					.getGrouping( )[i].getFilters( );
+			if ( groupFilters != null && groupFilters.size( ) > 0 )
+			{
+				for ( int k = 0; k < groupFilters.size( ); k++ )
+				{
+					if ( !groupFilters.get( k ).updateAggregation( ) )
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 }

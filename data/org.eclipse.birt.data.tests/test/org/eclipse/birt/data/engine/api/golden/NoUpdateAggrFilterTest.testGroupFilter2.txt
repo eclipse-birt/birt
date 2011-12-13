@@ -1,0 +1,10 @@
+*****A new Report Start!*****
+S:0 E:2 2    China    Beijing    Beijing    20    8    1    1    499.0    false    
+S:2 E:4 3    China    Jiangshu    Nanjing    30    8    4    3    499.0    true    
+S:4 E:4 13    China    Jiangshu    Nanjing    31    8    4    3    499.0    true    
+S:4 E:3 14    China    Jiangshu    Nanjing    32    8    4    3    499.0    true    
+S:3 E:2 4    China    Jiangshu    Suzhou    40    8    4    1    499.0    false    
+S:2 E:2 1    China    Shanghai    Shanghai    10    8    1    1    499.0    false    
+S:2 E:3 5    China    Sichuan    Chengdu    50    8    2    1    499.0    false    
+S:3 E:0 6    China    Sichuan    Mianyang    60    8    2    1    499.0    false    
+

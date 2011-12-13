@@ -105,10 +105,13 @@ class GroupInstanceFilter
 				continue;
 			for ( int j = 0; j < groupFilters.size( ); j++ )
 			{
-				IBaseExpression expr = ( (IFilterDefinition) groupFilters.get( j ) ).getExpression( ); 
-				expr.setGroupName( name );
-				expressionList.add( expr );
-				groupLevels.add( Integer.valueOf( i + 1 ) );
+				if ( ((IFilterDefinition) groupFilters.get( j )).updateAggregation() )
+				{
+					IBaseExpression expr = ( (IFilterDefinition) groupFilters.get( j ) ).getExpression( ); 
+					expr.setGroupName( name );
+					expressionList.add( expr );
+					groupLevels.add( Integer.valueOf( i + 1 ) );
+				}
 			}
 		}
 	}

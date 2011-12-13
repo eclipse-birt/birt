@@ -740,10 +740,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private void populateFetchEvent( ScriptContext cx ) throws DataException
 	{
-		List dataSetFilters = new ArrayList( );
-		List queryFilters = new ArrayList( );
-		List aggrFilters = new ArrayList( );
-		List dataSetAggrFilters = new ArrayList( );
+		List<IFilterDefinition> dataSetFilters = new ArrayList<IFilterDefinition>( );
+		List<IFilterDefinition> queryFilters = new ArrayList<IFilterDefinition>( );
+		List<IFilterDefinition> aggrFilters = new ArrayList<IFilterDefinition>( );
+		List<IFilterDefinition> aggrNoUpdateFilters = new ArrayList<IFilterDefinition>( );
+		List<IFilterDefinition> dataSetAggrFilters = new ArrayList<IFilterDefinition>( );
+		
 		if ( dataSet.getFilters( ) != null )
 		{
 			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
@@ -753,28 +755,35 @@ public abstract class QueryExecutor implements IQueryExecutor
 						.get( i ),
 						bindings ) )
 				{
-					dataSetAggrFilters.add( dataSet.getFilters( ).get( i ) );
+					dataSetAggrFilters.add( (IFilterDefinition) dataSet.getFilters( ).get( i ) );
 				}
 				else
 				{
-					dataSetFilters.add( dataSet.getFilters( ).get( i ) );
+					dataSetFilters.add( (IFilterDefinition) dataSet.getFilters( ).get( i ) );
 				}
 			}
 		}
 
-		if ( this.baseQueryDefn.getFilters( ) != null )
+		@SuppressWarnings("unchecked")
+		List<IFilterDefinition> filters = this.baseQueryDefn.getFilters( );
+		if ( filters != null )
 		{
-			for ( int i = 0; i < this.baseQueryDefn.getFilters( ).size( ); i++ )
+			@SuppressWarnings("unchecked")
+			Map<String, IBinding> bindings = this.baseQueryDefn.getBindings( );
+			for ( int i = 0; i < filters.size( ); i++ )
 			{
-				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) this.baseQueryDefn.getFilters( )
-						.get( i ),
-						this.baseQueryDefn.getBindings( ) ) )
+				IFilterDefinition filter = filters.get( i );
+				if ( !filter.updateAggregation( ) )
 				{
-					aggrFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
+					aggrNoUpdateFilters.add( filter );
+				}
+				else if ( QueryExecutorUtil.isAggrFilter( filter, bindings ) )
+				{
+					aggrFilters.add( filter );
 				}
 				else
 				{
-					queryFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
+					queryFilters.add( filter );
 				}
 			}
 		}
@@ -808,13 +817,14 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 
 		if ( dataSetFilters.size( )
-				+ queryFilters.size( ) + multipassFilters.size( ) + aggrFilters.size( ) + dataSetAggrFilters.size( ) > 0 )
+				+ queryFilters.size( ) + multipassFilters.size( ) + aggrFilters.size( ) + dataSetAggrFilters.size( ) + aggrNoUpdateFilters.size( ) > 0 )
 		{
 			IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters,
 					queryFilters,
 					multipassFilters,
 					aggrFilters,
 					dataSetAggrFilters,
+					aggrNoUpdateFilters,
 					dataSet );
 			odiQuery.addOnFetchEvent( objectEvent );
 		}
