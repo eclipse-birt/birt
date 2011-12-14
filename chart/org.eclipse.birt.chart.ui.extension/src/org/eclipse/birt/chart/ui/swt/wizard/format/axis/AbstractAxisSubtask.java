@@ -249,7 +249,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			}
 
 			// Origin is not supported in 3D
-			if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+			if ( !isChart3D( ) )
 			{
 				Label lblOrigin = new Label( cmpBasic, SWT.NONE );
 				lblOrigin.setText( Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.Origin" ) ); //$NON-NLS-1$
@@ -387,7 +387,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	protected void createLabelSpan( Composite cmpBasic )
 	{
-		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+		if ( !isChart3D( ) )
 		{
 			Label l = new Label( cmpBasic, SWT.NONE );
 			l.setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
@@ -589,7 +589,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					.getName( ) ) );
 		}
 		// Populate origin types combo
-		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+		if (  !isChart3D( ) )
 		{
 			ns = LiteralHelper.intersectionTypeSet;
 			cmbOrigin.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );

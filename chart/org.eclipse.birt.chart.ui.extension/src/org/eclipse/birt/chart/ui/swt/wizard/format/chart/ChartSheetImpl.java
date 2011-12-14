@@ -377,7 +377,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// #170985
-		if ( ChartUtil.hasMultipleYAxes( getChart( ) ) )
+		if ( enableStudyLayout( ) )
 		{
 			btnStudyLayout = new TristateCheckbox( cmpBasic, SWT.NONE );
 			GridData gridData = new GridData( );
@@ -392,6 +392,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 		populateLists( );
 		createButtonGroup( cmpContent );
+	}
+
+	protected boolean enableStudyLayout( )
+	{
+		return ChartUtil.hasMultipleYAxes( getChart( ) );
 	}
 
 	protected void createStyleNPreviewUI( Composite cmpBasic )

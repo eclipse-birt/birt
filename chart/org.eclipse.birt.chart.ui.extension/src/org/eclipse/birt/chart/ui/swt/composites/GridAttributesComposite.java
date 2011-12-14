@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Grid;
@@ -63,6 +62,8 @@ public class GridAttributesComposite extends Composite implements
 
 	private transient ChartWizardContext context;
 
+	private boolean bTicksVisible;
+
 	// Grid Attribute Change Events
 	public static final int LINE_STYLE_CHANGED_EVENT = 1;
 
@@ -83,11 +84,12 @@ public class GridAttributesComposite extends Composite implements
 	 * @param style
 	 */
 	public GridAttributesComposite( Composite parent, int style,
-			ChartWizardContext context, Grid grid, int orientation )
+			ChartWizardContext context, Grid grid, int orientation, boolean bTicksVisible )
 	{
 		super( parent, style );
 		this.orientation = orientation;
 		this.context = context;
+		this.bTicksVisible = bTicksVisible;
 		init( grid );
 		placeComponents( );
 	}
@@ -176,11 +178,7 @@ public class GridAttributesComposite extends Composite implements
 		}
 
 		// Ticks group (unsupported in 3D)
-		boolean bTicksEnabled = this.context.getModel( )
-				.getDimension( )
-				.getValue( ) != ChartDimension.THREE_DIMENSIONAL;
-
-		if ( bTicksEnabled )
+		if ( bTicksVisible )
 		{
 			Group grpTicks = new Group( cmpContent, SWT.NONE );
 			{

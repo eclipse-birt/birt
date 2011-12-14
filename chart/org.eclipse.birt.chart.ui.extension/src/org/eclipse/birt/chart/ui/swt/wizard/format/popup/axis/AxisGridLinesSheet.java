@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
 import org.eclipse.birt.chart.model.attribute.AngleType;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
@@ -232,11 +233,14 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		grpMajor.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.MajorGrid" ) ); //$NON-NLS-1$
 		grpMajor.setLayout( flMajor );
 
+		boolean ticksVisible = ( this.angleType != AngleType.Z )
+				&& ( getContext( ).getModel( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL );
 		gacMajor = new GridAttributesComposite( grpMajor,
 				SWT.NONE,
 				getContext( ),
 				axis.getMajorGrid( ),
-				axis.getOrientation( ).getValue( ) );
+				axis.getOrientation( ).getValue( ),
+				ticksVisible );
 		gacMajor.addListener( this );
 
 		// Minor Grid
@@ -252,7 +256,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getContext( ),
 				axis.getMinorGrid( ),
-				axis.getOrientation( ).getValue( ) );
+				axis.getOrientation( ).getValue( ),
+				ticksVisible );
 		gacMinor.addListener( this );
 
 		setStateOfMajorGrid( );
