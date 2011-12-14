@@ -152,6 +152,7 @@ public class ChartWizardContext implements IChartWizardContext
 	public void setDefaultOutputFormat( String sOutputFormat )
 	{
 		this.sDefaultOutputFormat = sOutputFormat;
+		setOutputFormat( sOutputFormat );
 	}
 
 	public IUIServiceProvider getUIServiceProvider( )
@@ -462,7 +463,7 @@ public class ChartWizardContext implements IChartWizardContext
 	/**
 	 * Checks if interactivity is supported.
 	 * 
-	 * @return
+	 * @return true means interactivity is supported
 	 */
 	public boolean isInteractivityEnabled( )
 	{
