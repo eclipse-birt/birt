@@ -417,6 +417,7 @@ SeriesYSheetImpl.Label.Interactivity&=相互作用(&R)
 SeriesYSheetImpl.Label.Interactivity=系列の相互作用
 SeriesGroupingComposite.Lbl.AggregateExpression=集計式 (&A):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=グループ化の間隔を選択してください。このフィールドに 0 を指定すると、X 軸 (カテゴリ値) に基づいてグループ化されます。
+SeriesPaletteSheet.Label.Auto=Au&to
 SeriesPaletteSheet.Tab.Axis=軸 
 SeriesPaletteSheet.Tab.Series=系列 
 SeriesSheetImpl.Label.ValueOrthogonalSeries=値系列
@@ -918,6 +919,7 @@ BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1 つのディメンジ
 BaseGroupSortingDialog.Label.SortOn=ソート(&O) :
 
 MarkerEditorComposite.Button.Outline=外枠(&O)
+MarkerEditorComposite.Label.MarkerType=Type
 MarkerIconDialog.Button.EmbeddedImage=埋め込まれたイメージ(&M)
 MarkerIconDialog.Title.MarkerIconSelector=マーカのアイコンセレクタ
 MarkerIconDialog.Label.Description.EmbeddedImage=マーカーのアイコンに指定する埋め込まれたイメージを選択してください。
@@ -1078,3 +1080,5 @@ MenuStylesDialog.Btn.Remove=削除(&R)
 MenuStylesDialog.Label.Style=スタイル(&S) :
 MenuStylesDialog.title=ハイパーリンクメニューのプロパティ
 MenuStylesDialog.Title=ハイパーリンクメニューのスタイル
+
+ItemLabel.Auto=Auto

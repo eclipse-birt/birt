@@ -417,6 +417,7 @@ SeriesYSheetImpl.Label.Interactivity&=´ëÈ­Çü ÀÛ¾÷(&R)
 SeriesYSheetImpl.Label.Interactivity=°è¿­ ´ëÈ­Çü ÀÛ¾÷
 SeriesGroupingComposite.Lbl.AggregateExpression=Áı°è½Ä(&A):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=±×·ìÈ­ °£°İÀ» ¼±ÅÃÇÏ½Ê½Ã¿À. 0Àº ±×·ìÈ­ ±âÁØÀÌ X/¹üÁÖ °ªÀÓÀ» ³ªÅ¸³À´Ï´Ù.
+SeriesPaletteSheet.Label.Auto=Au&to
 SeriesPaletteSheet.Tab.Axis=Ãà 
 SeriesPaletteSheet.Tab.Series=°è¿­ 
 SeriesSheetImpl.Label.ValueOrthogonalSeries=°ª °è¿­
@@ -918,6 +919,7 @@ BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=1Â÷¿ø ½ÄÀ» ¼±ÅÃÇ
 BaseGroupSortingDialog.Label.SortOn=Á¤·Ä ¹æ¹ı(&O):
 
 MarkerEditorComposite.Button.Outline=À±°û¼±(&O)
+MarkerEditorComposite.Label.MarkerType=Type
 MarkerIconDialog.Button.EmbeddedImage=Æ÷ÇÔµÈ ÀÌ¹ÌÁö(&M)
 MarkerIconDialog.Title.MarkerIconSelector=Ç¥Áö ¾ÆÀÌÄÜ ¼±ÅÃ±â(Marker Icon Selector)
 MarkerIconDialog.Label.Description.EmbeddedImage=¸¶Ä¿ ¾ÆÀÌÄÜÀ¸·Î Æ÷ÇÔµÈ ÀÌ¹ÌÁö¸¦ ¼±ÅÃÇÕ´Ï´Ù.
@@ -1078,3 +1080,5 @@ MenuStylesDialog.Btn.Remove=Á¦°Å(&R)
 MenuStylesDialog.Label.Style=½ºÅ¸ÀÏ(&S):
 MenuStylesDialog.title=ÇÏÀÌÆÛ¸µÅ© ¸Ş´º ¼Ó¼º
 MenuStylesDialog.Title=ÇÏÀÌÆÛ¸µÅ© ¸Ş´º ½ºÅ¸ÀÏ
+
+ItemLabel.Auto=Auto
