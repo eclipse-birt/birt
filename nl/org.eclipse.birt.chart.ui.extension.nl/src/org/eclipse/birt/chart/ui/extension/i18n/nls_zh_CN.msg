@@ -417,7 +417,7 @@ SeriesYSheetImpl.Label.Interactivity&=交互(&R)
 SeriesYSheetImpl.Label.Interactivity=系列交互
 SeriesGroupingComposite.Lbl.AggregateExpression=聚合表达式(&A):
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=选择分组间隔。0 表示按 X/类别值分组
-SeriesPaletteSheet.Label.Auto=Au&to
+SeriesPaletteSheet.Label.Auto=自动(&T)
 SeriesPaletteSheet.Tab.Axis=轴 
 SeriesPaletteSheet.Tab.Series=系列 
 SeriesSheetImpl.Label.ValueOrthogonalSeries=值系列
@@ -919,7 +919,7 @@ BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=不能选择同时在类
 BaseGroupSortingDialog.Label.SortOn=排序依据(&O):
 
 MarkerEditorComposite.Button.Outline=边框(&O)
-MarkerEditorComposite.Label.MarkerType=Type
+MarkerEditorComposite.Label.MarkerType=类型
 MarkerIconDialog.Button.EmbeddedImage=嵌入图像(&M)
 MarkerIconDialog.Title.MarkerIconSelector=标记图标选择器
 MarkerIconDialog.Label.Description.EmbeddedImage=选择嵌入图像作为标记图标。
@@ -1081,4 +1081,4 @@ MenuStylesDialog.Label.Style=样式(&S):
 MenuStylesDialog.title=超级链接菜单属性
 MenuStylesDialog.Title=超链接菜单样式
 
-ItemLabel.Auto=Auto
+ItemLabel.Auto=自动

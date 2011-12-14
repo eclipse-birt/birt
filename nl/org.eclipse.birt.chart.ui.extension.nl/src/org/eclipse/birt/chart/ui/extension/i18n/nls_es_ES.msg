@@ -417,7 +417,7 @@ SeriesYSheetImpl.Label.Interactivity&=Inte&ractividad
 SeriesYSheetImpl.Label.Interactivity=Interactividad de la serie
 SeriesGroupingComposite.Lbl.AggregateExpression=&Expresión de total:
 SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping=Seleccione el intervalo para la agrupación. 0 indica una agrupación por valor de categoría/X
-SeriesPaletteSheet.Label.Auto=Au&to
+SeriesPaletteSheet.Label.Auto=Automá&tico
 SeriesPaletteSheet.Tab.Axis=Eje 
 SeriesPaletteSheet.Tab.Series=Serie 
 SeriesSheetImpl.Label.ValueOrthogonalSeries=Serie del valor
@@ -919,7 +919,7 @@ BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=No se pueden sel
 BaseGroupSortingDialog.Label.SortOn=&Ordenar según:
 
 MarkerEditorComposite.Button.Outline=C&ontorno
-MarkerEditorComposite.Label.MarkerType=Type
+MarkerEditorComposite.Label.MarkerType=Tipo
 MarkerIconDialog.Button.EmbeddedImage=I&magen incrustada
 MarkerIconDialog.Title.MarkerIconSelector=Selector de icono de marcador
 MarkerIconDialog.Label.Description.EmbeddedImage=Seleccionar imagen incrustada como icono de marcador.
@@ -1081,4 +1081,4 @@ MenuStylesDialog.Label.Style=&Estilo:
 MenuStylesDialog.title=Propiedades del menú de hyperlink
 MenuStylesDialog.Title=Estilos del menú de hyperlink
 
-ItemLabel.Auto=Auto
+ItemLabel.Auto=Automático
