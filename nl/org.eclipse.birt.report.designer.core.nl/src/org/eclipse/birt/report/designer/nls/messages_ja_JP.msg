@@ -4614,6 +4614,7 @@ BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
 BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}"
+BindingDialogHelper.error.empty={0} is required.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?

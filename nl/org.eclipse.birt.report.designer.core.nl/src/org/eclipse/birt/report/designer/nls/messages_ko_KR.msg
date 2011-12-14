@@ -4614,6 +4614,7 @@ BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
 BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
+BindingDialogHelper.error.empty={0} is required.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?

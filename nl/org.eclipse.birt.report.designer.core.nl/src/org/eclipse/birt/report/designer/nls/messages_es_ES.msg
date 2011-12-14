@@ -4614,6 +4614,7 @@ BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
 BindingDialogHelper.error.improperexpression=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
+BindingDialogHelper.error.empty={0} is required.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
 BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?
