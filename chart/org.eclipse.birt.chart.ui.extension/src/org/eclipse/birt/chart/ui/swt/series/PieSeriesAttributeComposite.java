@@ -19,13 +19,15 @@ import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -78,6 +80,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 	private LineAttributesComposite liacLeaderLine = null;
 
 	private PieSeries series = null;
+	
+	private PieSeries defSeries = DefaultValueProvider.defPieSeries( );
 
 	private static final int MAX_LEADER_LENGTH = 200;
 
@@ -96,7 +100,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private Button btnRotationAuto;
 
-	private TristateCheckbox btnDirection;
+	private AbstractChartCheckbox btnDirection;
 
 	private Button btnExplosionAuto;
 
@@ -182,7 +186,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 				SWT.NONE,
 				getLeaderLineAttributesStyle( ),
 				context,
-				series.getLeaderLineAttributes( ) );
+				series.getLeaderLineAttributes( ),
+				defSeries.getLeaderLineAttributes( ) );
 		GridData gdLIACLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLeaderLine.horizontalSpan = 2;
 		liacLeaderLine.setLayoutData( gdLIACLeaderLine );
@@ -379,16 +384,19 @@ public class PieSeriesAttributeComposite extends Composite implements
 		sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
 		btnRotationAuto.addSelectionListener( this );
 
-		btnDirection = new TristateCheckbox( cmpRight, SWT.NONE );
+		btnDirection = context.getUIFactory( )
+				.createChartCheckbox( cmpRight,
+						SWT.NONE,
+						defSeries.isClockwise( ) );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 3;
 			btnDirection.setLayoutData( gd );
 			btnDirection.setText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction" ) ); //$NON-NLS-1$
 			btnDirection.setToolTipText( Messages.getString( "PieSeriesAttributeComposite.Button.Direction.ToolTipText" ) ); //$NON-NLS-1$
-			btnDirection.setSelectionState( series.isSetClockwise( ) ? ( series.isClockwise( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnDirection.setSelectionState( series.isSetClockwise( ) ? ( series.isClockwise( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnDirection.addListener( SWT.Selection, this );
 		}
 	}
@@ -553,8 +561,8 @@ public class PieSeriesAttributeComposite extends Composite implements
 		else if ( event.widget == btnDirection )
 		{
 			ChartElementUtil.setEObjectAttribute( series, "clockwise", //$NON-NLS-1$
-					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnDirection.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnDirection.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnDirection.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( event.widget == btnInnerSizeAuto )
 		{

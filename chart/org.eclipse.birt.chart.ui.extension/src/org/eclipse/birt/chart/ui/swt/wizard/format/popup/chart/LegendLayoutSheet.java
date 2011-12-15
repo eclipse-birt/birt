@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -294,7 +295,9 @@ public class LegendLayoutSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineOptions,
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ) );
+				getBlockForProcessing( ).getOutline( ),
+				ChartDefaultValueUtil.getDefaultLegend( getChart( ) )
+						.getOutline( ) );
 		{
 			outlineLegend.addListener( this );
 			outlineLegend.setAttributesEnabled( bEnableUI );

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -33,7 +34,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * BlockPropertiesSheet
  */
 
 public class BlockPropertiesSheet extends AbstractPopupSheet implements
@@ -92,7 +93,9 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				getOutlineAttributesStyle( ),
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ) );
+				getBlockForProcessing( ).getOutline( ),
+				ChartDefaultValueUtil.getDefaultBlock( getChart( ) )
+						.getOutline( ) );
 		liacOutline.addListener( this );
 
 		return cmpContent;
@@ -151,5 +154,4 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements
 	{
 		return getChart( ).getBlock( );
 	}
-
 }

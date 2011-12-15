@@ -33,10 +33,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * DecorationSheet
+ */
 public class DecorationSheet extends AbstractPopupSheet implements Listener
 {
 
 	private transient GanttSeries series;
+	
+	private GanttSeries defSeries = null;
 
 	private transient LabelAttributesComposite lacDeco;
 
@@ -45,6 +50,7 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 	{
 		super( title, context, true );
 		this.series = series;
+		this.defSeries = DefaultValueProvider.defGanttSeries( );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -76,7 +82,8 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 						: null,
 				series.getDecorationLabel( ),
 				getChart( ).getUnits( ),
-				LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
+				LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
+				defSeries.getDecorationLabel( ) );
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;
 		lacDeco.setLayoutData( gdLACLabel );

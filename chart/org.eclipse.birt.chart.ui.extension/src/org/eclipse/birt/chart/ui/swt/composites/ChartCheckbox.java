@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Actuate Corporation.
+ * Copyright (c) 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -24,32 +25,62 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+
 /**
- * TristateCheckbox
+ * ChartCheckbox
  */
 
-public class TristateCheckbox extends Composite implements Listener, SelectionListener
+public class ChartCheckbox extends AbstractChartCheckbox implements
+		Listener,
+		SelectionListener
 {
-
 	public static final int STATE_GRAYED = 0;
 	
 	public static final int STATE_SELECTED = 1;
 	
 	public static final int STATE_UNSELECTED = 2;
 	
-	private Button button;
-	private List<SelectionListener> selectListenerList = new ArrayList<SelectionListener>(2);
-
+	protected Button button;
+	protected List<SelectionListener> selectListenerList = new ArrayList<SelectionListener>(2);
+	
+	protected boolean bDefaultSelection = false;
+	
 	/**
 	 * Constructor.
 	 * 
 	 * @param container
 	 * @param styles
 	 */
-	public TristateCheckbox( Composite container, int styles )
+	public ChartCheckbox( Composite container, int styles )
+	{
+		this( container, styles, false );
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param container
+	 * @param styles
+	 * @param defaultSelection
+	 */
+	public ChartCheckbox( Composite container, int styles, boolean defaultSelection )
 	{
 		super( container, SWT.NONE );
+		this.bDefaultSelection = defaultSelection;
+		placeComponents( styles );
+		initListeners();
+	}
 
+	/**
+	 * Initialize listeners.
+	 */
+	protected void initListeners( )
+	{
+		// Default do nothing.
+	}
+
+	protected void placeComponents( int styles )
+	{
 		GridLayout gl = new GridLayout( );
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
@@ -61,30 +92,18 @@ public class TristateCheckbox extends Composite implements Listener, SelectionLi
 		button = new Button( this, SWT.CHECK | styles );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		button.setLayoutData( gd );
-
-		button.addListener( SWT.Selection, new Listener( ) {
-
-			public void handleEvent( Event e )
-			{
-				if ( button.getSelection( ) )
-				{
-					if ( !button.getGrayed( ) )
-					{
-						button.setGrayed( true );
-					}
-				}
-				else
-				{
-					if ( button.getGrayed( ) )
-					{
-						button.setGrayed( false );
-						button.setSelection( true );
-					}
-				}
-			}
-		} );
 	}
-
+	
+	/**
+	 * Set if default state is selection for this button.
+	 * 
+	 * @param defSelection
+	 */
+	public void setDefaultSelection( boolean defSelection )
+	{
+		this.bDefaultSelection = defSelection;
+	}
+	
 	/**
 	 * Set button text.
 	 * 
@@ -96,36 +115,17 @@ public class TristateCheckbox extends Composite implements Listener, SelectionLi
 	}
 
 	/**
-	 * Returns grayed state of checkbox.
-	 * 
-	 * @return
-	 */
-	public boolean getGrayed( )
-	{
-		return button.getGrayed( );
-	}
-
-	/**
-	 * Sets grayed state of checkbox.
-	 * 
-	 * @param grayed
-	 */
-	public void setGrayed( boolean grayed )
-	{
-		button.setGrayed( grayed );
-	}
-
-	/**
 	 * Returns checkbox state, 0 means grayed state, 1 means checked state, 2
 	 * means unchecked state.
 	 * 
-	 * @return
+	 * @return selection state.
 	 */
 	public int getSelectionState( )
 	{
 		if ( button.getGrayed( ) )
 		{
-			return STATE_GRAYED;
+			return this.bDefaultSelection ? STATE_SELECTED
+						: STATE_UNSELECTED;
 		}
 		else if ( button.getSelection( ) )
 		{
@@ -149,40 +149,19 @@ public class TristateCheckbox extends Composite implements Listener, SelectionLi
 		switch ( state )
 		{
 			case STATE_GRAYED :
-				button.setGrayed( true );
-				button.setSelection( true );
+				button.setSelection( this.bDefaultSelection );
 				break;
 			case STATE_SELECTED :
-				button.setGrayed( false );
 				button.setSelection( true );
 				break;
 			case STATE_UNSELECTED :
-				button.setGrayed( false );
 				button.setSelection( false );
 				break;
 		}
 	}
 
-	public boolean isNoSelection( )
-	{
-		return button.getGrayed( );
-	}
-
-	public boolean isChecked( )
-	{
-		return !isNoSelection( ) && button.getSelection( );
-	}
-
-	public boolean isUnchecked( )
-	{
-		return !isNoSelection( ) && !button.getSelection( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Widget#addListener(int,
-	 * org.eclipse.swt.widgets.Listener)
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.widgets.Widget#addListener(int, org.eclipse.swt.widgets.Listener)
 	 */
 	@Override
 	public void addListener( int eventType, Listener listener )
@@ -205,7 +184,7 @@ public class TristateCheckbox extends Composite implements Listener, SelectionLi
 	/**
 	 * Returns actual button object.
 	 * 
-	 * @return
+	 * @return actual button widget.
 	 */
 	public Button getButton( )
 	{

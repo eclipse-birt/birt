@@ -28,7 +28,8 @@ import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -165,9 +166,9 @@ public class ChartUIExtensionUtil
 	 * @param button
 	 * @return true if the state of specified button allows to enable UI component.
 	 */
-	public static boolean canEnableUI( TristateCheckbox button )
+	public static boolean canEnableUI( AbstractChartCheckbox button )
 	{
-		return button.getSelectionState( ) != TristateCheckbox.STATE_UNSELECTED;
+		return button.getSelectionState( ) != ChartCheckbox.STATE_UNSELECTED;
 	}
 	
 	/**

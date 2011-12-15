@@ -746,7 +746,7 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * Returns instance of default value chart.
 	 * 
-	 * @return
+	 * @return instance of default value chart.
 	 */
 	public Chart getDefaultValueChart( )
 	{

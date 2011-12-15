@@ -170,11 +170,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 	private Button btnTxtValueAuto;
 
-	public AxisMarkersSheet( String title, ChartWizardContext context, Axis axis )
+	private Axis defAxis;
+
+	public AxisMarkersSheet( String title, ChartWizardContext context, Axis axis, Axis defAxis )
 	{
 		super( title, context, true );
 		this.axis = axis;
 		this.context = context;
+		this.defAxis = defAxis;
 	}
 
 	@Override
@@ -325,7 +328,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				null );
+				null,
+				defAxis.getMarkerLines( ).get( 0 ).getLineAttributes( ) );
 		liacMarkerLine.addListener( this );
 
 		btnLineTriggers = new Button( cmpLine, SWT.PUSH );
@@ -441,7 +445,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				null );
+				null,
+				defAxis.getMarkerRanges( ).get( 0 ).getOutline( ) );
 		liacMarkerRange.addListener( this );
 
 		btnRangeTriggers = new Button( cmpRange, SWT.PUSH );
@@ -462,7 +467,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 				Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties" ), //$NON-NLS-1$
 				Position.ABOVE_LITERAL,
 				LabelImpl.create( ),
-				getChart( ).getUnits( ) );
+				getChart( ).getUnits( ),
+				defAxis.getMarkerLines( ).get( 0 ).getLabel( ) );
 		GridData gdLACLabel = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
 		lacLabel.setLayoutData( gdLACLabel );

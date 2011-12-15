@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -50,7 +51,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * PlotClientAreaSheet
  */
 
 public class PlotClientAreaSheet extends AbstractPopupSheet implements
@@ -232,7 +233,8 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ) );
+				getBlockForProcessing( ).getOutline( ),
+				ChartDefaultValueUtil.getDefaultPlot( getChart() ).getOutline( ) );
 		outlineIncluding.addListener( this );
 
 		icIncluding = new InsetsComposite( rightComp,
@@ -351,7 +353,10 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getBlockForProcessing( ).getClientArea( ).getOutline( ) );
+				getBlockForProcessing( ).getClientArea( ).getOutline( ),
+				ChartDefaultValueUtil.getDefaultPlot( getChart( ) )
+						.getClientArea( )
+						.getOutline( ) );
 		{
 			outlineWithin.addListener( this );
 			outlineWithin.setAttributesEnabled( ChartUIUtil.is3DWallFloorSet( getChart( ) ) );

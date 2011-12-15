@@ -11,9 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -43,6 +42,7 @@ public class NeedleComposite extends Composite implements Listener
 	{
 		super( coParent, SWT.NONE );
 		this.series = series;
+		DialSeries defSeries = (DialSeries) ChartDefaultValueUtil.getDefaultSeries( series );
 		GridLayout gl = new GridLayout( 1, true );
 		gl.verticalSpacing = 0;
 		gl.marginWidth = 10;
@@ -56,7 +56,8 @@ public class NeedleComposite extends Composite implements Listener
 				true,
 				true,
 				false,
-				false );
+				false,
+				defSeries.getNeedle( ).getLineAttributes( ) );
 		GridData gdLIACNeedle = new GridData( GridData.FILL_HORIZONTAL );
 		liacNeedle.setLayoutData( gdLIACNeedle );
 		liacNeedle.addListener( this );
@@ -82,7 +83,7 @@ public class NeedleComposite extends Composite implements Listener
 				ChartElementUtil.setEObjectAttribute( series.getNeedle( )
 						.getLineAttributes( ),
 						"style", //$NON-NLS-1$
-						(LineStyle) event.data,
+						event.data,
 						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
@@ -100,7 +101,7 @@ public class NeedleComposite extends Composite implements Listener
 			{
 				ChartElementUtil.setEObjectAttribute( series.getNeedle( ),
 						"decorator", //$NON-NLS-1$
-						(LineDecorator) event.data,
+						event.data,
 						isUnset );
 			}
 		}

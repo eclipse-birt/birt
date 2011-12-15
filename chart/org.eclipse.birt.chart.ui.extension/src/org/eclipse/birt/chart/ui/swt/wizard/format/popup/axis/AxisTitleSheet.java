@@ -49,12 +49,15 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 
 	private int axisType;
 
+	private Axis defAxis;
+
 	public AxisTitleSheet( String title, ChartWizardContext context, Axis axis,
-			int axisType )
+			int axisType, Axis defAxis )
 	{
 		super( title, context, true );
 		this.axis = axis;
 		this.axisType = axisType;
+		this.defAxis = defAxis;
 	}
 
 	@Override
@@ -82,7 +85,8 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 						: null,
 				getAxisForProcessing( ).getTitle( ),
 				getChart( ).getUnits( ),
-				getPositionScope( ) );
+				getPositionScope( ),
+				defAxis.getTitle( ) );
 		if ( axisType == AngleType.Z )
 		{
 			lacTitle.setDefaultLabelValue( DefaultValueProvider.defAncillaryAxis( )

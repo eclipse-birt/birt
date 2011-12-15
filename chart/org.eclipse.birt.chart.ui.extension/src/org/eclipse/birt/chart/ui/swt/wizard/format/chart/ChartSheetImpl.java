@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
@@ -25,15 +26,17 @@ import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainterBase;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
@@ -100,7 +103,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 	private Button btnResetValue;
 
-	private TristateCheckbox btnEnable;
+	private AbstractChartCheckbox btnEnable;
 
 	private AxisRotationChooser xChooser;
 
@@ -112,16 +115,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 	private Button btnCoverageAuto;
 
-	private TristateCheckbox btnStudyLayout;
+	private AbstractChartCheckbox btnStudyLayout;
 
 	private Button btnMegAuto;
 
 	private static final int DEFAULT_COVERAGE = 50;
-
+	
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
-
+		
+		Chart defChart = ChartDefaultValueUtil.getDefaultValueChart( getChart() );
+		
 		init( );
 
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -363,30 +368,36 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			btnCoverageAuto.addSelectionListener( this );
 		}
 
-		btnEnable = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnEnable = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						defChart.getInteractivity( ).isEnable( ) );
 		{
 			GridData gridData = new GridData( );
 			gridData.horizontalSpan = 3;
 			btnEnable.setLayoutData( gridData );
 			btnEnable.setText( Messages.getString( "ChartSheetImpl.Label.InteractivityEnable" ) ); //$NON-NLS-1$
 			btnEnable.setSelectionState( !getChart( ).getInteractivity( )
-					.isSetEnable( ) ? TristateCheckbox.STATE_GRAYED
-					: ( getChart( ).getInteractivity( ).isEnable( ) ? TristateCheckbox.STATE_SELECTED
-							: TristateCheckbox.STATE_UNSELECTED ) );
+					.isSetEnable( ) ? ChartCheckbox.STATE_GRAYED
+					: ( getChart( ).getInteractivity( ).isEnable( ) ? ChartCheckbox.STATE_SELECTED
+							: ChartCheckbox.STATE_UNSELECTED ) );
 			btnEnable.addSelectionListener( this );
 		}
 
 		// #170985
 		if ( enableStudyLayout( ) )
 		{
-			btnStudyLayout = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnStudyLayout = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							( (ChartWithAxes) defChart ).isStudyLayout( ) );
 			GridData gridData = new GridData( );
 			gridData.horizontalSpan = 3;
 			btnStudyLayout.setLayoutData( gridData );
 			btnStudyLayout.setText( Messages.getString( "ChartSheetImpl.Button.EnableStudyLayout" ) ); //$NON-NLS-1$
-			btnStudyLayout.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetStudyLayout( ) ? ( ( (ChartWithAxes) getChart( ) ).isStudyLayout( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnStudyLayout.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetStudyLayout( ) ? ( ( (ChartWithAxes) getChart( ) ).isStudyLayout( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnStudyLayout.addSelectionListener( this );
 		}
 
@@ -655,10 +666,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			int state = btnEnable.getSelectionState( );
 			ChartElementUtil.setEObjectAttribute( getChart( ).getInteractivity( ),
 					"enable", //$NON-NLS-1$
-					state == TristateCheckbox.STATE_SELECTED,
-					state == TristateCheckbox.STATE_GRAYED );
+					state == ChartCheckbox.STATE_SELECTED,
+					state == ChartCheckbox.STATE_GRAYED );
 			setToggleButtonEnabled( BUTTON_INTERACTIVITY,
-					state == TristateCheckbox.STATE_SELECTED );
+					state == ChartCheckbox.STATE_SELECTED );
 
 			if ( getToggleButton( BUTTON_INTERACTIVITY ).getSelection( ) )
 			{
@@ -712,13 +723,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			if ( getChart( ) instanceof ChartWithAxes )
 			{
 				ChartWithAxes cwa = (ChartWithAxes) getChart( );
-				if ( btnStudyLayout.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnStudyLayout.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					cwa.unsetStudyLayout( );
 				}
 				else
 				{
-					cwa.setStudyLayout( btnStudyLayout.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					cwa.setStudyLayout( btnStudyLayout.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 				}
 			}
 		}

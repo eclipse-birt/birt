@@ -12,6 +12,7 @@ Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.chart.ui.event,
  org.eclipse.birt.chart.ui.extension.i18n,
  org.eclipse.birt.chart.ui.plugin,
+ org.eclipse.birt.chart.ui.swt,
  org.eclipse.birt.chart.ui.swt.composites,
  org.eclipse.birt.chart.ui.swt.fieldassist,
  org.eclipse.birt.chart.ui.swt.fieldassist.preferences,

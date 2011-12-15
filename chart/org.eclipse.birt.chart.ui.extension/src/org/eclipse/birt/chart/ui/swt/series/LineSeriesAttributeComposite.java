@@ -22,11 +22,13 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -62,14 +64,16 @@ public class LineSeriesAttributeComposite extends Composite
 	private LineAttributesComposite liacLine = null;
 
 	protected Series series = null;
+	
+	protected LineSeries defSeries = DefaultValueProvider.defLineSeries( );
 
 	protected ChartWizardContext context;
 
-	private TristateCheckbox btnPalette;
+	private AbstractChartCheckbox btnPalette;
 
-	private TristateCheckbox btnCurve;
+	private AbstractChartCheckbox btnCurve;
 
-	private TristateCheckbox btnMissingValue;
+	private AbstractChartCheckbox btnMissingValue;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -160,7 +164,8 @@ public class LineSeriesAttributeComposite extends Composite
 				SWT.NONE,
 				lineStyles,
 				context,
-				( (LineSeries) series ).getLineAttributes( ) );
+				( (LineSeries) series ).getLineAttributes( ),
+				defSeries.getLineAttributes( ) );
 		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLine.horizontalSpan = 2;
 		liacLine.setLayoutData( gdLIACLine );
@@ -203,32 +208,39 @@ public class LineSeriesAttributeComposite extends Composite
 		GridLayout gl = new GridLayout( 1, false ) ;
 		cmp.setLayout( gl );
 
-		btnPalette = new TristateCheckbox( cmp, SWT.NONE );
+		btnPalette = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isPaletteLineColor( ) );
 		{
 			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelectionState( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.setSelectionState( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addSelectionListener( this );
 		}
 		
-		btnCurve = new TristateCheckbox( cmp, SWT.NONE );
+		btnCurve = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isCurve( ) );
 		{
 			btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-			btnCurve.setSelectionState( ( (LineSeries) series ).isSetCurve( ) ? ( ( (LineSeries) series ).isCurve( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnCurve.setSelectionState( ( (LineSeries) series ).isSetCurve( ) ? ( ( (LineSeries) series ).isCurve( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnCurve.addSelectionListener( this );
 		}
 
 		if ( !( series instanceof AreaSeries && ( series.isSetStacked( ) && series.isStacked( ) ) ) )
 		{
-			btnMissingValue = new TristateCheckbox( cmp, SWT.NONE );
+			btnMissingValue = context.getUIFactory( )
+					.createChartCheckbox( cmp,
+							SWT.NONE,
+							defSeries.isConnectMissingValue( ) );
 			{
 				btnMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
-				btnMissingValue.setSelectionState( ( (LineSeries) series ).isSetConnectMissingValue( ) ? ( ( (LineSeries) series ).isConnectMissingValue( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnMissingValue.setSelectionState( ( (LineSeries) series ).isSetConnectMissingValue( ) ? ( ( (LineSeries) series ).isConnectMissingValue( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnMissingValue.addSelectionListener( this );
 			}
 		}
@@ -250,22 +262,22 @@ public class LineSeriesAttributeComposite extends Composite
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"curve", //$NON-NLS-1$
-					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.widget == btnPalette )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor", //$NON-NLS-1$
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.widget == btnMissingValue )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"connectMissingValue", //$NON-NLS-1$
-					btnMissingValue.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnMissingValue.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnMissingValue.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnMissingValue.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 	}
 

@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
@@ -51,7 +52,7 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private transient FillChooserComposite cmbColor = null;
 
-	private transient TristateCheckbox btnVisible = null;
+	private transient AbstractChartCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -79,6 +80,8 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private Button btnWidthAuto;
 
+	private LineAttributes defaultLineAttributes;
+
 	/**
 	 * @param parent
 	 * @param style
@@ -86,7 +89,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	public GanttLineAttributesComposite( Composite parent,
 			ChartWizardContext context, int style, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility )
+			boolean bEnableVisibility, LineAttributes defaultLineAttributes )
 	{
 		super( parent, style );
 		this.context = context;
@@ -99,6 +102,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		this.bEnableStyles = bEnableStyles;
 		this.bEnableWidths = bEnableWidths;
 		this.bEnableVisibility = bEnableVisibility;
+		this.defaultLineAttributes = defaultLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -106,7 +110,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	public GanttLineAttributesComposite( Composite parent, int style,
 			LineAttributes laCurrent, boolean bEnableWidths,
 			boolean bEnableStyles, boolean bEnableVisibility,
-			boolean bEnableColor )
+			boolean bEnableColor, LineAttributes defaultLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -158,14 +162,17 @@ public class GanttLineAttributesComposite extends Composite implements
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
-			btnVisible = new TristateCheckbox( cmpContent, SWT.NONE );
+			btnVisible = context.getUIFactory( )
+					.createChartCheckbox( cmpContent,
+							SWT.NONE,
+							this.defaultLineAttributes.isVisible( ) );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 6;
 			btnVisible.setLayoutData( gdCBVisible );
 			btnVisible.setText( Messages.getString( "LineAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-			btnVisible.setSelectionState( laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnVisible.setSelectionState( laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
@@ -306,12 +313,12 @@ public class GanttLineAttributesComposite extends Composite implements
 		{
 			if ( laCurrent == null || !laCurrent.isSetVisible( ) )
 			{
-				btnVisible.setSelectionState( TristateCheckbox.STATE_GRAYED );
+				btnVisible.setSelectionState( ChartCheckbox.STATE_GRAYED );
 			}
 			else
 			{
-				btnVisible.setSelectionState( attributes.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED );
+				btnVisible.setSelectionState( attributes.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED );
 			}
 			boolean bUIEnabled = ChartUIExtensionUtil.canEnableUI( btnVisible );
 			if ( bEnableStyles )
@@ -379,8 +386,8 @@ public class GanttLineAttributesComposite extends Composite implements
 		{
 			// Notify Listeners that a change has occurred in the value
 			fireValueChangedEvent( GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					Boolean.valueOf( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED ),
-					( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+					Boolean.valueOf( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED ),
+					( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
 							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )

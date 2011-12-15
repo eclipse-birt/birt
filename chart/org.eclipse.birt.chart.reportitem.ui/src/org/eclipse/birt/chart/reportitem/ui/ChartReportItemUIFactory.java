@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.reportitem.ui;
 
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.ui.integrate.ChartUIFactoryBase;
+import org.eclipse.birt.chart.ui.swt.ChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * 
  */
 
-public class ChartReportItemUIFactory extends ChartUIFactoryBase
+public class ChartReportItemUIFactory extends ChartUIFactory
 {
 
 	private static ChartReportItemUIFactory instance = new ChartReportItemUIFactory( );
@@ -55,7 +55,7 @@ public class ChartReportItemUIFactory extends ChartUIFactoryBase
 			IUIServiceProvider uiProvider, IDataServiceProvider dataProvider,
 			IChartDataSheet dataSheet )
 	{
-		return new ChartWizardContext( cm, uiProvider, dataProvider, dataSheet );
+		return new ChartWizardContext( cm, uiProvider, dataProvider, dataSheet, this );
 	}
 
 	public DteAdapter createDteAdapter( )

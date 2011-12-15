@@ -17,11 +17,14 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -53,14 +56,16 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private ExternalizedTextEditorComposite txtTitle = null;
 	private FontDefinitionComposite fdcFont;
-	private TristateCheckbox btnVisible;
-	private TristateCheckbox btnAutoTitle;
+	private AbstractChartCheckbox btnVisible;
+	private AbstractChartCheckbox btnAutoTitle;
 	private Button btnTitleContentAuto;
 
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_TITLE );
 
+		TitleBlock defTitle = ChartDefaultValueUtil.getDefaultValueChart( getChart() ).getTitle( );
+		
 		init( );
 
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -102,14 +107,17 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			txtTitle.addListener( this );
 		}
 
-		btnVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						defTitle.isVisible( ) );
 		btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( );
 		btnVisible.setLayoutData( gd );
 		btnVisible.setSelectionState( getChart( ).getTitle( ).isSetVisible( ) ? ( getChart( ).getTitle( )
-				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED );
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
 		btnVisible.addSelectionListener( this );
 
 		boolean dynamicTitleVisible = getContext( ).getUIFactory( )
@@ -118,14 +126,17 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 		if ( dynamicTitleVisible )
 		{
-			btnAutoTitle = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnAutoTitle = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							defTitle.isAuto( ) );
 			btnAutoTitle.setText( Messages.getString( "ChartTitleSheetImpl.Text.Auto" ) ); //$NON-NLS-1$
 			gd = new GridData( );
 			btnAutoTitle.setLayoutData( gd );
 			btnAutoTitle.setSelectionState( getChart( ).getTitle( ).isSetAuto( ) ? ( getChart( ).getTitle( )
-					.isAuto( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+					.isAuto( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnAutoTitle.setEnabled( isAutoEnabled( ) );
 
 			btnAutoTitle.setVisible( dynamicTitleVisible );
@@ -276,8 +287,8 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 		if ( e.widget.equals( btnVisible ) )
 		{
-			boolean visible = btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED;
-			if ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			boolean visible = btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED;
+			if ( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getTitle( ).unsetVisible( );
 			}
@@ -295,14 +306,14 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnAutoTitle ) )
 		{
-			if ( btnAutoTitle.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getTitle( ).unsetAuto( );
 			}
 			else
 			{
 				getChart( ).getTitle( )
-						.setAuto( btnAutoTitle.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						.setAuto( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 			updateTextTitleState( );
 		}

@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
@@ -48,6 +49,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 	private transient IntegerSpinControl iscGridCount = null;
 
 	private transient DialSeries series;
+	
+	private DialSeries defSeries = DefaultValueProvider.defDialSeries( );
 
 	private Button btnGridCountAuto;
 
@@ -86,7 +89,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 				SWT.NONE,
 				getContext( ),
 				getDialForProcessing( ).getMajorGrid( ),
-				false );
+				false,
+				defSeries.getDial( ).getMajorGrid( ) );
 		gacMajor.addListener( this );
 
 		// Minor Grid
@@ -100,7 +104,8 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 				SWT.NONE,
 				getContext( ),
 				getDialForProcessing( ).getMinorGrid( ),
-				false );
+				false,
+				defSeries.getDial( ).getMinorGrid( ) );
 		gacMinor.addListener( this );
 
 		Composite cmpGridCount = new Composite( cmpContent, SWT.NONE );

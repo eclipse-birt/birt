@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -47,7 +48,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
- * 
+ * LegendTextSheet
  */
 
 public class LegendTextSheet extends AbstractPopupSheet implements Listener
@@ -230,6 +231,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setText( Messages.getString( "MoreOptionsChartLegendSheet.Label.Outline" ) ); //$NON-NLS-1$
 
+		Legend defLegend = ChartDefaultValueUtil.getDefaultLegend( getChart() );
 		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_WIDTH
@@ -239,7 +241,8 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getLegend( ).getClientArea( ).getOutline( ) );
+				getLegend( ).getClientArea( ).getOutline( ),
+				defLegend.getClientArea( ).getOutline( ) );
 		outlineText.addListener( this );
 		outlineText.setAttributesEnabled( true );
 
@@ -269,7 +272,8 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getLegend( ).getSeparator( ) );
+				getLegend( ).getSeparator( ),
+				defLegend.getSeparator( ) );
 		{
 			lineSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			lineSeparator.addListener( this );

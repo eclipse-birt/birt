@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -43,7 +44,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * TitleBlockSheet
  */
 
 public class TitleBlockSheet extends AbstractPopupSheet
@@ -167,7 +168,9 @@ public class TitleBlockSheet extends AbstractPopupSheet
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getBlockForProcessing( ).getOutline( ) );
+				getBlockForProcessing( ).getOutline( ),
+				ChartDefaultValueUtil.getDefaultTitle( getChart( ) )
+						.getOutline( ) );
 		liacOutline.addListener( this );
 
 		ic = new InsetsComposite( grpGeneral,

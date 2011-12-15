@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * UI factory used to create all kinds of UI classes.
@@ -38,4 +40,17 @@ public interface IChartUIFactory
 	 * @since 3.7
 	 */
 	TriggerSupportMatrix createSupportMatrix( String outputFormat, int iType );
+	
+	
+	
+	/**
+	 * Creates instance of <code>AbstractChartCheckbox</code>.
+	 * 
+	 * @param parent
+	 * @param styles
+	 * @param defaultSelection
+	 * @return instance of <code>AbstractChartCheckbox</code>.
+	 */
+	AbstractChartCheckbox createChartCheckbox( Composite parent,
+			int styles, boolean defaultSelection );
 }

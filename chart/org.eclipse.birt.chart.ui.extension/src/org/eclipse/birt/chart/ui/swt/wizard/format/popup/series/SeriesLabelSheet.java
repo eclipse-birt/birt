@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -142,12 +143,15 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	protected IDataPointDefinition foDataPointDefinition;
 
 	private Series series;
+	
+	private Series defSeries = null;
 
 	public SeriesLabelSheet( String title, ChartWizardContext context,
 			Series series )
 	{
 		super( title, context, true );
 		this.series = series;
+		this.defSeries = ChartDefaultValueUtil.getDefaultSeries( this.series );
 		this.context = context;
 		mapDataPointNames = new HashMap<String, String>( );
 		dataPointIndex = new ArrayList<Integer>( );
@@ -230,7 +234,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				iStyles,
 				getContext( ),
-				getSeriesForProcessing( ).getLabel( ).getOutline( ) );
+				getSeriesForProcessing( ).getLabel( ).getOutline( ),
+				defSeries.getLabel( ).getOutline( ) );
 		liacOutline.addListener( this );
 		liacOutline.setAttributesEnabled( bEnableUI );
 	}

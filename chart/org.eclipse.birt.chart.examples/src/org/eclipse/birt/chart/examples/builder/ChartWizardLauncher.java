@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.ui.integrate.SimpleUIServiceProviderImpl;
+import org.eclipse.birt.chart.ui.swt.ChartUIFactory;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
@@ -253,7 +254,8 @@ public class ChartWizardLauncher implements ChartUIConstants
 		final ChartWizardContext context = new ChartWizardContext( chart,
 				new SimpleUIServiceProviderImpl( ),
 				dataProvider,
-				ssd );
+				ssd,
+				new ChartUIFactory( ) );
 		( (SimpleUIServiceProviderImpl) context.getUIServiceProvider( ) ).setFormatSpecifierHandler( new FormatSpecifierHandler( ) );
 		ssd.setContext( context );
 

@@ -17,10 +17,11 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -79,9 +80,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected Spinner spnStepNumber = null;
 	
-	protected TristateCheckbox btnAutoExpand;
+	protected AbstractChartCheckbox btnAutoExpand;
 	
-	protected TristateCheckbox btnShowOutside;
+	protected AbstractChartCheckbox btnShowOutside;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -236,28 +237,33 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 		txtScaleMax = createValuePicker( cmpContent, getScale( ).getMax( ) );
 
-		btnAutoExpand = new TristateCheckbox( cmpContent, SWT.NONE );
+		btnAutoExpand = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpContent,
+						SWT.NONE,
+						getDefaultVauleScale( ).isAutoExpand( ) );
 		btnAutoExpand.setText( Messages.getString( "AbstractScaleSheet.AutoExpand" ) );//$NON-NLS-1$
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
 			btnAutoExpand.setLayoutData( gd );
-			btnAutoExpand.setSelectionState( getScale( ).isSetAutoExpand( ) ? ( getScale( ).isAutoExpand( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnAutoExpand.setSelectionState( getScale( ).isSetAutoExpand( ) ? ( getScale( ).isAutoExpand( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnAutoExpand.addSelectionListener( this );
 		}
 
-		btnShowOutside = new TristateCheckbox( cmpContent,
-				SWT.NONE );
+		btnShowOutside = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpContent,
+						SWT.NONE,
+						getDefaultVauleScale( ).isShowOutside( ) );
 		btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
 			btnShowOutside.setLayoutData( gd );
-			btnShowOutside.setSelectionState( getScale( ).isSetShowOutside( ) ? ( getScale( ).isShowOutside( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnShowOutside.setSelectionState( getScale( ).isSetShowOutside( ) ? ( getScale( ).isShowOutside( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnShowOutside.addSelectionListener( this );
 			// Only visible in number type
 			btnShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
@@ -559,29 +565,31 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 	{
 		if ( event.widget == btnShowOutside )
 		{
-			if ( btnShowOutside.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnShowOutside.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getScale( ).unsetShowOutside( );
 			}
 			else
 			{
-				getScale( ).setShowOutside( btnShowOutside.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				getScale( ).setShowOutside( btnShowOutside.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 		}
 		else if ( event.widget == btnAutoExpand )
 		{
-			if ( btnAutoExpand.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnAutoExpand.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getScale( ).unsetAutoExpand( );
 			}
 			else
 			{
-				getScale( ).setAutoExpand( btnAutoExpand.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				getScale( ).setAutoExpand( btnAutoExpand.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 		}
 	}
 	
 	protected abstract Scale getScale( );
+	
+	protected abstract Scale getDefaultVauleScale( );
 
 	/**
 	 * Returns the type of scale value

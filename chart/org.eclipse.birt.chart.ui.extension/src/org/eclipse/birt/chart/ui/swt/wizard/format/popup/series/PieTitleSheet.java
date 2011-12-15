@@ -51,6 +51,7 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 
 	private Series series;
 
+	private PieSeries defSeries = DefaultValueProvider.defPieSeries( );
 	/**
 	 * @param title
 	 * @param context
@@ -96,7 +97,8 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 				getLabel( ),
 				getChart( ).getUnits( ),
 				LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
-						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
+						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
+				defSeries.getTitle( ) );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );

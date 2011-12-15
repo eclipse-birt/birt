@@ -64,10 +64,10 @@ public class ChartWizardContext implements IChartWizardContext
 	private Thread livePreviewThread = null;
 	
 	// Default implementation of UI factory
-	private IChartUIFactory uiFactory = new ChartUIFactoryBase( );
+	private IChartUIFactory uiFactory;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
-			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
+			IDataServiceProvider dataProvider, IChartDataSheet dataSheet, IChartUIFactory uiFactory )
 	{
 		this.chartModel = chartModel;
 		this.uiProvider = uiProvider;
@@ -77,6 +77,13 @@ public class ChartWizardContext implements IChartWizardContext
 		{
 			this.dataSheet.setContext( this );
 		}
+		this.uiFactory = uiFactory;
+	}
+	
+	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
+			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
+	{
+		this(chartModel, uiProvider, dataProvider, dataSheet, null );
 	}
 			
 	/**

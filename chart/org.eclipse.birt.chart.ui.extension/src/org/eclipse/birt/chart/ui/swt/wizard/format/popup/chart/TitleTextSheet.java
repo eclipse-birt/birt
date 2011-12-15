@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -35,7 +36,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * TitleTextSheet
  */
 
 public class TitleTextSheet extends AbstractPopupSheet implements Listener
@@ -94,7 +95,8 @@ public class TitleTextSheet extends AbstractPopupSheet implements Listener
 				Messages.getString( "TitlePropertiesSheet.Label.Text" ), //$NON-NLS-1$
 				Position.INSIDE_LITERAL,
 				getBlockForProcessing( ).getLabel( ),
-				getChart( ).getUnits( ) );
+				getChart( ).getUnits( ),
+				ChartDefaultValueUtil.getDefaultTitle( getChart( ) ).getLabel( ) );
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;
 		lacLabel.setLayoutData( gdLACLabel );

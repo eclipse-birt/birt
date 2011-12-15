@@ -30,14 +30,16 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
@@ -83,13 +85,13 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		ModifyListener
 {
 
-	private TristateCheckbox btnCategoryAxis;
+	private AbstractChartCheckbox btnCategoryAxis;
 
-	private TristateCheckbox btnReverse;
+	private AbstractChartCheckbox btnReverse;
 
 	private ExternalizedTextEditorComposite txtTitle;
 
-	private TristateCheckbox btnTitleVisible;
+	private AbstractChartCheckbox btnTitleVisible;
 
 	private Combo cmbTypes;
 
@@ -101,11 +103,11 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private IDataElementComposite txtValue;
 
-	private TristateCheckbox btnLabelVisible;
+	private AbstractChartCheckbox btnLabelVisible;
 
 	private FontDefinitionComposite fdcFont;
 
-	private TristateCheckbox btnStaggered;
+	private AbstractChartCheckbox btnStaggered;
 
 	private LocalizedNumberEditorComposite lneLabelSpan;
 
@@ -123,6 +125,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	}
 
 	abstract protected Axis getAxisForProcessing( );
+	
+	abstract protected Axis getDefaultValueAxis( );
 
 	/**
 	 * Returns the axis angle type
@@ -160,26 +164,33 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		if ( getAxisAngleType( ) == AngleType.X )
 		{
-			btnCategoryAxis = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnCategoryAxis = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							getDefaultValueAxis( ).isCategoryAxis( ) );
 			btnCategoryAxis.setText( Messages.getString( "AbstractAxisSubtask.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			btnCategoryAxis.setLayoutData( gd );
-			btnCategoryAxis.setSelectionState( getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnCategoryAxis.setSelectionState( getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			updateCategoryAxisUI( !getAxisForProcessing( ).isSetType( )
 					|| !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
 			btnCategoryAxis.addSelectionListener( this );
 
-			btnReverse = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnReverse = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							DefaultValueProvider.defChartWithAxes( )
+									.isReverseCategory( ) );
 			btnReverse.setText( Messages.getString( "AbstractAxisSubtask.Label.ReverseCategory" ) ); //$NON-NLS-1$
 			gd = new GridData( );
 			gd.horizontalSpan = 2;
 			btnReverse.setLayoutData( gd );
-			btnReverse.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnReverse.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			updateReverseUI( ChartUIExtensionUtil.canEnableUI( btnCategoryAxis ) );
 			btnReverse.addSelectionListener( this );
 		}
@@ -204,13 +215,16 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			txtTitle.addListener( this );
 		}
 
-		btnTitleVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnTitleVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						getDefaultValueAxis( ).getTitle( ).isVisible( ) );
 		btnTitleVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		btnTitleVisible.setSelectionState( getAxisForProcessing( ).getTitle( )
 				.isSetVisible( ) ? ( getAxisForProcessing( ).getTitle( )
-				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED );
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
 		btnTitleVisible.addSelectionListener( this );
 
 		btnTitleContentAuto = new Button( cmpBasic, SWT.CHECK );
@@ -338,26 +352,31 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			cmpLabel.setLayout( layout );
 		}
 
-		btnLabelVisible = new TristateCheckbox( cmpLabel, SWT.NONE );
+		btnLabelVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpLabel,
+						SWT.NONE,
+						getDefaultValueAxis( ).getLabel( ).isVisible( ) );
 		btnLabelVisible.setText( Messages.getString( "AbstractAxisSubtask.Label.Visible2" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		btnLabelVisible.setLayoutData( gd );
 		btnLabelVisible.setSelectionState( getAxisForProcessing( ).getLabel( )
 				.isSetVisible( ) ? ( getAxisForProcessing( ).getLabel( )
-				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED );
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
 		btnLabelVisible.addSelectionListener( this );
 
-		btnStaggered = new TristateCheckbox( cmpLabel, SWT.NONE );
-
+		boolean bNot3D = !isChart3D( );
+		btnStaggered = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpLabel,
+						SWT.NONE,
+						getDefaultValueAxis( ).isStaggered( ) && bNot3D );
 		btnStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
 		{
 			Axis ax = getAxisForProcessing( );
-			boolean bNot3D = !isChart3D( );
-			btnStaggered.setSelectionState( ax.isSetStaggered( ) ? ( ( ax.isStaggered( ) && bNot3D ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnStaggered.setSelectionState( ax.isSetStaggered( ) ? ( ( ax.isStaggered( ) && bNot3D ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnStaggered.setEnabled( bNot3D );
 			btnStaggered.setVisible( isStaggerSupported( ) );
 			btnStaggered.addSelectionListener( this );
@@ -479,7 +498,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			popup = new AxisScaleSheet( Messages.getString( "AxisYSheetImpl.Label.Scale" ), //$NON-NLS-1$
 					getContext( ),
 					getAxisForProcessing( ),
-					getAxisAngleType( ) );
+					getAxisAngleType( ),
+					getDefaultValueAxis( ) );
 			Button btnScale = createToggleButton( cmp,
 					BUTTON_SCALE,
 					Messages.getString( "AxisYSheetImpl.Label.Scale&" ), //$NON-NLS-1$
@@ -491,7 +511,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		popup = new AxisTitleSheet( Messages.getString( "AxisYSheetImpl.Label.TitleFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
-				getAxisAngleType( ) );
+				getAxisAngleType( ),
+				getDefaultValueAxis( ) );
 		Button btnAxisTitle = createToggleButton( cmp,
 				BUTTON_TITLE,
 				Messages.getString( "AxisYSheetImpl.Label.TitleFormat&" ), //$NON-NLS-1$
@@ -503,7 +524,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		popup = new AxisLabelSheet( Messages.getString( "AxisYSheetImpl.Label.LabelFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
-				getAxisAngleType( ) );
+				getAxisAngleType( ),
+				getDefaultValueAxis( ) );
 		Button btnAxisLabel = createToggleButton( cmp,
 				BUTTON_LABEL,
 				Messages.getString( "AxisYSheetImpl.Label.LabelFormat&" ), //$NON-NLS-1$
@@ -515,7 +537,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
-				getAxisAngleType( ) );
+				getAxisAngleType( ),
+				getDefaultValueAxis( ) );
 		Button btnGridlines = createToggleButton( cmp,
 				BUTTON_GRIDLINES,
 				Messages.getString( "AxisYSheetImpl.Label.Gridlines&" ), //$NON-NLS-1$
@@ -556,7 +579,8 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	{
 		ITaskPopupSheet popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 				getContext( ),
-				getAxisForProcessing( ) );
+				getAxisForProcessing( ),
+				getDefaultValueAxis( ) );
 		Button btnMarkers = createToggleButton( cmp,
 				BUTTON_MARKERS,
 				Messages.getString( "AxisYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
@@ -755,7 +779,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				boolean disableCategoryAxisUI = AxisType.TEXT_LITERAL.equals( axisType );
 				getAxisForProcessing( ).setCategoryAxis( disableCategoryAxisUI );
-				btnCategoryAxis.setSelectionState( TristateCheckbox.STATE_SELECTED );
+				btnCategoryAxis.setSelectionState( ChartCheckbox.STATE_SELECTED );
 				updateCategoryAxisUI( !disableCategoryAxisUI );
 				updateReverseStateByCategoryAxisUI( );
 			}
@@ -811,18 +835,18 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		else if ( e.widget.equals( btnCategoryAxis ) )
 		{
 			int state = btnCategoryAxis.getSelectionState( );
-			if ( state == TristateCheckbox.STATE_GRAYED )
+			if ( state == ChartCheckbox.STATE_GRAYED )
 			{
 				// Auto case.
 				getAxisForProcessing( ).unsetCategoryAxis( );
 			}
 			else
 			{
-				getAxisForProcessing( ).setCategoryAxis( state == TristateCheckbox.STATE_SELECTED );
+				getAxisForProcessing( ).setCategoryAxis( state == ChartCheckbox.STATE_SELECTED );
 			}
 			ChartCacheManager.getInstance( )
 					.cacheCategory( ( (ChartWithAxes) getChart( ) ).getType( ),
-							state == TristateCheckbox.STATE_SELECTED );
+							state == ChartCheckbox.STATE_SELECTED );
 			refreshPopupSheet( );
 
 			// Reset reverse category settings which is only available when axis
@@ -831,29 +855,29 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnReverse ) )
 		{
-			if ( btnReverse.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnReverse.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
 			}
 			else
 			{
-				( (ChartWithAxes) getChart( ) ).setReverseCategory( btnReverse.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				( (ChartWithAxes) getChart( ) ).setReverseCategory( btnReverse.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 		}
 		else if ( e.widget == btnTitleVisible )
 		{
-			if ( btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnTitleVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getAxisForProcessing( ).getTitle( ).unsetVisible( );
 			}
 			else
 			{
 				getAxisForProcessing( ).getTitle( )
-						.setVisible( btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						.setVisible( btnTitleVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 			setStateOfTitle( );
 			Button btnAxisTitle = getToggleButton( BUTTON_TITLE );
-			if ( !( btnTitleVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED )
+			if ( !( btnTitleVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED )
 					&& btnAxisTitle.getSelection( ) )
 			{
 				btnAxisTitle.setSelection( false );
@@ -866,18 +890,18 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget == btnLabelVisible )
 		{
-			if ( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getAxisForProcessing( ).getLabel( ).unsetVisible( );
 			}
 			else
 			{
 				getAxisForProcessing( ).getLabel( )
-						.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						.setVisible( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 			setStateOfLabel( );
 			Button btnAxisLabel = getToggleButton( BUTTON_LABEL );
-			if ( !( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED )
+			if ( !( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED )
 					&& btnAxisLabel.getSelection( ) )
 			{
 				btnAxisLabel.setSelection( false );
@@ -894,13 +918,13 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget == btnStaggered )
 		{
-			if ( btnStaggered.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnStaggered.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getAxisForProcessing( ).unsetStaggered( );
 			}
 			else
 			{
-				getAxisForProcessing( ).setStaggered( btnStaggered.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+				getAxisForProcessing( ).setStaggered( btnStaggered.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 		}
 		else if ( e.widget == btnTitleContentAuto )
@@ -922,7 +946,10 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 	}
 
-	abstract protected String getDefaultAxisTitle( );
+	private String getDefaultAxisTitle( )
+	{
+		return getDefaultValueAxis().getTitle( ).getCaption( ).getValue( );
+	}
 
 	protected void updateReverseStateByCategoryAxisUI( )
 	{
@@ -930,14 +957,14 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		boolean enabledUI = ChartUIExtensionUtil.canEnableUI( btnCategoryAxis );
 		btnReverse.setEnabled( enabledUI );
 		updateReverseUI( enabledUI );
-		if ( state == TristateCheckbox.STATE_GRAYED )
+		if ( state == ChartCheckbox.STATE_GRAYED )
 		{
-			btnReverse.setSelectionState( TristateCheckbox.STATE_GRAYED );
+			btnReverse.setSelectionState( ChartCheckbox.STATE_GRAYED );
 			( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
 		}
-		else if ( state == TristateCheckbox.STATE_UNSELECTED )
+		else if ( state == ChartCheckbox.STATE_UNSELECTED )
 		{
-			btnReverse.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
+			btnReverse.setSelectionState( ChartCheckbox.STATE_UNSELECTED );
 			( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
 		}
 	}

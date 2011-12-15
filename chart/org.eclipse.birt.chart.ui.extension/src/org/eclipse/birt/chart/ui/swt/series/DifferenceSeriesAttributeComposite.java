@@ -20,10 +20,12 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -56,12 +58,14 @@ public class DifferenceSeriesAttributeComposite extends Composite
 	private LineAttributesComposite liacLine2 = null;
 
 	private Series series = null;
+	
+	private DifferenceSeries defSeries = DefaultValueProvider.defDifferenceSeries( );
 
 	private ChartWizardContext context;
 
-	private TristateCheckbox btnPalette;
+	private AbstractChartCheckbox btnPalette;
 
-	private TristateCheckbox btnCurve;
+	private AbstractChartCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -142,7 +146,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getLineAttributes( ) );
 		liacLine1.addListener( this );
 		
 		grpLine2 = new Group( grpLine, SWT.NONE );
@@ -161,7 +166,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getNegativeLineAttributes( ) );
 		liacLine2.addListener( this );
 		
 		Composite cmpButton = new Composite( grpLine, SWT.NONE );
@@ -172,23 +178,29 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			cmpButton.setLayout( new GridLayout( 2, false ) );
 		}
 		
-		btnPalette = new TristateCheckbox( cmpButton, SWT.NONE );
+		btnPalette = context.getUIFactory( )
+				.createChartCheckbox( cmpButton,
+						SWT.NONE,
+						defSeries.isPaletteLineColor( ) );
 		{
 			btnPalette.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
 			btnPalette.setLayoutData( new GridData( ) );
-			btnPalette.setSelectionState( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.setSelectionState( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addSelectionListener( this );
 		}
 
-		btnCurve = new TristateCheckbox( cmpButton, SWT.NONE );
+		btnCurve = context.getUIFactory( )
+				.createChartCheckbox( cmpButton,
+						SWT.NONE,
+						defSeries.isCurve( ) );
 		{
 			btnCurve.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
 			btnCurve.setLayoutData( new GridData( ) );
-			btnCurve.setSelectionState( ( (DifferenceSeries) series ).isSetCurve( ) ? ( ( (DifferenceSeries) series ).isCurve( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnCurve.setSelectionState( ( (DifferenceSeries) series ).isSetCurve( ) ? ( ( (DifferenceSeries) series ).isCurve( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnCurve.addSelectionListener( this );
 		}
 
@@ -211,15 +223,15 @@ public class DifferenceSeriesAttributeComposite extends Composite
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"curve", //$NON-NLS-1$
-					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor", //$NON-NLS-1$
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 	}
 

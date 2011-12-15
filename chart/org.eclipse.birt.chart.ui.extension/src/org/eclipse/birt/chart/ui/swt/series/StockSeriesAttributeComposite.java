@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
@@ -55,6 +56,8 @@ public class StockSeriesAttributeComposite extends Composite implements
 	protected Spinner iscStick = null;
 
 	protected StockSeries series = null;
+	
+	protected StockSeries defSeries = null;
 
 	protected transient ChartWizardContext context;
 
@@ -85,6 +88,7 @@ public class StockSeriesAttributeComposite extends Composite implements
 			}
 		}
 		this.series = (StockSeries) series;
+		this.defSeries = (StockSeries) ChartDefaultValueUtil.getDefaultSeries( this.series );
 		this.context = context;
 		init( );
 		placeComponents( );
@@ -125,7 +129,8 @@ public class StockSeriesAttributeComposite extends Composite implements
 				true,
 				false,
 				true,
-				true );
+				true,
+				defSeries.getLineAttributes( ) );
 		GridData gdLIACStock = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACStock.verticalSpan = 3;
 		liacStock.setLayoutData( gdLIACStock );

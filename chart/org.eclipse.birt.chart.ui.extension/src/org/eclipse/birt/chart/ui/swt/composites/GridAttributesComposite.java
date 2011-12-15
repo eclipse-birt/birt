@@ -64,6 +64,8 @@ public class GridAttributesComposite extends Composite implements
 
 	private boolean bTicksVisible;
 
+	private Grid defGrid;
+
 	// Grid Attribute Change Events
 	public static final int LINE_STYLE_CHANGED_EVENT = 1;
 
@@ -84,22 +86,24 @@ public class GridAttributesComposite extends Composite implements
 	 * @param style
 	 */
 	public GridAttributesComposite( Composite parent, int style,
-			ChartWizardContext context, Grid grid, int orientation, boolean bTicksVisible )
+			ChartWizardContext context, Grid grid, int orientation, boolean bTicksVisible, Grid defGrid )
 	{
 		super( parent, style );
 		this.orientation = orientation;
 		this.context = context;
 		this.bTicksVisible = bTicksVisible;
+		this.defGrid = defGrid;
 		init( grid );
 		placeComponents( );
 	}
 
 	public GridAttributesComposite( Composite parent, int style,
-			ChartWizardContext context, Grid grid, boolean bLineGroupEnabled )
+			ChartWizardContext context, Grid grid, boolean bLineGroupEnabled, Grid defGrid )
 	{
 		super( parent, style );
 		this.bLineGroupEnabled = bLineGroupEnabled;
 		this.context = context;
+		this.defGrid = defGrid;
 		init( grid );
 		placeComponents( );
 	}
@@ -172,7 +176,8 @@ public class GridAttributesComposite extends Composite implements
 					SWT.NONE,
 					lineStyels,
 					context,
-					grid.getLineAttributes( ) );
+					grid.getLineAttributes( ),
+					defGrid.getLineAttributes( ) );
 			liacLines.addListener( this );
 			liacLines.setAttributesEnabled( ChartUIUtil.is3DWallFloorSet( context.getModel( ) ) );
 		}
@@ -197,7 +202,8 @@ public class GridAttributesComposite extends Composite implements
 					SWT.NONE,
 					lineStyels,
 					context,
-					grid.getTickAttributes( ) );
+					grid.getTickAttributes( ),
+					defGrid.getTickAttributes( ) );
 			{
 				GridData gdLIACTicks = new GridData( GridData.FILL_HORIZONTAL );
 				gdLIACTicks.horizontalSpan = 2;

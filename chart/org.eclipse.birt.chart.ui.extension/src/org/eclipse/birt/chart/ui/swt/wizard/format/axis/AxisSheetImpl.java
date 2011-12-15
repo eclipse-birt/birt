@@ -20,10 +20,12 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -179,7 +181,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
 				Messages.getString( "AxisSheetImpl.Label.CategoryX" ), //$NON-NLS-1$
 				AngleType.X,
-				treeIndex++ ).placeComponents( cmpList );
+				treeIndex++,
+				DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0] ).placeComponents( cmpList );
 
 		// Y axes.
 		int yaxisNumber = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
@@ -188,7 +191,11 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			String text = Messages.getString( "AxisSheetImpl.Label.ValueY" ); //$NON-NLS-1$
 			new AxisOptionChoser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
 					i ),
-					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
+					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ),  //$NON-NLS-1$
+					AngleType.Y,
+					treeIndex++,
+					DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0].getAssociatedAxes( )
+							.get( 0 ) ).placeComponents( cmpList );
 		}
 
 		// Z axis.
@@ -197,7 +204,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			new AxisOptionChoser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
 					Messages.getString( "AxisSheetImpl.Label.AncillaryZ" ), //$NON-NLS-1$
 					AngleType.Z,
-					treeIndex++ ).placeComponents( cmpList );
+					treeIndex++,
+					DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0].getAncillaryAxes( )
+							.get( 0 ) ).placeComponents( cmpList );
 		}
 
 	}
@@ -207,7 +216,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 
 		private Link linkAxis;
 		private Combo cmbTypes;
-		private TristateCheckbox btnVisible;
+		private AbstractChartCheckbox btnVisible;
 		private FillChooserComposite cmbColor;
 		private Axis axis;
 		private String axisName;
@@ -216,18 +225,20 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
 
-		private TristateCheckbox btnAligned;
-		private TristateCheckbox btnSideBySide;
+		private AbstractChartCheckbox btnAligned;
+		private AbstractChartCheckbox btnSideBySide;
 		
 		private TextEditorComposite compAxisPercent;
+		private Axis defAxis;
 
 		public AxisOptionChoser( Axis axis, String axisName, int angleType,
-				int treeIndex )
+				int treeIndex, Axis defAxis )
 		{
 			this.axis = axis;
 			this.axisName = axisName;
 			this.angleType = angleType;
 			this.treeIndex = treeIndex;
+			this.defAxis = defAxis;
 		}
 
 		public void placeComponents( Composite parent )
@@ -274,40 +285,49 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				cmbColor.addListener( this );
 			}
 
-			btnVisible = new TristateCheckbox( parent, SWT.NONE );
+			btnVisible = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defAxis.getLineAttributes( ).isVisible( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnVisible.setLayoutData( gd );
 				btnVisible.setSelectionState( axis.getLineAttributes( )
 						.isSetVisible( ) ? ( axis.getLineAttributes( )
-						.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+						.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnVisible.addSelectionListener( this );
 			}
 
-			btnAligned = new TristateCheckbox( parent, SWT.NONE );
+			btnAligned = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defAxis.isAligned( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnAligned.setLayoutData( gd );
-				btnAligned.setSelectionState( axis.isSetAligned( ) ? ( axis.isAligned( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnAligned.setSelectionState( axis.isSetAligned( ) ? ( axis.isAligned( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnAligned.addSelectionListener( this );
 				
 				updateBtnAlignedStatus( );
 			}
 
-			btnSideBySide = new TristateCheckbox( parent, SWT.NONE );
+			btnSideBySide = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defAxis.isSideBySide( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnSideBySide.setLayoutData( gd );
-				btnSideBySide.setSelectionState( axis.isSetSideBySide( ) ? ( axis.isSideBySide( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnSideBySide.setSelectionState( axis.isSetSideBySide( ) ? ( axis.isSideBySide( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnSideBySide.addSelectionListener( this );
 				updateBtnSideBySidStatus( );
 			}
@@ -366,14 +386,14 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			if ( e.widget == btnVisible )
 			{
-				if ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					axis.getLineAttributes( ).unsetVisible( );
 				}
 				else
 				{
 					axis.getLineAttributes( )
-							.setVisible( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+							.setVisible( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 				}
 			}
 			else if ( e.widget.equals( cmbTypes ) )
@@ -403,24 +423,24 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			}
 			else if ( e.widget == btnAligned )
 			{
-				if ( btnAligned.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnAligned.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					axis.unsetAligned( );
 				}
 				else
 				{
-					axis.setAligned( btnAligned.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					axis.setAligned( btnAligned.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 				}
 			}
 			else if ( e.widget == btnSideBySide )
 			{
-				if ( btnSideBySide.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnSideBySide.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					axis.unsetSideBySide( );
 				}
 				else
 				{
-					axis.setSideBySide( btnSideBySide.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					axis.setSideBySide( btnSideBySide.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 				}
 			}
 			

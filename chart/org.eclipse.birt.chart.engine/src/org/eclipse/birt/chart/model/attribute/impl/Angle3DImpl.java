@@ -38,7 +38,7 @@ public class Angle3DImpl extends EObjectImpl implements Angle3D
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @return
+	 * @return instance of <code>Angle3D</code>.
 	 */
 	public static Angle3D create( double x, double y, double z )
 	{

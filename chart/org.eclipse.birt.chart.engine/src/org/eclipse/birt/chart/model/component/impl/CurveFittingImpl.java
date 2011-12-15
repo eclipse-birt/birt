@@ -101,7 +101,7 @@ public class CurveFittingImpl extends EObjectImpl implements CurveFitting
 	/**
 	 * Returns a curveFitting instance.
 	 * 
-	 * @return
+	 * @return instance of <code>CurveFitting</code>.
 	 */
 	public static CurveFitting create( )
 	{

@@ -214,7 +214,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         event.data = buildString();
         for (int iL = 0; iL < vListeners.size(); iL++)
         {
-            ((Listener) vListeners.elementAt(iL)).handleEvent(event);
+            vListeners.elementAt(iL).handleEvent(event);
         }
     }
 

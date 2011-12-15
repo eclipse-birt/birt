@@ -18,6 +18,8 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.widgets.Composite;
 
 /**
+ * AxisXSheetImpl
+ * 
  * @author Actuate Corporation
  * 
  */
@@ -41,11 +43,8 @@ public class AxisXSheetImpl extends AbstractAxisSubtask
 	}
 
 	@Override
-	protected String getDefaultAxisTitle( )
+	protected Axis getDefaultValueAxis( )
 	{
-		return DefaultValueProvider.defBaseAxis( )
-				.getTitle( )
-				.getCaption( )
-				.getValue( );
+		return DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0];
 	}
 }

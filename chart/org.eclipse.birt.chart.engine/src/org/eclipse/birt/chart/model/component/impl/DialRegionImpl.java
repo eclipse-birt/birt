@@ -326,7 +326,7 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	}
 
 	/**
-	 * @return
+	 * @return instance of <code>DialRegion</code>.
 	 */
 	public static final DialRegion create( )
 	{

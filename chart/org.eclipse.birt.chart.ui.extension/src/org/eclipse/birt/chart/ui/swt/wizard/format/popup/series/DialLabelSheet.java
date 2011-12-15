@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * DialLabelSheet
  */
 
 public class DialLabelSheet extends AbstractPopupSheet
@@ -108,7 +108,8 @@ public class DialLabelSheet extends AbstractPopupSheet
 				null,
 				null,
 				getSeriesForProcessing( ).getDial( ).getLabel( ),
-				getChart( ).getUnits( ) );
+				getChart( ).getUnits( ),
+				DefaultValueProvider.defDialSeries( ).getDial( ).getLabel( ) );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.horizontalSpan = 2;
 		lacTitle.setLayoutData( gdLACTitle );

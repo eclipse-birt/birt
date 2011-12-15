@@ -13,9 +13,11 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.PlotClientAreaSheet;
@@ -42,9 +44,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	private TristateCheckbox btnIncludingVisible;
+	private AbstractChartCheckbox btnIncludingVisible;
 
-	protected TristateCheckbox btnWithinVisible;
+	protected AbstractChartCheckbox btnWithinVisible;
 
 	private FillChooserComposite cmbBlockColor;
 
@@ -110,15 +112,21 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
 
-		btnIncludingVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnIncludingVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						DefaultValueProvider.defChartWithAxes( )
+								.getPlot( )
+								.getOutline( )
+								.isVisible( ) );
 		btnIncludingVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
 		btnIncludingVisible.setSelectionState( getChart( ).getPlot( )
 				.getOutline( )
 				.isSetVisible( ) ? ( getChart( ).getPlot( )
 				.getOutline( )
-				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED );
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
 		btnIncludingVisible.addSelectionListener( this );
 	}
 
@@ -160,7 +168,14 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			lblVisibleWithin.setEnabled( is3DWallFloorSet );
 		}
 
-		btnWithinVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnWithinVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						DefaultValueProvider.defChartWithAxes( )
+								.getPlot( )
+								.getClientArea( )
+								.getOutline( )
+								.isVisible( ) );
 		btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible2" ) ); //$NON-NLS-1$
 		btnWithinVisible.setSelectionState( getChart( ).getPlot( )
 				.getClientArea( )
@@ -168,14 +183,14 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 				.isSetVisible( ) ? ( getChart( ).getPlot( )
 				.getClientArea( )
 				.getOutline( )
-				.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED );
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
 		btnWithinVisible.setEnabled( is3DWallFloorSet );
 		if ( !btnWithinVisible.getEnabled( ) )
 		{
 			// Hide for 3D
-			btnWithinVisible.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
+			btnWithinVisible.setSelectionState( ChartCheckbox.STATE_UNSELECTED );
 		}
 		btnWithinVisible.addSelectionListener( this );
 	}
@@ -247,7 +262,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		if ( e.widget.equals( btnIncludingVisible ) )
 		{
-			if ( btnIncludingVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnIncludingVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getPlot( ).getOutline( ).unsetVisible( );
 			}
@@ -255,13 +270,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			{
 				getChart( ).getPlot( )
 						.getOutline( )
-						.setVisible( ( (TristateCheckbox) e.widget ).getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						.setVisible( ( (ChartCheckbox) e.widget ).getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( btnWithinVisible ) )
 		{
-			if ( btnWithinVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if ( btnWithinVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getPlot( )
 						.getClientArea( )
@@ -273,7 +288,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 				getChart( ).getPlot( )
 						.getClientArea( )
 						.getOutline( )
-						.setVisible( ( (TristateCheckbox) e.widget ).getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						.setVisible( ( (ChartCheckbox) e.widget ).getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 			refreshPopupSheet( );
 		}

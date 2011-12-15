@@ -25,15 +25,17 @@ import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -71,7 +73,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient Combo cmbAnchor;
 	// private transient Button btnTriggers;
 	private transient ExternalizedTextEditorComposite txtValue;
-	private TristateCheckbox btnLabelVisible;
+	private AbstractChartCheckbox btnLabelVisible;
 	// private transient Label lblPosition;
 	// private transient Combo cmbPosition;
 	private transient Label lblFont;
@@ -84,6 +86,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient Label lblValue;
 	private transient Label lblAnchor;
 	private transient ChartWizardContext context;
+	private Series defSeries;
 
 	/**
 	 * @param title
@@ -111,6 +114,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		super( title, context, false );
 		this.series = series;
 		this.context = context;
+		this.defSeries = ChartDefaultValueUtil.getDefaultSeries( this.series );
 	}
 	
 	protected Composite getComponent( Composite parent )
@@ -195,7 +199,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getTrendline( ).getLineAttributes( ) );
+				getTrendline( ).getLineAttributes( ),
+				getDefaultTrendline( ).getLineAttributes( ) );
 		trendLineText.addListener( this );
 
 		Group cmpLabel = new Group( cmpContent, SWT.NONE );
@@ -217,15 +222,18 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			cmpLabelInner.setLayoutData( gd );
 		}
 
-		btnLabelVisible = new TristateCheckbox( cmpLabelInner, SWT.NONE );
+		btnLabelVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpLabelInner,
+						SWT.NONE,
+						getDefaultTrendline( ).getLabel( ).isVisible( ) );
 		GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 		gdCBVisible.horizontalSpan = 2 ;
 		btnLabelVisible.setLayoutData( gdCBVisible );
 		btnLabelVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 		btnLabelVisible.setSelectionState( getTrendline( ).getLabel( )
-				.isSetVisible( ) ? ( getTrendline( ).getLabel( ).isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED );
+				.isSetVisible( ) ? ( getTrendline( ).getLabel( ).isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
 		btnLabelVisible.addSelectionListener( this );
 
 		// lblPosition = new Label( cmpLabelInner, SWT.NONE );
@@ -304,7 +312,8 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				getTrendline( ).getLabel( ).getOutline( ) );
+				getTrendline( ).getLabel( ).getOutline( ),
+				getDefaultTrendline( ).getLabel( ).getOutline( ) );
 		outlineText.addListener( this );
 
 		icLabel = new InsetsComposite( cmpLabel,
@@ -365,6 +374,15 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 			return series.getCurveFitting( );
 		}
 		return seriesDefn.getDesignTimeSeries( ).getCurveFitting( );
+	}
+	
+	private CurveFitting getDefaultTrendline( )
+	{
+		if ( defSeries.getCurveFitting( ) == null )
+		{
+			return CurveFittingImpl.create( );
+		}
+		return defSeries.getCurveFitting( );
 	}
 
 	private void setState( boolean bEnableUI )
@@ -530,14 +548,14 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		// }
 		else if ( e.widget == btnLabelVisible )
 		{
-			if(btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+			if(btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getTrendline( ).getLabel( ).unsetVisible( );
 			}
 			else
 			{
 				getTrendline( ).getLabel( )
-						.setVisible( btnLabelVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+						.setVisible( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
 			setState( ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
 		}

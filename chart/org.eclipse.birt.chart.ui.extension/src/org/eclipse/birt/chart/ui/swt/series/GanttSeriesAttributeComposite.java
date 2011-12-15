@@ -24,10 +24,11 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.GanttLineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -50,7 +51,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			SelectionListener,
 			Listener
 {
-	private transient TristateCheckbox btnPalette = null;
+	private transient AbstractChartCheckbox btnPalette = null;
 
 	private transient Group grpLine = null;
 
@@ -61,6 +62,8 @@ public class GanttSeriesAttributeComposite extends Composite
 	private transient LineAttributesComposite oliacGantt = null;
 
 	private transient GanttSeries series = null;
+	
+	private GanttSeries defSeries = DefaultValueProvider.defGanttSeries( );
 
 	private transient ChartWizardContext context;
 
@@ -131,7 +134,8 @@ public class GanttSeriesAttributeComposite extends Composite
 
 		new MarkerEditorComposite( grpMarker,
 				createMarker( series.getStartMarker( ) ),
-				DefaultValueProvider.defGanttSeries( ).getStartMarker( ) );
+				context,
+				defSeries.getStartMarker( ) );
 
 		// Layout for the End Marker
 		Label lblEnd = new Label( grpMarker, SWT.NONE );
@@ -139,7 +143,8 @@ public class GanttSeriesAttributeComposite extends Composite
 
 		new MarkerEditorComposite( grpMarker,
 				createMarker( series.getEndMarker( ) ),
-				DefaultValueProvider.defGanttSeries( ).getEndMarker( ) );
+				context,
+				defSeries.getEndMarker( ) );
 
 		Composite cmpGroup = new Composite( this, SWT.NONE );
 		{
@@ -162,21 +167,25 @@ public class GanttSeriesAttributeComposite extends Composite
 				series.getConnectionLine( ),
 				true,
 				true,
-				true );
+				true,
+				DefaultValueProvider.defGanttSeries().getConnectionLine( ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		gliacGantt.setLayoutData( gd  );
 		gliacGantt.addListener( this );
 		
-		btnPalette = new TristateCheckbox( grpLine, SWT.NONE );
+		btnPalette = context.getUIFactory( )
+				.createChartCheckbox( grpLine,
+						SWT.NONE,
+						defSeries.isPaletteLineColor( ) );
 		{
 			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.BarPalette" ) ); //$NON-NLS-1$
 			gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 4;
 			btnPalette.setLayoutData( gd );
-			btnPalette.setSelectionState( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.setSelectionState( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addSelectionListener( this );
 		}
 
@@ -195,7 +204,8 @@ public class GanttSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getOutline( ) );
 		oliacGantt.addListener( this );
 	}
 
@@ -215,8 +225,8 @@ public class GanttSeriesAttributeComposite extends Composite
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"paletteLineColor", //$NON-NLS-1$
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 	}
 

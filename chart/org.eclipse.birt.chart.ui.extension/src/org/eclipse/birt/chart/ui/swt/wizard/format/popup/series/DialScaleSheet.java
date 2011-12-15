@@ -13,12 +13,13 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
 
 /**
- * 
+ * DialScaleSheet
  */
 
 public class DialScaleSheet extends AbstractScaleSheet
@@ -48,6 +49,12 @@ public class DialScaleSheet extends AbstractScaleSheet
 		super.setState( );
 		// Hide invalid attributes.
 		btnShowOutside.setVisible( false );
+	}
+
+	@Override
+	protected Scale getDefaultVauleScale( )
+	{
+		return DefaultValueProvider.defDialSeries( ).getDial( ).getScale( );
 	}
 
 }

@@ -172,7 +172,7 @@ public class RadarSeriesUIProvider extends DefaultSeriesUIProvider
 		Series se;
 		for ( int i = 0; i < el.size( ); i++ )
 		{
-			se = (Series) el.get( i );
+			se = el.get( i );
 			if ( se.getDataSet( ) == null && se instanceof RadarSeries)
 			{
 				return (RadarSeries) se;

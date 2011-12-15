@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
@@ -54,7 +55,7 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient FillChooserComposite cmbColor = null;
 	
-	private TristateCheckbox btnVisible = null;
+	private AbstractChartCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -82,6 +83,8 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient ChartWizardContext wizardContext;
 
+	private LineAttributes defLineAttributes;
+
 	/**
 	 * @param parent
 	 * @param style
@@ -89,7 +92,7 @@ public class LineAttributesComposite extends Composite implements
 	public LineAttributesComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility )
+			boolean bEnableVisibility, LineAttributes defLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -102,6 +105,7 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableWidths = bEnableWidths;
 		this.bEnableVisibility = bEnableVisibility;
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -109,7 +113,7 @@ public class LineAttributesComposite extends Composite implements
 	public LineAttributesComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility, boolean bEnableColor )
+			boolean bEnableVisibility, boolean bEnableColor, LineAttributes defLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -123,6 +127,7 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableVisibility = bEnableVisibility;
 		this.bEnableColor = bEnableColor;
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -131,7 +136,7 @@ public class LineAttributesComposite extends Composite implements
 			ChartWizardContext wizardContext, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
 			boolean bEnableVisibility, boolean bEnableColor,
-			boolean bEnableAutoColor )
+			boolean bEnableAutoColor, LineAttributes defLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -146,6 +151,7 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableColor = bEnableColor;
 		this.bEnableAutoColor = bEnableAutoColor;
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -161,7 +167,7 @@ public class LineAttributesComposite extends Composite implements
 	public static final int ENABLE_AUTO_COLOR = 1 << 4;
 	
 	public LineAttributesComposite( Composite parent, int style, int optionalStyles,
-			ChartWizardContext wizardContext, LineAttributes laCurrent )
+			ChartWizardContext wizardContext, LineAttributes laCurrent, LineAttributes defLineAttributes)
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -176,6 +182,7 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableColor = ENABLE_COLOR == ( optionalStyles & ENABLE_COLOR );
 		this.bEnableAutoColor = ENABLE_AUTO_COLOR == ( optionalStyles & ENABLE_AUTO_COLOR );
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -215,15 +222,18 @@ public class LineAttributesComposite extends Composite implements
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
-			btnVisible = new TristateCheckbox( cmpContent, SWT.NONE );
+			btnVisible = wizardContext.getUIFactory( )
+					.createChartCheckbox( cmpContent,
+							SWT.NONE,
+							this.defLineAttributes.isVisible( ) );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 6;
 			btnVisible.setLayoutData( gdCBVisible );
 			btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 			
-			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED;
+			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED;
 			btnVisible.setSelectionState( state );
 			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
@@ -374,9 +384,9 @@ public class LineAttributesComposite extends Composite implements
 
 		if ( bEnableVisibility )
 		{
-			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED;
+			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED;
 			btnVisible.setSelectionState( state );
 			boolean bUIEnabled = ( ChartUIExtensionUtil.canEnableUI( btnVisible ) );
 			if ( bEnableStyles )
@@ -428,8 +438,8 @@ public class LineAttributesComposite extends Composite implements
 			// Notify Listeners that a change has occurred in the value
 			int state = btnVisible.getSelectionState( );
 			fireValueChangedEvent( LineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					Boolean.valueOf( state == TristateCheckbox.STATE_SELECTED ),
-					( state == TristateCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+					Boolean.valueOf( state == ChartCheckbox.STATE_SELECTED ),
+					( state == ChartCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
 							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )

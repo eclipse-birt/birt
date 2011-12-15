@@ -190,6 +190,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 
 		newMarkerEditor = new MarkerEditorComposite( grpTop,
 				createMarker( ),
+				getContext( ),
 				getDefaultMarker( ) );
 		if ( markerTypeSet != null )
 		{
@@ -236,6 +237,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		}
 		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
 				getMarkers( ).get( 0 ),
+				getContext( ),
 				getDefaultMarker( ) );
 		{
 			currentMarkerEditor.setBounds( 0,
@@ -538,9 +540,9 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	{
 		if ( bPositive )
 		{
-			return ((LineSeries)ChartDefaultValueUtil.getSeriesDefault( series )).getMarkers( ).get( 0 );
+			return ((LineSeries)ChartDefaultValueUtil.getDefaultSeries( series )).getMarkers( ).get( 0 );
 		}
-		return ( (DifferenceSeries) ChartDefaultValueUtil.getSeriesDefault( series ) ).getNegativeMarkers( ).get( 0 );		
+		return ( (DifferenceSeries) ChartDefaultValueUtil.getDefaultSeries( series ) ).getNegativeMarkers( ).get( 0 );		
 	}
 
 	private void updateScrollBar( )

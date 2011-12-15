@@ -20,10 +20,12 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -48,17 +50,20 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 
 	private Composite cmpContent = null;
 
-	private TristateCheckbox btnCatLabels = null;
+	private AbstractChartCheckbox btnCatLabels = null;
 
 	private Button btnCLFormatSpecifier = null;
 
 	private LabelAttributesComposite catLabelAttr = null;
+
+	private RadarSeries defSeries;
 
 	public RadarCategoryLabelSheet( String title, ChartWizardContext context,
 			boolean needRefresh, RadarSeries series )
 	{
 		super( title, context, needRefresh );
 		this.series = series;
+		this.defSeries = (RadarSeries) ChartDefaultValueUtil.getDefaultSeries( series );
 	}
 
 	@Override
@@ -78,15 +83,18 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.CatLabel" ) ); //$NON-NLS-1$
 		
-		btnCatLabels = new TristateCheckbox( grpLine, SWT.NONE );
+		btnCatLabels = getContext( ).getUIFactory( )
+				.createChartCheckbox( grpLine,
+						SWT.NONE,
+						defSeries.isShowCatLabels( ) );
 		{
 			btnCatLabels.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowCat" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( GridData.FILL_VERTICAL );
 			gd.horizontalSpan = 2;
 			btnCatLabels.setLayoutData( gd );
-			btnCatLabels.setSelectionState( series.isSetShowCatLabels( ) ? ( series.isShowCatLabels( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnCatLabels.setSelectionState( series.isSetShowCatLabels( ) ? ( series.isShowCatLabels( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnCatLabels.addListener( SWT.Selection, this );
 		}
 
@@ -107,7 +115,8 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 				null,
 				null,
 				series.getCatLabel( ),
-				getChart( ).getUnits( ) );
+				getChart( ).getUnits( ),
+				defSeries.getCatLabel( ) );
 		GridData cla = new GridData( GridData.FILL_HORIZONTAL );
 		cla.horizontalSpan = 2;
 		catLabelAttr.setLayoutData( cla );
@@ -192,8 +201,8 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		{
 			ChartElementUtil.setEObjectAttribute( series,
 					"showCatLabels",//$NON-NLS-1$
-					btnCatLabels.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnCatLabels.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnCatLabels.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCatLabels.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 			updateUIState( );
 		}
 		else if ( event.widget.equals( btnCLFormatSpecifier ) )

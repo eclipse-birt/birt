@@ -20,10 +20,13 @@ import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -58,13 +61,13 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	protected TristateCheckbox btnVisible;
+	protected AbstractChartCheckbox btnVisible;
 
 	private ExternalizedTextEditorComposite txtTitle;
 
-	private TristateCheckbox btnTitleVisible;
+	private AbstractChartCheckbox btnTitleVisible;
 
-	private TristateCheckbox btnShowValue;
+	private AbstractChartCheckbox btnShowValue;
 
 	private Label lblTitle;
 
@@ -101,7 +104,11 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 			cmpBasic.setText( Messages.getString( "ChartLegendSheetImpl.Label.Legend" ) ); //$NON-NLS-1$
 		}
 
-		btnVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		Legend defLegend = ChartDefaultValueUtil.getDefaultValueChart( getChart( ) ).getLegend( );
+		btnVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						defLegend.isVisible( ) );
 		{
 			GridData gdBTNVisible = new GridData( );
 			gdBTNVisible.horizontalSpan = 4;
@@ -131,7 +138,10 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 			txtTitle.addListener( this );
 		}
 
-		btnTitleVisible = new TristateCheckbox( cmpBasic, SWT.NONE );
+		btnTitleVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						defLegend.getTitle( ).isVisible( ) );
 		btnTitleVisible.setText( Messages.getString( "Shared.mne.Visibile_s" ) ); //$NON-NLS-1$
 
 		btnTitleContentAuto = new Button( cmpBasic, SWT.CHECK );
@@ -165,7 +175,10 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 			lblShowValue = new Label( cmpBasic, SWT.NONE );
 			lblShowValue.setText( Messages.getString( "ChartLegendSheetImpl.Label.Value" ) ); //$NON-NLS-1$
 
-			btnShowValue = new TristateCheckbox( cmpBasic, SWT.NONE );
+			btnShowValue = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							defLegend.isShowValue( ) );
 			{
 				GridData gdBTNVisible = new GridData( );
 				gdBTNVisible.horizontalSpan = 2;
@@ -184,23 +197,23 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 	protected void initDataNListeners( )
 	{
 		Legend l = getChart( ).getLegend( );
-		int state = l.isSetVisible( ) ? ( l.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED;
+		int state = l.isSetVisible( ) ? ( l.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED;
 		btnVisible.setSelectionState( state );
 		btnVisible.addSelectionListener( this );
 
-		state = l.getTitle( ).isSetVisible( ) ? ( l.getTitle( ).isVisible( ) ? TristateCheckbox.STATE_SELECTED
-				: TristateCheckbox.STATE_UNSELECTED )
-				: TristateCheckbox.STATE_GRAYED;
+		state = l.getTitle( ).isSetVisible( ) ? ( l.getTitle( ).isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED;
 		btnTitleVisible.setSelectionState( state );
 		btnTitleVisible.addSelectionListener( this );
 
 		if ( isShowValueEnabled( ) )
 		{
-			state = l.isSetShowValue( ) ? ( l.isShowValue( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED;
+			state = l.isSetShowValue( ) ? ( l.isShowValue( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED;
 			btnShowValue.addSelectionListener( this );
 			btnShowValue.setSelectionState( state );
 		}
@@ -376,24 +389,11 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 
 		if ( e.widget.equals( btnVisible ) )
 		{
-			boolean enabled = false;
-			int state = btnVisible.getSelectionState( );
-			switch ( state )
-			{
-				case TristateCheckbox.STATE_GRAYED :
-					getChart( ).getLegend( ).unsetVisible( );
-					enabled = true;
-					break;
-				case TristateCheckbox.STATE_SELECTED :
-					getChart( ).getLegend( ).setVisible( true );
-					enabled = true;
-					break;
-				case TristateCheckbox.STATE_UNSELECTED :
-					getChart( ).getLegend( ).setVisible( false );
-					enabled = false;
-					break;
-			}
-
+			ChartElementUtil.setEObjectAttribute( getChart( ).getLegend( ),
+					"visible", //$NON-NLS-1$
+					btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
+			boolean enabled = ( btnVisible.getSelectionState( ) != ChartCheckbox.STATE_UNSELECTED );
 			// If legend is invisible, close popup
 			if ( !enabled && isButtonSelected( ) )
 			{
@@ -404,25 +404,14 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnTitleVisible ) )
 		{
-
 			setToggleButtonEnabled( BUTTON_TITLE, getTitleVisibleSelection( ) );
 			int state = btnTitleVisible.getSelectionState( );
-			boolean enabled = false;
-			switch ( state )
-			{
-				case TristateCheckbox.STATE_GRAYED :
-					getChart( ).getLegend( ).getTitle( ).unsetVisible( );
-					enabled = true;
-					break;
-				case TristateCheckbox.STATE_SELECTED :
-					getChart( ).getLegend( ).getTitle( ).setVisible( true );
-					enabled = true;
-					break;
-				case TristateCheckbox.STATE_UNSELECTED :
-					getChart( ).getLegend( ).getTitle( ).setVisible( false );
-					enabled = false;
-					break;
-			}
+			boolean enabled = state != ChartCheckbox.STATE_UNSELECTED;
+			ChartElementUtil.setEObjectAttribute( getChart( ).getLegend( )
+					.getTitle( ),
+					"visible", //$NON-NLS-1$
+					state == ChartCheckbox.STATE_SELECTED,
+					state == ChartCheckbox.STATE_GRAYED );
 			txtTitle.setEnabled( enabled && !btnTitleContentAuto.getSelection( ) );
 			btnTitleContentAuto.setEnabled( enabled );
 			Button btnLegendTitle = getToggleButton( BUTTON_TITLE );
@@ -451,17 +440,10 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		else if ( e.widget.equals( btnShowValue ) )
 		{
 			int state = btnShowValue.getSelectionState( );
-			switch ( state )
-			{
-				case TristateCheckbox.STATE_GRAYED :
-					getChart( ).getLegend( ).unsetShowValue( );
-					break;
-				case TristateCheckbox.STATE_SELECTED :
-					getChart( ).getLegend( ).setShowValue( true );
-					break;
-				case TristateCheckbox.STATE_UNSELECTED :
-					getChart( ).getLegend( ).setShowValue( false );
-			}
+			ChartElementUtil.setEObjectAttribute( getChart( ).getLegend( ),
+					"showValue", //$NON-NLS-1$
+					state == ChartCheckbox.STATE_SELECTED,
+					state == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.widget == btnTitleContentAuto )
 		{

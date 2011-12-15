@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -61,7 +62,7 @@ public class LabelAttributesComposite extends Composite implements
 
 	private Group grpOutline = null;
 
-	private TristateCheckbox btnVisible = null;
+	private AbstractChartCheckbox btnVisible = null;
 
 	private Label lblLabel = null;
 
@@ -186,7 +187,8 @@ public class LabelAttributesComposite extends Composite implements
 			LabelAttributesContext attributesContext, String sGroupName,
 			Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
-			String sUnits )
+			String sUnits,
+			org.eclipse.birt.chart.model.component.Label defaultLabel )
 	{
 		this( parent,
 				style,
@@ -196,7 +198,8 @@ public class LabelAttributesComposite extends Composite implements
 				lpCurrent,
 				lblCurrent,
 				sUnits,
-				ALLOW_ALL_POSITION );
+				ALLOW_ALL_POSITION,
+				defaultLabel );
 	}
 
 	/**
@@ -210,6 +213,7 @@ public class LabelAttributesComposite extends Composite implements
 	 * @param lblCurrent
 	 * @param sUnits
 	 * @param positionScope
+	 * @param defaultLael
 	 * @since 2.1.1
 	 */
 	public LabelAttributesComposite( Composite parent, int style,
@@ -217,7 +221,8 @@ public class LabelAttributesComposite extends Composite implements
 			LabelAttributesContext attributesContext, String sGroupName,
 			Position lpCurrent,
 			org.eclipse.birt.chart.model.component.Label lblCurrent,
-			String sUnits, int positionScope )
+			String sUnits, int positionScope,
+			org.eclipse.birt.chart.model.component.Label defaultLabel )
 	{
 		super( parent, style );
 		this.wizardContext = wizardContext;
@@ -233,6 +238,7 @@ public class LabelAttributesComposite extends Composite implements
 		this.laCurrent = lblCurrent.getOutline( );
 		this.insets = lblCurrent.getInsets( );
 		this.positionScope = positionScope;
+		this.defLabel = defaultLabel;
 
 		init( );
 		placeComponents( );
@@ -374,14 +380,17 @@ public class LabelAttributesComposite extends Composite implements
 				&& !ChartUIExtensionUtil.isSetInvisible( lblCurrent );
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			btnVisible = new TristateCheckbox( cmpGeneral, SWT.NONE );
+			btnVisible = wizardContext.getUIFactory( )
+					.createChartCheckbox( cmpGeneral,
+							SWT.NONE,
+							this.defLabel.isVisible( ) );
 			btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 2;
 			btnVisible.setLayoutData( gdCBVisible );
-			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
@@ -515,7 +524,8 @@ public class LabelAttributesComposite extends Composite implements
 					SWT.NONE,
 					optionalStyles,
 					wizardContext,
-					laCurrent );
+					laCurrent,
+					defLabel.getOutline( ) );
 			liacOutline.addListener( this );
 			liacOutline.setAttributesEnabled( bEnableUI );
 		}
@@ -613,9 +623,9 @@ public class LabelAttributesComposite extends Composite implements
 
 		if ( attributesContext.isVisibilityEnabled )
 		{
-			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnVisible.setSelectionState( lblCurrent.isSetVisible( ) ? ( lblCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			setVisibleState( ChartUIExtensionUtil.canEnableUI( btnVisible )
 					&& btnVisible.isEnabled( ) );
 		}
@@ -733,8 +743,8 @@ public class LabelAttributesComposite extends Composite implements
 		else if ( e.widget == btnVisible )
 		{
 			eLabel.type = VISIBILITY_CHANGED_EVENT;
-			eLabel.data = Boolean.valueOf( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
-			eLabel.detail = btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED ? ChartUIExtensionUtil.PROPERTY_UNSET
+			eLabel.data = Boolean.valueOf( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			eLabel.detail = btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED ? ChartUIExtensionUtil.PROPERTY_UNSET
 					: ChartUIExtensionUtil.PROPERTY_UPDATE;
 
 			setVisibleState( ChartUIExtensionUtil.canEnableUI( btnVisible ) );

@@ -26,9 +26,10 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.type.BubbleChart;
@@ -317,9 +318,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private ExternalizedTextEditorComposite txtTitle;
 		private Combo cmbTypes;
 		private Spinner spnZOrder;
-		private TristateCheckbox btnVisible;
-		private TristateCheckbox btnStack;
-		private TristateCheckbox btnTranslucent;
+		private AbstractChartCheckbox btnVisible;
+		private AbstractChartCheckbox btnStack;
+		private AbstractChartCheckbox btnTranslucent;
 
 		private boolean canStack;
 
@@ -329,6 +330,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private int treeIndex = 0;
 
 		private boolean bStackedPercent;
+		
+		private Series defSeries;
 
 		public SeriesOptionChoser( SeriesDefinition seriesDefn,
 				String seriesName, int iSeriesDefinitionIndex, int treeIndex,
@@ -367,6 +370,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		public void placeComponents( Composite parent )
 		{
 			Series series = seriesDefn.getDesignTimeSeries( );
+			defSeries = ChartDefaultValueUtil.getDefaultSeries( series );
 
 			linkSeries = new Link( parent, SWT.NONE );
 			{
@@ -441,35 +445,50 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		protected void initTranslucentUI( Composite parent, Series series )
 		{
-			btnTranslucent = new TristateCheckbox( parent, SWT.NONE );
+			btnTranslucent = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defSeries.isTranslucent( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnTranslucent.setLayoutData( gd );
-				btnTranslucent.setSelectionState( series.isSetTranslucent( ) ? ( series.isTranslucent( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnTranslucent.setSelectionState( series.isSetTranslucent( ) ? ( series.isTranslucent( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnTranslucent.addSelectionListener( this );
 			}
 		}
 
 		protected void initVisibleUI( Composite parent, Series series )
 		{
-			btnVisible = new TristateCheckbox( parent, SWT.NONE );
+			btnVisible = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defSeries.isVisible( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnVisible.setLayoutData( gd );
-				btnVisible.setSelectionState( series.isSetVisible( ) ? ( series.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnVisible.setSelectionState( series.isSetVisible( ) ? ( series.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnVisible.addSelectionListener( this );
 			}
 		}
 
 		protected void initStackUI( Composite parent, Series series )
 		{
-			btnStack = new TristateCheckbox( parent, SWT.NONE );
+			boolean defSelected = false;
+			if ( defSeries.isSetStacked( ) && defSeries.isStacked( ) && !canStack )
+			{
+				defSelected  = false;
+			}
+			else
+			{
+				defSelected = defSeries.isStacked( );
+			}
+			btnStack = getContext( ).getUIFactory( ).createChartCheckbox( parent, SWT.NONE, defSelected );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
@@ -478,17 +497,19 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 						&& series.canBeStacked( )
 						&& getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL
 						&& !bStackedPercent );
+				int state = 0;
 				if ( series.isSetStacked( ) && series.isStacked( ) && !canStack )
 				{
-					btnStack.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
+					state  = ChartCheckbox.STATE_UNSELECTED;
 					series.setStacked( false );
 				}
 				else
 				{
-					btnStack.setSelectionState( series.isSetStacked( ) ? ( series.isStacked( ) ? TristateCheckbox.STATE_SELECTED
-							: TristateCheckbox.STATE_UNSELECTED )
-							: TristateCheckbox.STATE_GRAYED );
+					state = series.isSetStacked( ) ? ( series.isStacked( ) ? ChartCheckbox.STATE_SELECTED
+							: ChartCheckbox.STATE_UNSELECTED )
+							: ChartCheckbox.STATE_GRAYED;
 				}
+				btnStack.setSelectionState( state );
 				btnStack.addSelectionListener( this );
 			}
 		}
@@ -535,7 +556,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 			else if ( e.widget == btnVisible )
 			{
-				if ( btnVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					series.unsetVisible( );
 				}
@@ -546,13 +567,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 			else if ( e.widget == btnStack )
 			{
-				if ( btnStack.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnStack.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					series.unsetStacked( );
 				}
 				else
 				{
-					series.setStacked( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					series.setStacked( btnStack.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 				}
 
 				// Default label position is inside if Stacked checkbox is
@@ -567,13 +588,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 			else if ( e.widget == btnTranslucent )
 			{
-				if ( btnTranslucent.getSelectionState( ) == TristateCheckbox.STATE_GRAYED )
+				if ( btnTranslucent.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 				{
 					series.unsetTranslucent( );
 				}
 				else
 				{
-					series.setTranslucent( btnTranslucent.getSelectionState( ) == TristateCheckbox.STATE_SELECTED );
+					series.setTranslucent( btnTranslucent.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 				}
 			}
 			else if ( e.getSource( ).equals( linkSeries ) )
@@ -716,7 +737,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			if ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL
 					|| cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
 			{
-				if ( btnStack.getSelectionState( ) == TristateCheckbox.STATE_SELECTED )
+				if ( btnStack.getSelectionState( ) == ChartCheckbox.STATE_SELECTED )
 				{
 					cmbTypes.setEnabled( false );
 				}

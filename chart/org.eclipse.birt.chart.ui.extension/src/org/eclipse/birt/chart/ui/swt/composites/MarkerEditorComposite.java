@@ -31,8 +31,10 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -102,20 +104,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 	private Marker defaultMarker;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param parent
-	 * @param marker
-	 */
-	public MarkerEditorComposite( Composite parent, Marker marker )
-	{
-		super( parent, SWT.BORDER );
-		this.editingMarker = marker;
-		placeComponents( );
-		initAccessible( );
-		updateMarkerPreview( );
-	}
+	private ChartWizardContext context;
+
 	
 	/**
 	 * Constructor.
@@ -124,10 +114,17 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 	 * @param marker
 	 * @param defaultMarker
 	 */
-	public MarkerEditorComposite( Composite parent, Marker marker, Marker defaultMarker )
+	public MarkerEditorComposite( Composite parent, Marker marker,
+			ChartWizardContext context, Marker defaultMarker )
 	{
-		this( parent, marker );
+		super( parent, SWT.BORDER );
+		this.editingMarker = marker;
+		this.context = context;
 		this.defaultMarker = defaultMarker;
+		placeComponents( );
+		initAccessible( );
+		updateMarkerPreview( );
+		
 	}
 	
 	private void placeComponents( )
@@ -466,9 +463,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private Spinner iscMarkerSize;
 
-		private TristateCheckbox btnMarkerVisible;
+		private AbstractChartCheckbox btnMarkerVisible;
 		
-		private TristateCheckbox btnOutline;
+		private AbstractChartCheckbox btnOutline;
 		
 		private Composite cmpType;
 
@@ -495,16 +492,19 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		{
 			GridLayout glDropDown = new GridLayout( 2, false );
 			this.setLayout( glDropDown );
-
-			btnMarkerVisible = new TristateCheckbox( this, SWT.NONE );
+			
+			btnMarkerVisible = context.getUIFactory( )
+					.createChartCheckbox( this,
+							SWT.NONE,
+							MarkerEditorComposite.this.defaultMarker.isVisible( ) );
 			{
 				btnMarkerVisible.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalSpan = 2;
 				btnMarkerVisible.setLayoutData( gd );
-				btnMarkerVisible.setSelectionState( getMarker( ).isSetVisible( ) ? ( getMarker( ).isVisible( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnMarkerVisible.setSelectionState( getMarker( ).isSetVisible( ) ? ( getMarker( ).isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnMarkerVisible.addListener( SWT.Selection, this );
 				btnMarkerVisible.addListener( SWT.FocusOut, this );
 				btnMarkerVisible.addListener( SWT.KeyDown, this );
@@ -592,7 +592,11 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 					&& !btnMarkerSizeAuto.getSelection( ) );
 			btnMarkerSizeAuto.addListener( SWT.Selection, this );
 			
-			btnOutline = new TristateCheckbox( this, SWT.NONE );
+			btnOutline = context.getUIFactory( )
+					.createChartCheckbox( this,
+							SWT.NONE,
+							MarkerEditorComposite.this.defaultMarker.getOutline( )
+									.isVisible( ) );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalSpan = 2;
@@ -634,9 +638,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				}
 
 				getMarker( ).setOutline( la );
-				btnOutline.setSelectionState( la.isSetVisible( ) ? ( la.isVisible( ) ? TristateCheckbox.STATE_SELECTED
-						: TristateCheckbox.STATE_UNSELECTED )
-						: TristateCheckbox.STATE_GRAYED );
+				btnOutline.setSelectionState( la.isSetVisible( ) ? ( la.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				updateOutlineBtn( );
 			}
 			setEnabledState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
@@ -650,8 +654,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			{
 				ChartElementUtil.setEObjectAttribute( getMarker( ),
 						"visible", //$NON-NLS-1$
-						btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-						btnMarkerVisible.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+						btnMarkerVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+						btnMarkerVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 				setEnabledState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
 				cnvMarker.redraw( );
 				updateOutlineBtn( );
@@ -666,8 +670,8 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				LineAttributes la =  getMarker().getOutline( );
 				ChartElementUtil.setEObjectAttribute( la,
 						"visible", //$NON-NLS-1$
-						btnOutline.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-						btnOutline.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+						btnOutline.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+						btnOutline.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 				cnvMarker.redraw( );
 			}
 			else if ( e.widget == btnMarkerSizeAuto )

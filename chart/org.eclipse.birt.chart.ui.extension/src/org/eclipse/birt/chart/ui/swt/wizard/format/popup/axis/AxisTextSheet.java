@@ -61,12 +61,15 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 	private transient int axisType;
 
+	private Axis defAxis;
+
 	public AxisTextSheet( String title, ChartWizardContext context, Axis axis,
-			int axisType )
+			int axisType, Axis defAxis )
 	{
 		super( title, context, true );
 		this.axis = axis;
 		this.axisType = axisType;
+		this.defAxis = defAxis;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -94,7 +97,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
 					getAxisForProcessing( ).getTitlePosition( ),
 					getAxisForProcessing( ).getTitle( ),
-					getChart( ).getUnits( ) );
+					getChart( ).getUnits( ),
+					defAxis.getTitle( ) );
 		}
 		else
 		{
@@ -108,7 +112,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getAxisForProcessing( ).isSetTitlePosition( ) ?	getAxisForProcessing( ).getTitlePosition( ) : null,
 					getAxisForProcessing( ).getTitle( ),
 					getChart( ).getUnits( ),
-					getPositionScope( ) );
+					getPositionScope( ),
+					defAxis.getTitle( ) );
 
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
@@ -144,7 +149,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 					null,
 					getAxisForProcessing( ).getLabelPosition( ),
 					getAxisForProcessing( ).getLabel( ),
-					getChart( ).getUnits( ) );
+					getChart( ).getUnits( ),
+					defAxis.getLabel( ) );
 		}
 		else
 		{
@@ -161,7 +167,8 @@ public class AxisTextSheet extends AbstractPopupSheet
 							: null,
 					getAxisForProcessing( ).getLabel( ),
 					getChart( ).getUnits( ),
-					getPositionScope( ) );
+					getPositionScope( ),
+					defAxis.getLabel( ) );
 		}
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;

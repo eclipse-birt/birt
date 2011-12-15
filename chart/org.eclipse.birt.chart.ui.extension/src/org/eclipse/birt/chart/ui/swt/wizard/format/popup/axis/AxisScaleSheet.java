@@ -15,8 +15,8 @@ import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
 import org.eclipse.swt.widgets.Composite;
@@ -30,13 +30,15 @@ public class AxisScaleSheet extends AbstractScaleSheet
 
 	private Axis axis;
 	private int axisAngleType;
+	private Axis defAxis;
 
 	public AxisScaleSheet( String title, ChartWizardContext context, Axis axis,
-			int axisAngleType )
+			int axisAngleType, Axis defAxis )
 	{
 		super( title, context );
 		this.axis = axis;
 		this.axisAngleType = axisAngleType;
+		this.defAxis = defAxis;
 	}
 
 	protected Axis getAxisForProcessing( )
@@ -85,13 +87,13 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		{
 			btnShowOutside.setEnabled( false );
 			// Unselect 'ShowOutSide'.
-			btnShowOutside.setSelectionState( TristateCheckbox.STATE_UNSELECTED ); //False
+			btnShowOutside.setSelectionState( ChartCheckbox.STATE_UNSELECTED ); //False
 			getScale().setShowOutside( false );
 		}
 		else
 		{
 			getScale( ).setAutoExpand( true );
-			btnAutoExpand.setSelectionState( TristateCheckbox.STATE_SELECTED );
+			btnAutoExpand.setSelectionState( ChartCheckbox.STATE_SELECTED );
 		}
 
 		boolean bAxisX = ( axisAngleType == AngleType.X );
@@ -128,6 +130,12 @@ public class AxisScaleSheet extends AbstractScaleSheet
 				// txtScaleMin.setEnabled( false );
 			}
 		}
+	}
+
+	@Override
+	protected Scale getDefaultVauleScale( )
+	{
+		return defAxis.getScale( );
 	}
 
 }

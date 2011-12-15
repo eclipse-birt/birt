@@ -66,12 +66,15 @@ public class AxisLabelSheet extends AbstractPopupSheet implements
 
 	private int axisType;
 
+	private Axis defAxis;
+
 	public AxisLabelSheet( String title, ChartWizardContext context, Axis axis,
-			int axisType )
+			int axisType, Axis defAxis )
 	{
 		super( title, context, true );
 		this.axis = axis;
 		this.axisType = axisType;
+		this.defAxis = defAxis;
 	}
 	
 	@Override
@@ -112,7 +115,8 @@ public class AxisLabelSheet extends AbstractPopupSheet implements
 						: null,
 				getAxisForProcessing( ).getLabel( ),
 				getChart( ).getUnits( ),
-				getPositionScope( ) );
+				getPositionScope( ),
+				defAxis.getLabel( ) );
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;
 		lacLabel.setLayoutData( gdLACLabel );

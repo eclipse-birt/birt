@@ -20,10 +20,15 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.layout.Block;
+import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
@@ -154,7 +159,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * @param runtimeSeries specified series object.
 	 * @return series object with default value.
 	 */
-	public static Series getSeriesDefault( Series runtimeSeries )
+	public static Series getDefaultSeries( Series runtimeSeries )
 	{
 		if ( runtimeSeries instanceof BarSeries )
 		{
@@ -206,6 +211,91 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	}
 	
 	/**
+	 * Returns default value chart instance according to specified chart instance.
+	 * 
+	 * @param cm
+	 * @return default value chart instance according to specified chart instance.
+	 */
+	public static Chart getDefaultValueChart( Chart cm )
+	{
+		Chart instance = null;
+		if ( cm instanceof DialChart )
+		{
+			instance = DefaultValueProvider.defDialChart( );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			instance = DefaultValueProvider.defChartWithoutAxes( );
+		}
+		else
+		{
+			instance = DefaultValueProvider.defChartWithAxes( );
+		}
+
+		return instance;
+	}
+	
+	/**
+	 * Returns default chart orientation according to specified chart instance.
+	 * 
+	 * @param cm
+	 * @return default orientation of chart according to specified chart instance.
+	 */
+	public static Orientation getDefaultOrientation( Chart cm )
+	{
+		Chart chart = getDefaultValueChart( cm );
+		if ( chart instanceof ChartWithAxes )
+		{
+			( (ChartWithAxes) chart ).getOrientation( );
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns default chart block according specified chart instance.
+	 * 
+	 * @param cm
+	 * @return default chart block according specified chart instance.
+	 */
+	public static Block getDefaultBlock( Chart cm )
+	{
+		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getBlock( );
+	}
+	
+	/**
+	 * Returns default chart legend according specified chart instance.
+	 * 
+	 * @param cm
+	 * @return default chart legend according specified chart instance.
+	 */
+	public static Legend getDefaultLegend( Chart cm )
+	{
+		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getLegend( );
+	}
+	
+	/**
+	 * Returns default chart plot according specified chart instance.
+	 * 
+	 * @param cm
+	 * @return default chart plot according specified chart instance.
+	 */
+	public static Plot getDefaultPlot( Chart cm )
+	{
+		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getPlot( );
+	}
+	
+	/**
+	 * Returns default chart title block according to specified chart instance.
+	 * 
+	 * @param cm
+	 * @return default chart title block according to specified chart instance.
+	 */
+	public static TitleBlock getDefaultTitle( Chart cm )
+	{
+		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getTitle( );
+	}
+	
+	/**
 	 * Creates instance of default value chart according to specified chart type.
 	 * 
 	 * @param cm
@@ -213,19 +303,7 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 */
 	public static Chart createDefaultValueChartInstance(Chart cm )
 	{
-		Chart instance = null;
-		if ( cm instanceof DialChart )
-		{
-			instance = DefaultValueProvider.defDialChart( ).copyInstance( );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			instance = DefaultValueProvider.defChartWithoutAxes( ).copyInstance( );
-		}
-		else
-		{
-			instance = DefaultValueProvider.defChartWithAxes( ).copyInstance( );
-		}
+		Chart instance = getDefaultValueChart( cm ).copyInstance( );
 		
 		// Add all different series instances.
 		SeriesDefinition sd = ChartUtil.getOrthogonalSeriesDefinitions( instance,

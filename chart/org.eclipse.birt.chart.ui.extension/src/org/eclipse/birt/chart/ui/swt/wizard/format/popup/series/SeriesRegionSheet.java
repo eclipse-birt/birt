@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -117,6 +118,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	private Button btnOuterRadiusAuto;
 
 	private Series series;
+	
+	private Series defSeries = null;
 
 	/**
 	 * @param title
@@ -137,6 +140,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	{
 		super( title, context, false );
 		this.series = series;
+		this.defSeries = ChartDefaultValueUtil.getDefaultSeries( series );
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -345,7 +349,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 				SWT.NONE,
 				lineStyles,
 				getContext( ),
-				null );
+				null,
+				( (DialSeries) defSeries ).getDial( )
+						.getDialRegions( )
+						.get( 0 )
+						.getOutline( ) );
 		liacMarkerRange.addListener( this );
 
 		// Label Properties

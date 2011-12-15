@@ -19,7 +19,7 @@ import org.eclipse.birt.chart.util.TriggerSupportMatrix;
  * Default implementation or base class of UI factory interface.
  */
 
-public class ChartUIFactoryBase implements IChartUIFactory
+abstract public class ChartUIFactoryBase implements IChartUIFactory
 {
 
 	public IChartUIHelper createUIHelper( )
@@ -32,5 +32,4 @@ public class ChartUIFactoryBase implements IChartUIFactory
 	{
 		return new TriggerSupportMatrix( outputFormat, iType );
 	}
-
 }

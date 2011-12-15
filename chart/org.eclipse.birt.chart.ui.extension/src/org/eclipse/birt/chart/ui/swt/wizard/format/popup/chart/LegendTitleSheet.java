@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.layout.Legend;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -34,7 +35,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * LegendTitleSheet
  */
 
 public class LegendTitleSheet extends AbstractPopupSheet implements Listener
@@ -75,7 +76,8 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 				getLegend( ).getTitle( ),
 				getChart( ).getUnits( ),
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
-						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION );
+						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION,
+			    ChartDefaultValueUtil.getDefaultLegend( getChart() ).getTitle( ) );
 		{
 			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
 			gdLACTitle.verticalSpan = 2;

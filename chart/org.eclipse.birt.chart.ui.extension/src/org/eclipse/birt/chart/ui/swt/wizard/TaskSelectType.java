@@ -38,9 +38,11 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -157,7 +159,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected Orientation orientation = null;
 
 	protected Label lblOrientation = null;
-	protected TristateCheckbox cbOrientation = null;
+	protected AbstractChartCheckbox btnOrientation = null;
 
 	protected Label lblMultipleY = null;
 	protected Combo cbMultipleY = null;
@@ -228,16 +230,16 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		if ( topControl == null || topControl.isDisposed( ) )
 		{
+			if ( context != null )
+			{
+				chartModel = ( (ChartWizardContext) context ).getModel( );
+			}
 			topControl = new Composite( parent, SWT.NONE );
 			GridLayout gridLayout = new GridLayout( 2, false );
 			gridLayout.marginWidth = pageMargin;
 			topControl.setLayout( gridLayout );
 			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
-			if ( context != null )
-			{
-				chartModel = ( (ChartWizardContext) context ).getModel( );
-			}
 			placeComponents( );
 			updateAdapters( );
 			updateComponentsState( false );
@@ -298,6 +300,13 @@ public class TaskSelectType extends SimpleTask implements
 			createChartModel( );
 		}
 		populateSeriesTypesList( );
+		
+		if ( btnOrientation != null )
+		{
+			Orientation defOrientation = ChartDefaultValueUtil.getDefaultOrientation( getContext( ).getModel( ) );
+			btnOrientation.setDefaultSelection( defOrientation == null ? false
+					: defOrientation == Orientation.VERTICAL_LITERAL );
+		}
 	}
 
 	protected void createChartModel( )
@@ -508,12 +517,14 @@ public class TaskSelectType extends SimpleTask implements
 				}
 
 				// Add the CheckBox for Orientation
-				cbOrientation = new TristateCheckbox( parent, SWT.NONE );
+				btnOrientation = getContext( ).getUIFactory( )
+						.createChartCheckbox( parent,
+								SWT.NONE, false );
 				{
-					cbOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
+					btnOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
 					GridData gd = new GridData( );
-					cbOrientation.setLayoutData( gd );
-					cbOrientation.addSelectionListener( TaskSelectType.this );
+					btnOrientation.setLayoutData( gd );
+					btnOrientation.addSelectionListener( TaskSelectType.this );
 				}
 
 				updateOrientationUIState( );
@@ -524,22 +535,22 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected void updateOrientationUIState( )
 	{
-		if ( cbOrientation == null )
+		if ( btnOrientation == null )
 		{
 			return;
 		}
 		
 		if ( orientation == null )
 		{
-			cbOrientation.setSelectionState( TristateCheckbox.STATE_GRAYED );
+			btnOrientation.setSelectionState( ChartCheckbox.STATE_GRAYED );
 		} 
 		else if ( orientation == Orientation.HORIZONTAL_LITERAL )
 		{
-			cbOrientation.setSelectionState( TristateCheckbox.STATE_SELECTED );
+			btnOrientation.setSelectionState( ChartCheckbox.STATE_SELECTED );
 		}
 		else
 		{
-			cbOrientation.setSelectionState( TristateCheckbox.STATE_UNSELECTED );
+			btnOrientation.setSelectionState( ChartCheckbox.STATE_UNSELECTED );
 		}
 	}
 	
@@ -710,7 +721,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		boolean needUpdateModel = false;
 		Object oSelected = e.getSource( );
-		if ( e.widget == cbOrientation )
+		if ( e.widget == btnOrientation )
 		{
 			needUpdateModel = true;
 			handleOrientationBtnSelected( );
@@ -878,7 +889,7 @@ public class TaskSelectType extends SimpleTask implements
 			// Ensure populate list after chart model generated
 			populateSeriesTypesList( );
 		}
-		else if ( oSelected.equals( cbOrientation ) )
+		else if ( oSelected.equals( btnOrientation ) )
 		{
 			// Auto rotates Axis title when transposing
 			if ( chartModel instanceof ChartWithAxes )
@@ -1007,12 +1018,12 @@ public class TaskSelectType extends SimpleTask implements
 
 	protected void handleOrientationBtnSelected( )
 	{
-		int state = cbOrientation.getSelectionState( );
-		if ( state == TristateCheckbox.STATE_GRAYED )
+		int state = btnOrientation.getSelectionState( );
+		if ( state == ChartCheckbox.STATE_GRAYED )
 		{
 			orientation = null;
 		}
-		else if ( state == TristateCheckbox.STATE_SELECTED )
+		else if ( state == ChartCheckbox.STATE_SELECTED )
 		{
 			orientation = Orientation.HORIZONTAL_LITERAL;
 		}
@@ -1329,11 +1340,11 @@ public class TaskSelectType extends SimpleTask implements
 	protected void createAndDisplayTypesSheet( String sSelectedType )
 	{
 		IChartType chartType = ChartUIUtil.getChartType( sSelectedType );
-		if ( cbOrientation != null )
+		if ( btnOrientation != null )
 		{
 			lblOrientation.setEnabled( chartType.supportsTransposition( )
 					&& !is3D( ) );
-			cbOrientation.setEnabled( chartType.supportsTransposition( )
+			btnOrientation.setEnabled( chartType.supportsTransposition( )
 					&& !is3D( ) );
 		}
 
@@ -1355,7 +1366,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		// If two orientations are not supported, to get the default.
-		if ( cbOrientation == null || !cbOrientation.isEnabled( ) )
+		if ( btnOrientation == null || !btnOrientation.isEnabled( ) )
 		{
 			this.orientation = null;
 		}
@@ -1563,10 +1574,10 @@ public class TaskSelectType extends SimpleTask implements
 				cbSeriesType.setEnabled( false );
 			}
 		}
-		if ( cbOrientation != null )
+		if ( btnOrientation != null )
 		{
 			lblOrientation.setEnabled( bOutXtab && lblOrientation.isEnabled( ) );
-			cbOrientation.setEnabled( bOutXtab && cbOrientation.isEnabled( ) );
+			btnOrientation.setEnabled( bOutXtab && btnOrientation.isEnabled( ) );
 		}
 	}
 

@@ -333,7 +333,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	}
 
 	/**
-	 * @return
+	 * @return instance of <code>Needle</code>.
 	 */
 	public static final Needle create( )
 	{
@@ -354,7 +354,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	}
 
 	/**
-	 * @return
+	 * @return instance of <code>Needle</code> without setting 'isSet' flag.
 	 */
 	public static final Needle createDefault( )
 	{

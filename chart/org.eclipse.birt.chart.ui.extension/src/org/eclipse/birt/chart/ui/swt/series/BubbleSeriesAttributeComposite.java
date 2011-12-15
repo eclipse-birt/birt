@@ -20,11 +20,13 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TristateCheckbox;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -64,13 +66,15 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 
 	private transient Series series = null;
 	
+	private BubbleSeries defSeries = DefaultValueProvider.defBubbleSeries( );
+	
 	private transient Label lblShadow = null;
 
 	ChartWizardContext context;
 
-	private TristateCheckbox btnPalette;
+	private AbstractChartCheckbox btnPalette;
 
-	private TristateCheckbox btnCurve;
+	private AbstractChartCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -136,7 +140,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getAccLineAttributes( ) );
 		GridData gdLIACAccLine = new GridData( GridData.FILL_BOTH );
 		gdLIACAccLine.horizontalSpan = 2;
 		liacAccLine.setLayoutData( gdLIACAccLine );
@@ -190,7 +195,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getLineAttributes( ) );
 		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLine.horizontalSpan = 2;
 		liacLine.setLayoutData( gdLIACLine );
@@ -229,21 +235,25 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		Composite cmp = new Composite( grpLine, SWT.NONE );
 		cmp.setLayout( new GridLayout( 1, false ) );
 
-		btnPalette = new TristateCheckbox( cmp, SWT.NONE );
+		btnPalette = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isPaletteLineColor( ) );
 		{
 			btnPalette.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelectionState( ( (BubbleSeries) series ).isSetPaletteLineColor( ) ? ( ( (BubbleSeries) series ).isPaletteLineColor( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnPalette.setSelectionState( ( (BubbleSeries) series ).isSetPaletteLineColor( ) ? ( ( (BubbleSeries) series ).isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addSelectionListener( this );
 		}
 
-		btnCurve = new TristateCheckbox( cmp, SWT.NONE );
+		btnCurve = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isCurve( ) );
 		{
 			btnCurve.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-			btnCurve.setSelectionState( ( (BubbleSeries) series ).isSetCurve( ) ? ( ( (BubbleSeries) series ).isCurve( ) ? TristateCheckbox.STATE_SELECTED
-					: TristateCheckbox.STATE_UNSELECTED )
-					: TristateCheckbox.STATE_GRAYED );
+			btnCurve.setSelectionState( ( (BubbleSeries) series ).isSetCurve( ) ? ( ( (BubbleSeries) series ).isCurve( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnCurve.addSelectionListener( this );
 		}
 
@@ -278,15 +288,15 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		{
 			ChartElementUtil.setEObjectAttribute( ( series ),
 					"curve", //$NON-NLS-1$
-					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnCurve.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
 			ChartElementUtil.setEObjectAttribute( ( series ),
 					"paletteLineColor", //$NON-NLS-1$
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_SELECTED,
-					btnPalette.getSelectionState( ) == TristateCheckbox.STATE_GRAYED );
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( cmbOrientation ) )
 		{
