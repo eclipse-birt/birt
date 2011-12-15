@@ -47,11 +47,12 @@ import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 
 
@@ -585,7 +586,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			
 			Map levelValueMap = new HashMap( );
 
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
+			DataSetIterator it = createDataSetIterator( appContext, cubeHandle.getDimension( target.getDimensionName( ) ), String.valueOf( cubeHandle.getElement( ).getID( )) );
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ), target.getAttrName( ) ,targetDataType);
@@ -630,7 +631,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 						this.sessionImpl );
 			Map levelValueMap = new HashMap( );
 
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
+			DataSetIterator it = createDataSetIterator( appContext, cubeHandle.getDimension( target.getDimensionName( ) ), String.valueOf( cubeHandle.getElement( ).getID( )) );
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ), target.getAttrName( ) ,targetDataType);
@@ -727,7 +728,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				}
 			}
 			DataSetIterator it = createDataSetIterator( appContext,
-					hierHandle,
+					cubeHandle.getDimension( target.getDimensionName( ) ),
 					String.valueOf( cubeHandle.getElement( ).getID( ) ) );
 
 			return new MemberValueIterator( it,
@@ -777,7 +778,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
+			DataSetIterator it = createDataSetIterator( appContext, cubeHandle.getDimension( target.getDimensionName( ) ), String.valueOf( cubeHandle.getElement( ).getID( )) );
 			
 			return new MemberValueIterator( it,
 					levelValueMap,
@@ -843,7 +844,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = createDataSetIterator( appContext, hierHandle, String.valueOf( cubeHandle.getElement( ).getID( )) );
+			DataSetIterator it = createDataSetIterator( appContext, cubeHandle.getDimension( target.getDimensionName( ) ), String.valueOf( cubeHandle.getElement( ).getID( )) );
 			
 			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ), target.getAttrName( ));
 		}
@@ -875,11 +876,16 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 * @throws BirtException
 	 */
 	private DataSetIterator createDataSetIterator( Map appContext,
-			TabularHierarchyHandle hierHandle, String cubeName ) throws AdapterException,
+			DimensionHandle dim, String cubeName ) throws AdapterException,
 			BirtException
 	{
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>( );
-		IQueryDefinition defn = sessionImpl.createQuery( sessionImpl, hierHandle, metaList, cubeName );
+		IQueryDefinition defn = sessionImpl.createDimensionQuery( sessionImpl,
+				dim,
+				(TabularHierarchyHandle) dim.getContent( TabularDimensionHandle.HIERARCHIES_PROP,
+						0 ),
+				metaList,
+				cubeName );
 		return new DataSetIterator( this.sessionImpl, defn, metaList, appContext );
 		
 	}

@@ -1121,26 +1121,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 					columnForDeepestLevel = level.getColumnName( );
 				}
 				metaList = new ArrayList<ColumnMeta>();
-				query = createDimensionQuery( this,
+				query = createDimensionQuery( this, dim,
 						hier,
 						metaList,
 						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
-				//if it is a time dimension
-				if ( CubeHandleUtil.isTimeDimension( dim ) )
-				{
-					FilterDefinition filter = null;
-					if( ( dim instanceof TabularDimensionHandle ) &&((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
-					{
-						filter = buildFilterForTimeDimension( ((TabularDimensionHandle) dim ).getSharedDimension( ),
-								hier );
-					}
-					else
-					{
-						filter = buildFilterForTimeDimension( dim, hier );
-					}
-					if ( filter != null )
-						query.addFilter( filter );
-				}
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
 				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
@@ -2428,7 +2412,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 */
 	QueryDefinition createDimensionQuery(
-			DataRequestSessionImpl session, TabularHierarchyHandle hierHandle,
+			DataRequestSessionImpl session, DimensionHandle dim, TabularHierarchyHandle hierHandle,
 			List metaList, String cubeName ) throws BirtException
 	{
 		assert metaList!= null;
@@ -2442,6 +2426,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 				hierHandle, metaList, null, null, false );
 
 		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
+		
+		//if it is a time dimension
+		if ( CubeHandleUtil.isTimeDimension( dim ) )
+		{
+			FilterDefinition filter = null;
+			if( ( dim instanceof TabularDimensionHandle ) &&((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
+			{
+				filter = buildFilterForTimeDimension( ((TabularDimensionHandle) dim ).getSharedDimension( ),
+						hierHandle );
+			}
+			else
+			{
+				filter = buildFilterForTimeDimension( dim, hierHandle );
+			}
+			if ( filter != null )
+				query.addFilter( filter );
+		}
 		return query;
 	}
 	@Override
