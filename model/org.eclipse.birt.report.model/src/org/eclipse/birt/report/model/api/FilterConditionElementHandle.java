@@ -497,4 +497,28 @@ public class FilterConditionElementHandle extends ContentElementHandle
 
 		setProperty( FilterCondition.TYPE_MEMBER, type );
 	}
+	
+	/**
+	 * Checks if this filter condition needs to update aggregation.
+	 * 
+	 * @return the flag to indicate updating aggregation or not.
+	 */
+	public boolean updateAggregation( )
+	{
+		return getBooleanProperty( UPDATE_AGGREGATION_PROP );
+	}
+
+	/**
+	 * Sets the updateAggregation flag of the filter condition.
+	 * 
+	 * @param updateAggregation
+	 *            the updateAggregation flag to set
+	 * @throws SemanticException
+	 */
+
+	public void setUpdateAggregation( boolean updateAggregation )
+			throws SemanticException
+	{
+		setBooleanProperty( UPDATE_AGGREGATION_PROP, updateAggregation );
+	}
 }

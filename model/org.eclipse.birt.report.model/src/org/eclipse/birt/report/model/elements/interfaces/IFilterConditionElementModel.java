@@ -80,6 +80,13 @@ public interface IFilterConditionElementModel
 	 */
 
 	String PUSH_DOWN_PROP = "pushDown"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that indicates if the current filter condition need
+	 * to update aggregation.
+	 */
+
+	String UPDATE_AGGREGATION_PROP = "updateAggregation"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that indicates the name of the dynamic filter

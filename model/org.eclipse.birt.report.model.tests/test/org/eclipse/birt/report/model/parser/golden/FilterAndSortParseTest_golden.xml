@@ -39,6 +39,7 @@
                     <property name="pushDown">false</property>
                     <property name="dynamicFilterParameter">new DynamicFilterParam</property>
                     <property name="type">simple</property>
+                    <property name="updateAggregation">false</property>
                     <property name="member">
                         <member-value>
                             <property name="value">new value_1</property>
@@ -109,6 +110,7 @@
                     <property name="pushDown">false</property>
                     <property name="dynamicFilterParameter">new DynamicFilterParam</property>
                     <property name="type">simple</property>
+                    <property name="updateAggregation">false</property>
                 </structure>
                 <structure>
                     <property name="operator">gt</property>

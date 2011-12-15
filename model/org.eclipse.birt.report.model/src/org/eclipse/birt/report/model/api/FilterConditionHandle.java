@@ -642,4 +642,33 @@ public class FilterConditionHandle extends StructureHandle
 	{
 		setExpressionProperty( FilterCondition.VALUE2_MEMBER, value2Expr );
 	}
+	
+	/**
+	 * Checks if this filter condition needs to update aggregation.
+	 * 
+	 * @return the flag to indicate updating aggregation or not.
+	 */
+	public boolean updateAggregation( )
+	{
+		Boolean updateAggregation = (Boolean) getProperty( FilterCondition.UPDATE_AGGREGATION_MEMBER );
+		if ( updateAggregation == null )
+			return false;
+		return updateAggregation.booleanValue( );
+	}
+
+	/**
+	 * Sets the updateAggregation flag of the filter condition.
+	 * 
+	 * @param updateAggregation
+	 *            the updateAggregation flag to set
+	 * @throws SemanticException
+	 */
+
+	public void setUpdateAggregation( boolean updateAggregation )
+			throws SemanticException
+	{
+		setProperty( FilterCondition.UPDATE_AGGREGATION_MEMBER,
+				Boolean.valueOf( updateAggregation ) );
+	}
+
 }
