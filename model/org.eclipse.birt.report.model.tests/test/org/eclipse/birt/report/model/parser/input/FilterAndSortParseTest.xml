@@ -56,8 +56,7 @@
                     <property name="extensionExprId">ext id</property>
                     <property name="pushDown">true</property>
                     <property name="dynamicFilterParameter">DynamicFilterParam</property> 
-                    <property name="type">slicer</property>
-                    <property name="updateAggregation">true</property>                   
+                    <property name="type">slicer</property>                   
     			</filter-condition-element>
     			<filter-condition-element>
     				<property name="operator">lt</property>
@@ -98,7 +97,6 @@
                     <property name="pushDown">true</property>
                     <property name="dynamicFilterParameter">DynamicFilterParam</property>
                     <property name="type">slicer</property>
-                    <property name="updateAggregation">true</property>
                 </structure>
                 <structure>
                     <property name="operator">gt</property>

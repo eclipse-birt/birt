@@ -77,7 +77,6 @@ public class FilterAndSortParseTest extends BaseTestCase
 		assertEquals( "DynamicFilterParam", filter.getDynamicFilterParameter( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FILTER_CONDITION_TYPE_SLICER,
 				filter.getType( ) );
-		assertTrue( filter.updateAggregation( ) );
 
 		// test member value in filter
 		MemberValueHandle memberValue = filter.getMember( );
@@ -138,7 +137,6 @@ public class FilterAndSortParseTest extends BaseTestCase
 				"DynamicFilterParam", filterHandle.getDynamicFilterParameter( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FILTER_CONDITION_TYPE_SLICER,
 				filterHandle.getType( ) );
-		assertTrue( filterHandle.updateAggregation( ) );
 
 	}
 
@@ -171,7 +169,6 @@ public class FilterAndSortParseTest extends BaseTestCase
 		filter.setDynamicFilterParameter( valuePrefix
 				+ filter.getDynamicFilterParameter( ) );
 		filter.setType( DesignChoiceConstants.FILTER_CONDITION_TYPE_SIMPLE );
-		filter.setUpdateAggregation( false );
 
 		// test member value in filter
 		MemberValueHandle memberValue = filter.getMember( );
@@ -220,13 +217,13 @@ public class FilterAndSortParseTest extends BaseTestCase
 				+ filterHandle.getDynamicFilterParameter( ) );
 		filterHandle
 				.setType( DesignChoiceConstants.FILTER_CONDITION_TYPE_SIMPLE );
-		filterHandle.setUpdateAggregation( false );
+
 		filterHandle = iter1.next( );
 		List<Expression> tmpList = new ArrayList<Expression>( );
 		tmpList.add( new Expression( "constant1", ExpressionType.CONSTANT ) ); //$NON-NLS-1$
 		filterHandle.setValue1( tmpList );
 		filterHandle.setValue2( new Expression( "constant2", ExpressionType.CONSTANT ) ); //$NON-NLS-1$ )
-		
+
 		save( );
 		assertTrue( compareFile( "FilterAndSortParseTest_golden.xml" ) ); //$NON-NLS-1$
 

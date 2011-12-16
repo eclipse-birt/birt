@@ -1384,10 +1384,7 @@
     	<Default>false</Default>
     </Member>
     <Member displayNameID="Structure.FilterCondition.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>
-    <Member detailType="filterConditionType" displayNameID="Structure.FilterCondition.type" name="type" runtimeSettable="false" since="2.6" type="choice"/>
-    <Member displayNameID="Structure.FilterCondition.updateAggregation" name="updateAggregation" runtimeSettable="false" since="3.7" type="boolean">
-    	<Default>false</Default>
-    </Member>
+    <Member detailType="filterConditionType" displayNameID="Structure.FilterCondition.type" name="type" runtimeSettable="false" since="2.6" type="choice"/>    
   </Structure>
   <Structure displayNameID="Structure.HideRule" name="HideRule" since="1.0">
     <Member detailType="formatType" displayNameID="Structure.HideRule.format" isIntrinsic="true" name="format" since="1.0" type="string">
@@ -3798,9 +3795,6 @@
     </Property>
     <Property displayNameID="Element.FilterConditionElement.dynamicFilterParameter" name="dynamicFilterParameter" runtimeSettable="false" since="2.5" type="string"/>
     <Property detailType="filterConditionType" displayNameID="Element.FilterConditionElement.type" name="type" runtimeSettable="false" since="2.6" type="choice"/>  
-    <Property displayNameID="Element.FilterConditionElement.updateAggregation" name="updateAggregation" runtimeSettable="false" since="3.7" type="boolean">
-    	<Default>false</Default>
-    </Property>
     <Property detailType="UserProperty" displayNameID="Element.DesignElement.userProperties" isList="true" name="userProperties" runtimeSettable="false" since="reserved" type="structure"/>
     <PropertyVisibility name="userProperties" visibility="hide"/>
   </Element>    	

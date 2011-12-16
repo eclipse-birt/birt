@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -139,11 +138,6 @@ public class FilterCondition extends PropertyStructure
 	 * @see DesignChoiceConstants#CHOICE_FILTER_CONDITION_TYPE
 	 */
 	public static final String TYPE_MEMBER = "type"; //$NON-NLS-1$
-	
-	/**
-	 * Name of the member that indicates if the current filter condition need to update aggregation.
-	 */
-	public static final String UPDATE_AGGREGATION_MEMBER = "updateAggregation";
 
 	/*
 	 * (non-Javadoc)
@@ -714,34 +708,6 @@ public class FilterCondition extends PropertyStructure
 	public void setValue2 ( Expression value )
 	{
 		setExpressionProperty( VALUE2_MEMBER, value );
-	}
-	
-	/**
-	 * Checks if this filter condition needs to update aggregation.
-	 * 
-	 * @return the flag to indicate updating aggregation or not.
-	 */
-	public boolean updateAggregation( )
-	{
-		Boolean updateAggregation = (Boolean) getProperty( null,
-				UPDATE_AGGREGATION_MEMBER );
-		if ( updateAggregation == null )
-			return false;
-		return updateAggregation.booleanValue( );
-	}
-
-	/**
-	 * Sets the updateAggregation flag of the filter condition.
-	 * 
-	 * @param updateAggregation
-	 *            the updateAggregation flag to set
-	 * @throws SemanticException
-	 */
-
-	public void setUpdateAggregation( boolean updateAggregation )
-	{
-		setProperty( FilterCondition.UPDATE_AGGREGATION_MEMBER,
-				Boolean.valueOf( updateAggregation ) );
 	}
 
 }
