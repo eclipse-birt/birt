@@ -67,7 +67,7 @@ public class ResourceConstants
 	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
 	public final static String FAIL_PREPARE_EXECUTION = "data.engine.fail.prepareExecution";
 	public final static String GROUPUPDATE_ILLEGAL_GROUP_ORDER_STATE = "data.engine.groupIncrementalUpdate.IllegalGroupOrderState";
-	
+
 	public final static String MATCH_ERROR = "data.engine.MatchError";
 
 	public final static String SCIRPT_FUNCTION_EXECUTION_FAIL = "data.engine.FailToExecuteScript";
@@ -416,7 +416,7 @@ public class ResourceConstants
 	public final static String RESULT_LENGTH_EXCEED_LIMIT="data.olap.ExceedIntegerLimit";
 	public final static String RESULT_LENGTH_EXCEED_COLUMN_LIMIT="data.olap.ExceedColumnLimit";
 	public final static String RESULT_LENGTH_EXCEED_ROW_LIMIT="data.olap.ExceedRowLimit";
-
+	
 	//derived dataSet
 	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
 	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";
