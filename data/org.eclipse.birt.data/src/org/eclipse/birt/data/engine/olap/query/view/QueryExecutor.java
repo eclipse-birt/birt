@@ -419,7 +419,6 @@ public class QueryExecutor
 			this.members = members;
 		}
 		
-		@Override
 		public int compareTo( Members other )
 		{
 			for (int i = 0; i < members.length; i++)
