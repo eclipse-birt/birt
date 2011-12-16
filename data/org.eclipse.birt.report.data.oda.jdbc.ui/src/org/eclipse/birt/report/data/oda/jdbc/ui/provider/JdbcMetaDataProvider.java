@@ -37,6 +37,7 @@ public class JdbcMetaDataProvider
 	private String url;
 	private String driverClass;
 	private String password;
+	private Properties props;
 	private Connection connection;
 	private boolean connect_fail = false;
 	
@@ -44,12 +45,13 @@ public class JdbcMetaDataProvider
 	
 	private static JdbcMetaDataProvider instance = null;
 	
-	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password )
+	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password, Properties props )
 	{
 		this.driverClass = driverClass;
 		this.url = url;
 		this.userName = userName;
 		this.password = password;
+		this.props = props;
 	}
 	
 	public static void createInstance( DataSetDesign dataSetDesign )
@@ -78,8 +80,8 @@ public class JdbcMetaDataProvider
 			password = BidiTransform.transform(password, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
 			url = BidiTransform.transformURL(url, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
 		}
-		
-		instance = new JdbcMetaDataProvider( driverClass, url, userName, password);
+		props.put( Constants.ODAResourceIdentiers, dataSetDesign.getDataSourceDesign( ).getHostResourceIdentifiers( ) );
+		instance = new JdbcMetaDataProvider( driverClass, url, userName, password, props );
 	}
 	
 	public static void release( )
@@ -101,7 +103,8 @@ public class JdbcMetaDataProvider
 			connection = DriverLoader.getConnection( driverClass,
 					url,
 					userName,
-					password );
+					password,
+					props );
 		}
 		catch ( SQLException sqlException )
 		{

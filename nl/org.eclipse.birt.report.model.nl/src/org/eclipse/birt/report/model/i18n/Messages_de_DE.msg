@@ -730,6 +730,11 @@ Choices.filterConditionType.simple=Einfach
 Choices.flyoutPosition.left=Nach-links
 Choices.flyoutPosition.right=Rechts
 
+#94 referenceDateType
+Choices.referenceDateType.today=Today
+Choices.referenceDateType.fixedDate=Fixed Date
+Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+
 ###########################################################
 # Classes
 
@@ -3286,6 +3291,7 @@ Element.Measure.ACLExpression=Ausdruck 'ACL'
 Element.Measure.action=Aktion
 Element.Measure.format=Format
 Element.Measure.alignment=Ausrichtung
+Element.Measure.isVisible=Is visible
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten

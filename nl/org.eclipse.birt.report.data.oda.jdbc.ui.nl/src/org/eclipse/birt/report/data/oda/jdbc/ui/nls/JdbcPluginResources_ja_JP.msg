@@ -127,3 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=タイムアウト制限
 designer.preview.preference.resultset.maxrow.description=表示するロウの最大数(&R) :
 designer.preview.preference.resultset.maxrow.errormessage=最大ロウ数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
+tablepage.label.filter.tooltip=% を使用して任意の長さ (0 文字を含む) の任意の文字列と一致させることができます。\n _ を使用して 1 つの文字と一致させることができます。

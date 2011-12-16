@@ -413,6 +413,7 @@ data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur 
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
 data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.
 data.olap.MissingDimensionInCube=Der Quader muss mindestens eine Dimension enthalten: '{0}'
+data.olap.ExceedIntegerLimit= Die Länge des Ergebnissatzes überschreitet Integer.MAX.
 data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
 data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
 

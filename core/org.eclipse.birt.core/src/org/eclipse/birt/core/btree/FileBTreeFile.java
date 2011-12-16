@@ -83,7 +83,7 @@ public class FileBTreeFile implements BTreeFile, Closeable
 		{
 			writeSize = BLOCK_SIZE;
 		}
-		file.seek( blockId * BLOCK_SIZE );
+		file.seek( (long) blockId * BLOCK_SIZE );
 		file.write( bytes, 0, writeSize );
 		if ( blockId >= totalBlock )
 		{

@@ -117,6 +117,7 @@
                             <property name="dataType">boolean</property>
                             <expression name="ACLExpression" type="constant">new ACL expression</expression>
                             <property name="alignment">center</property>
+                            <property name="isVisible">true</property>
                             <list-property name="action">
 	           					<structure/>
 	           				</list-property>

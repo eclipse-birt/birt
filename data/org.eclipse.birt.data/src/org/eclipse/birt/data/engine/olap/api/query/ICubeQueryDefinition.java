@@ -110,6 +110,18 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 			IBaseExpression expr ) throws DataException;
 	
 	/**
+	 * Create a calculated measure which is dynamically created during the population
+	 * of CubeCursor.
+	 * 
+	 * @param measureName
+	 * @param expr
+	 * @return
+	 * @throws DataException 
+	 */
+	public IDerivedMeasureDefinition createDerivedMeasure( String measureName, int type,
+			IBaseExpression expr ) throws DataException;
+	
+	/**
 	 * Return the list of measures defined.
 	 * 
 	 * @return
@@ -121,6 +133,12 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	 * @return
 	 */
 	public List getComputedMeasures( );
+	
+	/**
+	 * Return the list of calculated measure defined.
+	 * @return
+	 */
+	public List getDerivedMeasures( );
 	
 	/**
 	 * Get the specific EdgeDefn, for each type of Edge there is only one Edge

@@ -293,4 +293,26 @@ public abstract class MeasureHandle extends ReportElementHandle
 	{
 		setStringProperty( ALIGNMENT_PROP, alignment );
 	}
+
+	/**
+	 * Gets the status whether the measure element is visible or not. By
+	 * default, it is true.
+	 * 
+	 * @return
+	 */
+	public boolean isVisible( )
+	{
+		return getBooleanProperty( IS_VISIBLE_PROP );
+	}
+
+	/**
+	 * Sets the status whether the measure element is visible or not.
+	 * 
+	 * @param isVisible
+	 * @throws SemanticException
+	 */
+	public void setVisible( boolean isVisible ) throws SemanticException
+	{
+		setBooleanProperty( IS_VISIBLE_PROP, isVisible );
+	}
 }

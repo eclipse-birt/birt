@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -483,6 +484,67 @@ public class DataAdapterUtil
 			modelDataType = DesignChoiceConstants.PARAM_TYPE_JAVA_OBJECT;
 		return modelDataType;
 	}
+	
+	/**
+	 * get dte's TimePeriodType enum.
+	 * @param type
+	 * @return
+	 */
+	public static TimePeriodType toTimePeriodType( String type )
+	{
+		if ( type.equals( TimePeriodType.YEAR.toString( ) ) )
+		{
+			return TimePeriodType.YEAR;
+		}
+		else if ( type.equals( TimePeriodType.QUARTER.toString( ) ) )
+		{
+			return TimePeriodType.QUARTER;
+		}
+		else if ( type.equals( TimePeriodType.MONTH.toString( ) ) )
+		{
+			return TimePeriodType.MONTH;
+		}
+		else if ( type.equals( TimePeriodType.WEEK.toString( ) ) )
+		{
+			return TimePeriodType.WEEK;
+		}
+		else if ( type.equals( TimePeriodType.DAY.toString( ) ) )
+		{
+			return TimePeriodType.DAY;
+		}
+		return null;
+	}
+
+	/**
+	 * to model's time type
+	 * @param type
+	 * @return
+	 */
+	public static String toModelTimeType( TimePeriodType type )
+	{
+		if ( TimePeriodType.YEAR.equals( type ) )
+		{
+			return DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR;
+		}
+		else if ( TimePeriodType.QUARTER.equals( type ) )
+		{
+			return DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER;
+		}
+		else if ( TimePeriodType.MONTH.equals( type ) )
+		{
+			return DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH;
+		}
+		else if ( TimePeriodType.WEEK.equals( type ) )
+		{
+			return DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR;
+		}
+		else if ( TimePeriodType.DAY.equals( type ) )
+		{
+			return DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR;
+		}
+		return null;
+	}
+
 	
 	/**
 	 * 

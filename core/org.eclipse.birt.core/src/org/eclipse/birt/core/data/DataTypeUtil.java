@@ -316,6 +316,13 @@ public final class DataTypeUtil
 			// Float, Long, Short, Integer
 			// An intermediate conversion using String is preferrable per JavaDoc
 			// comment in BigDecimal(String) constructor
+			if ( source instanceof Double
+					&& ( ( (Double) source ).isInfinite( ) || ( (Double) source ).isNaN( ) ) )
+				return null;
+			else if ( source instanceof Float
+					&& ( ( (Float) source ).isInfinite( ) || ( (Float) source ).isNaN( ) ) )
+				return null;
+			
 			String str = ( (Number) source ).toString( );
 			try
 			{
@@ -397,7 +404,7 @@ public final class DataTypeUtil
 	public static Boolean toBoolean( Object source ) throws BirtException
 	{
 		if ( source == null )
-			return Boolean.FALSE;
+			return null;
 
 		if ( source instanceof Boolean )
 		{

@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -40,6 +41,7 @@ public class Binding implements IBinding
 	private String displayName;
 	private int dataType;
 	private boolean exportable;
+	private ITimeFunction timeFunction;
 	
 	public Binding( String name )
 	{
@@ -270,5 +272,23 @@ public class Binding implements IBinding
 	public void setExportable( boolean exportable ) throws DataException
 	{
 		this.exportable = exportable;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBinding#setTimeFunction(org.eclipse.birt.data.engine.api.timefunction.ITimeFunction)
+	 */
+	public void setTimeFunction( ITimeFunction timeFunction ) 
+	{
+		this.timeFunction = timeFunction;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBinding#getTimeFunction()
+	 */
+	public ITimeFunction getTimeFunction( )
+	{
+		return this.timeFunction;
 	}
 }

@@ -398,7 +398,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			{
 				// Break if sub cursor reaches end
 				boolean hasNext = false;
-				while ( hasNext = subEdgeCursor.next( ) )
+				while ( hasNext = hasNext( subEdgeCursor ) )
 				{
 					if ( fSubPositionNodes.positionIsChanged( ) )
 					{
@@ -419,7 +419,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 				fSubPositionNodes.updatePosition( );
 
 				hasNext = false;
-				while ( hasNext = mainEdgeCursor.next( ) )
+				while ( hasNext = hasNext( mainEdgeCursor ) )
 				{
 					if ( fMainPositionNodes.positionIsChanged( ) )
 					{
@@ -436,7 +436,7 @@ public class SharedCubeResultSetEvaluator extends BIRTCubeResultSetEvaluator
 			else
 			{
 				boolean hasNext = false;
-				while ( hasNext = mainEdgeCursor.next( ) )
+				while ( hasNext = hasNext( mainEdgeCursor ) )
 				{
 					// if ( fColPosition != fMainCursor.getPosition( ) )
 					// {

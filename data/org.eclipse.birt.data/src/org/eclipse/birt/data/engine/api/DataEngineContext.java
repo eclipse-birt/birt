@@ -155,6 +155,8 @@ public class DataEngineContext
 	@Deprecated
 	public final static int ROW_SECURITY_STREAM_INDEX = 115;
 	
+	public final static int EMPTY_NESTED_QUERY_ID = 116;
+	
 	public final static String QUERY_STARTING_ID = "/dataEngine/queryStartingID";
 	
 	public final static int PROGRESSIVE_VIEWING_GROUP_STREAM = 120;
@@ -689,6 +691,9 @@ public class DataEngineContext
 				break;
 			case PROGRESSIVE_VIEWING_GROUP_STREAM:
 				relativePath = "ProgressiveViewingGroupInfo";
+				break;
+			case EMPTY_NESTED_QUERY_ID:
+				relativePath = "EmptyNestQueryResultIDs";
 				break;
 			default :
 				assert false; // impossible

@@ -143,7 +143,7 @@ public class CubeExpressionProvider extends ExpressionProvider
 	 * @param handle
 	 * @return
 	 */
-	private List getOutputList( DataSetHandle handle )
+	protected List getOutputList( DataSetHandle handle )
 	{
 		List outputList = new ArrayList( );
 		PropertyHandle parameters = handle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );

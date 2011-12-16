@@ -687,6 +687,7 @@ public class CubeGroupContent extends Composite implements Listener
 									{
 										MeasureDialog dialog = new MeasureDialog( false );
 										dialog.setInput( measure );
+										dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 										if ( dialog.open( ) == Window.CANCEL )
 										{
 											SessionHandleAdapter.getInstance( )
@@ -792,6 +793,7 @@ public class CubeGroupContent extends Composite implements Listener
 									{
 										MeasureDialog dialog = new MeasureDialog( false );
 										dialog.setInput( measure );
+										dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 										if ( dialog.open( ) == Window.CANCEL )
 										{
 											SessionHandleAdapter.getInstance( )
@@ -865,6 +867,7 @@ public class CubeGroupContent extends Composite implements Listener
 									{
 										MeasureDialog dialog = new MeasureDialog( false );
 										dialog.setInput( measure );
+										dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 										if ( dialog.open( ) == Window.CANCEL )
 										{
 											SessionHandleAdapter.getInstance( )
@@ -1681,6 +1684,7 @@ public class CubeGroupContent extends Composite implements Listener
 								measure );
 						MeasureDialog dialog = new MeasureDialog( true );
 						dialog.setInput( measure );
+						dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 						if ( dialog.open( ) == Window.CANCEL )
 						{
 							stack.rollback( );
@@ -1709,6 +1713,7 @@ public class CubeGroupContent extends Composite implements Listener
 								.add( IMeasureGroupModel.MEASURES_PROP, measure );
 						MeasureDialog dialog = new MeasureDialog( true );
 						dialog.setInput( measure );
+						dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 						if ( dialog.open( ) == Window.CANCEL )
 						{
 							stack.rollback( );
@@ -2185,6 +2190,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								MeasureDialog dialog = new MeasureDialog( false );
 								dialog.setInput( measure );
+								dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 								if ( dialog.open( ) == Window.CANCEL )
 								{
 									stack.rollback( );
@@ -2239,6 +2245,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								MeasureDialog dialog = new MeasureDialog( false );
 								dialog.setInput( measure );
+								dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 								if ( dialog.open( ) == Window.CANCEL )
 								{
 									stack.rollback( );
@@ -2463,6 +2470,7 @@ public class CubeGroupContent extends Composite implements Listener
 				stack.startTrans( "" ); //$NON-NLS-1$
 				MeasureDialog dialog = new MeasureDialog( false );
 				dialog.setInput( level );
+				dialog.setAutoPrimaryKeyStatus( input.autoPrimaryKey( ) );
 				if ( dialog.open( ) == Window.OK )
 				{
 					stack.commit( );

@@ -422,9 +422,10 @@ public abstract class AbstractEmitterImpl
 		}
 		increaseTOCLevel( list );
 
-		if ( context.isLastTable( ) )
+		if ( context.isAfterTable( ) )
 		{
-			wordWriter.insertEmptyParagraph( );
+			wordWriter.insertHiddenParagraph( );
+			context.setIsAfterTable( false );
 		}
 
 		int width = WordUtil.convertTo( list.getWidth( ), context
@@ -580,9 +581,10 @@ public abstract class AbstractEmitterImpl
 			wordWriter.writeCaption( caption );
 		}
 
-		if ( context.isLastTable( ) )
+		if ( context.isAfterTable( ) )
 		{
-			wordWriter.insertEmptyParagraph( );
+			wordWriter.insertHiddenParagraph( );
+			context.setIsAfterTable( false );
 		}
 
 
@@ -674,7 +676,7 @@ public abstract class AbstractEmitterImpl
 
 		context.addContainer( true );
 		wordWriter.endTable( );
-		context.setLastIsTable( true );
+		context.setIsAfterTable( true );
 		decreaseTOCLevel( list );
 	}
 
@@ -836,7 +838,7 @@ public abstract class AbstractEmitterImpl
 		}
 
 		wordWriter.endTable( );
-		context.setLastIsTable( true );
+		context.setIsAfterTable( true );
 		context.removeTable( );
 	}
 

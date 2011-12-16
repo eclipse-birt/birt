@@ -127,7 +127,7 @@ public class BlockRandomAccessObject implements IRandomAccessObject
 		int blockIndex = (int)(position / FileDocumentManager.BLOCK_SIZE);
 		int posInBlock = (int)(position % FileDocumentManager.BLOCK_SIZE);
 		
-		int dataFilePosition = ( (Integer) blockList.get( blockIndex ) ).intValue( )
+		long dataFilePosition = (long)(( (Integer) blockList.get( blockIndex ) ).intValue( ))
 				* FileDocumentManager.BLOCK_SIZE + posInBlock;
 		dataFile.seek( dataFilePosition );
 	}

@@ -453,42 +453,42 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.excel.config"
+         id="org.eclipse.birt.report.engine.emitter.config.excel"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.html.config"
+         id="org.eclipse.birt.report.engine.emitter.config.html"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.pdf.config"
+         id="org.eclipse.birt.report.engine.emitter.config.pdf"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.postscript.config"
+         id="org.eclipse.birt.report.engine.emitter.config.postscript"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.ppt.config"
+         id="org.eclipse.birt.report.engine.emitter.config.ppt"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.wpml.config"
+         id="org.eclipse.birt.report.engine.emitter.config.wpml"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -509,21 +509,21 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.odp.config"
+         id="org.eclipse.birt.report.engine.emitter.config.odp"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.ods.config"
+         id="org.eclipse.birt.report.engine.emitter.config.ods"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.engine.emitter.odt.config"
+         id="org.eclipse.birt.report.engine.emitter.config.odt"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 
 /**
  * This is a class used to describe a measure that need to be calculated during 
@@ -26,12 +27,13 @@ public abstract class CubeAggrDefn
 	private List aggrLevels, arguments;
 	private String aggrName;
 	private IBaseExpression filterExpression;
+	private ITimeFunction timeFunction;
 
 	/*
 	 * 
 	 */
 	CubeAggrDefn( String name, List aggrLevels,
-			String aggrName, List arguments, IBaseExpression filterExpression )
+			String aggrName, ITimeFunction timeFunction, List arguments, IBaseExpression filterExpression )
 	{
 		assert name != null;
 		assert aggrLevels != null;
@@ -41,6 +43,7 @@ public abstract class CubeAggrDefn
 		this.aggrName = aggrName;
 		this.arguments = arguments;
 		this.filterExpression = filterExpression;
+		this.timeFunction = timeFunction;
 	}
 	
 
@@ -112,4 +115,13 @@ public abstract class CubeAggrDefn
 	 * @return the target measure of IDataSet4Aggregation where this aggregation operates
 	 */
 	public abstract String getMeasure( );
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ITimeFunction getTimeFunction( )
+	{
+		return this.timeFunction;
+	}
 }

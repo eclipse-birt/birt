@@ -16,8 +16,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
@@ -143,8 +145,8 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		catch ( PropertyValueException e )
 		{
 			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e
-							.getErrorCode( ) );
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
+					e.getErrorCode( ) );
 		}
 
 	}
@@ -157,7 +159,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 
 	public void testSkipComputedColumnValidation( ) throws Exception
 	{
-		openDesign( "ReportItemHandle_ComputedColumn.xml" );//$NON-NLS-1$
+		openDesign( "ComputedColumnHandleTest.xml" );//$NON-NLS-1$
 		ScalarParameterHandle paramHandle = (ScalarParameterHandle) designHandle
 				.findParameter( "MyParam1" );//$NON-NLS-1$
 
@@ -182,7 +184,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		assertEquals( "count 2", columnHandle3.getAggregateFunction( ) );//$NON-NLS-1$
 
 		save( );
-		assertTrue( compareFile( "ReportItemHandle_ComputedColumn_golden.xml" ) );//$NON-NLS-1$
+		assertTrue( compareFile( "ComputedColumnHandleTest_golden.xml" ) );//$NON-NLS-1$
 	}
 
 	/**
@@ -192,7 +194,7 @@ public class ComputedColumnHandleTest extends BaseTestCase
 	 */
 	public void testDataTypeInComputedColumn( ) throws Exception
 	{
-		openDesign( "DataTypeInComputedColumnTest.xml" ); //$NON-NLS-1$
+		openDesign( "ComputedColumnHandleTest_1.xml" ); //$NON-NLS-1$
 
 		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "Data Set" ); //$NON-NLS-1$
@@ -238,6 +240,70 @@ public class ComputedColumnHandleTest extends BaseTestCase
 		computedColumn = (ComputedColumn) columns.get( 1 );
 		assertNull( computedColumn.getDataType( ) );
 
+	}
+
+	/**
+	 * Tests the new feature of TimePeriod. TED 41378.
+	 * 
+	 * @throws Exception
+	 */
+	public void testTimePeriod( ) throws Exception
+	{
+		openDesign( "ComputedColumnHandleTest_2.xml" ); //$NON-NLS-1$
+
+		ScalarParameterHandle paramHandle = (ScalarParameterHandle) designHandle
+				.findParameter( "MyParam1" ); //$NON-NLS-1$
+		Iterator iter = paramHandle.columnBindingsIterator( );
+
+		// test getters
+		ComputedColumnHandle columnHandle = (ComputedColumnHandle) iter.next( );
+		assertEquals( "next_n", columnHandle.getCalculationType( ) ); //$NON-NLS-1$
+		Iterator argumentIter = columnHandle.calculationArgumentsIterator( );
+		CalculationArgumentHandle argumentHandle = (CalculationArgumentHandle) argumentIter
+				.next( );
+		assertEquals( "calculation_argument_1", argumentHandle.getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"calculation_argument_1_value", argumentHandle.getValue( ).getStringValue( ) ); //$NON-NLS-1$
+		argumentHandle = (CalculationArgumentHandle) argumentIter.next( );
+		assertEquals( "calculation_argument_2", argumentHandle.getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"calculation_argument_2_value", argumentHandle.getValue( ).getStringValue( ) ); //$NON-NLS-1$
+
+		assertEquals( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY,
+				columnHandle.getReferenceDateType( ) );
+		assertEquals(
+				"12", columnHandle.getReferenceDateValue( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals(
+				"time dimension expression", columnHandle.getTimeDimension( ) ); //$NON-NLS-1$
+
+		// test writers, case 1: set in existing column
+		columnHandle
+				.removeCalculationArgument( (CalculationArgument) argumentHandle
+						.getStructure( ) );
+		columnHandle = (ComputedColumnHandle) iter.next( );
+		CalculationArgument struct = StructureFactory
+				.createCalculationArgument( );
+		struct.setName( "new_argument" ); //$NON-NLS-1$
+		struct.setValue( new Expression(
+				"new_argument_value", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		columnHandle.addCalculationArgument( struct );
+		columnHandle.setCalculationType( "current_year" ); //$NON-NLS-1$
+		columnHandle
+				.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION );
+
+		// case 2: create column and then set time period members
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		column.setName( "newColumn" ); //$NON-NLS-1$
+		column.setCalculationType( "current_month" ); //$NON-NLS-1$
+		column.addCalculationArgument( struct );
+		column.setReferenceDateType( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE );
+		column.setReferenceDateValue( new Expression(
+				"newly reference date", IExpressionType.CONSTANT ) ); //$NON-NLS-1$
+		column.setTimeDimension( "newly time dimension"); //$NON-NLS-1$
+		paramHandle.addColumnBinding( column, false );
+
+		save( );		
+		assertTrue( compareFile( "ComputedColumnHandleTest_golden_1.xml" ) );//$NON-NLS-1$
 	}
 
 }

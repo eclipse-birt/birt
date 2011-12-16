@@ -1,0 +1,146 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
+
+import java.util.List;
+
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+
+public class CubeMeasureExpressionProvider extends CubeExpressionProvider
+{
+	private TabularMeasureHandle handle = null;
+	private DataSetHandle dataSetHandle = null;
+	private ExpressionFilter filter = null;
+	
+	private boolean isDerivedMeasure;
+	
+	public boolean isDerivedMeasure()
+	{
+		return isDerivedMeasure;
+	}
+
+	public void setDerivedMeasure(boolean isDerivedMeasure)
+	{
+		this.isDerivedMeasure = isDerivedMeasure;
+		
+		this.clearFilters();
+		this.addFilterToProvider(handle);
+	}
+
+	public CubeMeasureExpressionProvider(TabularMeasureHandle handle, boolean isDerivedMeasure)
+	{
+		super(handle);
+		this.isDerivedMeasure = isDerivedMeasure;
+		this.handle = handle;
+		this.clearFilters();
+
+		if(isDerivedMeasure)
+		{
+			dataSetHandle = null;
+		}
+		else
+		{
+			Object parent = ( (TabularMeasureHandle) handle ).getContainer( ).getContainer( );
+			if ( parent instanceof TabularCubeHandle )
+			{
+				dataSetHandle = ( (TabularCubeHandle) parent ).getDataSet( );
+			}
+		}
+		
+		addFilterToProvider( handle );
+	}
+	
+	protected void addFilterToProvider( final DesignElementHandle handle )
+	{
+		filter = new ExpressionFilter( ) {
+
+			public boolean select( Object parentElement, Object element )
+			{
+				if(isDerivedMeasure) // filters DATA_SET
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.DATASETS.equals( element ) )
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+					{
+						return false;
+					}
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.MEASURE.equals( element ) )
+					{
+						return false;
+					}
+				}
+				
+				return true;
+			}
+		};
+		
+		this.addFilter( filter );
+	}
+
+	protected List getCategoryList( )
+	{
+		List categoryList = super.getCategoryList( );
+
+		if(isDerivedMeasure)
+		{
+			categoryList.add(CURRENT_CUBE);
+		}
+		return categoryList;
+	}
+	
+	public Object[] getChildren( Object parent )
+	{
+		Object[] children = super.getChildren(parent);
+		
+		if ( CURRENT_CUBE.equals( parent ) )
+		{
+			ExpressionFilter ft = new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					// Derived measure expression can only use measure of cube.
+					if ( CURRENT_CUBE.equals( parentElement ) && element instanceof PropertyHandle)
+					{
+						if ( ((PropertyHandle)element).getPropertyDefn( )
+								.getName( )
+								.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+						{
+							return true;
+						}
+						return false;
+					}
+					return true;
+				}
+			};
+			
+			children = ft.filter( parent, children );
+		}
+		
+		return children;
+	}
+	
+}

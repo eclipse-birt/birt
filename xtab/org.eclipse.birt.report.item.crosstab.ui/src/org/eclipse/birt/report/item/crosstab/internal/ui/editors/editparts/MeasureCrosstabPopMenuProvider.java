@@ -19,6 +19,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddRelativeTimePeriodAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -74,7 +75,12 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 
 		buildShowMenu( menu, element );
 
-		IAction action = new AddComputedMeasureAction( element );
+		IAction action = new AddRelativeTimePeriodAction( element );
+		//if (action.isEnabled( ))
+		{
+			menu.add( action );
+		}
+		action = new AddComputedMeasureAction( element );
 		menu.add( action );
 
 		action = new AddMeasureViewHandleAction( element );
@@ -92,7 +98,8 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
 		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		if ( measureViewHandle == null
-				|| ( measureViewHandle instanceof ComputedMeasureViewHandle ) )
+				|| measureViewHandle instanceof ComputedMeasureViewHandle
+				|| (measureViewHandle.getCubeMeasure() != null && measureViewHandle.getCubeMeasure().isCalculated()))
 		{
 			return;
 		}

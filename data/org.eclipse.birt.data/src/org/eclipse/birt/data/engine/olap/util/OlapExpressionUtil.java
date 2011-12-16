@@ -310,6 +310,34 @@ public class OlapExpressionUtil
 		return result;
 
 	}
+	
+	/**
+	 * This method is to get the dimension name with expression patter like dimension["name"]
+	 * reference expression.
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public static String getDimensionName( String expr ) throws DataException
+	{
+		if ( expr == null || expr.trim( ).length( ) == 0 )
+			return null;
+		try
+		{
+			List<String> result = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expr ),
+					"dimension" );
+			if ( result != null && result.size( ) == 1 )
+			{
+				return result.get( 0 );
+			}
+			return null;
+		}
+		catch ( DataException e )
+		{
+			logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			return null;
+		}
+	}
 
 	/**
 	 *
@@ -547,6 +575,7 @@ public class OlapExpressionUtil
 									: ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
+							binding.getTimeFunction( ),
 							convertToDimLevelAttribute( binding.getArguments( ),
 									bindings ),
 							binding.getFilter( ) ) );
