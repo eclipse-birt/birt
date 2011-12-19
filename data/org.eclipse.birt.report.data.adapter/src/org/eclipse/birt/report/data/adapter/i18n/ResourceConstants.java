@@ -108,6 +108,12 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
 	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
 	
+	public final static String TIMEFUNCITON_PERIODCHOICE_YEAR_DISPLAYNAME = "timeFunction.PERIODCHOICE.YEAR_displayName";
+	public final static String TIMEFUNCITON_PERIODCHOICE_QUARTER_DISPLAYNAME = "timeFunction.PERIODCHOICE.QUARTER_displayName";
+	public final static String TIMEFUNCITON_PERIODCHOICE_MONTH_DISPLAYNAME = "timeFunction.PERIODCHOICE.MONTH_displayName";
+	public final static String TIMEFUNCITON_PERIODCHOICE_WEEK_DISPLAYNAME = "timeFunction.PERIODCHOICE.WEEK_displayName";
+	public final static String TIMEFUNCITON_PERIODCHOICE_DAY_DISPLAYNAME = "timeFunction.PERIODCHOICE.DAY_displayName";	
+
 	//toolTip
 	public final static String TIMEFUNCTION_TOOLTIP_TO = "timeFunction.toolTip.to";
 }

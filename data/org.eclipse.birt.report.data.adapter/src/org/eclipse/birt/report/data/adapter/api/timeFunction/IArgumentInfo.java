@@ -12,6 +12,11 @@ package org.eclipse.birt.report.data.adapter.api.timeFunction;
 
 import java.util.List;
 
+import org.eclipse.birt.report.data.adapter.i18n.Message;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+
+import com.ibm.icu.util.ULocale;
+
 public interface IArgumentInfo 
 {
 	/**
@@ -22,12 +27,6 @@ public interface IArgumentInfo
 	public static final String N_PERIOD1 = "N for Period1";
 	public static final String N_PERIOD2 = "N for Period2";
 	
-	/**
-	 * Period choice for period argument
-	 *
-	 */
-	public enum Period_Type { YEAR, QUARTER, MONTH, WEEK, DAY };
-
 	/**
 	 * Get argument name for time function
 	 * @return
@@ -57,4 +56,56 @@ public interface IArgumentInfo
 	 * @return
 	 */
 	public String getDescription( );
+	
+	public class Period_Type 
+	{
+		public enum Period_Type_ENUM { YEAR, QUARTER, MONTH, WEEK, DAY };
+
+		private Period_Type_ENUM type;
+		private ULocale locale;
+		
+		public Period_Type( Period_Type_ENUM type, ULocale locale )
+		{
+			this.type = type;
+			this.locale = locale;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public String name( )
+		{
+			return this.type.name();
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public String displayName( )
+		{
+			if( this.type.equals( Period_Type_ENUM.YEAR ) )
+			{
+				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_YEAR_DISPLAYNAME, locale );
+			}
+			if( this.type.equals( Period_Type_ENUM.QUARTER ) )
+			{
+				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_QUARTER_DISPLAYNAME , locale );	
+			}
+			if( this.type.equals( Period_Type_ENUM.MONTH ) )
+			{
+				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_MONTH_DISPLAYNAME, locale );			
+			}
+			if( this.type.equals( Period_Type_ENUM.WEEK ) )
+			{
+				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_WEEK_DISPLAYNAME, locale );			
+			}
+			if( this.type.equals( Period_Type_ENUM.DAY ) )
+			{
+				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_DAY_DISPLAYNAME , locale );
+			}		
+			return this.type.name();
+		}
+	}
 }
