@@ -731,9 +731,9 @@ Choices.flyoutPosition.left=左
 Choices.flyoutPosition.right=右
 
 #94 referenceDateType
-Choices.referenceDateType.today=Today
-Choices.referenceDateType.fixedDate=Fixed Date
-Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+Choices.referenceDateType.today=今日
+Choices.referenceDateType.fixedDate=固定された日付
+Choices.referenceDateType.endingDateInDimension=ディメンション内の終了日付
 
 ###########################################################
 # Classes
@@ -1912,6 +1912,7 @@ Structure.ScriptLib=スクリプトライブラリ
 Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
 Structure.DimensionJoinCondition=ディメンジョンのジョイン条件
 Structure.FormatValue =書式の値
+Structure.CalculationArgument=Calculation Argument
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
@@ -2042,6 +2043,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn 関数
 Structure.ComputedColumn.arguments=AggregateOn 関数の引数
 Structure.ComputedColumn.filterExpr=フィルタ式
 Structure.ComputedColumn.allowExport=エクスポートを許可する
+Structure.ComputedColumn.calculationType=Calculation Type
+Structure.ComputedColumn.calculationArguments=Calculation Arguments
+Structure.ComputedColumn.refDateType=Reference Date Type
+Structure.ComputedColumn.refDateValue=Reference Date Value
+Structure.ComputedColumn.timeDimension=Time Dimension
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2304,6 +2310,11 @@ Structure.TimeInterval.unit=単位
 Structure.FormatValue.category=カテゴリ
 Structure.FormatValue.pattern=パターン
 Structure.FormatValue.locale=ロケール
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=Calculation Argument Name
+Structure.CalculationArgument.value=Calculation Argument Value
+
 
 ###########################################################
 # Element names
@@ -3291,7 +3302,7 @@ Element.Measure.ACLExpression=ACL 式
 Element.Measure.action=アクション
 Element.Measure.format=書式
 Element.Measure.alignment=配置
-Element.Measure.isVisible=Is visible
+Element.Measure.isVisible=表示する
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー
