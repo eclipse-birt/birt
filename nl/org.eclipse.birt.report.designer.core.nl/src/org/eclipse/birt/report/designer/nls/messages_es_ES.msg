@@ -2003,7 +2003,7 @@ HighlightsPage.trans.MoveDown=Mover regla de resaltado hacia abajo
 HighlightsPage.trans.MoveUp=Mover regla de resaltado hacia arriba
 HighlightsPage.toolTipText.MoveDown=Mover regla de resaltado hacia abajo
 HighlightsPage.toolTipText.MoveUp=Mover regla de resaltado hacia arriba
-HighlightsPage.label.duplicate=Duplicate
+HighlightsPage.label.duplicate=Dupli&cado
 HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
 HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
 
@@ -2499,7 +2499,7 @@ MapPage.transName.moveDownRule=Mover hacia abajo la regla de asignación
 MapPage.transName.moveUpMapRule=Mover hacia arriba la regla de asignación
 MapPage.toolTipText.moveUp=Mover regla de asignación hacia arriba
 MapPage.toolTipText.moveDown=Mover regla de asignación hacia abajo
-MapPage.label.duplicate=Duplicate
+MapPage.label.duplicate=Dupli&cado
 MapPage.toolTipText.duplicate=Duplicate Map Rule
 MapPage.transName.Duplicate=Duplicate Map Rule
 

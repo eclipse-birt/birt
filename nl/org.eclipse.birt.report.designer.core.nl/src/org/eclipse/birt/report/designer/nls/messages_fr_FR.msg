@@ -2003,7 +2003,7 @@ HighlightsPage.trans.MoveDown=Déplacer la règle de surbrillance vers le bas
 HighlightsPage.trans.MoveUp=Déplacer la règle de surbrillance vers le haut
 HighlightsPage.toolTipText.MoveDown=Déplacer la règle de surbrillance vers le bas
 HighlightsPage.toolTipText.MoveUp=Déplacer la règle de surbrillance vers le haut
-HighlightsPage.label.duplicate=Duplicate
+HighlightsPage.label.duplicate=Dupli&quer
 HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
 HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
 
@@ -2499,7 +2499,7 @@ MapPage.transName.moveDownRule=Déplacer la règle de mappage vers le bas
 MapPage.transName.moveUpMapRule=Déplacer la règle de mappage vers le haut
 MapPage.toolTipText.moveUp=Déplacer la règle de mappage vers le haut
 MapPage.toolTipText.moveDown=Déplacer la règle de mappage vers le bas
-MapPage.label.duplicate=Duplicate
+MapPage.label.duplicate=Dupli&quer
 MapPage.toolTipText.duplicate=Duplicate Map Rule
 MapPage.transName.Duplicate=Duplicate Map Rule
 

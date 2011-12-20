@@ -2003,7 +2003,7 @@ HighlightsPage.trans.MoveDown=下移突出显示规则
 HighlightsPage.trans.MoveUp=上移突出显示规则
 HighlightsPage.toolTipText.MoveDown=突出显示规则下移
 HighlightsPage.toolTipText.MoveUp=突出显示规则上移
-HighlightsPage.label.duplicate=Duplicate
+HighlightsPage.label.duplicate=复制(&C)
 HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
 HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
 
@@ -2499,7 +2499,7 @@ MapPage.transName.moveDownRule=下移映射规则
 MapPage.transName.moveUpMapRule=上移映射规则
 MapPage.toolTipText.moveUp=映射规则上移
 MapPage.toolTipText.moveDown=映射规则下移
-MapPage.label.duplicate=Duplicate
+MapPage.label.duplicate=复制(&C)
 MapPage.toolTipText.duplicate=Duplicate Map Rule
 MapPage.transName.Duplicate=Duplicate Map Rule
 
