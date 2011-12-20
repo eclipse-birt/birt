@@ -1009,8 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=²åÈëÎÄ±¾¿é£¨´¿ÎÄ±¾/HTML£©ºÍ¿ÉÑ¡Ç¶È
 DesignerPaletteFactory.quicktool.title=¿ìËÙ¹¤¾ß
 DesignerPaletteFactory.quicktool.agg.title=¾ÛºÏ
 DesignerPaletteFactory.quicktool.agg.toolTip=²åÈë¾ÛºÏÏî
-DesignerPaletteFactory.quicktool.timeperiod.title=Ïà¶ÔÊ±¼äÖÜÆÚ
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.title=Ê±¼äÖÜÆÚ
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=²åÈëÊ±¼äÖÜÆÚÏî
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -4473,7 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=ÊÇ
 DataColumnBindingDialog.NewBindingDialogButtonNo=·ñ
 DataColumnBindingDialog.NewBindingDialogButtonCancel=È¡Ïû
 DataColumnBindingDialog.NewBindingDialogTitle=´´½¨ĞÂµÄÊı¾İ°ó¶¨?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
+DataColumnBindingDialog.title.TimePeriodBuild=Ê±¼äÖÜÆÚÉú³ÉÆ÷
 DataColumBindingDialog.stackMsg.resetReference=ÖØÖÃÒıÓÃ
 
 ###########################################################
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=ÁĞ°ó¶¨
 BindingDialogHelper.bindingName.aggregation=¾ÛºÏ
 BindingDialogHelper.error.nameduplicate=ÃûÎª {0} µÄÁĞ°ó¶¨ÒÑ´æÔÚ¡£
 BindingDialogHelper.error.improperexpression=¶àÎ¬Êı¾İ¼¯¶ÈÁ¿¾ÛºÏ²»ÄÜÎª´ËÀàĞÍ:¡°{0}¡±¡£
+BindingDialogHelper.error.empty={0} ÊÇ±ØĞèµÄ¡£
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=µ±Ç°º¯ÊıµÄ½¨ÒéÊı¾İÀàĞÍÎª¡°{0}¡±£¬ÊÇ·ñÒª±£ÁôÄúÑ¡ÔñµÄÊı¾İÀàĞÍ?
 BindingDialogHelper.warning.parameter=²ÎÊı¡°{1}¡±²»Ö§³Ö±í´ïÊ½¡°{0}¡±µÄ·µ»ØÊı¾İÀàĞÍ£¬ÊÇ·ñÒª±£Áô?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=¹ÜÀíËõÂÔÍ¼
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=È«²¿
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
-CrosstabBindingDialogHelper.calculation.labe=¼ÆËãÀàĞÍ(&L):
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
-CrosstabBindingDialogHelper.referencedate.label=²Î¿¼ÈÕÆÚ(&R):
-CrosstabBindingDialogHelper.thisdate.label=This date:
-CrosstabBindingDialogHelper.timedimension.label=Ê±¼äÎ¬(&M):
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.bindngName.timeperiod=ÖÜÆÚ
+CrosstabBindingDialogHelper.calculation.labe=¼ÆËãÀàĞÍ
+CrosstabBindingDialogHelper.recentday.description=Ê±¼äÎ¬ÖĞµÄ×î½üÈÕÆÚ
+CrosstabBindingDialogHelper.referencedate.label=²Î¿¼ÈÕÆÚ:
+CrosstabBindingDialogHelper.thisdate.label=´ËÈÕÆÚ:
+CrosstabBindingDialogHelper.timedimension.label=Ê±¼äÎ¬
+CrosstabBindingDialogHelper.timeperiod.wrongdate=´ËÎ¬²»Ö§³Ö×î½ü²Î¿¼ÈÕÆÚ 
+CrosstabBindingDialogHelper.today.label=½ñÌì
 
 AddEditCascadingParameterDialog.label.name=Ãû³Æ(&N):
 AddEditCascadingParameterDialog.label.dataset=Êı¾İ¼¯(&D):

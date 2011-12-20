@@ -1009,8 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=Insertar un bloque de texto (texto
 DesignerPaletteFactory.quicktool.title=Herramientas rápidas
 DesignerPaletteFactory.quicktool.agg.title=Agregación
 DesignerPaletteFactory.quicktool.agg.toolTip=Insertar elemento de agregación
-DesignerPaletteFactory.quicktool.timeperiod.title=Período de tiempo relativo
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insertar elemento TimePeriod
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -4473,7 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Sí
 DataColumnBindingDialog.NewBindingDialogButtonNo=No
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Cancelar
 DataColumnBindingDialog.NewBindingDialogTitle=¿Desea crear un nuevo enlace de datos?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
+DataColumnBindingDialog.title.TimePeriodBuild=Compilador de TimePeriod
 DataColumBindingDialog.stackMsg.resetReference=Restablecer referencia
 
 ###########################################################
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
 BindingDialogHelper.error.improperexpression=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
+BindingDialogHelper.error.empty=Se requiere {0}.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
 BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Todos
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
-CrosstabBindingDialogHelper.calculation.labe=Tipo de cá&lculo:
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
-CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
-CrosstabBindingDialogHelper.thisdate.label=This date:
-CrosstabBindingDialogHelper.timedimension.label=Di&mensión de tiempo:
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.bindngName.timeperiod=Período
+CrosstabBindingDialogHelper.calculation.labe=Tipo de cálculo
+CrosstabBindingDialogHelper.recentday.description=Fecha más reciente en Dimensión de tiempo
+CrosstabBindingDialogHelper.referencedate.label=Fecha de referencia:
+CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
+CrosstabBindingDialogHelper.timedimension.label=Dimensión de tiempo
+CrosstabBindingDialogHelper.timeperiod.wrongdate=Esta dimensión no es compatible con la fecha de referencia reciente 
+CrosstabBindingDialogHelper.today.label=Hoy
 
 AddEditCascadingParameterDialog.label.name=&Nombre:
 AddEditCascadingParameterDialog.label.dataset=&Conjunto de datos:

@@ -1009,8 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 �
 DesignerPaletteFactory.quicktool.title=빠른 도구
 DesignerPaletteFactory.quicktool.agg.title=집계
 DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
-DesignerPaletteFactory.quicktool.timeperiod.title=상대 시간
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod 항목 입력
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -4473,7 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=예
 DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
 DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
 DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니까?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
+DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod 빌더
 DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
 BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
+BindingDialogHelper.error.empty={0}이(가) 필요합니다.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
-CrosstabBindingDialogHelper.calculation.labe=계산 형식(&L):
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
-CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
-CrosstabBindingDialogHelper.thisdate.label=This date:
-CrosstabBindingDialogHelper.timedimension.label=시간 차원(&M):
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.bindngName.timeperiod=기간
+CrosstabBindingDialogHelper.calculation.labe=계산 형식
+CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
+CrosstabBindingDialogHelper.referencedate.label=참조 날짜:
+CrosstabBindingDialogHelper.thisdate.label=금일:
+CrosstabBindingDialogHelper.timedimension.label=시간 차원
+CrosstabBindingDialogHelper.timeperiod.wrongdate=이 차원은 최근 참조 날짜를 지원하지 않습니다. 
+CrosstabBindingDialogHelper.today.label=오늘
 
 AddEditCascadingParameterDialog.label.name=이름(&N):
 AddEditCascadingParameterDialog.label.dataset=데이터 집합(&D):

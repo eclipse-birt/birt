@@ -1009,8 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=Fügen Sie einen Textblock (einfach
 DesignerPaletteFactory.quicktool.title=Schnellbearbeitungswerkzeuge
 DesignerPaletteFactory.quicktool.agg.title=Aggregat
 DesignerPaletteFactory.quicktool.agg.toolTip=Aggregatelement einfügen
-DesignerPaletteFactory.quicktool.timeperiod.title=Relatives Zeitintervall
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod-Element einfügen
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
 BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
+BindingDialogHelper.error.empty={0} ist erforderlich.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
-CrosstabBindingDialogHelper.calculation.labe=&Berechnungstyp:
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
-CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
-CrosstabBindingDialogHelper.thisdate.label=This date:
-CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
+CrosstabBindingDialogHelper.calculation.labe=Berechnungtyp
+CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
+CrosstabBindingDialogHelper.referencedate.label=Bezugdatum:
+CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
+CrosstabBindingDialogHelper.timedimension.label=Zeitliche Dimension
+CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
+CrosstabBindingDialogHelper.today.label=Heute
 
 AddEditCascadingParameterDialog.label.name=&Name:
 AddEditCascadingParameterDialog.label.dataset=&Datensatz:
