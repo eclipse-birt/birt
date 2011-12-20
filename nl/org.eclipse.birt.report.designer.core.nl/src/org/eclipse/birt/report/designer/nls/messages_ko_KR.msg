@@ -2004,8 +2004,8 @@ HighlightsPage.trans.MoveUp=강조 규칙 위로 이동
 HighlightsPage.toolTipText.MoveDown=강조 규칙 아래로 이동
 HighlightsPage.toolTipText.MoveUp=강조 규칙 위로 이동
 HighlightsPage.label.duplicate=중복(&C)
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.toolTipText.duplicate=강조 규칙 중복
+HighlightsPage.trans.Duplicate=강조 규칙 중복
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2500,8 +2500,8 @@ MapPage.transName.moveUpMapRule=맵 규칙 위로 이동
 MapPage.toolTipText.moveUp=맵 규칙 위로 이동
 MapPage.toolTipText.moveDown=맵 규칙 아래로 이동
 MapPage.label.duplicate=중복(&C)
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.toolTipText.duplicate=맵 규칙 중복
+MapPage.transName.Duplicate=맵 규칙 중복
 
 ###########################################################
 #MapPreferencePage properties

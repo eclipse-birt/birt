@@ -2004,8 +2004,8 @@ HighlightsPage.trans.MoveUp=Mover regla de resaltado hacia arriba
 HighlightsPage.toolTipText.MoveDown=Mover regla de resaltado hacia abajo
 HighlightsPage.toolTipText.MoveUp=Mover regla de resaltado hacia arriba
 HighlightsPage.label.duplicate=Dupli&cado
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.toolTipText.duplicate=Regla de resaltado de duplicado
+HighlightsPage.trans.Duplicate=Regla de resaltado de duplicado
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2500,8 +2500,8 @@ MapPage.transName.moveUpMapRule=Mover hacia arriba la regla de asignación
 MapPage.toolTipText.moveUp=Mover regla de asignación hacia arriba
 MapPage.toolTipText.moveDown=Mover regla de asignación hacia abajo
 MapPage.label.duplicate=Dupli&cado
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.toolTipText.duplicate=Regla de asignación de duplicado
+MapPage.transName.Duplicate=Regla de asignación de duplicado
 
 ###########################################################
 #MapPreferencePage properties

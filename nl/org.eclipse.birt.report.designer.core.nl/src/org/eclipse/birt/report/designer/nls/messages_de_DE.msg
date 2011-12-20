@@ -2004,8 +2004,8 @@ HighlightsPage.trans.MoveUp=Kennzeichnungsregel nach oben verschieben
 HighlightsPage.toolTipText.MoveDown=Kennzeichnungsregel nach unten verschieben
 HighlightsPage.toolTipText.MoveUp=Kennzeichnungsregel nach oben verschieben
 HighlightsPage.label.duplicate=Dupli&kate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.toolTipText.duplicate=Doppelte Kennzeichnungsregel
+HighlightsPage.trans.Duplicate=Doppelte Kennzeichnungsregel
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2500,8 +2500,8 @@ MapPage.transName.moveUpMapRule=Zuordnungsregel nach oben verschieben
 MapPage.toolTipText.moveUp=Zuordnungsregel nach oben verschieben
 MapPage.toolTipText.moveDown=Zuordnungsregel nach unten verschieben
 MapPage.label.duplicate=Dupli&kate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.toolTipText.duplicate=Doppelte Zuordnungsregel
+MapPage.transName.Duplicate=Doppelte Zuordnungsregel
 
 ###########################################################
 #MapPreferencePage properties
