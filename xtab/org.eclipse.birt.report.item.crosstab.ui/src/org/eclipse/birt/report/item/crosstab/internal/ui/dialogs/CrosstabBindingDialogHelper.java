@@ -403,7 +403,23 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 		dateText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createExpressionButton( dateSelecionContainer, dateText );
+		
+		if ( expressionProvider == null )
+		{
+			if ( isAggregate( ) )
+				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
+						this.binding );
+			else
+				expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder,
+						this.binding );
+		}
+		
+		ExpressionButton button = ExpressionButtonUtil.createExpressionButton( dateSelecionContainer,
+				dateText,
+				expressionProvider,
+				this.bindingHolder, true, SWT.PUSH );
+		dateText.setData( ExpressionButtonUtil.EXPR_TYPE,  ExpressionType.CONSTANT );
+		button.refresh( );
 
 		recentButton = new Button( radioContainer, SWT.RADIO );
 		recentButton.addSelectionListener( new SelectionAdapter( ) {
@@ -991,8 +1007,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				dateSelectionButton.setSelection( true );
 				ExpressionHandle value = getBinding( ).getReferenceDateValue( );
-				ExpressionButtonUtil.initExpressionButtonControl( dateText,
-						value );
+				
+				dateText.setText( value == null || value.getExpression( ) == null ? "" : (String) value.getExpression( ) ); //$NON-NLS-1$
+				dateText.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
+						|| value.getType( ) == null ? ExpressionType.CONSTANT
+						: (String) value.getType( ) );
+				ExpressionButton button = (ExpressionButton) dateText.getData( ExpressionButtonUtil.EXPR_BUTTON );
+				if ( button != null )
+					button.refresh( );
 			}
 			else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION.equals( type ) )
 			{
