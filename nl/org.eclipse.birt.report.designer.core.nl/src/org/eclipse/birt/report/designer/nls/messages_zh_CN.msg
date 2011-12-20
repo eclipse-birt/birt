@@ -1009,7 +1009,7 @@ DesignerPaletteFactory.toolTip.textReportItem=²åÈëÎÄ±¾¿é£¨´¿ÎÄ±¾/HTML£©ºÍ¿ÉÑ¡Ç¶È
 DesignerPaletteFactory.quicktool.title=¿ìËÙ¹¤¾ß
 DesignerPaletteFactory.quicktool.agg.title=¾ÛºÏ
 DesignerPaletteFactory.quicktool.agg.toolTip=²åÈë¾ÛºÏÏî
-DesignerPaletteFactory.quicktool.timeperiod.title=Ê±¼äÖÜÆÚ
+DesignerPaletteFactory.quicktool.timeperiod.title=Ïà¶ÔÊ±¼äÖÜÆÚ
 DesignerPaletteFactory.quicktool.timeperiod.toolTip=²åÈëÊ±¼äÖÜÆÚÏî
 
 ###########################################################
@@ -4635,11 +4635,11 @@ ReportPage.PreviewImage.Button.ToolTip=¹ÜÀíËõÂÔÍ¼
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=È«²¿
 CrosstabBindingDialogHelper.bindngName.timeperiod=ÖÜÆÚ
-CrosstabBindingDialogHelper.calculation.labe=¼ÆËãÀàĞÍ
+CrosstabBindingDialogHelper.calculation.labe=¼ÆËãÀàĞÍ(&L):
 CrosstabBindingDialogHelper.recentday.description=Ê±¼äÎ¬ÖĞµÄ×î½üÈÕÆÚ
-CrosstabBindingDialogHelper.referencedate.label=²Î¿¼ÈÕÆÚ:
+CrosstabBindingDialogHelper.referencedate.label=²Î¿¼ÈÕÆÚ(&R):
 CrosstabBindingDialogHelper.thisdate.label=´ËÈÕÆÚ:
-CrosstabBindingDialogHelper.timedimension.label=Ê±¼äÎ¬
+CrosstabBindingDialogHelper.timedimension.label=Ê±¼äÎ¬(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=´ËÎ¬²»Ö§³Ö×î½ü²Î¿¼ÈÕÆÚ 
 CrosstabBindingDialogHelper.today.label=½ñÌì
 

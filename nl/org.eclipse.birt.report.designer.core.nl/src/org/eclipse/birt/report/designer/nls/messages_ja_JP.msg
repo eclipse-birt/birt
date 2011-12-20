@@ -1009,7 +1009,7 @@ DesignerPaletteFactory.toolTip.textReportItem=オプションでインライン式を含むテキ
 DesignerPaletteFactory.quicktool.title=クイックツール
 DesignerPaletteFactory.quicktool.agg.title=集計
 DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
-DesignerPaletteFactory.quicktool.timeperiod.title=TimePeriod
+DesignerPaletteFactory.quicktool.timeperiod.title=相対期間
 DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod 項目の挿入
 
 ###########################################################
@@ -4635,11 +4635,11 @@ ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=すべて
 CrosstabBindingDialogHelper.bindngName.timeperiod=期間
-CrosstabBindingDialogHelper.calculation.labe=計算の種類
+CrosstabBindingDialogHelper.calculation.labe=計算の種類(&L) :
 CrosstabBindingDialogHelper.recentday.description=時間のディメンション内の最新の日付
-CrosstabBindingDialogHelper.referencedate.label=参照日 :
+CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
-CrosstabBindingDialogHelper.timedimension.label=時間のディメンジョン
+CrosstabBindingDialogHelper.timedimension.label=時間のディメンション(&M) :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=このディメンションは最近の参照日をサポートしていません 
 CrosstabBindingDialogHelper.today.label=今日
 
