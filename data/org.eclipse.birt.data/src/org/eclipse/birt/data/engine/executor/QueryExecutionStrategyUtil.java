@@ -111,6 +111,11 @@ public final class QueryExecutionStrategyUtil
 		}
 
 		boolean hasAggregation = false;
+		boolean hasGroup = false;
+		if( query.getGroups()!=null && query.getGroups().size()>0)
+		{
+			hasGroup = true;
+		}
 		
 		if ( query.getBindings( ) != null )
 		{
@@ -209,6 +214,6 @@ public final class QueryExecutionStrategyUtil
 			}
 		}
 
-		return hasAggregation?Strategy.SimpleLookingFoward:Strategy.SimpleNoLookingFoward;
+		return (hasAggregation||hasGroup)?Strategy.SimpleLookingFoward:Strategy.SimpleNoLookingFoward;
 	}
 }
