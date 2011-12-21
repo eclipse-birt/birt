@@ -413,8 +413,8 @@ data.olap.query.noCubeBinding=由于没有可用的多维数据集绑定，无法执行多维数据集查
 data.olap.FailLoadCube=加载多维数据集失败:“{0}”。
 data.olap.MissingDimensionInCube=多维数据集中必须至少有一个维: {0}
 data.olap.ExceedIntegerLimit= 结果集长度超过 Integer.MAX。
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedColumnLimit= 列边缘上的结果集长度超过大小限制 {0}。
+data.olap.ExceedRowLimit= 行边缘上的结果集长度超过大小限制 {0}。
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code
