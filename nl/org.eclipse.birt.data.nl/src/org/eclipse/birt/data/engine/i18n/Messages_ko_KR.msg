@@ -412,9 +412,9 @@ data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합�
 data.olap.query.noCubeBinding=사용 가능한 큐브 바인딩이 없어 큐브 쿼리를 실행하지 못했습니다!
 data.olap.FailLoadCube=큐브 "{0}"을(를) 로드하지 못했습니다.
 data.olap.MissingDimensionInCube=큐브에 하나 이상의 차원이 있어야 합니다: "{0}".
-data.olap.ExceedIntegerLimit= The result set length exceeds Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedIntegerLimit= 결과 집합 길이가 Integer.MAX 값을 초과했습니다.
+data.olap.ExceedColumnLimit= 열 가장자리 결과 집합 길이가 크기 제한({0})을 초과했습니다.
+data.olap.ExceedRowLimit= 행 가장자리 결과 집합 길이가 크기 제한({0})을 초과했습니다.
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

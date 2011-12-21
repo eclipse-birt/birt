@@ -40,4 +40,74 @@ public class ResourceConstants
 	public final static String CUBE_MISS_DATASET_ERROR = "cube.error.datasetmiss";
 	public final static String CUBE_JOINT_COLUMN_NOT_IN_LEVELS = "cube.jointColumnNotInLevels";
 	public final static String UNSUPPORTED_AGGR_IN_BINDING = "cube.unsupportedAggregationInBinding";
+	public final static String CUBE_QUERY_MISS_DIMENSION = "cube.query.error.dimensionMiss";
+	public final static String CUBE_QUERY_MISS_LEVEL = "cube.query.error.levelMiss";
+	public final static String MISS_TIME_TYPE_LEVEL = "cube.edge.error.levelMiss";
+	
+	public final static String TIMEFUNCITON_CURRENT_QUARTER= "timeFunction.CURRENT_QUARTER.name"; 
+	public final static String TIMEFUNCITON_CURRENT_QUARTER_DES = "timeFunction.CURRENT_QUARTER.description";
+	public final static String TIMEFUNCITON_CURRENT_MONTH = "timeFunction.CURRENT_MONTH.name";
+	public final static String TIMEFUNCITON_CURRENT_MONTH_DES = "timeFunction.CURRENT_MONTH.description";
+	public final static String TIMEFUNCITON_PREVIOUS_MONTH = "timeFunction.PREVIOUS_MONTH.name";
+	public final static String TIMEFUNCITON_PREVIOUS_MONTH_DES = "timeFunction.PREVIOUS_MONTH.description";
+	public final static String TIMEFUNCITON_PREVIOUS_WEEK_TO_DATE = "timeFunction.PREVIOUS_WEEK_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_PREVIOUS_WEEK_TO_DATE_DES = "timeFunction.PREVIOUS_WEEK_TO_DATE.description";
+	public final static String TIMEFUNCITON_PREVIOUS_MONTH_TO_DATE = "timeFunction.PREVIOUS_MONTH_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_PREVIOUS_MONTH_TO_DATE_DES = "timeFunction.PREVIOUS_MONTH_TO_DATE.description";
+	public final static String TIMEFUNCITON_PREVIOUS_QUARTER = "timeFunction.PREVIOUS_QUARTER.name";
+	public final static String TIMEFUNCITON_PREVIOUS_QUARTER_DES = "timeFunction.PREVIOUS_QUARTER.description";
+	public final static String TIMEFUNCITON_PREVIOUS_QUARTER_TO_DATE = "timeFunction.PREVIOUS_QUARTER_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_PREVIOUS_QUARTER_TO_DATE_DES = "timeFunction.PREVIOUS_QUARTER_TO_DATE.description";
+	public final static String TIMEFUNCITON_PREVIOUS_YEAR = "timeFunction.PREVIOUS_PREVIOUS_YEAR.name"; 
+	public final static String TIMEFUNCITON_PREVIOUS_YEAR_DES = "timeFunction.PREVIOUS_PREVIOUS_YEAR.description";
+	public final static String TIMEFUNCITON_TRAILING_30_DAYS ="timeFunction.TRAILING_30_DAYS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_30_DAYS_DES ="timeFunction.TRAILING_30_DAYS.description";
+	public final static String TIMEFUNCITON_TRAILING_60_DAYS ="timeFunction.TRAILING_60_DAYS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_60_DAYS_DES = "timeFunction.TRAILING_60_DAYS.description";
+	public final static String TIMEFUNCITON_TRAILING_90_DAYS = "timeFunction.TRAILING_90_DAYS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_120_DAYS = "timeFunction.TRAILING_120_DAYS.name";
+	public final static String TIMEFUNCITON_TRAILING_90_DAYS_DES ="timeFunction.TRAILING_90_DAYS.description";
+	public final static String TIMEFUNCITON_TRAILING_120_DAYS_DES ="timeFunction.TRAILING_120_DAYS.description";
+	public final static String TIMEFUNCITON_TRAILING_12_MONTHS = "timeFunction.TRAILING_12_MONTHS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_12_MONTHS_DES ="timeFunction.TRAILING_12_MONTHS.description";
+	public final static String TIMEFUNCITON_YEAR_TO_DATE = "timeFunction.YEAR_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_YEAR_TO_DATE_DES = "timeFunction.YEAR_TO_DATE.description";
+	public final static String TIMEFUNCITON_QUARTER_TO_DATE = "timeFunction.QUARTER_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_QUARTER_TO_DATE_DES = "timeFunction.QUARTER_TO_DATE.description";
+	public final static String TIMEFUNCITON_MONTH_TO_DATE = "timeFunction.MONTH_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_MONTH_TO_DATE_DES = "timeFunction.MONTH_TO_DATE.description";
+	public final static String TIMEFUNCITON_PREVIOUS_YEAR_TO_DATE = "timeFunction.PREVIOUS_YEAR_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_PREVIOUS_YEAR_TO_DATE_DES ="timeFunction.PREVIOUS_YEAR_TO_DATE.description";
+	public final static String TIMEFUNCITON_WEEK_TO_DATE_LAST_YEAR = "timeFunction.WEEK_TO_DATE_LAST_YEAR.name";
+	public final static String TIMEFUNCITON_WEEK_TO_DATE_LAST_YEAR_DES = "timeFunction.WEEK_TO_DATE_LAST_YEAR.description";
+	public final static String TIMEFUNCITON_MONTH_TO_DATE_LAST_YEAR = "timeFunction.MONTH_TO_DATE_LAST_YEAR.name"; 
+	public final static String TIMEFUNCITON_MONTH_TO_DATE_LAST_YEAR_DES = "timeFunction.MONTH_TO_DATE_LAST_YEAR.description";
+	public final static String TIMEFUNCITON_QUARTER_TO_DATE_LAST_YEAR = "timeFunction.QUARTER_TO_DATE_LAST_YEAR.name"; 
+	public final static String TIMEFUNCITON_QUARTER_TO_DATE_LAST_YEAR_DES = "timeFunction.QUARTER_TO_DATE_LAST_YEAR.description";
+	public final static String TIMEFUNCITON_CURRENT_YEAR = "timeFunction.CURRENT_YEAR.name"; 
+	public final static String TIMEFUNCITON_CURRENT_YEAR_DES = "timeFunction.CURRENT_YEAR.description";
+	public final static String TIMEFUNCITON_WEEK_TO_DATE = "timeFunction.WEEK_TO_DATE.name"; 
+	public final static String TIMEFUNCITON_WEEK_TO_DATE_DES = "timeFunction.WEEK_TO_DATE.description";
+	public final static String TIMEFUNCITON_CURRENT_PERIOD_FROM_N_PERIOD_AGO = "timeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.name";
+	public final static String TIMEFUNCITON_CURRENT_PERIOD_FROM_N_PERIOD_AGO_DES ="timeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.description";
+	public final static String TIMEFUNCITON_PERIOD_TO_DATE_FROM_N_PERIOD_AGO = "timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.name"; 
+	public final static String TIMEFUNCITON_PERIOD_TO_DATE_FROM_N_PERIOD_AGO_DES = "timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description";
+	public final static String TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO = "timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name"; 
+	public final static String TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO_DES ="timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description";
+	public final static String TIMEFUNCITON_NEXT_N_PERIODS = "timeFunction.NEXT_N_PERIODS.name"; 
+	public final static String TIMEFUNCITON_NEXT_N_PERIODS_DES = "timeFunction.NEXT_N_PERIODS.description";
+
+	//arguments
+	public final static String TIMEFUNCITON_PERIOD1 = "timeFunction.PERIOD1";
+	public final static String TIMEFUNCITON_PERIOD2 = "timeFunction.PERIOD2";
+	public final static String TIMEFUNCITON_N1 = "timeFunction.N1";
+	public final static String TIMEFUNCITON_N2 = "timeFunction.N2";
+	
+	public final static String TIMEFUNCITON_PERIOD1_DISPLAYNAME = "timeFunction.PERIOD1.displayName";
+	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
+	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
+	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
+	
+	//toolTip
+	public final static String TIMEFUNCTION_TOOLTIP_TO = "timeFunction.toolTip.to";
 }

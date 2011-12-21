@@ -2388,12 +2388,28 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	{
 		renderPlane( ipr, oSource,
 				loaFront, f, lia, cd,
-				dSeriesThickness, bDeferred, 0 );
+				dSeriesThickness, bDeferred, 0, null );
 	}
 	
+	/**
+	 * @param ipr
+	 * @param oSource
+	 * @param loaFront
+	 * @param f
+	 * @param lia
+	 * @param cd
+	 * @param dSeriesThickness
+	 * @param bDeferred
+	 * @param zorder_hint
+	 * @param compareBounds
+	 *            this bounds is used to adjust the order of polygon, if this bound
+	 *            isn't null, chart will use this bounds instead of actual bounds of
+	 *            polygon for order.
+	 * @throws ChartException
+	 */
 	protected final void renderPlane( IPrimitiveRenderer ipr, Object oSource,
 			Location[] loaFront, Fill f, LineAttributes lia, ChartDimension cd,
-			double dSeriesThickness, boolean bDeferred, int zorder_hint ) throws ChartException
+			double dSeriesThickness, boolean bDeferred, int zorder_hint, Bounds compareBounds ) throws ChartException
 	{
 		PolygonRenderEvent pre;
 		if ( cd.getValue( ) == ChartDimension.TWO_DIMENSIONAL )
@@ -2603,9 +2619,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		}
 		if ( !alModel.isEmpty( ) )
 		{
-			dc.addModel( new WrappedInstruction( getDeferredCache( ),
+			WrappedInstruction wi = new WrappedInstruction( getDeferredCache( ),
 					alModel,
-					PrimitiveRenderEvent.FILL, zorder_hint ) );
+					PrimitiveRenderEvent.FILL, zorder_hint );
+			wi.setCompareBounds( compareBounds );
+			dc.addModel( wi );
 		}
 	}
 

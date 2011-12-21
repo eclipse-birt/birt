@@ -312,25 +312,25 @@
 	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config" />
 	                </projectInfo>
 	                <projectInfo>
-	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.excel.config" />
+	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.excel" />
 	                </projectInfo>
 			<projectInfo>
 			    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.html" />
 			</projectInfo>
 	                <projectInfo>
-	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.html.config" />
+	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.html" />
 	                </projectInfo>
 			<projectInfo>
 			    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.pdf" />
 			</projectInfo>
 	                <projectInfo>
-	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.pdf.config" />
+	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.pdf" />
 	                </projectInfo>
 			<projectInfo>
 			    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.wpml" />
 			</projectInfo>
 	                <projectInfo>
-	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.wpml.config" />
+	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.wpml" />
 	                </projectInfo>
 			<projectInfo>
 			    <property name="projectName" value="org.eclipse.birt.report.engine.fonts" />
@@ -366,13 +366,13 @@
 			    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.postscript" />
 			</projectInfo>
 	                <projectInfo>
-	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.postscript.config" />
+	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.postscript" />
 	                </projectInfo>
 			<projectInfo>
 			    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.ppt" />
 			</projectInfo>
 	                <projectInfo>
-	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.ppt.config" />
+	                    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.ppt" />
 	                </projectInfo>
 			<projectInfo>
 			    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.prototype.excel" />

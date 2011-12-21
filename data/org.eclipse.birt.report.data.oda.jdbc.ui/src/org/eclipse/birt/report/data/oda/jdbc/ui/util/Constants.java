@@ -12,5 +12,8 @@ public class Constants
         org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODADriverClass; 
     public static final String ODAJndiName = 
         org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAJndiName;
+    public static final String ODAResourceIdentiers = 
+    	org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAResourceIdentiers;
+    		
 
 }

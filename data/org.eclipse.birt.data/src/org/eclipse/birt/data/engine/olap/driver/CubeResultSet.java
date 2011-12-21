@@ -13,9 +13,7 @@ package org.eclipse.birt.data.engine.olap.driver;
 
 import java.io.IOException;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -75,18 +73,6 @@ public class CubeResultSet implements IResultSet
 		int count = 0;
 		if ( cubeView.getColumnEdgeView( ) != null )
 		{
-			if( cubeView.getAppContext( )!= null )
-			{
-				int limitSize = populateFetchLimitSize( cubeView.getAppContext( )
-						.get( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE ) );
-				if ( limitSize > 0 && limitSize < rsArray[count].length( ) )
-				{
-					throw new DataException( ResourceConstants.RESULT_LENGTH_EXCEED_COLUMN_LIMIT,
-							new Object[]{
-								limitSize
-							} );
-				}
-			}
 			this.columnEdgeAxis = new EdgeAxis( rsArray[count],
 						cubeView.getColumnEdgeView( ),
 						cubeQueryExecutorHelper.getColumnSort( ),
@@ -95,20 +81,7 @@ public class CubeResultSet implements IResultSet
 			count++;
 		}
 		if ( cubeView.getRowEdgeView( ) != null )
-		{
-			if ( cubeView.getAppContext( ) != null )
-			{
-				int limitSize = populateFetchLimitSize( cubeView.getAppContext( )
-						.get( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE ) );
-				if ( limitSize > 0 && limitSize < rsArray[count].length( ) )
-				{
-					throw new DataException( ResourceConstants.RESULT_LENGTH_EXCEED_ROW_LIMIT,
-							new Object[]{
-								limitSize
-							} );
-				}
-			}
-			
+		{		
 			this.rowEdgeAxis = new EdgeAxis( rsArray[count],
 						cubeView.getRowEdgeView( ),
 						cubeQueryExecutorHelper.getRowSort( ),
@@ -206,22 +179,5 @@ public class CubeResultSet implements IResultSet
 	{
 		int index = this.cubeView.getAggregationRegisterTable( ).getAggregationResultID( name );
 		return this.calculatedEdgeAxis[index];
-	}
-	
-	
-	/**
-	 * 
-	 * @param propValue
-	 * @return
-	 */
-	private int populateFetchLimitSize( Object propValue )
-	{
-		int fetchLimit = -1;
-		String fetchLimitSize = propValue == null ? "-1" : propValue.toString( );
-
-		if ( fetchLimitSize != null )
-			fetchLimit = Integer.parseInt( fetchLimitSize );
-
-		return fetchLimit;
 	}
 }

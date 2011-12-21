@@ -16,8 +16,10 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +66,10 @@ public class DataEngineSession
 	
 	private Map<String, Integer> acls;
 	
+	private Set<String> emptyQueryResultID;
+	
+	private RAOutputStream emtpryIDStream;
+	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
@@ -99,16 +105,24 @@ public class DataEngineSession
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		this.cancelManager = new CancelManager( );
 		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
-		engine.addShutdownListener( new IShutdownListener(){
+		engine.addShutdownListener( new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )
 			{
 				classLoaderHolder.set( null );
 				houseKeepCancelManager( );
 				saveGeneralACL( );
-				
-			}} );
-		
+				if ( emtpryIDStream != null )
+					try
+					{
+						emtpryIDStream.close( );
+					}
+					catch ( IOException e )
+					{
+					}
+			}
+		} );
+
 		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
 
 		this.queryResultIDUtil = new QueryResultIDUtil();
@@ -213,6 +227,42 @@ public class DataEngineSession
 
 	}
 	
+	/**
+	 * Write empty query IDs to the doc archive.
+	 * 
+	 * @param writer
+	 * @param acls
+	 * @throws DataException
+	 */
+	public void updateNestedEmptyQueryID( String queryResultID ) 
+	{
+		try
+		{
+			if( engine.getContext( ).getDocWriter( )== null || this.emptyQueryResultID.isEmpty( ))
+				return;
+			
+			if( emtpryIDStream== null )
+				emtpryIDStream = engine.getContext( )
+							.getOutputStream( "DataEngine",
+									null,
+							DataEngineContext.EMPTY_NESTED_QUERY_ID );
+			DataOutputStream emptryQueryIDStream = new DataOutputStream( emtpryIDStream );
+			
+			emtpryIDStream.seek( 0 );
+			IOUtil.writeInt( emptryQueryIDStream, this.emptyQueryResultID.size( ) );
+			
+			emtpryIDStream.seek( emtpryIDStream.length( ) );
+			IOUtil.writeString( emptryQueryIDStream, queryResultID );
+			
+			emtpryIDStream.flush( );
+		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( e.getLocalizedMessage( ), e );
+		}
+
+	}
+			
 	/**
 	 * 
 	 * @return
@@ -367,6 +417,19 @@ public class DataEngineSession
 	public Map<String, Integer> getACLs( )
 	{
 		return this.acls;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Set<String> getEmptyNestedResultSetID( )
+	{
+		if( this.emptyQueryResultID== null )
+		{
+			this.emptyQueryResultID = new HashSet( );
+		}
+		return this.emptyQueryResultID;
 	}
 
 	/**

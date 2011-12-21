@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.NamedObject;
@@ -41,7 +42,7 @@ public class CubeQueryDefinition extends NamedObject
 			ICubeQueryDefinition 
 {
 	private IEdgeDefinition columnEdge, rowEdge, pageEdge;
-	private List measureList, bindingList, filterList, sortList, computedMeasureList;
+	private List measureList, bindingList, filterList, sortList, computedMeasureList, derivedMeasureList;
 	private List<ICubeOperation> cubeOperations;
 	private String queryResultsID;
 	private boolean cacheQueryResults;
@@ -61,6 +62,7 @@ public class CubeQueryDefinition extends NamedObject
 		this.filterList = new ArrayList();
 		this.sortList = new ArrayList();
 		this.computedMeasureList = new ArrayList();
+		this.derivedMeasureList = new ArrayList();
 		this.cubeOperations = new ArrayList<ICubeOperation>();
 		this.cacheQueryResults = false;
 	}
@@ -144,6 +146,7 @@ public class CubeQueryDefinition extends NamedObject
 			newBinding.setDataType( binding.getDataType() );
 			newBinding.setDisplayName( binding.getDisplayName() );
 			newBinding.setFilter( binding.getFilter() );
+			newBinding.setTimeFunction( binding.getTimeFunction( ) );
 		}
 		catch (DataException e)
 		{
@@ -255,6 +258,15 @@ public class CubeQueryDefinition extends NamedObject
 	{
 		return this.measureList;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getMeasures()
+	 */
+	public List getDerivedMeasures( )
+	{
+		return this.derivedMeasureList;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -326,6 +338,18 @@ public class CubeQueryDefinition extends NamedObject
 		ComputedMeasureDefinition cmd = new ComputedMeasureDefinition( measureName, type, expr );
 		this.computedMeasureList.add( cmd );
 		return cmd;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#createCalculatedMeasure(java.lang.String, int, org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public IDerivedMeasureDefinition createDerivedMeasure( String measureName, int type,
+			IBaseExpression expr ) throws DataException
+	{
+		DerivedMeasureDefinition dmd = new DerivedMeasureDefinition( measureName, type, expr );
+		this.derivedMeasureList.add( dmd );
+		return dmd;
 	}
 
 	/*

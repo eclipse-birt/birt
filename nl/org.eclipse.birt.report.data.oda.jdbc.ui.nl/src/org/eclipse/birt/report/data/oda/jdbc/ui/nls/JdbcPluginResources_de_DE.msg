@@ -127,3 +127,4 @@ designer.preview.preference.resultset.timeOutLimit.errormessage=Geben Sie für di
 designer.preview.preference.resultset.maxrow.description=&Maximale Anzahl anzuzeigender Zeilen:
 designer.preview.preference.resultset.maxrow.errormessage=Geben Sie für die maximale Zeilenanzahl eine Zahl zwischen 1 und {0} ein.
 designer.preview.preference.resultset.sqldatasetpage.group.title=Abfrageseite
+tablepage.label.filter.tooltip=Mit % können Sie nach beliebig langen Zeichenfolgen filtern (einschließlich Nulllänge); Mit \n _ können Sie nach einzelnen Zeichen filtern

@@ -1187,7 +1187,7 @@
         	tolist="${QA.members}" 
         	from="${mail.from}" 
         	replyto="${replyto.address}" 
-        	subject="${BranchVersion} Build Is Ready on ${hostname}(BuildId: ${buildId})" >
+        	subject="${BranchVersion} Build on ${mapVersionTag} Branch Is Ready on ${hostname}(BuildId: ${buildId})" >
                 <message>
 Hi All,
 
@@ -1342,7 +1342,7 @@ Have a nice day!
     <target name="checkcompileerror">
                 <property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
-		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
+		<mail mailport="${mail.port}" subject="Compile errors found on ${mapVersionTag} Branch in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
                     <from address="${mail.from}"/>
                     <replyto address="${replyto.address}"/>
                     <message>

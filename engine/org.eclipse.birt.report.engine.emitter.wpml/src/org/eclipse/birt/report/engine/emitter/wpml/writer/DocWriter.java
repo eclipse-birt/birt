@@ -233,8 +233,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 		String pic2Text = null;
 		if ( data != null && data.length != 0 )
 		{
-			Base64 base = new Base64( );
-			pic2Text = new String( base.encode( data ) );
+			pic2Text = new String( Base64.encodeBase64( data, false ) );
 		}
 		if ( pic2Text != null )
 		{

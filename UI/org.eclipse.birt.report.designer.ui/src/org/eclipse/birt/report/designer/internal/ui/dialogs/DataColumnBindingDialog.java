@@ -44,6 +44,7 @@ public class DataColumnBindingDialog extends BaseDialog
 	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ); //$NON-NLS-1$
 
 	protected static final String AGG_BUILDER_TITLE = Messages.getString( "DataColumBindingDialog.title.AggBuilder" ); //$NON-NLS-1$
+	protected static final String TIMEPERIOD_BUILDER_TITLE = Messages.getString("DataColumnBindingDialog.title.TimePeriodBuild"); //$NON-NLS-1$
 
 	IBindingDialogHelper dialogHelper;
 
@@ -54,6 +55,7 @@ public class DataColumnBindingDialog extends BaseDialog
 	private ExpressionProvider expressionProvider;
 
 	private boolean isAggregate;
+	private boolean isTimePeriod;
 	
 	private boolean needPrompt = true;
 
@@ -153,12 +155,25 @@ public class DataColumnBindingDialog extends BaseDialog
 		{
 			dialogHelper.setAggregate( isAggregate );
 		}
+		
 		if ( isAggregate
 				|| ( bindingColumn != null
 						&& bindingColumn.getAggregateFunction( ) != null && !bindingColumn.getAggregateFunction( )
 						.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			setTitle( AGG_BUILDER_TITLE );
+		}
+		if(isTimePeriod)
+		{
+			dialogHelper.setTimePeriod( isTimePeriod );
+			
+		}
+		
+		if ( isTimePeriod
+				|| ( bindingColumn != null
+						&& bindingColumn.getTimeDimension( ) != null && !bindingColumn.getTimeDimension( ).equals( "" ))) //$NON-NLS-1$
+		{
+			setTitle( TIMEPERIOD_BUILDER_TITLE );
 		}
 	}
 
@@ -178,6 +193,20 @@ public class DataColumnBindingDialog extends BaseDialog
 		if ( this.dialogHelper != null )
 		{
 			this.dialogHelper.setAggregate( isAggregate );
+		}
+	}
+	
+	public void setTimePeriod(boolean timePeriod)
+	{
+		this.isTimePeriod = timePeriod;
+		if(isTimePeriod)
+		{
+			dialogHelper.setTimePeriod( isTimePeriod );
+			setTitle( TIMEPERIOD_BUILDER_TITLE );
+		}
+		if ( this.dialogHelper != null )
+		{
+			this.dialogHelper.setTimePeriod( timePeriod );
 		}
 	}
 
@@ -213,7 +242,7 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper.setExpressionProvider( expressionProvider );
 		dialogHelper.createContent( content );
-		UIUtil.bindHelp( content, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
+		UIUtil.bindHelp( content, isTimePeriod? IHelpContextIds.RELATIVE_TIME_PERIOD_DIALOG : IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
 		return content;
 	}
 

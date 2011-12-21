@@ -75,6 +75,8 @@ public class CubeLabelProvider extends LabelProvider
 
 	private static final Image IMG_MEASUREGROUP = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP );
 
+	private static final Image IMG_DERIVED_MEASURE = UIHelper.getImage( BuilderConstants.IMAGE_DERIVED_MEASURE );
+
 	private static final Image IMG_LEVEL = UIHelper.getImage( BuilderConstants.IMAGE_LEVEL );
 
 	private static final Image IMG_OTHER_DATASETS = UIHelper.getImage( BuilderConstants.IMAGE_OTHER_DATASETS );
@@ -157,7 +159,8 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof MeasureHandle )
 		{
-			return IMG_MEASURE;
+			return ( (MeasureHandle) element ).isCalculated( ) ? IMG_DERIVED_MEASURE
+					: IMG_MEASURE;
 		}
 		else if ( element instanceof MeasureGroupHandle )
 		{

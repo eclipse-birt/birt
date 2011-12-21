@@ -133,6 +133,14 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.LevelMemberTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.TraversalorTest.class );
 		
+		/* in package org.eclipse.birt.data.engine.olap.data.impl.aggregation.function*/
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.MonthToDateTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.YearToDateFunctionTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.QuarterToDateFunctionTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.PreviousNPeriodsFunctionTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.WeekToDateTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TrailingTest.class );
+		
 		/* in package org.eclipse.birt.data.engine.olap.data.impl.dimension */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionTest2.class );

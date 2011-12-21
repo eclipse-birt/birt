@@ -51,6 +51,8 @@ public final class WrappedInstruction implements IRenderInstruction
 	 * current render event.
 	 */
 	private DeferredCache subDeferredCache = null;
+
+	private Bounds compareBounds = null;
 	
 	/**
 	 * The constructor.
@@ -111,10 +113,9 @@ public final class WrappedInstruction implements IRenderInstruction
 		}
 		else if ( o instanceof IRenderInstruction )
 		{
-			bo = ( (IRenderInstruction) o ).getBounds( );
-			
 			if (o instanceof WrappedInstruction)
 			{
+				bo = ( (WrappedInstruction) o ).getCompareBounds( );
 				long zorder_that = ( (WrappedInstruction) o ).zorder;
 				if (this.zorder < zorder_that)
 				{
@@ -125,12 +126,15 @@ public final class WrappedInstruction implements IRenderInstruction
 					return 1;
 				}
 			}
+			else
+			{
+				bo = ( (IRenderInstruction) o ).getBounds( );
+			}
 		}
-
 		
-		return ( dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
+		return ( dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getCompareBounds( ),
 				bo )
-				: ( bo == null ? 1 : PrimitiveRenderEvent.compareRegular( getBounds( ), bo ) );
+				: ( bo == null ? 1 : PrimitiveRenderEvent.compareRegular( getCompareBounds( ), bo ) );
 	}
 
 	/**
@@ -173,11 +177,43 @@ public final class WrappedInstruction implements IRenderInstruction
 	}
 
 	/**
+	 * This method set a bounds to be used for polygon comparison to reset polygon
+	 * rendering order. Under some cases, like core, triangle charts, we don't
+	 * use actual plan to do order comparison, it is difficult. We just sets a
+	 * compare bounds instead of actual bound for comparison.
+	 * 
+	 * @param bounds
+	 */
+	public void setCompareBounds( Bounds bounds )
+	{
+		this.compareBounds = bounds; 
+	}
+	
+	/**
+	 * Returns compare bounds.
+	 * 
+	 * @return
+	 */
+	public Bounds getCompareBounds( )
+	{
+		if ( compareBounds != null )
+		{
+			return compareBounds;
+		}
+		return getBounds( );
+	}
+	
+	/**
 	 * @return Returns the mimimum bounds required to contain the rendering area
 	 *         of associated rendering event.
 	 */
 	public final Bounds getBounds( )
 	{
+		if ( compareBounds != null )
+		{
+			return compareBounds;
+		}
+		
 		if ( !isModel( ) )
 		{
 			try

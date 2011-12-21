@@ -516,15 +516,21 @@ public abstract class ReportElementState extends DesignParseState
 			{
 				if ( handler.versionNumber < VersionUtil.VERSION_3_2_19 )
 				{
-					// not fire error and handle it when all the styles are
-					// parsed in design file or a theme slot
-					return;
+					// fire semantic warning error 
+					handler.getErrorHandler( )
+							.semanticWarning(
+									new NameException(
+											content,
+											name,
+											NameException.DESIGN_EXCEPTION_INVALID_NAME ) );
+					
 
 				}
 				else
 				{
+					//needn't fire error, since old report may be serialized to report document, and the version is the latest
 					handler.getErrorHandler( )
-							.semanticError(
+							.semanticWarning(
 									new NameException(
 											content,
 											name,

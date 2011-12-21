@@ -1346,7 +1346,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			AutoScale.AxisLabelInfo ali = axPV.getScale( ).getAxisLabelInfo( );
 			if ( axPV.getLabelPosition( ) == IConstants.LEFT )
 			{
-				double labelThickness = dX
+				double labelThickness = dX - dX1
 						- getTickSize( )
 						- ( ( iYTitleLocation == LEFT ) ? dYAxisTitleThickness
 								: 0 );
@@ -1360,7 +1360,7 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 			}
 			else if ( axPV.getLabelPosition( ) == IConstants.RIGHT )
 			{
-				double labelThickness = dWTotal
+				double labelThickness = dX2
 						- dX
 						- getTickSize( )
 						- ( ( iYTitleLocation == RIGHT ) ? dYAxisTitleThickness
@@ -2282,6 +2282,121 @@ public abstract class PlotWithAxes extends PlotComputation implements IConstants
 					// X-AXIS
 					// BAND LOWER EDGE
 				} while ( Math.abs( dY1 - dBlockY ) > 1 && !bForceBreak );
+			}
+			else if ( dY2 > dBlockY + dBlockHeight )
+			{
+				final Object[] oaMinMax = scY.getMinMax( );
+				boolean bForceBreak = false;
+
+				// A LOOP THAT ITERATIVELY ATTEMPTS TO ADJUST THE TOP EDGE
+				// OF THE X-AXIS LABELS WITH THE TOP EDGE OF THE PLOT AND/OR
+				// ENSURE THAT THE END POINT OF THE Y-AXIS SCALE IS SUITABLY
+				// POSITIONED
+
+				do
+				{
+					// CANCEL OUT THE END LABEL SHIFT COMPUTATIONS FROM THE
+					// Y-AXIS
+					scY.setEndPoints( scY.getStart( ) + scY.getStartShift( ),
+							scY.getEnd( ) - scY.getEndShift( ) ); // RESTORE
+					scY.resetShifts( );
+
+					// APPLY THE AXIS REDUCTION FORMULA W.R.T. Y-AXIS
+					// ENDPOINT
+					double[] da = scY.getEndPoints( );
+					double dX2_X1 = dY2 - ( dBlockY + dBlockHeight ); // THRESHOLD
+					// -
+					// REQUESTEDINTERSECTION
+
+					double dStart, dEnd;
+
+					if ( bForwardScale )
+					{
+						double dAMin_AMax = da[1] - da[0];
+						double dX2_AMax = dY - da[0];
+						dEnd = da[1] - ( dX2_X1 / dX2_AMax ) * dAMin_AMax;
+						dStart = da[0];
+
+						if ( dEnd > dBlockY + dBlockHeight )
+						{
+							dEnd = dBlockY + dBlockHeight;
+							bForceBreak = true;
+						}
+					}
+					else
+					{
+						double dAMin_AMax = da[0] - da[1];
+						double dX2_AMax = dY - da[1];
+						dStart = da[0] - ( dX2_X1 / dX2_AMax ) * dAMin_AMax;
+						dEnd = da[1];
+
+						if ( dStart > dBlockY + dBlockHeight )
+						{
+							dStart = dBlockY + dBlockHeight;
+							bForceBreak = true; // ADJUST THE TOP EDGE OF
+							// THE
+							// Y-AXIS SCALE TO THE TOP EDGE
+							// OF THE PLOT BLOCK
+						}
+					}
+
+					if ( ChartUtil.mathEqual( Math.abs( dEnd - dStart ), 0 ) )
+					{
+						// too small space to adjust, break here.
+						bForceBreak = true;
+					}
+
+					// LOOP THAT AUTO-RESIZES Y-AXIS AND RE-COMPUTES Y-AXIS
+					// LABELS IF OVERLAPS OCCUR
+					scY.setEndPoints( dStart, dEnd );
+					scY.computeTicks( ids,
+							laYAxisLabels,
+							iYLabelLocation,
+							VERTICAL,
+							dStart,
+							dEnd,
+							true,
+							aax );
+					if ( !scY.isStepFixed( ) )
+					{
+						while ( !scY.checkFit( ids,
+								laYAxisLabels,
+								iYLabelLocation ) )
+						{
+							if ( !scY.zoomOut( ) )
+							{
+								bForceBreak = true;
+								break;
+							}
+							scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
+							int tickCount = scY.computeTicks( ids,
+									laYAxisLabels,
+									iYLabelLocation,
+									VERTICAL,
+									dStart,
+									dEnd,
+									true,
+									aax );
+							if ( scY.getUnit( ) != null
+									&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
+									&& tickCount <= 3
+									|| isSharedScale( ) )
+							{
+								bForceBreak = true;
+								break;
+							}
+						}
+					}
+
+					dY = getLocation( scY, iv );
+					dY2 = dY + dDeltaY2; // RE-CALCULATE X-AXIS BAND
+					// LOWER
+					// EDGE
+					dY1 = dY - dDeltaY1; // RE-CALCULATE X-AXIS BAND
+					// LOWER
+					// EDGE
+				} while ( Math.abs( dY2 - ( dBlockY + dBlockHeight ) ) > 1
+						&& !bForceBreak );
 			}
 		}
 		else if ( iXLabelLocation == BELOW )

@@ -28,4 +28,16 @@ public interface IMeasureDefinition extends INamedObject
 	 * @param name
 	 */
 	public void setAggrFunction( String name );
+	
+	/**
+	 * Set the data type for this measure.
+	 * @param name
+	 */
+	public void setDataType( int type );
+	
+	/**
+	 * get the data type for this measure.
+	 * @return
+	 */
+	public int getDataType( );
 }

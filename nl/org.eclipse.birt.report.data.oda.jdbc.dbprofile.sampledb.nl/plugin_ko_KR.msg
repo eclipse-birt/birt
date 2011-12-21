@@ -23,3 +23,4 @@ driver.template.property.dbname = 데이터베이스
 driver.template.property.connection.url = 연결 URL
 driver.template.property.user = 사용자 이름
 driver.template.property.password = 암호
+driver.template.property.save.password = Save password

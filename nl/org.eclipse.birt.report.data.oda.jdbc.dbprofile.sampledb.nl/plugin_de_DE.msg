@@ -23,3 +23,4 @@ driver.template.property.dbname = Datenbank
 driver.template.property.connection.url = Verbindungs-URL
 driver.template.property.user = Benutzername
 driver.template.property.password = Kennwort
+driver.template.property.save.password = Save password
