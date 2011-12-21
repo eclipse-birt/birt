@@ -387,7 +387,7 @@ public class ModelAdapter implements IModelAdapter
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	public IBinding adaptBinding( ComputedColumnHandle handle, ExpressionLocation el )
+	public IBinding adaptBinding( ComputedColumnHandle handle, ExpressionLocation el ) throws AdapterException
 	{
 		if( el.equals( ExpressionLocation.TABLE ) )
 		{
@@ -395,9 +395,10 @@ public class ModelAdapter implements IModelAdapter
 		}
 		else
 		{
+			Binding binding = null;
 			try
 			{				
-				Binding binding = new Binding( handle.getName( ) );
+				binding = new Binding( handle.getName( ) );
 				binding.setAggrFunction( handle.getAggregateFunction( ) == null
 						? null
 						: DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
@@ -422,14 +423,22 @@ public class ModelAdapter implements IModelAdapter
 									.getValue( ),
 									ExpressionLocation.CUBE ) );
 				}
+
+			} 
+			catch ( Exception e ) 
+			{
+				logger.log(Level.WARNING, e.getMessage(), e);
+				return null;
+			}
+			try
+			{
 				binding.setTimeFunction( adaptTimeFunction( handle ) );
-				return binding;
-				}
-				catch ( Exception e )
-				{
-					logger.log( Level.WARNING, e.getMessage( ), e );
-					return null;
-				}
+			}
+			catch( BirtException ex)
+			{
+				throw new AdapterException( ex.getLocalizedMessage() );
+			}
+			return binding;
 		}
 	}
 
