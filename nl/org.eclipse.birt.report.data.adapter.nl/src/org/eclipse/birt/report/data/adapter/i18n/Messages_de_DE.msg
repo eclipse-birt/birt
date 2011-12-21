@@ -100,9 +100,9 @@ timeFunction.PERIOD2 = Das zweite Zeitintervall-Argument für die Zeitfunktion
 timeFunction.N1 = N-Wert für das erste Zeitintervall
 timeFunction.N2 = N-Wert für das zweite Zeitintervall
 
-timeFunction.PERIOD1.displayName = Erstes Zeitintervall
-timeFunction.PERIOD2.displayName = Zweites Zeitintervall
-timeFunction.N1.displayName = Erstes N
-timeFunction.N2.displayName = Zweites N
+timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
+timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
+timeFunction.N1.displayName = Erst&es N
+timeFunction.N2.displayName = Z&weites N
  
 timeFunction.toolTip.to=Bis

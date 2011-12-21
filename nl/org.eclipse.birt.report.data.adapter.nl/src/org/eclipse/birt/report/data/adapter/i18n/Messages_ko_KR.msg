@@ -100,9 +100,9 @@ timeFunction.PERIOD2 = 시간 함수에 대한 이차 기간 인수
 timeFunction.N1 = 일차 기간에 대한 N값
 timeFunction.N2 = 이차 기간에 대한 N값
 
-timeFunction.PERIOD1.displayName = 일차 기간
-timeFunction.PERIOD2.displayName = 이차 기간
-timeFunction.N1.displayName = 일차 N
-timeFunction.N2.displayName = 이차 N
+timeFunction.PERIOD1.displayName = 첫 번째 기간(&F)
+timeFunction.PERIOD2.displayName = 두 번째 기간(&R)
+timeFunction.N1.displayName = 첫 번째 N(&I)
+timeFunction.N2.displayName = 두 번째 N(&O)
 
 timeFunction.toolTip.to=대상

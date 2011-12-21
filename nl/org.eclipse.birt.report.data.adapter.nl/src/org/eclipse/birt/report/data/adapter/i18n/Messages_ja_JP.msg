@@ -100,9 +100,9 @@ timeFunction.PERIOD2 = 時間機能の 2 番目の期間の引数
 timeFunction.N1 = 最初の期間の N 値
 timeFunction.N2 = 2 番目の期間の N 値
 
-timeFunction.PERIOD1.displayName = 最初の期間
-timeFunction.PERIOD2.displayName = 2 番目の期間
-timeFunction.N1.displayName = 最初の N
-timeFunction.N2.displayName = 2 番目の N
+timeFunction.PERIOD1.displayName = 最初の期間(&F)
+timeFunction.PERIOD2.displayName = 2 番目の期間(&R)
+timeFunction.N1.displayName = 最初の N(&I)
+timeFunction.N2.displayName = 2 番目の N(&O)
  
 timeFunction.toolTip.to=終了日

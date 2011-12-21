@@ -100,9 +100,9 @@ timeFunction.PERIOD2 = L'argument de deuxième période pour la fonction de temps
 timeFunction.N1 = Valeur N pour la première période
 timeFunction.N2 = Valeur N pour la deuxième période
 
-timeFunction.PERIOD1.displayName = La première période
-timeFunction.PERIOD2.displayName = La deuxième période
-timeFunction.N1.displayName = Premier(ère) N
-timeFunction.N2.displayName = Deuxième N
+timeFunction.PERIOD1.displayName = La pre&mière période
+timeFunction.PERIOD2.displayName = La deuxième pé&riode
+timeFunction.N1.displayName = Le prem&ier N
+timeFunction.N2.displayName = Le deu&xième N
 
 timeFunction.toolTip.to=A

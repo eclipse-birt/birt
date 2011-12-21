@@ -100,9 +100,9 @@ timeFunction.PERIOD2 = 时间函数的第二个周期变元
 timeFunction.N1 = 第一个周期的 N 值
 timeFunction.N2 = 第二个周期的 N 值
 
-timeFunction.PERIOD1.displayName = 第一个周期
-timeFunction.PERIOD2.displayName = 第二个周期
-timeFunction.N1.displayName = 第一个 N
-timeFunction.N2.displayName = 第二个 N
+timeFunction.PERIOD1.displayName = 第一个周期(&F)
+timeFunction.PERIOD2.displayName = 第一个周期(&R)
+timeFunction.N1.displayName = 第一个 N(&I)
+timeFunction.N2.displayName = 第二个 N(&O)
  
 timeFunction.toolTip.to=至
