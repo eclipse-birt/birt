@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
@@ -93,10 +92,11 @@ public class TitleTextSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				attributesContext,
 				Messages.getString( "TitlePropertiesSheet.Label.Text" ), //$NON-NLS-1$
-				Position.INSIDE_LITERAL,
-				getBlockForProcessing( ).getLabel( ),
-				getChart( ).getUnits( ),
-				ChartDefaultValueUtil.getDefaultTitle( getChart( ) ).getLabel( ) );
+				getBlockForProcessing( ),
+				null,
+				"label", //$NON-NLS-1$
+				ChartDefaultValueUtil.getDefaultTitle( getChart( ) ),
+				getChart( ).getUnits( ) );
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;
 		lacLabel.setLayoutData( gdLACLabel );

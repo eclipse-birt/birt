@@ -15,9 +15,8 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
+import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -47,7 +46,7 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements
 
 	protected LineAttributesComposite liacOutline;
 
-	protected InsetsComposite ic;
+	protected AbstractChartInsets ic;
 
 	public BlockPropertiesSheet( String title, ChartWizardContext context )
 	{
@@ -70,18 +69,17 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements
 			cmpContent.setLayout( glContent );
 		}
 
-		ic = new InsetsComposite( cmpContent,
+		ic = getContext( ).getUIFactory( ).createChartInsetsComposite( cmpContent,
 				SWT.NONE,
+				2,
 				getBlockForProcessing( ).getInsets( ),
 				getChart( ).getUnits( ),
 				getContext( ).getUIServiceProvider( ),
-				getContext( ) );
+				getContext( ),
+				ChartDefaultValueUtil.getDefaultBlock( getChart() ).getInsets( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.widthHint = 300;
 		ic.setLayoutData( gdInsets );
-		ic.setDefaultInsetsValue( DefaultValueProvider.defChartWithAxes( )
-				.getBlock( )
-				.getInsets( ) );
 
 		grpOutline = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
@@ -103,11 +101,13 @@ public class BlockPropertiesSheet extends AbstractPopupSheet implements
 
 	protected int getOutlineAttributesStyle( )
 	{
-		return LineAttributesComposite.ENABLE_VISIBILITY
+		int style = LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+				| LineAttributesComposite.ENABLE_COLOR;
+		style |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: style;
+		return style; 
 	}
 
 	/*

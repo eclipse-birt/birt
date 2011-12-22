@@ -91,14 +91,14 @@ public class PieTitleSheet extends AbstractPopupSheet implements Listener
 				SWT.NONE,
 				getContext( ),
 				attributesContext,
-				Messages.getString( "OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Title" ),  //$NON-NLS-1$
-				getSeriesForProcessing( ).isSetTitlePosition( ) ? getSeriesForProcessing( ).getTitlePosition( )
-						: null,
-				getLabel( ),
+				Messages.getString( "OrthogonalSeriesLabelAttributeSheetImpl.Lbl.Title" ), //$NON-NLS-1$
+				getSeriesForProcessing( ),
+				"titlePosition", //$NON-NLS-1$
+				"label", //$NON-NLS-1$
+				defSeries,
 				getChart( ).getUnits( ),
 				LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
-						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
-				defSeries.getTitle( ) );
+						| LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		lacTitle.setLayoutData( gdLACTitle );
 		lacTitle.addListener( this );

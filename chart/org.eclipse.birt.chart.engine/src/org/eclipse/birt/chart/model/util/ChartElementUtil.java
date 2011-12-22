@@ -49,6 +49,7 @@ public class ChartElementUtil
 	 * @param value
 	 * @throws ChartException
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void setDefaultValue( Object obj, String fieldName,
 			Object value ) throws ChartException
 	{
@@ -133,6 +134,42 @@ public class ChartElementUtil
 			eContainer.eSet( esf, value );
 		}
 	}
+	
+	/**
+	 * @param eContainer
+	 * @param attribute
+	 * @return value
+	 */
+	public static Object getEObjectAttributeValue(EObject eContainer,
+			String attribute )
+	{
+		EStructuralFeature esf = eContainer.eClass( )
+				.getEStructuralFeature( attribute );
+		if ( esf == null )
+		{
+			return false;
+		}
+		return eContainer.eGet( esf );
+	}
+	
+	/**
+	 * Checks if  a attribute is set value.
+	 * 
+	 * @param eContainer
+	 * @param attribute
+	 * @return true if attribute is set value.
+	 */
+	public static boolean isSetEObjectAttribute( EObject eContainer,
+			String attribute )
+	{
+		EStructuralFeature esf = eContainer.eClass( )
+				.getEStructuralFeature( attribute );
+		if ( esf == null )
+		{
+			return false;
+		}
+		return eContainer.eIsSet( esf );
+	}
 
 	/**
 	 * Check if series palette is set.
@@ -175,6 +212,7 @@ public class ChartElementUtil
 	 * @param objs
 	 * @return list of type T
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> List<T> copyInstance( List<T> objs )
 	{
 		List<T> lst = new ArrayList<T>( );
@@ -200,6 +238,7 @@ public class ChartElementUtil
 	 * @param objs
 	 * @return map of type <T, J>
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T, J> Map<T, J> copyInstance( Map<T, J> objs )
 	{
 		Map<T, J> map = new HashMap<T, J>( );

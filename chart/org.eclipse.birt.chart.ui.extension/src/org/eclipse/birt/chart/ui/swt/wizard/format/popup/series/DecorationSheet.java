@@ -78,12 +78,12 @@ public class DecorationSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				attributesContext,
 				Messages.getString( "DecorationSheet.Label.DecorationLabels" ), //$NON-NLS-1$
-				series.isSetDecorationLabelPosition( ) ? series.getDecorationLabelPosition( )
-						: null,
-				series.getDecorationLabel( ),
+				series,
+				"decorationLabelPosition", //$NON-NLS-1$
+				"decorationLabel", //$NON-NLS-1$
+				defSeries,
 				getChart( ).getUnits( ),
-				LabelAttributesComposite.ALLOW_VERTICAL_POSITION,
-				defSeries.getDecorationLabel( ) );
+				LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;
 		lacDeco.setLayoutData( gdLACLabel );

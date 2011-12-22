@@ -64,7 +64,10 @@ public class NeedleComposite extends Composite implements Listener
 
 		cmbHeadStyle = new HeadStyleAttributeComposite( this,
 				SWT.NONE,
-				series.getNeedle( ).isSetDecorator( ) ? series.getNeedle( ).getDecorator( ) : null );
+				series.getNeedle( ).getDecorator( ),
+				series.getNeedle( ),
+				"decorator", //$NON-NLS-1$
+				wizardContext );
 		GridData gdCMBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
 		cmbHeadStyle.setLayoutData( gdCMBHeadStyle );
 		cmbHeadStyle.addListener( this );

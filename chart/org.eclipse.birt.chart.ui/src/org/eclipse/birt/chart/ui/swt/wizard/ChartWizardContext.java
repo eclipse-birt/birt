@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.factory.IExternalizer;
 import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
-import org.eclipse.birt.chart.ui.integrate.ChartUIFactoryBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory;

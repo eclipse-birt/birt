@@ -107,11 +107,24 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 		btnAutoPals = new Button( cmpContent, SWT.CHECK );
 		btnAutoPals.setText( Messages.getString("SeriesPaletteSheet.Label.Auto") ); //$NON-NLS-1$
 		btnAutoPals.addSelectionListener( this );
+		btnAutoPals.setVisible( context.getUIFactory( ).supportAutoUI( ) );
+		
+		if ( btnAutoPals.isVisible( ) )
+		{
+			updateSeriesPalette( );
+		}
 		
 		// Palete composite
 		createPaletteUI( cmpContent );
 		updateUIStatus( );
+		cmpContent.pack( );
 		return cmpContent;
+	}
+
+	protected void updateSeriesPalette( )
+	{
+		// Add series palettes, user can specify/modify color palette for series defintions.
+		ChartDefaultValueUtil.updateSeriesPalettes( getChart( ), getChart( ).eAdapters( ) );
 	}
 
 	private void createPaletteUI( Composite cmpContent )
@@ -203,7 +216,8 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 
 	private void updateUIStatus( )
 	{
-		if ( ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) ) )
+		if ( context.getUIFactory( ).supportAutoUI( )
+				&& ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) ) )
 		{
 			// It means there isn't specified color palette, it is Auto mode.
 			btnAutoPals.setSelection( true );
@@ -264,8 +278,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 				grpPalette.setEnabled( true );
 				grpPalette.setVisible( true );
 				
-				// Add series palettes, user can specify/modify color palette for series defintions.
-				ChartDefaultValueUtil.updateSeriesPalettes( getChart( ), getChart( ).eAdapters( ) );
+				updateSeriesPalette( );
 			}
 			
 			refreshPaletteUI( );

@@ -26,8 +26,8 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -77,7 +77,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	private static Hashtable<String, Series> htSeriesNames = null;
 	protected Collection<IChartType> cTypes = null;
 
-	protected Combo cmbColorBy;
+	protected ChartCombo cmbColorBy;
 
 	private ITaskPopupSheet popup = null;
 
@@ -105,14 +105,24 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpContent, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.ColorBy" ) ); //$NON-NLS-1$
 
-		cmbColorBy = new Combo( cmpContent, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbColorBy = getContext( ).getUIFactory( )
+				.createChartCombo( cmpContent,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						getChart( ).getLegend( ),
+						"itemType", //$NON-NLS-1$
+						ChartDefaultValueUtil.getDefaultLegend( getChart( ) )
+								.getItemType( )
+								.getName( ) );
 		{
 			GridData gridData = new GridData( );
 			gridData.horizontalSpan = COLUMN_CONTENT - 1;
 			cmbColorBy.setLayoutData( gridData );
 			NameSet ns = LiteralHelper.legendItemTypeSet;
-			cmbColorBy.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
-			cmbColorBy.select( getColorByComboDefaultIndex( ) );
+			cmbColorBy.setItems( ns.getDisplayNames( ) );
+			cmbColorBy.setItemData( ns.getNames( ) );
+			cmbColorBy.setSelection( getChart( ).getLegend( )
+					.getItemType( )
+					.getName( ) );
 			cmbColorBy.addSelectionListener( this );
 		}
 
@@ -318,9 +328,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private ExternalizedTextEditorComposite txtTitle;
 		private Combo cmbTypes;
 		private Spinner spnZOrder;
-		private AbstractChartCheckbox btnVisible;
-		private AbstractChartCheckbox btnStack;
-		private AbstractChartCheckbox btnTranslucent;
+		private ChartCheckbox btnVisible;
+		private ChartCheckbox btnStack;
+		private ChartCheckbox btnTranslucent;
 
 		private boolean canStack;
 
@@ -817,14 +827,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( cmbColorBy ) )
 		{
-			if ( cmbColorBy.getSelectionIndex( ) == 0 )
-			{
-				getChart( ).getLegend( ).unsetItemType( );
-			}
-			else
+			String selectedItemType = cmbColorBy.getSelectedItemData( );
+			if ( selectedItemType != null )
 			{
 				getChart( ).getLegend( )
-						.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
+						.setItemType( LegendItemType.getByName( selectedItemType ) );
 				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
 						&& isGroupedSeries( )
 						&& !ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) ) )

@@ -67,7 +67,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	 * Creates instance of <code>ChartReportItemBuilderImpl</code>.
 	 * 
 	 * @param taskId
-	 * @return
+	 * @return instance of <code>ChartReportItemBuilderImpl</code>.
 	 */
 	public ChartReportItemBuilderImpl createReportItemBuilder(  String taskId )
 	{
@@ -77,7 +77,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	/**
 	 * Creates instance of <code>IMenuBuilder</code>.
 	 * 
-	 * @return
+	 * @return instance of <code>IMenuBuilder</code>.
 	 */
 	public IMenuBuilder createMenuBuilder( )
 	{
@@ -88,7 +88,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory
 	 * Updates chart page section helper according to context.
 	 * 
 	 * @param sectionHelper
-	 * @return
+	 * @return chart page section helper according to context.
 	 */
 	public ISectionHelper updateChartPageSectionHelper( ISectionHelper sectionHelper )
 	{

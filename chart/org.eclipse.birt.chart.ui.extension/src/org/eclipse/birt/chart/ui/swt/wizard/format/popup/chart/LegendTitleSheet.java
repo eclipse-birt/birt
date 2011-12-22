@@ -72,18 +72,20 @@ public class LegendTitleSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				attributesContext,
 				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-				getLegend().isSetTitlePosition( ) ? getLegend( ).getTitlePosition( ) : null,
-				getLegend( ).getTitle( ),
+				getLegend( ),
+				"titlePosition",//$NON-NLS-1$
+				"title",//$NON-NLS-1$
+				ChartDefaultValueUtil.getDefaultLegend( getChart( ) ),
 				getChart( ).getUnits( ),
 				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
-						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION,
-			    ChartDefaultValueUtil.getDefaultLegend( getChart() ).getTitle( ) );
+						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION );
 		{
 			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
 			gdLACTitle.verticalSpan = 2;
 			lacTitle.setLayoutData( gdLACTitle );
 			lacTitle.addListener( this );
-			lacTitle.setEnabled( !ChartUIExtensionUtil.isSetInvisible( getLegend( ).getTitle( ) ) );
+			lacTitle.setEnabled( !getContext( ).getUIFactory( )
+					.isSetInvisible( getLegend( ).getTitle( ) ) );
 			lacTitle.setDefaultLabelValue( DefaultValueProvider.defLegend( ).getTitle( ) );
 		}
 

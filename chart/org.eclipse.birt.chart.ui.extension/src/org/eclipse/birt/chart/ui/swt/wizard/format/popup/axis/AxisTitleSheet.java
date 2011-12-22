@@ -81,12 +81,12 @@ public class AxisTitleSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				getLabelAttributesContext( ),
 				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-				getAxisForProcessing( ).isSetTitlePosition( ) ? getAxisForProcessing( ).getTitlePosition( )
-						: null,
-				getAxisForProcessing( ).getTitle( ),
+				getAxisForProcessing( ),
+				"titlePosition", //$NON-NLS-1$
+				"title", //$NON-NLS-1$
+				defAxis,
 				getChart( ).getUnits( ),
-				getPositionScope( ),
-				defAxis.getTitle( ) );
+				getPositionScope( ) );
 		if ( axisType == AngleType.Z )
 		{
 			lacTitle.setDefaultLabelValue( DefaultValueProvider.defAncillaryAxis( )

@@ -15,7 +15,7 @@ import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;

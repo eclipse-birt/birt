@@ -22,11 +22,13 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
+import org.eclipse.birt.chart.ui.swt.ChartSlider;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -46,14 +48,11 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * UI composite for Pie series attributes
@@ -73,9 +72,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private FillChooserComposite fccSliceOutline = null;
 
-	private Combo cmbLeaderLine = null;
+	private ChartCombo cmbLeaderLine = null;
 
-	private Spinner iscLeaderLength = null;
+	private ChartSpinner iscLeaderLength = null;
 
 	private LineAttributesComposite liacLeaderLine = null;
 
@@ -89,26 +88,16 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private TextEditorComposite txtExplode;
 	private Button btnBuilder;
-	private Spinner iscExplosion;
+	private ChartSpinner iscExplosion;
 
-	private Slider sRatio;
-	private Slider sRotation;
+	private ChartSlider sRatio;
+	private ChartSlider sRotation;
 
-	private Button btnLeaderLengthAuto;
+	private ChartCheckbox btnDirection;
 
-	private Button btnRatioAuto;
+	private AbstractChartNumberEditor txtInnerRadius;
 
-	private Button btnRotationAuto;
-
-	private AbstractChartCheckbox btnDirection;
-
-	private Button btnExplosionAuto;
-
-	private LocalizedNumberEditorComposite txtInnerRadius;
-
-	private Button btnInnerSizeAuto;
-
-	private Combo cmbInnerRadiusPercent;
+	private ChartCombo cmbInnerRadiusPercent;
 
 	private Label lblInnerRadiusPercent;
 
@@ -220,19 +209,17 @@ public class PieSeriesAttributeComposite extends Composite implements
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		comp.setLayoutData( gd );
 
-		iscLeaderLength = new Spinner( comp, SWT.BORDER );
+		iscLeaderLength = context.getUIFactory( ).createChartSpinner( comp,
+				SWT.BORDER,
+				series,
+				"leaderLineLength", //$NON-NLS-1$
+				true );
 		GridData gdISCLeaderLength = new GridData( GridData.FILL_HORIZONTAL );
+		gdISCLeaderLength.horizontalSpan = 2;
 		iscLeaderLength.setLayoutData( gdISCLeaderLength );
-		iscLeaderLength.setMinimum( 0 );
-		iscLeaderLength.setMaximum( MAX_LEADER_LENGTH );
-		iscLeaderLength.setSelection( (int) series.getLeaderLineLength( ) );
-		iscLeaderLength.addSelectionListener( this );
-
-		btnLeaderLengthAuto = new Button( comp, SWT.CHECK );
-		btnLeaderLengthAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnLeaderLengthAuto.setSelection( !series.isSetLeaderLineLength( ) );
-		iscLeaderLength.setEnabled( !btnLeaderLengthAuto.getSelection( ) );
-		btnLeaderLengthAuto.addSelectionListener( this );
+		iscLeaderLength.getWidget( ).setMinimum( 0 );
+		iscLeaderLength.getWidget( ).setMaximum( MAX_LEADER_LENGTH );
+		iscLeaderLength.getWidget( ).setSelection( (int) series.getLeaderLineLength( ) );
 
 		Composite cmpRight = new Composite( this, SWT.NONE );
 		{
@@ -245,6 +232,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 		comp = new Composite( cmpRight, SWT.NONE );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
 		comp.setLayoutData( gd );
 
 		gl = new GridLayout( 3, false );
@@ -256,35 +244,37 @@ public class PieSeriesAttributeComposite extends Composite implements
 		gl.marginHeight = 0;
 		comp.setLayout( gl );
 
-		cmbInnerRadiusPercent = new Combo( comp, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbInnerRadiusPercent = context.getUIFactory( )
+				.createChartCombo( comp,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						series,
+						"innerRadiusPercent", //$NON-NLS-1$
+						Messages.getString( "PieBottomAreaComponent.Label.Percentage" ) );//$NON-NLS-1$
 		{
-			cmbInnerRadiusPercent.setItems( ChartUIExtensionUtil.getItemsWithAuto( MINMUM_SLICE_ITEMS ) );
-			cmbInnerRadiusPercent.select( series.isSetInnerRadiusPercent( ) ? ( series.isInnerRadiusPercent( ) ? 1
-					: 2 )
-					: 0 );
+			cmbInnerRadiusPercent.setItems( MINMUM_SLICE_ITEMS );
+			cmbInnerRadiusPercent.setItemData( MINMUM_SLICE_ITEMS );
+			cmbInnerRadiusPercent.setSelection( series.isInnerRadiusPercent( ) ? Messages.getString( "PieBottomAreaComponent.Label.Percentage" )//$NON-NLS-1$
+					: Messages.getString( "PieBottomAreaComponent.Label.Value" ) );//$NON-NLS-1$
 			cmbInnerRadiusPercent.addSelectionListener( this );
 		}
 
-		txtInnerRadius = new LocalizedNumberEditorComposite( comp, SWT.BORDER );
+		txtInnerRadius = context.getUIFactory( ).createChartNumberEditor( comp,
+				SWT.BORDER,
+				"%",//$NON-NLS-1$
+				series,
+				"innerRadius" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 2;
 			txtInnerRadius.setLayoutData( gridData );
 			txtInnerRadius.setValue( series.getInnerRadius( ) );
 			txtInnerRadius.addModifyListener( this );
 		}
 
-		lblInnerRadiusPercent = new Label( comp, SWT.NONE );
-		lblInnerRadiusPercent.setText( "%" ); //$NON-NLS-1$
+		lblInnerRadiusPercent = txtInnerRadius.getUnitLabel( );
 
-		btnInnerSizeAuto = new Button( cmpRight, SWT.CHECK );
-		btnInnerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnInnerSizeAuto.addListener( SWT.Selection, this );
-		btnInnerSizeAuto.setSelection( !series.isSetInnerRadius( ) );
-		txtInnerRadius.setEnabled( !btnInnerSizeAuto.getSelection( ) );
-
-		lblInnerRadiusPercent.setVisible( series.isSetInnerRadiusPercent( )
-				&& ( series.isInnerRadiusPercent( ) && !btnInnerSizeAuto.getSelection( ) ) );
+		lblInnerRadiusPercent.setVisible( series.isInnerRadiusPercent( ) );
 		createRotation( cmpRight );
 		createSeriesDetail( cmpRight );
 
@@ -308,16 +298,19 @@ public class PieSeriesAttributeComposite extends Composite implements
 		lblLeaderStyle.setLayoutData( gdLBLLeaderStyle );
 		lblLeaderStyle.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLineStyle" ) ); //$NON-NLS-1$
 
-		cmbLeaderLine = new Combo( cmpStyle, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbLeaderLine = context.getUIFactory( ).createChartCombo( cmpStyle,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				series,
+				"leaderLineStyle", //$NON-NLS-1$
+				defSeries.getLeaderLineStyle( ).getName( ) );
 		GridData gdCMBLeaderLine = new GridData( GridData.FILL_HORIZONTAL );
 		cmbLeaderLine.setLayoutData( gdCMBLeaderLine );
 		cmbLeaderLine.addSelectionListener( this );
 
 		NameSet ns = LiteralHelper.leaderLineStyleSet;
-		cmbLeaderLine.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
-		cmbLeaderLine.select( series.isSetLeaderLineStyle( ) ? ( ns.getSafeNameIndex( series.getLeaderLineStyle( )
-				.getName( ) ) + 1 )
-				: 0 );
+		cmbLeaderLine.setItems( ns.getDisplayNames( ) );
+		cmbLeaderLine.setItemData( ns.getNames( ) );
+		cmbLeaderLine.setSelection( series.getLeaderLineStyle( ).getName( ) );
 	}
 
 	protected void createRotation( Composite cmpRight )
@@ -328,10 +321,14 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblRatio.setToolTipText( TOOLTIP_RATIO );
 		}
 
-		sRatio = new Slider( cmpRight, SWT.HORIZONTAL );
+		sRatio = context.getUIFactory( ).createChartSlider( cmpRight,
+				SWT.HORIZONTAL,
+				series,
+				"ratio" ); //$NON-NLS-1$
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 1;
+			gridData.horizontalSpan = 2;
+			sRatio.setRatio( 10 );
 			sRatio.setLayoutData( gridData );
 			sRatio.setValues( (int) ( series.getRatio( ) * 10 ),
 					1,
@@ -342,16 +339,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
 			sRatio.setEnabled( true );
 			sRatio.addSelectionListener( this );
-			sRatio.addListener( SWT.FocusOut, this );
-			sRatio.addListener( SWT.KeyDown, this );
-			sRatio.addListener( SWT.Traverse, this );
+//			sRatio.addListener( SWT.FocusOut, this );
+//			sRatio.addListener( SWT.KeyDown, this );
+//			sRatio.addListener( SWT.Traverse, this );
 		}
-
-		btnRatioAuto = new Button( cmpRight, SWT.CHECK );
-		btnRatioAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnRatioAuto.setSelection( !series.isSetRatio( ) );
-		sRatio.setEnabled( !btnRatioAuto.getSelection( ) );
-		btnRatioAuto.addSelectionListener( this );
 
 		Label lblRotation = new Label( cmpRight, SWT.NONE );
 		{
@@ -359,10 +350,13 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblRotation.setToolTipText( TOOLTIP_ROTATION );
 		}
 
-		sRotation = new Slider( cmpRight, SWT.HORIZONTAL );
+		sRotation = context.getUIFactory( ).createChartSlider( cmpRight,
+				SWT.HORIZONTAL,
+				series,
+				"rotation" ); //$NON-NLS-1$
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			gridData.horizontalSpan = 1;
+			gridData.horizontalSpan = 2;
 			sRotation.setLayoutData( gridData );
 			sRotation.setValues( (int) ( series.getRotation( ) ),
 					0,
@@ -373,16 +367,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 			sRotation.setEnabled( true );
 			sRotation.addSelectionListener( this );
-			sRotation.addListener( SWT.FocusOut, this );
-			sRotation.addListener( SWT.KeyDown, this );
-			sRotation.addListener( SWT.Traverse, this );
+//			sRotation.addListener( SWT.FocusOut, this );
+//			sRotation.addListener( SWT.KeyDown, this );
+//			sRotation.addListener( SWT.Traverse, this );
 		}
-
-		btnRotationAuto = new Button( cmpRight, SWT.CHECK );
-		btnRotationAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnRotationAuto.setSelection( !series.isSetRotation( ) );
-		sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
-		btnRotationAuto.addSelectionListener( this );
 
 		btnDirection = context.getUIFactory( )
 				.createChartCheckbox( cmpRight,
@@ -403,22 +391,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 	private void updateInnerRadiusStates( )
 	{
-		btnInnerSizeAuto.setEnabled( true );
-		txtInnerRadius.setEnabled( !btnInnerSizeAuto.getSelection( ) );
-		if ( cmbInnerRadiusPercent.getSelectionIndex( ) == 0 )
-		{
-			lblInnerRadiusPercent.setVisible( false );
-		}
-		else
-		{
-			lblInnerRadiusPercent.setVisible( series.isSetInnerRadiusPercent( )
-					&& series.isInnerRadiusPercent( ) );
-			lblInnerRadiusPercent.setEnabled( !btnInnerSizeAuto.getSelection( ) );
-		}
-		if ( lblInnerRadiusPercent.isVisible( ) )
-		{
-			lblInnerRadiusPercent.setEnabled( !btnInnerSizeAuto.getSelection( ) );
-		}
+		lblInnerRadiusPercent.setVisible( series.isInnerRadiusPercent( ) );
 	}
 
 	private void createSeriesDetail( Composite cmpRight )
@@ -474,21 +447,19 @@ public class PieSeriesAttributeComposite extends Composite implements
 			lblExpDistance.setToolTipText( TOOLTIP_EXPLOSION_DISTANCE );
 		}
 
-		iscExplosion = new Spinner( grpSlice, SWT.BORDER );
+		iscExplosion = context.getUIFactory( ).createChartSpinner( grpSlice,
+				SWT.BORDER,
+				series,
+				"explosion", //$NON-NLS-1$
+				true );
 		{
 			GridData gdISCExplosion = new GridData( GridData.FILL_HORIZONTAL );
+			gdISCExplosion.horizontalSpan = 2;
 			iscExplosion.setLayoutData( gdISCExplosion );
-			iscExplosion.setMinimum( 0 );
-			iscExplosion.setMaximum( 100 );
-			iscExplosion.setSelection( series.getExplosion( ) );
-			iscExplosion.addSelectionListener( this );
+			iscExplosion.getWidget( ).setMinimum( 0 );
+			iscExplosion.getWidget( ).setMaximum( 100 );
+			iscExplosion.getWidget( ).setSelection( series.getExplosion( ) );
 		}
-
-		btnExplosionAuto = new Button( grpSlice, SWT.CHECK );
-		btnExplosionAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnExplosionAuto.setSelection( !series.isSetExplosion( ) );
-		iscExplosion.setEnabled( !btnExplosionAuto.getSelection( ) );
-		btnExplosionAuto.addSelectionListener( this );
 
 		// Slice outline color composite
 		Label lblSliceOutline = new Label( grpSlice, SWT.NONE );
@@ -498,8 +469,9 @@ public class PieSeriesAttributeComposite extends Composite implements
 
 		int fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
-				| FillChooserComposite.ENABLE_AUTO
 				| FillChooserComposite.DISABLE_PATTERN_FILL;
+		fillStyles |= context.getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fccSliceOutline = new FillChooserComposite( grpSlice,
 				SWT.NONE,
 				fillStyles,
@@ -564,20 +536,6 @@ public class PieSeriesAttributeComposite extends Composite implements
 					btnDirection.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 					btnDirection.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
-		else if ( event.widget == btnInnerSizeAuto )
-		{
-			if ( btnInnerSizeAuto.getSelection( ) )
-			{
-				txtInnerRadius.setEnabled( false );
-				series.unsetInnerRadius( );
-			}
-			else
-			{
-				txtInnerRadius.setEnabled( true );
-				txtInnerRadius.setValue( series.getInnerRadius( ) );
-			}
-			updateInnerRadiusStates( );
-		}
 	}
 
 	/*
@@ -589,33 +547,16 @@ public class PieSeriesAttributeComposite extends Composite implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( iscExplosion ) )
+		if ( e.getSource( ).equals( cmbLeaderLine ) )
 		{
-			series.setExplosion( iscExplosion.getSelection( ) );
-		}
-		else if ( e.widget == btnExplosionAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( series, "explosion", //$NON-NLS-1$
-					iscExplosion.getSelection( ),
-					btnExplosionAuto.getSelection( ) );
-			iscExplosion.setEnabled( !btnExplosionAuto.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( iscLeaderLength ) )
-		{
-			series.setLeaderLineLength( iscLeaderLength.getSelection( ) );
-		}
-		else if ( e.widget == btnLeaderLengthAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( series, "leaderLineLength", //$NON-NLS-1$
-					(double) iscLeaderLength.getSelection( ),
-					btnLeaderLengthAuto.getSelection( ) );
-			iscLeaderLength.setEnabled( !btnLeaderLengthAuto.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( cmbLeaderLine ) )
-		{
-			ChartElementUtil.setEObjectAttribute( series, "leaderLineStyle", //$NON-NLS-1$
-					LeaderLineStyle.getByName( LiteralHelper.leaderLineStyleSet.getNameByDisplayName( cmbLeaderLine.getText( ) ) ),
-					cmbLeaderLine.getSelectionIndex( ) == 0 );
+			String selectedLineStyle = cmbLeaderLine.getSelectedItemData( );
+			if ( selectedLineStyle != null )
+			{
+				ChartElementUtil.setEObjectAttribute( series,
+						"leaderLineStyle", //$NON-NLS-1$
+						LeaderLineStyle.getByName( selectedLineStyle ),
+						false );
+			}
 		}
 		else if ( e.widget.equals( btnBuilder ) )
 		{
@@ -639,50 +580,33 @@ public class PieSeriesAttributeComposite extends Composite implements
 		else if ( e.widget.equals( sRatio ) )
 		{
 			series.setRatio( ( (double) sRatio.getSelection( ) ) / 10 );
-			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
+			if ( series.isSetRatio( ) )
+			{
+				sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
+			}
+			else
+			{
+				sRatio.setToolTipText( String.valueOf( defSeries.getRatio( ) ) );
+			}
 		}
 		else if ( e.widget.equals( sRotation ) )
 		{
 			series.setRotation( sRotation.getSelection( ) );
-			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
-		}
-		else if ( e.widget == btnRotationAuto )
-		{
-			if ( btnRotationAuto.getSelection( ) )
+			if ( series.isSetRotation( ) )
 			{
-				series.unsetRotation( );
-				sRotation.setToolTipText( ChartUIExtensionUtil.getAutoMessage( ) );
-			}
-			else
-			{
-				series.setRotation( sRotation.getSelection( ) );
 				sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 			}
-			sRotation.setEnabled( !btnRotationAuto.getSelection( ) );
-		}
-		else if ( e.widget == btnRatioAuto )
-		{
-			if ( btnRatioAuto.getSelection( ) )
-			{
-				series.unsetRatio( );
-				sRatio.setToolTipText( ChartUIExtensionUtil.getAutoMessage( ) );
-			}
 			else
 			{
-				series.setRatio( ( (double) sRatio.getSelection( ) ) / 10 );
-				sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
+				sRotation.setToolTipText( String.valueOf( defSeries.getRotation( ) ) );
 			}
-			sRatio.setEnabled( !btnRatioAuto.getSelection( ) );
 		}
 		else if ( e.widget == cmbInnerRadiusPercent )
 		{
-			if ( cmbInnerRadiusPercent.getSelectionIndex( ) == 0 )
+			String selectedRadius = cmbInnerRadiusPercent.getSelectedItemData( );
+			if ( selectedRadius != null )
 			{
-				series.unsetInnerRadiusPercent( );
-			}
-			else
-			{
-				series.setInnerRadiusPercent( cmbInnerRadiusPercent.getSelectionIndex( ) == 1 );
+				series.setInnerRadiusPercent( selectedRadius.equals( Messages.getString( "PieBottomAreaComponent.Label.Percentage" ) ) ); //$NON-NLS-1$
 			}
 			updateInnerRadiusStates( );
 		}
@@ -703,7 +627,10 @@ public class PieSeriesAttributeComposite extends Composite implements
 	{
 		if ( event.widget == txtInnerRadius )
 		{
-			series.setInnerRadius( txtInnerRadius.getValue( ) );
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( event.data ) )
+			{
+				series.setInnerRadius( txtInnerRadius.getValue( ) );
+			}
 		}
 	}
 }

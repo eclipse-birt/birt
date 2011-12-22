@@ -23,8 +23,8 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -39,7 +39,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -62,7 +61,7 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	
 	private transient Label lblOrientation = null;
 
-	private transient Combo cmbOrientation;
+	private transient ChartCombo cmbOrientation;
 
 	private transient Series series = null;
 	
@@ -72,9 +71,9 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 
 	ChartWizardContext context;
 
-	private AbstractChartCheckbox btnPalette;
+	private ChartCheckbox btnPalette;
 
-	private AbstractChartCheckbox btnCurve;
+	private ChartCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -162,7 +161,12 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		lblOrientation = new Label( cmpOrientation, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
 
-		cmbOrientation = new Combo( cmpOrientation, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbOrientation = context.getUIFactory( )
+				.createChartCombo( cmpOrientation,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						series,
+						"accOrientation", //$NON-NLS-1$
+						defSeries.getAccOrientation( ).getName( ) );
 		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
 		cmbOrientation.setLayoutData( gdCMBOrientation );
 		cmbOrientation.addSelectionListener( this );
@@ -257,8 +261,10 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 			btnCurve.addSelectionListener( this );
 		}
 
-		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
-		enableAccLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
+		enableLineSettings( !context.getUIFactory( )
+				.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
+		enableAccLineSettings( !context.getUIFactory( )
+				.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
 
 		populateLists( );
 	}
@@ -266,10 +272,10 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	private void populateLists( )
 	{
 		NameSet ns = LiteralHelper.orientationSet;
-		cmbOrientation.setItems( ChartUIExtensionUtil.getItemsWithAuto( ns.getDisplayNames( ) ) );
-		cmbOrientation.select( ( (BubbleSeries) series ).isSetAccOrientation( ) ? ( ns.getSafeNameIndex( ( (BubbleSeries) series ).getAccOrientation( )
-				.getName( ) ) + 1 )
-				: 0 );
+		cmbOrientation.setItems( ns.getDisplayNames( ) );
+		cmbOrientation.setItemData( ns.getNames( ) );
+		cmbOrientation.setSelection( ( (BubbleSeries) series ).getAccOrientation( )
+				.getName( ) );
 	}
 
 	public Point getPreferredSize( )
@@ -300,10 +306,14 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		}
 		else if ( e.getSource( ).equals( cmbOrientation ) )
 		{
-			ChartElementUtil.setEObjectAttribute( ( series ),
-					"accOrientation", //$NON-NLS-1$
-					Orientation.getByName( LiteralHelper.orientationSet.getNameByDisplayName( cmbOrientation.getText( ) ) ),
-					cmbOrientation.getSelectionIndex( ) == 0 );
+			String selectedOrientation = cmbOrientation.getSelectedItemData( );
+			if ( selectedOrientation != null )
+			{
+				ChartElementUtil.setEObjectAttribute( ( series ),
+						"accOrientation", //$NON-NLS-1$
+						Orientation.getByName( selectedOrientation ),
+						false );
+			}
 		}
 	}
 
@@ -332,7 +342,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
+				enableLineSettings( !context.getUIFactory( )
+						.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
@@ -362,7 +373,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableAccLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
+				enableAccLineSettings( !context.getUIFactory( )
+						.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{

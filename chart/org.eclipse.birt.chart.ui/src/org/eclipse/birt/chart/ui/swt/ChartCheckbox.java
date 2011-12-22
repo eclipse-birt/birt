@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,12 +9,11 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.chart.ui.swt.composites;
+package org.eclipse.birt.chart.ui.swt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -26,11 +25,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 
-/**
- * ChartCheckbox
+/**AbstractChartCheckbox
+ * 
  */
 
-public class ChartCheckbox extends AbstractChartCheckbox implements
+public class ChartCheckbox extends Composite implements
 		Listener,
 		SelectionListener
 {
@@ -254,4 +253,5 @@ public class ChartCheckbox extends AbstractChartCheckbox implements
 		super.setEnabled( enabled );
 		button.setEnabled( enabled );
 	}
+
 }

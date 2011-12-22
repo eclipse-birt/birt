@@ -34,20 +34,44 @@ import org.eclipse.emf.ecore.EObject;
 
 public class ChartValueUpdater extends BaseChartValueUpdater
 {
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#update(org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.model.Chart)
+	 */
 	public void update( Chart eObj, Chart eRefObj )
 	{
 		super.update( eObj, eRefObj );
 		
-		revise( eObj, eRefObj );
+		revise( eObj, eRefObj, true );
 	}
 
+	/**
+	 * @param eObj
+	 * @param eRefObj
+	 * @param checkVisible
+	 */
+	public void update( Chart eObj, Chart eRefObj, boolean checkVisible )
+	{
+		
+		if ( eObj != null )
+		{
+			updateChart( eObj.eClass( ).getName( ),
+					null,
+					eObj,
+					eRefObj,
+					true,
+					checkVisible );
+		}
+		
+		revise( eObj, eRefObj, checkVisible );
+	}
+	
 	/**
 	 * This method revise property values according to limit of different chart types.
 	 * 
 	 * @param eObj
 	 * @param eRefObj
 	 */
-	protected void revise(Chart eObj, Chart eRefObj )
+	protected void revise(Chart eObj, Chart eRefObj, boolean checkVisible )
 	{
 		// This hasSeries array indicates if specific series type is contained in chart.
 		boolean[] hasSeries = hasSpecificSeries( eObj );
@@ -152,11 +176,11 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateCurveFitting(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.CurveFitting, org.eclipse.birt.chart.model.component.CurveFitting, org.eclipse.birt.chart.model.component.CurveFitting)
+	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateCurveFitting(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.CurveFitting, org.eclipse.birt.chart.model.component.CurveFitting, org.eclipse.birt.chart.model.component.CurveFitting, boolean, boolean)
 	 */
 	@Override
 	public void updateCurveFitting( String name, EObject eParentObj,
-			CurveFitting eObj, CurveFitting eRefObj, CurveFitting eDefObj, boolean eDefOverride )
+			CurveFitting eObj, CurveFitting eRefObj, CurveFitting eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		// As default, curve fitting is different from other chart element, if
 		// current curve fitting is null, just use non-null reference curve
@@ -182,15 +206,15 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			return;
 		}
 		
-		super.updateCurveFitting( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride );
+		super.updateCurveFitting( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateMarkerLine(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.MarkerLine, org.eclipse.birt.chart.model.component.MarkerLine, org.eclipse.birt.chart.model.component.MarkerLine)
+	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateMarkerLine(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.MarkerLine, org.eclipse.birt.chart.model.component.MarkerLine, org.eclipse.birt.chart.model.component.MarkerLine, boolean, boolean)
 	 */
 	@Override
 	public void updateMarkerLine( String name, EObject eParentObj,
-			MarkerLine eObj, MarkerLine eRefObj, MarkerLine eDefObj, boolean eDefOverride )
+			MarkerLine eObj, MarkerLine eRefObj, MarkerLine eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		// Same reason with updateCurveFitting method.
 		if ( eObj == null )
@@ -210,15 +234,15 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			return;
 		}
 
-		super.updateMarkerLine( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride );
+		super.updateMarkerLine( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateMarkerRange(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.MarkerRange, org.eclipse.birt.chart.model.component.MarkerRange, org.eclipse.birt.chart.model.component.MarkerRange)
+	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#updateMarkerRange(java.lang.String, org.eclipse.emf.ecore.EObject, org.eclipse.birt.chart.model.component.MarkerRange, org.eclipse.birt.chart.model.component.MarkerRange, org.eclipse.birt.chart.model.component.MarkerRange, boolean, boolean)
 	 */
 	@Override
 	public void updateMarkerRange( String name, EObject eParentObj,
-			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj, boolean eDefOverride )
+			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		// Same reason with updateCurveFitting method.
 		if ( eObj == null )
@@ -238,7 +262,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			return;
 		}
 
-		super.updateMarkerRange( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride );
+		super.updateMarkerRange( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 	}
 	
 	/**
@@ -254,7 +278,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateDialRegion( String name, EObject eParentObj,
-			DialRegion eObj, DialRegion eRefObj, DialRegion eDefObj, boolean eDefOverride )
+			DialRegion eObj, DialRegion eRefObj, DialRegion eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		// Same reason with updateCurveFitting method.
 		if ( eObj == null )
@@ -274,12 +298,12 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			return;
 		}
 
-		super.updateDialRegion( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride );
+		super.updateDialRegion( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 
 	}
 	
 	protected void updateMarkerRangeImpl( String name, EObject eParentObj,
-			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj, boolean eDefOverride )
+			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		// Same reason with updateCurveFitting method.
 		if ( eObj == null )
@@ -299,6 +323,6 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			return;
 		}
 
-		super.updateMarkerRangeImpl( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride );
+		super.updateMarkerRangeImpl( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 	}
 }

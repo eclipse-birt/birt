@@ -27,9 +27,10 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
+import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -83,19 +84,19 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 
 	private transient Label lblStartValue = null;
 
-	private transient TextEditorComposite txtStartValue = null;
+	private transient AbstractChartTextEditor txtStartValue = null;
 
 	private transient Label lblEndValue = null;
 
-	private transient TextEditorComposite txtEndValue = null;
+	private transient AbstractChartTextEditor txtEndValue = null;
 
 	private transient Label lblInnerRadius = null;
 
-	private transient LocalizedNumberEditorComposite txtInnerRadius = null;
+	private transient AbstractChartNumberEditor txtInnerRadius = null;
 
 	private transient Label lblOuterRadius = null;
 
-	private transient LocalizedNumberEditorComposite txtOuterRadius = null;
+	private transient AbstractChartNumberEditor txtOuterRadius = null;
 
 	private transient Label lblRangeFill = null;
 
@@ -108,14 +109,6 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	private transient int iRangeCount = 0;
 
 	private transient SeriesDefinition seriesDefn;
-
-	private Button btnStartValueAuto;
-
-	private Button btnEndValueAuto;
-
-	private Button btnInnerRadiusAuto;
-
-	private Button btnOuterRadiusAuto;
 
 	private Series series;
 	
@@ -247,16 +240,16 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		lblStartValue.setLayoutData( gdLBLStartValue );
 		lblStartValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue" ) ); //$NON-NLS-1$
 
-		txtStartValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
-				| SWT.SINGLE );
+		txtStartValue = getContext( ).getUIFactory( )
+				.createChartTextEditor( cmpRangeValue,
+						SWT.BORDER | SWT.SINGLE,
+						null,
+						"startValue" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtStartValue.getTextControl( ), null );
 		GridData gdTXTStartValue = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTStartValue.horizontalSpan = 2;
 		txtStartValue.setLayoutData( gdTXTStartValue );
 		txtStartValue.addListener( this );
-		
-		btnStartValueAuto = new Button( cmpRangeValue, SWT.CHECK );
-		btnStartValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnStartValueAuto.addSelectionListener( this );
 		
 		lblEndValue = new Label( cmpRangeValue, SWT.NONE );
 		GridData gdLBLEndValue = new GridData( );
@@ -264,17 +257,17 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		lblEndValue.setLayoutData( gdLBLEndValue );
 		lblEndValue.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue" ) ); //$NON-NLS-1$
 
-		txtEndValue = new TextEditorComposite( cmpRangeValue, SWT.BORDER
-				| SWT.SINGLE );
+		txtEndValue = getContext( ).getUIFactory( )
+				.createChartTextEditor( cmpRangeValue,
+						SWT.BORDER | SWT.SINGLE,
+						null,
+						"end" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtEndValue.getTextControl( ), null );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTEndValue.horizontalSpan = 2;
 		txtEndValue.setLayoutData( gdTXTEndValue );
 		txtEndValue.addListener( this );
 
-		btnEndValueAuto = new Button( cmpRangeValue, SWT.CHECK );
-		btnEndValueAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnEndValueAuto.addSelectionListener( this );
-		
 		// Radius
 		lblInnerRadius = new Label( cmpRangeValue, SWT.NONE );
 		GridData gdLBLInnerRadius = new GridData( );
@@ -282,33 +275,35 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		lblInnerRadius.setLayoutData( gdLBLInnerRadius );
 		lblInnerRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.InnerRadius" ) ); //$NON-NLS-1$
 
-		txtInnerRadius = new LocalizedNumberEditorComposite( cmpRangeValue,
-				SWT.BORDER | SWT.SINGLE );
+		txtInnerRadius = getContext( ).getUIFactory( )
+				.createChartNumberEditor( cmpRangeValue,
+						SWT.BORDER | SWT.SINGLE,
+						null,
+						null,
+						"innerRadius" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtInnerRadius.getTextControl( ), null );
 		GridData gdTXTInnerRadius = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTInnerRadius.horizontalSpan = 2;
 		txtInnerRadius.setLayoutData( gdTXTInnerRadius );
 		txtInnerRadius.addModifyListener( this );
 
-		btnInnerRadiusAuto = new Button( cmpRangeValue, SWT.CHECK );
-		btnInnerRadiusAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnInnerRadiusAuto.addSelectionListener( this );
-		
 		lblOuterRadius = new Label( cmpRangeValue, SWT.NONE );
 		GridData gdLBLOuterRadius = new GridData( );
 		gdLBLOuterRadius.horizontalIndent = 5;
 		lblOuterRadius.setLayoutData( gdLBLOuterRadius );
 		lblOuterRadius.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.OuterRadius" ) ); //$NON-NLS-1$
 
-		txtOuterRadius = new LocalizedNumberEditorComposite( cmpRangeValue,
-				SWT.BORDER | SWT.SINGLE );
+		txtOuterRadius = getContext( ).getUIFactory( )
+				.createChartNumberEditor( cmpRangeValue,
+						SWT.BORDER | SWT.SINGLE,
+						null,
+						null,
+						"outerRadius" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtOuterRadius.getTextControl( ), null );
 		GridData gdTXTOuterRadius = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTOuterRadius.horizontalSpan = 2;
 		txtOuterRadius.setLayoutData( gdTXTOuterRadius );
 		txtOuterRadius.addModifyListener( this );
-		
-		btnOuterRadiusAuto = new Button( cmpRangeValue, SWT.CHECK );
-		btnOuterRadiusAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnOuterRadiusAuto.addSelectionListener( this );
 		
 		// Fill
 		lblRangeFill = new Label( cmpRange, SWT.NONE );
@@ -317,11 +312,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		lblRangeFill.setLayoutData( gdLBLRangeFill );
 		lblRangeFill.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 		
-		int fillStyles = FillChooserComposite.ENABLE_AUTO
-				| FillChooserComposite.ENABLE_GRADIENT
+		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
 				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fccRange = new FillChooserComposite( cmpRange,
 				SWT.NONE,
 				fillStyles,
@@ -340,11 +336,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		grpMarkerRange.setLayout( new FillLayout( ) );
 		grpMarkerRange.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline" ) ); //$NON-NLS-1$
 
-		int lineStyles = LineAttributesComposite.ENABLE_AUTO_COLOR
-				| LineAttributesComposite.ENABLE_COLOR
+		int lineStyles = LineAttributesComposite.ENABLE_COLOR
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_WIDTH;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		liacMarkerRange = new LineAttributesComposite( grpMarkerRange,
 				SWT.NONE,
 				lineStyles,
@@ -486,24 +483,34 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		{
 			if ( e.widget.equals( txtInnerRadius ) )
 			{
-				if ( txtInnerRadius.isSetValue( ) )
+				if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ) )
 				{
-					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setInnerRadius( txtInnerRadius.getValue( ) );
-				}
-				else
-				{
-					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).unsetInnerRadius( );
+					if ( txtInnerRadius.isSetValue( ) )
+					{
+						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
+								.setInnerRadius( txtInnerRadius.getValue( ) );
+					}
+					else
+					{
+						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
+								.unsetInnerRadius( );
+					}
 				}
 			}
 			else if ( e.widget.equals( txtOuterRadius ) )
 			{
-				if ( txtOuterRadius.isSetValue( ) )
+				if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ) )
 				{
-					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setOuterRadius( txtOuterRadius.getValue( ) );
-				}
-				else
-				{
-					( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).unsetOuterRadius( );
+					if ( txtOuterRadius.isSetValue( ) )
+					{
+						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
+								.setOuterRadius( txtOuterRadius.getValue( ) );
+					}
+					else
+					{
+						( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) )
+								.unsetOuterRadius( );
+					}
 				}
 			}
 		}
@@ -516,43 +523,18 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.widget == btnStartValueAuto )
+		if ( e.getSource( ).equals( btnAddRange ) )
 		{
-			int iMarkerIndex = getMarkerIndex( );
-			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ),
-					"startValue",//$NON-NLS-1$
-					this.getTypedDataElement( txtStartValue.getText( ) ),
-					btnStartValueAuto.getSelection( ) );
-			txtStartValue.setEnabled( !btnStartValueAuto.getSelection( ) );
-		}
-		else if ( e.widget == btnEndValueAuto )
-		{
-			int iMarkerIndex = getMarkerIndex( );
-			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ),
-					"endValue",//$NON-NLS-1$
-					this.getTypedDataElement( txtEndValue.getText( ) ),
-					btnEndValueAuto.getSelection( ) );
-			txtEndValue.setEnabled( !btnEndValueAuto.getSelection( ) );
-		}
-		else if ( e.widget == btnInnerRadiusAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ),
-					"innerRadius",//$NON-NLS-1$
-					txtInnerRadius.getValue( ),
-					btnInnerRadiusAuto.getSelection( ) );
-			txtInnerRadius.setEnabled( !btnInnerRadiusAuto.getSelection( ) );
-		}
-		else if ( e.widget == btnOuterRadiusAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ),
-					"outerRadius",//$NON-NLS-1$
-					txtOuterRadius.getValue( ),
-					btnOuterRadiusAuto.getSelection( ) );
-			txtOuterRadius.setEnabled( !btnOuterRadiusAuto.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( btnAddRange ) )
-		{
-			DialRegion range = DialRegionImpl.createDefault( );
+			DialRegion range = null;
+			if ( getContext( ).getUIFactory( ).supportAutoUI( ) )
+			{
+				range = DialRegionImpl.createDefault( );
+			}
+			else
+			{
+				range = DialRegionImpl.create( );
+			}
+			
 			range.setStartValue( getTypedDataElement( null ) );
 			range.setEndValue( getTypedDataElement( null ) );
 			getDialForProcessing( ).getDialRegions( ).add( range );
@@ -590,7 +572,6 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			{
 				resetUI( );
 				setState( false );
-				setAutoButtonsState( false );
 			}
 
 			refreshButtons( );
@@ -656,24 +637,18 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	private void updateUIForSelection( )
 	{
 		grpGeneral.layout( );
-		setAutoButtonsState( true );
 		int iRangeIndex = getMarkerIndex( );
 		DialRegion range = getDialForProcessing( ).getDialRegions( )
 				.get( iRangeIndex );
 
 		// Update the value fields
+		txtStartValue.setEObjectParent( range );
 		txtStartValue.setText( getValueAsString( range.getStartValue( ) ) );
+		txtEndValue.setEObjectParent( range );
 		txtEndValue.setText( getValueAsString( range.getEndValue( ) ) );
 		
-		btnStartValueAuto.setSelection( range.getStartValue( ) == null );
-		txtStartValue.setEnabled( !btnStartValueAuto.getSelection( ) );
-		
-		btnEndValueAuto.setSelection( range.getEndValue( ) == null );
-		txtEndValue.setEnabled( !btnEndValueAuto.getSelection( ) );
-		
 		// Update the radius fields
-		btnInnerRadiusAuto.setSelection( !range.isSetInnerRadius( ) );
-		txtInnerRadius.setEnabled( !btnInnerRadiusAuto.getSelection( ) );
+		txtInnerRadius.setEObjectParent( range );
 		if ( range.isSetInnerRadius( ) )
 		{
 			txtInnerRadius.setValue( range.getInnerRadius( ) );
@@ -683,8 +658,8 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 			txtInnerRadius.unsetValue( );
 		}
 		
-		btnOuterRadiusAuto.setSelection( !range.isSetOuterRadius( ) );
-		txtOuterRadius.setEnabled( !btnOuterRadiusAuto.getSelection( ) );
+		
+		txtOuterRadius.setEObjectParent( range );
 		if ( range.isSetOuterRadius( ) )
 		{
 			txtOuterRadius.setValue( range.getOuterRadius( ) );
@@ -716,28 +691,20 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		else
 		{
 			setState( false );
-			setAutoButtonsState( false );
 		}
 	}
 
-	private void setAutoButtonsState(boolean enabled )
-	{
-		btnStartValueAuto.setEnabled( enabled );
-		btnEndValueAuto.setEnabled( enabled );
-		btnInnerRadiusAuto.setEnabled( enabled );
-		btnOuterRadiusAuto.setEnabled( enabled );
-	}
 
 	private void setState( boolean bState )
 	{
 		lblStartValue.setEnabled( bState );
-		txtStartValue.setEnabled( bState && !btnStartValueAuto.getSelection( ) );
+		txtStartValue.setEnabled( bState );
 		lblEndValue.setEnabled( bState );
-		txtEndValue.setEnabled( bState && !btnEndValueAuto.getSelection( ) );
+		txtEndValue.setEnabled( bState );
 		lblInnerRadius.setEnabled( bState );
-		txtInnerRadius.setEnabled( bState && !btnInnerRadiusAuto.getSelection( ) );
+		txtInnerRadius.setEnabled( bState );
 		lblOuterRadius.setEnabled( bState );
-		txtOuterRadius.setEnabled( bState && !btnOuterRadiusAuto.getSelection( )  );
+		txtOuterRadius.setEnabled( bState );
 		
 		liacMarkerRange.setAttributesEnabled( bState );
 		// lacLabel.setEnabled( bState );

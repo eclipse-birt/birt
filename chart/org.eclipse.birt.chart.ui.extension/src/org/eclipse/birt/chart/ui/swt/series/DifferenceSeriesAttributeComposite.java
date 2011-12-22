@@ -23,8 +23,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -63,9 +62,9 @@ public class DifferenceSeriesAttributeComposite extends Composite
 
 	private ChartWizardContext context;
 
-	private AbstractChartCheckbox btnPalette;
+	private ChartCheckbox btnPalette;
 
-	private AbstractChartCheckbox btnCurve;
+	private ChartCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -316,8 +315,10 @@ public class DifferenceSeriesAttributeComposite extends Composite
 
 	protected boolean canEnableLinePalette( )
 	{
-		return !ChartUIExtensionUtil.isSetInvisible( ( ( (DifferenceSeries) series ).getLineAttributes( ) ) )
-				|| !ChartUIExtensionUtil.isSetInvisible( ( ( (DifferenceSeries) series ).getNegativeLineAttributes( ) ) );
+		return !context.getUIFactory( )
+				.isSetInvisible( ( ( (DifferenceSeries) series ).getLineAttributes( ) ) )
+				|| !context.getUIFactory( )
+						.isSetInvisible( ( ( (DifferenceSeries) series ).getNegativeLineAttributes( ) ) );
 	}
 
 	/**

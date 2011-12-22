@@ -22,13 +22,11 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -55,11 +53,11 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 	private LineAttributesComposite liacLine = null;
 
-	private AbstractChartCheckbox btnPalette;
+	private ChartCheckbox btnPalette;
 
-	private AbstractChartCheckbox btnConnectEndPoints;
+	private ChartCheckbox btnConnectEndPoints;
 
-	private AbstractChartCheckbox btnFillPoly;
+	private ChartCheckbox btnFillPoly;
 
 	private RadarSeries defSeries;
 
@@ -120,11 +118,12 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		grpLine2.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine2.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Series" ) ); //$NON-NLS-1$
 
-		int lineStyles = LineAttributesComposite.ENABLE_AUTO_COLOR
-				| LineAttributesComposite.ENABLE_COLOR
+		int lineStyles = LineAttributesComposite.ENABLE_COLOR
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_WIDTH;
+		lineStyles |= context.getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		liacLine = new LineAttributesComposite( grpLine2,
 				SWT.NONE,
 				lineStyles,
@@ -173,7 +172,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 					: ChartCheckbox.STATE_UNSELECTED )
 					: ChartCheckbox.STATE_GRAYED );
 			btnFillPoly.addListener( SWT.Selection, this );
-			btnFillPoly.setEnabled( ChartUIExtensionUtil.canEnableUI( btnConnectEndPoints ) );
+			btnFillPoly.setEnabled( context.getUIFactory( ).canEnableUI( btnConnectEndPoints ) );
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
@@ -192,8 +191,8 @@ public class RadarSeriesAttributeComposite extends Composite implements
 				context,
 				defSeries.getMarker( ) );
 
-		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( series.getWebLineAttributes( ) ) );
-		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( series.getLineAttributes( ) ) );
+		enableLineSettings( !context.getUIFactory( ).isSetInvisible( series.getWebLineAttributes( ) ) );
+		enableLineSettings( !context.getUIFactory( ).isSetInvisible( series.getLineAttributes( ) ) );
 	}
 
 	/*
@@ -214,7 +213,8 @@ public class RadarSeriesAttributeComposite extends Composite implements
 						"visible",//$NON-NLS-1$
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
-				enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( series.getLineAttributes( ) ) );
+				enableLineSettings( !context.getUIFactory( )
+						.isSetInvisible( series.getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
@@ -256,7 +256,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 					"connectEndpoints",//$NON-NLS-1$
 					btnConnectEndPoints.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 					btnConnectEndPoints.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
-			btnFillPoly.setEnabled( ChartUIExtensionUtil.canEnableUI( btnConnectEndPoints ) );
+			btnFillPoly.setEnabled( context.getUIFactory( ).canEnableUI( btnConnectEndPoints ) );
 		}
 		else if ( event.widget.equals( mec ) )
 		{

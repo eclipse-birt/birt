@@ -21,9 +21,10 @@ import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -34,7 +35,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -47,23 +47,17 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		Listener,
 		ModifyListener
 {
-	private LocalizedNumberEditorComposite txtRadius = null;
+	private AbstractChartNumberEditor txtRadius = null;
 
-	private IntegerSpinControl iscStartAngle = null;
+	private AbstractChartIntSpinner iscStartAngle = null;
 
-	private IntegerSpinControl iscStopAngle = null;
+	private AbstractChartIntSpinner iscStopAngle = null;
 
 	private DialSeries series = null;
 	
 	private FillChooserComposite fcc = null;
 
 	private ChartWizardContext wizardContext;
-
-	private Button btnRadiusAuto;
-
-	private Button btnStartAngleAuto;
-
-	private Button btnStopAngleAuto;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -128,11 +122,16 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		lblRadius.setLayoutData( gdLBLRadius );
 		lblRadius.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.Radius" ) ); //$NON-NLS-1$
 
-		txtRadius = new LocalizedNumberEditorComposite( cmpLeft, SWT.BORDER
-				| SWT.SINGLE );
+		txtRadius = wizardContext.getUIFactory( )
+				.createChartNumberEditor( cmpLeft,
+						SWT.BORDER | SWT.SINGLE,
+						null,
+						series.getDial( ),
+						"radius" ); //$NON-NLS-1$
 		new TextNumberEditorAssistField( txtRadius.getTextControl( ), null );
 		
 		GridData gdTXTRadius = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTRadius.horizontalSpan = 2;
 		if ( series.getDial( ).isSetRadius( ) )
 		{
 			txtRadius.setValue( series.getDial( ).getRadius( ) );
@@ -140,22 +139,17 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		txtRadius.setLayoutData( gdTXTRadius );
 		txtRadius.addModifyListener( this );
 		
-		btnRadiusAuto = new Button( cmpLeft, SWT.CHECK );
-		btnRadiusAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnRadiusAuto.setSelection( !series.getDial( ).isSetRadius( ) );
-		txtRadius.setEnabled( !btnRadiusAuto.getSelection( ) );
-		btnRadiusAuto.addListener( SWT.Selection, this );
-		
 		Label lblFill = new Label( cmpLeft, SWT.NONE );
 		GridData gdFill = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		lblFill.setLayoutData( gdFill );
 		lblFill.setText( Messages.getString( "MeterSeriesAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 
-		int fillStyles = FillChooserComposite.ENABLE_AUTO
-				| FillChooserComposite.ENABLE_GRADIENT
+		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
 				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		fillStyles |= wizardContext.getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fcc = new FillChooserComposite( cmpLeft,
 				SWT.NONE,
 				fillStyles,
@@ -178,42 +172,39 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		lblStartAngle.setLayoutData( gdLBLStartAngle );
 		lblStartAngle.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.StartAngle" ) ); //$NON-NLS-1$
 
-		iscStartAngle = new IntegerSpinControl( cmpRight,
+		iscStartAngle = wizardContext.getUIFactory( ).createChartIntSpinner( cmpRight,
 				SWT.NONE,
-				(int) series.getDial( ).getStartAngle( ) );
+				(int) series.getDial( ).getStartAngle( ),
+				series.getDial( ),
+				"startAngle", //$NON-NLS-1$
+				true );
 		GridData gdISCStartAngle = new GridData( GridData.FILL_HORIZONTAL );
+		gdISCStartAngle.horizontalSpan = 2;
 		iscStartAngle.setLayoutData( gdISCStartAngle );
 		iscStartAngle.setValue( (int) ( series.getDial( ).getStartAngle( ) ) );
 		iscStartAngle.setMinimum( -360 );
 		iscStartAngle.setMaximum( 360 );
 		iscStartAngle.addListener( this );
 		
-		btnStartAngleAuto = new Button( cmpRight, SWT.CHECK );
-		btnStartAngleAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnStartAngleAuto.setSelection( !series.getDial( ).isSetStartAngle( ) );
-		iscStartAngle.setEnabled( !btnStartAngleAuto.getSelection( ) );
-		btnStartAngleAuto.addListener( SWT.Selection, this );
-		
 		Label lblStopAngle = new Label( cmpRight, SWT.NONE );
 		GridData gdLBLStopAngle = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		lblStopAngle.setLayoutData( gdLBLStopAngle );
 		lblStopAngle.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.StopAngle" ) ); //$NON-NLS-1$
 
-		iscStopAngle = new IntegerSpinControl( cmpRight,
-				SWT.NONE,
-				(int) series.getDial( ).getStopAngle( ) );
+		iscStopAngle = wizardContext.getUIFactory( )
+				.createChartIntSpinner( cmpRight,
+						SWT.NONE,
+						(int) series.getDial( ).getStopAngle( ),
+						series.getDial( ),
+						"stopAngle", //$NON-NLS-1$
+						true );
 		GridData gdISCStopAngle = new GridData( GridData.FILL_HORIZONTAL );
+		gdISCStopAngle.horizontalSpan = 2;
 		iscStopAngle.setLayoutData( gdISCStopAngle );
 		iscStopAngle.setValue( (int) ( series.getDial( ).getStopAngle( ) ) );
 		iscStopAngle.setMinimum( -360 );
 		iscStopAngle.setMaximum( 360 );
 		iscStopAngle.addListener( this );
-		
-		btnStopAngleAuto = new Button( cmpRight, SWT.CHECK );
-		btnStopAngleAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnStopAngleAuto.setSelection( !series.getDial( ).isSetStopAngle( ) );
-		iscStopAngle.setEnabled( !btnStopAngleAuto.getSelection( ) );
-		btnStopAngleAuto.addListener( SWT.Selection, this );
 	}
 
 	/*
@@ -225,13 +216,16 @@ public class MeterSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.widget.equals( txtRadius ) )
 		{
-			if ( txtRadius.isSetValue( ) )
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ) )
 			{
-				series.getDial( ).setRadius( txtRadius.getValue( ) );
-			}
-			else
-			{
-				series.getDial( ).unsetRadius( );
+				if ( txtRadius.isSetValue( ) )
+				{
+					series.getDial( ).setRadius( txtRadius.getValue( ) );
+				}
+				else
+				{
+					series.getDial( ).unsetRadius( );
+				}
 			}
 		}
 	}
@@ -245,47 +239,21 @@ public class MeterSeriesAttributeComposite extends Composite implements
 	{
 		if ( event.widget.equals( iscStartAngle ) )
 		{
-			series.getDial( )
-					.setStartAngle( ( (Integer) event.data ).intValue( ) );
+			ChartElementUtil.setEObjectAttribute( series.getDial( ),
+					"startAngle", //$NON-NLS-1$
+					Double.valueOf( ( (Integer) event.data ).doubleValue( ) ),
+					event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		}
 		else if ( event.widget.equals( iscStopAngle ) )
 		{
-			series.getDial( )
-					.setStopAngle( ( (Integer) event.data ).intValue( ) );
+			ChartElementUtil.setEObjectAttribute( series.getDial( ),
+					"stopAngle", //$NON-NLS-1$
+					Double.valueOf( ( (Integer) event.data ).doubleValue( ) ),
+					event.detail == ChartUIExtensionUtil.PROPERTY_UNSET  );
 		}
 		else if ( event.widget.equals( fcc ) )
 		{
 			series.getDial( ).setFill( (Fill) event.data );
-		}
-		else if ( event.widget == btnRadiusAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( series.getDial( ),
-					"radius", //$NON-NLS-1$
-					txtRadius.getValue( ),
-					btnRadiusAuto.getSelection( ) );
-			txtRadius.setEnabled( !btnRadiusAuto.getSelection( ) );
-			if ( !series.getDial( ).isSetRadius( ) )
-			{
-				txtRadius.unsetValue( );
-			}
-		}
-		else if ( event.widget == btnStartAngleAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( series.getDial( ),
-					"startAngle", //$NON-NLS-1$
-					(double)iscStartAngle.getValue( ),
-					btnStartAngleAuto.getSelection( ) );
-			iscStartAngle.setEnabled( !btnStartAngleAuto.getSelection( ) );
-			iscStartAngle.setValue( (int) ( series.getDial( ).getStartAngle( ) ) );
-		}
-		else if ( event.widget == btnStopAngleAuto )
-		{
-			ChartElementUtil.setEObjectAttribute( series.getDial( ),
-					"stopAngle", //$NON-NLS-1$
-					(double)iscStopAngle.getValue( ),
-					btnStopAngleAuto.getSelection( ) );
-			iscStopAngle.setEnabled( !btnStopAngleAuto.getSelection( ) );
-			iscStopAngle.setValue( (int) ( series.getDial( ).getStopAngle( ) ) );
 		}
 	}
 

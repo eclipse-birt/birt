@@ -95,10 +95,11 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-					getAxisForProcessing( ).getTitlePosition( ),
-					getAxisForProcessing( ).getTitle( ),
-					getChart( ).getUnits( ),
-					defAxis.getTitle( ) );
+					getAxisForProcessing( ),
+					"titlePosition",//$NON-NLS-1$
+					"title",//$NON-NLS-1$
+					defAxis,
+					getChart( ).getUnits( ) );
 		}
 		else
 		{
@@ -109,11 +110,12 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-					getAxisForProcessing( ).isSetTitlePosition( ) ?	getAxisForProcessing( ).getTitlePosition( ) : null,
-					getAxisForProcessing( ).getTitle( ),
+					getAxisForProcessing( ),
+					"titlePosition",//$NON-NLS-1$
+					"title",//$NON-NLS-1$
+					defAxis,
 					getChart( ).getUnits( ),
-					getPositionScope( ),
-					defAxis.getTitle( ) );
+					getPositionScope( ) );
 
 		}
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL
@@ -147,10 +149,11 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					null,
-					getAxisForProcessing( ).getLabelPosition( ),
-					getAxisForProcessing( ).getLabel( ),
-					getChart( ).getUnits( ),
-					defAxis.getLabel( ) );
+					getAxisForProcessing( ),
+					"labelPosition", //$NON-NLS-1$
+					"label", //$NON-NLS-1$
+					defAxis,
+					getChart( ).getUnits( ) );
 		}
 		else
 		{
@@ -163,12 +166,12 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					null,
-					getAxisForProcessing( ).isSetLabelPosition( ) ? getAxisForProcessing( ).getLabelPosition( )
-							: null,
-					getAxisForProcessing( ).getLabel( ),
+					getAxisForProcessing( ),
+					"labelPosition", //$NON-NLS-1$
+					"label", //$NON-NLS-1$
+					defAxis,
 					getChart( ).getUnits( ),
-					getPositionScope( ),
-					defAxis.getLabel( ) );
+					getPositionScope( ) );
 		}
 		GridData gdLACLabel = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACLabel.horizontalSpan = 2;

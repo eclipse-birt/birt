@@ -22,12 +22,12 @@ import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
-import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -45,7 +45,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * LegendTextSheet
@@ -66,19 +65,17 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private transient LineAttributesComposite outlineText;
 
-	private transient InsetsComposite icText;
+	private transient AbstractChartInsets icText;
 
 	private transient FormatSpecifierPreview fsp;
 
 	private transient Button btnFormatSpecifier;
 
-	private Spinner spnEllipsis;
+	private ChartSpinner spnEllipsis;
 
 	private boolean isByCategory;
 
 	private boolean containsYOG;
-
-	private Button btnEllipsisAuto;
 
 	public LegendTextSheet( String title, ChartWizardContext context )
 	{
@@ -169,31 +166,31 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		fdcFont.addListener( this );
 
 		new Label( grpTxtArea, SWT.NONE ).setText( Messages.getString("LegendTextSheet.Label.Ellipsis") ); //$NON-NLS-1$
-		spnEllipsis = new Spinner( grpTxtArea, SWT.BORDER );
+		spnEllipsis = getContext( ).getUIFactory( )
+				.createChartSpinner( grpTxtArea,
+						SWT.BORDER,
+						getLegend( ),
+						"ellipsis", //$NON-NLS-1$
+						true );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			spnEllipsis.setLayoutData( gd );
-			spnEllipsis.setMinimum( 0 );
-			spnEllipsis.setSelection( getLegend( ).getEllipsis( ) );
+			spnEllipsis.getWidget( ).setMinimum( 0 );
+			spnEllipsis.getWidget( ).setSelection( getLegend( ).getEllipsis( ) );
 			spnEllipsis.setToolTipText( Messages.getString("LegendTextSheet.Tooltip.Ellipsis") ); //$NON-NLS-1$
-			spnEllipsis.addListener( SWT.Selection, this );
 		}
-		
-		btnEllipsisAuto = new Button( grpTxtArea, SWT.CHECK );
-		btnEllipsisAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnEllipsisAuto.setSelection( !getLegend().isSetEllipsis( ) );
-		spnEllipsis.setEnabled( !btnEllipsisAuto.getSelection( ) );
-		btnEllipsisAuto.addListener( SWT.Selection, this );
 		
 		Label lblShadow = new Label( grpTxtArea, SWT.NONE );
 		GridData gdLBLShadow = new GridData( );
 		lblShadow.setLayoutData( gdLBLShadow );
 		lblShadow.setText( Messages.getString( "ClientAreaAttributeComposite.Lbl.Shadow" ) ); //$NON-NLS-1$
 
-		int fillStyles = FillChooserComposite.ENABLE_AUTO
-				| FillChooserComposite.ENABLE_TRANSPARENT
+		int fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
 				| FillChooserComposite.DISABLE_PATTERN_FILL;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fccShadow = new FillChooserComposite( grpTxtArea,
 				SWT.NONE,
 				fillStyles,
@@ -207,11 +204,12 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		Label lblBackground = new Label( grpTxtArea, SWT.NONE );
 		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
 
-		fillStyles = FillChooserComposite.ENABLE_AUTO
-				| FillChooserComposite.ENABLE_TRANSPARENT
+		fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
 				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_GRADIENT;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fccBackground = new FillChooserComposite( grpTxtArea,
 				SWT.DROP_DOWN | SWT.READ_ONLY,
 				fillStyles,
@@ -235,8 +233,9 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+				| LineAttributesComposite.ENABLE_COLOR;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		outlineText = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
 				lineStyles,
@@ -246,17 +245,20 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		outlineText.addListener( this );
 		outlineText.setAttributesEnabled( true );
 
-		icText = new InsetsComposite( grpTxtArea,
-				SWT.NONE,
-				getLegend( ).getClientArea( ).getInsets( ),
-				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ),
-				getContext( ) );
+		icText = getContext( ).getUIFactory( )
+				.createChartInsetsComposite( grpTxtArea,
+						SWT.NONE,
+						2,
+						getLegend( ).getClientArea( ).getInsets( ),
+						getChart( ).getUnits( ),
+						getContext( ).getUIServiceProvider( ),
+						getContext( ),
+						ChartDefaultValueUtil.getDefaultLegend( getChart( ) )
+								.getClientArea( )
+								.getInsets( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		gdInsets.horizontalSpan = 3;
 		icText.setLayoutData( gdInsets );
-		icText.addListener( this );
-		icText.setDefaultInsetsValue( DefaultValueProvider.defLegend( ).getClientArea( ).getInsets( ) );
 
 		Group grpSeparator = new Group( cmpContent, SWT.NONE );
 		{
@@ -297,10 +299,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 					.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
 			getLegend( ).getText( )
 					.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-		}
-		else if ( event.widget == spnEllipsis )
-		{
-			getLegend( ).setEllipsis( spnEllipsis.getSelection( ) );
 		}
 		else if ( event.widget.equals( fccShadow ) )
 		{
@@ -378,19 +376,6 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		else if(event.widget.equals( btnFormatSpecifier ))
 		{
 			handleFormatBtnSelected( );			
-		}
-		else if ( event.widget == btnEllipsisAuto )
-		{
-			if ( btnEllipsisAuto.getSelection( ) )
-			{
-				getLegend( ).unsetEllipsis( );
-				spnEllipsis.setEnabled( false );
-			}
-			else
-			{
-				getLegend( ).setEllipsis( spnEllipsis.getSelection( ) );
-				spnEllipsis.setEnabled( true );
-			}
 		}
 	}
 

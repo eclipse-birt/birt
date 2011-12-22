@@ -22,13 +22,11 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -49,7 +47,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 
 	private Composite cmpContent = null;
 
-	private AbstractChartCheckbox btnWebLabels = null;
+	private ChartCheckbox btnWebLabels = null;
 
 	private LabelAttributesComposite webLabelAttr = null;
 
@@ -99,7 +97,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isPositionEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = ChartUIExtensionUtil.canEnableUI( btnWebLabels );
+		attributesContext.isVisibilityEnabled = getContext().getUIFactory( ).canEnableUI( btnWebLabels );
 		if ( series.getWebLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
@@ -111,10 +109,11 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 				getContext( ),
 				attributesContext,
 				null,
+				series,
 				null,
-				series.getWebLabel( ),
-				getChart( ).getUnits( ),
-				defSeries.getWebLabel( ) );
+				"webLabel", //$NON-NLS-1$
+				defSeries,
+				getChart( ).getUnits( ) );
 		webLabelAttr.setEnabled( !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) ) );
 		GridData wla = new GridData( GridData.FILL_HORIZONTAL );
 		wla.horizontalSpan = 2;

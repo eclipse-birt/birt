@@ -21,47 +21,41 @@ import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * @author Actuate Corporation
  * 
  */
 public class StockSeriesAttributeComposite extends Composite implements
-		Listener,
-		SelectionListener
+		Listener
 {
 
 	// FillChooserComposite fccCandle = null;
 
 	private LineAttributesComposite liacStock = null;
 
-	protected Spinner iscStick = null;
+	protected ChartSpinner iscStick = null;
 
 	protected StockSeries series = null;
 	
 	protected StockSeries defSeries = null;
 
 	protected transient ChartWizardContext context;
-
-	protected Button btnAuto;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -154,21 +148,17 @@ public class StockSeriesAttributeComposite extends Composite implements
 			
 			new Label( comp, SWT.NONE ).setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.StickLength" ) ); //$NON-NLS-1$
 
-			iscStick = new Spinner( comp, SWT.BORDER );
-			iscStick.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			iscStick.setMinimum( 0 );
-			iscStick.setMaximum( Integer.MAX_VALUE );
-			iscStick.setSelection( series.getStickLength( ) );
-			iscStick.addSelectionListener( this );
-			
-			btnAuto = new Button( comp, SWT.CHECK );
-			btnAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-			btnAuto.addSelectionListener( this );
-			gd = new GridData();
-			btnAuto.setLayoutData( gd );
-			btnAuto.setSelection( !series.isSetShowAsBarStick( )
-					|| series.isShowAsBarStick( ) );
-			iscStick.setEnabled( !btnAuto.getSelection( ) );
+			iscStick = context.getUIFactory( ).createChartSpinner( comp,
+					SWT.BORDER,
+					series,
+					"stickLength", //$NON-NLS-1$
+					true );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			iscStick.setLayoutData( gd );
+			iscStick.getWidget( ).setMinimum( 0 );
+			iscStick.getWidget( ).setMaximum( Integer.MAX_VALUE );
+			iscStick.getWidget( ).setSelection( series.getStickLength( ) );
 		}
 	}
 
@@ -180,43 +170,6 @@ public class StockSeriesAttributeComposite extends Composite implements
 	public Point getPreferredSize( )
 	{
 		return new Point( 400, 200 );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.widget.equals( iscStick ) )
-		{
-			series.setStickLength( iscStick.getSelection( ) );
-		}
-		else if ( e.widget == btnAuto )
-		{
-			if ( btnAuto.getSelection( ) )
-			{
-				iscStick.setEnabled( false );
-			}
-			else
-			{
-				iscStick.setEnabled( true );
-			}
-			ChartElementUtil.setEObjectAttribute( series,
-					"stickLength", //$NON-NLS-1$
-					Integer.valueOf( iscStick.getSelection( ) ),
-					btnAuto.getSelection( ) );
-		}
 	}
 
 	/*

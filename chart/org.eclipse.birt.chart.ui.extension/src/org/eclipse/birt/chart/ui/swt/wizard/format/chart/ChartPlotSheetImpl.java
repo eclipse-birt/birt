@@ -15,8 +15,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
@@ -44,9 +43,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	private AbstractChartCheckbox btnIncludingVisible;
+	private ChartCheckbox btnIncludingVisible;
 
-	protected AbstractChartCheckbox btnWithinVisible;
+	protected ChartCheckbox btnWithinVisible;
 
 	private FillChooserComposite cmbBlockColor;
 
@@ -73,11 +72,12 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			cmpBasic.setLayoutData( gd );
 		}
 
-		final int fillStyles = FillChooserComposite.ENABLE_AUTO
-				| FillChooserComposite.ENABLE_GRADIENT
+		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
 				| FillChooserComposite.ENABLE_IMAGE
 				| FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		createControlForAreaIncludingAxes( cmpBasic, fillStyles );
 		createControlForAreaWithinAxes( cmpBasic, fillStyles );
 

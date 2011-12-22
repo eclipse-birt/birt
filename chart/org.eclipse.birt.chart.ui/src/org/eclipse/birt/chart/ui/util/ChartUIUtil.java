@@ -1286,7 +1286,58 @@ public class ChartUIUtil
 
 		return items.toArray( new String[items.size( )] );
 	}
+	
+	public static String[] getPositionNames( int positionScope,
+			boolean isFlipped )
+	{
+		if ( ( positionScope & ChartUIConstants.ALLOW_ALL_POSITION ) == ChartUIConstants.ALLOW_ALL_POSITION )
+		{
+			return LiteralHelper.fullPositionSet.getNames( );
+		}
 
+		List<String> items = new ArrayList<String>( 5 );
+		// check vertical
+		if ( ( positionScope & ChartUIConstants.ALLOW_VERTICAL_POSITION ) == ChartUIConstants.ALLOW_VERTICAL_POSITION )
+		{
+			if ( isFlipped )
+			{
+				addArrayToList( LiteralHelper.horizontalPositionSet.getNames( ),
+						items );
+			}
+			else
+			{
+				addArrayToList( LiteralHelper.verticalPositionSet.getNames( ),
+						items );
+			}
+		}
+		// check horizontal
+		if ( ( positionScope & ChartUIConstants.ALLOW_HORIZONTAL_POSITION ) == ChartUIConstants.ALLOW_HORIZONTAL_POSITION )
+		{
+			if ( isFlipped )
+			{
+				addArrayToList( LiteralHelper.verticalPositionSet.getNames( ),
+						items );
+			}
+			else
+			{
+				addArrayToList( LiteralHelper.horizontalPositionSet.getNames( ),
+						items );
+			}
+		}
+		// check inout
+		// Inside or outside can be added separately
+		if ( ( positionScope & ChartUIConstants.ALLOW_IN_POSITION ) == ChartUIConstants.ALLOW_IN_POSITION )
+		{
+			items.add( Position.INSIDE_LITERAL.getName( ) );
+		}
+		if ( ( positionScope & ChartUIConstants.ALLOW_OUT_POSITION ) == ChartUIConstants.ALLOW_OUT_POSITION )
+		{
+			items.add( Position.OUTSIDE_LITERAL.getName( ) );
+		}
+
+		return items.toArray( new String[items.size( )] );
+	}
+	
 	private static void addArrayToList( String[] array, List<String> list )
 	{
 		for ( int i = 0; i < array.length; i++ )

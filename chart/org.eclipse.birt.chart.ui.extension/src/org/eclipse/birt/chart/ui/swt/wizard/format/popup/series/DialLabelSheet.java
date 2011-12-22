@@ -106,10 +106,11 @@ public class DialLabelSheet extends AbstractPopupSheet
 				getContext( ),
 				attributesContext,
 				null,
+				getSeriesForProcessing( ).getDial( ),
 				null,
-				getSeriesForProcessing( ).getDial( ).getLabel( ),
-				getChart( ).getUnits( ),
-				DefaultValueProvider.defDialSeries( ).getDial( ).getLabel( ) );
+				"label", //$NON-NLS-1$
+				DefaultValueProvider.defDialSeries( ).getDial( ),
+				getChart( ).getUnits( ) );
 		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
 		gdLACTitle.horizontalSpan = 2;
 		lacTitle.setLayoutData( gdLACTitle );

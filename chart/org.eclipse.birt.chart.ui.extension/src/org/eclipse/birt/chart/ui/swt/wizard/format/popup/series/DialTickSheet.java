@@ -17,8 +17,8 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
@@ -26,7 +26,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -46,13 +45,11 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 
 	private transient Label lblGridCount = null;
 
-	private transient IntegerSpinControl iscGridCount = null;
+	private transient AbstractChartIntSpinner iscGridCount = null;
 
 	private transient DialSeries series;
 	
 	private DialSeries defSeries = DefaultValueProvider.defDialSeries( );
-
-	private Button btnGridCountAuto;
 
 	public DialTickSheet( String title, ChartWizardContext context,
 			DialSeries series )
@@ -119,23 +116,23 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 		lblGridCount = new Label( cmpGridCount, SWT.NONE );
 		lblGridCount.setText( Messages.getString( "OrthogonalSeriesDataSheetImpl.Lbl.MinorGridCount" ) ); //$NON-NLS-1$
 
-		iscGridCount = new IntegerSpinControl( cmpGridCount,
-				SWT.NONE,
-				getDialForProcessing( ).getScale( ).getMinorGridsPerUnit( ) );
+		iscGridCount = getContext( ).getUIFactory( )
+				.createChartIntSpinner( cmpGridCount,
+						SWT.NONE,
+						getDialForProcessing( ).getScale( )
+								.getMinorGridsPerUnit( ),
+						getDialForProcessing( ).getScale( ),
+						"minorGridPerUnit", //$NON-NLS-1$
+						true );
 		{
 			GridData gdISCGridCount = new GridData( GridData.FILL_HORIZONTAL );
 			iscGridCount.setLayoutData( gdISCGridCount );
 			iscGridCount.addListener( this );
 		}
 
-		btnGridCountAuto = new Button( cmpGridCount, SWT.CHECK );
-		btnGridCountAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnGridCountAuto.setSelection( !getDialForProcessing( ).getScale( )
-				.isSetMinorGridsPerUnit( ) );
-		btnGridCountAuto.addListener( SWT.Selection, this );
-		
-		setState( !ChartUIExtensionUtil.isSetInvisible( getDialForProcessing( ).getMinorGrid( )
-				.getTickAttributes( ) ) );
+		setState( !getContext( ).getUIFactory( )
+				.isSetInvisible( getDialForProcessing( ).getMinorGrid( )
+						.getTickAttributes( ) ) );
 
 		return cmpContent;
 	}
@@ -188,23 +185,18 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 							"visible",//$NON-NLS-1$
 							( (Boolean) event.data ).booleanValue( ),
 							isUnset );
-					setState( !ChartUIExtensionUtil.isSetInvisible( getDialForProcessing( ).getMinorGrid( )
-							.getTickAttributes( ) ) );
+					setState( !getContext( ).getUIFactory( )
+							.isSetInvisible( getDialForProcessing( ).getMinorGrid( )
+									.getTickAttributes( ) ) );
 					break;
 			}
 		}
 		else if ( event.widget.equals( iscGridCount ) )
 		{
-			getDialForProcessing( ).getScale( )
-					.setMinorGridsPerUnit( ( (Integer) event.data ).intValue( ) );
-		}
-		else if ( event.widget == btnGridCountAuto )
-		{
 			ChartElementUtil.setEObjectAttribute( getDialForProcessing( ).getScale( ),
 					"minorGridsPerUnit",//$NON-NLS-1$
 					iscGridCount.getValue( ),
-					btnGridCountAuto.getSelection( ) );
-			iscGridCount.setEnabled( !btnGridCountAuto.getSelection( ) ); 
+					event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		}
 	}
 
@@ -217,8 +209,7 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 	{
 		lblGridCount.setEnabled( enabled );
 		iscGridCount.setEnabled( enabled );
-		btnGridCountAuto.setEnabled( enabled );
-		iscGridCount.setEnabled( !btnGridCountAuto.getSelection( ) );
+		iscGridCount.setEnabled( enabled );
 	}
 
 }

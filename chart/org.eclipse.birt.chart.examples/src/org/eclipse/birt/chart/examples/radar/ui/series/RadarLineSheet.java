@@ -21,13 +21,11 @@ import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -51,17 +49,15 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 
 	private final RadarSeries series;
 	private static final int MAX_STEPS = 20;
-	private AbstractChartCheckbox btnAutoScale = null;
+	private ChartCheckbox btnAutoScale = null;
 	private Label lblWebMax = null;
 	private Label lblWebMin = null;
-	private TextEditorComposite webMax = null;
-	private TextEditorComposite webMin = null;
+	private AbstractChartTextEditor webMax = null;
+	private AbstractChartTextEditor webMin = null;
 	private LineAttributesComposite wliacLine = null;
 	private Spinner iscScaleCnt = null;
-	private AbstractChartCheckbox btnTranslucentBullseye = null;
+	private ChartCheckbox btnTranslucentBullseye = null;
 	private Button btnScaleCntAuto;
-	private Button btnWebMinAuto;
-	private Button btnWebMaxAuto;
 	private RadarSeries defSeries;
 
 	public RadarLineSheet( String title, ChartWizardContext context,
@@ -88,11 +84,12 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Web" ) ); //$NON-NLS-1$
 		
-		int lineStyles = LineAttributesComposite.ENABLE_AUTO_COLOR
-				| LineAttributesComposite.ENABLE_COLOR
+		int lineStyles = LineAttributesComposite.ENABLE_COLOR
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_WIDTH;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		wliacLine = new LineAttributesComposite( grpLine,
 				SWT.NONE,
 				lineStyles,
@@ -139,9 +136,14 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			lblWebMin.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMinToolTip" ) ); //$NON-NLS-1$
 		}
 
-		webMin = new TextEditorComposite( cmpMinMax, SWT.BORDER | SWT.SINGLE );
+		webMin = getContext( ).getUIFactory( )
+				.createChartTextEditor( cmpMinMax,
+						SWT.BORDER | SWT.SINGLE,
+						series,
+						"webLabelMin" ); //$NON-NLS-1$
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			webMin.setLayoutData( gd );
 			if ( series.getWebLabelMin( ) != Double.NaN )
 			{
@@ -150,13 +152,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMin.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMinToolTip" ) ); //$NON-NLS-1$
 			webMin.addListener( this );
 		}
-
-		btnWebMinAuto = new Button( cmpMinMax, SWT.CHECK );
-		btnWebMinAuto.setText( UIHelper.getAutoMessage( ) );
-		btnWebMinAuto.setSelection( !series.isSetWebLabelMin( ) );
-		webMin.setEnabled( ChartUIExtensionUtil.canEnableUI( btnAutoScale )
-				&& !btnWebMinAuto.getSelection( ) );
-		btnWebMinAuto.addListener( SWT.Selection, this );
+		webMin.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale ) );
 		
 		lblWebMax = new Label( cmpMinMax, SWT.NONE );
 		{
@@ -164,9 +160,14 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			lblWebMax.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMaxToolTip" ) ); //$NON-NLS-1$
 		}
 
-		webMax = new TextEditorComposite( cmpMinMax, SWT.BORDER | SWT.SINGLE );
+		webMax = getContext( ).getUIFactory( )
+				.createChartTextEditor( cmpMinMax,
+						SWT.BORDER | SWT.SINGLE,
+						series,
+						"webLabelMax" );//$NON-NLS-1$
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			webMax.setLayoutData( gd );
 			if ( series.getWebLabelMax( ) != Double.NaN )
 			{
@@ -176,14 +177,9 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMax.addListener( this );
 		}
 		
-		btnWebMaxAuto = new Button( cmpMinMax, SWT.CHECK );
-		btnWebMaxAuto.setText( UIHelper.getAutoMessage( ) );
-		btnWebMaxAuto.setSelection( !series.isSetWebLabelMax( ) );
-		webMax.setEnabled( ChartUIExtensionUtil.canEnableUI( btnAutoScale )
-				&& !btnWebMaxAuto.getSelection( ) );
-		btnWebMaxAuto.addListener( SWT.Selection, this );
+		webMax.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale ) );
 		
-		boolean enabled = ChartUIExtensionUtil.canEnableUI( btnAutoScale );
+		boolean enabled = getContext().getUIFactory( ).canEnableUI( btnAutoScale );
 		updateScaleUI( enabled );
 
 		Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
@@ -204,7 +200,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		btnScaleCntAuto = new Button( cmpMinMax, SWT.CHECK );
 		btnScaleCntAuto.setText( UIHelper.getAutoMessage( ) );
 		btnScaleCntAuto.setSelection( !series.isSetPlotSteps( ) );
-		iscScaleCnt.setEnabled( ChartUIExtensionUtil.canEnableUI( btnAutoScale )
+		iscScaleCnt.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale )
 				&& !btnScaleCntAuto.getSelection( ) );
 		btnScaleCntAuto.addListener( SWT.Selection, this );
 		
@@ -300,7 +296,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 					btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 					btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 			
-			boolean enabled = ChartUIExtensionUtil.canEnableUI( btnAutoScale );
+			boolean enabled = getContext().getUIFactory( ).canEnableUI( btnAutoScale );
 			updateScaleUI( enabled );
 		}
 		else if ( event.widget == btnScaleCntAuto )
@@ -309,32 +305,8 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 					"plotSteps",//$NON-NLS-1$
 					BigInteger.valueOf( iscScaleCnt.getSelection( ) ),
 					btnScaleCntAuto.getSelection( ) );
-			iscScaleCnt.setEnabled( ChartUIExtensionUtil.canEnableUI( btnAutoScale )
+			iscScaleCnt.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale )
 					&& !btnScaleCntAuto.getSelection( ) );
-		}
-		else if ( event.widget == btnWebMinAuto )
-		{
-			double tmin = this.getTypedDataElement( webMin.getText( ) );
-			double tmax = this.getTypedDataElement( webMax.getText( ) );
-			if ( tmin > tmax )
-				tmin = tmax;
-			ChartElementUtil.setEObjectAttribute( series,
-					"webLabelMin", //$NON-NLS-1$
-					tmin,
-					btnWebMinAuto.getSelection( ) );
-			webMin.setEnabled( !btnWebMinAuto.getSelection( ) );
-		}
-		else if ( event.widget == btnWebMaxAuto )
-		{
-			double tmin = this.getTypedDataElement( webMin.getText( ) );
-			double tmax = this.getTypedDataElement( webMax.getText( ) );
-			if ( tmax < tmin )
-				tmax = tmin;
-			ChartElementUtil.setEObjectAttribute( series,
-					"webLabelMax", //$NON-NLS-1$
-					tmax,
-					btnWebMaxAuto.getSelection( ) );
-			webMax.setEnabled( !btnWebMaxAuto.getSelection( ) );
 		}
 	}
 
@@ -342,10 +314,8 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 	{
 		lblWebMin.setEnabled( enabled );
 		lblWebMax.setEnabled( enabled );
-		btnWebMinAuto.setEnabled( enabled );
-		btnWebMaxAuto.setEnabled( enabled );
-		webMin.setEnabled( enabled && !btnWebMinAuto.getSelection( ) );
-		webMax.setEnabled( enabled && !btnWebMaxAuto.getSelection( ) );
+		webMin.setEnabled( enabled );
+		webMax.setEnabled( enabled );
 	}
 
 	private double getTypedDataElement( String strDataElement )

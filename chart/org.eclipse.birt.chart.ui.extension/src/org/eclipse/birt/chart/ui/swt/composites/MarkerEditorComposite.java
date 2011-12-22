@@ -31,11 +31,11 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -71,7 +71,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * 
@@ -461,11 +460,11 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				Listener
 	{
 
-		private Spinner iscMarkerSize;
+		private ChartSpinner iscMarkerSize;
 
-		private AbstractChartCheckbox btnMarkerVisible;
+		private ChartCheckbox btnMarkerVisible;
 		
-		private AbstractChartCheckbox btnOutline;
+		private ChartCheckbox btnOutline;
 		
 		private Composite cmpType;
 
@@ -478,14 +477,13 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 
 		private int markerTypeIndex = -1;
 
-		private Button btnMarkerSizeAuto;
-
 		private Button btnAutotype;
 
 		MarkerDropDownEditorComposite( Composite parent, int style )
 		{
 			super( parent, style );
 			placeComponents( );
+			pack( );
 		}
 
 		private void placeComponents( )
@@ -522,9 +520,10 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 			}
 			
 			btnAutotype = new Button( grpType, SWT.CHECK );
-			btnAutotype.setText( ChartUIExtensionUtil.getAutoMessage( ) );
+			btnAutotype.setText( Messages.getString( "ItemLabel.Auto" ) );//$NON-NLS-1$
 			btnAutotype.setSelection( !getMarker( ).isSetType( ) );
 			btnAutotype.addListener( SWT.Selection, this );
+			btnAutotype.setVisible( context.getUIFactory( ).supportAutoUI( ) );
 			
 			cmpType = new Composite( grpType, SWT.NONE );
 			{
@@ -573,24 +572,23 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				grpSize.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Size" ) ); //$NON-NLS-1$
 			}
 
-			iscMarkerSize = new Spinner( grpSize, SWT.BORDER );
+			iscMarkerSize = context.getUIFactory( )
+					.createChartSpinner( grpSize,
+							SWT.BORDER,
+							getMarker( ),
+							"size", //$NON-NLS-1$
+							context.getUIFactory( ).canEnableUI( btnMarkerVisible ) );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 2;
 				iscMarkerSize.setLayoutData( gd );
-				iscMarkerSize.setMinimum( 0 );
-				iscMarkerSize.setMaximum( 100 );
+				iscMarkerSize.getWidget().setMinimum( 0 );
+				iscMarkerSize.getWidget().setMaximum( 100 );
+				iscMarkerSize.getWidget().setSelection( getMarker( ).getSize( ) );
 				iscMarkerSize.addListener( SWT.Selection, this );
 				iscMarkerSize.addListener( SWT.FocusOut, this );
 				iscMarkerSize.addListener( SWT.Traverse, this );
-				iscMarkerSize.setSelection( getMarker( ).getSize( ) );
 			}
-			
-			btnMarkerSizeAuto = new Button(grpSize, SWT.CHECK );
-			btnMarkerSizeAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-			btnMarkerSizeAuto.setSelection( !getMarker().isSetSize( ) );
-			iscMarkerSize.setEnabled( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible )
-					&& !btnMarkerSizeAuto.getSelection( ) );
-			btnMarkerSizeAuto.addListener( SWT.Selection, this );
 			
 			btnOutline = context.getUIFactory( )
 					.createChartCheckbox( this,
@@ -643,9 +641,18 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						: ChartCheckbox.STATE_GRAYED );
 				updateOutlineBtn( );
 			}
-			setEnabledState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
-			setMarkerTypesState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible )
-					&& !btnAutotype.getSelection( ) );
+			setEnabledState( context.getUIFactory( ).canEnableUI( btnMarkerVisible ) );
+			if ( btnAutotype.isVisible( ) )
+			{
+				setMarkerTypesState( context.getUIFactory( )
+						.canEnableUI( btnMarkerVisible )
+						&& !btnAutotype.getSelection( ) );
+			}
+			else
+			{
+				setMarkerTypesState( context.getUIFactory( )
+						.canEnableUI( btnMarkerVisible ) );
+			}
 		}
 
 		void widgetSelected( SelectionEvent e )
@@ -656,13 +663,9 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						"visible", //$NON-NLS-1$
 						btnMarkerVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 						btnMarkerVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
-				setEnabledState( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
+				setEnabledState( context.getUIFactory( ).canEnableUI( btnMarkerVisible ) );
 				cnvMarker.redraw( );
 				updateOutlineBtn( );
-			}
-			else if ( e.widget.equals( iscMarkerSize ) )
-			{
-				getMarker( ).setSize( iscMarkerSize.getSelection( ) );
 			}
 			else if ( e.widget == btnOutline )
 			{
@@ -673,14 +676,6 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 						btnOutline.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 						btnOutline.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 				cnvMarker.redraw( );
-			}
-			else if ( e.widget == btnMarkerSizeAuto )
-			{
-				ChartElementUtil.setEObjectAttribute( getMarker( ),
-						"size", //$NON-NLS-1$
-						iscMarkerSize.getSelection( ),
-						btnMarkerSizeAuto.getSelection( ) );
-				iscMarkerSize.setEnabled( !btnMarkerSizeAuto.getSelection( ) );
 			}
 			else if ( e.widget == btnAutotype )
 			{
@@ -710,16 +705,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		{
 			grpSize.setEnabled( isEnabled );
 			btnAutotype.setEnabled( isEnabled );
-			btnMarkerSizeAuto.setEnabled( isEnabled );
-			if ( btnMarkerSizeAuto.getSelection( ) )
-			{
-				iscMarkerSize.setEnabled( false );	
-			}
-			else
-			{
-				iscMarkerSize.setEnabled( isEnabled );
-			}
-
+			iscMarkerSize.setEnabled( isEnabled );
 			setMarkerTypesState( isEnabled );
 		}
 
@@ -973,7 +959,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		
 		private void updateOutlineBtn()
 		{
-			btnOutline.setEnabled( ChartUIExtensionUtil.canEnableUI( btnMarkerVisible ) );
+			btnOutline.setEnabled( context.getUIFactory( ).canEnableUI( btnMarkerVisible ) );
 		}
 
 	}

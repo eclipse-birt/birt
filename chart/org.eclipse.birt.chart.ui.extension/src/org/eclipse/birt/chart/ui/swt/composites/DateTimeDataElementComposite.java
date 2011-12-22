@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -38,12 +39,13 @@ public class DateTimeDataElementComposite extends Composite implements
 		Listener
 {
 
-	private Button btnDate;
-	private Button btnTime;
-	private DateTime pickerDate;
-	private DateTime pickerTime;
+	protected Button btnDate;
+	protected Button btnTime;
+	protected DateTime pickerDate;
+	protected DateTime pickerTime;
 	private Vector<Listener> vListeners = null;
 	private final boolean isNullAllowed;
+	protected EObject eParent;
 
 	public DateTimeDataElementComposite( Composite parent, int style,
 			DateTimeDataElement data, boolean isNullAllowed )
@@ -51,12 +53,30 @@ public class DateTimeDataElementComposite extends Composite implements
 		super( parent, SWT.NONE );
 		this.isNullAllowed = isNullAllowed;
 
-		GridLayout layout = new GridLayout( 4, false );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		this.setLayout( layout );
+		placeComponents( style );
+
+		vListeners = new Vector<Listener>( );
+
+		setDataElement( data );
+	}
+
+	protected void placeComponents( int style )
+	{
+		GridLayout gl = new GridLayout( 4, false );
+		gl.marginBottom = 0;
+		gl.marginHeight = 0;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginWidth = 0;
+		this.setLayout( gl );
 		this.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
+		createDatePicker( style );
+	}
+
+	protected void createDatePicker( int style )
+	{
 		btnDate = new Button( this, SWT.CHECK );
 		btnDate.addListener( SWT.Selection, this );
 
@@ -70,10 +90,6 @@ public class DateTimeDataElementComposite extends Composite implements
 		pickerTime = new DateTime( this, SWT.TIME | style );
 		pickerTime.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		pickerTime.addListener( SWT.Selection, this );
-
-		vListeners = new Vector<Listener>( );
-
-		setDataElement( data );
 	}
 
 	public void setEnabled( boolean enabled )
@@ -193,5 +209,10 @@ public class DateTimeDataElementComposite extends Composite implements
 		pickerTime.setHours( calendar.getHour( ) );
 		pickerTime.setMinutes( calendar.getMinute( ) );
 		pickerTime.setSeconds( calendar.getSecond( ) );
+	}
+
+	public void setEObjectParent( EObject eParent )
+	{
+		this.eParent = eParent;		
 	}
 }

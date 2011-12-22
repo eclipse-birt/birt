@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -20,8 +19,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
@@ -35,9 +32,9 @@ public class HeadStyleCanvas extends Canvas
 			FocusListener
 {
 
-	int iLineDecorator = 0;
+	protected int iLineDecorator = 0;
 
-	boolean isFocusIn = false;
+	protected boolean isFocusIn = false;
 
 	public HeadStyleCanvas( Composite parent, int iStyle, int iLineDecorator )
 	{
@@ -91,12 +88,6 @@ public class HeadStyleCanvas extends Canvas
 		}
 
 		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
-		
-		if( iLineDecorator == HeadStyleChooserComposite.LINE_DECORATOR_AUTO )
-		{
-			gc.drawText( ChartUIExtensionUtil.getAutoMessage( ), 10, 2 );
-			return;
-		}
 		gc.setLineWidth( 1 );
 		gc.drawLine( 10,
 				this.getSize( ).y / 2,
@@ -135,16 +126,5 @@ public class HeadStyleCanvas extends Canvas
 	public void focusLost( FocusEvent e )
 	{
 		isFocusIn = false;
-	}
-	
-	public Point computeSize( int wHint, int hHint, boolean changed )
-	{
-		Point size = new Point( 100, 20 );
-		if ( wHint != SWT.DEFAULT )
-			size.x = wHint;
-		if ( hHint != SWT.DEFAULT )
-			size.y = hHint;
-		Rectangle trim = computeTrim( 0, 0, size.x, size.y );
-		return new Point( trim.width, trim.height );
 	}
 }

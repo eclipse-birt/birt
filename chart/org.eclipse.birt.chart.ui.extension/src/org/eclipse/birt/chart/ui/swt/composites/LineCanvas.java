@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -31,11 +30,11 @@ import org.eclipse.swt.widgets.Composite;
 public class LineCanvas extends Canvas implements PaintListener, FocusListener
 {
 
-	int iLineStyle = SWT.LINE_SOLID;
+	protected int iLineStyle = SWT.LINE_SOLID;
 
-	int iLineWidth = 1;
+	protected int iLineWidth = 1;
 
-	boolean isFocusIn = false;
+	protected boolean isFocusIn = false;
 
 	public LineCanvas( Composite parent, int iStyle, int iLineStyle,
 			int iLineWidth )
@@ -100,30 +99,13 @@ public class LineCanvas extends Canvas implements PaintListener, FocusListener
 		}
 
 		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
-		int lineStyle = iLineStyle;
-		int lineWidth = iLineWidth;
-		boolean isAuto = iLineStyle == 0 || iLineWidth == 0;
-		if ( iLineStyle == 0 )
-		{
-			lineStyle = SWT.LINE_SOLID;
-		}
-		if ( iLineWidth == 0 )
-		{
-			lineWidth = 1;
-		}
-		if ( isAuto )
-		{
-			gc.drawText( ChartUIExtensionUtil.getAutoMessage( ), 10, 2 );
-		}
-		else
-		{
-			gc.setLineStyle( lineStyle );
-			gc.setLineWidth( lineWidth );
-			gc.drawLine( 10,
-					this.getSize( ).y / 2,
-					this.getSize( ).x - 10,
-					this.getSize( ).y / 2 );
-		}
+		gc.setLineStyle( iLineStyle );
+		gc.setLineWidth( iLineWidth );
+		gc.drawLine( 10,
+				this.getSize( ).y / 2,
+				this.getSize( ).x - 10,
+				this.getSize( ).y / 2 );
+
 	}
 
 	public void setEnabled( boolean bState )

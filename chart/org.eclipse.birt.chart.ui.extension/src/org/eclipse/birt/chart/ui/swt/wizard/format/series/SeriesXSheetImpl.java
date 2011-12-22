@@ -14,12 +14,13 @@ import java.util.List;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -28,8 +29,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -49,9 +48,8 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	private transient Label lblMinSlice;
 	private transient Label lblBottomPercent;
 	private transient Label lblLabel;
-	private transient Combo cmbMinSlice;
-	private transient LocalizedNumberEditorComposite txtMinSlice;
-	private Button btnTxtMinSliceAuto;
+	private transient ChartCombo cmbMinSlice;
+	private transient AbstractChartNumberEditor txtMinSlice;
 	private transient ExternalizedTextEditorComposite txtLabel = null;
 
 	private final static String TOOLTIP_MINIMUM_SLICE = Messages.getString( "PieBottomAreaComponent.Label.AnySliceWithASize" ); //$NON-NLS-1$
@@ -104,37 +102,39 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmpMinSlice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
-		cmbMinSlice = new Combo( cmpMinSlice, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbMinSlice = getContext( ).getUIFactory( )
+				.createChartCombo( cmpMinSlice,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						getChart( ),
+						"minSlicePercent", //$NON-NLS-1$
+						Messages.getString( "PieBottomAreaComponent.Label.Percentage" ) ); //$NON-NLS-1$
 		{
 			cmbMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
-			cmbMinSlice.setItems( ChartUIExtensionUtil.getItemsWithAuto( MINMUM_SLICE_ITEMS ) );
-			cmbMinSlice.select( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlicePercent( ) ? ( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) ? 1
-					: 2 )
-					: 0 );
+			cmbMinSlice.setItems( MINMUM_SLICE_ITEMS );
+			cmbMinSlice.setItemData( MINMUM_SLICE_ITEMS );
+			cmbMinSlice.setSelection( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) ? Messages.getString( "PieBottomAreaComponent.Label.Percentage" )//$NON-NLS-1$
+					: Messages.getString( "PieBottomAreaComponent.Label.Value" ) );//$NON-NLS-1$
 			cmbMinSlice.addSelectionListener( this );
 		}
 
-		txtMinSlice = new LocalizedNumberEditorComposite( cmpMinSlice,
-				SWT.BORDER );
+		txtMinSlice = getContext( ).getUIFactory( ).createChartNumberEditor( cmpMinSlice,
+				SWT.BORDER,
+				"%", //$NON-NLS-1$
+				getChart( ),
+				"minSlice" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtMinSlice.getTextControl( ), null );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 3;
 			txtMinSlice.setLayoutData( gridData );
 			txtMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
 			txtMinSlice.setValue( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) );
 			txtMinSlice.addModifyListener( this );
 		}
 
-		lblBottomPercent = new Label( cmpMinSlice, SWT.NONE );
-		lblBottomPercent.setText( "%" ); //$NON-NLS-1$
+		lblBottomPercent = txtMinSlice.getUnitLabel( );
 		
-		btnTxtMinSliceAuto = new Button(cmpMinSlice, SWT.CHECK );
-		btnTxtMinSliceAuto.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnTxtMinSliceAuto.setSelection( !( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( ) );
-		txtMinSlice.setEnabled( !btnTxtMinSliceAuto.getSelection( ) );
-		lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlicePercent( )
-				&& ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) && !btnTxtMinSliceAuto.getSelection( ) );
-		btnTxtMinSliceAuto.addSelectionListener( this );
+		lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
 		
 		lblLabel = new Label( parent, SWT.NONE );
 		{
@@ -174,9 +174,13 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	{
 		if ( e.getSource( ) == txtMinSlice )
 		{
-			( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
-			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
-					&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ))
+			{
+				( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
+				txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
+						&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			}
+			updateUIState( );
 		}
 	}
 
@@ -202,29 +206,11 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		{
 			if ( e.widget == cmbMinSlice )
 			{
-				if ( cmbMinSlice.getSelectionIndex( ) == 0 )
+				String selectMinSliceType = cmbMinSlice.getSelectedItemData( );
+				if ( selectMinSliceType != null )
 				{
-					( (ChartWithoutAxes) getChart( ) ).unsetMinSlicePercent( );
+					( (ChartWithoutAxes) getChart( ) ).setMinSlicePercent( selectMinSliceType.equals( Messages.getString( "PieBottomAreaComponent.Label.Percentage" ) ) );//$NON-NLS-1$
 				}
-				else
-				{
-					( (ChartWithoutAxes) getChart( ) ).setMinSlicePercent( cmbMinSlice.getSelectionIndex( ) == 1 );
-				}
-				updateUIState( );
-			}
-			else if ( e.widget == btnTxtMinSliceAuto )
-			{
-				if ( btnTxtMinSliceAuto.getSelection( ) )
-				{
-					 ( (ChartWithoutAxes) getChart( ) ).unsetMinSlice( );
-				}
-				else
-				{
-					( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
-				}
-				txtMinSlice.removeModifyListener( this );
-				txtMinSlice.setValue( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) );
-				txtMinSlice.addModifyListener( this );
 				updateUIState( );
 			}
 		}
@@ -232,26 +218,8 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 	private void updateUIState( )
 	{
-		btnTxtMinSliceAuto.setEnabled( true );
-		txtMinSlice.setEnabled( !btnTxtMinSliceAuto.getSelection( ) );
-		if ( cmbMinSlice.getSelectionIndex( ) == 0 )
-		{
-			lblBottomPercent.setVisible( false );
-			txtLabel.setEnabled( false );
-		}
-		else
-		{
-			lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlicePercent( )
-					&& ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
-			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
-					&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
-		}
-		
-		if ( lblBottomPercent.isVisible( ) )
-		{
-			lblBottomPercent.setEnabled( !btnTxtMinSliceAuto.getSelection( ) );
-		}
-		
+		lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
+		txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
 	}
 	
 	public void widgetDefaultSelected( SelectionEvent e )

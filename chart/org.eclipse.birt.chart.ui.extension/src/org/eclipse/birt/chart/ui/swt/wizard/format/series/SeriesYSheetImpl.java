@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
@@ -26,8 +25,7 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -71,9 +69,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 	private Button btnShowCurveLine;
 
-	protected AbstractChartCheckbox btnLabelVisible;
+	protected ChartCheckbox btnLabelVisible;
 
-	private AbstractChartCheckbox btnDecoVisible;
+	private ChartCheckbox btnDecoVisible;
 
 	public void createControl( Composite parent )
 	{
@@ -345,7 +343,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					BUTTON_DECORATION,
 					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
 					popup,
-					ChartUIExtensionUtil.canEnableUI( btnDecoVisible ) );
+					getContext().getUIFactory( ).canEnableUI( btnDecoVisible ) );
 			btnDecoration.addSelectionListener( this );
 		}
 	}
@@ -375,7 +373,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 				BUTTON_LABEL,
 				Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
 				popup,
-				ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
+				getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
 		btnLabel.addSelectionListener( this );
 	}
 
@@ -389,7 +387,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 				BUTTON_DIAL_LABELS,
 				Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
 				popup,
-				ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
+				getContext( ).getUIFactory( ).canEnableUI( btnLabelVisible ) );
 		btnDialLabel.addSelectionListener( this );
 	}
 
@@ -431,7 +429,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					btnShowCurveLine.getSelection( ) );
 			if ( btnShowCurveLine.getSelection( ) )
 			{
-				CurveFitting cf = CurveFittingImpl.createDefault( );
+				CurveFitting cf = ChartUIExtensionUtil.createCurveFitting( getContext( ) );
 				cf.eAdapters( )
 						.addAll( getCurrentDesignTimeSeries( ).eAdapters( ) );
 				getCurrentDesignTimeSeries( ).setCurveFitting( cf );
@@ -454,7 +452,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			if ( isMeterSeries( ) )
 			{
 				setToggleButtonEnabled( BUTTON_DIAL_LABELS,
-						ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
+						getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
 				if ( isAuto )
 				{
 					( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
@@ -478,7 +476,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			else
 			{
 				setToggleButtonEnabled( BUTTON_LABEL,
-						ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
+						getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
 				if ( isAuto )
 				{
 					getCurrentDesignTimeSeries( ).getLabel( ).unsetVisible( );
@@ -495,7 +493,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		else if ( e.widget == btnDecoVisible )
 		{
 			setToggleButtonEnabled( BUTTON_DECORATION,
-					ChartUIExtensionUtil.canEnableUI( btnDecoVisible ) );
+					getContext().getUIFactory( ).canEnableUI( btnDecoVisible ) );
 			if ( btnDecoVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( )

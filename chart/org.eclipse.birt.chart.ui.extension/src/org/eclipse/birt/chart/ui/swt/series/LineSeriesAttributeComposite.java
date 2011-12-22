@@ -25,8 +25,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -69,11 +68,11 @@ public class LineSeriesAttributeComposite extends Composite
 
 	protected ChartWizardContext context;
 
-	private AbstractChartCheckbox btnPalette;
+	private ChartCheckbox btnPalette;
 
-	private AbstractChartCheckbox btnCurve;
+	private ChartCheckbox btnCurve;
 
-	private AbstractChartCheckbox btnMissingValue;
+	private ChartCheckbox btnMissingValue;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -138,7 +137,8 @@ public class LineSeriesAttributeComposite extends Composite
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 		initUIComponents( grpLine );
-		enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (LineSeries) series ).getLineAttributes( ) ) );
+		enableLineSettings( !context.getUIFactory( )
+				.isSetInvisible( ( (LineSeries) series ).getLineAttributes( ) ) );
 	}
 
 	protected void initUIComponents( Composite parent  )
@@ -158,8 +158,9 @@ public class LineSeriesAttributeComposite extends Composite
 		int lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+				| LineAttributesComposite.ENABLE_COLOR;
+		lineStyles |= context.getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		liacLine = new LineAttributesComposite( cmpLine,
 				SWT.NONE,
 				lineStyles,
@@ -190,8 +191,9 @@ public class LineSeriesAttributeComposite extends Composite
 
 			int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
 					| FillChooserComposite.ENABLE_TRANSPARENT
-					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
-					| FillChooserComposite.ENABLE_AUTO;
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+			iFillOption |= context.getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+					: iFillOption;
 
 			fccShadow = new FillChooserComposite( cmpShadow,
 					SWT.DROP_DOWN | SWT.READ_ONLY,
@@ -307,7 +309,8 @@ public class LineSeriesAttributeComposite extends Composite
 						( (Boolean) event.data ).booleanValue( ),
 						isUnset );
 				
-				enableLineSettings( !ChartUIExtensionUtil.isSetInvisible( ( (LineSeries) series ).getLineAttributes( ) ) );
+				enableLineSettings( !context.getUIFactory( )
+						.isSetInvisible( ( (LineSeries) series ).getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{

@@ -27,14 +27,13 @@ import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
@@ -49,7 +48,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -70,10 +68,10 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient Composite cmpContent = null;
 	private transient LineAttributesComposite trendLineText;
 	private transient LineAttributesComposite outlineText;
-	private transient Combo cmbAnchor;
+	private transient ChartCombo cmbAnchor;
 	// private transient Button btnTriggers;
 	private transient ExternalizedTextEditorComposite txtValue;
-	private AbstractChartCheckbox btnLabelVisible;
+	private ChartCheckbox btnLabelVisible;
 	// private transient Label lblPosition;
 	// private transient Combo cmbPosition;
 	private transient Label lblFont;
@@ -82,7 +80,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	private transient FillChooserComposite fccBackground;
 	private transient Label lblShadow;
 	private transient FillChooserComposite fccShadow;
-	private transient InsetsComposite icLabel;
+	private transient AbstractChartInsets icLabel;
 	private transient Label lblValue;
 	private transient Label lblAnchor;
 	private transient ChartWizardContext context;
@@ -170,11 +168,17 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		lblAnchor.setLayoutData( gdLBLAnchor );
 		lblAnchor.setText( Messages.getString( "BlockAttributeComposite.Lbl.Anchor" ) ); //$NON-NLS-1$
 
-		cmbAnchor = new Combo( cmpLeft, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbAnchor = context.getUIFactory( ).createChartCombo( cmpLeft,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				 getTrendline( ),
+				"labelAnchor", //$NON-NLS-1$
+				ChartUIUtil.getFlippedAnchor( defSeries.getCurveFitting( )
+						.getLabelAnchor( ),
+						isFlippedAxes( ) ).getName( ) );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
-		cmbAnchor.setVisibleItemCount( 30 );
+		cmbAnchor.getWidget( ).setVisibleItemCount( 30 );
 
 		// btnTriggers = new Button( cmpLeft, SWT.PUSH );
 		// GridData gdBTNTriggers = new GridData( );
@@ -192,8 +196,9 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		}
 		int lineStyles = LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+				| LineAttributesComposite.ENABLE_COLOR;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		
 		trendLineText = new LineAttributesComposite( cmpRight,
 				SWT.NONE,
@@ -273,8 +278,9 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 
 		int fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
 				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
-				| FillChooserComposite.ENABLE_AUTO
 				| FillChooserComposite.DISABLE_PATTERN_FILL;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fccBackground = new FillChooserComposite( cmpLabelInner,
 				SWT.NONE,
 				fillStyles,
@@ -306,8 +312,9 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		lineStyles = LineAttributesComposite.ENABLE_VISIBILITY
 				| LineAttributesComposite.ENABLE_STYLES
 				| LineAttributesComposite.ENABLE_WIDTH
-				| LineAttributesComposite.ENABLE_COLOR
-				| LineAttributesComposite.ENABLE_AUTO_COLOR;
+				| LineAttributesComposite.ENABLE_COLOR;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		outlineText = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
 				lineStyles,
@@ -316,23 +323,21 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				getDefaultTrendline( ).getLabel( ).getOutline( ) );
 		outlineText.addListener( this );
 
-		icLabel = new InsetsComposite( cmpLabel,
-				SWT.NONE,
-				1,
-				getInsets( ),
-				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ),
-				getContext( ) );
+		icLabel = getContext( ).getUIFactory( )
+				.createChartInsetsComposite( cmpLabel,
+						SWT.NONE,
+						1,
+						getInsets( ),
+						getChart( ).getUnits( ),
+						getContext( ).getUIServiceProvider( ),
+						getContext( ),
+						defSeries.getLabel( ).getInsets( ) );
 		GridData gdICBlock = new GridData( GridData.FILL_HORIZONTAL );
 		gdICBlock.horizontalSpan = 2;
 		icLabel.setLayoutData( gdICBlock );
-		icLabel.addListener( this );
-		icLabel.setDefaultInsetsValue( DefaultValueProvider.defSeries( )
-				.getLabel( )
-				.getInsets( ) );
 
 		populateLists( );
-		setState( ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
+		setState( getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
 		return cmpContent;
 	}
 
@@ -341,7 +346,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 		Insets insets = getTrendline( ).getLabel( ).getInsets( );
 		if ( insets == null )
 		{
-			insets = CurveFittingImpl.createDefault( ).getLabel( ).getInsets( );
+			insets = ChartUIExtensionUtil.createCurveFitting( getContext( ) ).getLabel( ).getInsets( );
 			getTrendline( ).getLabel( ).setInsets( insets );
 			insets.eAdapters( )
 					.addAll( getTrendline( ).getLabel( ).eAdapters( ) );
@@ -353,7 +358,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		if ( getTrendline( ).getLabel( ).getCaption( ) == null )
 		{
-			Text caption = CurveFittingImpl.createDefault( )
+			Text caption = ChartUIExtensionUtil.createCurveFitting( getContext( ) )
 					.getLabel( )
 					.getCaption( );
 			getTrendline( ).getLabel( ).setCaption( caption );
@@ -407,11 +412,11 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		// Set block Anchor property
 		NameSet nameSet = LiteralHelper.anchorSet;
-		cmbAnchor.setItems( ChartUIExtensionUtil.getItemsWithAuto( nameSet.getDisplayNames( ) ) );
-		cmbAnchor.select( getTrendline( ).isSetLabelAnchor( ) ? ( nameSet.getSafeNameIndex( ChartUIUtil.getFlippedAnchor( getTrendline( ).getLabelAnchor( ),
+		cmbAnchor.setItems( nameSet.getDisplayNames( ) );
+		cmbAnchor.setItemData( nameSet.getNames( ) );
+		cmbAnchor.setSelection( ChartUIUtil.getFlippedAnchor( getTrendline( ).getLabelAnchor( ),
 				isFlippedAxes( ) )
-				.getName( ) ) + 1 )
-				: 0 );
+				.getName( ) );
 
 		// Set Legend Position property
 		// nameSet = LiteralHelper.fullPositionSet;
@@ -528,13 +533,10 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 	{
 		if ( e.widget.equals( cmbAnchor ) )
 		{
-			if ( cmbAnchor.getSelectionIndex( ) == 0 )
+			String itemData = cmbAnchor.getSelectedItemData( );
+			if ( itemData != null )
 			{
-				getTrendline( ).unsetLabelAnchor( );
-			}
-			else
-			{
-				getTrendline( ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ),
+				getTrendline( ).setLabelAnchor( ChartUIUtil.getFlippedAnchor( Anchor.getByName( itemData ),
 						isFlippedAxes( ) ) );
 			}
 		}
@@ -557,7 +559,7 @@ public class SeriesTrendlineSheet extends AbstractPopupSheet implements
 				getTrendline( ).getLabel( )
 						.setVisible( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			}
-			setState( ChartUIExtensionUtil.canEnableUI( btnLabelVisible ) );
+			setState( getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
 		}
 		// else if ( e.widget.equals( cmbPosition ) )
 		// {

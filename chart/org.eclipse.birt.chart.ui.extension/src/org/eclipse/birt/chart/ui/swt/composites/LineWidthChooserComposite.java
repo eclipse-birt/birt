@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
+import org.eclipse.birt.chart.ui.swt.AbstractLineWidthChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -19,11 +19,10 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * LineWidthChooserComposite
  */
-public class LineWidthChooserComposite extends CustomChooserComposite
+public class LineWidthChooserComposite extends AbstractLineWidthChooserComposite
 {
 
 	private static final Integer[] iLineWidths = new Integer[]{
-		    Integer.valueOf( 0 ),
 			Integer.valueOf( 1 ),
 			Integer.valueOf( 2 ),
 			Integer.valueOf( 3 ),
@@ -59,6 +58,12 @@ public class LineWidthChooserComposite extends CustomChooserComposite
 		setItems( iLineWidths );
 	}
 
+	public LineWidthChooserComposite( Composite parent, int style, int iWidth, Integer[] lineWidths )
+	{
+		super( parent, style, Integer.valueOf( iWidth ) );
+		setItems( lineWidths );
+	}
+	
 	protected ICustomChoice createChoice( Composite parent, Object choiceValue )
 	{
 		if ( choiceValue == null )

@@ -39,10 +39,11 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.AreaSeries;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -97,7 +98,8 @@ public class TaskSelectType extends SimpleTask implements
 		ITaskChangeListener,
 		ITaskPreviewable
 {
-
+	private static final ChartValueUpdater chartValueUpdater = new ChartValueUpdater( );
+	
 	/**
 	 * 
 	 * TaskSelectTypeUIDescriptor is used to create UI in misc area according to
@@ -159,7 +161,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected Orientation orientation = null;
 
 	protected Label lblOrientation = null;
-	protected AbstractChartCheckbox btnOrientation = null;
+	protected ChartCheckbox btnOrientation = null;
 
 	protected Label lblMultipleY = null;
 	protected Combo cbMultipleY = null;
@@ -168,7 +170,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected Combo cbSeriesType = null;
 
 	protected Label lblDimension;
-	protected Combo cbDimension = null;
+	protected ChartCombo cbDimension = null;
 	
 	protected Label lblOutput;
 	protected Combo cbOutput;
@@ -488,7 +490,12 @@ public class TaskSelectType extends SimpleTask implements
 				}
 
 				// Add the ComboBox for Dimensions
-				cbDimension = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+				cbDimension = getContext( ).getUIFactory( )
+						.createChartCombo( parent,
+								SWT.DROP_DOWN | SWT.READ_ONLY,
+								getContext( ).getModel( ),
+								"dimension", //$NON-NLS-1$
+								null ); 
 				{
 					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 					cbDimension.setLayoutData( gd );
@@ -765,15 +772,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected boolean handleDimensionComboSelected(  )
 	{
 		String newDimension = null;
-		if ( cbDimension.getSelectionIndex( ) == 0 )
-		{
-			// Auto case
-			newDimension = null;
-		}
-		else
-		{
-			newDimension = ( (String[]) cbDimension.getData( ) )[cbDimension.getSelectionIndex( )];
-		}
+		newDimension = cbDimension.getSelectedItemData( );
 		
 		if ( newDimension == null && sDimension == null )
 		{
@@ -1080,8 +1079,7 @@ public class TaskSelectType extends SimpleTask implements
 		int axesNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 
 		cbDimension.removeAll( );
-		cbDimension.add( ChartUIExtensionUtil.getAutoMessage( ) );
-		
+
 		boolean bAreaSeriesMixed = isAreaSeriesMixed( );
 		for ( int i = 0; i < dimensionArray.length; i++ )
 		{
@@ -1099,7 +1097,8 @@ public class TaskSelectType extends SimpleTask implements
 				cbDimension.add( dimensionArray[i] );
 			}
 		}
-		cbDimension.setData( cbDimension.getItems( ) );
+		cbDimension.setDefualtItem( chartType.getDefaultDimension( ) );
+		cbDimension.setItemData( cbDimension.getItems( ) );
 		
 		String cache = ChartCacheManager.getInstance( )
 				.getDimension( sSelectedType );
@@ -1112,14 +1111,7 @@ public class TaskSelectType extends SimpleTask implements
 		sDimension = cache;
 
 		// Select the previous selection or the default
-		if ( sDimension == null )
-		{
-			cbDimension.select( 0 ); //Set as Auto.
-		}
-		else
-		{
-			cbDimension.setText( sDimension );
-		}
+		cbDimension.setText( sDimension );
 		return !isOldExist;
 	}
 
@@ -1485,10 +1477,7 @@ public class TaskSelectType extends SimpleTask implements
 		IChartType chartType = ChartUIUtil.getChartType( type );
 		try
 		{
-			chartModel = chartType.getModel( subType,
-					this.orientation,
-					this.sDimension,
-					this.chartModel );
+			chartModel = adapteChartModel( chartModel, chartType, subType );
 			if ( getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
 			{
 				// Update model for part chart case
@@ -1516,6 +1505,16 @@ public class TaskSelectType extends SimpleTask implements
 		( (ChartWizardContext) context ).setModel( chartModel );
 		( (ChartWizardContext) context ).setChartType( chartType );
 		setContext( context );
+	}
+
+	protected Chart adapteChartModel( Chart chartModel, IChartType chartType, String subType )
+	{
+		Chart cm = chartType.getModel( subType,
+				this.orientation,
+				this.sDimension,
+				chartModel );
+		chartValueUpdater.update( cm, null, false );
+		return cm;
 	}
 
 	private SeriesDefinition getSeriesDefinitionForProcessing( )

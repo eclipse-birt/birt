@@ -18,8 +18,8 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -33,13 +33,11 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * Gridlines popup sheet
@@ -54,9 +52,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private FillChooserComposite fccLine = null;
 
-	private AbstractChartCheckbox btnShow = null;
+	private ChartCheckbox btnShow = null;
 
-	private AbstractChartCheckbox btnTickBetweenCategory = null;
+	private ChartCheckbox btnTickBetweenCategory = null;
 	
 	private Group grpMajor = null;
 
@@ -68,21 +66,17 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private Label lblGridCount = null;
 
-	private Spinner iscGridCount = null;
+	private ChartSpinner iscGridCount = null;
 
 	private Axis axis;
 
 	private int angleType;
 
-	private Spinner majGridStNum;
+	private ChartSpinner majGridStNum;
 
 	private Label lblGridStepNum;
 
 	private Label lblColor;
-
-	private Button btnMajStpNum;
-
-	private Button btnGridCountUnit;
 
 	private Axis defAxis;
 
@@ -187,7 +181,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				clrCurrent,
 				false,
 				false,
-				true,
+				getContext( ).getUIFactory( ).supportAutoUI( ),
 				true,
 				false,
 				false );
@@ -197,8 +191,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdFCCLine.grabExcessVerticalSpace = false;
 		fccLine.setLayoutData( gdFCCLine );
 		fccLine.addListener( this );
-		lblColor.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
-		fccLine.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow )  );
+		lblColor.setEnabled( getContext().getUIFactory( ).canEnableUI( btnShow ) );
+		fccLine.setEnabled( getContext().getUIFactory( ).canEnableUI( btnShow )  );
 
 		createGridSteps( );
 		
@@ -292,21 +286,20 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gl.marginHeight = 0;
 		copMajGrid.setLayout( gl );
 		
-		majGridStNum = new Spinner( copMajGrid, SWT.BORDER );
+		majGridStNum = getContext( ).getUIFactory( )
+				.createChartSpinner( copMajGrid,
+						SWT.BORDER,
+						getAxisForProcessing( ).getScale( ),
+						"majorGridsStepNumber", //$NON-NLS-1$
+						true );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			majGridStNum.setLayoutData( gd );
-			majGridStNum.setMinimum( 1 );
-			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
+			majGridStNum.getWidget( ).setMinimum( 1 );
+			majGridStNum.getWidget( ).setSelection( getAxisForProcessing( ).getScale( )
 					.getMajorGridsStepNumber( ) );
-			majGridStNum.addSelectionListener( this );
 		}
-		
-		btnMajStpNum = new Button( copMajGrid, SWT.CHECK);
-		btnMajStpNum.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnMajStpNum.setSelection( !getAxisForProcessing( ).getScale( ).isSetMajorGridsStepNumber( ) );
-		majGridStNum.setEnabled( !btnMajStpNum.getSelection( ) );
-		btnMajStpNum.addSelectionListener( this );
 		
 		lblGridCount = new Label( cmpContent, SWT.NONE );
 		GridData gdLBLGridCount = new GridData( );
@@ -320,21 +313,20 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gl.marginHeight = 0;
 		copMinGrid.setLayout( gl );
 		
-		iscGridCount = new Spinner( copMinGrid, SWT.BORDER );
+		iscGridCount = getContext( ).getUIFactory( )
+				.createChartSpinner( copMinGrid,
+						SWT.BORDER,
+						getAxisForProcessing( ).getScale( ),
+						"minorGridsPerUnit", //$NON-NLS-1$
+						true );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			iscGridCount.setLayoutData( gd );
-			iscGridCount.setMinimum( 1 );
-			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
+			iscGridCount.getWidget( ).setMinimum( 1 );
+			iscGridCount.getWidget( ).setSelection( getAxisForProcessing( ).getScale( )
 					.getMinorGridsPerUnit( ) );
-			iscGridCount.addSelectionListener( this );
 		}
-		
-		btnGridCountUnit = new Button( copMinGrid, SWT.CHECK);
-		btnGridCountUnit.setText( ChartUIExtensionUtil.getAutoMessage( ) );
-		btnGridCountUnit.setSelection( !getAxisForProcessing( ).getScale( ).isSetMinorGridsPerUnit( ));
-		iscGridCount.setEnabled( !btnGridCountUnit.getSelection( ) );
-		btnGridCountUnit.addSelectionListener( this );
 	}
 
 	protected boolean isTickBetweenCategory( )
@@ -477,13 +469,15 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		boolean enabled;
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
 		{
-			enabled = !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getMinorGrid( )
+			enabled = !getContext( ).getUIFactory( )
+					.isSetInvisible( getAxisForProcessing( ).getMinorGrid( )
 					.getLineAttributes( ) );
 			if ( !ChartUIUtil.is3DType( getChart( ) ) )
 			{
 				enabled = enabled
-						|| !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getMinorGrid( )
-								.getTickAttributes( ) );
+						|| !getContext( ).getUIFactory( )
+								.isSetInvisible( getAxisForProcessing( ).getMinorGrid( )
+										.getTickAttributes( ) );
 			}
 		}
 		else
@@ -491,19 +485,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 			enabled = false;
 		}
 
-		if ( enabled )
-		{
-			boolean isAuto = btnGridCountUnit.getSelection( );
-			lblGridCount.setEnabled( true );
-			iscGridCount.setEnabled( true && !isAuto );
-			btnGridCountUnit.setEnabled( true );
-		}
-		else
-		{
-			lblGridCount.setEnabled( false );
-			iscGridCount.setEnabled( false );
-			btnGridCountUnit.setEnabled( false );
-		}
+		lblGridCount.setEnabled( enabled );
+		iscGridCount.setEnabled( enabled );
 	}
 	
 	protected void setStateOfMajorGrid( )
@@ -511,7 +494,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		boolean enabled;
 		if ( ChartUIUtil.is3DWallFloorSet( getChart( ) ) )
 		{
-			enabled = !ChartUIExtensionUtil.isSetInvisible( getAxisForProcessing( ).getMajorGrid( )
+			enabled = !getContext( ).getUIFactory( )
+					.isSetInvisible( getAxisForProcessing( ).getMajorGrid( )
 					.getLineAttributes( ) );
 		}
 		else
@@ -519,19 +503,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 			enabled = false;
 		}
 		
-		if ( enabled )
-		{
-			boolean isAuto = btnMajStpNum.getSelection( );
-			lblGridStepNum.setEnabled( true);
-			majGridStNum.setEnabled( true && !isAuto  );
-			btnMajStpNum.setEnabled( true );
-		}
-		else
-		{
-			lblGridStepNum.setEnabled( false );
-			majGridStNum.setEnabled( false  );
-			btnMajStpNum.setEnabled( false );
-		}
+		lblGridStepNum.setEnabled( enabled);
+		majGridStNum.setEnabled( enabled  );
 	}
 
 	/*
@@ -550,8 +523,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					"visible", //$NON-NLS-1$
 					visible,
 					btnShow.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
-			lblColor.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
-			fccLine.setEnabled( ChartUIExtensionUtil.canEnableUI( btnShow ) );
+			lblColor.setEnabled( getContext().getUIFactory( ).canEnableUI( btnShow ) );
+			fccLine.setEnabled( getContext().getUIFactory( ).canEnableUI( btnShow ) );
 		}
 		else if ( oSource.equals( btnTickBetweenCategory ) )
 		{
@@ -560,36 +533,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 					"tickBetweenCategories", //$NON-NLS-1$
 					btnTickBetweenCategory.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 					btnTickBetweenCategory.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
-		}
-		if ( oSource.equals( iscGridCount ) )
-		{
-			getAxisForProcessing( ).getScale( )
-					.setMinorGridsPerUnit( iscGridCount.getSelection( ) );
-		}
-		else if ( oSource.equals( majGridStNum ) )
-		{
-			getAxisForProcessing( ).getScale( )
-					.setMajorGridsStepNumber( majGridStNum.getSelection( ) );
-		}
-		else if ( e.widget == btnMajStpNum )
-		{
-			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getScale( ),
-					"majorGridsStepNumber", //$NON-NLS-1$
-					majGridStNum.getSelection( ),
-					btnMajStpNum.getSelection( ) );
-			setStateOfMajorGrid( );
-			majGridStNum.setSelection( getAxisForProcessing( ).getScale( )
-					.getMajorGridsStepNumber( ) );
-		}
-		else if ( e.widget == btnGridCountUnit )
-		{
-			ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getScale( ),
-					"minorGridsPerUnit", //$NON-NLS-1$
-					iscGridCount.getSelection( ),
-					btnGridCountUnit.getSelection( ) );
-			setStateOfMinorGrid( );
-			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
-					.getMinorGridsPerUnit( ) );
 		}
 	}
 

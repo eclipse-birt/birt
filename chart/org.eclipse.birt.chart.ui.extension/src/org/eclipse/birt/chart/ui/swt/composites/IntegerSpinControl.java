@@ -13,6 +13,8 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import java.util.Vector;
 
+import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -37,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class IntegerSpinControl extends Composite
+public class IntegerSpinControl extends AbstractChartIntSpinner
 		implements
 			SelectionListener,
 			Listener
@@ -49,27 +51,27 @@ public class IntegerSpinControl extends Composite
 
 	private transient int iMaxValue = 100;
 
-	private transient int iCurrentValue = 0;
+	protected transient int iCurrentValue = 0;
 
 	private transient int iIncrement = 1;
 
-	private transient Composite cmpContentOuter = null;
+	protected transient Composite cmpContentOuter = null;
 
 	private transient Composite cmpContentInner = null;
 
 	private transient Composite cmpBtnContainer = null;
 
-	private transient Button btnIncrement = null;
+	protected transient Button btnIncrement = null;
 
-	private transient Button btnDecrement = null;
+	protected transient Button btnDecrement = null;
 
-	private transient TextEditorComposite txtValue = null;
+	protected transient TextEditorComposite txtValue = null;
 
-	private transient Vector vListeners = null;
+	protected transient Vector<Listener> vListeners = null;
 
 	public static final int VALUE_CHANGED_EVENT = 1;
 
-	private transient boolean bEnabled = true;
+	protected transient boolean bEnabled = true;
 
 	/**
 	 * @param parent
@@ -96,13 +98,13 @@ public class IntegerSpinControl extends Composite
 		}
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
 	 * 
 	 */
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		FillLayout fl = new FillLayout( );
 		fl.marginHeight = 0;
@@ -120,10 +122,15 @@ public class IntegerSpinControl extends Composite
 		gl.numColumns = 1;
 		cmpContentOuter.setLayout( gl );
 
+		creaetSpinner( cmpContentOuter );
+	}
+
+	protected void creaetSpinner( Composite parent )
+	{
 		// THE LAYOUT OF THE INNER COMPOSITE (ANCHORED NORTH AND ENCAPSULATES
 		// THE CANVAS + BUTTON)
-		cmpContentInner = new Composite( cmpContentOuter, SWT.NONE );
-		gl = new GridLayout( );
+		cmpContentInner = new Composite( parent, SWT.NONE );
+		GridLayout gl = new GridLayout( );
 		gl.verticalSpacing = 0;
 		gl.horizontalSpacing = 0;
 		gl.marginHeight = 0;
@@ -138,6 +145,7 @@ public class IntegerSpinControl extends Composite
 		gd.grabExcessHorizontalSpace = true;
 		gd.verticalAlignment = GridData.BEGINNING;
 		gd.heightHint = iSize + 8;
+		gd.minimumWidth = 30;
 		txtValue.setLayoutData( gd );
 		txtValue.setText( String.valueOf( iCurrentValue ) );
 		txtValue.addListener( this );
@@ -212,17 +220,32 @@ public class IntegerSpinControl extends Composite
 		return this.iCurrentValue;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
+	 */
+	@Override
 	public void setEnabled( boolean bState )
+	{
+		super.setEnabled( bState );
+		setEnabledImpl( bState );
+		this.bEnabled = bState;
+	}
+
+	protected void setEnabledImpl( boolean bState )
 	{
 		this.btnIncrement.setEnabled( bState );
 		this.btnDecrement.setEnabled( bState );
 		this.txtValue.setEnabled( bState );
-		this.bEnabled = bState;
 	}
 
 	public boolean isEnabled( )
 	{
 		return this.bEnabled;
+	}
+	
+	public boolean isSpinnerEnabled( )
+	{
+		return isEnabled( );
 	}
 
 	public void addListener( Listener listener )
@@ -280,7 +303,7 @@ public class IntegerSpinControl extends Composite
 		fireValueChangedEvent( );
 	}
 
-	private void fireValueChangedEvent( )
+	protected void fireValueChangedEvent( )
 	{
 		for ( int iL = 0; iL < vListeners.size( ); iL++ )
 		{
@@ -288,7 +311,8 @@ public class IntegerSpinControl extends Composite
 			se.widget = this;
 			se.data = Integer.valueOf( iCurrentValue );
 			se.type = IntegerSpinControl.VALUE_CHANGED_EVENT;
-			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+			se.detail = ChartUIExtensionUtil.PROPERTY_UPDATE;
+			vListeners.get( iL ).handleEvent( se );
 		}
 	}
 

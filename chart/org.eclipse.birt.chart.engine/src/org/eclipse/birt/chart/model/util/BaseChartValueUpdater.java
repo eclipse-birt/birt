@@ -111,7 +111,12 @@ public class BaseChartValueUpdater
 	{
 		if ( eObj != null )
 		{
-			updateChart( eObj.eClass( ).getName( ), null, eObj, eRefObj, true );
+			updateChart( eObj.eClass( ).getName( ),
+					null,
+					eObj,
+					eRefObj,
+					true,
+					true );
 		}
 	}
 
@@ -126,11 +131,13 @@ public class BaseChartValueUpdater
 	 *        reference chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateChart( String name, EObject eParentObj, Chart eObj,
-			Chart eRefObj, boolean eDefOverride )
+			Chart eRefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -143,7 +150,8 @@ public class BaseChartValueUpdater
 					(DialChart) eObj,
 					(DialChart) eRefObj,
 					DefaultValueProvider.defDialChart( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof ChartWithAxes )
 		{
@@ -152,7 +160,8 @@ public class BaseChartValueUpdater
 					(ChartWithAxes) eObj,
 					(ChartWithAxes) eRefObj,
 					DefaultValueProvider.defChartWithAxes( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof ChartWithoutAxes )
 		{
@@ -161,7 +170,8 @@ public class BaseChartValueUpdater
 					(ChartWithoutAxes) eObj,
 					(ChartWithoutAxes) eRefObj,
 					DefaultValueProvider.defChartWithoutAxes( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -170,7 +180,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					null,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -185,11 +196,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateChartImpl( String name, EObject eParentObj,
-			Chart eObj, Chart eRefObj, Chart eDefObj, boolean eDefOverride )
+			Chart eObj, Chart eRefObj, Chart eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -297,7 +311,8 @@ public class BaseChartValueUpdater
 				eObj.getBlock( ),
 				eRefObj == null ? null : eRefObj.getBlock( ),
 				eDefObj == null ? null : eDefObj.getBlock( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eObj.getExtendedProperties( ).size( ) == 0 )
 		{
 			if ( eRefObj != null
@@ -318,13 +333,15 @@ public class BaseChartValueUpdater
 				eObj.getInteractivity( ),
 				eRefObj == null ? null : eRefObj.getInteractivity( ),
 				eDefObj == null ? null : eDefObj.getInteractivity( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "emptyMessage",
 				eObj,
 				eObj.getEmptyMessage( ),
 				eRefObj == null ? null : eRefObj.getEmptyMessage( ),
 				eDefObj == null ? null : eDefObj.getEmptyMessage( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -339,12 +356,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateChartWithAxes( String name, EObject eParentObj,
 			ChartWithAxes eObj, ChartWithAxes eRefObj, ChartWithAxes eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -524,13 +543,15 @@ public class BaseChartValueUpdater
 				eObj.getDescription( ),
 				eRefObj == null ? null : eRefObj.getDescription( ),
 				eDefObj == null ? null : eDefObj.getDescription( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateBlock( "block",
 				eObj,
 				eObj.getBlock( ),
 				eRefObj == null ? null : eRefObj.getBlock( ),
 				eDefObj == null ? null : eDefObj.getBlock( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eObj.getExtendedProperties( ).size( ) == 0 )
 		{
 			if ( eRefObj != null
@@ -551,16 +572,18 @@ public class BaseChartValueUpdater
 				eObj.getInteractivity( ),
 				eRefObj == null ? null : eRefObj.getInteractivity( ),
 				eDefObj == null ? null : eDefObj.getInteractivity( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "emptyMessage",
 				eObj,
 				eObj.getEmptyMessage( ),
 				eRefObj == null ? null : eRefObj.getEmptyMessage( ),
 				eDefObj == null ? null : eDefObj.getEmptyMessage( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		for ( Axis element : eObj.getAxes( ) )
 		{
-			updateAxis( "axes", eObj, element, ( eRefObj != null && eRefObj.getAxes( ).size( ) > 0 ) ? eRefObj.getAxes( ).get( 0 ) : null, DefaultValueProvider.defBaseAxis( ), eDefOverride, 0 ); //$NON-NLS-1$ 
+			updateAxis( "axes", eObj, element, ( eRefObj != null && eRefObj.getAxes( ).size( ) > 0 ) ? eRefObj.getAxes( ).get( 0 ) : null, DefaultValueProvider.defBaseAxis( ), eDefOverride, checkVisible, 0 ); //$NON-NLS-1$ 
 		}
 
 		updateFill( "wallFill",
@@ -568,19 +591,22 @@ public class BaseChartValueUpdater
 				eObj.getWallFill( ),
 				eRefObj == null ? null : eRefObj.getWallFill( ),
 				eDefObj == null ? null : eDefObj.getWallFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "floorFill",
 				eObj,
 				eObj.getFloorFill( ),
 				eRefObj == null ? null : eRefObj.getFloorFill( ),
 				eDefObj == null ? null : eDefObj.getFloorFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateRotation3D( "rotation",
 				eObj,
 				eObj.getRotation( ),
 				eRefObj == null ? null : eRefObj.getRotation( ),
 				eDefObj == null ? null : eDefObj.getRotation( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -597,12 +623,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateChartWithoutAxes( String name, EObject eParentObj,
 			ChartWithoutAxes eObj, ChartWithoutAxes eRefObj,
-			ChartWithoutAxes eDefObj, boolean eDefOverride )
+			ChartWithoutAxes eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -636,7 +664,8 @@ public class BaseChartValueUpdater
 					(DialChart) eObj,
 					(DialChart) eRefObj,
 					DefaultValueProvider.defDialChart( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -645,7 +674,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -660,12 +690,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateChartWithoutAxesImpl( String name, EObject eParentObj,
 			ChartWithoutAxes eObj, ChartWithoutAxes eRefObj,
-			ChartWithoutAxes eDefObj, boolean eDefOverride )
+			ChartWithoutAxes eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -845,13 +877,15 @@ public class BaseChartValueUpdater
 				eObj.getDescription( ),
 				eRefObj == null ? null : eRefObj.getDescription( ),
 				eDefObj == null ? null : eDefObj.getDescription( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateBlock( "block",
 				eObj,
 				eObj.getBlock( ),
 				eRefObj == null ? null : eRefObj.getBlock( ),
 				eDefObj == null ? null : eDefObj.getBlock( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eObj.getExtendedProperties( ).size( ) == 0 )
 		{
 			if ( eRefObj != null
@@ -872,17 +906,19 @@ public class BaseChartValueUpdater
 				eObj.getInteractivity( ),
 				eRefObj == null ? null : eRefObj.getInteractivity( ),
 				eDefObj == null ? null : eDefObj.getInteractivity( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "emptyMessage",
 				eObj,
 				eObj.getEmptyMessage( ),
 				eRefObj == null ? null : eRefObj.getEmptyMessage( ),
 				eDefObj == null ? null : eDefObj.getEmptyMessage( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int seriesDefIndex = 0;
 		for ( SeriesDefinition element : eObj.getSeriesDefinitions( ) )
 		{
-			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( seriesDefIndex++ ), eDefOverride, 0, 0 ); //$NON-NLS-1$ 
+			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( seriesDefIndex++ ), eDefOverride, checkVisible, 0, 0 ); //$NON-NLS-1$ 
 		}
 
 	}
@@ -898,12 +934,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateDialChart( String name, EObject eParentObj,
 			DialChart eObj, DialChart eRefObj, DialChart eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -1095,13 +1133,15 @@ public class BaseChartValueUpdater
 				eObj.getDescription( ),
 				eRefObj == null ? null : eRefObj.getDescription( ),
 				eDefObj == null ? null : eDefObj.getDescription( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateBlock( "block",
 				eObj,
 				eObj.getBlock( ),
 				eRefObj == null ? null : eRefObj.getBlock( ),
 				eDefObj == null ? null : eDefObj.getBlock( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eObj.getExtendedProperties( ).size( ) == 0 )
 		{
 			if ( eRefObj != null
@@ -1122,17 +1162,19 @@ public class BaseChartValueUpdater
 				eObj.getInteractivity( ),
 				eRefObj == null ? null : eRefObj.getInteractivity( ),
 				eDefObj == null ? null : eDefObj.getInteractivity( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "emptyMessage",
 				eObj,
 				eObj.getEmptyMessage( ),
 				eRefObj == null ? null : eRefObj.getEmptyMessage( ),
 				eDefObj == null ? null : eDefObj.getEmptyMessage( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int seriesDefIndex = 0;
 		for ( SeriesDefinition element : eObj.getSeriesDefinitions( ) )
 		{
-			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( seriesDefIndex++ ), eDefOverride, 0, 0 ); //$NON-NLS-1$ 
+			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( seriesDefIndex++ ), eDefOverride, checkVisible, 0, 0 ); //$NON-NLS-1$ 
 		}
 
 	}
@@ -1150,12 +1192,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateAreaSeries( String name, EObject eParentObj,
 			AreaSeries eObj, AreaSeries eRefObj, AreaSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -1183,28 +1227,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -1215,7 +1262,8 @@ public class BaseChartValueUpdater
 					(DifferenceSeries) eObj,
 					(DifferenceSeries) eRefObj,
 					DefaultValueProvider.defDifferenceSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -1224,7 +1272,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -1239,12 +1288,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateAreaSeriesImpl( String name, EObject eParentObj,
 			AreaSeries eObj, AreaSeries eRefObj, AreaSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -1272,28 +1323,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -1402,29 +1456,33 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_AreaSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_AreaSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_AreaSeries_markers ), eDefOverride ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_AreaSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_AreaSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_AreaSeries_markers++;
 		}
 
@@ -1433,19 +1491,22 @@ public class BaseChartValueUpdater
 				eObj.getMarker( ),
 				eRefObj == null ? null : eRefObj.getMarker( ),
 				eDefObj == null ? null : eDefObj.getMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "lineAttributes",
 				eObj,
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -1460,12 +1521,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateBarSeries( String name, EObject eParentObj,
 			BarSeries eObj, BarSeries eRefObj, BarSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -1493,28 +1556,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -1599,31 +1665,36 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "riserOutline",
 				eObj,
 				eObj.getRiserOutline( ),
 				eRefObj == null ? null : eRefObj.getRiserOutline( ),
 				eDefObj == null ? null : eDefObj.getRiserOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -1638,12 +1709,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateBubbleSeries( String name, EObject eParentObj,
 			BubbleSeries eObj, BubbleSeries eRefObj, BubbleSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -1671,28 +1744,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -1813,29 +1889,33 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_BubbleSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_BubbleSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_BubbleSeries_markers ), eDefOverride ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_BubbleSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_BubbleSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_BubbleSeries_markers++;
 		}
 
@@ -1844,25 +1924,29 @@ public class BaseChartValueUpdater
 				eObj.getMarker( ),
 				eRefObj == null ? null : eRefObj.getMarker( ),
 				eDefObj == null ? null : eDefObj.getMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "lineAttributes",
 				eObj,
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "accLineAttributes",
 				eObj,
 				eObj.getAccLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getAccLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getAccLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -1877,12 +1961,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateDialSeries( String name, EObject eParentObj,
 			DialSeries eObj, DialSeries eRefObj, DialSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -1910,28 +1996,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -2004,37 +2093,43 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDial( "dial",
 				eObj,
 				eObj.getDial( ),
 				eRefObj == null ? null : eRefObj.getDial( ),
 				eDefObj == null ? null : eDefObj.getDial( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateNeedle( "needle",
 				eObj,
 				eObj.getNeedle( ),
 				eRefObj == null ? null : eRefObj.getNeedle( ),
 				eDefObj == null ? null : eDefObj.getNeedle( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -2049,12 +2144,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateDifferenceSeries( String name, EObject eParentObj,
 			DifferenceSeries eObj, DifferenceSeries eRefObj,
-			DifferenceSeries eDefObj, boolean eDefOverride )
+			DifferenceSeries eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -2082,28 +2179,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -2212,29 +2312,33 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_DifferenceSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_DifferenceSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_DifferenceSeries_markers ), eDefOverride ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_DifferenceSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_DifferenceSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_DifferenceSeries_markers++;
 		}
 
@@ -2243,23 +2347,26 @@ public class BaseChartValueUpdater
 				eObj.getMarker( ),
 				eRefObj == null ? null : eRefObj.getMarker( ),
 				eDefObj == null ? null : eDefObj.getMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "lineAttributes",
 				eObj,
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_DifferenceSeries_negativeMarkers = 0;
 		for ( Marker element : eObj.getNegativeMarkers( ) )
 		{
-			updateMarker( "negativeMarkers", eObj, element, getValidMarkerRef( eRefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), getValidMarkerRef( eDefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), eDefOverride ); //$NON-NLS-1$ 
+			updateMarker( "negativeMarkers", eObj, element, getValidMarkerRef( eRefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), getValidMarkerRef( eDefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_DifferenceSeries_negativeMarkers++;
 		}
 
@@ -2268,7 +2375,8 @@ public class BaseChartValueUpdater
 				eObj.getNegativeLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getNegativeLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getNegativeLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -2283,12 +2391,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateGanttSeries( String name, EObject eParentObj,
 			GanttSeries eObj, GanttSeries eRefObj, GanttSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -2316,28 +2426,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -2470,61 +2583,71 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateMarker( "startMarker",
 				eObj,
 				eObj.getStartMarker( ),
 				eRefObj == null ? null : eRefObj.getStartMarker( ),
 				eDefObj == null ? null : eDefObj.getStartMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateMarker( "endMarker",
 				eObj,
 				eObj.getEndMarker( ),
 				eRefObj == null ? null : eRefObj.getEndMarker( ),
 				eDefObj == null ? null : eDefObj.getEndMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "connectionLine",
 				eObj,
 				eObj.getConnectionLine( ),
 				eRefObj == null ? null : eRefObj.getConnectionLine( ),
 				eDefObj == null ? null : eDefObj.getConnectionLine( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "outlineFill",
 				eObj,
 				eObj.getOutlineFill( ),
 				eRefObj == null ? null : eRefObj.getOutlineFill( ),
 				eDefObj == null ? null : eDefObj.getOutlineFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "decorationLabel",
 				eObj,
 				eObj.getDecorationLabel( ),
 				eRefObj == null ? null : eRefObj.getDecorationLabel( ),
 				eDefObj == null ? null : eDefObj.getDecorationLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -2541,12 +2664,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateLineSeries( String name, EObject eParentObj,
 			LineSeries eObj, LineSeries eRefObj, LineSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -2574,28 +2699,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -2606,7 +2734,8 @@ public class BaseChartValueUpdater
 					(BubbleSeries) eObj,
 					(BubbleSeries) eRefObj,
 					DefaultValueProvider.defBubbleSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof DifferenceSeries )
 		{
@@ -2615,7 +2744,8 @@ public class BaseChartValueUpdater
 					(DifferenceSeries) eObj,
 					(DifferenceSeries) eRefObj,
 					DefaultValueProvider.defDifferenceSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof AreaSeries )
 		{
@@ -2624,7 +2754,8 @@ public class BaseChartValueUpdater
 					(AreaSeries) eObj,
 					(AreaSeries) eRefObj,
 					DefaultValueProvider.defAreaSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof ScatterSeries )
 		{
@@ -2633,7 +2764,8 @@ public class BaseChartValueUpdater
 					(ScatterSeries) eObj,
 					(ScatterSeries) eRefObj,
 					DefaultValueProvider.defScatterSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -2642,7 +2774,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -2657,12 +2790,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateLineSeriesImpl( String name, EObject eParentObj,
 			LineSeries eObj, LineSeries eRefObj, LineSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -2690,28 +2825,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -2820,29 +2958,33 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_LineSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_LineSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_LineSeries_markers ), eDefOverride ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_LineSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_LineSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_LineSeries_markers++;
 		}
 
@@ -2851,19 +2993,22 @@ public class BaseChartValueUpdater
 				eObj.getMarker( ),
 				eRefObj == null ? null : eRefObj.getMarker( ),
 				eDefObj == null ? null : eDefObj.getMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "lineAttributes",
 				eObj,
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -2878,12 +3023,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updatePieSeries( String name, EObject eParentObj,
 			PieSeries eObj, PieSeries eRefObj, PieSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -2911,28 +3058,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -3126,43 +3276,50 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "title",
 				eObj,
 				eObj.getTitle( ),
 				eRefObj == null ? null : eRefObj.getTitle( ),
 				eDefObj == null ? null : eDefObj.getTitle( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "leaderLineAttributes",
 				eObj,
 				eObj.getLeaderLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLeaderLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLeaderLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "sliceOutline",
 				eObj,
 				eObj.getSliceOutline( ),
 				eRefObj == null ? null : eRefObj.getSliceOutline( ),
 				eDefObj == null ? null : eDefObj.getSliceOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -3179,12 +3336,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateScatterSeries( String name, EObject eParentObj,
 			ScatterSeries eObj, ScatterSeries eRefObj, ScatterSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -3212,28 +3371,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -3244,7 +3406,8 @@ public class BaseChartValueUpdater
 					(BubbleSeries) eObj,
 					(BubbleSeries) eRefObj,
 					DefaultValueProvider.defBubbleSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -3253,7 +3416,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -3268,12 +3432,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateScatterSeriesImpl( String name, EObject eParentObj,
 			ScatterSeries eObj, ScatterSeries eRefObj, ScatterSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -3301,28 +3467,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -3431,29 +3600,33 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_ScatterSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_ScatterSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_ScatterSeries_markers ), eDefOverride ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_ScatterSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_ScatterSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_ScatterSeries_markers++;
 		}
 
@@ -3462,19 +3635,22 @@ public class BaseChartValueUpdater
 				eObj.getMarker( ),
 				eRefObj == null ? null : eRefObj.getMarker( ),
 				eDefObj == null ? null : eDefObj.getMarker( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "lineAttributes",
 				eObj,
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -3489,12 +3665,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateStockSeries( String name, EObject eParentObj,
 			StockSeries eObj, StockSeries eRefObj, StockSeries eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -3522,28 +3700,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -3640,37 +3821,43 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "fill",
 				eObj,
 				eObj.getFill( ),
 				eRefObj == null ? null : eRefObj.getFill( ),
 				eDefObj == null ? null : eDefObj.getFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "lineAttributes",
 				eObj,
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -3685,13 +3872,16 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 * @param axisIndex
 	 *        index of axis.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateAxis( String name, EObject eParentObj, Axis eObj,
-			Axis eRefObj, Axis eDefObj, boolean eDefOverride, int axisIndex )
+			Axis eRefObj, Axis eDefObj, boolean eDefOverride,
+			boolean checkVisible, int axisIndex )
 	{
 		if ( eObj == null )
 		{
@@ -3907,29 +4097,31 @@ public class BaseChartValueUpdater
 				eObj.getTitle( ),
 				eRefObj == null ? null : eRefObj.getTitle( ),
 				eDefObj == null ? null : eDefObj.getTitle( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "subTitle",
 				eObj,
 				eObj.getSubTitle( ),
 				eRefObj == null ? null : eRefObj.getSubTitle( ),
 				eDefObj == null ? null : eDefObj.getSubTitle( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int orghAxisIndex = 0;
 		for ( Axis element : eObj.getAssociatedAxes( ) )
 		{
-			updateAxis( "associatedAxes", eObj, element, ( eRefObj != null && eRefObj.getAssociatedAxes( ).size( ) > 0 ) ? eRefObj.getAssociatedAxes( ).get( 0 ) : null, DefaultValueProvider.defOrthogonalAxis( ), eDefOverride, orghAxisIndex ); //$NON-NLS-1$ 
+			updateAxis( "associatedAxes", eObj, element, ( eRefObj != null && eRefObj.getAssociatedAxes( ).size( ) > 0 ) ? eRefObj.getAssociatedAxes( ).get( 0 ) : null, DefaultValueProvider.defOrthogonalAxis( ), eDefOverride, checkVisible, orghAxisIndex ); //$NON-NLS-1$ 
 			orghAxisIndex++;
 		}
 
 		for ( Axis element : eObj.getAncillaryAxes( ) )
 		{
-			updateAxis( "ancillaryAxes", eObj, element, ( eRefObj != null && eRefObj.getAncillaryAxes( ).size( ) > 0 ) ? eRefObj.getAncillaryAxes( ).get( 0 ) : null, DefaultValueProvider.defAncillaryAxis( ), eDefOverride, 0 ); //$NON-NLS-1$ 
+			updateAxis( "ancillaryAxes", eObj, element, ( eRefObj != null && eRefObj.getAncillaryAxes( ).size( ) > 0 ) ? eRefObj.getAncillaryAxes( ).get( 0 ) : null, DefaultValueProvider.defAncillaryAxis( ), eDefOverride, checkVisible, 0 ); //$NON-NLS-1$ 
 		}
 
 		int seriesDefIndex = 0;
 		for ( SeriesDefinition element : eObj.getSeriesDefinitions( ) )
 		{
-			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( seriesDefIndex ), eDefOverride, axisIndex, seriesDefIndex ); //$NON-NLS-1$ 
+			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( seriesDefIndex ), eDefOverride, checkVisible, axisIndex, seriesDefIndex ); //$NON-NLS-1$ 
 			seriesDefIndex++;
 		}
 
@@ -3938,30 +4130,33 @@ public class BaseChartValueUpdater
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "label",
 				eObj,
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFormatSpecifier( "formatSpecifier",
 				eObj,
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_Axis_markerLines = 0;
 		for ( MarkerLine element : eObj.getMarkerLines( ) )
 		{
-			updateMarkerLine( "markerLines", eObj, element, ( eRefObj != null && eRefObj.getMarkerLines( ).size( ) > 0 ) ? eRefObj.getMarkerLines( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getMarkerLines( ).size( ) > 0 ) ? eDefObj.getMarkerLines( ).get( 0 ) : null, eDefOverride ); //$NON-NLS-1$ 
+			updateMarkerLine( "markerLines", eObj, element, ( eRefObj != null && eRefObj.getMarkerLines( ).size( ) > 0 ) ? eRefObj.getMarkerLines( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getMarkerLines( ).size( ) > 0 ) ? eDefObj.getMarkerLines( ).get( 0 ) : null, eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Axis_markerLines++;
 		}
 
 		int index_Axis_markerRanges = 0;
 		for ( MarkerRange element : eObj.getMarkerRanges( ) )
 		{
-			updateMarkerRange( "markerRanges", eObj, element, ( eRefObj != null && eRefObj.getMarkerRanges( ).size( ) > 0 ) ? eRefObj.getMarkerRanges( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getMarkerRanges( ).size( ) > 0 ) ? eDefObj.getMarkerRanges( ).get( 0 ) : null, eDefOverride ); //$NON-NLS-1$ 
+			updateMarkerRange( "markerRanges", eObj, element, ( eRefObj != null && eRefObj.getMarkerRanges( ).size( ) > 0 ) ? eRefObj.getMarkerRanges( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getMarkerRanges( ).size( ) > 0 ) ? eDefObj.getMarkerRanges( ).get( 0 ) : null, eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Axis_markerRanges++;
 		}
 
@@ -3970,31 +4165,36 @@ public class BaseChartValueUpdater
 				eObj.getMajorGrid( ),
 				eRefObj == null ? null : eRefObj.getMajorGrid( ),
 				eDefObj == null ? null : eDefObj.getMajorGrid( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateGrid( "minorGrid",
 				eObj,
 				eObj.getMinorGrid( ),
 				eRefObj == null ? null : eRefObj.getMinorGrid( ),
 				eDefObj == null ? null : eDefObj.getMinorGrid( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateScale( "scale",
 				eObj,
 				eObj.getScale( ),
 				eRefObj == null ? null : eRefObj.getScale( ),
 				eDefObj == null ? null : eDefObj.getScale( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateAxisOrigin( "origin",
 				eObj,
 				eObj.getOrigin( ),
 				eRefObj == null ? null : eRefObj.getOrigin( ),
 				eDefObj == null ? null : eDefObj.getOrigin( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4009,12 +4209,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateCurveFitting( String name, EObject eParentObj,
 			CurveFitting eObj, CurveFitting eRefObj, CurveFitting eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4062,13 +4264,15 @@ public class BaseChartValueUpdater
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "label",
 				eObj,
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4083,11 +4287,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateDial( String name, EObject eParentObj, Dial eObj,
-			Dial eRefObj, Dial eDefObj, boolean eDefOverride )
+			Dial eRefObj, Dial eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4171,17 +4378,19 @@ public class BaseChartValueUpdater
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "fill",
 				eObj,
 				eObj.getFill( ),
 				eRefObj == null ? null : eRefObj.getFill( ),
 				eDefObj == null ? null : eDefObj.getFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		int index_Dial_dialRegions = 0;
 		for ( DialRegion element : eObj.getDialRegions( ) )
 		{
-			updateDialRegion( "dialRegions", eObj, element, ( eRefObj != null && eRefObj.getDialRegions( ).size( ) > 0 ) ? eRefObj.getDialRegions( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getDialRegions( ).size( ) > 0 ) ? eDefObj.getDialRegions( ).get( 0 ) : null, eDefOverride ); //$NON-NLS-1$ 
+			updateDialRegion( "dialRegions", eObj, element, ( eRefObj != null && eRefObj.getDialRegions( ).size( ) > 0 ) ? eRefObj.getDialRegions( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getDialRegions( ).size( ) > 0 ) ? eDefObj.getDialRegions( ).get( 0 ) : null, eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Dial_dialRegions++;
 		}
 
@@ -4190,31 +4399,36 @@ public class BaseChartValueUpdater
 				eObj.getMajorGrid( ),
 				eRefObj == null ? null : eRefObj.getMajorGrid( ),
 				eDefObj == null ? null : eDefObj.getMajorGrid( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateGrid( "minorGrid",
 				eObj,
 				eObj.getMinorGrid( ),
 				eRefObj == null ? null : eRefObj.getMinorGrid( ),
 				eDefObj == null ? null : eDefObj.getMinorGrid( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateScale( "scale",
 				eObj,
 				eObj.getScale( ),
 				eRefObj == null ? null : eRefObj.getScale( ),
 				eDefObj == null ? null : eDefObj.getScale( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "label",
 				eObj,
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFormatSpecifier( "formatSpecifier",
 				eObj,
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4229,12 +4443,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateDialRegion( String name, EObject eParentObj,
 			DialRegion eObj, DialRegion eRefObj, DialRegion eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4306,13 +4522,15 @@ public class BaseChartValueUpdater
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "fill",
 				eObj,
 				eObj.getFill( ),
 				eRefObj == null ? null : eRefObj.getFill( ),
 				eDefObj == null ? null : eDefObj.getFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eRefObj != null && eRefObj.getStartValue( ) != null )
 		{
 			eObj.setStartValue( eRefObj.getStartValue( ) );
@@ -4334,19 +4552,22 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFormatSpecifier( "formatSpecifier",
 				eObj,
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4361,11 +4582,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateGrid( String name, EObject eParentObj, Grid eObj,
-			Grid eRefObj, Grid eDefObj, boolean eDefOverride )
+			Grid eRefObj, Grid eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4437,13 +4661,15 @@ public class BaseChartValueUpdater
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "tickAttributes",
 				eObj,
 				eObj.getTickAttributes( ),
 				eRefObj == null ? null : eRefObj.getTickAttributes( ),
 				eDefObj == null ? null : eDefObj.getTickAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4458,11 +4684,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateLabel( String name, EObject eParentObj, Label eObj,
-			Label eRefObj, Label eDefObj, boolean eDefOverride )
+			Label eRefObj, Label eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4490,28 +4719,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -4548,31 +4780,36 @@ public class BaseChartValueUpdater
 				eObj.getCaption( ),
 				eRefObj == null ? null : eRefObj.getCaption( ),
 				eDefObj == null ? null : eDefObj.getCaption( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "background",
 				eObj,
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4587,12 +4824,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateMarkerLine( String name, EObject eParentObj,
 			MarkerLine eObj, MarkerLine eRefObj, MarkerLine eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4640,7 +4879,8 @@ public class BaseChartValueUpdater
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eRefObj != null && eRefObj.getValue( ) != null )
 		{
 			eObj.setValue( eRefObj.getValue( ) );
@@ -4654,19 +4894,22 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFormatSpecifier( "formatSpecifier",
 				eObj,
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4683,12 +4926,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateMarkerRange( String name, EObject eParentObj,
 			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4722,7 +4967,8 @@ public class BaseChartValueUpdater
 					(DialRegion) eObj,
 					(DialRegion) eRefObj,
 					eDefObj instanceof DialRegion ? (DialRegion) eDefObj : null,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -4731,7 +4977,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -4746,12 +4993,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateMarkerRangeImpl( String name, EObject eParentObj,
 			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4799,13 +5048,15 @@ public class BaseChartValueUpdater
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "fill",
 				eObj,
 				eObj.getFill( ),
 				eRefObj == null ? null : eRefObj.getFill( ),
 				eDefObj == null ? null : eDefObj.getFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		if ( eRefObj != null && eRefObj.getStartValue( ) != null )
 		{
 			eObj.setStartValue( eRefObj.getStartValue( ) );
@@ -4827,19 +5078,22 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFormatSpecifier( "formatSpecifier",
 				eObj,
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4854,11 +5108,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateNeedle( String name, EObject eParentObj, Needle eObj,
-			Needle eRefObj, Needle eDefObj, boolean eDefOverride )
+			Needle eRefObj, Needle eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -4906,7 +5163,8 @@ public class BaseChartValueUpdater
 				eObj.getLineAttributes( ),
 				eRefObj == null ? null : eRefObj.getLineAttributes( ),
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -4921,11 +5179,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateScale( String name, EObject eParentObj, Scale eObj,
-			Scale eRefObj, Scale eDefObj, boolean eDefOverride )
+			Scale eRefObj, Scale eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -5096,11 +5357,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateSeries( String name, EObject eParentObj, Series eObj,
-			Map<String, Series> eRefObj, Series eDefObj, boolean eDefOverride )
+			Map<String, Series> eRefObj, Series eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null || ( eRefObj == null && eDefObj == null ) )
 		{
@@ -5128,7 +5392,8 @@ public class BaseChartValueUpdater
 					(BubbleSeries) eObj,
 					(BubbleSeries) eRefObj.get( "BubbleSeries" ),
 					DefaultValueProvider.defBubbleSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof DifferenceSeries )
 		{
@@ -5137,7 +5402,8 @@ public class BaseChartValueUpdater
 					(DifferenceSeries) eObj,
 					(DifferenceSeries) eRefObj.get( "DifferenceSeries" ),
 					DefaultValueProvider.defDifferenceSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof AreaSeries )
 		{
@@ -5146,7 +5412,8 @@ public class BaseChartValueUpdater
 					(AreaSeries) eObj,
 					(AreaSeries) eRefObj.get( "AreaSeries" ),
 					DefaultValueProvider.defAreaSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof ScatterSeries )
 		{
@@ -5155,7 +5422,8 @@ public class BaseChartValueUpdater
 					(ScatterSeries) eObj,
 					(ScatterSeries) eRefObj.get( "ScatterSeries" ),
 					DefaultValueProvider.defScatterSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof BarSeries )
 		{
@@ -5164,7 +5432,8 @@ public class BaseChartValueUpdater
 					(BarSeries) eObj,
 					(BarSeries) eRefObj.get( "BarSeries" ),
 					DefaultValueProvider.defBarSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof DialSeries )
 		{
@@ -5173,7 +5442,8 @@ public class BaseChartValueUpdater
 					(DialSeries) eObj,
 					(DialSeries) eRefObj.get( "DialSeries" ),
 					DefaultValueProvider.defDialSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof GanttSeries )
 		{
@@ -5182,7 +5452,8 @@ public class BaseChartValueUpdater
 					(GanttSeries) eObj,
 					(GanttSeries) eRefObj.get( "GanttSeries" ),
 					DefaultValueProvider.defGanttSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof LineSeries )
 		{
@@ -5191,7 +5462,8 @@ public class BaseChartValueUpdater
 					(LineSeries) eObj,
 					(LineSeries) eRefObj.get( "LineSeries" ),
 					DefaultValueProvider.defLineSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof PieSeries )
 		{
@@ -5200,7 +5472,8 @@ public class BaseChartValueUpdater
 					(PieSeries) eObj,
 					(PieSeries) eRefObj.get( "PieSeries" ),
 					DefaultValueProvider.defPieSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof StockSeries )
 		{
@@ -5209,7 +5482,8 @@ public class BaseChartValueUpdater
 					(StockSeries) eObj,
 					(StockSeries) eRefObj.get( "StockSeries" ),
 					DefaultValueProvider.defStockSeries( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -5218,7 +5492,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj.size( ) > 0 ? eRefObj.get( 0 ) : null,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -5233,11 +5508,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateSeriesImpl( String name, EObject eParentObj,
-			Series eObj, Series eRefObj, Series eDefObj, boolean eDefOverride )
+			Series eObj, Series eRefObj, Series eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -5265,28 +5543,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -5359,25 +5640,29 @@ public class BaseChartValueUpdater
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateDataPoint( "dataPoint",
 				eObj,
 				eObj.getDataPoint( ),
 				eRefObj == null ? null : eRefObj.getDataPoint( ),
 				eDefObj == null ? null : eDefObj.getDataPoint( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCurveFitting( "curveFitting",
 				eObj,
 				eObj.getCurveFitting( ),
 				eRefObj == null ? null : eRefObj.getCurveFitting( ),
 				eDefObj == null ? null : eDefObj.getCurveFitting( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -5392,6 +5677,8 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 * @param axisIndex
 	 *        index of axis.
 	 * @param seriesDefIndex
@@ -5401,8 +5688,8 @@ public class BaseChartValueUpdater
 	 */
 	public void updateSeriesDefinition( String name, EObject eParentObj,
 			SeriesDefinition eObj, SeriesDefinition eRefObj,
-			SeriesDefinition eDefObj, boolean eDefOverride, int axisIndex,
-			int seriesDefIndex )
+			SeriesDefinition eDefObj, boolean eDefOverride,
+			boolean checkVisible, int axisIndex, int seriesDefIndex )
 	{
 		if ( eObj == null )
 		{
@@ -5451,12 +5738,13 @@ public class BaseChartValueUpdater
 				eRefObj == null ? null : eRefObj.getSeriesPalette( ),
 				eDefObj == null ? null : eDefObj.getSeriesPalette( ),
 				eDefOverride,
+				checkVisible,
 				axisIndex,
 				seriesDefIndex );
 		int orthSeriesDefIndex = 0;
 		for ( SeriesDefinition element : eObj.getSeriesDefinitions( ) )
 		{
-			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( orthSeriesDefIndex ), eDefOverride, 0, orthSeriesDefIndex ); //$NON-NLS-1$ 
+			updateSeriesDefinition( "seriesDefinitions", eObj, element, ( eRefObj != null && eRefObj.getSeriesDefinitions( ).size( ) > 0 ) ? eRefObj.getSeriesDefinitions( ).get( 0 ) : null, DefaultValueProvider.defSeriesDefinition( orthSeriesDefIndex ), eDefOverride, checkVisible, 0, orthSeriesDefIndex ); //$NON-NLS-1$ 
 			orthSeriesDefIndex++;
 		}
 
@@ -5465,7 +5753,8 @@ public class BaseChartValueUpdater
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		Map<String, Series> seriesRefMap = new HashMap<String, Series>( );;
 		if ( eRefObj != null )
 		{
@@ -5476,7 +5765,7 @@ public class BaseChartValueUpdater
 		}
 		for ( Series element : eObj.getSeries( ) )
 		{
-			updateSeries( "series", eObj, element, seriesRefMap, DefaultValueProvider.defSeries( ), eDefOverride ); //$NON-NLS-1$ 
+			updateSeries( "series", eObj, element, seriesRefMap, DefaultValueProvider.defSeries( ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 		}
 
 	}
@@ -5494,11 +5783,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateBlock( String name, EObject eParentObj, Block eObj,
-			Block eRefObj, Block eDefObj, boolean eDefOverride )
+			Block eRefObj, Block eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -5526,28 +5818,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -5558,7 +5853,8 @@ public class BaseChartValueUpdater
 					(TitleBlock) eObj,
 					(TitleBlock) eRefObj,
 					DefaultValueProvider.defTitleBlock( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof LabelBlock )
 		{
@@ -5567,7 +5863,8 @@ public class BaseChartValueUpdater
 					(LabelBlock) eObj,
 					(LabelBlock) eRefObj,
 					eDefObj instanceof LabelBlock ? (LabelBlock) eDefObj : null,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof Legend )
 		{
@@ -5576,7 +5873,8 @@ public class BaseChartValueUpdater
 					(Legend) eObj,
 					(Legend) eRefObj,
 					DefaultValueProvider.defLegend( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof Plot )
 		{
@@ -5585,7 +5883,8 @@ public class BaseChartValueUpdater
 					(Plot) eObj,
 					(Plot) eRefObj,
 					DefaultValueProvider.defPlot( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -5594,7 +5893,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -5609,11 +5909,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateBlockImpl( String name, EObject eParentObj,
-			Block eObj, Block eRefObj, Block eDefObj, boolean eDefOverride )
+			Block eObj, Block eRefObj, Block eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -5641,28 +5944,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -5781,7 +6087,7 @@ public class BaseChartValueUpdater
 		int index_Block_children = 0;
 		for ( Block element : eObj.getChildren( ) )
 		{
-			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_Block_children ) ? null : eRefObj.getChildren( ).get( index_Block_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_Block_children ) ? null : eDefObj.getChildren( ).get( index_Block_children ), eDefOverride ); //$NON-NLS-1$ 
+			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_Block_children ) ? null : eRefObj.getChildren( ).get( index_Block_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_Block_children ) ? null : eDefObj.getChildren( ).get( index_Block_children ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Block_children++;
 		}
 
@@ -5790,37 +6096,43 @@ public class BaseChartValueUpdater
 				eObj.getBounds( ),
 				eRefObj == null ? null : eRefObj.getBounds( ),
 				eDefObj == null ? null : eDefObj.getBounds( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateSize( "minSize",
 				eObj,
 				eObj.getMinSize( ),
 				eRefObj == null ? null : eRefObj.getMinSize( ),
 				eDefObj == null ? null : eDefObj.getMinSize( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "background",
 				eObj,
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -5835,12 +6147,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateClientArea( String name, EObject eParentObj,
 			ClientArea eObj, ClientArea eRefObj, ClientArea eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -5868,28 +6182,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -5914,25 +6231,29 @@ public class BaseChartValueUpdater
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "shadowColor",
 				eObj,
 				eObj.getShadowColor( ),
 				eRefObj == null ? null : eRefObj.getShadowColor( ),
 				eDefObj == null ? null : eDefObj.getShadowColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -5949,12 +6270,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateLabelBlock( String name, EObject eParentObj,
 			LabelBlock eObj, LabelBlock eRefObj, LabelBlock eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -5982,28 +6305,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -6014,7 +6340,8 @@ public class BaseChartValueUpdater
 					(TitleBlock) eObj,
 					(TitleBlock) eRefObj,
 					DefaultValueProvider.defTitleBlock( ),
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -6023,7 +6350,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -6038,12 +6366,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateLabelBlockImpl( String name, EObject eParentObj,
 			LabelBlock eObj, LabelBlock eRefObj, LabelBlock eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -6071,28 +6401,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -6211,7 +6544,7 @@ public class BaseChartValueUpdater
 		int index_LabelBlock_children = 0;
 		for ( Block element : eObj.getChildren( ) )
 		{
-			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_LabelBlock_children ) ? null : eRefObj.getChildren( ).get( index_LabelBlock_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_LabelBlock_children ) ? null : eDefObj.getChildren( ).get( index_LabelBlock_children ), eDefOverride ); //$NON-NLS-1$ 
+			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_LabelBlock_children ) ? null : eRefObj.getChildren( ).get( index_LabelBlock_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_LabelBlock_children ) ? null : eDefObj.getChildren( ).get( index_LabelBlock_children ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_LabelBlock_children++;
 		}
 
@@ -6220,43 +6553,50 @@ public class BaseChartValueUpdater
 				eObj.getBounds( ),
 				eRefObj == null ? null : eRefObj.getBounds( ),
 				eDefObj == null ? null : eDefObj.getBounds( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateSize( "minSize",
 				eObj,
 				eObj.getMinSize( ),
 				eRefObj == null ? null : eRefObj.getMinSize( ),
 				eDefObj == null ? null : eDefObj.getMinSize( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "background",
 				eObj,
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "label",
 				eObj,
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -6271,11 +6611,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateLegend( String name, EObject eParentObj, Legend eObj,
-			Legend eRefObj, Legend eDefObj, boolean eDefOverride )
+			Legend eRefObj, Legend eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -6303,28 +6646,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -6611,7 +6957,7 @@ public class BaseChartValueUpdater
 		int index_Legend_children = 0;
 		for ( Block element : eObj.getChildren( ) )
 		{
-			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_Legend_children ) ? null : eRefObj.getChildren( ).get( index_Legend_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_Legend_children ) ? null : eDefObj.getChildren( ).get( index_Legend_children ), eDefOverride ); //$NON-NLS-1$ 
+			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_Legend_children ) ? null : eRefObj.getChildren( ).get( index_Legend_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_Legend_children ) ? null : eDefObj.getChildren( ).get( index_Legend_children ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Legend_children++;
 		}
 
@@ -6620,67 +6966,78 @@ public class BaseChartValueUpdater
 				eObj.getBounds( ),
 				eRefObj == null ? null : eRefObj.getBounds( ),
 				eDefObj == null ? null : eDefObj.getBounds( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateSize( "minSize",
 				eObj,
 				eObj.getMinSize( ),
 				eRefObj == null ? null : eRefObj.getMinSize( ),
 				eDefObj == null ? null : eDefObj.getMinSize( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "background",
 				eObj,
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateClientArea( "clientArea",
 				eObj,
 				eObj.getClientArea( ),
 				eRefObj == null ? null : eRefObj.getClientArea( ),
 				eDefObj == null ? null : eDefObj.getClientArea( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateText( "text",
 				eObj,
 				eObj.getText( ),
 				eRefObj == null ? null : eRefObj.getText( ),
 				eDefObj == null ? null : eDefObj.getText( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "separator",
 				eObj,
 				eObj.getSeparator( ),
 				eRefObj == null ? null : eRefObj.getSeparator( ),
 				eDefObj == null ? null : eDefObj.getSeparator( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "title",
 				eObj,
 				eObj.getTitle( ),
 				eRefObj == null ? null : eRefObj.getTitle( ),
 				eDefObj == null ? null : eDefObj.getTitle( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFormatSpecifier( "formatSpecifier",
 				eObj,
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -6695,11 +7052,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updatePlot( String name, EObject eParentObj, Plot eObj,
-			Plot eRefObj, Plot eDefObj, boolean eDefOverride )
+			Plot eRefObj, Plot eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -6727,28 +7087,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -6891,7 +7254,7 @@ public class BaseChartValueUpdater
 		int index_Plot_children = 0;
 		for ( Block element : eObj.getChildren( ) )
 		{
-			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_Plot_children ) ? null : eRefObj.getChildren( ).get( index_Plot_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_Plot_children ) ? null : eDefObj.getChildren( ).get( index_Plot_children ), eDefOverride ); //$NON-NLS-1$ 
+			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_Plot_children ) ? null : eRefObj.getChildren( ).get( index_Plot_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_Plot_children ) ? null : eDefObj.getChildren( ).get( index_Plot_children ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Plot_children++;
 		}
 
@@ -6900,43 +7263,50 @@ public class BaseChartValueUpdater
 				eObj.getBounds( ),
 				eRefObj == null ? null : eRefObj.getBounds( ),
 				eDefObj == null ? null : eDefObj.getBounds( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateSize( "minSize",
 				eObj,
 				eObj.getMinSize( ),
 				eRefObj == null ? null : eRefObj.getMinSize( ),
 				eDefObj == null ? null : eDefObj.getMinSize( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "background",
 				eObj,
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateClientArea( "clientArea",
 				eObj,
 				eObj.getClientArea( ),
 				eRefObj == null ? null : eRefObj.getClientArea( ),
 				eDefObj == null ? null : eDefObj.getClientArea( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -6951,12 +7321,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateTitleBlock( String name, EObject eParentObj,
 			TitleBlock eObj, TitleBlock eRefObj, TitleBlock eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -6984,28 +7356,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -7136,7 +7511,7 @@ public class BaseChartValueUpdater
 		int index_TitleBlock_children = 0;
 		for ( Block element : eObj.getChildren( ) )
 		{
-			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_TitleBlock_children ) ? null : eRefObj.getChildren( ).get( index_TitleBlock_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_TitleBlock_children ) ? null : eDefObj.getChildren( ).get( index_TitleBlock_children ), eDefOverride ); //$NON-NLS-1$ 
+			updateBlock( "children", eObj, element, ( eRefObj == null || eRefObj.getChildren( ).size( ) <= index_TitleBlock_children ) ? null : eRefObj.getChildren( ).get( index_TitleBlock_children ), ( eDefObj == null || eDefObj.getChildren( ).size( ) <= index_TitleBlock_children ) ? null : eDefObj.getChildren( ).get( index_TitleBlock_children ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_TitleBlock_children++;
 		}
 
@@ -7145,43 +7520,50 @@ public class BaseChartValueUpdater
 				eObj.getBounds( ),
 				eRefObj == null ? null : eRefObj.getBounds( ),
 				eDefObj == null ? null : eDefObj.getBounds( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "insets",
 				eObj,
 				eObj.getInsets( ),
 				eRefObj == null ? null : eRefObj.getInsets( ),
 				eDefObj == null ? null : eDefObj.getInsets( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateSize( "minSize",
 				eObj,
 				eObj.getMinSize( ),
 				eRefObj == null ? null : eRefObj.getMinSize( ),
 				eDefObj == null ? null : eDefObj.getMinSize( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLineAttributes( "outline",
 				eObj,
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateFill( "background",
 				eObj,
 				eObj.getBackground( ),
 				eRefObj == null ? null : eRefObj.getBackground( ),
 				eDefObj == null ? null : eDefObj.getBackground( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateCursor( "cursor",
 				eObj,
 				eObj.getCursor( ),
 				eRefObj == null ? null : eRefObj.getCursor( ),
 				eDefObj == null ? null : eDefObj.getCursor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateLabel( "label",
 				eObj,
 				eObj.getLabel( ),
 				eRefObj == null ? null : eRefObj.getLabel( ),
 				eDefObj == null ? null : eDefObj.getLabel( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -7196,11 +7578,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateAngle3D( String name, EObject eParentObj, Angle3D eObj,
-			Angle3D eRefObj, Angle3D eDefObj, boolean eDefOverride )
+			Angle3D eRefObj, Angle3D eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7293,12 +7678,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateAxisOrigin( String name, EObject eParentObj,
 			AxisOrigin eObj, AxisOrigin eRefObj, AxisOrigin eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7363,11 +7750,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateBounds( String name, EObject eParentObj, Bounds eObj,
-			Bounds eRefObj, Bounds eDefObj, boolean eDefOverride )
+			Bounds eRefObj, Bounds eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7460,12 +7850,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateColorDefinition( String name, EObject eParentObj,
 			ColorDefinition eObj, ColorDefinition eRefObj,
-			ColorDefinition eDefObj, boolean eDefOverride )
+			ColorDefinition eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7570,11 +7962,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateCursor( String name, EObject eParentObj, Cursor eObj,
-			Cursor eRefObj, Cursor eDefObj, boolean eDefOverride )
+			Cursor eRefObj, Cursor eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7620,7 +8015,7 @@ public class BaseChartValueUpdater
 		int index_Cursor_image = 0;
 		for ( Image element : eObj.getImage( ) )
 		{
-			updateImage( "image", eObj, element, ( eRefObj == null || eRefObj.getImage( ).size( ) <= index_Cursor_image ) ? null : eRefObj.getImage( ).get( index_Cursor_image ), ( eDefObj == null || eDefObj.getImage( ).size( ) <= index_Cursor_image ) ? null : eDefObj.getImage( ).get( index_Cursor_image ), eDefOverride ); //$NON-NLS-1$ 
+			updateImage( "image", eObj, element, ( eRefObj == null || eRefObj.getImage( ).size( ) <= index_Cursor_image ) ? null : eRefObj.getImage( ).get( index_Cursor_image ), ( eDefObj == null || eDefObj.getImage( ).size( ) <= index_Cursor_image ) ? null : eDefObj.getImage( ).get( index_Cursor_image ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Cursor_image++;
 		}
 
@@ -7637,12 +8032,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateDataPoint( String name, EObject eParentObj,
 			DataPoint eObj, DataPoint eRefObj, DataPoint eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7751,7 +8148,7 @@ public class BaseChartValueUpdater
 						}
 					}
 				}
-				updateDataPointComponent( "components", eObj, dpc, subRef, subDef, eDefOverride ); //$NON-NLS-1$ 
+				updateDataPointComponent( "components", eObj, dpc, subRef, subDef, eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			}
 		}
 
@@ -7768,12 +8165,15 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateDataPointComponent( String name, EObject eParentObj,
 			DataPointComponent eObj, DataPointComponent eRefObj,
-			DataPointComponent eDefObj, boolean eDefOverride )
+			DataPointComponent eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7833,7 +8233,8 @@ public class BaseChartValueUpdater
 				eObj.getFormatSpecifier( ),
 				eRefObj == null ? null : eRefObj.getFormatSpecifier( ),
 				eDefObj == null ? null : eDefObj.getFormatSpecifier( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -7848,12 +8249,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateEmbeddedImage( String name, EObject eParentObj,
 			EmbeddedImage eObj, EmbeddedImage eRefObj, EmbeddedImage eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -7934,12 +8337,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateExtendedProperty( String name, EObject eParentObj,
 			ExtendedProperty eObj, ExtendedProperty eRefObj,
-			ExtendedProperty eDefObj, boolean eDefOverride )
+			ExtendedProperty eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8010,11 +8415,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateFill( String name, EObject eParentObj, Fill eObj,
-			Fill eRefObj, Fill eDefObj, boolean eDefOverride )
+			Fill eRefObj, Fill eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj != null || ( eRefObj == null && eDefObj == null ) )
 		{
@@ -8027,7 +8435,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -8042,11 +8451,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateFillImpl( String name, EObject eParentObj, Fill eObj,
-			Fill eRefObj, Fill eDefObj, boolean eDefOverride )
+			Fill eRefObj, Fill eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj != null || ( eRefObj == null && eDefObj == null ) )
 		{
@@ -8084,12 +8496,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateFontDefinition( String name, EObject eParentObj,
 			FontDefinition eObj, FontDefinition eRefObj,
-			FontDefinition eDefObj, boolean eDefOverride )
+			FontDefinition eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8221,7 +8635,8 @@ public class BaseChartValueUpdater
 				eObj.getAlignment( ),
 				eRefObj == null ? null : eRefObj.getAlignment( ),
 				eDefObj == null ? null : eDefObj.getAlignment( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -8238,12 +8653,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateFormatSpecifier( String name, EObject eParentObj,
 			FormatSpecifier eObj, FormatSpecifier eRefObj,
-			FormatSpecifier eDefObj, boolean eDefOverride )
+			FormatSpecifier eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj != null || ( eRefObj == null && eDefObj == null ) )
 		{
@@ -8256,7 +8673,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -8271,12 +8689,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateFormatSpecifierImpl( String name, EObject eParentObj,
 			FormatSpecifier eObj, FormatSpecifier eRefObj,
-			FormatSpecifier eDefObj, boolean eDefOverride )
+			FormatSpecifier eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj != null || ( eRefObj == null && eDefObj == null ) )
 		{
@@ -8314,12 +8734,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateGradient( String name, EObject eParentObj,
 			Gradient eObj, Gradient eRefObj, Gradient eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8403,13 +8825,15 @@ public class BaseChartValueUpdater
 				eObj.getStartColor( ),
 				eRefObj == null ? null : eRefObj.getStartColor( ),
 				eDefObj == null ? null : eDefObj.getStartColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "endColor",
 				eObj,
 				eObj.getEndColor( ),
 				eRefObj == null ? null : eRefObj.getEndColor( ),
 				eDefObj == null ? null : eDefObj.getEndColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -8426,11 +8850,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateImage( String name, EObject eParentObj, Image eObj,
-			Image eRefObj, Image eDefObj, boolean eDefOverride )
+			Image eRefObj, Image eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8465,7 +8892,8 @@ public class BaseChartValueUpdater
 					(EmbeddedImage) eRefObj,
 					eDefObj instanceof EmbeddedImage ? (EmbeddedImage) eDefObj
 							: null,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else if ( eObj instanceof PatternImage )
 		{
@@ -8475,7 +8903,8 @@ public class BaseChartValueUpdater
 					(PatternImage) eRefObj,
 					eDefObj instanceof PatternImage ? (PatternImage) eDefObj
 							: null,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -8484,7 +8913,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -8499,11 +8929,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateImageImpl( String name, EObject eParentObj,
-			Image eObj, Image eRefObj, Image eDefObj, boolean eDefOverride )
+			Image eObj, Image eRefObj, Image eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8572,11 +9005,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateInsets( String name, EObject eParentObj, Insets eObj,
-			Insets eRefObj, Insets eDefObj, boolean eDefOverride )
+			Insets eRefObj, Insets eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8669,12 +9105,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateInteractivity( String name, EObject eParentObj,
 			Interactivity eObj, Interactivity eRefObj, Interactivity eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8743,12 +9181,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateLineAttributes( String name, EObject eParentObj,
 			LineAttributes eObj, LineAttributes eRefObj,
-			LineAttributes eDefObj, boolean eDefOverride )
+			LineAttributes eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8776,28 +9216,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -8846,7 +9289,8 @@ public class BaseChartValueUpdater
 				eObj.getColor( ),
 				eRefObj == null ? null : eRefObj.getColor( ),
 				eDefObj == null ? null : eDefObj.getColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -8863,11 +9307,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated
 	 */
 	public void updateLocation( String name, EObject eParentObj, Location eObj,
-			Location eRefObj, Location eDefObj, boolean eDefOverride )
+			Location eRefObj, Location eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8901,7 +9348,8 @@ public class BaseChartValueUpdater
 					(Location3D) eObj,
 					(Location3D) eRefObj,
 					eDefObj instanceof Location3D ? (Location3D) eDefObj : null,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 		else
 		{
@@ -8910,7 +9358,8 @@ public class BaseChartValueUpdater
 					eObj,
 					eRefObj,
 					eDefObj,
-					eDefOverride );
+					eDefOverride,
+					checkVisible );
 		}
 	}
 
@@ -8925,12 +9374,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateLocationImpl( String name, EObject eParentObj,
 			Location eObj, Location eRefObj, Location eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -8999,12 +9450,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateLocation3D( String name, EObject eParentObj,
 			Location3D eObj, Location3D eRefObj, Location3D eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9085,11 +9538,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateMarker( String name, EObject eParentObj, Marker eObj,
-			Marker eRefObj, Marker eDefObj, boolean eDefOverride )
+			Marker eRefObj, Marker eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9117,28 +9573,31 @@ public class BaseChartValueUpdater
 		}
 
 		// Pro-process 'visible' case, if current element is invisible, no need to update other attributes.;
-		if ( eObj.isSetVisible( ) )
+		if ( checkVisible )
 		{
-			if ( !eObj.isVisible( ) )
+			if ( eObj.isSetVisible( ) )
 			{
-				// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
-				return;
+				if ( !eObj.isVisible( ) )
+				{
+					// If the visible attribute of reference obj is false, directly return, no need to udpate other attributes.;
+					return;
+				}
 			}
-		}
-		else if ( eRefObj != null && eRefObj.isSetVisible( ) )
-		{
-			if ( !eRefObj.isVisible( ) )
+			else if ( eRefObj != null && eRefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eRefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
-		}
-		else if ( eDefObj != null && eDefObj.isSetVisible( ) )
-		{
-			if ( !eDefObj.isVisible( ) )
+			else if ( eDefObj != null && eDefObj.isSetVisible( ) )
 			{
-				eObj.setVisible( false );
-				return;
+				if ( !eDefObj.isVisible( ) )
+				{
+					eObj.setVisible( false );
+					return;
+				}
 			}
 		}
 
@@ -9187,13 +9646,15 @@ public class BaseChartValueUpdater
 				eObj.getFill( ),
 				eRefObj == null ? null : eRefObj.getFill( ),
 				eDefObj == null ? null : eDefObj.getFill( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updatePalette( "iconPalette",
 				eObj,
 				eObj.getIconPalette( ),
 				eRefObj == null ? null : eRefObj.getIconPalette( ),
 				eDefObj == null ? null : eDefObj.getIconPalette( ),
 				eDefOverride,
+				checkVisible,
 				0,
 				0 );
 		updateLineAttributes( "outline",
@@ -9201,7 +9662,8 @@ public class BaseChartValueUpdater
 				eObj.getOutline( ),
 				eRefObj == null ? null : eRefObj.getOutline( ),
 				eDefObj == null ? null : eDefObj.getOutline( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -9216,12 +9678,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updateMultipleFill( String name, EObject eParentObj,
 			MultipleFill eObj, MultipleFill eRefObj, MultipleFill eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9267,7 +9731,7 @@ public class BaseChartValueUpdater
 		int index_MultipleFill_fills = 0;
 		for ( Fill element : eObj.getFills( ) )
 		{
-			updateFill( "fills", eObj, element, ( eRefObj == null || eRefObj.getFills( ).size( ) <= index_MultipleFill_fills ) ? null : eRefObj.getFills( ).get( index_MultipleFill_fills ), ( eDefObj == null || eDefObj.getFills( ).size( ) <= index_MultipleFill_fills ) ? null : eDefObj.getFills( ).get( index_MultipleFill_fills ), eDefOverride ); //$NON-NLS-1$ 
+			updateFill( "fills", eObj, element, ( eRefObj == null || eRefObj.getFills( ).size( ) <= index_MultipleFill_fills ) ? null : eRefObj.getFills( ).get( index_MultipleFill_fills ), ( eDefObj == null || eDefObj.getFills( ).size( ) <= index_MultipleFill_fills ) ? null : eDefObj.getFills( ).get( index_MultipleFill_fills ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_MultipleFill_fills++;
 		}
 
@@ -9284,6 +9748,8 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 * @param axisIndex
 	 *        index of axis.
 	 * @param seriesDefIndex
@@ -9293,7 +9759,7 @@ public class BaseChartValueUpdater
 	 */
 	public void updatePalette( String name, EObject eParentObj, Palette eObj,
 			Palette eRefObj, Palette eDefObj, boolean eDefOverride,
-			int axisIndex, int seriesDefIndex )
+			boolean checkVisible, int axisIndex, int seriesDefIndex )
 	{
 		if ( eObj == null )
 		{
@@ -9366,12 +9832,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	protected void updatePatternImage( String name, EObject eParentObj,
 			PatternImage eObj, PatternImage eRefObj, PatternImage eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9443,13 +9911,15 @@ public class BaseChartValueUpdater
 				eObj.getForeColor( ),
 				eRefObj == null ? null : eRefObj.getForeColor( ),
 				eDefObj == null ? null : eDefObj.getForeColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "backColor",
 				eObj,
 				eObj.getBackColor( ),
 				eRefObj == null ? null : eRefObj.getBackColor( ),
 				eDefObj == null ? null : eDefObj.getBackColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -9464,12 +9934,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateRotation3D( String name, EObject eParentObj,
 			Rotation3D eObj, Rotation3D eRefObj, Rotation3D eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9503,7 +9975,7 @@ public class BaseChartValueUpdater
 		int index_Rotation3D_angles = 0;
 		for ( Angle3D element : eObj.getAngles( ) )
 		{
-			updateAngle3D( "angles", eObj, element, ( eRefObj == null || eRefObj.getAngles( ).size( ) <= index_Rotation3D_angles ) ? null : eRefObj.getAngles( ).get( index_Rotation3D_angles ), ( eDefObj == null || eDefObj.getAngles( ).size( ) <= index_Rotation3D_angles ) ? null : eDefObj.getAngles( ).get( index_Rotation3D_angles ), eDefOverride ); //$NON-NLS-1$ 
+			updateAngle3D( "angles", eObj, element, ( eRefObj == null || eRefObj.getAngles( ).size( ) <= index_Rotation3D_angles ) ? null : eRefObj.getAngles( ).get( index_Rotation3D_angles ), ( eDefObj == null || eDefObj.getAngles( ).size( ) <= index_Rotation3D_angles ) ? null : eDefObj.getAngles( ).get( index_Rotation3D_angles ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Rotation3D_angles++;
 		}
 
@@ -9520,11 +9992,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateSize( String name, EObject eParentObj, Size eObj,
-			Size eRefObj, Size eDefObj, boolean eDefOverride )
+			Size eRefObj, Size eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9593,11 +10068,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateStyle( String name, EObject eParentObj, Style eObj,
-			Style eRefObj, Style eDefObj, boolean eDefOverride )
+			Style eRefObj, Style eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9633,31 +10111,36 @@ public class BaseChartValueUpdater
 				eObj.getFont( ),
 				eRefObj == null ? null : eRefObj.getFont( ),
 				eDefObj == null ? null : eDefObj.getFont( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "color",
 				eObj,
 				eObj.getColor( ),
 				eRefObj == null ? null : eRefObj.getColor( ),
 				eDefObj == null ? null : eDefObj.getColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "backgroundColor",
 				eObj,
 				eObj.getBackgroundColor( ),
 				eRefObj == null ? null : eRefObj.getBackgroundColor( ),
 				eDefObj == null ? null : eDefObj.getBackgroundColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateImage( "backgroundImage",
 				eObj,
 				eObj.getBackgroundImage( ),
 				eRefObj == null ? null : eRefObj.getBackgroundImage( ),
 				eDefObj == null ? null : eDefObj.getBackgroundImage( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateInsets( "padding",
 				eObj,
 				eObj.getPadding( ),
 				eRefObj == null ? null : eRefObj.getPadding( ),
 				eDefObj == null ? null : eDefObj.getPadding( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -9672,11 +10155,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateText( String name, EObject eParentObj, Text eObj,
-			Text eRefObj, Text eDefObj, boolean eDefOverride )
+			Text eRefObj, Text eDefObj, boolean eDefOverride,
+			boolean checkVisible )
 	{
 		if ( eObj == null )
 		{
@@ -9724,13 +10210,15 @@ public class BaseChartValueUpdater
 				eObj.getFont( ),
 				eRefObj == null ? null : eRefObj.getFont( ),
 				eDefObj == null ? null : eDefObj.getFont( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 		updateColorDefinition( "color",
 				eObj,
 				eObj.getColor( ),
 				eRefObj == null ? null : eRefObj.getColor( ),
 				eDefObj == null ? null : eDefObj.getColor( ),
-				eDefOverride );
+				eDefOverride,
+				checkVisible );
 
 	}
 
@@ -9745,12 +10233,14 @@ public class BaseChartValueUpdater
 	 *        default chart element object.
 	 * @param eDefOverride
 	 *        indicates if using default object to override target object if target is null.
+	 * @param checkVisible
+	 *        indicates if still checking visible of chart element before updating properties of chart element.
 	 *
 	 * @generated Don't change this method manually.
 	 */
 	public void updateTextAlignment( String name, EObject eParentObj,
 			TextAlignment eObj, TextAlignment eRefObj, TextAlignment eDefObj,
-			boolean eDefOverride )
+			boolean eDefOverride, boolean checkVisible )
 	{
 		if ( eObj == null )
 		{

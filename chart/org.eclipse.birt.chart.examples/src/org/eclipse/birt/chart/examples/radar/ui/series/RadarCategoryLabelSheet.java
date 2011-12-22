@@ -22,13 +22,11 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
-import org.eclipse.birt.chart.ui.swt.AbstractChartCheckbox;
-import org.eclipse.birt.chart.ui.swt.composites.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -50,7 +48,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 
 	private Composite cmpContent = null;
 
-	private AbstractChartCheckbox btnCatLabels = null;
+	private ChartCheckbox btnCatLabels = null;
 
 	private Button btnCLFormatSpecifier = null;
 
@@ -101,7 +99,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
 		clattributesContext.isPositionEnabled = false;
 		clattributesContext.isFontAlignmentEnabled = false;
-		clattributesContext.isVisibilityEnabled = ChartUIExtensionUtil.canEnableUI( btnCatLabels );
+		clattributesContext.isVisibilityEnabled = getContext().getUIFactory( ).canEnableUI( btnCatLabels );
 		if ( series.getCatLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
@@ -113,10 +111,11 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 				getContext( ),
 				clattributesContext,
 				null,
+				series,
 				null,
-				series.getCatLabel( ),
-				getChart( ).getUnits( ),
-				defSeries.getCatLabel( ) );
+				"catLabel", //$NON-NLS-1$
+				defSeries,
+				getChart( ).getUnits( ) );
 		GridData cla = new GridData( GridData.FILL_HORIZONTAL );
 		cla.horizontalSpan = 2;
 		catLabelAttr.setLayoutData( cla );
