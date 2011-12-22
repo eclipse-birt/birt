@@ -4825,8 +4825,8 @@ ReloadImageAction.Text=Recharger i&mage
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Nouvelle variable
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=&Nouvelle variable
+VariablesNodeProvider.Dialog.Title=Nouvelle variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

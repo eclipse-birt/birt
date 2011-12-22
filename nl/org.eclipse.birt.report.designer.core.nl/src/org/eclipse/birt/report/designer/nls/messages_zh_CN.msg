@@ -4825,8 +4825,8 @@ ReloadImageAction.Text=重新加载图像(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=新建变量
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=新建变量(&N)
+VariablesNodeProvider.Dialog.Title=新建变量
 VariablesNodeProvider.NodeName=变量
 
 ###########################################################

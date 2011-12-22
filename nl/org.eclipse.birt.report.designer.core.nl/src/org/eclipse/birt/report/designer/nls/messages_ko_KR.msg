@@ -4825,8 +4825,8 @@ ReloadImageAction.Text=이미지 다시 로드(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=새 변수
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=새 변수(&N)
+VariablesNodeProvider.Dialog.Title=새 변수
 VariablesNodeProvider.NodeName=변수
 
 ###########################################################

@@ -4825,8 +4825,8 @@ ReloadImageAction.Text=&Bild neu laden
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Neue Variable
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=&Neue Variable
+VariablesNodeProvider.Dialog.Title=Neue Variable
 VariablesNodeProvider.NodeName=Variablen
 
 ###########################################################
