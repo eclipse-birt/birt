@@ -73,6 +73,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -2388,7 +2389,7 @@ public class ChartUtil
 	 * Returns instance of category series definition.
 	 * 
 	 * @param chart
-	 * @return
+	 * @return instance of category series definition.
 	 * @since 3.7
 	 */
 	public static SeriesDefinition getCategorySeriesDefinition( Chart chart )
@@ -2400,7 +2401,7 @@ public class ChartUtil
 	 * Returns number of orthogonal axes.
 	 * 
 	 * @param chart
-	 * @return
+	 * @return number of orthogonal axes.
 	 * @since 3.7
 	 */
 	public static int getOrthogonalAxisNumber( Chart chart )
@@ -2453,7 +2454,7 @@ public class ChartUtil
 	 * Returns a value series definitions of chart.
 	 * 
 	 * @param chart
-	 * @return
+	 * @return a value series definitions of chart.
 	 * @since 3.7
 	 */
 	public static SeriesDefinition[] getValueSeriesDefinitions( Chart chart )
@@ -2478,7 +2479,7 @@ public class ChartUtil
 	 * 
 	 * @param seriesDefn
 	 * @param queryIndex
-	 * @return
+	 * @return query object.
 	 * 
 	 * @since 3.7
 	 */
@@ -2495,5 +2496,26 @@ public class ChartUtil
 		return seriesDefn.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( queryIndex );
+	}
+	
+	/**
+	 * Check if specified chart is doughnut chart.
+	 * 
+	 * @param cm
+	 * @return true if specified chart is doughnut chart.
+	 */
+	public static boolean isDoughnutChart( Chart cm )
+	{
+		if ( "Pie Chart".equals( cm.getType( ) ) ) //$NON-NLS-1$
+		{
+			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
+			Series s = cwa.getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( 0 )
+					.getDesignTimeSeries( );
+			return ( s instanceof PieSeries && ( (PieSeries) s ).getInnerRadius( ) > 0 );
+		}
+		return false;
 	}
 }

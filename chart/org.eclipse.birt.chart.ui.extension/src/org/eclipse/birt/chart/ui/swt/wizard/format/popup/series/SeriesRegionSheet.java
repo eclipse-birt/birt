@@ -261,7 +261,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 				.createChartTextEditor( cmpRangeValue,
 						SWT.BORDER | SWT.SINGLE,
 						null,
-						"end" );//$NON-NLS-1$
+						"endValue" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtEndValue.getTextControl( ), null );
 		GridData gdTXTEndValue = new GridData( GridData.FILL_HORIZONTAL );
 		gdTXTEndValue.horizontalSpan = 2;

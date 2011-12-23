@@ -122,7 +122,7 @@ public class DialTickSheet extends AbstractPopupSheet implements Listener
 						getDialForProcessing( ).getScale( )
 								.getMinorGridsPerUnit( ),
 						getDialForProcessing( ).getScale( ),
-						"minorGridPerUnit", //$NON-NLS-1$
+						"minorGridsPerUnit", //$NON-NLS-1$
 						true );
 		{
 			GridData gdISCGridCount = new GridData( GridData.FILL_HORIZONTAL );

@@ -167,6 +167,17 @@ public interface IChartUIFactory
 	ChartCombo createChartCombo( Composite parent, int style, EObject eParent,
 			String sProperty, String defaultItem );
 	
+	/**
+	 * Create instance of combo list for editing list style.
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param iLineStyle
+	 * @param lineStyleItems
+	 * @param eParent
+	 * @param sProperty
+	 * @return instance of combo list for editing list style.
+	 */
 	AbstractLineStyleChooserComposite createLineStyleChooserComposite(
 			Composite parent, int style, int iLineStyle,
 			Integer[] lineStyleItems, EObject eParent, String sProperty );
