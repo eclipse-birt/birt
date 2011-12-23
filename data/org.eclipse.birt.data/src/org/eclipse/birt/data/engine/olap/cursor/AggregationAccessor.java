@@ -636,9 +636,8 @@ public class AggregationAccessor extends Accessor
 				value2 = keyValues[rs.getLevelKeyColCount( index ) - 1];
 			int sortType = rs.getSortType( index ) == IDimensionSortDefn.SORT_DESC
 					? -1 : 1;
-			int direction = sortType
-					* compare( value1, value2 ) < 0 ? -1
-					: compare( value1, value2 ) == 0 ? 0 : 1;
+			int compare = compare( value1, value2 );
+			int direction = sortType * compare < 0 ? -1	: compare == 0 ? 0 : 1;
 			if ( direction < 0
 					&& currentPosition[aggrIndex] > 0
 					&& ( state == 0 || state == direction ) )

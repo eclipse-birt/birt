@@ -89,7 +89,7 @@ public class CubeQueryDefinitionUtil
 
 		int startRsId = calculatedMembers1.length == 0 ? 0 : 1;
 
-		CalculatedMember[] calculatedMembers2 = createCalculatedMembersByAggrOnList( startRsId,
+		CalculatedMember[] calculatedMembers2 = createCalculatedMembersByAggrOnList( startRsId, calculatedMembers1, 
 				cubeAggrs,
 				scope,
 				cx );
@@ -135,20 +135,25 @@ public class CubeQueryDefinitionUtil
 		return calculatedMembers1;
 	}
 	
-	public static CalculatedMember[] createCalculatedMembersByAggrOnList(
-			int startRsId, CubeAggrDefn[] cubeAggrs, Scriptable scope,
+	private static CalculatedMember[] createCalculatedMembersByAggrOnList(
+			int startRsId, CalculatedMember[] calculatedMembers1, CubeAggrDefn[] cubeAggrs, Scriptable scope,
 			ScriptContext cx ) throws DataException
 	{
 		if ( cubeAggrs == null )
 		{
 			return new CalculatedMember[0];
 		}
+		
+		List<CalculatedMember> withDistinctRsIds = new ArrayList<CalculatedMember>( );
+		if( calculatedMembers1!= null && calculatedMembers1.length>1 )
+		{
+			withDistinctRsIds.add( calculatedMembers1[0] );
+		}
 
 		assert startRsId >= 0;
 
 		int preparedRsId = startRsId;
 		CalculatedMember[] result = new CalculatedMember[cubeAggrs.length];
-		List<CalculatedMember> withDistinctRsIds = new ArrayList<CalculatedMember>( );
 		int index = 0;
 		for ( CubeAggrDefn cubeAggrDefn : cubeAggrs )
 		{
