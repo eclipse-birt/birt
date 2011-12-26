@@ -293,7 +293,8 @@ public class CubeQueryExecutor
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			if ( !filter.updateAggregation( ) )
 			{
-				continue;
+				if ( ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE ).size()>0 )
+					continue;
 			}
 			switch ( this.getFilterType( filter, dimLevelInCubeQuery ))
 			{ 

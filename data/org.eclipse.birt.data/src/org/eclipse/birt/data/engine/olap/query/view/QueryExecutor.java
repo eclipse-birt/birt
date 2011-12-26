@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -57,6 +58,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefi
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
@@ -155,7 +157,7 @@ public class QueryExecutor
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign,
 						true, fetcher );
-				rs = applyNoAggrUpdateFilters( executor, rs, cube, fetcher );
+				rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, cube, fetcher );
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;
@@ -164,7 +166,7 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign, false, fetcher );
-				rs = applyNoAggrUpdateFilters( executor, rs, cube, fetcher );
+				rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;
@@ -190,7 +192,7 @@ public class QueryExecutor
 				else
 				{
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
-					rs = applyNoAggrUpdateFilters( executor, rs, cube, fetcher );
+					rs = applyNoAggrUpdateFilters(getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
 					
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
@@ -226,7 +228,7 @@ public class QueryExecutor
 				{
 					//need to re-execute the query.
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
-					rs = applyNoAggrUpdateFilters( executor, rs, cube, fetcher );
+					rs = applyNoAggrUpdateFilters(getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
 					
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
@@ -243,8 +245,17 @@ public class QueryExecutor
 					
 					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
 					initLoadedAggregationResultSets( rs, finalAggregation );
-					
 					incrementExecute( rs, ieh );
+					if (ieh.getFilters() != null && ieh.getFilters().length > 0)
+					{
+						IFilterDefinition[] filters =ieh.getFilters();
+						List finalFilters = new ArrayList();
+						for(int j = 0 ; j < filters.length;j++)
+						{
+							finalFilters.add(filters[j]);
+						}
+						rs = applyNoAggrUpdateFilters(finalFilters,executor, rs, cube, fetcher);
+					}
 				}
 				if ( executor.getContext( ).getDocWriter( ) != null )
 				{
@@ -273,9 +284,8 @@ public class QueryExecutor
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 	
-	private IAggregationResultSet[] applyNoAggrUpdateFilters ( CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher ) throws DataException, IOException
+	private IAggregationResultSet[] applyNoAggrUpdateFilters ( List finalFilters, CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher ) throws DataException, IOException
 	{
-		List finalFilters = getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) );
 		if( !finalFilters.isEmpty( ) )
 		{
 			List aggrEvalList = new ArrayList<AggrMeasureFilterEvalHelper>( );
@@ -347,7 +357,7 @@ public class QueryExecutor
 	{
 		for (int i = 0; i < detailLevelKeys.length; i++)
 		{
-			if (joinLevelKeys[0].equals( detailLevelKeys[i] ))
+			if (CompareUtil.compare(joinLevelKeys[0], detailLevelKeys[i] )==0)
 			{
 				return i;
 			}
@@ -382,7 +392,7 @@ public class QueryExecutor
     			{
     				break;
     			}
-    			if (joinLevelKeys[j - pos].equals( detailLevelKeys[j] ))
+    			if (CompareUtil.compare(joinLevelKeys[j - pos], detailLevelKeys[j] )==0)
     			{
     				tmpMembers.add (members[j]);
     			}
@@ -391,8 +401,10 @@ public class QueryExecutor
     		detailMember.add( new Members(tmpMembers.toArray( new Member[]{} )) );
     	}
     	Collections.sort( detailMember );
-    	
-    	aggregationResultRows = ((AggregationResultSet)joinRS).getAggregationResultRows();
+    	if( joinRS instanceof AggregationResultSet )
+    		aggregationResultRows = ((AggregationResultSet)joinRS).getAggregationResultRows();
+    	else if( joinRS instanceof CachedAggregationResultSet )
+    		aggregationResultRows = ((CachedAggregationResultSet)joinRS).getAggregationResultRows();
 		IDiskArray newRsRows = new BufferedStructureArray(AggregationResultRow.getCreator( ), aggregationResultRows.size( ));
 		int result;
 		for (int index = 0; index < joinRS.length( ); index++)
@@ -405,7 +417,10 @@ public class QueryExecutor
     			newRsRows.add(aggregationResultRows.get( index ));
     		}
     	}
-    	((AggregationResultSet)joinRS).setAggregationResultRows( newRsRows );
+		if( joinRS instanceof AggregationResultSet )
+    		((AggregationResultSet)joinRS).setAggregationResultRows(newRsRows);
+    	else if( joinRS instanceof CachedAggregationResultSet )
+    		((CachedAggregationResultSet)joinRS).setAggregationResultRows(newRsRows);
     	detailMember.clear( );
     
 	}
@@ -441,7 +456,23 @@ public class QueryExecutor
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
 			if ( !( (IFilterDefinition) filters.get( i ) ).updateAggregation( ) )
-				NoAggrUpdateFilters.add( filters.get( i ) );
+			{
+				try 
+				{
+					if (ExpressionCompilerUtil
+							.extractColumnExpression(
+									((IFilterDefinition) filters.get(i))
+											.getExpression(),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE)
+							.size() > 0) 
+					{
+						NoAggrUpdateFilters.add(filters.get(i));
+					}
+				} 
+				catch (DataException e) 
+				{
+				}
+			}
 		}
 		return NoAggrUpdateFilters;
 	}
@@ -730,7 +761,7 @@ public class QueryExecutor
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		
 		rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
-		rs = applyNoAggrUpdateFilters( executor, rs, view.getCube( ) , fetcher );
+		rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, view.getCube( ) , fetcher );
 		//process mirror operation
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 		rs = moe.execute( rs, view, cubeQueryExecutorHelper );

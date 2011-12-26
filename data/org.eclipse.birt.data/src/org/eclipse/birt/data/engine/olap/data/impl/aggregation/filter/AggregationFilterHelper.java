@@ -347,7 +347,7 @@ public class AggregationFilterHelper
 	
 	public IAggregationResultSet[] generateFilteredAggregationResultSet ( IAggregationResultSet[] rs,List<Integer> affectedAggrResultSetIndex ) throws IOException, DataException
 	{
-		IAggregationResultSet[] result = new AggregationResultSet[rs.length];
+		IAggregationResultSet[] result = new IAggregationResultSet[rs.length];
 		List levelFilterList = new ArrayList( );
 		for ( int i = 0; i < rs.length; i++ )
 		{
