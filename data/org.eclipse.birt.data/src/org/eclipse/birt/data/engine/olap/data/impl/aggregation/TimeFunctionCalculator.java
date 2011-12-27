@@ -33,7 +33,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.AbstractMDX;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.MonthToDateFunction;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeMemberUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
@@ -79,6 +78,7 @@ public class TimeFunctionCalculator
 	private Row4Aggregation currentRow;
 	private boolean existReferenceDate;
 	private boolean existLastDate;
+	private boolean avoidExtraSort;
 	private Date[] referenceDate;
 	private int orignalLevelCount;
 	
@@ -114,6 +114,14 @@ public class TimeFunctionCalculator
 			if( referenceDate[i] !=null )
 			{
 				existReferenceDate = true;
+				
+				int levelIndex1 = cubeDimensionReader.getlowestLevelIndex( tDimName ) - 1;
+				int levelIndex2 = cubeDimensionReader.getLevelIndex( tDimName, 
+								aggr.getLevels()[lowestTimeLevel].getLevelName() );
+				if( levelIndex1 == levelIndex2 )
+				{
+					this.avoidExtraSort = true;
+				}
 			}
 			else
 			{
@@ -157,13 +165,26 @@ public class TimeFunctionCalculator
 			bufferSize = 100;
 		if( this.existReferenceDate )
 		{
-			sortedFactRows = new DiskSortedStack( bufferSize,
-				false,
-				comparator,
-				Row4Aggregation.getCreator( ) );
-			if( memoryCacheSize == 0 )
+			if( !this.avoidExtraSort )
 			{
-				sortedFactRows.setUseMemoryOnly( true );
+				sortedFactRows = new DiskSortedStack( bufferSize,
+						false,
+						comparator,
+						Row4Aggregation.getCreator( ) );
+					if( memoryCacheSize == 0 )
+					{
+						sortedFactRows.setUseMemoryOnly( true );
+					}				
+			}
+			else
+			{
+				factRows = new BufferedStructureArray( Row4Aggregation.getCreator( ),
+						bufferSize );
+				if( memoryCacheSize == 0 )
+				{
+					factRows.setUseMemoryOnly( true );
+				}
+				factRowPostion = 0;
 			}
 		}
 		if( this.existLastDate )
@@ -449,11 +470,11 @@ public class TimeFunctionCalculator
 		{
 			newRow = row;
 		}
-		if( this.existReferenceDate )
+		if( this.existReferenceDate && !this.avoidExtraSort )
 		{
 			sortedFactRows.push( newRow );
 		}
-		if( this.existLastDate )
+		if( this.existLastDate || this.avoidExtraSort )
 		{
 			factRows.add( newRow );
 		}
@@ -708,15 +729,14 @@ public class TimeFunctionCalculator
 	private Row4Aggregation retrieveOneDetailRow() throws IOException
 	{
 		Row4Aggregation row = null;
-		if( this.existReferenceDate )
+		if ( !avoidExtraSort && this.existReferenceDate )
 		{
-			row = (Row4Aggregation) this.sortedFactRows.pop();
+			row = (Row4Aggregation) this.sortedFactRows.pop( );
 		}
-//		else
-//		{
-//			row = getOneFactRow( );
-		
-//		}
+		else
+		{
+			row = this.retrieveOneFactRow( );
+		}
 		return row;
 	}
 	
