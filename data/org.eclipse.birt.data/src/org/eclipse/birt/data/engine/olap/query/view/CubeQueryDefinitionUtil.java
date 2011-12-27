@@ -145,7 +145,7 @@ public class CubeQueryDefinitionUtil
 		}
 		
 		List<CalculatedMember> withDistinctRsIds = new ArrayList<CalculatedMember>( );
-		if( calculatedMembers1!= null && calculatedMembers1.length>1 )
+		if( calculatedMembers1!= null && calculatedMembers1.length>0 )
 		{
 			withDistinctRsIds.add( calculatedMembers1[0] );
 		}
