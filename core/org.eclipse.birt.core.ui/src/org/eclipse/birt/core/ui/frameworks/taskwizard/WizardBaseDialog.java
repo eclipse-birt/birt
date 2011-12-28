@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
+import java.util.List;
+
 import org.eclipse.birt.core.ui.frameworks.errordisplay.ErrorDialog;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.i18n.Messages;
@@ -35,6 +37,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -213,6 +216,8 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 			// cmpTaskContainer.setSimple( false );
 			cmpTaskContainer.addSelectionListener( this );
 		}
+		
+		createTabToolButtons( cmpTaskContainer );
 
 		lblSeparator = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -220,6 +225,46 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 		return composite;
 	}
 
+	protected void createTabToolButtons( CTabFolder tabFolder )
+	{
+		List<IButtonHandler> buttons = wizardBase.getTabToolButtons( );
+		if ( buttons.size( ) == 0 )
+		{
+			return;
+		}
+		Composite comp = new Composite(tabFolder, SWT.NONE);
+		tabFolder.setTopRight( comp );
+		GridLayout gl = new GridLayout(buttons.size( ), false);
+		gl.marginBottom = 0;
+		gl.marginHeight = 0;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginWidth = 0;
+		comp.setLayout( gl );
+		for ( IButtonHandler btnHandler : buttons )
+		{
+			Button btn = new Button( comp, SWT.NONE );
+			GridData gd = new GridData();
+			btn.setLayoutData( gd );
+			btn.addSelectionListener( this );
+			btn.setData( btnHandler );
+			if ( btnHandler.getLabel( ) != null )
+			{
+				btn.setText( btnHandler.getLabel( ) );
+			}
+			if ( btnHandler.getTooltip( ) != null )
+			{
+				btn.setToolTipText( btnHandler.getTooltip( ) );
+			}
+			if ( btnHandler.getIcon( ) != null )
+			{
+				btn.setImage( btnHandler.getIcon( ) );
+			}
+			btnHandler.setButton( btn );
+		}
+	}
+	
 	protected void createButtonsForButtonBar( Composite parent )
 	{
 		createButton( parent,
@@ -512,9 +557,17 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 				getButton( IDialogConstants.BACK_ID ).setEnabled( indexLabel > 0 );
 			}
 		}
+		else if ( e.getSource( ) instanceof Button )
+		{
+			if ( wizardBase.getTabToolButtons( ).contains( ( (Button) e.getSource( ) ).getData( ) ) )
+			{
+				IButtonHandler btnHandle = (IButtonHandler) ( (Button) e.getSource( ) ).getData( );
+				btnHandle.run( );
+			}
+		}
 
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

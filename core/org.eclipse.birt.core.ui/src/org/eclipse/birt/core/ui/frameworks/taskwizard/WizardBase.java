@@ -42,6 +42,8 @@ public class WizardBase implements IRegistrationListener
 	transient Vector<String> vTaskIDs = null;
 
 	transient List<IButtonHandler> buttonList = null;
+	
+	List<IButtonHandler> tabToolButtonList = null;
 
 	transient String sCurrentActiveTask = null;
 
@@ -154,6 +156,26 @@ public class WizardBase implements IRegistrationListener
 		return buttonList;
 	}
 
+	/**
+	 * Adds tab tool button.
+	 * 
+	 * @param buttonHandler
+	 */
+	public void addTabToolButton(IButtonHandler buttonHandler)
+	{
+		tabToolButtonList.add( buttonHandler );
+	}
+	
+	/**
+	 * Returns all tab tool buttons.
+	 * 
+	 * @return all tab tool buttons.
+	 */
+	public List<IButtonHandler> getTabToolButtons( )
+	{
+		return tabToolButtonList;
+	}
+	
 	public void addTask( String sTaskID )
 	{
 		ITask task = TasksManager.instance( ).getTask( sTaskID );
@@ -347,6 +369,7 @@ public class WizardBase implements IRegistrationListener
 		availableTasks = new LinkedHashMap<String, ITask>( );
 		vTaskIDs = new Vector<String>( );
 		buttonList = new ArrayList<IButtonHandler>( 1 );
+		tabToolButtonList = new ArrayList<IButtonHandler>( 1 );
 
 		Shell shell = shellParent;
 		if ( shell == null )
