@@ -281,8 +281,8 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			}
 			updateUIState( getContext().getUIFactory( ).canEnableUI( btnVisible ) );
 
-			if ( getToggleButton( BUTTON_TEXT ).getSelection( )
-					|| getToggleButton( BUTTON_LAYOUT ).getSelection( ) )
+			if ( getToggleButtonSelection( BUTTON_TEXT )
+					|| getToggleButtonSelection( BUTTON_LAYOUT ) )
 			{
 				detachPopup( );
 			}

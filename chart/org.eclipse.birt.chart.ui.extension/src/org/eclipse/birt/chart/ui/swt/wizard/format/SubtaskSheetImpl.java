@@ -370,6 +370,20 @@ public class SubtaskSheetImpl implements
 		}
 		return button;
 	}
+	
+	protected boolean getToggleButtonSelection( String buttonId )
+	{
+		Button button = popupButtonRegistry.get( buttonId );
+		if ( button == null )
+		{
+			button = popupButtonRegistry.get( getNodePath( ) + buttonId );
+		}
+		if ( button != null )
+		{
+			return button.getSelection( );
+		}
+		return false;
+	}
 
 	protected void setToggleButtonEnabled( String buttonId, boolean isEnabled )
 	{
