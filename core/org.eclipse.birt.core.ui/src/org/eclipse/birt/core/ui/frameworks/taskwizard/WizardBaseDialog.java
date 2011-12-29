@@ -37,11 +37,12 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * Provides Dialog for WizardBase
@@ -232,21 +233,11 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 		{
 			return;
 		}
-		Composite comp = new Composite(tabFolder, SWT.NONE);
-		tabFolder.setTopRight( comp );
-		GridLayout gl = new GridLayout(buttons.size( ), false);
-		gl.marginBottom = 0;
-		gl.marginHeight = 0;
-		gl.marginLeft = 0;
-		gl.marginRight = 0;
-		gl.marginTop = 0;
-		gl.marginWidth = 0;
-		comp.setLayout( gl );
+		ToolBar toolbar = new ToolBar( tabFolder, SWT.FLAT | SWT.WRAP );
+		tabFolder.setTopRight( toolbar );
 		for ( IButtonHandler btnHandler : buttons )
 		{
-			Button btn = new Button( comp, SWT.NONE );
-			GridData gd = new GridData();
-			btn.setLayoutData( gd );
+			ToolItem btn = new ToolItem( toolbar, SWT.NONE );
 			btn.addSelectionListener( this );
 			btn.setData( btnHandler );
 			if ( btnHandler.getLabel( ) != null )
@@ -261,7 +252,6 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 			{
 				btn.setImage( btnHandler.getIcon( ) );
 			}
-			btnHandler.setButton( btn );
 		}
 	}
 	
@@ -557,11 +547,11 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 				getButton( IDialogConstants.BACK_ID ).setEnabled( indexLabel > 0 );
 			}
 		}
-		else if ( e.getSource( ) instanceof Button )
+		else if ( e.getSource( ) instanceof ToolItem )
 		{
-			if ( wizardBase.getTabToolButtons( ).contains( ( (Button) e.getSource( ) ).getData( ) ) )
+			if ( wizardBase.getTabToolButtons( ).contains( ( (ToolItem) e.getSource( ) ).getData( ) ) )
 			{
-				IButtonHandler btnHandle = (IButtonHandler) ( (Button) e.getSource( ) ).getData( );
+				IButtonHandler btnHandle = (IButtonHandler) ( (ToolItem) e.getSource( ) ).getData( );
 				btnHandle.run( );
 			}
 		}
