@@ -684,7 +684,7 @@ public final class DataTypeUtil
 
         if ( source instanceof java.sql.Date )
         {
-        	return ( java.sql.Date )source;
+        	return maskSQLDate( ( java.sql.Date )source );
         }
         else if ( source instanceof Date )
         {
@@ -732,6 +732,24 @@ public final class DataTypeUtil
 		calendar.set( Calendar.MILLISECOND, 0 );		
 		return new java.sql.Date( calendar.getTimeInMillis( ) );
     }
+    
+    /**
+     * mask out time info for sql Date
+     * @param date
+     * @return
+     */
+    private static java.sql.Date maskSQLDate( java.sql.Date date )
+    {
+    	Calendar calendar = Calendar.getInstance( );
+		calendar.clear( );
+		calendar.setTimeInMillis( date.getTime( ) );
+		calendar.set( Calendar.HOUR_OF_DAY, 0 );
+		calendar.set( Calendar.MINUTE, 0 );
+		calendar.set( Calendar.SECOND, 0 );
+		calendar.set( Calendar.MILLISECOND, 0 );		
+		return new java.sql.Date( calendar.getTimeInMillis( ) );
+    }
+    
     
     /**
 	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate
@@ -1701,5 +1719,4 @@ public final class DataTypeUtil
 		
 	}
 }
-
 
