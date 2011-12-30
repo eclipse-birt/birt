@@ -221,7 +221,7 @@ public class QueryExecutor
 				}
 				if ( !CubeQueryDefinitionIOUtil.existStream( executor.getContext( ).getDocReader( ), id ) 
 						|| ieh == null
-						
+						|| ieh.isNoIncrement()
 						//Currently, do not support increment execution when cube operations are involved.
 						|| (!ieh.isNoIncrement( ) && executor.getCubeQueryDefinition( ).getCubeOperations( ).length > 0) 
 				)
