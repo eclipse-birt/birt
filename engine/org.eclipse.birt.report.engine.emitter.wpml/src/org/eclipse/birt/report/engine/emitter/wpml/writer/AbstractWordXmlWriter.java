@@ -233,7 +233,16 @@ public abstract class AbstractWordXmlWriter
 		writeTableLayout( );
 		writeTableBorders( style );
 		writeBackgroundColor( style.getBackgroundColor( ) );
-		writeAlign( style.getTextAlign( ), style.getDirection( ) );
+		
+		//"justify" is not an option for table alignment in word
+		if ( "justify".equalsIgnoreCase( style.getTextAlign( ) ) )
+		{
+			writeAlign( "left", style.getDirection( ) );
+		}
+		else
+		{
+			writeAlign( style.getTextAlign( ), style.getDirection( ) );
+		}
 		if (inForeign)
 		{
 			writer.openTag( "w:tblCellMar" );
