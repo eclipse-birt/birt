@@ -108,18 +108,29 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	    if( m_dbProfile == null )
 	        throw new OdaException( Messages.connection_nullProfile );
 
-        if( m_dbProfile.getConnectionState() != IConnectionProfile.CONNECTED_STATE )    // not connected yet
-        {
-	        // connect via the db profile
-	        IStatus connectStatus = m_dbProfile.connect();
-	        
-            if( connectStatus == null || 
-                connectStatus.getSeverity() > IStatus.INFO )
-                throw new OdaException( getStatusException( connectStatus ));
-        }
+        // connect via the db profile
+        IStatus connectStatus = openWithProfile( m_dbProfile );
+        
+        if( connectStatus == null || 
+            connectStatus.getSeverity() > IStatus.INFO )
+            throw new OdaException( getStatusException( connectStatus ));
         
         super.jdbcConn = getJDBCConnection( m_dbProfile );
  	}
+
+	/**
+	 * For internal use only.
+     * An utility method to open a connection based on the properties defined in
+     * the specified connection profile.
+     * @since 3.7.2
+     */
+    public static IStatus openWithProfile( IConnectionProfile connProfile )
+    {
+        if( connProfile instanceof OdaConnectionProfile )
+            return ((OdaConnectionProfile)connProfile).connectSynchronously();  // handles re-connection
+
+        return connProfile.connect();
+    }
 
     private java.sql.Connection getJDBCConnection( IConnectionProfile dbProfile )
     {
