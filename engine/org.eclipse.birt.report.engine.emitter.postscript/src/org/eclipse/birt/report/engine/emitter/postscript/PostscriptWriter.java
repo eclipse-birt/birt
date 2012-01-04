@@ -126,7 +126,7 @@ public class PostscriptWriter
 	 * Table mapping decimal numbers to hexadecimal numbers.
 	 */
 	final protected static char hd[] = {'0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 	/**
 	 * Output stream where postscript to be output.
 	 */
@@ -139,36 +139,38 @@ public class PostscriptWriter
 	 * The current font
 	 */
 	protected Font font = new Font( Font.HELVETICA, 12, Font.NORMAL );
-	
+
 	/**
 	 * log
 	 */
 	protected static Logger log = Logger.getLogger( PostscriptWriter.class
-			.getName( ) );
+	        .getName( ) );
 
 	/**
 	 * Current page index with 1 as default value.
 	 */
 	private int pageIndex = 1;
-	
+
 	/**
 	 * Height of current page.
 	 */
 	private float pageHeight = DEFAULT_PAGE_HEIGHT;
-	
+
+	private float pageWidth = 0f;
+
 	private static Set<String> intrinsicFonts = new HashSet<String>( );
 
 	private int imageIndex = 0;
-	
+
 	private Map<String, String> cachedImageSource;
-	
+
 	private Stack<Graphic> graphics = new Stack<Graphic>( );
-	
+
 	private final static String[] stringCommands = {"drawSStr", "drawStr",
-			"drawSBStr", "drawBStr", "drawSIStr", "drawIStr", "drawSBIStr",
-			"drawBIStr"};
-	
-	private boolean fitToPaper;
+	        "drawSBStr", "drawBStr", "drawSIStr", "drawIStr", "drawSBIStr",
+	        "drawBIStr"};
+
+	private boolean fitToPaper, isDuplex;
 
 	private int paperWidth, paperHeight;
 
@@ -207,7 +209,7 @@ public class PostscriptWriter
 	public PostscriptWriter( OutputStream o, String title )
 	{
 		this.out = new PrintStream( o );
-		this.cachedImageSource = new HashMap<String, String>();
+		this.cachedImageSource = new HashMap<String, String>( );
 		emitProlog( title );
 	}
 
@@ -217,16 +219,16 @@ public class PostscriptWriter
 		out.println( x + " " + y + " " + width + " " + height + " rcl" );
 	}
 
-	public void clipSave()
+	public void clipSave( )
 	{
 		gSave( );
 	}
-	
-	public void clipRestore()
+
+	public void clipRestore( )
 	{
 		gRestore( );
 	}
-	
+
 	/**
 	 * Draws a image.
 	 * 
@@ -242,8 +244,8 @@ public class PostscriptWriter
 	 *            the image height.
 	 * @throws IOException
 	 */
-	public void drawImage( String imageId, InputStream imageStream, float x, float y,
-			float width, float height ) throws Exception
+	public void drawImage( String imageId, InputStream imageStream, float x,
+	        float y, float width, float height ) throws Exception
 	{
 		Image image = ImageIO.read( imageStream );
 		drawImage( imageId, image, x, y, width, height );
@@ -267,16 +269,16 @@ public class PostscriptWriter
 	 *            the background color.
 	 * @throws Exception
 	 */
-	public void drawImage( String imageId, Image image, float x, float y, float width,
-			float height ) throws IOException
+	public void drawImage( String imageId, Image image, float x, float y,
+	        float width, float height ) throws IOException
 	{
 		if ( image == null )
 		{
 			throw new IllegalArgumentException( "null image." );
 		}
 		y = transformY( y );
-		
-		//if imageId is null, the image will not be cached.
+
+		// if imageId is null, the image will not be cached.
 		if ( imageId == null )
 		{
 			outputUncachedImage( image, x, y, width, height );
@@ -292,22 +294,22 @@ public class PostscriptWriter
 	}
 
 	private void outputCachedImage( String imageId, Image image, float x,
-			float y, float width, float height ) throws IOException
+	        float y, float width, float height ) throws IOException
 	{
 		String imageName = getImageName( imageId, image );
-		out.print( imageName + " ");
-		out.print( x + " " + y + " ");
-		out.println( width + " " + height + " drawimage");
+		out.print( imageName + " " );
+		out.print( x + " " + y + " " );
+		out.println( width + " " + height + " drawimage" );
 	}
 
 	private void outputUncachedImage( Image image, float x, float y,
-			float width, float height ) throws IOException
+	        float width, float height ) throws IOException
 	{
 		ArrayImageSource imageSource = getImageSource( image );
-		out.print( x + " " + y + " ");
+		out.print( x + " " + y + " " );
 		out.print( width + " " + height + " " );
 		out.print( imageSource.getWidth( ) + " " + imageSource.getHeight( ) );
-		out.println( " drawstreamimage");
+		out.println( " drawstreamimage" );
 		outputImageSource( imageSource );
 		out.println( "grestore" );
 	}
@@ -337,7 +339,8 @@ public class PostscriptWriter
 		return imageSource;
 	}
 
-	private String getImageName( String imageId, Image image ) throws IOException
+	private String getImageName( String imageId, Image image )
+	        throws IOException
 	{
 		String name = (String) cachedImageSource.get( imageId );
 		if ( name == null )
@@ -350,12 +353,13 @@ public class PostscriptWriter
 		return name;
 	}
 
-	private void outputNamedImageSource( String name, ArrayImageSource imageSource )
+	private void outputNamedImageSource( String name,
+	        ArrayImageSource imageSource )
 	{
 		out.println( "startDefImage" );
 		outputImageSource( imageSource );
 		out.println( "/" + name + " " + imageSource.getWidth( ) + " "
-				+ imageSource.getHeight( ) + " endDefImage" );
+		        + imageSource.getHeight( ) + " endDefImage" );
 	}
 
 	private void outputImageSource( ArrayImageSource imageSource )
@@ -393,7 +397,7 @@ public class PostscriptWriter
 	{
 		ByteArrayOutputStream deflateSource = new ByteArrayOutputStream( );
 		DeflaterOutputStream deflateOut = new DeflaterOutputStream(
-				deflateSource, new Deflater( Deflater.DEFAULT_COMPRESSION ) );
+		        deflateSource, new Deflater( Deflater.DEFAULT_COMPRESSION ) );
 		deflateOut.write( source );
 		deflateOut.finish( );
 		deflateOut.close( );
@@ -404,9 +408,9 @@ public class PostscriptWriter
 
 	private int transferColor( int alpha, int color )
 	{
-		return 255 - (255 - color) * alpha / 255;
+		return 255 - ( 255 - color ) * alpha / 255;
 	}
-	
+
 	protected void drawRect( float x, float y, float width, float height )
 	{
 		drawRawRect( x, y, width, height );
@@ -420,10 +424,10 @@ public class PostscriptWriter
 	}
 
 	/**
-	 * Draws background image in a rectangle area with specified repeat pattern.
+	 * Draws background image in a rectangle area with specified repeat pattern. <br>
 	 * <br>
-	 * <br>
-	 * The repeat mode can be: <table border="solid">
+	 * The repeat mode can be:
+	 * <table border="solid">
 	 * <tr>
 	 * <td align="center"><B>Name</td>
 	 * <td align="center"><B>What for</td>
@@ -460,18 +464,19 @@ public class PostscriptWriter
 	 *            the initial y position of the background image.
 	 * @param repeat
 	 *            the repeat mode.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public void drawBackgroundImage( String imageURI, byte[] imageData, float x, float y,
-			float width, float height, float imageWidth, float imageHeight,
-			float positionX, float positionY, int repeat ) throws IOException
+	public void drawBackgroundImage( String imageURI, byte[] imageData,
+	        float x, float y, float width, float height, float imageWidth,
+	        float imageHeight, float positionX, float positionY, int repeat )
+	        throws IOException
 	{
 		if ( imageData == null || imageData.length == 0 )
 		{
 			return;
 		}
 		org.eclipse.birt.report.engine.layout.emitter.Image image = EmitterUtil
-				.parseImage( imageData, null, null );
+		        .parseImage( imageData, null, null );
 		imageData = image.getData( );
 
 		if ( imageWidth == 0 || imageHeight == 0 )
@@ -492,7 +497,7 @@ public class PostscriptWriter
 		Position areaSize = new Position( width, height );
 		Position imagePosition = new Position( x + positionX, y + positionY );
 		BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
-				areaSize, imagePosition, imageSize );
+		        areaSize, imagePosition, imageSize );
 		Collection positions = layout.getImagePositions( repeat );
 		gSave( );
 		setColor( Color.WHITE );
@@ -506,8 +511,8 @@ public class PostscriptWriter
 			try
 			{
 				drawImage( imageURI, new ByteArrayInputStream( imageData ),
-						position.getX( ), position.getY( ), imageSize.getX( ),
-						imageSize.getY( ) );
+				           position.getX( ), position.getY( ),
+				           imageSize.getX( ), imageSize.getY( ) );
 			}
 			catch ( Exception e )
 			{
@@ -539,40 +544,40 @@ public class PostscriptWriter
 	 *            the line style.
 	 */
 	public void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, int lineStyle )
+	        float width, Color color, int lineStyle )
 	{
 		if ( null == color || 0f == width
-				|| lineStyle==BorderInfo.BORDER_STYLE_NONE ) //$NON-NLS-1$
+		        || lineStyle == BorderInfo.BORDER_STYLE_NONE ) //$NON-NLS-1$
 		{
 			return;
 		}
 		// double is not supported.
-		if ( lineStyle==BorderInfo.BORDER_STYLE_DOUBLE ) //$NON-NLS-1$
+		if ( lineStyle == BorderInfo.BORDER_STYLE_DOUBLE ) //$NON-NLS-1$
 		{
 			return;
 		}
 		int dashMode = 0;
-		if ( lineStyle==BorderInfo.BORDER_STYLE_DASHED ) //$NON-NLS-1$
+		if ( lineStyle == BorderInfo.BORDER_STYLE_DASHED ) //$NON-NLS-1$
 		{
 			dashMode = 1;
 		}
-		else if (lineStyle==BorderInfo.BORDER_STYLE_DOTTED ) //$NON-NLS-1$
+		else if ( lineStyle == BorderInfo.BORDER_STYLE_DOTTED ) //$NON-NLS-1$
 		{
 			dashMode = 2;
 		}
 		startY = transformY( startY );
 		endY = transformY( endY );
 		outputColor( color );
-		out.print( width + " " + dashMode + " ");
-		out.print( startX + " " + startY + " ");
-		out.print( endX + " " + endY + " ");
-		out.println( "drawline");
+		out.print( width + " " + dashMode + " " );
+		out.print( startX + " " + startY + " " );
+		out.print( endX + " " + endY + " " );
+		out.println( "drawline" );
 	}
 
 	private void gRestore( )
 	{
 		out.println( "grestore" );
-		graphics.pop();
+		graphics.pop( );
 	}
 
 	private void gSave( )
@@ -592,14 +597,16 @@ public class PostscriptWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#drawString(java.lang.String,
-	 *      int, int, org.eclipse.birt.report.engine.layout.pdf.font.FontInfo,
-	 *      float, float, java.awt.Color, boolean, boolean, boolean)
+	 * @see
+	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#drawString(
+	 * java.lang.String, int, int,
+	 * org.eclipse.birt.report.engine.layout.pdf.font.FontInfo, float, float,
+	 * java.awt.Color, boolean, boolean, boolean)
 	 */
 	public void drawString( String str, float x, float y, FontInfo fontInfo,
-			float letterSpacing, float wordSpacing, Color color,
-			boolean linethrough, boolean overline, boolean underline,
-			CSSValue align )
+	        float letterSpacing, float wordSpacing, Color color,
+	        boolean linethrough, boolean overline, boolean underline,
+	        CSSValue align )
 	{
 		y = transformY( y );
 		String text = str;
@@ -631,20 +638,20 @@ public class PostscriptWriter
 		out.print( x + " " + y + " " );
 		if ( hasSpace )
 			out.print( wordSpacing + " " + letterSpacing + " " );
-		out.print( text + " ");
+		out.print( text + " " );
 		if ( needSimulateBold )
 			out.print( offset + " " );
 		String command = getCommand( hasSpace, needSimulateBold,
-				needSimulateItalic );
+		                             needSimulateItalic );
 		out.println( command );
 	}
 
 	private String getCommand( boolean hasSpace, boolean needSimulateBold,
-			boolean needSimulateItalic )
+	        boolean needSimulateItalic )
 	{
 		int index = toInt( hasSpace );
 		index += toInt( needSimulateBold ) << 1;
-		index += toInt( needSimulateItalic ) << 2 ;
+		index += toInt( needSimulateItalic ) << 2;
 		return stringCommands[index];
 	}
 
@@ -668,7 +675,7 @@ public class PostscriptWriter
 	}
 
 	public void fillRect( float x, float y, float width, float height,
-			Color color )
+	        Color color )
 	{
 		gSave( );
 		setColor( color );
@@ -725,9 +732,9 @@ public class PostscriptWriter
 		out.print( " " );
 		out.print( c.getBlue( ) / 255.0 );
 		out.print( " " );
-		out.println( "setrgbcolor");
+		out.println( "setrgbcolor" );
 	}
-	
+
 	public void setFont( Font f )
 	{
 		if ( f != null )
@@ -744,14 +751,14 @@ public class PostscriptWriter
 		Graphic graphic = getCurrentGraphic( );
 		float currentFontSize = graphic.fontSize;
 		String currentFont = graphic.font;
-		
-		//If fontSize is changed, set font.
+
+		// If fontSize is changed, set font.
 		if ( fontSize != currentFontSize )
 		{
 			return true;
 		}
-		
-		//If font name is changed, set font.
+
+		// If font name is changed, set font.
 		if ( currentFont == null && fontName != null )
 		{
 			return true;
@@ -762,10 +769,10 @@ public class PostscriptWriter
 		}
 		return false;
 	}
-	
+
 	private void setFont( String font, float size )
 	{
-		if ( needSetFont( font, size) )
+		if ( needSetFont( font, size ) )
 		{
 			setCurrentGraphic( font, size );
 			out.println( "/" + font + " " + size + " usefont" );
@@ -778,7 +785,7 @@ public class PostscriptWriter
 		graphic.font = font;
 		graphic.fontSize = fontSize;
 	}
-	
+
 	private Graphic getCurrentGraphic( )
 	{
 		Graphic currentGraphic = null;
@@ -793,9 +800,9 @@ public class PostscriptWriter
 		}
 		return currentGraphic;
 	}
-	
+
 	private String applyFont( String fontName, int fontStyle, float fontSize,
-			String text )
+	        String text )
 	{
 		if ( isIntrinsicFont( fontName ) )
 		{
@@ -808,12 +815,13 @@ public class PostscriptWriter
 				String fontPath = getFontPath( fontName );
 				if ( fontPath == null )
 				{
-					return applyIntrinsicFont( fontName, fontStyle, fontSize, text );
+					return applyIntrinsicFont( fontName, fontStyle, fontSize,
+					                           text );
 				}
-				ITrueTypeWriter trueTypeWriter = getTrueTypeFontWriter(
-						fontPath, fontName );
-				
-				//Space can't be included in a identity.
+				ITrueTypeWriter trueTypeWriter = getTrueTypeFontWriter( fontPath,
+				                                                        fontName );
+
+				// Space can't be included in a identity.
 				trueTypeWriter.ensureGlyphsAvailable( text );
 				String displayName = trueTypeWriter.getDisplayName( );
 				setFont( displayName, fontSize );
@@ -831,7 +839,8 @@ public class PostscriptWriter
 		}
 	}
 
-	private String applyIntrinsicFont( String fontName, int fontStyle, float fontSize, String text )
+	private String applyIntrinsicFont( String fontName, int fontStyle,
+	        float fontSize, String text )
 	{
 		setFont( fontName, fontSize );
 		text = escapeSpecialCharacter( text );
@@ -857,12 +866,12 @@ public class PostscriptWriter
 		return buffer.toString( );
 	}
 
-	private ITrueTypeWriter getTrueTypeFontWriter( String fontPath, String fontName )
-			throws DocumentException, IOException
+	private ITrueTypeWriter getTrueTypeFontWriter( String fontPath,
+	        String fontName ) throws DocumentException, IOException
 	{
 		File file = new File( fontPath );
 		ITrueTypeWriter trueTypeWriter = (ITrueTypeWriter) trueTypeFontWriters
-				.get( file );
+		        .get( file );
 		if ( trueTypeWriter != null )
 		{
 			return trueTypeWriter;
@@ -882,9 +891,11 @@ public class PostscriptWriter
 		try
 		{
 			FontFactoryImp fontImpl = FontFactory.getFontImp( );
-			Properties trueTypeFonts = (Properties) getField(
-					FontFactoryImp.class, "trueTypeFonts", fontImpl );
-			String fontPath = trueTypeFonts.getProperty( fontName.toLowerCase( ) );
+			Properties trueTypeFonts = (Properties) getField( FontFactoryImp.class,
+			                                                  "trueTypeFonts",
+			                                                  fontImpl );
+			String fontPath = trueTypeFonts
+			        .getProperty( fontName.toLowerCase( ) );
 			return fontPath;
 		}
 		catch ( IllegalAccessException e )
@@ -899,23 +910,23 @@ public class PostscriptWriter
 	}
 
 	private Object getField( final Class fontFactoryClass,
-			final String fieldName, final Object instaces )
-			throws NoSuchFieldException, IllegalAccessException
+	        final String fieldName, final Object instaces )
+	        throws NoSuchFieldException, IllegalAccessException
 	{
 		try
 		{
 			Object field = (Object) AccessController
-					.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+			        .doPrivileged( new PrivilegedExceptionAction<Object>( ) {
 
-						public Object run( ) throws IllegalArgumentException,
-								IllegalAccessException, NoSuchFieldException
-						{
-							Field fldTrueTypeFonts = fontFactoryClass
-									.getDeclaredField( fieldName );// $NON-SEC-3
-							fldTrueTypeFonts.setAccessible( true );// $NON-SEC-2
-							return fldTrueTypeFonts.get( instaces );
-						}
-					} );
+				        public Object run( ) throws IllegalArgumentException,
+				                IllegalAccessException, NoSuchFieldException
+				        {
+					        Field fldTrueTypeFonts = fontFactoryClass
+					                .getDeclaredField( fieldName );// $NON-SEC-3
+					        fldTrueTypeFonts.setAccessible( true );// $NON-SEC-2
+					        return fldTrueTypeFonts.get( instaces );
+				        }
+			        } );
 			return field;
 		}
 		catch ( PrivilegedActionException e )
@@ -945,8 +956,9 @@ public class PostscriptWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#translate(int,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#translate(int,
+	 * int)
 	 */
 
 	public void translate( int x, int y )
@@ -959,17 +971,18 @@ public class PostscriptWriter
 
 	public void startRenderer( ) throws IOException
 	{
-		startRenderer( null, null, null, null, null, 1, false, null, false,
-		               100, false, false );
+		startRenderer( null, null, null, TRAYCODE_AUTO, null, 1, false, null,
+		               false, 100, false, false );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
+	 * @see
+	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
 	public void startRenderer( String author, String description,
-	        String paperSize, String paperTray, Object duplex, int copies,
+	        String paperSize, int paperTray, Object duplex, int copies,
 	        boolean collate, String resolution, boolean color, int scale,
 	        boolean autoPaperSizeSelection, boolean fitToPaper )
 	        throws IOException
@@ -979,11 +992,11 @@ public class PostscriptWriter
 		this.autoPaperSizeSelection = autoPaperSizeSelection;
 		if ( author != null )
 		{
-			out.println("%%Creator: " + author);
+			out.println( "%%Creator: " + author );
 		}
-		out.println( "%%Pages: (atend)");
-		out.println( "%%DocumentProcessColors: Black");
-		out.println( "%%BeginSetup");
+		out.println( "%%Pages: (atend)" );
+		out.println( "%%DocumentProcessColors: Black" );
+		out.println( "%%BeginSetup" );
 		setCollate( collate );
 		setCopies( copies );
 		int[] pageSize = getPaperSize( paperSize );
@@ -997,14 +1010,13 @@ public class PostscriptWriter
 		setDuplex( duplex );
 		setResolution( resolution );
 		setGray( color );
-		FileUtil.load(
-				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
-				out );
+		FileUtil.load( "org/eclipse/birt/report/engine/emitter/postscript/header.ps",
+		               out );
 		out.println( "%%EndResource" );
 		out.println( "%%EndSetup" );
 	}
 
-	private void setPaperTray( String paperTray )
+	private void setPaperTray( int paperTray )
 	{
 		String trayString = getPaperTrayCode( paperTray );
 		if ( trayString != null )
@@ -1015,36 +1027,25 @@ public class PostscriptWriter
 		}
 	}
 
-	private String getPaperTrayCode( String paperTray )
+	private String getPaperTrayCode( int paperTray )
 	{
-		if ( paperTray == null )
+		if ( paperTray == TRAYCODE_MANUAL )
+		{
+			return "<</ManualFeed true /TraySwitch false>>setpagedevice";
+		}
+		// tray code should be positive number
+		// bigger than
+		// 257. For some printers use 257 and /MediaPosition
+		// 0 for first printer, whiles some others printers
+		// use code 258 and /MediaPosition 1 for first paper
+		// tray.
+		paperTray = paperTray - 257;
+		if ( paperTray < 0 )
 		{
 			return null;
 		}
-		try
-		{
-			int code = Integer.parseInt( paperTray );
-			return getPaperTray( code );
-		}
-		catch ( NumberFormatException e )
-		{
-			return paperTray;
-		}
-	}
-
-	private String getPaperTray( int code )
-	{
-		switch ( code )
-		{
-			case TRAYCODE_MANUAL :
-				return "<</ManualFeed true /TraySwitch false>>setpagedevice";
-
-			case TRAYCODE_AUTO :
-				return AUTO_PAPER_TRAY_STRING;
-			default :
-				return "<</ManualFeed false /MediaPosition " + code
-						+ " /TraySwitch false>>setpagedevice";
-		}
+		return "<</ManualFeed false /MediaPosition " + paperTray
+		        + " /TraySwitch false>>setpagedevice";
 	}
 
 	private void setPaperSize( String paperSize, int width, int height )
@@ -1053,8 +1054,8 @@ public class PostscriptWriter
 		{
 			out.println( "%%BeginFeature: *PageSize " + paperSize );
 			out.println( "<</PageSize [" + width + " " + height
-					+ "] /ImagingBBox null>> setpagedevice" );
-			out.println("%%EndFeature");
+			        + "] /ImagingBBox null>> setpagedevice" );
+			out.println( "%%EndFeature" );
 		}
 	}
 
@@ -1072,9 +1073,9 @@ public class PostscriptWriter
 	{
 		if ( collate )
 		{
-			out.println( "%%BeginFeature: *Collate true");
-			out.println( "1  dict dup /Collate true put setpagedevice");
-			out.println( "%%EndFeature");
+			out.println( "%%BeginFeature: *Collate true" );
+			out.println( "1  dict dup /Collate true put setpagedevice" );
+			out.println( "%%EndFeature" );
 		}
 	}
 
@@ -1089,6 +1090,7 @@ public class PostscriptWriter
 			{
 				return;
 			}
+			isDuplex = true;
 			if ( "HORIZONTAL".equalsIgnoreCase( value ) )
 			{
 				duplexValue = "DuplexNoTumble";
@@ -1107,6 +1109,7 @@ public class PostscriptWriter
 			{
 				return;
 			}
+			isDuplex = true;
 			if ( value == IPostscriptRenderOption.DUPLEX_FLIP_ON_LONG_EDGE )
 			{
 				duplexValue = "DuplexNoTumble";
@@ -1139,15 +1142,15 @@ public class PostscriptWriter
 			if ( split != -1 )
 			{
 				int xResolution = new Integer( resolution.substring( 0, split )
-						.trim( ) );
-				int yResolution = new Integer( resolution.substring( split + 1,
-						resolution.length( ) ).trim( ) );
+				        .trim( ) );
+				int yResolution = new Integer( resolution
+				        .substring( split + 1, resolution.length( ) ).trim( ) );
 				if ( xResolution > 0 && yResolution > 0 )
 				{
 					out.println( "%%BeginFeature: *Resolution " + xResolution
-							+ "x" + yResolution + "dpi" );
+					        + "x" + yResolution + "dpi" );
 					out.println( " << /HWResolution [" + xResolution + " "
-							+ yResolution + "]" );
+					        + yResolution + "]" );
 					out.println( "  /Policies << /HWResolution 2 >>" );
 					out.println( " >> setpagedevice" );
 					out.println( "%%EndFeature" );
@@ -1173,7 +1176,7 @@ public class PostscriptWriter
 			float absoluteScale = scale / 100f;
 			float yOffset = height * ( 1 - absoluteScale );
 			out.println( "/mysetup [ " + absoluteScale + " 0 0 "
-					+ absoluteScale + " 0 " + yOffset + "] def" );
+			        + absoluteScale + " 0 " + yOffset + "] def" );
 			out.println( "mysetup concat" );
 		}
 	}
@@ -1221,7 +1224,7 @@ public class PostscriptWriter
 		}
 		return new int[]{width, height};
 	}
-	
+
 	public void fillPage( Color color )
 	{
 		if ( color == null )
@@ -1237,17 +1240,22 @@ public class PostscriptWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startPage(float,
-	 *      float)
+	 * @see
+	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#startPage(float
+	 * , float)
 	 */
 	public void startPage( float pageWidth, float pageHeight, String orientation )
 	{
+		boolean isLandscape = isLandscape( orientation );
+		boolean paperChanged = this.pageHeight == pageHeight
+		        && this.pageWidth == pageWidth
+		        && isLandscape == isLandscape( this.orientation );
 		this.orientation = orientation;
 		this.pageHeight = pageHeight;
+		this.pageWidth = pageWidth;
 		out.println( "%%Page: " + pageIndex + " " + pageIndex );
-		boolean isLandscape = orientation != null
-		        && orientation.equalsIgnoreCase( "Landscape" );
-		if ( autoPaperSizeSelection )
+
+		if ( autoPaperSizeSelection && ( !isDuplex || paperChanged ) )
 		{
 			if ( isLandscape )
 			{
@@ -1257,10 +1265,9 @@ public class PostscriptWriter
 			{
 				setPaperSize( "auto", (int) pageWidth, (int) pageHeight );
 			}
-			setPaperTray( AUTO_PAPER_TRAY_STRING );
 		}
 		out.println( "%%PageBoundingBox: 0 0 " + (int) Math.round( pageWidth )
-				+ " " + (int) Math.round( pageHeight ) );
+		        + " " + (int) Math.round( pageHeight ) );
 		out.println( "%%BeginPage" );
 		if ( fitToPaper && paperWidth != 0 && paperHeight != 0 )
 		{
@@ -1279,6 +1286,13 @@ public class PostscriptWriter
 		}
 		setScale( (int) pageHeight, scale );
 		++pageIndex;
+	}
+
+	public boolean isLandscape( String orientation )
+	{
+		boolean isLandscape = orientation != null
+		        && orientation.equalsIgnoreCase( "Landscape" );
+		return isLandscape;
 	}
 
 	/*
@@ -1300,7 +1314,8 @@ public class PostscriptWriter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#stopRenderer()
+	 * @see
+	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#stopRenderer()
 	 */
 	public void stopRenderer( ) throws IOException
 	{
@@ -1350,26 +1365,28 @@ public class PostscriptWriter
 		{
 			return imageSource[y * width + x];
 		}
-		
-		public int[] getData()
+
+		public int[] getData( )
 		{
 			return imageSource;
 		}
 	}
-	
+
 	public void close( ) throws IOException
 	{
 		stopRenderer( );
 		out.close( );
 	}
 
-	private static class Graphic {
+	private static class Graphic
+	{
+
 		private String font;
-		
+
 		private float fontSize;
-	
+
 		private Color color;
-		
+
 		public Graphic( )
 		{
 

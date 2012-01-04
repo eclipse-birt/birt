@@ -381,7 +381,11 @@ public abstract class LayoutModule extends Module
 
 		try
 		{
-			ModuleOption option = new ModuleOption( );
+			ModuleOption option = new ModuleOption( );			
+			
+			//pass the original options to the new reader.
+			if (options != null && options.getOptions().size() > 0)
+				option.setOptions( options.getOptions() );
 			option.setMarkLineNumber( false );
 			
 			library = LibraryReader.getInstance( ).read( session, this, url,
