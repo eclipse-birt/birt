@@ -23,4 +23,4 @@ driver.template.property.dbname = データベース
 driver.template.property.connection.url = 接続 URL
 driver.template.property.user = ユーザ名
 driver.template.property.password = パスワード
-driver.template.property.save.password = Save password
+driver.template.property.save.password = パスワードの保存
