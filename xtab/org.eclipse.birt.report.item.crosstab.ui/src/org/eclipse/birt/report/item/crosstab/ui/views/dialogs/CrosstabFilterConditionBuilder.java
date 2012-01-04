@@ -28,8 +28,6 @@ import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.designer.data.ui.util.CubeValueSelector;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionEditor;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConverter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -47,7 +45,6 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -142,8 +139,6 @@ import org.eclipse.ui.PlatformUI;
 public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 {
 
-	public static final String KEY_UPDATE_AGGREGATION = "Update Aggregation";
-	public static final String PROPERTY_UPDATE_AGGREGATION = "Update Aggregation";
 	private static final String DECORATOR_STRING = Messages.getString( "CrosstabFilterConditionBuilder.Item.Decorator" ); //$NON-NLS-1$
 	protected Composite parentComposite = null;
 	protected List groupLevelList;
@@ -958,12 +953,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				.create( ) );
 		create2ValueComposite( valuesComposite );
 
-		updateAggrHelper = createUpdateAggrPart( parentControl );
-		if ( updateAggrHelper != null )
-			updateAggrHelper.getControl( )
-					.setLayoutData( GridDataFactory.swtDefaults( )
-							.span( 3, 1 )
-							.create( ) );
+		new Label( parentControl, SWT.NONE );
+		updateAggrButton = new Button( parentControl, SWT.CHECK );
+		updateAggrButton.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.UpdateAggregation" ) ); //$NON-NLS-1$
+		updateAggrButton.setLayoutData( GridDataFactory.swtDefaults( )
+				.span( 3, 1 )
+				.create( ) );
+		updateAggrButton.setSelection( filterConditionElement != null ? filterConditionElement.updateAggregation( )
+					: Boolean.TRUE );
 
 		memberValueGroup = new Composite( parentControl, SWT.NONE );
 		memberValueGroup.setLayout( new GridLayout( ) );
@@ -976,36 +973,6 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 		syncViewProperties( );
 
-	}
-
-	private IDialogHelper createUpdateAggrPart( Composite parent )
-	{
-		if ( designHandle == null )
-			return null;
-		Object[] helperProviders = ElementAdapterManager.getAdapters( designHandle,
-				IDialogHelperProvider.class );
-		if ( helperProviders != null )
-		{
-			for ( int i = 0; i < helperProviders.length; i++ )
-			{
-				IDialogHelperProvider helperProvider = (IDialogHelperProvider) helperProviders[i];
-				if ( helperProvider != null )
-				{
-					final IDialogHelper updateAggrHelper = helperProvider.createHelper( this,
-							KEY_UPDATE_AGGREGATION );
-					if ( updateAggrHelper != null )
-					{
-						updateAggrHelper.setProperty( PROPERTY_UPDATE_AGGREGATION,
-								filterConditionElement != null ? filterConditionElement.updateAggregation( )
-										: Boolean.TRUE );
-						updateAggrHelper.createContent( parent );
-						updateAggrHelper.update( true );
-						return updateAggrHelper;
-					}
-				}
-			}
-		}
-		return null;
 	}
 
 	private CCombo createExpressionCombo( Composite parent )
@@ -1494,8 +1461,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				filterTargetChanged( );
 			}
-			if ( updateAggrHelper != null )
-				updateAggrHelper.getControl( ).setVisible( true );
+			if(updateAggrButton!=null)
+				updateAggrButton.setVisible( true );
 
 		}
 		else if ( measureBtn.getSelection( ) )
@@ -1519,9 +1486,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				filterTargetChanged( );
 			}
-			if ( updateAggrHelper != null )
-				updateAggrHelper.getControl( ).setVisible( true );
-
+			if(updateAggrButton!=null)
+				updateAggrButton.setVisible( true );
 		}
 		else if ( detailBtn.getSelection( ) )
 		{
@@ -1540,8 +1506,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				filterTargetChanged( );
 			}
-			if ( updateAggrHelper != null )
-				updateAggrHelper.getControl( ).setVisible( false );
+			if(updateAggrButton!=null)
+				updateAggrButton.setVisible( false );
 		}
 		updateMemberValues( );
 		updateButtons( );
@@ -2450,9 +2416,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 						filter,
 						FilterCondition.EXPR_MEMBER );
 
-				if ( updateAggrHelper != null && !detailBtn.getSelection( ) )
+				if ( !detailBtn.getSelection( ) )
 				{
-					filter.setUpdateAggregation( (Boolean) updateAggrHelper.getProperty( PROPERTY_UPDATE_AGGREGATION ) );
+					filter.setUpdateAggregation( (Boolean) updateAggrButton.getSelection( ) );
 				}
 
 				if ( valueVisible == 3 )
@@ -2521,10 +2487,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 					filterConditionElement.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
-					if ( updateAggrHelper != null )
-					{
-						filterConditionElement.setUpdateAggregation( (Boolean) updateAggrHelper.getProperty( PROPERTY_UPDATE_AGGREGATION ) );
-					}
+					filterConditionElement.setUpdateAggregation( updateAggrButton.getSelection( ) );
 
 					if ( valueVisible == 3 )
 					{
@@ -3076,8 +3039,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	private CCombo measureGroupLevel;
 	private Button detailBtn;
 	private CrosstabFilterExpressionProvider provider;
-	private IDialogHelper updateAggrHelper;
 	private Label valuesLabel;
+	private Button updateAggrButton;
 
 	protected void editTableValue( )
 	{
@@ -3167,10 +3130,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				checkEditDelButtonStatus( );
 			} // or set all the children control to false
 		}
-		if ( updateAggrHelper != null )
-		{
-			updateAggrHelper.getControl( ).setEnabled( val );
-		}
+		if ( updateAggrButton != null )
+			updateAggrButton.setEnabled( val );
 	}
 
 	protected void setControlEnable( Control control, boolean bool )
