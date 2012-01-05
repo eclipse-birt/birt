@@ -1910,7 +1910,7 @@ public final class AutoScale extends Methods implements Cloneable
 							ellipsisWidth = info.cComp.computeWidth( xs, la );
 						}
 
-						if ( size > axisLabelInfo.dMaxSize )
+						if ( ChartUtil.mathGT( size, axisLabelInfo.dMaxSize ) )
 						{
 							int count = (int) ( str.length( )
 									* ( axisLabelInfo.dMaxSize - ellipsisWidth ) / size );
