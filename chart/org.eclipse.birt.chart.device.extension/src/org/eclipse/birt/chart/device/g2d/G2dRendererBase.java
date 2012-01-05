@@ -185,12 +185,13 @@ public class G2dRendererBase extends DeviceAdapter
 		if ( s == null )
 		{
 			BasicStroke bs = null;
+			final int thickness = lia.getThickness( );
 			if ( lia.getStyle( ).getValue( ) == LineStyle.DASHED )
 			{
 				float[] faStyle = new float[]{
-						6.0f, 4.0f
+						6 * thickness, 4 * thickness
 				};
-				bs = new BasicStroke( lia.getThickness( ),
+				bs = new BasicStroke( thickness,
 						BasicStroke.CAP_ROUND,
 						BasicStroke.JOIN_ROUND,
 						0,
@@ -200,9 +201,9 @@ public class G2dRendererBase extends DeviceAdapter
 			else if ( lia.getStyle( ).getValue( ) == LineStyle.DOTTED )
 			{
 				float[] faStyle = new float[]{
-						1.0f, 4.0f
+						thickness, 4 * thickness
 				};
-				bs = new BasicStroke( lia.getThickness( ),
+				bs = new BasicStroke( thickness,
 						BasicStroke.CAP_ROUND,
 						BasicStroke.JOIN_ROUND,
 						0,
@@ -212,9 +213,9 @@ public class G2dRendererBase extends DeviceAdapter
 			else if ( lia.getStyle( ).getValue( ) == LineStyle.DASH_DOTTED )
 			{
 				float[] faStyle = new float[]{
-						6.0f, 4.0f, 1.0f, 4.0f
+						6 * thickness, 4 * thickness, thickness, 4 * thickness
 				};
-				bs = new BasicStroke( lia.getThickness( ),
+				bs = new BasicStroke( thickness,
 						BasicStroke.CAP_ROUND,
 						BasicStroke.JOIN_ROUND,
 						0,
@@ -223,7 +224,7 @@ public class G2dRendererBase extends DeviceAdapter
 			}
 			else if ( lia.getStyle( ).getValue( ) == LineStyle.SOLID )
 			{
-				bs = new BasicStroke( lia.getThickness( ),
+				bs = new BasicStroke( thickness,
 						BasicStroke.CAP_SQUARE,
 						BasicStroke.JOIN_ROUND );
 			}
