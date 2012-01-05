@@ -61,7 +61,7 @@ public final class DeferredCache
 
 	private Comparator<?> cpPlaneShadows = null;
 
-	public List al3D = new ArrayList( 16 );
+	public List<Object> al3D = new ArrayList<Object>( 16 );
 
 	private final boolean bTransposed;
 	private Chart cm;
@@ -611,7 +611,7 @@ public final class DeferredCache
 	 * 
 	 * @return all cached markers.
 	 */
-	public List getAllMarkers( )
+	public List<MarkerInstruction> getAllMarkers( )
 	{
 		return alMarkers;
 	}
@@ -621,7 +621,7 @@ public final class DeferredCache
 	 * 
 	 * @return all cached labels.
 	 */
-	public List getAllLabels( )
+	public List<TextRenderEvent> getAllLabels( )
 	{
 		return alLabels;
 	}

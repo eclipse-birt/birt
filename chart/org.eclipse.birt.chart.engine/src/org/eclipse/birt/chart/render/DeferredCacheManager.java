@@ -17,9 +17,14 @@ import java.util.List;
 
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
+import org.eclipse.birt.chart.event.IRenderInstruction;
+import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * The class is used to manage runtime DeferredCache of series, it assures the
@@ -51,7 +56,7 @@ public final class DeferredCacheManager
 	private DeferredCache fSingleDC;
 
 	/** The list stores painting z-order of deferred order for series. */
-	private final List fDeferredCacheList = new ArrayList( );
+	private final List<DeferredCache> fDeferredCacheList = new ArrayList<DeferredCache>( );
 
 	/**
 	 * Constructor of the class.
@@ -69,6 +74,46 @@ public final class DeferredCacheManager
 		fLastDC = new DeferredCache( fDeviceRenderer, fChart );
 	}
 
+	private boolean hasStackedSeries( )
+	{
+		int count = 0;
+		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( fChart ) )
+		{
+			if ( sd.getDesignTimeSeries( ) != null
+					&& sd.getDesignTimeSeries( ).isStacked( ) )
+			{
+				count++;
+			}
+			if ( count > 1 )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean needSignleDeferredCache( BaseRenderer br )
+	{
+		if ( fSingleDC != null )
+		{
+			return true;
+		}
+		
+		// For 3D chart or chart has stacked series, it just uses single
+		// deferred cache to store shapes of all series. 
+		boolean is2DDepth = ( fChart.getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
+		if ( br != null
+				&& br.getSeries( ) != null
+				&& ( ChartDimension.THREE_DIMENSIONAL == fChart.getDimension( )
+						.getValue( )
+						|| br.getSeries( ).isSingleCache( )
+						|| ( fChart instanceof ChartWithoutAxes && is2DDepth ) || ( is2DDepth && hasStackedSeries( ) ) ) ) 
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Create <code>DeferredCache</code> instance for current series.
 	 * 
@@ -78,12 +123,7 @@ public final class DeferredCacheManager
 	 */
 	public DeferredCache createDeferredCache( BaseRenderer br )
 	{
-		if ( br != null
-				&& br.getSeries( ) != null
-				&& ( ChartDimension.THREE_DIMENSIONAL == fChart.getDimension( )
-						.getValue( )
-						|| br.getSeries( ).isSingleCache( ) || fChart.getDimension( )
-						.getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH ) )
+		if ( needSignleDeferredCache( br ) )
 		{
 			return createSingleDeferredCache( );
 		}
@@ -157,7 +197,7 @@ public final class DeferredCacheManager
 		fFirstDC.flushOptions( options  );
 
 		// 2. Flush data points one by one.
-		for ( java.util.Iterator iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
+		for ( java.util.Iterator<DeferredCache> iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
 		{
 			Object obj = iter.next( );
 			if ( obj instanceof DeferredCache )
@@ -177,8 +217,8 @@ public final class DeferredCacheManager
 	 */
 	void flushMarkersNLabels( ) throws ChartException
 	{
-		List allMarkers = new ArrayList( );
-		List allLabels = new ArrayList( );
+		List<IRenderInstruction> allMarkers = new ArrayList<IRenderInstruction>( );
+		List<TextRenderEvent> allLabels = new ArrayList<TextRenderEvent>( );
 
 		getMarkersNLabels( allMarkers, allLabels );
 
@@ -193,14 +233,14 @@ public final class DeferredCacheManager
 	 * @param allMarkers
 	 * @param allLabels
 	 */
-	public void getMarkersNLabels( List allMarkers, List allLabels )
+	public void getMarkersNLabels( List<IRenderInstruction> allMarkers, List<TextRenderEvent> allLabels )
 	{
 		allMarkers.addAll( fFirstDC.getAllMarkers( ) );
 		fFirstDC.getAllMarkers( ).clear( );
 		allLabels.addAll( fFirstDC.getAllLabels( ) );
 		fFirstDC.getAllLabels( ).clear( );
 
-		for ( java.util.Iterator iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
+		for ( java.util.Iterator<DeferredCache> iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
 		{
 			Object obj = iter.next( );
 			if ( obj instanceof DeferredCache )
@@ -284,7 +324,7 @@ public final class DeferredCacheManager
 		{
 			fFirstDC.process3DEvent( engine, xOffset, yOffset );
 
-			for ( java.util.Iterator iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
+			for ( java.util.Iterator<DeferredCache> iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
 			{
 				Object obj = iter.next( );
 				if ( obj instanceof DeferredCache )
