@@ -414,8 +414,8 @@ data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no ha
 data.olap.FailLoadCube=Error al cargar el cubo:"{0}".
 data.olap.MissingDimensionInCube=Debe haber al menos una dimensión en el cubo:"{0}"
 data.olap.ExceedIntegerLimit= La longitud del conjunto de resultados supera Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedColumnLimit= La longitud del conjunto de resultados en el extremo de columna supera el límite de tamaño {0}.
+data.olap.ExceedRowLimit= La longitud del conjunto de resultados en el extremo de fila supera el límite de tamaño {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

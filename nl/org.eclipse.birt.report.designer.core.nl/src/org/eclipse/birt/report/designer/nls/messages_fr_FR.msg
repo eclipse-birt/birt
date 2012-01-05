@@ -1010,7 +1010,7 @@ DesignerPaletteFactory.quicktool.title=Outils rapides
 DesignerPaletteFactory.quicktool.agg.title=Agrégation
 DesignerPaletteFactory.quicktool.agg.toolTip=Insérer un élément d'agrégation
 DesignerPaletteFactory.quicktool.timeperiod.title=Période de temps relatif
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insérer l'élément TimePeriod
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -2003,9 +2003,9 @@ HighlightsPage.trans.MoveDown=Déplacer la règle de surbrillance vers le bas
 HighlightsPage.trans.MoveUp=Déplacer la règle de surbrillance vers le haut
 HighlightsPage.toolTipText.MoveDown=Déplacer la règle de surbrillance vers le bas
 HighlightsPage.toolTipText.MoveUp=Déplacer la règle de surbrillance vers le haut
-HighlightsPage.label.duplicate=Duplicate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.label.duplicate=Dupli&quer
+HighlightsPage.toolTipText.duplicate=Dupliquer la règle de surbrillance
+HighlightsPage.trans.Duplicate=Dupliquer la règle de surbrillance
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2499,9 +2499,9 @@ MapPage.transName.moveDownRule=Déplacer la règle de mappage vers le bas
 MapPage.transName.moveUpMapRule=Déplacer la règle de mappage vers le haut
 MapPage.toolTipText.moveUp=Déplacer la règle de mappage vers le haut
 MapPage.toolTipText.moveDown=Déplacer la règle de mappage vers le bas
-MapPage.label.duplicate=Duplicate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.label.duplicate=Dupli&quer
+MapPage.toolTipText.duplicate=Dupliquer la règle de mappage
+MapPage.transName.Duplicate=Dupliquer la règle de mappage
 
 ###########################################################
 #MapPreferencePage properties
@@ -4473,7 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Oui
 DataColumnBindingDialog.NewBindingDialogButtonNo=Non
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Annuler
 DataColumnBindingDialog.NewBindingDialogTitle=Créer une nouvelle liaison de données ?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
+DataColumnBindingDialog.title.TimePeriodBuild=Constructeur TimePeriod
 DataColumBindingDialog.stackMsg.resetReference=Réinitialiser la référence
 
 ###########################################################
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà.
 BindingDialogHelper.error.improperexpression=L'agrégation sur la mesure de cube ne peut pas être du type : "{0}".
+BindingDialogHelper.error.empty={0} est requis.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
 BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Tous
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
+CrosstabBindingDialogHelper.bindngName.timeperiod=Période
 CrosstabBindingDialogHelper.calculation.labe=Type de ca&lcul :
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
+CrosstabBindingDialogHelper.recentday.description=Date la plus récente dans la dimension de temps
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
-CrosstabBindingDialogHelper.thisdate.label=This date:
+CrosstabBindingDialogHelper.thisdate.label=Cette date :
 CrosstabBindingDialogHelper.timedimension.label=Dimension de te&mps :
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.timeperiod.wrongdate=Cette dimension ne prend pas en charge la date de référence récente 
+CrosstabBindingDialogHelper.today.label=Aujourd'hui
 
 AddEditCascadingParameterDialog.label.name=&Nom :
 AddEditCascadingParameterDialog.label.dataset=&Jeu de données :
@@ -4824,8 +4825,8 @@ ReloadImageAction.Text=Recharger i&mage
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Nouvelle variable
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=&Nouvelle variable
+VariablesNodeProvider.Dialog.Title=Nouvelle variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

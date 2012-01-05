@@ -1010,7 +1010,7 @@ DesignerPaletteFactory.quicktool.title=Schnellbearbeitungswerkzeuge
 DesignerPaletteFactory.quicktool.agg.title=Aggregat
 DesignerPaletteFactory.quicktool.agg.toolTip=Aggregatelement einfügen
 DesignerPaletteFactory.quicktool.timeperiod.title=Relatives Zeitintervall
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod-Element einfügen
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -2003,9 +2003,9 @@ HighlightsPage.trans.MoveDown=Kennzeichnungsregel nach unten verschieben
 HighlightsPage.trans.MoveUp=Kennzeichnungsregel nach oben verschieben
 HighlightsPage.toolTipText.MoveDown=Kennzeichnungsregel nach unten verschieben
 HighlightsPage.toolTipText.MoveUp=Kennzeichnungsregel nach oben verschieben
-HighlightsPage.label.duplicate=Duplicate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.label.duplicate=Dupli&kate
+HighlightsPage.toolTipText.duplicate=Doppelte Kennzeichnungsregel
+HighlightsPage.trans.Duplicate=Doppelte Kennzeichnungsregel
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2499,9 +2499,9 @@ MapPage.transName.moveDownRule=Zuordnungsregel nach unten verschieben
 MapPage.transName.moveUpMapRule=Zuordnungsregel nach oben verschieben
 MapPage.toolTipText.moveUp=Zuordnungsregel nach oben verschieben
 MapPage.toolTipText.moveDown=Zuordnungsregel nach unten verschieben
-MapPage.label.duplicate=Duplicate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.label.duplicate=Dupli&kate
+MapPage.toolTipText.duplicate=Doppelte Zuordnungsregel
+MapPage.transName.Duplicate=Doppelte Zuordnungsregel
 
 ###########################################################
 #MapPreferencePage properties
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden.
 BindingDialogHelper.error.improperexpression=Ungültiger Typ für Aggregat in Quadereinheit: '{0}'.
+BindingDialogHelper.error.empty={0} ist erforderlich.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
 BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
+CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
 CrosstabBindingDialogHelper.calculation.labe=&Berechnungstyp:
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
+CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
-CrosstabBindingDialogHelper.thisdate.label=This date:
+CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
+CrosstabBindingDialogHelper.today.label=Heute
 
 AddEditCascadingParameterDialog.label.name=&Name:
 AddEditCascadingParameterDialog.label.dataset=&Datensatz:
@@ -4824,8 +4825,8 @@ ReloadImageAction.Text=&Bild neu laden
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Neue Variable
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=&Neue Variable
+VariablesNodeProvider.Dialog.Title=Neue Variable
 VariablesNodeProvider.NodeName=Variablen
 
 ###########################################################

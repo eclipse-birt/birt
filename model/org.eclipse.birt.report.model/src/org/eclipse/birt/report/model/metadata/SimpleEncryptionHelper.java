@@ -31,8 +31,6 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 	 */
 	static final public String ENCRYPTION_ID = "base64"; //$NON-NLS-1$
 
-	final private Base64 codec = new Base64( );
-
 	private static final SimpleEncryptionHelper instance = new SimpleEncryptionHelper( );
 
 	/**
@@ -59,6 +57,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 			return null;
 		try
 		{
+			Base64 codec = new Base64( );
 			byte[] data = codec.encode( string.getBytes( CHARSET ) );
 			if ( data == null )
 				return null;
@@ -86,6 +85,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 			return null;
 		try
 		{
+			Base64 codec = new Base64( );
 			byte[] data = codec.decode( string.getBytes( CHARSET ) );
 			if ( data == null )
 				return null;

@@ -1010,7 +1010,7 @@ DesignerPaletteFactory.quicktool.title=快速工具
 DesignerPaletteFactory.quicktool.agg.title=聚合
 DesignerPaletteFactory.quicktool.agg.toolTip=插入聚合项
 DesignerPaletteFactory.quicktool.timeperiod.title=相对时间周期
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=插入时间周期项
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -2003,9 +2003,9 @@ HighlightsPage.trans.MoveDown=下移突出显示规则
 HighlightsPage.trans.MoveUp=上移突出显示规则
 HighlightsPage.toolTipText.MoveDown=突出显示规则下移
 HighlightsPage.toolTipText.MoveUp=突出显示规则上移
-HighlightsPage.label.duplicate=Duplicate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.label.duplicate=复制(&C)
+HighlightsPage.toolTipText.duplicate=重复突出显示规则
+HighlightsPage.trans.Duplicate=重复突出显示规则
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2499,9 +2499,9 @@ MapPage.transName.moveDownRule=下移映射规则
 MapPage.transName.moveUpMapRule=上移映射规则
 MapPage.toolTipText.moveUp=映射规则上移
 MapPage.toolTipText.moveDown=映射规则下移
-MapPage.label.duplicate=Duplicate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.label.duplicate=复制(&C)
+MapPage.toolTipText.duplicate=重复映射规则
+MapPage.transName.Duplicate=重复映射规则
 
 ###########################################################
 #MapPreferencePage properties
@@ -4473,7 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=是
 DataColumnBindingDialog.NewBindingDialogButtonNo=否
 DataColumnBindingDialog.NewBindingDialogButtonCancel=取消
 DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
+DataColumnBindingDialog.title.TimePeriodBuild=时间周期生成器
 DataColumBindingDialog.stackMsg.resetReference=重置引用
 
 ###########################################################
@@ -4617,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。
 BindingDialogHelper.error.improperexpression=多维数据集度量聚合不能为此类型:“{0}”。
+BindingDialogHelper.error.empty={0} 是必需的。
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
 BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?
@@ -4633,14 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=全部
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
+CrosstabBindingDialogHelper.bindngName.timeperiod=周期
 CrosstabBindingDialogHelper.calculation.labe=计算类型(&L):
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
+CrosstabBindingDialogHelper.recentday.description=时间维中的最近日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
-CrosstabBindingDialogHelper.thisdate.label=This date:
+CrosstabBindingDialogHelper.thisdate.label=此日期:
 CrosstabBindingDialogHelper.timedimension.label=时间维(&M):
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.timeperiod.wrongdate=此维不支持最近参考日期 
+CrosstabBindingDialogHelper.today.label=今天
 
 AddEditCascadingParameterDialog.label.name=名称(&N):
 AddEditCascadingParameterDialog.label.dataset=数据集(&D):
@@ -4824,8 +4825,8 @@ ReloadImageAction.Text=重新加载图像(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=新建变量
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=新建变量(&N)
+VariablesNodeProvider.Dialog.Title=新建变量
 VariablesNodeProvider.NodeName=变量
 
 ###########################################################

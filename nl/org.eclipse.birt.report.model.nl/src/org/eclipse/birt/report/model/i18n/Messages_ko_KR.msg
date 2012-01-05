@@ -731,9 +731,9 @@ Choices.flyoutPosition.left=왼쪽
 Choices.flyoutPosition.right=오른쪽
 
 #94 referenceDateType
-Choices.referenceDateType.today=Today
-Choices.referenceDateType.fixedDate=Fixed Date
-Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+Choices.referenceDateType.today=오늘
+Choices.referenceDateType.fixedDate=고정일
+Choices.referenceDateType.endingDateInDimension=차원의 종료일
 
 ###########################################################
 # Classes
@@ -1912,6 +1912,7 @@ Structure.ScriptLib=스크립트 Lib
 Structure.IncludedCssStyleSheet=CSS 스타일시트 포함
 Structure.DimensionJoinCondition=차원 조인 조건
 Structure.FormatValue =형식 값
+Structure.CalculationArgument=계산 인수
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2042,6 +2043,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn 함수
 Structure.ComputedColumn.arguments=AggregateOn 함수 인수
 Structure.ComputedColumn.filterExpr=필터 식
 Structure.ComputedColumn.allowExport=내보내기 허용
+Structure.ComputedColumn.calculationType=계산 형식
+Structure.ComputedColumn.calculationArguments=계산 인수
+Structure.ComputedColumn.refDateType=참조 날짜 형식
+Structure.ComputedColumn.refDateValue=참조 날짜 값
+Structure.ComputedColumn.timeDimension=시간 차원
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=열 이름
@@ -2304,6 +2310,11 @@ Structure.TimeInterval.unit=단위
 Structure.FormatValue.category=범주
 Structure.FormatValue.pattern=패턴
 Structure.FormatValue.locale=로케일
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=계산 인수 이름
+Structure.CalculationArgument.value=계산 인수 값
+
 
 ###########################################################
 # Element names
@@ -3291,7 +3302,7 @@ Element.Measure.ACLExpression=ACL 식
 Element.Measure.action=작업
 Element.Measure.format=형식
 Element.Measure.alignment=맞춤
-Element.Measure.isVisible=Is visible
+Element.Measure.isVisible=표시
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값
