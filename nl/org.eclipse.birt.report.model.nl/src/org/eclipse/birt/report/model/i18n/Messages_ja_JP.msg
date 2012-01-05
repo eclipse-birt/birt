@@ -1912,7 +1912,7 @@ Structure.ScriptLib=スクリプトライブラリ
 Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
 Structure.DimensionJoinCondition=ディメンジョンのジョイン条件
 Structure.FormatValue =書式の値
-Structure.CalculationArgument=Calculation Argument
+Structure.CalculationArgument=計算の引数
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
@@ -2043,11 +2043,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn 関数
 Structure.ComputedColumn.arguments=AggregateOn 関数の引数
 Structure.ComputedColumn.filterExpr=フィルタ式
 Structure.ComputedColumn.allowExport=エクスポートを許可する
-Structure.ComputedColumn.calculationType=Calculation Type
-Structure.ComputedColumn.calculationArguments=Calculation Arguments
-Structure.ComputedColumn.refDateType=Reference Date Type
-Structure.ComputedColumn.refDateValue=Reference Date Value
-Structure.ComputedColumn.timeDimension=Time Dimension
+Structure.ComputedColumn.calculationType=計算の種類
+Structure.ComputedColumn.calculationArguments=計算の引数
+Structure.ComputedColumn.refDateType=参照日の種類
+Structure.ComputedColumn.refDateValue=参照日の値
+Structure.ComputedColumn.timeDimension=時間のディメンジョン
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2312,8 +2312,8 @@ Structure.FormatValue.pattern=パターン
 Structure.FormatValue.locale=ロケール
 
 #40. CalculationArgument
-Structure.CalculationArgument.name=Calculation Argument Name
-Structure.CalculationArgument.value=Calculation Argument Value
+Structure.CalculationArgument.name=計算の引数名
+Structure.CalculationArgument.value=計算の引数値
 
 
 ###########################################################

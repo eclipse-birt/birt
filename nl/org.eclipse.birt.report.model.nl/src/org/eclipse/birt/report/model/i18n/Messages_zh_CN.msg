@@ -1912,7 +1912,7 @@ Structure.ScriptLib=脚本库
 Structure.IncludedCssStyleSheet=包括的 CSS 样式表
 Structure.DimensionJoinCondition=维联接条件
 Structure.FormatValue =格式类型
-Structure.CalculationArgument=Calculation Argument
+Structure.CalculationArgument=计算参数
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2043,11 +2043,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn 函数
 Structure.ComputedColumn.arguments=AggregateOn 函数参数
 Structure.ComputedColumn.filterExpr=筛选表达式
 Structure.ComputedColumn.allowExport=允许导出
-Structure.ComputedColumn.calculationType=Calculation Type
-Structure.ComputedColumn.calculationArguments=Calculation Arguments
-Structure.ComputedColumn.refDateType=Reference Date Type
-Structure.ComputedColumn.refDateValue=Reference Date Value
-Structure.ComputedColumn.timeDimension=Time Dimension
+Structure.ComputedColumn.calculationType=计算类型
+Structure.ComputedColumn.calculationArguments=计算参数
+Structure.ComputedColumn.refDateType=参考日期类型
+Structure.ComputedColumn.refDateValue=参考日期值
+Structure.ComputedColumn.timeDimension=时间维
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2312,8 +2312,8 @@ Structure.FormatValue.pattern=模式
 Structure.FormatValue.locale=区域设置
 
 #40. CalculationArgument
-Structure.CalculationArgument.name=Calculation Argument Name
-Structure.CalculationArgument.value=Calculation Argument Value
+Structure.CalculationArgument.name=计算参数名称
+Structure.CalculationArgument.value=计算参数值
 
 
 ###########################################################

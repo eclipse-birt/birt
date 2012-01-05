@@ -24,6 +24,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -48,6 +49,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DynamicFilterParameterHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -626,13 +628,22 @@ public class GetParameterDefinitionTask extends EngineTask
 	}
 	
 	private QueryDefinition createQueryDefinition( DataSetHandle dataSet )
+			throws EngineException
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
 		queryDefn.setAutoBinding( true );
+		for ( Iterator itr = dataSet.filtersIterator( ); itr.hasNext( ); )
+		{
+			FilterConditionHandle fh = (FilterConditionHandle) itr.next( );
+			FilterDefinition dataSetFilter;
+			dataSetFilter = getDataSession( ).getModelAdaptor( )
+					.adaptFilter( fh );
+			queryDefn.addFilter( dataSetFilter );
+		}
 		return queryDefn;
 	}
-	
+
 	private IResultIterator executeQuery( DataRequestSession dteSession,
 			QueryDefinition queryDefn ) throws BirtException
 	{
@@ -1038,10 +1049,10 @@ public class GetParameterDefinitionTask extends EngineTask
 			try
 			{
 				// Handle data source and data set
-				QueryDefinition queryDefn = createQueryDefinition( dataSet );
 				DataRequestSession dteSession = createDataSession( dataSet );
 				dteSession.getDataSessionContext( )
 						.setAppContext( getAppContext( ) );
+				QueryDefinition queryDefn = createQueryDefinition( dataSet );
 
 				Iterator iter = parameterGroup.getParameters( ).iterator( );
 				while ( iter.hasNext( ) )

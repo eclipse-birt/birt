@@ -1912,7 +1912,7 @@ Structure.ScriptLib=Bibliothèque de scripts
 Structure.IncludedCssStyleSheet=Feuille de style CSS comprise
 Structure.DimensionJoinCondition=Condition de jointure de dimension
 Structure.FormatValue =Valeur du format
-Structure.CalculationArgument=Calculation Argument
+Structure.CalculationArgument=Argument de calcul
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2043,11 +2043,11 @@ Structure.ComputedColumn.aggregateFunction=Fonction Regrouper par
 Structure.ComputedColumn.arguments=Arguments pour la fonction Regrouper par
 Structure.ComputedColumn.filterExpr=Expression de filtre
 Structure.ComputedColumn.allowExport=Autoriser l'exportation
-Structure.ComputedColumn.calculationType=Calculation Type
-Structure.ComputedColumn.calculationArguments=Calculation Arguments
-Structure.ComputedColumn.refDateType=Reference Date Type
-Structure.ComputedColumn.refDateValue=Reference Date Value
-Structure.ComputedColumn.timeDimension=Time Dimension
+Structure.ComputedColumn.calculationType=Type de calcul
+Structure.ComputedColumn.calculationArguments=Arguments de calcul
+Structure.ComputedColumn.refDateType=Type de date de référence
+Structure.ComputedColumn.refDateValue=Valeur de date de référence
+Structure.ComputedColumn.timeDimension=Dimension de temps
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nom de colonne
@@ -2312,8 +2312,8 @@ Structure.FormatValue.pattern=Correspondance
 Structure.FormatValue.locale=Informations locales
 
 #40. CalculationArgument
-Structure.CalculationArgument.name=Calculation Argument Name
-Structure.CalculationArgument.value=Calculation Argument Value
+Structure.CalculationArgument.name=Nom de l'argument de calcul
+Structure.CalculationArgument.value=Valeur de l'argument de calcul
 
 
 ###########################################################
