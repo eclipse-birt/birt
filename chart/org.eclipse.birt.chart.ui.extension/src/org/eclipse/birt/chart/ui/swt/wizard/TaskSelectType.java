@@ -1070,6 +1070,7 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	protected boolean updateDimensionCombo( String sSelectedType )
 	{
+		cbDimension.setEObjectParent( getContext( ).getModel( ) );
 		// Remember last selection
 		boolean isOldExist = false;
 

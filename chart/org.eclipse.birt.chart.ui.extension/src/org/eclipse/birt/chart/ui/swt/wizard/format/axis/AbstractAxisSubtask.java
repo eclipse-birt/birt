@@ -772,7 +772,6 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				boolean enabled = false;
 				if ( selectedOriginType == null )
 				{
-					getAxisForProcessing( ).getOrigin( ).setValue( null );
 					enabled = true;
 				}
 				else
@@ -780,6 +779,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					getAxisForProcessing( ).getOrigin( )
 							.setType( IntersectionType.getByName( selectedOriginType ) );
 				}
+				getAxisForProcessing( ).getOrigin( ).setValue( null );
 
 				lblValue.setEnabled( enabled );
 				txtValue.setEnabled( enabled );

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2011 Actuate Corporation.
+ * Copyright (c) 2012 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -4531,21 +4531,27 @@ public class BaseChartValueUpdater
 				eDefObj == null ? null : eDefObj.getFill( ),
 				eDefOverride,
 				checkVisible );
-		if ( eRefObj != null && eRefObj.getStartValue( ) != null )
+		if ( eObj.getStartValue( ) == null )
 		{
-			eObj.setStartValue( eRefObj.getStartValue( ) );
+			if ( eRefObj != null && eRefObj.getStartValue( ) != null )
+			{
+				eObj.setStartValue( eRefObj.getStartValue( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getStartValue( ) != null )
+			{
+				eObj.setStartValue( eDefObj.getStartValue( ).copyInstance( ) );
+			}
 		}
-		else if ( eDefObj != null && eDefObj.getStartValue( ) != null )
+		if ( eObj.getEndValue( ) == null )
 		{
-			eObj.setStartValue( eDefObj.getStartValue( ) );
-		}
-		if ( eRefObj != null && eRefObj.getEndValue( ) != null )
-		{
-			eObj.setEndValue( eRefObj.getEndValue( ) );
-		}
-		else if ( eDefObj != null && eDefObj.getEndValue( ) != null )
-		{
-			eObj.setEndValue( eDefObj.getEndValue( ) );
+			if ( eRefObj != null && eRefObj.getEndValue( ) != null )
+			{
+				eObj.setEndValue( eRefObj.getEndValue( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getEndValue( ) != null )
+			{
+				eObj.setEndValue( eDefObj.getEndValue( ).copyInstance( ) );
+			}
 		}
 		updateLabel( "label",
 				eObj,
@@ -4881,13 +4887,16 @@ public class BaseChartValueUpdater
 				eDefObj == null ? null : eDefObj.getLineAttributes( ),
 				eDefOverride,
 				checkVisible );
-		if ( eRefObj != null && eRefObj.getValue( ) != null )
+		if ( eObj.getValue( ) == null )
 		{
-			eObj.setValue( eRefObj.getValue( ) );
-		}
-		else if ( eDefObj != null && eDefObj.getValue( ) != null )
-		{
-			eObj.setValue( eDefObj.getValue( ) );
+			if ( eRefObj != null && eRefObj.getValue( ) != null )
+			{
+				eObj.setValue( eRefObj.getValue( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getValue( ) != null )
+			{
+				eObj.setValue( eDefObj.getValue( ).copyInstance( ) );
+			}
 		}
 		updateLabel( "label",
 				eObj,
@@ -5057,21 +5066,27 @@ public class BaseChartValueUpdater
 				eDefObj == null ? null : eDefObj.getFill( ),
 				eDefOverride,
 				checkVisible );
-		if ( eRefObj != null && eRefObj.getStartValue( ) != null )
+		if ( eObj.getStartValue( ) == null )
 		{
-			eObj.setStartValue( eRefObj.getStartValue( ) );
+			if ( eRefObj != null && eRefObj.getStartValue( ) != null )
+			{
+				eObj.setStartValue( eRefObj.getStartValue( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getStartValue( ) != null )
+			{
+				eObj.setStartValue( eDefObj.getStartValue( ).copyInstance( ) );
+			}
 		}
-		else if ( eDefObj != null && eDefObj.getStartValue( ) != null )
+		if ( eObj.getEndValue( ) == null )
 		{
-			eObj.setStartValue( eDefObj.getStartValue( ) );
-		}
-		if ( eRefObj != null && eRefObj.getEndValue( ) != null )
-		{
-			eObj.setEndValue( eRefObj.getEndValue( ) );
-		}
-		else if ( eDefObj != null && eDefObj.getEndValue( ) != null )
-		{
-			eObj.setEndValue( eDefObj.getEndValue( ) );
+			if ( eRefObj != null && eRefObj.getEndValue( ) != null )
+			{
+				eObj.setEndValue( eRefObj.getEndValue( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getEndValue( ) != null )
+			{
+				eObj.setEndValue( eDefObj.getEndValue( ).copyInstance( ) );
+			}
 		}
 		updateLabel( "label",
 				eObj,
@@ -5325,21 +5340,27 @@ public class BaseChartValueUpdater
 		// list attributes
 
 		// references
-		if ( eRefObj != null && eRefObj.getMin( ) != null )
+		if ( eObj.getMin( ) == null )
 		{
-			eObj.setMin( eRefObj.getMin( ) );
+			if ( eRefObj != null && eRefObj.getMin( ) != null )
+			{
+				eObj.setMin( eRefObj.getMin( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getMin( ) != null )
+			{
+				eObj.setMin( eDefObj.getMin( ).copyInstance( ) );
+			}
 		}
-		else if ( eDefObj != null && eDefObj.getMin( ) != null )
+		if ( eObj.getMax( ) == null )
 		{
-			eObj.setMin( eDefObj.getMin( ) );
-		}
-		if ( eRefObj != null && eRefObj.getMax( ) != null )
-		{
-			eObj.setMax( eRefObj.getMax( ) );
-		}
-		else if ( eDefObj != null && eDefObj.getMax( ) != null )
-		{
-			eObj.setMax( eDefObj.getMax( ) );
+			if ( eRefObj != null && eRefObj.getMax( ) != null )
+			{
+				eObj.setMax( eRefObj.getMax( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getMax( ) != null )
+			{
+				eObj.setMax( eDefObj.getMax( ).copyInstance( ) );
+			}
 		}
 
 	}
@@ -7728,13 +7749,16 @@ public class BaseChartValueUpdater
 		// list attributes
 
 		// references
-		if ( eRefObj != null && eRefObj.getValue( ) != null )
+		if ( eObj.getValue( ) == null )
 		{
-			eObj.setValue( eRefObj.getValue( ) );
-		}
-		else if ( eDefObj != null && eDefObj.getValue( ) != null )
-		{
-			eObj.setValue( eDefObj.getValue( ) );
+			if ( eRefObj != null && eRefObj.getValue( ) != null )
+			{
+				eObj.setValue( eRefObj.getValue( ).copyInstance( ) );
+			}
+			else if ( eDefObj != null && eDefObj.getValue( ) != null )
+			{
+				eObj.setValue( eDefObj.getValue( ).copyInstance( ) );
+			}
 		}
 
 	}
