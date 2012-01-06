@@ -1300,7 +1300,13 @@ public final class Generator implements IGenerator
 			throws ChartException
 	{
 		final Chart cm = gcs.getChartModel( );
-		updateDeviceScale( cm, idr );
+		final int scale = idr.getDisplayServer( ).getDpiResolution( ) / 72;
+		if ( scale != 1 )
+		{
+			// Here multiply by integer scale so that normal dpi (96) won't
+			// change thickness by default. Only PDF case would change.
+			updateDeviceScale( cm, scale );
+		}
 		
 		idr.getDisplayServer( ).setResourceFinder( gcs.getRunTimeContext( )
 				.getResourceFinder( ) );
@@ -1925,21 +1931,18 @@ public final class Generator implements IGenerator
 		implicitProcessor.setDefaultBackgroundColor( cd );
 	}
 	
-	private void updateDeviceScale( EObject component,IDeviceRenderer idr )
+	private void updateDeviceScale( EObject component, int scale )
 	{
 		if ( component instanceof LineAttributes )
 		{
 			LineAttributes lia = (LineAttributes) component;
-			// Here multiply by integer scale so that normal dpi (96) won't
-			// change thickness by default. Only PDF case would change.
-			final int scale = idr.getDisplayServer( ).getDpiResolution( ) / 72;
 			lia.setThickness( lia.getThickness( ) * scale );
 			return;
 		}
 		// prepare children
 		for ( Iterator<EObject> itr = component.eContents( ).iterator( ); itr.hasNext( ); )
 		{
-			updateDeviceScale( itr.next( ),idr );
+			updateDeviceScale( itr.next( ), scale );
 		}
 	}
 }
