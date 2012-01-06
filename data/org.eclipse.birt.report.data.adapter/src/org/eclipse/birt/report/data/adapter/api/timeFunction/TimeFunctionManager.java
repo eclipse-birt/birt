@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo.Period_Type;
 import org.eclipse.birt.report.data.adapter.i18n.Message;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.CalculationArgumentHandle;
@@ -125,7 +126,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.YEAR_TO_DATE ) );
 
-			periodType.add( IArgumentInfo.Period_Type.YEAR );
+			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.YEAR, locale ) );
 		}
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) 
 				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
@@ -137,7 +138,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.QUARTER_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR ) );
 
-			periodType.add( IArgumentInfo.Period_Type.QUARTER );
+			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.QUARTER, locale ) );
 		}
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) 
 				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
@@ -150,7 +151,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_12_MONTHS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) );
 
-			periodType.add( IArgumentInfo.Period_Type.MONTH );
+			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, locale ) );
 		}
 		
 		// for WTD, only support static reference date
@@ -160,7 +161,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR ) );
-			periodType.add( IArgumentInfo.Period_Type.WEEK );
+			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.WEEK, locale ) );
 		}
 
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
@@ -169,7 +170,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_60_DAYS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
-			periodType.add( IArgumentInfo.Period_Type.DAY );
+			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
 		}
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ),
 				periodType ) );

@@ -47,7 +47,7 @@ public class JDBCDriverInfoManager
 				if ( configElements[e].getName( ).equals( 
 						OdaJdbcDriver.Constants.DRIVER_INFO_ELEM_JDBCDRIVER ) )
 				{
-					drivers.add( newJdbcDriverInfo( configElements[e] ));
+					drivers.add( newJdbcDriverInfo( configElements[e] ) );
 				}
 			}
 		}
@@ -68,6 +68,7 @@ public class JDBCDriverInfoManager
 				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_NAME ) );
 		driverInfo.setUrlFormat( 
 				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_URLTEMPL ) );
+		driverInfo.setHide( configElement.getAttribute( "hide" ) );
 		return driverInfo;
 	}
 	

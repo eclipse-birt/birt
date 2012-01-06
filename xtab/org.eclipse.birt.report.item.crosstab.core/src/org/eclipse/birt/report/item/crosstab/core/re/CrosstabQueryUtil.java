@@ -978,7 +978,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
 							levelMapping.get( lv.getCubeLevel( ) ),
 							qualifyLevels,
-							qualifyValues );
+							qualifyValues,
+							filterCon.updateAggregation( ) );
 
 					cubeQuery.addFilter( filterDef );
 				}
@@ -1049,7 +1050,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				ICubeFilterDefinition filterDef = getCubeElementFactory( ).creatCubeFilterDefinition( filterCondExpr,
 						null,
 						null,
-						null );
+						null,
+						filterCon.updateAggregation( ) );
 
 				cubeQuery.addFilter( filterDef );
 			}

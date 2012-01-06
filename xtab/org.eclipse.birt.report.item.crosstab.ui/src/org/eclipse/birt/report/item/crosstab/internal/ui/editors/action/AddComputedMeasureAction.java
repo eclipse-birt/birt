@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -74,6 +75,11 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 	
 	public boolean isEnabled( )
 	{
+		CubeHandle cubeHandle = measureViewHandle.getCrosstab( ).getCube( );
+		if (cubeHandle == null)
+		{
+			return false;
+		}
 		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
 	}
 	

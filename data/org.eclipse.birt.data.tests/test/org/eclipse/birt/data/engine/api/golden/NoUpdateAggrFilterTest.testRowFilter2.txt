@@ -1,0 +1,11 @@
+*****A new Report Start!*****
+S:0 E:4 3    China    Jiangshu    Nanjing    30    8    4    3    499.0    
+S:4 E:4 13    China    Jiangshu    Nanjing    31    8    4    3    499.0    
+S:4 E:1 14    China    Jiangshu    Nanjing    32    8    4    3    499.0    
+S:1 E:4 11    UK    England    London    10    4    3    3    499.0    
+S:4 E:4 17    UK    England    London    21    4    3    3    499.0    
+S:4 E:1 18    UK    England    London    22    4    3    3    499.0    
+S:1 E:4 8    US    California    Los Angeles    10    6    5    3    499.0    
+S:4 E:4 15    US    California    Los Angeles    11    6    5    3    499.0    
+S:4 E:0 16    US    California    Los Angeles    12    6    5    3    499.0    
+

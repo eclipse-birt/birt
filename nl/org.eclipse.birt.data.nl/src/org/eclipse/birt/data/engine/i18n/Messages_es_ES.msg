@@ -67,6 +67,7 @@ data.engine.DupColumnName=Nombre de columna duplicado: {0}.
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}.
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}.
 data.engine.fail.prepareExecution=Error al preparar la ejecución de la consulta para el conjunto de datos: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidir el string con el patrón: {0}.
 

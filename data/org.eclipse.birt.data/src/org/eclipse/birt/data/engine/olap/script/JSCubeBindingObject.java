@@ -57,6 +57,22 @@ public class JSCubeBindingObject extends ScriptableObject
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+	 */
+	public Object get( int arg0, Scriptable scope )
+	{
+		try
+		{
+			return cursor.getObject( String.valueOf( arg0 ) );
+		}
+		catch ( OLAPException e )
+		{
+			throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
 	public String getClassName( )

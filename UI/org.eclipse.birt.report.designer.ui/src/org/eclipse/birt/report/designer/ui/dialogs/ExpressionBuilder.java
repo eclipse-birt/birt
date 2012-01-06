@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
@@ -269,7 +270,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 
 			if ( inputElement instanceof PropertyHandle
 					|| inputElement instanceof TabularMeasureGroupHandle
-					|| inputElement instanceof TabularDimensionHandle )
+					|| inputElement instanceof DimensionHandle )
 			{
 				return EMPTY;
 			}

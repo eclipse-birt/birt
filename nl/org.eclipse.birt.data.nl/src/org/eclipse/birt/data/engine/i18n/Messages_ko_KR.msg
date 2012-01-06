@@ -67,6 +67,7 @@ data.engine.DupColumnName=중복된 열 이름: {0}.
 data.engine.DupAlias=중복된 열 이름 또는 별칭: {0}.
 data.engine.InvalidFieldIndex=잘못된 필드 인덱스: {0}.
 data.engine.fail.prepareExecution=데이터 집합 형식에 대해 다음 쿼리를 준비하지 못했습니다: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=패턴 구문을 확인하십시오. 문자열을 패턴과 일치시키는 도중 오류가 발생했습니다: {0}.
 

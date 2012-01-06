@@ -69,6 +69,24 @@ public class CubeElementFactory implements ICubeElementFactory
 	
 	/**
 	 * create a new ICubeFilterDefinition instance.
+	 * 
+	 * @return
+	 */
+	public ICubeFilterDefinition creatCubeFilterDefinition(
+			IBaseExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
+			boolean updateAggr )
+	{
+		CubeFilterDefinition cubeFilterDefinition = new CubeFilterDefinition( filterExpr,
+				targetLevel,
+				axisQulifierLevel,
+				axisQulifierValue );
+		cubeFilterDefinition.setUpdateAggregation( updateAggr );
+		return cubeFilterDefinition;
+	}
+	
+	/**
+	 * create a new ICubeFilterDefinition instance.
 	 * @return
 	 */
 	public IFilterDefinition creatLevelMemberFilterDefinition(

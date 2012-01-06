@@ -86,6 +86,11 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 
 	public boolean isEnabled( )
 	{
+		CubeHandle cubeHandle = measureViewHandle.getCrosstab( ).getCube( );
+		if (cubeHandle == null)
+		{
+			return false;
+		}
 		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
 	}
 

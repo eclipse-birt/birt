@@ -67,6 +67,7 @@ data.engine.DupColumnName=Doppelter Spaltenname: {0}.
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}.
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}.
 data.engine.fail.prepareExecution=Abfrageausführung konnte nicht vorbereitet werden für Datensatz: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abgleichen der Zeichenfolge mit dem Muster: {0}.
 

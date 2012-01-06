@@ -67,6 +67,7 @@ data.engine.DupColumnName=重复的列名称: {0}。
 data.engine.DupAlias=重复的列名称或别名: {0}。
 data.engine.InvalidFieldIndex=无效的字段索引: {0}。
 data.engine.fail.prepareExecution=无法为数据集准备查询执行: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0}。
 

@@ -67,6 +67,7 @@ data.engine.DupColumnName=列名が重複しています : {0}
 data.engine.DupAlias=列名またはエイリアスが重複しています : {0}
 data.engine.InvalidFieldIndex=フィールドのインデックスが無効です : {0}
 data.engine.fail.prepareExecution=データセットにクエリの実行を準備できません : {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=パターンの構文を確認してください。文字列とパターンを照合中にエラーが発生しました : {0}
 
