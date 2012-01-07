@@ -450,8 +450,7 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	protected void setStateOfTitle( )
 	{
-		boolean isTitleEnabled = getAxisForProcessing( ).getTitle( )
-				.isVisible( );
+		boolean isTitleEnabled = isTitleEnabled( );
 		txtTitle.setEnabled( isTitleEnabled );
 		setToggleButtonEnabled( BUTTON_TITLE, isTitleEnabled );
 	}

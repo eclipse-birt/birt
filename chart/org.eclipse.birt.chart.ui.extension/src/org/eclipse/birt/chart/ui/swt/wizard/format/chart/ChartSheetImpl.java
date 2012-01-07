@@ -111,11 +111,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 	private AxisRotationChooser zChooser;
 
-	private ChartSpinner spnCorverage;
+	protected ChartSpinner spnCorverage;
 
 	private ChartCheckbox btnStudyLayout;
 
-	private static final int DEFAULT_COVERAGE = 50;
+	protected static final int DEFAULT_COVERAGE = 50;
 	
 	public void createControl( Composite parent )
 	{
@@ -208,73 +208,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 
-		if ( ( getChart( ) instanceof ChartWithAxes ) && is3DEnabled( ) )
-		{
-			Group cmpRotation = new Group( cmp3D, SWT.NONE );
-			{
-				GridLayout gl = new GridLayout( );
-				gl.marginTop = 0;
-				gl.verticalSpacing = 0;
-				cmpRotation.setLayout( gl );
-				cmpRotation.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-				cmpRotation.setText( Messages.getString( "ChartLegendImpl.Group.Rotation" ) ); //$NON-NLS-1$
-			}
-
-			xChooser = new AxisRotationChooser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
-					AngleType.X );
-			xChooser.placeComponents( cmpRotation );
-
-			yChooser = new AxisRotationChooser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
-					0 ),
-					AngleType.Y );
-			yChooser.placeComponents( cmpRotation );
-
-			zChooser = new AxisRotationChooser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
-					AngleType.Z );
-			zChooser.placeComponents( cmpRotation );
-
-			btnResetValue = new Button( cmpRotation, SWT.PUSH );
-			{
-				btnResetValue.setText( Messages.getString( "ChartSheetImpl.Label.ResetValue" ) ); //$NON-NLS-1$
-				btnResetValue.setSelection( ChartPreviewPainterBase.isProcessorEnabled( ) );
-				btnResetValue.addSelectionListener( this );
-			}
-		}
-		else if ( getChart( ) instanceof ChartWithoutAxes )
-		{
-			ChartWithoutAxes cwa = (ChartWithoutAxes) getChart( );
-
-			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Coverage" ) ); //$NON-NLS-1$
-
-			Composite cmpCoverage = new Composite( cmpBasic, SWT.NONE );
-			{
-				cmpCoverage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-				GridLayout layout = new GridLayout( 2, false );
-				layout.verticalSpacing = 0;
-				layout.marginHeight = 0;
-				layout.marginWidth = 0;
-				cmpCoverage.setLayout( layout );
-			}
-
-			spnCorverage = getContext( ).getUIFactory( )
-					.createChartSpinner( cmpCoverage,
-							SWT.BORDER,
-							cwa,
-							"coverage", //$NON-NLS-1$
-							true,
-							null,
-							"%" ); //$NON-NLS-1$
-			spnCorverage.setRatio( 100 );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 3;
-			spnCorverage.setLayoutData( gd );
-			int spnValue = (int) ( cwa.getCoverage( ) * 100 );
-			if ( !cwa.isSetCoverage( ) )
-			{
-				spnValue = DEFAULT_COVERAGE;
-			}
-			spnCorverage.getWidget( ).setValues( spnValue, 1, 100, 0, 1, 10 );
-		}
+		createAngleChooserComposite( cmp3D );
+		createCoverageComposite( cmpBasic );
 
 		btnEnable = getContext( ).getUIFactory( )
 				.createChartCheckbox( cmpBasic,
@@ -311,6 +246,85 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 		populateLists( );
 		createButtonGroup( cmpContent );
+	}
+
+	protected void createCoverageComposite( Composite cmpBasic )
+	{
+		if ( !( getChart( ) instanceof ChartWithoutAxes ) )
+		{
+			return;
+		}
+		
+		ChartWithoutAxes cwa = (ChartWithoutAxes) getChart( );
+
+		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Coverage" ) ); //$NON-NLS-1$
+
+		Composite cmpCoverage = new Composite( cmpBasic, SWT.NONE );
+		{
+			cmpCoverage.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			GridLayout layout = new GridLayout( 2, false );
+			layout.verticalSpacing = 0;
+			layout.marginHeight = 0;
+			layout.marginWidth = 0;
+			cmpCoverage.setLayout( layout );
+		}
+
+		spnCorverage = getContext( ).getUIFactory( )
+				.createChartSpinner( cmpCoverage,
+						SWT.BORDER,
+						cwa,
+						"coverage", //$NON-NLS-1$
+						true,
+						null,
+						"%" ); //$NON-NLS-1$
+		spnCorverage.setRatio( 100 );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		spnCorverage.setLayoutData( gd );
+		int spnValue = (int) ( cwa.getCoverage( ) * 100 );
+		if ( !cwa.isSetCoverage( ) )
+		{
+			spnValue = DEFAULT_COVERAGE;
+		}
+		spnCorverage.getWidget( ).setValues( spnValue, 1, 100, 0, 1, 10 );
+	}
+
+	protected void createAngleChooserComposite( Composite cmp3D )
+	{
+		if ( !( ( getChart( ) instanceof ChartWithAxes ) && is3DEnabled( ) ) )
+		{
+			return;
+		}
+		
+		Group cmpRotation = new Group( cmp3D, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( );
+			gl.marginTop = 0;
+			gl.verticalSpacing = 0;
+			cmpRotation.setLayout( gl );
+			cmpRotation.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			cmpRotation.setText( Messages.getString( "ChartLegendImpl.Group.Rotation" ) ); //$NON-NLS-1$
+		}
+
+		xChooser = new AxisRotationChooser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
+				AngleType.X );
+		xChooser.placeComponents( cmpRotation );
+
+		yChooser = new AxisRotationChooser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
+				0 ),
+				AngleType.Y );
+		yChooser.placeComponents( cmpRotation );
+
+		zChooser = new AxisRotationChooser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
+				AngleType.Z );
+		zChooser.placeComponents( cmpRotation );
+
+		btnResetValue = new Button( cmpRotation, SWT.PUSH );
+		{
+			btnResetValue.setText( Messages.getString( "ChartSheetImpl.Label.ResetValue" ) ); //$NON-NLS-1$
+			btnResetValue.setSelection( ChartPreviewPainterBase.isProcessorEnabled( ) );
+			btnResetValue.addSelectionListener( this );
+		}
 	}
 
 	protected void createAltMsgComposite( Composite cmpBasic )
