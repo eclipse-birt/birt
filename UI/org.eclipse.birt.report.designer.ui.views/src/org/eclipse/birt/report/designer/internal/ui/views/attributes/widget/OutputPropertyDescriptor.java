@@ -82,7 +82,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 				{
 					try
 					{
-						outputDescriptorProvider.clearProperty( );
+						outputDescriptorProvider.emptyProperty( );
 					}
 					catch ( Exception e1 )
 					{
@@ -471,6 +471,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 				if ( outputDescriptorProvider.isFormatTypeAll( format ) )
 				{
 					allRadio.setSelection( true );
+					allRadio.forceFocus();
 					allExpression.setExpression( expression );
 					specRadio.setSelection( false );
 					break;

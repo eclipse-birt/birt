@@ -121,5 +121,13 @@ public class OutputSection extends Section
 			output.getControl( ).setVisible( isVisable );
 
 	}
+	
+	public void reset( )
+	{
+		if ( output != null && !output.getControl( ).isDisposed( ) )
+		{
+			output.reset( );
+		}
+	}
 
 }
