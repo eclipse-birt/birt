@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * Format number attribute page for formatting numbers.
  */
 
-public class FormatNumberAttributePage extends AttributePage
+public class FormatNumberAttributePage extends ResetAttributePage
 {
 
 	IFormatPage formatPage;

@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * Format string sttribute page for formatting strings.
  */
 
-public class FormatStringAttributePage extends AttributePage
+public class FormatStringAttributePage extends ResetAttributePage
 {
 
 	private FormatStringDescriptorProvider provider;

@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * Format date time attribute page for formatting date and times.
  */
 
-public class FormatDateTimeAttributePage extends AttributePage
+public class FormatDateTimeAttributePage extends ResetAttributePage
 {
 	private FormatDateTimeSection formatSection;
 	private FormatDataTimeDescriptorProvider provider;
