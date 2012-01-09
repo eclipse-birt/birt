@@ -740,15 +740,13 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			if ( selectedAxisType != null )
 			{
 				getAxisForProcessing( ).setType( axisType );
+			}
 
-				if ( btnCategoryAxis != null )
-				{
-					boolean disableCategoryAxisUI = AxisType.TEXT_LITERAL.equals( axisType );
-					getAxisForProcessing( ).setCategoryAxis( disableCategoryAxisUI );
-					btnCategoryAxis.setSelectionState( ChartCheckbox.STATE_SELECTED );
-					updateCategoryAxisUI( !disableCategoryAxisUI );
-					updateReverseStateByCategoryAxisUI( );
-				}
+			if ( btnCategoryAxis != null )
+			{
+				boolean disableCategoryAxisUI = ( selectedAxisType != null && AxisType.TEXT_LITERAL.equals( axisType ) );
+				updateCategoryAxisUI( !disableCategoryAxisUI );
+				updateReverseStateByCategoryAxisUI( );
 			}
 			// Update popup UI
 			refreshPopupSheet( );
@@ -895,7 +893,6 @@ public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	{
 		int state = btnCategoryAxis.getSelectionState( );
 		boolean enabledUI = getContext().getUIFactory( ).canEnableUI( btnCategoryAxis );
-		btnReverse.setEnabled( enabledUI );
 		updateReverseUI( enabledUI );
 		if ( state == ChartCheckbox.STATE_GRAYED )
 		{
