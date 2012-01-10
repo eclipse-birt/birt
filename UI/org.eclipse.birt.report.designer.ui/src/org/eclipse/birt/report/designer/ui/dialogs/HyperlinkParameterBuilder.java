@@ -52,6 +52,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 	public static final String TARGET_REPORT = "TargetReport"; //$NON-NLS-1$
 	public static final String PARAMETER_HANDLE = "ParameterHandle"; //$NON-NLS-1$
 	public static final String PARAMETER_VALUE = "ParameterValue"; //$NON-NLS-1$
+	public static final String HYPERLINK_EXPRESSIONPROVIDER = "HyperlinkExpressionProvider";//$NON-NLS-1$
+	public static final String HYPERLINK_EXPRESSIONCONTEXT = "HyperlinkExpressionContext";//$NON-NLS-1$
 	private String[] items;
 	private Combo paramChooser;
 	private HyperlinkBuilder hyperlinkBuilder;
@@ -261,6 +263,9 @@ public class HyperlinkParameterBuilder extends BaseDialog
 							HYPERLINK_PARAMETER );
 					if ( helper != null )
 					{
+						helper.setProperty( HYPERLINK_EXPRESSIONPROVIDER,
+								hyperlinkBuilder.getExpressionProvider( ) );
+						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle );
 						helper.createContent( parent );
 						return helper;
 					}
