@@ -123,7 +123,7 @@ public class FactTableAccessor
 		}
 		
 		int[] dimensionPosition = new int[dimensions.length];
-		DocumentObjectCache documentObjectManager = new DocumentObjectCache( documentManager );
+		DocumentObjectCache documentObjectManager = new DocumentObjectCache( documentManager, (long) ( memoryCacheSize* 0.25 ) );
 		CombinedPositionContructor combinedPositionCalculator = new CombinedPositionContructor( subDimensions );
 		
 		FTSUNameSaveHelper saveHelper = new FTSUNameSaveHelper( documentManager, factTableName );
@@ -600,7 +600,7 @@ public class FactTableAccessor
 		int measureSize = getObjectSize( measureColumnType );
 		
 		int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
-		return (int) ( memoryCacheSize / rowSize );
+		return (int) ( ( memoryCacheSize * 0.75 )/ rowSize );
 	}
 
 	/**

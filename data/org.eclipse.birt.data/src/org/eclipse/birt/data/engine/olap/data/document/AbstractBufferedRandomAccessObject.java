@@ -40,7 +40,6 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 {
 	private static Logger logger = Logger.getLogger( AbstractBufferedRandomAccessObject.class.getName( ) );
 	protected FileBufferStruct currBuf;
-	protected FileBufferStruct altBuf;
 
 
 	/**
@@ -65,12 +64,10 @@ public abstract class AbstractBufferedRandomAccessObject implements IRandomDataA
 		}
 		
 		currBuf = new FileBufferStruct( );
-		altBuf = new FileBufferStruct( );
-		currBuf.bytes = new byte[bufferSize];
+		//set the buffer size as 8k for default
+		currBuf.bytes = new byte[8192];
 		
 		currBuf.modified = false;
-		altBuf.bytes = new byte[bufferSize];
-		altBuf.filePos = -1;
 	}
 
 	/**
