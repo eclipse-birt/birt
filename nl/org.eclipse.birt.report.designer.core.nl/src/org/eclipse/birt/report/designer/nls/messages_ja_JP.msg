@@ -1009,6 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=オプションでインライン式を含むテキ
 DesignerPaletteFactory.quicktool.title=クイックツール
 DesignerPaletteFactory.quicktool.agg.title=集計
 DesignerPaletteFactory.quicktool.agg.toolTip=集計項目の挿入
+DesignerPaletteFactory.quicktool.timeperiod.title=相対期間
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod 項目の挿入
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -2001,9 +2003,9 @@ HighlightsPage.trans.MoveDown=ハイライトの規則を下に移動
 HighlightsPage.trans.MoveUp=ハイライトの規則を上に移動
 HighlightsPage.toolTipText.MoveDown=ハイライトの規則を下に移動
 HighlightsPage.toolTipText.MoveUp=ハイライトの規則を上に移動
-HighlightsPage.label.duplicate=Duplicate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.label.duplicate=重複(&C)
+HighlightsPage.toolTipText.duplicate=ハイライトの規則の複製
+HighlightsPage.trans.Duplicate=ハイライトの規則の複製
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2497,9 +2499,9 @@ MapPage.transName.moveDownRule=マップ規則を下に移動
 MapPage.transName.moveUpMapRule=マップ規則を上に移動
 MapPage.toolTipText.moveUp=マップの規則を上に移動
 MapPage.toolTipText.moveDown=マップの規則を下に移動
-MapPage.label.duplicate=Duplicate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.label.duplicate=重複(&C)
+MapPage.toolTipText.duplicate=マップ規則の複製
+MapPage.transName.Duplicate=マップ規則の複製
 
 ###########################################################
 #MapPreferencePage properties
@@ -4471,6 +4473,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=はい
 DataColumnBindingDialog.NewBindingDialogButtonNo=いいえ
 DataColumnBindingDialog.NewBindingDialogButtonCancel=キャンセル
 DataColumnBindingDialog.NewBindingDialogTitle=データバインドの新規作成
+DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod ビルダ
 DataColumBindingDialog.stackMsg.resetReference=参照のリセット
 
 ###########################################################
@@ -4614,6 +4617,7 @@ BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。
 BindingDialogHelper.error.improperexpression=キューブのメジャーに対する集計ではこの型は使用できません : "{0}"
+BindingDialogHelper.error.empty={0} を指定してください。
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
 BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?
@@ -4630,6 +4634,14 @@ ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=すべて
+CrosstabBindingDialogHelper.bindngName.timeperiod=期間
+CrosstabBindingDialogHelper.calculation.labe=計算の種類(&L) :
+CrosstabBindingDialogHelper.recentday.description=時間のディメンション内の最新の日付
+CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
+CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
+CrosstabBindingDialogHelper.timedimension.label=時間のディメンション(&M) :
+CrosstabBindingDialogHelper.timeperiod.wrongdate=このディメンションは最近の参照日をサポートしていません 
+CrosstabBindingDialogHelper.today.label=今日
 
 AddEditCascadingParameterDialog.label.name=名前(&N) :
 AddEditCascadingParameterDialog.label.dataset=データセット(&D) :
@@ -4813,8 +4825,8 @@ ReloadImageAction.Text=イメージの再ロード(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=変数の新規作成
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=変数の新規作成(&N)
+VariablesNodeProvider.Dialog.Title=新規変数
 VariablesNodeProvider.NodeName=変数
 
 ###########################################################

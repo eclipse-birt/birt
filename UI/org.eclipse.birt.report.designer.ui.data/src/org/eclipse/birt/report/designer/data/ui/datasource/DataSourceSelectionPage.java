@@ -390,17 +390,16 @@ public class DataSourceSelectionPage extends WizardPage
         try
         {
             if ( m_designSession == null )
-            {
-                ResourceIdentifiers designResourceIds =
+                m_designSession = DataSourceDesignSession.startNewDesignFromProfile();
+
+            ResourceIdentifiers designResourceIds =
                     DesignFactory.eINSTANCE.createResourceIdentifiers();
                 designResourceIds.setApplResourceBaseURI( DTPUtil.getInstance().getBIRTResourcePath() );
                 designResourceIds.setDesignResourceBaseURI( DTPUtil.getInstance().getReportDesignPath() );
+            m_designSession.setUseProfileSelectionPage( true, designResourceIds );
 
-                m_designSession = DataSourceDesignSession.startNewDesignFromProfile( designResourceIds );
-            }
             m_designSession.setDesignNameValidator( 
                     new DataSourceDesignNameValidator() );
-            m_designSession.setUseProfileSelectionPage( true );
             return m_designSession.getWizardStartingPage( );
         }
         catch( OdaException e )

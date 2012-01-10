@@ -622,8 +622,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( type == IContentOutlinePage.class )
 		{
-			Object adapter = getOutlinePage( );
-			updateOutLineView( getActivePageInstance( ) );
+			/*
+			 * Update the logic under eclipse 3.7, eclipse always call the getAdapter(OutlinePage) when handle the ShellActive event.
+			 * So we don't need to call updateOutLineView every time, only call it when new a outline page. 
+			 */
+			boolean update = outlinePage == null || outlinePage.isDisposed();
+			Object adapter = getOutlinePage();
+			if (update) {
+				updateOutLineView(getActivePageInstance());
+			}
 			return adapter;
 		}
 
@@ -758,6 +765,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return attributePage;
 	}
 
+	/**
+	 * If new a outline page, should call updateOutLineView(
+	 * getActivePageInstance( ) ) method at first.
+	 * 
+	 * @Since 3.7.2
+	 * 
+	 */
 	public Object getOutlinePage( )
 	{
 		if ( outlinePage == null || outlinePage.isDisposed( ) )

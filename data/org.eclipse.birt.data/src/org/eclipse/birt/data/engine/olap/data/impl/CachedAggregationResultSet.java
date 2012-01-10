@@ -542,4 +542,13 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		this.ad = ad;
 	}
 	
+	public IDiskArray getAggregationResultRows( )
+	{
+		return this.aggregationResultRow;
+	}
+	
+	public void setAggregationResultRows( IDiskArray rows)
+	{
+		this.aggregationResultRow = rows;
+	}
 }

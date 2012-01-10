@@ -7,4 +7,4 @@ datasource.upgrade.msg.firstLine=La source de données ({0}) utilisée par ce jeu 
 datasource.upgrade.msg.secondLine=Sa définition doit être mise à jour. \n\nSélectionnez OK pour mettre à jour la source de données {0} maintenant. 
 datasource.upgrade.msg.thirdLine=Ensuite, vous devez ouvrir à nouveau cet éditeur de jeu de données.
 datasource.propertyPage.tooltip=Source de données HIVE
-datasource.addfile=Ajouter une instruction de fichier
+datasource.addfile=Instruction « Ajouter un fichier »

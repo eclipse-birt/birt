@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 
 /**
  * 
@@ -23,10 +24,20 @@ public class CubeAggrDefnOnMeasure extends CubeAggrDefn
 {
 	private String measure;
 	
-	public CubeAggrDefnOnMeasure( String name, String measure, List aggrLevels, String aggrName,
+	/**
+	 * For time function 
+	 * @param name
+	 * @param measure
+	 * @param aggrLevels
+	 * @param aggrName
+	 * @param timeFunctionName
+	 * @param arguments
+	 * @param filterExpression
+	 */
+	public CubeAggrDefnOnMeasure( String name, String measure, List aggrLevels, String aggrName, ITimeFunction timeFunciton,
 			List arguments, IBaseExpression filterExpression )
 	{
-		super( name, aggrLevels, aggrName, arguments, filterExpression );
+		super( name, aggrLevels, aggrName, timeFunciton, arguments, filterExpression );
 		this.measure = measure;
 	}
 

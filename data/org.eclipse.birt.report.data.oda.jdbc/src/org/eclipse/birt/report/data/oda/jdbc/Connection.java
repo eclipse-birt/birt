@@ -51,7 +51,7 @@ public class Connection implements IConnection
 	// TODO: externalize
 	private static final String advancedDataType = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
 
-	private Map appContext;
+	protected Map appContext;
 	
 	private Boolean autoCommit = null;
 	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
@@ -62,7 +62,7 @@ public class Connection implements IConnection
 	{
 		return ( jdbcConn != null );
 	}
-
+	
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
 	 */
@@ -568,6 +568,7 @@ public class Connection implements IConnection
 		public static final String TRANSACTION_REPEATABLE_READ = "repeatable-read";
 		public static final String TRANSACTION_SERIALIZABLE = "serializable";
 		public static final String CONNECTION_PROPERTIES_STR = "connectionProperties";
+		public static final String ODAResourceIdentiers = "odaResourceIdentifiers";
 		
 		public static int getIsolationMode( String value )
 		{

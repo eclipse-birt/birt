@@ -1,0 +1,6 @@
+year month week-of-month week-of-year 
+2011 12 4 52 
+year month week-of-month week-of-year 
+2012 1 1 1 
+year month week-of-month week-of-year 
+2012 1 2 2 

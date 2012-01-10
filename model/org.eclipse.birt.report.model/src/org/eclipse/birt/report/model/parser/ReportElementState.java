@@ -528,8 +528,9 @@ public abstract class ReportElementState extends DesignParseState
 				}
 				else
 				{
+					//needn't fire error, since old report may be serialized to report document, and the version is the latest
 					handler.getErrorHandler( )
-							.semanticError(
+							.semanticWarning(
 									new NameException(
 											content,
 											name,

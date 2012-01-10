@@ -62,7 +62,7 @@ public class GroupInformationUtil
 	 * 5: 										3,7
 	 */
 
-	private List[] groups;
+	private List<GroupInfo>[] groups;
 	// index of the current innermost group
 	private int leafGroupIdx = -1;
 
@@ -82,6 +82,33 @@ public class GroupInformationUtil
 		this.tempDir = this.groupCalculationUtil.getResultSetPopoulator( ).getSession( ).getTempDir( );
 		this.groups = new List[0];
 		this.session = session;
+	}
+	
+	/**
+	 * @return An array of <code>GroupInfo</code> ordered by level.
+	 *         <p>
+	 *         Each level has a list of <code>GroupInfo</code>.
+	 */
+	public List<GroupInfo>[] getGroups( )
+	{
+		return groups;
+	}
+	
+	/**
+	 * Set <code>GroupInfo</code>
+	 * <p>
+	 * Used when the updated <code>GroupInfo</code> should be set to this
+	 * utility.
+	 * 
+	 * @param groups
+	 *            An array of <code>GroupInfo</code> ordered by level.
+	 */
+	public void setGroups( List<GroupInfo>[] groups )
+	{
+		for ( List<GroupInfo> grp : this.groups )
+			grp.clear( );
+		this.groups = groups;
+		leafGroupIdx = 0;
 	}
 
 	/**

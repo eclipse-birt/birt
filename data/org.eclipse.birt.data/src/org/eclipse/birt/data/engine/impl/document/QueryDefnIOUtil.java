@@ -160,7 +160,7 @@ public class QueryDefnIOUtil
 					ExprUtil.saveBaseExpr( dos,
 							( (IBinding) entry.getValue( ) ).getExpression( ) );
 				else
-					BindingIOUtil.saveBinding( dos, (IBinding) entry.getValue( ) );
+					BindingIOUtil.saveBinding( dos, (IBinding) entry.getValue( ), version );
 			}
 		}
 		
@@ -343,7 +343,7 @@ public class QueryDefnIOUtil
 				exprMap.put( exprName, new Binding( exprName,
 						ExprUtil.loadBaseExpr( dis ) ) );
 			else
-				exprMap.put( exprName, BindingIOUtil.loadBinding( dis ));
+				exprMap.put( exprName, BindingIOUtil.loadBinding( dis, version ) );
 		}
 
 		return exprMap;

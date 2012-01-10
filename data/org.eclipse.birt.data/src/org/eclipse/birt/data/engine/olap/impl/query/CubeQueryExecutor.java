@@ -81,9 +81,9 @@ public class CubeQueryExecutor
 	private List<IAggrMeasureFilterEvalHelper> aggrMeasureFilterEvalHelpers;
 	private List<IJSFacttableFilterEvalHelper> advancedFacttableBasedFilterEvalHelper;
 	
-	private static final int DIMENSION_FILTER = 0;
-	private static final int AGGR_MEASURE_FILTER = 1;
-	private static final int FACTTABLE_FILTER = 2;
+	public static final int DIMENSION_FILTER = 0;
+	public static final int AGGR_MEASURE_FILTER = 1;
+	public static final int FACTTABLE_FILTER = 2;
 	/**
 	 * 
 	 * @param outResults
@@ -291,6 +291,11 @@ public class CubeQueryExecutor
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
+			if ( !filter.updateAggregation( ) )
+			{
+				if ( ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE ).size()>0 )
+					continue;
+			}
 			switch ( this.getFilterType( filter, dimLevelInCubeQuery ))
 			{ 
 				case CubeQueryExecutor.DIMENSION_FILTER:
@@ -343,7 +348,7 @@ public class CubeQueryExecutor
 		}		
 	}
 
-	private int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException
+	public int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException
 	{
 		if(! (filter instanceof ICubeFilterDefinition))
 		{
@@ -484,7 +489,7 @@ public class CubeQueryExecutor
 		return this.advancedFacttableBasedFilterEvalHelper;
 	}
 
-	private Set<DimLevel> getDimLevelsDefinedInCubeQuery( )
+	public Set<DimLevel> getDimLevelsDefinedInCubeQuery( )
 	{
 		Set<DimLevel> dimLevelDefinedInCube = new HashSet<DimLevel>();
 		populateDimLevelInEdge( dimLevelDefinedInCube, ICubeQueryDefinition.COLUMN_EDGE );

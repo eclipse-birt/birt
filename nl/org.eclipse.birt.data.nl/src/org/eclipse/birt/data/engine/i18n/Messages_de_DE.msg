@@ -67,6 +67,7 @@ data.engine.DupColumnName=Doppelter Spaltenname: {0}.
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}.
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}.
 data.engine.fail.prepareExecution=Abfrageausführung konnte nicht vorbereitet werden für Datensatz: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abgleichen der Zeichenfolge mit dem Muster: {0}.
 
@@ -413,8 +414,8 @@ data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Qua
 data.olap.FailLoadCube=Fehler beim Laden von Quader: '{0}'.
 data.olap.MissingDimensionInCube=Der Quader muss mindestens eine Dimension enthalten: '{0}'
 data.olap.ExceedIntegerLimit= Die Länge des Ergebnissatzes überschreitet Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedColumnLimit= Die Länge des Ergebnissatzes bis zum Spaltenrand überschreitet die maximale Größe {0}.
+data.olap.ExceedRowLimit= Die Länge des Ergebnissatzes bis zum Zeilenrand überschreitet die maximale Größe {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code

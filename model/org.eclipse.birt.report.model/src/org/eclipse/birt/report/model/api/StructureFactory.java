@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -654,5 +655,15 @@ public class StructureFactory
 	public static FormatValue newFormatValue( )
 	{
 		return new FormatValue( );
+	}
+
+	/**
+	 * Creates a new calculation argument structure.
+	 * 
+	 * @return the calculation argument created
+	 */
+	public static CalculationArgument createCalculationArgument( )
+	{
+		return new CalculationArgument( );
 	}
 }

@@ -66,11 +66,13 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.CubeCreationQueryDefinition;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.MemoryUsageSetting;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -94,6 +96,7 @@ import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -139,7 +142,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private DataEngineImpl dataEngine;
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
-	private Map cubeHandleMap;
+	private Map cubeHandleMap, cubeMetaDataHandleMap;
 
 	private Map<ReportElementHandle, QueryDefinition> cubeQueryMap = new HashMap<ReportElementHandle, QueryDefinition>();
 	private Map<ReportElementHandle, List<ColumnMeta>> cubeMetaMap = new HashMap<ReportElementHandle, List<ColumnMeta>>();
@@ -184,6 +187,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
+		cubeMetaDataHandleMap = new HashMap( );
 		createdDimensions = new HashMap<String, IDimension>( );
 		if( sessionContext!= null )
 		{
@@ -680,6 +684,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
 		CubeHandleUtil.defineCube( dataEngine, cubeHandle, this.sessionContext.getAppContext( ) );
+		this.cubeMetaDataHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
 
 		ICubeInterceptor cubeInterceptor = CubeInterceptorFinder.find( cubeHandle );
 		if ( cubeInterceptor != null )
@@ -802,7 +807,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 			for ( int j = 0; j < measures.size( ); j++ )
 			{
 				MeasureHandle measure = (MeasureHandle) measures.get( j );
-				measureNames.add( measure.getName( ) );
+				if( !measure.isCalculated( ) )
+				{
+					measureNames.add( measure.getName( ) );				
+				}
 			}
 		}
 
@@ -1610,11 +1618,112 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Map appContext ) throws BirtException
 	{
 		refactorCubeQueryDefinition( query );
+		populateMeasureDefinitionForCalculateMeasures( query );
+		setMeasureDataTypeForCubeQuery ( query );
 		QueryAdapter.adaptQuery( query );
+		
+		CubeHandle cubeHandle = null;
+		if ( this.cubeMetaDataHandleMap != null
+				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+		{
+			cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+		}
+		QueryValidator.validateTimeFunctionInCubeQuery( query, cubeHandle );
+		
 		dataEngine.getSession( ).getStopSign( ).start( );
 		setModuleHandleToAppContext( appContext );
 
 		return this.dataEngine.prepare( query, appContext );
+	}
+	
+	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws DataException, AdapterException
+	{	
+		List calculatedMeasures = query.getDerivedMeasures( );
+		List measures = query.getMeasures( );
+		List measureNameList = new ArrayList( );
+		for ( int i = 0; i < measures.size( ); i++ )
+		{
+			measureNameList.add( ( (IMeasureDefinition) measures.get( i ) ).getName( ));
+		}
+		List derivedMeasureNameList = new ArrayList();
+		for ( int i = 0 ; i < calculatedMeasures.size( );i++)
+		{
+			derivedMeasureNameList.add( ( (IDerivedMeasureDefinition) calculatedMeasures.get( i ) ).getName( ) );
+		}
+		
+		//populate all calculated measure in cube query.
+		if ( this.cubeMetaDataHandleMap != null
+				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+		{
+			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+			for ( int i = 0; i < measureGroups.size( ); i++ )
+			{
+				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
+				List measureGroup = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
+				for ( int j = 0; j < measureGroup.size( ); j++ )
+				{
+					MeasureHandle measure = (MeasureHandle) measureGroup.get( j );
+					if( measure.isCalculated( ) && !derivedMeasureNameList.contains( measure.getName( ) ) )
+					{
+						derivedMeasureNameList.add( measure.getName( ) );
+						query.createDerivedMeasure( measure.getName( ),
+								DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ),
+								modelAdaptor.adaptExpression( (Expression) measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP )
+										.getValue( ),
+										ExpressionLocation.CUBE ));
+					}
+				}
+			}
+		}
+		
+		calculatedMeasures = query.getDerivedMeasures( );
+		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
+			return;
+		
+		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
+		{
+			IDerivedMeasureDefinition dmd = (IDerivedMeasureDefinition) calculatedMeasures.get( i );
+			List measureNames = ExpressionCompilerUtil.extractColumnExpression( dmd.getExpression( ),
+					ExpressionUtil.MEASURE_INDICATOR );
+			for ( int j = 0; j < measureNames.size( ); j++ )
+			{
+				if ( !measureNameList.contains( measureNames.get( j ).toString( ) )
+						&& !derivedMeasureNameList.contains( measureNames.get( j )
+								.toString( ) ) )
+				{
+					IMeasureDefinition md = query.createMeasure( measureNames.get( j )
+							.toString( ) );
+					if ( this.cubeMetaDataHandleMap != null
+							&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+					{
+						CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+						MeasureHandle measureHandle = cubeHandle.getMeasure( measureNames.get( j )
+								.toString( ) );
+						md.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) ) );
+					}
+				}
+			}
+		}
+	}
+	
+	private void setMeasureDataTypeForCubeQuery( ICubeQueryDefinition query )
+	{
+		List measures = query.getMeasures( );
+
+		if ( this.cubeMetaDataHandleMap != null
+				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
+		{
+			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+
+			for ( int i = 0; i < measures.size( ); i++ )
+			{
+				IMeasureDefinition measureDef = ( IMeasureDefinition ) measures.get( i );
+				MeasureHandle measureHandle = cubeHandle.getMeasure( measureDef.getName( ) );
+				if ( measureHandle != null )
+					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
+			}
+		}
 	}
 
 	private void refactorCubeQueryDefinition( ICubeQueryDefinition query )
@@ -2103,6 +2212,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				for ( int j = 0; j < measures.size( ); j++ )
 				{
 					MeasureHandle measure = (MeasureHandle) measures.get( j );
+					if( measure.isCalculated( ) )
+					{
+						continue;
+					}
 					String function = measure.getFunction( );
 					String exprText = measure.getMeasureExpression( );
 					ExpressionHandle measureExprHandle = measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP );

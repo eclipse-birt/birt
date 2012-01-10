@@ -57,8 +57,8 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 			return null;
 		try
 		{
-			Base64 base64 = new Base64( );
-			byte[] data = base64.encode( string.getBytes( CHARSET ) );
+			Base64 codec = new Base64( );
+			byte[] data = codec.encode( string.getBytes( CHARSET ) );
 			if ( data == null )
 				return null;
 			return new String( data, CHARSET );
@@ -85,8 +85,8 @@ public class SimpleEncryptionHelper implements IEncryptionHelper
 			return null;
 		try
 		{
-			Base64 base64 = new Base64( );
-			byte[] data = base64.decode( string.getBytes( CHARSET ) );
+			Base64 codec = new Base64( );
+			byte[] data = codec.decode( string.getBytes( CHARSET ) );
 			if ( data == null )
 				return null;
 

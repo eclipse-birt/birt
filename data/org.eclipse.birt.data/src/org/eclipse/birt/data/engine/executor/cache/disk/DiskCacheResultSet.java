@@ -32,7 +32,7 @@ class DiskCacheResultSet
 	private int dataCount;
 	
 	private DiskDataExport databaseExport;	
-	private ResultObjectUtil resultObjectUtil;
+	protected ResultObjectUtil resultObjectUtil;
 	
 	private IRowIterator rowIterator;
 	

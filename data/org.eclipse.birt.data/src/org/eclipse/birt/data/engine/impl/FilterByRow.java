@@ -31,14 +31,13 @@ import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.FilterUtil;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
 import com.ibm.icu.text.Collator;
 
 /**
  * Implementation of IFilter, which will do filtering on row data.
  */
-public class FilterByRow implements IResultObjectEvent
+public class FilterByRow implements IFilterByRow
 {
 
 	//
@@ -49,6 +48,7 @@ public class FilterByRow implements IResultObjectEvent
 	public static final int GROUP_FILTER = 5;
 	public static final int AGGR_FILTER = 6;
 	public static final int DATASET_AGGR_FILTER = 7;
+	public static final int NOUPDATE_ROW_FILTER = 8;
 
 	//
 	private FilterByRowHelper currentFilters;
@@ -58,9 +58,12 @@ public class FilterByRow implements IResultObjectEvent
 	private FilterByRowHelper groupFilters;
 	private FilterByRowHelper allRowFilters;
 	private FilterByRowHelper aggrFilters;
+	private FilterByRowHelper noUpdateRowFilters;
 
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
 
+	FilterByRow ( ){ }
+	
 	/**
 	 * 
 	 * @param dataSetFilters
@@ -68,8 +71,8 @@ public class FilterByRow implements IResultObjectEvent
 	 * @param dataSet
 	 * @throws DataException
 	 */
-	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters,
-			List aggrFilters, List dataSetAggrFilters, DataSetRuntime dataSet ) throws DataException
+	FilterByRow( List<IFilterDefinition> dataSetFilters, List<IFilterDefinition> queryFilters, List<IFilterDefinition> groupFilters,
+			List<IFilterDefinition> aggrFilters, List<IFilterDefinition> dataSetAggrFilters, List<IFilterDefinition> noUpdateRowFilters, DataSetRuntime dataSet ) throws DataException
 	{
 		Object[] params = {
 				dataSetFilters, queryFilters, groupFilters, dataSet
@@ -100,6 +103,12 @@ public class FilterByRow implements IResultObjectEvent
 			this.dataSetAggrFilters = new FilterByRowHelper( dataSet,
 					Mode.DataSet,
 					dataSetAggrFilters );
+		
+		if( noUpdateRowFilters!=null && noUpdateRowFilters.size( ) > 0 )
+			this.noUpdateRowFilters = new FilterByRowHelper( dataSet, 
+					Mode.Query,
+					noUpdateRowFilters);
+		
 		this.currentFilters = this.allRowFilters;
 
 		logger.exiting( FilterByRow.class.getName( ), "FilterByRow" );
@@ -152,6 +161,9 @@ public class FilterByRow implements IResultObjectEvent
 			case DATASET_AGGR_FILTER :
 				this.currentFilters = this.dataSetAggrFilters;
 				break;
+			case NOUPDATE_ROW_FILTER :
+				this.currentFilters = this.noUpdateRowFilters;
+				break;
 			default :
 				this.currentFilters = null;
 		}
@@ -194,6 +206,10 @@ public class FilterByRow implements IResultObjectEvent
 		else if ( DATASET_AGGR_FILTER == filterSetType )
 		{
 			return this.dataSetAggrFilters != null;
+		}
+		else if ( NOUPDATE_ROW_FILTER == filterSetType )
+		{
+			return this.noUpdateRowFilters != null;
 		}
 		else
 		{
@@ -255,6 +271,9 @@ public class FilterByRow implements IResultObjectEvent
 			case DATASET_AGGR_FILTER :
 				return this.dataSetAggrFilters != null ? this.dataSetAggrFilters.getFilters( )
 					: new ArrayList( );
+			case NOUPDATE_ROW_FILTER :
+				return this.noUpdateRowFilters != null ? this.noUpdateRowFilters.getFilters( )
+						: new ArrayList( );
 		
 			default :
 				return new ArrayList( );
@@ -273,7 +292,8 @@ public class FilterByRow implements IResultObjectEvent
 				&& filterSetType != QUERY_FILTER
 				&& filterSetType != GROUP_FILTER
 				&& filterSetType != AGGR_FILTER
-				&& filterSetType != DATASET_AGGR_FILTER )
+				&& filterSetType != DATASET_AGGR_FILTER 
+				&& filterSetType != NOUPDATE_ROW_FILTER )
 		{
 			assert false;
 		}
@@ -309,6 +329,7 @@ public class FilterByRow implements IResultObjectEvent
 			return this.currentFilters;
 		}
 
+		@SuppressWarnings("unchecked")
 		public boolean process( IResultObject row, int rowIndex )
 				throws DataException
 		{

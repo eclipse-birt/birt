@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -35,6 +36,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	private DimLevel[] levels;
 	private Map<String,Integer> aggregationResultNameMap = null;
 	private IDiskArray aggregationResultRows;
+	List<TimeResultRow> timeResultSet;
 	private int currentPosition;
 	private String[][] keyNames;
 	private String[][] attributeNames;
@@ -126,7 +128,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	private void setAggregationDataType( ) throws IOException
 	{
-		IAggregationResultRow resultObject = (IAggregationResultRow) aggregationResultRows.get( 0 );
+		IAggregationResultRow resultObject = null;
 		
 		for ( int i = 0; i < this.aggregationResultRows.size( ); i++ )
 		{
@@ -134,10 +136,7 @@ public class AggregationResultSet implements IAggregationResultSet
 			if( resultObject.getAggregationValues( ) == null )
 				continue;
 			boolean existUnknown = false;
-			if ( resultObject.getAggregationValues( ) == null )
-			{
-				continue;
-			}
+			
 			for ( int j = 0; j < resultObject.getAggregationValues( ).length; j++ )
 			{
 				if ( aggregationDataType[j] == DataType.UNKNOWN_TYPE )
@@ -154,6 +153,42 @@ public class AggregationResultSet implements IAggregationResultSet
 			}
 		}
 	}
+	
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private void setTimeDataType( ) throws IOException
+	{
+		TimeResultRow timeResultRow = null;
+		int[] timeAggregationDataType = null;
+		for ( int i = 0; i < this.timeResultSet.size( ); i++ )
+		{
+			timeResultRow = (TimeResultRow) timeResultSet.get( 0 );
+			if( timeResultRow.getValue( ) == null )
+				continue;
+			boolean existUnknown = false;
+			
+			if( timeAggregationDataType == null )
+				timeAggregationDataType = new int[timeResultRow.getValue( ).length];
+			
+			for ( int j = 0; j < timeResultRow.getValue( ).length; j++ )
+			{
+				if ( timeAggregationDataType[j] == DataType.UNKNOWN_TYPE )
+				{
+					if ( timeResultRow.getValue( )[j] != null )
+						timeAggregationDataType[j] = DataType.getDataType( timeResultRow.getValue( )[j].getClass( ) );
+					else
+						existUnknown = true;
+				}
+			}
+			if ( !existUnknown )
+			{
+				break;
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 */
@@ -360,6 +395,12 @@ public class AggregationResultSet implements IAggregationResultSet
 		}
 		currentPosition = index;
 		resultObject = (IAggregationResultRow) aggregationResultRows.get( index );
+		if( this.timeResultSet != null )
+		{
+			Object[] aggrValues = resultObject.getAggregationValues( );
+			Object[] tAggrValues = this.timeResultSet.get(currentPosition).getValue();
+			System.arraycopy( tAggrValues, 0, aggrValues, aggrValues.length - tAggrValues.length, tAggrValues.length );
+		}
 	}
 
 	/**
@@ -630,6 +671,12 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		aggregationResultRows.clear( );
 	}
+	
+	public void addTimeFunctionResultSet( List<TimeResultRow> timeResultSet ) throws IOException
+	{
+		this.timeResultSet = timeResultSet;
+		setTimeDataType( );
+	}
 
 	public int getAggregationCount( )
 	{
@@ -643,5 +690,15 @@ public class AggregationResultSet implements IAggregationResultSet
 			return aggregation.getAggregationFunctions( )[index].getName( );
 		}
 		return null;
+	}
+	
+	public IDiskArray getAggregationResultRows( )
+	{
+		return this.aggregationResultRows;
+	}
+	
+	public void setAggregationResultRows( IDiskArray rows)
+	{
+		this.aggregationResultRows = rows;
 	}
 }

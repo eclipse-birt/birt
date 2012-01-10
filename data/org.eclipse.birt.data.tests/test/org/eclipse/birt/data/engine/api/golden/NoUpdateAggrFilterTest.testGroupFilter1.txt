@@ -1,0 +1,7 @@
+*****A new Report Start!*****
+S:0 E:4 11    UK    England    London    10    4    3    3    499.0    true    
+S:4 E:4 17    UK    England    London    21    4    3    3    499.0    true    
+S:4 E:1 18    UK    England    London    22    4    3    3    499.0    true    
+S:1 E:3 9    US    California    Hollywood    20    6    5    1    499.0    false    
+S:3 E:0 10    US    California    San Francisco    30    6    5    1    499.0    false    
+

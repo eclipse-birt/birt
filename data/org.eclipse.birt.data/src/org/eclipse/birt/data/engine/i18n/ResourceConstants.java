@@ -66,6 +66,7 @@ public class ResourceConstants
 	public final static String DUPLICATE_ALIAS_NAME = "data.engine.DupAlias";
 	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
 	public final static String FAIL_PREPARE_EXECUTION = "data.engine.fail.prepareExecution";
+	public final static String GROUPUPDATE_ILLEGAL_GROUP_ORDER_STATE = "data.engine.groupIncrementalUpdate.IllegalGroupOrderState";
 
 	public final static String MATCH_ERROR = "data.engine.MatchError";
 

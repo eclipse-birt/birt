@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
-import org.eclipse.birt.data.engine.impl.FilterByRow;
+import org.eclipse.birt.data.engine.impl.IFilterByRow;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 
 /**
@@ -31,17 +31,17 @@ import org.eclipse.birt.data.engine.script.FilterPassController;
 class FilterCalculator
 {
 
-	private ResultSetPopulator populator;
-	private FilterByRow filterByRow;
-	private DataEngineSession session;
+	protected ResultSetPopulator populator;
+	protected IFilterByRow filterByRow;
+	protected DataEngineSession session;
 	/**
 	 * 
 	 * @param populator
 	 * @param iccState
 	 * @param filterByRow
 	 */
-	private FilterCalculator( ResultSetPopulator populator,
-			FilterByRow filterByRow)
+	protected FilterCalculator( ResultSetPopulator populator,
+			IFilterByRow filterByRow)
 	{
 		this.populator = populator;
 		this.filterByRow = filterByRow;
@@ -57,7 +57,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow )
+	static void applyFilters( ResultSetPopulator populator, IFilterByRow filterByRow )
 			throws DataException
 	{
 		new FilterCalculator( populator, filterByRow).applyFilters( );
@@ -67,7 +67,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void applyFilters( ) throws DataException
+	protected void applyFilters( ) throws DataException
 	{
 		FilterPassController filterPass = new FilterPassController( );
 		// Prepare filter expression for top/bottom(n) evaluation
@@ -96,7 +96,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doFiltering( FilterPassController filterPass )
+	protected void doFiltering( FilterPassController filterPass )
 			throws DataException
 	{
 		boolean needMultiPass = false;
@@ -136,7 +136,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void makeMultiPassToFilter( FilterPassController filterPass )
+	protected void makeMultiPassToFilter( FilterPassController filterPass )
 			throws DataException
 	{
 		int max = populator.getQuery( ).getMaxRows( );
@@ -153,6 +153,13 @@ class FilterCalculator
 		// Reset the smartCache and make cursor stay in first row.
 		sCache.reset( );
 		sCache.next( );
+		populator.getGroupProcessorManager( )
+				.getGroupCalculationUtil( )
+				.getGroupInformationUtil( )
+				.setLeaveGroupIndex( 0 );
+		populator.getGroupProcessorManager( )
+				.getGroupCalculationUtil( )
+				.setResultSetCache( sCache );
 
 		populator.getQuery( ).setMaxRows( max );
 		makeSecondPassToMultiPassFilter( filterPass );
@@ -178,7 +185,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void makeFirstPassToMultiPassFilter( FilterPassController filterPass )
+	protected void makeFirstPassToMultiPassFilter( FilterPassController filterPass )
 			throws DataException
 	{
 		filterPass.setForceReset( true );
@@ -189,12 +196,12 @@ class FilterCalculator
 		filterPass.setPassLevel( FilterPassController.FIRST_PASS );
 		filterPass.setRowCount( populator.getCache( ).getCount( ) );
 
-		List temp = new ArrayList( );
+		List<IFilterDefinition> temp = new ArrayList<IFilterDefinition>( );
 		temp.addAll( filterByRow.getFilterList( ) );
 		filterByRow.getFilterList( ).clear( );
 		for ( int i = 0; i < temp.size( ); i++ )
 		{
-			if ( FilterUtil.isFilterNeedMultiPass( (IFilterDefinition) temp.get( i ) ) )
+			if ( FilterUtil.isFilterNeedMultiPass( temp.get( i ) ) )
 			{
 				filterByRow.getFilterList( ).add( temp.get( i ) );
 			}
@@ -212,7 +219,7 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void makeSecondPassToMultiPassFilter(
+	protected void makeSecondPassToMultiPassFilter(
 			FilterPassController filterPass ) throws DataException
 	{
 		// Set pass level to second

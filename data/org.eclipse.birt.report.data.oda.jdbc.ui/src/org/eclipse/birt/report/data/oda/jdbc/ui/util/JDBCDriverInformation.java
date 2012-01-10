@@ -35,6 +35,7 @@ public final class JDBCDriverInformation
     private int minorVersion = 0;
     private String urlFormat = null;
     private String driverDisplayName = null;
+    private boolean hide = false;
     
     /**
      * Since factory methods are provided, it is recommended to make
@@ -155,6 +156,24 @@ public final class JDBCDriverInformation
 	 */
 	public void setDisplayName(String displayName){
 	    this.driverDisplayName = displayName;
+	}
+	
+	public boolean getHide( )
+	{
+		return hide;
+	}
+
+	public void setHide( String hide )
+	{
+		if ( hide != null )
+		{
+			this.hide = hide.equals( "true" ) ? true : false;
+		}
+	}
+
+	public void setHide( boolean flag )
+	{
+		this.hide = flag;
 	}
 	
     /*

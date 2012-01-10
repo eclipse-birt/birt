@@ -575,6 +575,14 @@ public class CachedResultSet implements IResultIterator
 	}
 	
 	/**
+	 * @return Aggregation values.
+	 */
+	public List<IAggrValueHolder> getAggrValueHolders( )
+	{
+		return this.aggrHolderManager.getAggrValueHolders( );
+	}
+	
+	/**
 	 * Clear the aggregation value holder for the re-calculation.
 	 * @throws DataException 
 	 */

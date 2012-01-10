@@ -117,13 +117,5 @@
             class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
             profile="%oda.data.source.id"/>
    </extension>
-   
-   <extension
-         point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
-      <jdbcDriver
-            driverClass="org.eclipse.birt.report.data.oda.hive.HiveDriver"
-            name="%jdbc.driver.name"
-            urlTemplate="jdbc:hive://localhost:10000/default"/>
-   </extension>
 
 </plugin>

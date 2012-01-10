@@ -730,6 +730,11 @@ Choices.filterConditionType.simple=Einfach
 Choices.flyoutPosition.left=Nach-links
 Choices.flyoutPosition.right=Rechts
 
+#94 referenceDateType
+Choices.referenceDateType.today=Heute
+Choices.referenceDateType.fixedDate=Festes Datum
+Choices.referenceDateType.endingDateInDimension=Enddatum in Dimension
+
 ###########################################################
 # Classes
 
@@ -1907,6 +1912,7 @@ Structure.ScriptLib=Skriptbibliothek
 Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
 Structure.DimensionJoinCondition=Dimensionsknotenpunkt-Bedingung
 Structure.FormatValue =Formatwert
+Structure.CalculationArgument=Berechnungsargument
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2037,6 +2043,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn-Funktion
 Structure.ComputedColumn.arguments=AggregateOn-Funktionsargumente
 Structure.ComputedColumn.filterExpr=Filterausdruck
 Structure.ComputedColumn.allowExport=Export zulassen
+Structure.ComputedColumn.calculationType=Berechnungstyp
+Structure.ComputedColumn.calculationArguments=Berechnungsargumente
+Structure.ComputedColumn.refDateType=Bezugsdatumstyp
+Structure.ComputedColumn.refDateValue=Bezugsdatumswert
+Structure.ComputedColumn.timeDimension=Zeitliche Dimension
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Spaltenname
@@ -2299,6 +2310,11 @@ Structure.TimeInterval.unit=Einheit
 Structure.FormatValue.category=Kategorie
 Structure.FormatValue.pattern=Muster
 Structure.FormatValue.locale=Gebietsschema
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=Berechnungsargumentname
+Structure.CalculationArgument.value=Berechnungsargumentwert
+
 
 ###########################################################
 # Element names
@@ -3286,6 +3302,7 @@ Element.Measure.ACLExpression=Ausdruck 'ACL'
 Element.Measure.action=Aktion
 Element.Measure.format=Format
 Element.Measure.alignment=Ausrichtung
+Element.Measure.isVisible=Ist sichtbar
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten

@@ -76,6 +76,7 @@ public class FilterAdapter extends FilterDefinition
 							filterOpr,
 							adaptedExpressions ) );
 				}
+				this.setUpdateAggregation(  modelFilter.updateAggregation( ) ); 
 			}
 		}
 	}
