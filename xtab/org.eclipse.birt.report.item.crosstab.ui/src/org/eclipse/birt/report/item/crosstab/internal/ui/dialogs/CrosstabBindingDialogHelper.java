@@ -48,6 +48,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -425,6 +426,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				ExpressionType.CONSTANT );
 		button.refresh( );
 
+		new Label(radioContainer, SWT.NONE);
+		Label dateFormatLbl = new Label( radioContainer, SWT.NONE );
+		dateFormatLbl.setText(Messages.getString("CrosstabBindingDialogHelper.thisdate.example.label")); //$NON-NLS-1$
+		dateFormatLbl.setForeground( ColorManager.getColor( 128, 128, 128 ) );
+		dateFormatLbl.setLayoutData( new GridData(GridData.FILL_HORIZONTAL));
+		
 		recentButton = new Button( radioContainer, SWT.RADIO );
 		recentButton.addSelectionListener( new SelectionAdapter( ) {
 
