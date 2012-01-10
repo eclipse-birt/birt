@@ -343,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Appliquer un formatage condi
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editeur d'expression
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Avertissement
 CrosstabFilterConditionBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties

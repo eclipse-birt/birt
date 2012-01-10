@@ -343,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Aplique formato condicional 
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editor de expresión
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Advertencia
 CrosstabFilterConditionBuilder.MsgDlg.Title=El valor no puede estar vacío.
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties
