@@ -2605,6 +2605,7 @@ FilterConditionBuilder.multipleValue.button.add=추가(&A)
 FilterConditionBuilder.multipleValue.button.remove=제거(&R)
 FilterConditionBuilder.multipleValue.button.removeAll=모두 제거(&M)
 FilterConditionBuilder.multipleValue.button.edit=편집(&D)...
+FilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #MarignPropertyDescriptor properties

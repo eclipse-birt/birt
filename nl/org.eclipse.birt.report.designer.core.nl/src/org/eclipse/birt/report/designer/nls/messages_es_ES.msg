@@ -2605,6 +2605,7 @@ FilterConditionBuilder.multipleValue.button.add=&Añadir
 FilterConditionBuilder.multipleValue.button.remove=Quita&r
 FilterConditionBuilder.multipleValue.button.removeAll=Qui&tar todos
 FilterConditionBuilder.multipleValue.button.edit=E&ditar...
+FilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #MarignPropertyDescriptor properties
