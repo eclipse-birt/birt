@@ -308,7 +308,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 		for ( int i = 0; i < classpathEntries.length; i++ )
 		{
 			IClasspathEntry curr = classpathEntries[i];
-			if (!needExported && !curr.isExported( ))
+			if (!needExported && !curr.isExported( ) && curr.getEntryKind( ) != IClasspathEntry.CPE_VARIABLE)
 			{
 				continue;
 			}
@@ -393,7 +393,7 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 //								.toFile( )
 //								.toURI( )
 //								.toURL( ) );
-						newClassPath.add( curr.getPath( )
+						newClassPath.add( path
 								.toFile( ).getAbsolutePath( ));
 					}
 
