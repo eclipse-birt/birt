@@ -601,7 +601,7 @@ public class InputParameterDialog extends BaseDialog
 			}
 		}
 
-		if ( value == null )
+		if ( value == null || listParam.getDefaultObject( ) == null)
 		{
 			if ( !isRequired )
 			{
