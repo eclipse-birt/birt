@@ -80,7 +80,6 @@ public class JdbcMetaDataProvider
 			password = BidiTransform.transform(password, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
 			url = BidiTransform.transformURL(url, BidiConstants.DEFAULT_BIDI_FORMAT_STR, metadataBidiFormatStr);
 		}
-		props.put( Constants.ODAResourceIdentiers, dataSetDesign.getDataSourceDesign( ).getHostResourceIdentifiers( ) );
 		instance = new JdbcMetaDataProvider( driverClass, url, userName, password, props );
 	}
 	
