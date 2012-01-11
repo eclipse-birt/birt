@@ -51,6 +51,7 @@ public class QuarterToDateFunction extends AbstractMDX implements IPeriodsFuncti
 			TimeMember newMember = null;
 			for ( int i = startMonth; i <= month; i++ )
 			{
+				cal.set( Calendar.DAY_OF_MONTH, 1);
 				cal.set( Calendar.MONTH, i-1 );
 				int[] newValues = getValueFromCal( cal,levels);
 				newMember = new TimeMember(newValues,levels);
