@@ -86,29 +86,29 @@
                 <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.*"/>
         </projectInfo>
 		<projectInfo>
-                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.excel.config" />
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.excel" />
                 <property name="windowTitle" value="Birt Emitter Excel Config API" />
-                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.excel.config.*"/>
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.excel.*"/>
         </projectInfo>
 		<projectInfo>
-                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.html.config" />
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.html" />
                 <property name="windowTitle" value="Birt Emitter Html Config API" />
-                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.html.config.*"/>
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.html.*"/>
         </projectInfo>
 		<projectInfo>
-                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.pdf.config" />
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.pdf" />
                 <property name="windowTitle" value="Birt Emitter Pdf Config API" />
-                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.pdf.config.*"/>
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.pdf.*"/>
         </projectInfo>
 		<projectInfo>
-                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.postscript.config" />
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.postscript" />
                 <property name="windowTitle" value="Birt Emitter Postscript Config API" />
-                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.postscript.config.*"/>
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.postscript.*"/>
         </projectInfo>
 		<projectInfo>
-                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.ppt.config" />
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.ppt" />
                 <property name="windowTitle" value="Birt Emitter Ppt Config API" />
-                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.ppt.config.*"/>
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.ppt.*"/>
         </projectInfo>
 		<projectInfo>
                 <property name="projectName" value="org.eclipse.birt.report.engine.emitter.prototype.excel" />
@@ -116,9 +116,9 @@
                 <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.prototype.excel.*"/>
         </projectInfo>
 		<projectInfo>
-                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.wpml.config" />
+                <property name="projectName" value="org.eclipse.birt.report.engine.emitter.config.wpml" />
                 <property name="windowTitle" value="Birt Emitter Wpml Config API" />
-                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.wpml.config.*"/>
+                <property name="packagenames" value="org.eclipse.birt.report.engine.emitter.config.wpml.*"/>
         </projectInfo>		
 		<projectInfo>
                 <property name="projectName" value="org.eclipse.birt.report.engine.script.javascript" />

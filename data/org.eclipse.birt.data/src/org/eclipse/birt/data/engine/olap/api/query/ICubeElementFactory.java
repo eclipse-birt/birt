@@ -51,6 +51,19 @@ public interface ICubeElementFactory
 			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue );
 
 	/**
+	 * @param filterExpr
+	 * @param targetLevel
+	 * @param axisQulifierLevel
+	 * @param axisQulifierValue
+	 * @param updateAggr
+	 * @return
+	 */
+	public ICubeFilterDefinition creatCubeFilterDefinition(
+			IBaseExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
+			boolean updateAggr );
+	
+	/**
 	 * 
 	 * @param targetLevels
 	 * @param operator

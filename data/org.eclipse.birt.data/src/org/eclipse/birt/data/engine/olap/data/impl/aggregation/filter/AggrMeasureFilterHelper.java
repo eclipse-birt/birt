@@ -30,12 +30,16 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.InvalidCubePosFilter;
@@ -401,6 +405,101 @@ public class AggrMeasureFilterHelper
 				result.add( Integer.valueOf( i ) );
 			}
 		}
+		return result;
+	}
+	
+	public IAggregationResultSet[] removeInvalidAggrRows ( List jsMeasureEvalFilterHelper, List<Integer> affectedAggrResultSetIndex ) throws DataException, IOException 
+	{
+		IAggregationResultSet[] result = new IAggregationResultSet[resultSet.length];
+		String[] aggregationNames = populateAggregationNames( getAggregationName( ), jsMeasureEvalFilterHelper );
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			if ( hasDefinition( resultSet[i], aggregationNames ) ) 
+			{
+				IDiskArray validRows = collectValidAggregationResultSetRows( resultSet[i], jsMeasureEvalFilterHelper, aggregationNames );
+				IAggregationResultSet newAggrResultSet = new AggregationResultSet( resultSet[i].getAggregationDefinition( ),
+						resultSet[i].getAllLevels( ), validRows,
+						resultSet[i].getKeyNames( ), resultSet[i].getAttributeNames( ) );
+				result[i] = newAggrResultSet;
+				affectedAggrResultSetIndex.add( Integer.valueOf( i ) );
+			}
+			else 
+			{
+				result[i] = resultSet[i];
+			}
+		}
+		
+		return result;
+	}
+	
+	private IDiskArray collectValidAggregationResultSetRows(
+			IAggregationResultSet resultSet, List filterHelpers,
+			String[] aggregationNames ) throws DataException, IOException
+	{
+		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), resultSet.length( ) ); 
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, null );
+		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
+
+		FilterPassController filterPassController = new FilterPassController();
+		for ( int j = 0; j < filterHelpers.size( ); j++ )
+		{
+			if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0 )
+			{
+				IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) filterHelpers.get( j );
+				if( isTopBottomNConditionalExpression( filterHelper.getExpression()))
+				{
+					IConditionalExpression expr = (IConditionalExpression)filterHelper.getExpression( );
+					firstRoundFilterHelper.add( filterHelper );
+					expr.setHandle( NEvaluator.newInstance( PropertySecurity.getSystemProperty( "java.io.tmpdir" ),
+							expr.getOperator( ),
+							expr.getExpression( ),
+							(IScriptExpression)expr.getOperand1( ),
+							filterPassController ) );
+				}
+			}
+		}
+		
+		filterPassController.setPassLevel( FilterPassController.FIRST_PASS );
+		filterPassController.setRowCount( resultSet.length());
+		if ( firstRoundFilterHelper.size( ) > 0 )
+		{
+			for ( int i = 0; i < resultSet.length( ); i++ )
+			{
+				resultSet.seek( i );
+				for ( int j = 0; j < firstRoundFilterHelper.size( ); j++ )
+				{
+					firstRoundFilterHelper.get( j )
+							.evaluateFilter( rowAccessor );
+				}
+			}
+		}
+		
+		filterPassController.setPassLevel( FilterPassController.SECOND_PASS );
+
+		for ( int i = 0; i < resultSet.length( ); i++ )
+		{
+			resultSet.seek( i );
+			boolean isFilterByAll = true;
+			
+			for ( int j = 0; j < filterHelpers.size( ); j++ )
+			{
+				if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0 )
+				{
+					AggrMeasureFilterEvalHelper filterHelper = (AggrMeasureFilterEvalHelper) filterHelpers.get( j );
+					if ( !filterHelper.evaluateFilter( rowAccessor ) )
+					{
+						isFilterByAll = false;
+						break;
+					}
+				}
+			}
+			
+			if ( isFilterByAll )
+			{
+				result.add( resultSet.getCurrentRow( ) );
+			}
+		}
+		
 		return result;
 	}
 

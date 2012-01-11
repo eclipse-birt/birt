@@ -114,59 +114,6 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 	 */
 	public static final int compareTransposed( Bounds bo1, Bounds bo2 )
 	{
-		final double dMinX1 = bo1.getLeft( );
-		final double dMinX2 = bo2.getLeft( );
-		double dDiff = dMinX1 - dMinX2;
-		if ( dDiff != 0 )
-		{
-			return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
-		}
-		else
-		{
-			final double dMaxX1 = bo1.getLeft( ) + bo1.getWidth( );
-			final double dMaxX2 = bo2.getLeft( ) + bo2.getWidth( );
-			dDiff = dMaxX1 - dMaxX2;
-			if ( dDiff != 0 )
-			{
-				return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
-			}
-			else
-			{
-				final double dMinY1 = bo1.getTop( ) + bo1.getHeight( );
-				final double dMinY2 = bo2.getTop( ) + bo2.getHeight( );
-				dDiff = dMinY1 - dMinY2;
-				if ( dDiff != 0 )
-				{
-					return ( dDiff < 0 ) ? IConstants.MORE: IConstants.LESS;
-				}
-				else
-				{
-					final double dMaxY1 = bo1.getTop( );
-					final double dMaxY2 = bo2.getTop( );
-					dDiff = dMaxY1 - dMaxY2;
-					if ( dDiff != 0 )
-					{
-						return ( dDiff < 0 ) ? IConstants.MORE
-								: IConstants.LESS;
-					}
-					else
-					{
-						return IConstants.EQUAL;
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Compare two bounds regularly.
-	 * 
-	 * @param bo1
-	 * @param bo2
-	 * @return
-	 */
-	public static final int compareRegular( Bounds bo1, Bounds bo2 )
-	{
 		final double dMinY1 = bo1.getTop( ) + bo1.getHeight( );
 		final double dMinY2 = bo2.getTop( ) + bo2.getHeight( );
 		double dDiff = dMinY1 - dMinY2;
@@ -201,6 +148,59 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 					{
 						return ( dDiff < 0 ) ? IConstants.LESS
 								: IConstants.MORE;
+					}
+					else
+					{
+						return IConstants.EQUAL;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Compare two bounds regularly.
+	 * 
+	 * @param bo1
+	 * @param bo2
+	 * @return
+	 */
+	public static final int compareRegular( Bounds bo1, Bounds bo2 )
+	{
+		final double dMinX1 = bo1.getLeft( );
+		final double dMinX2 = bo2.getLeft( );
+		double dDiff = dMinX1 - dMinX2;
+		if ( dDiff != 0 )
+		{
+			return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
+		}
+		else
+		{
+			final double dMaxX1 = bo1.getLeft( ) + bo1.getWidth( );
+			final double dMaxX2 = bo2.getLeft( ) + bo2.getWidth( );
+			dDiff = dMaxX1 - dMaxX2;
+			if ( dDiff != 0 )
+			{
+				return ( dDiff < 0 ) ? IConstants.LESS : IConstants.MORE;
+			}
+			else
+			{
+				final double dMinY1 = bo1.getTop( );
+				final double dMinY2 = bo2.getTop( );
+				dDiff = dMinY1 - dMinY2;
+				if ( dDiff != 0 )
+				{
+					return ( dDiff < 0 ) ? IConstants.MORE : IConstants.LESS;
+				}
+				else
+				{
+					final double dMaxY1 = bo1.getTop( ) + bo1.getHeight( );
+					final double dMaxY2 = bo2.getTop( ) + bo2.getHeight( );
+					dDiff = dMaxY1 - dMaxY2;
+					if ( dDiff != 0 )
+					{
+						return ( dDiff < 0 ) ? IConstants.MORE
+								: IConstants.LESS;
 					}
 					else
 					{

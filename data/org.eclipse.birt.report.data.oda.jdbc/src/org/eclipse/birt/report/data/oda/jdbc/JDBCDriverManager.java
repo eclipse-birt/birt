@@ -187,6 +187,12 @@ public class JDBCDriverManager
 	public  Connection getConnection( String driverClass, String url, 
 			String user, String password, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
+		return getConnection( driverClass, url, user, password, driverClassPath, null );
+	}
+	
+	public  Connection getConnection( String driverClass, String url, 
+			String user, String password, Collection<String> driverClassPath, Properties props ) throws SQLException, OdaException
+	{
 		validateConnectionProperties( driverClass, url, null );
 		if ( logger.isLoggable( Level.FINEST ) )
 			logger.fine( "Request JDBC Connection: driverClass="
@@ -195,7 +201,7 @@ public class JDBCDriverManager
 					+ ( ( user == null ) ? "" : user ) );
 		
 		// Construct a Properties list with user/password properties
-		Properties props = addUserAuthenticationProperties( null, user, password );
+		props = addUserAuthenticationProperties( props, user, password );
         
         return doConnect( driverClass, url, null, props, driverClassPath );
 	}
@@ -550,6 +556,14 @@ public class JDBCDriverManager
         return testConnection( driverClassName, connectionString, null,
                                 userId, password );
     }
+	
+	public boolean testConnection( String driverClassName,
+			String connectionString, String userId, String password, Properties props )
+			throws OdaException
+	{
+        return testConnection( driverClassName, connectionString, null,
+                                userId, password, props );
+    }
     
     /**
      * Tests whether the given connection properties can be used to obtain a connection.
@@ -563,9 +577,21 @@ public class JDBCDriverManager
      *          false otherwise
      * @throws OdaException 
      */
+	public boolean testConnection( String driverClassName,
+			String connectionString, String jndiNameUrl, String userId,
+			String password ) throws OdaException
+	{
+		return testConnection( driverClassName,
+				connectionString,
+				jndiNameUrl,
+				userId,
+				password,
+				new Properties( ) );
+	}
+	
     public boolean testConnection( String driverClassName,
             String connectionString, String jndiNameUrl,
-            String userId, String password )
+            String userId, String password, Properties props )
         throws OdaException
     {		
 		boolean canConnect = false;
@@ -574,7 +600,7 @@ public class JDBCDriverManager
 			//	If connection is provided by driverInfo extension, use it to create connection
 			if ( getDriverConnectionFactory( driverClassName ) != null )
 			{
-				tryCreateConnection( driverClassName, connectionString, userId, password);
+				tryCreateConnection( driverClassName, connectionString, userId, password, props );
 				return true;
 			}
             
@@ -641,7 +667,8 @@ public class JDBCDriverManager
 						tryCreateConnection( driverClassName,
 								connectionString,
 								userId,
-								password );
+								password,
+								props );
 						canConnect = true;
 					}
 				}
@@ -661,14 +688,21 @@ public class JDBCDriverManager
 					tryCreateConnection( driverClassName,
 							connectionString,
 							userId,
-							password );
+							password,
+							props );
 					canConnect = true;
 				}
 			}
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( e.getLocalizedMessage( ), null );
+			throw new JDBCException( ResourceConstants.TEST_CONNECTION_FAIL, e );
+		}
+		catch( RuntimeException e )
+		{
+			OdaException ex = new OdaException( e.getLocalizedMessage( ) );
+			ex.initCause( e );
+			throw ex;
 		}
 		// If the given url cannot be parsed.
 		if ( canConnect == false )
@@ -727,11 +761,11 @@ public class JDBCDriverManager
 	 * @throws OdaException
 	 */
 	private void tryCreateConnection( String driverClassName,
-			String connectionString, String userId, String password )
+			String connectionString, String userId, String password, Properties props )
 			throws SQLException, OdaException
 	{
 		Connection testConn = this.getConnection( driverClassName, 
-				connectionString, userId, password, null );
+				connectionString, userId, password, null, props );
 		assert ( testConn != null );
         closeConnection( testConn );
 	}

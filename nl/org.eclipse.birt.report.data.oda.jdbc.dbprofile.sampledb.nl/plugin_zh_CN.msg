@@ -23,4 +23,4 @@ driver.template.property.dbname = 数据库
 driver.template.property.connection.url = 连接 URL
 driver.template.property.user = 用户名
 driver.template.property.password = 密码
-driver.template.property.save.password = Save password
+driver.template.property.save.password = 保存密码

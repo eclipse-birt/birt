@@ -19,9 +19,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ComparatorUtil;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -44,7 +46,11 @@ public class AggregationExecutor
 {
 	private AggregationCalculator[] aggregationCalculators = null;
 	private DiskSortedStackWrapper[] sortedFactRows = null;
+	private TimeFunctionCalculator[] timeFunctionCalculator = null;
 	private List allSortedFactRows = null;
+	private MergeRow4Aggregation[] mergeRow4Aggregations = null;
+	private int measureIndexes4Merge;
+	private int parameterColIndex4Merge;
 	private int[][] levelIndex = null;
 	
 	//the parameter sequence corresponding with <code>Row4Aggregation.getParameterValues()</code>  
@@ -54,10 +60,25 @@ public class AggregationExecutor
 	private ColumnInfo[] paraInfos;
 	
 	private IDataSet4Aggregation dataSet4Aggregation;
+	
+	private ICubeDimensionReader cubeDimensionReader;
+	
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
 	public int maxDataObjectRows = -1;
 	public long memoryCacheSize = 0;
+	public Row4Aggregation[] aggregationRow;
+	private AggregationFunctionDefinition simpleFunc;
+	private boolean existReferenceDate = false;
+	
+	private static String[] simpleFuncNames = new String[]{
+		"SUM",
+		"MAX",
+		"MIN",
+		"FIRST",
+		"LAST", 
+		"COUNT"
+	};
 	
 	/**
 	 * 
@@ -81,7 +102,8 @@ public class AggregationExecutor
 		this.dataSet4Aggregation = dataSet4Aggregation;
 		this.memoryCacheSize = memoryCacheSize;
 		getParameterColIndex( aggregations );
-	
+		existReferenceDate = existReferenceDate( aggregations );
+		simpleFunc = getSimpleFunction( aggregations );
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		int detailAggregationIndex = -1;
 		int detailLevelNum = 0;
@@ -96,8 +118,13 @@ public class AggregationExecutor
 				}
 			}
 		}
+		this.cubeDimensionReader = cubeDimensionReader;
+		timeFunctionCalculator = new TimeFunctionCalculator[aggregations.length];
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
+			this.timeFunctionCalculator[i] = new TimeFunctionCalculator( aggregations[i], paraColumns, 
+					dataSet4Aggregation.getMetaInfo( ), this.cubeDimensionReader,
+					this.memoryCacheSize / 5 / this.aggregationCalculators.length );
 			if( i == detailAggregationIndex )
 				this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
 						dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader, 
@@ -107,14 +134,116 @@ public class AggregationExecutor
 					dataSet4Aggregation.getMetaInfo( ), cubeDimensionReader, 
 					this.memoryCacheSize / 5 / this.aggregationCalculators.length );
 		}
+		if( simpleFunc != null )
+		{
+			measureIndexes4Merge = dataSet4Aggregation.getMetaInfo( ).getMeasureIndex( simpleFunc.getMeasureName() );
+			if ( AggregationUtil.needDataField( AggregationManager.getInstance( ).getAggregation
+						( simpleFunc.getFunctionName( ) ) ) )
+			{
+				this.parameterColIndex4Merge = find( paraColumns,
+						simpleFunc.getParaCol( ) );
+			}
+			else
+			{
+				this.parameterColIndex4Merge = -1;
+			}
+		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
-		
 		getAggregationLevelIndex( );
-		
 		logger.exiting( AggregationExecutor.class.getName( ),
 				"AggregationExecutor" );
 	}
-
+	
+	private static boolean existReferenceDate( AggregationDefinition[] aggregations ) throws DataException
+	{
+		for( int i = 0; i < aggregations.length; i++ )
+		{
+			AggregationFunctionDefinition[] aggrFunc = aggregations[i].getAggregationFunctions();
+			if( aggrFunc == null )
+				continue;
+			for( int j = 0; j < aggrFunc.length; j++ )
+			{
+				if( ( aggrFunc[j].getTimeFunction() != null && aggrFunc[j].getTimeFunction().getReferenceDate() != null )
+						|| ( aggrFunc[j].getTimeFunctionFilter() != null && aggrFunc[j].getTimeFunctionFilter().getReferenceDate() != null ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private static int find( DimColumn[] colArray, DimColumn col )
+	{
+		if( colArray == null || col == null )
+		{
+			return -1;
+		}
+		for ( int i = 0; i < colArray.length; i++ )
+		{
+			if ( col.equals( colArray[i] ) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private AggregationFunctionDefinition getSimpleFunction( AggregationDefinition[] aggregations ) throws DataException
+	{
+		AggregationFunctionDefinition func = null;
+		for( int i = 0; i < aggregations.length; i++ )
+		{
+			AggregationFunctionDefinition[] aggrFunc = aggregations[i].getAggregationFunctions();
+			if( aggrFunc == null )
+				continue;
+			for( int j = 0; j < aggrFunc.length; j++ )
+			{
+				if( func == null && aggrFunc[j].getFilterEvalHelper( ) == null )
+				{
+					func = aggrFunc[j];
+				}
+				else
+				{
+					if( func != null && !equal( func, aggrFunc[j]))
+						return null;
+				}
+			}
+		}
+		if( func != null && isSimepleFunction( func.getFunctionName() )
+					&& !existReferenceDate )
+			return func;
+		else
+			return null;
+	}
+	
+	private static boolean equal( AggregationFunctionDefinition func1, AggregationFunctionDefinition func2 )
+	{
+		if( !ComparatorUtil.isEqualObject( func1.getFunctionName(), func2.getFunctionName() ) )
+			return false;
+		if( !ComparatorUtil.isEqualObject(func1.getMeasureName(),func2.getMeasureName() ))
+			return false;
+		if( !ComparatorUtil.isEqualObject(func1.getParaCol(),func2.getParaCol() ))
+			return false;
+		if( !ComparatorUtil.isEqualObject(func1.getParaValue(),func2.getParaValue() ))
+			return false;
+		if( func1.getFilterEvalHelper() != null || func2.getFilterEvalHelper() != null )
+			return false;
+		return true;
+	}
+	
+	private static boolean isSimepleFunction( String funcName )
+	{
+		for( int i = 0; i < simpleFuncNames.length; i++ )
+		{
+			if( simpleFuncNames[i].equals( funcName ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param stopSign
@@ -147,6 +276,10 @@ public class AggregationExecutor
 				{
 //					aggregationCalculators[calculatorIndexs[j]].onRow( cut( row,
 //							levelIndex[calculatorIndexs[j]].length / 2 ) );
+					if( timeFunctionCalculator[calculatorIndexs[j]].existTimeFunction() )
+					{
+						timeFunctionCalculator[calculatorIndexs[j]].onRow( row );
+					}
 					aggregationCalculators[calculatorIndexs[j]].onRow( row );
 				}
 			}
@@ -159,6 +292,11 @@ public class AggregationExecutor
 					aggregationCalculators[i].getResult( ),
 					getKeyNames( i ),
 					getAttributeNames( i ) );
+			if( timeFunctionCalculator[i].existTimeFunction() )
+			{
+				List<TimeResultRow> timeResultSet = timeFunctionCalculator[i].getAggregationResultSet( resultSets[i] );
+				( (AggregationResultSet)resultSets[i]).addTimeFunctionResultSet(timeResultSet);
+			}
 		}
 		this.dataSet4Aggregation.close( );
 		return resultSets;
@@ -234,35 +372,91 @@ public class AggregationExecutor
 		prepareSortedStacks( );
 		int measureCount = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length;
 		int factRowCount = 0;
+		if( this.aggregationRow == null )
+		{
+			this.aggregationRow = new Row4Aggregation[allSortedFactRows.size( )];
+		}
+		DiskSortedStackWrapper[] diskSortedStackWrapper = new DiskSortedStackWrapper[allSortedFactRows.size( )];
+		for ( int i = 0; i < allSortedFactRows.size( ); i++ )
+		{
+			diskSortedStackWrapper[i] = ( (DiskSortedStackWrapper) allSortedFactRows.get( i ) );
+		}
 		try
 		{
 			while ( dataSet4Aggregation.next( ) && !stopSign.isStopped( ) )
 			{
 				for ( int i = 0; i < allSortedFactRows.size( ); i++ )
 				{
-					DiskSortedStackWrapper diskSortedStackWrapper = ( (DiskSortedStackWrapper) allSortedFactRows.get( i ) );
-
-					int[] levelIndex = diskSortedStackWrapper.levelIndex;
-
-					Row4Aggregation aggregationRow = new Row4Aggregation( );
-					aggregationRow.setDimPos( dataSet4Aggregation.getDimensionPosition( ) );
-					aggregationRow.setLevelMembers( getLevelMembers( levelIndex ) );
-
-					if ( aggregationRow.getLevelMembers( ) == null )
+					int[] levelIndex = diskSortedStackWrapper[i].levelIndex;
+					if( !dataSet4Aggregation.isDuplicatedRow() )
 					{
-						continue;
+						Member[] members = getLevelMembers( levelIndex );
+						if( aggregationRow[i] != null )
+						{
+							if( existReferenceDate )
+							{
+								diskSortedStackWrapper[i].diskSortedStack.push( aggregationRow[i] );
+							}
+							else
+							{
+								Row4Aggregation popRow = this.mergeRow4Aggregations[i].push( aggregationRow[i] );
+								if( popRow != null )
+									diskSortedStackWrapper[i].diskSortedStack.push( popRow );
+							}
+						}
+						aggregationRow[i] = new Row4Aggregation( );
+						aggregationRow[i].setDimPos( dataSet4Aggregation.getDimensionPosition( ) );
+						aggregationRow[i].setLevelMembers( members );
+						if ( aggregationRow[i].getLevelMembers( ) == null )
+						{
+							continue;
+						}
+						aggregationRow[i].setMeasures( new Object[measureCount] );
+						for ( int j = 0; j < measureCount; j++ )
+						{
+							aggregationRow[i].getMeasures( )[j] = dataSet4Aggregation.getMeasureValue( j );
+						}
+						aggregationRow[i].setParameterValues( getParameterValues( ) );
+
 					}
-					aggregationRow.setMeasures( new Object[measureCount] );
-					for ( int j = 0; j < measureCount; j++ )
+					else
 					{
-						aggregationRow.getMeasures( )[j] = dataSet4Aggregation.getMeasureValue( j );
+						Object[] measures = new Object[measureCount];
+						for ( int j = 0; j < measureCount; j++ )
+						{
+							measures[j] = dataSet4Aggregation.getMeasureValue( j );
+						}
+						aggregationRow[i].addMeasure( measures );
 					}
-					aggregationRow.setParameterValues( getParameterValues( ) );
-					diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 				}
 				factRowCount++;
 				if( maxDataObjectRows >0 && factRowCount > maxDataObjectRows )
 					throw new DataException( ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS );
+			}
+			for ( int i = 0; i < allSortedFactRows.size( ); i++ )
+			{
+				if( aggregationRow[i] != null )
+				{
+					if( existReferenceDate )
+					{
+						diskSortedStackWrapper[i].diskSortedStack.push( aggregationRow[i] );
+					}
+					else
+					{
+						Row4Aggregation popRow = this.mergeRow4Aggregations[i].push( aggregationRow[i] );
+						if( popRow != null )
+							diskSortedStackWrapper[i].diskSortedStack.push( popRow );
+					}
+				}
+				if( !existReferenceDate )
+				{
+					List<Row4Aggregation> remainRows = this.mergeRow4Aggregations[i].getAll( );
+					for( int j = 0; j < remainRows.size(); j++ )
+					{
+						diskSortedStackWrapper[i].diskSortedStack.push( remainRows.get( j ) );
+					}
+					this.mergeRow4Aggregations[i] = null;
+				}
 			}
 		}
 		catch ( BirtException e )
@@ -270,6 +464,7 @@ public class AggregationExecutor
 			throw DataException.wrap( e );
 		}
 	}
+	
 	
 	Member[] getLevelMembers( int[] levelIndex ) throws BirtException, IOException 
 	{
@@ -391,18 +586,25 @@ public class AggregationExecutor
 				}
 			}
 		}
-		
+		mergeRow4Aggregations = new MergeRow4Aggregation[allSortedFactRows.size()];
+		int bufferSize = 10000;
 		if ( memoryCacheSize > 0 )
 		{
 			int rowSize = 16 + ( 4 + ( levelSize + measureSize ) - 1 ) / 8 * 8;
-			int bufferSize = (int) (this.memoryCacheSize*4/5/rowSize);
-
+			bufferSize = (int) (this.memoryCacheSize*4/5/rowSize);
+			if( this.simpleFunc == null )
+				bufferSize /= 5;
 			for (int i = 0; i < allSortedFactRows.size( ); i++)
 			{
 				DiskSortedStackWrapper diskSortedStackReader = (DiskSortedStackWrapper) allSortedFactRows
 						.get(i);
 				diskSortedStackReader.getDiskSortedStack().setBufferSize( bufferSize );
 			}
+		}
+		for (int i = 0; i < allSortedFactRows.size( ); i++)
+		{
+			mergeRow4Aggregations[i] = new MergeRow4Aggregation( bufferSize, simpleFunc,
+					measureIndexes4Merge, parameterColIndex4Merge );
 		}
 	}
 	
@@ -653,7 +855,7 @@ class DiskSortedStackWrapper
 	DiskSortedStack diskSortedStack = null;
 	Object currentObj = null;
 	int[] levelIndex = null;
-
+	
 	/**
 	 * 
 	 * @param diskSortedStack

@@ -16,6 +16,8 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
@@ -32,6 +34,7 @@ import com.ibm.icu.util.Calendar;
  */
 public class UserDataSetProcessor
 {
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/datafeed" ); //$NON-NLS-1$
 
 	/**
 	 * Populates the trigger datasets from given data source. Only Text data is
@@ -96,7 +99,7 @@ public class UserDataSetProcessor
 								break;
 							}
 						}
-						// TODO need to reset result set here? How to reset?
+						rsds.reset( );
 						if ( !allNullValues )
 						{
 							// if can't determine applicable data type
@@ -140,10 +143,11 @@ public class UserDataSetProcessor
 							break;
 							
 						default :
-							throw new ChartException( ChartEnginePlugin.ID,
+							value = row[k];
+							logger.log( new ChartException( ChartEnginePlugin.ID,
 									ChartException.DATA_SET,
 									"exception.unknown.trigger.datatype", //$NON-NLS-1$
-									Messages.getResourceBundle( ) );
+									Messages.getResourceBundle( ) ) );
 					}
 					((Object[])ds[k].getValues( ))[i] = value;
 				}

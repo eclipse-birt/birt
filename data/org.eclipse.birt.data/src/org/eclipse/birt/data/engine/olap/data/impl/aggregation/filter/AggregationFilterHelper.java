@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -31,8 +32,11 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
@@ -251,6 +255,242 @@ public class AggregationFilterHelper
 					filterHelper );
 			levelFilters.add( levelFilter );
 		}
+	}
+	
+	private boolean hasFiltersOnEdgeAggrResultSet( IAggregationResultSet rs )
+	{
+		boolean result = false;
+
+		for ( int k = 0; k < this.topbottomFilters.size( ); k++ )
+		{
+			TopBottomFilterDefinition filterDefinition = (TopBottomFilterDefinition) topbottomFilters.get( k );
+			if ( isMatch( rs.getAggregationDefinition( ), rs, filterDefinition ) )
+				return true;
+		}
+
+		for ( int k = 0; k < this.aggrFilters.size( ); k++ )
+		{
+			AggrFilterDefinition filterDefinition = ( (AggrFilterDefinition) aggrFilters.get( k ) );
+			if ( isMatch( rs.getAggregationDefinition( ), rs, filterDefinition ) )
+				return true;
+		}
+
+		return result;
+	}
+	
+	private List populateDistinctLevelKeyList(
+			AggregationDefinition aggregation, IAggregationResultSet resultSet,
+			TopBottomFilterDefinition filter ) throws DataException
+	{
+		IJSTopBottomFilterHelper filterHelper = (IJSTopBottomFilterHelper) filter.getFilterHelper( );
+		int n = -1;
+		if ( filterHelper.isPercent( ) == false )
+		{
+			n = (int) filterHelper.getN( );
+		}
+
+		IDiskArray aggrValueArray = new OrderedDiskArray( n,
+				filterHelper.isTop( ) );
+
+		String dimensionName = filter.getTargetLevel( ).getDimensionName( );
+		Object preValue = null ; 
+		try
+		{
+			AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet,
+					fetcher );
+			for ( int k = 0; k < resultSet.length( ); k++ )
+			{
+				resultSet.seek( k );
+				int levelIndex = resultSet.getLevelIndex( filter.getTargetLevel( ) );
+				Object[] levelKey = resultSet.getLevelKeyValue( levelIndex );
+				Object aggrValue = filterHelper.evaluateFilterExpr( row4filter );
+				if ( levelKey != null
+						&& filterHelper.isQualifiedRow( row4filter )
+						&& ( CompareUtil.compare( preValue, aggrValue ) != 0 ) )
+				{
+					aggrValueArray.add( aggrValue );
+				}
+				preValue = aggrValue;
+			}
+			return fetchDistictLevelKeys( aggrValueArray, filterHelper );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "", e );//$NON-NLS-1$
+		}
+
+	}
+	
+	private List fetchDistictLevelKeys( IDiskArray aggrValueArray,
+			IJSTopBottomFilterHelper filterHelper ) throws IOException
+	{
+		int start = 0; // level key start index in aggrValueArray
+		int end = aggrValueArray.size( ); // level key end index (not
+		// including) in aggrValueArray
+		if ( filterHelper.isPercent( ) )
+		{// top/bottom percentage filter
+			int size = aggrValueArray.size( ); // target level member size
+			int n = FilterUtil.getTargetN( size, filterHelper.getN( ) );
+			if ( filterHelper.isTop( ) )
+				start = size - n;
+			else
+				end = n;
+		}
+		List resultList = new ArrayList();
+		for ( int i = start; i < end; i++ )
+		{
+			Object aggrValue =  aggrValueArray.get( i );
+			resultList.add( aggrValue );
+		}
+		return resultList;
+	}
+	
+	public IAggregationResultSet[] generateFilteredAggregationResultSet ( IAggregationResultSet[] rs,List<Integer> affectedAggrResultSetIndex ) throws IOException, DataException
+	{
+		IAggregationResultSet[] result = new IAggregationResultSet[rs.length];
+		List levelFilterList = new ArrayList( );
+		for ( int i = 0; i < rs.length; i++ )
+		{
+			if ( rs[i].getAggregationDefinition( ).getAggregationFunctions( ) == null && hasFiltersOnEdgeAggrResultSet( rs[i] ) )
+			{
+				AggregationRowAccessor row4filter = new AggregationRowAccessor( rs[i], fetcher );
+				IDiskArray validRows = new BufferedStructureArray( AggregationResultRow.getCreator(),rs[i].length());
+				List[] topBottomNFilterResultList = null;
+				int[] targetLevelIndex = null;
+				if ( this.topbottomFilters.size( ) > 0 )
+				{
+					topBottomNFilterResultList = new List[this.topbottomFilters.size( )];
+					targetLevelIndex = new int[this.topbottomFilters.size( )];
+				}
+				
+				for ( int k = 0; k < this.topbottomFilters.size( ); k++ )
+				{
+					IJSTopBottomFilterHelper filterHelper = (IJSTopBottomFilterHelper) ( (TopBottomFilterDefinition) topbottomFilters.get( k ) ).getFilterHelper( );
+					topBottomNFilterResultList[k] =  populateDistinctLevelKeyList( rs[i].getAggregationDefinition( ),
+							rs[i],
+							(TopBottomFilterDefinition) topbottomFilters.get( k ) );
+					targetLevelIndex[k] = rs[i].getLevelIndex( ((TopBottomFilterDefinition) topbottomFilters.get( k ) ).getTargetLevel( ));
+				}
+		
+				for ( int j = 0; j < rs[i].length( ); j++ )
+				{
+					rs[i].seek( j );
+					boolean isFilterByAll = true;
+					
+					for ( int k = 0; k < this.aggrFilters.size( ); k++ )
+					{
+						IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) ( (AggrFilterDefinition) aggrFilters.get( k ) ).getFilterHelper( );
+						if ( !filterHelper.evaluateFilter( row4filter ) )
+						{
+							isFilterByAll = false;
+							break;
+						}
+					}	
+					
+					for ( int k = 0; k < this.topbottomFilters.size( ); k++ )
+					{
+						IAggregationResultRow currentRow = rs[i].getCurrentRow( );
+						if ( targetLevelIndex[k] >= 0 )
+						{
+							Member m = currentRow.getLevelMembers( )[targetLevelIndex[k]];
+							if ( !topBottomNFilterResultList[k].contains( m.getKeyValues( )[0] ) )
+							{
+								isFilterByAll = false;
+								break;
+							}
+						}
+					}
+					
+					if ( isFilterByAll )
+					{
+						validRows.add( rs[i].getCurrentRow() );
+					}
+				}
+
+				IAggregationResultSet newAggrResultSet = new AggregationResultSet(rs[i].getAggregationDefinition( ),
+						rs[i].getAllLevels( ), validRows,
+						rs[i].getKeyNames( ), rs[i].getAttributeNames( ));
+				result[i] = newAggrResultSet;
+			}
+			else
+			{
+				boolean filtered = false;
+				for ( Iterator k = aggrFilters.iterator( ); k.hasNext( ); )
+				{
+					AggrFilterDefinition filter = (AggrFilterDefinition) k.next( );
+					if ( rs[i].getAggregationDefinition( )
+							.getAggregationFunctions( ) != null
+							&& isMatch( rs[i].getAggregationDefinition( ),
+									rs[i],
+									filter ) && filter.getAxisQualifierLevels( )!=null )
+					{
+						applyAggrFilter( rs[i], filter, levelFilterList );
+						filtered = true;
+					}
+				}
+				
+				for ( Iterator k = topbottomFilters.iterator( ); k.hasNext( ); )
+				{
+					TopBottomFilterDefinition filter = (TopBottomFilterDefinition) k.next( );
+					if ( rs[i].getAggregationDefinition( )
+							.getAggregationFunctions( ) != null
+							&& isMatch( rs[i].getAggregationDefinition( ),
+									rs[i],
+									filter ) && filter.getAxisQualifierLevels( )!=null )
+					{
+						applyTopBottomFilters( new AggregationDefinition[]{
+							rs[i].getAggregationDefinition( )
+						}, new IAggregationResultSet[]{
+							rs[i]
+						}, levelFilterList );
+						filtered = true;
+					}
+				}
+
+				if ( filtered && levelFilterList.size( ) > 0 )
+				{
+					IDiskArray validRows = new BufferedStructureArray( AggregationResultRow.getCreator( ),
+							rs[i].length( ) );
+					for ( int k = 0; k < levelFilterList.size( ); k++ )
+					{
+						LevelFilter f = (LevelFilter) levelFilterList.get( k );
+						ISelection[] selections = f.getSelections( );
+						
+						for ( int p = 0; p < selections.length; p++ )
+						{
+							ISelection select = selections[p];
+							DimLevel dim = new DimLevel( f.getDimensionName( ),
+									f.getLevelName( ) );
+							int levelIndex = rs[i].getLevelIndex( dim );
+							if ( levelIndex >= 0 )
+							{
+								for ( int m = 0; m < rs[i].length( ); m++ )
+								{
+									rs[i].seek( m );
+									Object[] obj = rs[i].getCurrentRow( )
+											.getLevelMembers( )[levelIndex].getKeyValues( );
+									if ( select.isSelected( obj ) )
+									{
+										validRows.add( rs[i].getCurrentRow( ) );
+									}
+								}
+							}
+						}
+					}
+					IAggregationResultSet newAggrResultSet = new AggregationResultSet(rs[i].getAggregationDefinition( ),
+							rs[i].getAllLevels( ), validRows,
+							rs[i].getKeyNames( ), rs[i].getAttributeNames( ));
+					result[i] = newAggrResultSet;
+					affectedAggrResultSetIndex.add( Integer.valueOf( i ) );
+				}
+				else
+				{
+					result[i] = rs[i];
+				}
+			}
+		}
+
+		return result;
 	}
 
 	/**

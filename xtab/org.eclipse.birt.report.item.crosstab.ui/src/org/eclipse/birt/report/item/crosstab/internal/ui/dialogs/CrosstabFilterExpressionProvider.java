@@ -20,8 +20,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 
@@ -80,7 +80,7 @@ public class CrosstabFilterExpressionProvider extends
 						{
 							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
 							boolean result;
-							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) != null )
+							if ( xtabHandle.getDimension( ( (DimensionHandle) element ).getName( ) ) != null )
 								result = true;
 							else
 								result = false;
@@ -103,10 +103,10 @@ public class CrosstabFilterExpressionProvider extends
 	{
 		if ( isDetail )
 		{
-			if ( parent instanceof TabularDimensionHandle )
+			if ( parent instanceof DimensionHandle )
 			{
 				List children = new ArrayList( );
-				TabularDimensionHandle handle = (TabularDimensionHandle) parent;
+				DimensionHandle handle = (DimensionHandle) parent;
 				if ( handle.getDefaultHierarchy( ).getLevelCount( ) > 0 )
 					children.addAll( handle.getDefaultHierarchy( )
 							.getPropertyHandle( IHierarchyModel.LEVELS_PROP )

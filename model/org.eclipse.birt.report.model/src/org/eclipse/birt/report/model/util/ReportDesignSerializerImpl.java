@@ -213,9 +213,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	protected Map<ExtendedItem, StyleHandle[]> referencedStyleMap = new LinkedHashMap<ExtendedItem, StyleHandle[]>(
 			ModelUtil.MAP_CAPACITY_LOW );
 
-
-	
-
 	/**
 	 * Returns the newly created report design.
 	 * 
@@ -1059,6 +1056,21 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				themeRef.resolve( targetTheme );
 				targetItem.setProperty( IReportItemModel.THEME_PROP, themeRef );
 				addReportItemThemeMap( targetItem, targetTheme );
+
+				List<ReportItem> reportItems = ReportItemThemeMapping
+						.get( targetTheme );
+				{
+					if ( reportItems == null )
+					{
+						reportItems = new ArrayList<ReportItem>( );
+						reportItems.add( targetItem );
+						ReportItemThemeMapping.put( targetTheme, reportItems );
+					}
+					else
+					{
+						reportItems.add( targetItem );
+					}
+				}
 			}
 
 		}

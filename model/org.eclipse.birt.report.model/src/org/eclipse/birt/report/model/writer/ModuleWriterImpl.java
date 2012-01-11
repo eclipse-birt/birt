@@ -3956,6 +3956,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, IMeasureModel.DATA_TYPE_PROP );
 		property( obj, IMeasureModel.ACL_EXPRESSION_PROP );
 		property( obj, IMeasureModel.ALIGNMENT_PROP );
+		property( obj, IMeasureModel.IS_VISIBLE_PROP );
 
 		writeActions( obj, IMeasureModel.ACTION_PROP );
 		writeStructure( obj, IMeasureModel.FORMAT_PROP );
@@ -4201,7 +4202,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj,
 				IFilterConditionElementModel.DYNAMIC_FILTER_PARAMETER_PROP );
 		property( obj, IFilterConditionElementModel.TYPE_PROP );
-
+		property( obj, IFilterConditionElementModel.UPDATE_AGGREGATION_PROP );
 		// write user property definition and values
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );

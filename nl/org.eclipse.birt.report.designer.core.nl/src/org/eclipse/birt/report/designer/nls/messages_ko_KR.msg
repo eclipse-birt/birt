@@ -1009,6 +1009,8 @@ DesignerPaletteFactory.toolTip.textReportItem=선택적 인라인 식을 포함한 텍스트 �
 DesignerPaletteFactory.quicktool.title=빠른 도구
 DesignerPaletteFactory.quicktool.agg.title=집계
 DesignerPaletteFactory.quicktool.agg.toolTip=집계 항목 삽입
+DesignerPaletteFactory.quicktool.timeperiod.title=상대 시간
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=TimePeriod 항목 입력
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -2001,9 +2003,9 @@ HighlightsPage.trans.MoveDown=강조 규칙 아래로 이동
 HighlightsPage.trans.MoveUp=강조 규칙 위로 이동
 HighlightsPage.toolTipText.MoveDown=강조 규칙 아래로 이동
 HighlightsPage.toolTipText.MoveUp=강조 규칙 위로 이동
-HighlightsPage.label.duplicate=Duplicate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.label.duplicate=중복(&C)
+HighlightsPage.toolTipText.duplicate=강조 규칙 중복
+HighlightsPage.trans.Duplicate=강조 규칙 중복
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2497,9 +2499,9 @@ MapPage.transName.moveDownRule=맵 규칙 아래로 이동
 MapPage.transName.moveUpMapRule=맵 규칙 위로 이동
 MapPage.toolTipText.moveUp=맵 규칙 위로 이동
 MapPage.toolTipText.moveDown=맵 규칙 아래로 이동
-MapPage.label.duplicate=Duplicate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.label.duplicate=중복(&C)
+MapPage.toolTipText.duplicate=맵 규칙 중복
+MapPage.transName.Duplicate=맵 규칙 중복
 
 ###########################################################
 #MapPreferencePage properties
@@ -2603,6 +2605,7 @@ FilterConditionBuilder.multipleValue.button.add=추가(&A)
 FilterConditionBuilder.multipleValue.button.remove=제거(&R)
 FilterConditionBuilder.multipleValue.button.removeAll=모두 제거(&M)
 FilterConditionBuilder.multipleValue.button.edit=편집(&D)...
+FilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -4471,6 +4474,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=예
 DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
 DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
 DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니까?
+DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod 빌더
 DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
@@ -4607,17 +4611,17 @@ BindingDialogHelper.text.List=목록(&L)
 BindingDialogHelper.text.Grid=눈금
 BindingDialogHelper.text.Group=그룹(&O)
 BindingDialogHelper.text.Expression=식(&E):
-BindingDialogHelper.text.displayName=표시 이름(&N):
-BindingDialogHelper.text.allowExport=내보내기 허용(&O):
-BindingDialogHelper.text.displayNameID=표시 이름 ID(&S):
+BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
+BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
+=======
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=이름이 {0}인 열 바인딩이 이미 있습니다.
 BindingDialogHelper.error.improperexpression=큐브 측정값의 집계는 "{0}" 유형이 될 수 없습니다.
-BindingDialogHelper.error.empty={0} is required.
-BindingDialogHelper.text.Colon=:
+BindingDialogHelper.error.empty={0}이(가) 필요합니다.
 BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
+>>>>>>> master
 BindingDialogHelper.warning.button.yes=예
 BindingDialogHelper.warning.button.no=아니오
 
@@ -4631,6 +4635,14 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
+CrosstabBindingDialogHelper.bindngName.timeperiod=기간
+CrosstabBindingDialogHelper.calculation.labe=계산 형식(&L):
+CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
+CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
+CrosstabBindingDialogHelper.thisdate.label=금일:
+CrosstabBindingDialogHelper.timedimension.label=시간 차원(&M):
+CrosstabBindingDialogHelper.timeperiod.wrongdate=이 차원은 최근 참조 날짜를 지원하지 않습니다. 
+CrosstabBindingDialogHelper.today.label=오늘
 
 AddEditCascadingParameterDialog.label.name=이름(&N):
 AddEditCascadingParameterDialog.label.dataset=데이터 집합(&D):
@@ -4814,8 +4826,8 @@ ReloadImageAction.Text=이미지 다시 로드(&M)
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=새 변수
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=새 변수(&N)
+VariablesNodeProvider.Dialog.Title=새 변수
 VariablesNodeProvider.NodeName=변수
 
 ###########################################################

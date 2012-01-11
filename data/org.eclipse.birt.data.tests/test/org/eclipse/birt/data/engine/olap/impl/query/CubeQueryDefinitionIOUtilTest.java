@@ -15,6 +15,8 @@ import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -74,7 +76,7 @@ public class CubeQueryDefinitionIOUtilTest extends TestCase
 		tempFile.delete( );
 	}
 
-	public void testSaveAndLoad( ) throws IOException, DataException
+	public void testSaveAndLoad( ) throws IOException, BirtException
 	{
 		IDocArchiveWriter writer = new FileArchiveWriter( tempFile.getAbsolutePath( ));
 		ICubeQueryDefinition toSave = createQueryDefn( );
@@ -83,7 +85,10 @@ public class CubeQueryDefinitionIOUtilTest extends TestCase
 		writer.finish( );
 		
 		IDocArchiveReader reader = new FileArchiveReader( tempFile.getAbsolutePath( ) );
-		ICubeQueryDefinition loaded = CubeQueryDefinitionIOUtil.load( queryResultID, reader );
+		ICubeQueryDefinition loaded = CubeQueryDefinitionIOUtil.load( queryResultID, DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer )  );
 		reader.close( );
 		
 		assertEquals( toSave.getName( ), loaded.getName( ) );
@@ -381,7 +386,7 @@ public class CubeQueryDefinitionIOUtilTest extends TestCase
 	private void assertEqualComputedMeasure( IComputedMeasureDefinition md1, IComputedMeasureDefinition md2 ) throws DataException
 	{
 		assertEqualMeasure( md1, md2 );
-		assertEquals( md1.getType( ), md2.getType( ));
+		assertEquals( md1.getDataType( ), md2.getDataType( ) );
 		assertEqualExpr( md1.getExpression( ), md2.getExpression( ));
 	}
 	

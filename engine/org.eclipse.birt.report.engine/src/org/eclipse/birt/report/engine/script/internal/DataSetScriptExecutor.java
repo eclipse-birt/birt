@@ -45,8 +45,9 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	private boolean useBeforeOpenEventHandler = false;
 	private boolean useBeforeCloseEventHandler = false;
 	
+	private boolean flag = false;
 	private final String beforeOpenMethodID, beforeCloseMethodID,
-			afterOpenMethodID, afterCloseMethodID, onFetchMethodID;
+			afterOpenMethodID, afterCloseMethodID, onFetchMethodID, className;
 
 	private Map<IDataSetInstanceHandle, Scriptable> scopeCache = new HashMap<IDataSetInstanceHandle, Scriptable>( );
 
@@ -55,8 +56,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	{
 		super( context );
 		this.dataSetHandle = dataSetHandle;
-		String className = dataSetHandle.getEventHandlerClass( );
-		initEventHandler( className );
+		className = dataSetHandle.getEventHandlerClass( );
 		useOnFetchEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getOnFetch( ) );
 		useAfterCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getAfterClose( ) );
 		useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getAfterOpen( ) );
@@ -70,19 +70,24 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		onFetchMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( ISimpleDataSetModel.ON_FETCH_METHOD ) );
 	}
 
-	protected void initEventHandler( String className )
+	protected void initEventHandler( )
 	{
-		if ( className != null )
+		if ( className != null && !flag )
 		{
 			try
 			{
-				eventHandler = ( IDataSetEventHandler ) getInstance( className,
+				eventHandler = (IDataSetEventHandler) getInstance( className,
 						context );
-			} catch ( ClassCastException e )
+				flag = true;
+			}
+			catch ( ClassCastException e )
 			{
-				addClassCastException( context, e, dataSetHandle,
+				addClassCastException( context,
+						e,
+						dataSetHandle,
 						IScriptedDataSetEventHandler.class );
-			} catch ( EngineException e )
+			}
+			catch ( EngineException e )
 			{
 				addException( context, e, dataSetHandle );
 			}
@@ -91,6 +96,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleBeforeOpen( IDataSetInstanceHandle dataSet )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -117,6 +123,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleBeforeClose( IDataSetInstanceHandle dataSet )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -142,6 +149,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleAfterOpen( IDataSetInstanceHandle dataSet )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -192,6 +200,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleAfterClose( IDataSetInstanceHandle dataSet )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try
@@ -217,6 +226,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 
 	public void handleOnFetch( IDataSetInstanceHandle dataSet, IDataRow row )
 	{
+		initEventHandler( );
 		if ( reportContext == null )
 			return;
 		try

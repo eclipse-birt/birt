@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
@@ -24,9 +25,11 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -43,12 +46,20 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.CachedAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregationRowArray;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggrMeasureFilterHelper;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
+import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
+import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationsExecutor;
@@ -57,10 +68,12 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.IncrementExecutionHint;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
-
 /**
  * 
  * 
@@ -143,8 +156,8 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign,
-						true );
-				
+						true, fetcher );
+				rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, cube, fetcher );
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;
@@ -152,10 +165,10 @@ public class QueryExecutor
 			case DataEngineContext.DIRECT_PRESENTATION:
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
-						stopSign, false );
-				
+						stopSign, false, fetcher );
+				rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
-
+				
 				break;
 			}
 			case DataEngineContext.MODE_PRESENTATION:
@@ -179,6 +192,8 @@ public class QueryExecutor
 				else
 				{
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					rs = applyNoAggrUpdateFilters(getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
+					
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
@@ -200,19 +215,21 @@ public class QueryExecutor
 						executor.getContext( ).getDocReader( ), id )) 
 				{
 					ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( 
-							id, executor.getContext( ).getDocReader( ) );
+							id, executor.getContext( ) );
 					ieh = org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionUtil.getIncrementExecutionHint( 
 							savedQuery, executor.getCubeQueryDefinition( ) );
 				}
 				if ( !CubeQueryDefinitionIOUtil.existStream( executor.getContext( ).getDocReader( ), id ) 
 						|| ieh == null
-						
+						|| ieh.isNoIncrement()
 						//Currently, do not support increment execution when cube operations are involved.
 						|| (!ieh.isNoIncrement( ) && executor.getCubeQueryDefinition( ).getCubeOperations( ).length > 0) 
 				)
 				{
 					//need to re-execute the query.
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
+					rs = applyNoAggrUpdateFilters(getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
+					
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
@@ -228,8 +245,17 @@ public class QueryExecutor
 					
 					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
 					initLoadedAggregationResultSets( rs, finalAggregation );
-					
 					incrementExecute( rs, ieh );
+					if (ieh.getFilters() != null && ieh.getFilters().length > 0)
+					{
+						IFilterDefinition[] filters =ieh.getFilters();
+						List finalFilters = new ArrayList();
+						for(int j = 0 ; j < filters.length;j++)
+						{
+							finalFilters.add(filters[j]);
+						}
+						rs = applyNoAggrUpdateFilters(finalFilters,executor, rs, cube, fetcher);
+					}
 				}
 				if ( executor.getContext( ).getDocWriter( ) != null )
 				{
@@ -256,6 +282,199 @@ public class QueryExecutor
 		}
 		
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
+	}
+	
+	private IAggregationResultSet[] applyNoAggrUpdateFilters ( List finalFilters, CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher ) throws DataException, IOException
+	{
+		if( !finalFilters.isEmpty( ) )
+		{
+			List aggrEvalList = new ArrayList<AggrMeasureFilterEvalHelper>( );
+			List dimEvalList = new ArrayList<IJSFilterHelper>();
+			for ( int i = 0; i < finalFilters.size( ); i++ )
+			{
+				IFilterDefinition filter = (IFilterDefinition) finalFilters.get( i );
+				int type = executor.getFilterType( filter,
+						executor.getDimLevelsDefinedInCubeQuery( ) );
+			
+				if ( type == executor.DIMENSION_FILTER )
+				{
+					dimEvalList.add( BaseDimensionFilterEvalHelper.createFilterHelper( executor.getOuterResults( ),
+							executor.getScope( ),
+							executor.getCubeQueryDefinition( ),
+							filter,
+							executor.getSession( )
+									.getEngineContext( )
+									.getScriptContext( ) ) );
+				}
+				else if ( type == executor.AGGR_MEASURE_FILTER )
+				{
+					aggrEvalList.add( new AggrMeasureFilterEvalHelper( executor.getOuterResults( ),
+							executor.getScope( ),
+							executor.getCubeQueryDefinition( ),
+							filter,
+							executor.getSession( )
+									.getEngineContext( )
+									.getScriptContext( ) ) );
+				}
+			}
+			List<Integer> affectedAggrResultSetIndex = new ArrayList<Integer>();
+			if( aggrEvalList.size( ) > 0)
+			{
+				AggrMeasureFilterHelper aggrFilterHelper = new AggrMeasureFilterHelper( cube,
+						rs );
+				rs = aggrFilterHelper.removeInvalidAggrRows( aggrEvalList, affectedAggrResultSetIndex );
+				
+			}
+			if ( dimEvalList.size( ) > 0 )
+			{
+				AggregationFilterHelper helper = new AggregationFilterHelper( (Cube)cube, dimEvalList, fetcher );
+				rs = helper.generateFilteredAggregationResultSet( rs , affectedAggrResultSetIndex );
+			}
+			List<IAggregationResultSet> edgeResultSet = new ArrayList<IAggregationResultSet>();	
+			
+			for ( int i = 0; i < rs.length; i++ )
+			{
+				if ( rs[i].getAggregationDefinition( )
+						.getAggregationFunctions( ) == null )
+				{
+					edgeResultSet.add( rs[i] );
+				}
+			}
+			for ( int i = 0; i < edgeResultSet.size( ); i++ )
+			{
+				for ( int j = 0; j < affectedAggrResultSetIndex.size( ); j++ )
+				{
+					this.applyJoin( edgeResultSet.get( i ),
+							rs[affectedAggrResultSetIndex.get( j ).intValue( )] );
+				}
+			}
+		}
+		
+		return rs;
+	}
+	
+	private int getPos(String[][] joinLevelKeys, String[][] detailLevelKeys)
+	{
+		for (int i = 0; i < detailLevelKeys.length; i++)
+		{
+			if (CompareUtil.compare(joinLevelKeys[0], detailLevelKeys[i] )==0)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private void applyJoin(IAggregationResultSet joinRS, IAggregationResultSet detailRS) throws IOException 
+	{
+		String[][] detailLevelKeys = detailRS.getLevelKeys( );
+		List<Members> detailMember = new ArrayList<Members>();
+		String[][] joinLevelKeys = null;
+		Member[] members = null;
+		IDiskArray aggregationResultRows = null;
+
+    	joinLevelKeys = joinRS.getLevelKeys( );
+
+    	int pos = getPos(joinLevelKeys, detailLevelKeys);
+    	
+    	for (int index = 0; index < detailRS.length( ); index++)
+    	{
+    		detailRS.seek( index );
+    		members = detailRS.getCurrentRow( ).getLevelMembers( );
+    		if (members == null)
+    		{
+    			continue;
+    		}
+    		List<Member> tmpMembers = new ArrayList<Member>();
+    		for (int j = pos; j < pos + joinLevelKeys.length; j++)
+        	{
+    			if ( j > members.length - 1)
+    			{
+    				break;
+    			}
+    			if (CompareUtil.compare(joinLevelKeys[j - pos], detailLevelKeys[j] )==0)
+    			{
+    				tmpMembers.add (members[j]);
+    			}
+                
+        	}
+    		detailMember.add( new Members(tmpMembers.toArray( new Member[]{} )) );
+    	}
+    	Collections.sort( detailMember );
+    	if( joinRS instanceof AggregationResultSet )
+    		aggregationResultRows = ((AggregationResultSet)joinRS).getAggregationResultRows();
+    	else if( joinRS instanceof CachedAggregationResultSet )
+    		aggregationResultRows = ((CachedAggregationResultSet)joinRS).getAggregationResultRows();
+		IDiskArray newRsRows = new BufferedStructureArray(AggregationResultRow.getCreator( ), aggregationResultRows.size( ));
+		int result;
+		for (int index = 0; index < joinRS.length( ); index++)
+    	{
+			joinRS.seek( index );
+    		result = Collections.binarySearch( detailMember, new Members( joinRS.getCurrentRow( ).getLevelMembers( ) ) );
+    		
+    		if (result >= 0 )
+    		{
+    			newRsRows.add(aggregationResultRows.get( index ));
+    		}
+    	}
+		if( joinRS instanceof AggregationResultSet )
+    		((AggregationResultSet)joinRS).setAggregationResultRows(newRsRows);
+    	else if( joinRS instanceof CachedAggregationResultSet )
+    		((CachedAggregationResultSet)joinRS).setAggregationResultRows(newRsRows);
+    	detailMember.clear( );
+    
+	}
+	
+	private class Members implements Comparable<Members>
+	{
+
+		public Member[] members;
+		public Members(Member[] members)
+		{
+			this.members = members;
+		}
+		
+		public int compareTo( Members other )
+		{
+			for (int i = 0; i < members.length; i++)
+			{
+				int result = members[i].compareTo( other.members[i] );
+				if (result != 0)
+				{
+					return result;
+				}
+			}
+			return 0;
+		}
+
+	}
+	
+	private List getNoAggrUpdateFilters( List filters )
+	{
+		List NoAggrUpdateFilters = new ArrayList( );
+
+		for ( int i = 0; i < filters.size( ); i++ )
+		{
+			if ( !( (IFilterDefinition) filters.get( i ) ).updateAggregation( ) )
+			{
+				try 
+				{
+					if (ExpressionCompilerUtil
+							.extractColumnExpression(
+									((IFilterDefinition) filters.get(i))
+											.getExpression(),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE)
+							.size() > 0) 
+					{
+						NoAggrUpdateFilters.add(filters.get(i));
+					}
+				} 
+				catch (DataException e) 
+				{
+				}
+			}
+		}
+		return NoAggrUpdateFilters;
 	}
 
 	private DrilledAggregationDefinition[] preparedDrillAggregation(
@@ -482,7 +701,7 @@ public class QueryExecutor
 	private IAggregationResultSet[] populateRs( BirtCubeView view,
 			AggregationDefinition[] aggrDefns,
 			CubeQueryExecutorHelper cubeQueryExcutorHelper2,
-			StopSign stopSign, boolean saveToRD ) throws IOException, BirtException
+			StopSign stopSign, boolean saveToRD, IBindingValueFetcher fetcher ) throws IOException, BirtException
 	{
 		
 		IAggregationResultSet[] rs = null;
@@ -495,7 +714,7 @@ public class QueryExecutor
 					|| executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
 
-			rs = executeQuery( view, aggrDefns, saveToRD, id );
+			rs = executeQuery( view, aggrDefns, saveToRD, id ,fetcher );
 		}
 		else
 		{
@@ -525,7 +744,7 @@ public class QueryExecutor
 				}
 				else
 				{
-					rs = executeQuery( view, aggrDefns, saveToRD, id );
+					rs = executeQuery( view, aggrDefns, saveToRD, id ,fetcher );
 				}
 			}
 		}		
@@ -536,12 +755,13 @@ public class QueryExecutor
 	
 	private IAggregationResultSet[] executeQuery( BirtCubeView view,
 			AggregationDefinition[] aggrDefns, boolean saveToRD,
-			String queryResutID ) throws IOException, BirtException
+			String queryResutID, IBindingValueFetcher fetcher ) throws IOException, BirtException
 	{
 		IAggregationResultSet[] rs;
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		
 		rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
+		rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, view.getCube( ) , fetcher );
 		//process mirror operation
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 		rs = moe.execute( rs, view, cubeQueryExecutorHelper );

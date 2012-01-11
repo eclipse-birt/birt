@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
@@ -492,7 +493,7 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		setProperty( ComputedColumn.ARGUMENTS_MEMBER, null );
 	}
-	
+
 	/**
 	 * Gets the flag which indicates whether the computed column supports
 	 * export.
@@ -513,10 +514,156 @@ public class ComputedColumnHandle extends StructureHandle
 	 * 
 	 * @param allowExport
 	 *            the flag to set
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	public void setAllowExport( boolean allowExport ) throws SemanticException
 	{
 		setProperty( ComputedColumn.ALLOW_EXPORT_MEMBER, allowExport );
+	}
+
+	/**
+	 * Gets the calculation function name. The value is defined by customer DB
+	 * calculation executor.
+	 * 
+	 * @param calculationType
+	 * @throws SemanticException
+	 */
+	public void setCalculationType( String calculationType )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.CALCULATION_TYPE_MEMBER, calculationType );
+	}
+
+	/**
+	 * Gets the calculation function name. The value is defined by customer DB
+	 * calculation executor.
+	 * 
+	 * @return
+	 */
+	public String getCalculationType( )
+	{
+		return getStringProperty( ComputedColumn.CALCULATION_TYPE_MEMBER );
+	}
+
+	/**
+	 * Returns a iterator of calculation arguments for specific calculation
+	 * type. Each item in the list is instance of
+	 * <code>CalculationAggregationArgumentHandle</code>.
+	 * 
+	 * @return a list containing calculation arguments
+	 */
+
+	public Iterator calculationArgumentsIterator( )
+	{
+		MemberHandle propHandle = getMember( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Adds a calculation argument to list.
+	 * 
+	 * @param argument
+	 *            the calculation argument for specific calculation type
+	 * @return calculation argument handle.
+	 * @throws SemanticException
+	 */
+
+	public CalculationArgumentHandle addCalculationArgument(
+			CalculationArgument argument ) throws SemanticException
+	{
+		MemberHandle aggreHandle = getMember( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		return (CalculationArgumentHandle) aggreHandle.addItem( argument );
+	}
+
+	/**
+	 * Removes a calculation argument from list.
+	 * 
+	 * @param argument
+	 *            the calculation argument
+	 * @throws SemanticException
+	 */
+
+	public void removeCalculationArgument( CalculationArgument argument )
+			throws SemanticException
+	{
+		MemberHandle aggreHandle = getMember( ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		aggreHandle.removeItem( argument );
+	}
+
+	/**
+	 * 
+	 * Sets reference date type for the calculation in this column. The type is
+	 * one of following values:
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION
+	 * </ul>
+	 * 
+	 * 
+	 * @param refDateType
+	 *            the reference date type to set
+	 * @throws SemanticException
+	 *             if the <code>refDateType</code> is not one of above values.
+	 */
+	public void setReferenceDateType( String refDateType )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.REFERENCE_DATE_TYPE_MEMBER, refDateType );
+	}
+
+	/**
+	 * 
+	 * Returns reference date type for the calculation in this column. The type
+	 * is one of following values:
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
+	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION
+	 * </ul>
+	 * 
+	 * @return the reference date type
+	 */
+	public String getReferenceDateType( )
+	{
+		return getStringProperty( ComputedColumn.REFERENCE_DATE_TYPE_MEMBER );
+	}
+
+	/**
+	 * Gets the expression handle for the reference date value member. Then use
+	 * the returned handle to do get/set action.
+	 * 
+	 * @return
+	 */
+	public ExpressionHandle getReferenceDateValue( )
+	{
+		return getExpressionProperty( ComputedColumn.REFERENCE_DATE_VALUE_MEMBER );
+	}
+
+	/**
+	 * Gets the time dimension string value. It is the name of the referenced
+	 * time dimension.
+	 * 
+	 * @return the referred time dimension name
+	 */
+	public String getTimeDimension( )
+	{
+		return getStringProperty( ComputedColumn.TIME_DIMENSION_MEMBER );
+	}
+
+	/**
+	 * Sets the time dimension string value. It is the name of the referred time
+	 * dimension element.
+	 * 
+	 * @param timeDimension
+	 * @throws SemanticException
+	 */
+	public void setTimeDimension( String timeDimension )
+			throws SemanticException
+	{
+		setProperty( ComputedColumn.TIME_DIMENSION_MEMBER, timeDimension );
 	}
 }

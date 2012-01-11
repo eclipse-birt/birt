@@ -147,4 +147,10 @@ public class GroupProcessorManager
 	{
 		return this.groupCalculationUtil;
 	}
+	
+	public void setExpressionProcessor( IExpressionProcessor exprProc )
+	{
+		this.exprProcessor = exprProc;
+		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
+	}
 }

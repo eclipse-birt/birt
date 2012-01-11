@@ -580,8 +580,15 @@ public class ReportDocumentReader
 				if ( values.length == 2 )
 				{
 					Object value = values[0];
-					String displayText = (String) values[1];
-					paramAttr = new ParameterAttribute( value, displayText );
+					if ( values[1] == null || values[1] instanceof String)
+					{
+						paramAttr = new ParameterAttribute( value, (String) values[1] );
+					}
+					else if ( values[1] instanceof String[])
+					{
+						paramAttr = new ParameterAttribute( (Object[])value, (String[]) values[1] );
+					}
+					
 				}
 			}
 			if ( paramAttr == null )

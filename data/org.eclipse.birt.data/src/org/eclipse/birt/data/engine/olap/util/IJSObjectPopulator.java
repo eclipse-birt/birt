@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
@@ -515,10 +516,17 @@ public interface IJSObjectPopulator
 						{
 							return ((Scriptable)result).getDefaultValue( null );
 						}
+				
+						result = DataTypeUtil.convert( result, binding.getDataType( ) );
+						
 						return result;
 					}
 				}
 				catch ( DataException e )
+				{
+					return e;
+				}
+				catch (BirtException e) 
 				{
 					return e;
 				}

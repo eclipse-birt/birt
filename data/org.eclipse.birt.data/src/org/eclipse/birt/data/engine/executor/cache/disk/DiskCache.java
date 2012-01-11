@@ -64,15 +64,15 @@ public class DiskCache implements ResultSetCache
 	private String tempRootDirStr;
 	
 	// disk result set
-	private DiskCacheResultSet diskBasedResultSet;
+	protected DiskCacheResultSet diskBasedResultSet;
 	
 	// metadata
-	private IResultClass rsMeta;
+	protected IResultClass rsMeta;
 	
 	// log instance
 	private static Logger logger = Logger.getLogger( DiskCache.class.getName( ) );
 	
-	private DataEngineSession session;
+	protected DataEngineSession session;
 	
 	private boolean needCache;
 	private BufferedStructureArray cache;
@@ -124,6 +124,8 @@ public class DiskCache implements ResultSetCache
 		logger.info( "End of process, and the count of data is "
 				+ countOfResult );
 	}
+	
+	protected DiskCache( ){ }
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentIndex()

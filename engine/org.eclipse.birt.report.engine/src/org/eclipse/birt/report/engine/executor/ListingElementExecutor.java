@@ -372,6 +372,14 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 				next( );
 				addAfterBreak = false;
 			}
+			else
+			{
+				//this onPagebreak is caused by fixed-layout
+				if ( softBreakBefore )
+				{
+					softBreakBefore = false;
+				}
+			}
 			ignorePageBreak = true;
 		}
 	}

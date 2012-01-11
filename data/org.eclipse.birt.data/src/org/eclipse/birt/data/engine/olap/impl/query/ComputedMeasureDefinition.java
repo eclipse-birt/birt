@@ -22,7 +22,6 @@ public class ComputedMeasureDefinition extends MeasureDefinition implements ICom
 {
 	//
 	private IBaseExpression expr;
-	private int type;
 	
 	/**
 	 * Constructor.
@@ -34,8 +33,8 @@ public class ComputedMeasureDefinition extends MeasureDefinition implements ICom
 	public ComputedMeasureDefinition( String name, int type, IBaseExpression expr )
 	{
 		super( name );
+		super.setDataType( type );
 		this.expr = expr;
-		this.type = type;
 	}
 
 	/*
@@ -45,14 +44,5 @@ public class ComputedMeasureDefinition extends MeasureDefinition implements ICom
 	public IBaseExpression getExpression( )
 	{
 		return this.expr;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition#getType()
-	 */
-	public int getType()
-	{
-		return this.type;
 	}
 }

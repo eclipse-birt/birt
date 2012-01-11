@@ -38,9 +38,9 @@ import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.executor.transform.EmptyResultIterator;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.document.PLSEnabledDataSetPopulator;
-import org.eclipse.birt.data.engine.impl.document.QueryResultIDManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
@@ -237,6 +237,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			RDLoad rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ),
 					getEngineContext( ),
 					new QueryResultInfo( realBasedQueryID, null, -1 ) );
+			if ( rdLoad.isEmptyQueryResultID( realBasedQueryID ) )
+			{
+				return new ResultMetaData( new ResultClass( new ArrayList( ) ) );
+			}
 			// TODO: enhanceme
 			return rdLoad.loadResultMetaData( );
 		}
@@ -265,6 +269,11 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 						.getTempDir( ),
 						getEngineContext( ),
 						new QueryResultInfo( realBasedQueryID, null, -1 ) );
+				if( rdLoad.isEmptyQueryResultID( realBasedQueryID ) )
+				{
+					return  new EmptyResultIterator( );
+				}
+				
 				DataSetResultSet dataSetResult = rdLoad.loadDataSetData( null, null, new HashMap() );
 				StreamManager manager = new StreamManager( getEngineContext( ),
 						new QueryResultInfo( queryDefn.getQueryResultsID( ),
@@ -523,5 +532,4 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			}
 		}
 	}
-
 }

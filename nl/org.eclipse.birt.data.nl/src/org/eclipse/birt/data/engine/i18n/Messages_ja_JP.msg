@@ -67,6 +67,7 @@ data.engine.DupColumnName=列名が重複しています : {0}
 data.engine.DupAlias=列名またはエイリアスが重複しています : {0}
 data.engine.InvalidFieldIndex=フィールドのインデックスが無効です : {0}
 data.engine.fail.prepareExecution=データセットにクエリの実行を準備できません : {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=パターンの構文を確認してください。文字列とパターンを照合中にエラーが発生しました : {0}
 
@@ -412,9 +413,9 @@ data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含め
 data.olap.query.noCubeBinding=キューブのバインドが使用できないため、キューブクエリを実行できませんでした。
 data.olap.FailLoadCube=キューブを読み込めません : "{0}"
 data.olap.MissingDimensionInCube=キューブ "{0}" には少なくとも 1 つのディメンジョンが必要です。
-data.olap.ExceedIntegerLimit= The result set length exceeds Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedIntegerLimit= 結果セットの長さが Integer.MAX を超えています。
+data.olap.ExceedColumnLimit= 列のエッジにある結果セットの長さがサイズの制限 {0} を超えています。
+data.olap.ExceedRowLimit= 行のエッジにある結果セットの長さがサイズの制限 {0} を超えています。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code

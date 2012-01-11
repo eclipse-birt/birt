@@ -682,7 +682,7 @@ public class DataSetMetaDataHelper
 					{
 						PropertyBinding binding = (PropertyBinding) pList.get( i );
 						dsHandle.setPropertyBinding( binding.getName( ),
-								binding.getValue( ) );
+										binding.getExpressionProperty( PropertyBinding.VALUE_MEMBER ) );
 					}
 				}
 				if ( dsHandle.getDataSource( ) != null && dataSourceMap.get( dsHandle.getDataSource( ).getName( ) ) != null )
@@ -694,7 +694,7 @@ public class DataSetMetaDataHelper
 						PropertyBinding binding = (PropertyBinding) pList.get( i );
 						dsHandle.getDataSource( )
 								.setPropertyBinding( binding.getName( ),
-										binding.getValue( ) );
+										binding.getExpressionProperty( PropertyBinding.VALUE_MEMBER ) );
 					}
 				}
 			}

@@ -1915,16 +1915,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		// Always cube query returned
-		setRowLimit( session, getMaxRow( ), true );
 		ICubeQueryResults cqr = dteAdapter.executeQuery( session,
 				(ICubeQueryDefinition) qd );
+		
 		// Sharing case
+		BIRTCubeResultSetEvaluator bcrse = null;
 		if ( referredHandle != null && isCrosstabReference )
 		{
-			return new SharedCubeResultSetEvaluator( cqr, qd, cm );
+			bcrse = new SharedCubeResultSetEvaluator( cqr, qd, cm );
 		}
-
-		return new BIRTCubeResultSetEvaluator( cqr );
+		else
+		{
+			bcrse = new BIRTCubeResultSetEvaluator( cqr );
+		}
+		bcrse.setSizeLimit( getMaxRow( ) );
+		return bcrse;
 	}
 
 	/**

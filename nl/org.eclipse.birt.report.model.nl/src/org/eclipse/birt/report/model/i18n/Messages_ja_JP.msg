@@ -730,6 +730,11 @@ Choices.filterConditionType.simple=簡易
 Choices.flyoutPosition.left=左
 Choices.flyoutPosition.right=右
 
+#94 referenceDateType
+Choices.referenceDateType.today=今日
+Choices.referenceDateType.fixedDate=固定された日付
+Choices.referenceDateType.endingDateInDimension=ディメンション内の終了日付
+
 ###########################################################
 # Classes
 
@@ -1907,6 +1912,7 @@ Structure.ScriptLib=スクリプトライブラリ
 Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
 Structure.DimensionJoinCondition=ディメンジョンのジョイン条件
 Structure.FormatValue =書式の値
+Structure.CalculationArgument=計算の引数
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
@@ -2007,6 +2013,7 @@ Structure.FilterCondition.extensionExprId=拡張式 ID
 Structure.FilterCondition.pushDown=プッシュ (下へ)
 Structure.FilterCondition.dynamicFilterParameter=動的フィルタパラメタ
 Structure.FilterCondition.type=種類
+Structure.FilterCondition.updateAggregation=Update Aggregation
 
 #10. PropertyMask
 Structure.PropertyMask.name=名前
@@ -2037,6 +2044,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn 関数
 Structure.ComputedColumn.arguments=AggregateOn 関数の引数
 Structure.ComputedColumn.filterExpr=フィルタ式
 Structure.ComputedColumn.allowExport=エクスポートを許可する
+Structure.ComputedColumn.calculationType=計算の種類
+Structure.ComputedColumn.calculationArguments=計算の引数
+Structure.ComputedColumn.refDateType=参照日の種類
+Structure.ComputedColumn.refDateValue=参照日の値
+Structure.ComputedColumn.timeDimension=時間のディメンジョン
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2299,6 +2311,11 @@ Structure.TimeInterval.unit=単位
 Structure.FormatValue.category=カテゴリ
 Structure.FormatValue.pattern=パターン
 Structure.FormatValue.locale=ロケール
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=計算の引数名
+Structure.CalculationArgument.value=計算の引数値
+
 
 ###########################################################
 # Element names
@@ -3286,6 +3303,7 @@ Element.Measure.ACLExpression=ACL 式
 Element.Measure.action=アクション
 Element.Measure.format=書式
 Element.Measure.alignment=配置
+Element.Measure.isVisible=表示する
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=メジャー
@@ -3353,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=拡張式 ID
 Element.FilterConditionElement.pushDown=プッシュ (下へ)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=種類
-
+Element.FilterConditionElement.updateAggregation=Update Aggregation
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

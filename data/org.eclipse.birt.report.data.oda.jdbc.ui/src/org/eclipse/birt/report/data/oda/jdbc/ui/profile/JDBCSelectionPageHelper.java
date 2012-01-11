@@ -26,6 +26,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
+import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInfoManager;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JDBCDriverInformation;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.JdbcToolKit;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
@@ -137,7 +138,24 @@ public class JDBCSelectionPageHelper
 		gridData.horizontalAlignment = SWT.FILL;
 		driverChooserCombo.getControl( ).setLayoutData( gridData );
 
-		List driverList = JdbcToolKit.getJdbcDriversFromODADir( JDBC_EXTENSION_ID );
+		List driverListTmp1 = JdbcToolKit.getJdbcDriversFromODADir( JDBC_EXTENSION_ID );
+		JDBCDriverInformation[] driverListTmp2 = JDBCDriverInfoManager.getDrivers( );
+		List driverList = new ArrayList( );
+		for ( Object driverInfo : driverListTmp1 )
+		{
+			if ( needCheckHide( driverListTmp2,
+					(JDBCDriverInformation) driverInfo ) )
+			{
+				if ( !( (JDBCDriverInformation) driverInfo ).getHide( ) )
+				{
+					driverList.add( driverInfo );
+				}
+			}
+			else
+			{
+				driverList.add( driverInfo );
+			}
+		}
 		driverChooserCombo.setContentProvider( new IStructuredContentProvider( ) {
 
 			public Object[] getElements( Object inputElement )
@@ -317,6 +335,21 @@ public class JDBCSelectionPageHelper
 		verifyJDBCProperties( );
 	}
 
+	private boolean needCheckHide( JDBCDriverInformation[] driverInfos,
+			JDBCDriverInformation info )
+	{
+		for ( JDBCDriverInformation driverInfo : driverInfos )
+		{
+			if ( driverInfo.getDriverClassName( )
+					.equals( info.getDriverClassName( ) ) )
+			{
+				info.setHide( driverInfo.getHide( ) );
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * give a certain class name , set the combo selection.
 	 * 
@@ -589,7 +622,7 @@ public class JDBCSelectionPageHelper
 				{
 					ExceptionHandler.showException( getShell( ),
 							JdbcPlugin.getResourceString( "connection.test" ),//$NON-NLS-1$
-							JdbcPlugin.getResourceString( e1.getLocalizedMessage( ) ),
+							e1.getLocalizedMessage( ),
 							e1 );
 				}
 				testButton.setEnabled( true );

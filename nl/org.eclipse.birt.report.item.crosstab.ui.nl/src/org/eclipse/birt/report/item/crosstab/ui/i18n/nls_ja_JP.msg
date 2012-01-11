@@ -33,6 +33,8 @@ MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
 AddMeasureViewHandleCommand.TransName=メジャーの追加
+AddRelativeTimePeriodAction_action_label=相対期間の追加
+AddRelativeTimePeriodAction_trans_label=相対期間の追加 
 ChangeAreaCommand.TransName=ディメンジョンの削除
 ChangeMeasureOrderCommand.TransName=メジャー順の変更
 CreateDimensionViewCommand.TransName=ディメンジョンの作成
@@ -341,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用しま
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=式エディタ
 CrosstabFilterConditionBuilder.MsgDlg.Msg=警告
 CrosstabFilterConditionBuilder.MsgDlg.Title=値は空白にできません。
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties

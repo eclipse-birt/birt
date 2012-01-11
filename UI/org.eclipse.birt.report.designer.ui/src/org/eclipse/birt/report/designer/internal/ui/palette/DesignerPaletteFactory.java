@@ -27,6 +27,8 @@ import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.dnd.DND;
 
 /**
@@ -93,69 +95,88 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 
 		return root;
 	}
-
+	
+	public static final String AGG_TEMPLATE = "DATA_AGG";//$NON-NLS-1$
+	public static final String TIMEPERIOD_TEMPLATE = "DATA_TIMEPERIOD";//$NON-NLS-1$
 	private static PaletteContainer createQuickTools( )
 	{
 
 		PaletteCategory quickTools = new PaletteCategory( IPreferenceConstants.PALETTE_CONTENT,
 				Messages.getString( "DesignerPaletteFactory.quicktool.title" ), //$NON-NLS-1$
 				null );
-		ReportElementFactory factory = new ReportElementFactory( "DATA_AGG" ); //$NON-NLS-1$
-		CombinedTemplateCreationEntry combined = new CombinedTemplateCreationEntry( Messages.getString( "DesignerPaletteFactory.quicktool.agg.title" ), //$NON-NLS-1$
+		ReportElementFactory factory = new ReportElementFactory( AGG_TEMPLATE ); //$NON-NLS-1$
+		CombinedTemplateCreationEntry combined = new QuickToolsCombinedTemplateCreationEntry( Messages.getString( "DesignerPaletteFactory.quicktool.agg.title" ), //$NON-NLS-1$
 				Messages.getString( "DesignerPaletteFactory.quicktool.agg.toolTip" ), //$NON-NLS-1$
-				"DATA_AGG", //$NON-NLS-1$
+				AGG_TEMPLATE, 
 				factory,
 				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION ),
-				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION ) ) {
-
-			public Tool createTool( )
-			{
-				return new ReportCreationTool( factory, null ) {
-
-					protected void performCreation( int button )
-					{
-						DNDService.getInstance( ).performDrop( "DATA_AGG", //$NON-NLS-1$
-								getTargetEditPart( ),
-								DND.DROP_DEFAULT,
-								new DNDLocation( getLocation( ) ) );
-					}
-
-					public void performCreation( EditPart editPart )
-					{
-						DNDService.getInstance( ).performDrop( "DATA_AGG", //$NON-NLS-1$
-								editPart,
-								DND.DROP_DEFAULT,
-								new DNDLocation( getLocation( ) ) );
-					}
-
-					protected boolean handleMove( )
-					{
-						updateTargetUnderMouse( );
-						boolean canMove = DNDService.getInstance( )
-								.validDrop( getTemplate( ),
-										getTargetEditPart( ),
-										DND.DROP_DEFAULT,
-										new DNDLocation( getLocation( ) ) );
-						if ( canMove )
-						{
-							updateTargetRequest( );
-							setCurrentCommand( getCommand( ) );
-							showTargetFeedback( );
-						}
-						else
-						{
-							setCurrentCommand( null );
-						}
-						
-						return canMove;
-					}
-
-				};
-			}
-
-		};
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_AGGREGATION ) ) ;
+		quickTools.add( combined );
+		
+		factory = new ReportElementFactory( TIMEPERIOD_TEMPLATE ); //$NON-NLS-1$
+		combined = new QuickToolsCombinedTemplateCreationEntry( Messages.getString( "DesignerPaletteFactory.quicktool.timeperiod.title" ), //$NON-NLS-1$
+				Messages.getString( "DesignerPaletteFactory.quicktool.timeperiod.toolTip" ), //$NON-NLS-1$
+				TIMEPERIOD_TEMPLATE, 
+				factory,
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TIMEPERIOD ),
+				ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_TIMEPERIOD ) ) ;
 		quickTools.add( combined );
 		return quickTools;
+	}
+	
+	private static class QuickToolsCombinedTemplateCreationEntry extends CombinedTemplateCreationEntry
+	{
+		public QuickToolsCombinedTemplateCreationEntry(String label, String shortDesc,
+				Object template, CreationFactory factory,
+				ImageDescriptor iconSmall, ImageDescriptor iconLarge) 
+		{
+			super(label, shortDesc,template,  factory, iconSmall, iconLarge);
+		}
+		
+		public Tool createTool( )
+		{
+			return new ReportCreationTool( factory, null ) {
+
+				protected void performCreation( int button )
+				{
+					DNDService.getInstance( ).performDrop( getTemplate( ), //$NON-NLS-1$
+							getTargetEditPart( ),
+							DND.DROP_DEFAULT,
+							new DNDLocation( getLocation( ) ) );
+				}
+
+				public void performCreation( EditPart editPart )
+				{
+					DNDService.getInstance( ).performDrop( getTemplate( ), //$NON-NLS-1$
+							editPart,
+							DND.DROP_DEFAULT,
+							new DNDLocation( getLocation( ) ) );
+				}
+
+				protected boolean handleMove( )
+				{
+					updateTargetUnderMouse( );
+					boolean canMove = DNDService.getInstance( )
+							.validDrop( getTemplate( ),
+									getTargetEditPart( ),
+									DND.DROP_DEFAULT,
+									new DNDLocation( getLocation( ) ) );
+					if ( canMove )
+					{
+						updateTargetRequest( );
+						setCurrentCommand( getCommand( ) );
+						showTargetFeedback( );
+					}
+					else
+					{
+						setCurrentCommand( null );
+					}
+					
+					return canMove;
+				}
+
+			};
+		}
 	}
 
 	/**

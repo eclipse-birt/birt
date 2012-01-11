@@ -20,7 +20,4 @@ driver.template.property.class = 드라이버 클래스
 driver.template.property.vendor = 공급업체
 driver.template.property.version = 버전
 driver.template.property.dbname = 데이터베이스
-driver.template.property.connection.url = 연결 URL
-driver.template.property.user = 사용자 이름
-driver.template.property.password = 암호
-driver.template.property.save.password = Save password
+>>>>>>> master

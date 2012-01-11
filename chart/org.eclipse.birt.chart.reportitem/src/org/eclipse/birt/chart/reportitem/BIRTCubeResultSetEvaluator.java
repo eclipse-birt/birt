@@ -48,6 +48,8 @@ public class BIRTCubeResultSetEvaluator extends
 	protected ICubeQueryResults qr;
 
 	protected ICubeCursor cubeCursor;
+	
+	protected long lSizeLimit = Long.MAX_VALUE;
 
 	/**
 	 * If there is Y optional expression, the cursor is related to Y optional
@@ -178,7 +180,7 @@ public class BIRTCubeResultSetEvaluator extends
 			if ( subEdgeCursor != null )
 			{
 				// Break if sub cursor reaches end
-				if ( subEdgeCursor.next( ) )
+				if ( hasNext( subEdgeCursor ) )
 				{
 					return true;
 				}
@@ -187,9 +189,9 @@ public class BIRTCubeResultSetEvaluator extends
 				lstBreaks.add( Integer.valueOf( iIndex ) );
 
 				subEdgeCursor.first( );
-				return mainEdgeCursor.next( );
+				return hasNext( mainEdgeCursor );
 			}
-			return mainEdgeCursor.next( );
+			return hasNext( mainEdgeCursor );
 		}
 		catch ( OLAPException e )
 		{
@@ -198,6 +200,25 @@ public class BIRTCubeResultSetEvaluator extends
 		return false;
 	}
 
+	/**
+	 * Checks if current cursor can move to next.
+	 * 
+	 * @param cursor
+	 * @return
+	 * @throws OLAPException
+	 */
+	protected boolean hasNext( EdgeCursor cursor ) throws OLAPException
+	{
+		if ( cursor.next( ) )
+		{
+			if ( cursor.getPosition( ) < lSizeLimit )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	public void close( )
 	{
@@ -298,13 +319,29 @@ public class BIRTCubeResultSetEvaluator extends
 		return qr.getCubeCursor( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator#needCategoryGrouping()
+	 */
 	public boolean needCategoryGrouping( )
 	{
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator#needOptionalGrouping()
+	 */
 	public boolean needOptionalGrouping( )
 	{
 		return false;
+	}
+	
+	/**
+	 * Sets size limit of row and column.
+	 * 
+	 * @param dataSize
+	 */
+	public void setSizeLimit( long dataSize )
+	{
+		lSizeLimit = dataSize;
 	}
 }

@@ -67,6 +67,7 @@ data.engine.DupColumnName=Nombre de columna duplicado: {0}.
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}.
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}.
 data.engine.fail.prepareExecution=Error al preparar la ejecución de la consulta para el conjunto de datos: {0}
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidir el string con el patrón: {0}.
 
@@ -412,9 +413,9 @@ data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia es
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.
 data.olap.FailLoadCube=Error al cargar el cubo:"{0}".
 data.olap.MissingDimensionInCube=Debe haber al menos una dimensión en el cubo:"{0}"
-data.olap.ExceedIntegerLimit= The result set length exceeds Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedIntegerLimit= La longitud del conjunto de resultados supera Integer.MAX.
+data.olap.ExceedColumnLimit= La longitud del conjunto de resultados en el extremo de columna supera el límite de tamaño {0}.
+data.olap.ExceedRowLimit= La longitud del conjunto de resultados en el extremo de fila supera el límite de tamaño {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

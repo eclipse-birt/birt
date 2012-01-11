@@ -63,6 +63,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
@@ -609,7 +610,15 @@ public class ExpressionProvider implements
 				}
 				else if ( CURRENT_CUBE.equals( parent ) )
 				{
-					CubeHandle cube = ( (ReportItemHandle) elementHandle ).getCube( );
+					CubeHandle cube = null;
+					if( elementHandle instanceof TabularMeasureHandle)
+					{
+						cube = (CubeHandle)( (TabularMeasureHandle) elementHandle ).getContainer().getContainer();
+					}
+					else
+					{
+						cube = ( (ReportItemHandle) elementHandle ).getCube( );
+					}
 					Object nodeProviderAdapter = ElementAdapterManager.getAdapter( cube,
 							INodeProvider.class );
 					if ( nodeProviderAdapter != null )

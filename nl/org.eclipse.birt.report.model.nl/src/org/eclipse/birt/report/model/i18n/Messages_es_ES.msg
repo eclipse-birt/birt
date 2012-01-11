@@ -730,6 +730,11 @@ Choices.filterConditionType.simple=Simple
 Choices.flyoutPosition.left=Izquierda
 Choices.flyoutPosition.right=Derecha
 
+#94 referenceDateType
+Choices.referenceDateType.today=Hoy
+Choices.referenceDateType.fixedDate=Fecha fijada
+Choices.referenceDateType.endingDateInDimension=Fecha final en dimensión
+
 ###########################################################
 # Classes
 
@@ -1907,6 +1912,7 @@ Structure.ScriptLib=Librería de scripts
 Structure.IncludedCssStyleSheet=Hoja de estilos CSS incluida
 Structure.DimensionJoinCondition=Condición de combinación de dimensión
 Structure.FormatValue =Valor de formato
+Structure.CalculationArgument=Argumento de cálculo
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2007,6 +2013,7 @@ Structure.FilterCondition.extensionExprId=ID de la expresión de extensión
 Structure.FilterCondition.pushDown=Oprimir
 Structure.FilterCondition.dynamicFilterParameter=Parámetro de filtro dinámico
 Structure.FilterCondition.type=Tipo
+Structure.FilterCondition.updateAggregation=Update Aggregation
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nombre
@@ -2037,6 +2044,11 @@ Structure.ComputedColumn.aggregateFunction=Función AgregarEn
 Structure.ComputedColumn.arguments=Argumentos de la función AgregarEn
 Structure.ComputedColumn.filterExpr=Expresión de filtro
 Structure.ComputedColumn.allowExport=Permitir exportación
+Structure.ComputedColumn.calculationType=Tipo de cálculo
+Structure.ComputedColumn.calculationArguments=Argumentos de cálculo
+Structure.ComputedColumn.refDateType=Tipo de fecha de referencia
+Structure.ComputedColumn.refDateValue=Valor de fecha de referencia
+Structure.ComputedColumn.timeDimension=Dimensión de tiempo
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nombre de la columna
@@ -2299,6 +2311,11 @@ Structure.TimeInterval.unit=Unidad
 Structure.FormatValue.category=Categoría
 Structure.FormatValue.pattern=Patrón
 Structure.FormatValue.locale=Configuración regional
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=Nombre de argumento de cálculo
+Structure.CalculationArgument.value=Valor de argumento de cálculo
+
 
 ###########################################################
 # Element names
@@ -3286,6 +3303,7 @@ Element.Measure.ACLExpression=Expresión ACL
 Element.Measure.action=Acción
 Element.Measure.format=Formato
 Element.Measure.alignment=Alineación
+Element.Measure.isVisible=Es visible
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Medidas
@@ -3353,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=ID de la expresión de extensión
 Element.FilterConditionElement.pushDown=Oprimir
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Tipo
-
+Element.FilterConditionElement.updateAggregation=Update Aggregation
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
