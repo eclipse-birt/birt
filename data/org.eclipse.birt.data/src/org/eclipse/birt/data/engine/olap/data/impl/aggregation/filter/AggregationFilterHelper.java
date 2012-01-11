@@ -380,7 +380,8 @@ public class AggregationFilterHelper
 					for ( int k = 0; k < this.aggrFilters.size( ); k++ )
 					{
 						IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) ( (AggrFilterDefinition) aggrFilters.get( k ) ).getFilterHelper( );
-						if ( !filterHelper.evaluateFilter( row4filter ) )
+						if ( isMatch( rs[i].getAggregationDefinition( ),
+								rs[i],(AggrFilterDefinition) aggrFilters.get( k )) && (!filterHelper.evaluateFilter( row4filter )) )
 						{
 							isFilterByAll = false;
 							break;
