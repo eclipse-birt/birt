@@ -103,10 +103,28 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_N1 = "timeFunction.N1";
 	public final static String TIMEFUNCITON_N2 = "timeFunction.N2";
 	
+	public final static String TIMEFUNCITON_N1_YEAR = "timeFunction.N1.Year";
+	public final static String TIMEFUNCITON_N2_YEAR = "timeFunction.N2.Year";
+	public final static String TIMEFUNCITON_N1_QUARTER = "timeFunction.N1.Quarter";
+	public final static String TIMEFUNCITON_N2_QUARTER = "timeFunction.N2.Quarter";
+	public final static String TIMEFUNCITON_N1_MONTH = "timeFunction.N1.Month";
+	public final static String TIMEFUNCITON_N2_MONTH = "timeFunction.N2.Month";
+	public final static String TIMEFUNCITON_N1_WEEK = "timeFunction.N1.Week";
+	public final static String TIMEFUNCITON_N2_WEEK = "timeFunction.N2.Week";
+	
 	public final static String TIMEFUNCITON_PERIOD1_DISPLAYNAME = "timeFunction.PERIOD1.displayName";
 	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
 	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
 	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
+	
+	public final static String TIMEFUNCITON_N1_YEAR_DISPLAYNAME = "timeFunction.N1.Year.displayName";
+	public final static String TIMEFUNCITON_N2_YEAR_DISPLAYNAME = "timeFunction.N2.Year.displayName";
+	public final static String TIMEFUNCITON_N1_QUARTER_DISPLAYNAME = "timeFunction.N1.Quarter.displayName";
+	public final static String TIMEFUNCITON_N2_QUARTER_DISPLAYNAME = "timeFunction.N2.Quarter.displayName";
+	public final static String TIMEFUNCITON_N1_MONTH_DISPLAYNAME = "timeFunction.N1.Month.displayName";
+	public final static String TIMEFUNCITON_N2_MONTH_DISPLAYNAME = "timeFunction.N2.Month.displayName";
+	public final static String TIMEFUNCITON_N1_WEEK_DISPLAYNAME = "timeFunction.N1.Week.displayName";
+	public final static String TIMEFUNCITON_N2_WEEK_DISPLAYNAME = "timeFunction.N2.Week.displayName";
 	
 	public final static String TIMEFUNCITON_PERIODCHOICE_YEAR_DISPLAYNAME = "timeFunction.PERIODCHOICE.YEAR_displayName";
 	public final static String TIMEFUNCITON_PERIODCHOICE_QUARTER_DISPLAYNAME = "timeFunction.PERIODCHOICE.QUARTER_displayName";

@@ -148,7 +148,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE ) );
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_12_MONTHS ) );
+//			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_12_MONTHS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) );
 
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, locale ) );
@@ -166,11 +166,11 @@ public class TimeFunctionManager
 
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
 		{
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_30_DAYS ) );
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_60_DAYS ) );
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS ) );
-			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
-			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
+//			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_30_DAYS ) );
+//			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_60_DAYS ) );
+//			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS ) );
+//			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
+//			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
 		}
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ),
 				periodType ) );
