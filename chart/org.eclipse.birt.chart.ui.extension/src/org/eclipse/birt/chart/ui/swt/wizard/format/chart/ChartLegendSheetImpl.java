@@ -241,7 +241,9 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 			cmbLegendBehavior.setItemData( new String[]{
 					nameSet.getNames( )[0]
 				} );
-			cmbLegendBehavior.select( 0 );
+			cmbLegendBehavior.setSelection( getChart( ).getInteractivity( )
+					.getLegendBehavior( )
+					.getName( ) );
 		}
 	}
 
