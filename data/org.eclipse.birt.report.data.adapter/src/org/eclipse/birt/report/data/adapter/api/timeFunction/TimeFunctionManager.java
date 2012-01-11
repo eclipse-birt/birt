@@ -532,6 +532,8 @@ public class TimeFunctionManager
 		IBinding functionBinding = session.getModelAdaptor( )
 				.adaptBinding( column );
 		session.shutdown( );
+		if( functionBinding == null ) 
+			return getCalculationType( column.getCalculationType( ), locale ).getDisplayName( );
 		ITimePeriod basePeriod = functionBinding.getTimeFunction( )
 				.getBaseTimePeriod( );
 		ITimePeriod relativePeriod = functionBinding.getTimeFunction( )
