@@ -41,7 +41,7 @@ public class ExcelContext
 	private String tempFileDir;
 	private ULocale locale;
 	private Boolean hideGridlines = false;
-	private boolean enableMultipleSheet = false;
+	private boolean enableMultipleSheet = true;
 	private boolean ignoreImage = true;
 	private String sheetName;
 	private String sheetPrefix;
