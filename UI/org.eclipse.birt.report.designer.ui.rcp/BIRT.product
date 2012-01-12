@@ -34,6 +34,7 @@
    <plugins>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.lowagie.text"/>
+      <plugin id="javax.el"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
       <plugin id="javax.wsdl"/>
@@ -55,10 +56,9 @@
       <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.discovery"/>
-      <plugin id="org.apache.commons.el"/>
       <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
-      <plugin id="org.apache.jasper"/>
+      <plugin id="org.apache.jasper.glassfish"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.lucene.core"/>
@@ -90,10 +90,10 @@
       <plugin id="org.eclipse.birt.report.data.adapter"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils.ui"/>
-      <plugin id="org.eclipse.birt.report.data.oda.jdbc"/>
-      <plugin id="org.eclipse.birt.report.data.oda.jdbc.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.hive"/>
       <plugin id="org.eclipse.birt.report.data.oda.hive.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.jdbc"/>
+      <plugin id="org.eclipse.birt.report.data.oda.jdbc.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.sampledb"/>
       <plugin id="org.eclipse.birt.report.data.oda.sampledb.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.xml"/>
@@ -117,23 +117,23 @@
       <plugin id="org.eclipse.birt.report.engine.dataextraction.csv"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.excel"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.html"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.odp"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.odp"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.ods"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.ods"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.odt"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.odt"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.pdf"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.postscript"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.ppt"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.config.ppt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.config.wpml"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.odp"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.ods"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.odt"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
+      <plugin id="org.eclipse.birt.report.engine.emitter.ppt"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.prototype.excel"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.wpml"/>
-      <plugin id="org.eclipse.birt.report.engine.emitter.config.wpml"/>
       <plugin id="org.eclipse.birt.report.engine.fonts"/>
       <plugin id="org.eclipse.birt.report.engine.odf"/>
       <plugin id="org.eclipse.birt.report.engine.script.javascript"/>
@@ -207,6 +207,13 @@
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.help.ui"/>
       <plugin id="org.eclipse.help.webapp"/>
+      <plugin id="org.eclipse.jetty.continuation"/>
+      <plugin id="org.eclipse.jetty.http"/>
+      <plugin id="org.eclipse.jetty.io"/>
+      <plugin id="org.eclipse.jetty.security"/>
+      <plugin id="org.eclipse.jetty.server"/>
+      <plugin id="org.eclipse.jetty.servlet"/>
+      <plugin id="org.eclipse.jetty.util"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
@@ -214,7 +221,6 @@
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
       <plugin id="org.eclipse.swt.gtk.solaris.sparc" fragment="true"/>
@@ -222,7 +228,6 @@
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.browser"/>
-      <plugin id="org.eclipse.ui.carbon" fragment="true"/>
       <plugin id="org.eclipse.ui.cheatsheets"/>
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.navigator"/>
@@ -234,8 +239,6 @@
       <plugin id="org.eclipse.update.core.linux" fragment="true"/>
       <plugin id="org.eclipse.update.core.win32" fragment="true"/>
       <plugin id="org.eclipse.update.ui"/>
-      <plugin id="org.mortbay.jetty.server"/>
-      <plugin id="org.mortbay.jetty.util"/>
       <plugin id="org.mozilla.javascript"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.smil"/>
