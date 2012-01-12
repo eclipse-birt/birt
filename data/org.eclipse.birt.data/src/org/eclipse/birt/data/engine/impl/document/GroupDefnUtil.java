@@ -92,7 +92,7 @@ public class GroupDefnUtil
 				groupDefn.setInterval( IOUtil.readInt( dis ) );
 				groupDefn.setIntervalRange( IOUtil.readDouble( dis ) );
 				groupDefn.setSortDirection( IOUtil.readInt( dis ) );
-				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis ) );
+				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis, version ) );
 				groupDefn.getSorts( ).addAll( QueryDefnIOUtil.loadSorts( dis, version ) );
 				groupDefn.getSubqueries( )
 						.addAll( QueryDefnIOUtil.loadSubQuery( dis, parent, version ) );

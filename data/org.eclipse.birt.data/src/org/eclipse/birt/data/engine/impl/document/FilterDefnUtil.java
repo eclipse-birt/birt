@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 
 /**
  * Save/Load filter definition information.
@@ -49,6 +50,7 @@ public class FilterDefnUtil
 			{
 				IFilterDefinition filterDefn = (IFilterDefinition) filterList.get( i );
 				ExprUtil.saveBaseExpr( dos, filterDefn.getExpression( ) );
+				IOUtil.writeBool( dos, filterDefn.updateAggregation( ) );
 			}
 
 			dos.flush( );
@@ -64,7 +66,7 @@ public class FilterDefnUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	static List loadFilterDefn( InputStream inputStream )
+	static List loadFilterDefn( InputStream inputStream, int version )
 			throws DataException
 	{
 		List filterList = new ArrayList( );
@@ -75,7 +77,10 @@ public class FilterDefnUtil
 			for ( int i = 0; i < size; i++ )
 			{
 				IBaseExpression baseExpr = ExprUtil.loadBaseExpr( dis );
-				filterList.add( new FilterDefinition( baseExpr ) );
+				FilterDefinition f = new FilterDefinition( baseExpr );
+				if ( version >= VersionManager.VERSION_2_6_3_1 )
+					f.setUpdateAggregation( IOUtil.readBool( inputStream ) );
+				filterList.add( f );
 			}
 		}
 		catch ( IOException e )
