@@ -70,7 +70,7 @@ public class FilterDefinition implements IFilterDefinition
 	 */
 	public boolean updateAggregation( )
 	{
-		return false;
+		return updateAggr;
 	}
 	
 	/**
