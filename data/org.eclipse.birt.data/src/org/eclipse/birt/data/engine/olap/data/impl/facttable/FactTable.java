@@ -26,7 +26,7 @@ public class FactTable
 {
 	private String name;
 	private DimensionInfo[] dimensionInfo;
-	private MeasureInfo[] measureInfo;
+	private MeasureInfo[] measureInfo, calculatedMeasureInfo;
 	private int segmentCount;
 	private DimensionDivision[] dimensionDivision;
 	
@@ -44,7 +44,7 @@ public class FactTable
 	 * @param dimensionDivision
 	 */
 	FactTable( String name, IDocumentManager documentManager, DimensionInfo[] dimensionInfo,
-			MeasureInfo[] measureInfo, int segmentCount,
+			MeasureInfo[] measureInfo, MeasureInfo[] calculatedMeasureInfo, int segmentCount,
 			DimensionDivision[] dimensionDivision )
 	{
 		Object[] params = {
@@ -59,6 +59,7 @@ public class FactTable
 		this.name = name;
 		this.dimensionInfo = dimensionInfo;
 		this.measureInfo = measureInfo;
+		this.calculatedMeasureInfo = calculatedMeasureInfo;
 		this.segmentCount = segmentCount;
 		this.dimensionDivision = dimensionDivision;
 		this.documentManager = documentManager;
@@ -104,6 +105,15 @@ public class FactTable
 		return measureInfo;
 	}
 	
+
+	/**
+	 * 
+	 * @return
+	 */
+	public MeasureInfo[] getCalcualtedMeasureInfo( )
+	{
+		return this.calculatedMeasureInfo;
+	}
 
 	/**
 	 * 
