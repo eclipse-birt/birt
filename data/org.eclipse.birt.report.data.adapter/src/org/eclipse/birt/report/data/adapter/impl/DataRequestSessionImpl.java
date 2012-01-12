@@ -799,6 +799,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		backupAppContext.putAll( appContext );
 
 		List measureNames = new ArrayList( );
+		Map calculatedMeasure = new HashMap( );
 		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 		for ( int i = 0; i < measureGroups.size( ); i++ )
 		{
@@ -810,6 +811,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if( !measure.isCalculated( ) )
 				{
 					measureNames.add( measure.getName( ) );				
+				}
+				else
+				{
+					calculatedMeasure.put( measure.getName( ), DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ) );
 				}
 			}
 		}
@@ -1027,6 +1032,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					dimensions,
 					dataForCube,
 					this.toStringArray( measureNames ),
+					calculatedMeasure,
 					this.toStringArray( measureAggrFunctions ),
 					computeMemoryBufferSize( appContext ),
 					dataEngine.getSession( ).getStopSign( ) );
@@ -1041,7 +1047,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		appContext.clear( );
 		appContext.putAll( backupAppContext );
-
 	}
 
 	public static long computeMemoryBufferSize( Map appContext )

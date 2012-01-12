@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -105,7 +106,7 @@ public class Cube implements ICube
 
 	public void create( String[][] factTableJointColumnNames,
 			String[][] DimJointColumnNames, IDimension[] dimension,
-			IDatasetIterator iterator, String[] measureColumnName, String[] measureColumnAggregations,
+			IDatasetIterator iterator, String[] measureColumnName, Map calculatedMeasure, String[] measureColumnAggregations,
 			long cacheSize, StopSign stopSign ) throws IOException, BirtException
 	{
 		IDocumentObject documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
@@ -129,6 +130,7 @@ public class Cube implements ICube
 				iterator,
 				tDimensions,
 				measureColumnName,
+				calculatedMeasure,
 				measureColumnAggregations,
 				stopSign );
 		documentObject.close( );
@@ -156,6 +158,7 @@ public class Cube implements ICube
 				dimension,
 				iterator,
 				measureColumnName,
+				null,
 				null,
 				cacheSize,
 				stopSign );

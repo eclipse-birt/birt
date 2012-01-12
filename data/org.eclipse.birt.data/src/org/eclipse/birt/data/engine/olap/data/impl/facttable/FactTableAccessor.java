@@ -13,10 +13,14 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -80,9 +84,9 @@ public class FactTableAccessor
 	 * @throws IOException
 	 */
 	public FactTable saveFactTable( String factTableName,
-			String[][] factTableJointColumnNames, String[][] DimJointColumnNames,
+			String[][] factTableJointColumnNames, String[][] DimJointColumnNames, 
 			IDatasetIterator iterator, Dimension[] dimensions,
-			String[] measureColumnName, String[] measureColumnAggregations, StopSign stopSign )
+			String[] measureColumnName, Map calculatedMeasure, String[] measureColumnAggregations, StopSign stopSign )
 			throws BirtException, IOException
 	{
 		FacttableRowContainer sortedFactTableRows = null;
@@ -105,10 +109,12 @@ public class FactTableAccessor
 
 		DimensionInfo[] dimensionInfo = getDimensionInfo( dimensions );
 		MeasureInfo[] measureInfo = getMeasureInfo( iterator, measureColumnName );
+		MeasureInfo[] calMeasureInfo = getCalculatedMeasureInfo( calculatedMeasure );
 		
 		saveFactTableMetadata( factTableName,
 				dimensionInfo,
 				measureInfo,
+				calMeasureInfo,
 				segmentCount );
 
 		DimensionDivision[] subDimensions = calculateDimensionDivision( getDimensionMemberCount( dimensions ),
@@ -186,6 +192,7 @@ public class FactTableAccessor
 				documentManager,
 				dimensionInfo,
 				measureInfo,
+				calMeasureInfo,
 				segmentCount,
 				subDimensions);
 		
@@ -294,6 +301,7 @@ public class FactTableAccessor
 				iterator,
 				dimensions,
 				measureColumnName,
+				null,
 				null,
 				stopSign );
 	}
@@ -451,6 +459,34 @@ public class FactTableAccessor
 	
 	/**
 	 * 
+	 * @param iterator
+	 * @param measureColumnName
+	 * @param calculatedMeasure
+	 * @return
+	 * @throws BirtException
+	 */
+	private static MeasureInfo[] getCalculatedMeasureInfo( Map calculatedMeasure ) throws BirtException
+	{
+		if( calculatedMeasure== null )
+		{
+			return new MeasureInfo[0];
+		}
+		MeasureInfo[] measureInfo = new MeasureInfo[calculatedMeasure.size( )];
+		int i = 0; 
+		Iterator entry = calculatedMeasure.entrySet( ).iterator( );
+		while( entry.hasNext( ) )
+		{
+			Entry val = (Entry)entry.next( );
+			String name = NamingUtil.getDerivedMeasureName( val.getKey( ).toString( ) );
+			int dataType = ((Integer)val.getValue( )).intValue( );
+			measureInfo[i] = new MeasureInfo( name, dataType );
+			i++;
+		}
+		return measureInfo;
+	}
+	
+	/**
+	 * 
 	 * @param factTableName
 	 * @param dimensionInfo
 	 * @param measureInfo
@@ -459,7 +495,7 @@ public class FactTableAccessor
 	 * @throws BirtException
 	 */
 	private void saveFactTableMetadata( String factTableName,
-			DimensionInfo[] dimensionInfo, MeasureInfo[] measureInfo,
+			DimensionInfo[] dimensionInfo, MeasureInfo[] measureInfo, MeasureInfo[] calculatedMeasureInfo,
 			int segmentNumber ) throws IOException, BirtException
 	{
 		IDocumentObject documentObject = 
@@ -472,11 +508,16 @@ public class FactTableAccessor
 			documentObject.writeInt( dimensionInfo[i].dimensionLength );
 		}
 		// write measure name and measure data type
-		documentObject.writeInt( measureInfo.length );
+		documentObject.writeInt( measureInfo.length + calculatedMeasureInfo.length );
 		for ( int i = 0; i < measureInfo.length; i++ )
 		{
 			documentObject.writeString( measureInfo[i].getMeasureName() );
 			documentObject.writeInt( measureInfo[i].getDataType());
+		}
+		for ( int i = 0; i < calculatedMeasureInfo.length; i++ )
+		{
+			documentObject.writeString( calculatedMeasureInfo[i].getMeasureName() );
+			documentObject.writeInt( calculatedMeasureInfo[i].getDataType( ) );
 		}
 		// write segment count
 		documentObject.writeInt( segmentNumber );
@@ -678,11 +719,25 @@ public class FactTableAccessor
 			dimensionInfo[i].dimensionName = documentObject.readString( );
 			dimensionInfo[i].dimensionLength = documentObject.readInt( );
 		}
-		MeasureInfo[] measureInfo = new MeasureInfo[documentObject.readInt( )];
-		for ( int i = 0; i < measureInfo.length; i++ )
+		int measureSize = documentObject.readInt( );
+		List<MeasureInfo> measureInfoList = new ArrayList<MeasureInfo>( );
+		List<MeasureInfo> calMeasureInfoList = new ArrayList<MeasureInfo>( );
+		for ( int i = 0; i < measureSize; i++ )
 		{
-			measureInfo[i] = new MeasureInfo(documentObject.readString( ), documentObject.readInt( ));
+			String measureName = documentObject.readString( );
+			if( measureName.startsWith( NamingUtil.DERIVED_MEASURE_PREFIX ))
+			{
+				calMeasureInfoList.add( new MeasureInfo( NamingUtil.getMeasureName( measureName ), documentObject.readInt( ) ) );
+			}
+			else
+			{
+				measureInfoList.add( new MeasureInfo( measureName, documentObject.readInt( ) ) );
+			}
 		}
+		
+		MeasureInfo[] measureInfo = (MeasureInfo[])measureInfoList.toArray( new MeasureInfo[0] );
+		MeasureInfo[] calMeasureInfo = (MeasureInfo[])calMeasureInfoList.toArray( new MeasureInfo[0] );
+		
 		segmentNumber = documentObject.readInt( );
 		
 		int[] dimensionMemberCount = new int[dimensionInfo.length];
@@ -697,6 +752,7 @@ public class FactTableAccessor
 				documentManager,
 				dimensionInfo,
 				measureInfo,
+				calMeasureInfo,
 				segmentNumber,
 				subDimensions ); 
 	}
