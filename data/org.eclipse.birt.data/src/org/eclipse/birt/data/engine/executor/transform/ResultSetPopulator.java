@@ -63,7 +63,7 @@ public class ResultSetPopulator
 	 */
 	private IEventHandler eventHandler;
 	
-	private DataEngineSession session;
+	protected DataEngineSession session;
 	/**
 	 * 
 	 * @param query

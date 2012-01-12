@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -26,7 +27,6 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.QueryDefinitionUtil;
 import org.eclipse.birt.data.engine.impl.document.util.IExprResultSet;
 import org.mozilla.javascript.Scriptable;
 
@@ -397,5 +397,10 @@ public class ResultIterator implements IResultIterator
 	public boolean isFirst( ) throws BirtException
 	{
 		return !isEmpty( ) && getRowIndex( ) == 0;
+	}
+	
+	public List[] getGroupInfos( ) throws DataException
+	{
+		return exprResultSet.getGroupInfos( );
 	}
 }

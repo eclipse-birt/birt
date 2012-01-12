@@ -602,7 +602,7 @@ public final class RDGroupUtil implements IRDGroupUtil
 
 		public void clear( )
 		{
-			throw new UnsupportedOperationException( );
+//			throw new UnsupportedOperationException( );
 		}
 
 		public boolean contains( Object o )
