@@ -254,7 +254,7 @@ public class QueryCompUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean isEqualGroups( List group1, List group2, boolean onIVMode ) throws DataException
+	static boolean isEqualGroups( List group1, List group2, boolean onIVMode ) throws DataException
 	{
 		if ( group1 == group2 )
 			return true;
@@ -326,7 +326,7 @@ public class QueryCompUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean isEqualBindings( Map rs1, Map rs2 ) throws DataException
+	static boolean isEqualBindings( Map rs1, Map rs2 ) throws DataException
 	{
 		if ( rs1 == rs2 )
 			return true;

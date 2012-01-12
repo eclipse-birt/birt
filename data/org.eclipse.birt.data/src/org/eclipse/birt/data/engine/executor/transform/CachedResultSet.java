@@ -58,8 +58,8 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 public class CachedResultSet implements IResultIterator
 {
 
-	private ResultSetPopulator resultSetPopulator;
-	private IEventHandler handler;
+	protected ResultSetPopulator resultSetPopulator;
+	protected IEventHandler handler;
 	private ResultSet resultSet;
 	private static String className = CachedResultSet.class.getName( );
 	private static Logger logger = Logger.getLogger( className ); 

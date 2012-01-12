@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.impl.document.util;
 
+import java.util.List;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 
@@ -72,6 +74,11 @@ public class EmptyExprResultSet implements IExprResultSet
 	}
 
 	public DataSetResultSet getDataSetResultSet( )
+	{
+		return null;
+	}
+
+	public List[] getGroupInfos( ) throws DataException
 	{
 		return null;
 	}

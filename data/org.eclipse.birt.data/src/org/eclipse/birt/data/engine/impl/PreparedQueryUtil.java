@@ -152,7 +152,7 @@ public class PreparedQueryUtil
 			
 			return newIVInstance( dataEngine, queryDefn, appContext );
 		}
-	
+		
 		if ( dset == null )
 		{
 			// In new column binding feature, when there is no data set,
@@ -487,18 +487,50 @@ public class PreparedQueryUtil
 	private static IPreparedQuery newIVInstance( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn, Map appContext ) throws DataException
 	{
-		switch ( runQueryOnRS( dataEngine, queryDefn ) )
+		String queryResultID = queryDefn.getQueryResultsID( );
+
+		String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );
+		String parentQueryResultID = null;
+		if ( rootQueryResultID != null )
+			parentQueryResultID = QueryResultIDUtil.get2PartID( queryResultID );
+		else
+			rootQueryResultID = queryResultID;
+
+		QueryResultInfo queryResultInfo = new QueryResultInfo( rootQueryResultID,
+				parentQueryResultID,
+				null,
+				null,
+				-1 );
+		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ),
+				queryResultInfo );
+
+		//Please Note We should use parent scope here, for the new query should be compared to the query being executed 
+		//immediately behind it rather than the root query.
+		IBaseQueryDefinition previousQueryDefn = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+						StreamManager.PARENT_SCOPE );
+	
+		if( QueryCompUtil.isIVQueryDefnEqual( dataEngine.getContext( ).getMode( ), previousQueryDefn, queryDefn ))
 		{
-			case BASED_ON_DATASET:	
-				return new PreparedIVDataSourceQuery( dataEngine, queryDefn, QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
-						appContext ) );
-			default:
-				return new DummyPreparedQuery( queryDefn,
-						dataEngine.getSession( ),
-						dataEngine.getContext( ),
-						PLSUtil.isPLSEnabled( queryDefn )? queryDefn.getQueryExecutionHints( )
-										.getTargetGroupInstances( ) : null );
+			return new DummyPreparedQuery( queryDefn,
+					dataEngine.getSession( ),
+					dataEngine.getContext( ),
+					PLSUtil.isPLSEnabled( queryDefn )? queryDefn.getQueryExecutionHints( )
+									.getTargetGroupInstances( ) : null );
 		}
+		else if ( NoRecalculateQueryUtil.isOptimizableIVQuery( previousQueryDefn, queryDefn, queryResultID ))
+		{
+			return NoRecalculateQueryUtil.getPreparedIVQuery( dataEngine, previousQueryDefn, queryDefn, queryResultID, appContext );
+		}
+		else
+		{
+			if ( queryDefn.isSummaryQuery( ) )
+			{
+				IResultClass rsMeta = rdLoad.loadResultClass( );
+				populateSummaryBinding( queryDefn, rsMeta );
+			}
+			return new PreparedIVDataSourceQuery( dataEngine, queryDefn, QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
+					appContext ) );
+		}	
 	}
 
 	/**

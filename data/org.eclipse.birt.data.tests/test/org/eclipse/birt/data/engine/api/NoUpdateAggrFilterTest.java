@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -24,7 +27,8 @@ import testutil.ConfigText;
 
 public class NoUpdateAggrFilterTest extends APITestCase
 {
-
+	private DataEngine dte;
+	
 	protected DataSourceInfo getDataSourceInfo( )
 	{
 		return new DataSourceInfo( ConfigText.getString("Api.TestNoUpdateFilter.TableName"),
@@ -758,5 +762,152 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
+	}
+	
+	public void testIV1( ) throws Exception
+	{
+		// Generation
+		String fileName = getOutputFolder( ) + "testIV1";
+		ArchiveWriter writer = new FileArchiveWriter( fileName );
+		writer.initialize( );
+		DataEngineContext dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				null,
+				null,
+				writer );
+		dteContext.setTmpdir( getTempDir( ) );
+		DataEngine dte = DataEngine.newDataEngine( dteContext );
+		dte.defineDataSource( this.dataSource );
+		dte.defineDataSet( this.dataSet );
+
+		String[] exprs = new String[]{
+				"ID",
+				"COUNTRY",
+				"STATE",
+				"CITY",
+				"AMOUNT",
+				"CountG1",
+				"CountG2",
+				"CountG3",
+				"SumAll"
+		};
+		
+		QueryDefinition query = getIVQueryDefn( );
+		FilterDefinition f1 = new FilterDefinition( new ScriptExpression( "row[\"CountG3\"] > 1" ),
+				false );
+		query.addFilter( f1 );
+
+		IPreparedQuery preparedQuery = dte.prepare( query, this.getAppContext( ) );
+		IQueryResults queryResults = preparedQuery.execute( null );
+		String id = queryResults.getID( );
+		iteratorQueryResult( queryResults, exprs );
+		dte.shutdown( );
+
+		// IV add the second no update filter
+		ArchiveReader reader = new ArchiveReader( writer.getArchive( ) );
+		dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer );
+		dteContext.setTmpdir( getTempDir( ) );
+		dte = DataEngine.newDataEngine( dteContext );
+		dte.defineDataSource( this.dataSource );
+		dte.defineDataSet( this.dataSet );
+
+		query = getIVQueryDefn( );
+		f1 = new FilterDefinition( new ScriptExpression( "row[\"CountG3\"] > 1" ),
+				false );
+		query.addFilter( f1 );
+		FilterDefinition f2 = new FilterDefinition( new ScriptExpression( "row[\"CountG2\"] > 3" ),
+				false );
+		query.addFilter( f2 );
+		query.setQueryResultsID( queryResults.getID( ) );
+
+		preparedQuery = dte.prepare( query, this.getAppContext( ) );
+		queryResults = preparedQuery.execute( null );
+		iteratorQueryResult( queryResults, exprs );
+		dte.shutdown( );
+
+		// IV add another no update filter
+		reader = new ArchiveReader( writer.getArchive( ) );
+		dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer );
+		dteContext.setTmpdir( getTempDir( ) );
+		dte = DataEngine.newDataEngine( dteContext );
+		dte.defineDataSource( this.dataSource );
+		dte.defineDataSet( this.dataSet );
+
+		query = getIVQueryDefn( );
+		f1 = new FilterDefinition( new ScriptExpression( "row[\"CountG3\"] > 1" ),
+				false );
+		query.addFilter( f1 );
+		f2 = new FilterDefinition( new ScriptExpression( "row[\"CountG2\"] > 3" ),
+				false );
+		query.addFilter( f2 );
+		FilterDefinition f3 = new FilterDefinition( new ScriptExpression( "row[\"CountG1\"] > 6" ),
+				false );
+		query.addFilter( f3 );
+		query.setQueryResultsID( queryResults.getID( ) );
+
+		preparedQuery = dte.prepare( query, this.getAppContext( ) );
+		queryResults = preparedQuery.execute( null );
+		outputQueryResult( queryResults.getResultIterator( ), exprs );
+		dte.shutdown( );
+
+		checkOutputFile( );
+	}
+	
+	
+	private QueryDefinition getIVQueryDefn( ) throws Exception
+	{
+		QueryDefinition query = createQuery( );
+
+		IBinding e5 = new Binding( "CountG1" );
+		e5.setAggrFunction( "COUNT" );
+		e5.addAggregateOn( "G1" );
+		query.addBinding( e5 );
+
+		IBinding e6 = new Binding( "CountG2" );
+		e6.setAggrFunction( "COUNT" );
+		e6.addAggregateOn( "G2" );
+		query.addBinding( e6 );
+
+		IBinding e7 = new Binding( "CountG3" );
+		e7.setAggrFunction( "COUNT" );
+		e7.addAggregateOn( "G3" );
+		query.addBinding( e7 );
+
+		IBinding e81 = new Binding( "SumAll",
+				new ScriptExpression( "dataSetRow[\"AMOUNT\"]" ) );
+		e81.setAggrFunction( "SUM" );
+		query.addBinding( e81 );
+
+		return query;
+	}
+	
+	private boolean consolePrint = true;
+	
+	private void iteratorQueryResult( IQueryResults queryResults,
+			String[] exprs ) throws Exception
+	{
+		if ( consolePrint )
+			System.out.println( "####### Temporary query result #######" );
+		
+		IResultIterator itr = queryResults.getResultIterator( );
+		while ( itr.next( ) )
+		{
+			if ( !consolePrint )
+				continue;
+			
+			for ( int i = 0; i < exprs.length; i++ )
+			{
+				System.out.print( evalAsString( exprs[i], itr ) );
+				System.out.print( "    " );
+			};
+			System.out.println( );
+		}
+		itr.close( );
+		queryResults.close( );
 	}
 }

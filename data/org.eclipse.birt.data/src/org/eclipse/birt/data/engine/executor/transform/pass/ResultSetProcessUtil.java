@@ -109,6 +109,23 @@ class ResultSetProcessUtil extends RowProcessUtil
 		instance.cachedSort = sortList;
 		instance.populateAggregation( );
 	}
+	
+	public static void doPopulateNoUpdateAggrFiltering (
+			ResultSetPopulator populator, ComputedColumnsState iccState,
+			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
+			PassStatusController psController, List sortList )
+			throws DataException
+	{
+		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
+				iccState,
+				computedColumnHelper,
+				filterByRow,
+				psController );
+		instance.cachedSort = sortList;
+		instance.groupingDone = true;
+		instance.populateNoUpdateAggrFiltering( );
+	}
+	
 	/**
 	 * 
 	 * @param stopSign
@@ -159,6 +176,13 @@ class ResultSetProcessUtil extends RowProcessUtil
 		populateAggregation( );
 		
 		// Do 2nd phase: no update aggregation filters here.
+		doNoUpdateAggrGroupFilter( );
+		
+		doNoUpdateAggrRowFilter( );
+	}
+	
+	private void populateNoUpdateAggrFiltering( ) throws DataException
+	{
 		doNoUpdateAggrGroupFilter( );
 		
 		doNoUpdateAggrRowFilter( );
