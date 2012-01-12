@@ -550,36 +550,18 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 
 		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
 				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT.equals( dataType ) )
 		{
 			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;
 		}
-		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
-		}
-		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType ) )
 		{
 			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-		}
-
-		if ( columnName.length( ) >= 3 )
-		{
-			String lastThreeLetters = columnName.substring( columnName.length( ) - 3 );
-			if ( lastThreeLetters.equalsIgnoreCase( "key" ) )
-			{
-				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-			}
-		}
-		if ( columnName.length( ) >= 2 )
-		{
-			String lastTwoLetters = columnName.substring( columnName.length( ) - 2 );
-			if ( lastTwoLetters.equalsIgnoreCase( "id" ) )
-			{
-				defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-			}
 		}
 
 		return defaultAnalysisType;
