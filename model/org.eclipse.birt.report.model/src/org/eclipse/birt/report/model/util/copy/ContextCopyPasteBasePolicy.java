@@ -80,19 +80,16 @@ class ContextCopyPasteBasePolicy
 			location = root.getLocation( );
 
 		DesignElement destination = null;
-
-		if ( extendsElementID != DesignElement.NO_ID )
+		
+		try
 		{
-			try
-			{
-				destination = (DesignElement) source.doClone( DummyCopyPolicy
-						.getInstance( ) );
-			}
-			catch ( CloneNotSupportedException e )
-			{
-				assert false;
-				return null;
-			}
+			destination = (DesignElement) source.doClone( DummyCopyPolicy
+					.getInstance( ) );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			destination = null;
+			assert false;
 		}
 
 		DesignElement localized = null;
@@ -287,6 +284,9 @@ class ContextCopyPasteBasePolicy
 		Module copiedRoot = session.getOpenedModule( location );
 		if ( copiedRoot == null )
 			return copy.getLocalizedCopy( );
+		
+		if ( copiedRoot == module )
+			return copy.getUnlocalizedCopy( );
 
 		String nameSpace = StringUtil.extractNamespace( copiedElement
 				.getExtendsName( ) );

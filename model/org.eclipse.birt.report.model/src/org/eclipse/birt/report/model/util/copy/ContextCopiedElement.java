@@ -140,6 +140,17 @@ class ContextCopiedElement implements IElementCopy, Cloneable
 	{
 		return localizedCopy;
 	}
+	
+	/**
+	 * Returns the unlocalized copy.
+	 * 
+	 * @return the element which is not localized
+	 */
+
+	DesignElement getUnlocalizedCopy( )
+	{
+		return copy;
+	}
 
 	/**
 	 * Returns the location of library.
