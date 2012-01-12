@@ -41,6 +41,15 @@ public class BaseTimeFunction implements ITimeFunction
 		period_type2.addAll( timeType );
 	}
 	
+	public BaseTimeFunction( ITimeFunction function, List<IArgumentInfo.Period_Type> timeType1,  List<IArgumentInfo.Period_Type> timeType2)
+	{
+		this( function.getName( ), function.getDisplayName( ), function.getDescription( ) );
+		period_type1 = new ArrayList<Period_Type>( );
+		period_type2 = new ArrayList<Period_Type>( );
+		period_type1.addAll( timeType1 );
+		period_type2.addAll( timeType2 );
+	}
+	
 	/**
 	 * Get time function name
 	 * @return the time function name

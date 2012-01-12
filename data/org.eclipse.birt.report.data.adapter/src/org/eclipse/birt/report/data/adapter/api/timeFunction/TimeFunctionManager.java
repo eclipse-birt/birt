@@ -117,8 +117,10 @@ public class TimeFunctionManager
 		}
 
 		List<IArgumentInfo.Period_Type> periodType = new ArrayList<IArgumentInfo.Period_Type>( );
-
+		List<IArgumentInfo.Period_Type> periodToDateType = new ArrayList<IArgumentInfo.Period_Type>( );
+		
 		TimeFunctionHandle handle = TimeFunctionHandle.getInstance( locale );
+	
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) )
 		{
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_YEAR ) );
@@ -127,6 +129,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.YEAR_TO_DATE ) );
 
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.YEAR, locale ) );
+			periodToDateType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.YEAR, locale, true ) );
 		}
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) 
 				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
@@ -139,6 +142,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR ) );
 
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.QUARTER, locale ) );
+			periodToDateType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.QUARTER, locale, true ) );
 		}
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) 
 				|| timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR )
@@ -152,6 +156,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) );
 
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, locale ) );
+			periodToDateType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, locale, true ) );
 		}
 		
 		// for WTD, only support static reference date
@@ -162,6 +167,7 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR ) );
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.WEEK, locale ) );
+			periodToDateType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.WEEK, locale, true ) );
 		}
 
 		if ( timeType.contains( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
@@ -172,10 +178,11 @@ public class TimeFunctionManager
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
 //			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
 		}
+		
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ),
 				periodType ) );
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ),
-				periodType ) );
+				periodToDateType, periodType ) );
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO ),
 				periodType ) );
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.NEXT_N_PERIODS ),

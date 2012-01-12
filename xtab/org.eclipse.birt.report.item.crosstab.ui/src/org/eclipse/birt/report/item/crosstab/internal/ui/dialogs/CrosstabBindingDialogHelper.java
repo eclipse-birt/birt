@@ -870,7 +870,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		String[] strs = new String[list.size( )];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			strs[i] = list.get( i ).name( );
+			strs[i] = list.get( i ).displayName( );
 		}
 		cmbDataField.setItems( strs );
 		if ( calculationParamsValueMap.containsKey( name ) )
