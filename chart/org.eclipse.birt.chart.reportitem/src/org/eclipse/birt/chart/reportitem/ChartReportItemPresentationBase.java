@@ -772,13 +772,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		{
 			if ( isAutoHide( ) )
 			{
-				// Returns an object array for engine to display alt text
-				// instead of image when result set is null.
-				return new Object[]{
-					new byte[]{
-						0
-					}
-				};
+				// Null result set
+				return outputNullResultSet( );
 			}
 			bEmpty = true;
 		}
@@ -1278,5 +1273,21 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 	protected boolean canUpdateScale()
 	{
 		return false;
+	}
+	
+	/**
+	 * Outputs the content when result set is null.
+	 * 
+	 * @return the content to represent null result set
+	 */
+	protected Object outputNullResultSet( )
+	{
+		// Returns an object array for engine to display alt text
+		// instead of image when result set is null.
+		return new Object[]{
+			new byte[]{
+				0
+			}
+		};
 	}
 }
