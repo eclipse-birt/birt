@@ -176,7 +176,7 @@ public class TimeFunctionManager
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_60_DAYS ) );
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS ) );
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
-//			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
+			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
 		}
 		
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ),

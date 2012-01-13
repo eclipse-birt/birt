@@ -40,6 +40,10 @@
 					  dest="." 
 					  ext=".properties"
 					  includes="**/*_ko_KR.msg"/>
+		<copy todir="src/" failonerror="false">
+			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.data/src"/>
+			<globmapper from="*Messages.properties" to="*Messages_en.properties"/>
+		</copy>
 		<copy todir=".">
 			<fileset dir="src" includes="org/**"/>
 	    </copy>
