@@ -33,8 +33,8 @@ MeasureComboPropertyDescriptorProvider.TransName=¸ü¸Ä½»²æ±í·½Ïò
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Ìí¼ÓÎ¬
 AddMeasureViewHandleCommand.TransName=Ìí¼Ó¶ÈÁ¿
-AddRelativeTimePeriodAction_action_label=Add Relative Time Period
-AddRelativeTimePeriodAction_trans_label=Add Relative Time Period 
+AddRelativeTimePeriodAction_action_label=Ìí¼ÓÏà¶ÔÊ±¼äÖÜÆÚ
+AddRelativeTimePeriodAction_trans_label=Ìí¼ÓÏà¶ÔÊ±¼äÖÜÆÚ 
 ChangeAreaCommand.TransName=·ÏÆúÎ¬
 ChangeMeasureOrderCommand.TransName=¸ü¸Ä¶ÈÁ¿Ë³Ğò
 CreateDimensionViewCommand.TransName=´´½¨Î¬
@@ -343,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Ïò {0} Ó¦ÓÃÌõ¼ş¸ñÊ½¡£ÇëÖ¸¶¨Ì
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=±í´ïÊ½±à¼­Æ÷
 CrosstabFilterConditionBuilder.MsgDlg.Msg=¾¯¸æ
 CrosstabFilterConditionBuilder.MsgDlg.Title=Öµ²»ÄÜÎª¿Õ¡£
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties

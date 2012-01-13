@@ -7,4 +7,4 @@ datasource.upgrade.msg.firstLine=Die von diesem Datensatz verwendete Datenquelle
 datasource.upgrade.msg.secondLine=Die Definition muss aktualisiert werden. \n\nWählen Sie 'OK', um die Datenquelle {0} jetzt zu aktualisieren. 
 datasource.upgrade.msg.thirdLine=Öffnen Sie den Datensatzeditor anschließend erneut.
 datasource.propertyPage.tooltip=HIVE-Datenquelle
-datasource.addfile=Dateianweisung hinzufügen
+datasource.addfile=Anweisung 'Datei hinzufügen'

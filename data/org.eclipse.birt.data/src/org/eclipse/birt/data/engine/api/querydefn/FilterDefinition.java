@@ -22,6 +22,8 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 public class FilterDefinition implements IFilterDefinition
 {
 	IBaseExpression 	expr;
+	
+	boolean updateAggr;
 
 	/**
 	 * Constructs a new filter using the specified expression. The expression is expected to 
@@ -30,6 +32,21 @@ public class FilterDefinition implements IFilterDefinition
 	public FilterDefinition( IBaseExpression filterExpr )
 	{
 		this.expr = filterExpr;
+		this.updateAggr = true;
+	}
+	
+	/**
+	 * Constructs a new filter with filter expression and update option.
+	 * 
+	 * @param filterExpr Filter evaluate expression
+	 * @param updateAggr While <code>true</code>, the aggregation values are updated
+	 * prior to apply this filter; Otherwise the aggregation values are not
+	 * updated.
+	 */
+	public FilterDefinition( IBaseExpression filterExpr, boolean updateAggr )
+	{
+		this.expr = filterExpr;
+		this.updateAggr = updateAggr;
 	}
 	
 	/**
@@ -46,5 +63,27 @@ public class FilterDefinition implements IFilterDefinition
 	public void setExpression( IBaseExpression filterExpr )
 	{
 		this.expr = filterExpr;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IFilterDefinition#updateAggregation()
+	 */
+	public boolean updateAggregation( )
+	{
+		return updateAggr;
+	}
+	
+	/**
+	 * Set update aggregation flag.
+	 * <p>
+	 * While the flag is <code>true</code>, the aggregation values are updated
+	 * prior to apply this filter; Otherwise the aggregation values are not
+	 * updated.
+	 * 
+	 * @param update
+	 */
+	public void setUpdateAggregation( boolean flag )
+	{
+		this.updateAggr = flag;
 	}
 }

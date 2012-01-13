@@ -154,6 +154,7 @@ public class StreamManager
 					DataEngineContext.VERSION_INFO_STREAM ) == false )
 			{
 				this.version = VersionManager.getLatestVersion( );
+				vm.setVersion( this.version );
 			}
 			else
 				this.version = vm.getVersion( );

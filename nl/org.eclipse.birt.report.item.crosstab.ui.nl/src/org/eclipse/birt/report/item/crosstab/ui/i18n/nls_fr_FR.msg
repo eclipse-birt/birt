@@ -33,8 +33,8 @@ MeasureComboPropertyDescriptorProvider.TransName=Modifier l'orientation du table
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Ajouter une dimension
 AddMeasureViewHandleCommand.TransName=Ajouter une mesure
-AddRelativeTimePeriodAction_action_label=Add Relative Time Period
-AddRelativeTimePeriodAction_trans_label=Add Relative Time Period 
+AddRelativeTimePeriodAction_action_label=Ajouter la période de temps relatif
+AddRelativeTimePeriodAction_trans_label=Ajouter la période de temps relatif 
 ChangeAreaCommand.TransName=Ignorer la dimension
 ChangeMeasureOrderCommand.TransName=Modifier l'ordre de mesure
 CreateDimensionViewCommand.TransName=Créer une dimension
@@ -343,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Appliquer un formatage condi
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Editeur d'expression
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Avertissement
 CrosstabFilterConditionBuilder.MsgDlg.Title=La valeur ne peut pas être vierge.
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties

@@ -161,7 +161,16 @@ public class BaseTimeFunction implements ITimeFunction
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ) )
 		{
-			this.period_type1.remove( IArgumentInfo.Period_Type.DAY );
+			for ( int i = 0; i < this.period_type1.size( ); i++ )
+			{
+				if ( this.period_type1.get( i )
+						.name( )
+						.equals( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY.name( ) ) )
+				{
+					this.period_type1.remove( this.period_type1.get( i ) );
+					break;
+				}
+			}
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
@@ -173,7 +182,16 @@ public class BaseTimeFunction implements ITimeFunction
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ) )
 		{
-			this.period_type1.remove( IArgumentInfo.Period_Type.DAY );
+			for ( int i = 0; i < this.period_type1.size( ); i++ )
+			{
+				if ( this.period_type1.get( i )
+						.name( )
+						.equals( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY.name( ) ) )
+				{
+					this.period_type1.remove( this.period_type1.get( i ) );
+					break;
+				}
+			}
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,

@@ -67,6 +67,7 @@ data.engine.DupColumnName=Nom de colonne en double : {0}.
 data.engine.DupAlias=Alias ou nom de colonne en double : {0}.
 data.engine.InvalidFieldIndex=Index de champ incorrect : {0}.
 data.engine.fail.prepareExecution=Echec de préparation de l'exécution de la requête pour le jeu de données : {0}.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
 
 data.engine.MatchError=Vérifiez la syntaxe du motif. Erreur de correspondance entre la chaîne et le motif : {0}.
 
@@ -413,8 +414,8 @@ data.olap.query.noCubeBinding=Impossible d'exécuter la requête du cube car aucun
 data.olap.FailLoadCube=Echec du chargement du cube :"{0}".
 data.olap.MissingDimensionInCube=Le cube doit contenir au moins une dimension : "{0}"
 data.olap.ExceedIntegerLimit= La longueur finale définie est supérieure à la valeur d'Integer.MAX.
-data.olap.ExceedColumnLimit= The result set length on column edge exceeds size limit {0}.
-data.olap.ExceedRowLimit= The result set length on row edge exceeds size limit {0}.
+data.olap.ExceedColumnLimit= La longueur finale définie pour le bord de la colonne dépasse la limite de taille autorisée {0}.
+data.olap.ExceedRowLimit= La longueur finale définie pour le bord de la ligne dépasse la limite de taille autorisée {0}.
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code

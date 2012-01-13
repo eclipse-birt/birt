@@ -731,9 +731,9 @@ Choices.flyoutPosition.left=靠左
 Choices.flyoutPosition.right=靠右
 
 #94 referenceDateType
-Choices.referenceDateType.today=Today
-Choices.referenceDateType.fixedDate=Fixed Date
-Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+Choices.referenceDateType.today=今天
+Choices.referenceDateType.fixedDate=固定日期
+Choices.referenceDateType.endingDateInDimension=维的结束日期
 
 ###########################################################
 # Classes
@@ -1912,6 +1912,7 @@ Structure.ScriptLib=脚本库
 Structure.IncludedCssStyleSheet=包括的 CSS 样式表
 Structure.DimensionJoinCondition=维联接条件
 Structure.FormatValue =格式类型
+Structure.CalculationArgument=计算参数
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2012,6 +2013,7 @@ Structure.FilterCondition.extensionExprId=扩展表达式 Id
 Structure.FilterCondition.pushDown=下推
 Structure.FilterCondition.dynamicFilterParameter=动态筛选器参数
 Structure.FilterCondition.type=类型
+Structure.FilterCondition.updateAggregation=Update Aggregation
 
 #10. PropertyMask
 Structure.PropertyMask.name=名称
@@ -2042,6 +2044,11 @@ Structure.ComputedColumn.aggregateFunction=AggregateOn 函数
 Structure.ComputedColumn.arguments=AggregateOn 函数参数
 Structure.ComputedColumn.filterExpr=筛选表达式
 Structure.ComputedColumn.allowExport=允许导出
+Structure.ComputedColumn.calculationType=计算类型
+Structure.ComputedColumn.calculationArguments=计算参数
+Structure.ComputedColumn.refDateType=参考日期类型
+Structure.ComputedColumn.refDateValue=参考日期值
+Structure.ComputedColumn.timeDimension=时间维
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -2304,6 +2311,11 @@ Structure.TimeInterval.unit=单位
 Structure.FormatValue.category=类别
 Structure.FormatValue.pattern=模式
 Structure.FormatValue.locale=区域设置
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=计算参数名称
+Structure.CalculationArgument.value=计算参数值
+
 
 ###########################################################
 # Element names
@@ -3291,7 +3303,7 @@ Element.Measure.ACLExpression=ACL 表达式
 Element.Measure.action=操作
 Element.Measure.format=格式
 Element.Measure.alignment=对齐
-Element.Measure.isVisible=Is visible
+Element.Measure.isVisible=可见
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量
@@ -3359,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=扩展表达式 Id
 Element.FilterConditionElement.pushDown=下推
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=类型
-
+Element.FilterConditionElement.updateAggregation=Update Aggregation
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

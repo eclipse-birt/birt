@@ -135,4 +135,9 @@ public class AggrHolderManager
 	{
 		return this.aggrIndex.isEmpty( );
 	}
+	
+	public List<IAggrValueHolder> getAggrValueHolders( )
+	{
+		return holders.subList( 0, holders.size( ) );
+	}
 }

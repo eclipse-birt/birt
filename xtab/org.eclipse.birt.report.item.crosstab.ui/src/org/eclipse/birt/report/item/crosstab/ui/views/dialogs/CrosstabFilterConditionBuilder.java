@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularDimensionNodeProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularLevelNodeProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
@@ -321,6 +322,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		public void widgetSelected( SelectionEvent e )
 		{
 			operatorChange( );
+			getShell( ).pack( );
 		}
 	};
 
@@ -738,6 +740,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				}
 
 				tableViewer.setInput( valueList );
+				WidgetUtil.setExcludeGridData( tableViewer.getControl( ), false );
 			}
 
 		}
@@ -749,47 +752,53 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				expressionValue1.setText( DEUtil.resolveNull( filterConditionElement.getValue1( ) ) );
 				expressionValue2.setText( DEUtil.resolveNull( filterConditionElement.getValue2( ) ) );
 			}
-
+			if ( tableViewer != null && !tableViewer.getControl( ).isDisposed( ) )
+				WidgetUtil.setExcludeGridData( tableViewer.getControl( ), true );
 		}
 
 		if ( valueVisible == 0 )
 		{
-			expressionValue1.setVisible( false );
-			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
-					.getControl( )
-					.setVisible( false );
-			expressionValue2.setVisible( false );
-			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
-					.getControl( )
-					.setVisible( false );
+			WidgetUtil.setExcludeGridData( expressionValue1, true );
+			WidgetUtil.setExcludeGridData( ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( ),
+					true );
+			WidgetUtil.setExcludeGridData( expressionValue2, true );
+			WidgetUtil.setExcludeGridData( ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( ),
+					true );
+			WidgetUtil.setExcludeGridData( andLable, true );
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 1 )
 		{
-			expressionValue1.setVisible( true );
-			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
-					.getControl( )
-					.setVisible( true );
-			expressionValue2.setVisible( false );
-			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
-					.getControl( )
-					.setVisible( false );
+			WidgetUtil.setExcludeGridData( expressionValue1, false );
+			WidgetUtil.setExcludeGridData( ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( ),
+					false );
+			WidgetUtil.setExcludeGridData( expressionValue2, true );
+			WidgetUtil.setExcludeGridData( ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( ),
+					true );
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 2 )
 		{
-			expressionValue1.setVisible( true );
-			ExpressionButtonUtil.getExpressionButton( expressionValue1 )
-					.getControl( )
-					.setVisible( true );
-			expressionValue2.setVisible( true );
-			ExpressionButtonUtil.getExpressionButton( expressionValue2 )
-					.getControl( )
-					.setVisible( true );
+			WidgetUtil.setExcludeGridData( expressionValue1, false );
+			WidgetUtil.setExcludeGridData( ExpressionButtonUtil.getExpressionButton( expressionValue1 )
+					.getControl( ),
+					false );
+			WidgetUtil.setExcludeGridData( expressionValue2, false );
+			WidgetUtil.setExcludeGridData( ExpressionButtonUtil.getExpressionButton( expressionValue2 )
+					.getControl( ),
+					false );
+			WidgetUtil.setExcludeGridData( andLable, false );
 			andLable.setVisible( true );
 			andLable.setEnabled( true );
 		}
+		WidgetUtil.setExcludeGridData( valuesComposite, valueVisible == 0 );
+		WidgetUtil.setExcludeGridData( valuesLabel, valueVisible == 0 );
 		updateButtons( );
+		valuesComposite.getParent( ).layout( );
 	}
 
 	/**
@@ -853,7 +862,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 		Composite parentControl = new Composite( innerParent, SWT.NONE );
 		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 450;
+		gd.heightHint = 480;
 		parentControl.setLayoutData( gd );
 		parentControl.setLayout( new GridLayout( 4, false ) );
 
@@ -932,8 +941,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			operator.add( OPERATOR[i][0] );
 		}
 		operator.addSelectionListener( operatorSelection );
-		new Label( parentControl, SWT.NONE );
 
+		valuesLabel = new Label( parentControl, SWT.NONE );
 		valuesComposite = new Composite( parentControl, SWT.NONE );
 		valuesComposite.setLayoutData( GridDataFactory.swtDefaults( )
 				.span( 3, 1 )
@@ -943,6 +952,15 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				.numColumns( 4 )
 				.create( ) );
 		create2ValueComposite( valuesComposite );
+
+		new Label( parentControl, SWT.NONE );
+		updateAggrButton = new Button( parentControl, SWT.CHECK );
+		updateAggrButton.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.UpdateAggregation" ) ); //$NON-NLS-1$
+		updateAggrButton.setLayoutData( GridDataFactory.swtDefaults( )
+				.span( 3, 1 )
+				.create( ) );
+		updateAggrButton.setSelection( filterConditionElement != null ? filterConditionElement.updateAggregation( )
+					: Boolean.TRUE );
 
 		memberValueGroup = new Composite( parentControl, SWT.NONE );
 		memberValueGroup.setLayout( new GridLayout( ) );
@@ -1443,6 +1461,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				filterTargetChanged( );
 			}
+			if(updateAggrButton!=null)
+				updateAggrButton.setVisible( true );
+
 		}
 		else if ( measureBtn.getSelection( ) )
 		{
@@ -1465,6 +1486,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				filterTargetChanged( );
 			}
+			if(updateAggrButton!=null)
+				updateAggrButton.setVisible( true );
 		}
 		else if ( detailBtn.getSelection( ) )
 		{
@@ -1483,6 +1506,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			{
 				filterTargetChanged( );
 			}
+			if(updateAggrButton!=null)
+				updateAggrButton.setVisible( false );
 		}
 		updateMemberValues( );
 		updateButtons( );
@@ -1929,6 +1954,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 					filterConditionElement,
 					FilterCondition.EXPR_MEMBER );
 			operator.select( getIndexForOperatorValue( filterConditionElement.getOperator( ) ) );
+			operatorChange( );
 
 			int vv = determineValueVisible( filterConditionElement.getOperator( ) );
 
@@ -2390,6 +2416,11 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 						filter,
 						FilterCondition.EXPR_MEMBER );
 
+				if ( !detailBtn.getSelection( ) )
+				{
+					filter.setUpdateAggregation( (Boolean) updateAggrButton.getSelection( ) );
+				}
+
 				if ( valueVisible == 3 )
 				{
 					filter.setValue1( valueList );
@@ -2455,6 +2486,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				{
 
 					filterConditionElement.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+
+					filterConditionElement.setUpdateAggregation( updateAggrButton.getSelection( ) );
 
 					if ( valueVisible == 3 )
 					{
@@ -3006,6 +3039,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	private CCombo measureGroupLevel;
 	private Button detailBtn;
 	private CrosstabFilterExpressionProvider provider;
+	private Label valuesLabel;
+	private Button updateAggrButton;
 
 	protected void editTableValue( )
 	{
@@ -3095,7 +3130,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 				checkEditDelButtonStatus( );
 			} // or set all the children control to false
 		}
-
+		if ( updateAggrButton != null )
+			updateAggrButton.setEnabled( val );
 	}
 
 	protected void setControlEnable( Control control, boolean bool )

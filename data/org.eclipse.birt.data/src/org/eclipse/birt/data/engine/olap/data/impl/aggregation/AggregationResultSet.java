@@ -691,4 +691,14 @@ public class AggregationResultSet implements IAggregationResultSet
 		}
 		return null;
 	}
+	
+	public IDiskArray getAggregationResultRows( )
+	{
+		return this.aggregationResultRows;
+	}
+	
+	public void setAggregationResultRows( IDiskArray rows)
+	{
+		this.aggregationResultRows = rows;
+	}
 }

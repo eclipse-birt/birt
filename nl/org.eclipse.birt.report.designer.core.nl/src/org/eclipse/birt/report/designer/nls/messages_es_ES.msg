@@ -1010,7 +1010,7 @@ DesignerPaletteFactory.quicktool.title=Herramientas rápidas
 DesignerPaletteFactory.quicktool.agg.title=Agregación
 DesignerPaletteFactory.quicktool.agg.toolTip=Insertar elemento de agregación
 DesignerPaletteFactory.quicktool.timeperiod.title=Período de tiempo relativo
-DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insert TimePeriod Item
+DesignerPaletteFactory.quicktool.timeperiod.toolTip=Insertar elemento TimePeriod
 
 ###########################################################
 #DimensionBuilderDialog properties
@@ -2003,9 +2003,9 @@ HighlightsPage.trans.MoveDown=Mover regla de resaltado hacia abajo
 HighlightsPage.trans.MoveUp=Mover regla de resaltado hacia arriba
 HighlightsPage.toolTipText.MoveDown=Mover regla de resaltado hacia abajo
 HighlightsPage.toolTipText.MoveUp=Mover regla de resaltado hacia arriba
-HighlightsPage.label.duplicate=Duplicate
-HighlightsPage.toolTipText.duplicate=Duplicate Highlight Rule
-HighlightsPage.trans.Duplicate=Duplicate Highlight Rule
+HighlightsPage.label.duplicate=Dupli&cado
+HighlightsPage.toolTipText.duplicate=Regla de resaltado de duplicado
+HighlightsPage.trans.Duplicate=Regla de resaltado de duplicado
 
 ###########################################################
 #HighlightsPreferencePage properties
@@ -2499,9 +2499,9 @@ MapPage.transName.moveDownRule=Mover hacia abajo la regla de asignación
 MapPage.transName.moveUpMapRule=Mover hacia arriba la regla de asignación
 MapPage.toolTipText.moveUp=Mover regla de asignación hacia arriba
 MapPage.toolTipText.moveDown=Mover regla de asignación hacia abajo
-MapPage.label.duplicate=Duplicate
-MapPage.toolTipText.duplicate=Duplicate Map Rule
-MapPage.transName.Duplicate=Duplicate Map Rule
+MapPage.label.duplicate=Dupli&cado
+MapPage.toolTipText.duplicate=Regla de asignación de duplicado
+MapPage.transName.Duplicate=Regla de asignación de duplicado
 
 ###########################################################
 #MapPreferencePage properties
@@ -2605,6 +2605,7 @@ FilterConditionBuilder.multipleValue.button.add=&Añadir
 FilterConditionBuilder.multipleValue.button.remove=Quita&r
 FilterConditionBuilder.multipleValue.button.removeAll=Qui&tar todos
 FilterConditionBuilder.multipleValue.button.edit=E&ditar...
+FilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #MarignPropertyDescriptor properties
@@ -4473,7 +4474,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Sí
 DataColumnBindingDialog.NewBindingDialogButtonNo=No
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Cancelar
 DataColumnBindingDialog.NewBindingDialogTitle=¿Desea crear un nuevo enlace de datos?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod Builder
+DataColumnBindingDialog.title.TimePeriodBuild=Compilador de TimePeriod
 DataColumBindingDialog.stackMsg.resetReference=Restablecer referencia
 
 ###########################################################
@@ -4617,6 +4618,7 @@ BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}.
 BindingDialogHelper.error.improperexpression=La agregación en medidas de cubo no puede ser de este tipo: "{0}".
+BindingDialogHelper.error.empty=Se requiere {0}.
 BindingDialogHelper.text.Colon=:
 BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
 BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?
@@ -4633,14 +4635,14 @@ ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 ###########################################################
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Todos
-CrosstabBindingDialogHelper.bindngName.timeperiod=Period
+CrosstabBindingDialogHelper.bindngName.timeperiod=Período
 CrosstabBindingDialogHelper.calculation.labe=Tipo de cá&lculo:
-CrosstabBindingDialogHelper.recentday.description=Most recent date in Time Dimension
+CrosstabBindingDialogHelper.recentday.description=Fecha más reciente en Dimensión de tiempo
 CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
-CrosstabBindingDialogHelper.thisdate.label=This date:
+CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
 CrosstabBindingDialogHelper.timedimension.label=Di&mensión de tiempo:
-CrosstabBindingDialogHelper.timeperiod.wrongdate=This Dimension don't support the recent reference date 
-CrosstabBindingDialogHelper.today.label=Today
+CrosstabBindingDialogHelper.timeperiod.wrongdate=Esta dimensión no es compatible con la fecha de referencia reciente 
+CrosstabBindingDialogHelper.today.label=Hoy
 
 AddEditCascadingParameterDialog.label.name=&Nombre:
 AddEditCascadingParameterDialog.label.dataset=&Conjunto de datos:
@@ -4824,8 +4826,8 @@ ReloadImageAction.Text=Volver a cargar la &imagen
 
 ###########################################################
 #VariablesNodeProvider
-VariablesNodeProvider.NewActionName=Nueva variable
-VariablesNodeProvider.Dialog.Title=New Variable
+VariablesNodeProvider.NewActionName=&Nueva variable
+VariablesNodeProvider.Dialog.Title=Nueva variable
 VariablesNodeProvider.NodeName=Variables
 
 ###########################################################

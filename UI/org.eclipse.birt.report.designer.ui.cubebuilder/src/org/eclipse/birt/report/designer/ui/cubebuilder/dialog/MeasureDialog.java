@@ -608,7 +608,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 		visibilityBtn = new Button( group, SWT.CHECK );
 		visibilityBtn.setText( Messages.getString( "MeasureDialog.Label.Visibility" ) ); //$NON-NLS-1$
-
+		visibilityBtn.setSelection(!input.isVisible());
+		
 		return group;
 	}
 

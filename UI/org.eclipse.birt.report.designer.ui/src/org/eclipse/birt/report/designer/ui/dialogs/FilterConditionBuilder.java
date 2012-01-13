@@ -705,6 +705,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	protected int valueVisible;
 
+	private Button updateAggrButton;
+
 	/**
 	 * @param parentShell
 	 * @param title
@@ -1030,6 +1032,17 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		if ( filterCondition != null )
 		{
 			syncViewProperties( );
+		}
+
+		updateAggrButton = new Button( innerParent, SWT.CHECK );
+		updateAggrButton.setText( Messages.getString( "FilterConditionBuilder.Button.UpdateAggregation" ) ); //$NON-NLS-1$
+		gd = new GridData( );
+		gd.verticalIndent = 5;
+		updateAggrButton.setLayoutData( gd );
+		updateAggrButton.setSelection( true );
+		if ( filterCondition != null )
+		{
+			updateAggrButton.setSelection( filterCondition.updateAggregation( ) );
 		}
 
 		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
@@ -1633,6 +1646,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 						filter,
 						FilterCondition.EXPR_MEMBER );
 
+				filter.setUpdateAggregation( updateAggrButton.getSelection( ) );
+				
 				if ( dataSetHandle != null )
 				{
 					PropertyHandle propertyHandle = dataSetHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
@@ -1677,6 +1692,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 				ExpressionButtonUtil.saveExpressionButtonControl( expression,
 						filterCondition,
 						FilterCondition.EXPR_MEMBER );
+				filterCondition.setUpdateAggregation( updateAggrButton.getSelection( ) );
 			}
 		}
 		catch ( Exception e )

@@ -33,8 +33,8 @@ MeasureComboPropertyDescriptorProvider.TransName=Kreuztabellen-Ausrichtung änder
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
 AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
-AddRelativeTimePeriodAction_action_label=Add Relative Time Period
-AddRelativeTimePeriodAction_trans_label=Add Relative Time Period 
+AddRelativeTimePeriodAction_action_label=Relatives Zeitintervall hinzufügen
+AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen 
 ChangeAreaCommand.TransName=Dimension verwerfen
 ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
 CreateDimensionViewCommand.TransName=Dimension erstellen
@@ -343,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Bedingte Formatierung anwend
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Ausdrucks-Editor
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Warnung
 CrosstabFilterConditionBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties

@@ -681,8 +681,7 @@ public class DataSetMetaDataHelper
 					for ( int i = 0; i < pList.size( ); i++ )
 					{
 						PropertyBinding binding = (PropertyBinding) pList.get( i );
-						dsHandle.getDataSource( )
-								.setPropertyBinding( binding.getName( ),
+						dsHandle.setPropertyBinding( binding.getName( ),
 										binding.getExpressionProperty( PropertyBinding.VALUE_MEMBER ) );
 					}
 				}

@@ -24,4 +24,12 @@ public interface IFilterDefinition
 	 * Gets the Boolean expression used to define this filter.
 	 */
 	IBaseExpression getExpression();
+	
+	/**
+	 * Indicate whether the aggreation will be recalculated after this filter has been applied.
+	 * 
+	 * @return <code>true</code> if the aggregation values should be updated
+	 *         prior to apply this filter; Otherwise, return <code>false</code>.
+	 */
+	boolean updateAggregation();
 }

@@ -731,9 +731,9 @@ Choices.flyoutPosition.left=Gauche
 Choices.flyoutPosition.right=Droite
 
 #94 referenceDateType
-Choices.referenceDateType.today=Today
-Choices.referenceDateType.fixedDate=Fixed Date
-Choices.referenceDateType.endingDateInDimension=Ending Date in Dimension
+Choices.referenceDateType.today=Aujourd'hui
+Choices.referenceDateType.fixedDate=Date fixe
+Choices.referenceDateType.endingDateInDimension=Date de fin dans Dimension
 
 ###########################################################
 # Classes
@@ -1912,6 +1912,7 @@ Structure.ScriptLib=Bibliothèque de scripts
 Structure.IncludedCssStyleSheet=Feuille de style CSS comprise
 Structure.DimensionJoinCondition=Condition de jointure de dimension
 Structure.FormatValue =Valeur du format
+Structure.CalculationArgument=Argument de calcul
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -2012,6 +2013,7 @@ Structure.FilterCondition.extensionExprId=ID de l'expression d'extension
 Structure.FilterCondition.pushDown=Pousser vers le bas
 Structure.FilterCondition.dynamicFilterParameter=Paramètre filtre dynamique
 Structure.FilterCondition.type=Type
+Structure.FilterCondition.updateAggregation=Update Aggregation
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nom
@@ -2042,6 +2044,11 @@ Structure.ComputedColumn.aggregateFunction=Fonction Regrouper par
 Structure.ComputedColumn.arguments=Arguments pour la fonction Regrouper par
 Structure.ComputedColumn.filterExpr=Expression de filtre
 Structure.ComputedColumn.allowExport=Autoriser l'exportation
+Structure.ComputedColumn.calculationType=Type de calcul
+Structure.ComputedColumn.calculationArguments=Arguments de calcul
+Structure.ComputedColumn.refDateType=Type de date de référence
+Structure.ComputedColumn.refDateValue=Valeur de date de référence
+Structure.ComputedColumn.timeDimension=Dimension de temps
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nom de colonne
@@ -2304,6 +2311,11 @@ Structure.TimeInterval.unit=Unité
 Structure.FormatValue.category=Catégorie
 Structure.FormatValue.pattern=Correspondance
 Structure.FormatValue.locale=Informations locales
+
+#40. CalculationArgument
+Structure.CalculationArgument.name=Nom de l'argument de calcul
+Structure.CalculationArgument.value=Valeur de l'argument de calcul
+
 
 ###########################################################
 # Element names
@@ -3291,7 +3303,7 @@ Element.Measure.ACLExpression=Expression ACL
 Element.Measure.action=Action
 Element.Measure.format=Format
 Element.Measure.alignment=Alignement
-Element.Measure.isVisible=Is visible
+Element.Measure.isVisible=Visible
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Mesures
@@ -3359,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=ID de l'expression d'extension
 Element.FilterConditionElement.pushDown=Pousser vers le bas
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Type
-
+Element.FilterConditionElement.updateAggregation=Update Aggregation
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

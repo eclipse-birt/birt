@@ -304,8 +304,8 @@ public class TimeFunctionManagerTest extends TestCase
 		period1.setName( IArgumentInfo.PERIOD_1 );
 		period2.setName( IArgumentInfo.PERIOD_2 );
 		
-		period1.setValue( new Expression( IArgumentInfo.Period_Type.YEAR, ExpressionType.CONSTANT ) );
-		period2.setValue( new Expression( IArgumentInfo.Period_Type.DAY, ExpressionType.CONSTANT ) );
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.YEAR, ExpressionType.CONSTANT ) );
+		period2.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, ExpressionType.CONSTANT ) );
 
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO );
 		computedHandle.addCalculationArgument( period1 );
@@ -314,8 +314,8 @@ public class TimeFunctionManagerTest extends TestCase
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR ) );
 		assertTrue( timeTypes[1].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
 		
-		period1.setValue( new Expression( IArgumentInfo.Period_Type.QUARTER, ExpressionType.CONSTANT ) );
-		period2.setValue( new Expression( IArgumentInfo.Period_Type.MONTH, ExpressionType.CONSTANT ) );
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.QUARTER, ExpressionType.CONSTANT ) );
+		period2.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, ExpressionType.CONSTANT ) );
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO );
 		computedHandle.addCalculationArgument( period1 );
 		computedHandle.addCalculationArgument( period2 );		
@@ -323,8 +323,8 @@ public class TimeFunctionManagerTest extends TestCase
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER ) );
 		assertTrue( timeTypes[1].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
 				
-		period1.setValue( new Expression( IArgumentInfo.Period_Type.DAY, ExpressionType.CONSTANT ) );
-		period2.setValue( new Expression( IArgumentInfo.Period_Type.MONTH, ExpressionType.CONSTANT ) );
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, ExpressionType.CONSTANT ) );
+		period2.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, ExpressionType.CONSTANT ) );
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO );
 		computedHandle.addCalculationArgument( period1 );
 		computedHandle.addCalculationArgument( period2 );		
@@ -332,7 +332,7 @@ public class TimeFunctionManagerTest extends TestCase
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
 		assertTrue( timeTypes[1].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH ) );
 
-		period1.setValue( new Expression( IArgumentInfo.Period_Type.DAY, ExpressionType.CONSTANT ) );
+		period1.setValue( new Expression( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, ExpressionType.CONSTANT ) );
 		computedHandle.setCalculationType(  IBuildInBaseTimeFunction.NEXT_N_PERIODS );
 		timeTypes = TimeFunctionManager.getTimeType( computedHandle );
 		assertTrue( timeTypes[0].equals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR ) );
