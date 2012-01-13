@@ -22,8 +22,10 @@ import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
@@ -34,11 +36,14 @@ import org.eclipse.emf.ecore.EObject;
 
 public class ChartValueUpdater extends BaseChartValueUpdater
 {
+	protected Chart chart;
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.model.util.BaseChartValueUpdater#update(org.eclipse.birt.chart.model.Chart, org.eclipse.birt.chart.model.Chart)
 	 */
 	public void update( Chart eObj, Chart eRefObj )
 	{
+		chart = eObj;
 		super.update( eObj, eRefObj );
 		
 		revise( eObj, eRefObj, true );
@@ -51,7 +56,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 	 */
 	public void update( Chart eObj, Chart eRefObj, boolean checkVisible )
 	{
-		
+		chart = eObj;
 		if ( eObj != null )
 		{
 			updateChart( eObj.eClass( ).getName( ),
@@ -324,5 +329,24 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		}
 
 		super.updateMarkerRangeImpl( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
+	}
+	
+	protected void updateTitleBlock( String name, EObject eParentObj,
+			TitleBlock eObj, TitleBlock eRefObj, TitleBlock eDefObj,
+			boolean eDefOverride, boolean checkVisible )
+	{
+		if ( eObj != null
+				&& eObj.eContainer( ) != null
+				&& eObj.eContainer( ).eContainer( ) instanceof Chart )
+		{
+			// It is chart title block, if chart title is null, we use chart type.
+			if ( eObj.getLabel( ).getCaption( ).getValue( ) == null ) 
+			{
+				eObj.getLabel( )
+						.getCaption( )
+						.setValue( ChartUtil.getDefaultChartTitle( chart ) );
+			}
+		}
+		super.updateTitleBlock( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 	}
 }

@@ -2518,4 +2518,16 @@ public class ChartUtil
 		}
 		return false;
 	}
+	
+	/**
+	 * Returns default chart title.
+	 * 
+	 * @param chart
+	 * @return default chart title.
+	 */
+	public static String getDefaultChartTitle( Chart chart )
+	{
+		return Messages.getString( chart.getType( )
+				.replaceAll( " ", "" ) + ".Title" );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 }

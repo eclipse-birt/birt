@@ -336,9 +336,9 @@ public class MeterChart extends DefaultChartTypeImpl
 				}
 
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) == null
-						|| title.getValue( ).trim( ).length( ) == 0
-						|| title.getValue( )
+				if ( title.getValue( ) != null
+						&& title.getValue( ).trim( ).length( ) != 0
+						&& title.getValue( )
 								.trim( )
 								.equals( oldType.getDefaultTitle( ).trim( ) ) )
 				{

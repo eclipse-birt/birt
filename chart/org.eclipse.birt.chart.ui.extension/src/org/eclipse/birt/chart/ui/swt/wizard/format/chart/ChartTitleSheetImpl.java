@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleBlockSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleTextSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -292,11 +293,22 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
 			{
 				getChart( ).getTitle( ).unsetAuto( );
+				getChart( ).getTitle( )
+							.getLabel( )
+							.getCaption( )
+							.setValue( null );
 			}
 			else
 			{
 				getChart( ).getTitle( )
 						.setAuto( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_UNSELECTED )
+				{
+					getChart( ).getTitle( )
+							.getLabel( )
+							.getCaption( )
+							.setValue( ChartUtil.getDefaultChartTitle( getChart( ) ) );
+				}
 			}
 			updateTextTitleState( );
 		}
