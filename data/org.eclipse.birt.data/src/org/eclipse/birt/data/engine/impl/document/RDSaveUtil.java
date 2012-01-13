@@ -233,30 +233,29 @@ class RDSaveUtil
 	 */
 	void saveQueryDefn( ) throws DataException
 	{
-		OutputStream outputStream;
 		if ( queryDefn instanceof QueryDefnDelegator )
 		{
 			queryDefn = ( (QueryDefnDelegator) queryDefn ).getBaseQuery( );
 		}
 		
-		if ( queryDefn instanceof QueryDefinition
-				&& ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
-		{
-			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE );
-			QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
-			try
-			{
-				outputStream.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-			}
-		}
+//		if ( queryDefn instanceof QueryDefinition
+//				&& ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
+//		{
+//			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
+//					StreamManager.ROOT_STREAM,
+//					StreamManager.SELF_SCOPE );
+//			QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
+//			try
+//			{
+//				outputStream.close( );
+//			}
+//			catch ( IOException e )
+//			{
+//				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+//			}
+//		}
 
-		outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
+		OutputStream outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
 		QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
