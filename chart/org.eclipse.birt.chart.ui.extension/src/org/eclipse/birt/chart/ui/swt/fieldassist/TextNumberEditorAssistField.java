@@ -80,7 +80,7 @@ public class TextNumberEditorAssistField extends TextAssistField
 	public boolean isValid( )
 	{
 		String contents = getContents( );
-		if ( contents == null || "".equals( contents.trim( ) ) )
+		if ( contents == null || "".equals( contents.trim( ) ) ) //$NON-NLS-1$
 		{
 			return true;
 		}

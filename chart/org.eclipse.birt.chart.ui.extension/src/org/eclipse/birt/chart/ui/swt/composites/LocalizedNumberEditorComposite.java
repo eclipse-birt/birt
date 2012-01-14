@@ -15,7 +15,9 @@ import java.text.ParseException;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -33,8 +35,11 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
@@ -45,22 +50,21 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * LocalizedNumberEditorComposite
  */
-public class LocalizedNumberEditorComposite extends Composite
-		implements
-			ModifyListener,
-			KeyListener,
-			FocusListener
+public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor implements
+		ModifyListener,
+		KeyListener,
+		FocusListener
 {
 
 	public static final int TEXT_MODIFIED = TextEditorComposite.TEXT_MODIFIED;
 
 	public static final int TEXT_FRACTION_CONVERTED = TextEditorComposite.TEXT_FRACTION_CONVERTED;
 
-	private transient Text txtValue;
+	protected transient Text txtValue;
 
-	private transient Vector vModifyListeners;
+	protected transient Vector<ModifyListener> vModifyListeners;
 
-	private transient Vector vFractionListeners;
+	private transient Vector<Listener> vFractionListeners;
 
 	private transient double dValue;
 
@@ -70,11 +74,15 @@ public class LocalizedNumberEditorComposite extends Composite
 
 	private transient boolean bOriginalValueIsSet = false;
 
-	private transient boolean bEnabled = true;
+	protected transient boolean bEnabled = true;
 
-	private transient int iStyle = SWT.NONE;
+	protected transient int iStyle = SWT.NONE;
 
 	private transient NumberFormat numberFormat;
+
+	protected String sUnit;
+
+	protected Label lblUnit;
 
 	/**
 	 * Constructor.
@@ -84,10 +92,17 @@ public class LocalizedNumberEditorComposite extends Composite
 	 */
 	public LocalizedNumberEditorComposite( Composite parent, int iStyle )
 	{
+		this( parent, iStyle, null );
+	}
+
+	public LocalizedNumberEditorComposite( Composite parent, int iStyle,
+			String unit )
+	{
 		super( parent, SWT.NONE );
 		this.iStyle = iStyle;
-		vModifyListeners = new Vector( );
-		vFractionListeners = new Vector( );
+		this.sUnit = unit;
+		vModifyListeners = new Vector<ModifyListener>( );
+		vFractionListeners = new Vector<Listener>( );
 		this.setLayout( new FillLayout( ) );
 
 		numberFormat = ChartUIUtil.getDefaultNumberFormatInstance( );
@@ -96,13 +111,36 @@ public class LocalizedNumberEditorComposite extends Composite
 		initAccessible( );
 	}
 
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
+		GridLayout gl = new GridLayout( 1, false );
+		gl.marginBottom = 0;
+		gl.marginHeight = 0;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginWidth = 0;
+		this.setLayout( gl );
+		if ( sUnit != null )
+		{
+			gl.numColumns = 2;
+		}
 		txtValue = new Text( this, iStyle );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		txtValue.setLayoutData( gd );
 		txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
 		txtValue.addModifyListener( this );
 		txtValue.addFocusListener( this );
 		txtValue.addKeyListener( this );
+
+		if ( sUnit != null )
+		{
+			this.lblUnit = new Label( this, SWT.NONE );
+			if ( lblUnit != null )
+			{
+				lblUnit.setText( sUnit );
+			}
+		}
 	}
 
 	/*
@@ -114,6 +152,10 @@ public class LocalizedNumberEditorComposite extends Composite
 	{
 		bEnabled = bState;
 		txtValue.setEnabled( bState );
+		if ( lblUnit != null )
+		{
+			lblUnit.setEnabled( bState );
+		}
 	}
 
 	/*
@@ -160,6 +202,11 @@ public class LocalizedNumberEditorComposite extends Composite
 		vModifyListeners.add( listener );
 	}
 
+	public void removeModifyListener( ModifyListener listener )
+	{
+		vModifyListeners.remove( listener );
+	}
+
 	public void addFractionListener( Listener listener )
 	{
 		vFractionListeners.add( listener );
@@ -168,7 +215,9 @@ public class LocalizedNumberEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 * @see
+	 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
+	 * .ModifyEvent)
 	 */
 	public void modifyText( ModifyEvent e )
 	{
@@ -179,7 +228,9 @@ public class LocalizedNumberEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
+	 * @see
+	 * org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events
+	 * .FocusEvent)
 	 */
 	public void focusGained( FocusEvent e )
 	{
@@ -188,7 +239,9 @@ public class LocalizedNumberEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
+	 * @see
+	 * org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events
+	 * .FocusEvent)
 	 */
 	public void focusLost( FocusEvent e )
 	{
@@ -202,7 +255,9 @@ public class LocalizedNumberEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+	 * @see
+	 * org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
+	 * KeyEvent)
 	 */
 	public void keyPressed( KeyEvent e )
 	{
@@ -219,7 +274,9 @@ public class LocalizedNumberEditorComposite extends Composite
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events.KeyEvent)
+	 * @see
+	 * org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events
+	 * .KeyEvent)
 	 */
 	public void keyReleased( KeyEvent e )
 	{
@@ -246,12 +303,12 @@ public class LocalizedNumberEditorComposite extends Composite
 		}
 	}
 
-	private void fireEvent( )
+	protected void fireEvent( )
 	{
 		fireEvent( false );
 	}
 
-	private void fireEvent( boolean bByModifyText )
+	protected void fireEvent( boolean bByModifyText )
 	{
 		boolean isFractionConverted = false;
 
@@ -321,7 +378,7 @@ public class LocalizedNumberEditorComposite extends Composite
 			e.data = bByModifyText ? Boolean.FALSE : Boolean.TRUE;
 			e.widget = this;
 			e.type = TEXT_MODIFIED;
-			( (ModifyListener) vModifyListeners.get( i ) ).modifyText( new ModifyEvent( e ) );
+			vModifyListeners.get( i ).modifyText( new ModifyEvent( e ) );
 		}
 
 		if ( isFractionConverted )
@@ -332,7 +389,7 @@ public class LocalizedNumberEditorComposite extends Composite
 				e.data = sText;
 				e.widget = this;
 				e.type = TEXT_FRACTION_CONVERTED;
-				( (Listener) vFractionListeners.get( i ) ).handleEvent( e );
+				vFractionListeners.get( i ).handleEvent( e );
 			}
 		}
 	}
@@ -397,9 +454,22 @@ public class LocalizedNumberEditorComposite extends Composite
 			}
 		} );
 	}
-	
+
 	public Text getTextControl( )
 	{
 		return txtValue;
+	}
+
+	@Override
+	public void setEObjectParent( EObject eParent )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Label getUnitLabel( )
+	{
+		return lblUnit;
 	}
 }

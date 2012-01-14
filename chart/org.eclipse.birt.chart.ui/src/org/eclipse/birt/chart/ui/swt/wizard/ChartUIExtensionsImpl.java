@@ -16,8 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.log.ILogger;
@@ -50,7 +52,7 @@ public class ChartUIExtensionsImpl
 
 	private Collection<IChangeListener> cListeners = null;
 
-	private Map<String, Collection<ISeriesUIProvider>> mSeriesUIs = null;
+	private Map<String, Collection<DefaultRegisteredEntry<ISeriesUIProvider>>> mSeriesUIs = null;
 
 	private static final String[] saSheets = new String[]{
 			"10/Series/ /org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl", //$NON-NLS-1$
@@ -99,7 +101,7 @@ public class ChartUIExtensionsImpl
 	private static ChartUIExtensionsImpl uiExtensions = null;
 
 	private static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt.wizard" ); //$NON-NLS-1$
-	
+
 	private static final String NS_NATIVE_IMPL = "org.eclipse.birt.chart.ui.extension";//$NON-NLS-1$
 
 	/**
@@ -138,7 +140,7 @@ public class ChartUIExtensionsImpl
 				{
 					id = defaultExtensionId;
 				}
-				List<IRegisteredSubtaskEntry> cSheets = new ArrayList<IRegisteredSubtaskEntry>( );
+				Set<IRegisteredSubtaskEntry> cSheets = new LinkedHashSet<IRegisteredSubtaskEntry>( );
 				for ( int i = 0; i < configElements.length; i++ )
 				{
 					IConfigurationElement currentTag = configElements[i];
@@ -161,15 +163,23 @@ public class ChartUIExtensionsImpl
 					// Combine the entries of the same id extension
 					if ( mSheets.containsKey( id ) )
 					{
-						if ( extension.getNamespace( ).equals( NS_NATIVE_IMPL ) )
+						Collection<IRegisteredSubtaskEntry> oldSheets = mSheets.get( id );
+						Map<Integer, IRegisteredSubtaskEntry> oldSheetsMap = new HashMap<Integer, IRegisteredSubtaskEntry>( );
+						for ( IRegisteredSubtaskEntry entry : oldSheets )
 						{
-							// Always let native charts be first
-							cSheets.addAll( mSheets.get( id ) );
-							mSheets.put( id, cSheets );
+							oldSheetsMap.put( entry.getNodeIndex( ), entry );
 						}
-						else
+						for ( IRegisteredSubtaskEntry entry : cSheets )
 						{
-							mSheets.get( id ).addAll( cSheets );
+							// If current sheet is new or has higher priority
+							IRegisteredSubtaskEntry oldEntry = oldSheetsMap.get( entry.getNodeIndex( ) );
+							if ( oldEntry == null
+									|| ( (DefaultRegisteredSubtaskEntryImpl) entry ).getPriority( ) > ( (DefaultRegisteredSubtaskEntryImpl) oldEntry ).getPriority( ) )
+							{
+								// Add or replace the entry according to the
+								// node index
+								oldSheets.add( entry );
+							}
 						}
 					}
 					else
@@ -404,17 +414,17 @@ public class ChartUIExtensionsImpl
 		{
 			initSeriesUIComponents( extensionId );
 		}
-		Collection<ISeriesUIProvider> cSeriesUI = mSeriesUIs.get( extensionId );
+		Collection<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = mSeriesUIs.get( extensionId );
 		if ( cSeriesUI != null )
 		{
-			return cSeriesUI;
+			return DefaultRegisteredEntry.convert( cSeriesUI );
 		}
 		return Collections.emptyList( );
 	}
 
 	private void initSeriesUIComponents( String defaultExtensionId )
 	{
-		mSeriesUIs = new HashMap<String, Collection<ISeriesUIProvider>>( );
+		mSeriesUIs = new HashMap<String, Collection<DefaultRegisteredEntry<ISeriesUIProvider>>>( );
 		if ( UIHelper.isEclipseMode( ) )
 		{
 			IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
@@ -430,7 +440,7 @@ public class ChartUIExtensionsImpl
 				{
 					id = defaultExtensionId;
 				}
-				Vector<ISeriesUIProvider> cSeriesUI = new Vector<ISeriesUIProvider>( );
+				Vector<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = new Vector<DefaultRegisteredEntry<ISeriesUIProvider>>( );
 				for ( int i = 0; i < configElements.length; i++ )
 				{
 					IConfigurationElement currentTag = configElements[i];
@@ -438,7 +448,9 @@ public class ChartUIExtensionsImpl
 					{
 						try
 						{
-							cSeriesUI.add( (ISeriesUIProvider) currentTag.createExecutableExtension( "seriesUIProvider" ) ); //$NON-NLS-1$
+							cSeriesUI.add( new DefaultRegisteredEntry<ISeriesUIProvider>( (ISeriesUIProvider) currentTag.createExecutableExtension( "seriesUIProvider" ), //$NON-NLS-1$
+									currentTag.getAttribute( "seriesType" ), //$NON-NLS-1$
+									currentTag.getAttribute( "priority" ) ) ); //$NON-NLS-1$
 						}
 						catch ( FrameworkException e )
 						{
@@ -451,15 +463,23 @@ public class ChartUIExtensionsImpl
 					// Combine the entries of the same id extension
 					if ( mSeriesUIs.containsKey( id ) )
 					{
-						if ( extension.getNamespace( ).equals( NS_NATIVE_IMPL ) )
+						Collection<DefaultRegisteredEntry<ISeriesUIProvider>> oldSheets = mSeriesUIs.get( id );
+						Map<String, DefaultRegisteredEntry<ISeriesUIProvider>> oldSheetsMap = new HashMap<String, DefaultRegisteredEntry<ISeriesUIProvider>>( );
+						for ( DefaultRegisteredEntry<ISeriesUIProvider> entry : oldSheets )
 						{
-							// Always let native charts be first
-							cSeriesUI.addAll( mSeriesUIs.get( id ) );
-							mSeriesUIs.put( id, cSeriesUI );
+							oldSheetsMap.put( entry.getName( ), entry );
 						}
-						else
+						for ( DefaultRegisteredEntry<ISeriesUIProvider> entry : cSeriesUI )
 						{
-							mSeriesUIs.get( id ).addAll( cSeriesUI );
+							// If current sheet is new or has higher priority
+							DefaultRegisteredEntry<ISeriesUIProvider> oldEntry = oldSheetsMap.get( entry.getName( ) );
+							if ( oldEntry == null
+									|| entry.getPriority( ) > oldEntry.getPriority( ) )
+							{
+								// Add or replace the entry according to the
+								// priority
+								oldSheets.add( entry );
+							}
 						}
 					}
 					else
@@ -471,13 +491,15 @@ public class ChartUIExtensionsImpl
 		}
 		else
 		{
-			Vector<ISeriesUIProvider> cSeriesUI = new Vector<ISeriesUIProvider>( );
+			Vector<DefaultRegisteredEntry<ISeriesUIProvider>> cSeriesUI = new Vector<DefaultRegisteredEntry<ISeriesUIProvider>>( );
 			for ( int iC = 0; iC < saSeriesUI.length; iC++ )
 			{
 				try
 				{
-					cSeriesUI.add( (ISeriesUIProvider) Class.forName( saSeriesUI[iC] )
-							.newInstance( ) );
+					cSeriesUI.add( new DefaultRegisteredEntry<ISeriesUIProvider>( (ISeriesUIProvider) Class.forName( saSeriesUI[iC] )
+							.newInstance( ),
+							null,
+							null ) );
 				}
 				catch ( InstantiationException e )
 				{

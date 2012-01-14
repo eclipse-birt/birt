@@ -267,6 +267,18 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		( (TitleBlockImpl) tb ).initialize( );
 		return tb;
 	}
+	
+	/**
+	 * A convenience method to create an initialized 'TitleBlock' instance
+	 * 
+	 * @return
+	 */
+	public static Block createDefault( )
+	{
+		final TitleBlock tb = LayoutFactory.eINSTANCE.createTitleBlock( );
+		( (TitleBlockImpl) tb ).initDefault( );
+		return tb;
+	}
 
 	protected BoundingBox computeBox( IDisplayServer xs, RunTimeContext rtc )
 			throws ChartException

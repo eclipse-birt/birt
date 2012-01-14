@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
@@ -280,5 +281,15 @@ public class ReportItem
 	public Iterator availableBindings( )
 	{
 		return Collections.EMPTY_LIST.iterator( );
+	}
+	
+	public StyleHandle[] getReferencedStyle( )
+	{
+		return null;
+	}
+
+	public void updateStyleReference( Map<String, String> styleMap )
+	{
+		// TODO Auto-generated method stub
 	}
 }

@@ -44,10 +44,12 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ui.ChartExpressionButtonUtil.ChartExpressionButton;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionButton;
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
+import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -89,7 +91,7 @@ import com.ibm.icu.text.NumberFormat;
 public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		IUIServiceProvider
 {
-	private static boolean isChartWizardOpen = false;
+	protected static boolean isChartWizardOpen = false;
 
 	protected static int iInstanceCount = 0;
 
@@ -98,6 +100,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	protected ChartWizardContext wizardContext = null;
 
 	protected final String taskId;
+
+	protected IFormatSpecifierHandler formatSpecifierHandler;
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -227,20 +231,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				context.setEnabled( ChartUIConstants.SUBTASK_LEGEND, false );
 				context.setEnabled( ChartUIConstants.SUBTASK_TITLE, false );
 			}
-			chartBuilder.addCustomButton( new ApplyButtonHandler( chartBuilder ) {
-
-				public void run( )
-				{
-					super.run( );
-					// Save the data when applying
-					applyData[0] = context.getModel( ).copyInstance( );
-					applyData[1] = context.getOutputFormat( );
-					applyData[2] = context.isInheritColumnsOnly( );
-
-					commandStack.commit( );
-					commandStack.startTrans( TRANS_NAME );
-				}
-			} );
+			addCustomButtons( chartBuilder,
+					context,
+					commandStack,
+					TRANS_NAME,
+					applyData );
 
 			// Set direction from model to chart
 			context.setRtL( crii.isLayoutDirectionRTL( ) );
@@ -299,6 +294,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				// Window.CANCEL to tell invoker to break following tasks.
 				if ( !chartBuilder.isOkPressed( ))
 				{
+					commandStack.rollback( );
 					return Window.CANCEL;
 				}
 				
@@ -365,8 +361,28 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			ChartWizard.clearExceptions( );
 		}
 	}
+
+	protected void addCustomButtons( final ChartWizard chartBuilder,
+			final ChartWizardContext context, final CommandStack commandStack,
+			final String TRANS_NAME, final Object[] applyData )
+	{
+		chartBuilder.addCustomButton( new ApplyButtonHandler( chartBuilder ) {
+
+			public void run( )
+			{
+				super.run( );
+				// Save the data when applying
+				applyData[0] = context.getModel( ).copyInstance( );
+				applyData[1] = context.getOutputFormat( );
+				applyData[2] = context.isInheritColumnsOnly( );
+
+				commandStack.commit( );
+				commandStack.startTrans( TRANS_NAME );
+			}
+		} );
+	}
 	
-	private void maintainCompatibility( Chart cm )
+	protected void maintainCompatibility( Chart cm )
 	{
 		// Revise chart version to current.
 		ChartUtil.reviseVersion( cm );
@@ -443,7 +459,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 	}
 
-	private void updateModel( ExtendedItemHandle eih, ChartWizard chartBuilder,
+	protected void updateModel( ExtendedItemHandle eih, ChartWizard chartBuilder,
 			ChartReportItemImpl crii, Chart cmOld, Chart cmNew,
 			String outputFormat, boolean bInheritColumnsOnly )
 	{		
@@ -562,7 +578,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys()
 	 */
 	@SuppressWarnings("unchecked")
-	public final List<String> getRegisteredKeys( )
+	public List<String> getRegisteredKeys( )
 	{
 		return extendedHandle.getModuleHandle( ).getMessageKeys( );
 	}
@@ -767,5 +783,15 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				break;
 		}
 		return outData;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getFormatSpecifierHandler()
+	 */
+	public IFormatSpecifierHandler getFormatSpecifierHandler( )
+	{
+		if ( formatSpecifierHandler == null )
+			formatSpecifierHandler = new FormatSpecifierHandler();
+		return formatSpecifierHandler;
 	}
 }

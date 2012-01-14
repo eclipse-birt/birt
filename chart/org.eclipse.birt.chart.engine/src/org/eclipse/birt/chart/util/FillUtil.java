@@ -395,6 +395,11 @@ public class FillUtil
 	public static Fill getPaletteFill( EList<Fill> elPalette, int index )
 	{
 		final int iPaletteSize = elPalette.size( );
+		if ( iPaletteSize == 0 )
+		{
+			return null;
+		}
+		
 		Fill fill = elPalette.get( index % iPaletteSize );
 		if ( index < iPaletteSize )
 		{

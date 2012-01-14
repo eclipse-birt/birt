@@ -64,6 +64,8 @@ import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.birt.chart.render.DeferredCache;
@@ -106,6 +108,8 @@ public final class Generator implements IGenerator
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
+	private static final ChartValueUpdater chartValueUpdater = new ChartValueUpdater( );
+	
 	/**
 	 * A private constructor.
 	 */
@@ -133,16 +137,82 @@ public final class Generator implements IGenerator
 	 * 
 	 * @param model
 	 * @param externalProcessor
+	 * @param rtc runtime context.
 	 */
 	public final void prepareStyles( Chart model,
-			IStyleProcessor externalProcessor )
+			IStyleProcessor externalProcessor, RunTimeContext rtc )
 	{
+		boolean updatedModel = false;
+		if ( externalProcessor != null )
+		{
+			updatedModel = externalProcessor.updateChart( model, null );
+		}
+		
+		// If chart model is not updated by external processor, use default
+		// value of chart to update current model.
+		if ( !updatedModel )
+		{
+			chartValueUpdater.update( model, null );
+		}
+		
+		boolean needInheritingStyles = true;
 		// Process styles for the whole chart model at first
 		if ( externalProcessor != null )
 		{
 			externalProcessor.processStyle( model );
+			needInheritingStyles = externalProcessor.needInheritingStyles( );
 		}
 		
+		if ( needInheritingStyles )
+		{
+			updateWithInhertingtyles( model, externalProcessor );
+		}
+		else
+		{
+			// If no need to inherit styles, just set inherited styles into a
+			// default value chart, user can get these styles from default value
+			// chart later.
+			if ( rtc != null )
+			{
+				Chart defChart = rtc.getDefaultValueChart( );
+				if ( rtc.getDefaultValueChart( ) == null )
+				{
+					defChart = ChartDefaultValueUtil.createDefaultValueChartInstance( model );
+					rtc.setDefaultValueChart( defChart );
+				}
+				updateWithInhertingtyles( defChart, externalProcessor );
+			}
+		}
+		
+		// Still set default value chart instance to avoid null.
+		if ( rtc != null && rtc.getDefaultValueChart( ) == null )
+		{
+			rtc.setDefaultValueChart( ChartDefaultValueUtil.createDefaultValueChartInstance( model ) );
+		}
+	}
+	
+	/**
+	 * Prepare all default styles for various StyledComponent.
+	 * 
+	 * @param model
+	 * @param externalProcessor
+	 */
+	public final void prepareStyles( Chart model,
+			IStyleProcessor externalProcessor )
+	{
+		prepareStyles( model, externalProcessor, null );
+	}
+
+	/**
+	 * Update chart UI attributes with inherited styles if those UI attributes
+	 * don't be set or updated.
+	 * 
+	 * @param model
+	 * @param externalProcessor
+	 */
+	protected void updateWithInhertingtyles( Chart model,
+			IStyleProcessor externalProcessor )
+	{
 		Stack<StyledComponent> token = new Stack<StyledComponent>( );
 
 		token.push( StyledComponent.CHART_ALL_LITERAL );
@@ -150,7 +220,6 @@ public final class Generator implements IGenerator
 		prepareComponent( model, token, model, externalProcessor );
 
 		token.clear( );
-
 	}
 
 	private void prepareComponent( Chart model, Stack<StyledComponent> token,
@@ -1007,7 +1076,7 @@ public final class Generator implements IGenerator
 		checkDataEmpty( cmRunTime, rtc );
 
 		// flatten the default styles.
-		prepareStyles( cmRunTime, externalProcessor );
+		prepareStyles( cmRunTime, externalProcessor, rtc );
 
 		PlotComputation oComputations = null;
 		if ( cmRunTime instanceof ChartWithAxes )
@@ -1231,6 +1300,13 @@ public final class Generator implements IGenerator
 			throws ChartException
 	{
 		final Chart cm = gcs.getChartModel( );
+		final int scale = idr.getDisplayServer( ).getDpiResolution( ) / 72;
+		if ( scale != 1 )
+		{
+			// Here multiply by integer scale so that normal dpi (96) won't
+			// change thickness by default. Only PDF case would change.
+			updateDeviceScale( cm, scale );
+		}
 		
 		idr.getDisplayServer( ).setResourceFinder( gcs.getRunTimeContext( )
 				.getResourceFinder( ) );
@@ -1853,5 +1929,20 @@ public final class Generator implements IGenerator
 	public void setDefaultBackground( ColorDefinition cd )
 	{
 		implicitProcessor.setDefaultBackgroundColor( cd );
+	}
+	
+	private void updateDeviceScale( EObject component, int scale )
+	{
+		if ( component instanceof LineAttributes )
+		{
+			LineAttributes lia = (LineAttributes) component;
+			lia.setThickness( lia.getThickness( ) * scale );
+			return;
+		}
+		// prepare children
+		for ( Iterator<EObject> itr = component.eContents( ).iterator( ); itr.hasNext( ); )
+		{
+			updateDeviceScale( itr.next( ), scale );
+		}
 	}
 }

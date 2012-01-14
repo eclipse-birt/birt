@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.ui.swt.composites.NeedleComposite;
@@ -26,11 +27,25 @@ public class NeedleSheet extends AbstractPopupSheet
 {
 
 	private transient SeriesDefinition seriesDefn;
+	private Series series;
 
+	/**
+	 * @param title
+	 * @param context
+	 * @param seriesDefn
+	 * 
+	 * @deprecated since 3.7
+	 */
 	public NeedleSheet( String title, ChartWizardContext context, SeriesDefinition seriesDefn )
 	{
 		super( title, context, true );
 		this.seriesDefn = seriesDefn;
+	}
+	
+	public NeedleSheet( String title, ChartWizardContext context, Series series )
+	{
+		super( title, context, true );
+		this.series = series;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -46,9 +61,16 @@ public class NeedleSheet extends AbstractPopupSheet
 			cmpContent.setLayout( glContent );
 		}
 
-		new NeedleComposite( cmpContent,
-				getContext( ),
-				(DialSeries) seriesDefn.getDesignTimeSeries( ) );
+		if ( series != null )
+		{
+			new NeedleComposite( cmpContent, getContext( ), (DialSeries) series );
+		}
+		else
+		{
+			new NeedleComposite( cmpContent,
+					getContext( ),
+					(DialSeries) seriesDefn.getDesignTimeSeries( ) );
+		}
 		
 		return cmpContent;
 	}

@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -756,7 +758,7 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 	{
 		return create( ax, de, ColorDefinitionImpl.RED( ) );
 	}
-
+	
 	/**
 	 * A convenience method provided to add a marker line instance to an axis
 	 * 
@@ -787,6 +789,50 @@ public class MarkerLineImpl extends EObjectImpl implements MarkerLine
 			ml.setFormatSpecifier( ax.getFormatSpecifier( ).copyInstance( ) );
 		}
 		return ml;
+	}
+	
+	/**
+	 * A convenience method provided to add a marker line instance to an axis
+	 * 
+	 * @param ax
+	 * @param de
+	 * @param lineColor
+	 */
+	public static final MarkerLine createDefault( Axis ax, DataElement de,
+			ColorDefinition lineColor )
+	{
+		final MarkerLine ml = ComponentFactory.eINSTANCE.createMarkerLine( );
+		( (MarkerLineImpl) ml ).initDefault( ax, de, lineColor );
+		ax.getMarkerLines( ).add( ml );
+		return ml;
+	}
+
+	private void initDefault( Axis ax, DataElement de, ColorDefinition lineColor )
+	{
+		lineAttributes = LineAttributesImpl.createDefault( lineColor,
+				LineStyle.DASHED_LITERAL,
+				1 );
+		value = de;
+		label = LabelImpl.createDefault( );
+		labelAnchor = ( ax.isSetOrientation( ) && ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL ) ? Anchor.NORTH_WEST_LITERAL
+				: Anchor.NORTH_EAST_LITERAL;
+
+		if ( ax.isSetOrientation( ) && ax.getOrientation( ).getValue( ) == Orientation.HORIZONTAL )
+		{
+			try
+			{
+				ChartElementUtil.setDefaultValue( getLabel( ).getCaption( ).getFont( ), "rotation", 90 );  //$NON-NLS-1$
+			}
+			catch ( ChartException e )
+			{
+				// This should not happens in here.
+			}
+		}
+
+		if ( ax.getFormatSpecifier( ) != null && ax.isSetCategoryAxis( ) && !ax.isCategoryAxis( ) )
+		{
+			formatSpecifier = ax.getFormatSpecifier( ).copyInstance( );
+		}
 	}
 
 	/**

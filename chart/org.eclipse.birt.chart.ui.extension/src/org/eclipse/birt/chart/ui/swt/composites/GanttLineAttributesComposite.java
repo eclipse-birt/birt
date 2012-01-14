@@ -17,7 +17,11 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
+import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -25,7 +29,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -44,13 +47,13 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private transient Label lblColor = null;
 
-	private transient LineStyleChooserComposite cmbStyle = null;
+	private transient AbstractLineStyleChooserComposite cmbStyle = null;
 
-	private transient IntegerSpinControl iscWidth = null;
+	private transient AbstractChartIntSpinner iscWidth = null;
 
 	private transient FillChooserComposite cmbColor = null;
 
-	private transient Button cbVisible = null;
+	private transient ChartCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -60,7 +63,7 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private transient boolean bEnableVisibility = true;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	public static final int STYLE_CHANGED_EVENT = 1;
 
@@ -76,6 +79,8 @@ public class GanttLineAttributesComposite extends Composite implements
 
 	private transient ChartWizardContext context;
 
+	private LineAttributes defaultLineAttributes;
+
 	/**
 	 * @param parent
 	 * @param style
@@ -83,7 +88,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	public GanttLineAttributesComposite( Composite parent,
 			ChartWizardContext context, int style, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility )
+			boolean bEnableVisibility, LineAttributes defaultLineAttributes )
 	{
 		super( parent, style );
 		this.context = context;
@@ -96,6 +101,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		this.bEnableStyles = bEnableStyles;
 		this.bEnableWidths = bEnableWidths;
 		this.bEnableVisibility = bEnableVisibility;
+		this.defaultLineAttributes = defaultLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -103,7 +109,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	public GanttLineAttributesComposite( Composite parent, int style,
 			LineAttributes laCurrent, boolean bEnableWidths,
 			boolean bEnableStyles, boolean bEnableVisibility,
-			boolean bEnableColor )
+			boolean bEnableColor, LineAttributes defaultLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -127,7 +133,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -151,20 +157,25 @@ public class GanttLineAttributesComposite extends Composite implements
 		cmpContent = new Composite( this, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		bEnabled = laCurrent.isVisible( );
+		bEnabled = !context.getUIFactory( ).isSetInvisible( laCurrent );
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
-			cbVisible = new Button( cmpContent, SWT.CHECK );
+			btnVisible = context.getUIFactory( )
+					.createChartCheckbox( cmpContent,
+							SWT.NONE,
+							this.defaultLineAttributes.isVisible( ) );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 6;
-			cbVisible.setLayoutData( gdCBVisible );
-			cbVisible.setText( Messages.getString( "LineAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-			cbVisible.setSelection( laCurrent.isVisible( ) );
-			cbVisible.addSelectionListener( this );
+			btnVisible.setLayoutData( gdCBVisible );
+			btnVisible.setText( Messages.getString( "LineAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
+			btnVisible.setSelectionState( laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = cbVisible.getSelection( );
+				bEnableUI = context.getUIFactory( ).canEnableUI( btnVisible );
 			}
 		}
 
@@ -176,8 +187,18 @@ public class GanttLineAttributesComposite extends Composite implements
 			lblStyle.setText( Messages.getString( "LineAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
 			lblStyle.setEnabled( bEnableUI );
 
-			cmbStyle = new LineStyleChooserComposite( cmpContent, SWT.DROP_DOWN
-					| SWT.READ_ONLY, getSWTLineStyle( laCurrent.getStyle( ) ) );
+			cmbStyle = context.getUIFactory( )
+					.createLineStyleChooserComposite( cmpContent,
+							SWT.DROP_DOWN | SWT.READ_ONLY,
+							getSWTLineStyle( laCurrent.getStyle( ) ),
+							new Integer[]{
+									SWT.LINE_SOLID,
+									SWT.LINE_DASH,
+									SWT.LINE_DASHDOT,
+									SWT.LINE_DOT
+							},
+							laCurrent,
+							"style"); //$NON-NLS-1$
 			GridData gdCBStyle = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBStyle.horizontalSpan = 5;
 			cmbStyle.setLayoutData( gdCBStyle );
@@ -194,16 +215,19 @@ public class GanttLineAttributesComposite extends Composite implements
 			lblWidth.setText( Messages.getString( "LineAttributesComposite.Lbl.Width" ) ); //$NON-NLS-1$
 			lblWidth.setEnabled( bEnableUI );
 
-			iscWidth = new IntegerSpinControl( cmpContent,
-					SWT.NONE,
-					laCurrent.getThickness( ) );
+			iscWidth = context.getUIFactory( )
+					.createChartIntSpinner( cmpContent,
+							SWT.NONE,
+							laCurrent.getThickness( ),
+							laCurrent,
+							"thickness", //$NON-NLS-1$
+							bEnableUI );
 			GridData gdISCWidth = new GridData( GridData.FILL_HORIZONTAL );
 			gdISCWidth.horizontalSpan = 5;
 			iscWidth.setLayoutData( gdISCWidth );
 			iscWidth.setMinimum( 1 );
 			iscWidth.setMaximum( 100 );
 			iscWidth.addListener( this );
-			iscWidth.setEnabled( bEnableUI );
 		}
 
 		if ( bEnableColor )
@@ -213,14 +237,16 @@ public class GanttLineAttributesComposite extends Composite implements
 			lblColor.setLayoutData( gdLColor );
 			lblColor.setText( Messages.getString( "LineAttributesComposite.Lbl.Color" ) ); //$NON-NLS-1$
 			lblColor.setEnabled( bEnableUI );
-
+			int fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
+					| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+					| FillChooserComposite.DISABLE_PATTERN_FILL;
+			fillStyles |= context.getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+					: fillStyles;
 			cmbColor = new FillChooserComposite( cmpContent,
 					SWT.DROP_DOWN | SWT.READ_ONLY,
+					fillStyles,
 					context,
-					this.laCurrent.getColor( ),
-					false,
-					false,
-					false );
+					this.laCurrent.getColor( ) );
 			GridData gdCBColor = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBColor.horizontalSpan = 5;
 			cmbColor.setLayoutData( gdCBColor );
@@ -252,8 +278,8 @@ public class GanttLineAttributesComposite extends Composite implements
 		boolean bEnableUI = true;
 		if ( this.bEnableVisibility )
 		{
-			cbVisible.setEnabled( bState );
-			bEnableUI = cbVisible.getSelection( );
+			btnVisible.setEnabled( bState );
+			bEnableUI = context.getUIFactory( ).canEnableUI( btnVisible );
 		}
 		if ( this.bEnableStyles )
 		{
@@ -288,15 +314,16 @@ public class GanttLineAttributesComposite extends Composite implements
 		laCurrent = attributes;
 		if ( bEnableVisibility )
 		{
-			if ( laCurrent == null )
+			if ( laCurrent == null || !laCurrent.isSetVisible( ) )
 			{
-				cbVisible.setSelection( false );
+				btnVisible.setSelectionState( ChartCheckbox.STATE_GRAYED );
 			}
 			else
 			{
-				cbVisible.setSelection( attributes.isVisible( ) );
+				btnVisible.setSelectionState( attributes.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED );
 			}
-			boolean bUIEnabled = cbVisible.getSelection( );
+			boolean bUIEnabled = context.getUIFactory( ).canEnableUI( btnVisible );
 			if ( bEnableStyles )
 			{
 				cmbStyle.setEnabled( bUIEnabled );
@@ -315,20 +342,13 @@ public class GanttLineAttributesComposite extends Composite implements
 		}
 		if ( bEnableStyles )
 		{
-			if ( laCurrent == null )
-			{
-				cmbStyle.setLineStyle( getSWTLineStyle( LineStyle.SOLID_LITERAL ) );
-			}
-			else
-			{
-				cmbStyle.setLineStyle( getSWTLineStyle( attributes.getStyle( ) ) );
-			}
+			cmbStyle.setLineStyle( getSWTLineStyle( attributes.getStyle( ) ) );
 		}
 		if ( this.bEnableWidths )
 		{
-			if ( laCurrent == null )
+			if ( laCurrent == null || !laCurrent.isSetThickness( ) )
 			{
-				iscWidth.setValue( 1 );
+				iscWidth.setValue( 0 );
 			}
 			else
 			{
@@ -337,7 +357,7 @@ public class GanttLineAttributesComposite extends Composite implements
 		}
 		if ( this.bEnableColor )
 		{
-			if ( laCurrent == null )
+			if ( laCurrent == null || laCurrent.getColor( ) == null )
 			{
 				cmbColor.setFill( null );
 			}
@@ -357,19 +377,21 @@ public class GanttLineAttributesComposite extends Composite implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		Object oSource = e.getSource( );
-		if ( oSource.equals( cbVisible ) )
+		Object widget = e.widget;
+		if ( widget == btnVisible )
 		{
 			// Notify Listeners that a change has occurred in the value
 			fireValueChangedEvent( GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					Boolean.valueOf( cbVisible.getSelection( ) ) );
+					Boolean.valueOf( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED ),
+					( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )
 			{
 				return;
 			}
 			// Enable/Disable UI Elements
-			boolean bEnableUI = cbVisible.getSelection( );
+			boolean bEnableUI = context.getUIFactory( ).canEnableUI( btnVisible );
 			if ( bEnableStyles )
 			{
 				lblStyle.setEnabled( bEnableUI );
@@ -377,8 +399,8 @@ public class GanttLineAttributesComposite extends Composite implements
 			}
 			if ( bEnableWidths )
 			{
-				lblWidth.setEnabled( bEnableUI );
-				iscWidth.setEnabled( bEnableUI );
+				lblWidth.setEnabled( bEnableUI  );
+				iscWidth.setEnabled( bEnableUI  );
 			}
 			if ( bEnableColor )
 			{
@@ -397,7 +419,7 @@ public class GanttLineAttributesComposite extends Composite implements
 	{
 	}
 
-	private void fireValueChangedEvent( int iEventType, Object data )
+	private void fireValueChangedEvent( int iEventType, Object data, int detail )
 	{
 		for ( int iL = 0; iL < vListeners.size( ); iL++ )
 		{
@@ -405,7 +427,8 @@ public class GanttLineAttributesComposite extends Composite implements
 			se.widget = this;
 			se.data = data;
 			se.type = iEventType;
-			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+			se.detail = detail;
+			vListeners.get( iL ).handleEvent( se );
 		}
 	}
 
@@ -464,17 +487,27 @@ public class GanttLineAttributesComposite extends Composite implements
 		if ( cmbColor != null && cmbColor.equals( event.widget ) )
 		{
 			fireValueChangedEvent( GanttLineAttributesComposite.COLOR_CHANGED_EVENT,
-					cmbColor.getFill( ) );
+					cmbColor.getFill( ),
+					( cmbColor.getFill( ) == null ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 		}
 		else if ( cmbStyle != null && cmbStyle.equals( event.widget ) )
 		{
 			fireValueChangedEvent( GanttLineAttributesComposite.STYLE_CHANGED_EVENT,
-					getModelLineStyle( cmbStyle.getLineStyle( ) ) );
+					getModelLineStyle( cmbStyle.getLineStyle( ) ),
+					( cmbStyle.getLineStyle( ) < 1 ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 		}
 		else if ( iscWidth != null && iscWidth.equals( event.widget ) )
 		{
+			int action = ChartUIExtensionUtil.PROPERTY_UNSET;
+			if ( event.detail != ChartUIExtensionUtil.PROPERTY_UNSET )
+			{
+				action = ( iscWidth.getValue( ) == 0 ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+						: ChartUIExtensionUtil.PROPERTY_UPDATE;
+			}
 			fireValueChangedEvent( GanttLineAttributesComposite.WIDTH_CHANGED_EVENT,
-					Integer.valueOf( iscWidth.getValue( ) ) );
+					Integer.valueOf( iscWidth.getValue( ) ), action );
 		}
 	}
 }

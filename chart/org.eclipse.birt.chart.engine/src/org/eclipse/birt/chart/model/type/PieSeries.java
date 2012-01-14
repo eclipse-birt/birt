@@ -42,6 +42,8 @@ import org.eclipse.birt.chart.model.component.Series;
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise <em>Clockwise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent <em>Inner Radius Percent</em>}</li>
  * </ul>
  * </p>
  *
@@ -499,9 +501,11 @@ public interface PieSeries extends Series
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 								Attribute "Clockwise" Specifies whether the pie slices are rendered in clockwise direction, 
-	 * 								by default they will be rendered in counter-clockwise direction.
-	 * 
+	 * 								Attribute "Clockwise" Specifies whether
+	 * 								the pie slices are rendered in clockwise
+	 * 								direction, by default they will be
+	 * 								rendered in counter-clockwise direction.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Clockwise</em>' attribute.
 	 * @see #isSetClockwise()
@@ -548,6 +552,121 @@ public interface PieSeries extends Series
 	 * @generated
 	 */
 	boolean isSetClockwise( );
+
+	/**
+	 * Returns the value of the '<em><b>Inner Radius</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								Defines inner radius, if inner radius
+	 * 								greater than 0, it should be a dount
+	 * 								pie. If value of inner radius is between
+	 * 								0 and 1, the inner radius is percentage
+	 * 								value of width/height of pie, otherwise
+	 * 								it is actual size.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Inner Radius</em>' attribute.
+	 * @see #isSetInnerRadius()
+	 * @see #unsetInnerRadius()
+	 * @see #setInnerRadius(double)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_InnerRadius()
+	 * @model default="0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 *        extendedMetaData="kind='element' name='InnerRadius'"
+	 * @generated
+	 */
+	double getInnerRadius( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inner Radius</em>' attribute.
+	 * @see #isSetInnerRadius()
+	 * @see #unsetInnerRadius()
+	 * @see #getInnerRadius()
+	 * @generated
+	 */
+	void setInnerRadius( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetInnerRadius()
+	 * @see #getInnerRadius()
+	 * @see #setInnerRadius(double)
+	 * @generated
+	 */
+	void unsetInnerRadius( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner Radius</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Inner Radius</em>' attribute is set.
+	 * @see #unsetInnerRadius()
+	 * @see #getInnerRadius()
+	 * @see #setInnerRadius(double)
+	 * @generated
+	 */
+	boolean isSetInnerRadius( );
+
+	/**
+	 * Returns the value of the '<em><b>Inner Radius Percent</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indicates if the value of inner radius is a percent value or actual value.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Inner Radius Percent</em>' attribute.
+	 * @see #isSetInnerRadiusPercent()
+	 * @see #unsetInnerRadiusPercent()
+	 * @see #setInnerRadiusPercent(boolean)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_InnerRadiusPercent()
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='InnerRadiusPercent'"
+	 * @generated
+	 */
+	boolean isInnerRadiusPercent( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent <em>Inner Radius Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Inner Radius Percent</em>' attribute.
+	 * @see #isSetInnerRadiusPercent()
+	 * @see #unsetInnerRadiusPercent()
+	 * @see #isInnerRadiusPercent()
+	 * @generated
+	 */
+	void setInnerRadiusPercent( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent <em>Inner Radius Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetInnerRadiusPercent()
+	 * @see #isInnerRadiusPercent()
+	 * @see #setInnerRadiusPercent(boolean)
+	 * @generated
+	 */
+	void unsetInnerRadiusPercent( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent <em>Inner Radius Percent</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Inner Radius Percent</em>' attribute is set.
+	 * @see #unsetInnerRadiusPercent()
+	 * @see #isInnerRadiusPercent()
+	 * @see #setInnerRadiusPercent(boolean)
+	 * @generated
+	 */
+	boolean isSetInnerRadiusPercent( );
 
 	/**
 	 * @generated

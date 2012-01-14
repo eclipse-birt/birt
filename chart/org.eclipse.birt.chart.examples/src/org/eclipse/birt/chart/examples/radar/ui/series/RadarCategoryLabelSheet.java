@@ -19,14 +19,14 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -48,17 +48,20 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 
 	private Composite cmpContent = null;
 
-	private Button btnCatLabels = null;
+	private ChartCheckbox btnCatLabels = null;
 
 	private Button btnCLFormatSpecifier = null;
 
 	private LabelAttributesComposite catLabelAttr = null;
+
+	private RadarSeries defSeries;
 
 	public RadarCategoryLabelSheet( String title, ChartWizardContext context,
 			boolean needRefresh, RadarSeries series )
 	{
 		super( title, context, needRefresh );
 		this.series = series;
+		this.defSeries = (RadarSeries) ChartDefaultValueUtil.getDefaultSeries( series );
 	}
 
 	@Override
@@ -72,72 +75,65 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		}
 
 		// Category label configuration
-		Group grpLine1b = new Group( cmpContent, SWT.NONE );
-		GridLayout glLine1b = new GridLayout( 1, false );
-		grpLine1b.setLayout( glLine1b );
-		grpLine1b.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		grpLine1b.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.CatLabel" ) ); //$NON-NLS-1$
-
-		btnCatLabels = new Button( grpLine1b, SWT.CHECK );
+		Group grpLine = new Group( cmpContent, SWT.NONE );
+		GridLayout glLine1b = new GridLayout( 2, false );
+		grpLine.setLayout( glLine1b );
+		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.CatLabel" ) ); //$NON-NLS-1$
+		
+		btnCatLabels = getContext( ).getUIFactory( )
+				.createChartCheckbox( grpLine,
+						SWT.NONE,
+						defSeries.isShowCatLabels( ) );
 		{
 			btnCatLabels.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowCat" ) ); //$NON-NLS-1$
-			if ( series.isSetShowCatLabels( ) )
-			{
-				btnCatLabels.setSelection( series.isShowCatLabels( ) );
-			}
-			else
-			{
-				btnCatLabels.setSelection( true );
-			}
-			btnCatLabels.addListener( SWT.Selection, this );
 			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			gd.horizontalSpan = 1;
+			gd.horizontalSpan = 2;
 			btnCatLabels.setLayoutData( gd );
+			btnCatLabels.setSelectionState( series.isSetShowCatLabels( ) ? ( series.isShowCatLabels( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnCatLabels.addListener( SWT.Selection, this );
 		}
 
 		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
 		clattributesContext.isPositionEnabled = false;
 		clattributesContext.isFontAlignmentEnabled = false;
-		clattributesContext.isVisibilityEnabled = false;
+		clattributesContext.isVisibilityEnabled = getContext().getUIFactory( ).canEnableUI( btnCatLabels );
 		if ( series.getCatLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
 			series.setCatLabel( lab );
 		}
 
-		catLabelAttr = new LabelAttributesComposite( grpLine1b,
+		catLabelAttr = new LabelAttributesComposite( grpLine,
 				SWT.NONE,
 				getContext( ),
 				clattributesContext,
 				null,
+				series,
 				null,
-				series.getCatLabel( ),
+				"catLabel", //$NON-NLS-1$
+				defSeries,
 				getChart( ).getUnits( ) );
 		GridData cla = new GridData( GridData.FILL_HORIZONTAL );
+		cla.horizontalSpan = 2;
 		catLabelAttr.setLayoutData( cla );
 		catLabelAttr.addListener( this );
-
-		btnCLFormatSpecifier = new Button( grpLine1b, SWT.PUSH );
+		catLabelAttr.setDefaultLabelValue( LabelImpl.createDefault( ) );
+		
+		btnCLFormatSpecifier = new Button( grpLine, SWT.PUSH );
 		{
 			GridData gdBTNFormatSpecifier = new GridData( );
 			gdBTNFormatSpecifier.horizontalIndent = -3;
+			gdBTNFormatSpecifier.horizontalSpan = 2;
 			btnCLFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 			btnCLFormatSpecifier.setToolTipText( Messages.getString( "CatLabel.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 			btnCLFormatSpecifier.addListener( SWT.Selection, this );
 			btnCLFormatSpecifier.setText( Messages.getString( "Format.Button.Cat.Label" ) ); //$NON-NLS-1$
 		}
 
-		if ( series.isSetShowCatLabels( ) )
-		{
-			catLabelAttr.setEnabled( series.isShowCatLabels( ) );
-			btnCLFormatSpecifier.setEnabled( series.isShowCatLabels( ) );
-		}
-		else
-		{
-			catLabelAttr.setEnabled( true );
-			btnCLFormatSpecifier.setEnabled( true );
-		}
-
+		updateUIState( );
 		return cmpContent;
 	}
 
@@ -145,11 +141,14 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 	{
 		if ( event.widget.equals( catLabelAttr ) )
 		{
+			boolean isUnset = ( event.detail == ChartElementUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					series.getCatLabel( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( series.getCatLabel( ),
+							"visible",//$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
 					series.getCatLabel( )
@@ -167,14 +166,18 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 							.setShadowColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					series.getCatLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( series.getCatLabel( )
+							.getOutline( ),
+							"style",//$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					series.getCatLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( series.getCatLabel( )
+							.getOutline( ),
+							"thickness",//$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					series.getCatLabel( )
@@ -182,9 +185,11 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					series.getCatLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( series.getCatLabel( )
+							.getOutline( ),
+							"visible",//$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					series.getCatLabel( ).setInsets( (Insets) event.data );
@@ -193,9 +198,11 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		}
 		else if ( event.widget.equals( btnCatLabels ) )
 		{
-			series.setShowCatLabels( btnCatLabels.getSelection( ) );
-			catLabelAttr.setEnabled( series.isShowCatLabels( ) );
-			btnCLFormatSpecifier.setEnabled( series.isShowCatLabels( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"showCatLabels",//$NON-NLS-1$
+					btnCatLabels.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCatLabels.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
+			updateUIState( );
 		}
 		else if ( event.widget.equals( btnCLFormatSpecifier ) )
 		{
@@ -205,18 +212,26 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 			{
 				formatspecifier = series.getCatLabelFormatSpecifier( );
 			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					new AxisType[]{
-							AxisType.LINEAR_LITERAL,
-							AxisType.TEXT_LITERAL,
-							AxisType.DATE_TIME_LITERAL
-					},
-					Messages.getString( "CatLabel.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				series.setCatLabelFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			getContext( ).getUIServiceProvider( )
+					.getFormatSpecifierHandler( )
+					.handleFormatSpecifier( cmpContent.getShell( ),
+							Messages.getString( "CatLabel.Tooltip.FormatSpecifier" ), //$NON-NLS-1$
+							new AxisType[]{
+									AxisType.LINEAR_LITERAL,
+									AxisType.TEXT_LITERAL,
+									AxisType.DATE_TIME_LITERAL
+							},
+							formatspecifier,
+							series,
+							"catLabelFormatSpecifier", //$NON-NLS-1$
+							getContext( ) );
 		}
+	}
+
+	protected void updateUIState( )
+	{
+		boolean enabled = !( series.isSetShowCatLabels( ) && !series.isShowCatLabels( ) );
+		catLabelAttr.setEnabled( enabled );
+		btnCLFormatSpecifier.setEnabled( enabled );
 	}
 }

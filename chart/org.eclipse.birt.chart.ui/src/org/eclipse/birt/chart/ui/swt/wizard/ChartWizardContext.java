@@ -22,7 +22,6 @@ import org.eclipse.birt.chart.factory.IExternalizer;
 import org.eclipse.birt.chart.factory.IResourceFinder;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
-import org.eclipse.birt.chart.ui.integrate.ChartUIFactoryBase;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory;
@@ -37,12 +36,12 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 public class ChartWizardContext implements IChartWizardContext
 {
 
-	private Chart chartModel = null;
+	protected Chart chartModel = null;
 	private IChartType chartType = null;
 	private Object extendedItem = null;
 	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
 	private String sOutputFormat = sDefaultOutputFormat;
-	final private IUIServiceProvider uiProvider;
+	final protected IUIServiceProvider uiProvider;
 	final private IDataServiceProvider dataProvider;
 	final private IChartDataSheet dataSheet;
 	private IStyleProcessor processor;
@@ -62,20 +61,30 @@ public class ChartWizardContext implements IChartWizardContext
 	 * The thread is responsible to manage live preview.
 	 */
 	private Thread livePreviewThread = null;
-
+	
 	// Default implementation of UI factory
-	private IChartUIFactory uiFactory = new ChartUIFactoryBase( );
+	private IChartUIFactory uiFactory;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
-			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
+			IDataServiceProvider dataProvider, IChartDataSheet dataSheet, IChartUIFactory uiFactory )
 	{
 		this.chartModel = chartModel;
 		this.uiProvider = uiProvider;
 		this.dataProvider = dataProvider;
 		this.dataSheet = dataSheet;
-		this.dataSheet.setContext( this );
+		if ( this.dataSheet != null)
+		{
+			this.dataSheet.setContext( this );
+		}
+		this.uiFactory = uiFactory;
 	}
-
+	
+	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
+			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
+	{
+		this(chartModel, uiProvider, dataProvider, dataSheet, null );
+	}
+			
 	/**
 	 * Sets live preview thread reference.
 	 * 
@@ -149,6 +158,7 @@ public class ChartWizardContext implements IChartWizardContext
 	public void setDefaultOutputFormat( String sOutputFormat )
 	{
 		this.sDefaultOutputFormat = sOutputFormat;
+		setOutputFormat( sOutputFormat );
 	}
 
 	public IUIServiceProvider getUIServiceProvider( )
@@ -454,5 +464,15 @@ public class ChartWizardContext implements IChartWizardContext
 	public void setUIFactory( IChartUIFactory factory )
 	{
 		this.uiFactory = factory;
+	}
+	
+	/**
+	 * Checks if interactivity is supported.
+	 * 
+	 * @return true means interactivity is supported
+	 */
+	public boolean isInteractivityEnabled( )
+	{
+		return true;
 	}
 }

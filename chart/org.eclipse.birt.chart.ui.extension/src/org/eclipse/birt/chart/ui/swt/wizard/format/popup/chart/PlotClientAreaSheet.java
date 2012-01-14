@@ -15,19 +15,22 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Stretch;
 import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartInsets;
+import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -40,7 +43,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -48,7 +50,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * PlotClientAreaSheet
  */
 
 public class PlotClientAreaSheet extends AbstractPopupSheet implements
@@ -61,21 +63,21 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 
 	private transient Composite cmpContent;
 
-	private transient Combo cmbAnchor;
+	private transient ChartCombo cmbAnchor;
 
-	private transient Combo cmbStretch;
+	private transient ChartCombo cmbStretch;
 
 	private transient LineAttributesComposite outlineIncluding;
 
 	private transient LineAttributesComposite outlineWithin;
 
-	private transient InsetsComposite icIncluding;
+	private transient AbstractChartInsets icIncluding;
 
-	private transient InsetsComposite icWithin;
+	private transient AbstractChartInsets icWithin;
 
-	private transient IntegerSpinControl iscVSpacing;
+	private transient AbstractChartIntSpinner iscVSpacing;
 
-	private transient IntegerSpinControl iscHSpacing;
+	private transient AbstractChartIntSpinner iscHSpacing;
 
 	private transient LocalizedNumberEditorComposite txtHeight;
 
@@ -122,12 +124,18 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		lblAnchor.setLayoutData( gdLBLAnchor );
 		lblAnchor.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Anchor" ) ); //$NON-NLS-1$
 
-		cmbAnchor = new Combo( leftComp, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbAnchor = getContext( ).getUIFactory( ).createChartCombo( leftComp,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				getBlockForProcessing( ),
+				"anchor", //$NON-NLS-1$
+				ChartDefaultValueUtil.getDefaultPlot( getChart( ) )
+						.getAnchor( )
+						.getName( ) );
 		GridData gdCBAnchor = new GridData( GridData.FILL_HORIZONTAL );
 		gdCBAnchor.horizontalSpan = 2;
 		cmbAnchor.setLayoutData( gdCBAnchor );
 		cmbAnchor.addSelectionListener( this );
-		cmbAnchor.setVisibleItemCount( 30 );
+		cmbAnchor.getWidget( ).setVisibleItemCount( 30 );
 
 		Label lblStretch = new Label( leftComp, SWT.NONE );
 		{
@@ -136,7 +144,13 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			lblStretch.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Stretch" ) ); //$NON-NLS-1$
 		}
 
-		cmbStretch = new Combo( leftComp, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbStretch = getContext( ).getUIFactory( ).createChartCombo( leftComp,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				getBlockForProcessing( ),
+				"stretch", //$NON-NLS-1$
+				ChartDefaultValueUtil.getDefaultPlot( getChart( ) )
+						.getStretch( )
+						.getName( ) );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 2;
@@ -148,26 +162,33 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		lblVerticalSpacing.setLayoutData( new GridData( ) );
 		lblVerticalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
 
-		iscVSpacing = new IntegerSpinControl( leftComp,
+		iscVSpacing = getContext( ).getUIFactory( ).createChartIntSpinner( leftComp,
 				SWT.NONE,
-				getBlockForProcessing( ).getVerticalSpacing( ) );
+				getBlockForProcessing( ).getVerticalSpacing( ),
+				getBlockForProcessing( ),
+				"verticalSpacing", //$NON-NLS-1$
+				true );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		iscVSpacing.setLayoutData( gd );
 		iscVSpacing.addListener( this );
-
+		
 		Label lblHorizontalSpacing = new Label( leftComp, SWT.NONE );
 		lblHorizontalSpacing.setLayoutData( new GridData( ) );
 		lblHorizontalSpacing.setText( Messages.getString( "BlockAttributeComposite.Lbl.HorizontalSpacing" ) ); //$NON-NLS-1$
 
-		iscHSpacing = new IntegerSpinControl( leftComp,
-				SWT.NONE,
-				getBlockForProcessing( ).getHorizontalSpacing( ) );
+		iscHSpacing = getContext( ).getUIFactory( )
+				.createChartIntSpinner( leftComp,
+						SWT.NONE,
+						getBlockForProcessing( ).getHorizontalSpacing( ),
+						getBlockForProcessing( ),
+						"horizontalSpacing", //$NON-NLS-1$
+						true );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		iscHSpacing.setLayoutData( gd );
 		iscHSpacing.addListener( this );
-
+		
 		new Label( leftComp, SWT.NONE ).setText( Messages.getString( "PlotClientAreaSheet.Label.HeightHint" ) ); //$NON-NLS-1$
 
 		txtHeight = new LocalizedNumberEditorComposite( leftComp, SWT.BORDER );
@@ -208,20 +229,29 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
 
+		int lineStyles = LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		outlineIncluding = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
 				getBlockForProcessing( ).getOutline( ),
-				true,
-				true,
-				false );
+				ChartDefaultValueUtil.getDefaultPlot( getChart() ).getOutline( ) );
 		outlineIncluding.addListener( this );
 
-		icIncluding = new InsetsComposite( rightComp,
-				SWT.NONE,
-				getBlockForProcessing( ).getInsets( ),
-				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+		icIncluding = getContext( ).getUIFactory( )
+				.createChartInsetsComposite( rightComp,
+						SWT.NONE,
+						2,
+						getBlockForProcessing( ).getInsets( ),
+						getChart( ).getUnits( ),
+						getContext( ).getUIServiceProvider( ),
+						getContext( ),
+						ChartDefaultValueUtil.getDefaultPlot( getChart( ) )
+								.getInsets( ) );
 		GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 		icIncluding.setLayoutData( gdInsets );
 
@@ -297,13 +327,16 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			lblShadow.setEnabled( isNot3D );
 		}
 
+		int fillStyles = FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.DISABLE_PATTERN_FILL;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
 		fccShadow = new FillChooserComposite( grpAreaWithin,
 				SWT.NONE,
+				fillStyles,
 				getContext( ),
-				getBlockForProcessing( ).getClientArea( ).getShadowColor( ),
-				false,
-				false,
-				false );
+				getBlockForProcessing( ).getClientArea( ).getShadowColor( ) );
 		{
 			GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
 			fccShadow.setLayoutData( gdFCCShadow );
@@ -321,23 +354,35 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			grpOutline.setText( Messages.getString( "MoreOptionsChartPlotSheet.Label.Outline" ) ); //$NON-NLS-1$
 		}
 
+		int lineStyles = LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_WIDTH
+				| LineAttributesComposite.ENABLE_COLOR;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		outlineWithin = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
 				getBlockForProcessing( ).getClientArea( ).getOutline( ),
-				true,
-				true,
-				false );
+				ChartDefaultValueUtil.getDefaultPlot( getChart( ) )
+						.getClientArea( )
+						.getOutline( ) );
 		{
 			outlineWithin.addListener( this );
 			outlineWithin.setAttributesEnabled( ChartUIUtil.is3DWallFloorSet( getChart( ) ) );
 		}
 
-		icWithin = new InsetsComposite( grpAreaWithin,
-				SWT.NONE,
-				getBlockForProcessing( ).getClientArea( ).getInsets( ),
-				getChart( ).getUnits( ),
-				getContext( ).getUIServiceProvider( ) );
+		icWithin = getContext( ).getUIFactory( )
+				.createChartInsetsComposite( grpAreaWithin,
+						SWT.NONE,
+						2,
+						getBlockForProcessing( ).getClientArea( ).getInsets( ),
+						getChart( ).getUnits( ),
+						getContext( ).getUIServiceProvider( ),
+						getContext( ),
+						ChartDefaultValueUtil.getDefaultPlot( getChart( ) )
+								.getClientArea( )
+								.getInsets( ) );
 		{
 			GridData gdInsets = new GridData( GridData.FILL_HORIZONTAL );
 			gdInsets.horizontalSpan = 2;
@@ -351,14 +396,14 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		// Set block Anchor property
 		NameSet ns = LiteralHelper.anchorSet;
 		cmbAnchor.setItems( ns.getDisplayNames( ) );
-		cmbAnchor.select( ns.getSafeNameIndex( getBlockForProcessing( ).getAnchor( )
-				.getName( ) ) );
+		cmbAnchor.setItemData( ns.getNames( ) );
+		cmbAnchor.setSelection( getBlockForProcessing( ).getAnchor( ).getName( ) );
 
 		// Set the block Stretch property
 		ns = LiteralHelper.stretchSet;
 		cmbStretch.setItems( ns.getDisplayNames( ) );
-		cmbStretch.select( ns.getSafeNameIndex( getBlockForProcessing( ).getStretch( )
-				.getName( ) ) );
+		cmbStretch.setItemData( ns.getNames( ) );
+		cmbStretch.setSelection( getBlockForProcessing( ).getStretch( ).getName( ) );
 	}
 
 	/*
@@ -415,25 +460,32 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( outlineIncluding ) )
 		{
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"style", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getBlockForProcessing( ).getOutline( )
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getBlockForProcessing( ).getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
@@ -442,14 +494,18 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 			switch ( event.type )
 			{
 				case LineAttributesComposite.STYLE_CHANGED_EVENT :
-					getBlockForProcessing( ).getClientArea( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getClientArea( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LineAttributesComposite.WIDTH_CHANGED_EVENT :
-					getBlockForProcessing( ).getClientArea( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getClientArea( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LineAttributesComposite.COLOR_CHANGED_EVENT :
 					getBlockForProcessing( ).getClientArea( )
@@ -457,9 +513,11 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LineAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getBlockForProcessing( ).getClientArea( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ).getClientArea( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 			}
 		}
@@ -470,11 +528,17 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		}
 		else if ( event.widget.equals( iscHSpacing ) )
 		{
-			getBlockForProcessing( ).setHorizontalSpacing( ( (Integer) event.data ).intValue( ) );
+			ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ),
+					"horizontalSpacing", //$NON-NLS-1$
+					( (Integer) event.data ).intValue( ),
+					event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		}
 		else if ( event.widget.equals( iscVSpacing ) )
 		{
-			getBlockForProcessing( ).setVerticalSpacing( ( (Integer) event.data ).intValue( ) );
+			ChartElementUtil.setEObjectAttribute( getBlockForProcessing( ),
+					"verticalSpacing", //$NON-NLS-1$
+					( (Integer) event.data ).intValue( ),
+					event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		}
 		else if ( event.widget.equals( icIncluding ) )
 		{
@@ -503,20 +567,29 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
+		Plot plot = getBlockForProcessing( );
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbAnchor ) )
 		{
-			getBlockForProcessing( ).setAnchor( Anchor.getByName( LiteralHelper.anchorSet.getNameByDisplayName( cmbAnchor.getText( ) ) ) );
+			String selectedAnchor = cmbAnchor.getSelectedItemData( );
+			if ( selectedAnchor != null )
+			{
+				plot.setAnchor( Anchor.getByName( selectedAnchor ) );
+			}
 		}
 		else if ( oSource.equals( cmbStretch ) )
 		{
-			getBlockForProcessing( ).setStretch( Stretch.getByName( LiteralHelper.stretchSet.getNameByDisplayName( cmbStretch.getText( ) ) ) );
+			String selectedStretch = cmbStretch.getSelectedItemData( );
+			if ( selectedStretch != null )
+			{
+				plot.setStretch( Stretch.getByName( selectedStretch ) );
+			}
 		}
 		else if ( oSource == btnHeight )
 		{
 			if ( btnHeight.getSelection( ) )
 			{
-				getBlockForProcessing( ).setHeightHint( AUTO );
+				plot.unsetHeightHint( );
 				txtHeight.setEnabled( false );
 			}
 			else
@@ -524,11 +597,11 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				txtHeight.setEnabled( true );
 				if ( txtHeight.isSetValue( ) )
 				{
-					getBlockForProcessing( ).setHeightHint( txtHeight.getValue( ) );
+					plot.setHeightHint( txtHeight.getValue( ) );
 				}
 				else
 				{
-					getBlockForProcessing( ).unsetHeightHint( );
+					plot.unsetHeightHint( );
 				}
 			}
 		}
@@ -536,7 +609,7 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 		{
 			if ( btnWidth.getSelection( ) )
 			{
-				getBlockForProcessing( ).setWidthHint( AUTO );
+				plot.setWidthHint( AUTO );
 				txtWidth.setEnabled( false );
 			}
 			else
@@ -544,11 +617,11 @@ public class PlotClientAreaSheet extends AbstractPopupSheet implements
 				txtWidth.setEnabled( true );
 				if ( txtWidth.isSetValue( ) )
 				{
-					getBlockForProcessing( ).setWidthHint( txtWidth.getValue( ) );
+					plot.setWidthHint( txtWidth.getValue( ) );
 				}
 				else
 				{
-					getBlockForProcessing( ).unsetWidthHint( );
+					plot.unsetWidthHint( );
 				}
 			}
 		}

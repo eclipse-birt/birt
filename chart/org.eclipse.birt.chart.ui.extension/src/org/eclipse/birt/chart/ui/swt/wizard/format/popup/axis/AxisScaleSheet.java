@@ -15,12 +15,14 @@ import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
+import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ * AxisScaleSheet
  */
 
 public class AxisScaleSheet extends AbstractScaleSheet
@@ -28,20 +30,33 @@ public class AxisScaleSheet extends AbstractScaleSheet
 
 	private Axis axis;
 	private int axisAngleType;
+	private Axis defAxis;
 
 	public AxisScaleSheet( String title, ChartWizardContext context, Axis axis,
-			int axisAngleType )
+			int axisAngleType, Axis defAxis )
 	{
 		super( title, context );
 		this.axis = axis;
 		this.axisAngleType = axisAngleType;
+		this.defAxis = defAxis;
 	}
 
-	private Axis getAxisForProcessing( )
+	protected Axis getAxisForProcessing( )
 	{
 		return axis;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet#getComponent(org.eclipse.swt.widgets.Composite)
+	 */
+	protected Composite getComponent( Composite parent )
+	{
+		Composite comp = super.getComponent( parent );
+		this.btnShowOutside.setVisible( !getAxisForProcessing( ).isSetType( )
+				|| getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+		return comp;
+	}
+	
 	protected Scale getScale( )
 	{
 		return getAxisForProcessing( ).getScale( );
@@ -64,32 +79,33 @@ public class AxisScaleSheet extends AbstractScaleSheet
 	{
 		// Bugzilla#103961 Marker line and range only work for non-category
 		// style X-axis,
-		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL );
+		boolean bEnabled = ( !getAxisForProcessing( ).isSetCategoryAxis( ) || !getAxisForProcessing( ).isCategoryAxis( ) )
+				&& ( !getAxisForProcessing( ).isSetType( ) || getAxisForProcessing( ).getType( ) != AxisType.TEXT_LITERAL );
 		setState( bEnabled );
 		// Show outside is only available in Y axis
 		if ( axisAngleType != AngleType.Y )
 		{
 			btnShowOutside.setEnabled( false );
 			// Unselect 'ShowOutSide'.
-			btnShowOutside.setSelection( false );
+			btnShowOutside.setSelectionState( ChartCheckbox.STATE_UNSELECTED ); //False
 			getScale().setShowOutside( false );
 		}
 		else
 		{
-			btnAutoExpand.setSelection( true );
 			getScale( ).setAutoExpand( true );
+			btnAutoExpand.setSelectionState( ChartCheckbox.STATE_SELECTED );
 		}
 
 		boolean bAxisX = ( axisAngleType == AngleType.X );
 		boolean bEnableAutoExpand = btnStepAuto.getSelection( )
 				&& bAxisX
-				&& !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL )
-				&& !( getAxisForProcessing( ).isCategoryAxis( ) );
+				&& ( !getAxisForProcessing( ).isSetType( ) || !( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL ) )
+				&& ( !getAxisForProcessing( ).isSetCategoryAxis( ) || !( getAxisForProcessing( ).isCategoryAxis( ) ) );
 
 		btnAutoExpand.setEnabled( bEnableAutoExpand );
 
-		if ( getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL
-				&& !getAxisForProcessing( ).isCategoryAxis( ) )
+		if ( ( !getAxisForProcessing( ).isSetType( ) || getAxisForProcessing( ).getType( ) == AxisType.LINEAR_LITERAL )
+				&& ( getAxisForProcessing( ).isSetCategoryAxis( ) || !getAxisForProcessing( ).isCategoryAxis( )  ) )
 		{
 			if ( !getAxisForProcessing( ).getScale( ).isSetStepNumber( ) )
 			{
@@ -114,6 +130,12 @@ public class AxisScaleSheet extends AbstractScaleSheet
 				// txtScaleMin.setEnabled( false );
 			}
 		}
+	}
+
+	@Override
+	protected Scale getDefaultVauleScale( )
+	{
+		return defAxis.getScale( );
 	}
 
 }

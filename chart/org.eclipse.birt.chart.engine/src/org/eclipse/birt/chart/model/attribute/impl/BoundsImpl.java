@@ -592,6 +592,29 @@ public class BoundsImpl extends EObjectImpl implements Bounds
 	}
 
 	/**
+	 * Convenient creation of a Bounds object and instantiates member variables
+	 * 
+	 * NOTE: Manually written
+	 * 
+	 * @param dLeft
+	 * @param dTop
+	 * @param dWidth
+	 * @param dHeight
+	 * 
+	 * @return
+	 */
+	public static final Bounds createDefault( double dLeft, double dTop,
+			double dWidth, double dHeight )
+	{
+		BoundsImpl bo = new BoundsImpl( );
+		bo.left = dLeft;
+		bo.top = dTop;
+		bo.width = dWidth;
+		bo.height = dHeight;
+		return bo;
+	}
+	
+	/**
 	 * Creates a new 'Bounds' instance by adjusting the existing 'Bounds'
 	 * instance using the given 'Insets'
 	 * 

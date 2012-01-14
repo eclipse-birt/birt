@@ -16,10 +16,9 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
-import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
-import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -27,11 +26,13 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -45,7 +46,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		implements
-			Listener
+			Listener, SelectionListener
 {
 
 	protected Label lblMin = null;
@@ -70,15 +71,15 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected Label lblUnit = null;
 
-	protected Combo cmbScaleUnit = null;
+	protected ChartCombo cmbScaleUnit = null;
 
 	protected Label lblStepNumber = null;
 
 	protected Spinner spnStepNumber = null;
-
-	protected Button btnShowOutside = null;
-
-	protected Button btnAutoExpand;
+	
+	protected ChartCheckbox btnAutoExpand;
+	
+	protected ChartCheckbox btnShowOutside;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -151,7 +152,12 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			lblUnit.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Unit" ) ); //$NON-NLS-1$
 		}
 
-		cmbScaleUnit = new Combo( grpScale, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbScaleUnit = getContext( ).getUIFactory( )
+				.createChartCombo( grpScale,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						getScale( ),
+						"unit", //$NON-NLS-1$
+						getDefaultVauleScale( ).getUnit( ).getName( ) );
 		{
 			GridData gdCMBScaleUnit = new GridData( GridData.FILL_HORIZONTAL );
 			cmbScaleUnit.setLayoutData( gdCMBScaleUnit );
@@ -159,8 +165,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			// Populate origin types combo
 			NameSet ns = LiteralHelper.scaleUnitTypeSet;
 			cmbScaleUnit.setItems( ns.getDisplayNames( ) );
-			cmbScaleUnit.select( ns.getSafeNameIndex( getScale( ).getUnit( )
-					.getName( ) ) );
+			cmbScaleUnit.setItemData( ns.getNames( ) );
+			cmbScaleUnit.setSelection( getScale( ).getUnit( ).getName( ) );
 		}
 
 		btnStepNumber = new Button( grpScale, SWT.RADIO );
@@ -219,31 +225,47 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		lblMin = new Label( cmpContent, SWT.NONE );
 		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
 
-		txtScaleMin = createValuePicker( cmpContent, getScale( ).getMin( ) );
+		txtScaleMin = createValuePicker( cmpContent,
+				getScale( ).getMin( ),
+				getScale( ),
+				"min" ); //$NON-NLS-1$
 
 		lblMax = new Label( cmpContent, SWT.NONE );
 		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
 
-		txtScaleMax = createValuePicker( cmpContent, getScale( ).getMax( ) );
+		txtScaleMax = createValuePicker( cmpContent,
+				getScale( ).getMax( ),
+				getScale( ),
+				"max" );//$NON-NLS-1$
 
-		btnAutoExpand = new Button( cmpContent, SWT.CHECK );
+		btnAutoExpand = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpContent,
+						SWT.NONE,
+						getDefaultVauleScale( ).isAutoExpand( ) );
+		btnAutoExpand.setText( Messages.getString( "AbstractScaleSheet.AutoExpand" ) );//$NON-NLS-1$
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
 			btnAutoExpand.setLayoutData( gd );
-			btnAutoExpand.setSelection( getScale( ).isAutoExpand( ) );
-			btnAutoExpand.setText( Messages.getString( "AbstractScaleSheet.AutoExpand" ) ); //$NON-NLS-1$
-			btnAutoExpand.addListener( SWT.Selection, this );
+			btnAutoExpand.setSelectionState( getScale( ).isSetAutoExpand( ) ? ( getScale( ).isAutoExpand( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnAutoExpand.addSelectionListener( this );
 		}
 
-		btnShowOutside = new Button( cmpContent, SWT.CHECK );
+		btnShowOutside = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpContent,
+						SWT.NONE,
+						getDefaultVauleScale( ).isShowOutside( ) );
+		btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 4;
 			btnShowOutside.setLayoutData( gd );
-			btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
-			btnShowOutside.setSelection( getScale( ).isShowOutside( ) );
-			btnShowOutside.addListener( SWT.Selection, this );
+			btnShowOutside.setSelectionState( getScale( ).isSetShowOutside( ) ? ( getScale( ).isShowOutside( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnShowOutside.addSelectionListener( this );
 			// Only visible in number type
 			btnShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
 		}
@@ -334,12 +356,12 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected void setState( )
 	{
-		// Could be overriden if needed
+		// Could be override if needed
 		setState( true );
 	}
 
 	protected IDataElementComposite createValuePicker( Composite parent,
-			DataElement data )
+			DataElement data, EObject eParent, String sProperty )
 	{
 		IDataElementComposite picker = null;
 
@@ -348,28 +370,42 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		{
 			try
 			{
-				picker = new NumberDataElementComposite( parent, data );
+				picker = getContext( ).getUIFactory( )
+						.createNumberDataElementComposite( parent,
+								data,
+								eParent,
+								sProperty );
 			}
 			catch ( Exception e )
 			{
-				picker = new NumberDataElementComposite( parent, null );
+				picker = getContext( ).getUIFactory( )
+						.createNumberDataElementComposite( parent,
+								null,
+								eParent,
+								sProperty );
 			}
 		}
 		else if ( getValueType( ) == TextEditorComposite.TYPE_DATETIME )
 		{
 			try
 			{
-				picker = new DateTimeDataElementComposite( parent,
-						SWT.BORDER,
-						(DateTimeDataElement) data,
-						true );
+				picker = getContext( ).getUIFactory( )
+						.createDateTimeDataElementComposite( parent,
+								SWT.BORDER,
+								(DateTimeDataElement) data,
+								true,
+								eParent,
+								sProperty );
 			}
 			catch ( Exception e )
 			{
-				picker = new DateTimeDataElementComposite( parent,
-						SWT.BORDER,
-						null,
-						true );
+				picker = getContext( ).getUIFactory( )
+						.createDateTimeDataElementComposite( parent,
+								SWT.BORDER,
+								null,
+								true,
+								eParent,
+								sProperty );
 			}
 		}
 
@@ -446,7 +482,11 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		}
 		else if ( event.widget.equals( cmbScaleUnit ) )
 		{
-			getScale( ).setUnit( ScaleUnitType.getByName( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
+			String selectedScale = cmbScaleUnit.getSelectedItemData( );
+			if ( selectedScale != null )
+			{
+				getScale( ).setUnit( ScaleUnitType.getByName( selectedScale ) );
+			}
 		}
 		else if ( event.widget.equals( btnStepAuto ) )
 		{
@@ -467,17 +507,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
 			setState( );
 		}
-		else if ( event.widget.equals( btnShowOutside ) )
-		{
-			getScale( ).setShowOutside( btnShowOutside.getSelection( ) );
-		}
 		else if ( event.widget.equals( spnStepNumber ) )
 		{
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
-		}
-		else if ( event.widget == btnAutoExpand )
-		{
-			getScale( ).setAutoExpand( btnAutoExpand.getSelection( ) );
 		}
 		else if ( event.widget == btnFactor )
 		{
@@ -522,7 +554,54 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent arg0 )
+	{
+		// Nothing.
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent event )
+	{
+		if ( event.widget == btnShowOutside )
+		{
+			if ( btnShowOutside.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getScale( ).unsetShowOutside( );
+			}
+			else
+			{
+				getScale( ).setShowOutside( btnShowOutside.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
+		}
+		else if ( event.widget == btnAutoExpand )
+		{
+			if ( btnAutoExpand.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getScale( ).unsetAutoExpand( );
+			}
+			else
+			{
+				getScale( ).setAutoExpand( btnAutoExpand.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
+		}
+	}
+	
 	protected abstract Scale getScale( );
+	
+	protected abstract Scale getDefaultVauleScale( );
 
 	/**
 	 * Returns the type of scale value

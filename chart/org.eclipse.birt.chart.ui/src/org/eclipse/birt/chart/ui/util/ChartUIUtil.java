@@ -98,7 +98,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ChartUIUtil
 {
-
 	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
 
 	public static final String[] FONT_SIZES = new String[]{
@@ -199,16 +198,7 @@ public class ChartUIUtil
 	public static Query getDataQuery( SeriesDefinition seriesDefn,
 			int queryIndex )
 	{
-		if ( seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).size( ) <= queryIndex )
-		{
-			Query query = QueryImpl.create( "" ); //$NON-NLS-1$
-			query.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
-			seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
-			return query;
-		}
-		return seriesDefn.getDesignTimeSeries( )
-				.getDataDefinition( )
-				.get( queryIndex );
+		return ChartUtil.getDataQuery( seriesDefn, queryIndex );
 	}
 
 	/**
@@ -242,18 +232,7 @@ public class ChartUIUtil
 
 	public static int getOrthogonalAxisNumber( Chart chart )
 	{
-		if ( chart instanceof ChartWithAxes )
-		{
-			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.getAssociatedAxes( );
-			return axisList.size( );
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			return 1;
-		}
-		return 0;
+		return ChartUtil.getOrthogonalAxisNumber( chart );
 	}
 
 	/**
@@ -269,20 +248,7 @@ public class ChartUIUtil
 	public static EList<SeriesDefinition> getOrthogonalSeriesDefinitions(
 			Chart chart, int axisIndex )
 	{
-		if ( chart instanceof ChartWithAxes )
-		{
-			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.getAssociatedAxes( );
-			return axisList.get( axisIndex ).getSeriesDefinitions( );
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 )
-					.getSeriesDefinitions( );
-		}
-		return null;
+		return ChartUtil.getOrthogonalSeriesDefinitions( chart, axisIndex );
 	}
 
 	/**
@@ -756,16 +722,11 @@ public class ChartUIUtil
 		// Now update overlay axis to set the properties that are
 		// different from
 		// the original
-		overlayAxis.setAligned( false );
-		overlayAxis.setSideBySide( false );
 		overlayAxis.setPrimaryAxis( false );
 		overlayAxis.setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL,
 				null ) );
 		overlayAxis.setLabelPosition( Position.RIGHT_LITERAL );
 		overlayAxis.setTitlePosition( Position.RIGHT_LITERAL );
-		overlayAxis.getTitle( )
-				.getCaption( )
-				.setValue( Messages.getString( "TaskSelectType.Caption.OverlayAxis1" ) ); //$NON-NLS-1$
 		overlayAxis.eAdapters( ).addAll( yAxis.eAdapters( ) );
 
 		// Retain the first series of the axis. Remove others
@@ -788,10 +749,6 @@ public class ChartUIUtil
 			dds.get( i ).setDefinition( "" ); //$NON-NLS-1$
 		}
 		
-		// Shift the color in palette so that new axis can look different
-		sdOverlay.getSeriesPalette( )
-				.shift( -xAxis.getAssociatedAxes( ).size( ) );
-
 		// Update the sample values for the new overlay series
 		SampleData sd = chartModel.getSampleData( );
 		// Create a new OrthogonalSampleData instance from the existing
@@ -829,6 +786,7 @@ public class ChartUIUtil
 		{
 			sd = seriesDefinitions.get( i );
 			if ( needSeriesName( sd.getDesignTimeSeries( )
+					.getSeriesIdentifier( ) == null ? null : sd.getDesignTimeSeries( )
 					.getSeriesIdentifier( )
 					.toString( ), seriesText ) )
 			{
@@ -845,6 +803,11 @@ public class ChartUIUtil
 
 	private static boolean needSeriesName( String name, String seriesText )
 	{
+		if ( name == null )
+		{
+			return false;
+		}
+		
 		String pattern = MessageFormat.format( seriesText, new Object[]{
 			"[0-9]+"} ); //$NON-NLS-1$
 		return name.trim( ).matches( pattern ) || name.trim( ).length( ) == 0;
@@ -1000,32 +963,35 @@ public class ChartUIUtil
 		}
 
 		// Label position
-		if ( oldSeries.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| oldSeries.getLabelPosition( )
-						.equals( Position.OUTSIDE_LITERAL ) )
+		if ( oldSeries.isSetLabelPosition( ) )
 		{
-			if ( newSeries instanceof LineSeries
-					|| newSeries instanceof StockSeries
-					|| newSeries instanceof GanttSeries )
+			if ( ( oldSeries.getLabelPosition( )
+					.equals( Position.INSIDE_LITERAL ) || oldSeries.getLabelPosition( )
+					.equals( Position.OUTSIDE_LITERAL ) ) )
 			{
-				newSeries.setLabelPosition( Position.ABOVE_LITERAL );
+				if ( newSeries instanceof LineSeries
+						|| newSeries instanceof StockSeries
+						|| newSeries instanceof GanttSeries )
+				{
+					newSeries.setLabelPosition( Position.ABOVE_LITERAL );
+				}
+				else
+				{
+					newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
+				}
 			}
 			else
 			{
-				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
-			}
-		}
-		else
-		{
-			if ( newSeries instanceof LineSeries
-					|| newSeries instanceof StockSeries
-					|| newSeries instanceof GanttSeries )
-			{
-				newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
-			}
-			else
-			{
-				newSeries.setLabelPosition( Position.OUTSIDE_LITERAL );
+				if ( newSeries instanceof LineSeries
+						|| newSeries instanceof StockSeries
+						|| newSeries instanceof GanttSeries )
+				{
+					newSeries.setLabelPosition( oldSeries.getLabelPosition( ) );
+				}
+				else
+				{
+					newSeries.setLabelPosition( Position.OUTSIDE_LITERAL );
+				}
 			}
 		}
 
@@ -1240,7 +1206,7 @@ public class ChartUIUtil
 	public static Position getFlippedPosition( Position position,
 			boolean isFlippedAxes )
 	{
-		if ( isFlippedAxes )
+		if ( position != null && isFlippedAxes )
 		{
 			switch ( position.getValue( ) )
 			{
@@ -1320,7 +1286,58 @@ public class ChartUIUtil
 
 		return items.toArray( new String[items.size( )] );
 	}
+	
+	public static String[] getPositionNames( int positionScope,
+			boolean isFlipped )
+	{
+		if ( ( positionScope & ChartUIConstants.ALLOW_ALL_POSITION ) == ChartUIConstants.ALLOW_ALL_POSITION )
+		{
+			return LiteralHelper.fullPositionSet.getNames( );
+		}
 
+		List<String> items = new ArrayList<String>( 5 );
+		// check vertical
+		if ( ( positionScope & ChartUIConstants.ALLOW_VERTICAL_POSITION ) == ChartUIConstants.ALLOW_VERTICAL_POSITION )
+		{
+			if ( isFlipped )
+			{
+				addArrayToList( LiteralHelper.horizontalPositionSet.getNames( ),
+						items );
+			}
+			else
+			{
+				addArrayToList( LiteralHelper.verticalPositionSet.getNames( ),
+						items );
+			}
+		}
+		// check horizontal
+		if ( ( positionScope & ChartUIConstants.ALLOW_HORIZONTAL_POSITION ) == ChartUIConstants.ALLOW_HORIZONTAL_POSITION )
+		{
+			if ( isFlipped )
+			{
+				addArrayToList( LiteralHelper.verticalPositionSet.getNames( ),
+						items );
+			}
+			else
+			{
+				addArrayToList( LiteralHelper.horizontalPositionSet.getNames( ),
+						items );
+			}
+		}
+		// check inout
+		// Inside or outside can be added separately
+		if ( ( positionScope & ChartUIConstants.ALLOW_IN_POSITION ) == ChartUIConstants.ALLOW_IN_POSITION )
+		{
+			items.add( Position.INSIDE_LITERAL.getName( ) );
+		}
+		if ( ( positionScope & ChartUIConstants.ALLOW_OUT_POSITION ) == ChartUIConstants.ALLOW_OUT_POSITION )
+		{
+			items.add( Position.OUTSIDE_LITERAL.getName( ) );
+		}
+
+		return items.toArray( new String[items.size( )] );
+	}
+	
 	private static void addArrayToList( String[] array, List<String> list )
 	{
 		for ( int i = 0; i < array.length; i++ )
@@ -1904,6 +1921,16 @@ public class ChartUIUtil
 		}
 	}
 
+	/**
+	 * Returns all chart type instances.
+	 * 
+	 * @return chart type iterator.
+	 */
+	public static Iterator<IChartType> getChartTypeInstancesIterator()
+	{
+		return htTypes.values( ).iterator( );
+	}
+	
 	public static Iterator<String> getChartTypeNameIterator( )
 	{
 		return htTypes.keySet( ).iterator( );

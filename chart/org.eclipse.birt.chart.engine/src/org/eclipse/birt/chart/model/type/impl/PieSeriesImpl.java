@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
@@ -26,6 +27,7 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.emf.common.notify.Notification;
@@ -51,6 +53,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRatio <em>Ratio</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRotation <em>Rotation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#isClockwise <em>Clockwise</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getInnerRadius <em>Inner Radius</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#isInnerRadiusPercent <em>Inner Radius Percent</em>}</li>
  * </ul>
  * </p>
  *
@@ -302,6 +306,64 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @ordered
 	 */
 	protected boolean clockwiseESet;
+
+	/**
+	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInnerRadius()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double INNER_RADIUS_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInnerRadius()
+	 * @generated
+	 * @ordered
+	 */
+	protected double innerRadius = INNER_RADIUS_EDEFAULT;
+
+	/**
+	 * This is true if the Inner Radius attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean innerRadiusESet;
+
+	/**
+	 * The default value of the '{@link #isInnerRadiusPercent() <em>Inner Radius Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInnerRadiusPercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean INNER_RADIUS_PERCENT_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isInnerRadiusPercent() <em>Inner Radius Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInnerRadiusPercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean innerRadiusPercent = INNER_RADIUS_PERCENT_EDEFAULT;
+
+	/**
+	 * This is true if the Inner Radius Percent attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean innerRadiusPercentESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -954,6 +1016,126 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getInnerRadius( )
+	{
+		return innerRadius;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInnerRadius( double newInnerRadius )
+	{
+		double oldInnerRadius = innerRadius;
+		innerRadius = newInnerRadius;
+		boolean oldInnerRadiusESet = innerRadiusESet;
+		innerRadiusESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__INNER_RADIUS,
+					oldInnerRadius,
+					innerRadius,
+					!oldInnerRadiusESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetInnerRadius( )
+	{
+		double oldInnerRadius = innerRadius;
+		boolean oldInnerRadiusESet = innerRadiusESet;
+		innerRadius = INNER_RADIUS_EDEFAULT;
+		innerRadiusESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__INNER_RADIUS,
+					oldInnerRadius,
+					INNER_RADIUS_EDEFAULT,
+					oldInnerRadiusESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetInnerRadius( )
+	{
+		return innerRadiusESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isInnerRadiusPercent( )
+	{
+		return innerRadiusPercent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInnerRadiusPercent( boolean newInnerRadiusPercent )
+	{
+		boolean oldInnerRadiusPercent = innerRadiusPercent;
+		innerRadiusPercent = newInnerRadiusPercent;
+		boolean oldInnerRadiusPercentESet = innerRadiusPercentESet;
+		innerRadiusPercentESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT,
+					oldInnerRadiusPercent,
+					innerRadiusPercent,
+					!oldInnerRadiusPercentESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetInnerRadiusPercent( )
+	{
+		boolean oldInnerRadiusPercent = innerRadiusPercent;
+		boolean oldInnerRadiusPercentESet = innerRadiusPercentESet;
+		innerRadiusPercent = INNER_RADIUS_PERCENT_EDEFAULT;
+		innerRadiusPercentESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT,
+					oldInnerRadiusPercent,
+					INNER_RADIUS_PERCENT_EDEFAULT,
+					oldInnerRadiusPercentESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetInnerRadiusPercent( )
+	{
+		return innerRadiusPercentESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
@@ -1002,6 +1184,10 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return getRotation( );
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				return isClockwise( );
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				return getInnerRadius( );
+			case TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT :
+				return isInnerRadiusPercent( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1048,6 +1234,12 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return;
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				setClockwise( (Boolean) newValue );
+				return;
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				setInnerRadius( (Double) newValue );
+				return;
+			case TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT :
+				setInnerRadiusPercent( (Boolean) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -1096,6 +1288,12 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				unsetClockwise( );
 				return;
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				unsetInnerRadius( );
+				return;
+			case TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT :
+				unsetInnerRadiusPercent( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -1133,6 +1331,10 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return isSetRotation( );
 			case TypePackage.PIE_SERIES__CLOCKWISE :
 				return isSetClockwise( );
+			case TypePackage.PIE_SERIES__INNER_RADIUS :
+				return isSetInnerRadius( );
+			case TypePackage.PIE_SERIES__INNER_RADIUS_PERCENT :
+				return isSetInnerRadiusPercent( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -1185,6 +1387,16 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			result.append( clockwise );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", innerRadius: " ); //$NON-NLS-1$
+		if ( innerRadiusESet )
+			result.append( innerRadius );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", innerRadiusPercent: " ); //$NON-NLS-1$
+		if ( innerRadiusPercentESet )
+			result.append( innerRadiusPercent );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
 		return result.toString( );
 	}
@@ -1214,8 +1426,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		setLeaderLineAttributes( LineAttributesImpl.create( null,
 				LineStyle.SOLID_LITERAL,
 				1 ) );
-		setLeaderLineLength( 40 );
-		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
+		setLeaderLineLength( 10 );
+		//		setLeaderLineStyle( LeaderLineStyle.STRETCH_TO_SIDE_LITERAL );
 		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
 		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
 		getLabel( ).setVisible( true );
@@ -1224,6 +1436,52 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		la.getCaption( ).getFont( ).setBold( true );
 		setTitle( la );
 		setTitlePosition( Position.BELOW_LITERAL );
+	}
+
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return series instance
+	 */
+	public static final Series createDefault( )
+	{
+		final PieSeries se = TypeFactory.eINSTANCE.createPieSeries( );
+		( (PieSeriesImpl) se ).initDefault( );
+		return se;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.Series#initialize()
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+		explosion = 0;
+		labelPosition = Position.OUTSIDE_LITERAL;
+		setLeaderLineAttributes( LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1 ) );
+		leaderLineLength = 10;
+		//		leaderLineStyle = LeaderLineStyle.STRETCH_TO_SIDE_LITERAL;
+		// setSliceOutline(ColorDefinitionImpl.BLACK()); // UNDEFINED SUGGESTS
+		// THAT OUTLINE IS RENDERED IN DARKER SLICE FILL COLOR
+		try
+		{
+			ChartElementUtil.setDefaultValue( getLabel( ), "visible", true ); //$NON-NLS-1$
+			final Label la = LabelImpl.createDefault( true );
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"size", 16 ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"bold", true ); //$NON-NLS-1$
+			setTitle( la );
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
+		titlePosition = Position.BELOW_LITERAL;
 	}
 
 	/*
@@ -1304,8 +1562,16 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 
 		clockwiseESet = src.isSetClockwise( );
 
+		innerRadius = src.getInnerRadius( );
+
+		innerRadiusESet = src.isSetInnerRadius( );
+
+		innerRadiusPercent = src.isInnerRadiusPercent( );
+
+		innerRadiusPercentESet = src.isSetInnerRadiusPercent( );
+
 	}
-	
+
 	@Override
 	public NameSet getLabelPositionScope( ChartDimension dimension )
 	{

@@ -120,7 +120,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected final int dpi;
 
 	protected SimpleStyle cache = null;
-
+	
 	/**
 	 * The object handle is used to process extra styles according to
 	 * current context.
@@ -194,7 +194,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	}
 	
 	private static final Pattern ptnWrappingQuotes = Pattern.compile( "\".*\"" ); //$NON-NLS-1$
-	private String removeQuotes(String fontName)
+	protected String removeQuotes(String fontName)
 	{
 		if (ptnWrappingQuotes.matcher( fontName ).matches( ))
 		{
@@ -206,145 +206,147 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	@Override
 	public IStyle getStyle( Chart model, StyledComponent name )
 	{
+		if ( cache != null && useCache )
+		{
+			return cache.copy( );
+		}
+		
 		SimpleStyle ss = null;
-
 		if ( cache == null || !useCache )
 		{
 			StyleHandle style = handle.getPrivateStyle( );
-
-			ss = new SimpleStyle( );
-
-			String fname = removeQuotes(style.getFontFamilyHandle( ).getStringValue( ));
-			int fsize = getFontSizeIntValue( handle );
-			boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
-			boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) )
-					|| isItalicFont( style.getFontStyle( ) );
-			boolean funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( style.getTextUnderline( ) );
-			boolean fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( style.getTextLineThrough( ) );
-
-			if ( dstyle != null )
-			{
-				CSSValueList valueList = (CSSValueList)dstyle.getProperty( StyleConstants.STYLE_FONT_FAMILY );
-				if ( valueList.getLength( ) > 0 )
-				{
-					fname = valueList.item( 0 ).getCssText( );
-				}
-				fsize = getSize( dstyle.getProperty( StyleConstants.STYLE_FONT_SIZE ) );
-				fbold = isBoldFont( dstyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT));
-				fitalic = isItalicFont( dstyle.getFontStyle( ) );
-				funder = CSSConstants.CSS_UNDERLINE_VALUE.equals( dstyle.getTextUnderline( ) );
-				fstrike = CSSConstants.CSS_LINE_THROUGH_VALUE.equals( dstyle.getTextLineThrough( ) );
-			}
-
-			HorizontalAlignment ha = HorizontalAlignment.LEFT_LITERAL;
-			if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( style.getTextAlign( ) ) )
-			{
-				ha = HorizontalAlignment.CENTER_LITERAL;
-			}
-			else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( style.getTextAlign( ) ) )
-			{
-				ha = HorizontalAlignment.RIGHT_LITERAL;
-			}
-
-			VerticalAlignment va = VerticalAlignment.TOP_LITERAL;
-			if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( style.getVerticalAlign( ) ) )
-			{
-				va = VerticalAlignment.CENTER_LITERAL;
-			}
-			else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( style.getVerticalAlign( ) ) )
-			{
-				va = VerticalAlignment.BOTTOM_LITERAL;
-			}
-
-			TextAlignment ta = goFactory.createTextAlignment( );
-			ta.setHorizontalAlignment( ha );
-			ta.setVerticalAlignment( va );
-			FontDefinition fd = goFactory.createFontDefinition( fname,
-					fsize,
-					fbold,
-					fitalic,
-					funder,
-					fstrike,
-					true,
-					0,
-					ta );
-			ss.setFont( fd );
-
-			ColorHandle ch = style.getColor( );
-			if ( dstyle != null )
-			{
-				ss.setColor( getColor( dstyle.getProperty( StyleConstants.STYLE_COLOR ) ) );
-			}
-			else if ( ch != null && ch.getRGB( ) != -1 )
-			{
-				int rgbValue = ch.getRGB( );
-				ColorDefinition cd = goFactory.createColorDefinition( ( rgbValue >> 16 ) & 0xff,
-						( rgbValue >> 8 ) & 0xff,
-						rgbValue & 0xff );
-				ss.setColor( cd );
-			}
-			else
-			{
-				ss.setColor( goFactory.BLACK( ) );
-			}
-
-			ch = style.getBackgroundColor( );
-			if ( dstyle != null )
-			{
-				ss.setBackgroundColor( getColor( dstyle.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) ) );
-			}
-			else if ( ch != null && ch.getRGB( ) != -1 )
-			{
-				int rgbValue = ch.getRGB( );
-				ColorDefinition cd = goFactory.createColorDefinition( ( rgbValue >> 16 ) & 0xff,
-						( rgbValue >> 8 ) & 0xff,
-						rgbValue & 0xff );
-				ss.setBackgroundColor( cd );
-			}
-
-			double pt = convertToPixel( style.getPaddingTop( ) );
-			double pb = convertToPixel( style.getPaddingBottom( ) );
-			double pl = convertToPixel( style.getPaddingLeft( ) );
-			double pr = convertToPixel( style.getPaddingRight( ) );
-			ss.setPadding( goFactory.createInsets( pt, pl, pb, pr ) );
-
-			String dateTimeFormat = null, stringFormat = null, numberFormat = null;
-			if ( dstyle != null )
-			{
-				dateTimeFormat = dstyle.getDateTimeFormat( );
-				stringFormat = dstyle.getStringFormat( );
-				numberFormat = dstyle.getNumberFormat( );
-			}
-			else
-			{
-				dateTimeFormat = style.getDateTimeFormat( );
-				stringFormat = style.getStringFormat( );
-				numberFormat = style.getNumberFormat( );
-			}
-			if ( dateTimeFormat != null )
-			{
-				ss.setDateTimeFormat( JavaDateFormatSpecifierImpl.create( new DateFormatter( dateTimeFormat ).getFormatCode( ) ) );
-			}
-			if ( stringFormat != null )
-			{
-				ss.setStringFormat( StringFormatSpecifierImpl.create( stringFormat ) );
-			}
-			if ( numberFormat != null )
-			{
-				ss.setNumberFormat( JavaNumberFormatSpecifierImpl.create( new NumberFormatter( numberFormat ).getFormatCode( ) ) );
-			}
-
-			if ( useCache )
-			{
-				cache = ss;
-			}
+			ss = computeStyles( style );
 		}
-
 		if ( useCache )
 		{
-			ss = cache.copy( );
+			cache = ss;
+		}
+		return ss;
+	}
+
+	protected SimpleStyle computeStyles( StyleHandle style )
+	{
+		SimpleStyle ss = new SimpleStyle( );
+
+		String fname = removeQuotes( style.getFontFamilyHandle( ).getStringValue( ) );
+		int fsize = getFontSizeIntValue( handle );
+		boolean fbold = getFontWeight( style.getFontWeight( ) ) >= 700;
+		boolean fitalic = DesignChoiceConstants.FONT_STYLE_ITALIC.equals( style.getFontStyle( ) )
+				|| isItalicFont( style.getFontStyle( ) );
+		boolean funder = DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE.equals( style.getTextUnderline( ) );
+		boolean fstrike = DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( style.getTextLineThrough( ) );
+
+		if ( dstyle != null )
+		{
+			CSSValueList valueList = (CSSValueList)dstyle.getProperty( StyleConstants.STYLE_FONT_FAMILY );
+			if ( valueList.getLength( ) > 0 )
+			{
+				fname = valueList.item( 0 ).getCssText( );
+			}
+			fsize = getSize( dstyle.getProperty( StyleConstants.STYLE_FONT_SIZE ) );
+			fbold = isBoldFont( dstyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT));
+			fitalic = isItalicFont( dstyle.getFontStyle( ) );
+			funder = CSSConstants.CSS_UNDERLINE_VALUE.equals( dstyle.getTextUnderline( ) );
+			fstrike = CSSConstants.CSS_LINE_THROUGH_VALUE.equals( dstyle.getTextLineThrough( ) );
 		}
 
+		HorizontalAlignment ha = HorizontalAlignment.LEFT_LITERAL;
+		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( style.getTextAlign( ) ) )
+		{
+			ha = HorizontalAlignment.CENTER_LITERAL;
+		}
+		else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( style.getTextAlign( ) ) )
+		{
+			ha = HorizontalAlignment.RIGHT_LITERAL;
+		}
+
+		VerticalAlignment va = VerticalAlignment.TOP_LITERAL;
+		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( style.getVerticalAlign( ) ) )
+		{
+			va = VerticalAlignment.CENTER_LITERAL;
+		}
+		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( style.getVerticalAlign( ) ) )
+		{
+			va = VerticalAlignment.BOTTOM_LITERAL;
+		}
+
+		TextAlignment ta = goFactory.createTextAlignment( );
+		ta.setHorizontalAlignment( ha );
+		ta.setVerticalAlignment( va );
+		FontDefinition fd = goFactory.createFontDefinition( fname,
+				fsize,
+				fbold,
+				fitalic,
+				funder,
+				fstrike,
+				true,
+				0,
+				ta );
+		ss.setFont( fd );
+
+		ColorHandle ch = style.getColor( );
+		if ( dstyle != null )
+		{
+			ss.setColor( getColor( dstyle.getProperty( StyleConstants.STYLE_COLOR ) ) );
+		}
+		else if ( ch != null && ch.getRGB( ) != -1 )
+		{
+			int rgbValue = ch.getRGB( );
+			ColorDefinition cd = goFactory.createColorDefinition( ( rgbValue >> 16 ) & 0xff,
+					( rgbValue >> 8 ) & 0xff,
+					rgbValue & 0xff );
+			ss.setColor( cd );
+		}
+		else
+		{
+			ss.setColor( goFactory.BLACK( ) );
+		}
+
+		ch = style.getBackgroundColor( );
+		if ( dstyle != null )
+		{
+			ss.setBackgroundColor( getColor( dstyle.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) ) );
+		}
+		else if ( ch != null && ch.getRGB( ) != -1 )
+		{
+			int rgbValue = ch.getRGB( );
+			ColorDefinition cd = goFactory.createColorDefinition( ( rgbValue >> 16 ) & 0xff,
+					( rgbValue >> 8 ) & 0xff,
+					rgbValue & 0xff );
+			ss.setBackgroundColor( cd );
+		}
+
+		double pt = convertToPixel( style.getPaddingTop( ) );
+		double pb = convertToPixel( style.getPaddingBottom( ) );
+		double pl = convertToPixel( style.getPaddingLeft( ) );
+		double pr = convertToPixel( style.getPaddingRight( ) );
+		ss.setPadding( goFactory.createInsets( pt, pl, pb, pr ) );
+
+		String dateTimeFormat = null, stringFormat = null, numberFormat = null;
+		if ( dstyle != null )
+		{
+			dateTimeFormat = dstyle.getDateTimeFormat( );
+			stringFormat = dstyle.getStringFormat( );
+			numberFormat = dstyle.getNumberFormat( );
+		}
+		else
+		{
+			dateTimeFormat = style.getDateTimeFormat( );
+			stringFormat = style.getStringFormat( );
+			numberFormat = style.getNumberFormat( );
+		}
+		if ( dateTimeFormat != null )
+		{
+			ss.setDateTimeFormat( JavaDateFormatSpecifierImpl.create( new DateFormatter( dateTimeFormat ).getFormatCode( ) ) );
+		}
+		if ( stringFormat != null )
+		{
+			ss.setStringFormat( StringFormatSpecifierImpl.create( stringFormat ) );
+		}
+		if ( numberFormat != null )
+		{
+			ss.setNumberFormat( JavaNumberFormatSpecifierImpl.create( new NumberFormatter( numberFormat ).getFormatCode( ) ) );
+		}
 		return ss;
 	}
 
@@ -354,7 +356,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	 * @param fontWeight
 	 *            The String deccribed font weight.s
 	 */
-	private static int getFontWeight( String fontWeight )
+	protected static int getFontWeight( String fontWeight )
 	{
 		int weight = 400;
 		if ( fontWeight.equals( DesignChoiceConstants.FONT_WEIGHT_100 ) )
@@ -413,7 +415,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	 *            element.
 	 * @return The font size int value
 	 */
-	private static int getFontSizeIntValue( DesignElementHandle handle )
+	protected static int getFontSizeIntValue( DesignElementHandle handle )
 	{
 		if ( handle == null )
 		{
@@ -774,7 +776,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
     	return false;
     }
   
-    private boolean isItalicFont( String italic )
+    protected boolean isItalicFont( String italic )
     {
     	if (CSSConstants.CSS_OBLIQUE_VALUE.equals( italic )
                 || CSSConstants.CSS_ITALIC_VALUE.equals(italic))
@@ -783,6 +785,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
         }
     	return false;
     }
+
     
     @Override
 	public void processStyle( Chart cm )
@@ -1266,6 +1269,15 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		this.styleProcessorProxy.setHandle( handle );
 	}
 	
+	/**
+	 * Returns instance of <code>ChartStyleProcessorProxy</code>.
+	 * @return instance of ChartStyleProcessorProxy.
+	 */
+	public ChartStyleProcessorProxy getStyleProcessorProxy(  )
+	{
+		return this.styleProcessorProxy;
+	}
+	
 	private static ChartStyleProcessorProxy getChartStyleProcessorProxy( ChartReportStyleProcessor processor )
 	{
 		ChartStyleProcessorProxy factory = ChartReportItemUtil.getAdapter( processor,
@@ -1275,5 +1287,32 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			return factory;
 		}
 		return new ChartStyleProcessorProxy();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.style.BaseStyleProcessor#updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
+	 */
+	@Override
+	public boolean updateChart( Chart model, Object obj )
+	{
+		if ( styleProcessorProxy != null )
+		{
+			styleProcessorProxy.updateChart( model, false );
+			return true;
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.style.BaseStyleProcessor#needInheritingStyles()
+	 */
+	@Override
+	public boolean needInheritingStyles( )
+	{
+		if ( styleProcessorProxy != null )
+		{
+			return styleProcessorProxy.needInheritingStyles();
+		}
+		return super.needInheritingStyles( );
 	}
 }

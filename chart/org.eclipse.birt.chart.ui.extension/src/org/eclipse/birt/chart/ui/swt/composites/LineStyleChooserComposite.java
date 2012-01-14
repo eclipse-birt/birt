@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
+import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * LineStyleChooserComposite
  */
-public class LineStyleChooserComposite extends CustomChooserComposite
+public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
 {
 
 	static class LineStyleChoice extends LineCanvas implements ICustomChoice
@@ -49,7 +49,7 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 			int iLineStyle )
 	{
 		this( parent, style, iLineStyle, new Integer[]{
-				SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
+				0, SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
 		} );
 	}
 

@@ -481,6 +481,35 @@ public class PlotImpl extends BlockImpl implements Plot
 		setHorizontalSpacing( 5 );
 		setVerticalSpacing( 5 );
 	}
+	
+	/**
+	 * A convenience method to create an initialized 'Plot' instance
+	 * 
+	 * @return
+	 */
+	public static final Block createDefault( )
+	{
+		final Plot pl = LayoutFactory.eINSTANCE.createPlot( );
+		( (PlotImpl) pl ).initDefault( );
+		return pl;
+	}
+
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+
+		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
+		( (ClientAreaImpl) ca ).initDefault( );
+		setClientArea( ca );
+
+		horizontalSpacing = 5;
+		verticalSpacing = 5;
+	}
 
 	/**
 	 * @generated

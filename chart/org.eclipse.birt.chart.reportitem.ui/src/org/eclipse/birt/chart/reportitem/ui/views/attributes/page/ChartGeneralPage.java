@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIFactory;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartUnitPropertyDescriptorProvider;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChoicePropertyDescriptorProvider;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.section.ChoiceSection;
@@ -136,6 +137,7 @@ public class ChartGeneralPage extends GeneralPage
 							PageConstants.THEME_HELPER_KEY );
 					if ( helper != null )
 					{
+						helper = ChartReportItemUIFactory.instance( ).updateChartPageSectionHelper( helper );
 						Section section = helper.createSection( container,
 								ISupportThemeElementConstants.THEME_PROP,
 								ChartReportItemConstants.CHART_EXTENSION_NAME,

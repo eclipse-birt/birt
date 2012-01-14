@@ -123,7 +123,14 @@ public final class AngleSelectorComposite extends Canvas implements PaintListene
         }
 
         // PAINT THE CLIENT AREA BLOCK
-        gcBuffer.setBackground(clrBG);
+		if ( !this.isEnabled( ) )
+		{
+			gcBuffer.setBackground( d.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+		}
+		else
+		{
+			gcBuffer.setBackground( clrBG );
+		}
         gcBuffer.setForeground(d.getSystemColor(SWT.COLOR_GRAY));
         gcBuffer.fillRectangle(rCA);
 

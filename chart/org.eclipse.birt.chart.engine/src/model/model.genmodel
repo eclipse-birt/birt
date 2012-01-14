@@ -10,12 +10,7 @@
     rootImplementsInterface="" featureMapWrapperInterface="" featureMapWrapperInternalInterface=""
     codeFormatting="true" booleanFlagsField="" importerID="org.eclipse.xsd.ecore.importer"
     complianceLevel="5.0">
-  <foreignModel>../../xsd/model.xsd</foreignModel>
-  <foreignModel>../../xsd/attribute.xsd</foreignModel>
   <foreignModel>../../xsd/type.xsd</foreignModel>
-  <foreignModel>../../xsd/component.xsd</foreignModel>
-  <foreignModel>../../xsd/layout.xsd</foreignModel>
-  <foreignModel>../../xsd/data.xsd</foreignModel>
   <genPackages prefix="Attribute" basePackage="org.eclipse.birt.chart.model" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.attribute.ecore#/">
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//ActionType">
@@ -786,6 +781,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/ratio"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/rotation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/clockwise"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/innerRadius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.type.ecore#//PieSeries/innerRadiusPercent"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//ScatterSeries"/>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.type.ecore#//StockSeries">

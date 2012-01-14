@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Label;
 public class MultipleSeriesComponent extends DefaultSelectDataComponent
 {
 
-	private EList[] seriesDefnsArray;
+	private EList<SeriesDefinition>[] seriesDefnsArray;
 
 	private ChartWizardContext context = null;
 
@@ -48,7 +48,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 	private ISelectDataCustomizeUI selectDataUI = null;
 
-	private ArrayList components = new ArrayList( );
+	private ArrayList<ISelectDataComponent> components = new ArrayList<ISelectDataComponent>( );
 
 	private boolean isSingle = false;
 
@@ -56,7 +56,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	// NOT SUPPORT MULIPLE GROUPING.
 	private boolean useFirstOnly = true;
 
-	public MultipleSeriesComponent( EList[] seriesDefnsArray,
+	public MultipleSeriesComponent( EList<SeriesDefinition>[] seriesDefnsArray,
 			ChartWizardContext context, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
@@ -67,7 +67,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 		this.selectDataUI = selectDataUI;
 	}
 	
-	public MultipleSeriesComponent( EList seriesDefns,
+	public MultipleSeriesComponent( EList<SeriesDefinition> seriesDefns,
 			ChartWizardContext context, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
 	{
@@ -111,7 +111,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	}
 
 	private void createRightGroupArea( Composite parent, final int axisIndex,
-			final EList seriesDefn )
+			final EList<SeriesDefinition> seriesDefn )
 	{
 		final String strDesc = getGroupingDescription( axisIndex );
 		ISelectDataComponent subUIGroupY = new DefaultSelectDataComponent( ) {
@@ -141,7 +141,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
 				{
-					final SeriesDefinition sd = ( (SeriesDefinition) seriesDefn.get( selectedSeriesIndex ) );
+					final SeriesDefinition sd = seriesDefn.get( selectedSeriesIndex );
 					// Only display current selected series
 					ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
 							sd,
@@ -163,7 +163,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	{
 		for ( int i = 0; i < components.size( ); i++ )
 		{
-			( (ISelectDataComponent) components.get( i ) ).selectArea( selected,
+			components.get( i ).selectArea( selected,
 					data );
 		}
 	}
@@ -172,7 +172,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	{
 		for ( int i = 0; i < components.size( ); i++ )
 		{
-			( (ISelectDataComponent) components.get( i ) ).dispose( );
+			components.get( i ).dispose( );
 		}
 		super.dispose( );
 	}
