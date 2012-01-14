@@ -309,6 +309,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				if ( validationContext != null )
 				{
 					validationContext.setQueryText(((IOdaDataSetDesign) dataSetDesign).getQueryText());
+					//Change to use the specific ValidationContext API in next release.
+					validationContext.setData( "org.eclipse.birt.data.applicationContext", this.getAppContext());
 					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
 							queryDefn, (IOdaDataSetDesign) dataSetDesign);
 					rollbackHelper.collectOriginalInfo();
