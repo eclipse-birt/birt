@@ -166,7 +166,13 @@ public class ChartCheckbox extends Composite implements
 	public void addListener( int eventType, Listener listener )
 	{
 		super.addListener( eventType, listener );
-		button.addListener( eventType, this );
+		
+		// It seems Linux System event is specific, here checks null for button
+		// to avoid NPE against Linux system. 
+		if ( button != null )
+		{
+			button.addListener( eventType, this );
+		}
 	}
 	
 	/**
