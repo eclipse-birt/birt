@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IFontDefinitionDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.window.Window;
@@ -51,16 +52,6 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class FontDefinitionComposite extends Composite
 {
-
-	public static interface IFontDefinitionDialog
-	{
-
-		int open( );
-
-		FontDefinition getFontDefinition( );
-
-		ColorDefinition getFontColor( );
-	}
 
 	private static final String TOOLTIP = Messages.getString( "FontDefinitionComposite.Tooltip.FontDialog" ); //$NON-NLS-1$
 
@@ -249,11 +240,12 @@ public class FontDefinitionComposite extends Composite
 			Shell shellParent, FontDefinition fdCurrent,
 			ColorDefinition cdCurrent )
 	{
-		return new FontDefinitionDialog( shellParent,
-				wizardContext,
-				fdCurrent,
-				cdCurrent,
-				isAlignmentEnabled );
+		return wizardContext.getUIFactory( )
+				.createFontDefinitionDialog( shellParent,
+						wizardContext,
+						fdCurrent,
+						cdCurrent,
+						isAlignmentEnabled );
 	}
 
 	private void fireEvent( )

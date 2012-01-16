@@ -17,10 +17,13 @@ import java.text.ParseException;
 import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.birt.chart.examples.radar.model.type.RadarSeries;
 import org.eclipse.birt.chart.examples.radar.render.Radar;
+import org.eclipse.birt.chart.examples.view.util.UIHelper;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -46,20 +49,23 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 
 	private final RadarSeries series;
 	private static final int MAX_STEPS = 20;
-	private Button btnAutoScale = null;
+	private ChartCheckbox btnAutoScale = null;
 	private Label lblWebMax = null;
 	private Label lblWebMin = null;
-	private TextEditorComposite webMax = null;
-	private TextEditorComposite webMin = null;
+	private AbstractChartTextEditor webMax = null;
+	private AbstractChartTextEditor webMin = null;
 	private LineAttributesComposite wliacLine = null;
 	private Spinner iscScaleCnt = null;
-	private Button btnTranslucentBullseye = null;
+	private ChartCheckbox btnTranslucentBullseye = null;
+	private Button btnScaleCntAuto;
+	private RadarSeries defSeries;
 
 	public RadarLineSheet( String title, ChartWizardContext context,
 			boolean needRefresh, RadarSeries series )
 	{
 		super( title, context, needRefresh );
 		this.series = series;
+		this.defSeries = (RadarSeries) ChartDefaultValueUtil.getDefaultSeries( series );;
 	}
 
 	@Override
@@ -73,51 +79,56 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		}
 
 		Group grpLine = new Group( cmpContent, SWT.NONE );
-		GridLayout glLine = new GridLayout( 1, false );
+		GridLayout glLine = new GridLayout( 2, false );
 		grpLine.setLayout( glLine );
 		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Web" ) ); //$NON-NLS-1$
-
+		
+		int lineStyles = LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_WIDTH;
+		lineStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		wliacLine = new LineAttributesComposite( grpLine,
 				SWT.NONE,
+				lineStyles,
 				getContext( ),
 				series.getWebLineAttributes( ),
-				true,
-				true,
-				true );
+				defSeries.getWebLineAttributes( ) );
 		GridData wgdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
+		wgdLIACLine.horizontalSpan = 2;
 		wgdLIACLine.widthHint = 200;
 		wliacLine.setLayoutData( wgdLIACLine );
 		wliacLine.addListener( this );
 
 		GridLayout glRangeValue = new GridLayout( );
-		glRangeValue.numColumns = 2;
+		glRangeValue.numColumns = 3;
 		glRangeValue.horizontalSpacing = 2;
 		glRangeValue.verticalSpacing = 5;
 		glRangeValue.marginHeight = 0;
 		glRangeValue.marginWidth = 0;
 
-		btnAutoScale = new Button( grpLine, SWT.CHECK );
-		{
-			btnAutoScale.setText( Messages.getString( "Radar.Composite.Label.ScaleAuto" ) ); //$NON-NLS-1$
-			btnAutoScale.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleAutoTooltip" ) ); //$NON-NLS-1$
-			if ( series.isSetRadarAutoScale( ) )
-			{
-				btnAutoScale.setSelection( series.isRadarAutoScale( ) );
-			}
-			else
-			{
-				btnAutoScale.setSelection( true );
-			}
-			btnAutoScale.addListener( SWT.Selection, this );
-			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			btnAutoScale.setLayoutData( gd );
-		}
-
 		Composite cmpMinMax = new Composite( grpLine, SWT.NONE );
 		GridData gdMinMax = new GridData( GridData.FILL_HORIZONTAL );
 		cmpMinMax.setLayoutData( gdMinMax );
 		cmpMinMax.setLayout( glRangeValue );
+		
+		btnAutoScale = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpMinMax,
+						SWT.NONE,
+						defSeries.isRadarAutoScale( ) );
+		{
+			btnAutoScale.setText( Messages.getString( "Radar.Composite.Label.ScaleAuto" ) ); //$NON-NLS-1$
+			GridData gd = new GridData();
+			gd.horizontalSpan = 3;
+			btnAutoScale.setLayoutData( gd );
+			btnAutoScale.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleAutoTooltip" ) ); //$NON-NLS-1$
+			btnAutoScale.setSelectionState( series.isSetRadarAutoScale( ) ? ( series.isRadarAutoScale( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnAutoScale.addListener( SWT.Selection, this );
+		}
 
 		lblWebMin = new Label( cmpMinMax, SWT.NONE );
 		{
@@ -125,9 +136,14 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			lblWebMin.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMinToolTip" ) ); //$NON-NLS-1$
 		}
 
-		webMin = new TextEditorComposite( cmpMinMax, SWT.BORDER | SWT.SINGLE );
+		webMin = getContext( ).getUIFactory( )
+				.createChartTextEditor( cmpMinMax,
+						SWT.BORDER | SWT.SINGLE,
+						series,
+						"webLabelMin" ); //$NON-NLS-1$
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			webMin.setLayoutData( gd );
 			if ( series.getWebLabelMin( ) != Double.NaN )
 			{
@@ -136,16 +152,22 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMin.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMinToolTip" ) ); //$NON-NLS-1$
 			webMin.addListener( this );
 		}
-
+		webMin.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale ) );
+		
 		lblWebMax = new Label( cmpMinMax, SWT.NONE );
 		{
 			lblWebMax.setText( Messages.getString( "Radar.Composite.Label.ScaleMax" ) ); //$NON-NLS-1$
 			lblWebMax.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMaxToolTip" ) ); //$NON-NLS-1$
 		}
 
-		webMax = new TextEditorComposite( cmpMinMax, SWT.BORDER | SWT.SINGLE );
+		webMax = getContext( ).getUIFactory( )
+				.createChartTextEditor( cmpMinMax,
+						SWT.BORDER | SWT.SINGLE,
+						series,
+						"webLabelMax" );//$NON-NLS-1$
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
 			webMax.setLayoutData( gd );
 			if ( series.getWebLabelMax( ) != Double.NaN )
 			{
@@ -154,10 +176,11 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMax.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMaxToolTip" ) ); //$NON-NLS-1$
 			webMax.addListener( this );
 		}
-		lblWebMin.setEnabled( !btnAutoScale.getSelection( ) );
-		lblWebMax.setEnabled( !btnAutoScale.getSelection( ) );
-		webMin.setEnabled( !btnAutoScale.getSelection( ) );
-		webMax.setEnabled( !btnAutoScale.getSelection( ) );
+		
+		webMax.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale ) );
+		
+		boolean enabled = getContext().getUIFactory( ).canEnableUI( btnAutoScale );
+		updateScaleUI( enabled );
 
 		Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
 		{
@@ -174,20 +197,30 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		iscScaleCnt.setSelection( series.getPlotSteps( ).intValue( ) );
 		iscScaleCnt.addListener( SWT.Selection, this );
 
-		btnTranslucentBullseye = new Button( grpLine, SWT.CHECK );
+		btnScaleCntAuto = new Button( cmpMinMax, SWT.CHECK );
+		btnScaleCntAuto.setText( UIHelper.getAutoMessage( ) );
+		btnScaleCntAuto.setSelection( !series.isSetPlotSteps( ) );
+		iscScaleCnt.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale )
+				&& !btnScaleCntAuto.getSelection( ) );
+		btnScaleCntAuto.addListener( SWT.Selection, this );
+		
+		if ( getChart( ).getSubType( )
+					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) )
 		{
-			btnTranslucentBullseye.setText( Messages.getString( "Radar.Composite.Label.bullsEye" ) ); //$NON-NLS-1$
-			btnTranslucentBullseye.setSelection( series.isBackgroundOvalTransparent( ) );
-			btnTranslucentBullseye.addListener( SWT.Selection, this );
-
+			btnTranslucentBullseye = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpMinMax,
+							SWT.NONE,
+							defSeries.isBackgroundOvalTransparent( ) );
+			btnTranslucentBullseye.setText(  Messages.getString( "Radar.Composite.Label.bullsEye" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 2;
+			gd.horizontalSpan = 3;
 			gd.verticalAlignment = SWT.TOP;
 			btnTranslucentBullseye.setLayoutData( gd );
-			btnTranslucentBullseye.setVisible( getChart( ).getSubType( )
-					.equals( Radar.BULLSEYE_SUBTYPE_LITERAL ) );
+			btnTranslucentBullseye.setSelectionState( series.isSetBackgroundOvalTransparent( ) ? ( series.isBackgroundOvalTransparent( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnTranslucentBullseye.addListener( SWT.Selection, this );
 		}
-
 		return cmpContent;
 	}
 
@@ -195,22 +228,29 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 	{
 		if ( event.widget.equals( wliacLine ) )
 		{
+			boolean isUnset = ( event.detail == ChartElementUtil.PROPERTY_UNSET );
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getWebLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getWebLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
 				// enableLineSettings( series.getWebLineAttributes( ).isVisible(
 				// ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getWebLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getWebLineAttributes( ),
+						"style",//$NON-NLS-1$
+						event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getWebLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getWebLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -240,7 +280,10 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( btnTranslucentBullseye ) )
 		{
-			series.setBackgroundOvalTransparent( btnTranslucentBullseye.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"backgroundOvalTransparent",//$NON-NLS-1$
+					btnTranslucentBullseye.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnTranslucentBullseye.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( event.widget.equals( iscScaleCnt ) )
 		{
@@ -248,13 +291,31 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( btnAutoScale ) )
 		{
-
-			series.setRadarAutoScale( btnAutoScale.getSelection( ) );
-			lblWebMin.setEnabled( !btnAutoScale.getSelection( ) );
-			lblWebMax.setEnabled( !btnAutoScale.getSelection( ) );
-			webMin.setEnabled( !btnAutoScale.getSelection( ) );
-			webMax.setEnabled( !btnAutoScale.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"radarAutoScale",//$NON-NLS-1$
+					btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
+			
+			boolean enabled = getContext().getUIFactory( ).canEnableUI( btnAutoScale );
+			updateScaleUI( enabled );
 		}
+		else if ( event.widget == btnScaleCntAuto )
+		{
+			ChartElementUtil.setEObjectAttribute( series,
+					"plotSteps",//$NON-NLS-1$
+					BigInteger.valueOf( iscScaleCnt.getSelection( ) ),
+					btnScaleCntAuto.getSelection( ) );
+			iscScaleCnt.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale )
+					&& !btnScaleCntAuto.getSelection( ) );
+		}
+	}
+
+	protected void updateScaleUI( boolean enabled )
+	{
+		lblWebMin.setEnabled( enabled );
+		lblWebMax.setEnabled( enabled );
+		webMin.setEnabled( enabled );
+		webMax.setEnabled( enabled );
 	}
 
 	private double getTypedDataElement( String strDataElement )

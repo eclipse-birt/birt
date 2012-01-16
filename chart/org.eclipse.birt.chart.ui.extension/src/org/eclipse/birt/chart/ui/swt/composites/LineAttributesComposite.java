@@ -17,7 +17,11 @@ import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.AbstractLineStyleChooserComposite;
+import org.eclipse.birt.chart.ui.swt.AbstractLineWidthChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -25,7 +29,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -48,13 +51,13 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient Label lblColor = null;
 
-	private transient LineStyleChooserComposite cmbStyle = null;
+	private transient AbstractLineStyleChooserComposite cmbStyle = null;
 
-	private transient LineWidthChooserComposite cmbWidth = null;
+	private transient AbstractLineWidthChooserComposite cmbWidth = null;
 
 	private transient FillChooserComposite cmbColor = null;
-
-	private transient Button cbVisible = null;
+	
+	private ChartCheckbox btnVisible = null;
 
 	private transient LineAttributes laCurrent = null;
 
@@ -82,6 +85,8 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient ChartWizardContext wizardContext;
 
+	private LineAttributes defLineAttributes;
+
 	/**
 	 * @param parent
 	 * @param style
@@ -89,7 +94,7 @@ public class LineAttributesComposite extends Composite implements
 	public LineAttributesComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility )
+			boolean bEnableVisibility, LineAttributes defLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -102,6 +107,7 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableWidths = bEnableWidths;
 		this.bEnableVisibility = bEnableVisibility;
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -109,7 +115,7 @@ public class LineAttributesComposite extends Composite implements
 	public LineAttributesComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
-			boolean bEnableVisibility, boolean bEnableColor )
+			boolean bEnableVisibility, boolean bEnableColor, LineAttributes defLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -123,6 +129,7 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableVisibility = bEnableVisibility;
 		this.bEnableColor = bEnableColor;
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
@@ -131,7 +138,7 @@ public class LineAttributesComposite extends Composite implements
 			ChartWizardContext wizardContext, LineAttributes laCurrent,
 			boolean bEnableWidths, boolean bEnableStyles,
 			boolean bEnableVisibility, boolean bEnableColor,
-			boolean bEnableAutoColor )
+			boolean bEnableAutoColor, LineAttributes defLineAttributes )
 	{
 		super( parent, style );
 		this.laCurrent = laCurrent;
@@ -146,10 +153,42 @@ public class LineAttributesComposite extends Composite implements
 		this.bEnableColor = bEnableColor;
 		this.bEnableAutoColor = bEnableAutoColor;
 		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
 		init( );
 		placeComponents( );
 	}
 
+	public static final int ENABLE_WIDTH = 1;
+	
+	public static final int ENABLE_STYLES = 1 << 1;
+	
+	public static final int ENABLE_VISIBILITY = 1 << 2;
+	
+	public static final int ENABLE_COLOR = 1 << 3;
+	
+	public static final int ENABLE_AUTO_COLOR = 1 << 4;
+	
+	public LineAttributesComposite( Composite parent, int style, int optionalStyles,
+			ChartWizardContext wizardContext, LineAttributes laCurrent, LineAttributes defLineAttributes)
+	{
+		super( parent, style );
+		this.laCurrent = laCurrent;
+		if ( laCurrent == null )
+		{
+			// Create a default line attributes instance
+			this.laCurrent = AttributeFactory.eINSTANCE.createLineAttributes( );
+		}
+		this.bEnableStyles = ENABLE_STYLES == ( optionalStyles & ENABLE_STYLES );
+		this.bEnableWidths = ENABLE_WIDTH == ( optionalStyles & ENABLE_WIDTH );
+		this.bEnableVisibility = ENABLE_VISIBILITY == ( optionalStyles & ENABLE_VISIBILITY );
+		this.bEnableColor = ENABLE_COLOR == ( optionalStyles & ENABLE_COLOR );
+		this.bEnableAutoColor = ENABLE_AUTO_COLOR == ( optionalStyles & ENABLE_AUTO_COLOR );
+		this.wizardContext = wizardContext;
+		this.defLineAttributes = defLineAttributes;
+		init( );
+		placeComponents( );
+	}
+	
 	/**
 	 * 
 	 */
@@ -181,20 +220,27 @@ public class LineAttributesComposite extends Composite implements
 		cmpContent = new Composite( this, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
-		bEnabled = laCurrent.isVisible( );
+		bEnabled = !wizardContext.getUIFactory( ).isSetInvisible( laCurrent );
 		boolean bEnableUI = bEnabled;
 		if ( bEnableVisibility )
 		{
-			cbVisible = new Button( cmpContent, SWT.CHECK );
+			btnVisible = wizardContext.getUIFactory( )
+					.createChartCheckbox( cmpContent,
+							SWT.NONE,
+							this.defLineAttributes.isVisible( ) );
 			GridData gdCBVisible = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBVisible.horizontalSpan = 6;
-			cbVisible.setLayoutData( gdCBVisible );
-			cbVisible.setText( Messages.getString( "LineAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
-			cbVisible.setSelection( laCurrent.isVisible( ) );
-			cbVisible.addSelectionListener( this );
+			btnVisible.setLayoutData( gdCBVisible );
+			btnVisible.setText( Messages.getString( "LabelAttributesComposite.Lbl.IsVisible" ) ); //$NON-NLS-1$
+			
+			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED;
+			btnVisible.setSelectionState( state );
+			btnVisible.addSelectionListener( this );
 			if ( bEnabled )
 			{
-				bEnableUI = cbVisible.getSelection( );
+				bEnableUI = wizardContext.getUIFactory( ).canEnableUI( btnVisible );
 			}
 		}
 
@@ -206,10 +252,13 @@ public class LineAttributesComposite extends Composite implements
 			lblStyle.setText( Messages.getString( "LineAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
 			lblStyle.setEnabled( bEnableUI );
 
-			cmbStyle = new LineStyleChooserComposite( cmpContent,
-					SWT.DROP_DOWN | SWT.READ_ONLY,
-					getSWTLineStyle( laCurrent.getStyle( ) ),
-					getLineStyleItems( ) );
+			cmbStyle = wizardContext.getUIFactory( )
+					.createLineStyleChooserComposite( cmpContent,
+							SWT.DROP_DOWN | SWT.READ_ONLY,
+							getSWTLineStyle( laCurrent.getStyle( ) ),
+							getLineStyleItems( ),
+							laCurrent,
+							"style" );//$NON-NLS-1$
 			GridData gdCBStyle = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBStyle.horizontalSpan = 5;
 			cmbStyle.setLayoutData( gdCBStyle );
@@ -226,8 +275,18 @@ public class LineAttributesComposite extends Composite implements
 			lblWidth.setText( Messages.getString( "LineAttributesComposite.Lbl.Width" ) ); //$NON-NLS-1$
 			lblWidth.setEnabled( bEnableUI );
 
-			cmbWidth = new LineWidthChooserComposite( cmpContent, SWT.DROP_DOWN
-					| SWT.READ_ONLY, laCurrent.getThickness( ) );
+			cmbWidth = wizardContext.getUIFactory( )
+					.createLineWidthChooserComposite( cmpContent,
+							SWT.DROP_DOWN | SWT.READ_ONLY,
+							laCurrent.getThickness( ),
+							new Integer[]{
+									Integer.valueOf( 1 ),
+									Integer.valueOf( 2 ),
+									Integer.valueOf( 3 ),
+									Integer.valueOf( 4 )
+							},
+							laCurrent,
+							"thickness" );//$NON-NLS-1$
 			GridData gdCBWidth = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBWidth.horizontalSpan = 5;
 			cmbWidth.setLayoutData( gdCBWidth );
@@ -295,11 +354,13 @@ public class LineAttributesComposite extends Composite implements
 
 	public void setAttributesEnabled( boolean bState )
 	{
-		boolean bEnableUI = this.laCurrent.isVisible( );
 		if ( this.bEnableVisibility )
 		{
-			cbVisible.setEnabled( bState );
+			btnVisible.setEnabled( bState );
 		}
+		boolean bEnableUI = btnVisible != null ? wizardContext.getUIFactory( )
+				.canEnableUI( btnVisible ) : !wizardContext.getUIFactory( )
+				.isSetInvisible( laCurrent );
 		if ( this.bEnableStyles )
 		{
 			lblStyle.setEnabled( bState & bEnableUI );
@@ -339,8 +400,11 @@ public class LineAttributesComposite extends Composite implements
 
 		if ( bEnableVisibility )
 		{
-			cbVisible.setSelection( laCurrent.isVisible( ) );
-			boolean bUIEnabled = cbVisible.getSelection( );
+			int state = laCurrent.isSetVisible( ) ? ( laCurrent.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED;
+			btnVisible.setSelectionState( state );
+			boolean bUIEnabled = ( wizardContext.getUIFactory( ).canEnableUI( btnVisible ) );
 			if ( bEnableStyles )
 			{
 				cmbStyle.setEnabled( bUIEnabled );
@@ -383,18 +447,21 @@ public class LineAttributesComposite extends Composite implements
 	public void widgetSelected( SelectionEvent e )
 	{
 		Object oSource = e.getSource( );
-		if ( oSource.equals( cbVisible ) )
+		if ( oSource.equals( btnVisible ) )
 		{
 			// Notify Listeners that a change has occurred in the value
+			int state = btnVisible.getSelectionState( );
 			fireValueChangedEvent( LineAttributesComposite.VISIBILITY_CHANGED_EVENT,
-					Boolean.valueOf( cbVisible.getSelection( ) ) );
+					Boolean.valueOf( state == ChartCheckbox.STATE_SELECTED ),
+					( state == ChartCheckbox.STATE_GRAYED ) ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 			// Notification may cause this class disposed
 			if ( isDisposed( ) )
 			{
 				return;
 			}
 			// Enable/Disable UI Elements
-			boolean bEnableUI = cbVisible.getSelection( );
+			boolean bEnableUI = ( wizardContext.getUIFactory( ).canEnableUI( btnVisible ) );
 			if ( bEnableStyles )
 			{
 				lblStyle.setEnabled( bEnableUI );
@@ -424,7 +491,7 @@ public class LineAttributesComposite extends Composite implements
 	{
 	}
 
-	private void fireValueChangedEvent( int iEventType, Object data )
+	private void fireValueChangedEvent( int iEventType, Object data, int detail )
 	{
 		for ( int iL = 0; iL < vListeners.size( ); iL++ )
 		{
@@ -432,6 +499,7 @@ public class LineAttributesComposite extends Composite implements
 			se.widget = this;
 			se.data = data;
 			se.type = iEventType;
+			se.detail = detail;
 			vListeners.get( iL ).handleEvent( se );
 		}
 	}
@@ -493,17 +561,24 @@ public class LineAttributesComposite extends Composite implements
 		if ( cmbColor != null && cmbColor.equals( event.widget ) )
 		{
 			fireValueChangedEvent( LineAttributesComposite.COLOR_CHANGED_EVENT,
-					cmbColor.getFill( ) );
+					cmbColor.getFill( ),
+					cmbColor.getFill( ) == null ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 		}
 		else if ( cmbStyle != null && cmbStyle.equals( event.widget ) )
 		{
+			LineStyle ls = getModelLineStyle( cmbStyle.getLineStyle( ) );
 			fireValueChangedEvent( LineAttributesComposite.STYLE_CHANGED_EVENT,
-					getModelLineStyle( cmbStyle.getLineStyle( ) ) );
+					ls,
+					ls == null ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 		}
 		else if ( cmbWidth != null && cmbWidth.equals( event.widget ) )
 		{
 			fireValueChangedEvent( LineAttributesComposite.WIDTH_CHANGED_EVENT,
-					Integer.valueOf( cmbWidth.getLineWidth( ) ) );
+					Integer.valueOf( cmbWidth.getLineWidth( ) ),
+					cmbWidth.getLineWidth( ) < 1 ? ChartUIExtensionUtil.PROPERTY_UNSET
+							: ChartUIExtensionUtil.PROPERTY_UPDATE );
 		}
 	}
 

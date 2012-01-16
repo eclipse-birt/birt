@@ -30,11 +30,11 @@ import org.eclipse.swt.widgets.Composite;
 public class LineCanvas extends Canvas implements PaintListener, FocusListener
 {
 
-	int iLineStyle = SWT.LINE_SOLID;
+	protected int iLineStyle = SWT.LINE_SOLID;
 
-	int iLineWidth = 1;
+	protected int iLineWidth = 1;
 
-	boolean isFocusIn = false;
+	protected boolean isFocusIn = false;
 
 	public LineCanvas( Composite parent, int iStyle, int iLineStyle,
 			int iLineWidth )

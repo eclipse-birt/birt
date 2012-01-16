@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.data.DataElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -49,4 +50,5 @@ public interface IDataElementComposite
 
 	void addListener( Listener listener );
 
+	void setEObjectParent( EObject eParent );
 }

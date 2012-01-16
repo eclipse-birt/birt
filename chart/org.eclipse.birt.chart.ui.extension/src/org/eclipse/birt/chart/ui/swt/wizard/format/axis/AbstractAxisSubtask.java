@@ -21,9 +21,9 @@ import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.MarkerLine;
 import org.eclipse.birt.chart.model.component.MarkerRange;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
@@ -31,13 +31,14 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.FieldAssistHelper;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
@@ -58,7 +59,6 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -67,7 +67,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -77,23 +76,23 @@ import org.eclipse.swt.widgets.Listener;
  * Axis subtask
  * 
  */
-abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
+public abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Listener,
 		SelectionListener,
 		ModifyListener
 {
 
-	private Button btnCategoryAxis;
+	private ChartCheckbox btnCategoryAxis;
 
-	private Button btnReverse;
+	private ChartCheckbox btnReverse;
 
-	private ExternalizedTextEditorComposite txtTitle;
+	protected ExternalizedTextEditorComposite txtTitle;
 
-	private Button btnTitleVisible;
+	protected ChartCheckbox btnTitleVisible;
 
-	private Combo cmbTypes;
+	private ChartCombo cmbTypes;
 
-	private Combo cmbOrigin;
+	private ChartCombo cmbOrigin;
 
 	private Button btnFormatSpecifier;
 
@@ -101,22 +100,24 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private IDataElementComposite txtValue;
 
-	private Button btnLabelVisible;
+	private ChartCheckbox btnLabelVisible;
 
 	private FontDefinitionComposite fdcFont;
 
-	private Button cbStaggered;
+	private ChartCheckbox btnStaggered;
 
 	private LocalizedNumberEditorComposite lneLabelSpan;
 
 	private Button btnFixLabelSpan;
 
-	AbstractAxisSubtask( )
+	protected AbstractAxisSubtask( )
 	{
 		super( );
 	}
 
 	abstract protected Axis getAxisForProcessing( );
+	
+	abstract protected Axis getDefaultValueAxis( );
 
 	/**
 	 * Returns the axis angle type
@@ -148,72 +149,56 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
 		{
-			cmpBasic.setLayout( new GridLayout( 3, false ) );
+			cmpBasic.setLayout( new GridLayout( 4, false ) );
 			cmpBasic.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
 		if ( getAxisAngleType( ) == AngleType.X )
 		{
-			btnCategoryAxis = new Button( cmpBasic, SWT.CHECK );
-			{
-				btnCategoryAxis.setText( Messages.getString( "AbstractAxisSubtask.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
-				btnCategoryAxis.addSelectionListener( this );
-				btnCategoryAxis.setSelection( getAxisForProcessing( ).isCategoryAxis( ) );
-				btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
-			}
-
-			btnReverse = new Button( cmpBasic, SWT.CHECK );
-			{
-				GridData gd = new GridData( );
-				gd.horizontalSpan = 2;
-				btnCategoryAxis.setLayoutData( gd );
-				btnReverse.setText( Messages.getString( "AbstractAxisSubtask.Label.ReverseCategory" ) ); //$NON-NLS-1$
-				btnReverse.addSelectionListener( this );
-				btnReverse.setSelection( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) );
-				btnReverse.setEnabled( btnCategoryAxis.getSelection( ) );
-			}
-		}
-
-		Label lblTitle = new Label( cmpBasic, SWT.NONE );
-		lblTitle.setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
-
-		List<String> keys = null;
-		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
-		if ( serviceprovider != null )
-		{
-			keys = serviceprovider.getRegisteredKeys( );
-		}
-
-		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
-				SWT.BORDER | SWT.SINGLE,
-				-1,
-				-1,
-				keys,
-				serviceprovider,
-				getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) );
-		{
+			btnCategoryAxis = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							getDefaultValueAxis( ).isCategoryAxis( ) );
+			btnCategoryAxis.setText( Messages.getString( "AbstractAxisSubtask.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 			GridData gd = new GridData( );
-			gd.widthHint = 250;
-			gd.horizontalIndent = 5;
-			txtTitle.setLayoutData( gd );
-			txtTitle.addListener( this );
+			gd.horizontalSpan = 2;
+			btnCategoryAxis.setLayoutData( gd );
+			btnCategoryAxis.setSelectionState( getAxisForProcessing( ).isSetCategoryAxis( ) ? ( getAxisForProcessing( ).isCategoryAxis( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			updateCategoryAxisUI( !getAxisForProcessing( ).isSetType( )
+					|| !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
+			btnCategoryAxis.addSelectionListener( this );
+
+			btnReverse = getContext( ).getUIFactory( )
+					.createChartCheckbox( cmpBasic,
+							SWT.NONE,
+							DefaultValueProvider.defChartWithAxes( )
+									.isReverseCategory( ) );
+			btnReverse.setText( Messages.getString( "AbstractAxisSubtask.Label.ReverseCategory" ) ); //$NON-NLS-1$
+			gd = new GridData( );
+			gd.horizontalSpan = 2;
+			btnReverse.setLayoutData( gd );
+			btnReverse.setSelectionState( ( (ChartWithAxes) getChart( ) ).isSetReverseCategory( ) ? ( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			updateReverseUI( getContext().getUIFactory( ).canEnableUI( btnCategoryAxis ) );
+			btnReverse.addSelectionListener( this );
 		}
 
-		btnTitleVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnTitleVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnTitleVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
-			btnTitleVisible.addSelectionListener( this );
-			btnTitleVisible.setSelection( getAxisForProcessing( ).getTitle( )
-					.isVisible( ) );
-		}
+		createTitleComosite( cmpBasic );
 
 		if ( getAxisAngleType( ) != AngleType.Z )
 		{
 			Label lblType = new Label( cmpBasic, SWT.NONE );
 			lblType.setText( Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.Type" ) ); //$NON-NLS-1$
 
-			cmbTypes = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
+			cmbTypes = getContext( ).getUIFactory( )
+					.createChartCombo( cmpBasic,
+							SWT.DROP_DOWN | SWT.READ_ONLY,
+							getAxisForProcessing( ),
+							"type", //$NON-NLS-1$
+							getDefaultValueAxis( ).getType( ).getName( ) );
 			{
 				GridData gd = new GridData( );
 				gd.widthHint = 220;
@@ -226,26 +211,34 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				GridData gdBTNFormatSpecifier = new GridData( );
 				gdBTNFormatSpecifier.horizontalIndent = -3;
+				gdBTNFormatSpecifier.horizontalSpan = 2;
 				btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 				//btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 				btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 				btnFormatSpecifier.addSelectionListener( this );
 				// btnFormatSpecifier.getImage( )
 				// .setBackground( btnFormatSpecifier.getBackground( ) );
-				btnFormatSpecifier.setText( Messages.getString("Format.Button.Label") ); //$NON-NLS-1$
+				btnFormatSpecifier.setText( Messages.getString( "Format.Button.Label" ) ); //$NON-NLS-1$
 			}
 
 			// Origin is not supported in 3D
-			if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+			if ( !isChart3D( ) )
 			{
 				Label lblOrigin = new Label( cmpBasic, SWT.NONE );
 				lblOrigin.setText( Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.Origin" ) ); //$NON-NLS-1$
 
-				cmbOrigin = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
+				cmbOrigin = getContext( ).getUIFactory( )
+						.createChartCombo( cmpBasic,
+								SWT.DROP_DOWN | SWT.READ_ONLY,
+								getAxisForProcessing( ).getOrigin( ),
+								"type", //$NON-NLS-1$
+								getDefaultValueAxis( ).getOrigin( )
+										.getType( )
+										.getName( ) );
 				{
 					GridData gd = new GridData( );
 					gd.widthHint = 220;
-					gd.horizontalSpan = 2;
+					gd.horizontalSpan = 3;
 					gd.horizontalIndent = 5;
 					cmbOrigin.setLayoutData( gd );
 					cmbOrigin.addSelectionListener( this );
@@ -254,9 +247,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				boolean bValueOrigin = false;
 				if ( getAxisForProcessing( ).getOrigin( ) != null )
 				{
-					if ( getAxisForProcessing( ).getOrigin( )
-							.getType( )
-							.equals( IntersectionType.VALUE_LITERAL ) )
+					if ( !getAxisForProcessing( ).getOrigin( ).isSetType( )
+							|| ( getAxisForProcessing( ).getOrigin( )
+									.isSetType( ) && getAxisForProcessing( ).getOrigin( )
+									.getType( )
+									.equals( IntersectionType.VALUE_LITERAL ) ) )
 					{
 						bValueOrigin = true;
 					}
@@ -272,7 +267,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				{
 					GridData gd = new GridData( );
 					gd.widthHint = 245;
-					gd.horizontalSpan = 2;
+					gd.horizontalSpan = 3;
 					gd.horizontalIndent = 5;
 					txtValue.setLayoutData( gd );
 					txtValue.addListener( this );
@@ -301,6 +296,9 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 
 		Composite cmpLabel = new Composite( cmpBasic, SWT.NONE );
+		GridData gd = new GridData( );
+		gd.horizontalSpan = 2;
+		cmpLabel.setLayoutData( gd );
 		{
 			GridLayout layout = new GridLayout( 2, false );
 			layout.marginHeight = 0;
@@ -308,34 +306,104 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			cmpLabel.setLayout( layout );
 		}
 
-		btnLabelVisible = new Button( cmpLabel, SWT.CHECK );
-		{
-			btnLabelVisible.setText( Messages.getString( "AbstractAxisSubtask.Label.Visible2" ) ); //$NON-NLS-1$
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			btnLabelVisible.setLayoutData( gd );
-			btnLabelVisible.addSelectionListener( this );
-			btnLabelVisible.setSelection( getAxisForProcessing( ).getLabel( )
-					.isVisible( ) );
-		}
+		btnLabelVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpLabel,
+						SWT.NONE,
+						getDefaultValueAxis( ).getLabel( ).isVisible( ) );
+		btnLabelVisible.setText( Messages.getString( "AbstractAxisSubtask.Label.Visible2" ) ); //$NON-NLS-1$
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		btnLabelVisible.setLayoutData( gd );
+		btnLabelVisible.setSelectionState( getAxisForProcessing( ).getLabel( )
+				.isSetVisible( ) ? ( getAxisForProcessing( ).getLabel( )
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
+		btnLabelVisible.addSelectionListener( this );
 
-		cbStaggered = new Button( cmpLabel, SWT.CHECK );
+		boolean bNot3D = !isChart3D( );
+		btnStaggered = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpLabel,
+						SWT.NONE,
+						getDefaultValueAxis( ).isStaggered( ) && bNot3D );
+		btnStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
 		{
 			Axis ax = getAxisForProcessing( );
-			boolean bStaggered = ax.isSetStaggered( ) && ax.isStaggered( );
-			boolean bNot3D = !isChart3D( );
-
-			cbStaggered.setSelection( bNot3D && bStaggered );
-			cbStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
-			cbStaggered.addSelectionListener( this );
-			cbStaggered.setEnabled( bNot3D );
+			btnStaggered.setSelectionState( ax.isSetStaggered( ) ? ( ( ax.isStaggered( ) && bNot3D ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnStaggered.setEnabled( bNot3D );
+			btnStaggered.setVisible( isStaggerSupported( ) );
+			btnStaggered.addSelectionListener( this );
 		}
 
-		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+		createLabelSpan( cmpBasic );
+
+		createButtonGroup( cmpContent );
+
+		setStateOfTitle( );
+		setStateOfLabel( );
+	}
+
+	protected void createTitleComosite( Composite cmpBasic )
+	{
+		Label lblTitle = new Label( cmpBasic, SWT.NONE );
+		lblTitle.setText( Messages.getString( "AxisYSheetImpl.Label.Title" ) ); //$NON-NLS-1$
+
+		List<String> keys = null;
+		IUIServiceProvider serviceprovider = getContext( ).getUIServiceProvider( );
+		if ( serviceprovider != null )
+		{
+			keys = serviceprovider.getRegisteredKeys( );
+		}
+
+		txtTitle = new ExternalizedTextEditorComposite( cmpBasic, SWT.BORDER
+				| SWT.SINGLE, -1, -1, keys, serviceprovider, getTitleValue( ) );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = 230;
+			gd.horizontalIndent = 5;
+			txtTitle.setLayoutData( gd );
+			txtTitle.addListener( this );
+		}
+
+		btnTitleVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						getDefaultValueAxis( ).getTitle( ).isVisible( ) );
+		GridData gd = new GridData();
+		gd.horizontalSpan = 2;
+		btnTitleVisible.setLayoutData( gd );
+		btnTitleVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+		btnTitleVisible.setSelectionState( getAxisForProcessing( ).getTitle( )
+				.isSetVisible( ) ? ( getAxisForProcessing( ).getTitle( )
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
+		btnTitleVisible.addSelectionListener( this );
+	}
+
+	protected boolean isStaggerSupported( )
+	{
+		return true;
+	}
+
+	protected String getTitleValue( )
+	{
+		if ( getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( ) == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return getAxisForProcessing( ).getTitle( ).getCaption( ).getValue( );
+	}
+
+	protected void createLabelSpan( Composite cmpBasic )
+	{
+		if ( !isChart3D( ) )
 		{
 			Label l = new Label( cmpBasic, SWT.NONE );
 			l.setText( Messages.getString( "AbstractAxisSubtask.Label.LabelSpan" ) ); //$NON-NLS-1$
 			FieldAssistHelper.getInstance( ).addRequiredFieldIndicator( l );
-			
+
 			Composite cmpEditorWithUnit = new Composite( cmpBasic, SWT.NONE );
 			{
 				GridData gd = new GridData( );
@@ -368,31 +436,42 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				btnFixLabelSpan.setSelection( getAxisForProcessing( ).isSetLabelSpan( ) );
 			}
 		}
-
-		createButtonGroup( cmpContent );
-
-		setStateOfTitle( );
-		setStateOfLabel( );
 	}
 
-	private void setStateOfTitle( )
+	protected void updateCategoryAxisUI( boolean enabled )
 	{
-		boolean isTitleEnabled = getAxisForProcessing( ).getTitle( )
-				.isVisible( );
+		btnCategoryAxis.setEnabled( enabled );
+	}
+
+	protected void updateReverseUI( boolean enabled )
+	{
+		btnReverse.setEnabled( enabled );
+	}
+
+	protected void setStateOfTitle( )
+	{
+		boolean isTitleEnabled = isTitleEnabled( );
 		txtTitle.setEnabled( isTitleEnabled );
 		setToggleButtonEnabled( BUTTON_TITLE, isTitleEnabled );
+	}
+
+	protected boolean isTitleEnabled( )
+	{
+		return !getContext( ).getUIFactory( )
+				.isSetInvisible( getAxisForProcessing( ).getTitle( ) );
 	}
 
 	private void setStateOfLabel( )
 	{
 		Axis ax = getAxisForProcessing( );
-		boolean isLabelEnabled = ax.getLabel( ).isVisible( );
+		boolean isLabelEnabled = !getContext( ).getUIFactory( )
+				.isSetInvisible( ax.getLabel( ) );
 		fdcFont.setEnabled( isLabelEnabled );
-		cbStaggered.setEnabled( !isChart3D( ) && isLabelEnabled );
+		btnStaggered.setEnabled( !isChart3D( ) && isLabelEnabled );
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
@@ -412,7 +491,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			popup = new AxisScaleSheet( Messages.getString( "AxisYSheetImpl.Label.Scale" ), //$NON-NLS-1$
 					getContext( ),
 					getAxisForProcessing( ),
-					getAxisAngleType( ) );
+					getAxisAngleType( ),
+					getDefaultValueAxis( ) );
 			Button btnScale = createToggleButton( cmp,
 					BUTTON_SCALE,
 					Messages.getString( "AxisYSheetImpl.Label.Scale&" ), //$NON-NLS-1$
@@ -424,31 +504,34 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		popup = new AxisTitleSheet( Messages.getString( "AxisYSheetImpl.Label.TitleFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
-				getAxisAngleType( ) );
+				getAxisAngleType( ),
+				getDefaultValueAxis( ) );
 		Button btnAxisTitle = createToggleButton( cmp,
 				BUTTON_TITLE,
 				Messages.getString( "AxisYSheetImpl.Label.TitleFormat&" ), //$NON-NLS-1$
 				popup,
-				btnTitleVisible.getSelection( ) );
+				getContext().getUIFactory( ).canEnableUI( btnTitleVisible ) );
 		btnAxisTitle.addSelectionListener( this );
 
 		// Label
 		popup = new AxisLabelSheet( Messages.getString( "AxisYSheetImpl.Label.LabelFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
-				getAxisAngleType( ) );
+				getAxisAngleType( ),
+				getDefaultValueAxis( ) );
 		Button btnAxisLabel = createToggleButton( cmp,
 				BUTTON_LABEL,
 				Messages.getString( "AxisYSheetImpl.Label.LabelFormat&" ), //$NON-NLS-1$
 				popup,
-				btnLabelVisible.getSelection( ) );
+				getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
 		btnAxisLabel.addSelectionListener( this );
 
 		// Gridlines
 		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
-				getAxisAngleType( ) );
+				getAxisAngleType( ),
+				getDefaultValueAxis( ) );
 		Button btnGridlines = createToggleButton( cmp,
 				BUTTON_GRIDLINES,
 				Messages.getString( "AxisYSheetImpl.Label.Gridlines&" ), //$NON-NLS-1$
@@ -459,31 +542,44 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			// Marker
 			// Marker is not supported for 3D
-			popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
-					getContext( ),
-					getAxisForProcessing( ) );
-			Button btnMarkers = createToggleButton( cmp,
-					BUTTON_MARKERS,
-					Messages.getString( "AxisYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
-					popup,
-					!ChartUIUtil.is3DType( getChart( ) ) );
-			btnMarkers.addSelectionListener( this );
+			createMarkersUI( cmp );
 		}
 
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "AbstractAxisSubtask.Label.Interactivity" ), //$NON-NLS-1$
+		if ( isInteractivityEnabled( ) )
+		{
+			popup = new InteractivitySheet( Messages.getString( "AbstractAxisSubtask.Label.Interactivity" ), //$NON-NLS-1$
+					getContext( ),
+					getAxisForProcessing( ).getTriggers( ),
+					getAxisForProcessing( ),
+					TriggerSupportMatrix.TYPE_AXIS,
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE );
+			Button btnInteractivity = createToggleButton( cmp,
+					BUTTON_INTERACTIVITY,
+					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+					popup,
+					getChart( ).getInteractivity( ).isEnable( ) );
+			btnInteractivity.addSelectionListener( this );
+		}
+	}
+
+	protected boolean isInteractivityEnabled( )
+	{
+		return getContext( ).isInteractivityEnabled( );
+	}
+
+	protected void createMarkersUI( Composite cmp )
+	{
+		ITaskPopupSheet popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 				getContext( ),
-				getAxisForProcessing( ).getTriggers( ),
 				getAxisForProcessing( ),
-				TriggerSupportMatrix.TYPE_AXIS,
-				false,
-				true );
-		Button btnInteractivity = createToggleButton( cmp,
-				BUTTON_INTERACTIVITY,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+				getDefaultValueAxis( ) );
+		Button btnMarkers = createToggleButton( cmp,
+				BUTTON_MARKERS,
+				Messages.getString( "AxisYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
 				popup,
-				getChart( ).getInteractivity( ).isEnable( ) );
-		btnInteractivity.addSelectionListener( this );
+				!ChartUIUtil.is3DType( getChart( ) ) );
+		btnMarkers.addSelectionListener( this );
 	}
 
 	private void populateLists( )
@@ -492,24 +588,20 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		NameSet ns = LiteralHelper.axisTypeSet;
 		if ( getAxisAngleType( ) == AngleType.Y )
 		{
-			ns = ChartUIUtil.getCompatibleAxisType( getAxisForProcessing( ).getSeriesDefinitions( )
-					.get( 0 )
-					.getDesignTimeSeries( ) );
-
+			ns = ChartUIUtil.getCompatibleAxisType( getDesignTimeSeries( ) );
 		}
 		cmbTypes.setItems( ns.getDisplayNames( ) );
-
-		cmbTypes.setText( ns.getDisplayNameByName( getAxisForProcessing( ).getType( )
-				.getName( ) ) );
-
+		cmbTypes.setItemData( ns.getNames( ) );
+		cmbTypes.setSelection( getAxisForProcessing( ).getType( ).getName( ) );
 		// Populate origin types combo
-		if ( getChart( ).getDimension( ).getValue( ) != ChartDimension.THREE_DIMENSIONAL )
+		if (  !isChart3D( ) )
 		{
 			ns = LiteralHelper.intersectionTypeSet;
 			cmbOrigin.setItems( ns.getDisplayNames( ) );
-			cmbOrigin.select( ns.getSafeNameIndex( getAxisForProcessing( ).getOrigin( )
+			cmbOrigin.setItemData( ns.getNames( ) );
+			cmbOrigin.setSelection( getAxisForProcessing( ).getOrigin( )
 					.getType( )
-					.getName( ) ) );
+					.getName( ) );
 		}
 
 		if ( txtValue != null
@@ -520,6 +612,13 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			txtValue.setDataElement( getAxisForProcessing( ).getOrigin( )
 					.getValue( ) );
 		}
+	}
+
+	protected Series getDesignTimeSeries( )
+	{
+		return getAxisForProcessing( ).getSeriesDefinitions( )
+				.get( 0 )
+				.getDesignTimeSeries( );
 	}
 
 	/*
@@ -607,8 +706,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 		if ( e.widget.equals( cmbTypes ) )
 		{
-			final AxisType axisType = AxisType.getByName( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
-			if ( getAxisForProcessing( ).getType( ) == axisType )
+			String selectedAxisType = cmbTypes.getSelectedItemData( );
+			final AxisType axisType = ( selectedAxisType == null ) ? getDefaultValueAxis( ).getType( )
+					: AxisType.getByName( selectedAxisType );
+			if ( getAxisForProcessing( ).isSetType( )
+					&& getAxisForProcessing( ).getType( ) == axisType )
 			{
 				// Prevent redundant operations
 				return;
@@ -635,30 +737,55 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			ChartAdapter.endIgnoreNotifications( );
 
 			// Set type and refresh the preview
-			getAxisForProcessing( ).setType( axisType );
+			if ( selectedAxisType != null )
+			{
+				getAxisForProcessing( ).setType( axisType );
+			}
+
 			if ( btnCategoryAxis != null )
 			{
-				btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( axisType ) );
+				boolean disableCategoryAxisUI = ( selectedAxisType != null && AxisType.TEXT_LITERAL.equals( axisType ) );
+				updateCategoryAxisUI( !disableCategoryAxisUI );
+				updateReverseStateByCategoryAxisUI( );
 			}
 			// Update popup UI
 			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( cmbOrigin ) )
 		{
-			if ( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) )
-					.equals( IntersectionType.VALUE_LITERAL.getName( ) ) )
+			String selectedOriginType = cmbOrigin.getSelectedItemData( );
+			if ( selectedOriginType != null
+					&& IntersectionType.VALUE_LITERAL.getName( )
+							.equals( selectedOriginType ) )
 			{
+
 				lblValue.setEnabled( true );
 				txtValue.setEnabled( true );
+				getAxisForProcessing( ).getOrigin( )
+						.setType( IntersectionType.getByName( selectedOriginType ) );
 			}
 			else
 			{
-				lblValue.setEnabled( false );
-				txtValue.setEnabled( false );
+				boolean enabled = false;
+				if ( selectedOriginType == null )
+				{
+					enabled = true;
+				}
+				else
+				{
+					getAxisForProcessing( ).getOrigin( )
+							.setType( IntersectionType.getByName( selectedOriginType ) );
+				}
+				getAxisForProcessing( ).getOrigin( ).setValue( null );
+
+				lblValue.setEnabled( enabled );
+				txtValue.setEnabled( enabled );
 			}
-			getAxisForProcessing( ).getOrigin( )
-					.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
-			if ( getAxisForProcessing( ).getOrigin( ).getType( ).getValue( ) == IntersectionType.VALUE )
+
+			if ( selectedOriginType != null
+					&& getAxisForProcessing( ).getOrigin( )
+							.getType( )
+							.getValue( ) == IntersectionType.VALUE )
 			{
 				// reset value to convert type
 				getAxisForProcessing( ).getOrigin( )
@@ -667,29 +794,50 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnCategoryAxis ) )
 		{
-			getAxisForProcessing( ).setCategoryAxis( btnCategoryAxis.getSelection( ) );
+			int state = btnCategoryAxis.getSelectionState( );
+			if ( state == ChartCheckbox.STATE_GRAYED )
+			{
+				// Auto case.
+				getAxisForProcessing( ).unsetCategoryAxis( );
+			}
+			else
+			{
+				getAxisForProcessing( ).setCategoryAxis( state == ChartCheckbox.STATE_SELECTED );
+			}
 			ChartCacheManager.getInstance( )
 					.cacheCategory( ( (ChartWithAxes) getChart( ) ).getType( ),
-							btnCategoryAxis.getSelection( ) );
+							state == ChartCheckbox.STATE_SELECTED );
 			refreshPopupSheet( );
 
 			// Reset reverse category settings which is only available when axis
 			// is category
-			btnReverse.setEnabled( btnCategoryAxis.getSelection( ) );
-			( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
-			btnReverse.setSelection( false );
+			updateReverseStateByCategoryAxisUI( );
 		}
 		else if ( e.widget.equals( btnReverse ) )
 		{
-			( (ChartWithAxes) getChart( ) ).setReverseCategory( btnReverse.getSelection( ) );
+			if ( btnReverse.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
+			}
+			else
+			{
+				( (ChartWithAxes) getChart( ) ).setReverseCategory( btnReverse.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 		}
-		else if ( e.widget.equals( btnTitleVisible ) )
+		else if ( e.widget == btnTitleVisible )
 		{
-			getAxisForProcessing( ).getTitle( )
-					.setVisible( btnTitleVisible.getSelection( ) );
+			if ( btnTitleVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getAxisForProcessing( ).getTitle( ).unsetVisible( );
+			}
+			else
+			{
+				getAxisForProcessing( ).getTitle( )
+						.setVisible( btnTitleVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 			setStateOfTitle( );
 			Button btnAxisTitle = getToggleButton( BUTTON_TITLE );
-			if ( !btnTitleVisible.getSelection( )
+			if ( !( btnTitleVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED )
 					&& btnAxisTitle.getSelection( ) )
 			{
 				btnAxisTitle.setSelection( false );
@@ -700,13 +848,20 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				refreshPopupSheet( );
 			}
 		}
-		else if ( e.widget.equals( btnLabelVisible ) )
+		else if ( e.widget == btnLabelVisible )
 		{
-			getAxisForProcessing( ).getLabel( )
-					.setVisible( btnLabelVisible.getSelection( ) );
+			if ( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getAxisForProcessing( ).getLabel( ).unsetVisible( );
+			}
+			else
+			{
+				getAxisForProcessing( ).getLabel( )
+						.setVisible( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 			setStateOfLabel( );
 			Button btnAxisLabel = getToggleButton( BUTTON_LABEL );
-			if ( !btnLabelVisible.getSelection( )
+			if ( !( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED )
 					&& btnAxisLabel.getSelection( ) )
 			{
 				btnAxisLabel.setSelection( false );
@@ -719,50 +874,75 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnFormatSpecifier ) )
 		{
-			String sAxisTitle = Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.OrthogonalAxis" ); //$NON-NLS-1$
-			try
-			{
-				String sTitleString = getAxisForProcessing( ).getTitle( )
-						.getCaption( )
-						.getValue( );
-				int iSeparatorIndex = sTitleString.indexOf( ExternalizedTextEditorComposite.SEPARATOR );
-				if ( iSeparatorIndex > 0 )
-				{
-					sTitleString = sTitleString.substring( iSeparatorIndex );
-				}
-				else if ( iSeparatorIndex == 0 )
-				{
-					sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
-				}
-				sAxisTitle += " (" + sTitleString + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			catch ( NullPointerException e1 )
-			{
-			}
-
-			FormatSpecifier formatspecifier = null;
-			if ( getAxisForProcessing( ).getFormatSpecifier( ) != null )
-			{
-				formatspecifier = getAxisForProcessing( ).getFormatSpecifier( );
-			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					getAxisForProcessing( ).getType( ),
-					sAxisTitle );
-			if ( editor.open( ) == Window.OK )
-			{
-				if ( editor.getFormatSpecifier( ) == null )
-				{
-					getAxisForProcessing( ).eUnset( ComponentPackage.eINSTANCE.getAxis_FormatSpecifier( ) );
-					return;
-				}
-				getAxisForProcessing( ).setFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			handleFormatBtnSelected( );
 		}
-		else if ( e.getSource( ).equals( cbStaggered ) )
+		else if ( e.widget == btnStaggered )
 		{
-			getAxisForProcessing( ).setStaggered( cbStaggered.getSelection( ) );
+			if ( btnStaggered.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getAxisForProcessing( ).unsetStaggered( );
+			}
+			else
+			{
+				getAxisForProcessing( ).setStaggered( btnStaggered.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 		}
+	}
+
+	protected void updateReverseStateByCategoryAxisUI( )
+	{
+		int state = btnCategoryAxis.getSelectionState( );
+		boolean enabledUI = getContext().getUIFactory( ).canEnableUI( btnCategoryAxis );
+		updateReverseUI( enabledUI );
+		if ( state == ChartCheckbox.STATE_GRAYED )
+		{
+			btnReverse.setSelectionState( ChartCheckbox.STATE_GRAYED );
+			( (ChartWithAxes) getChart( ) ).unsetReverseCategory( );
+		}
+		else if ( state == ChartCheckbox.STATE_UNSELECTED )
+		{
+			btnReverse.setSelectionState( ChartCheckbox.STATE_UNSELECTED );
+			( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
+		}
+	}
+
+	protected void handleFormatBtnSelected( )
+	{
+		String sAxisTitle = Messages.getString( "OrthogonalAxisDataSheetImpl.Lbl.OrthogonalAxis" ); //$NON-NLS-1$
+		try
+		{
+			String sTitleString = getTitleValue( );
+			int iSeparatorIndex = sTitleString.indexOf( ExternalizedTextEditorComposite.SEPARATOR );
+			if ( iSeparatorIndex > 0 )
+			{
+				sTitleString = sTitleString.substring( iSeparatorIndex );
+			}
+			else if ( iSeparatorIndex == 0 )
+			{
+				sTitleString = sTitleString.substring( ExternalizedTextEditorComposite.SEPARATOR.length( ) );
+			}
+			sAxisTitle += " (" + sTitleString + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		catch ( NullPointerException e1 )
+		{
+		}
+
+		FormatSpecifier formatspecifier = null;
+		if ( getAxisForProcessing( ).getFormatSpecifier( ) != null )
+		{
+			formatspecifier = getAxisForProcessing( ).getFormatSpecifier( );
+		}
+		getContext( ).getUIServiceProvider( )
+				.getFormatSpecifierHandler( )
+				.handleFormatSpecifier( cmpContent.getShell( ),
+						sAxisTitle,
+						new AxisType[]{
+							getAxisForProcessing( ).getType( )
+						},
+						formatspecifier,
+						getAxisForProcessing( ),
+						"formatSpecifier", //$NON-NLS-1$
+						getContext( ) );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
@@ -774,6 +954,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	{
 		if ( getAxisAngleType( ) == AngleType.X )
 		{
+			if ( axisType == null )
+			{
+				axisType = AxisType.TEXT_LITERAL;
+			}
 			BaseSampleData bsd = getChart( ).getSampleData( )
 					.getBaseSampleData( )
 					.get( 0 );
@@ -783,6 +967,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		}
 		else if ( getAxisAngleType( ) == AngleType.Y )
 		{
+			if ( axisType == null )
+			{
+				axisType = AxisType.LINEAR_LITERAL;
+			}
 			// Run the conversion routine for ALL orthogonal sample data entries
 			// related to series definitions for this axis
 			// Get the start and end index of series definitions that fall under
@@ -833,7 +1021,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			getAxisForProcessing( ).setLabelSpan( lneLabelSpan.getValue( ) );
 		}
 	}
-	
+
 	private Axis getOppositeAxis( )
 	{
 		if ( getAxisAngleType( ) == AngleType.X )
@@ -860,10 +1048,12 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 						0,
 						0 ) );
 			}
-			return new DateTimeDataElementComposite( parent,
+			return getContext( ).getUIFactory( ).createDateTimeDataElementComposite( parent,
 					SWT.BORDER,
 					(DateTimeDataElement) data,
-					false );
+					false,
+					getAxisForProcessing( ).getOrigin( ),
+					"value" ); //$NON-NLS-1$
 		}
 
 		// Use number value for Linear or Text element
@@ -871,6 +1061,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			data = NumberDataElementImpl.create( 0 );
 		}
-		return new NumberDataElementComposite( parent, data );
+		return getContext( ).getUIFactory( )
+				.createNumberDataElementComposite( parent,
+						data,
+						getAxisForProcessing( ).getOrigin( ),
+						"value" ); //$NON-NLS-1$
 	}
 }

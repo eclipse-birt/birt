@@ -254,4 +254,10 @@ public interface IUIServiceProvider
 	 */
 	public boolean isEclipseModeSupported( );
 
+	/**
+	 * Creates a UI to process format specifier.
+	 * 
+	 * @return
+	 */
+	IFormatSpecifierHandler getFormatSpecifierHandler( );
 }

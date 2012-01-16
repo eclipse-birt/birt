@@ -563,22 +563,26 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 	public void translateFrom( Series series, int iSeriesDefinitionIndex,
 			Chart chart )
 	{
-		this.getLineAttributes( ).setVisible( true );
-		this.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
-		this.setStacked( false );
 
 		// Copy generic series properties
 		this.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
+		if ( series.isSetLabelPosition( ) )
 		{
-			this.setLabelPosition( series.getLabelPosition( ) );
+			if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
+					|| series.getLabelPosition( )
+							.equals( Position.OUTSIDE_LITERAL ) )
+			{
+				this.setLabelPosition( series.getLabelPosition( ) );
+			}
+			else
+			{
+				this.setLabelPosition( Position.OUTSIDE_LITERAL );
+			}
 		}
-		else
+		if ( series.isSetVisible( ) )
 		{
-			this.setLabelPosition( Position.OUTSIDE_LITERAL );
+			this.setVisible( series.isVisible( ) );
 		}
-		this.setVisible( series.isVisible( ) );
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
 		{
 			this.getTriggers( ).addAll( series.getTriggers( ) );
@@ -620,9 +624,6 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 			// !Don't change to dateTime type, keep the original setting.
 			// ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).setType(
 			// AxisType.DATE_TIME_LITERAL );
-			( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.setCategoryAxis( true );
 			EList<Axis> axes = ( (ChartWithAxes) chart ).getAxes( )
 					.get( 0 )
 					.getAssociatedAxes( );
@@ -808,6 +809,33 @@ public class StockSeriesImpl extends SeriesImpl implements StockSeries
 		setLineAttributes( lia );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance NOTE:
+	 * Manually written
+	 * 
+	 */
+	public static final Series createDefault( )
+	{
+		final StockSeries ss = TypeFactory.eINSTANCE.createStockSeries( );
+		( (StockSeriesImpl) ss ).initDefault( );
+		return ss;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.Series#initialize()
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+		labelPosition = Position.ABOVE_LITERAL;
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				0, true );
+		setLineAttributes( lia );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

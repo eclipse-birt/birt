@@ -19,14 +19,14 @@ import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -47,17 +47,20 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 
 	private Composite cmpContent = null;
 
-	private Button btnWebLabels = null;
+	private ChartCheckbox btnWebLabels = null;
 
 	private LabelAttributesComposite webLabelAttr = null;
 
 	private Button btnWLFormatSpecifier = null;
+
+	private RadarSeries defSeries;
 
 	public RadarWebLabelSheet( String title, ChartWizardContext context,
 			boolean needRefresh, RadarSeries series )
 	{
 		super( title, context, needRefresh );
 		this.series = series;
+		this.defSeries = (RadarSeries) ChartDefaultValueUtil.getDefaultSeries( series );
 	}
 
 	@Override
@@ -70,57 +73,67 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 			cmpContent.setLayout( glMain );
 		}
 
-		Group grpLine1a = new Group( cmpContent, SWT.NONE );
-		GridLayout glLine1a = new GridLayout( 1, false );
-		grpLine1a.setLayout( glLine1a );
-		grpLine1a.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		grpLine1a.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.WebLabel" ) ); //$NON-NLS-1$
-
-		btnWebLabels = new Button( grpLine1a, SWT.CHECK );
+		Group grpLine = new Group( cmpContent, SWT.NONE );
+		GridLayout glLine1a = new GridLayout( 2, false );
+		grpLine.setLayout( glLine1a );
+		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		grpLine.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.WebLabel" ) ); //$NON-NLS-1$
+		
+		btnWebLabels = getContext( ).getUIFactory( )
+				.createChartCheckbox( grpLine,
+						SWT.NONE,
+						defSeries.isShowCatLabels( ) );
 		{
 			btnWebLabels.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ShowWeb" ) ); //$NON-NLS-1$
-			btnWebLabels.setSelection( series.isShowWebLabels( ) );
-			btnWebLabels.addListener( SWT.Selection, this );
 			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			gd.horizontalSpan = 1;
+			gd.horizontalSpan = 2;
 			btnWebLabels.setLayoutData( gd );
+			btnWebLabels.setSelectionState( series.isSetShowWebLabels( ) ? ( series.isShowWebLabels( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnWebLabels.addListener( SWT.Selection, this );
 		}
 		// Web Label Configuration
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isPositionEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = false;
+		attributesContext.isVisibilityEnabled = getContext().getUIFactory( ).canEnableUI( btnWebLabels );
 		if ( series.getWebLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );
 			series.setWebLabel( lab );
 		}
 
-		webLabelAttr = new LabelAttributesComposite( grpLine1a,
+		webLabelAttr = new LabelAttributesComposite( grpLine,
 				SWT.NONE,
 				getContext( ),
 				attributesContext,
 				null,
+				series,
 				null,
-				series.getWebLabel( ),
+				"webLabel", //$NON-NLS-1$
+				defSeries,
 				getChart( ).getUnits( ) );
-		webLabelAttr.setEnabled( series.isShowWebLabels( ) );
+		webLabelAttr.setEnabled( !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) ) );
 		GridData wla = new GridData( GridData.FILL_HORIZONTAL );
+		wla.horizontalSpan = 2;
 		webLabelAttr.setLayoutData( wla );
 		webLabelAttr.addListener( this );
+		webLabelAttr.setDefaultLabelValue( LabelImpl.createDefault( ) );
 
-		btnWLFormatSpecifier = new Button( grpLine1a, SWT.PUSH );
+		btnWLFormatSpecifier = new Button( grpLine, SWT.PUSH );
 		{
 			GridData gdBTNFormatSpecifier = new GridData( );
 			gdBTNFormatSpecifier.horizontalIndent = -3;
+			gdBTNFormatSpecifier.horizontalSpan = 2;
 			btnWLFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 			btnWLFormatSpecifier.setToolTipText( Messages.getString( "WebLabel.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 			btnWLFormatSpecifier.addListener( SWT.Selection, this );
 			btnWLFormatSpecifier.setText( Messages.getString( "Format.Button.Web.Label" ) ); //$NON-NLS-1$
 		}
 
-		webLabelAttr.setEnabled( series.isShowWebLabels( ) );
-		btnWLFormatSpecifier.setEnabled( series.isShowWebLabels( ) );
+		webLabelAttr.setEnabled( !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) ) );
+		btnWLFormatSpecifier.setEnabled( !( series.isSetShowCatLabels( ) && !series.isShowWebLabels( ) ) );
 
 		return cmpContent;
 	}
@@ -129,11 +142,14 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 	{
 		if ( event.widget.equals( webLabelAttr ) )
 		{
+			boolean isUnset = ( event.detail == ChartElementUtil.PROPERTY_UNSET );
 			switch ( event.type )
 			{
 				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					series.getWebLabel( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( series.getWebLabel( ),
+							"visible",//$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
 					series.getWebLabel( )
@@ -151,14 +167,18 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 							.setShadowColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					series.getWebLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( series.getWebLabel( )
+							.getOutline( ),
+							"style",//$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					series.getWebLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( series.getWebLabel( )
+							.getOutline( ),
+							"thickness",//$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					series.getWebLabel( )
@@ -166,9 +186,11 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					series.getWebLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( series.getWebLabel( )
+							.getOutline( ),
+							"visible",//$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					series.getWebLabel( ).setInsets( (Insets) event.data );
@@ -177,26 +199,32 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		}
 		else if ( event.widget.equals( btnWebLabels ) )
 		{
-			series.setShowWebLabels( btnWebLabels.getSelection( ) );
-			webLabelAttr.setEnabled( series.isShowWebLabels( ) );
-			btnWLFormatSpecifier.setEnabled( series.isShowWebLabels( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"showWebLabels",//$NON-NLS-1$
+					btnWebLabels.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnWebLabels.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
+			boolean enabled = !( series.isSetShowWebLabels( ) && !series.isShowWebLabels( ) );
+			webLabelAttr.setEnabled( enabled );
+			btnWLFormatSpecifier.setEnabled( enabled );
 		}
 		else if ( event.widget.equals( btnWLFormatSpecifier ) )
 		{
-
 			FormatSpecifier formatspecifier = null;
 			if ( series.getWebLabelFormatSpecifier( ) != null )
 			{
 				formatspecifier = series.getWebLabelFormatSpecifier( );
 			}
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpContent.getShell( ),
-					formatspecifier,
-					AxisType.LINEAR_LITERAL,
-					Messages.getString( "WebLabel.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
-			if ( editor.open( ) == Window.OK )
-			{
-				series.setWebLabelFormatSpecifier( editor.getFormatSpecifier( ) );
-			}
+			getContext( ).getUIServiceProvider( )
+					.getFormatSpecifierHandler( )
+					.handleFormatSpecifier( cmpContent.getShell( ),
+							Messages.getString( "WebLabel.Tooltip.FormatSpecifier" ), //$NON-NLS-1$
+							new AxisType[]{
+								AxisType.LINEAR_LITERAL
+							},
+							formatspecifier,
+							series,
+							"webLabelFormatSpecifier", //$NON-NLS-1$
+							getContext( ) );
 		}
 	}
 }

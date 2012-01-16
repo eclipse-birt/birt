@@ -17,9 +17,13 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.layout.TitleBlock;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -27,6 +31,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleBlockSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitleTextSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -50,13 +55,15 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private ExternalizedTextEditorComposite txtTitle = null;
 	private FontDefinitionComposite fdcFont;
-	private Button btnVisible;
-	private Button btnAuto;
+	private ChartCheckbox btnVisible;
+	private ChartCheckbox btnAutoTitle;
 
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_TITLE );
 
+		TitleBlock defTitle = ChartDefaultValueUtil.getDefaultValueChart( getChart() ).getTitle( );
+		
 		init( );
 
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -98,23 +105,37 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 			txtTitle.addListener( this );
 		}
 
-		btnVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
-			btnVisible.addSelectionListener( this );
-		}
+		btnVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						defTitle.isVisible( ) );
+		btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+		GridData gd = new GridData( );
+		btnVisible.setLayoutData( gd );
+		btnVisible.setSelectionState( getChart( ).getTitle( ).isSetVisible( ) ? ( getChart( ).getTitle( )
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
+		btnVisible.addSelectionListener( this );
 
-		btnAuto = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnAuto.setText( Messages.getString( "ChartTitleSheetImpl.Text.Auto" ) ); //$NON-NLS-1$
-			btnAuto.setSelection( getChart( ).getTitle( ).isAuto( ) );
-			btnAuto.addSelectionListener( this );
-			btnAuto.setEnabled( isAutoEnabled( ) );
-			btnAuto.setVisible( getContext( ).getUIFactory( )
-					.createUIHelper( )
-					.isDefaultTitleSupported( ) );
-		}
+		boolean dynamicTitleVisible = getContext( ).getUIFactory( )
+				.createUIHelper( )
+				.isDefaultTitleSupported( );
+
+		btnAutoTitle = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic, SWT.NONE, defTitle.isAuto( ) );
+		btnAutoTitle.setText( Messages.getString( "ChartTitleSheetImpl.Text.Auto" ) ); //$NON-NLS-1$
+		gd = new GridData( );
+		btnAutoTitle.setLayoutData( gd );
+		btnAutoTitle.setSelectionState( getChart( ).getTitle( ).isSetAuto( ) ? ( getChart( ).getTitle( )
+				.isAuto( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
+		btnAutoTitle.setEnabled( isAutoEnabled( ) );
+
+		btnAutoTitle.setVisible( dynamicTitleVisible );
+		btnAutoTitle.addSelectionListener( this );
+	
 
 		Label lblFont = new Label( cmpBasic, SWT.NONE );
 		lblFont.setText( Messages.getString( "LabelAttributesComposite.Lbl.Font" ) ); //$NON-NLS-1$
@@ -127,12 +148,14 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				true );
 		GridData gdFDCFont = new GridData( );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
-		gdFDCFont.widthHint = 200;
+		gdFDCFont.widthHint = 220;
+		gdFDCFont.horizontalSpan = 3;
 		gdFDCFont.grabExcessVerticalSpace = false;
 		fdcFont.setLayoutData( gdFDCFont );
 		fdcFont.addListener( this );
 
 		createButtonGroup( cmpContent );
+		updateUIState( getContext().getUIFactory( ).canEnableUI( btnVisible ) );
 	}
 
 	private void init( )
@@ -146,7 +169,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		}
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
@@ -179,29 +202,42 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		btnBlockProp.addSelectionListener( this );
 
 		// Interactivity
-		popup = new InteractivitySheet( Messages.getString( "ChartTitleSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
-				getContext( ),
-				getChart( ).getTitle( ).getTriggers( ),
-				getChart( ).getTitle( ),
-				TriggerSupportMatrix.TYPE_CHARTTITLE,
-				false,
-				true );
-		Button btnInteractivity = createToggleButton( cmp,
-				BUTTON_INTERACTIVITY,
-				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup,
-				getChart( ).getInteractivity( ).isEnable( ) );
-		btnInteractivity.addSelectionListener( this );
+		if ( getContext( ).isInteractivityEnabled( ) )
+		{
+			popup = new InteractivitySheet( Messages.getString( "ChartTitleSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+					getContext( ),
+					getChart( ).getTitle( ).getTriggers( ),
+					getChart( ).getTitle( ),
+					TriggerSupportMatrix.TYPE_CHARTTITLE,
+					TriggerDataComposite.ENABLE_SHOW_TOOLTIP_VALUE );
+			Button btnInteractivity = createToggleButton( cmp,
+					BUTTON_INTERACTIVITY,
+					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+					popup,
+					getChart( ).getInteractivity( ).isEnable( ) );
+			btnInteractivity.addSelectionListener( this );
+		}
 	}
 
 	public void handleEvent( Event event )
 	{
 		if ( event.widget.equals( txtTitle ) )
 		{
-			getChart( ).getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( txtTitle.getText( ) );
+			if ( txtTitle.getText( ) == null
+					|| txtTitle.getText( ).trim( ).length( ) == 0 )
+			{
+				getChart( ).getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( null );
+			}
+			else
+			{
+				getChart( ).getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setValue( txtTitle.getText( ) );
+			}
 		}
 		else if ( event.widget.equals( fdcFont ) )
 		{
@@ -235,24 +271,64 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 		if ( e.widget.equals( btnVisible ) )
 		{
-			getChart( ).getTitle( ).setVisible( btnVisible.getSelection( ) );
-			txtTitle.setEnabled( isTitleEnabled( ) );
-			btnAuto.setEnabled( isAutoEnabled( ) );
-			setToggleButtonEnabled( BUTTON_TEXT, btnVisible.getSelection( ) );
-			setToggleButtonEnabled( BUTTON_LAYOUT, btnVisible.getSelection( ) );
+			boolean visible = btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED;
+			if ( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getChart( ).getTitle( ).unsetVisible( );
+			}
+			else
+			{
+				getChart( ).getTitle( ).setVisible( visible );
+			}
+			updateUIState( getContext().getUIFactory( ).canEnableUI( btnVisible ) );
 
-			if ( getToggleButton( BUTTON_TEXT ).getSelection( )
-					|| getToggleButton( BUTTON_LAYOUT ).getSelection( ) )
+			if ( getToggleButtonSelection( BUTTON_TEXT )
+					|| getToggleButtonSelection( BUTTON_LAYOUT ) )
 			{
 				detachPopup( );
 			}
 		}
-		else if ( e.widget.equals( btnAuto ) )
+		else if ( e.widget.equals( btnAutoTitle ) )
 		{
-			getChart( ).getTitle( ).setAuto( btnAuto.getSelection( ) );
-			txtTitle.setEnabled( isTitleEnabled( ) );
-			txtTitle.setText( getTitleText( ) );
+			if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getChart( ).getTitle( ).unsetAuto( );
+				getChart( ).getTitle( )
+							.getLabel( )
+							.getCaption( )
+							.setValue( null );
+			}
+			else
+			{
+				getChart( ).getTitle( )
+						.setAuto( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_UNSELECTED )
+				{
+					getChart( ).getTitle( )
+							.getLabel( )
+							.getCaption( )
+							.setValue( ChartUtil.getDefaultChartTitle( getChart( ) ) );
+				}
+			}
+			updateTextTitleState( );
 		}
+	}
+
+	protected void updateTextTitleState( )
+	{
+		txtTitle.setEnabled( isTitleEnabled( ) );
+		txtTitle.setText( getTitleText( ) );
+	}
+
+	protected void updateUIState( boolean enabled )
+	{
+		txtTitle.setEnabled( isTitleEnabled( ) );
+		if ( btnAutoTitle != null )
+		{
+			btnAutoTitle.setEnabled( isAutoEnabled( ) );
+		}
+		setToggleButtonEnabled( BUTTON_TEXT, enabled );
+		setToggleButtonEnabled( BUTTON_LAYOUT, enabled );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
@@ -263,24 +339,49 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private boolean isAutoEnabled( )
 	{
-		return getChart( ).getTitle( ).isVisible( );
+		return !getContext( ).getUIFactory( )
+				.isSetInvisible( getChart( ).getTitle( ) );
 	}
 
 	private boolean isTitleEnabled( )
 	{
-		return getChart( ).getTitle( ).isVisible( )
-				&& !getChart( ).getTitle( ).isAuto( );
+		if ( btnAutoTitle != null )
+		{
+			return !getContext( ).getUIFactory( )
+					.isSetInvisible( getChart( ).getTitle( ) )
+					&& !isAutoTitle( );
+		}
+		else
+		{
+			return getChart( ).getTitle( ).isSetVisible( )
+					&& getChart( ).getTitle( ).isVisible( )
+					&& getChart( ).getTitle( )
+							.getLabel( )
+							.getCaption( )
+							.getValue( ) != null
+					&& !isAutoTitle( );
+		}
+	}
+
+	protected boolean isAutoTitle( )
+	{
+		return getChart( ).getTitle( ).isSetAuto( )
+				&& getChart( ).getTitle( ).isAuto( );
 	}
 
 	private String getTitleText( )
 	{
-		if ( getChart( ).getTitle( ).isAuto( ) )
+		if ( getChart( ).getTitle( ).isAuto( ) && getContext( ).getExtendedItem( ) != null )
 		{
 			return getContext( ).getUIFactory( )
 					.createUIHelper( )
 					.getDefaultTitle( getContext( ) );
 		}
-		return getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( );
+		String title = getChart( ).getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.getValue( );
+		return ( title == null ) ? "" : title; //$NON-NLS-1$
 	}
 
 }

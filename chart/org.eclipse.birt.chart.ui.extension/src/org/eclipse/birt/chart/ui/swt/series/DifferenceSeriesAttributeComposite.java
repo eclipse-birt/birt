@@ -15,16 +15,19 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.LineSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,7 +36,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -46,8 +48,6 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			Listener
 {
 
-	private Button btnCurve = null;
-
 	private Group grpLine1 = null;
 
 	private LineAttributesComposite liacLine1 = null;
@@ -56,11 +56,15 @@ public class DifferenceSeriesAttributeComposite extends Composite
 
 	private LineAttributesComposite liacLine2 = null;
 
-	private Button btnPalette = null;
-
 	private Series series = null;
+	
+	private DifferenceSeries defSeries = DefaultValueProvider.defDifferenceSeries( );
 
 	private ChartWizardContext context;
+
+	private ChartCheckbox btnPalette;
+
+	private ChartCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -141,7 +145,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getLineAttributes( ) );
 		liacLine1.addListener( this );
 		
 		grpLine2 = new Group( grpLine, SWT.NONE );
@@ -160,7 +165,8 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getNegativeLineAttributes( ) );
 		liacLine2.addListener( this );
 		
 		Composite cmpButton = new Composite( grpLine, SWT.NONE );
@@ -168,29 +174,36 @@ public class DifferenceSeriesAttributeComposite extends Composite
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			cmpButton.setLayoutData( gd );
-			cmpButton.setLayout( new GridLayout( 2, true ) );
+			cmpButton.setLayout( new GridLayout( 2, false ) );
 		}
 		
-		btnPalette = new Button( cmpButton, SWT.CHECK );
+		btnPalette = context.getUIFactory( )
+				.createChartCheckbox( cmpButton,
+						SWT.NONE,
+						defSeries.isPaletteLineColor( ) );
 		{
-			btnPalette.setLayoutData( new GridData( ) );
 			btnPalette.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
+			btnPalette.setLayoutData( new GridData( ) );
+			btnPalette.setSelectionState( ( (LineSeries) series ).isSetPaletteLineColor( ) ? ( ( (LineSeries) series ).isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addSelectionListener( this );
 		}
 
-		btnCurve = new Button( cmpButton, SWT.CHECK );
+		btnCurve = context.getUIFactory( )
+				.createChartCheckbox( cmpButton,
+						SWT.NONE,
+						defSeries.isCurve( ) );
 		{
-			btnCurve.setLayoutData( new GridData( ) );
 			btnCurve.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-			btnCurve.setSelection( ( (DifferenceSeries) series ).isCurve( ) );
+			btnCurve.setLayoutData( new GridData( ) );
+			btnCurve.setSelectionState( ( (DifferenceSeries) series ).isSetCurve( ) ? ( ( (DifferenceSeries) series ).isCurve( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnCurve.addSelectionListener( this );
 		}
 
-		enableLinePaletteSetting( ( (DifferenceSeries) series ).getLineAttributes( )
-				.isVisible( )
-				|| ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.isVisible( ) );
+		enableLinePaletteSetting( canEnableLinePalette( ) );
 	}
 
 	public Point getPreferredSize( )
@@ -207,11 +220,17 @@ public class DifferenceSeriesAttributeComposite extends Composite
 	{
 		if ( e.getSource( ).equals( btnCurve ) )
 		{
-			( (DifferenceSeries) series ).setCurve( btnCurve.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"curve", //$NON-NLS-1$
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
-			( (DifferenceSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"paletteLineColor", //$NON-NLS-1$
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 	}
 
@@ -231,26 +250,30 @@ public class DifferenceSeriesAttributeComposite extends Composite
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacLine1 ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (DifferenceSeries) series ).getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLinePaletteSetting( ( (DifferenceSeries) series ).getLineAttributes( )
-						.isVisible( )
-						|| ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-								.isVisible( ) );
+				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				enableLinePaletteSetting( canEnableLinePalette( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (DifferenceSeries) series ).getLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getLineAttributes( ),
+						"style",//$NON-NLS-1$
+						event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (DifferenceSeries) series ).getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -262,22 +285,25 @@ public class DifferenceSeriesAttributeComposite extends Composite
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLinePaletteSetting( ( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.isVisible( )
-						|| ( (DifferenceSeries) series ).getLineAttributes( )
-								.isVisible( ) );
+				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getNegativeLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				enableLinePaletteSetting( canEnableLinePalette( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getNegativeLineAttributes( ),
+						"style",//$NON-NLS-1$
+						event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (DifferenceSeries) series ).getNegativeLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( ( (DifferenceSeries) series ).getNegativeLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -285,6 +311,14 @@ public class DifferenceSeriesAttributeComposite extends Composite
 						.setColor( (ColorDefinition) event.data );
 			}
 		}
+	}
+
+	protected boolean canEnableLinePalette( )
+	{
+		return !context.getUIFactory( )
+				.isSetInvisible( ( ( (DifferenceSeries) series ).getLineAttributes( ) ) )
+				|| !context.getUIFactory( )
+						.isSetInvisible( ( ( (DifferenceSeries) series ).getNegativeLineAttributes( ) ) );
 	}
 
 	/**

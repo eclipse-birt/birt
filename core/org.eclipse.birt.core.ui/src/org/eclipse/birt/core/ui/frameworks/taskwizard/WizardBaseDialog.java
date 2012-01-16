@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.core.ui.frameworks.taskwizard;
 
+import java.util.List;
+
 import org.eclipse.birt.core.ui.frameworks.errordisplay.ErrorDialog;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.i18n.Messages;
@@ -39,6 +41,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * Provides Dialog for WizardBase
@@ -213,6 +217,8 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 			// cmpTaskContainer.setSimple( false );
 			cmpTaskContainer.addSelectionListener( this );
 		}
+		
+		createTabToolButtons( cmpTaskContainer );
 
 		lblSeparator = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lblSeparator.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -220,6 +226,35 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 		return composite;
 	}
 
+	protected void createTabToolButtons( CTabFolder tabFolder )
+	{
+		List<IButtonHandler> buttons = wizardBase.getTabToolButtons( );
+		if ( buttons.size( ) == 0 )
+		{
+			return;
+		}
+		ToolBar toolbar = new ToolBar( tabFolder, SWT.FLAT | SWT.WRAP );
+		tabFolder.setTopRight( toolbar );
+		for ( IButtonHandler btnHandler : buttons )
+		{
+			ToolItem btn = new ToolItem( toolbar, SWT.NONE );
+			btn.addSelectionListener( this );
+			btn.setData( btnHandler );
+			if ( btnHandler.getLabel( ) != null )
+			{
+				btn.setText( btnHandler.getLabel( ) );
+			}
+			if ( btnHandler.getTooltip( ) != null )
+			{
+				btn.setToolTipText( btnHandler.getTooltip( ) );
+			}
+			if ( btnHandler.getIcon( ) != null )
+			{
+				btn.setImage( btnHandler.getIcon( ) );
+			}
+		}
+	}
+	
 	protected void createButtonsForButtonBar( Composite parent )
 	{
 		createButton( parent,
@@ -512,9 +547,17 @@ public class WizardBaseDialog extends TitleAreaDialog implements
 				getButton( IDialogConstants.BACK_ID ).setEnabled( indexLabel > 0 );
 			}
 		}
+		else if ( e.getSource( ) instanceof ToolItem )
+		{
+			if ( wizardBase.getTabToolButtons( ).contains( ( (ToolItem) e.getSource( ) ).getData( ) ) )
+			{
+				IButtonHandler btnHandle = (IButtonHandler) ( (ToolItem) e.getSource( ) ).getData( );
+				btnHandle.run( );
+			}
+		}
 
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

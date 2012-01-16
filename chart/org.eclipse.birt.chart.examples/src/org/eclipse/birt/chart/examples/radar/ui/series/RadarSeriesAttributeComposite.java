@@ -18,9 +18,11 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -29,7 +31,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -44,10 +45,6 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		Listener
 {
 
-	private Button btnPalette = null;
-	private Button btnFillPoly = null;
-	private Button btnConnectEndPoints = null;
-
 	private MarkerEditorComposite mec = null;
 
 	private RadarSeries series = null;
@@ -55,6 +52,14 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	private ChartWizardContext context;
 
 	private LineAttributesComposite liacLine = null;
+
+	private ChartCheckbox btnPalette;
+
+	private ChartCheckbox btnConnectEndPoints;
+
+	private ChartCheckbox btnFillPoly;
+
+	private RadarSeries defSeries;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.examples/swt.series" ); //$NON-NLS-1$
 	
@@ -86,6 +91,7 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		}
 		this.series = (RadarSeries) series;
 		this.context = context;
+		this.defSeries = (RadarSeries) ChartDefaultValueUtil.getDefaultSeries( series );
 
 		init( );
 		placeComponents( );
@@ -112,13 +118,18 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		grpLine2.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		grpLine2.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Series" ) ); //$NON-NLS-1$
 
+		int lineStyles = LineAttributesComposite.ENABLE_COLOR
+				| LineAttributesComposite.ENABLE_STYLES
+				| LineAttributesComposite.ENABLE_VISIBILITY
+				| LineAttributesComposite.ENABLE_WIDTH;
+		lineStyles |= context.getUIFactory( ).supportAutoUI( ) ? LineAttributesComposite.ENABLE_AUTO_COLOR
+				: lineStyles;
 		liacLine = new LineAttributesComposite( grpLine2,
 				SWT.NONE,
+				lineStyles,
 				context,
 				series.getLineAttributes( ),
-				true,
-				true,
-				true );
+				defSeries.getLineAttributes( ) );
 		GridData gdLIACLine = new GridData( );
 		gdLIACLine.verticalSpan = 4;
 		gdLIACLine.widthHint = 200;
@@ -127,29 +138,47 @@ public class RadarSeriesAttributeComposite extends Composite implements
 
 		Composite cmp = new Composite( grpLine2, SWT.NONE );
 		cmp.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		cmp.setLayout( new GridLayout( ) );
+		cmp.setLayout( new GridLayout( 1, false) );
 
-		btnPalette = new Button( cmp, SWT.CHECK );
+		btnPalette = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isPaletteLineColor( ) );
 		{
 			btnPalette.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( series.isPaletteLineColor( ) );
+			btnPalette.setSelectionState( series.isSetPaletteLineColor( ) ? ( series.isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addListener( SWT.Selection, this );
 		}
-		btnConnectEndPoints = new Button( cmp, SWT.CHECK );
+		
+		btnConnectEndPoints = context.getUIFactory( )
+				.createChartCheckbox( cmp,
+						SWT.NONE,
+						defSeries.isConnectEndpoints( ) );
 		{
-			btnConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$
-			btnConnectEndPoints.setSelection( series.isConnectEndpoints( ) );
+			btnConnectEndPoints.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.ConnectPoints" ) ); //$NON-NLS-1$	
+			btnConnectEndPoints.setSelectionState( series.isSetConnectEndpoints( ) ? ( series.isConnectEndpoints( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnConnectEndPoints.addListener( SWT.Selection, this );
 		}
-		btnFillPoly = new Button( cmp, SWT.CHECK );
+		
+		btnFillPoly = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isFillPolys( ) );
 		{
 			btnFillPoly.setText( Messages.getString( "RadarSeriesAttributeComposite.Lbl.FillPoly" ) ); //$NON-NLS-1$
-			btnFillPoly.setSelection( series.isFillPolys( ) );
+			btnFillPoly.setSelectionState( series.isSetFillPolys( ) ? ( series.isFillPolys( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnFillPoly.addListener( SWT.Selection, this );
-			btnFillPoly.setEnabled( btnConnectEndPoints.getSelection( ) );
+			btnFillPoly.setEnabled( context.getUIFactory( ).canEnableUI( btnConnectEndPoints ) );
 		}
 
 		Group grpMarker = new Group( cmp, SWT.NONE );
+		GridData gd = new GridData();
+		gd.horizontalSpan=2;
+		grpMarker.setLayoutData( gd );
 		grpMarker.setText( Messages.getString( "RadarSeriesMarkerSheet.GroupLabel.Markers" ) ); //$NON-NLS-1$
 		grpMarker.setLayout( new GridLayout( 2, false ) );
 
@@ -157,10 +186,13 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		Label lblMarker = new Label( grpMarker, SWT.NONE );
 		lblMarker.setText( Messages.getString( "RadarSeriesMarkerSheet.Label.Markers" ) ); //$NON-NLS-1$
 
-		mec = new MarkerEditorComposite( grpMarker, series.getMarker( ) );
+		mec = new MarkerEditorComposite( grpMarker,
+				series.getMarker( ),
+				context,
+				defSeries.getMarker( ) );
 
-		enableLineSettings( series.getWebLineAttributes( ).isVisible( ) );
-		enableLineSettings( series.getLineAttributes( ).isVisible( ) );
+		enableLineSettings( !context.getUIFactory( ).isSetInvisible( series.getWebLineAttributes( ) ) );
+		enableLineSettings( !context.getUIFactory( ).isSetInvisible( series.getLineAttributes( ) ) );
 	}
 
 	/*
@@ -172,22 +204,31 @@ public class RadarSeriesAttributeComposite extends Composite implements
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartElementUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacLine ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				series.getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLineSettings( series.getLineAttributes( ).isVisible( ) );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				enableLineSettings( !context.getUIFactory( )
+						.isSetInvisible( series.getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				series.getLineAttributes( ).setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"style",//$NON-NLS-1$
+						event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				series.getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( series.getLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -197,16 +238,25 @@ public class RadarSeriesAttributeComposite extends Composite implements
 		}
 		else if ( event.widget.equals( btnPalette ) )
 		{
-			series.setPaletteLineColor( btnPalette.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"paletteLineColor",//$NON-NLS-1$
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( event.widget.equals( btnFillPoly ) )
 		{
-			series.setFillPolys( btnFillPoly.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"fillPolys",//$NON-NLS-1$
+					btnFillPoly.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnFillPoly.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( event.widget.equals( btnConnectEndPoints ) )
 		{
-			series.setConnectEndpoints( btnConnectEndPoints.getSelection( ) );
-			btnFillPoly.setEnabled( btnConnectEndPoints.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( series,
+					"connectEndpoints",//$NON-NLS-1$
+					btnConnectEndPoints.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnConnectEndPoints.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
+			btnFillPoly.setEnabled( context.getUIFactory( ).canEnableUI( btnConnectEndPoints ) );
 		}
 		else if ( event.widget.equals( mec ) )
 		{

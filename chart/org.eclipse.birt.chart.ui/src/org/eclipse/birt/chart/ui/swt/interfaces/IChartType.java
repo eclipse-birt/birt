@@ -183,6 +183,14 @@ public interface IChartType
 	public Series getSeries( );
 
 	/**
+	 * Creates the corresponding series model with set 'isSet' flag for series properties.
+	 * 
+	 * @param needInitialing
+	 * @return series instance
+	 */
+	public Series getSeries( boolean needInitialing );
+	
+	/**
 	 * Return true if the type can be used in a combination chart.
 	 * 
 	 * 
@@ -217,4 +225,11 @@ public interface IChartType
 	 * @since 4.0
 	 */
 	String getValueDefinitionName( );
+	
+	/**
+	 * Check if the chart type supports axes.
+	 * 
+	 * @return true if chart has axis.
+	 */
+	boolean isChartWithAxes( );
 }

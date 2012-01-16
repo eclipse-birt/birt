@@ -793,7 +793,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	/**
 	 * A convenience method to create an initialized 'Label' instance
 	 * 
-	 * @return
+	 * @return label instance with setting 'isSet' flag.
 	 */
 	public static final Label create( )
 	{
@@ -826,6 +826,50 @@ public class LabelImpl extends EObjectImpl implements Label
 		setVisible( true );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Label' instance
+	 * 
+	 * @return label instance without setting 'isSet' flag.
+	 */
+	public static final Label createDefault( )
+	{
+		final Label la = ComponentFactory.eINSTANCE.createLabel( );
+		( (LabelImpl) la ).initDefault( true );
+		return la;
+	}
+	
+	/**
+	 * A convenience method to create an initialized 'Label' instance
+	 * 
+	 * @return label instance without setting 'isSet' flag.
+	 */
+	public static final Label createDefault( boolean visible )
+	{
+		final Label la = ComponentFactory.eINSTANCE.createLabel( );
+		( (LabelImpl) la ).initDefault( visible );
+		return la;
+	}
+
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( boolean visible )
+	{
+		setCaption( TextImpl.createDefault( (String) null ) );
+
+		final Insets ins = InsetsImpl.createDefault( 0, 2, 0, 3 );
+		setInsets( ins );
+
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1 );
+		setOutline( lia );
+
+		this.visible = visible;
+	}
+	
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
@@ -910,10 +954,10 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * 
 	 * Note this method only copies those working properties of the label. e.g.
 	 * which could affect renderer. This is different with the copyInstance()
-	 * method, which copis all attribuetes.
+	 * method, which copies all attributes.
 	 * 
 	 * @param src
-	 * @return
+	 * @return new label instance.
 	 */
 	public static Label copyCompactInstance( Label src )
 	{

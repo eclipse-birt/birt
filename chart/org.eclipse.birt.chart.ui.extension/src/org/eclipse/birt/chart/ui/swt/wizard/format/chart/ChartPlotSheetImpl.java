@@ -13,7 +13,9 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
@@ -41,13 +43,15 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		SelectionListener
 {
 
-	private Button btnIncludingVisible;
+	private ChartCheckbox btnIncludingVisible;
 
-	private Button btnWithinVisible;
+	protected ChartCheckbox btnWithinVisible;
 
 	private FillChooserComposite cmbBlockColor;
 
-	private FillChooserComposite cmbClientAreaColor;
+	protected FillChooserComposite cmbClientAreaColor;
+
+	protected Label lblVisibleWithin;
 
 	public void createControl( Composite parent )
 	{
@@ -68,6 +72,21 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			cmpBasic.setLayoutData( gd );
 		}
 
+		int fillStyles = FillChooserComposite.ENABLE_GRADIENT
+				| FillChooserComposite.ENABLE_IMAGE
+				| FillChooserComposite.ENABLE_TRANSPARENT
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+		fillStyles |= getContext( ).getUIFactory( ).supportAutoUI( ) ? FillChooserComposite.ENABLE_AUTO
+				: fillStyles;
+		createControlForAreaIncludingAxes( cmpBasic, fillStyles );
+		createControlForAreaWithinAxes( cmpBasic, fillStyles );
+
+		createButtonGroup( cmpContent );
+	}
+
+	protected void createControlForAreaIncludingAxes( Composite cmpBasic,
+			int fillStyles )
+	{
 		Label lblIncludingAxes = new Label( cmpBasic, SWT.NONE );
 		{
 			GridData gd = new GridData( );
@@ -79,9 +98,11 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
-		cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
-				.getBackground( ), true, true );
+		cmbBlockColor = new FillChooserComposite( cmpBasic,
+				SWT.DROP_DOWN | SWT.READ_ONLY,
+				fillStyles,
+				getContext( ),
+				getChart( ).getPlot( ).getBackground( ) );
 		{
 			GridData gd = new GridData( );
 			gd.widthHint = 200;
@@ -91,15 +112,27 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
 
-		btnIncludingVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnIncludingVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnIncludingVisible.addSelectionListener( this );
-			btnIncludingVisible.setSelection( getChart( ).getPlot( )
-					.getOutline( )
-					.isVisible( ) );
-		}
+		btnIncludingVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						DefaultValueProvider.defChartWithAxes( )
+								.getPlot( )
+								.getOutline( )
+								.isVisible( ) );
+		btnIncludingVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
+		btnIncludingVisible.setSelectionState( getChart( ).getPlot( )
+				.getOutline( )
+				.isSetVisible( ) ? ( getChart( ).getPlot( )
+				.getOutline( )
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
+		btnIncludingVisible.addSelectionListener( this );
+	}
 
+	protected void createControlForAreaWithinAxes( Composite cmpBasic,
+			int fillStyles )
+	{
 		Label lblWithinAxes = new Label( cmpBasic, SWT.NONE );
 		{
 			GridData gd = new GridData( );
@@ -110,16 +143,15 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// WithinAxes area is not supported in 3D
-		if ( !ChartUIUtil.is3DType( getChart( ) ) )
+		if ( enableAreaWithinAxesUI( ) )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
 
 			cmbClientAreaColor = new FillChooserComposite( cmpBasic,
 					SWT.DROP_DOWN | SWT.READ_ONLY,
+					fillStyles,
 					getContext( ),
-					getChart( ).getPlot( ).getClientArea( ).getBackground( ),
-					true,
-					true );
+					getChart( ).getPlot( ).getClientArea( ).getBackground( ) );
 			{
 				GridData gridData = new GridData( );
 				gridData.widthHint = 200;
@@ -130,53 +162,45 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		// Following settings only work in some criteria
 		boolean is3DWallFloorSet = ChartUIUtil.is3DWallFloorSet( getChart( ) );
-		Label lblVisibleWithin = new Label( cmpBasic, SWT.NONE );
+		lblVisibleWithin = new Label( cmpBasic, SWT.NONE );
 		{
 			lblVisibleWithin.setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
 			lblVisibleWithin.setEnabled( is3DWallFloorSet );
 		}
 
-		btnWithinVisible = new Button( cmpBasic, SWT.CHECK );
+		btnWithinVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBasic,
+						SWT.NONE,
+						DefaultValueProvider.defChartWithAxes( )
+								.getPlot( )
+								.getClientArea( )
+								.getOutline( )
+								.isVisible( ) );
+		btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible2" ) ); //$NON-NLS-1$
+		btnWithinVisible.setSelectionState( getChart( ).getPlot( )
+				.getClientArea( )
+				.getOutline( )
+				.isSetVisible( ) ? ( getChart( ).getPlot( )
+				.getClientArea( )
+				.getOutline( )
+				.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+				: ChartCheckbox.STATE_UNSELECTED )
+				: ChartCheckbox.STATE_GRAYED );
+		btnWithinVisible.setEnabled( is3DWallFloorSet );
+		if ( !btnWithinVisible.getEnabled( ) )
 		{
-			btnWithinVisible.setText( Messages.getString( "ChartPlotSheetImpl.Label.Visible2" ) ); //$NON-NLS-1$
-			btnWithinVisible.addSelectionListener( this );
-			btnWithinVisible.setSelection( getChart( ).getPlot( )
-					.getClientArea( )
-					.getOutline( )
-					.isVisible( ) );
-			btnWithinVisible.setEnabled( is3DWallFloorSet );
-			if ( !btnWithinVisible.getEnabled( ) )
-			{
-				btnWithinVisible.setSelection( false );
-			}
+			// Hide for 3D
+			btnWithinVisible.setSelectionState( ChartCheckbox.STATE_UNSELECTED );
 		}
-
-		// This control is only for testing chart engine and not exposed in UI
-		final Button btnCV = new Button( cmpBasic, SWT.CHECK );
-		btnCV.setText( "Plot Visible" ); //$NON-NLS-1$
-		btnCV.setSelection( getChart( ).getPlot( ).getClientArea( ).isVisible( ) );
-		btnCV.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				getChart( ).getPlot( )
-						.getClientArea( )
-						.setVisible( btnCV.getSelection( ) );
-
-			}
-		} );
-		btnCV.setVisible( false );
-
-		createButtonGroup( cmpContent );
+		btnWithinVisible.addSelectionListener( this );
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected boolean enableAreaWithinAxesUI( )
+	{
+		return !ChartUIUtil.is3DType( getChart( ) );
+	}
+
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
@@ -199,7 +223,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -236,17 +262,34 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 
 		if ( e.widget.equals( btnIncludingVisible ) )
 		{
-			getChart( ).getPlot( )
-					.getOutline( )
-					.setVisible( ( (Button) e.widget ).getSelection( ) );
+			if ( btnIncludingVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getChart( ).getPlot( ).getOutline( ).unsetVisible( );
+			}
+			else
+			{
+				getChart( ).getPlot( )
+						.getOutline( )
+						.setVisible( ( (ChartCheckbox) e.widget ).getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( btnWithinVisible ) )
 		{
-			getChart( ).getPlot( )
-					.getClientArea( )
-					.getOutline( )
-					.setVisible( ( (Button) e.widget ).getSelection( ) );
+			if ( btnWithinVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				getChart( ).getPlot( )
+						.getClientArea( )
+						.getOutline( )
+						.unsetVisible( );
+			}
+			else
+			{
+				getChart( ).getPlot( )
+						.getClientArea( )
+						.getOutline( )
+						.setVisible( ( (ChartCheckbox) e.widget ).getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 			refreshPopupSheet( );
 		}
 

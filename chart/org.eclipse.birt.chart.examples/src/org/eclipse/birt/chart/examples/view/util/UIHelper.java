@@ -18,11 +18,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
+import org.eclipse.birt.chart.examples.radar.i18n.Messages;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -140,5 +144,15 @@ public final class UIHelper
 			image = registry.getDescriptor( sPluginRelativePath );
 		}
 		return image;
+	}
+	
+	/**
+	 * Returns i18n 'Auto' sting.
+	 * 
+	 * @return
+	 */
+	public static String getAutoMessage( )
+	{
+		return Messages.getString( "ItemLabel.Auto" ); //$NON-NLS-1$
 	}
 }

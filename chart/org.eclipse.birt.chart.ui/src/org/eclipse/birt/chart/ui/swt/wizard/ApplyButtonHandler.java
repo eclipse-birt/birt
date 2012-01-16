@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 
@@ -25,7 +26,7 @@ import org.eclipse.swt.widgets.Button;
 public abstract class ApplyButtonHandler implements IButtonHandler
 {
 
-	private Button button;
+	protected Button button;
 	private ChartWizard wizard;
 
 	public ApplyButtonHandler( ChartWizard wizard )
@@ -48,6 +49,26 @@ public abstract class ApplyButtonHandler implements IButtonHandler
 		return Messages.getString( "ApplyButtonHandler.Label.Apply" ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Returns tool-tip text of this button.
+	 * 
+	 * @return  tool-tip text of this button.
+	 */
+	public String getTooltip( )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns button icon.
+	 * 
+	 * @return button icon.
+	 */
+	public Image getIcon( )
+	{
+		return null;
+	}
+	
 	public void setButton( Button button )
 	{
 		this.button = button;

@@ -14,8 +14,9 @@ package org.eclipse.birt.chart.reportitem.ui.actions;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
-import org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderImpl;
+import org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderProxy;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -32,7 +33,7 @@ public class OpenChartTaskAction extends Action
 
 	private ExtendedItemHandle eih;
 
-	private ChartReportItemBuilderImpl uiServiceProvider;
+	private ReportItemBuilderUI uiServiceProvider;
 
 	/**
 	 * 
@@ -49,7 +50,7 @@ public class OpenChartTaskAction extends Action
 		super( text );
 		this.setImageDescriptor( ImageDescriptor.createFromImage( img ) );
 		this.eih = handle;
-		this.uiServiceProvider = new ChartReportItemBuilderImpl( taskId );
+		this.uiServiceProvider = new ChartReportItemBuilderProxy( taskId );
 		this.setEnabled( bBlankEnabled || !isBlankChart( ) );
 	}
 

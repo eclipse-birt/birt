@@ -33,6 +33,9 @@ import org.eclipse.jface.action.Separator;
 public class ChartMenuBuilder implements IMenuBuilder
 {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder#buildMenu(org.eclipse.jface.action.IMenuManager, java.util.List)
+	 */
 	public void buildMenu( IMenuManager menu, List selectedList )
 	{
 		if ( selectedList != null

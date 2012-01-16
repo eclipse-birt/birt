@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.reportitem;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.util.ChartValueUpdater;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 
@@ -28,6 +29,16 @@ public class ChartStyleProcessorProxy
 
 	private FormatInfo categoryFormat = null;
 
+	protected ChartValueUpdater chartValueUpdater;
+	
+	/**
+	 * Constructor.
+	 */
+	public ChartStyleProcessorProxy()
+	{
+		chartValueUpdater = new ChartValueUpdater( );
+	}
+	
 	/**
 	 * Sets chart's report handle.
 	 * 
@@ -62,7 +73,7 @@ public class ChartStyleProcessorProxy
 	/**
 	 * Returns format info of chart's category.
 	 * 
-	 * @return
+	 * @return object of format info.
 	 */
 	public FormatInfo getCategoryFormat( )
 	{
@@ -76,5 +87,28 @@ public class ChartStyleProcessorProxy
 	{
 		public FormatValue formatValue = null;
 		public String dataType = null;
+	}
+	
+	/**
+	 * Updates chart values.
+	 * 
+	 * @param cm
+	 * @param formatDefault
+	 *            indicates if it force to use default values to update chart
+	 *            model.
+	 */
+	public void updateChart( Chart cm, boolean forceDefault )
+	{
+		chartValueUpdater.update( cm, null );
+	}
+
+	/**
+	 * Indicates if chart need to inherit basic styles from container.
+	 * 
+	 * @return true if it needs to inherit styles.
+	 */
+	public boolean needInheritingStyles( )
+	{
+		return true;
 	}
 }

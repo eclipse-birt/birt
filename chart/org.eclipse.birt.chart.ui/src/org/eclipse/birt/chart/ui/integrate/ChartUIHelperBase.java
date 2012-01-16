@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.integrate;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 
@@ -35,6 +36,11 @@ public class ChartUIHelperBase implements IChartUIHelper
 	public void updateDefaultTitle( Chart cm, Object extendedItem )
 	{
 		// Do nothing
+	}
+
+	public boolean canCombine( IChartType type, ChartWizardContext context )
+	{
+		return type.canCombine( );
 	}
 
 }

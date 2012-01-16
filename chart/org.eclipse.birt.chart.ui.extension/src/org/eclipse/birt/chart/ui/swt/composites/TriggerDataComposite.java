@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004-2011 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -69,7 +69,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * @author Actuate Corporation
+ * Interactivity UI composite
  * 
  */
 public class TriggerDataComposite extends Composite implements
@@ -144,10 +144,6 @@ public class TriggerDataComposite extends Composite implements
 
 	private String sBaseURL = ""; //$NON-NLS-1$
 
-	private boolean bEnableURLParameters;
-
-	private boolean bEnableShowTooltipValue;
-
 	private boolean bAdvanced = false;
 
 	private EList<Trigger> triggersList;
@@ -177,6 +173,27 @@ public class TriggerDataComposite extends Composite implements
 
 	private Button btnCursorImage;
 
+	private final TriggerCondition[] conditionFilter;
+	private final CursorType[] cursorFilter;
+
+	/**
+	 * Interactivity UI constructor
+	 * 
+	 * @param parent
+	 *            composite parent
+	 * @param style
+	 *            composite style
+	 * @param triggers
+	 *            trigger model
+	 * @param cursorContainer
+	 *            cursor model container
+	 * @param wizardContext
+	 *            wizard context
+	 * @param iInteractivityType
+	 *            interactivity type. See {@link TriggerSupportMatrix}
+	 * @param optionalStyle
+	 *            optional UI settings
+	 */
 	public TriggerDataComposite( Composite parent, int style,
 			EList<Trigger> triggers, EObject cursorContainer,
 			ChartWizardContext wizardContext, int iInteractivityType,
@@ -184,13 +201,14 @@ public class TriggerDataComposite extends Composite implements
 	{
 		super( parent, style );
 		this.wizardContext = wizardContext;
-		this.bEnableURLParameters = ( ( optionalStyle & ENABLE_URL_PARAMETERS ) == ENABLE_URL_PARAMETERS );
-		this.bEnableShowTooltipValue = ( ( optionalStyle & ENABLE_SHOW_TOOLTIP_VALUE ) == ENABLE_SHOW_TOOLTIP_VALUE );
 		this.optionalStyle = optionalStyle;
 		this.triggersList = triggers;
 		this.cursorContainer = cursorContainer;
-		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
-				iInteractivityType );
+		this.triggerMatrix = wizardContext.getUIFactory( )
+				.createSupportMatrix( wizardContext.getOutputFormat( ),
+						iInteractivityType );
+		this.conditionFilter = triggerMatrix.getConditionFilters( );
+		this.cursorFilter = triggerMatrix.getCursorFilters( );
 		init( );
 
 		placeComponents( );
@@ -208,34 +226,10 @@ public class TriggerDataComposite extends Composite implements
 		} );
 	}
 
-	public TriggerDataComposite( Composite parent, int style,
-			EList<Trigger> triggers, EObject cursorContainer,
-			ChartWizardContext wizardContext, int iInteractivityType,
-			boolean bEnableURLParameters, boolean bEnableShowTooltipValue )
+	protected TriggerSupportMatrix createSupportMatrix( int iInteractivityType )
 	{
-		super( parent, style );
-		this.wizardContext = wizardContext;
-		this.bEnableURLParameters = bEnableURLParameters;
-		this.bEnableShowTooltipValue = bEnableShowTooltipValue;
-		this.triggersList = triggers;
-		this.cursorContainer = cursorContainer;
-		this.triggerMatrix = new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
+		return new TriggerSupportMatrix( wizardContext.getOutputFormat( ),
 				iInteractivityType );
-		init( );
-
-		placeComponents( );
-
-		addDisposeListener( new DisposeListener( ) {
-
-			public void widgetDisposed( DisposeEvent e )
-			{
-				if ( needSaveWhenDisposing )
-				{
-					// Only save when it's needed
-					updateTrigger( cmbTriggerType.getText( ) );
-				}
-			}
-		} );
 	}
 
 	private void init( )
@@ -446,7 +440,7 @@ public class TriggerDataComposite extends Composite implements
 		Label lblText = new Label( cmpTooltip, SWT.NONE );
 		lblText.setText( Messages.getString( "TriggerDataComposite.Lbl.TooltipText" ) ); //$NON-NLS-1$
 
-		if ( bEnableShowTooltipValue )
+		if ( ( ( optionalStyle & ENABLE_SHOW_TOOLTIP_VALUE ) == ENABLE_SHOW_TOOLTIP_VALUE ) )
 		{
 			GridData lblGd = new GridData( );
 			lblGd.horizontalSpan = 3;
@@ -572,6 +566,8 @@ public class TriggerDataComposite extends Composite implements
 	 */
 	private void createURLComposite( GridLayout glURL, GridLayout glParameter )
 	{
+		final boolean bEnableURLParameters = ( ( optionalStyle & ENABLE_URL_PARAMETERS ) == ENABLE_URL_PARAMETERS );
+
 		cmpURL = new Composite( grpValue, SWT.NONE );
 		cmpURL.setLayout( glURL );
 
@@ -714,9 +710,26 @@ public class TriggerDataComposite extends Composite implements
 
 	private void populateLists( )
 	{
-		String[] triggerTypes = LiteralHelper.triggerConditionSet.getDisplayNames( );
+		final String[] triggerTypes;
+		if ( conditionFilter == null )
+		{
+			// All
+			triggerTypes = LiteralHelper.triggerConditionSet.getDisplayNames( );
+		}
+		else
+		{
+			// Filtered
+			triggerTypes = new String[conditionFilter.length];
+			for ( int i = 0; i < conditionFilter.length; i++ )
+			{
+				triggerTypes[i] = LiteralHelper.triggerConditionSet.getDisplayNameByName( conditionFilter[i].getName( ) );
+			}
+		}
 		cmbTriggerType.setItems( triggerTypes );
-		cmbTriggerType.select( 0 );
+		if ( cmbTriggerType.getItemCount( ) > 0 )
+		{
+			cmbTriggerType.select( 0 );
+		}
 
 		Trigger firstTrigger = null;
 		for ( int i = 0; i < triggerTypes.length; i++ )
@@ -769,24 +782,46 @@ public class TriggerDataComposite extends Composite implements
 	private void updateActionTypeItems( )
 	{
 		TriggerCondition condition = TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( cmbTriggerType.getText( ) ) );
-		cmbActionType.setItems( this.triggerMatrix.getSupportedActionsDisplayName( condition ) );
+		if ( condition != null )
+		{
+			cmbActionType.setItems( this.triggerMatrix.getSupportedActionsDisplayName( condition ) );
 
-		// Add extra item for NONE
-		// #234902
-		cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None." + condition.getName( ) ), 0 ); //$NON-NLS-1$
+			// Add extra item for NONE
+			// #234902
+			cmbActionType.add( Messages.getString( "TriggerDataComposite.Lbl.None." + condition.getName( ) ), 0 ); //$NON-NLS-1$
+		}
 	}
 
 	private void updateCursorTypeItems( )
 	{
-		cmbCursorType.setItems( LiteralHelper.cursorSet.getDisplayNames( ) );
-		Cursor c = getMouseCursor( );
-		if ( c != null && c.getType( ) != null )
+		final String[] cursorDisplayNames;
+		if ( cursorFilter == null )
 		{
-			cmbCursorType.select( c.getType( ).getValue( ) );
+			// All
+			cursorDisplayNames = LiteralHelper.cursorSet.getDisplayNames( );
 		}
-		else if ( cmbCursorType.getSelectionIndex( ) < 0 )
+		else
 		{
-			cmbCursorType.select( 0 );
+			// Filtered
+			cursorDisplayNames = new String[cursorFilter.length];
+			for ( int i = 0; i < cursorFilter.length; i++ )
+			{
+				cursorDisplayNames[i] = LiteralHelper.cursorSet.getDisplayNameByName( cursorFilter[i].getName( ) );
+			}
+		}
+		cmbCursorType.setItems( cursorDisplayNames );
+		if ( cmbCursorType.getItemCount( ) > 0 )
+		{
+			Cursor c = getMouseCursor( );
+			if ( c != null && c.getType( ) != null )
+			{
+				cmbCursorType.setText( LiteralHelper.cursorSet.getDisplayNameByName( c.getType( )
+						.getName( ) ) );
+			}
+			else if ( cmbCursorType.getSelectionIndex( ) < 0 )
+			{
+				cmbCursorType.select( 0 );
+			}
 		}
 	}
 
@@ -1046,8 +1081,18 @@ public class TriggerDataComposite extends Composite implements
 
 	public void clear( )
 	{
-		cmbTriggerType.select( 0 );
-		cmbActionType.select( 0 );
+		if ( cmbTriggerType.getItemCount( ) > 0 )
+		{
+			cmbTriggerType.select( 0 );
+		}
+		if ( cmbActionType.getItemCount( ) > 0 )
+		{
+			cmbActionType.select( 0 );
+		}
+		if ( cmbCursorType.getItemCount( ) > 0 )
+		{
+			cmbCursorType.select( 0 );
+		}
 		switchUI( );
 	}
 
@@ -1154,8 +1199,7 @@ public class TriggerDataComposite extends Composite implements
 		}
 		else if ( e.getSource( ) == cmbCursorType )
 		{
-			int index = cmbCursorType.getSelectionIndex( );
-			setMouseCursor( CursorType.get( index ) );
+			setMouseCursor( CursorType.getByName( LiteralHelper.cursorSet.getNameByDisplayName( cmbCursorType.getText( ) ) ) );
 			updateImageButtonState( );
 		}
 		else if ( e.getSource( ) == btnCursorImage )

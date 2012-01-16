@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -781,41 +782,36 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	public void translateFrom( Series series, int iSeriesDefinitionIndex,
 			Chart chart )
 	{
-		this.getLineAttributes( ).setVisible( true );
-		this.getLineAttributes( ).setColor( ColorDefinitionImpl.BLACK( ) );
-		if ( !( series instanceof ScatterSeries ) )
+		if ( series instanceof ScatterSeries
+				&& ( (ScatterSeries) series ).getMarkers( ).size( ) > 0 )
 		{
-			getMarkers( ).clear( );
-			Marker marker = AttributeFactory.eINSTANCE.createMarker( );
-			marker.setSize( 4 );
-			marker.setType( MarkerType.BOX_LITERAL );
-			marker.setVisible( true );
-			LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
-			la.setVisible( true );
-			marker.setOutline( la );
-
-			getMarkers( ).add( marker );
-		}
-		else
-		{
-			getMarkers( ).clear( );
 			getMarkers( ).addAll( ( (ScatterSeries) series ).getMarkers( ) );
 		}
-
+		
 		// Copy generic series properties
 		this.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
+		if ( series.isSetLabelPosition( ) )
 		{
-			this.setLabelPosition( Position.ABOVE_LITERAL );
-		}
-		else
-		{
-			this.setLabelPosition( series.getLabelPosition( ) );
+			if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
+					|| series.getLabelPosition( )
+							.equals( Position.OUTSIDE_LITERAL ) )
+			{
+				this.setLabelPosition( Position.ABOVE_LITERAL );
+			}
+			else
+			{
+				this.setLabelPosition( series.getLabelPosition( ) );
+			}
 		}
 
-		this.setVisible( series.isVisible( ) );
-		this.setStacked( series.isStacked( ) );
+		if ( series.isSetVisible( ) )
+		{
+			this.setVisible( series.isVisible( ) );
+		}
+		if ( series.isSetStacked( ) )
+		{
+			this.setStacked( series.isStacked( ) );
+		}
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
 		{
 			this.getTriggers( ).addAll( series.getTriggers( ) );
@@ -839,13 +835,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		}
 
 		// Update the base axis to type text if it isn't already
-		if ( chart instanceof ChartWithAxes )
-		{
-			( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.setCategoryAxis( true );
-		}
-		else
+		if ( !( chart instanceof ChartWithAxes ) )
 		{
 			throw new IllegalArgumentException( Messages.getString( "error.invalid.argument.for.lineSeries", //$NON-NLS-1$
 					new Object[]{
@@ -866,12 +856,12 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		// changed
 
 		// Convert orthogonal sample data
-		EList osdList = currentSampleData.getOrthogonalSampleData( );
+		EList<OrthogonalSampleData> osdList = currentSampleData.getOrthogonalSampleData( );
 		for ( int i = 0; i < osdList.size( ); i++ )
 		{
 			if ( i == iSeriesDefinitionIndex )
 			{
-				OrthogonalSampleData osd = (OrthogonalSampleData) osdList.get( i );
+				OrthogonalSampleData osd = osdList.get( i );
 				osd.setDataSetRepresentation( getConvertedOrthogonalSampleDataRepresentation( osd.getDataSetRepresentation( ) ) );
 				currentSampleData.getOrthogonalSampleData( ).set( i, osd );
 			}
@@ -920,7 +910,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return line series instance with setting 'isSet' flag.
 	 */
 	public static Series create( ) // SUBCLASSED BY ScatterSeriesImpl
 	{
@@ -945,7 +935,7 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		lia.setVisible( true );
 		setLineAttributes( lia );
 		setLabelPosition( Position.ABOVE_LITERAL );
-
+		
 		final Marker m = AttributeFactory.eINSTANCE.createMarker( );
 		m.setType( MarkerType.BOX_LITERAL );
 		m.setSize( 4 );
@@ -954,8 +944,44 @@ public class LineSeriesImpl extends SeriesImpl implements LineSeries
 		la.setVisible( true );
 		m.setOutline( la );
 		getMarkers( ).add( m );
+		setPaletteLineColor( true );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return line series instance without setting 'isSet' flag.
+	 */
+	public static Series createDefault( ) // SUBCLASSED BY ScatterSeriesImpl
+	{
+		final LineSeries ls = TypeFactory.eINSTANCE.createLineSeries( );
+		( (LineSeriesImpl) ls ).initDefault( );
+		return ls;
+	}
+
+	/**
+	 * Initializes all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected void initDefault( ) // SUBCLASSED BY ScatterSeriesImpl
+	{
+		super.initDefault( );
+
+		final LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1, true );
+		setLineAttributes( lia );
+		labelPosition = Position.ABOVE_LITERAL;
+
+		final Marker m = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4, true );
+		LineAttributes la = LineAttributesImpl.createDefault( true );
+		m.setOutline( la );
+		getMarkers( ).add( m );
+		
+		paletteLineColor = true;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

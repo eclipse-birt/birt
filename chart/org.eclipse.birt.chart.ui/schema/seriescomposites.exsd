@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.chart.ui">
+<schema targetNamespace="org.eclipse.birt.chart.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.chart.ui" id="seriescomposites" name="Composites for series type specific Attribute and Data definitions"/>
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="seriescomposite"/>
@@ -53,10 +58,20 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="seriesUIProvider" type="string">
+         <attribute name="seriesUIProvider" type="string" use="required">
             <annotation>
                <documentation>
                   Class name of ISeriesUIProvider implementation for this series type. This class will be used to create Attribute and Data composites for this series for use in the Chart Builder.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string">
+            <annotation>
+               <documentation>
+                  A priority index for multiple composites with the same series type. Default value is zero. Composite with the highest priority will be used.
                </documentation>
             </annotation>
          </attribute>

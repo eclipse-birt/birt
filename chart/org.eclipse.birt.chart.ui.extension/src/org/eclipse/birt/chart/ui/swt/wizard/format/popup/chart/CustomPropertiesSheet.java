@@ -22,7 +22,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ * CustomPropertiesSheet
  */
 
 public class CustomPropertiesSheet extends AbstractPopupSheet

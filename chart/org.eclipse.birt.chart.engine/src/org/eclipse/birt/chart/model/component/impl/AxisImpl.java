@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AxisOrigin;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -44,6 +45,7 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -2830,7 +2832,7 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * 
 	 * @param iAxisType
 	 *            The type of axis defined by Axis.BASE or Axis.ORTHOGONAL
-	 * @return
+	 * @return axis instance with 'isSet' flag.
 	 */
 	public static final Axis create( int iAxisType )
 	{
@@ -2923,6 +2925,124 @@ public class AxisImpl extends EObjectImpl implements Axis
 			setLabelPosition( Position.RIGHT_LITERAL );
 		}
 		setOrigin( AxisOriginImpl.create( IntersectionType.MAX_LITERAL, null ) );
+	}
+	
+	/**
+	 * A convenience method to create an initialized 'Axis' instance
+	 * 
+	 * @param iAxisType
+	 *            The type of axis defined by Axis.BASE or Axis.ORTHOGONAL
+	 * @return axis instance without 'isSet' flag.
+	 */
+	public static final Axis createDefault( int iAxisType )
+	{
+		final Axis ax = ComponentFactory.eINSTANCE.createAxis( );
+		( (AxisImpl) ax ).initDefault( iAxisType );
+		return ax;
+	}
+
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( int iAxisType )
+	{
+		// AXIS LABEL COLOR, FONT, OUTLINE, FILLCOLOR, TEXTALIGNMENT, FORMAT
+		// SPECIFIER
+		setLabel( LabelImpl.createDefault( ) );
+
+		// AXIS LINE
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1 );
+		setLineAttributes( lia );
+
+		// INTERSECTION VALUE
+		AxisOrigin ao = AxisOriginImpl.createDefault( IntersectionType.MIN_LITERAL,
+				null );
+		setOrigin( ao );
+
+		// PRIMARY AXIS
+		primaryAxis = false;
+
+		// AXIS TITLE
+		Label la = LabelImpl.createDefault( false );
+		la.getCaption( ).setValue( null );
+		try
+		{
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"size", //$NON-NLS-1$
+					14 ); 
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"bold", //$NON-NLS-1$
+					true );
+		}
+		catch ( ChartException e )
+		{
+		}
+
+		TextAlignment ta = TextAlignmentImpl.createDefault( HorizontalAlignment.CENTER_LITERAL,
+				VerticalAlignment.CENTER_LITERAL );
+		try
+		{
+			ChartElementUtil.setDefaultValue( la.getCaption( ).getFont( ),
+					"alignment",//$NON-NLS-1$
+					ta ); 
+		}
+		catch ( ChartException e )
+		{
+		}
+
+		setTitle( la );
+
+		// MAJOR GRID
+		Grid gr = ComponentFactory.eINSTANCE.createGrid( );
+		lia = LineAttributesImpl.createDefault( null ,
+				LineStyle.SOLID_LITERAL,
+				1,
+				false );
+		gr.setLineAttributes( lia );
+		lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1 );
+		gr.setTickAttributes( lia );
+		( (GridImpl) gr ).tickStyle = TickStyle.ACROSS_LITERAL;
+		setMajorGrid( gr );
+
+		// MINOR GRID
+		gr = ComponentFactory.eINSTANCE.createGrid( );
+		lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1,
+				false );
+		gr.setLineAttributes( lia );
+		lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1,
+				false );
+		gr.setTickAttributes( lia );
+		( (GridImpl) gr ).tickStyle = TickStyle.ACROSS_LITERAL;
+		setMinorGrid( gr );
+
+		// SCALE
+		Scale sc = ComponentFactory.eINSTANCE.createScale( );
+		( (ScaleImpl) sc ).minorGridsPerUnit = 5;
+		setScale( sc );
+		percent = false;
+
+		if ( iAxisType == Axis.BASE )
+		{
+			orientation = Orientation.HORIZONTAL_LITERAL;
+			labelPosition = Position.ABOVE_LITERAL;
+		}
+		else if ( iAxisType == Axis.ORTHOGONAL )
+		{
+			orientation = Orientation.VERTICAL_LITERAL;
+			labelPosition = Position.RIGHT_LITERAL;
+		}
+		setOrigin( AxisOriginImpl.createDefault( IntersectionType.MAX_LITERAL,
+				null ) );
 	}
 
 	/*

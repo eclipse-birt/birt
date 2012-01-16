@@ -23,9 +23,11 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite.IFontDefinitionDialog;
+import org.eclipse.birt.chart.ui.swt.AbstractChartIntSpinner;
+import org.eclipse.birt.chart.ui.swt.interfaces.IFontDefinitionDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -59,7 +61,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 		FocusListener
 {
 
-	private transient FontDefinition fdCurrent = null;
+	protected transient FontDefinition fdCurrent = null;
 
 	private transient ColorDefinition cdCurrent = null;
 
@@ -67,7 +69,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient ColorDefinition cdBackup = null;
 
-	private transient Composite cmpContent = null;
+	protected transient Composite cmpContent = null;
 
 	private transient Combo cmbFontNames = null;
 
@@ -75,23 +77,23 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient FillChooserComposite fccColor = null;
 
-	private transient Button btnATopLeft = null;
+	protected transient Button btnATopLeft = null;
 
-	private transient Button btnATopCenter = null;
+	protected transient Button btnATopCenter = null;
 
-	private transient Button btnATopRight = null;
+	protected transient Button btnATopRight = null;
 
-	private transient Button btnACenterLeft = null;
+	protected transient Button btnACenterLeft = null;
 
-	private transient Button btnACenter = null;
+	protected transient Button btnACenter = null;
 
-	private transient Button btnACenterRight = null;
+	protected transient Button btnACenterRight = null;
 
-	private transient Button btnABottomLeft = null;
+	protected transient Button btnABottomLeft = null;
 
-	private transient Button btnABottomCenter = null;
+	protected transient Button btnABottomCenter = null;
 
-	private transient Button btnABottomRight = null;
+	protected transient Button btnABottomRight = null;
 
 	private transient Button btnBold = null;
 
@@ -103,13 +105,13 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	private transient AngleSelectorComposite ascRotation = null;
 
-	private transient IntegerSpinControl iscRotation = null;
+	private transient AbstractChartIntSpinner iscRotation = null;
 
 	private transient FontCanvas fcPreview = null;
 
 	private transient boolean isAlignmentEnabled = true;
 
-	private transient List listAlighmentButtons = new ArrayList( 9 );
+	protected transient List<Button> listAlignmentButtons = new ArrayList<Button>( 9 );
 
 	private transient ChartWizardContext wizardContext;
 
@@ -296,7 +298,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 
 	}
 
-	private void createAlignmentPanel( )
+	protected void createAlignmentPanel( )
 	{
 		new Label( cmpContent, SWT.NONE ).setText( Messages.getString( "FontDefinitionDialog.Lbl.Alignment" ) ); //$NON-NLS-1$
 
@@ -305,7 +307,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			GridData gdCMPAlignment = new GridData( GridData.FILL_HORIZONTAL );
 			gdCMPAlignment.horizontalSpan = 8;
 			cmpAlignment.setLayoutData( gdCMPAlignment );
-			GridLayout glAlignment = new GridLayout( 11, false );
+			GridLayout glAlignment = new GridLayout( 12, false );
 			glAlignment.marginWidth = 2;
 			glAlignment.marginHeight = 0;
 			cmpAlignment.setLayout( glAlignment );
@@ -421,7 +423,12 @@ public class FontDefinitionDialog extends TrayDialog implements
 		}
 	}
 
-	private Button createAlighmentButton( Composite parent )
+	protected boolean isSetAlignment( )
+	{
+		return fdCurrent.getAlignment( ).isSetHorizontalAlignment( ) || fdCurrent.getAlignment( ).isSetVerticalAlignment( );
+	}
+
+	protected Button createAlighmentButton( Composite parent )
 	{
 		Button button = new Button( parent, SWT.TOGGLE );
 		GridData gd = new GridData( );
@@ -429,19 +436,19 @@ public class FontDefinitionDialog extends TrayDialog implements
 		gd.heightHint = 32;
 		button.setLayoutData( gd );
 		button.addSelectionListener( this );
-		listAlighmentButtons.add( button );
+		listAlignmentButtons.add( button );
 		return button;
 	}
 
 	private void selectAllToggleButtons( boolean selection )
 	{
-		for ( int i = 0; i < listAlighmentButtons.size( ); i++ )
+		for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
 		{
-			( (Button) listAlighmentButtons.get( i ) ).setSelection( selection );
+			listAlignmentButtons.get( i ).setSelection( selection );
 		}
 	}
 
-	private void createSeparator( Composite parent )
+	protected void createSeparator( Composite parent )
 	{
 		Label lable = new Label( parent, SWT.NONE );
 		lable.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -484,16 +491,23 @@ public class FontDefinitionDialog extends TrayDialog implements
 			lblDegree.setText( Messages.getString( "FontDefinitionDialog.Label.Degree" ) ); //$NON-NLS-1$
 		}
 
-		iscRotation = new IntegerSpinControl( cmpRotation,
-				SWT.NONE,
-				ChartUIUtil.getFontRotation( fdCurrent ) );
+		iscRotation = wizardContext.getUIFactory( )
+				.createChartIntSpinner( cmpRotation,
+						SWT.NONE,
+						ChartUIUtil.getFontRotation( fdCurrent ),
+						fdCurrent,
+						"rotation", //$NON-NLS-1$
+						true );
 		GridData gdISCRotation = new GridData( GridData.FILL_HORIZONTAL );
 		gdISCRotation.horizontalSpan = 2;
+		gdISCRotation.minimumWidth = 40;
 		iscRotation.setLayoutData( gdISCRotation );
 		iscRotation.setMinimum( -90 );
 		iscRotation.setMaximum( 90 );
 		iscRotation.setIncrement( 1 );
 		iscRotation.addListener( this );
+		
+		ascRotation.setEnabled( iscRotation.isSpinnerEnabled( ) );
 		
 		Label lblPreview = new Label( cmpContent, SWT.NONE );
 		{
@@ -602,7 +616,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 		}
 	}
 
-	private void updatePreview( )
+	protected void updatePreview( )
 	{
 		FontDefinition fd = fdCurrent.copyInstance( );
 		ChartUIUtil.getFlippedAlignment( fd.getAlignment( ), isFlippedAxes( ) );
@@ -632,7 +646,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 		Object oSource = e.getSource( );
 
 		// Handle with alignment buttons
-		if ( listAlighmentButtons.contains( oSource ) )
+		if ( listAlignmentButtons.contains( oSource ) )
 		{
 			if ( !( (Button) oSource ).getSelection( ) )
 			{
@@ -646,7 +660,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 			selectAllToggleButtons( false );
 			( (Button) oSource ).setSelection( true );
 		}
-
+		
 		if ( oSource.equals( btnBold ) )
 		{
 			if ( btnBold.getSelection( ) )
@@ -785,12 +799,29 @@ public class FontDefinitionDialog extends TrayDialog implements
 		}
 	}
 
+	protected void disableAlignmentBtns( )
+	{
+		for ( int i = 0; i < listAlignmentButtons.size( ); i++ )
+		{
+			listAlignmentButtons.get( i ).setSelection( false );
+			listAlignmentButtons.get( i ).setEnabled( false );
+		}
+	}
+
 	public void handleEvent( Event e )
 	{
 		if ( e.widget.equals( iscRotation ) )
 		{
-			fdCurrent.setRotation( iscRotation.getValue( ) );
-			ascRotation.setAngle( iscRotation.getValue( ) );
+			if ( e.detail == ChartUIExtensionUtil.PROPERTY_UNSET )
+			{
+				fdCurrent.unsetRotation( );
+				ascRotation.setEnabled( false );
+			}
+			else {
+				fdCurrent.setRotation( iscRotation.getValue( ) );
+				ascRotation.setAngle( iscRotation.getValue( ) );
+				ascRotation.setEnabled( true );
+			}
 			ascRotation.redraw( );
 			// TODO: Enable this if support for rotated text is added to
 			// fontcanvas
@@ -895,7 +926,7 @@ public class FontDefinitionDialog extends TrayDialog implements
 	 * 
 	 * @return true if the chart orientation is horizontal.
 	 */
-	private boolean isFlippedAxes( )
+	protected boolean isFlippedAxes( )
 	{
 		return ( wizardContext.getModel( ) instanceof ChartWithAxes )
 				&& ( ( (ChartWithAxes) wizardContext.getModel( ) ).getOrientation( )

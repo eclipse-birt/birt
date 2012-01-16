@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.render.MarkerRenderer;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.MarkerEditorComposite;
@@ -187,7 +188,10 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			btnAdd.addSelectionListener( this );
 		}
 
-		newMarkerEditor = new MarkerEditorComposite( grpTop, createMarker( ) );
+		newMarkerEditor = new MarkerEditorComposite( grpTop,
+				createMarker( ),
+				getContext( ),
+				getDefaultMarker( ) );
 		if ( markerTypeSet != null )
 		{
 			newMarkerEditor.setSupportedMarkerTypes( markerTypeSet );
@@ -232,7 +236,9 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			}
 		}
 		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
-				getMarkers( ).get( 0 ) );
+				getMarkers( ).get( 0 ),
+				getContext( ),
+				getDefaultMarker( ) );
 		{
 			currentMarkerEditor.setBounds( 0,
 					0,
@@ -433,12 +439,12 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		Marker marker;
 		if ( markerTypeSet != null )
 		{
-			marker = MarkerImpl.create( MarkerType.getByName( markerTypeSet.getNames( )[0] ),
-					4 );
+			marker = MarkerImpl.createDefault( MarkerType.getByName( markerTypeSet.getNames( )[0] ),
+					4, false );
 		}
 		else
 		{
-			marker = MarkerImpl.create( MarkerType.BOX_LITERAL, 4 );
+			marker = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4, false );
 		}
 		marker.eAdapters( ).addAll( series.eAdapters( ) );
 		return marker;
@@ -528,6 +534,15 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 			return series.getMarkers( );
 		}
 		return ( (DifferenceSeries) series ).getNegativeMarkers( );		
+	}
+	
+	private Marker getDefaultMarker( )
+	{
+		if ( bPositive )
+		{
+			return ((LineSeries)ChartDefaultValueUtil.getDefaultSeries( series )).getMarkers( ).get( 0 );
+		}
+		return ( (DifferenceSeries) ChartDefaultValueUtil.getDefaultSeries( series ) ).getNegativeMarkers( ).get( 0 );		
 	}
 
 	private void updateScrollBar( )

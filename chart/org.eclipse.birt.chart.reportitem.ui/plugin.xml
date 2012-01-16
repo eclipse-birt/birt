@@ -11,7 +11,7 @@
       <reportItemFigureUI
       	 	class="org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIImpl"/>
       <builder
-         	class="org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderImpl"/> 
+         	class="org.eclipse.birt.chart.reportitem.ui.ChartReportItemBuilderProxy"/> 
       <palette
                icon="icons/pal/palette_icon.gif"
                category="Content"/>
@@ -144,7 +144,7 @@
          name="The chart extension"
          point="org.eclipse.birt.report.designer.ui.menuBuilders">
       <menuBuilder
-            class="org.eclipse.birt.chart.reportitem.ui.ChartMenuBuilder"
+            class="org.eclipse.birt.chart.reportitem.ui.ChartMenuBuilderProxy"
             elementName="Chart"/>
    </extension>
    

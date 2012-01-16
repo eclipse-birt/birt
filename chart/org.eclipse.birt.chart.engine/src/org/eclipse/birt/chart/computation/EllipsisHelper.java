@@ -75,7 +75,7 @@ public class EllipsisHelper
 	 * used. e.g. if the text is "abcd..." then 4 will be returned. if the text
 	 * is "abcdefg" then 0 will be returned.
 	 * 
-	 * @return
+	 * @return count of visible chars.
 	 */
 	public int getVisibleCharCount( )
 	{
