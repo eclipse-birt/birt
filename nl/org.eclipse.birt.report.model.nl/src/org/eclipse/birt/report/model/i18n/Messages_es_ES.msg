@@ -2013,6 +2013,7 @@ Structure.FilterCondition.extensionExprId=ID de la expresión de extensión
 Structure.FilterCondition.pushDown=Oprimir
 Structure.FilterCondition.dynamicFilterParameter=Parámetro de filtro dinámico
 Structure.FilterCondition.type=Tipo
+Structure.FilterCondition.updateAggregation=Update Aggregation
 
 #10. PropertyMask
 Structure.PropertyMask.name=Nombre
@@ -3370,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=ID de la expresión de extensión
 Element.FilterConditionElement.pushDown=Oprimir
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Tipo
-
+Element.FilterConditionElement.updateAggregation=Update Aggregation
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

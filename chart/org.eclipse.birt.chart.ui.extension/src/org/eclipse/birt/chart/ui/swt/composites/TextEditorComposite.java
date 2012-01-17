@@ -16,7 +16,9 @@ import java.util.Date;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -34,6 +36,8 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -51,7 +55,7 @@ import com.ibm.icu.text.SimpleDateFormat;
  * 
  * @author Actuate Corporation
  */
-public class TextEditorComposite extends Composite implements
+public class TextEditorComposite extends AbstractChartTextEditor implements
 		ModifyListener,
 		FocusListener,
 		KeyListener
@@ -67,15 +71,17 @@ public class TextEditorComposite extends Composite implements
 
 	private transient int iStyle = SWT.NONE;
 
-	private transient Text txtValue = null;
+	protected transient Text txtValue = null;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	public static final int TEXT_MODIFIED = 0;
 
 	public static final int TEXT_FRACTION_CONVERTED = 1;
+	
+	public static final String TEXT_RESET_MODEL = "Reset";//$NON-NLS-1$
 
-	private transient boolean bEnabled = true;
+	protected transient boolean bEnabled = true;
 
 	private transient int valueType = TYPE_NONE;
 
@@ -127,13 +133,28 @@ public class TextEditorComposite extends Composite implements
 	private void init( )
 	{
 		sText = ""; //$NON-NLS-1$
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 		this.setLayout( new FillLayout( ) );
 	}
 
-	private void placeComponents( )
+	protected void placeComponents( )
+	{
+		GridLayout gl = new GridLayout( 1, false );
+		gl.marginBottom = 0;
+		gl.marginHeight = 0;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginWidth = 0;
+		this.setLayout( gl );
+		createTextEdit( );
+	}
+
+	protected void createTextEdit( )
 	{
 		txtValue = new Text( this, iStyle );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		txtValue.setLayoutData( gd );
 		if ( valueType == TYPE_NUMBERIC )
 		{
 			txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
@@ -190,7 +211,7 @@ public class TextEditorComposite extends Composite implements
 		this.defaultValue = value;
 	}
 
-	private void fireEvent( )
+	protected void fireEvent( )
 	{		
 		boolean isFractionConverted = false;
 		if ( valueType == TYPE_NUMBERIC )
@@ -282,7 +303,7 @@ public class TextEditorComposite extends Composite implements
 		event.type = eventType;
 		for ( int i = 0; i < vListeners.size( ); i++ )
 		{
-			( (Listener) vListeners.get( i ) ).handleEvent( event );
+			vListeners.get( i ).handleEvent( event );
 		}
 	}
 
@@ -407,10 +428,17 @@ public class TextEditorComposite extends Composite implements
 	/**
 	 * Returns text control.
 	 * 
-	 * @return
+	 * @return actual text widget.
 	 */
 	public Text getTextControl( )
 	{
 		return txtValue;
+	}
+
+	@Override
+	public void setEObjectParent( EObject eParent )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

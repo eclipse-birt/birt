@@ -345,6 +345,12 @@ DateFormatType.Full.displayName=完全
 DateFormatDetail.Date.displayName=日期
 DateFormatDetail.DateTime.displayName=日期时间
 
+DefaultValueProvider_BaseSeries=基本系列
+DefaultValueProvider_ChartSubType.Standard=标准
+DefaultValueProvider_ChartSubType.StandardMeterChart=标准仪表图
+DefaultValueProvider_ChartTitle=图表标题
+DefaultValueProvider_ChartUnits.Points=点
+
 LegendBehaviorType.None.displayName=无
 LegendBehaviorType.ToggleSerieVisibility.displayName=切换系列可见性
 LegendBehaviorType.HighlightSerie.displayName=突出显示系列

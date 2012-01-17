@@ -585,7 +585,31 @@ public class InsetsImpl extends EObjectImpl implements Insets
 		ins.rightESet = true;
 		return ins;
 	}
-
+	
+	/**
+	 * A convenient method for creating an instance and initializing member
+	 * variables.
+	 * 
+	 * Note: Manually written
+	 * 
+	 * @param dTop
+	 * @param dLeft
+	 * @param dBottom
+	 * @param dRight
+	 * 
+	 * @return
+	 */
+	public static final Insets createDefault( double dTop, double dLeft,
+			double dBottom, double dRight )
+	{
+		final InsetsImpl ins = new InsetsImpl( );
+		ins.top = dTop;
+		ins.left = dLeft;
+		ins.bottom = dBottom;
+		ins.right = dRight;
+		return ins;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -718,5 +742,4 @@ public class InsetsImpl extends EObjectImpl implements Insets
 			return false;
 		return true;
 	}
-
 } // InsetsImpl

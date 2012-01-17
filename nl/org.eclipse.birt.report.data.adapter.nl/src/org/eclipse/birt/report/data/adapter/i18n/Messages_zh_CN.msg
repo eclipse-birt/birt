@@ -104,5 +104,11 @@ timeFunction.PERIOD1.displayName = 第一个周期(&F)
 timeFunction.PERIOD2.displayName = 第一个周期(&R)
 timeFunction.N1.displayName = 第一个 N(&I)
 timeFunction.N2.displayName = 第二个 N(&O)
+
+timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
+timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
+timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
+timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
+timeFunction.PERIODCHOICE.DAY_displayName =DAY
  
 timeFunction.toolTip.to=至

@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.bindings.keys.IKeyLookup;
 import org.eclipse.jface.bindings.keys.KeyLookupFactory;
-import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;

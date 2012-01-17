@@ -44,13 +44,13 @@ public class BarSeriesAttributeComposite extends Composite
 		implements
 			Listener
 {
-	FillChooserComposite fccRiserOutline = null;
+	protected FillChooserComposite fccRiserOutline = null;
 
-	Series series = null;
+	protected Series series = null;
 
-	ChartWizardContext context;
+	protected ChartWizardContext context;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
 	/**
 	 * @param parent
@@ -107,7 +107,7 @@ public class BarSeriesAttributeComposite extends Composite
 				getParent( ).getClientArea( ).height );
 	}
 
-	private void placeComponents( )
+	protected void placeComponents( )
 	{
 		// Layout for content composite
 		GridLayout glContent = new GridLayout( );

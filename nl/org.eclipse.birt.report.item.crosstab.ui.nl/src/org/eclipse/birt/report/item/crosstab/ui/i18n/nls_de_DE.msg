@@ -343,6 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Bedingte Formatierung anwend
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=Ausdrucks-Editor
 CrosstabFilterConditionBuilder.MsgDlg.Msg=Warnung
 CrosstabFilterConditionBuilder.MsgDlg.Title=Der Wert darf nicht leer sein.
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
 
 ###########################################################
 #Breadcrumb provider properties

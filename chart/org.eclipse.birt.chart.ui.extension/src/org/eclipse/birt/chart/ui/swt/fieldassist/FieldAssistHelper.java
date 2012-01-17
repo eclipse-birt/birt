@@ -27,7 +27,6 @@ import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.jface.fieldassist.IControlContentAdapter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceStore;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -62,7 +61,7 @@ public final class FieldAssistHelper
 	/**
 	 * Return only instance of the class.
 	 * 
-	 * @return
+	 * @return instance of <code>FieldAssistHelper</code>
 	 */
 	public static FieldAssistHelper getInstance( )
 	{
@@ -153,7 +152,7 @@ public final class FieldAssistHelper
 	 *            value is null, then the decoration will be rendered on
 	 *            whichever composite (or composites) are located in the
 	 *            specified position.
-	 * @return
+	 * @return instance of <code>ControlDecoration</code>
 	 */
 	public ControlDecoration createControlDecoration( Control control,
 			Composite composite )
@@ -346,7 +345,7 @@ public final class FieldAssistHelper
 	 * Create a quick fix menu to specified assist field.
 	 * 
 	 * @param field
-	 * @return
+	 * @return instance of <code>Menu</code>.
 	 */
 	public Menu createQuickFixMenu( final AssistField field )
 	{

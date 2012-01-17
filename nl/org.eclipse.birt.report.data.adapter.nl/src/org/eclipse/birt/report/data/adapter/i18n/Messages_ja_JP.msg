@@ -104,5 +104,11 @@ timeFunction.PERIOD1.displayName = Å‰‚ÌŠúŠÔ(&F)
 timeFunction.PERIOD2.displayName = 2 ”Ô–Ú‚ÌŠúŠÔ(&R)
 timeFunction.N1.displayName = Å‰‚Ì N(&I)
 timeFunction.N2.displayName = 2 ”Ô–Ú‚Ì N(&O)
+
+timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
+timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
+timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
+timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
+timeFunction.PERIODCHOICE.DAY_displayName =DAY
  
 timeFunction.toolTip.to=I—¹“ú

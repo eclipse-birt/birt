@@ -345,6 +345,12 @@ DateFormatType.Full.displayName=Entier
 DateFormatDetail.Date.displayName=Date
 DateFormatDetail.DateTime.displayName=Date Heure
 
+DefaultValueProvider_BaseSeries=Série de base
+DefaultValueProvider_ChartSubType.Standard=Standard
+DefaultValueProvider_ChartSubType.StandardMeterChart=Graphique à cadrans standard
+DefaultValueProvider_ChartTitle=Titre du graphique
+DefaultValueProvider_ChartUnits.Points=Points
+
 LegendBehaviorType.None.displayName=Aucun
 LegendBehaviorType.ToggleSerieVisibility.displayName=Basculer l'affichage des séries
 LegendBehaviorType.HighlightSerie.displayName=Mettre les séries en surbrillance

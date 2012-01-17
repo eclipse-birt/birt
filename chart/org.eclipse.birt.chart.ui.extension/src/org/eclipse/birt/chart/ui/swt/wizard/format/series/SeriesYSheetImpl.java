@@ -17,15 +17,18 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
-import org.eclipse.birt.chart.model.component.impl.CurveFittingImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.composites.TriggerDataComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesButtonEntry;
+import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -40,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
@@ -58,17 +62,16 @@ import org.eclipse.swt.widgets.Listener;
  * Subtask for Value Series
  * 
  */
-public class SeriesYSheetImpl extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+public class SeriesYSheetImpl extends SubtaskSheetImpl implements
+		Listener,
+		SelectionListener
 {
 
-	private Button btnShowLine;
+	private Button btnShowCurveLine;
 
-	private Button cbVisible;
+	protected ChartCheckbox btnLabelVisible;
 
-	private Button cbDecoVisible;
+	private ChartCheckbox btnDecoVisible;
 
 	public void createControl( Composite parent )
 	{
@@ -89,59 +92,77 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		grpDetails.setText( Messages.getString( "OrthogonalSeriesAttributeSheetImpl.Lbl.SeriesDetails" ) ); //$NON-NLS-1$
 
 		// Series composite
-		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
+		Series series = getCurrentDesignTimeSeries( );
+		Series defSeries = ChartDefaultValueUtil.getDefaultSeries( series );
 		getSeriesAttributeUI( series, grpDetails );
 
 		Composite cmpBottom = new Composite( cmpContent, SWT.NONE );
-		GridLayout glBottom = new GridLayout( 3, false );
+		GridLayout glBottom = new GridLayout( 4, false );
 		cmpBottom.setLayout( glBottom );
 
-		cbVisible = new Button( cmpBottom, SWT.CHECK );
+		btnLabelVisible = getContext( ).getUIFactory( )
+				.createChartCheckbox( cmpBottom, SWT.NONE, false );
 		{
-			cbVisible.addSelectionListener( this );
-			cbVisible.setSelection( isMeterSeries( )
-					? ( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
-							.getLabel( )
-							.isVisible( )
-					: getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-							.getLabel( )
-							.isVisible( ) );
-		}
-		if ( isMeterSeries( ) )
-		{
-			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDialLabels" ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			cbVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
+			org.eclipse.birt.chart.model.component.Label l = null;
+			org.eclipse.birt.chart.model.component.Label defLabel = null;
+			if ( isMeterSeries( ) )
+			{
+				l = ( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
+						.getLabel( );
+				defLabel =  ( (DialSeries) defSeries ).getDial( ).getLabel( );
+			}
+			else
+			{
+				l = getCurrentDesignTimeSeries( ).getLabel( );
+				defLabel = defSeries.getLabel( );
+			}
+			btnLabelVisible.setDefaultSelection( defLabel.isVisible( ) );
+			btnLabelVisible.setSelectionState( l.isSetVisible( ) ? ( l.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
+			btnLabelVisible.addSelectionListener( this );
+
+			if ( isMeterSeries( ) )
+			{
+				btnLabelVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDialLabels" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				btnLabelVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowLabels" ) ); //$NON-NLS-1$
+			}
 		}
 
 		if ( isGanttSeries( ) )
 		{
-			cbDecoVisible = new Button( cmpBottom, SWT.CHECK );
+			btnDecoVisible = getContext( ).getUIFactory( ).createChartCheckbox( cmpBottom, SWT.NONE,  false );
 			{
-				cbDecoVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1$
-				cbDecoVisible.addSelectionListener( this );
-				cbDecoVisible.setSelection( ( (GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDecorationLabel( )
+				org.eclipse.birt.chart.model.component.Label l = ( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( );
+				btnDecoVisible.setDefaultSelection( ( (GanttSeries) defSeries ).getDecorationLabel( )
 						.isVisible( ) );
+				btnDecoVisible.setSelectionState( l.isSetVisible( ) ? ( l.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
+				btnDecoVisible.addSelectionListener( this );
 			}
+			btnDecoVisible.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowDecoLabels" ) ); //$NON-NLS-1$
 		}
 
 		if ( isTrendlineAvailable( ) )
 		{
-			btnShowLine = new Button( cmpBottom, SWT.CHECK );
+			btnShowCurveLine = new Button( cmpBottom, SWT.CHECK );
 			{
-				btnShowLine.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowTrendline" ) ); //$NON-NLS-1$
-				btnShowLine.addSelectionListener( this );
-				btnShowLine.setSelection( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-						.getCurveFitting( ) != null );
+				GridData gd = new GridData( );
+				gd.horizontalSpan = 2;
+				btnShowCurveLine.setText( Messages.getString( "SeriesYSheetImpl.Label.ShowTrendline" ) ); //$NON-NLS-1$
+				btnShowCurveLine.addSelectionListener( this );
+				btnShowCurveLine.setSelection( getCurrentDesignTimeSeries( ).getCurveFitting( ) != null );
 			}
 		}
 
 		createButtonGroup( cmpContent );
 	}
 
-	private void createButtonGroup( Composite parent )
+	protected void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
@@ -155,29 +176,19 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 
 		// For Meter series and other non-Stock series
 		ITaskPopupSheet popup;
-		SeriesDefinition sd = getSeriesDefinitionForProcessing( );
-		Series series = sd.getDesignTimeSeries( );
+		Series series = getCurrentDesignTimeSeries( );
 
 		if ( isMeterSeries( ) )
 		{
 			// Label
-			popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.DialLabels" ), //$NON-NLS-1$
-					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
-			Button btnDialLabel = createToggleButton( cmp,
-					BUTTON_DIAL_LABELS,
-					Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
-					popup,
-					cbVisible.getSelection( ) );
-			btnDialLabel.addSelectionListener( this );
+			createDialLabelBtnUI( cmp );
 
-			if ( getChart( ) instanceof DialChart
-					&& !( (DialChart) getChart( ) ).isDialSuperimposition( ) )
+			if ( needDialNeedle( ) )
 			{
 				// Needles
 				popup = new NeedleSheet( Messages.getString( "SeriesYSheetImpl.Label.Needles" ), //$NON-NLS-1$
 						getContext( ),
-						getSeriesDefinitionForProcessing( ) );
+						getCurrentDesignTimeSeries( ) );
 				Button btnNeedles = createToggleButton( cmp,
 						BUTTON_NEEDLES,
 						Messages.getString( "SeriesYSheetImpl.Label.Needles&" ), //$NON-NLS-1$
@@ -188,7 +199,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			// Region
 			popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
 					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
+					getCurrentDesignTimeSeries( ) );
 			Button btnDialRegion = createToggleButton( cmp,
 					BUTTON_REGIONS,
 					Messages.getString( "SeriesYSheetImpl.Label.Region&" ), //$NON-NLS-1$
@@ -198,7 +209,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			// Ticks
 			popup = new DialTickSheet( Messages.getString( "DialTicksDialog.Title.DialTicks" ), //$NON-NLS-1$
 					getContext( ),
-					( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
+					( (DialSeries) getCurrentDesignTimeSeries( ) ) );
 			Button btnDialTicks = createToggleButton( cmp,
 					BUTTON_TICKS,
 					Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialTicks" ), //$NON-NLS-1$
@@ -208,7 +219,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			// Scale
 			popup = new DialScaleSheet( Messages.getString( "DialScaleDialog.Title.DialScale" ), //$NON-NLS-1$
 					getContext( ),
-					( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
+					( (DialSeries) getCurrentDesignTimeSeries( ) ) );
 			Button btnDialScale = createToggleButton( cmp,
 					BUTTON_SCALE,
 					Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialScale" ), //$NON-NLS-1$
@@ -218,36 +229,18 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		else
 		{
 			// Label
-			popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
-					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
-			Button btnLabel = createToggleButton( cmp,
-					BUTTON_LABEL,
-					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
-					popup );
-			btnLabel.addSelectionListener( this );
-
+			createSeriesLabelBtnUI( cmp );
 		}
 
-		// Titles for Pie series
-		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof PieSeries )
-		{
-			popup = new PieTitleSheet( Messages.getString( "SeriesYSheetImpl.Label.Titles" ), //$NON-NLS-1$
-					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
-			Button btnPieTitle = createToggleButton( cmp,
-					BUTTON_TITLE,
-					Messages.getString( "SeriesYSheetImpl.Label.Titles&" ), //$NON-NLS-1$
-					popup );
-			btnPieTitle.addSelectionListener( this );
-		}
+		createSeriesSpecificButton( cmp );
 
 		// Markers for Line/Area/Scatter series
-		if ( series instanceof LineSeries && !isDifferenceSeries( ) )
+		if ( getCurrentDesignTimeSeries( ) instanceof LineSeries
+				&& !isDifferenceSeries( ) )
 		{
 			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
-					(LineSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
+					(LineSeries) getCurrentDesignTimeSeries( ) );
 			Button btnLineMarker = createToggleButton( cmp,
 					BUTTON_MARKERS,
 					Messages.getString( "SeriesYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
@@ -255,69 +248,30 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			btnLineMarker.addSelectionListener( this );
 		}
 
-		// Markers for Difference series
-		if ( isDifferenceSeries( ) )
-		{
-			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers" ), //$NON-NLS-1$
-					getContext( ),
-					(DifferenceSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
-					true );
-			Button btnPLineMarker = createToggleButton( cmp,
-					BUTTON_POSITIVE_MARKERS,
-					Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers&" ), //$NON-NLS-1$
-					popup );
-			btnPLineMarker.addSelectionListener( this );
-
-			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers" ), //$NON-NLS-1$
-					getContext( ),
-					(DifferenceSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
-					false );
-			Button btnNLineMarker = createToggleButton( cmp,
-					BUTTON_NEGATIVE_MARKERS,
-					Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers&" ), //$NON-NLS-1$
-					popup );
-			btnNLineMarker.addSelectionListener( this );
-		}
-
-		// Decoration Label for Gantt series
-		if ( series instanceof GanttSeries )
-		{
-			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
-					getContext( ),
-					(GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
-			Button btnDecoration = createToggleButton( cmp,
-					BUTTON_DECORATION,
-					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
-					popup,
-					cbDecoVisible.getSelection( ) );
-			btnDecoration.addSelectionListener( this );
-		}
-
-		// Trendline
+		// Curve Line
 		if ( isTrendlineAvailable( ) )
 		{
 			popup = new SeriesTrendlineSheet( Messages.getString( "SeriesYSheetImpl.Label.Trendline" ), //$NON-NLS-1$
 					getContext( ),
-					getSeriesDefinitionForProcessing( ) );
+					getCurrentDesignTimeSeries( ) );
 			Button btnTrendline = createToggleButton( cmp,
 					BUTTON_CURVE,
 					Messages.getString( "SeriesYSheetImpl.Label.Trendline&" ), //$NON-NLS-1$
 					popup,
-					btnShowLine.getSelection( ) );
+					btnShowCurveLine.getSelection( ) );
 			btnTrendline.addSelectionListener( this );
 		}
 
-		if ( !( getChart( ) instanceof DialChart && ( (DialChart) getChart( ) ).isDialSuperimposition( ) ) )
+		if ( getContext( ).isInteractivityEnabled( )
+				&& !( getChart( ) instanceof DialChart && ( (DialChart) getChart( ) ).isDialSuperimposition( ) ) )
 		{
 			// Interactivity
 			popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 					getContext( ),
-					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-							.getTriggers( ),
-					getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),							
+					getCurrentDesignTimeSeries( ).getTriggers( ),
+					getCurrentDesignTimeSeries( ),
 					TriggerSupportMatrix.TYPE_DATAPOINT,
-					true,
-					false );
+					TriggerDataComposite.ENABLE_URL_PARAMETERS );
 			Button btnInteractivity = createToggleButton( cmp,
 					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
@@ -325,9 +279,10 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
 		}
-		
-		for ( ISeriesButtonEntry buttonEntry : ChartUIUtil.getSeriesUIProvider( series )
-				.getCustomButtons( getContext( ), sd ) )
+
+		SeriesDefinition sd = getSeriesDefinitionForProcessing( );
+		for ( ISeriesButtonEntry buttonEntry : getSeriesUIProvider( series ).getCustomButtons( getContext( ),
+				sd ) )
 		{
 			Button button = createToggleButton( cmp,
 					buttonEntry.getButtonId( ),
@@ -338,16 +293,117 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		}
 	}
 
-	private void getSeriesAttributeUI( Series series, Composite parent )
+	protected void createSeriesSpecificButton( Composite cmp )
 	{
-		ChartUIUtil.getSeriesUIProvider( series )
-				.getSeriesAttributeSheet( parent, series, getContext( ) );
+		ITaskPopupSheet popup;
+		// Titles for Pie series
+		if ( getCurrentDesignTimeSeries( ) instanceof PieSeries )
+		{
+			popup = new PieTitleSheet( Messages.getString( "SeriesYSheetImpl.Label.Titles" ), //$NON-NLS-1$
+					getContext( ),
+					getCurrentDesignTimeSeries( ) );
+			Button btnPieTitle = createToggleButton( cmp,
+					BUTTON_TITLE,
+					Messages.getString( "SeriesYSheetImpl.Label.Titles&" ), //$NON-NLS-1$
+					popup );
+			btnPieTitle.addSelectionListener( this );
+		}
+
+		// Markers for Difference series
+		if ( isDifferenceSeries( ) )
+		{
+			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers" ), //$NON-NLS-1$
+					getContext( ),
+					(DifferenceSeries) getCurrentDesignTimeSeries( ),
+					true );
+			Button btnPLineMarker = createToggleButton( cmp,
+					BUTTON_POSITIVE_MARKERS,
+					Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers&" ), //$NON-NLS-1$
+					popup );
+			btnPLineMarker.addSelectionListener( this );
+
+			popup = new LineSeriesMarkerSheet( Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers" ), //$NON-NLS-1$
+					getContext( ),
+					(DifferenceSeries) getCurrentDesignTimeSeries( ),
+					false );
+			Button btnNLineMarker = createToggleButton( cmp,
+					BUTTON_NEGATIVE_MARKERS,
+					Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers&" ), //$NON-NLS-1$
+					popup );
+			btnNLineMarker.addSelectionListener( this );
+		}
+
+		// Decoration Label for Gantt series
+		if ( getCurrentDesignTimeSeries( ) instanceof GanttSeries )
+		{
+			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
+					getContext( ),
+					(GanttSeries) getCurrentDesignTimeSeries( ) );
+			Button btnDecoration = createToggleButton( cmp,
+					BUTTON_DECORATION,
+					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
+					popup,
+					getContext().getUIFactory( ).canEnableUI( btnDecoVisible ) );
+			btnDecoration.addSelectionListener( this );
+		}
+	}
+
+	/**
+	 * @param series
+	 * @return
+	 */
+	protected ISeriesUIProvider getSeriesUIProvider( Series series )
+	{
+		return ChartUIUtil.getSeriesUIProvider( series );
+	}
+
+	protected boolean needDialNeedle( )
+	{
+		return getChart( ) instanceof DialChart
+				&& !( (DialChart) getChart( ) ).isDialSuperimposition( );
+	}
+
+	protected void createSeriesLabelBtnUI( Composite cmp )
+	{
+		ITaskPopupSheet popup;
+		popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
+				getContext( ),
+				getCurrentDesignTimeSeries( ) );
+		Button btnLabel = createToggleButton( cmp,
+				BUTTON_LABEL,
+				Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
+				popup,
+				getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
+		btnLabel.addSelectionListener( this );
+	}
+
+	protected void createDialLabelBtnUI( Composite cmp )
+	{
+		ITaskPopupSheet popup;
+		popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.DialLabels" ), //$NON-NLS-1$
+				getContext( ),
+				getCurrentDesignTimeSeries( ) );
+		Button btnDialLabel = createToggleButton( cmp,
+				BUTTON_DIAL_LABELS,
+				Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
+				popup,
+				getContext( ).getUIFactory( ).canEnableUI( btnLabelVisible ) );
+		btnDialLabel.addSelectionListener( this );
+	}
+
+	protected void getSeriesAttributeUI( Series series, Composite parent )
+	{
+		getSeriesUIProvider( series ).getSeriesAttributeSheet( parent,
+				series,
+				getContext( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -367,22 +423,20 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
-		if ( e.widget.equals( btnShowLine ) )
+		if ( e.widget.equals( btnShowCurveLine ) )
 		{
-			setToggleButtonEnabled( BUTTON_CURVE, btnShowLine.getSelection( ) );
-			if ( btnShowLine.getSelection( ) )
+			setToggleButtonEnabled( BUTTON_CURVE,
+					btnShowCurveLine.getSelection( ) );
+			if ( btnShowCurveLine.getSelection( ) )
 			{
-				CurveFitting cf = CurveFittingImpl.create( );
+				CurveFitting cf = ChartUIExtensionUtil.createCurveFitting( getContext( ) );
 				cf.eAdapters( )
-						.addAll( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-								.eAdapters( ) );
-				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-						.setCurveFitting( cf );
+						.addAll( getCurrentDesignTimeSeries( ).eAdapters( ) );
+				getCurrentDesignTimeSeries( ).setCurveFitting( cf );
 			}
 			else
 			{
-				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-						.setCurveFitting( null );
+				getCurrentDesignTimeSeries( ).setCurveFitting( null );
 				// Close trendline popup
 				Button btnTrendline = getToggleButton( BUTTON_CURVE );
 				if ( btnTrendline.getSelection( ) )
@@ -392,17 +446,28 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 				}
 			}
 		}
-		else if ( e.widget.equals( cbVisible ) )
+		else if ( e.widget == btnLabelVisible )
 		{
+			boolean isAuto = ( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 			if ( isMeterSeries( ) )
 			{
 				setToggleButtonEnabled( BUTTON_DIAL_LABELS,
-						cbVisible.getSelection( ) );
-				( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
-						.getLabel( )
-						.setVisible( cbVisible.getSelection( ) );
+						getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
+				if ( isAuto )
+				{
+					( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
+							.getLabel( )
+							.unsetVisible( );
+				}
+				else
+				{
+					( (DialSeries) getCurrentDesignTimeSeries( ) ).getDial( )
+							.getLabel( )
+							.setVisible( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				}
 				Button btnDialLabel = getToggleButton( BUTTON_DIAL_LABELS );
-				if ( !cbVisible.getSelection( ) && btnDialLabel.getSelection( ) )
+				if ( btnLabelVisible.getSelectionState( ) != ChartCheckbox.STATE_SELECTED
+						&& btnDialLabel.getSelection( ) )
 				{
 					btnDialLabel.setSelection( false );
 					detachPopup( btnDialLabel );
@@ -410,21 +475,38 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 			}
 			else
 			{
-				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-						.getLabel( )
-						.setVisible( cbVisible.getSelection( ) );
+				setToggleButtonEnabled( BUTTON_LABEL,
+						getContext().getUIFactory( ).canEnableUI( btnLabelVisible ) );
+				if ( isAuto )
+				{
+					getCurrentDesignTimeSeries( ).getLabel( ).unsetVisible( );
+				}
+				else
+				{
+					getCurrentDesignTimeSeries( ).getLabel( )
+							.setVisible( btnLabelVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				}
 			}
 
 			refreshPopupSheet( );
 		}
-		else if ( e.widget.equals( cbDecoVisible ) )
+		else if ( e.widget == btnDecoVisible )
 		{
 			setToggleButtonEnabled( BUTTON_DECORATION,
-					cbDecoVisible.getSelection( ) );
-			( (GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDecorationLabel( )
-					.setVisible( cbDecoVisible.getSelection( ) );
+					getContext().getUIFactory( ).canEnableUI( btnDecoVisible ) );
+			if ( btnDecoVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+			{
+				( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( )
+						.unsetVisible( );
+			}
+			else
+			{
+				( (GanttSeries) getCurrentDesignTimeSeries( ) ).getDecorationLabel( )
+						.setVisible( btnDecoVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+			}
 			Button btnDecoration = getToggleButton( BUTTON_DECORATION );
-			if ( !cbDecoVisible.getSelection( ) && btnDecoration.getSelection( ) )
+			if ( btnDecoVisible.getSelectionState( ) != ChartCheckbox.STATE_SELECTED
+					&& btnDecoration.getSelection( ) )
 			{
 				btnDecoration.setSelection( false );
 				detachPopup( btnDecoration );
@@ -441,7 +523,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		// TODO Auto-generated method stub
 	}
 
-	private SeriesDefinition getSeriesDefinitionForProcessing( )
+	protected SeriesDefinition getSeriesDefinitionForProcessing( )
 	{
 		SeriesDefinition sd = null;
 		if ( getChart( ) instanceof ChartWithAxes )
@@ -512,7 +594,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		return iSeriesDefinitionIndex;
 	}
 
-	private boolean isTrendlineAvailable( )
+	protected boolean isTrendlineAvailable( )
 	{
 		return ( getChart( ) instanceof ChartWithAxes )
 				&& ( !isGanttSeries( ) )
@@ -522,19 +604,24 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 						+ ChartUIConstants.BUTTON_CURVE );
 	}
 
-	private boolean isMeterSeries( )
+	protected boolean isMeterSeries( )
 	{
-		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof DialSeries;
+		return getCurrentDesignTimeSeries( ) instanceof DialSeries;
 	}
 
-	private boolean isGanttSeries( )
+	protected Series getCurrentDesignTimeSeries( )
 	{
-		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof GanttSeries;
+		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 	}
 
-	private boolean isDifferenceSeries( )
+	protected boolean isGanttSeries( )
 	{
-		return getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) instanceof DifferenceSeries;
+		return getCurrentDesignTimeSeries( ) instanceof GanttSeries;
+	}
+
+	protected boolean isDifferenceSeries( )
+	{
+		return getCurrentDesignTimeSeries( ) instanceof DifferenceSeries;
 	}
 
 }

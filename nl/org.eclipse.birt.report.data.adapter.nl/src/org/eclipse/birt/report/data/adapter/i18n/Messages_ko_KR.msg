@@ -105,4 +105,10 @@ timeFunction.PERIOD2.displayName = 두 번째 기간(&R)
 timeFunction.N1.displayName = 첫 번째 N(&I)
 timeFunction.N2.displayName = 두 번째 N(&O)
 
+timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
+timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
+timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
+timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
+timeFunction.PERIODCHOICE.DAY_displayName =DAY
+
 timeFunction.toolTip.to=대상

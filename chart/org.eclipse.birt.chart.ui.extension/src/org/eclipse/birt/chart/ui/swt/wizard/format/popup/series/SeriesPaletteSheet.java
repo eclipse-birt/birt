@@ -13,16 +13,21 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.PaletteEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
@@ -32,7 +37,7 @@ import org.eclipse.swt.widgets.TabItem;
  * 
  */
 
-public class SeriesPaletteSheet extends AbstractPopupSheet
+public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionListener
 {
 
 	private SeriesDefinition cSeriesDefn = null;
@@ -54,6 +59,10 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 	private TabFolder tf = null;
 	
 	private final int iFillChooserStyle;
+
+	private Button btnAutoPals;
+
+	private Composite cmpContent;
 
 	/**
 	 * 
@@ -86,7 +95,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_PALETTE );
 		// Sheet content composite
-		Composite cmpContent = new Composite( parent, SWT.NONE );
+		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			// Layout for the content composite
 			GridLayout glContent = new GridLayout( );
@@ -95,21 +104,54 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 			cmpContent.setLayout( glContent );
 		}
 
+		btnAutoPals = new Button( cmpContent, SWT.CHECK );
+		btnAutoPals.setText( Messages.getString("SeriesPaletteSheet.Label.Auto") ); //$NON-NLS-1$
+		btnAutoPals.addSelectionListener( this );
+		btnAutoPals.setVisible( context.getUIFactory( ).supportAutoUI( ) );
+		
+		if ( btnAutoPals.isVisible( ) )
+		{
+			updateSeriesPalette( );
+		}
+		
 		// Palete composite
+		createPaletteUI( cmpContent );
+		updateUIStatus( );
+		cmpContent.pack( );
+		return cmpContent;
+	}
+
+	protected void updateSeriesPalette( )
+	{
+		// Add series palettes, user can specify/modify color palette for series defintions.
+		ChartDefaultValueUtil.updateSeriesPalettes( getChart( ), getChart( ).eAdapters( ) );
+	}
+
+	private void createPaletteUI( Composite cmpContent )
+	{
+		boolean isAutoPalette = ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) );
 		slPalette = new StackLayout( );
 
 		grpPalette = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPPalette = new GridData( GridData.FILL_BOTH );
-		gdGRPPalette.heightHint = 300;
+		if ( isAutoPalette )
+		{
+			gdGRPPalette.heightHint = 50;
+		}
+		else
+		{
+			gdGRPPalette.heightHint = 300;
+		}
 		grpPalette.setLayoutData( gdGRPPalette );
 		grpPalette.setLayout( slPalette );
 		grpPalette.setText( Messages.getString( "BaseSeriesAttributeSheetImpl.Lbl.Palette" ) ); //$NON-NLS-1$
-
+		
 		cmpPE = new PaletteEditorComposite( grpPalette,
 				getContext( ),
 				cSeriesDefn.getSeriesPalette( ),
 				vSeriesDefns,
 				iFillChooserStyle );
+		cmpPE.setEnabled( !isAutoPalette );
 
 		cmpMPE = new Composite( grpPalette, SWT.NONE );
 		{
@@ -131,11 +173,13 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 			{
 				TabItem ti = new TabItem( tf, SWT.NONE );
 				ti.setText( Messages.getString("SeriesPaletteSheet.Tab.Series") + ( i + 1 ) ); //$NON-NLS-1$
-				ti.setControl( new PaletteEditorComposite( tf,
+				PaletteEditorComposite pec = new PaletteEditorComposite( tf,
 						getContext( ),
 						vSeriesDefns[i].getSeriesPalette( ),
 						null,
-						iFillChooserStyle ) );
+						iFillChooserStyle );
+				pec.setEnabled( !isAutoPalette );
+				ti.setControl( pec );
 			}
 			tf.setSelection( 0 );
 			slPalette.topControl = cmpMPE;
@@ -152,11 +196,13 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 							.toArray( new SeriesDefinition[]{} ) ;
 					TabItem ti = new TabItem( tf, SWT.NONE );
 					ti.setText( Messages.getString("SeriesPaletteSheet.Tab.Axis") + ( i + 1 ) ); //$NON-NLS-1$
-					ti.setControl( new PaletteEditorComposite( tf,
+					PaletteEditorComposite pec = new PaletteEditorComposite( tf,
 							getContext( ),
 							seriesDefns[0].getSeriesPalette( ),
 							seriesDefns,
-							iFillChooserStyle ) );
+							iFillChooserStyle );
+					pec.setEnabled( !isAutoPalette );
+					ti.setControl( pec );
 				}
 				tf.setSelection( 0 );
 				slPalette.topControl = cmpMPE;
@@ -166,10 +212,24 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 				slPalette.topControl = cmpPE;
 			}
 		}
-
-		return cmpContent;
 	}
 
+	private void updateUIStatus( )
+	{
+		if ( context.getUIFactory( ).supportAutoUI( )
+				&& ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) ) )
+		{
+			// It means there isn't specified color palette, it is Auto mode.
+			btnAutoPals.setSelection( true );
+			grpPalette.setEnabled( false );
+		}
+		else
+		{
+			btnAutoPals.setSelection( false );
+			grpPalette.setEnabled( true );			
+		}
+	}
+	
 	public void setGroupedPalette( boolean isGroupedSeries )
 	{
 		this.isGroupedSeries = isGroupedSeries;
@@ -188,6 +248,54 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 	private boolean isMultiAxes( )
 	{
 		return ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ) > 1;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetDefaultSelected( SelectionEvent arg0 )
+	{
+		// Do nothing.
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 */
+	public void widgetSelected( SelectionEvent e )
+	{
+		if ( btnAutoPals == e.widget )
+		{
+			if ( btnAutoPals.getSelection( ) )
+			{
+				grpPalette.setEnabled( false );
+				grpPalette.setVisible( false );
+				
+				// Disable series palettes, removed all palettes from series definitions of chart.
+				ChartDefaultValueUtil.removeSerlesPalettes( getChart( ) );
+			}
+			else
+			{
+				grpPalette.setEnabled( true );
+				grpPalette.setVisible( true );
+				
+				updateSeriesPalette( );
+			}
+			
+			refreshPaletteUI( );
+		}
+	}
+
+	private void refreshPaletteUI( )
+	{
+		vSeriesDefns = ChartUtil.getValueSeriesDefinitions( getChart( ) );
+		cSeriesDefn = ChartUtil.getCategorySeriesDefinition( getChart( ) );
+		if ( grpPalette != null && !grpPalette.isDisposed( ) )
+		{
+			grpPalette.dispose( );
+		}
+		createPaletteUI( cmpContent );
+		cmpContent.getShell( ).layout( );
+		cmpContent.getShell( ).pack( );
 	}
 	
 }

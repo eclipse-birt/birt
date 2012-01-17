@@ -387,6 +387,31 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		setVisible( true );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return series instance
+	 */
+	public static final Series createDefault( )
+	{
+		final BarSeries bs = TypeFactory.eINSTANCE.createBarSeries( );
+		( (BarSeriesImpl) bs ).initDefault( );
+		return bs;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.type.BarSeries#initialize()
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+		riserOutline = null;
+		riser = RiserType.RECTANGLE_LITERAL;
+		visible = true;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -403,18 +428,28 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 
 		// Copy generic series properties
 		this.setLabel( series.getLabel( ) );
-		if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
-				|| series.getLabelPosition( ).equals( Position.OUTSIDE_LITERAL ) )
+		if ( series.isSetLabelPosition( ) )
 		{
-			this.setLabelPosition( series.getLabelPosition( ) );
+			if ( series.getLabelPosition( ).equals( Position.INSIDE_LITERAL )
+					|| series.getLabelPosition( )
+							.equals( Position.OUTSIDE_LITERAL ) )
+			{
+				this.setLabelPosition( series.getLabelPosition( ) );
+			}
+			else
+			{
+				this.setLabelPosition( Position.OUTSIDE_LITERAL );
+			}
 		}
-		else
+		
+		if ( series.isSetVisible( ) )
 		{
-			this.setLabelPosition( Position.OUTSIDE_LITERAL );
+			this.setVisible( series.isVisible( ) );
 		}
-
-		this.setVisible( series.isVisible( ) );
-		this.setStacked( series.isStacked( ) );
+		if ( series.isSetStacked( ) )
+		{
+			this.setStacked( series.isStacked( ) );
+		}
 		if ( series.eIsSet( ComponentPackage.eINSTANCE.getSeries_Triggers( ) ) )
 		{
 			this.getTriggers( ).addAll( series.getTriggers( ) );
@@ -445,13 +480,7 @@ public class BarSeriesImpl extends SeriesImpl implements BarSeries
 		}
 
 		// Update the base axis to type text if it isn't already
-		if ( chart instanceof ChartWithAxes )
-		{
-			( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 )
-					.setCategoryAxis( true );
-		}
-		else
+		if ( !( chart instanceof ChartWithAxes ) )
 		{
 			throw new IllegalArgumentException( Messages.getString( "error.invalid.argument.for.barSeries", //$NON-NLS-1$
 					new Object[]{

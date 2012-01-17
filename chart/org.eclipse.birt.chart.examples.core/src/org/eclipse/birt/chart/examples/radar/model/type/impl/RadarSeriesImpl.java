@@ -23,7 +23,9 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.attribute.impl.MarkerImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -2129,6 +2131,13 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		return se;
 	}
 
+	public static final RadarSeries createDefault( )
+	{
+		final RadarSeries se = org.eclipse.birt.chart.examples.radar.model.type.RadarTypeFactory.eINSTANCE.createRadarSeries( );
+		( (RadarSeriesImpl) se ).initDefault( );
+		return se;
+	}
+	
 	/**
 	 * Initializes all member variables within this object recursively
 	 * 
@@ -2144,7 +2153,7 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		setLineAttributes( lia );
 
 		final LineAttributes weblia = AttributeFactory.eINSTANCE.createLineAttributes( );
-		( (LineAttributesImpl) weblia ).set( null, LineStyle.SOLID_LITERAL, 1 );
+		( (LineAttributesImpl) weblia ).set( ColorDefinitionImpl.BLACK( ), LineStyle.SOLID_LITERAL, 1 );
 		weblia.setVisible( true );
 		setWebLineAttributes( weblia );
 
@@ -2162,6 +2171,30 @@ public class RadarSeriesImpl extends SeriesImpl implements RadarSeries
 		final Label clab = LabelImpl.create( );
 		setCatLabel( clab );
 
+		setPaletteLineColor( true );
+	}
+	
+	protected void initDefault( )
+	{
+		super.initDefault( );
+
+		final LineAttributes lia = LineAttributesImpl.createDefault( null, LineStyle.SOLID_LITERAL, 1, true );
+		setLineAttributes( lia );
+
+		final LineAttributes weblia = LineAttributesImpl.createDefault( null, LineStyle.SOLID_LITERAL, 1, true );
+		setWebLineAttributes( weblia );
+
+		final Marker m = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4 , true );
+		LineAttributes la = LineAttributesImpl.createDefault( true );
+		m.setOutline( la );
+		setMarker( m );
+
+		final Label lab = LabelImpl.createDefault( );
+		setWebLabel( lab );
+		final Label clab = LabelImpl.createDefault( );
+		setCatLabel( clab );
+
+		paletteLineColor = true;
 	}
 
 	@Override

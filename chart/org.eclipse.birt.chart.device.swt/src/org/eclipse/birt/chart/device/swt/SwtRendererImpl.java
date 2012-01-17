@@ -606,38 +606,17 @@ public class SwtRendererImpl extends DeviceAdapter
 
 			Bounds rctOuter, rctInner;
 
-			if ( are.getOuterRadius( ) > 0 )
-			{
-				rctOuter = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
-						( 2 * are.getOuterRadius( ) * dScale ),
-						( 2 * are.getOuterRadius( ) * dScale ) );
-			}
-			else
-			{
-				rctOuter = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY ) * dScale ),
-						( bo.getWidth( ) * dScale ),
-						( bo.getHeight( ) * dScale ) );
-			}
+			rctOuter = getOuterRectangle( are,
+					dTranslateX,
+					dTranslateY,
+					dScale,
+					bo );
 
-			if ( are.getInnerRadius( ) > 0 )
-			{
-				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
-						( 2 * are.getInnerRadius( ) * dScale ),
-						( 2 * are.getInnerRadius( ) * dScale ) );
-			}
-			else
-			{
-				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + bo.getHeight( ) / 2d ) * dScale ),
-						0,
-						0 );
-			}
+			rctInner = getInnerRectangle( are,
+					dTranslateX,
+					dTranslateY,
+					dScale,
+					bo );
 
 			double startAngle = Math.toRadians( -are.getStartAngle( ) );
 			double stopAngle = Math.toRadians( -are.getStartAngle( )
@@ -759,6 +738,54 @@ public class SwtRendererImpl extends DeviceAdapter
 
 	}
 
+	protected Bounds getOuterRectangle( ArcRenderEvent are, double dTranslateX,
+			double dTranslateY, double dScale, Bounds bo )
+	{
+		Bounds rctOuter;
+		if ( are.getOuterRadius( ) > 0 )
+		{
+			double radio = bo.getHeight( ) / bo.getWidth( );
+			rctOuter = goFactory.createBounds( ( ( bo.getLeft( )
+					+ dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
+					( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getOuterRadius( )
+							* radio ) ) * dScale ),
+					( 2 * are.getOuterRadius( ) * dScale ),
+					( 2 * are.getOuterRadius( ) * dScale ) * radio );
+		}
+		else
+		{
+			rctOuter = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+					( ( bo.getTop( ) + dTranslateY ) * dScale ),
+					( bo.getWidth( ) * dScale ),
+					( bo.getHeight( ) * dScale ) );
+		}
+		return rctOuter;
+	}
+
+	protected Bounds getInnerRectangle( ArcRenderEvent are, double dTranslateX,
+			double dTranslateY, double dScale, Bounds bo )
+	{
+		Bounds rctInner;
+		if ( are.getInnerRadius( ) > 0 )
+		{
+			double radio = bo.getHeight( ) / bo.getWidth( );
+			rctInner = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
+					( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( )
+							* radio ) ) * dScale ),
+					( 2 * are.getInnerRadius( ) * dScale ),
+					( 2 * are.getInnerRadius( ) * dScale ) * radio );
+		}
+		else
+		{
+			rctInner = goFactory.createBounds( ( ( bo.getLeft( )
+					+ dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
+					( ( bo.getTop( ) + dTranslateY + bo.getHeight( ) / 2d ) * dScale ),
+					0,
+					0 );
+		}
+		return rctInner;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -853,39 +880,18 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			Bounds rctOuter, rctInner;
 
-			if ( are.getOuterRadius( ) > 0 )
-			{
-				rctOuter = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
-						( 2 * are.getOuterRadius( ) * dScale ),
-						( 2 * are.getOuterRadius( ) * dScale ) );
-			}
-			else
-			{
-				rctOuter = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY ) * dScale ),
-						( bo.getWidth( ) * dScale ),
-						( bo.getHeight( ) * dScale ) );
-			}
+			rctOuter = getOuterRectangle( are,
+					dTranslateX,
+					dTranslateY,
+					dScale,
+					bo );
 
-			if ( are.getInnerRadius( ) > 0 )
-			{
-				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
-						( 2 * are.getInnerRadius( ) * dScale ),
-						( 2 * are.getInnerRadius( ) * dScale ) );
-			}
-			else
-			{
-				rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-						+ dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
-						( ( bo.getTop( ) + dTranslateY + bo.getHeight( ) / 2d ) * dScale ),
-						0,
-						0 );
-			}
-
+			rctInner = getInnerRectangle( are,
+					dTranslateX,
+					dTranslateY,
+					dScale,
+					bo );
+			
 			double startAngle = Math.toRadians( -are.getStartAngle( ) );
 			double stopAngle = Math.toRadians( -are.getStartAngle( )
 					- are.getAngleExtent( ) );

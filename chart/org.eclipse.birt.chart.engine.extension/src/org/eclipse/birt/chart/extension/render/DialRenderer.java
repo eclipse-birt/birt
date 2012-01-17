@@ -558,12 +558,17 @@ public final class DialRenderer
 		{
 			DialRegion dregion = dialComponent.getDialRegions( ).get( i );
 
-			double drStartValue = ( (NumberDataElement) dregion.getStartValue( ) ).getValue( );
-			double drEndValue = ( (NumberDataElement) dregion.getEndValue( ) ).getValue( );
+			
 			double ascMinValue = Double.parseDouble( asc.getMinimum( )
 					.toString( ) );
 			double ascMaxValue = Double.parseDouble( asc.getMaximum( )
 					.toString( ) );
+			
+			// If start/end isn't set, it just uses min/max as start/end.
+			double drStartValue = dregion.getStartValue( ) == null ? ascMinValue
+					: ( (NumberDataElement) dregion.getStartValue( ) ).getValue( );
+			double drEndValue = dregion.getEndValue( ) == null ? ascMaxValue
+					: ( (NumberDataElement) dregion.getEndValue( ) ).getValue( );
 
 			if ( !( ( Math.max( drStartValue, drEndValue ) <= ascMinValue )
 					|| ( Math.min( drStartValue, drEndValue ) >= ( ascMaxValue ) ) || ( drStartValue == drEndValue ) ) )

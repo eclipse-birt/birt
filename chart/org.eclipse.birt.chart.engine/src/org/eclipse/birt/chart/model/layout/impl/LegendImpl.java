@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.InsetsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Label;
@@ -2011,7 +2012,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return true if this block is legend.
 	 */
 	public boolean isLegend( )
 	{
@@ -2022,7 +2023,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * Note: Manually written
 	 * 
-	 * @return
+	 * @return true if this is custom block.
 	 */
 	public boolean isCustom( )
 	{
@@ -2067,9 +2068,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	}
 
 	/**
-	 * A convenience method to create an initialized 'Legendt' instance
+	 * A convenience method to create an initialized 'Legend' instance
 	 * 
-	 * @return
+	 * @return legend instance with setting 'isSet' flag.
 	 */
 	public static final Block create( )
 	{
@@ -2114,6 +2115,54 @@ public class LegendImpl extends BlockImpl implements Legend
 
 		setText( TextImpl.create( (String) null ) );
 	}
+	
+	/**
+	 * A convenience method to create an initialized 'Legend' instance
+	 * 
+	 * @return legend instance without setting 'isSet' flag.
+	 */
+	public static final Block createDefault( )
+	{
+		final Legend lg = LayoutFactory.eINSTANCE.createLegend( );
+		( (LegendImpl) lg ).initDefault( );
+		return lg;
+	}
+
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+		position = Position.RIGHT_LITERAL;
+		orientation = Orientation.VERTICAL_LITERAL;
+		direction = Direction.TOP_BOTTOM_LITERAL;
+		itemType = LegendItemType.SERIES_LITERAL;
+
+		Label la = LabelImpl.createDefault( false );
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1, false );
+		la.setOutline( lia );
+		la.getCaption( ).setValue( null );
+		setTitle( la );
+		titlePosition = Position.ABOVE_LITERAL;
+
+		LineAttributes separator = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1 );
+		setSeparator( separator );
+
+		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
+		( (ClientAreaImpl) ca ).initDefault( );
+		
+		ca.setInsets( InsetsImpl.createDefault( 2, 2, 2, 2 ) );
+		setClientArea( ca );
+
+		setText( TextImpl.createDefault( (String) null ) );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -2124,7 +2173,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	{
 		final Legend lg = this;
 		final Plot pl = cm.getPlot( );
-		final EList el = pl.getChildren( );
+		final EList<Block> el = pl.getChildren( );
 		final Position p = lg.getPosition( );
 		final boolean bLegendInsidePlot = p.getValue( ) == Position.INSIDE;
 		final boolean bPlotContainsLegend = el.indexOf( lg ) >= 0;

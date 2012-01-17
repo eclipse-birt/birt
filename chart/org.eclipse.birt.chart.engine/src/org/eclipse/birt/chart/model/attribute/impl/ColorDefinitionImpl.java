@@ -590,7 +590,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @param iBlue
 	 * @param iAlpha
 	 * 
-	 * @return
+	 * @return color definition instance with setting 'isSet' flag.
 	 */
 	public static final ColorDefinition create( int iRed, int iGreen,
 			int iBlue, int iAlpha )
@@ -606,7 +606,7 @@ public class ColorDefinitionImpl extends FillImpl implements ColorDefinition
 	 * @param iRed
 	 * @param iGreen
 	 * @param iBlue
-	 * @return
+	 * @return color definition instance with setting 'isSet' flag.
 	 */
 	public static final ColorDefinition create( int iRed, int iGreen, int iBlue )
 	{

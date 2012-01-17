@@ -12,6 +12,7 @@
 package org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 
 /**
@@ -38,7 +39,21 @@ public interface IButtonHandler
 	 * @return Label for the custom button.
 	 */
 	String getLabel( );
+	
+	/**
+	 * Returns tool-tip text of this button.
+	 * 
+	 * @return  tool-tip text of this button.
+	 */
+	String getTooltip( );
 
+	/**
+	 * Returns button icon.
+	 * 
+	 * @return button icon.
+	 */
+	Image getIcon( );
+	
 	/**
 	 * Restores the button control for later use. This method will be invoked by
 	 * <code>WizardBase</code>

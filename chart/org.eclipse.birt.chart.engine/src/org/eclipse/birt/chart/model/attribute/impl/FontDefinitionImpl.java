@@ -1084,6 +1084,18 @@ public class FontDefinitionImpl extends EObjectImpl implements FontDefinition
 		fd.setAlignment( AttributeFactory.eINSTANCE.createTextAlignment( ) );
 		return fd;
 	}
+	
+	public static final FontDefinition createEmptyDefault( )
+	{
+		FontDefinition fd = AttributeFactory.eINSTANCE.createFontDefinition( );
+		( (FontDefinitionImpl) fd ).initDefault( );
+		return fd;
+	}
+
+	private void initDefault( )
+	{
+		this.alignment = AttributeFactory.eINSTANCE.createTextAlignment( );
+	}
 
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the

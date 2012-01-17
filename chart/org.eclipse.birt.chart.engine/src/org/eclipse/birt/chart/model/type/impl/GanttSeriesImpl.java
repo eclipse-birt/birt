@@ -1224,6 +1224,53 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		setDecorationLabel( lb );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 */
+	public static Series createDefault( )
+	{
+		final GanttSeries gs = TypeFactory.eINSTANCE.createGanttSeries( );
+		( (GanttSeriesImpl) gs ).initDefault( );
+		return gs;
+	}
+
+	/**
+	 * Initializes all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+
+		Marker sm = MarkerImpl.createDefault( MarkerType.NABLA_LITERAL, 4, false );
+		setStartMarker( sm );
+
+		Marker em = MarkerImpl.createDefault( MarkerType.NABLA_LITERAL, 4, false );
+		setEndMarker( em );
+
+		startMarkerPosition = Position.BELOW_LITERAL;
+		endMarkerPosition = Position.ABOVE_LITERAL;
+
+		labelPosition = Position.ABOVE_LITERAL;
+
+		LineAttributes la = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				8 );
+		paletteLineColor = true;
+		setConnectionLine( la );
+
+		la = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1,
+				true );
+		setOutline( la );
+
+		Label lb = LabelImpl.createDefault( );
+		setDecorationLabel( lb );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

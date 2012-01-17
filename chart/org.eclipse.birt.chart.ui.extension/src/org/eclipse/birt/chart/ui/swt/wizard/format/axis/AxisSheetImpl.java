@@ -17,11 +17,14 @@ import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -29,7 +32,6 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -40,8 +42,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -179,7 +179,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
 				Messages.getString( "AxisSheetImpl.Label.CategoryX" ), //$NON-NLS-1$
 				AngleType.X,
-				treeIndex++ ).placeComponents( cmpList );
+				treeIndex++,
+				DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0] ).placeComponents( cmpList );
 
 		// Y axes.
 		int yaxisNumber = ChartUIUtil.getOrthogonalAxisNumber( getChart( ) );
@@ -188,7 +189,11 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			String text = Messages.getString( "AxisSheetImpl.Label.ValueY" ); //$NON-NLS-1$
 			new AxisOptionChoser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
 					i ),
-					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ), AngleType.Y, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
+					yaxisNumber == 1 ? text : ( text + " - " + ( i + 1 ) ),  //$NON-NLS-1$
+					AngleType.Y,
+					treeIndex++,
+					DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0].getAssociatedAxes( )
+							.get( 0 ) ).placeComponents( cmpList );
 		}
 
 		// Z axis.
@@ -197,7 +202,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			new AxisOptionChoser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
 					Messages.getString( "AxisSheetImpl.Label.AncillaryZ" ), //$NON-NLS-1$
 					AngleType.Z,
-					treeIndex++ ).placeComponents( cmpList );
+					treeIndex++,
+					DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0].getAncillaryAxes( )
+							.get( 0 ) ).placeComponents( cmpList );
 		}
 
 	}
@@ -206,10 +213,9 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	{
 
 		private Link linkAxis;
-		private Combo cmbTypes;
-		private Button btnVisible;
+		private ChartCombo cmbTypes;
+		private ChartCheckbox btnVisible;
 		private FillChooserComposite cmbColor;
-// private IntegerSpinControl iscRotation;
 		private Axis axis;
 		private String axisName;
 		private int angleType;
@@ -217,18 +223,20 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
 
-		private Button btnAligned;
-		private Button btnSideBySide;
+		private ChartCheckbox btnAligned;
+		private ChartCheckbox btnSideBySide;
 		
 		private TextEditorComposite compAxisPercent;
+		private Axis defAxis;
 
 		public AxisOptionChoser( Axis axis, String axisName, int angleType,
-				int treeIndex )
+				int treeIndex, Axis defAxis )
 		{
 			this.axis = axis;
 			this.axisName = axisName;
 			this.angleType = angleType;
 			this.treeIndex = treeIndex;
+			this.defAxis = defAxis;
 		}
 
 		public void placeComponents( Composite parent )
@@ -241,15 +249,19 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				linkAxis.addSelectionListener( this );
 			}
 
-			cmbTypes = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+			cmbTypes = getContext( ).getUIFactory( ).createChartCombo( parent,
+					SWT.DROP_DOWN | SWT.READ_ONLY,
+					axis,
+					"type",//$NON-NLS-1$
+					defAxis.getType( ).getName( ) );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalAlignment = SWT.CENTER;
 				cmbTypes.setLayoutData( gd );
-				NameSet ns = ChartUIUtil.getCompatibleAxisType( ( (SeriesDefinition) axis.getSeriesDefinitions( )
-						.get( 0 ) ).getDesignTimeSeries( ) );
+				NameSet ns = ChartUIUtil.getCompatibleAxisType( getDesignTimeSeries( axis ) );
 				cmbTypes.setItems( ns.getDisplayNames( ) );
-				cmbTypes.select( ns.getSafeNameIndex( axis.getType( ).getName( ) ) );
+				cmbTypes.setItemData( ns.getNames( ) );
+				cmbTypes.setSelection( axis.getType( ).getName( ) );
 				cmbTypes.addSelectionListener( this );
 			}
 
@@ -272,32 +284,50 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				cmbColor.addListener( this );
 			}
 
-			btnVisible = new Button( parent, SWT.CHECK );
+			btnVisible = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defAxis.getLineAttributes( ).isVisible( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnVisible.setLayoutData( gd );
+				btnVisible.setSelectionState( axis.getLineAttributes( )
+						.isSetVisible( ) ? ( axis.getLineAttributes( )
+						.isVisible( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnVisible.addSelectionListener( this );
-				btnVisible.setSelection( axis.getLineAttributes( ).isVisible( ) );
 			}
 
-			btnAligned = new Button( parent, SWT.CHECK );
+			btnAligned = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defAxis.isAligned( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnAligned.setLayoutData( gd );
+				btnAligned.setSelectionState( axis.isSetAligned( ) ? ( axis.isAligned( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnAligned.addSelectionListener( this );
-				btnAligned.setSelection( axis.isAligned( ) );
+				
 				updateBtnAlignedStatus( );
 			}
 
-			btnSideBySide = new Button( parent, SWT.CHECK );
+			btnSideBySide = getContext( ).getUIFactory( )
+					.createChartCheckbox( parent,
+							SWT.NONE,
+							defAxis.isSideBySide( ) );
 			{
 				GridData gd = new GridData( );
 				gd.horizontalAlignment = SWT.CENTER;
 				btnSideBySide.setLayoutData( gd );
+				btnSideBySide.setSelectionState( axis.isSetSideBySide( ) ? ( axis.isSideBySide( ) ? ChartCheckbox.STATE_SELECTED
+						: ChartCheckbox.STATE_UNSELECTED )
+						: ChartCheckbox.STATE_GRAYED );
 				btnSideBySide.addSelectionListener( this );
-				btnSideBySide.setSelection( axis.isSideBySide( ) );
 				updateBtnSideBySidStatus( );
 			}
 
@@ -341,48 +371,71 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		private void updateBtnAlignedStatus( )
 		{
 			btnAligned.setEnabled( ( angleType == AngleType.Y )
-					&& ( axis.getType( ).getValue( ) == AxisType.LINEAR ) );
+					&& ( axis.isSetType( ) && axis.getType( ).getValue( ) == AxisType.LINEAR ) );
 		}
 
 		private void updateBtnSideBySidStatus( )
 		{
 			btnSideBySide.setEnabled( ( angleType == AngleType.Y )
-					&& ( ( (SeriesDefinition) axis.getSeriesDefinitions( )
-							.get( 0 ) ).getDesignTimeSeries( ) instanceof BarSeries ) );
+					&& ( getDesignTimeSeries( axis ) instanceof BarSeries ) );
 		}
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			if ( e.widget.equals( btnVisible ) )
+			if ( e.widget == btnVisible )
 			{
-				axis.getLineAttributes( )
-						.setVisible( btnVisible.getSelection( ) );
+				if ( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+				{
+					axis.getLineAttributes( ).unsetVisible( );
+				}
+				else
+				{
+					axis.getLineAttributes( )
+							.setVisible( btnVisible.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				}
 			}
 			else if ( e.widget.equals( cmbTypes ) )
 			{
-				AxisType axisType = AxisType.getByName( LiteralHelper.axisTypeSet.getNameByDisplayName( cmbTypes.getText( ) ) );
-
+				String axisTypeName = cmbTypes.getSelectedItemData( );
 				// Update the Sample Data without event fired.
 				boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
 				ChartAdapter.ignoreNotifications( true );
+				// Set type and refresh the preview
+				AxisType axisType = ( axisTypeName == null ) ? defAxis.getType( ) : AxisType.getByName( axisTypeName );
 				convertSampleData( axisType );
 				ChartAdapter.ignoreNotifications( isNotificaionIgnored );
 
-				// Set type and refresh the preview
-				axis.setType( axisType );
+				if ( axisTypeName != null )
+				{
+					axis.setType( axisType );
+				}
 				updateBtnAlignedStatus( );
 			}
 			else if ( e.widget.equals( linkAxis ) )
 			{
 				switchTo( treeIndex );
 			}
-			else if ( e.widget.equals( btnAligned ) )
+			else if ( e.widget == btnAligned )
 			{
-				axis.setAligned( btnAligned.getSelection( ) );
+				if ( btnAligned.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+				{
+					axis.unsetAligned( );
+				}
+				else
+				{
+					axis.setAligned( btnAligned.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				}
 			}
-			else if ( e.widget.equals( btnSideBySide ) )
+			else if ( e.widget == btnSideBySide )
 			{
-				axis.setSideBySide( btnSideBySide.getSelection( ) );
+				if ( btnSideBySide.getSelectionState( ) == ChartCheckbox.STATE_GRAYED )
+				{
+					axis.unsetSideBySide( );
+				}
+				else
+				{
+					axis.setSideBySide( btnSideBySide.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
+				}
 			}
 			
 		}
@@ -431,7 +484,11 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		{
 			if ( angleType == AngleType.X )
 			{
-				BaseSampleData bsd = (BaseSampleData) getChart( ).getSampleData( )
+				if ( axisType == null )
+				{
+					axisType = AxisType.TEXT_LITERAL;
+				}
+				BaseSampleData bsd = getChart( ).getSampleData( )
 						.getBaseSampleData( )
 						.get( 0 );
 				bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
@@ -440,6 +497,10 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			}
 			else if ( angleType == AngleType.Y )
 			{
+				if ( axisType == null )
+				{
+					axisType = AxisType.LINEAR_LITERAL;
+				}
 				// Run the conversion routine for ALL orthogonal sample data
 				// entries related to series definitions for this axis
 				// Get the start and end index of series definitions that fall
@@ -454,7 +515,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 						.size( );
 				for ( int i = 0; i < iOSDSize; i++ )
 				{
-					OrthogonalSampleData osd = (OrthogonalSampleData) getChart( ).getSampleData( )
+					OrthogonalSampleData osd = getChart( ).getSampleData( )
 							.getOrthogonalSampleData( )
 							.get( i );
 					if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
@@ -494,4 +555,11 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		}
 	}
 
+
+	protected Series getDesignTimeSeries( Axis axis )
+	{
+		return axis.getSeriesDefinitions( )
+				.get( 0 )
+				.getDesignTimeSeries( );
+	}
 }

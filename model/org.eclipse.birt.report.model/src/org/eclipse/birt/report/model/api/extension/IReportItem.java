@@ -15,8 +15,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
@@ -251,4 +253,9 @@ public interface IReportItem
 	 * @return the iterator
 	 */
 	public Iterator availableBindings( );
+	
+	public StyleHandle[] getReferencedStyle( );
+	
+	public void updateStyleReference( Map<String, String> styleMap );
+
 }

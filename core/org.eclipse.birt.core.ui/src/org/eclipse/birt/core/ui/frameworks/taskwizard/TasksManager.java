@@ -121,10 +121,25 @@ public class TasksManager
 					if ( registeredWizards.containsKey( sID ) )
 					{
 						String sInsertionKey = elements[i].getAttribute( "positionBefore" ); //$NON-NLS-1$
+						// An ID for a task included in this wizard before which
+						// the tasks specified by 'tasklist' are to be inserted.
+						// This can also be an integer index on which the tasks
+						// will be inserted. Default value is blank, which means
+						// inserting to the last.
+						int insertIndex;
+						try
+						{
+							insertIndex = Integer.parseInt( sInsertionKey );
+						}
+						catch ( NumberFormatException e )
+						{
+							insertIndex = -1;
+						}
 						Vector<String> vTemp = registeredWizards.get( sID );
 						// IF INSERTION KEY IS SPECIFIED
 						if ( sInsertionKey != null
-								&& sInsertionKey.trim( ).length( ) > 0 )
+								&& sInsertionKey.trim( ).length( ) > 0
+								&& insertIndex < 0 )
 						{
 							int iInsertionPosition = registeredWizards.get( sID )
 									.indexOf( sInsertionKey );
@@ -140,7 +155,8 @@ public class TasksManager
 								continue;
 							}
 						}
-						registeredWizards.put( sID, addAllTasks( vTemp, sTasks ) );
+						registeredWizards.put( sID,
+								addAllTasks( vTemp, sTasks, insertIndex ) );
 					}
 					else
 					{
@@ -148,7 +164,9 @@ public class TasksManager
 								&& sTaskList.trim( ).length( ) > 0 )
 						{
 							registeredWizards.put( sID,
-									addAllTasks( new Vector<String>( ), sTasks ) );
+									addAllTasks( new Vector<String>( ),
+											sTasks,
+											-1 ) );
 						}
 						else
 						{
@@ -165,13 +183,23 @@ public class TasksManager
 		}
 	}
 
-	private Vector<String> addAllTasks( Vector<String> vTemp, String[] sTasks )
+	private Vector<String> addAllTasks( Vector<String> vTemp, String[] sTasks,
+			int insertIndex )
 	{
 		// IF INSERTION KEY IS NOT SPECIFIED OR IS NOT FOUND...ADD ALL TASKS TO
 		// THE END OF EXISTING TASK LIST
 		for ( int iTaskIndex = 0; iTaskIndex < sTasks.length; iTaskIndex++ )
 		{
-			vTemp.add( sTasks[iTaskIndex].trim( ) );
+			if ( insertIndex >= 0 )
+			{
+				// Insert to specified index
+				vTemp.add( iTaskIndex + insertIndex, sTasks[iTaskIndex].trim( ) );
+			}
+			else
+			{
+				// Insert to last
+				vTemp.add( sTasks[iTaskIndex].trim( ) );
+			}
 		}
 		return vTemp;
 	}

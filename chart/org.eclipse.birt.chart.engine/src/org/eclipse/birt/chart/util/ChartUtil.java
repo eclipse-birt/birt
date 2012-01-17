@@ -71,7 +71,9 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.DataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -1296,7 +1298,7 @@ public class ChartUtil
 		}
 		return null;
 	}
-
+	 
 	/**
 	 * Return specified axis definitions or all series definitions. Remember
 	 * return type is ArrayList, not EList, no event is fired when adding or
@@ -1976,6 +1978,26 @@ public class ChartUtil
 	}
 	
 	/**
+	 * Removes a extended property.
+	 * 
+	 * @param cm
+	 * @param propertyName the property name of target extended property.
+	 * @return <code>true</code> if specified property is remvoed.
+	 */
+	public static boolean remvoeExtendedProperty( Chart cm , String propertyName )
+	{
+		for ( ExtendedProperty property : cm.getExtendedProperties( ) )
+		{
+			if ( property.getName( ).equals( propertyName ) )
+			{
+				cm.getExtendedProperties( ).remove( property );
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Sets the value in extended property. If the property with specified name
 	 * is not found, insert one property.
 	 * 
@@ -1993,6 +2015,7 @@ public class ChartUtil
 		{
 			ExtendedProperty extendedProperty = AttributeFactoryImpl.init( )
 					.createExtendedProperty( );
+			extendedProperty.eAdapters( ).addAll(cm.eAdapters( ) );
 			extendedProperty.setName( propertyName );
 			extendedProperty.setValue( propertyValue );
 			cm.getExtendedProperties( ).add( extendedProperty );
@@ -2360,5 +2383,151 @@ public class ChartUtil
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Returns instance of category series definition.
+	 * 
+	 * @param chart
+	 * @return instance of category series definition.
+	 * @since 3.7
+	 */
+	public static SeriesDefinition getCategorySeriesDefinition( Chart chart )
+	{
+		return getBaseSeriesDefinitions( chart ).get( 0 );
+	}
+
+	/**
+	 * Returns number of orthogonal axes.
+	 * 
+	 * @param chart
+	 * @return number of orthogonal axes.
+	 * @since 3.7
+	 */
+	public static int getOrthogonalAxisNumber( Chart chart )
+	{
+		if ( chart instanceof ChartWithAxes )
+		{
+			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
+			return axisList.size( );
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * Return specified axis definitions.
+	 * 
+	 * @param chart
+	 *            chart
+	 * @param axisIndex
+	 *            If chart is without axis type, it always return all orthogonal
+	 *            series definition.
+	 * @return specified axis definitions or all series definitions
+	 * @since 3.7
+	 */
+	public static EList<SeriesDefinition> getOrthogonalSeriesDefinitions(
+			Chart chart, int axisIndex )
+	{
+		if ( chart instanceof ChartWithAxes )
+		{
+			EList<Axis> axisList = ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 )
+					.getAssociatedAxes( );
+			return axisList.get( axisIndex ).getSeriesDefinitions( );
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( );
+		}
+		return null;
+	}
+
+	/**
+	 * Returns a value series definitions of chart.
+	 * 
+	 * @param chart
+	 * @return a value series definitions of chart.
+	 * @since 3.7
+	 */
+	public static SeriesDefinition[] getValueSeriesDefinitions( Chart chart )
+	{
+		SeriesDefinition[] sds = null;
+		if ( chart instanceof ChartWithAxes )
+		{
+			sds = ( (ChartWithAxes) chart ).getSeriesForLegend( );
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			sds = ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.toArray( new SeriesDefinition[]{} );
+		}
+		return sds;
+	}
+	
+	/**
+	 * Returns specified query.
+	 * 
+	 * @param seriesDefn
+	 * @param queryIndex
+	 * @return query object.
+	 * 
+	 * @since 3.7
+	 */
+	public static Query getDataQuery( SeriesDefinition seriesDefn,
+			int queryIndex )
+	{
+		if ( seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).size( ) <= queryIndex )
+		{
+			Query query = QueryImpl.create( "" ); //$NON-NLS-1$
+			query.eAdapters( ).addAll( seriesDefn.eAdapters( ) );
+			seriesDefn.getDesignTimeSeries( ).getDataDefinition( ).add( query );
+			return query;
+		}
+		return seriesDefn.getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( queryIndex );
+	}
+	
+	/**
+	 * Check if specified chart is doughnut chart.
+	 * 
+	 * @param cm
+	 * @return true if specified chart is doughnut chart.
+	 */
+	public static boolean isDoughnutChart( Chart cm )
+	{
+		if ( "Pie Chart".equals( cm.getType( ) ) ) //$NON-NLS-1$
+		{
+			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
+			Series s = cwa.getSeriesDefinitions( )
+					.get( 0 )
+					.getSeriesDefinitions( )
+					.get( 0 )
+					.getDesignTimeSeries( );
+			return ( s instanceof PieSeries && ( (PieSeries) s ).getInnerRadius( ) > 0 );
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns default chart title.
+	 * 
+	 * @param chart
+	 * @return default chart title.
+	 */
+	public static String getDefaultChartTitle( Chart chart )
+	{
+		return Messages.getString( chart.getType( )
+				.replaceAll( " ", "" ) + ".Title" );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 }

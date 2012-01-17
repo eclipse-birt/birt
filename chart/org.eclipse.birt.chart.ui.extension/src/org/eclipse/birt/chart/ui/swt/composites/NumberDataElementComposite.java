@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.data.impl.BigNumberDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -36,6 +37,8 @@ import com.ibm.icu.text.NumberFormat;
 public class NumberDataElementComposite extends TextEditorComposite implements
 		IDataElementComposite
 {
+
+	protected EObject eParent;
 
 	public NumberDataElementComposite( Composite parent, DataElement data )
 	{
@@ -92,5 +95,10 @@ public class NumberDataElementComposite extends TextEditorComposite implements
 			this.setText( data == null ? "" : ChartUIUtil.getDefaultNumberFormatInstance( ) //$NON-NLS-1$
 							.format( ( (NumberDataElement) data ).getValue( ) ) );
 		}
+	}
+
+	public void setEObjectParent( EObject eParent )
+	{
+		this.eParent = eParent;
 	}
 }

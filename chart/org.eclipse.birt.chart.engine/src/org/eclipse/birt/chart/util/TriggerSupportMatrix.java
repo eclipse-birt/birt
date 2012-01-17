@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.model.attribute.ActionType;
+import org.eclipse.birt.chart.model.attribute.CursorType;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.data.Trigger;
 
@@ -27,9 +28,9 @@ public class TriggerSupportMatrix
 {
 
 	// Supported renderer
-	private static final int SVG = 1;
-	private static final int SWING = 2;
-	private static final int ALL = SVG | SWING;
+	protected static final int SVG = 1;
+	protected static final int SWING = 2;
+	protected static final int ALL = 127;
 
 	// Supported interactivity type
 	public static final int TYPE_DATAPOINT = 1;
@@ -44,12 +45,15 @@ public class TriggerSupportMatrix
 	// These constants indicate supported interactivity types for certain action
 	// type
 	private static final int VALID_TYPES_HIGHLIGHT = TYPE_DATAPOINT
-			| TYPE_AXIS | TYPE_LEGEND;
+			| TYPE_AXIS
+			| TYPE_LEGEND;
 	private static final int VALID_TYPES_TOOGLE_VISIBILITY = TYPE_DATAPOINT
-			| TYPE_AXIS | TYPE_LEGEND | TYPE_CHARTTITLE;
+			| TYPE_AXIS
+			| TYPE_LEGEND
+			| TYPE_CHARTTITLE;
 	private static final int VALID_TYPES_TOOGLE_DP_VISIBILITY = TYPE_DATAPOINT;
 
-	static class TriggerCombination
+	protected static class TriggerCombination
 	{
 
 		private final TriggerCondition condition;
@@ -57,19 +61,20 @@ public class TriggerSupportMatrix
 		private final int renderer;
 		private final int type;
 
-		TriggerCombination( TriggerCondition condition, ActionType actionType )
+		public TriggerCombination( TriggerCondition condition,
+				ActionType actionType )
 		{
 			this( condition, actionType, ALL, TYPE_ALL );
 		}
 
-		TriggerCombination( TriggerCondition condition, ActionType actionType,
-				int iRenderer )
+		public TriggerCombination( TriggerCondition condition,
+				ActionType actionType, int iRenderer )
 		{
 			this( condition, actionType, iRenderer, TYPE_ALL );
 		}
 
-		TriggerCombination( TriggerCondition tCondition, ActionType actionType,
-				int iRenderer, int iType )
+		public TriggerCombination( TriggerCondition tCondition,
+				ActionType actionType, int iRenderer, int iType )
 		{
 			this.condition = tCondition;
 			this.actionType = actionType;
@@ -83,7 +88,7 @@ public class TriggerSupportMatrix
 		 * @param tCondition
 		 * @param iRenderer
 		 * @param iType
-		 * @return
+		 * @return supported result
 		 */
 		public boolean test( TriggerCondition tCondition, int iRenderer,
 				int iType )
@@ -99,7 +104,7 @@ public class TriggerSupportMatrix
 		}
 	}
 
-	private static List supportedTriggers = new ArrayList( );
+	protected static List<TriggerCombination> supportedTriggers = new ArrayList<TriggerCombination>( );
 	static
 	{
 		// click
@@ -196,8 +201,8 @@ public class TriggerSupportMatrix
 				VALID_TYPES_TOOGLE_DP_VISIBILITY ) );
 	}
 
-	private final int iRenderer;
-	private final int iType;
+	protected int iRenderer;
+	protected final int iType;
 
 	/**
 	 * Constructor.
@@ -207,10 +212,10 @@ public class TriggerSupportMatrix
 	 * @param iType
 	 *            the type of interactivity support
 	 */
-	public TriggerSupportMatrix( String outputFormat, int iType )
+	public TriggerSupportMatrix( String outputFormat, int iInteractivityType )
 	{
 		this.iRenderer = "SVG".equalsIgnoreCase( outputFormat ) ? SVG : SWING; //$NON-NLS-1$
-		this.iType = iType;
+		this.iType = iInteractivityType;
 	}
 
 	/**
@@ -232,10 +237,9 @@ public class TriggerSupportMatrix
 	 */
 	public String[] getSupportedActionsDisplayName( TriggerCondition condition )
 	{
-		List actions = new ArrayList( );
-		for ( int i = 0; i < supportedTriggers.size( ); i++ )
+		List<String> actions = new ArrayList<String>( );
+		for ( TriggerCombination tc : supportedTriggers )
 		{
-			TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
 			// Tests if current trigger condition is supported in this
 			// combination
 			if ( tc.test( condition, iRenderer, iType ) )
@@ -244,7 +248,7 @@ public class TriggerSupportMatrix
 						.getName( ) ) );
 			}
 		}
-		return (String[]) actions.toArray( new String[actions.size( )] );
+		return actions.toArray( new String[actions.size( )] );
 	}
 
 	/**
@@ -252,7 +256,7 @@ public class TriggerSupportMatrix
 	 * in current renderer.
 	 * 
 	 * @param trigger
-	 * @return
+	 * @return supported result
 	 */
 	public boolean check( Trigger trigger )
 	{
@@ -270,13 +274,13 @@ public class TriggerSupportMatrix
 	 * 
 	 * @param condition
 	 * @param actionType
-	 * @return
+	 * @return supported result
 	 */
 	public boolean check( TriggerCondition condition, ActionType actionType )
 	{
 		for ( int i = 0; i < supportedTriggers.size( ); i++ )
 		{
-			TriggerCombination tc = (TriggerCombination) supportedTriggers.get( i );
+			TriggerCombination tc = supportedTriggers.get( i );
 			if ( tc.test( condition, iRenderer, iType ) )
 			{
 				if ( tc.getActionType( ) == actionType )
@@ -286,5 +290,26 @@ public class TriggerSupportMatrix
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns supported trigger conditions for specified type of interactivity
+	 * triggers.
+	 * 
+	 * @return supported trigger conditions. Null means no filter.
+	 */
+	public TriggerCondition[] getConditionFilters( )
+	{
+		return null;
+	}
+
+	/**
+	 * Returns supported cursor for specified type of interactivity triggers.
+	 * 
+	 * @return supported cursor array. Null means no filter.
+	 */
+	public CursorType[] getCursorFilters( )
+	{
+		return null;
 	}
 }

@@ -348,6 +348,7 @@ public class FillChooserComposite extends Composite implements
 		cnvSelection = new FillCanvas( cmpContentInner,
 				SWT.NONE,
 				this.bAutoEnabled );
+		cnvSelection.setTextIndent( 8 );
 		GridData gdCNVSelection = new GridData( GridData.FILL_BOTH );
 		gdCNVSelection.heightHint = iSize;
 		cnvSelection.setLayoutData( gdCNVSelection );
@@ -1199,6 +1200,19 @@ public class FillChooserComposite extends Composite implements
 		selectedIndex = -1;
 	}
 
+	/**
+	 * Sets text indent of fill canvas.
+	 * 
+	 * @param indent
+	 */
+	public void setTextIndent(int indent )
+	{
+		if ( this.cnvSelection != null )
+		{
+			this.cnvSelection.setTextIndent( indent );
+		}
+	}
+	
 	private class ColorSelectionCanvas extends Canvas implements Listener
 	{
 
@@ -1220,10 +1234,10 @@ public class FillChooserComposite extends Composite implements
 			this.addListener( SWT.FocusIn, this );
 		}
 
-		public Color getColor( )
-		{
-			return colorSelection;
-		}
+//		public Color getColor( )
+//		{
+//			return colorSelection;
+//		}
 
 		public void setColor( Color color )
 		{

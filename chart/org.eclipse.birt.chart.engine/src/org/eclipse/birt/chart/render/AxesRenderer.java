@@ -70,7 +70,6 @@ import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
-import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -1509,7 +1508,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		double x = 0, y = 0, vnext = 0;
 		LineAttributes lia;
 		LineRenderEvent lre;
-		final Insets insCA = aax.getInsets( );
+//		final Insets insCA = aax.getInsets( );
 
 		// RENDER MINOR GRID LINES FIRST
 		int iCount;
@@ -2062,8 +2061,13 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.size( ); j++ )
 					{
-						if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
+//						if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
+//							continue;
+						if ( j == 0
+								&& !needDrawingFirstMajorGridLine( oaxa[i], oaxa ) )
+						{
 							continue;
+						}
 						// if ( j == da.size( ) - 1
 						// && insCA.getTop( ) < lia.getThickness( ) )
 						// continue;
@@ -2086,8 +2090,12 @@ public abstract class AxesRenderer extends BaseRenderer
 				
 				for ( int j = 0; j < da.size( ); j += STEP_NUMBER )
 				{
-					 if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
+//					 if ( j == 0 && insCA.getLeft( ) < lia.getThickness( ) )
+//						continue;
+					if ( j == 0 && !needDrawingFirstMajorGridLine( oaxa[i], oaxa ) )
+					{
 						continue;
+					}
 					// if ( j == da.size( ) - 1
 					// && insCA.getTop( ) < lia.getThickness( ) )
 					// continue;
@@ -2118,8 +2126,13 @@ public abstract class AxesRenderer extends BaseRenderer
 				{
 					for ( int j = 0; j < da.size( ); j++ )
 					{
-						if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
+//						if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
+//							continue;
+						if ( j == 0
+								&& !needDrawingFirstMajorGridLine( oaxa[i], oaxa ) )
+						{
 							continue;
+						}
 						// if ( j == da.size( ) - 1
 						// && insCA.getRight( ) < lia.getThickness( ) )
 						// continue;
@@ -2141,8 +2154,13 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				for ( int j = 0; j < da.size( ); j += STEP_NUMBER )
 				{
-					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
+//					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
+//						continue;
+					if ( j == 0
+							&& !needDrawingFirstMajorGridLine( oaxa[i], oaxa ) )
+					{
 						continue;
+					}
 					// if ( j == da.size( ) - 1
 					// && insCA.getRight( ) < lia.getThickness( ) )
 					// continue;
@@ -2174,6 +2192,24 @@ public abstract class AxesRenderer extends BaseRenderer
 		}
 	}
 
+	private boolean needDrawingFirstMajorGridLine( OneAxis axis, OneAxis[] refAxes )
+	{
+		// If the position of intersection axis is VALUE/MAX type, it should still
+		// draw first major grid. 
+		int orientation = axis.getOrientation( );
+		for ( OneAxis ax : refAxes )
+		{
+			if ( ax != axis
+					&& ax.getOrientation( ) != orientation
+					&& ( ax.getIntersectionValue( ).getType( ) == IConstants.VALUE || ax.getIntersectionValue( )
+							.getType( ) == IConstants.MAX ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * The axes correspond to the lines/planes being rendered within the plot
 	 * block. This is rendered with Z-order=2
@@ -2501,16 +2537,18 @@ public abstract class AxesRenderer extends BaseRenderer
 						ml );
 
 				deValue = ml.getValue( );
-				if ( deValue == null )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.RENDERING,
-							"exception.marker.line.null.value", //$NON-NLS-1$
-							new Object[]{
-								ml
-							},
-							Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
-				}
+				// Don't check null case again, like the logic of marker range,
+				// if marker value is null, still use min value to set.
+//				if ( deValue == null )
+//				{
+//					throw new ChartException( ChartEnginePlugin.ID,
+//							ChartException.RENDERING,
+//							"exception.marker.line.null.value", //$NON-NLS-1$
+//							new Object[]{
+//								ml
+//							},
+//							Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
+//				}
 
 				// UPDATE THE LABEL CONTENT ASSOCIATED WITH THE MARKER LINE
 				la = goFactory.copyOf( ml.getLabel( ) );
@@ -2553,7 +2591,10 @@ public abstract class AxesRenderer extends BaseRenderer
 				// COMPUTE THE LOCATION
 				try
 				{
-					dCoordinate = Methods.getLocation( asc, deValue );
+					dCoordinate = ( deValue == null ) ? ( ( iOrientation == Orientation.HORIZONTAL ) ? boPlotClientArea.getLeft( )
+							: boPlotClientArea.getTop( )
+									+ boPlotClientArea.getHeight( ) )
+							: Methods.getLocation( asc, deValue );
 				}
 				catch ( Exception ex )
 				{

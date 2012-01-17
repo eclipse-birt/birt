@@ -93,7 +93,14 @@ public class FormatSpecifierDialog extends TrayDialog
 			FormatSpecifier formatspecifier, AxisType[] axisTypes, String sTitle )
 	{
 		this( shellParent, formatspecifier, sTitle );
-		this.axisTypes = axisTypes;
+		if ( axisTypes != null && axisTypes.length == 1 && axisTypes[0] == null )
+		{
+			this.axisTypes = null;
+		}
+		else
+		{
+			this.axisTypes = axisTypes;
+		}
 	}
 
 	protected void setShellStyle( int newShellStyle )

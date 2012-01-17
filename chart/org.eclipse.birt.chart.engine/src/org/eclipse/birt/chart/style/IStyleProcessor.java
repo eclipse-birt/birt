@@ -53,4 +53,23 @@ public interface IStyleProcessor
 	 * @return color
 	 */
 	ColorDefinition getDefaultBackgroundColor( );
+
+	/**
+	 * Use custom value to update chart model.
+	 * 
+	 * @param model
+	 *            the target chart model.
+	 * @param obj
+	 *            this object is used to update chart model.
+	 *            
+	 * @return <code>true</code> means updated successfully.
+	 */
+	boolean updateChart( Chart model, Object obj );
+	
+	/**
+	 * Indicates if chart need to inherit some basic styles from container.
+	 * 
+	 * @return
+	 */
+	boolean needInheritingStyles( );
 }

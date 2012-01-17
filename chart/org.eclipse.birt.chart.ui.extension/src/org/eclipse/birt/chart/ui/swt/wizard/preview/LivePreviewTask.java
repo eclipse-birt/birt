@@ -57,7 +57,7 @@ public class LivePreviewTask implements Runnable
 	/**
 	 * Returns name of this task.
 	 * 
-	 * @return
+	 * @return name of task
 	 */
 	public String getName( )
 	{
@@ -67,7 +67,7 @@ public class LivePreviewTask implements Runnable
 	/**
 	 * Returns description of this task.
 	 * 
-	 * @return
+	 * @return description of task.
 	 */
 	public String getDescription( )
 	{
@@ -106,7 +106,7 @@ public class LivePreviewTask implements Runnable
 	
 	/**
 	 * Returns all sub tasks.
-	 * @return
+	 * @return all sub tasks.
 	 */
 	public LivePreviewTask[] getTasks()
 	{
@@ -136,7 +136,7 @@ public class LivePreviewTask implements Runnable
 	 * Returns stored parameter.
 	 * 
 	 * @param key
-	 * @return
+	 * @return  stored parameter.
 	 */
 	public Object getParameter(String key )
 	{
@@ -156,7 +156,7 @@ public class LivePreviewTask implements Runnable
 	/**
 	 * Returns parameters map.
 	 * 
-	 * @return
+	 * @return parameters map.
 	 */
 	public Map<String, Object> getParameters()
 	{

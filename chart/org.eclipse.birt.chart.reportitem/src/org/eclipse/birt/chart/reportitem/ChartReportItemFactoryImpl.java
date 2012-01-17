@@ -45,7 +45,7 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory implements
 	public IReportItem newReportItem( DesignElementHandle item )
 	{
 		assert item instanceof ExtendedItemHandle;
-		return new ChartReportItemImpl( (ExtendedItemHandle) item );
+		return ChartReportItemUtil.instanceChartReportItem( (ExtendedItemHandle) item );
 	}
 
 	/*
