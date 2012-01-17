@@ -210,6 +210,20 @@ public class BaseTimeFunction implements ITimeFunction
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
 			arguments.add( period2);
 		}
+		else if( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_MONTHS ))
+		{
+			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH ),
+					true ) );
+		}
+		else if( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_DAYS ))
+		{
+			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DAY_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DAY ),
+					true ) );
+		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO ) )
 		{
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );

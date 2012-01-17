@@ -26,18 +26,20 @@ public interface IBuildInBaseTimeFunction
 	public static final String CURRENT_YEAR = "CURRENT YEAR";
 	public static final String WEEK_TO_DATE = "WEEK TO DATE";
 
-	public static final String PREVIOUS_MONTH = "PREVIOUS MONTH";
-	public static final String PREVIOUS_QUARTER = "PREVIOUS QUARTER";
-	public static final String PREVIOUS_YEAR = "PREVIOUS YEAR";
+	public static final String PREVIOUS_MONTH = "PREVIOUS N MONTH";
+	public static final String PREVIOUS_QUARTER = "PREVIOUS N QUARTER";
+	public static final String PREVIOUS_YEAR = "PREVIOUS N YEAR";
 	public static final String WEEK_TO_DATE_LAST_YEAR = "WEEK TO DATE LAST YEAR";
 	public static final String MONTH_TO_DATE_LAST_YEAR = "MONTH TO DATE LAST YEAR";
 	public static final String QUARTER_TO_DATE_LAST_YEAR = "QUARTER TO DATE LAST YEAR";
-	public static final String PREVIOUS_WEEK_TO_DATE = "PREVIOUS WEEK TO DATE"; 
-	public static final String PREVIOUS_MONTH_TO_DATE = "PREVIOUS MONTH TO DATE";
-	public static final String PREVIOUS_QUARTER_TO_DATE = "PREVIOUS QUARTER TO DATE";
-	public static final String PREVIOUS_YEAR_TO_DATE = "PREVIOUS YEAR TO DATE";
+	public static final String PREVIOUS_WEEK_TO_DATE = "PREVIOUS N WEEK TO DATE"; 
+	public static final String PREVIOUS_MONTH_TO_DATE = "PREVIOUS N MONTH TO DATE";
+	public static final String PREVIOUS_QUARTER_TO_DATE = "PREVIOUS N QUARTER TO DATE";
+	public static final String PREVIOUS_YEAR_TO_DATE = "PREVIOUS N YEAR TO DATE";
 	public static final String CURRENT_PERIOD_FROM_N_PERIOD_AGO = "CURRENT PERIOD FROM N PERIODS AGO";
 	public static final String PERIOD_TO_DATE_FROM_N_PERIOD_AGO = "PERIOD TO DATE FROM N PERIODS AGO";
+	public static final String TRAILING_N_MONTHS = "TRAILING N MONTHS";
+	public static final String TRAILING_N_DAYS = "TRAILING N DAYS";
 	public static final String TRAILING_N_PERIOD_FROM_N_PERIOD_AGO = "TRAILING N PERIODS FROM N PERIODS AGO";
 	public static final String NEXT_N_PERIODS = "NEXT_N_PERIODS";
 }

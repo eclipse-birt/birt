@@ -475,7 +475,7 @@ public class ModelAdapter implements IModelAdapter
 	}
 	
 	private ITimePeriod populateBaseTimePeriod(
-			ComputedColumnHandle periodHandle )
+			ComputedColumnHandle periodHandle ) throws DataException, BirtException
 	{
 		String calculateType = periodHandle.getCalculationType( );
 		TimePeriod baseTimePeriod = null;
@@ -593,6 +593,36 @@ public class ModelAdapter implements IModelAdapter
 						DataAdapterUtil.toTimePeriodType( period1 ) );
 			}
 		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_N_MONTHS.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+				}
+			}
+			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n ),
+					TimePeriodType.MONTH );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_N_DAYS.equals( calculateType ) )
+		{
+			Iterator iter = periodHandle.calculationArgumentsIterator( );
+			String n = null;
+			while ( iter.hasNext( ) )
+			{
+				CalculationArgumentHandle argument = (CalculationArgumentHandle) iter.next( );
+				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
+				{
+					n = argument.getValue( ).getStringExpression( );
+				}
+			}
+			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n ),
+					TimePeriodType.DAY );
+		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
 		{
 			Iterator iter = periodHandle.calculationArgumentsIterator( );
@@ -609,7 +639,7 @@ public class ModelAdapter implements IModelAdapter
 					n = argument.getValue( ).getStringExpression( );
 				}
 			}
-			baseTimePeriod = new TimePeriod( 0 - Integer.valueOf( n ),
+			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n ),
 					DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		else if ( IBuildInBaseTimeFunction.NEXT_N_PERIODS.equals( calculateType ) )
@@ -628,7 +658,7 @@ public class ModelAdapter implements IModelAdapter
 					n = argument.getValue( ).getStringExpression( );
 				}
 			}
-			baseTimePeriod = new TimePeriod( Integer.valueOf( n ),
+			baseTimePeriod = new TimePeriod( evaluatePeriodsNForTrailingFunction( n ),
 					DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		return baseTimePeriod;
@@ -762,7 +792,7 @@ public class ModelAdapter implements IModelAdapter
 		int num = 0;
 		if ( n == null || n.trim( ).equals( "" ) )
 		{
-			n = "1";
+			n = "0";
 		}
 		try
 		{
@@ -778,6 +808,27 @@ public class ModelAdapter implements IModelAdapter
 		return num;
 	}
 	
+	private int evaluatePeriodsNForTrailingFunction( String n )
+			throws DataException, BirtException
+	{
+		int num = 0;
+		if ( n == null || n.trim( ).equals( "" ) )
+		{
+			n = "1";
+		}
+		try
+		{
+			num = Integer.valueOf( n );
+		}
+		catch ( Exception e )
+		{
+			num = (Integer) ScriptEvalUtil.evalExpr( new ScriptExpression( n ),
+					this.context.getDataEngineContext( ).getScriptContext( ),
+					"",
+					0 );
+		}
+		return num;
+	}
 	/**
 	 * 
 	 * @param handle

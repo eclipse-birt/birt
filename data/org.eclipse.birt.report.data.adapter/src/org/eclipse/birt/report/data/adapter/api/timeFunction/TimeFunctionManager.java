@@ -154,7 +154,8 @@ public class TimeFunctionManager
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE ) );
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_12_MONTHS ) );
 			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) );
-
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_N_MONTHS ) );
+			
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, locale ) );
 			periodToDateType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.MONTH, locale, true ) );
 		}
@@ -176,7 +177,9 @@ public class TimeFunctionManager
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_60_DAYS ) );
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_90_DAYS ) );
 //			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_120_DAYS ) );
+			availableFunctions.add( handle.getFunction( IBuildInBaseTimeFunction.TRAILING_N_DAYS ) );
 			periodType.add( new Period_Type( IArgumentInfo.Period_Type.Period_Type_ENUM.DAY, locale ) );
+			
 		}
 		
 		availableFunctions.add( new BaseTimeFunction( handle.getFunction( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ),
@@ -323,6 +326,14 @@ public class TimeFunctionManager
 		{
 			return handle.getFunction( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO );
 		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_N_MONTHS.equals( name ) )
+		{
+			return handle.getFunction( IBuildInBaseTimeFunction.TRAILING_N_MONTHS );
+		}
+		else if ( IBuildInBaseTimeFunction.TRAILING_N_DAYS.equals( name ) )
+		{
+			return handle.getFunction( IBuildInBaseTimeFunction.TRAILING_N_DAYS );
+		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( name ) )
 		{
 			return handle.getFunction( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO );
@@ -383,7 +394,8 @@ public class TimeFunctionManager
 				|| IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculationType )
 				|| IBuildInBaseTimeFunction.MONTH_TO_DATE.equals( calculationType )
 				|| IBuildInBaseTimeFunction.TRAILING_12_MONTHS.equals( calculationType ) 
-				|| IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculationType ) )
+				|| IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculationType )
+				|| IBuildInBaseTimeFunction.TRAILING_N_MONTHS.equals( calculationType ) )
 		{
 			return new String[]{
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH
@@ -392,7 +404,8 @@ public class TimeFunctionManager
 		if ( IBuildInBaseTimeFunction.TRAILING_30_DAYS.equals( calculationType )
 				|| IBuildInBaseTimeFunction.TRAILING_60_DAYS.equals( calculationType )
 				|| IBuildInBaseTimeFunction.TRAILING_90_DAYS.equals( calculationType ) 
-				|| IBuildInBaseTimeFunction.TRAILING_120_DAYS.equals( calculationType ) )
+				|| IBuildInBaseTimeFunction.TRAILING_120_DAYS.equals( calculationType ) 
+				|| IBuildInBaseTimeFunction.TRAILING_N_DAYS.equals( calculationType ) )
 		{
 			return new String[]{
 				DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR
