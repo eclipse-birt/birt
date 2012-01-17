@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
@@ -22,12 +24,21 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -57,7 +68,67 @@ public class AggregationDropAdapter implements IDropAdapter
 			if ( ICrosstabCellAdapterFactory.CELL_MEASURE_AGGREGATION.equals( posType )
 					|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( posType ) )
 			{
-				return DNDService.LOGIC_TRUE;
+				if (transfer.equals( DesignerPaletteFactory.TIMEPERIOD_TEMPLATE ))
+				{
+					CrosstabReportItemHandle reportHandle = adapter.getCrosstabCellHandle().getCrosstab();
+					if (DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) ))
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+					CubeHandle cube = reportHandle.getCube( );
+					if (cube == null)
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+					if (cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) == null)		
+					{
+						return DNDService.LOGIC_FALSE;
+					}
+					
+					List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ).getContents( );
+					for (int i=0; i<list.size( ); i++)
+					{
+						DimensionHandle dimension = (DimensionHandle)list.get( i );
+						if (CrosstabAdaptUtil.isTimeDimension(dimension))
+						{
+							DimensionViewHandle viewHandle = reportHandle.getDimension(dimension.getName());
+							if (viewHandle == null)
+							{
+								int count = dimension.getDefaultHierarchy().getLevelCount();
+								if (count == 0)
+								{
+									continue;
+								}
+								LevelHandle levelHandle = dimension.getDefaultHierarchy().getLevel(0);
+								if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
+											.equals(levelHandle.getDateTimeLevelType()))
+								{
+									return DNDService.LOGIC_TRUE;
+								}
+							}
+							else
+							{
+								int count = viewHandle.getLevelCount();
+								if (count == 0)
+								{
+									continue;
+								}
+								LevelViewHandle levelViewHandle = viewHandle.getLevel(0);
+								if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
+										.equals(levelViewHandle.getCubeLevel().getDateTimeLevelType()))
+								{
+									return DNDService.LOGIC_TRUE;
+								}
+							}
+						}
+					}
+					
+					return DNDService.LOGIC_FALSE;
+				}
+				else
+				{
+					return DNDService.LOGIC_TRUE;
+				}
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
