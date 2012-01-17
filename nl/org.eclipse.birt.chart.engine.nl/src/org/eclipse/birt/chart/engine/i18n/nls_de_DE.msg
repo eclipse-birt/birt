@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=Es wurde keine Datendefinitio
 dataprocessor.log.baseSeriesDefnBeStatic=Kategorie-Datenreihendefinition ({0}) wird als statischer Ausdruck verwendet.
 
 exception.data.max.row.count=Rendern eines Diagramms, das mehr als {0} Datenzeilen bindet, ist nicht möglich.
+
+# Default chart title
+BarChart.Title=Bar Chart Title
+LineChart.Title=Line Chart Title
+AreaChart.Title=Area Chart Title
+PieChart.Title=Pie Chart Title
+MeterChart.Title=Meter Chart Title
+ScatterChart.Title=Scatter Chart Title
+StockChart.Title=Stock Chart Title
+BubbleChart.Title=Bubble Chart Title
+DifferenceChart.Title=Difference Chart Title
+GanttChart.Title=Gantt Chart Title
+TubeChart.Title=Tube Chart Title
+PyramidChart.Title=Pyramid Chart Title
+ConeChart.Title=Cone Chart Title
+RadarChart.Title=Radar Chart Title
+ColumnChart.Title=Column Chart Title
+DoughnutChart.Title=Doughnut Chart Title

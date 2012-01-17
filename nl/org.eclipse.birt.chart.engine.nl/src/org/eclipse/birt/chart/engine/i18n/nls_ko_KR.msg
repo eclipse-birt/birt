@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=X 계열에 대한 데이터 정의가 �
 dataprocessor.log.baseSeriesDefnBeStatic=범주 계열 정의 ({0})가 정적 식으로 사용됩니다.
 
 exception.data.max.row.count={0} 행의 데이터를 바인딩 하는 차트를 렌더링할 수 없습니다.
+
+# Default chart title
+BarChart.Title=Bar Chart Title
+LineChart.Title=Line Chart Title
+AreaChart.Title=Area Chart Title
+PieChart.Title=Pie Chart Title
+MeterChart.Title=Meter Chart Title
+ScatterChart.Title=Scatter Chart Title
+StockChart.Title=Stock Chart Title
+BubbleChart.Title=Bubble Chart Title
+DifferenceChart.Title=Difference Chart Title
+GanttChart.Title=Gantt Chart Title
+TubeChart.Title=Tube Chart Title
+PyramidChart.Title=Pyramid Chart Title
+ConeChart.Title=Cone Chart Title
+RadarChart.Title=Radar Chart Title
+ColumnChart.Title=Column Chart Title
+DoughnutChart.Title=Doughnut Chart Title
