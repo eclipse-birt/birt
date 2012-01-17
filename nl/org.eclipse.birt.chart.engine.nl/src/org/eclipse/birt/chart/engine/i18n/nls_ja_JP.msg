@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=X Œn—ñ‚Ìƒf[ƒ^‚Ì’è‹`‚ªw’è‚³‚
 dataprocessor.log.baseSeriesDefnBeStatic=ƒJƒeƒSƒŠŒn—ñ‚Ì’è‹` ({0}) ‚ªÃ“I‚È®‚Æ‚µ‚Äg—p‚³‚ê‚Ü‚·B
 
 exception.data.max.row.count={0} sˆÈã‚Ìƒf[ƒ^‚ğƒoƒCƒ“ƒh‚·‚éƒOƒ‰ƒt‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚Ü‚¹‚ñB
+
+# Default chart title
+BarChart.Title=Bar Chart Title
+LineChart.Title=Line Chart Title
+AreaChart.Title=Area Chart Title
+PieChart.Title=Pie Chart Title
+MeterChart.Title=Meter Chart Title
+ScatterChart.Title=Scatter Chart Title
+StockChart.Title=Stock Chart Title
+BubbleChart.Title=Bubble Chart Title
+DifferenceChart.Title=Difference Chart Title
+GanttChart.Title=Gantt Chart Title
+TubeChart.Title=Tube Chart Title
+PyramidChart.Title=Pyramid Chart Title
+ConeChart.Title=Cone Chart Title
+RadarChart.Title=Radar Chart Title
+ColumnChart.Title=Column Chart Title
+DoughnutChart.Title=Doughnut Chart Title

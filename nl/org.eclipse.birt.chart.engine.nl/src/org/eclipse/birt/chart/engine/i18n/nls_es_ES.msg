@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=La definición de datos para l
 dataprocessor.log.baseSeriesDefnBeStatic=La definición de serie de categoría ({0}) se utilizará como una expresión estática.
 
 exception.data.max.row.count=No es posible procesar un diagrama que enlaza sobre {0} filas de datos.
+
+# Default chart title
+BarChart.Title=Bar Chart Title
+LineChart.Title=Line Chart Title
+AreaChart.Title=Area Chart Title
+PieChart.Title=Pie Chart Title
+MeterChart.Title=Meter Chart Title
+ScatterChart.Title=Scatter Chart Title
+StockChart.Title=Stock Chart Title
+BubbleChart.Title=Bubble Chart Title
+DifferenceChart.Title=Difference Chart Title
+GanttChart.Title=Gantt Chart Title
+TubeChart.Title=Tube Chart Title
+PyramidChart.Title=Pyramid Chart Title
+ConeChart.Title=Cone Chart Title
+RadarChart.Title=Radar Chart Title
+ColumnChart.Title=Column Chart Title
+DoughnutChart.Title=Doughnut Chart Title
