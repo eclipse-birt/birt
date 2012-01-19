@@ -4474,7 +4474,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Oui
 DataColumnBindingDialog.NewBindingDialogButtonNo=Non
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Annuler
 DataColumnBindingDialog.NewBindingDialogTitle=Créer une nouvelle liaison de données ?
-DataColumnBindingDialog.title.TimePeriodBuild=Constructeur TimePeriod
+DataColumnBindingDialog.title.TimePeriodBuild=Générateur d'agrégation de l'intervalle de temps relatif
 DataColumBindingDialog.stackMsg.resetReference=Réinitialiser la référence
 
 ###########################################################
@@ -4636,7 +4636,7 @@ ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Tous
 CrosstabBindingDialogHelper.bindngName.timeperiod=Période
-CrosstabBindingDialogHelper.calculation.labe=Type de ca&lcul :
+CrosstabBindingDialogHelper.calculation.labe=Intervalle de tem&ps :
 CrosstabBindingDialogHelper.recentday.description=Date la plus récente dans la dimension de temps
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :

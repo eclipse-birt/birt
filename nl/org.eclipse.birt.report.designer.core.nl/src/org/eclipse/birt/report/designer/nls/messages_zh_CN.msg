@@ -4474,7 +4474,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=是
 DataColumnBindingDialog.NewBindingDialogButtonNo=否
 DataColumnBindingDialog.NewBindingDialogButtonCancel=取消
 DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
-DataColumnBindingDialog.title.TimePeriodBuild=时间周期生成器
+DataColumnBindingDialog.title.TimePeriodBuild=相对时间周期聚合生成器
 DataColumBindingDialog.stackMsg.resetReference=重置引用
 
 ###########################################################
@@ -4636,7 +4636,7 @@ ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=全部
 CrosstabBindingDialogHelper.bindngName.timeperiod=周期
-CrosstabBindingDialogHelper.calculation.labe=计算类型(&L):
+CrosstabBindingDialogHelper.calculation.labe=时间周期(&P):
 CrosstabBindingDialogHelper.recentday.description=时间维中的最近日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:

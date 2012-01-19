@@ -4474,7 +4474,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=はい
 DataColumnBindingDialog.NewBindingDialogButtonNo=いいえ
 DataColumnBindingDialog.NewBindingDialogButtonCancel=キャンセル
 DataColumnBindingDialog.NewBindingDialogTitle=データバインドの新規作成
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod ビルダ
+DataColumnBindingDialog.title.TimePeriodBuild=相対期間の集計ビルダ
 DataColumBindingDialog.stackMsg.resetReference=参照のリセット
 
 ###########################################################
@@ -4636,7 +4636,7 @@ ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=すべて
 CrosstabBindingDialogHelper.bindngName.timeperiod=期間
-CrosstabBindingDialogHelper.calculation.labe=計算の種類(&L) :
+CrosstabBindingDialogHelper.calculation.labe=期間(&P) :
 CrosstabBindingDialogHelper.recentday.description=時間のディメンション内の最新の日付
 CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
