@@ -343,7 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description={0} に条件付き書式を適用しま
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=式エディタ
 CrosstabFilterConditionBuilder.MsgDlg.Msg=警告
 CrosstabFilterConditionBuilder.MsgDlg.Title=値は空白にできません。
-CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=合計の再計算(&T)
 
 ###########################################################
 #Breadcrumb provider properties

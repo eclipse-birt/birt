@@ -343,7 +343,7 @@ CrosstabHighlightRuleBuilderDialog.text.Description=Ïò {0} Ó¦ÓÃÌõ¼ş¸ñÊ½¡£ÇëÖ¸¶¨Ì
 CrosstabFilterConditionBuilder.ExpressionEditor.Title=±í´ïÊ½±à¼­Æ÷
 CrosstabFilterConditionBuilder.MsgDlg.Msg=¾¯¸æ
 CrosstabFilterConditionBuilder.MsgDlg.Title=Öµ²»ÄÜÎª¿Õ¡£
-CrosstabFilterConditionBuilder.Button.UpdateAggregation=Recalculate &Totals
+CrosstabFilterConditionBuilder.Button.UpdateAggregation=ÖØĞÂ¼ÆËã×Ü¼Æ(&T)
 
 ###########################################################
 #Breadcrumb provider properties
