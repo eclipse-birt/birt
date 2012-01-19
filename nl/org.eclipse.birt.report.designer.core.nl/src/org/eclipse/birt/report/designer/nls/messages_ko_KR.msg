@@ -4474,7 +4474,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=예
 DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
 DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
 DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니까?
-DataColumnBindingDialog.title.TimePeriodBuild=TimePeriod 빌더
+DataColumnBindingDialog.title.TimePeriodBuild=상대 시간 집계 빌더
 DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
@@ -4636,7 +4636,7 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
 CrosstabBindingDialogHelper.bindngName.timeperiod=기간
-CrosstabBindingDialogHelper.calculation.labe=계산 형식(&L):
+CrosstabBindingDialogHelper.calculation.labe=시간(&P):
 CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=금일:
