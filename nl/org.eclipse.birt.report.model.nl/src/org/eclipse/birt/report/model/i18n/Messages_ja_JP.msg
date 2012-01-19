@@ -2013,7 +2013,7 @@ Structure.FilterCondition.extensionExprId=拡張式 ID
 Structure.FilterCondition.pushDown=プッシュ (下へ)
 Structure.FilterCondition.dynamicFilterParameter=動的フィルタパラメタ
 Structure.FilterCondition.type=種類
-Structure.FilterCondition.updateAggregation=Update Aggregation
+Structure.FilterCondition.updateAggregation=集計の更新
 
 #10. PropertyMask
 Structure.PropertyMask.name=名前
@@ -3371,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=拡張式 ID
 Element.FilterConditionElement.pushDown=プッシュ (下へ)
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=種類
-Element.FilterConditionElement.updateAggregation=Update Aggregation
+Element.FilterConditionElement.updateAggregation=集計の更新
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

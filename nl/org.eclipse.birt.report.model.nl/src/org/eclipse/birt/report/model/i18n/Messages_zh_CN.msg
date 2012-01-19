@@ -2013,7 +2013,7 @@ Structure.FilterCondition.extensionExprId=扩展表达式 Id
 Structure.FilterCondition.pushDown=下推
 Structure.FilterCondition.dynamicFilterParameter=动态筛选器参数
 Structure.FilterCondition.type=类型
-Structure.FilterCondition.updateAggregation=Update Aggregation
+Structure.FilterCondition.updateAggregation=更新聚合
 
 #10. PropertyMask
 Structure.PropertyMask.name=名称
@@ -3371,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=扩展表达式 Id
 Element.FilterConditionElement.pushDown=下推
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=类型
-Element.FilterConditionElement.updateAggregation=Update Aggregation
+Element.FilterConditionElement.updateAggregation=更新聚合
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index
