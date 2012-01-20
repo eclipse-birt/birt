@@ -35,7 +35,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @return
+	 * @return location 3d instance with setting 'isSet' flag.
 	 */
 	public static Location3D create( double x, double y, double z )
 	{
@@ -63,7 +63,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 	 * @param xa
 	 * @param ya
 	 * @param za
-	 * @return
+	 * @return location 3d instance with setting 'isSet' flag.
 	 */
 	public static final Location3D[] create( double[] xa, double[] ya,
 			double[] za )
@@ -78,7 +78,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * @param loc
-	 * @return
+	 * @return x locations.
 	 */
 	public static double[] getXArray( Location3D[] loc )
 	{
@@ -92,7 +92,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * @param loc
-	 * @return
+	 * @return y locations.
 	 */
 	public static double[] getYArray( Location3D[] loc )
 	{
@@ -106,7 +106,7 @@ public class Location3DImpl extends LocationImpl implements Location3D
 
 	/**
 	 * @param loc
-	 * @return
+	 * @return z locations.
 	 */
 	public static double[] getZArray( Location3D[] loc )
 	{

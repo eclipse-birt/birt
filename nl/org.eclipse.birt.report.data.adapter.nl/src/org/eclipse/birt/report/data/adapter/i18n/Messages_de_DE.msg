@@ -104,5 +104,11 @@ timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
 timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
 timeFunction.N1.displayName = Erst&es N
 timeFunction.N2.displayName = Z&weites N
+
+timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
+timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
+timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
+timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
+timeFunction.PERIODCHOICE.DAY_displayName =DAY
  
 timeFunction.toolTip.to=Bis

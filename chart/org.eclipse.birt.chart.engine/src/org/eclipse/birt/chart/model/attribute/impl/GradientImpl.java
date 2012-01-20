@@ -662,7 +662,7 @@ public class GradientImpl extends FillImpl implements Gradient
 	 *            Must lie within the range of (90 >= 0 >= -90)
 	 * @param bCyclic
 	 * 
-	 * @return
+	 * @return grandient instance with setting 'isSet' flag.
 	 */
 	public static final Gradient create( ColorDefinition cdStart,
 			ColorDefinition cdEnd, double dDirectionInDegrees, boolean bCyclic )

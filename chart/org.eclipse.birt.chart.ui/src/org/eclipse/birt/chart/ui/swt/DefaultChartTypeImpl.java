@@ -225,7 +225,7 @@ public class DefaultChartTypeImpl implements IChartType
 	public Series getSeries( )
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return getSeries( true );
 	}
 
 	/**
@@ -385,7 +385,10 @@ public class DefaultChartTypeImpl implements IChartType
 		// Copy generic chart properties from the old chart
 		newChart.setBlock( oldChart.getBlock( ) );
 		newChart.setDescription( oldChart.getDescription( ) );
-		newChart.setGridColumnCount( oldChart.getGridColumnCount( ) );
+		if ( newChart.isSetGridColumnCount( ) )
+		{
+			newChart.setGridColumnCount( oldChart.getGridColumnCount( ) );
+		}
 		newChart.setSampleData( oldChart.getSampleData( ) );
 		newChart.setScript( oldChart.getScript( ) );
 		newChart.setUnits( oldChart.getUnits( ) );
@@ -400,16 +403,38 @@ public class DefaultChartTypeImpl implements IChartType
 
 		if ( oldChart.getInteractivity( ) != null )
 		{
-			newChart.getInteractivity( ).setEnable( oldChart.getInteractivity( )
+			if ( oldChart.getInteractivity( ).isSetEnable( ) )
+			{
+				newChart.getInteractivity( ).setEnable( oldChart.getInteractivity( )
 					.isEnable( ) );
-			newChart.getInteractivity( )
+			}
+			if ( oldChart.getInteractivity( ).isSetLegendBehavior( ) )
+			{
+				newChart.getInteractivity( )
 					.setLegendBehavior( oldChart.getInteractivity( )
 							.getLegendBehavior( ) );
+			}
 		}
 	}
 
 	public String getValueDefinitionName( )
 	{
 		return Messages.getString( "DefaultChartTypeImpl.Label.ValueDefinitionName" ); //$NON-NLS-1$
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#isChartWithAxis()
+	 */
+	public boolean isChartWithAxes( )
+	{
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		return null;
 	}
 }

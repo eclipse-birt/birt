@@ -61,6 +61,17 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 	}
 
 	abstract protected Composite getComponent( Composite parent );
+	
+	/**
+	 * Registers context help to this popup sheet.
+	 * 
+	 * @param parent
+	 *            top composite
+	 */
+	protected void bindHelp( Composite parent )
+	{
+		// Do nothing here to override
+	}
 
 	public Composite getUI( Composite parent )
 	{
@@ -75,6 +86,7 @@ public abstract class AbstractPopupSheet implements ITaskPopupSheet
 			cmpTop.setLayout( layout );
 		}
 
+		bindHelp( cmpTop );
 		Composite components = getComponent( cmpTop );
 		{
 			GridData gd = ( (GridData) components.getLayoutData( ) );

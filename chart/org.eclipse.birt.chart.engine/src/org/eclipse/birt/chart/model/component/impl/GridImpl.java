@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
+import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.component.ComponentFactory;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Grid;
 import org.eclipse.emf.common.notify.Notification;
@@ -149,6 +153,42 @@ public class GridImpl extends EObjectImpl implements Grid
 		super( );
 	}
 
+	public static Grid create( boolean visible, ColorDefinition cd,
+			LineStyle ls, int iThickness, TickStyle tickStyle )
+	{
+		GridImpl gr = (GridImpl) ComponentFactory.eINSTANCE.createGrid( );
+		gr.initialize( visible, cd, ls, iThickness, tickStyle );
+		return gr;
+	}
+	
+	void initialize(boolean visible, ColorDefinition cd,
+			LineStyle ls, int iThickness, TickStyle tickStyle)
+	{
+		LineAttributes lia = LineAttributesImpl.create( cd ,
+				ls,
+				iThickness );
+		setLineAttributes( lia );
+		setTickStyle( tickStyle );
+	}
+	
+	public static Grid createDefault( boolean visible, ColorDefinition cd,
+			LineStyle ls, int iThickness, TickStyle tickStyle )
+	{
+		GridImpl gr = (GridImpl) ComponentFactory.eINSTANCE.createGrid( );
+		gr.initDefault( visible, cd, ls, iThickness, tickStyle );
+		return gr;
+	}
+	
+	void initDefault(boolean visible, ColorDefinition cd,
+			LineStyle ls, int iThickness, TickStyle tickStyle)
+	{
+		lineAttributes = LineAttributesImpl.createDefault( cd ,
+				ls,
+				iThickness,
+				visible );
+		this.tickStyle = tickStyle;
+	}
+		
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated

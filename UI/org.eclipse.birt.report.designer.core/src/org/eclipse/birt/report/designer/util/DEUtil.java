@@ -3290,7 +3290,8 @@ public class DEUtil
 				{
 					try
 					{
-						propertyHandle.setValue( itemHandle.getQualifiedName( ) );
+						if( propertyHandle.getValue() != null )
+							propertyHandle.setValue( itemHandle.getQualifiedName( ) );
 						break;
 					}
 					catch ( SemanticException e )

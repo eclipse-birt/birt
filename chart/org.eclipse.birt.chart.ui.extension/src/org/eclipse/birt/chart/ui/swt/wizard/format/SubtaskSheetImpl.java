@@ -337,6 +337,24 @@ public class SubtaskSheetImpl implements
 	}
 
 	/**
+	 * Updates popup sheet
+	 * 
+	 * @param buttonId
+	 *            button id without node path
+	 * @param popupSheet
+	 *            popup sheet
+	 * @since 3.7
+	 */
+	protected void updatePopupSheet( String buttonId, ITaskPopupSheet popupSheet )
+	{
+		String id = getNodePath( ) + buttonId;
+		if ( popupSheetRegistry.containsKey( id ) )
+		{
+			popupSheetRegistry.put( id, popupSheet );
+		}
+	}
+
+	/**
 	 * Finds the toggle button by exclusive id or button id
 	 * 
 	 * @param buttonId
@@ -352,10 +370,29 @@ public class SubtaskSheetImpl implements
 		}
 		return button;
 	}
+	
+	protected boolean getToggleButtonSelection( String buttonId )
+	{
+		Button button = popupButtonRegistry.get( buttonId );
+		if ( button == null )
+		{
+			button = popupButtonRegistry.get( getNodePath( ) + buttonId );
+		}
+		if ( button != null )
+		{
+			return button.getSelection( );
+		}
+		return false;
+	}
 
 	protected void setToggleButtonEnabled( String buttonId, boolean isEnabled )
 	{
 		String id = getNodePath( ) + buttonId;
+		if ( getToggleButton( id ) == null )
+		{
+			return;
+		}
+
 		if ( getContext( ).isEnabled( id ) )
 		{
 			getToggleButton( id ).setEnabled( isEnabled );

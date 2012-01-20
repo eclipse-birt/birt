@@ -173,7 +173,10 @@ public class ChartWizard extends WizardBase
 		if ( getContext( ) != null )
 		{
 			// Dispose data sheet
-			getContext( ).getDataSheet( ).dispose( );
+			if ( getContext( ).getDataSheet( ) != null )
+			{
+				getContext( ).getDataSheet( ).dispose( );
+			}
 
 			EObject chart = getAdaptableObject( getContext( ) );
 			if ( chart != null )
@@ -229,6 +232,14 @@ public class ChartWizard extends WizardBase
 			getAdaptableObject( initialContext ).eAdapters( ).add( adapter );
 		}
 
+		topTaskId = initTopTaskId( topTaskId, initialContext, chart );
+
+		return super.open( sTasks, topTaskId, initialContext );
+	}
+
+	protected String initTopTaskId( String topTaskId,
+			IWizardContext initialContext, Chart chart )
+	{
 		if ( chart == null )
 		{
 			// If no chart model, always open the first task
@@ -239,8 +250,7 @@ public class ChartWizard extends WizardBase
 			// Try to get last opened task if no task specified
 			topTaskId = lastTask.get( initialContext.getWizardID( ) );
 		}
-
-		return super.open( sTasks, topTaskId, initialContext );
+		return topTaskId;
 	}
 
 	/**

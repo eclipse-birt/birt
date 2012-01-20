@@ -15,17 +15,21 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
+import org.eclipse.birt.chart.model.util.DefaultValueProvider;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
@@ -35,8 +39,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -47,11 +49,6 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		SelectionListener,
 		Listener
 {
-
-	private transient Button btnCurve = null;
-
-	private transient Button btnPalette = null;
-
 	private transient FillChooserComposite fccShadow = null;
 
 	private transient Group grpLine = null;
@@ -64,13 +61,19 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	
 	private transient Label lblOrientation = null;
 
-	private transient Combo cmbOrientation;
+	private transient ChartCombo cmbOrientation;
 
 	private transient Series series = null;
+	
+	private BubbleSeries defSeries = DefaultValueProvider.defBubbleSeries( );
 	
 	private transient Label lblShadow = null;
 
 	ChartWizardContext context;
+
+	private ChartCheckbox btnPalette;
+
+	private ChartCheckbox btnCurve;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -136,7 +139,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getAccLineAttributes( ) );
 		GridData gdLIACAccLine = new GridData( GridData.FILL_BOTH );
 		gdLIACAccLine.horizontalSpan = 2;
 		liacAccLine.setLayoutData( gdLIACAccLine );
@@ -157,7 +161,12 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		lblOrientation = new Label( cmpOrientation, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
 
-		cmbOrientation = new Combo( cmpOrientation, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbOrientation = context.getUIFactory( )
+				.createChartCombo( cmpOrientation,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						series,
+						"accOrientation", //$NON-NLS-1$
+						defSeries.getAccOrientation( ).getName( ) );
 		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
 		cmbOrientation.setLayoutData( gdCMBOrientation );
 		cmbOrientation.addSelectionListener( this );
@@ -190,7 +199,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				true,
 				true,
 				true,
-				true );
+				true,
+				defSeries.getLineAttributes( ) );
 		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
 		gdLIACLine.horizontalSpan = 2;
 		liacLine.setLayoutData( gdLIACLine );
@@ -213,7 +223,8 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 
 		int iFillOption = FillChooserComposite.DISABLE_PATTERN_FILL
 				| FillChooserComposite.ENABLE_TRANSPARENT
-				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER;
+				| FillChooserComposite.ENABLE_TRANSPARENT_SLIDER
+				| FillChooserComposite.ENABLE_AUTO;
 
 		fccShadow = new FillChooserComposite( cmpShadow,
 				SWT.DROP_DOWN | SWT.READ_ONLY,
@@ -226,27 +237,34 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		fccShadow.addListener( this );
 
 		Composite cmp = new Composite( grpLine, SWT.NONE );
-		cmp.setLayout( new GridLayout( ) );
+		cmp.setLayout( new GridLayout( 1, false ) );
 
-		btnPalette = new Button( cmp, SWT.CHECK );
+		btnPalette = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isPaletteLineColor( ) );
 		{
 			btnPalette.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( ( (BubbleSeries) series ).isPaletteLineColor( ) );
+			btnPalette.setSelectionState( ( (BubbleSeries) series ).isSetPaletteLineColor( ) ? ( ( (BubbleSeries) series ).isPaletteLineColor( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnPalette.addSelectionListener( this );
 		}
 
-		btnCurve = new Button( cmp, SWT.CHECK );
+		btnCurve = context.getUIFactory( ).createChartCheckbox( cmp,
+				SWT.NONE,
+				defSeries.isCurve( ) );
 		{
 			btnCurve.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
-			btnCurve.setSelection( ( (BubbleSeries) series ).isCurve( ) );
+			btnCurve.setSelectionState( ( (BubbleSeries) series ).isSetCurve( ) ? ( ( (BubbleSeries) series ).isCurve( ) ? ChartCheckbox.STATE_SELECTED
+					: ChartCheckbox.STATE_UNSELECTED )
+					: ChartCheckbox.STATE_GRAYED );
 			btnCurve.addSelectionListener( this );
 		}
 
-		enableLineSettings( ( (BubbleSeries) series ).getLineAttributes( )
-				.isVisible( ) );
-		
-		enableAccLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
-				.isVisible( ) );
+		enableLineSettings( !context.getUIFactory( )
+				.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
+		enableAccLineSettings( !context.getUIFactory( )
+				.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
 
 		populateLists( );
 	}
@@ -255,8 +273,9 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	{
 		NameSet ns = LiteralHelper.orientationSet;
 		cmbOrientation.setItems( ns.getDisplayNames( ) );
-		cmbOrientation.select( ns.getSafeNameIndex( ( (BubbleSeries) series ).getAccOrientation( )
-				.getName( ) ) );
+		cmbOrientation.setItemData( ns.getNames( ) );
+		cmbOrientation.setSelection( ( (BubbleSeries) series ).getAccOrientation( )
+				.getName( ) );
 	}
 
 	public Point getPreferredSize( )
@@ -273,15 +292,28 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( btnCurve ) )
 		{
-			( (BubbleSeries) series ).setCurve( btnCurve.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( ( series ),
+					"curve", //$NON-NLS-1$
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnCurve.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
-			( (BubbleSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
+			ChartElementUtil.setEObjectAttribute( ( series ),
+					"paletteLineColor", //$NON-NLS-1$
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
+					btnPalette.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 		}
 		else if ( e.getSource( ).equals( cmbOrientation ) )
 		{
-			( (BubbleSeries) series ).setAccOrientation( Orientation.getByName( LiteralHelper.orientationSet.getNameByDisplayName( cmbOrientation.getText( ) ) ) );
+			String selectedOrientation = cmbOrientation.getSelectedItemData( );
+			if ( selectedOrientation != null )
+			{
+				ChartElementUtil.setEObjectAttribute( ( series ),
+						"accOrientation", //$NON-NLS-1$
+						Orientation.getByName( selectedOrientation ),
+						false );
+			}
 		}
 	}
 
@@ -301,24 +333,31 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( liacLine ) )
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (BubbleSeries) series ).getLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableLineSettings( ( (BubbleSeries) series ).getLineAttributes( )
-						.isVisible( ) );
+				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				enableLineSettings( !context.getUIFactory( )
+						.isSetInvisible( ( (BubbleSeries) series ).getLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (BubbleSeries) series ).getLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getLineAttributes( ),
+						"style",//$NON-NLS-1$
+						event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (BubbleSeries) series ).getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
@@ -330,20 +369,26 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (BubbleSeries) series ).getAccLineAttributes( )
-						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-				enableAccLineSettings( ( (BubbleSeries) series ).getAccLineAttributes( )
-						.isVisible( ) );
+				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getAccLineAttributes( ),
+						"visible",//$NON-NLS-1$
+						( (Boolean) event.data ).booleanValue( ),
+						isUnset );
+				enableAccLineSettings( !context.getUIFactory( )
+						.isSetInvisible( ( (BubbleSeries) series ).getAccLineAttributes( ) ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (BubbleSeries) series ).getAccLineAttributes( )
-						.setStyle( (LineStyle) event.data );
+				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getAccLineAttributes( ),
+						"style",//$NON-NLS-1$
+						event.data,
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (BubbleSeries) series ).getAccLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
+				ChartElementUtil.setEObjectAttribute( ( (BubbleSeries) series ).getAccLineAttributes( ),
+						"thickness",//$NON-NLS-1$
+						( (Integer) event.data ).intValue( ),
+						isUnset );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{

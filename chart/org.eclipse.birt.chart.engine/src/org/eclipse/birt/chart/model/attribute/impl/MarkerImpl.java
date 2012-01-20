@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.attribute.impl;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -18,6 +19,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -726,13 +728,31 @@ public class MarkerImpl extends EObjectImpl implements Marker
 		return marker;
 	}
 
+	public static final Marker createDefault( MarkerType markerType, int size, boolean visible )
+	{
+		Marker marker = AttributeFactory.eINSTANCE.createMarker( );
+		( (MarkerImpl) marker ).type = markerType;
+		( (MarkerImpl) marker ).size = size;
+		( (MarkerImpl) marker ).visible = visible;
+		marker.setOutline( AttributeFactory.eINSTANCE.createLineAttributes( ) );
+		try
+		{
+			ChartElementUtil.setDefaultValue( marker.getOutline( ), "visible", true );  //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
+		return marker;
+	}
+	
 	/**
 	 * For accelerating graphic purpose make a fast copy of a Marker without
 	 * iconPalette, which is obsolete, and the fill, which will be changed in
 	 * many cases. Using the setFillSimple to set the fill faster.
 	 * 
 	 * @param src
-	 * @return
+	 * @return marker instance
 	 */
 	public static final Marker copyInstanceNoFill( Marker src )
 	{

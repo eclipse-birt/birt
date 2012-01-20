@@ -1064,8 +1064,32 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 		final SeriesDefinition sd = DataFactory.eINSTANCE.createSeriesDefinition( );
 		sd.setQuery( QueryImpl.create( IConstants.EMPTY_STRING ) );
 		sd.setSeriesPalette( PaletteImpl.create( ColorDefinitionImpl.GREY( ) ) );
+		sd.getSeriesPalette( ).getEntries( ).clear( );
 		sd.setGrouping( SeriesGroupingImpl.create( ) );
 		return sd;
+	}
+	
+	/**
+	 * A convenience method provided to create a series definition instance and
+	 * initialize its member variables
+	 * 
+	 * NOTE: Manually written
+	 * 
+	 * @return
+	 */
+	public static final SeriesDefinition createDefault( )
+	{
+		final SeriesDefinition sd = DataFactory.eINSTANCE.createSeriesDefinition( );
+		( (SeriesDefinitionImpl) sd ).initDefault( );
+		return sd;
+	}
+
+	private void initDefault( )
+	{
+		query = QueryImpl.create( IConstants.EMPTY_STRING );
+		seriesPalette = PaletteImpl.create( ColorDefinitionImpl.GREY( ) );
+		seriesPalette.getEntries( ).clear( );
+		grouping = SeriesGroupingImpl.create( );
 	}
 
 	/*

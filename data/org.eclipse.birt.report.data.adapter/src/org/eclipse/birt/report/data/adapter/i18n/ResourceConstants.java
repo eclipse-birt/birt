@@ -94,6 +94,10 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_PERIOD_TO_DATE_FROM_N_PERIOD_AGO_DES = "timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description";
 	public final static String TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO = "timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name"; 
 	public final static String TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO_DES ="timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description";
+	public final static String TIMEFUNCITON_TRAILING_N_MONTHS = "timeFunction.TRAILING_N_MONTHS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_N_MONTHS_DES ="timeFunction.TRAILING_N_MONTHS.description";
+	public final static String TIMEFUNCITON_TRAILING_N_DAYS = "timeFunction.TRAILING_N_DAYS.name"; 
+	public final static String TIMEFUNCITON_TRAILING_N_DAYS_DES ="timeFunction.TRAILING_N_DAYS.description";
 	public final static String TIMEFUNCITON_NEXT_N_PERIODS = "timeFunction.NEXT_N_PERIODS.name"; 
 	public final static String TIMEFUNCITON_NEXT_N_PERIODS_DES = "timeFunction.NEXT_N_PERIODS.description";
 
@@ -111,6 +115,7 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_N2_MONTH = "timeFunction.N2.Month";
 	public final static String TIMEFUNCITON_N1_WEEK = "timeFunction.N1.Week";
 	public final static String TIMEFUNCITON_N2_WEEK = "timeFunction.N2.Week";
+	public final static String TIMEFUNCITON_N1_DAY = "timeFunction.N1.Day";
 	
 	public final static String TIMEFUNCITON_PERIOD1_DISPLAYNAME = "timeFunction.PERIOD1.displayName";
 	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
@@ -125,6 +130,7 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_N2_MONTH_DISPLAYNAME = "timeFunction.N2.Month.displayName";
 	public final static String TIMEFUNCITON_N1_WEEK_DISPLAYNAME = "timeFunction.N1.Week.displayName";
 	public final static String TIMEFUNCITON_N2_WEEK_DISPLAYNAME = "timeFunction.N2.Week.displayName";
+	public final static String TIMEFUNCITON_N1_DAY_DISPLAYNAME = "timeFunction.N1.Day.displayName";
 	
 	public final static String TIMEFUNCITON_PERIODCHOICE_YEAR_DISPLAYNAME = "timeFunction.PERIODCHOICE.YEAR_displayName";
 	public final static String TIMEFUNCITON_PERIODCHOICE_QUARTER_DISPLAYNAME = "timeFunction.PERIODCHOICE.QUARTER_displayName";

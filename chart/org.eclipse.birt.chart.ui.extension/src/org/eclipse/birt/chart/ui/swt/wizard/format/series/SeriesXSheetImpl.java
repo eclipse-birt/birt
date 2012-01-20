@@ -14,8 +14,10 @@ import java.util.List;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -27,7 +29,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -47,8 +48,8 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	private transient Label lblMinSlice;
 	private transient Label lblBottomPercent;
 	private transient Label lblLabel;
-	private transient Combo cmbMinSlice;
-	private transient LocalizedNumberEditorComposite txtMinSlice;
+	private transient ChartCombo cmbMinSlice;
+	private transient AbstractChartNumberEditor txtMinSlice;
 	private transient ExternalizedTextEditorComposite txtLabel = null;
 
 	private final static String TOOLTIP_MINIMUM_SLICE = Messages.getString( "PieBottomAreaComponent.Label.AnySliceWithASize" ); //$NON-NLS-1$
@@ -80,6 +81,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		{
 			createPieAxisArea( cmpBasic );
 		}
+		updateUIState( );
 	}
 
 	private void createPieAxisArea( Composite parent )
@@ -92,7 +94,7 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 
 		Composite cmpMinSlice = new Composite( parent, SWT.NONE );
 		{
-			GridLayout gridLayout = new GridLayout( 3, false );
+			GridLayout gridLayout = new GridLayout( 4, false );
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			gridLayout.horizontalSpacing = 8;
@@ -100,37 +102,47 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 			cmpMinSlice.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
 
-		cmbMinSlice = new Combo( cmpMinSlice, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbMinSlice = getContext( ).getUIFactory( )
+				.createChartCombo( cmpMinSlice,
+						SWT.DROP_DOWN | SWT.READ_ONLY,
+						getChart( ),
+						"minSlicePercent", //$NON-NLS-1$
+						Messages.getString( "PieBottomAreaComponent.Label.Percentage" ) ); //$NON-NLS-1$
 		{
 			cmbMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
 			cmbMinSlice.setItems( MINMUM_SLICE_ITEMS );
-			cmbMinSlice.setText( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( )
-					? MINMUM_SLICE_ITEMS[0] : MINMUM_SLICE_ITEMS[1] );
+			cmbMinSlice.setItemData( MINMUM_SLICE_ITEMS );
+			cmbMinSlice.setSelection( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) ? Messages.getString( "PieBottomAreaComponent.Label.Percentage" )//$NON-NLS-1$
+					: Messages.getString( "PieBottomAreaComponent.Label.Value" ) );//$NON-NLS-1$
 			cmbMinSlice.addSelectionListener( this );
 		}
 
-		txtMinSlice = new LocalizedNumberEditorComposite( cmpMinSlice,
-				SWT.BORDER );
+		txtMinSlice = getContext( ).getUIFactory( ).createChartNumberEditor( cmpMinSlice,
+				SWT.BORDER,
+				"%", //$NON-NLS-1$
+				getChart( ),
+				"minSlice" );//$NON-NLS-1$
 		new TextNumberEditorAssistField( txtMinSlice.getTextControl( ), null );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 3;
 			txtMinSlice.setLayoutData( gridData );
 			txtMinSlice.setToolTipText( TOOLTIP_MINIMUM_SLICE );
 			txtMinSlice.setValue( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) );
 			txtMinSlice.addModifyListener( this );
 		}
 
-		lblBottomPercent = new Label( cmpMinSlice, SWT.NONE );
-		lblBottomPercent.setText( "%" ); //$NON-NLS-1$
+		lblBottomPercent = txtMinSlice.getUnitLabel( );
+		
 		lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
-
+		
 		lblLabel = new Label( parent, SWT.NONE );
 		{
 			lblLabel.setText( Messages.getString( "PieBottomAreaComponent.Label.MinSliceLabel" ) ); //$NON-NLS-1$
 			lblLabel.setToolTipText( TOOLTIP_MINIMUM_SLICE );
 		}
 
-		List keys = null;
+		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
@@ -147,7 +159,8 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 		{
 			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
 			txtLabel.setLayoutData( gdTXTTitle );
-			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
+					&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
 			txtLabel.addListener( this );
 		}
 	}
@@ -161,8 +174,13 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	{
 		if ( e.getSource( ) == txtMinSlice )
 		{
-			( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
-			txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ))
+			{
+				( (ChartWithoutAxes) getChart( ) ).setMinSlice( txtMinSlice.getValue( ) );
+				txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).isSetMinSlice( )
+						&& ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+			}
+			updateUIState( );
 		}
 	}
 
@@ -186,15 +204,24 @@ public class SeriesXSheetImpl extends SubtaskSheetImpl
 	{
 		if ( getChart( ) instanceof ChartWithoutAxes )
 		{
-			if ( e.widget.equals( cmbMinSlice ) )
+			if ( e.widget == cmbMinSlice )
 			{
-				( (ChartWithoutAxes) getChart( ) ).setMinSlicePercent( cmbMinSlice.getSelectionIndex( ) == 0 );
-				lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
+				String selectMinSliceType = cmbMinSlice.getSelectedItemData( );
+				if ( selectMinSliceType != null )
+				{
+					( (ChartWithoutAxes) getChart( ) ).setMinSlicePercent( selectMinSliceType.equals( Messages.getString( "PieBottomAreaComponent.Label.Percentage" ) ) );//$NON-NLS-1$
+				}
+				updateUIState( );
 			}
 		}
-
 	}
 
+	private void updateUIState( )
+	{
+		lblBottomPercent.setVisible( ( (ChartWithoutAxes) getChart( ) ).isMinSlicePercent( ) );
+		txtLabel.setEnabled( ( (ChartWithoutAxes) getChart( ) ).getMinSlice( ) != 0 );
+	}
+	
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// TODO Auto-generated method stub

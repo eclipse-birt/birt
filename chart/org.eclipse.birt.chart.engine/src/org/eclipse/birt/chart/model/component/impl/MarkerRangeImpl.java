@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.component.impl;
 
 import java.util.Collection;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Cursor;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -972,6 +974,61 @@ public class MarkerRangeImpl extends EObjectImpl implements MarkerRange
 			mr.setFormatSpecifier( ax.getFormatSpecifier( ).copyInstance( ) );
 		}
 		return mr;
+	}
+	
+	/**
+	 * A convenience method provided to add a marker range instance to an axis
+	 * 
+	 * @param ax the axis which the marker range will be created on.
+	 * @param deStart start range.
+	 * @param deEnd end range.
+	 * @param fillColor fill color.
+	 * @param outlineColor outline color.
+	 */
+	public static final MarkerRange createDefault( Axis ax, DataElement deStart,
+			DataElement deEnd, Fill fillColor, ColorDefinition outlineColor )
+	{
+		final MarkerRange mr = ComponentFactory.eINSTANCE.createMarkerRange( );
+		( (MarkerRangeImpl) mr ).initDefault( ax,
+				deStart,
+				deEnd,
+				fillColor,
+				outlineColor );
+		ax.getMarkerRanges( ).add( mr );
+		return mr;
+	}
+
+	private void initDefault( Axis ax, DataElement deStart, DataElement deEnd,
+			Fill fillColor, ColorDefinition outlineColor )
+	{
+		outline = LineAttributesImpl.createDefault( outlineColor,
+				LineStyle.SOLID_LITERAL,
+				1 );
+		fill = fillColor;
+		startValue = deStart;
+		endValue = deEnd;
+		label = LabelImpl.createDefault( );
+
+		labelAnchor = ( ax.isSetOrientation( ) && ax.getOrientation( )
+				.getValue( ) == Orientation.HORIZONTAL ) ? Anchor.NORTH_EAST_LITERAL
+				: Anchor.NORTH_WEST_LITERAL;
+
+		if ( ax.isSetOrientation( ) && ax.getOrientation( ).getValue( ) == Orientation.VERTICAL )
+		{
+			try
+			{
+				ChartElementUtil.setDefaultValue( getLabel( ).getCaption( ).getFont( ), "rotation", 90 );  //$NON-NLS-1$
+			}
+			catch ( ChartException e )
+			{
+				// This should not happens in here.
+			}
+		}
+
+		if ( ax.getFormatSpecifier( ) != null && ax.isSetCategoryAxis( ) && !ax.isCategoryAxis( ) )
+		{
+			formatSpecifier = ax.getFormatSpecifier( ).copyInstance( );
+		}
 	}
 
 	/**

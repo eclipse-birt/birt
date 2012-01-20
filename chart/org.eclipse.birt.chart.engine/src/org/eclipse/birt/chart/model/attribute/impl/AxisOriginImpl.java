@@ -342,6 +342,20 @@ public class AxisOriginImpl extends EObjectImpl implements AxisOrigin
 		ao.setValue( de );
 		return ao;
 	}
+	
+	/**
+	 * 
+	 * @param it
+	 * @param de
+	 * @return
+	 */
+	public static final AxisOrigin createDefault( IntersectionType it, DataElement de )
+	{
+		final AxisOrigin ao = AttributeFactory.eINSTANCE.createAxisOrigin( );
+		( (AxisOriginImpl) ao ).type = it;
+		( (AxisOriginImpl) ao ).value = de;
+		return ao;
+	}
 
 	/**
 	 * @generated

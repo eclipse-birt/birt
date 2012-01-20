@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
@@ -289,21 +290,25 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		
 		if ( !seriesDefns.isEmpty( ) )
 		{
-			Palette pa = ( ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
-			for ( int i = 0; i < pa.getEntries( ).size( ); i++ )
+			if( ChartElementUtil.isSetSeriesPalette( getChart( ) ))
 			{
-				int index = i + seriesDefns.size( );
-				int paletteSize = pa.getEntries( ).size( );
-				while ( index >= pa.getEntries( ).size( ) )
+				Palette pa = ( ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
+				for ( int i = 0; i < pa.getEntries( ).size( ); i++ )
 				{
-					index -= paletteSize;
+					int index = i + seriesDefns.size( );
+					int paletteSize = pa.getEntries( ).size( );
+					while ( index >= pa.getEntries( ).size( ) )
+					{
+						index -= paletteSize;
+					}
+					sdTmp.getSeriesPalette( )
+							.getEntries( )
+							.add( i,
+									pa.getEntries( )
+											.get( index )
+											.copyInstance( ) );
 				}
-				sdTmp.getSeriesPalette( ).getEntries( ).add( i,
-						pa.getEntries( ).get( index ).copyInstance( ) );
 			}
-			sdTmp.getSeriesPalette( )
-					.getEntries( )
-					.remove( pa.getEntries( ).size( ) );
 			Series newSeries = seriesDefns.get( 0 )
 					.getDesignTimeSeries( )
 					.copyInstance( );
@@ -443,24 +448,24 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 	}
 
-	/**
-	 * Updates series palette of series definition list without the series to be
-	 * moved
-	 * 
-	 * @param removedIndex
-	 *            the index of the series to be removed
-	 */
-	private void updateSeriesPalette( int removedIndex )
-	{
-		for ( int i = 0, j = 0; i < seriesDefns.size( ); i++ )
-		{
-			if ( i != removedIndex )
-			{
-				seriesDefns.get( i ).getSeriesPalette( )
-						.shift( -j++ );
-			}
-		}
-	}
+//	/**
+//	 * Updates series palette of series definition list without the series to be
+//	 * moved
+//	 * 
+//	 * @param removedIndex
+//	 *            the index of the series to be removed
+//	 */
+//	private void updateSeriesPalette( int removedIndex )
+//	{
+//		for ( int i = 0, j = 0; i < seriesDefns.size( ); i++ )
+//		{
+//			if ( i != removedIndex )
+//			{
+//				seriesDefns.get( i ).getSeriesPalette( )
+//						.shift( -j++ );
+//			}
+//		}
+//	}
 
 	protected void removeSeriesDefinition( )
 	{
@@ -481,7 +486,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 		// Reset index. If index is wrong, sample data can't display.
 		ChartUIUtil.reorderOrthogonalSampleDataIndex( getChart( ) );
-		updateSeriesPalette( cmbSeriesSelect.getSelectionIndex( ) );
+//		updateSeriesPalette( cmbSeriesSelect.getSelectionIndex( ) );
 		ChartAdapter.ignoreNotifications( isNotificaionIgnored );
 
 		seriesDefns.remove( cmbSeriesSelect.getSelectionIndex( ) );

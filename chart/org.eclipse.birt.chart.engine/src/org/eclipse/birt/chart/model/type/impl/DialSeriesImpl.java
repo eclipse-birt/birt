@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.model.type.impl;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Dial;
 import org.eclipse.birt.chart.model.component.Needle;
 import org.eclipse.birt.chart.model.component.Series;
@@ -21,6 +22,7 @@ import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
@@ -329,6 +331,40 @@ public class DialSeriesImpl extends SeriesImpl implements DialSeries
 
 		setDial( DialImpl.create( ) );
 		setNeedle( NeedleImpl.create( ) );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#create()
+	 */
+	public static final Series createDefault( )
+	{
+		final DialSeries ds = TypeFactory.eINSTANCE.createDialSeries( );
+		( (DialSeriesImpl) ds ).initDefault( );
+		return ds;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
+	 */
+	protected final void initDefault( )
+	{
+		super.initDefault( );
+
+		try
+		{
+			ChartElementUtil.setDefaultValue( getLabel( ), "visible", true ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		} 
+
+		dial = DialImpl.createDefault( );
+		needle = NeedleImpl.createDefault( );
 	}
 
 	/*

@@ -166,7 +166,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 		}
     }
 
-    public String getKey(String str)
+    String getKey(String str)
     {
         int iSeparator = str.indexOf(SEPARATOR);
         if (iSeparator == -1)
@@ -176,7 +176,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         return str.substring(0, iSeparator);
     }
 
-    public String getValue( String str )
+    String getValue( String str )
     {
    	   int iSeparator = str.indexOf(SEPARATOR) + SEPARATOR.length();
    	   if (iSeparator == (-1 + SEPARATOR.length()))
@@ -185,7 +185,8 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
    	   }
    	   return str.substring(iSeparator);
     }
-    public String getLocalizedValue(String str)
+    
+    String getLocalizedValue(String str)
     {
         String sTmp = ""; //$NON-NLS-1$
         sTmp = getKey(str);
@@ -214,7 +215,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         event.data = buildString();
         for (int iL = 0; iL < vListeners.size(); iL++)
         {
-            ((Listener) vListeners.elementAt(iL)).handleEvent(event);
+            vListeners.elementAt(iL).handleEvent(event);
         }
     }
 

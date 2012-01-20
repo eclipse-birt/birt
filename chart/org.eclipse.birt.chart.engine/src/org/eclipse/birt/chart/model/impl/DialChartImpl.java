@@ -242,6 +242,26 @@ public class DialChartImpl extends ChartWithoutAxesImpl implements DialChart
 		super.initialize( );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl#create()
+	 */
+	public static final ChartWithoutAxes createDefault( )
+	{
+		final DialChart dc = ModelFactory.eINSTANCE.createDialChart( );
+		( (DialChartImpl) dc ).initDefault( );
+		return dc;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.model.impl.ChartImpl#initialize()
+	 */
+	protected void initDefault( )
+	{
+		super.initDefault( );
+	}
+	
 	/**
 	 * @generated
 	 */

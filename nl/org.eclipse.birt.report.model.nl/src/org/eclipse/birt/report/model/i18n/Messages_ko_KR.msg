@@ -2013,6 +2013,7 @@ Structure.FilterCondition.extensionExprId=확장 식 ID
 Structure.FilterCondition.pushDown=아래로 밀어내기
 Structure.FilterCondition.dynamicFilterParameter=동적 필터 매개 변수
 Structure.FilterCondition.type=형식
+Structure.FilterCondition.updateAggregation=Update Aggregation
 
 #10. PropertyMask
 Structure.PropertyMask.name=이름
@@ -3370,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=확장 식 ID
 Element.FilterConditionElement.pushDown=아래로 밀어내기
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=형식
-
+Element.FilterConditionElement.updateAggregation=Update Aggregation
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

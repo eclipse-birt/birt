@@ -204,6 +204,18 @@ public class TimeFunctionHandle
 								local ),
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIOD_TO_DATE_FROM_N_PERIOD_AGO_DES,
 								local ) ) );
+		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.TRAILING_N_MONTHS,
+				new BaseTimeFunction( IBuildInBaseTimeFunction.TRAILING_N_MONTHS,
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N_MONTHS,
+								local ),
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N_MONTHS,
+								local ) ) );
+		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.TRAILING_N_DAYS,
+				new BaseTimeFunction( IBuildInBaseTimeFunction.TRAILING_N_DAYS,
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N_DAYS,
+								local ),
+						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N_DAYS,
+								local ) ) );
 		baseTimeFunctionMap.put( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO,
 				new BaseTimeFunction( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO,
 						Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N_PERIOD_FROM_N_PERIOD_AGO,

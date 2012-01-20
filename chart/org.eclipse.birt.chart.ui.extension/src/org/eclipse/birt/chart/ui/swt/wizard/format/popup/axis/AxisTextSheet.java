@@ -16,15 +16,16 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -60,12 +61,15 @@ public class AxisTextSheet extends AbstractPopupSheet
 
 	private transient int axisType;
 
+	private Axis defAxis;
+
 	public AxisTextSheet( String title, ChartWizardContext context, Axis axis,
-			int axisType )
+			int axisType, Axis defAxis )
 	{
 		super( title, context, true );
 		this.axis = axis;
 		this.axisType = axisType;
+		this.defAxis = defAxis;
 	}
 
 	protected Composite getComponent( Composite parent )
@@ -91,8 +95,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-					getAxisForProcessing( ).getTitlePosition( ),
-					getAxisForProcessing( ).getTitle( ),
+					getAxisForProcessing( ),
+					"titlePosition",//$NON-NLS-1$
+					"title",//$NON-NLS-1$
+					defAxis,
 					getChart( ).getUnits( ) );
 		}
 		else
@@ -104,8 +110,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-					getAxisForProcessing( ).getTitlePosition( ),
-					getAxisForProcessing( ).getTitle( ),
+					getAxisForProcessing( ),
+					"titlePosition",//$NON-NLS-1$
+					"title",//$NON-NLS-1$
+					defAxis,
 					getChart( ).getUnits( ),
 					getPositionScope( ) );
 
@@ -141,8 +149,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					null,
-					getAxisForProcessing( ).getLabelPosition( ),
-					getAxisForProcessing( ).getLabel( ),
+					getAxisForProcessing( ),
+					"labelPosition", //$NON-NLS-1$
+					"label", //$NON-NLS-1$
+					defAxis,
 					getChart( ).getUnits( ) );
 		}
 		else
@@ -156,8 +166,10 @@ public class AxisTextSheet extends AbstractPopupSheet
 					getContext( ),
 					attributesContext,
 					null,
-					getAxisForProcessing( ).getLabelPosition( ),
-					getAxisForProcessing( ).getLabel( ),
+					getAxisForProcessing( ),
+					"labelPosition", //$NON-NLS-1$
+					"label", //$NON-NLS-1$
+					defAxis,
 					getChart( ).getUnits( ),
 					getPositionScope( ) );
 		}
@@ -197,6 +209,7 @@ public class AxisTextSheet extends AbstractPopupSheet
 	 */
 	public void handleEvent( Event event )
 	{
+		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
 		if ( event.widget.equals( lacTitle ) )
 		{
 			switch ( event.type )
@@ -225,14 +238,18 @@ public class AxisTextSheet extends AbstractPopupSheet
 							.setShadowColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getTitle( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getTitle( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getAxisForProcessing( ).getTitle( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getTitle( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getTitle( )
@@ -240,9 +257,11 @@ public class AxisTextSheet extends AbstractPopupSheet
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getTitle( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getTitle( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					getAxisForProcessing( ).getTitle( )
@@ -255,11 +274,16 @@ public class AxisTextSheet extends AbstractPopupSheet
 			switch ( event.type )
 			{
 				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
-					getAxisForProcessing( ).setLabelPosition( (Position) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ),
+							"labelPosition", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.FONT_CHANGED_EVENT :
 					getAxisForProcessing( ).getLabel( )
@@ -278,14 +302,18 @@ public class AxisTextSheet extends AbstractPopupSheet
 							.setShadowColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
+							.getOutline( ),
+							"style", //$NON-NLS-1$
+							event.data,
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
+							.getOutline( ),
+							"thickness", //$NON-NLS-1$
+							( (Integer) event.data ).intValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
 					getAxisForProcessing( ).getLabel( )
@@ -293,9 +321,11 @@ public class AxisTextSheet extends AbstractPopupSheet
 							.setColor( (ColorDefinition) event.data );
 					break;
 				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getAxisForProcessing( ).getLabel( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+					ChartElementUtil.setEObjectAttribute( getAxisForProcessing( ).getLabel( )
+							.getOutline( ),
+							"visible", //$NON-NLS-1$
+							( (Boolean) event.data ).booleanValue( ),
+							isUnset );
 					break;
 				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
 					getAxisForProcessing( ).getLabel( )

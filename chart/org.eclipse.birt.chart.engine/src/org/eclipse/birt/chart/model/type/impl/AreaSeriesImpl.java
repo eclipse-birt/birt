@@ -14,13 +14,14 @@ package org.eclipse.birt.chart.model.type.impl;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.AreaSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.TypeFactory;
 import org.eclipse.birt.chart.model.type.TypePackage;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -64,17 +65,17 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	{
 		super.translateFrom( series, iSeriesDefinitionIndex, chart );
 
-		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
-			Marker mk = (Marker) itr.next( );
-			mk.setVisible( false );
+			Marker mk = itr.next( );
+			mk.unsetVisible( );
 		}
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
-	 * @return
+	 * @return series instance with setting 'isSet' flag.
 	 */
 	public static Series create( )
 	{
@@ -92,13 +93,48 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	{
 		super.initialize( );
 
-		for ( Iterator itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
 		{
-			Marker mk = (Marker) itr.next( );
+			Marker mk = itr.next( );
 			mk.setVisible( false );
 		}
 	}
 
+	/**
+	 * A convenience method to create an initialized 'Series' instance
+	 * 
+	 * @return instance of ares series without setting 'isSet' flag.
+	 */
+	public static Series createDefault( )
+	{
+		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries( );
+		( (AreaSeriesImpl) as ).initDefault( );
+		return as;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
+	 */
+	protected void initDefault( )
+	{
+		super.initDefault( );
+
+		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
+		{
+			Marker mk = itr.next( );
+			try
+			{
+				ChartElementUtil.setDefaultValue( mk, "visible", false ); //$NON-NLS-1$
+			}
+			catch ( ChartException e )
+			{
+				// Do nothing.
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

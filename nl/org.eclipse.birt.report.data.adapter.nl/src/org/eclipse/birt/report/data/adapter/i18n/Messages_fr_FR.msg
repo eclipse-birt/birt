@@ -105,4 +105,10 @@ timeFunction.PERIOD2.displayName = La deuxième pé&riode
 timeFunction.N1.displayName = Le prem&ier N
 timeFunction.N2.displayName = Le deu&xième N
 
+timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
+timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
+timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
+timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
+timeFunction.PERIODCHOICE.DAY_displayName =DAY
+
 timeFunction.toolTip.to=A

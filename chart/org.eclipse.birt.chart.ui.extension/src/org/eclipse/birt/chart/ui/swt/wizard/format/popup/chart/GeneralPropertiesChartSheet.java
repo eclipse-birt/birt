@@ -22,9 +22,13 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement;
 import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
+import org.eclipse.birt.chart.model.util.ChartDefaultValueUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.AbstractChartNumberEditor;
+import org.eclipse.birt.chart.ui.swt.ChartCombo;
+import org.eclipse.birt.chart.ui.swt.ChartSpinner;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.fieldassist.TextNumberEditorAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -40,17 +44,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ * GeneralPropertiesChartSheet
  */
 
 public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
@@ -59,37 +61,39 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 		SelectionListener
 {
 
-	private transient Composite cmpContent;
+	private Composite cmpContent;
 
-	private transient ExternalizedTextEditorComposite txtDescription;
+	private ExternalizedTextEditorComposite txtDescription;
 
-	private transient Group grpGeneral;
+	private Text txtType;
 
-	private transient Text txtType;
+	private Text txtSubType;
 
-	private transient Text txtSubType;
+	private ChartSpinner txtUnitSpacing;
 
-	private transient Spinner txtUnitSpacing;
+	private ChartCombo cmbUnits;
 
-	private transient Combo cmbUnits;
+	private Label lblSeriesThickness;
 
-	private transient Label lblSeriesThickness;
+	private AbstractChartNumberEditor txtSeriesThickness;
 
-	private transient LocalizedNumberEditorComposite txtSeriesThickness;
+	private ChartSpinner iscColumnCount;
 
-	private transient Spinner iscColumnCount;
-
-	private transient String sOldUnits = ""; //$NON-NLS-1$
+	private String sOldUnits = ""; //$NON-NLS-1$
 
 	public GeneralPropertiesChartSheet( String title, ChartWizardContext context )
 	{
 		super( title, context, false );
 	}
+	
+	@Override
+	protected void bindHelp( Composite parent )
+	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_CHART_GENERAL );
+	}
 
 	protected Composite getComponent( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_CHART_GENERAL );
-
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( );
@@ -102,7 +106,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 
 		// Layout for General composite
 		GridLayout glGeneral = new GridLayout( );
-		glGeneral.numColumns = 2;
+		glGeneral.numColumns = 3;
 		glGeneral.horizontalSpacing = 5;
 		glGeneral.verticalSpacing = 5;
 		glGeneral.marginHeight = 7;
@@ -110,7 +114,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 
 		createDescriptionArea( cmpContent );
 
-		grpGeneral = new Group( cmpContent, SWT.NONE );
+		Group grpGeneral = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPGeneral = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
 		grpGeneral.setLayoutData( gdGRPGeneral );
@@ -125,6 +129,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 
 		txtType = new Text( grpGeneral, SWT.BORDER | SWT.READ_ONLY );
 		GridData gdTXTType = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTType.horizontalSpan = 2;
 		txtType.setLayoutData( gdTXTType );
 		txtType.setText( getContext( ).getChartType( ).getDisplayName( ) );
 
@@ -136,6 +141,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 
 		txtSubType = new Text( grpGeneral, SWT.BORDER | SWT.READ_ONLY );
 		GridData gdTXTSubType = new GridData( GridData.FILL_HORIZONTAL );
+		gdTXTSubType.horizontalSpan = 2;
 		txtSubType.setLayoutData( gdTXTSubType );
 		txtSubType.setText( "" );//$NON-NLS-1$
 
@@ -144,20 +150,27 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 		{
 			orientation = ( (ChartWithAxes) getChart( ) ).getOrientation( );
 		}
-		Vector vSubType = (Vector) getContext( ).getChartType( )
+		Vector<IChartSubType> vSubType = (Vector<IChartSubType>) getContext( ).getChartType( )
 				.getChartSubtypes( getChart( ).getDimension( ).getName( ),
 						orientation );
-		Iterator iter = vSubType.iterator( );
+		Iterator<IChartSubType> iter = vSubType.iterator( );
 		while ( iter.hasNext( ) )
 		{
-			IChartSubType cSubType = (IChartSubType) iter.next( );
+			IChartSubType cSubType = iter.next( );
 			if ( cSubType.getName( ).equals( getChart( ).getSubType( ) ) )
 			{
 				txtSubType.setText( cSubType.getDisplayName( ) );
 				break;
 			}
 		}
-		
+
+		createMisc( grpGeneral );
+
+		return cmpContent;
+	}
+
+	protected void createMisc( Group grpGeneral )
+	{
 		if ( getChart( ).getDimension( ).getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH )
 		{
 			Label lblUnit = new Label( grpGeneral, SWT.NONE );
@@ -166,8 +179,15 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			lblUnit.setLayoutData( gdLBLUnit );
 			lblUnit.setText( Messages.getString( "AttributeSheetImpl.Lbl.Units" ) ); //$NON-NLS-1$
 
-			cmbUnits = new Combo( grpGeneral, SWT.DROP_DOWN | SWT.READ_ONLY );
+			cmbUnits = getContext( ).getUIFactory( )
+					.createChartCombo( grpGeneral,
+							SWT.DROP_DOWN | SWT.READ_ONLY,
+							getChart( ),
+							"units", //$NON-NLS-1$
+							ChartDefaultValueUtil.getDefaultValueChart( getChart( ) )
+									.getUnits( ) );
 			GridData gdCMBUnits = new GridData( GridData.FILL_HORIZONTAL );
+			gdCMBUnits.horizontalSpan = 2;
 			cmbUnits.setLayoutData( gdCMBUnits );
 			cmbUnits.addSelectionListener( this );
 
@@ -176,19 +196,25 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			gdLBLSeriesThickness.horizontalIndent = 1;
 			lblSeriesThickness.setLayoutData( gdLBLSeriesThickness );
 
-			txtSeriesThickness = new LocalizedNumberEditorComposite( grpGeneral,
-					SWT.BORDER | SWT.SINGLE );
-			new TextNumberEditorAssistField( txtSeriesThickness.getTextControl( ), null );
-			
+			txtSeriesThickness = getContext( ).getUIFactory( )
+					.createChartNumberEditor( grpGeneral,
+							SWT.BORDER | SWT.SINGLE,
+							null,
+							getChart( ),
+							"seriesThickness" );//$NON-NLS-1$
+			new TextNumberEditorAssistField( txtSeriesThickness.getTextControl( ),
+					null );
+
 			GridData gdTXTSeriesThickness = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTSeriesThickness.horizontalSpan = 2;
 			txtSeriesThickness.setLayoutData( gdTXTSeriesThickness );
 			double dblPoints = getChart( ).getSeriesThickness( );
 			double dblCurrent = getContext( ).getUIServiceProvider( )
 					.getConvertedValue( dblPoints,
-							"Points", getChart( ).getUnits( ) ); //$NON-NLS-1$
+							"Points", getUnits( ) ); //$NON-NLS-1$
 			txtSeriesThickness.setValue( dblCurrent );
 			txtSeriesThickness.addModifyListener( this );
-			
+
 			populateLists( );
 		}
 
@@ -200,15 +226,20 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			lblColumnCount.setLayoutData( gdLBLColumnCount );
 			lblColumnCount.setText( Messages.getString( "AttributeSheetImpl.Lbl.ColumnCount" ) ); //$NON-NLS-1$
 
-			iscColumnCount = new Spinner( grpGeneral, SWT.BORDER );
+			iscColumnCount = getContext( ).getUIFactory( )
+					.createChartSpinner( grpGeneral,
+							SWT.BORDER,
+							getChart( ),
+							"gridColumnCount", //$NON-NLS-1$
+							true );
 			GridData gdISCColumnCount = new GridData( GridData.FILL_HORIZONTAL );
+			gdISCColumnCount.horizontalSpan = 2;
 			iscColumnCount.setLayoutData( gdISCColumnCount );
-			iscColumnCount.setMinimum( 0 );
-			iscColumnCount.setMaximum( 5 );
-			iscColumnCount.setSelection( getChart( ).getGridColumnCount( ) );
-			iscColumnCount.addSelectionListener( this );
+			iscColumnCount.getWidget( ).setMinimum( 0 );
+			iscColumnCount.getWidget( ).setMaximum( 5 );
+			iscColumnCount.getWidget( ).setSelection( getChart( ).getGridColumnCount( ) );
 		}
-		
+
 		else if ( getChart( ) instanceof ChartWithAxes )
 		{
 			Label lblUnitSpacing = new Label( grpGeneral, SWT.NONE );
@@ -217,18 +248,21 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			lblUnitSpacing.setLayoutData( gdUnitSpacing );
 			lblUnitSpacing.setText( Messages.getString( "AttributeSheetImpl.Lbl.UnitSpacing" ) ); //$NON-NLS-1$
 
-			txtUnitSpacing = new Spinner( grpGeneral, SWT.BORDER );
+			txtUnitSpacing = getContext( ).getUIFactory( )
+					.createChartSpinner( grpGeneral,
+							SWT.BORDER,
+							getChart( ),
+							"unitSpacing", //$NON-NLS-1$
+							true );
 			GridData gdTXTUnitSpacing = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTUnitSpacing.horizontalSpan = 2;
 			txtUnitSpacing.setLayoutData( gdTXTUnitSpacing );
-			txtUnitSpacing.setMinimum( 0 );
-			txtUnitSpacing.setMaximum( 100 );
-			txtUnitSpacing.setIncrement( 1 );
+			txtUnitSpacing.getWidget( ).setMinimum( 0 );
+			txtUnitSpacing.getWidget( ).setMaximum( 100 );
+			txtUnitSpacing.getWidget( ).setIncrement( 1 );
 			double unitSpacing = ( (ChartWithAxes) getChart( ) ).getUnitSpacing( );
-			txtUnitSpacing.setSelection( (int) unitSpacing );
-			txtUnitSpacing.addSelectionListener( this );
+			txtUnitSpacing.getWidget( ).setSelection( (int) unitSpacing );
 		}
-
-		return cmpContent;
 	}
 
 	private void createDescriptionArea( Composite parent )
@@ -242,7 +276,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			cmpDesp.setLayoutData( griddata );
 		}
 
-		List keys = null;
+		List<String> keys = null;
 		if ( getContext( ).getUIServiceProvider( ) != null )
 		{
 			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
@@ -277,19 +311,25 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 	{
 		NameSet ns = LiteralHelper.unitsOfMeasurementSet;
 		cmbUnits.setItems( ns.getDisplayNames( ) );
+		cmbUnits.setItemData( ns.getNames( ) );
 
-		String str = getChart( ).getUnits( );
-		if ( str != null && str.trim( ).length( ) != 0 )
+		cmbUnits.setSelection( getUnits( ) );
+		this.sOldUnits = cmbUnits.getSelectedItemData( );
+		if ( this.sOldUnits == null )
 		{
-			cmbUnits.setText( ns.getDisplayNameByName( str ) );
+			this.sOldUnits = ChartDefaultValueUtil.getDefaultUnits( getChart( ) );
 		}
-		else
+		lblSeriesThickness.setText( new MessageFormat( Messages.getString( "GeneralSheetImpl.Lbl.SeriesWidth" ) ).format( new Object[]{LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getUnits( ) )} ) ); //$NON-NLS-1$
+	}
+
+	private String getUnits( )
+	{
+		String units = getChart( ).getUnits( );
+		if ( units == null )
 		{
-			cmbUnits.setText( ns.getDisplayNameByName( UnitsOfMeasurement.POINTS_LITERAL.getName( ) ) );
-			getChart( ).setUnits( UnitsOfMeasurement.POINTS_LITERAL.getName( ) );
+			units = ChartDefaultValueUtil.getDefaultUnits( getChart( ) );
 		}
-		this.sOldUnits = ns.getNameByDisplayName( cmbUnits.getText( ) );
-		lblSeriesThickness.setText( new MessageFormat( Messages.getString( "GeneralSheetImpl.Lbl.SeriesWidth" ) ).format( new Object[]{LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getChart( ).getUnits( ) )} ) ); //$NON-NLS-1$
+		return units;
 	}
 
 	private double recalculateUnitDependentValues( double value )
@@ -297,32 +337,47 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 		return getContext( ).getUIServiceProvider( )
 				.getConvertedValue( value,
 						sOldUnits,
-						LiteralHelper.unitsOfMeasurementSet.getNameByDisplayName( cmbUnits.getText( ) ) );
+						cmbUnits.getSelectedItemData( ) == null ? ChartDefaultValueUtil.getDefaultUnits( getChart( ) )
+								: cmbUnits.getSelectedItemData( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 * @see
+	 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
+	 * .ModifyEvent)
 	 */
 	public void modifyText( ModifyEvent e )
 	{
 		if ( e.widget.equals( txtSeriesThickness ) )
 		{
-			double dblCurrent = txtSeriesThickness.getValue( );
-			double dblPoints = getContext( ).getUIServiceProvider( )
-					.getConvertedValue( dblCurrent,
-							LiteralHelper.unitsOfMeasurementSet.getNameByDisplayName( cmbUnits.getText( ) ),
-							UnitsOfMeasurement.POINTS_LITERAL.getName( ) );
-			getChart( ).setSeriesThickness( dblPoints );
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( e.data ) )
+			{
+				updateToSeriesThickness( );
+			}
 		}
 
+	}
+
+	protected void updateToSeriesThickness( )
+	{
+		double dblCurrent = txtSeriesThickness.getValue( );
+		String selectUnits = cmbUnits.getSelectedItemData( );
+		double dblPoints = getContext( ).getUIServiceProvider( )
+				.getConvertedValue( dblCurrent,
+						selectUnits == null ? ChartDefaultValueUtil.getDefaultUnits( getChart( ) )
+								: selectUnits,
+						UnitsOfMeasurement.POINTS_LITERAL.getName( ) );
+		getChart( ).setSeriesThickness( dblPoints );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -339,26 +394,14 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 				getChart( ).setDescription( description );
 			}
 		}
-//		else if ( event.widget.equals( fccWall ) )
-//		{
-//			if ( getChart( ) instanceof ChartWithAxes )
-//			{
-//				( (ChartWithAxes) getChart( ) ).setWallFill( (Fill) event.data );
-//			}
-//		}
-//		else if ( event.widget.equals( fccFloor ) )
-//		{
-//			if ( getChart( ) instanceof ChartWithAxes )
-//			{
-//				( (ChartWithAxes) getChart( ) ).setFloorFill( (Fill) event.data );
-//			}
-//		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * .swt.events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -367,27 +410,26 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
 		if ( e.getSource( ).equals( cmbUnits ) )
 		{
-			txtSeriesThickness.setValue( recalculateUnitDependentValues( txtSeriesThickness.getValue( ) ) );
-			getChart( ).setUnits( LiteralHelper.unitsOfMeasurementSet.getNameByDisplayName( cmbUnits.getText( ) ) );
+			String selectedUnits = cmbUnits.getSelectedItemData( );
+			if ( selectedUnits != null )
+			{
+				getChart( ).setUnits( selectedUnits );	
+				txtSeriesThickness.setValue( recalculateUnitDependentValues( txtSeriesThickness.getValue( ) ) );
+			}
+			
 			// Update the Units for the Insets in Title properties
 			lblSeriesThickness.setText( new MessageFormat( Messages.getString( "GeneralSheetImpl.Lbl.SeriesWidth" ) ).format( new Object[]{ //$NON-NLS-1$
-				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getChart( ).getUnits( ) )
+				LiteralHelper.unitsOfMeasurementSet.getDisplayNameByName( getUnits( ) )
 			} ) );
-			sOldUnits = getChart( ).getUnits( );
-		}
-		else if ( e.getSource( ).equals( iscColumnCount ) )
-		{
-			getChart( ).setGridColumnCount( iscColumnCount.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( txtUnitSpacing ) )
-		{
-			( (ChartWithAxes) getChart( ) ).setUnitSpacing( txtUnitSpacing.getSelection( ) );
+			sOldUnits = getUnits( );
 		}
 	}
 

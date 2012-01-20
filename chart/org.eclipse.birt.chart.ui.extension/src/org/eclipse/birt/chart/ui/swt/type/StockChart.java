@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -39,6 +38,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.StockSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
@@ -179,36 +179,29 @@ public class StockChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setOrientation( orientation );
-		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
-
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( getDefaultTitle( ) );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"orientation", //$NON-NLS-1$
+				orientation,
+				orientation == null );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sDimension ),
+				sDimension == null );
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
-		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxis.setType( AxisType.DATE_TIME_LITERAL );
-		xAxis.setCategoryAxis( true );
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
-		sdX.getSeriesPalette( ).shift( 0 );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-		yAxis.setType( AxisType.LINEAR_LITERAL );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
-		Series valueSeries = StockSeriesImpl.create( );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series valueSeries = StockSeriesImpl.createDefault( );
 		if ( BAR_STICK_SUBTYPE_LITERAL.equals( sSubType ) )
 		{
 			( (StockSeries) valueSeries ).setShowAsBarStick( true );
@@ -263,11 +256,11 @@ public class StockChart extends DefaultChartTypeImpl
 					currentChart.setSubType( sNewSubType );
 					for ( Axis yAxis : xAxis.getAssociatedAxes( ) )
 					{
-						yAxis.setPercent( false );
+						yAxis.unsetPercent( );
 						for ( SeriesDefinition ysd : yAxis.getSeriesDefinitions( ) )
 						{
 							Series series = ysd.getDesignTimeSeries( );
-							series.setStacked( false );
+							series.unsetStacked( );
 							if ( series instanceof StockSeries )
 							{
 								( (StockSeries) series ).setShowAsBarStick( BAR_STICK_SUBTYPE_LITERAL.equals( currentChart.getSubType( ) ) );
@@ -285,15 +278,13 @@ public class StockChart extends DefaultChartTypeImpl
 				}
 				currentChart.setType( TYPE_LITERAL );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) == null
-						|| title.getValue( ).trim( ).length( ) == 0
-						|| title.getValue( )
+				if ( title.getValue( ) != null
+						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 								.trim( )
-								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 				{
 					title.setValue( getDefaultTitle( ) );
 				}
-				xAxis.setCategoryAxis( true );
 
 				currentChart.setSubType( sNewSubType );
 				int seriesIndex = 0;
@@ -303,12 +294,12 @@ public class StockChart extends DefaultChartTypeImpl
 					{
 						yAxis.setType( AxisType.LINEAR_LITERAL );
 					}
-					yAxis.setPercent( false );
+					yAxis.unsetPercent( );
 					for ( SeriesDefinition ysd : yAxis.getSeriesDefinitions( ) )
 					{
 						Series series = ysd.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex );
-						series.setStacked( false );
+						series.unsetStacked( );
 						ysd.getSeries( ).clear( );
 						ysd.getSeries( ).add( series );
 						seriesIndex++;
@@ -320,20 +311,21 @@ public class StockChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"orientation", //$NON-NLS-1$
+					newOrientation,
+					newOrientation == null );
+			ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+					getDimensionFor( sNewDimension ),
+					sNewDimension == null );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			xAxis.setCategoryAxis( true );
 
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.LINEAR_LITERAL );
 			
 			currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
 					true ) );
@@ -372,8 +364,8 @@ public class StockChart extends DefaultChartTypeImpl
 				{
 					series = vsd.getDesignTimeSeries( );
 					series = getConvertedSeries( series, j++ );
-					series.getLabel( ).setVisible( false );
-					series.setStacked( false );
+					series.getLabel( ).unsetVisible( );
+					series.unsetStacked( );
 					// Clear any existing series
 					vsd.getSeries( ).clear( );
 					// Add the new series
@@ -381,28 +373,22 @@ public class StockChart extends DefaultChartTypeImpl
 				}
 			}
 
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) == null
-					|| title.getValue( ).trim( ).length( ) == 0
-					|| title.getValue( )
+			if ( title.getValue( ) != null
+					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 							.trim( )
-							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 			{
 				title.setValue( getDefaultTitle( ) );
 			}
 		}
-		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-						.equals( newOrientation ) )
-		{
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-		}
-		if ( !currentChart.getDimension( )
-				.equals( getDimensionFor( sNewDimension ) ) )
-		{
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
-		}
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"orientation", //$NON-NLS-1$
+				newOrientation,
+				newOrientation == null );
+		ChartElementUtil.setEObjectAttribute( currentChart, "dimension",//$NON-NLS-1$
+				getDimensionFor( sNewDimension ),
+				sNewDimension == null );
 
 		// Restore label position for different sub type of chart.
 		ChartUIUtil.restoreLabelPositionFromCache( currentChart );
@@ -431,7 +417,7 @@ public class StockChart extends DefaultChartTypeImpl
 				.findSeries( StockSeriesImpl.class.getName( ), seriesIndex );
 		if ( stockseries == null )
 		{
-			stockseries = (StockSeries) StockSeriesImpl.create( );
+			stockseries = (StockSeries) StockSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -579,7 +565,22 @@ public class StockChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return StockSeriesImpl.create( );
+		return getSeries( true );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return StockSeriesImpl.create( );
+		}
+		else
+		{
+			return StockSeriesImpl.createDefault( );
+		}
 	}
 	
 	@Override

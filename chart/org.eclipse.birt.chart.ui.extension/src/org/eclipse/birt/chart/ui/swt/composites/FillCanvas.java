@@ -71,6 +71,8 @@ public class FillCanvas extends Canvas
 	
 	private IDeviceRenderer idr;
 
+	private int textIndent = 0;
+	
 	public FillCanvas( Composite parent, int iStyle )
 	{
 		super( parent, iStyle );
@@ -101,6 +103,11 @@ public class FillCanvas extends Canvas
 		this.isAutoEnabled = isAutoEnabled;
 	}
 
+	public void setTextIndent(int indent )
+	{
+		textIndent = indent;
+	}
+	
 	public void setFill( Fill fill )
 	{
 		this.fCurrent = fill;
@@ -133,11 +140,11 @@ public class FillCanvas extends Canvas
 							this.getSize( ).y );
 					if ( !isAutoEnabled || fCurrent != null )
 					{
-						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
+						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2 + textIndent, 2 ); //$NON-NLS-1$
 					}
 					else
 					{
-						gc.drawText( Messages.getString( "FillCanvas.Auto" ), 2, 2 ); //$NON-NLS-1$
+						gc.drawText( Messages.getString( "FillCanvas.Auto" ), 2 + textIndent, 2 ); //$NON-NLS-1$
 					}
 				}
 				else
@@ -170,11 +177,11 @@ public class FillCanvas extends Canvas
 					gc.setForeground( cText );
 					if ( !isAutoEnabled || fCurrent != null )
 					{
-						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2, 2 ); //$NON-NLS-1$
+						gc.drawText( Messages.getString( "FillCanvas.Transparent" ), 2 + textIndent, 2 ); //$NON-NLS-1$
 					}
 					else
 					{
-						gc.drawText( Messages.getString( "FillCanvas.Auto" ), 2, 2 ); //$NON-NLS-1$
+						gc.drawText( Messages.getString( "FillCanvas.Auto" ), 2 + textIndent, 2 ); //$NON-NLS-1$
 					}
 					cText.dispose( );
 				}

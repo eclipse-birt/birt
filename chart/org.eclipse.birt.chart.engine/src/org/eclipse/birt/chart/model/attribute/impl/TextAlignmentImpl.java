@@ -363,6 +363,44 @@ public class TextAlignmentImpl extends EObjectImpl implements TextAlignment
 		setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
 		setVerticalAlignment( VerticalAlignment.TOP_LITERAL );
 	}
+	
+	/**
+	 * A convenient method to create a new TextAlignment instance and initialize
+	 * its members
+	 * 
+	 * @return
+	 */
+	public static final TextAlignment createDefault( )
+	{
+		final TextAlignment ta = AttributeFactory.eINSTANCE.createTextAlignment( );
+		( (TextAlignmentImpl) ta ).initDefault( );
+		return ta;
+	}
+
+	/**
+	 * A convenient method to create a new TextAlignment instance and initialize
+	 * its members
+	 * 
+	 * @return
+	 */
+	public static final TextAlignment createDefault( HorizontalAlignment ha, VerticalAlignment va )
+	{
+		final TextAlignment ta = AttributeFactory.eINSTANCE.createTextAlignment( );
+		( (TextAlignmentImpl) ta ).horizontalAlignment = HorizontalAlignment.LEFT_LITERAL;
+		( (TextAlignmentImpl) ta ).verticalAlignment = VerticalAlignment.TOP_LITERAL;
+		return ta;
+	}
+	
+	/**
+	 * Resets all member variables within this object recursively
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		horizontalAlignment = HorizontalAlignment.LEFT_LITERAL;
+		verticalAlignment = VerticalAlignment.TOP_LITERAL;
+	}
 
 	public TextAlignment copyInstance( )
 	{

@@ -176,6 +176,29 @@ public class Rotation3DImpl extends EObjectImpl implements Rotation3D
 		return create( (Angle3D[]) null );
 	}
 
+
+	/**
+	 * Creates an empty Roatation3D object.
+	 * 
+	 * @param ala
+	 * @return
+	 */
+	public static Rotation3D createDefault( )
+	{
+		return create( );
+	}
+	
+	/**
+	 * Creates a Rotation3D object using given Angle3D array.
+	 * 
+	 * @param ala
+	 * @return
+	 */
+	public static Rotation3D createDefault( Angle3D[] ala )
+	{
+		return create( ala );
+	}
+	
 	/**
 	 * Creates a Rotation3D object using given Angle3D array.
 	 * 

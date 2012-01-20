@@ -333,7 +333,7 @@ public class NeedleImpl extends EObjectImpl implements Needle
 	}
 
 	/**
-	 * @return
+	 * @return instance of <code>Needle</code>.
 	 */
 	public static final Needle create( )
 	{
@@ -353,6 +353,27 @@ public class NeedleImpl extends EObjectImpl implements Needle
 		setLineAttributes( lia );
 	}
 
+	/**
+	 * @return instance of <code>Needle</code> without setting 'isSet' flag.
+	 */
+	public static final Needle createDefault( )
+	{
+		Needle nl = ComponentFactory.eINSTANCE.createNeedle( );
+		( (NeedleImpl) nl ).initDefault( );
+		return nl;
+	}
+
+	/**
+	 * 
+	 */
+	public final void initDefault( )
+	{
+		LineAttributes lia = LineAttributesImpl.createDefault( null,
+				LineStyle.SOLID_LITERAL,
+				1, true );
+		setLineAttributes( lia );
+	}
+	
 	/**
 	 * @generated
 	 */

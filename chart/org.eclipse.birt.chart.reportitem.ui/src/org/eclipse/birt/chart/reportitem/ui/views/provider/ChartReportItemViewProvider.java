@@ -50,25 +50,19 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 			throws BirtException
 	{
 		// Create chart
-		ChartWithAxes cm = ChartWithAxesImpl.create( );
+		ChartWithAxes cm = ChartWithAxesImpl.createDefault( );
 		cm.setType( "Bar Chart" );//$NON-NLS-1$
 		cm.setSubType( "Side-by-side" );//$NON-NLS-1$
-		cm.setUnits( "Points" ); //$NON-NLS-1$
-		cm.setUnitSpacing( 50 );
-		cm.getTitle( ).getLabel( ).getCaption( ).setValue( Messages.getString("ChartReportItemViewProvider.BarChart.Text.Title") ); //$NON-NLS-1$
 		
 		// Add base series
-		SeriesDefinition sdBase = SeriesDefinitionImpl.create( );
-		sdBase.getSeriesPalette( ).shift( 0 );
-		Series series = SeriesImpl.create( );
+		SeriesDefinition sdBase = SeriesDefinitionImpl.createDefault( );
+		Series series = SeriesImpl.createDefault( );
 		sdBase.getSeries( ).add( series );
 		cm.getBaseAxes( )[0].getSeriesDefinitions( ).add( sdBase );
-		cm.getBaseAxes( )[0].setCategoryAxis( true );
 
 		// Add orthogonal series
-		SeriesDefinition sdOrth = SeriesDefinitionImpl.create( );
-		sdOrth.getSeriesPalette( ).shift( 0 );
-		series = BarSeriesImpl.create( );
+		SeriesDefinition sdOrth = SeriesDefinitionImpl.createDefault( );
+		series = BarSeriesImpl.createDefault( );
 		sdOrth.getSeries( ).add( series );
 		cm.getOrthogonalAxes( cm.getBaseAxes( )[0], true )[0].getSeriesDefinitions( )
 				.add( sdOrth );

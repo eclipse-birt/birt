@@ -64,9 +64,9 @@ public abstract class CustomChooserComposite extends Composite
 
 	private Object iCurrentValue = null;
 
-	private Vector vSelectionListeners = new Vector( );
+	private Vector<Listener> vSelectionListeners = new Vector<Listener>( );
 
-	private Vector vDropDownListeners = new Vector( );
+	private Vector<Listener> vDropDownListeners = new Vector<Listener>( );
 
 	private boolean bEnabled = true;
 
@@ -482,7 +482,7 @@ public abstract class CustomChooserComposite extends Composite
 		e.type = SELECTION_EVENT;
 		for ( int i = 0; i < vSelectionListeners.size( ); i++ )
 		{
-			( (Listener) vSelectionListeners.get( i ) ).handleEvent( e );
+			vSelectionListeners.get( i ).handleEvent( e );
 		}
 	}
 
@@ -493,7 +493,7 @@ public abstract class CustomChooserComposite extends Composite
 		e.type = DROPDOWN_EVENT;
 		for ( int i = 0; i < vDropDownListeners.size( ); i++ )
 		{
-			( (Listener) vDropDownListeners.get( i ) ).handleEvent( e );
+			vDropDownListeners.get( i ).handleEvent( e );
 		}
 	}
 

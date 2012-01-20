@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
+import org.eclipse.birt.chart.ui.swt.AbstractHeadStyleChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -20,9 +20,8 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * Choose the Line decorator of needle
  */
-public class HeadStyleChooserComposite extends CustomChooserComposite
+public class HeadStyleChooserComposite extends AbstractHeadStyleChooserComposite
 {
-
 	private static final Integer[] iLineDecorators = new Integer[]{
 			Integer.valueOf( LineDecorator.ARROW ),
 			Integer.valueOf( LineDecorator.NONE ),

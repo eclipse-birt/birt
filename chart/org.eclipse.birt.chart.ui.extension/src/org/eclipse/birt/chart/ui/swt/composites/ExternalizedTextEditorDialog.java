@@ -207,7 +207,7 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements
 		else
 		{
 			Collections.sort( keys );
-			cmbKeys.setItems( (String[]) keys.toArray( new String[keys.size( )] ) );
+			cmbKeys.setItems( keys.toArray( new String[keys.size( )] ) );
 			String str = getKeyComponent( sResult );
 			if ( str != null && str.length( ) != 0 )
 			{

@@ -19,9 +19,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
-import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -35,6 +33,7 @@ import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
@@ -154,38 +153,30 @@ public class GanttChart extends DefaultChartTypeImpl
 				return newChart;
 			}
 		}
-		newChart = ChartWithAxesImpl.create( );
+		newChart = ChartWithAxesImpl.createDefault( );
 		newChart.setType( TYPE_LITERAL );
 		newChart.setSubType( sSubType );
-		newChart.setDimension( getDimensionFor( sDimension ) );
-		newChart.setUnits( "Points" ); //$NON-NLS-1$
-		newChart.setOrientation( orientation );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sDimension ),
+				sDimension == null );
+		ChartElementUtil.setEObjectAttribute( newChart,
+				"orientation", //$NON-NLS-1$
+				orientation,
+				orientation == null );
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
-		xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-		xAxis.setType( AxisType.LINEAR_LITERAL );
-		xAxis.setCategoryAxis( false );
-		xAxis.getScale( ).setStep( 10.0 );
 		xAxis.getLabel( ).setVisible( false );
 
-		newChart.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( getDefaultTitle( ) );
-
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		Series categorySeries = SeriesImpl.create( );
+		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
+		Series categorySeries = SeriesImpl.createDefault( );
 		sdX.getSeries( ).add( categorySeries );
 		xAxis.getSeriesDefinitions( ).add( sdX );
 
 		Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-		yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-		yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( 0 );
-		Series valueSeries = GanttSeriesImpl.create( );
-		valueSeries.setLabelPosition( Position.ABOVE_LITERAL );
+		SeriesDefinition sdY = SeriesDefinitionImpl.createDefault( );
+		Series valueSeries = GanttSeriesImpl.createDefault( );
 		sdY.getSeries( ).add( valueSeries );
 		yAxis.getSeriesDefinitions( ).add( sdY );
 
@@ -242,16 +233,15 @@ public class GanttChart extends DefaultChartTypeImpl
 						{
 							Series series = seriesdefinitions.get( j )
 									.getDesignTimeSeries( );
-							series.setStacked( false );
+							series.unsetStacked( );
 						}
 					}
 				}
 
-				if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-								.equals( newOrientation ) )
-				{
-					( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-				}
+				ChartElementUtil.setEObjectAttribute( currentChart,
+						"orientation", //$NON-NLS-1$
+						newOrientation,
+						newOrientation == null );
 				return currentChart;
 			}
 			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
@@ -271,15 +261,12 @@ public class GanttChart extends DefaultChartTypeImpl
 			{
 				currentChart.setType( TYPE_LITERAL );
 
-				( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ).setCategoryAxis( true );
-
 				currentChart.setSubType( sNewSubType );
 				Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-				if ( title.getValue( ) == null
-						|| title.getValue( ).trim( ).length( ) == 0
-						|| title.getValue( )
+				if ( title.getValue( ) != null
+						&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 								.trim( )
-								.equals( oldType.getDefaultTitle( ).trim( ) ) )
+								.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 				{
 					title.setValue( getDefaultTitle( ) );
 				}
@@ -298,7 +285,7 @@ public class GanttChart extends DefaultChartTypeImpl
 						Series series = seriesdefinitions.get( j )
 								.getDesignTimeSeries( );
 						series = getConvertedSeries( series, seriesIndex++ );
-						series.setStacked( false );
+						series.unsetStacked( );
 						seriesdefinitions.get( j ).getSeries( ).clear( );
 						seriesdefinitions.get( j ).getSeries( ).add( series );
 					}
@@ -319,21 +306,22 @@ public class GanttChart extends DefaultChartTypeImpl
 		{
 			// Create a new instance of the correct type and set initial
 			// properties
-			currentChart = ChartWithAxesImpl.create( );
+			currentChart = ChartWithAxesImpl.createDefault( );
 			copyChartProperties( helperModel, currentChart );
 			currentChart.setType( TYPE_LITERAL );
 			currentChart.setSubType( sNewSubType );
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"orientation", //$NON-NLS-1$
+					newOrientation,
+					newOrientation == null );
+			ChartElementUtil.setEObjectAttribute( currentChart,
+					"dimension",//$NON-NLS-1$
+					getDimensionFor( sNewDimension ),
+					sNewDimension == null );
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
-			xAxis.setOrientation( Orientation.HORIZONTAL_LITERAL );
-			xAxis.setType( AxisType.TEXT_LITERAL );
-			xAxis.setCategoryAxis( true );
 
 			Axis yAxis = xAxis.getAssociatedAxes( ).get( 0 );
-			yAxis.setOrientation( Orientation.VERTICAL_LITERAL );
-			yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
 			currentChart.setSampleData( getConvertedSampleData( currentChart.getSampleData( ),
 					( (ChartWithAxes) currentChart ).getAxes( )
@@ -379,8 +367,8 @@ public class GanttChart extends DefaultChartTypeImpl
 				{
 					series = seriesdefinitions.get( j ).getDesignTimeSeries( );
 					series = getConvertedSeries( series, j );
-					series.getLabel( ).setVisible( false );
-					series.setStacked( false );
+					series.getLabel( ).unsetVisible( );
+					series.unsetStacked( );
 					// Clear any existing series
 					seriesdefinitions.get( j ).getSeries( ).clear( );
 					// Add the new series
@@ -388,29 +376,23 @@ public class GanttChart extends DefaultChartTypeImpl
 				}
 			}
 			
-			currentChart.getLegend( )
-					.setItemType( LegendItemType.SERIES_LITERAL );
-			
 			Text title = currentChart.getTitle( ).getLabel( ).getCaption( );
-			if ( title.getValue( ) == null
-					|| title.getValue( ).trim( ).length( ) == 0
-					|| title.getValue( )
+			if ( title.getValue( ) != null
+					&& ( title.getValue( ).trim( ).length( ) == 0 || title.getValue( )
 							.trim( )
-							.equals( oldType.getDefaultTitle( ).trim( ) ) )
+							.equals( oldType.getDefaultTitle( ).trim( ) ) ) )
 			{
 				title.setValue( getDefaultTitle( ) );
 			}
 		}
-		if ( !( (ChartWithAxes) currentChart ).getOrientation( )
-						.equals( newOrientation ) )
-		{
-			( (ChartWithAxes) currentChart ).setOrientation( newOrientation );
-		}
-		if ( !currentChart.getDimension( )
-				.equals( getDimensionFor( sNewDimension ) ) )
-		{
-			currentChart.setDimension( getDimensionFor( sNewDimension ) );
-		}
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"orientation", //$NON-NLS-1$
+				newOrientation,
+				newOrientation == null );
+		ChartElementUtil.setEObjectAttribute( currentChart,
+				"dimension",//$NON-NLS-1$
+				getDimensionFor( sNewDimension ),
+				sNewDimension == null );
 
 		ChartUIUtil.updateDefaultAggregations( currentChart );
 
@@ -431,7 +413,7 @@ public class GanttChart extends DefaultChartTypeImpl
 
 		if ( ganttseries == null )
 		{
-			ganttseries = (GanttSeries) GanttSeriesImpl.create( );
+			ganttseries = (GanttSeries) GanttSeriesImpl.createDefault( );
 		}
 
 		// Copy generic series properties
@@ -508,6 +490,21 @@ public class GanttChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return GanttSeriesImpl.create( );
+		return getSeries( true );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
+	 */
+	public Series getSeries( boolean needInitialing )
+	{
+		if ( needInitialing )
+		{
+			return GanttSeriesImpl.create( );
+		}
+		else
+		{
+			return GanttSeriesImpl.createDefault( );
+		}
 	}
 }

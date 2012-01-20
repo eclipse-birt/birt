@@ -135,12 +135,34 @@ with multiple series will draw multiple pies.</xsd:documentation>
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Clockwise" type="xsd:boolean" default="false">
+					<xsd:element name="Clockwise" type="xsd:boolean"
+						default="false">
 						<xsd:annotation>
 							<xsd:documentation>
-								Attribute "Clockwise" Specifies whether the pie slices are rendered in clockwise direction, 
-								by default they will be rendered in counter-clockwise direction.
-</xsd:documentation>
+								Attribute "Clockwise" Specifies whether
+								the pie slices are rendered in clockwise
+								direction, by default they will be
+								rendered in counter-clockwise direction.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+
+					<xsd:element name="InnerRadius" type="xsd:double"
+						default="0">
+						<xsd:annotation>
+							<xsd:documentation>
+								Defines inner radius, if inner radius
+								greater than 0, it should be a dount
+								pie. If value of inner radius is between
+								0 and 1, the inner radius is percentage
+								value of width/height of pie, otherwise
+								it is actual size.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="InnerRadiusPercent" type="xsd:boolean" default="true">
+						<xsd:annotation>
+							<xsd:documentation>Indicates if the value of inner radius is a percent value or actual value.</xsd:documentation>
 						</xsd:annotation></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>

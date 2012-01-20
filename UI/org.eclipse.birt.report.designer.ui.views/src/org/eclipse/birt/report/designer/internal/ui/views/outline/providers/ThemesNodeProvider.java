@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class ThemesNodeProvider extends DefaultNodeProvider
 {
+	protected ExtendElementAction newThemeAction;
 
 	/**
 	 * Creates the context menu for the given object.
@@ -53,10 +54,11 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		menu.add( new ExtendElementAction( this,
+		newThemeAction = new ExtendElementAction( this,
 				"org.eclipse.birt.report.designer.internal.ui.action.NewReportItemThemeAction",
 				object,
-				Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM ) ); //$NON-NLS-1$
+				Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM );
+		menu.add( newThemeAction ); //$NON-NLS-1$
 		super.createContextMenu( sourceViewer, object, menu );
 
 	}

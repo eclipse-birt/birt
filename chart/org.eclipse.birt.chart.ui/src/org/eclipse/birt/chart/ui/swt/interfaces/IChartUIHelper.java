@@ -47,4 +47,15 @@ public interface IChartUIHelper
 	 *            extended item object
 	 */
 	void updateDefaultTitle( Chart cm, Object extendedItem );
+
+	/**
+	 * Checks if current chart type can combine.
+	 * 
+	 * @param type
+	 *            chart type
+	 * @param context
+	 *            wizard context
+	 * @since 3.7
+	 */
+	boolean canCombine( IChartType type, ChartWizardContext context );
 }

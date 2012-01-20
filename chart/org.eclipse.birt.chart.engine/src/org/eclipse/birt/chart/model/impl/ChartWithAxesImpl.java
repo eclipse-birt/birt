@@ -13,26 +13,29 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.birt.chart.model.Chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ModelFactory;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.Rotation3D;
+import org.eclipse.birt.chart.model.attribute.impl.Angle3DImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Rotation3DImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
+import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -1027,7 +1030,15 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		yAxisOrthogonal.getTitle( )
 				.getCaption( )
 				.setValue( Messages.getString( "ChartWithAxesImpl.Y_Axis.title" ) ); //$NON-NLS-1$
-		yAxisOrthogonal.getTitle( ).getCaption( ).getFont( ).setRotation( 90 );
+		// Only title rotation, we make special process, not set its 'isSet' flag for default.
+		try
+		{
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getTitle( ).getCaption( ).getFont( ), "rotation", 90 ); //$NON-NLS-1$
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
 		yAxisOrthogonal.getTitle( ).setVisible( false );
 		yAxisOrthogonal.setPrimaryAxis( true );
 		yAxisOrthogonal.setLabelPosition( Position.LEFT_LITERAL );
@@ -1047,6 +1058,89 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		setRotation( Rotation3DImpl.create( ) );
 	}
 
+	/**
+	 * A convenience method to create an initialized 'ChartWithAxes' instance
+	 * 
+	 * Note: Manually written
+	 * 
+	 * @return chart model
+	 */
+	public static final ChartWithAxes createDefault( )
+	{
+		final ChartWithAxes cwa = ModelFactory.eINSTANCE.createChartWithAxes( );
+		( (ChartWithAxesImpl) cwa ).initDefault( );
+		return cwa;
+	}
+
+	/**
+	 * Initializes all member variables
+	 * 
+	 * Note: Manually written
+	 */
+	protected final void initDefault( )
+	{
+		// INITIALIZE SUPER'S MEMBERS
+		super.initDefault( );
+
+		// SETUP A BASE AXIS
+		Axis xAxisBase = AxisImpl.createDefault( Axis.BASE );
+		try
+		{
+			ChartElementUtil.setDefaultValue( xAxisBase,
+					"titlePosition",//$NON-NLS-1$
+					Position.BELOW_LITERAL );
+			ChartElementUtil.setDefaultValue( xAxisBase.getTitle( ),
+					"visible", false ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( xAxisBase, "primaryAxis", true ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( xAxisBase,
+					"labelPosition", Position.BELOW_LITERAL ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( xAxisBase,
+					"orientation", Orientation.HORIZONTAL_LITERAL ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( xAxisBase.getOrigin( ),
+					"type", IntersectionType.MIN_LITERAL ); //$NON-NLS-1$
+			xAxisBase.getOrigin( ).setValue( null );
+			ChartElementUtil.setDefaultValue( xAxisBase,
+					"type", AxisType.TEXT_LITERAL ); //$NON-NLS-1$
+
+			// SETUP AN ORTHOGONAL AXIS
+			Axis yAxisOrthogonal = AxisImpl.createDefault( Axis.ORTHOGONAL );
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
+					"titlePosition",//$NON-NLS-1$
+					Position.LEFT_LITERAL );
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getTitle( )
+					.getCaption( )
+					.getFont( ), "rotation", 90 ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getTitle( ),
+					"visible", false ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
+					"primaryAxis", true ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
+					"labelPosition", Position.LEFT_LITERAL ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
+					"orientation", Orientation.VERTICAL_LITERAL ); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getOrigin( ),
+					"type", IntersectionType.MIN_LITERAL ); //$NON-NLS-1$
+			yAxisOrthogonal.getOrigin( )
+					.setValue( null );
+			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
+					"type", AxisType.LINEAR_LITERAL ); //$NON-NLS-1$
+
+			xAxisBase.getAssociatedAxes( ).add( yAxisOrthogonal ); // ADD THE
+			// ORTHOGONAL
+			// AXIS TO THE
+			// BASE AXIS
+
+			getAxes( ).add( xAxisBase ); // ADD THE BASE AXIS TO THE CHART
+
+			setRotation( Rotation3DImpl.createDefault( new Angle3D[]{
+				Angle3DImpl.createDefault( -20, 45, 0 )
+			} ) );
+		}
+		catch ( ChartException e )
+		{
+		}
+	}
+	
 	/**
 	 * This method needs to be called after the chart has been populated with
 	 * runtime datasets and runtime series have been associated with each of the
