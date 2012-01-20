@@ -58,35 +58,34 @@
 
 
 		<native2ascii encoding="Cp1252"
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
-					  ext=".properties" 
+					  src="."
+					  dest="."
+					  ext=".properties"
 					  includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg"/>
-		<native2ascii encoding="GBK" 
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
-					  ext=".properties" 
-					  includes="**/*_zh_CN.msg"/>	
-		<native2ascii encoding="SJIS" 
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
+		<native2ascii encoding="GBK"
+					  src="."
+					  dest="."
+					  ext=".properties"
+					  includes="**/*_zh_CN.msg"/>
+		<native2ascii encoding="SJIS"
+					  src="."
+					  dest="."
 					  ext=".properties"
 					  includes="**/*_ja_JP.msg"/>
-		<native2ascii encoding="MS949" 
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
+		<native2ascii encoding="MS949"
+					  src="."
+					  dest="."
 					  ext=".properties"
 					  includes="**/*_ko_KR.msg"/>
 	</target>
 	
 	<target name="nl-jar">
 		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
-		<zipfileset dir="${dir.src}"  includes="**/*.properties"/>
-		   <fileset dir="." includes="about.html,plugin_??_??.properties"/>
+			<zipfileset dir="." includes="about.html,plugin_??_??.properties"/>
 		</jar>
 	</target>
-	
-	<target name="Jar" depends="NativeToAscii, nl-jar" >
+
+	<target name="Jar" depends="NativeToAscii, replaceBuildInfo, nl-jar" >
 	</target>
 	<target name="Export">
 		<copy todir="${export.dir}">
@@ -94,4 +93,9 @@
 	  </copy>
 	</target>
 
+	<target name="replaceBuildInfo">
+        <replace dir="." value="${BranchVersion}.${buildId}" token="@BUILD@">
+                <include name="plugin_??_??.properties" />
+        </replace>
+	</target>
 </project>
