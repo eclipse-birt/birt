@@ -404,7 +404,7 @@ public class ResultSet implements IResultSet
 				Object value = rs.getObject( columnName );
 				if ( value instanceof BigDecimal )
 					return (BigDecimal) value;
-				// fix ted 46040, hive does not support decimal
+				// fix BZ 362714, Hive JDBC does not support BigDecimal
 				if ( value instanceof Long )
 				{
 					return new BigDecimal( (Long) value );
