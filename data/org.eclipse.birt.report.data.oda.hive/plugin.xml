@@ -53,27 +53,35 @@
             defaultDisplayName="%select.dataset.name"
             id="org.eclipse.birt.report.data.oda.hive.JdbcSelectDataSet">
             <dataTypeMapping
-                  nativeDataType="TINYINT"
+                  nativeDataType="tinyint"
                   nativeDataTypeCode="-6"
                   odaScalarDataType="Integer"/>
             <dataTypeMapping
-                  nativeDataType="SMALLINT"
+                  nativeDataType="smallint"
                   nativeDataTypeCode="5"
                   odaScalarDataType="Integer"/>
+         	<dataTypeMapping
+               nativeDataType="int"
+               nativeDataTypeCode="4"
+               odaScalarDataType="Integer"/>
             <dataTypeMapping
-                  nativeDataType="BIGINT"
+                  nativeDataType="bigint"
                   nativeDataTypeCode="-5"
                   odaScalarDataType="Decimal"/>
+         	<dataTypeMapping
+               nativeDataType="float"
+               nativeDataTypeCode="6"
+               odaScalarDataType="Double"/>
             <dataTypeMapping
-                  nativeDataType="DOUBLE"
+                  nativeDataType="double"
                   nativeDataTypeCode="8"
                   odaScalarDataType="Double"/>
             <dataTypeMapping
-                  nativeDataType="VARCHAR"
+                  nativeDataType="string"
                   nativeDataTypeCode="12"
                   odaScalarDataType="String"/>
             <dataTypeMapping
-                  nativeDataType="BOOLEAN"
+                  nativeDataType="boolean"
                   nativeDataTypeCode="16"
                   odaScalarDataType="Boolean"/>
             <properties>
