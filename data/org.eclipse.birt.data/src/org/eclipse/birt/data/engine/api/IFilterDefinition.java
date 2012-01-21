@@ -32,4 +32,15 @@ public interface IFilterDefinition
 	 *         prior to apply this filter; Otherwise, return <code>false</code>.
 	 */
 	boolean updateAggregation();
+
+	/**
+	 * Set update aggregation flag.
+	 * <p>
+	 * While the flag is <code>true</code>, the aggregation values are updated
+	 * prior to apply this filter; Otherwise the aggregation values are not
+	 * updated.
+	 *
+	 * @param update
+	 */
+	public void setUpdateAggregation( boolean flag );
 }
