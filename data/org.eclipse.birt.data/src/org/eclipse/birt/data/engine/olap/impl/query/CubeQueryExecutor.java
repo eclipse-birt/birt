@@ -293,7 +293,7 @@ public class CubeQueryExecutor
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			if ( !filter.updateAggregation( ) )
 			{
-				if ( ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE ).size()>0 )
+				//For the filter that not requires updating aggregation, we would not populate them here. 
 					continue;
 			}
 			switch ( this.getFilterType( filter, dimLevelInCubeQuery ))
@@ -365,7 +365,10 @@ public class CubeQueryExecutor
 					while ( dimLevels.hasNext( ) )
 						dimensionSet.add( ( (DimLevel) dimLevels.next( ) ).getDimensionName( ) );
 				}
-				if ( dimensionSet.size( ) == 1 )
+				//For drill up/down filter that need not update aggregation, we will treat them as FACTTABLE_FILTER. This FACTTABLE_FILTER
+				//will indeed apply on detailed most aggregation result set.
+				//TODO: Refactor FACTTABLE_FILTER, give better naming so that can reflect its new usage.
+				if ( dimensionSet.size( ) == 1 && filter.updateAggregation() )
 					return CubeQueryExecutor.DIMENSION_FILTER;
 				else
 					return CubeQueryExecutor.FACTTABLE_FILTER;
