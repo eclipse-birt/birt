@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.List;
+
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
+import org.eclipse.birt.data.engine.impl.DataSetAdapter;
 
 /**
  * DataSetDesign Comparator for open source data sets
@@ -116,17 +119,26 @@ public class OSDataSetDesignComparator
 
 		if ( ComparatorUtil.isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
 				dataSetDesign2.getComputedColumns( ) ) == false
-				|| ComparatorUtil.isEqualFilters( dataSetDesign.getFilters( ),
-						dataSetDesign2.getFilters( ) ) == false
 				|| ComparatorUtil.isEqualParameters( dataSetDesign.getParameters( ),
 						dataSetDesign2.getParameters( ) ) == false
 				|| ComparatorUtil.isEqualResultHints( dataSetDesign.getResultSetHints( ),
 						dataSetDesign2.getResultSetHints( ) ) == false )
 			return false;
 
+		List filter1 = getFilter(dataSetDesign); 
+		List filter2 = getFilter(dataSetDesign2);
+		
+		if( ComparatorUtil.isEqualFilters( filter1, filter2 ) == false )
+			return false;
+		
 		if ( dataSetDesign.getCacheRowCount( ) != dataSetDesign2.getCacheRowCount( ))
 			return false;
 		return true;
+	}
+
+	private static List getFilter(IBaseDataSetDesign dataSetDesign) 
+	{
+		return (dataSetDesign instanceof DataSetAdapter)? ((DataSetAdapter)dataSetDesign).getSource().getFilters(): dataSetDesign.getFilters();
 	}
 
 }
