@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2005, 2011 Actuate Corporation.
+ * Copyright (c) 2005, 2012 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ * Helper class for Hive data source wizard page and property page
  */
 public class HiveSelectionPageHelper
 {
@@ -63,8 +63,8 @@ public class HiveSelectionPageHelper
     static final String DEFAULT_MESSAGE = 
         Messages.getMessage(  "datasource.page.title" ); //$NON-NLS-1$
     
-    private static final String EMPTY_STRING = "";
-	private static final String EXTERNAL_BIDI_FORMAT = "report.data.oda.bidi.jdbc.ui.externalbidiformat";
+    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+//	private static final String EXTERNAL_BIDI_FORMAT = "report.data.oda.bidi.jdbc.ui.externalbidiformat";
     
     HiveSelectionPageHelper( WizardPage page )
     {
@@ -184,8 +184,6 @@ public class HiveSelectionPageHelper
 	 */
     Properties collectCustomProperties( Properties props )
     {
-
-		
 		if ( props == null )
 			props = new Properties( );
 
@@ -203,7 +201,8 @@ public class HiveSelectionPageHelper
 
 		return props;			
     }
-	private String getODAUser( )
+
+    private String getODAUser( )
 	{
 		if ( userName == null )
 			return EMPTY_STRING;
@@ -235,7 +234,6 @@ public class HiveSelectionPageHelper
 			return EMPTY_STRING;
 		return getTrimedString( addfile.getText( ) );
 	}	
-	
 	
 	private String getTrimedString( String tobeTrimed )
 	{
@@ -287,7 +285,6 @@ public class HiveSelectionPageHelper
 		if ( addFile == null )
 			addFile = EMPTY_STRING;
 		addfile.setText( addFile );
-        
     }
 	
     /**
@@ -387,10 +384,11 @@ public class HiveSelectionPageHelper
 		} );
 
 	}
+
 	private void okPressedProcess( )
-	{
-		
+	{		
 	}
+
 	private boolean testConnection( ) throws OdaException
 	{
 		if ( !isValidDataSource( ) )
@@ -409,14 +407,17 @@ public class HiveSelectionPageHelper
 				userid,
 				passwd );
 	}
+
 	private boolean isValidDataSource( )
 	{
 		return !isURLBlank( ) ;
 	}
+
 	private boolean isURLBlank( )
 	{
 		return jdbcUrl == null || jdbcUrl.getText( ).trim( ).length( ) == 0;
 	}
+
 	private Shell getShell( )
 	{
 		if ( m_wizardPage != null )
@@ -426,6 +427,7 @@ public class HiveSelectionPageHelper
 		else
 			return null;
 	}
+
 	private void updateTestButton( )
 	{
 		if (  isURLBlank( )  )
@@ -441,6 +443,33 @@ public class HiveSelectionPageHelper
 				testButton.setEnabled( true );
 		}
 	}
+
+	/**
+     * Reset the testButton to "enabled" state, as appropriate.
+     */
+    void resetTestButton( )
+    {
+        updateTestButton();
+        enableParent( testButton );
+    }
+
+    /**
+     * Enable the specified composite.
+     */
+    private void enableParent( Control control )
+    {
+        Composite parent = control.getParent( );
+        if ( parent == null || parent instanceof Shell )
+        {
+            return;
+        }
+        if ( !parent.isEnabled( ) )
+        {
+            parent.setEnabled( true );
+        }
+        enableParent( parent );
+    }
+
 	private void setMessage( String message, int type )
 	{
 		if ( m_wizardPage != null )
@@ -448,18 +477,19 @@ public class HiveSelectionPageHelper
 		else if ( m_propertyPage != null )
 			m_propertyPage.setMessage( message, type );
 	}
+
 	private void verifyJDBCProperties( )
 	{
-
-			if ( !isURLBlank( ) )
-			{
-				setPageComplete( true );
-			}
-			else
-			{
-				setPageComplete( false );
-			}
+		if ( !isURLBlank( ) )
+		{
+			setPageComplete( true );
+		}
+		else
+		{
+			setPageComplete( false );
+		}
 	}
+
 	private void setPageComplete( boolean complete )
 	{
 		if ( m_wizardPage != null )
@@ -467,4 +497,5 @@ public class HiveSelectionPageHelper
 		else if ( m_propertyPage != null )
 			m_propertyPage.setValid( complete );
 	}
+
 }
