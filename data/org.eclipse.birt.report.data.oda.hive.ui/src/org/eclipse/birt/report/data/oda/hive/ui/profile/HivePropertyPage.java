@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2005, 2011 Actuate Corporation.
+ * Copyright (c) 2005, 2012 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Composite;
 
 public class HivePropertyPage extends DataSourceEditorPage
 {
-
 	private HiveSelectionPageHelper m_pageHelper;
 
 	public HivePropertyPage( )
@@ -71,5 +70,17 @@ public class HivePropertyPage extends DataSourceEditorPage
 		m_pageHelper.initCustomControl( profileProps );
 		this.setPingButtonVisible( false );
 	}
+
+    @Override
+    protected void refresh( Properties customConnectionProps )
+    {
+        if( m_pageHelper != null )
+            m_pageHelper.initCustomControl( customConnectionProps );
+        
+        // enable/disable all controls on page based on the session editable state
+        enableAllControls( getControl(), isSessionEditable() );
+        if( m_pageHelper != null )
+            m_pageHelper.resetTestButton();
+    }
 
 }
