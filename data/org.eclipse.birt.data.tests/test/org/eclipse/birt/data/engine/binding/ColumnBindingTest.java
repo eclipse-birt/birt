@@ -1039,6 +1039,7 @@ public class ColumnBindingTest extends APITestCase
 		for ( int i = 0; i < name.length; i++ )
 			queryDefn.addResultSetExpression( name[i], se[i] );
 		
+		DataException error = null;
 		try
 		{
 			executeQuery( queryDefn );
@@ -1046,8 +1047,10 @@ public class ColumnBindingTest extends APITestCase
 		}
 		catch ( DataException e )
 		{
-			assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+//			assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
+			error = e;
 		}
+		assertNotNull( error );
 	
 	}
 	
