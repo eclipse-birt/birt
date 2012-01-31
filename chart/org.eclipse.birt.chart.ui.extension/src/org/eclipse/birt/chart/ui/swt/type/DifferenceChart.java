@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -169,6 +170,16 @@ public class DifferenceChart extends DefaultChartTypeImpl
 				"dimension",//$NON-NLS-1$
 				getDimensionFor( sDimension ),
 				sDimension == null );
+		try
+		{
+			ChartElementUtil.setDefaultValue( newChart.getAxes( ).get( 0 ),
+					"categoryAxis", //$NON-NLS-1$
+					true );
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
 
 		Axis xAxis = newChart.getAxes( ).get( 0 );
 
@@ -314,6 +325,17 @@ public class DifferenceChart extends DefaultChartTypeImpl
 					"dimension",//$NON-NLS-1$
 					getDimensionFor( sNewDimension ),
 					sNewDimension == null );
+			try
+			{
+				ChartElementUtil.setDefaultValue( ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 ),
+						"categoryAxis", //$NON-NLS-1$
+						true );
+			}
+			catch ( ChartException e )
+			{
+				// Do nothing.
+			}
 
 			Axis xAxis = ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 );
 
