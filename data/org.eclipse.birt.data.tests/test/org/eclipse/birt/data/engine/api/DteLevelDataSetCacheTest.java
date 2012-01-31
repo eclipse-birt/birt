@@ -115,7 +115,8 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 		while ( ri1.next( ) )
 		{
 			assertTrue( ri2.next( ) );
-			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ) + 1, ((Integer)ri2.getValue( "column1" )).intValue( ) );
+//			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ) + 1, ((Integer)ri2.getValue( "column1" )).intValue( ) );
+			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ) + 11, ((Integer)ri2.getValue( "column1" )).intValue( ) );
 		}
 		dataEngine.shutdown( );
 		
