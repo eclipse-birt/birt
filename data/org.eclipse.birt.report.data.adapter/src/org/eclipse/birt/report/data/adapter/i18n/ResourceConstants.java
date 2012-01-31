@@ -43,6 +43,9 @@ public class ResourceConstants
 	public final static String CUBE_QUERY_MISS_DIMENSION = "cube.query.error.dimensionMiss";
 	public final static String CUBE_QUERY_MISS_LEVEL = "cube.query.error.levelMiss";
 	public final static String MISS_TIME_TYPE_LEVEL = "cube.edge.error.levelMiss";
+	public final static String CUBE_DERIVED_MEASURE_INVALID_REF = "cube.derivedMeasure.invalid.reference";
+	public final static String CUBE_DERIVED_MEASURE_RESOLVE_ERROR = "cube.derivedMeasure.resolve.error";
+	public final static String CUBE_DERIVED_MEASURE_RECURSIVE_REF = "cube.derivedMeasure.recursive.ref";
 	
 	public final static String TIMEFUNCITON_CURRENT_QUARTER= "timeFunction.CURRENT_QUARTER.name"; 
 	public final static String TIMEFUNCITON_CURRENT_QUARTER_DES = "timeFunction.CURRENT_QUARTER.description";
