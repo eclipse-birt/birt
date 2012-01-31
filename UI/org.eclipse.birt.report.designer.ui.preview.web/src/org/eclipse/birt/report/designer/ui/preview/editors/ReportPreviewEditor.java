@@ -238,11 +238,14 @@ public abstract class ReportPreviewEditor extends EditorPart
 
 		createMainBrowser( );
 
-		parameterDialog = new InputParameterHtmlDialog( Display.getCurrent( )
-				.getActiveShell( ),
-				InputParameterHtmlDialog.TITLE,
-				getFileUri( ),
-				browser );
+		if ( BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
+		{
+			parameterDialog = new InputParameterHtmlDialog( Display.getCurrent( )
+					.getActiveShell( ),
+					InputParameterHtmlDialog.TITLE,
+					getFileUri( ),
+					browser );
+		}
 
 		if ( bParameter != null )
 		{
