@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -34,14 +35,13 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
+
 /**
  * Deals with the themes node
- * 
- * 
  */
 public class ThemesNodeProvider extends DefaultNodeProvider
 {
-	protected ExtendElementAction newThemeAction;
+	protected static final String NEW_THEME_ACTION_ID = "org.eclipse.birt.report.designer.internal.ui.action.NewThemeAction"; //$NON-NLS-1$
 
 	/**
 	 * Creates the context menu for the given object.
@@ -54,11 +54,17 @@ public class ThemesNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		newThemeAction = new ExtendElementAction( this,
-				"org.eclipse.birt.report.designer.internal.ui.action.NewReportItemThemeAction",
-				object,
-				Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM );
-		menu.add( newThemeAction ); //$NON-NLS-1$
+		if ( object instanceof SlotHandle
+				&& ( (SlotHandle) object ).getElementHandle( ) instanceof LibraryHandle )
+		{
+			ExtendElementAction newThemeAction = new ExtendElementAction( this,
+					NEW_THEME_ACTION_ID,
+					object,
+					Messages.getString( "ThemesNodeProvider.action.New" ), //$NON-NLS-1$
+					ReportDesignConstants.THEME_ITEM );
+			menu.add( newThemeAction );
+		}
+
 		super.createContextMenu( sourceViewer, object, menu );
 
 	}
