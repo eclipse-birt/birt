@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.ICacheable;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -65,16 +66,27 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					if( dataSetName != null )
 					{
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign( dataSetName );
+							
 						if( design instanceof ICacheable  )
 							this.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp2 );
+						
 						if( qd.getParentQuery() != null && qd.getInputParamBindings().size() == 0 )
 						{
-							for( int i = 0; i < temp2.size( ); i++ )
+							for ( int i = 0; i < temp2.size( ); i++ )
 							{
-								this.cachedDataSetNames.add( temp2.get( i ) );
+								if ( ( (BaseDataSetDesign) dataEngine.getDataSetDesign( temp2.get( i )
+										.toString( ) ) ).needCache( ) )
+									this.cachedDataSetNames.add( temp2.get( i ) );
 							}
 						}
-						temp.addAll( temp2 );
+						for( int i =0;i<temp2.size( );i++)
+						{
+							if ( ( (BaseDataSetDesign) dataEngine.getDataSetDesign( temp2.get( i )
+									.toString( ) ) ).needCache( ) )
+							{
+								temp.add( temp2.get( i ) );
+							}
+						}
 					}
 				}
 				temp2.clear( );

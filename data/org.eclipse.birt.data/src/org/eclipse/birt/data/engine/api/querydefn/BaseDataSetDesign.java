@@ -64,6 +64,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	private ULocale uLocale;
     
 	private List<ISortDefinition> sortHints = null;
+	private boolean needCache = true;
     
 	/**
 	 * Instantiates a data set with given name.
@@ -434,5 +435,15 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setNullsOrdering( String nullOrdering )
 	{
 		this.nullOrdering = nullOrdering;
+	}
+	
+	public boolean needCache()
+	{
+		return this.needCache;
+	}
+	
+	public void setNeedCache( boolean needCache )
+	{
+		this.needCache = needCache;
 	}
 }

@@ -163,6 +163,7 @@ public class ModelAdapter implements IModelAdapter
 				design.setDataSetACL( this.adaptExpression( (Expression) handle.getACLExpression( ).getValue( ) ) );
 			if( handle.getRowACLExpression( )!= null )
 				design.setRowACL( this.adaptExpression( (Expression) handle.getRowACLExpression( ).getValue( ) ) );
+			
 			Iterator columnHintIterator = handle.columnHintsIterator( );
 			while( columnHintIterator.hasNext( ))
 			{
@@ -175,7 +176,8 @@ public class ModelAdapter implements IModelAdapter
 		if( design!= null )
 		{
 			design.setCompareLocale( handle.getLocale( ) );
-			design.setNullsOrdering( handle.getNullsOrdering( ) );			
+			design.setNullsOrdering( handle.getNullsOrdering( ) );		
+			design.setNeedCache( handle.needsCache( ) );
 		}
 		logger.fine( "handle type: " + ( handle == null ? "" : handle.getClass( ).getName( ) ) ); //$NON-NLS-1$
 		return design;
