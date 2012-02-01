@@ -87,7 +87,7 @@ public class AggregationManager
 			"FIRST", //$NON-NLS-1$
 			"LAST", //$NON-NLS-1$
 			"COUNT", //$NON-NLS-1$
-			"COUNTDISTINCT"//$NON-NLS-1$
+//			"COUNTDISTINCT"//$NON-NLS-1$	// Temporarily remove count distinct aggregation function.
 	};
 
 	private static List allAggrNames = new ArrayList( );
