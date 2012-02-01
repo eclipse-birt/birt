@@ -732,6 +732,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
 	{
+		CubeMeasureUtil.validateDerivedMeasures( cubeHandle );
+		
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
 		{
@@ -1624,7 +1626,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		refactorCubeQueryDefinition( query );
 		populateMeasureDefinitionForCalculateMeasures( query );
-		validateDerivedMeasures( query );
 		setMeasureDataTypeForCubeQuery ( query );
 		QueryAdapter.adaptQuery( query );
 		
@@ -2650,85 +2651,5 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws BirtException
 	{
 		return prepare( query, null );
-	}
-	
-	public void validateDerivedMeasures( ICubeQueryDefinition query )
-			throws DataException
-	{
-		Map<String, IMeasureDefinition> measures = new HashMap( );
-		Map<String, IDerivedMeasureDefinition> calculatedMeasures = new HashMap( );
-		List ms = query.getMeasures( );
-		for ( int i = 0; i < ms.size( ); i++ )
-		{
-			IMeasureDefinition m = (IMeasureDefinition) ms.get( i );
-			measures.put( m.getName( ), m );
-		}
-
-		List dms = query.getDerivedMeasures( );
-		for ( int i = 0; i < dms.size( ); i++ )
-		{
-			IDerivedMeasureDefinition d = (IDerivedMeasureDefinition) dms.get( i );
-			calculatedMeasures.put( d.getName( ), d );
-		}
-
-		for ( Map.Entry<String, IDerivedMeasureDefinition> e : calculatedMeasures.entrySet( ) )
-		{
-			List<String> resolving = new ArrayList<String>( );
-			checkDerivedMeasure( e.getValue( ),
-					resolving,
-					measures,
-					calculatedMeasures );
-		}
-	}
-
-	private void checkDerivedMeasure( IDerivedMeasureDefinition dmeasure,
-			List<String> resolving, Map<String, IMeasureDefinition> measures,
-			Map<String, IDerivedMeasureDefinition> calculatedMeasure )
-			throws DataException
-	{
-		List referencedMeasures = ExpressionCompilerUtil.extractColumnExpression( dmeasure.getExpression( ),
-				ExpressionUtil.MEASURE_INDICATOR );
-		resolving.add( dmeasure.getName( ) );
-
-		for ( int i = 0; i < referencedMeasures.size( ); i++ )
-		{
-			String measureName = referencedMeasures.get( i ).toString( );
-			if ( measures.containsKey( measureName ) )
-			{
-				continue;
-			}
-			else
-			{
-				if ( !calculatedMeasure.containsKey( measureName ) )
-				{
-					throw new DataException( AdapterResourceHandle.getInstance( )
-							.getMessage( ResourceConstants.CUBE_DERIVED_MEASURE_RESOLVE_ERROR,
-									new Object[]{
-										resolving.get( 0 )
-									} ) );
-				}
-
-				for ( int j = 0; j < resolving.size( ); j++ )
-				{
-					if ( measureName.equals( resolving.get( j ) ) )
-					{
-						resolving.add( measureName );
-						throw new DataException( AdapterResourceHandle.getInstance( )
-								.getMessage( ResourceConstants.CUBE_DERIVED_MEASURE_RECURSIVE_REF,
-										new Object[]{
-												resolving.get( 0 ),
-												resolving.toString( )
-										} ) );
-					}
-				}
-
-				checkDerivedMeasure( calculatedMeasure.get( measureName ),
-						resolving,
-						measures,
-						calculatedMeasure );
-			}
-		}
-
-		resolving.remove( resolving.size( ) - 1 );
 	}
 }
