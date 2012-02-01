@@ -872,22 +872,10 @@ public abstract class AbstractWordXmlWriter
 		}
 		// the cell padding in DOC is tcMar
 		writer.openTag( "w:tcMar" );
-		if ( bottomPadding !=0 )
-		{
-			writeCellPadding( bottomPadding, BOTTOM );
-		}
-		if ( leftPadding !=0 )
-		{
-			writeCellPadding( leftPadding, LEFT );
-		}
-		if ( topPadding !=0 )
-		{
-			writeCellPadding( topPadding, TOP );
-		}
-		if ( rightPadding !=0 )
-		{
-			writeCellPadding( rightPadding, RIGHT );
-		}
+		writeCellPadding( bottomPadding, BOTTOM );
+		writeCellPadding( leftPadding, LEFT );
+		writeCellPadding( topPadding, TOP );
+		writeCellPadding( rightPadding, RIGHT );
 		writer.closeTag( "w:tcMar" );
 	}
 
