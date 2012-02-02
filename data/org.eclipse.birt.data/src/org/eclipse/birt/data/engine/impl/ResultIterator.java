@@ -1225,9 +1225,14 @@ public class ResultIterator implements IResultIterator
 			try
 			{
 				if ( odiResult.getRowCount( ) == 0
-						&& resultService.getQueryDefn( ).getParentQuery( ) != null )
+						&& resultService.getQueryDefn( ).getParentQuery( ) != null ) 
 
 				{
+					if ( resultService.getSession( )
+							.isEffectiveNestedResultSetId( resultService.getQueryResults( )
+									.getID( ) ) )
+						return;
+					
 					if ( resultService.getSession( )
 							.getEngineContext( )
 							.getMode( ) == DataEngineContext.MODE_GENERATION )
@@ -1241,6 +1246,13 @@ public class ResultIterator implements IResultIterator
 					}
 					skipSaveEmpty = true;
 				}
+				else
+				{
+					resultService.getSession( )
+							.addEffectiveNestedResultSetId( resultService.getQueryResults( )
+									.getID( ) );
+				}
+				
 			}
 			catch ( DataException e )
 			{

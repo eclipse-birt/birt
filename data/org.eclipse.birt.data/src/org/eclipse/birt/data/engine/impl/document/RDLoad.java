@@ -15,6 +15,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -75,10 +76,15 @@ public class RDLoad
 		this.tempDir = tempDir;
 		this.queryResultInfo = queryResultInfo;
 		this.context = context;
-		subQueryUtil = new RDSubQueryUtil( context,
-				QueryResultIDUtil.getRealStreamID( queryResultInfo.getRootQueryResultID( ),
-						queryResultInfo.getSelfQueryResultID( ) ),
-				queryResultInfo.getSubQueryName( ) );
+		
+		if ( !isEmptyQueryResultID( this.queryResultInfo.getSelfQueryResultID( ) ) )
+		{
+			subQueryUtil = new RDSubQueryUtil( context,
+					QueryResultIDUtil.getRealStreamID( queryResultInfo.getRootQueryResultID( ),
+							queryResultInfo.getSelfQueryResultID( ) ),
+							queryResultInfo.getSubQueryName( ) );
+		}
+
 		streamManager = new StreamManager( context,
 				new QueryResultInfo( queryResultInfo.getRootQueryResultID( ),
 						queryResultInfo.getParentQueryResultID( ),
@@ -98,7 +104,7 @@ public class RDLoad
 	 */
 	int getSubQueryIndex( int currParentIndex ) throws DataException
 	{
-		return subQueryUtil.getSubQueryIndex( currParentIndex );
+		return subQueryUtil == null? 0 : subQueryUtil.getSubQueryIndex( currParentIndex );
 	}
 	
 	/**
@@ -107,6 +113,11 @@ public class RDLoad
 	 */
 	public ResultMetaData loadResultMetaData( ) throws DataException
 	{
+		if ( isEmptyQueryResultID( this.queryResultInfo.getSelfQueryResultID( ) ) )
+		{
+			return new ResultMetaData( new ResultClass( new ArrayList( ) ) );
+		}
+		
 		return new ResultMetaData( loadResultClass( ) );
 	}
 	

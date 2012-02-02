@@ -68,6 +68,8 @@ public class DataEngineSession
 	
 	private Set<String> emptyQueryResultID;
 	
+	private Set<String> effectiveQueryResultID = new HashSet<String>( );
+	
 	private RAOutputStream emtpryIDStream;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
@@ -251,8 +253,10 @@ public class DataEngineSession
 			emtpryIDStream.seek( 0 );
 			IOUtil.writeInt( emptryQueryIDStream, this.emptyQueryResultID.size( ) );
 			
-			emtpryIDStream.seek( emtpryIDStream.length( ) );
-			IOUtil.writeString( emptryQueryIDStream, queryResultID );
+			for (String id :  this.emptyQueryResultID )
+			{
+				IOUtil.writeString( emptryQueryIDStream, id );
+			}
 			
 			emtpryIDStream.flush( );
 		}
@@ -431,6 +435,26 @@ public class DataEngineSession
 		}
 		return this.emptyQueryResultID;
 	}
+	
+	public boolean isEffectiveNestedResultSetId( String id)
+	{
+		synchronized ( effectiveQueryResultID )
+		{
+			return effectiveQueryResultID.contains( id );
+		}
+	}
+	
+	public void addEffectiveNestedResultSetId( String id )
+	{
+		if ( isEffectiveNestedResultSetId( id ) )
+			return;
+		
+		synchronized ( effectiveQueryResultID )
+		{
+			effectiveQueryResultID.add( id );
+		}
+	}
+	
 
 	/**
 	 *
