@@ -243,7 +243,7 @@ ColumnBindingDialog.Column.Name=Name
 ColumnBindingDialog.Column.Filter=Filter
 ColumnBindingDialog.Column.Function=Funktion
 ColumnBindingDialog.Column.DisplayName=Name anzeigen
-ColumnBindingDialog.Column.DisplayNameID=Namen-ID anzeigen
+ColumnBindingDialog.Column.DisplayNameID=Anzeigenamen-ID
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
@@ -4271,7 +4271,7 @@ IDEResourcePageHelper.WorkSpace.Button=&Arbeitsplatz...
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
-DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Namen-ID anzeigen
+DataSetColumnBindingsFormHandleProvider.Column.DisplayNameID=Anzeigenamen-ID
 DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Angezeigter Name
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Verfügbare Spaltenbindung:
