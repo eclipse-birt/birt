@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.FolderArchive;
@@ -216,8 +218,11 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		prepareDesign( );
 		startFactory( );
 		openReportDocument( );
+		ArrayList<String> errList = new ArrayList<String>( );
+		RunStatusWriter statusWriter = null;
 		try
 		{
+			statusWriter = new RunStatusWriter( archiveWriter );
 			ReportRunnable newRunnable = writer.saveDesign( executionContext
 					.getRunnable( ), executionContext.getOriginalRunnable( ) );
 			executionContext.updateRunnable( newRunnable );
@@ -263,12 +268,28 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		catch ( Throwable t )
 		{
+			errList.add( t.getLocalizedMessage( ) );
 			handleFatalExceptions( t );
 		}
 		finally
 		{
 			documentBuilder = null;
 			closeFactory();
+
+			List<Exception> list = (List<Exception>) executionContext
+			        .getAllErrors( );
+			if ( list != null )
+			{
+				for ( Exception ex : list )
+				{
+					errList.add( ex.getLocalizedMessage( ) );
+				}
+			}
+			if ( statusWriter != null && !errList.isEmpty( ) )
+			{
+				statusWriter.writeRunTaskStatus( errList );
+			}
+
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
 			writer.finish( );
 

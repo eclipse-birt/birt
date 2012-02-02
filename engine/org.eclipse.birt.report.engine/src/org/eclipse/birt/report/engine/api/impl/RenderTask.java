@@ -83,6 +83,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 	
 	//the flag of render page by page
 	protected boolean PDFRenderPageByPage = true;
+	protected boolean errorLoaded = false;
+	protected String runningErrors = null;
 
 	/**
 	 * @param engine
@@ -316,6 +318,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			throw new EngineException(
 					MessageConstants.RENDERTASK_NOT_FINISHED_ERROR );
 		}
+		checkRunningErrors( );
 		return outputPageCount;
 	}
 
@@ -860,12 +863,40 @@ public class RenderTask extends EngineTask implements IRenderTask
 	
 	public long getTotalPage( ) throws EngineException
 	{
+		checkRunningErrors( );
 		LogicalPageSequence visiblePages = loadVisiblePages( );
 		if ( visiblePages != null )
 		{
 			return visiblePages.getTotalVisiblePageCount( );
 		}
 		return reportDocument.getPageCount( );
+	}
+
+	public void checkRunningErrors( ) throws EngineException
+	{
+		if ( !errorLoaded )
+		{
+			runningErrors = getRunStatus( );
+			errorLoaded = true;
+		}
+		if ( runningErrors != null )
+		{
+			throw new EngineException( MessageConstants.DOCUMENT_ERROR,
+			        runningErrors );
+		}
+	}
+
+	protected String getRunStatus( )
+	{
+		RunStatusReader statusReader = new RunStatusReader( reportDocument );
+		try
+		{
+			return statusReader.getStuats( );
+		}
+		finally
+		{
+			statusReader.close( );
+		}
 	}
 	
 	public HashMap getParameterValues( )

@@ -204,4 +204,10 @@ public interface ReportDocumentConstants
 	 * the extension used in the document, the value is "," separated extension id.
 	 */
 	static final String BIRT_ENGINE_EXTENSIONS = "BIRT_ENGINE_EXTENSIONS";
+
+	/**
+	 * the run status stream. To save the fatal exception thrown from run task.
+	 */
+	static final String RUN_STATUS_STREAM = "/runStatus"; //$NON-NLS-1$
+
 }
