@@ -3232,7 +3232,7 @@ Element.TemplateParameterDefinition.slot.default=Standard
 Element.TemplateElement.name=Name
 Element.TemplateElement.refTemplateParameter=Referenzvorlagenparameter
 Element.TemplateElement.displayName=Anzeigename
-Element.TemplateElement.displayNameID=Namen-ID anzeigen
+Element.TemplateElement.displayNameID=Anzeigenamen-ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=Ergebnis Satzspalten
