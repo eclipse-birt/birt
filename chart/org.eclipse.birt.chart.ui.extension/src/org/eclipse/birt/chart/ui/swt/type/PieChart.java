@@ -344,7 +344,7 @@ public class PieChart extends DefaultChartTypeImpl
 		return currentChart;
 	}
 
-	private Series getConvertedSeries( Series series, int seriesIndex )
+	protected Series getConvertedSeries( Series series, int seriesIndex )
 	{
 		// Do not convert base series
 		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
