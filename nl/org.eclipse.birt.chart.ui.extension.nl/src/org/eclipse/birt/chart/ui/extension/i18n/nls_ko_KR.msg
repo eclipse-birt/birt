@@ -275,7 +275,7 @@ LineSeriesMarkerSheet.Label.Remove=제거(&R)
 LineSeriesAttributeComposite.Lbl.LinePalette=선 색으로 계열 색상표 사용(&P)
 LineChart.Txt.DefaultLineChartTitle=선형 차트 제목
 LineSeriesAttributeComposite.Lbl.ConnectMissingValue=누락된 값 연결(&O)
-LineChart.Txt.DisplayName=꺽은선형
+LineChart.Txt.DisplayName=선형
 LineChart.SubType.Stacked=누적
 LineChart.SubType.PercentStacked=누적 백분율
 LineChart.SubType.Overlay=이중
@@ -293,7 +293,7 @@ ScatterChart.Txt.DisplayName=분산형
 ScatterChart.SubType.Standard=표준 분산형 차트
 
 BarChart.Txt.DefaultBarChartTitle=막대 차트 제목
-BarChart.Txt.DisplayName=가로 막대형
+BarChart.Txt.DisplayName=막대형
 BarChart.SubType.Stacked=누적
 BarChart.SubType.PercentStacked=누적 백분율
 BarChart.SubType.Side=연속
@@ -764,7 +764,7 @@ TaskSelectData.Label.UseToGroupValueSeries=값 계열을 그룹화하는 데 사용
 TaskFormatChart.TaskExp=차트 형식 지정
 TaskFormatChart.Label.Preview=차트 미리 보기
 TaskFormatChart.LivePreviewTask.BindData=차트 미리 보기를 위한 데이트 검색 및 바인딩
-TaskFormatChart.Task.Description=텍스트, 그림자, 배경, 테두리에 대한 전체적인 형식을 지정하는 것 뿐만 아니라 계열 속성, 대화형 작업, 레이아웃을 정의하여 차트의 상세한 부분까지 조정합니다.
+TaskFormatChart.Task.Description=텍스트, 그림자, 배경, 테두리에 대한 전체적인 형식을 지정하고 계열 속성, 테마, 레이아웃을 정의하여 차트의 상세한 부분까지 조정합니다.
 
 CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=잘못된 열 인덱스 {0}이(가) 지정되었거나 열이 아직 정의되지 않았습니다\!
 CustomPreviewTable.Exception.InvalidColumnIndexSpecified=잘못된 열 인덱스가 지정되었습니다\!
@@ -988,7 +988,7 @@ GroupSortingDialog.Sort.Strength.TERTIARY=3차
 
 GanttSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 GanttSeriesAttributeComposite에 대한 잘못된 인수입니다.
 GanttChart.Txt.DefaultGanttChartTitle=Gantt 차트 제목
-GanttChart.Txt.DisplayName=갠트
+GanttChart.Txt.DisplayName=간트
 GanttChart.Txt.Description=표준 간트 차트에는 시작 표지와 끝 표지를 잇는 연결선이 있습니다.
 GanttChart.Txt.HelpText=Gantt 차트는 작업 또는 활동의 시간이 초과된 경우 해당 시간을 표시합니다.
 GanttChart.SubType.Standard=표준 Gantt 차트
