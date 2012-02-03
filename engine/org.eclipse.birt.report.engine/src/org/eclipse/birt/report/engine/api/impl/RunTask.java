@@ -219,10 +219,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		startFactory( );
 		openReportDocument( );
 		ArrayList<String> errList = new ArrayList<String>( );
-		RunStatusWriter statusWriter = null;
 		try
 		{
-			statusWriter = new RunStatusWriter( archiveWriter );
 			ReportRunnable newRunnable = writer.saveDesign( executionContext
 					.getRunnable( ), executionContext.getOriginalRunnable( ) );
 			executionContext.updateRunnable( newRunnable );
@@ -285,9 +283,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					errList.add( ex.getLocalizedMessage( ) );
 				}
 			}
-			if ( statusWriter != null && !errList.isEmpty( ) )
+			if ( !errList.isEmpty( ) )
 			{
+				// status writer never throws out exception
+				RunStatusWriter statusWriter = new RunStatusWriter(
+						archiveWriter );
 				statusWriter.writeRunTaskStatus( errList );
+				statusWriter.close( );
 			}
 
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
