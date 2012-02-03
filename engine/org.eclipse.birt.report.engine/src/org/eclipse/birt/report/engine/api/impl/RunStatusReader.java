@@ -38,8 +38,13 @@ public class RunStatusReader
 		try
 		{
 			IDocArchiveReader reader = document.getArchive( );
-			runStatusStream = reader
-					.getStream( ReportDocumentConstants.RUN_STATUS_STREAM );
+			boolean existStream = reader
+					.exists( ReportDocumentConstants.RUN_STATUS_STREAM );
+			if ( existStream )
+			{
+				runStatusStream = reader
+						.getStream( ReportDocumentConstants.RUN_STATUS_STREAM );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -76,13 +81,21 @@ public class RunStatusReader
 		{
 			DataInputStream in = new DataInputStream( runStatusStream );
 			int errorSize = IOUtil.readInt( in );
-			StringBuilder message = new StringBuilder( );
-			for ( int i = 0; i < errorSize; i++ )
+			if ( errorSize > 0 )
 			{
-				message.append( IOUtil.readString( in ) )
-				        .append( System.getProperty( "line.separator" ) );
+				StringBuilder message = new StringBuilder( );
+				for ( int i = 0; i < errorSize; i++ )
+				{
+					// we needn't use the system.line.property as:
+					// 1. system.getProperty is a security operation, it need
+					// some permission assigned
+					// 2. the message is displayed in client side, we don't
+					// known if the client side has same line separator with the
+					// server
+					message.append( IOUtil.readString( in ) ).append( "\n");
+				}
+				return message.toString( );
 			}
-			return message.toString( );
 		}
 		catch ( IOException e )
 		{
