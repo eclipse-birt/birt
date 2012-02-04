@@ -286,9 +286,24 @@ public class JDBCDriverManager
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
-					null,
-					truncate( e.getLocalizedMessage( ) ) );
+			try 
+			{
+				//Important! Don't Change me. see 46956.
+				DriverClassLoader dl = new DriverClassLoader( driverClassPath, Thread.currentThread().getContextClassLoader() );
+				
+				Class dc = dl.loadClass( driverClass );
+				if( dc!= null )
+					return ((Driver)dc.newInstance()).connect(url,
+						connectionProperties);
+				
+				throw new JDBCException(ResourceConstants.CONN_GET_ERROR, null,
+						truncate(e.getLocalizedMessage()));
+			}
+			catch (Exception e1) 
+			{
+				throw new JDBCException(ResourceConstants.CONN_GET_ERROR, null,
+						truncate(e.getLocalizedMessage()));
+			}
 		}
 	}
 
@@ -996,7 +1011,7 @@ public class JDBCDriverManager
 					extraDriverLoader.close( );
 				}
 			}
-			extraDriverLoader = new DriverClassLoader( driverClassPath );
+			extraDriverLoader = new DriverClassLoader( driverClassPath, null );
 		}
 
 		try
@@ -1034,9 +1049,9 @@ public class JDBCDriverManager
 	{
 		private HashSet fileSet = new HashSet();
 		private Collection<String> driverClassPath;
-		public DriverClassLoader( Collection<String> driverClassPath ) throws OdaException
+		public DriverClassLoader( Collection<String> driverClassPath, ClassLoader parent ) throws OdaException
 		{
-			super( new URL[0], DriverClassLoader.class.getClassLoader() );
+			super( new URL[0], parent != null ? parent:DriverClassLoader.class.getClassLoader() );
 			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
 			this.driverClassPath = driverClassPath;
 			refreshURLs();
