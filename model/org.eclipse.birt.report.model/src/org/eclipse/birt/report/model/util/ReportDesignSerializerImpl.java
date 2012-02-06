@@ -348,11 +348,14 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 		assert ( currentNewElement instanceof ExtendedItem );
 		IReportItem extItem = obj.getExtendedElement( );
-		StyleHandle[] styles = extItem.getReferencedStyle( );
-		if ( styles != null && styles.length > 0 )
+		if (extItem != null)
 		{
-			this.referencedStyleMap.put( (ExtendedItem) currentNewElement,
-					styles );
+			StyleHandle[] styles = extItem.getReferencedStyle( );
+			if ( styles != null && styles.length > 0 )
+			{
+				this.referencedStyleMap.put( (ExtendedItem) currentNewElement,
+						styles );
+			}
 		}
 	}
 
