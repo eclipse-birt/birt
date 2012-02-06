@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=La définition de données pour
 dataprocessor.log.baseSeriesDefnBeStatic=La définition de série de catégories ({0}) sera utilisée en tant qu''expression statique.
 
 exception.data.max.row.count=Impossible de rendre un graphique qui lie {0} lignes de données.
+
+# Default chart title
+BarChart.Title=Titre du graphique à barres
+LineChart.Title=Titre du graphique à lignes
+AreaChart.Title=Zone du titre du graphique
+PieChart.Title=Titre du graphique à secteurs
+MeterChart.Title=Titre du graphique à cadrans
+ScatterChart.Title=Titre du graphique à nuage de points
+StockChart.Title=Titre du graphique d'actions
+BubbleChart.Title=Titre du graphique à bulles
+DifferenceChart.Title=Titre du graphique de différence
+GanttChart.Title=Titre du graphique de Gantt
+TubeChart.Title=Titre du graphique à cylindres
+PyramidChart.Title=Titre du graphique à pyramides
+ConeChart.Title=Titre du graphique à cônes
+RadarChart.Title=Titre du graphique à radar
+ColumnChart.Title=Titre du graphique à colonnes
+DoughnutChart.Title=Titre du graphique à anneaux

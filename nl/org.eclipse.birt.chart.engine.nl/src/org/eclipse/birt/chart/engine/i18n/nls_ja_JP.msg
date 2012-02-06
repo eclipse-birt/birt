@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=X Œn—ñ‚Ìƒf[ƒ^‚Ì’è‹`‚ªw’è‚³‚
 dataprocessor.log.baseSeriesDefnBeStatic=ƒJƒeƒSƒŠŒn—ñ‚Ì’è‹` ({0}) ‚ªÃ“I‚È®‚Æ‚µ‚Äg—p‚³‚ê‚Ü‚·B
 
 exception.data.max.row.count={0} sˆÈã‚Ìƒf[ƒ^‚ğƒoƒCƒ“ƒh‚·‚éƒOƒ‰ƒt‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚Ü‚¹‚ñB
+
+# Default chart title
+BarChart.Title=–_ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+LineChart.Title=üƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+AreaChart.Title=–ÊÏƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+PieChart.Title=ƒpƒCƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+MeterChart.Title=ƒ[ƒ^[ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+ScatterChart.Title=•ª•zƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+StockChart.Title=Š”‰¿ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+BubbleChart.Title=ƒoƒuƒ‹ƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
+DifferenceChart.Title=·•ªƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
+GanttChart.Title=ƒKƒ“ƒgƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
+TubeChart.Title=‰~“›ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+PyramidChart.Title=ƒsƒ‰ƒ~ƒbƒhƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+ConeChart.Title=‰~ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+RadarChart.Title=ƒŒ[ƒ_[ƒ`ƒƒ[ƒg‚Ìƒ^ƒCƒgƒ‹
+ColumnChart.Title=c–_ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
+DoughnutChart.Title=ƒh[ƒiƒcƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹

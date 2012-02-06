@@ -182,6 +182,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				ExtendedItemHandle bindingHandle = (ExtendedItemHandle) ChartItemUtil.getReportItemReference( handle );
 				IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
 						parent,
+						modelAdapter,
 						true,
 						true,
 						true,

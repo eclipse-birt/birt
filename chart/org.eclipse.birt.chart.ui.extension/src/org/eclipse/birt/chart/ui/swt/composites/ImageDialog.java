@@ -80,6 +80,8 @@ public class ImageDialog extends TrayDialog
 	private int selectedType = -1;
 
 	private Fill fCurrent;
+	
+	private boolean bEmbeddedImageEnabled;
 
 	private String imageData;
 
@@ -92,11 +94,12 @@ public class ImageDialog extends TrayDialog
 	 * 
 	 * @param parentShell
 	 */
-	public ImageDialog( Shell parentShell, Fill fCurrent )
+	public ImageDialog( Shell parentShell, Fill fCurrent, boolean bEmbeddedImageEnabled )
 	{
 		super( parentShell );
 
 		this.fCurrent = fCurrent;
+		this.bEmbeddedImageEnabled = bEmbeddedImageEnabled;
 	}
 
 	@Override
@@ -170,6 +173,8 @@ public class ImageDialog extends TrayDialog
 				updateButtons( );
 			}
 		} );
+		
+		embedded.setVisible( bEmbeddedImageEnabled );
 	}
 
 	private void createInputArea( Composite parent )

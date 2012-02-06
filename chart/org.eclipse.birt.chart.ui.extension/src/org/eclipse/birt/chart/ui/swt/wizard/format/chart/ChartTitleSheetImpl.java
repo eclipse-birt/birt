@@ -223,21 +223,10 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		if ( event.widget.equals( txtTitle ) )
 		{
-			if ( txtTitle.getText( ) == null
-					|| txtTitle.getText( ).trim( ).length( ) == 0 )
-			{
-				getChart( ).getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( null );
-			}
-			else
-			{
-				getChart( ).getTitle( )
-						.getLabel( )
-						.getCaption( )
-						.setValue( txtTitle.getText( ) );
-			}
+			getChart( ).getTitle( )
+					.getLabel( )
+					.getCaption( )
+					.setValue( txtTitle.getText( ) );
 		}
 		else if ( event.widget.equals( fdcFont ) )
 		{
@@ -345,22 +334,10 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 	private boolean isTitleEnabled( )
 	{
-		if ( btnAutoTitle != null )
-		{
-			return !getContext( ).getUIFactory( )
-					.isSetInvisible( getChart( ).getTitle( ) )
-					&& !isAutoTitle( );
-		}
-		else
-		{
-			return getChart( ).getTitle( ).isSetVisible( )
-					&& getChart( ).getTitle( ).isVisible( )
-					&& getChart( ).getTitle( )
-							.getLabel( )
-							.getCaption( )
-							.getValue( ) != null
-					&& !isAutoTitle( );
-		}
+		return !getContext( ).getUIFactory( )
+				.isSetInvisible( getChart( ).getTitle( ) )
+				&& getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) != null
+				&& !isAutoTitle( );
 	}
 
 	protected boolean isAutoTitle( )

@@ -15,8 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
@@ -25,11 +29,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
-import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -40,6 +45,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -70,7 +76,10 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
@@ -287,7 +296,8 @@ public class QueryExecutor
 		if( !finalFilters.isEmpty( ) )
 		{
 			List aggrEvalList = new ArrayList<AggrMeasureFilterEvalHelper>( );
-			List dimEvalList = new ArrayList<IJSFilterHelper>();
+			List dimEvalList = new ArrayList<IJSFilterHelper>( );
+			List<IFilterDefinition> drillFilterList = new ArrayList<IFilterDefinition>( );
 			for ( int i = 0; i < finalFilters.size( ); i++ )
 			{
 				IFilterDefinition filter = (IFilterDefinition) finalFilters.get( i );
@@ -314,6 +324,10 @@ public class QueryExecutor
 									.getEngineContext( )
 									.getScriptContext( ) ) );
 				}
+				else if( type == executor.FACTTABLE_FILTER )
+				{
+					drillFilterList.add( filter );
+				}
 			}
 			List<Integer> affectedAggrResultSetIndex = new ArrayList<Integer>();
 			if( aggrEvalList.size( ) > 0)
@@ -328,16 +342,12 @@ public class QueryExecutor
 				AggregationFilterHelper helper = new AggregationFilterHelper( (Cube)cube, dimEvalList, fetcher );
 				rs = helper.generateFilteredAggregationResultSet( rs , affectedAggrResultSetIndex );
 			}
-			List<IAggregationResultSet> edgeResultSet = new ArrayList<IAggregationResultSet>();	
 			
-			for ( int i = 0; i < rs.length; i++ )
-			{
-				if ( rs[i].getAggregationDefinition( )
-						.getAggregationFunctions( ) == null )
-				{
-					edgeResultSet.add( rs[i] );
-				}
-			}
+			
+			Map<DimLevel, IJSFacttableFilterEvalHelper> edgeDrillFilterMap = populateEdgeDrillFilterMap( executor, drillFilterList );
+		
+			List<IAggregationResultSet> edgeResultSet =	populateAndFilterEdgeResultSet(rs, edgeDrillFilterMap);
+			
 			for ( int i = 0; i < edgeResultSet.size( ); i++ )
 			{
 				for ( int j = 0; j < affectedAggrResultSetIndex.size( ); j++ )
@@ -349,6 +359,109 @@ public class QueryExecutor
 		}
 		
 		return rs;
+	}
+
+	private List<IAggregationResultSet> populateAndFilterEdgeResultSet(IAggregationResultSet[] rs,
+			Map<DimLevel, IJSFacttableFilterEvalHelper> edgeDrillFilterMap)
+			throws IOException, DataException 
+	{
+		List<IAggregationResultSet> edgeResultSet = new ArrayList<IAggregationResultSet>();	
+
+		for ( int i = 0; i < rs.length; i++ )
+		{
+			if ( rs[i].getAggregationDefinition( )
+					.getAggregationFunctions( ) == null )
+			{
+				edgeResultSet.add( rs[i] );
+				
+				if( edgeDrillFilterMap.isEmpty() )
+					continue;
+		
+				filterEdgeAggrSet(edgeDrillFilterMap,  rs[i]);
+			}		
+		}
+		
+		return edgeResultSet;
+	}
+
+	private void filterEdgeAggrSet(
+			Map<DimLevel, IJSFacttableFilterEvalHelper> edgeDrillFilterMap,
+			IAggregationResultSet edgeAggrSet) throws IOException,
+			DataException 
+	{
+		IJSFacttableFilterEvalHelper drillFilterHelper = null;
+		for( DimLevel dimLevel : edgeAggrSet.getAllLevels() )
+		{
+			if( (drillFilterHelper = edgeDrillFilterMap.get( dimLevel ))!= null )
+			{
+				AggregateRowWrapper aggrRowWrapper = new AggregateRowWrapper( edgeAggrSet );
+				IDiskArray newRs = new BufferedStructureArray( AggregationResultRow.getCreator( ), 2000 );
+				for( int j = 0; j < edgeAggrSet.length(); j++ )
+				{
+					edgeAggrSet.seek( j );
+					if( drillFilterHelper.evaluateFilter( aggrRowWrapper ))
+					{
+						newRs.add(  edgeAggrSet.getCurrentRow() );
+					}
+				}
+				reSetAggregationResultSetDiskArray(edgeAggrSet, newRs);
+			}
+		}
+	}
+
+	private void reSetAggregationResultSetDiskArray(
+			IAggregationResultSet edgeAggrSet, IDiskArray newRs) 
+	{
+		if( edgeAggrSet instanceof AggregationResultSet )
+			((AggregationResultSet)edgeAggrSet).setAggregationResultRows( newRs );
+		else if( edgeAggrSet instanceof CachedAggregationResultSet )
+			((CachedAggregationResultSet)edgeAggrSet).setAggregationResultRows( newRs );
+	}
+
+	/**
+	 * Populate Edge Drill Filter Map. There will be one random level picked from edge to map to a drill filter. 
+	 * 
+	 * @param executor
+	 * @param drillFilterList
+	 * @param edgeDrillFilterMap
+	 * @throws DataException
+	 */
+	private  Map<DimLevel, IJSFacttableFilterEvalHelper> populateEdgeDrillFilterMap(CubeQueryExecutor executor,
+			List<IFilterDefinition> drillFilterList )
+			throws DataException 
+	{
+		Map<DimLevel, IJSFacttableFilterEvalHelper> result = new HashMap<DimLevel, IJSFacttableFilterEvalHelper>();
+
+		for( IFilterDefinition filterDefn: drillFilterList )
+		{
+			assert filterDefn instanceof ICollectionConditionalExpression;
+			Collection<IScriptExpression> exprs = ( ( ICollectionConditionalExpression )( filterDefn.getExpression( ) ) ).getExpr( );
+			Iterator<IScriptExpression> exprsIterator = exprs.iterator( );
+			DimLevel containedDimLevel = null;
+			while ( exprsIterator.hasNext( ) )
+			{
+				Iterator dimLevels = OlapExpressionCompiler.getReferencedDimLevel( exprsIterator.next( ),
+						new ArrayList() )
+						.iterator( );
+				while ( dimLevels.hasNext( ) )
+				{
+					containedDimLevel = (DimLevel) dimLevels.next( );
+					break;
+				}
+				if( containedDimLevel!= null )
+					break;
+			}
+			
+			if( containedDimLevel == null )
+				continue;
+			
+			
+			result.put( containedDimLevel, new JSFacttableFilterEvalHelper(
+					executor.getScope(), executor.getSession()
+							.getEngineContext().getScriptContext(),
+					filterDefn, null, null));
+		}
+		return result;
 	}
 	
 	private int getPos(String[][] joinLevelKeys, String[][] detailLevelKeys)
@@ -415,10 +528,7 @@ public class QueryExecutor
     			newRsRows.add(aggregationResultRows.get( index ));
     		}
     	}
-		if( joinRS instanceof AggregationResultSet )
-    		((AggregationResultSet)joinRS).setAggregationResultRows(newRsRows);
-    	else if( joinRS instanceof CachedAggregationResultSet )
-    		((CachedAggregationResultSet)joinRS).setAggregationResultRows(newRsRows);
+		reSetAggregationResultSetDiskArray(joinRS, newRsRows);
     	detailMember.clear( );
     
 	}
@@ -454,22 +564,8 @@ public class QueryExecutor
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
 			if ( !( (IFilterDefinition) filters.get( i ) ).updateAggregation( ) )
-			{
-				try 
-				{
-					if (ExpressionCompilerUtil
-							.extractColumnExpression(
-									((IFilterDefinition) filters.get(i))
-											.getExpression(),
-									ScriptConstants.DATA_BINDING_SCRIPTABLE)
-							.size() > 0) 
-					{
-						NoAggrUpdateFilters.add(filters.get(i));
-					}
-				} 
-				catch (DataException e) 
-				{
-				}
+			{	
+				NoAggrUpdateFilters.add(filters.get(i));
 			}
 		}
 		return NoAggrUpdateFilters;
@@ -1093,5 +1189,46 @@ public class QueryExecutor
 			fetchLimit = Integer.parseInt( fetchLimitSize );
 
 		return fetchLimit;
+	}
+	
+	/**
+	 * The class that wrap an IAggregationResultSet instance into IFacttableRow. The actual IAggregationResultRow instance returned
+	 * is controlled by internal cursor in IAggregationResultSet instance.
+	 * 
+	 * @author lzhu
+	 *
+	 */
+	private class AggregateRowWrapper implements IFacttableRow
+	{
+		private IAggregationResultSet aggrResultSet;
+		public AggregateRowWrapper( IAggregationResultSet aggrResultSet )
+		{
+			this.aggrResultSet = aggrResultSet;
+		}
+		
+		/**
+		 * Not implemented. We only expect this being used in drill filter in which only level member is used.
+		 */
+		public Object getMeasureValue(String measureName) throws DataException 
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		public Object[] getLevelKeyValue(String dimensionName, String levelName)
+				throws DataException, IOException 
+		{
+			return this.aggrResultSet.getLevelKeyValue( this.aggrResultSet.getLevelIndex( new DimLevel( dimensionName, levelName ) ));
+		}
+
+		/**
+		 * Not implemented. We only expect this being used in drill filter in which only level member is used.
+		 */
+		public Object getLevelAttributeValue(String dimensionName,
+				String levelName, String attributeName) throws DataException,
+				IOException 
+		{
+			throw new UnsupportedOperationException();
+		}
+		
 	}
 }

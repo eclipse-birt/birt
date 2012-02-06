@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,15 +32,18 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
@@ -2111,6 +2115,311 @@ public class CubeIVTest extends BaseTestCase
 		
 		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
 		
+		engine.shutdown( );
+	}
+
+	public void testIVWithIncrementNoAggrUpdateFilter3( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+		
+		cqd.createMeasure( "measure1" );
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding3 = new Binding( "edge1level3");
+		
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		binding5.setAggrFunction("SUM");
+		binding5.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding5.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding5.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding5.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding( binding5 );
+		
+		IBinding binding6 = new Binding( "total1" );
+		binding6.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		binding6.setAggrFunction("SUM");
+		binding6.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding( binding6 );
+		
+		
+		cqd.setCacheQueryResults( true );
+		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				null,
+				null,
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		this.createCube( writter, engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		
+		
+		//Load from cache.
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		writter.finish( );
+		engine.shutdown( );
+		
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
+		ArchiveWriter writer = new ArchiveWriter( new ArchiveFile(documentPath + "testTemp", "rw+") );
+		
+		ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( queryResults.getID( ), DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer ) );
+		
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer ) );
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		List<IScriptExpression> left = new ArrayList<IScriptExpression>();
+		
+		left.add( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]"));
+		left.add( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]"));
+		left.add( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]"));
+		
+		List<IScriptExpression> CNBJCP = new ArrayList<IScriptExpression>();
+		CNBJCP.add( new ScriptExpression( "\"CN\"" ));
+		CNBJCP.add( new ScriptExpression( "\"BJ\"" ));
+		CNBJCP.add( new ScriptExpression( "\"CP\"" ));
+		
+		List<Collection<IScriptExpression>> right = new ArrayList<Collection<IScriptExpression>>();
+		right.add( CNBJCP );
+		
+		ICollectionConditionalExpression cce = new CollectionConditionalExpression(left, IConditionalExpression.OP_IN, right);
+		IFilterDefinition filter = new FilterDefinition( new CollectionConditionalExpression( left,
+				IConditionalExpression.OP_IN,
+				right ) );
+		
+		cqd.addFilter(filter);
+		filter.setUpdateAggregation( false );
+		
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		reader.close( );
+		writer.finish( );
+		engine.shutdown( );
+		
+		//Load from RD
+		reader = new FileArchiveReader( documentPath + "testTemp" );
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+				null,
+				reader,
+				null ) );
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1", null, "total1", null );
+
+		engine.shutdown( );
+	}
+	
+	public void testIVWithIncrementNoAggrUpdateFilter4( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+		
+		cqd.createMeasure( "measure1" );
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding3 = new Binding( "edge1level3");
+		
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		binding5.setAggrFunction("SUM");
+		binding5.addAggregateOn("dimension[\"dimension1\"][\"level11\"]");
+		binding5.addAggregateOn("dimension[\"dimension1\"][\"level12\"]");
+		binding5.addAggregateOn("dimension[\"dimension1\"][\"level13\"]");
+		binding5.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding( binding5 );
+		
+		IBinding binding6 = new Binding( "total1" );
+		binding6.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		binding6.setAggrFunction("SUM");
+		binding6.addAggregateOn("dimension[\"dimension2\"][\"level21\"]");
+		cqd.addBinding( binding6 );
+		
+		
+		cqd.setCacheQueryResults( true );
+		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				null,
+				null,
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		this.createCube( writter, engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		
+		
+		//Load from cache.
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		writter.finish( );
+		engine.shutdown( );
+		
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
+		ArchiveWriter writer = new ArchiveWriter( new ArchiveFile(documentPath + "testTemp", "rw+") );
+		
+		ICubeQueryDefinition savedQuery = CubeQueryDefinitionIOUtil.load( queryResults.getID( ), DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer ) );
+		
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				null,
+				reader,
+				writer ) );
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		List<IScriptExpression> left = new ArrayList<IScriptExpression>();
+		
+		left.add( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]"));
+		left.add( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]"));
+		left.add( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]"));
+		
+		List<IScriptExpression> CNBJCP = new ArrayList<IScriptExpression>();
+		CNBJCP.add( new ScriptExpression( "\"CN\"" ));
+		CNBJCP.add( new ScriptExpression( "\"BJ\"" ));
+		CNBJCP.add( new ScriptExpression( "\"CP\"" ));
+		
+		List<IScriptExpression> JPILP1 = new ArrayList<IScriptExpression>();
+		JPILP1.add( new ScriptExpression( "\"JP\"" ));
+		JPILP1.add( new ScriptExpression( "\"IL\"" ));
+		JPILP1.add( new ScriptExpression( "\"P1\"" ));
+		
+		List<IScriptExpression> USCSB1 = new ArrayList<IScriptExpression>();
+		USCSB1.add( new ScriptExpression( "\"US\"" ));
+		USCSB1.add( new ScriptExpression( "\"CS\"" ));
+		USCSB1.add( new ScriptExpression( "\"B1\"" ));
+		
+		
+		List<Collection<IScriptExpression>> right = new ArrayList<Collection<IScriptExpression>>();
+		right.add( CNBJCP );
+		right.add( JPILP1 );
+		right.add( USCSB1 );
+		
+		ICollectionConditionalExpression cce = new CollectionConditionalExpression(left, IConditionalExpression.OP_IN, right);
+		IFilterDefinition filter = new FilterDefinition( new CollectionConditionalExpression( left,
+				IConditionalExpression.OP_IN,
+				right ) );
+		
+		cqd.addFilter(filter);
+		filter.setUpdateAggregation( false );
+		
+		ConditionalExpression expression = new ConditionalExpression( "data[\"edge2level1\"]",
+				IConditionalExpression.OP_GT,
+				"\"1999\"" );
+		( (ScriptExpression) expression.getOperand1( ) ).setConstantValue( "1999" );
+		( (ScriptExpression) expression.getOperand1( ) ).setConstant( true );
+
+		FilterDefinition fd = new CubeFilterDefinition(expression );
+		((CubeFilterDefinition)fd).setTargetLevel(cqd.getEdge(ICubeQueryDefinition.ROW_EDGE).getDimensions().get(0).getHierarchy().get(0).getLevels().get(0));
+		cqd.addFilter(fd);
+		
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		reader.close( );
+		writer.finish( );
+		engine.shutdown( );
+		
+		//Load from RD
+		reader = new FileArchiveReader( documentPath + "testTemp" );
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+				null,
+				reader,
+				null ) );
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1", null, "total1", null );
+
 		engine.shutdown( );
 	}
 }

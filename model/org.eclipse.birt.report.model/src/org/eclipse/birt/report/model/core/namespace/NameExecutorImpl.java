@@ -133,8 +133,14 @@ class NameExecutorImpl
 			// if not found, then return null
 			return null;
 		}
-
-		return module == null ? null : module.getNameHelper( );
+		
+		if ( module == null )
+			return null;
+		
+		if ( module.getDefn().isKindOf(holderDefn))
+			return module.getNameHelper();
+		
+		return null;
 	}
 
 	/**

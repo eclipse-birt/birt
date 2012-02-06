@@ -484,6 +484,15 @@ public class AggregationFilterHelper
 					result[i] = newAggrResultSet;
 					affectedAggrResultSetIndex.add( Integer.valueOf( i ) );
 				}
+				else if ( filtered && levelFilterList.size( ) == 0 )
+				{
+					IAggregationResultSet newAggrResultSet = new AggregationResultSet(rs[i].getAggregationDefinition( ),
+							rs[i].getAllLevels( ), new BufferedStructureArray( AggregationResultRow.getCreator( ),
+									rs[i].length( ) ),
+							rs[i].getKeyNames( ), rs[i].getAttributeNames( ));
+					result[i] = newAggrResultSet;
+					affectedAggrResultSetIndex.add( Integer.valueOf( i ) );
+				}
 				else
 				{
 					result[i] = rs[i];

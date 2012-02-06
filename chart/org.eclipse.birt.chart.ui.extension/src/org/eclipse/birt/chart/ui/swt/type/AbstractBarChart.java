@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -378,6 +379,16 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				"dimension",//$NON-NLS-1$
 				ChartUIUtil.getDimensionType( sDimension ),
 				sDimension == null );
+		try
+		{
+			ChartElementUtil.setDefaultValue( newChart.getAxes( ).get( 0 ),
+					"categoryAxis", //$NON-NLS-1$
+					true );
+		}
+		catch ( ChartException e )
+		{
+			// Do nothing.
+		}
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.createDefault( );
 		Series categorySeries = SeriesImpl.createDefault( );
@@ -614,6 +625,17 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					"dimension",//$NON-NLS-1$
 					ChartUIUtil.getDimensionType( sNewDimension ),
 					sNewDimension == null );
+			try
+			{
+				ChartElementUtil.setDefaultValue( ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 ),
+						"categoryAxis", //$NON-NLS-1$
+						true );
+			}
+			catch ( ChartException e )
+			{
+				// Do nothing.
+			}
 			{
 				// Clear existing series definitions
 				( ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
