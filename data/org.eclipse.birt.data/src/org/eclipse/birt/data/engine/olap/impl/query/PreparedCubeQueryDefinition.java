@@ -270,8 +270,8 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 					.toString( ));
 			
 				String bindingName = b.getBindingName( );
-				if ( !Arrays.deepEquals( b.getAggregatOns( ).toArray( ),
-						binding.getAggregatOns( ).toArray( ) ) || b.getAggrFunction( )!= binding.getAggrFunction( ) )
+				if ( (!Arrays.deepEquals( b.getAggregatOns( ).toArray( ),
+						binding.getAggregatOns( ).toArray( ) ) )|| !b.getAggrFunction( ).equals(binding.getAggrFunction( )) )
 				{
 					IBinding newBinding = new Binding(bindingName+"_"+binding.getBindingName( ));
 					newBinding.setDataType( b.getDataType( ) );
