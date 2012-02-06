@@ -46,6 +46,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -81,6 +82,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.window.Window;
@@ -1803,7 +1806,34 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-		createExpressionButton( composite, txtFilter );
+		//createExpressionButton( composite, txtFilter );
+		IExpressionProvider filterExpressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
+				this.binding )
+		{
+			protected List getChildrenList( Object parent )
+			{
+				List children =  super.getChildrenList( parent );
+				List retValue = new ArrayList( );
+				retValue.addAll( children );
+				if (parent instanceof MeasureGroupHandle)
+				{
+					for (int i=0; i<children.size( ); i++)
+					{
+						Object obj = children.get( i );
+						if (obj instanceof MeasureHandle && ((MeasureHandle)obj).isCalculated( ))
+						{
+							retValue.remove( obj );
+						}
+					}
+				}
+				
+				return retValue;
+			}
+		};
+		ExpressionButtonUtil.createExpressionButton( composite,
+				txtFilter,
+				filterExpressionProvider,
+				this.bindingHolder );
 
 		// if (!isTimePeriod( ))
 		{
