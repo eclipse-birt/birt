@@ -1112,8 +1112,9 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					.getFont( ), "rotation", 90 ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal.getTitle( ),
 					"visible", false ); //$NON-NLS-1$
-			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
-					"primaryAxis", true ); //$NON-NLS-1$
+			// The PrimaryAxis property isn't visual property, it should still
+			// be initialized and update 'isSet' flag for first orthogonal axis.
+			yAxisOrthogonal.setPrimaryAxis( true );
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
 					"labelPosition", Position.LEFT_LITERAL ); //$NON-NLS-1$
 			ChartElementUtil.setDefaultValue( yAxisOrthogonal,
