@@ -1643,7 +1643,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return this.dataEngine.prepare( query, appContext );
 	}
 	
-	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws DataException, AdapterException
+	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws BirtException
 	{	
 		List calculatedMeasures = query.getDerivedMeasures( );
 		List measures = query.getMeasures( );
@@ -1663,6 +1663,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
 		{
 			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+			CubeMeasureUtil.validateDerivedMeasures( cubeHandle );
 			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 			for ( int i = 0; i < measureGroups.size( ); i++ )
 			{
@@ -1699,8 +1700,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						&& !derivedMeasureNameList.contains( measureNames.get( j )
 								.toString( ) ) )
 				{
-					IMeasureDefinition md = query.createMeasure( measureNames.get( j )
-							.toString( ) );
+					IMeasureDefinition md = query.createMeasure( measureNames.get( j ).toString( ) );
 					if ( this.cubeMetaDataHandleMap != null
 							&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
 					{

@@ -41,7 +41,7 @@ public class CubeMeasureUtil
 
 	private static IModelAdapter getModelAdapter( ) throws BirtException
 	{
-		return new DataModelAdapter( new DataSessionContext( DataSessionContext.MODE_GENERATION ) );
+		return new DataModelAdapter( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 	}
 
 	/**
