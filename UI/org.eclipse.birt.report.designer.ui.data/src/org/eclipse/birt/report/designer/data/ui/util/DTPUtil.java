@@ -416,24 +416,50 @@ public class DTPUtil
 						.getReportDesignHandle( );
 				if ( handle != null )
 				{
-					return new URI( encode( handle.getResourceFolder( ) ) );
+					String rscFolder = handle.getResourceFolder( );
+					try
+					{
+						return new URI( rscFolder );
+					}
+					catch ( URISyntaxException ex )
+					{
+						return new URI( null,
+								null,
+								convertURI( rscFolder ),
+								null );
+					}
 				}
 			}
 			catch ( URISyntaxException e )
 			{
+				return null;
 			}
 		}
 		try
 		{
-			return new URI( encode( ReportPlugin.getDefault( )
+			String rscFolder = ReportPlugin.getDefault( )
 					.getResourceFolder( getCurrentProject( ),
-							(ModuleHandle) null ) ) );
+							(ModuleHandle) null );
+			try
+			{
+				return new URI( rscFolder );
+			}
+			catch ( URISyntaxException ex )
+			{
+				return new URI( null, null, convertURI( rscFolder ), null );
+			}
 		}
 		catch ( URISyntaxException e )
 		{
 			return null;
 		}
 	}
+
+	private static String convertURI( String fileURL )
+	{
+		return fileURL.replace( '\\', '/' );
+	}
+	
 
 	/**
 	 * Guarantee getting current project within the scope of UI thread.
@@ -466,20 +492,6 @@ public class DTPUtil
 		return project[0];
 	}
     
-	private String encode( String location )
-	{
-		try
-		{
-			return new File( location ).toURI( )
-					.toASCIIString( )
-					.replace( new File( "" ).toURI( ).toASCIIString( ), "" );  //$NON-NLS-1$//$NON-NLS-2$
-		}
-		catch ( Exception e )
-		{
-			return location;
-		}
-	}
-	
 	/**
 	 * Create a DesignSessionRequest with the specified dataSetHandle
 	 * 
