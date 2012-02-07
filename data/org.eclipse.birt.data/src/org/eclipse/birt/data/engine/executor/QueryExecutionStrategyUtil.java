@@ -80,6 +80,8 @@ public final class QueryExecutionStrategyUtil
 				if ( group.getSubqueries( ) != null
 						&& group.getSubqueries( ).size( ) > 0 )
 					return Strategy.Complex;
+				if ( !isDirectColumnRefGroupKey( group, query ) )
+					return Strategy.Complex;
 				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
 					continue;
 				if( opt.acceptGroupSorting( ) )
@@ -211,5 +213,74 @@ public final class QueryExecutionStrategyUtil
 		}
 
 		return hasAggregation?Strategy.SimpleLookingFoward:Strategy.SimpleNoLookingFoward;
+	}
+	
+	private static boolean isDirectColumnRefGroupKey(IGroupDefinition group,IQueryDefinition query )
+	{
+		String expr = getGroupKeyExpression(group);
+		String dataSetExpr;
+		try
+		{
+			dataSetExpr = getDataSetExpr( expr,query );
+		}
+		catch (DataException e)
+		{
+			dataSetExpr = null;
+		}
+		try
+		{
+			if( dataSetExpr != null && ExpressionUtil.getColumnName( dataSetExpr ) == null && ExpressionUtil.getColumnBindingName(dataSetExpr) == null)
+			{
+				return false;
+			}
+		}
+		catch (BirtException e)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	
+	private static String getGroupKeyExpression(IGroupDefinition src) 
+	{
+		String expr = src.getKeyColumn( );
+		if ( expr == null )
+		{
+			expr = src.getKeyExpression( );
+		}
+		else
+		{
+			expr = getColumnRefExpression( expr );
+		}
+		return expr;
+	}
+
+	private static String getColumnRefExpression( String expr )
+	{
+		return ExpressionUtil.createJSRowExpression( expr );
+	}
+	
+	private static String getDataSetExpr( String rowExpr,IQueryDefinition query ) throws DataException
+	{
+		String dataSetExpr = null ;
+		try
+		{
+			String bindingName = ExpressionUtil.getColumnBindingName( rowExpr );
+			Object binding = query.getBindings( ).get( bindingName );
+			if( binding != null )
+			{
+				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
+				if( expr != null && expr instanceof IScriptExpression )
+				{
+					dataSetExpr = ( ( IScriptExpression )expr ).getText( );
+				}
+			}
+			return dataSetExpr;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
 }
