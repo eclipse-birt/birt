@@ -75,10 +75,11 @@ public final class QueryExecutionStrategyUtil
 			return Strategy.Complex;
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
 		{
-			if( session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
-				return Strategy.Complex;
-			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ))
+			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ) )
 			{
+				if ( group.getSubqueries( ) != null
+						&& group.getSubqueries( ).size( ) > 0 )
+					return Strategy.Complex;
 				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
 					continue;
 				if( opt.acceptGroupSorting( ) )
@@ -104,7 +105,7 @@ public final class QueryExecutionStrategyUtil
 		if ( query.getSubqueries( ) != null
 				&& query.getSubqueries( ).size( ) > 0 )
 			return Strategy.Complex;
-		
+
 		if( !query.usesDetails( ) )
 		{
 			return Strategy.Complex;
