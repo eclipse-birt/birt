@@ -67,74 +67,76 @@ public class FillChooserComposite extends Composite implements
 		Listener
 {
 
-	private transient Composite cmpContentInner = null;
+	private Composite cmpContentInner = null;
 
-	private transient Composite cmpContentOuter = null;
+	private Composite cmpContentOuter = null;
 
-	private transient Composite cmpDropDown = null;
+	private Composite cmpDropDown = null;
 
-	private transient Composite cmpButtons = null;
+	private Composite cmpButtons = null;
 
-	private transient FillCanvas cnvSelection = null;
+	private FillCanvas cnvSelection = null;
 
-	private transient Button btnDown = null;
+	private Button btnDown = null;
 
-	private transient Label lblTransparency = null;
+	private Label lblTransparency = null;
 
-	private transient Slider srTransparency = null;
+	private Slider srTransparency = null;
 
-	private transient Button btnCustom = null;
+	private Button btnCustom = null;
 
-	private transient Button btnGradient = null;
+	private Button btnGradient = null;
 
-	private transient Button btnImage = null;
+	private Button btnImage = null;
 
-	private transient Button btnPN = null;
+	private Button btnPN = null;
 
 	private Button btnPatternFill;
 
-	private transient Button btnReset = null;
+	private Button btnReset = null;
 
-	private transient Button btnAuto = null;
+	private Button btnAuto = null;
 
 	private static Color[] colorArray = null;
 
-	private transient boolean bGradientEnabled = true;
+	private boolean bGradientEnabled = true;
 
 	private boolean bGradientAngleEnabled = true;
 
-	private transient boolean bImageEnabled = true;
+	private boolean bImageEnabled = true;
 
-	private transient boolean bTransparentEnabled = true;
+	private boolean bEmbeddedImageEnabled = true;
 
-	private transient boolean bAutoEnabled = false;
+	private boolean bTransparentEnabled = true;
 
-	private transient Fill fCurrent = null;
+	private boolean bAutoEnabled = false;
 
-	private transient boolean bTransparencyChanged = false;
+	private Fill fCurrent = null;
+
+	private boolean bTransparencyChanged = false;
 
 	/** It indicates if the transparency slider is visible. */
-	private transient boolean bTransparencySliderEnable = true;
+	private boolean bTransparencySliderEnable = true;
 
-	private transient boolean bPositiveNegativeEnabled = false;
+	private boolean bPositiveNegativeEnabled = false;
 
 	private boolean bPatternFillEnabled = true;
 
-	private transient int iTransparency = 0;
+	private int iTransparency = 0;
 
-	private transient Vector<Listener> vListeners = null;
+	private Vector<Listener> vListeners = null;
 
 	public static final int FILL_CHANGED_EVENT = 1;
 
 	public static final int MOUSE_CLICKED_EVENT = 2;
 
-	private transient boolean bEnabled = true;
+	private boolean bEnabled = true;
 
-	private transient int iSize = 18;
+	private int iSize = 18;
 
 	private boolean bJustFocusLost = false;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
 	// Indicates the last operation is fired by keyboard or not
 	boolean isPressingKey = false;
@@ -150,6 +152,7 @@ public class FillChooserComposite extends Composite implements
 	public static final int ENABLE_POSITIVE_NEGATIVE = 1 << 5;
 	public static final int DISABLE_GRADIENT_ANGLE = 1 << 6;
 	public static final int DISABLE_PATTERN_FILL = 1 << 7;
+	public static final int DISABLE_EMBEDDED_IMAGE = 1 << 8;
 
 	/**
 	 * @param parent
@@ -173,6 +176,7 @@ public class FillChooserComposite extends Composite implements
 				!( ( DISABLE_PATTERN_FILL & optionalStyle ) == DISABLE_PATTERN_FILL ) );
 		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
 		this.bGradientAngleEnabled = !( ( DISABLE_GRADIENT_ANGLE & optionalStyle ) == DISABLE_GRADIENT_ANGLE );
+		this.bEmbeddedImageEnabled = !( ( DISABLE_EMBEDDED_IMAGE & optionalStyle ) == DISABLE_EMBEDDED_IMAGE );
 	}
 
 	/**
@@ -740,7 +744,7 @@ public class FillChooserComposite extends Composite implements
 			gd.heightHint = BUTTON_HEIGHTHINT;
 			gd.horizontalSpan = 2;
 			btnPatternFill.setLayoutData( gd );
-			btnPatternFill.setText( Messages.getString("FillChooserComposite.Button.Pattern") ); //$NON-NLS-1$
+			btnPatternFill.setText( Messages.getString( "FillChooserComposite.Button.Pattern" ) ); //$NON-NLS-1$
 			btnPatternFill.addSelectionListener( this );
 			btnPatternFill.addListener( SWT.FocusOut, this );
 			btnPatternFill.addListener( SWT.KeyDown, this );
@@ -833,7 +837,7 @@ public class FillChooserComposite extends Composite implements
 		}
 		else if ( oSource.equals( this.btnImage ) )
 		{
-			ImageDialog idlg = new ImageDialog( this.getShell( ), fCurrent );
+			ImageDialog idlg = new ImageDialog( this.getShell( ), fCurrent, bEmbeddedImageEnabled );
 			cmpDropDown.getShell( ).close( );
 			if ( idlg.open( ) == Window.OK )
 			{
@@ -1205,14 +1209,14 @@ public class FillChooserComposite extends Composite implements
 	 * 
 	 * @param indent
 	 */
-	public void setTextIndent(int indent )
+	public void setTextIndent( int indent )
 	{
 		if ( this.cnvSelection != null )
 		{
 			this.cnvSelection.setTextIndent( indent );
 		}
 	}
-	
+
 	private class ColorSelectionCanvas extends Canvas implements Listener
 	{
 
@@ -1234,10 +1238,10 @@ public class FillChooserComposite extends Composite implements
 			this.addListener( SWT.FocusIn, this );
 		}
 
-//		public Color getColor( )
-//		{
-//			return colorSelection;
-//		}
+		// public Color getColor( )
+		// {
+		// return colorSelection;
+		// }
 
 		public void setColor( Color color )
 		{

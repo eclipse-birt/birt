@@ -2013,7 +2013,7 @@ Structure.FilterCondition.extensionExprId=Erweiterungsausdruck-ID
 Structure.FilterCondition.pushDown=Push Down
 Structure.FilterCondition.dynamicFilterParameter=Dynamischer Filterparameter
 Structure.FilterCondition.type=Typ
-Structure.FilterCondition.updateAggregation=Update Aggregation
+Structure.FilterCondition.updateAggregation=Aggregat aktualisieren
 
 #10. PropertyMask
 Structure.PropertyMask.name=Name
@@ -3232,7 +3232,7 @@ Element.TemplateParameterDefinition.slot.default=Standard
 Element.TemplateElement.name=Name
 Element.TemplateElement.refTemplateParameter=Referenzvorlagenparameter
 Element.TemplateElement.displayName=Anzeigename
-Element.TemplateElement.displayNameID=Namen-ID anzeigen
+Element.TemplateElement.displayNameID=Anzeigenamen-ID
 
 #41 JointDataset ( Prefix Element.JointDataset )
 Element.JointDataSet.resultSet=Ergebnis Satzspalten
@@ -3371,7 +3371,7 @@ Element.FilterConditionElement.extensionExprId=Erweiterungsausdruck-ID
 Element.FilterConditionElement.pushDown=Push Down
 Element.FilterConditionElement.dynamicFilterParameter=Dynamic Filter Parameter
 Element.FilterConditionElement.type=Typ
-Element.FilterConditionElement.updateAggregation=Update Aggregation
+Element.FilterConditionElement.updateAggregation=Aggregat aktualisieren
 
 #62. AbstractMultiViews ( prefix Element.AbstractMultiViews )
 Element.AbstractMultiViews.index=Index

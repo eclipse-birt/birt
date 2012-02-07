@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -132,7 +133,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 		boolean isDisplay = false;
 
-		showProgress( );
+		if ( BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
+		{
+			showProgress( );
+		}
 
 		if ( hasParameters( ) )
 		{
@@ -145,6 +149,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 				if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
 				{
 					isDisplay = true;
+					
 					if ( isMissingParameter( ) )
 					{
 						isPreviewing = false;
@@ -155,6 +160,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 				{
 					hideProgress( );
 				}
+			}
+			else
+			{
+				isDisplay = true;
 			}
 		}
 		else

@@ -22,14 +22,21 @@ import java.util.Map.Entry;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Palette;
+import org.eclipse.birt.chart.model.attribute.TriggerCondition;
+import org.eclipse.birt.chart.model.attribute.impl.TooltipValueImpl;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
+import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -313,6 +320,13 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.getDesignTimeSeries( )
 					.copyInstance( );
 			newSeries.getTriggers( ).clear( );
+			
+			// Add tooltips by default
+			Action a = ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
+					TooltipValueImpl.create( 200, "" ) ); //$NON-NLS-1$
+			Trigger e = TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL, a );
+			newSeries.getTriggers( ).add( e );
+			
 			sdTmp.getSeries( ).add( newSeries );
 
 			// Add grouping query of the first series definition

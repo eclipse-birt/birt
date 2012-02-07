@@ -395,3 +395,21 @@ edataprocessor.xception.definitionsAssociatedWithX=未指定 X 系列的数据定义。
 dataprocessor.log.baseSeriesDefnBeStatic=类别系列定义 ({0}) 将用作静态表达式。
 
 exception.data.max.row.count=无法绘制绑定超过 {0} 行数据的图表。
+
+# Default chart title
+BarChart.Title=条形图标题
+LineChart.Title=折线图标题
+AreaChart.Title=面积图标题
+PieChart.Title=饼图标题
+MeterChart.Title=仪表图标题
+ScatterChart.Title=散点图标题
+StockChart.Title=股票图标题
+BubbleChart.Title=气泡图标题
+DifferenceChart.Title=差异图标题
+GanttChart.Title=甘特图标题
+TubeChart.Title=管形图标题
+PyramidChart.Title=棱锥图标题
+ConeChart.Title=锥形图标题
+RadarChart.Title=雷达图标题
+ColumnChart.Title=柱形图标题
+DoughnutChart.Title=圆环图标题

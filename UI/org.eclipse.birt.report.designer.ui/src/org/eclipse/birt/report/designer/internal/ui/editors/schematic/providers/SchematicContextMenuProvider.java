@@ -937,7 +937,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			SlotHandle obj = ( (LibraryHandle) selectedObject ).getThemes( );
 			menu.add( new ExtendElementAction( ProviderFactory.createProvider( obj ),
-					"org.eclipse.birt.report.designer.internal.ui.action.NewReportItemThemeAction",
+					"org.eclipse.birt.report.designer.internal.ui.action.NewThemeAction", //$NON-NLS-1$
 					obj,
 					Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM ) ); //$NON-NLS-1$
 		}

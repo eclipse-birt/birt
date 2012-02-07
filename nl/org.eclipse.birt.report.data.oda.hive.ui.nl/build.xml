@@ -58,23 +58,23 @@
 
 
 		<native2ascii encoding="Cp1252"
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
+					  src="." 
+					  dest="." 
 					  ext=".properties" 
 					  includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg"/>
 		<native2ascii encoding="GBK" 
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
+					  src="." 
+					  dest="." 
 					  ext=".properties" 
 					  includes="**/*_zh_CN.msg"/>	
 		<native2ascii encoding="SJIS" 
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
+					  src="." 
+					  dest="." 
 					  ext=".properties"
 					  includes="**/*_ja_JP.msg"/>
 		<native2ascii encoding="MS949" 
-					  src="${dir.src}" 
-					  dest="${dir.src}" 
+					  src="." 
+					  dest="." 
 					  ext=".properties"
 					  includes="**/*_ko_KR.msg"/>
 	</target>

@@ -134,7 +134,7 @@ public class ViewerPlugin extends Plugin
 				.setDefault( WebViewer.PREVIEW_MAXINMEMORYCUBESIZE,
 						DEFAULT_MAX_IN_MEMORY_CUBE_SIZE );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE,
-				ULocale.getDefault( ).getDisplayName( ) );
+				ULocale.getDefault( ).getLanguage( ) + "_" + ULocale.getDefault( ).getCountry( ) );
 		
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_TIME_ZONE,
 				TimeZone.getDefault( ).getID( ) );

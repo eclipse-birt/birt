@@ -396,6 +396,10 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			0
 		};
 
+		Boolean[] updateAggFlag = new Boolean[]{
+			null
+		};
+
 		for ( MemberValueHandle mvh : members )
 		{
 			if ( mvh != null && mvh.getLevel( ) == null )
@@ -406,6 +410,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 
 				traverseMemberFilter( targetLevels,
 						op,
+						updateAggFlag,
 						memberValues,
 						memberFlags,
 						mvh,
@@ -519,6 +524,11 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					op[0],
 					mergedMemberValues );
 
+			if ( updateAggFlag[0] != null )
+			{
+				memberFilter.setUpdateAggregation( updateAggFlag[0].booleanValue( ) );
+			}
+
 			cubeQuery.addFilter( memberFilter );
 		}
 	}
@@ -528,6 +538,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 	 */
 	private static void traverseMemberFilter(
 			List<IScriptExpression> targetLevels, int[] op,
+			Boolean[] updateAggFlag,
 			List<List<IScriptExpression>> memberValues,
 			List<List<Boolean>> memberFlags, MemberValueHandle member,
 			Map<LevelHandle, ILevelDefinition> levelMapping,
@@ -599,6 +610,15 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			// TODO throw exception?
 		}
 
+		// !!!only check the flag on first filter for now though it's for entire
+		// edge
+		if ( updateAggFlag[0] == null )
+		{
+			boolean needUpdateAgg = fch.updateAggregation( );
+
+			updateAggFlag[0] = Boolean.valueOf( needUpdateAgg );
+		}
+
 		// TODO only check value1 for now
 		List<Expression> val1list = fch.getValue1ExpressionList( )
 				.getListValue( );
@@ -637,6 +657,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 				{
 					traverseMemberFilter( targetLevels,
 							op,
+							updateAggFlag,
 							memberValues,
 							memberFlags,
 							child,
