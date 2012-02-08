@@ -42,21 +42,21 @@ import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 public class PassManager
 {
 	//
-	private ResultSetPopulator populator;
+	protected ResultSetPopulator populator;
 
-	private ComputedColumnHelper computedColumnHelper;
+	protected ComputedColumnHelper computedColumnHelper;
 
-	private FilterByRow filterByRow;
+	protected FilterByRow filterByRow;
 	
-	private ComputedColumnsState iccState; 
-	private PassStatusController psController;
+	protected ComputedColumnsState iccState; 
+	protected PassStatusController psController;
 	
 	/**
 	 * Constructor.
 	 * 
 	 * @param populator
 	 */
-	private PassManager( ResultSetPopulator populator )
+	protected PassManager( ResultSetPopulator populator )
 	{
 		this.populator = populator;
 	}
@@ -100,7 +100,7 @@ public class PassManager
 		
 	}
 	
-	private void prepareQueryResultSet( ) throws DataException
+	protected void prepareQueryResultSet( ) throws DataException
 	{
 		if ( psController.needMultipassProcessing( ) )
 		{
@@ -129,7 +129,7 @@ public class PassManager
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void pass( OdiResultSetWrapper odaResultSet ) throws DataException
+	protected void pass( OdiResultSetWrapper odaResultSet ) throws DataException
 	{
 		prepareDataSetResultSet( odaResultSet );
 		prepareQueryResultSet( );

@@ -512,6 +512,22 @@ public class DataAdapterUtil
 		{
 			return TimePeriodType.DAY;
 		}
+		else if ( type.equals( "Year to Date" ))
+		{
+			return TimePeriodType.YEAR;
+		}
+		else if ( type.equals( "Quarter to Date" ))
+		{
+			return TimePeriodType.QUARTER;
+		}
+		else if ( type.equals( "Month to Date" ))
+		{
+			return TimePeriodType.MONTH;
+		}
+		else if ( type.equals( "Week to Date" ))
+		{
+			return TimePeriodType.WEEK;
+		}
 		return null;
 	}
 

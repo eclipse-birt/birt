@@ -92,7 +92,7 @@ public class TimeFunctionManagerTest extends TestCase
 		levelsInxTab.add( "year" );
 		levelsInxTab.add( "quarter" );
 		List<ITimeFunction> function1 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, true );
-		assertTrue( function1.size( ) == 19 );
+		assertTrue( function1.size( ) == 18 );
 		
 		for( int i=0; i< function1.size( ); i++ )
 		{
@@ -140,9 +140,9 @@ public class TimeFunctionManagerTest extends TestCase
 		levelsInxTab.add( "year" );
 		levelsInxTab.add( "quarter" );
 		List<ITimeFunction> function1 = TimeFunctionManager.getCalculationTypes( cube1.getDimension( "TimeDimension" ),levelsInxTab, true );
-		assertTrue( function1.size( ) ==23 );
+		assertTrue( function1.size( ) == 18 );
 		
-		ITimeFunction function = function1.get( 19 );
+		ITimeFunction function = function1.get( 14 );
 		assertTrue( function.getName( ).equals( "CURRENT PERIOD FROM N PERIODS AGO" ));
 		
 		List<IArgumentInfo> arguments = function.getArguments( );
@@ -151,7 +151,7 @@ public class TimeFunctionManagerTest extends TestCase
 		assertTrue(arguments.get( 0 ).getPeriodChoices( ).size( ) == 3 );
 		assertTrue( arguments.get( 1 ).getName( ).equals( IArgumentInfo.N_PERIOD2 ) );
 		assertTrue( arguments.get( 2 ).getName( ).equals( IArgumentInfo.PERIOD_2 ) );
-		assertTrue( arguments.get( 2 ).getPeriodChoices( ).size( ) == 4 );
+		assertTrue( arguments.get( 2 ).getPeriodChoices( ).size( ) == 3 );
 	}
 	
 	public void testInvalidCalculationTypeInCube1() throws SemanticException, AdapterException

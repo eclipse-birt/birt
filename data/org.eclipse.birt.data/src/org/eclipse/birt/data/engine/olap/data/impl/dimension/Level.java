@@ -269,12 +269,20 @@ public class Level implements ILevel
 	
 	public IDiskArray getAllPosition( ) throws DataException, IOException
 	{
-		IDiskArray indexKeyArray = diskIndex.findAll(  );
-		IDiskArray result = new BufferedPrimitiveDiskArray( indexKeyArray.size( ) );
-		for ( int i = 0; i < indexKeyArray.size( ); i++ )
+		IDiskArray result;
+		if ( diskIndex == null )
 		{
-			IndexKey key = (IndexKey) indexKeyArray.get( i );
-			result.add( Integer.valueOf( key.getDimensionPos( )[0] ) );
+			result = new BufferedPrimitiveDiskArray( 0 );
+		}
+		else
+		{
+			IDiskArray indexKeyArray = diskIndex.findAll(  );
+			result = new BufferedPrimitiveDiskArray( indexKeyArray.size( ) );
+			for ( int i = 0; i < indexKeyArray.size( ); i++ )
+			{
+				IndexKey key = (IndexKey) indexKeyArray.get( i );
+				result.add( Integer.valueOf( key.getDimensionPos( )[0] ) );
+			}
 		}
 		return result;
 	}

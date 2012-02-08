@@ -150,4 +150,21 @@ public class FormatStringDescriptorProvider extends FormatDescriptorProvider
 		this.input = input;
 	}
 
+	public boolean canReset() {
+		return true;
+	}
+
+	public void reset() throws SemanticException {
+		CommandStack stack = SessionHandleAdapter.getInstance()
+				.getCommandStack();
+		stack.startTrans(Messages
+				.getString("FormatStringAttributePage.Trans.SetStringFormat")); //$NON-NLS-1$
+
+		for (Iterator iter = DEUtil.getInputElements(input).iterator(); iter
+				.hasNext();) {
+			DesignElementHandle element = (DesignElementHandle) iter.next();
+			element.setProperty(IStyleModel.STRING_FORMAT_PROP, null);
+		}
+		stack.commit();
+	}
 }

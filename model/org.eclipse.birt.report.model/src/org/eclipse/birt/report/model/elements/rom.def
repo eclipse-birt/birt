@@ -2005,8 +2005,8 @@
     <Property detailType="ColumnHint" displayNameID="Element.DataSet.columnHints" isList="true" name="columnHints" since="1.0" type="structure"/>
 	<Property detailType="CachedMetaData" displayNameID="Element.DataSet.cachedMetaData" isList="false" name="cachedMetaData" since="1.0" type="structure"/>
 	<Property displayNameID="Element.DataSet.rowFetchLimit" name="rowFetchLimit" since="2.2" type="integer"/>
-	<Property displayNameID="Element.DataSet.needsCache" name="needsCache" runtimeSettable="false" since="2.3" type="boolean">
-        <Default>false</Default>
+	<Property displayNameID="Element.DataSet.needsCache" name="needsCache" runtimeSettable="true" since="2.3" type="boolean">
+        <Default>true</Default>
     </Property>
     <Property detailType="DataSetParam" displayNameID="Element.DataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Property detailType="SortHint" displayNameID="Element.DataSet.sortHints" isList="true" name="sortHints" since="2.5" type="structure"/>

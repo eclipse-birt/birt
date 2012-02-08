@@ -166,5 +166,10 @@ public class ProgressiveViewingRDGroupUtil implements IRDGroupUtil
 	{
 		return this.getStartingGroupLevel( this.cacheProvider.getCurrentIndex( ));
 	}
+
+	public List[] getGroups( ) throws DataException
+	{
+		return null;
+	}
 	
 }

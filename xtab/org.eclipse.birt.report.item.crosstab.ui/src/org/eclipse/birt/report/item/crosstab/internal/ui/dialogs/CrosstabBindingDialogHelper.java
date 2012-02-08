@@ -49,6 +49,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -428,6 +429,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				ExpressionType.CONSTANT );
 		button.refresh( );
 
+		new Label(radioContainer, SWT.NONE);
+		Label dateFormatLbl = new Label( radioContainer, SWT.NONE );
+		dateFormatLbl.setText(Messages.getString("CrosstabBindingDialogHelper.thisdate.example.label")); //$NON-NLS-1$
+		dateFormatLbl.setForeground( ColorManager.getColor( 128, 128, 128 ) );
+		dateFormatLbl.setLayoutData( new GridData(GridData.FILL_HORIZONTAL));
+		
 		recentButton = new Button( radioContainer, SWT.RADIO );
 		recentButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -866,7 +873,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		String[] strs = new String[list.size( )];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			strs[i] = list.get( i ).name( );
+			strs[i] = list.get( i ).displayName( );
 		}
 		cmbDataField.setItems( strs );
 		if ( calculationParamsValueMap.containsKey( name ) )
@@ -996,42 +1003,34 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initReferenceDate( )
 	{
-		String dimensionName = getTimeDimsionName( );;
+		String dimensionName = getTimeDimsionName( );
 
 		boolean inUseDimsion = isUseDimension( dimensionName );
 
-		if ( getBinding( ) == null )
+		if ( getBinding( ) == null ) // new Relative Time Period
 		{
-			todayButton.setSelection( true );
+			ExtendedItemHandle handle = (ExtendedItemHandle) getBindingHolder( ) ;
+			
+			List<ComputedColumnHandle> dimensionHandle = new ArrayList();
+			
+			for (Iterator<ComputedColumnHandle> iter = handle.columnBindingsIterator(); iter.hasNext();)
+			{
+				ComputedColumnHandle cHandle = iter.next();
 
-		}
-		else
-		{
-
-			String type = getBinding( ).getReferenceDateType( );
-
-			if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY.equals( type ) )
+				if (cHandle.getTimeDimension() != null && !cHandle.getTimeDimension().equals(EMPTY_STRING))
+				{
+					dimensionHandle.add(0, cHandle);
+				}
+			}
+			
+			if(0 == dimensionHandle.size() || !setRefDate(dimensionHandle.get(0), inUseDimsion))
 			{
 				todayButton.setSelection( true );
 			}
-			else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE.equals( type ) )
-			{
-				dateSelectionButton.setSelection( true );
-				ExpressionHandle value = getBinding( ).getReferenceDateValue( );
-
-				dateText.setText( value == null
-						|| value.getExpression( ) == null ? "" : (String) value.getExpression( ) ); //$NON-NLS-1$
-				dateText.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
-						|| value.getType( ) == null ? ExpressionType.CONSTANT
-						: (String) value.getType( ) );
-				ExpressionButton button = (ExpressionButton) dateText.getData( ExpressionButtonUtil.EXPR_BUTTON );
-				if ( button != null )
-					button.refresh( );
-			}
-			else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION.equals( type ) )
-			{
-				recentButton.setSelection( true );
-			}
+		}
+		else // edit Relative Time Period
+		{
+			setRefDate(getBinding(), inUseDimsion);
 		}
 		if ( inUseDimsion )
 		{
@@ -1046,6 +1045,50 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	}
 
+	private boolean setRefDate (ComputedColumnHandle handle, boolean inUseDimsion)
+	{
+		String type = handle.getReferenceDateType( );
+
+		if (type == null)
+				return false;
+		
+		if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY.equals( type ) )
+		{
+			todayButton.setSelection( true );
+			return true;
+		}
+		else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE.equals( type ) )
+		{
+			dateSelectionButton.setSelection( true );
+			ExpressionHandle value = handle.getReferenceDateValue( );
+
+			dateText.setText( value == null
+					|| value.getExpression( ) == null ? "" : (String) value.getExpression( ) ); //$NON-NLS-1$
+			dateText.setData( ExpressionButtonUtil.EXPR_TYPE, value == null
+					|| value.getType( ) == null ? ExpressionType.CONSTANT
+					: (String) value.getType( ) );
+			ExpressionButton button = (ExpressionButton) dateText.getData( ExpressionButtonUtil.EXPR_BUTTON );
+			if ( button != null )
+				button.refresh( );
+			
+			return true;
+		}
+		else if ( DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION.equals( type ) )
+		{
+			if(getBinding() == null && !inUseDimsion )
+			{
+				return false;
+			}
+			else
+			{
+				recentButton.setSelection( true );
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	private void initTimeDimension( )
 	{
 		String[] strs = getTimeDimensions( );

@@ -27,6 +27,8 @@ public class NamingUtil
 	private static final String FTSU_LIST = OLAP_PREFIX + "ftsu_list_";
 	private static final String AGGREGATION_RS_DOC = OLAP_PREFIX + "rs_doc_";
 
+	public static final String DERIVED_MEASURE_PREFIX = "_${DERIVED_MEASURE}$_";
+
 	/**
 	 * 
 	 * @param cubeName
@@ -91,6 +93,40 @@ public class NamingUtil
 	public static String getFactTableName( String factTableName )
 	{
 		return FACT_TABLE + factTableName;
+	}
+	
+	/**
+	 * construct derived measure name with prefix DERIVED_MEASURE_PREFIX
+	 */
+	public static String getDerivedMeasureName( String measureName )
+	{
+		return DERIVED_MEASURE_PREFIX + measureName;
+	}
+	
+	
+	/**
+	 * construct derived measure name with prefix DERIVED_MEASURE_PREFIX
+	 */
+	public static String getMeasureName( String name )
+	{
+		if( name!= null )
+		{
+			if( name.startsWith( DERIVED_MEASURE_PREFIX ) )
+				return name.substring( DERIVED_MEASURE_PREFIX.length( ) );
+		}
+		return name;
+	}
+	
+	/**
+	 * construct derived measure name with prefix DERIVED_MEASURE_PREFIX
+	 */
+	public static boolean isDerivedMeasureName( String name )
+	{
+		if( name!= null )
+		{
+			return name.startsWith( DERIVED_MEASURE_PREFIX );
+		}
+		return false;
 	}
 	
 	/**

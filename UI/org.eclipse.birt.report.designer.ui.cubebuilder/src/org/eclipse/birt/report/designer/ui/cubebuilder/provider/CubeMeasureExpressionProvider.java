@@ -11,13 +11,19 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.data.adapter.impl.CubeMeasureUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -27,7 +33,7 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 	private TabularMeasureHandle handle = null;
 	private DataSetHandle dataSetHandle = null;
 	private ExpressionFilter filter = null;
-	
+
 	private boolean isDerivedMeasure;
 	
 	public boolean isDerivedMeasure()
@@ -138,6 +144,42 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 			};
 			
 			children = ft.filter( parent, children );
+		}
+		else if (parent instanceof MeasureGroupHandle)
+		{
+			ExpressionFilter ft = new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if (!isDerivedMeasure( ))
+					{
+						return true;
+					}
+					if (!(elementHandle instanceof MeasureHandle))
+					{
+						return true;
+					}
+					CubeHandle cubeHandle = (CubeHandle)((MeasureGroupHandle)parentElement).getContainer( );
+					List<MeasureHandle> measureHnadles = new ArrayList<MeasureHandle>( );
+					try
+					{
+						measureHnadles = CubeMeasureUtil.getIndependentReferences( cubeHandle, elementHandle.getName( ) );
+					}
+					catch ( BirtException e )
+					{
+						//Do nothing now
+						return true;
+					}
+					if (measureHnadles.contains( element ))
+					{
+						return true;
+					}
+					return false;
+				}
+			};
+			
+			children = ft.filter( parent, children );
+			
 		}
 		
 		return children;

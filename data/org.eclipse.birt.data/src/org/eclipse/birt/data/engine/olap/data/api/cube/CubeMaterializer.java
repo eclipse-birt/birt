@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.api.cube;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
@@ -206,6 +207,7 @@ public class CubeMaterializer
 				factTable,
 				measureColumns,
 				null,
+				null,
 				cacheSize,
 				stopSign );
 	}
@@ -224,7 +226,7 @@ public class CubeMaterializer
 	 */
 	public void createCube( String name, String[][] factTableJointColumnNames,
 			String[][] DimJointColumnNames, IDimension[] dimensions,
-			IDatasetIterator factTable, String[] measureColumns, String[] measureAggrFunctionNames,
+			IDatasetIterator factTable, String[] measureColumns, Map calculatedMeasure, String[] measureAggrFunctionNames,
 			long cacheSize, StopSign stopSign ) throws IOException, BirtException
 	{
 		if( dimensions.length == 0 )
@@ -233,7 +235,7 @@ public class CubeMaterializer
 		}
 		Cube cube = new Cube( name, documentManager );
 		cube.create(factTableJointColumnNames, DimJointColumnNames, dimensions,
-				factTable, measureColumns, measureAggrFunctionNames, cacheSize, stopSign);
+				factTable, measureColumns, calculatedMeasure, measureAggrFunctionNames, cacheSize, stopSign);
 		cube.close( );
 		documentManager.flush( );
 	}

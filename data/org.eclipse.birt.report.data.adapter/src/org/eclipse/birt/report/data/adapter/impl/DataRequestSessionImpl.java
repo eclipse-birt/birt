@@ -94,9 +94,9 @@ import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
-import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.group.GroupCalculatorFactory;
 import org.eclipse.birt.report.data.adapter.i18n.AdapterResourceHandle;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -732,6 +732,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
 	{
+		CubeMeasureUtil.validateDerivedMeasures( cubeHandle );
+		
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
 		{
@@ -799,6 +801,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		backupAppContext.putAll( appContext );
 
 		List measureNames = new ArrayList( );
+		Map calculatedMeasure = new HashMap( );
 		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 		for ( int i = 0; i < measureGroups.size( ); i++ )
 		{
@@ -810,6 +813,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if( !measure.isCalculated( ) )
 				{
 					measureNames.add( measure.getName( ) );				
+				}
+				else
+				{
+					calculatedMeasure.put( measure.getName( ), DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ) );
 				}
 			}
 		}
@@ -1027,6 +1034,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					dimensions,
 					dataForCube,
 					this.toStringArray( measureNames ),
+					calculatedMeasure,
 					this.toStringArray( measureAggrFunctions ),
 					computeMemoryBufferSize( appContext ),
 					dataEngine.getSession( ).getStopSign( ) );
@@ -1041,7 +1049,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		appContext.clear( );
 		appContext.putAll( backupAppContext );
-
 	}
 
 	public static long computeMemoryBufferSize( Map appContext )
@@ -1129,26 +1136,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 					columnForDeepestLevel = level.getColumnName( );
 				}
 				metaList = new ArrayList<ColumnMeta>();
-				query = createDimensionQuery( this,
+				query = createDimensionQuery( this, dim,
 						hier,
 						metaList,
 						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
-				//if it is a time dimension
-				if ( CubeHandleUtil.isTimeDimension( dim ) )
-				{
-					FilterDefinition filter = null;
-					if( ( dim instanceof TabularDimensionHandle ) &&((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
-					{
-						filter = buildFilterForTimeDimension( ((TabularDimensionHandle) dim ).getSharedDimension( ),
-								hier );
-					}
-					else
-					{
-						filter = buildFilterForTimeDimension( dim, hier );
-					}
-					if ( filter != null )
-						query.addFilter( filter );
-				}
 				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
 				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
 				{
@@ -1652,7 +1643,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return this.dataEngine.prepare( query, appContext );
 	}
 	
-	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws DataException, AdapterException
+	private void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws BirtException
 	{	
 		List calculatedMeasures = query.getDerivedMeasures( );
 		List measures = query.getMeasures( );
@@ -1672,6 +1663,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
 		{
 			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+			CubeMeasureUtil.validateDerivedMeasures( cubeHandle );
 			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 			for ( int i = 0; i < measureGroups.size( ); i++ )
 			{
@@ -1709,14 +1701,20 @@ public class DataRequestSessionImpl extends DataRequestSession
 						&& !derivedMeasureNameList.contains( measureNames.get( j )
 								.toString( ) ) )
 				{
-					IMeasureDefinition md = query.createMeasure( measureNames.get( j )
-							.toString( ) );
+					IMeasureDefinition md = query.createMeasure( measureNames.get( j ).toString( ) );
 					if ( this.cubeMetaDataHandleMap != null
 							&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
 					{
 						CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
 						MeasureHandle measureHandle = cubeHandle.getMeasure( measureNames.get( j )
 								.toString( ) );
+						if ( measureHandle == null )
+							throw new DataException( AdapterResourceHandle.getInstance( )
+									.getMessage( ResourceConstants.CUBE_DERIVED_MEASURE_INVALID_REF,
+											new Object[]{
+													dmd.getName( ),
+													measureNames.get( j )
+											} ) );
 						md.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) ) );
 					}
 				}
@@ -2575,7 +2573,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 */
 	QueryDefinition createDimensionQuery(
-			DataRequestSessionImpl session, TabularHierarchyHandle hierHandle,
+			DataRequestSessionImpl session, DimensionHandle dim, TabularHierarchyHandle hierHandle,
 			List metaList, String cubeName ) throws BirtException
 	{
 		assert metaList!= null;
@@ -2589,6 +2587,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 				hierHandle, metaList, null, null, false );
 
 		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
+		
+		//if it is a time dimension
+		if ( CubeHandleUtil.isTimeDimension( dim ) )
+		{
+			FilterDefinition filter = null;
+			if( ( dim instanceof TabularDimensionHandle ) &&((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
+			{
+				filter = buildFilterForTimeDimension( ((TabularDimensionHandle) dim ).getSharedDimension( ),
+						hierHandle );
+			}
+			else
+			{
+				filter = buildFilterForTimeDimension( dim, hierHandle );
+			}
+			if ( filter != null )
+				query.addFilter( filter );
+		}
 		return query;
 	}
 	@Override

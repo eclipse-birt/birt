@@ -38,6 +38,8 @@ public interface IBuildInBaseTimeFunction
 	public static final String PREVIOUS_YEAR_TO_DATE = "PREVIOUS YEAR TO DATE";
 	public static final String CURRENT_PERIOD_FROM_N_PERIOD_AGO = "CURRENT PERIOD FROM N PERIODS AGO";
 	public static final String PERIOD_TO_DATE_FROM_N_PERIOD_AGO = "PERIOD TO DATE FROM N PERIODS AGO";
+	public static final String TRAILING_N_MONTHS = "TRAILING N MONTHS";
+	public static final String TRAILING_N_DAYS = "TRAILING N DAYS";
 	public static final String TRAILING_N_PERIOD_FROM_N_PERIOD_AGO = "TRAILING N PERIODS FROM N PERIODS AGO";
 	public static final String NEXT_N_PERIODS = "NEXT_N_PERIODS";
 }

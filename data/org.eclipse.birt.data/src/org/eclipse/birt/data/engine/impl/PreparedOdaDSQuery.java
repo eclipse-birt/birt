@@ -302,50 +302,37 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			if ( (!this.fromCache()) && queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				int cacheSize = 0;
-				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
-				{
-					cacheSize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
-							.toString( ) )
-							.intValue( );
-				}
-				if ( cacheSize <= 0
-						&& appContext.containsKey( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) )
-				{
-					cacheSize = Integer.valueOf( appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT )
-							.toString( ) )
-							.intValue( );
-				}
-				if ( cacheSize <= 0 )
-				{
-					ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
 
-					if ( validationContext != null )
+				if ( validationContext != null )
+				{
+					validationContext.setQueryText(((IOdaDataSetDesign) dataSetDesign).getQueryText());
+					//Change to use the specific ValidationContext API in next release.
+					validationContext.setData( "org.eclipse.birt.data.applicationContext", this.getAppContext());
+					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
+							queryDefn, (IOdaDataSetDesign) dataSetDesign);
+					rollbackHelper.collectOriginalInfo();
+					querySpec = OdaQueryOptimizationUtil.optimizeExecution(
+									((OdaDataSourceRuntime) dataEngine
+											.getDataSourceRuntime(dataSetDesign
+													.getDataSourceName()))
+											.getExtensionID(),
+									validationContext,
+									(IOdaDataSetDesign) dataSetDesign,
+									queryDefn, dataEngine.getSession(),
+									appContext, contextVisitor);
+					if ( querySpec == null )
 					{
-						validationContext.setQueryText( ( (IOdaDataSetDesign) dataSetDesign ).getQueryText( ) );
-						OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
-								queryDefn, (IOdaDataSetDesign) dataSetDesign );
-						rollbackHelper.collectOriginalInfo( );
-						querySpec = OdaQueryOptimizationUtil.optimizeExecution( ( (OdaDataSourceRuntime) dataEngine.getDataSourceRuntime( dataSetDesign.getDataSourceName( ) ) ).getExtensionID( ),
-								validationContext,
-								(IOdaDataSetDesign) dataSetDesign,
-								queryDefn,
-								dataEngine.getSession( ),
-								appContext,
-								contextVisitor );
-						if ( querySpec == null )
-						{
-							//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
-						    rollbackHelper.rollback( );
-						}
-					}					
+						//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
+						rollbackHelper.rollback( );
+					}
 				}
 			}
 			
 			//Do not use cached DataSourceQuery when there is push-down operation
-			if ( querySpec != null )
+			if ( querySpec != null  )
 			{
 				odiQuery = odiDataSource.newQuery( dataSetType, dataText, false, this.contextVisitor );
 			}

@@ -26,17 +26,17 @@ public class DocumentObjectCache
 {
 
 	private IDocumentManager documentManager = null;
-	private int cachedSize;
+	private long cachedSize;
 	private LinkedList linkedList = null;
 	private HashMap map = null;
 
 	public DocumentObjectCache( IDocumentManager documentManager )
 	{
-		this( documentManager, 200 );
+		this( documentManager, 0 );
 	}
-
+	
 	public DocumentObjectCache( IDocumentManager documentManager,
-			int cachedSize )
+			long cachedSize )
 	{
 		this.documentManager = documentManager;
 		this.cachedSize = cachedSize;
@@ -59,13 +59,17 @@ public class DocumentObjectCache
 		{
 			return (IDocumentObject) cachedObject;
 		}
-
-		if ( linkedList.size( ) >= cachedSize )
-		{
-			String lastName = (String) linkedList.getLast( );
-			linkedList.removeLast( );
-			( (IDocumentObject) map.get( lastName ) ).close( );
-			map.remove( lastName );
+		
+		if( cachedSize!=0 )
+		{		
+			long size = calculateDocumentObjectsSize( );
+			if ( size >= cachedSize )
+			{
+				String lastName = (String) linkedList.getLast( );
+				linkedList.removeLast( );
+				( (IDocumentObject) map.get( lastName ) ).close( );
+				map.remove( lastName );
+			}
 		}
 
 		IDocumentObject newDocumentObject = documentManager.openDocumentObject( name );
@@ -77,6 +81,18 @@ public class DocumentObjectCache
 		map.put( name, newDocumentObject );
 		linkedList.addFirst( name );
 		return newDocumentObject;
+	}
+	
+	private long calculateDocumentObjectsSize( ) throws IOException
+	{
+		Iterator allOjbects = map.values( ).iterator( );
+
+		long size = 0;
+		while ( allOjbects.hasNext( ) )
+		{
+			size += ( (IDocumentObject) allOjbects.next( ) ).length( );
+		}
+		return size;
 	}
 
 	/**
@@ -92,6 +108,7 @@ public class DocumentObjectCache
 		{
 			( (IDocumentObject) allOjbects.next( ) ).close( );
 		}
+		map.clear( );
 	}
 
 }

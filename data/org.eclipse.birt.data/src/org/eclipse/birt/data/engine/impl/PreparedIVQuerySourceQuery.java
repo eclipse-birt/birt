@@ -292,13 +292,13 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * 
 	 *
 	 */
-	private class IVQuerySourceExecutor extends QueryExecutor
+	protected class IVQuerySourceExecutor extends QueryExecutor
 	{
 
 		private Scriptable queryScope;
-		private BaseQuery query;
+		protected BaseQuery query;
 		private DataSetRuntime dsRuntime;
-		private IResultClass resultClass;
+		protected IResultClass resultClass;
 
 		/**
 		 * @param sharedScope
@@ -367,7 +367,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		 * @return
 		 * @throws DataException
 		 */
-		private IResultClass getResultClass( ) throws DataException
+		protected IResultClass getResultClass( ) throws DataException
 		{
 			IBinding[] bindings = null;
 			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
@@ -536,7 +536,7 @@ abstract class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 * @author Administrator
 	 * 
 	 */
-	private static class IVQuerySourcePopulator implements IDataSetPopulator
+	static class IVQuerySourcePopulator implements IDataSetPopulator
 	{
 
 		private org.eclipse.birt.data.engine.api.IResultIterator apiResultIterator = null;

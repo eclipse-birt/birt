@@ -26,7 +26,7 @@ public abstract class DataSetAdapter implements IBaseDataSetDesign
 	private List computedColumns;
 	private List filters;
 	protected IBaseDataSetDesign source;
-
+	
 	public DataSetAdapter( IBaseDataSetDesign source )
 	{
 		this.source = source;
@@ -42,6 +42,11 @@ public abstract class DataSetAdapter implements IBaseDataSetDesign
 		}
 	}
 
+	public IBaseDataSetDesign getSource( )
+	{
+		return this.source;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getAfterCloseScript()
 	 */

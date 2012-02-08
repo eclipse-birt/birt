@@ -369,4 +369,8 @@ public class ExprResultSet implements IExprResultSet
 		return rowCount == 0 ? true : false;
 	}
 
+	public List[] getGroupInfos( ) throws DataException
+	{
+		return this.rdGroupUtil.getGroups( );
+	}
 }

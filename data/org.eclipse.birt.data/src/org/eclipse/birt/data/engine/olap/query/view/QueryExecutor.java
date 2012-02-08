@@ -166,7 +166,6 @@ public class QueryExecutor
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign,
 						true, fetcher );
-				rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, cube, fetcher );
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;
@@ -175,7 +174,6 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign, false, fetcher );
-				rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
 				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
 				
 				break;

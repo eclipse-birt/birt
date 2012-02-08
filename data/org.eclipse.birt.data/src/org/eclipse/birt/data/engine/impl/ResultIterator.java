@@ -1225,7 +1225,8 @@ public class ResultIterator implements IResultIterator
 			try
 			{
 				if ( odiResult.getRowCount( ) == 0
-						&& resultService.getQueryDefn( ).getParentQuery( ) != null )
+						&& resultService.getQueryDefn( ).getParentQuery( ) != null
+						&& this.queryDefn instanceof IQueryDefinition )
 
 				{
 					if ( resultService.getSession( )

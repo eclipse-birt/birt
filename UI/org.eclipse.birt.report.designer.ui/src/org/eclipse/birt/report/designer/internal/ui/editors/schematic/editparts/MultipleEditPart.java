@@ -77,6 +77,19 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 			{
 				return UnexecutableCommand.INSTANCE;
 			}
+			
+			@Override
+			public EditPart getTargetEditPart( Request request )
+			{
+				if (REQ_CREATE.equals(request.getType()))
+				{
+					if (((ReportItemHandle)getHost( ).getModel( )).getCurrentView( ) != null)
+					{
+						return null;
+					}
+				}
+				return super.getTargetEditPart( request );
+			}
 		});
 	}
 

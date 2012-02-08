@@ -121,4 +121,11 @@ public class FormatStringSection extends Section
 
 	}
 
+	public void reset( )
+	{
+		if ( format != null && !format.getControl( ).isDisposed( ) )
+		{
+			format.reset( );
+		}
+	}
 }

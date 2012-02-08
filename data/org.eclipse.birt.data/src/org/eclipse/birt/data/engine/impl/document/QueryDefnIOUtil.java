@@ -261,7 +261,7 @@ public class QueryDefnIOUtil
 			
 			// filter definition
 			queryDefn.getFilters( )
-					.addAll( FilterDefnUtil.loadFilterDefn( inputStream ) );
+					.addAll( FilterDefnUtil.loadFilterDefn( inputStream, version ) );
 			// group definition
 			queryDefn.getGroups( )
 					.addAll( GroupDefnUtil.loadGroupDefn( inputStream, queryDefn, version ) );

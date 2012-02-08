@@ -123,5 +123,13 @@ public class FormatDateTimeSection extends Section
 			format.getControl( ).setVisible( isVisable );
 
 	}
+	
+	public void reset( )
+	{
+		if ( format != null && !format.getControl( ).isDisposed( ) )
+		{
+			format.reset( );
+		}
+	}
 
 }

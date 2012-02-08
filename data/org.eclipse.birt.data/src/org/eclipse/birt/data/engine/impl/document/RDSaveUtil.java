@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefnDelegator;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
@@ -232,25 +233,29 @@ class RDSaveUtil
 	 */
 	void saveQueryDefn( ) throws DataException
 	{
-		OutputStream outputStream;
-		if ( queryDefn instanceof QueryDefinition
-				&& ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
+		if ( queryDefn instanceof QueryDefnDelegator )
 		{
-			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE );
-			QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
-			try
-			{
-				outputStream.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
-			}
+			queryDefn = ( (QueryDefnDelegator) queryDefn ).getBaseQuery( );
 		}
+		
+//		if ( queryDefn instanceof QueryDefinition
+//				&& ( (QueryDefinition) queryDefn ).getQueryResultsID( ) == null )
+//		{
+//			outputStream = streamManager.getOutStream( DataEngineContext.ORIGINAL_QUERY_DEFN_STREAM,
+//					StreamManager.ROOT_STREAM,
+//					StreamManager.SELF_SCOPE );
+//			QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
+//			try
+//			{
+//				outputStream.close( );
+//			}
+//			catch ( IOException e )
+//			{
+//				throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+//			}
+//		}
 
-		outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
+		OutputStream outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
 		QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );

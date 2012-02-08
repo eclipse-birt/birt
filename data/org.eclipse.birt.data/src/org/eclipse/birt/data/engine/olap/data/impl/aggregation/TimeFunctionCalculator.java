@@ -81,6 +81,7 @@ public class TimeFunctionCalculator
 	private boolean avoidExtraSort;
 	private Date[] referenceDate;
 	private int orignalLevelCount;
+	private int[] sortType;
 	
 	TimeFunctionCalculator( AggregationDefinition aggr, DimColumn[] parameterColNames,  
 			IDataSet4Aggregation.MetaInfo metaInfo, ICubeDimensionReader cubeDimensionReader,
@@ -141,8 +142,8 @@ public class TimeFunctionCalculator
 		newMemberSize = aggr.getLevels().length - ( lowestTimeLevel 
 		        - firstTimeLevel + 1 ) + ( endLevelIndex + 1 );
 		
-		Comparator comparator = new Row4AggregationComparator( 
-					getSortType( aggr, cubeDimensionReader ) );
+		sortType = getSortType( aggr, cubeDimensionReader );
+		Comparator comparator = new Row4AggregationComparator( sortType );
 		
 		int levelCount = 0;
 		if(aggr.getLevels( )==null)
@@ -740,7 +741,13 @@ public class TimeFunctionCalculator
 		return row;
 	}
 	
-	private static int compare( Row4Aggregation r, MemberCellIndex m )
+	/**
+	 * indicate whether should retrieve filter forward to do the compare
+	 * @param r
+	 * @param m
+	 * @return
+	 */
+	private int compare( Row4Aggregation r, MemberCellIndex m )
 	{
 		int result = 0;
 		for( int i = 0; i < r.getLevelMembers().length; i++ )
@@ -748,6 +755,11 @@ public class TimeFunctionCalculator
 			if( m.member[i] == null )
 				continue;
 			result = r.getLevelMembers()[i].compareTo(m.member[i] );
+			//if it is DESC, we should make it reversed
+			if( sortType[i] == IDimensionSortDefn.SORT_DESC )
+			{
+				result *= -1; 
+			}
 			if( result != 0 )
 				return result;
 		}

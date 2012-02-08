@@ -41,6 +41,15 @@ public class BaseTimeFunction implements ITimeFunction
 		period_type2.addAll( timeType );
 	}
 	
+	public BaseTimeFunction( ITimeFunction function, List<IArgumentInfo.Period_Type> timeType1,  List<IArgumentInfo.Period_Type> timeType2)
+	{
+		this( function.getName( ), function.getDisplayName( ), function.getDescription( ) );
+		period_type1 = new ArrayList<Period_Type>( );
+		period_type2 = new ArrayList<Period_Type>( );
+		period_type1.addAll( timeType1 );
+		period_type2.addAll( timeType2 );
+	}
+	
 	/**
 	 * Get time function name
 	 * @return the time function name
@@ -86,77 +95,77 @@ public class BaseTimeFunction implements ITimeFunction
 		if ( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH ),
 					true ) );
 		}
 		else
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_QUARTER ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_QUARTER_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_QUARTER ),
 					true ) );
 		}
 		else
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR ),
 					true ) );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR ),
 					true ) );
 		}
 		else
 		if( this.name.equals( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR ),
 					true ) );			
 		}
 		else
 		if( this.name.equals( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR ),
 					true ) );			
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_WEEK_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_WEEK ),
 					true ) );
 		}
 		else
 		if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH ),
 					true ) );
 		}
 		else if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_QUARTER_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_QUARTER ),
 					true ) );
 			
 		}
 		else if( this.name.equals( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE ))
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_YEAR ),
 					true ) );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ) )
@@ -200,6 +209,20 @@ public class BaseTimeFunction implements ITimeFunction
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
 			arguments.add( period2);
+		}
+		else if( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_MONTHS ))
+		{
+			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH ),
+					true ) );
+		}
+		else if( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_DAYS ))
+		{
+			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DAY_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DAY ),
+					true ) );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO ) )
 		{

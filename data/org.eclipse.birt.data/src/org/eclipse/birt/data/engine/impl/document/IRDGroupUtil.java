@@ -1,5 +1,7 @@
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.List;
+
 import org.eclipse.birt.data.engine.core.DataException;
 
 
@@ -14,4 +16,5 @@ public interface IRDGroupUtil
 	public void last( int groupLevel ) throws DataException;
 	public void close( ) throws DataException;
 	public int[] getGroupStartAndEndIndex( int groupIndex ) throws DataException;
+	public List[] getGroups( ) throws DataException;
 }

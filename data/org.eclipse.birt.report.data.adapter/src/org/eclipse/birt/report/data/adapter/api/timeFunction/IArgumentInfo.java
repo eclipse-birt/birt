@@ -63,11 +63,21 @@ public interface IArgumentInfo
 
 		private Period_Type_ENUM type;
 		private ULocale locale;
+		private boolean isPeriodToDate = false;
+		
 		
 		public Period_Type( Period_Type_ENUM type, ULocale locale )
 		{
 			this.type = type;
 			this.locale = locale;
+			this.isPeriodToDate = false;
+		}
+		
+		public Period_Type( Period_Type_ENUM type, ULocale locale, boolean isPeriodToDate )
+		{
+			this.type = type;
+			this.locale = locale;
+			this.isPeriodToDate = isPeriodToDate;
 		}
 		
 		/**
@@ -79,6 +89,7 @@ public interface IArgumentInfo
 			return this.type.name();
 		}
 		
+
 		/**
 		 * 
 		 * @return
@@ -87,18 +98,34 @@ public interface IArgumentInfo
 		{
 			if( this.type.equals( Period_Type_ENUM.YEAR ) )
 			{
+				if (isPeriodToDate)
+				{
+					return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_PERIODTODATE_YEAR_DISPLAYNAME, locale );
+				}
 				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_YEAR_DISPLAYNAME, locale );
 			}
 			if( this.type.equals( Period_Type_ENUM.QUARTER ) )
 			{
+				if (isPeriodToDate)
+				{
+					return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_PERIODTODATE_QUARTER_DISPLAYNAME, locale );
+				}
 				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_QUARTER_DISPLAYNAME , locale );	
 			}
 			if( this.type.equals( Period_Type_ENUM.MONTH ) )
 			{
+				if (isPeriodToDate)
+				{
+					return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_PERIODTODATE_MONTH_DISPLAYNAME, locale );
+				}
 				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_MONTH_DISPLAYNAME, locale );			
 			}
 			if( this.type.equals( Period_Type_ENUM.WEEK ) )
 			{
+				if (isPeriodToDate)
+				{
+					return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_PERIODTODATE_WEEK_DISPLAYNAME, locale );
+				}
 				return Message.getMessage( ResourceConstants.TIMEFUNCITON_PERIODCHOICE_WEEK_DISPLAYNAME, locale );			
 			}
 			if( this.type.equals( Period_Type_ENUM.DAY ) )

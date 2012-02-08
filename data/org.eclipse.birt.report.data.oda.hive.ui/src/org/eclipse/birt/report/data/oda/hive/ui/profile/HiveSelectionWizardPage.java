@@ -1,13 +1,13 @@
 /*
  *************************************************************************
- * Copyright (c) 2005, 2006 Actuate Corporation.
+ * Copyright (c) 2005, 2012 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
@@ -20,11 +20,10 @@ import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizard
 import org.eclipse.swt.widgets.Composite;
 
 /**
- *
+ *  Hive data source wizard page implementation class.
  */
 public class HiveSelectionWizardPage extends DataSourceWizardPage
 {
-
     private HiveSelectionPageHelper m_pageHelper;
     private Properties m_folderProperties;
 
@@ -80,5 +79,14 @@ public class HiveSelectionWizardPage extends DataSourceWizardPage
 		super.setVisible( visible );
 		getControl( ).setFocus( );
 	}
+
+    @Override
+    public void refresh()
+    {
+        // enable/disable all controls on page based on the session editable state
+        enableAllControls( getControl(), isSessionEditable() );
+        if( m_pageHelper != null )
+            m_pageHelper.resetTestButton();
+    }
  
 }

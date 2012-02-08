@@ -14,6 +14,7 @@ package org.eclipse.birt.core.ui.swt.custom;
 import java.util.Vector;
 
 import org.eclipse.birt.core.ui.utils.UIHelper;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -452,7 +453,20 @@ public abstract class CustomChooserComposite extends Composite
 			fireDropDownEvent( );
 
 			Point pLoc = UIHelper.getScreenLocation( this );
-			createDropDownComponent( pLoc.x, pLoc.y + this.getSize( ).y );
+			// It seems the Mac-OSX event mechanism is special different from
+			// windows, if the pop-up shell don't cover drop-down component, it
+			// will trigger focus out event on pop-up component, it will cause
+			// unexpected behavior and close pop-up component. To avoid this
+			// result, make pop-up component still covers drop-down component,
+			// it is like implementation of standard Combo.  
+			if ( Platform.OS_MACOSX.equals( Platform.getOS( ) ) )
+			{
+				createDropDownComponent( pLoc.x, pLoc.y );
+			}
+			else
+			{
+				createDropDownComponent( pLoc.x, pLoc.y + this.getSize( ).y );
+			}
 		}
 		else
 		{

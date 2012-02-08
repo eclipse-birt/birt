@@ -251,8 +251,10 @@ public class DataEngineSession
 			emtpryIDStream.seek( 0 );
 			IOUtil.writeInt( emptryQueryIDStream, this.emptyQueryResultID.size( ) );
 			
-			emtpryIDStream.seek( emtpryIDStream.length( ) );
-			IOUtil.writeString( emptryQueryIDStream, queryResultID );
+			for (String id :  this.emptyQueryResultID )
+			{
+				IOUtil.writeString( emptryQueryIDStream, id );
+			}
 			
 			emtpryIDStream.flush( );
 		}
@@ -431,7 +433,7 @@ public class DataEngineSession
 		}
 		return this.emptyQueryResultID;
 	}
-
+	
 	/**
 	 *
 	 */

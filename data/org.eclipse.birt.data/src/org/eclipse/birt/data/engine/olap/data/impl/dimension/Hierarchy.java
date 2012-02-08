@@ -326,7 +326,7 @@ public class Hierarchy implements IHierarchy
 			throws IOException, BirtException
 	{
 		DiskSortedStack sortedDimMembers = new DiskSortedStack( Math.min( sortedDimensionSet.size( ),
-				Constants.MAX_LIST_BUFFER_SIZE ),
+				 Constants.MAX_DIMENSION_LENGTH ),
 				true,
 				false,
 				Member.getCreator( ) );
@@ -582,7 +582,7 @@ public class Hierarchy implements IHierarchy
 	private static DiskSortedStack getSortedDimRows( IDatasetIterator iterator,
 			ILevelDefn[] levelDefs ) throws BirtException, IOException
 	{
-		DiskSortedStack result = new DiskSortedStack( Constants.LIST_BUFFER_SIZE,
+		DiskSortedStack result = new DiskSortedStack( Constants.MAX_DIMENSION_LENGTH / 2,
 				true,
 				true,
 				DimensionRow.getCreator( ) );
