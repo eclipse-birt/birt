@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
@@ -594,6 +595,20 @@ public class DataEngineImpl extends DataEngine
 			RAOutputStream outputStream;
 			try
 			{
+				if( this.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
+				{
+					VersionManager vm = new VersionManager( context );
+					int version = vm.getVersion( );
+					
+					//Only in the BDO mode the document version in a generation task
+					//returns a non VERSION_2_0 value. The BDO is introduced after 2_5_0
+					//so we are safe to use 2_0 as the indication of BDO mode
+					if( vm.getVersion( ) == VersionManager.VERSION_2_0 )
+					{
+						version = VersionManager.getLatestVersion( );						
+					}
+					vm.setVersion( version );
+				}
 				if ( this.getContext( )
 						.getDocWriter( )
 						.exists( DataEngineContext.QUERY_STARTING_ID ) )
@@ -616,8 +631,10 @@ public class DataEngineImpl extends DataEngine
 			catch ( IOException e )
 			{
 			}
-		}
-		
+			catch ( DataException e )
+			{
+			}
+		}	
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}

@@ -123,7 +123,7 @@ public class VersionManager
 	 * @param string
 	 * @throws DataException
 	 */
-	void setVersion( int version )
+	public void setVersion( int version )
 			throws DataException
 	{
 		OutputStream versionOs = this.dataEngineContext.getOutputStream( null,
