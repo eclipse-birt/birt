@@ -311,8 +311,9 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( !( (ContentElement) element ).isLocal( ) )
 			{
 				ContentElementCommand attrCmd = new ContentElementCommand(
-						module, element, ( (ContentElement) element )
-								.getValueContainer( ) );
+						( (ContentElement) element ).getValueContainer( )
+								.getElement( ).getRoot( ), element,
+						( (ContentElement) element ).getValueContainer( ) );
 
 				attrCmd.doSetProperty( prop, value );
 				return;
