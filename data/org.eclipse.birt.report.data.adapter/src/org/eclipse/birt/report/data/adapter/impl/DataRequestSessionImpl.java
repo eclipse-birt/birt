@@ -1693,6 +1693,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 		}
 		
+		validateBindings( query.getBindings( ), derivedMeasureNameList );
 		calculatedMeasures = query.getDerivedMeasures( );
 		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
 			return;
@@ -1720,6 +1721,39 @@ public class DataRequestSessionImpl extends DataRequestSession
 					}
 				}
 			}
+		}
+	}
+	
+	private void validateBindings( List<IBinding> bindings,
+			List calculatedMeasures ) throws AdapterException
+	{
+		// Not support aggregation filter reference calculated measures.
+		try
+		{
+			for ( IBinding b : bindings )
+			{
+				if ( b.getAggrFunction( ) == null || b.getFilter( ) == null )
+					continue;
+				
+				List referencedMeasures = ExpressionCompilerUtil.extractColumnExpression( b.getFilter( ),
+						ExpressionUtil.MEASURE_INDICATOR );
+				for ( Object r : referencedMeasures )
+				{
+					if ( calculatedMeasures.contains( r.toString( ) ) )
+					{
+						throw new AdapterException( AdapterResourceHandle.getInstance( )
+								.getMessage( ResourceConstants.CUBE_AGGRFILTER_REFER_CALCULATEDMEASURE,
+										new Object[]{
+												b.getBindingName( ),
+												r.toString( )
+										} ) );
+					}
+				}
+			}
+		}
+		catch ( DataException ex )
+		{
+			throw new AdapterException( ex.getMessage( ), ex );
 		}
 	}
 	
