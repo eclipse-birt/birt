@@ -31,9 +31,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 public class Binding implements IBinding
 {
-	private List aggregateOn;
-	private Map argument;
-	private List orderedArgument;
+	private List<String> aggregateOn;
+	private Map<String, IBaseExpression> argument;
+	private List<IBaseExpression> orderedArgument;
 	private IBaseExpression expr;
 	private IBaseExpression filter;
 	private String aggrFunc;
@@ -52,9 +52,9 @@ public class Binding implements IBinding
 	{
 		this.name = name;
 		this.expr = expr;
-		this.aggregateOn = new ArrayList();
-		this.argument = new LinkedHashMap();
-		this.orderedArgument = new ArrayList();
+		this.aggregateOn = new ArrayList<String>();
+		this.argument = new LinkedHashMap<String, IBaseExpression>();
+		this.orderedArgument = new ArrayList<IBaseExpression>();
 		if ( expr != null )
 			this.dataType = expr.getDataType( );
 		else
@@ -290,5 +290,30 @@ public class Binding implements IBinding
 	public ITimeFunction getTimeFunction( )
 	{
 		return this.timeFunction;
+	}
+	
+	public IBinding clone( )
+	{
+		Binding n = new Binding( this.name, this.expr );
+		n.expr = this.expr;
+		n.aggrFunc = this.aggrFunc;
+		n.dataType = this.dataType;
+		n.displayName = this.displayName;
+		n.exportable = this.exportable;
+		n.filter = this.filter;
+		n.timeFunction = this.timeFunction;
+		for ( String o : this.aggregateOn )
+		{
+			n.aggregateOn.add( o );
+		}
+		for ( IBaseExpression o : this.orderedArgument )
+		{
+			n.orderedArgument.add( o );
+		}
+		for ( Map.Entry<String, IBaseExpression> o : this.argument.entrySet( ) )
+		{
+			n.argument.put( o.getKey( ), o.getValue( ) );
+		}
+		return n;
 	}
 }

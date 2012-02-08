@@ -68,7 +68,13 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		assert cqd != null;
 		this.cqd = cqd;
 		this.cubeName = cqd.getName( );
-		for ( Object o : cqd.getBindings( ) )
+		List<IBinding> bindingsInCubeQuery = new ArrayList<IBinding>( );
+		for( Object o : cqd.getBindings( ) )
+		{
+			bindingsInCubeQuery.add( ( (Binding) o ).clone( ) );
+		}
+		
+		for ( Object o : bindingsInCubeQuery )
 		{
 			IBinding binding = (IBinding)o;
 			if ( nameToBinding.containsKey( binding.getBindingName( ) ))
@@ -92,7 +98,8 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		
 		List calculatedMeasures = cqd.getDerivedMeasures( );
 		if ( calculatedMeasures != null && calculatedMeasures.size( ) > 0 )
-			createBindingsForCalculatedMeasures( cqd );
+			createBindingsForCalculatedMeasures( bindingsInCubeQuery, cqd.getMeasures( ), cqd.getDerivedMeasures( ),
+					org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil.populateMeasureAggrOns( cqd ) );
 		
 		List<ICubeOperation> convertedCubeOperations = getConvertedCubeOperations( );
 		List<ICubeOperation> all = new ArrayList<ICubeOperation>( Arrays.asList( cqd.getCubeOperations( )));
@@ -162,10 +169,9 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 	}
 	
 	private void createBindingsForCalculatedMeasures( 
-			ICubeQueryDefinition cqd ) throws DataException
+			List bindingsInCubeQuery, List measures, List calculatedMeasures, List aggrOns ) throws DataException
 	{
 		List<String> levelNames = new ArrayList( );
-		List aggrOns = org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil.populateMeasureAggrOns( cqd );
 		for ( int i = 0; i < aggrOns.size( ); i++ )
 		{
 			DimLevel level = (DimLevel) aggrOns.get( i );
@@ -173,14 +179,12 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 					level.getLevelName( ) ) );
 		}
 
-		List measures = cqd.getMeasures( );
 		Map measureMap = new HashMap( );
 		for ( int i = 0; i < measures.size( ); i++ )
 		{
 			measureMap.put( ( (MeasureDefinition) measures.get( i ) ).getName( ),
 					measures.get( i ) );
 		}
-		List calculatedMeasures = cqd.getDerivedMeasures( );
 		Map derivedMeasureMap = new HashMap( );
 		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
 		{
@@ -189,7 +193,6 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		}
 		
 		Map createdBindings = new HashMap();
-		List bindingsInCubeQuery = cqd.getBindings( );
 		
 		//step 1: find the actual measures that a calculated measure refers to. And create internal bindings for them.
 		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
@@ -233,7 +236,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		for ( int i = 0; i < bindingsInCubeQuery.size( ); i++ )
 		{
 			IBinding binding = (IBinding) bindingsInCubeQuery.get( i );
-			ScriptExpression expression = (ScriptExpression) binding.getExpression( );
+			ScriptExpression expression = cloneExpression( (ScriptExpression) binding.getExpression( ) );
 			List measureName = ExpressionCompilerUtil.extractColumnExpression( expression,
 					ExpressionUtil.MEASURE_INDICATOR );
 			if ( measureName != null && measureName.size( ) > 0
@@ -251,8 +254,20 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 						expression.getText( ).length( ) - 1 ) );
 				binding.getAggregatOns( ).clear( );
 				binding.setAggrFunction( null );
+				binding.setExpression( expression );
 			}
 		}
+	}
+	
+	private ScriptExpression cloneExpression( ScriptExpression expr )
+	{
+		ScriptExpression nExpr = new ScriptExpression( expr.getText( ), expr.getDataType( ) );
+		nExpr.setConstant( expr.isConstant( ) );
+		nExpr.setConstantValue( expr.getConstantValue( ) );
+		nExpr.setGroupName( expr.getGroupName( ) );
+		nExpr.setHandle( expr.getHandle( ) );
+		nExpr.setScriptId( expr.getScriptId( ) );
+		return nExpr;
 	}
 	
 	private String getReplacedExpressionText( String text, Map measureMap,
