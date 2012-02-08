@@ -223,10 +223,16 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		if ( event.widget.equals( txtTitle ) )
 		{
+			String title = txtTitle.getText( ) ;
+			if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_GRAYED && (txtTitle.getText( ) == null
+					|| txtTitle.getText( ).trim( ).length( ) == 0 ) )
+			{
+				title = null;
+			}
 			getChart( ).getTitle( )
 					.getLabel( )
 					.getCaption( )
-					.setValue( txtTitle.getText( ) );
+					.setValue( title );
 		}
 		else if ( event.widget.equals( fdcFont ) )
 		{
@@ -336,7 +342,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		return !getContext( ).getUIFactory( )
 				.isSetInvisible( getChart( ).getTitle( ) )
-				&& getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) != null
 				&& !isAutoTitle( );
 	}
 
