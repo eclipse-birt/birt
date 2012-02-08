@@ -417,16 +417,24 @@ public class DTPUtil
 				if ( handle != null )
 				{
 					String rscFolder = handle.getResourceFolder( );
-					try
+					File file = new File( rscFolder );
+					if ( file.isAbsolute( ) )
 					{
-						return new URI( rscFolder );
+						return file.toURI( );
 					}
-					catch ( URISyntaxException ex )
+					else
 					{
-						return new URI( null,
-								null,
-								convertURI( rscFolder ),
-								null );
+						try
+						{
+							return new URI( rscFolder );
+						}
+						catch ( URISyntaxException ex )
+						{
+							return new URI( null,
+									null,
+									convertURI( rscFolder ),
+									null );
+						}
 					}
 				}
 			}
@@ -440,6 +448,11 @@ public class DTPUtil
 			String rscFolder = ReportPlugin.getDefault( )
 					.getResourceFolder( getCurrentProject( ),
 							(ModuleHandle) null );
+			File file = new File( rscFolder );
+			if ( file.isAbsolute( ) )
+			{
+				return file.toURI( );
+			}
 			try
 			{
 				return new URI( rscFolder );
