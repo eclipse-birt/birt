@@ -43,6 +43,10 @@ cube.query.error.dimensionMiss=ƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚ªƒLƒ…[ƒu‚É‘¶İ‚µ‚Ü‚¹‚ñB
 cube.query.error.levelMiss=ŠÔ‚Ìí—Ş‚ª "{0}" ‚ÌƒŒƒxƒ‹‚ªƒLƒ…[ƒu‚ÌŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“ "{1}" ‚É‘¶İ‚µ‚Ü‚¹‚ñB
 cube.edge.error.levelMiss=ŠÔ‚Ìí—Ş‚ª "{0}" ‚ÌƒŒƒxƒ‹‚ªƒNƒGƒŠ’è‹`‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
+cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
+cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
+cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+
 timeFunction.CURRENT_QUARTER.name = “–l”¼Šú 
 timeFunction.CURRENT_QUARTER.description = “–l”¼Šú‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
 timeFunction.CURRENT_MONTH.name = “–Œ
@@ -93,6 +97,10 @@ timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.name = N ŠúŠÔ‘O‚©‚ç‚ÌŒ»İ‚Ü‚Å‚ÌŠúŠ
 timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description = N ŠúŠÔ‘O‚©‚ç‚Ì“¯‚¶ŠúŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name = N ŠúŠÔ‘O‚©‚ç‚Ì‰ß‹ N ŠúŠÔ 
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description = N ŠúŠÔ‘O‚©‚ç‚Ì‰ß‹ N ŠúŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
+timeFunction.TRAILING_N_MONTHS.name = Trailing N Months 
+timeFunction.TRAILING_N_MONTHS.description = Calculate the specified metric for last N months
+timeFunction.TRAILING_N_DAYS.name = Trailing N Days 
+timeFunction.TRAILING_N_DAYS.description = Calculate the specified metric for last N days
 timeFunction.NEXT_N_PERIODS.name = Ÿ‚Ì N ŠúŠÔ 
 timeFunction.NEXT_N_PERIODS.description = Ÿ‚Ì N ŠúŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
 
@@ -106,10 +114,37 @@ timeFunction.PERIOD2.displayName = 2 ”Ô–Ú‚ÌŠúŠÔ(&R)
 timeFunction.N1.displayName = Å‰‚Ì N(&I)
 timeFunction.N2.displayName = 2 ”Ô–Ú‚Ì N(&O)
 
+timeFunction.N1.Year.displayName = Number of Year(s) Ago
+timeFunction.N2.Year.displayName = Number of Year(s) Ago
+timeFunction.N1.Year = N value for number of Year(s) ago
+timeFunction.N2.Year = N value for number of Year(s) ago
+
+timeFunction.N1.Month.displayName = Number of Month(s) Ago
+timeFunction.N2.Month.displayName = Number of Month(s) Ago
+timeFunction.N1.Month = N value for number of Month(s) ago
+timeFunction.N2.Month = N value for number of Month(s) ago
+
+timeFunction.N1.Quarter.displayName = Number of Quarter(s) Ago
+timeFunction.N2.Quarter.displayName = Number of Quarter(s) Ago
+timeFunction.N1.Quarter = N value for number of Quarter(s) ago
+timeFunction.N2.Quarter = N value for number of Quarter(s) ago
+
+timeFunction.N1.Week.displayName = Number of Week(s) Ago
+timeFunction.N2.Week.displayName = Number of Week(s) Ago
+timeFunction.N1.Week = N value for number of Week(s) ago
+timeFunction.N2.Week = N value for number of Week(s) ago
+
+timeFunction.N1.Day.displayName = Number of Day(s) Ago
+
 timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
 timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
 timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
 timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
 timeFunction.PERIODCHOICE.DAY_displayName =DAY
  
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+
 timeFunction.toolTip.to=I—¹“ú

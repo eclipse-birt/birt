@@ -43,6 +43,10 @@ cube.query.error.dimensionMiss=큐브에 차원 "{0}"이(가) 없습니다.
 cube.query.error.levelMiss=큐브 시간 차원 "{1}"에 시간 유형 "{0}"의 수준이 없습니다.
 cube.edge.error.levelMiss=시간 유형 "{0}"의 수준이 쿼리 정의에 누락되었습니다.
 
+cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
+cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
+cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+
 timeFunction.CURRENT_QUARTER.name = 현재 분기 
 timeFunction.CURRENT_QUARTER.description = 현재 분기에 특정된 메트릭 계산
 timeFunction.CURRENT_MONTH.name = 현재 달
@@ -93,6 +97,10 @@ timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.name = N 기간부터 현재 기간
 timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description = N 기간부터 동일 기간에 특정된 메트릭 계산
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name = N 기간부터 나머지 N 기간 
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description = N 기간부터 나머지 기간에 특정된 메트릭 계산
+timeFunction.TRAILING_N_MONTHS.name = Trailing N Months 
+timeFunction.TRAILING_N_MONTHS.description = Calculate the specified metric for last N months
+timeFunction.TRAILING_N_DAYS.name = Trailing N Days 
+timeFunction.TRAILING_N_DAYS.description = Calculate the specified metric for last N days
 timeFunction.NEXT_N_PERIODS.name = 이후 N 기간 
 timeFunction.NEXT_N_PERIODS.description = 이후 N 기간에 특정된 메트릭 계산
 
@@ -106,10 +114,37 @@ timeFunction.PERIOD2.displayName = 두 번째 기간(&R)
 timeFunction.N1.displayName = 첫 번째 N(&I)
 timeFunction.N2.displayName = 두 번째 N(&O)
 
+timeFunction.N1.Year.displayName = Number of Year(s) Ago
+timeFunction.N2.Year.displayName = Number of Year(s) Ago
+timeFunction.N1.Year = N value for number of Year(s) ago
+timeFunction.N2.Year = N value for number of Year(s) ago
+
+timeFunction.N1.Month.displayName = Number of Month(s) Ago
+timeFunction.N2.Month.displayName = Number of Month(s) Ago
+timeFunction.N1.Month = N value for number of Month(s) ago
+timeFunction.N2.Month = N value for number of Month(s) ago
+
+timeFunction.N1.Quarter.displayName = Number of Quarter(s) Ago
+timeFunction.N2.Quarter.displayName = Number of Quarter(s) Ago
+timeFunction.N1.Quarter = N value for number of Quarter(s) ago
+timeFunction.N2.Quarter = N value for number of Quarter(s) ago
+
+timeFunction.N1.Week.displayName = Number of Week(s) Ago
+timeFunction.N2.Week.displayName = Number of Week(s) Ago
+timeFunction.N1.Week = N value for number of Week(s) ago
+timeFunction.N2.Week = N value for number of Week(s) ago
+
+timeFunction.N1.Day.displayName = Number of Day(s) Ago
+
 timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
 timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
 timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
 timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
 timeFunction.PERIODCHOICE.DAY_displayName =DAY
+
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
 
 timeFunction.toolTip.to=대상

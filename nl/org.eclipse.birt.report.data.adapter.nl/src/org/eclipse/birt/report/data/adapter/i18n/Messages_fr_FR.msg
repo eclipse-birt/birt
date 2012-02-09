@@ -43,6 +43,10 @@ cube.query.error.dimensionMiss=La dimension "{0}" n'existe pas dans le cube.
 cube.query.error.levelMiss=Le niveau associé au type Heure "{0}" n'existe pas dans la dimension Heure du cube "{1}".
 cube.edge.error.levelMiss=Le niveau associé au type Heure "{0}" est manquant dans la définition de requête.
 
+cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
+cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
+cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+
 timeFunction.CURRENT_QUARTER.name = Trimestre actuel 
 timeFunction.CURRENT_QUARTER.description = Calculer la caractéristique spécifique pour le trimestre actuel
 timeFunction.CURRENT_MONTH.name = Mois actuel
@@ -93,6 +97,10 @@ timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.name = Période jusqu'à la date dep
 timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description = Calculer la caractéristique spécifique pour la même période depuis N périodes
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name = N périodes de fin depuis N périodes 
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description = Calculer la caractéristique spécifique pour N périodes de fin depuis N périodes
+timeFunction.TRAILING_N_MONTHS.name = Trailing N Months 
+timeFunction.TRAILING_N_MONTHS.description = Calculate the specified metric for last N months
+timeFunction.TRAILING_N_DAYS.name = Trailing N Days 
+timeFunction.TRAILING_N_DAYS.description = Calculate the specified metric for last N days
 timeFunction.NEXT_N_PERIODS.name = Prochaines N périodes 
 timeFunction.NEXT_N_PERIODS.description = Calculer la caractéristique spécifique pour les prochaines N périodes
 
@@ -106,10 +114,37 @@ timeFunction.PERIOD2.displayName = La deuxième pé&riode
 timeFunction.N1.displayName = Le prem&ier N
 timeFunction.N2.displayName = Le deu&xième N
 
+timeFunction.N1.Year.displayName = Number of Year(s) Ago
+timeFunction.N2.Year.displayName = Number of Year(s) Ago
+timeFunction.N1.Year = N value for number of Year(s) ago
+timeFunction.N2.Year = N value for number of Year(s) ago
+
+timeFunction.N1.Month.displayName = Number of Month(s) Ago
+timeFunction.N2.Month.displayName = Number of Month(s) Ago
+timeFunction.N1.Month = N value for number of Month(s) ago
+timeFunction.N2.Month = N value for number of Month(s) ago
+
+timeFunction.N1.Quarter.displayName = Number of Quarter(s) Ago
+timeFunction.N2.Quarter.displayName = Number of Quarter(s) Ago
+timeFunction.N1.Quarter = N value for number of Quarter(s) ago
+timeFunction.N2.Quarter = N value for number of Quarter(s) ago
+
+timeFunction.N1.Week.displayName = Number of Week(s) Ago
+timeFunction.N2.Week.displayName = Number of Week(s) Ago
+timeFunction.N1.Week = N value for number of Week(s) ago
+timeFunction.N2.Week = N value for number of Week(s) ago
+
+timeFunction.N1.Day.displayName = Number of Day(s) Ago
+
 timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
 timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTER
 timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
 timeFunction.PERIODCHOICE.WEEK_displayName =WEEK
 timeFunction.PERIODCHOICE.DAY_displayName =DAY
+
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
 
 timeFunction.toolTip.to=A
