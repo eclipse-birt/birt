@@ -113,6 +113,21 @@ public class DataEngineImpl extends DataEngine
 		this.session = new DataEngineSession( this );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineStart( );
 		
+		if( this.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
+		{
+			VersionManager vm = new VersionManager( context );
+			int version = vm.getVersion( );
+			
+			//Only in the BDO mode the document version in a generation task
+			//returns a non VERSION_2_0 value. The BDO is introduced after 2_5_0
+			//so we are safe to use 2_0 as the indication of BDO mode
+			if( vm.getVersion( ) == VersionManager.VERSION_2_0 )
+			{
+				version = VersionManager.getLatestVersion( );						
+			}
+			vm.setVersion( version );
+		}
+		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.FINER, "Data Engine starts up" );
 	}
@@ -595,20 +610,6 @@ public class DataEngineImpl extends DataEngine
 			RAOutputStream outputStream;
 			try
 			{
-				if( this.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
-				{
-					VersionManager vm = new VersionManager( context );
-					int version = vm.getVersion( );
-					
-					//Only in the BDO mode the document version in a generation task
-					//returns a non VERSION_2_0 value. The BDO is introduced after 2_5_0
-					//so we are safe to use 2_0 as the indication of BDO mode
-					if( vm.getVersion( ) == VersionManager.VERSION_2_0 )
-					{
-						version = VersionManager.getLatestVersion( );						
-					}
-					vm.setVersion( version );
-				}
 				if ( this.getContext( )
 						.getDocWriter( )
 						.exists( DataEngineContext.QUERY_STARTING_ID ) )
@@ -629,9 +630,6 @@ public class DataEngineImpl extends DataEngine
 				outputStream.close( );
 			}
 			catch ( IOException e )
-			{
-			}
-			catch ( DataException e )
 			{
 			}
 		}	
