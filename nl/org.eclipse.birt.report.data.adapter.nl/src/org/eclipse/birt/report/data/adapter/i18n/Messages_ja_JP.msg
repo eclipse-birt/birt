@@ -37,6 +37,7 @@ cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
 cube.error.datasetmiss=関連するデータセットが見つからないため、キューブを作成できません。
 cube.jointColumnNotInLevels=結合列 "{0}" はディメンション "{1}" のいずれのレベルのキーフィールドとしても定義されていません。
 cube.unsupportedAggregationInBinding=バインド "{0}" の TopN と BottomN 関数は、xTab ではサポートされていません。
+cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
 
 cube.query.error.dimensionMiss=ディメンション "{0}" がキューブに存在しません。
 cube.query.error.levelMiss=時間の種類が "{0}" のレベルがキューブの時間のディメンション "{1}" に存在しません。

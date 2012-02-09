@@ -37,6 +37,7 @@ cube.error.createmeasure=Fehler beim Erstellen von Maßeinheit.
 cube.error.datasetmiss=Der Quader kann nicht erstellt werden, da der zugehörige Datensatz fehlt.
 cube.jointColumnNotInLevels=Verknüpfungsspalte '{0}' ist nicht als Schlüsselfeld einer Ebene in Dimension '{1}' definiert.
 cube.unsupportedAggregationInBinding=Funktion 'TopN/BottomN' in Bindung '{0}' wird in xTab nicht unterstützt.
+cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
 
 cube.query.error.dimensionMiss=Dimension "{0}" ist nicht im Quader vorhanden.
 cube.query.error.levelMiss=Ebene mit Uhrzeitformat "{0}" ist im Quader für die zeitliche Dimension "{1}" nicht vorhanden.

@@ -37,6 +37,7 @@ cube.error.createmeasure=Se produce un error al crear la medida.
 cube.error.datasetmiss=El cubo no se puede crear porque falta el conjunto de datos relacionado.
 cube.jointColumnNotInLevels=La columna de combinación "{0}" no está definida como campo clave de ningún nivel en la dimensión "{1}".
 cube.unsupportedAggregationInBinding=La función TopN/BottomN al enlazar "{0}" no se admite en xTab.
+cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
 
 cube.query.error.dimensionMiss="{0}" de dimensión no existe en el cubo.
 cube.query.error.levelMiss=El nivel con "{0}" de tipo tiempo no existe en "{1}" de dimensión con tiempo en cubo.

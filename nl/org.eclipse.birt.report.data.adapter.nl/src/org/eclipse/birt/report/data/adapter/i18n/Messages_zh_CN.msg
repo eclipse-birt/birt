@@ -37,6 +37,7 @@ cube.error.createmeasure=创建度量时出现错误。
 cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。
 cube.jointColumnNotInLevels=联接列“{0}”未定义为维“{1}”中任何级别的关键字字段。
 cube.unsupportedAggregationInBinding=xTab 中不支持绑定“{0}”中的 TopN/BottomN 函数。
+cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
 
 cube.query.error.dimensionMiss=多维数据集中不存在维 "{0}"。
 cube.query.error.levelMiss=时间类型为 "{0}" 的级别不存在于多维数据集时间维 "{1}" 中。
