@@ -43,9 +43,9 @@ cube.query.error.dimensionMiss=ディメンション "{0}" がキューブに存在しません。
 cube.query.error.levelMiss=時間の種類が "{0}" のレベルがキューブの時間のディメンション "{1}" に存在しません。
 cube.edge.error.levelMiss=時間の種類が "{0}" のレベルがクエリ定義に含まれていません。
 
-cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
-cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
-cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+cube.derivedMeasure.invalid.reference=メジャーの参照が無効です。 派生メジャー "{0}" が無効なメジャー "{1}" を参照しました。
+cube.derivedMeasure.resolve.error=派生メジャー "{0}" を解決できません。
+cube.derivedMeasure.recursive.ref="{1}" で循環参照が検出されたため、派生メジャー "{0}" を解決できませんでした。
 
 timeFunction.CURRENT_QUARTER.name = 当四半期 
 timeFunction.CURRENT_QUARTER.description = 当四半期の指定されたメトリクスを計算する
@@ -136,11 +136,11 @@ timeFunction.N2.Week = 過去の週数の N 値
 
 timeFunction.N1.Day.displayName = 過去の日数
 
-timeFunction.PERIODCHOICE.YEAR_displayName =YEAR
+timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =四半期
-timeFunction.PERIODCHOICE.MONTH_displayName =MONTH
+timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =週
-timeFunction.PERIODCHOICE.DAY_displayName =DAY
+timeFunction.PERIODCHOICE.DAY_displayName =日
  
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date

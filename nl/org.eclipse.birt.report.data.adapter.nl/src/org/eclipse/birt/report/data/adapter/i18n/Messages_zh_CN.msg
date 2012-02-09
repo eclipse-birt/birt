@@ -43,9 +43,9 @@ cube.query.error.dimensionMiss=多维数据集中不存在维 "{0}"。
 cube.query.error.levelMiss=时间类型为 "{0}" 的级别不存在于多维数据集时间维 "{1}" 中。
 cube.edge.error.levelMiss=查询定义中缺少时间类型为 "{0}" 的级别。
 
-cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
-cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
-cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+cube.derivedMeasure.invalid.reference=无效度量引用。 衍生度量 "{0}" 引用了无效度量: "{1}"。
+cube.derivedMeasure.resolve.error=解析衍生度量 "{0}" 失败。
+cube.derivedMeasure.recursive.ref=解析衍生度量 "{0}" 失败，因为在 "{1}" 中检测到循环引用。
 
 timeFunction.CURRENT_QUARTER.name = 本季度 
 timeFunction.CURRENT_QUARTER.description = 计算本季度的指定指标

@@ -43,9 +43,9 @@ cube.query.error.dimensionMiss=Dimension "{0}" ist nicht im Quader vorhanden.
 cube.query.error.levelMiss=Ebene mit Uhrzeitformat "{0}" ist im Quader für die zeitliche Dimension "{1}" nicht vorhanden.
 cube.edge.error.levelMiss=Ebene mit Uhrzeitformat "{0}" fehlt in Abfragedefinition.
 
-cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
-cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
-cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+cube.derivedMeasure.invalid.reference=Ungültiger Einheitsverweis. Abgeleitete Maßeinheit '{0}' verweist auf eine ungültige Einheit: '{1}'.
+cube.derivedMeasure.resolve.error=Abgeleitete Maßeinheit '{0}' lösen fehlgeschlagen.
+cube.derivedMeasure.recursive.ref=Abgeleitete Maßeinheit '{0}' lösen fehlgeschlagen, da Rückbezug gefunden wurde unter: '{1}'.
 
 timeFunction.CURRENT_QUARTER.name = Aktuelles Quartal 
 timeFunction.CURRENT_QUARTER.description = Angegebene Metrik für das aktuelle Quartal berechnen

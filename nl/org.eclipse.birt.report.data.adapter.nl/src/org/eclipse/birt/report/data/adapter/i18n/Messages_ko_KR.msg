@@ -43,9 +43,9 @@ cube.query.error.dimensionMiss=큐브에 차원 "{0}"이(가) 없습니다.
 cube.query.error.levelMiss=큐브 시간 차원 "{1}"에 시간 유형 "{0}"의 수준이 없습니다.
 cube.edge.error.levelMiss=시간 유형 "{0}"의 수준이 쿼리 정의에 누락되었습니다.
 
-cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
-cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
-cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+cube.derivedMeasure.invalid.reference=잘못된 측정값 참조입니다. 다음의 잘못된 측정값을 참조한 파생 측정값 "{0}": "{1}".
+cube.derivedMeasure.resolve.error=파생 측정값 "{0}" 확인에 실패했습니다.
+cube.derivedMeasure.recursive.ref=파생 측정값 "{0}" 확인에 실패했습니다. 다음 중에서 순환 참조가 감지되었기 때문입니다.: "{1}".
 
 timeFunction.CURRENT_QUARTER.name = 현재 분기 
 timeFunction.CURRENT_QUARTER.description = 현재 분기에 특정된 메트릭 계산

@@ -43,9 +43,9 @@ cube.query.error.dimensionMiss="{0}" de dimensión no existe en el cubo.
 cube.query.error.levelMiss=El nivel con "{0}" de tipo tiempo no existe en "{1}" de dimensión con tiempo en cubo.
 cube.edge.error.levelMiss=Falta el nivel con "{0}" de tipo tiempo en la definición de consulta.
 
-cube.derivedMeasure.invalid.reference=Invalid measure reference. Derived measure "{0}" referenced an invalid measure: "{1}".
-cube.derivedMeasure.resolve.error=Failed resolving derived measure "{0}".
-cube.derivedMeasure.recursive.ref=Failed resolving derived measure "{0}", because circular reference is detected among: "{1}".
+cube.derivedMeasure.invalid.reference=Referencia de medida no válida. La medida derivada "{0}" hace referencia a una medida no válida: "{1}".
+cube.derivedMeasure.resolve.error=Error al resolver la medida derivada "{0}".
+cube.derivedMeasure.recursive.ref=Error al resolver la medida derivada "{0}", porque se ha detectado una referencia circular entre: "{1}".
 
 timeFunction.CURRENT_QUARTER.name = Trimestre actual 
 timeFunction.CURRENT_QUARTER.description = Calcular la medida especificada para el trimestre actual
