@@ -127,6 +127,7 @@ Error.UnsupportedExprssionType = 지원되지 않는 식 형식입니다.
 Error.UnknownContentVersion = 알 수 없는 콘텐츠 버전입니다.
 Error.UnknownFieldID = 알 수 없는 필드 ID입니다: {0}.
 Error.ResourceNotAccessible = {0}에 액세스할 수 없습니다.
+Error.ERROR_WITH_STATUS=There are errors in the document: {0}.
 
 ###########################################################
 Error.ElementID = 요소 ID

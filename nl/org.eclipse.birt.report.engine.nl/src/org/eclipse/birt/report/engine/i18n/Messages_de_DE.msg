@@ -127,6 +127,7 @@ Error.UnsupportedExprssionType = Unerwarteter Ausdruckstyp.
 Error.UnknownContentVersion = Unbekannte Inhaltsversion.
 Error.UnknownFieldID = Unbekannte Feld-ID: {0}.
 Error.ResourceNotAccessible = Zugriff auf {0} nicht möglich.
+Error.ERROR_WITH_STATUS=There are errors in the document: {0}.
 
 ###########################################################
 Error.ElementID = Element-ID
