@@ -5,7 +5,7 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 ###############################################################################
 # NLS String
-dataset.editor.page.query=Consulta
+
 datasource.name=Fuente de datos Hive
 select.dataset.name=Consulta de selección de HQL
 jdbc.driver.name=Controlador de Hive

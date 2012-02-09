@@ -5,7 +5,7 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 ###############################################################################
 # NLS String
-dataset.editor.page.query=查询
+
 datasource.name=Hive 数据源
 select.dataset.name=HQL 选择查询
 jdbc.driver.name=Hive 驱动程序
