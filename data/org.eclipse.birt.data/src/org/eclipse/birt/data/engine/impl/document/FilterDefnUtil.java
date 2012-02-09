@@ -38,7 +38,7 @@ public class FilterDefnUtil
 	 * @throws DataException
 	 */
 	static void saveFilterDefn( OutputStream outputStream,
-			List filterList ) throws DataException
+			List filterList, int version ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 
@@ -50,7 +50,8 @@ public class FilterDefnUtil
 			{
 				IFilterDefinition filterDefn = (IFilterDefinition) filterList.get( i );
 				ExprUtil.saveBaseExpr( dos, filterDefn.getExpression( ) );
-				IOUtil.writeBool( dos, filterDefn.updateAggregation( ) );
+				if ( version >= VersionManager.VERSION_2_6_3_1 )
+					IOUtil.writeBool( dos, filterDefn.updateAggregation( ) );
 			}
 
 			dos.flush( );

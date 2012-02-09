@@ -54,7 +54,7 @@ public class GroupDefnUtil
 				IOUtil.writeInt( dos, groupDefn.getInterval( ) );
 				IOUtil.writeDouble( dos, groupDefn.getIntervalRange( ) );
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
-				FilterDefnUtil.saveFilterDefn( dos, groupDefn.getFilters( ) );
+				FilterDefnUtil.saveFilterDefn( dos, groupDefn.getFilters( ), version );
 				QueryDefnIOUtil.saveSorts( dos, groupDefn.getSorts( ), version );
 				QueryDefnIOUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version );
 			}

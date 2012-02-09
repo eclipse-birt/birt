@@ -67,7 +67,7 @@ public class QueryDefnIOUtil
 			saveBinding( outputStream, queryDefn.getBindings( ), version );
 			
 			// filter definition
-			FilterDefnUtil.saveFilterDefn( outputStream, queryDefn.getFilters( ) );
+			FilterDefnUtil.saveFilterDefn( outputStream, queryDefn.getFilters( ), version );
 			// group definition
 			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ), version );
 			// sort definition
