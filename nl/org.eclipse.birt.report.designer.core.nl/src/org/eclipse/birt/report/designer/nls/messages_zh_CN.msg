@@ -4640,6 +4640,7 @@ CrosstabBindingDialogHelper.calculation.labe=时间周期(&P):
 CrosstabBindingDialogHelper.recentday.description=时间维中的最近日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:
+CrosstabBindingDialogHelper.thisdate.example.label=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=时间维(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=此维不支持最近参考日期 
 CrosstabBindingDialogHelper.today.label=今天

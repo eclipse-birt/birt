@@ -4640,6 +4640,7 @@ CrosstabBindingDialogHelper.calculation.labe=계산 형식(&P):
 CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=날짜 지정:
+CrosstabBindingDialogHelper.thisdate.example.label=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=시간 차원(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=이 차원은 최근 참조 날짜를 지원하지 않습니다. 
 CrosstabBindingDialogHelper.today.label=오늘

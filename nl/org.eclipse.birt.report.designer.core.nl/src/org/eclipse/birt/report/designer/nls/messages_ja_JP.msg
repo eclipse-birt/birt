@@ -4640,6 +4640,7 @@ CrosstabBindingDialogHelper.calculation.labe=期間(&P) :
 CrosstabBindingDialogHelper.recentday.description=時間のディメンション内の最新の日付
 CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
+CrosstabBindingDialogHelper.thisdate.example.label=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=時間のディメンション(&M) :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=このディメンションは最近の参照日をサポートしていません 
 CrosstabBindingDialogHelper.today.label=今日

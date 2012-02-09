@@ -4640,6 +4640,7 @@ CrosstabBindingDialogHelper.calculation.labe=Zeit&intervall:
 CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
+CrosstabBindingDialogHelper.thisdate.example.label=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
 CrosstabBindingDialogHelper.today.label=Heute
