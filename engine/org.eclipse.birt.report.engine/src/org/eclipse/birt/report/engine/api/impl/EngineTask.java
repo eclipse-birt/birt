@@ -2353,6 +2353,15 @@ public abstract class EngineTask implements IEngineTask
 					engine, dataSource, true, options );
 			try
 			{
+				// TODO Temp solution, we need set this IReportDocument in
+				// context directly.
+				String buildNumber = document.getProperty( ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY );
+				Map appContext = getAppContext( );
+				if ( appContext != null )
+				{
+					appContext.put( ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY,
+							buildNumber );
+				}
 				// load the parameter values from report document
 				Map values = document.getParameterValues( executionContext
 						.getApplicationClassLoader( ) );

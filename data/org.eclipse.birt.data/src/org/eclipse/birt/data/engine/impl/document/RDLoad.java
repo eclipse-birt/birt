@@ -338,7 +338,8 @@ public class RDLoad
 	 */
 	private IBaseQueryDefinition loadQueryDefn( InputStream inputStream ) throws DataException
 	{
-		IBaseQueryDefinition queryDefn = QueryDefnIOUtil.loadQueryDefn( inputStream, version );
+		String bundleVersion = this.context.getBundleVersion( );
+		IBaseQueryDefinition queryDefn = QueryDefnIOUtil.loadQueryDefn( inputStream, version, bundleVersion );
 		try
 		{
 			inputStream.close( );
