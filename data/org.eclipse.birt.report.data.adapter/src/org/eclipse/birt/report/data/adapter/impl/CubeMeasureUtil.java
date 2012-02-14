@@ -170,6 +170,16 @@ public class CubeMeasureUtil
 		resolving.remove( resolving.size( ) - 1 );
 	}
 
+	/**
+	 * Get measures can be referenced by the specific derived measure.
+	 * <p>
+	 * This method ensures there is not recursive reference between the returned measures. 
+	 * 
+	 * @param cubeHandle
+	 * @param measureName
+	 * @return A list of MeasureHandles which can be referenced by the specified measure.
+	 * @throws BirtException
+	 */
 	public static List<MeasureHandle> getIndependentReferences(
 			CubeHandle cubeHandle, String measureName ) throws BirtException
 	{
@@ -183,7 +193,22 @@ public class CubeMeasureUtil
 
 		if ( mHandles.get( measureName ) != null
 				&& !mHandles.get( measureName ).isCalculated( ) )
+		{
+			// Since the properties in MeasureHandle of the newly added measures
+			// is not set correctly, Here always return all measures.
+			// TODO Remove this temporary fix which does a favor for GUI while
+			// GUI side set the properties correctly.
+			for ( Map.Entry<String, MeasureHandle> e : mHandles.entrySet( ) )
+			{
+				MeasureHandle handle = e.getValue( );
+				if ( !measureName.equals( handle.getName( ) ) )
+				{
+					iMeasures.add( handle );
+				}
+			}
+
 			return iMeasures;
+		}
 
 		for ( Map.Entry<String, IDerivedMeasureDefinition> e : calculatedMeasures.entrySet( ) )
 		{

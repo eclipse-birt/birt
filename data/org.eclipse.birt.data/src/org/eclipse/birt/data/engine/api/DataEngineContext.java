@@ -165,6 +165,7 @@ public class DataEngineContext
 	
 	private ScriptContext scriptContext;
 	private TimeZone currentTimeZone;
+	private String bundleVersion; // the bundle version of report engine
 	
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -715,4 +716,14 @@ public class DataEngineContext
 			this.scriptContext = new ScriptContext( );
 		return this.scriptContext;
 	}
+	
+	public void setBundleVersion( String bundleVersion )
+	{
+		this.bundleVersion = bundleVersion;
+	}
+	
+	public String getBundleVersion( )
+	{
+		return this.bundleVersion;
+	}	
 }

@@ -238,11 +238,11 @@ public class QueryDefnIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	static IQueryDefinition loadQueryDefn( InputStream inputStream, int version )
+	static IQueryDefinition loadQueryDefn( InputStream inputStream, int version, String bundleVersion )
 			throws DataException
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
-		loadBaseQueryDefn( inputStream, queryDefn, version );
+		loadBaseQueryDefn( inputStream, queryDefn, version, bundleVersion );
 		return queryDefn;
 	}
 	
@@ -252,7 +252,7 @@ public class QueryDefnIOUtil
 	 * @throws DataException
 	 */
 	private static void loadBaseQueryDefn( InputStream inputStream,
-			BaseQueryDefinition queryDefn, int version ) throws DataException
+			BaseQueryDefinition queryDefn, int version, String bundleVersion ) throws DataException
 	{
 		try
 		{
@@ -264,18 +264,18 @@ public class QueryDefnIOUtil
 					.addAll( FilterDefnUtil.loadFilterDefn( inputStream, version ) );
 			// group definition
 			queryDefn.getGroups( )
-					.addAll( GroupDefnUtil.loadGroupDefn( inputStream, queryDefn, version ) );
+					.addAll( GroupDefnUtil.loadGroupDefn( inputStream, queryDefn, version, bundleVersion ) );
 			// sort definition
 			queryDefn.getSorts( ).addAll( loadSorts( inputStream, version ) );
 
 			// misc property: max row, use details
 			queryDefn.setMaxRows( IOUtil.readInt( inputStream ) );
 			queryDefn.setUsesDetails( IOUtil.readBool( inputStream ) );
-			if ( version >= VersionManager.VERSION_2_5_2_1 )
+			if ( version >= VersionManager.VERSION_2_5_2_1 && !"2.6.1.v20100915".equals( bundleVersion ) )
 				queryDefn.setCacheQueryResults( IOUtil.readBool( inputStream ) );
 
 			// sub query name
-			queryDefn.getSubqueries( ).addAll( loadSubQuery( inputStream, queryDefn, version) );
+			queryDefn.getSubqueries( ).addAll( loadSubQuery( inputStream, queryDefn, version, bundleVersion ) );
 			
 			// QueryExecutionHints
 			queryDefn.setQueryExecutionHints( loadQueryExecutionHints( inputStream, version ) );
@@ -395,7 +395,7 @@ public class QueryDefnIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	static Collection loadSubQuery( InputStream inputStream, IBaseQueryDefinition parent, int version )
+	static Collection loadSubQuery( InputStream inputStream, IBaseQueryDefinition parent, int version, String bundleVersion )
 			throws DataException, IOException
 	{
 		DataInputStream dis = new DataInputStream( inputStream );
@@ -406,7 +406,7 @@ public class QueryDefnIOUtil
 		{
 			SubqueryDefinition subQueryDefn = new SubqueryDefinition( IOUtil.readString( dis ), parent );
 			subQueryDefn.setApplyOnGroupFlag( IOUtil.readBool( dis ) );
-			loadBaseQueryDefn( dis, subQueryDefn, version );
+			loadBaseQueryDefn( dis, subQueryDefn, version, bundleVersion );
 			subQuerys.add( subQueryDefn );
 		}
 

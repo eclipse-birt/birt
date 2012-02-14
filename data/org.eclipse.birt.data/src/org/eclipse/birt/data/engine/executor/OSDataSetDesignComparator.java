@@ -128,9 +128,12 @@ public class OSDataSetDesignComparator
 		List filter1 = getFilter(dataSetDesign); 
 		List filter2 = getFilter(dataSetDesign2);
 		
-		if( ComparatorUtil.isEqualFilters( filter1, filter2 ) == false )
+		if ( ComparatorUtil.isEqualFilters( filter1, filter2 ) == false )
 			return false;
 		
+		if ( dataSetDesign.getFilters( ).size() > dataSetDesign2.getFilters( ).size( ) )
+			return false;
+
 		if ( dataSetDesign.getCacheRowCount( ) != dataSetDesign2.getCacheRowCount( ))
 			return false;
 		return true;

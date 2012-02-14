@@ -83,6 +83,7 @@ public class DataEngineImpl extends DataEngine
 	private Map<DataSourceAndDataSetNames, ValidationContext> validationContextMap
 		= new HashMap<DataSourceAndDataSetNames, ValidationContext>();
 	
+	private static final String BIRT_ENGINE_BUNDEL_VERSION = "BIRT ENGINE BUILD NUMBER";
 
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -112,21 +113,7 @@ public class DataEngineImpl extends DataEngine
 		dataSourceManager = new DataSourceManager( logger );
 		this.session = new DataEngineSession( this );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineStart( );
-		
-		if( this.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
-		{
-			VersionManager vm = new VersionManager( context );
-			int version = vm.getVersion( );
-			
-			//Only in the BDO mode the document version in a generation task
-			//returns a non VERSION_2_0 value. The BDO is introduced after 2_5_0
-			//so we are safe to use 2_0 as the indication of BDO mode
-			if( vm.getVersion( ) == VersionManager.VERSION_2_0 )
-			{
-				version = VersionManager.getLatestVersion( );						
-			}
-			vm.setVersion( version );
-		}
+		setVersion(context);
 		
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.FINER, "Data Engine starts up" );
@@ -415,7 +402,9 @@ public class DataEngineImpl extends DataEngine
 					+ LogUtil.toString( querySpec ) );
 
 		setMemoryUsage(appContext);
-		
+		if ( appContext != null )
+			this.context.setBundleVersion( (String) appContext.get( BIRT_ENGINE_BUNDEL_VERSION ) );
+
 		IPreparedQuery result = PreparedQueryUtil.newInstance( this,
 				querySpec,
 				appContext );
@@ -808,6 +797,24 @@ public class DataEngineImpl extends DataEngine
 			}
 		}
 		validationContextMap = null;
+	}
+	
+	private void setVersion( DataEngineContext context ) throws DataException 
+	{
+		if( this.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
+		{
+			VersionManager vm = new VersionManager( context );
+			int version = vm.getVersion( );
+			
+			//Only in the BDO mode the document version in a generation task
+			//returns a non VERSION_2_0 value. The BDO is introduced after 2_5_0
+			//so we are safe to use 2_0 as the indication of BDO mode
+			if( vm.getVersion( ) == VersionManager.VERSION_2_0 )
+			{
+				version = VersionManager.getLatestVersion( );						
+			}
+			vm.setVersion( version );
+		}
 	}
 	
 	public static class DataSourceAndDataSetNames 

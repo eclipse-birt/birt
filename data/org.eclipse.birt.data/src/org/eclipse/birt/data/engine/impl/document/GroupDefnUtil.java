@@ -72,7 +72,7 @@ public class GroupDefnUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	static List loadGroupDefn( InputStream inputStream, IBaseQueryDefinition parent, int version )
+	static List loadGroupDefn( InputStream inputStream, IBaseQueryDefinition parent, int version, String bundleVersion )
 			throws DataException
 	{
 		List groupList = new ArrayList( );
@@ -95,7 +95,7 @@ public class GroupDefnUtil
 				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis, version ) );
 				groupDefn.getSorts( ).addAll( QueryDefnIOUtil.loadSorts( dis, version ) );
 				groupDefn.getSubqueries( )
-						.addAll( QueryDefnIOUtil.loadSubQuery( dis, parent, version ) );
+						.addAll( QueryDefnIOUtil.loadSubQuery( dis, parent, version, bundleVersion ) );
 				groupList.add( groupDefn );
 			}
 		}

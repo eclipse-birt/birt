@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.engine.data;
 
+import java.util.Map;
+
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.data.dte.DataGenerationEngine;
 import org.eclipse.birt.report.engine.data.dte.DataInteractiveEngine;
@@ -65,6 +68,19 @@ public class DataEngineFactory
 	public IDataEngine createDataEngine( ExecutionContext context, boolean needCache )
 			throws Exception
 	{
+		IReportDocument document = context.getReportDocument( );
+		if( document!= null )
+		{
+			String buildNumber = document
+					.getProperty( ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY );
+			Map appContext = context.getAppContext( );
+			if ( appContext != null )
+			{
+				appContext
+						.put( ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY,
+								buildNumber );
+			}
+		}
 		//first we must test if we have the data source
 		DocumentDataSource dataSource = context.getDataSource( );
 		if ( dataSource != null )
@@ -86,7 +102,6 @@ public class DataEngineFactory
 					.getReportDocWriter( ).getArchive( ) );
 		}
 
-		IReportDocument document = context.getReportDocument( );
 		if ( document != null )
 		{
 			if ( context.getEngineTask( ).getTaskType( ) == EngineTask.TASK_DATAEXTRACTION )

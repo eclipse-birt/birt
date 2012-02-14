@@ -70,7 +70,10 @@ public class DataGenerationEngine extends DteDataEngine
 		dos = new DataOutputStream(
 				writer
 						.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
-
+		if (writer.exists(ReportDocumentConstants.DATA_SNAP_META_STREAM)) 
+		{
+			writer.dropStream(ReportDocumentConstants.DATA_SNAP_META_STREAM);
+		}
 		DteMetaInfoIOUtil.startMetaInfo( dos );
 	}
 

@@ -132,6 +132,10 @@ public class CrosstabPlugin extends AbstractUIPlugin
 
 						CrosstabAdaptUtil.formatDataItem( measureView.getCubeMeasure( ), dataItem );
 						// update action to dataHandle
+						if (measureView.getCubeMeasure( ) == null)
+						{
+							return;
+						}
 						ActionHandle actionHandle = measureView.getCubeMeasure( )
 								.getActionHandle( );
 						
