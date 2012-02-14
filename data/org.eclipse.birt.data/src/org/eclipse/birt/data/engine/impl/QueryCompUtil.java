@@ -58,7 +58,8 @@ public class QueryCompUtil
 			return false;
 		if ( !( originalQuery instanceof IQueryDefinition && newQuery instanceof IQueryDefinition ) )
 			return false;
-		if ( ((IQueryDefinition)newQuery).getDataSetName() == null )
+		if ( !isEqualString( ( ( IQueryDefinition )newQuery ).getDataSetName( ), 
+				( ( IQueryDefinition )originalQuery ).getDataSetName( ) ) )
 		{
 			return false;
 		}
@@ -596,8 +597,8 @@ public class QueryCompUtil
 			return true;
 		else if ( oldExprMap == null )
 			return newExprMap.size( ) == 0;
-		else if ( oldExprMap == null )
-			return newExprMap.size( ) == 0;
+		else if ( newExprMap == null )
+			return oldExprMap.size( ) == 0;
 	
 		return oldExprMap.size( ) >= newExprMap.size( );
 	}
