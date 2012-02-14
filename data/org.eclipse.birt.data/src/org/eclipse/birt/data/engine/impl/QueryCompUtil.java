@@ -58,11 +58,11 @@ public class QueryCompUtil
 			return false;
 		if ( !( originalQuery instanceof IQueryDefinition && newQuery instanceof IQueryDefinition ) )
 			return false;
-		if ( !isEqualString( ( ( IQueryDefinition )newQuery ).getDataSetName( ), 
-				( ( IQueryDefinition )originalQuery ).getDataSetName( ) ) )
-		{
-			return false;
-		}
+		//do not consider the data set name, since we will never save it into report document.
+//		if ( ((IQueryDefinition)newQuery).getDataSetName() == null )
+//		{
+//			return false;
+//		}
 		return isQueryDefnEqual( mode, originalQuery, newQuery, true, true );
 	}
 	
