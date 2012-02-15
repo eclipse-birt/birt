@@ -712,7 +712,7 @@ public class TimeFunctionManager
 		result.append( funcName ).append( " ( " );
 		result.append( getFormattedDateStringFromTimeMember( from, locale ) );
 		result.append( " " )
-				.append( Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_TO ) )
+				.append( Message.getMessage( ResourceConstants.TIMEFUNCTION_TOOLTIP_TO, locale ) )
 				.append( " " );
 		result.append( getFormattedDateStringFromTimeMember( to, locale ) );
 		result.append( " )" );
