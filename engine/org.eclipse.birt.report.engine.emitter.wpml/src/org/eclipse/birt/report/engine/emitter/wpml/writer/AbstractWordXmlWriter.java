@@ -874,11 +874,7 @@ public abstract class AbstractWordXmlWriter
 				.getProperty( StyleConstants.STYLE_PADDING_TOP ) );
 		int rightPadding = PropertyUtil.getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
-		if ( bottomPadding == 0 && leftPadding == 0 && topPadding == 0
-				&& rightPadding == 0 )
-		{
-			return;
-		}
+
 		// the cell padding in DOC is tcMar
 		writer.openTag( "w:tcMar" );
 		writeCellPadding( bottomPadding, BOTTOM );
