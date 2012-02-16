@@ -2305,14 +2305,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		while( filterIterator.hasNext( ) )
 		{
 			FilterConditionHandle filter = (FilterConditionHandle) filterIterator.next( );
-			if ( query instanceof CubeCreationQueryDefinition )
-			{
-				( (CubeCreationQueryDefinition) query ).addDataSetFilter( session.getModelAdaptor( )
-						.adaptFilter( filter ) );
-			}
-			else
-				query.addFilter( session.getModelAdaptor( )
-						.adaptFilter( filter ) );
+			query.addFilter( session.getModelAdaptor( ).adaptFilter( filter ) );
 		}
 	}
 

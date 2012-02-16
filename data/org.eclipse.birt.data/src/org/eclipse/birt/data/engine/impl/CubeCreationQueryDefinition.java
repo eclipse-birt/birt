@@ -11,10 +11,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 
 
@@ -25,24 +21,4 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 public class CubeCreationQueryDefinition extends QueryDefinition
 {
 
-	private List<IFilterDefinition> dataSetFilter = new ArrayList<IFilterDefinition>( );
-
-	/**
-	 * Returns the filters defined in this transform, as an ordered list of
-	 * <code>IFilterDefintion</code> objects.
-	 * 
-	 * @return the filters. null if no filter is defined.
-	 */
-	public List<IFilterDefinition> getDataSetFilters( )
-	{
-		return dataSetFilter;
-	}
-
-	/**
-	 * Add one filter to the filter list
-	 */
-	public void addDataSetFilter( IFilterDefinition filter )
-	{
-		dataSetFilter.add( filter );
-	}
 }

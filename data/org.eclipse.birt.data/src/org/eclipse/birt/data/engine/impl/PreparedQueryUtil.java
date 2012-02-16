@@ -107,15 +107,6 @@ public class PreparedQueryUtil
 		
 		IPreparedQuery preparedQuery;
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
-				
-		if ( queryDefn instanceof CubeCreationQueryDefinition )
-		{
-			if ( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) != null )
-			{
-				dset.getFilters( )
-						.addAll( ( (CubeCreationQueryDefinition) queryDefn ).getDataSetFilters( ) );
-			}
-		}
 		
 		if( dset!= null )
 		{
