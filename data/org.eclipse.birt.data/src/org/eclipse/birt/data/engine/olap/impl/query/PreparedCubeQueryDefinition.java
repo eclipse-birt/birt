@@ -270,6 +270,15 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		return nExpr;
 	}
 	
+	private boolean isObjectEqual( Object a, Object b )
+	{
+		if ( a == null && b == null )
+			return true;
+		if ( a != null && b != null )
+			return a.equals( b );
+		return false;
+	}
+	
 	private String getReplacedExpressionText( String text, Map measureMap,
 			Map derivedMeasureMap, Map createdBindings, IBinding binding, List bindingsInCubeQuery ) throws DataException
 	{
@@ -285,14 +294,16 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 					.toString( ));
 			
 				String bindingName = b.getBindingName( );
-				if ( (!Arrays.deepEquals( b.getAggregatOns( ).toArray( ),
-						binding.getAggregatOns( ).toArray( ) ) )|| !b.getAggrFunction( ).equals(binding.getAggrFunction( )) )
+				if ( (!Arrays.deepEquals( b.getAggregatOns( ).toArray( ), binding.getAggregatOns( ).toArray( ) ) ) 
+						|| !isObjectEqual( b.getAggrFunction( ), binding.getAggrFunction( ) )
+						|| !isObjectEqual( b.getFilter( ),  binding.getFilter( ) ) )
 				{
 					IBinding newBinding = new Binding(bindingName+"_"+binding.getBindingName( ));
 					newBinding.setDataType( b.getDataType( ) );
 					newBinding.setAggrFunction( binding.getAggrFunction( ) );
 					newBinding.setExpression( b.getExpression( ) );
 					newBinding.getAggregatOns( ).addAll( binding.getAggregatOns( ) );
+					newBinding.setFilter( binding.getFilter( ) );
 					IBinding sameBinding = getSameBindingInQuery( newBinding,
 							bindingsInCubeQuery );
 					if ( sameBinding != null )
