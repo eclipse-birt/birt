@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -70,11 +71,13 @@ import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
 import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.executor.PageVariable;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.engine.IDataExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -211,7 +214,35 @@ public class DataExtractionTaskV1 extends EngineTask
 		usingParameterValues( );
 		executionContext.registerGlobalBeans( reportDocReaderImpl
 				.loadVariables( classLoader ) );
+		loadReportVariable( );
 
+	}
+	
+	protected void loadReportVariable( )
+	{
+		PageHintReader hintsReader = null;
+		try
+		{
+			// load the report variables
+			hintsReader = new PageHintReader( reportDocReader );
+			Collection<PageVariable> vars = hintsReader.getPageVariables( );
+			if ( vars != null )
+			{
+				executionContext.addPageVariables( vars );
+			}
+		}
+		catch ( IOException ex )
+		{
+			executionContext.addException( new EngineException(
+					MessageConstants.PAGE_HINT_LOADING_ERROR, ex ) );
+		}
+		finally
+		{
+			if( hintsReader!=null )
+			{
+				hintsReader.close( );
+			}
+		}
 	}
 
 	/*
