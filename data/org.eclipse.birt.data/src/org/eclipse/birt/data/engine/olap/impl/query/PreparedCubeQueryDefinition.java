@@ -305,7 +305,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 					newBinding.getAggregatOns( ).addAll( binding.getAggregatOns( ) );
 					newBinding.setFilter( binding.getFilter( ) );
 					IBinding sameBinding = getSameBindingInQuery( newBinding,
-							bindingsInCubeQuery );
+							realBindings );
 					if ( sameBinding != null )
 					{
 						bindingName = sameBinding.getBindingName( );
