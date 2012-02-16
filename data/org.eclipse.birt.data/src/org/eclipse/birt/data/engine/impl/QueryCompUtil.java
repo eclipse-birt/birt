@@ -58,10 +58,11 @@ public class QueryCompUtil
 			return false;
 		if ( !( originalQuery instanceof IQueryDefinition && newQuery instanceof IQueryDefinition ) )
 			return false;
-		if ( ((IQueryDefinition)newQuery).getDataSetName() == null )
-		{
-			return false;
-		}
+		//do not consider the data set name, since we will never save it into report document.
+//		if ( ((IQueryDefinition)newQuery).getDataSetName() == null )
+//		{
+//			return false;
+//		}
 		return isQueryDefnEqual( mode, originalQuery, newQuery, true, true );
 	}
 	
@@ -596,8 +597,8 @@ public class QueryCompUtil
 			return true;
 		else if ( oldExprMap == null )
 			return newExprMap.size( ) == 0;
-		else if ( oldExprMap == null )
-			return newExprMap.size( ) == 0;
+		else if ( newExprMap == null )
+			return oldExprMap.size( ) == 0;
 	
 		return oldExprMap.size( ) >= newExprMap.size( );
 	}
