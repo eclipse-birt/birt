@@ -22,7 +22,7 @@ datasource.exid.error=データソース定義 {0} に拡張 ID がありません。
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。
 adapter.invalid.datetimetype=日時型 "{0}" が無効です。
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=集計関数 {0} が無効です。
 
 invalid.datetime.value=日時の値 "{0}" が無効です。
 missing.join.condition=キューブ "{2}" のプライマリデータセット "{0}" とディメンジョン "{1}" との間にジョイン条件がありません。
@@ -37,7 +37,7 @@ cube.error.createmeasure=メジャー要素の作成中にエラーが発生しました。
 cube.error.datasetmiss=関連するデータセットが見つからないため、キューブを作成できません。
 cube.jointColumnNotInLevels=結合列 "{0}" はディメンション "{1}" のいずれのレベルのキーフィールドとしても定義されていません。
 cube.unsupportedAggregationInBinding=バインド "{0}" の TopN と BottomN 関数は、xTab ではサポートされていません。
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=引数 "{0}" が無効です。 フィルタ式が計算済みのメジャー "{1}" を参照しています。
 
 cube.query.error.dimensionMiss=ディメンション "{0}" がキューブに存在しません。
 cube.query.error.levelMiss=時間の種類が "{0}" のレベルがキューブの時間のディメンション "{1}" に存在しません。
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =週
 timeFunction.PERIODCHOICE.DAY_displayName =日
  
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =現在までの 1 年間
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =現在までの四半期
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =現在までの 1 か月
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =現在までの 1 週間
 
 timeFunction.toolTip.to=終了日

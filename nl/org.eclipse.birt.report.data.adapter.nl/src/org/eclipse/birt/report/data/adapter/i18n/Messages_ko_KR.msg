@@ -22,7 +22,7 @@ datasource.exid.error=데이터 원본 정의에서 확장 ID가 누락되었습니다: {0}.
 datasethandle.null.error=DataSetHandle은 널(null)이 될 수 없습니다.
 datasethandle.invalidColumnIndex=잘못된 열 인덱스입니다.
 adapter.invalid.datetimetype=날짜/시간 형식 "{0}"이(가) 잘못되었습니다.
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=집계 함수 {0}이(가) 잘못되었습니다.
 
 invalid.datetime.value=날짜/시간 값 "{0}"이(가) 잘못되었습니다.
 missing.join.condition=기본 데이터 집합 "{0}"과 큐브 "{2}"의 차원 "{1}" 간의 조인 조건이 없습니다.
@@ -37,7 +37,7 @@ cube.error.createmeasure=측정값 생성 도중 오류가 발생했습니다.
 cube.error.datasetmiss=관련된 데이터 집합이 없어 큐브를 생성할 수 없습니다.
 cube.jointColumnNotInLevels=조인 열 "{0}"이(가) 차원 "{1}"에 있는 수준의 키 필드로 정의되지 않았습니다.
 cube.unsupportedAggregationInBinding=바인딩 "{0}"의 TopN/BottomN 함수는 xTab에서 지원되지 않습니다.
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=잘못된 집계: "{0}". 필터 식이 계산된 측정값 "{1}"을(를) 참조하였습니다.
 
 cube.query.error.dimensionMiss=큐브에 차원 "{0}"이(가) 없습니다.
 cube.query.error.levelMiss=큐브 시간 차원 "{1}"에 시간 유형 "{0}"의 수준이 없습니다.
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =월
 timeFunction.PERIODCHOICE.WEEK_displayName =주
 timeFunction.PERIODCHOICE.DAY_displayName =일
 
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =연간 누계
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =분기별 누계
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =월별 누계
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =주간 누계
 
 timeFunction.toolTip.to=대상

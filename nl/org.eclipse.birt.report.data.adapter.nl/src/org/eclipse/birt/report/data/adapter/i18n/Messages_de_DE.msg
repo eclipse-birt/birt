@@ -22,7 +22,7 @@ datasource.exid.error=Fehlende Erweiterungs-ID in Datenquellendefinition: {0}.
 datasethandle.null.error=Datensatz-Handle darf nicht Null sein.
 datasethandle.invalidColumnIndex=Ungültiger Spaltenindex.
 adapter.invalid.datetimetype=Der Typ für Datum/Zeit "{0}" ist ungültig.
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=Die Aggregatfunktion {0} ist ungültig.
 
 invalid.datetime.value=Datums-/Uhrzeitwert "{0}" ist ungültig.
 missing.join.condition=Die Knotenpunktbedingung zwischen dem primären Datensatz '{0}' und der Dimension '{1}' im Quader '{2}' fehlt.
@@ -37,7 +37,7 @@ cube.error.createmeasure=Fehler beim Erstellen von Maßeinheit.
 cube.error.datasetmiss=Der Quader kann nicht erstellt werden, da der zugehörige Datensatz fehlt.
 cube.jointColumnNotInLevels=Verknüpfungsspalte '{0}' ist nicht als Schlüsselfeld einer Ebene in Dimension '{1}' definiert.
 cube.unsupportedAggregationInBinding=Funktion 'TopN/BottomN' in Bindung '{0}' wird in xTab nicht unterstützt.
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=Ungültiges Aggregat '{0}'. Der Filterausdruck gab eine berechnete Einheit '{1}' an.
 
 cube.query.error.dimensionMiss=Dimension "{0}" ist nicht im Quader vorhanden.
 cube.query.error.levelMiss=Ebene mit Uhrzeitformat "{0}" ist im Quader für die zeitliche Dimension "{1}" nicht vorhanden.
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =MONAT
 timeFunction.PERIODCHOICE.WEEK_displayName =WOCHE
 timeFunction.PERIODCHOICE.DAY_displayName =TAG
  
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Jahr bis Datum
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quartal bis Datum
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Monat bis Datum
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Woche bis Datum
 
 timeFunction.toolTip.to=Bis

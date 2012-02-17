@@ -22,7 +22,7 @@ datasource.exid.error=数据源定义中缺少扩展 ID: {0}。
 datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。
 adapter.invalid.datetimetype=日期时间类型“{0}”无效。
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=聚合函数 {0} 无效。
 
 invalid.datetime.value=日期时间值“{0}”无效。
 missing.join.condition=主数据集“{0}”与多维数据集“{2}”中的维“{1}”之间的联接条件缺失。
@@ -37,7 +37,7 @@ cube.error.createmeasure=创建度量时出现错误。
 cube.error.datasetmiss=由于缺少相关数据集，无法创建多维数据集。
 cube.jointColumnNotInLevels=联接列“{0}”未定义为维“{1}”中任何级别的关键字字段。
 cube.unsupportedAggregationInBinding=xTab 中不支持绑定“{0}”中的 TopN/BottomN 函数。
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=无效聚合 "{0}"。 筛选表达式引用了计算度量 "{1}"。
 
 cube.query.error.dimensionMiss=多维数据集中不存在维 "{0}"。
 cube.query.error.levelMiss=时间类型为 "{0}" 的级别不存在于多维数据集时间维 "{1}" 中。
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =周
 timeFunction.PERIODCHOICE.DAY_displayName =日
  
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =年初至今
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =季度初至今
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
 timeFunction.toolTip.to=至

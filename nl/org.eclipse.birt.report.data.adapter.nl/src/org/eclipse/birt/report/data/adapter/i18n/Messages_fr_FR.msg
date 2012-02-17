@@ -22,7 +22,7 @@ datasource.exid.error=ID d'extension manquant dans la définition de la source de
 datasethandle.null.error=DataSetHandle ne doit pas être nul.
 datasethandle.invalidColumnIndex=L'index de colonne n'est pas valide.
 adapter.invalid.datetimetype=Le type de données dateheure "{0}" est incorrect.
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=La fonction d'agrégation {0} est incorrecte.
 
 invalid.datetime.value=La valeur DateHeure "{0}" est incorrecte.
 missing.join.condition=La condition de jointure entre le jeu de données principal "{0}" et la dimension "{1}" du cube "{2}" est absente.
@@ -37,7 +37,7 @@ cube.error.createmeasure=Une erreur s'est produite lors de la création de la mes
 cube.error.datasetmiss=Le cube ne peut pas être créé car le jeu de données correspondant est manquant.
 cube.jointColumnNotInLevels=La colonne jointe "{0}" n'est pas définie en tant que champ clé pour aucun niveau dans la dimension "{1}".
 cube.unsupportedAggregationInBinding=Fonction TopN/BottomN dans la liaison "{0}" non prise en charge dans xTab.
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=Agrégation non valide "{0}". L'expression de filtre a référencé une mesure calculée "{1}".
 
 cube.query.error.dimensionMiss=La dimension "{0}" n'existe pas dans le cube.
 cube.query.error.levelMiss=Le niveau associé au type Heure "{0}" n'existe pas dans la dimension Heure du cube "{1}".
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =MOIS
 timeFunction.PERIODCHOICE.WEEK_displayName =SEMAINE
 timeFunction.PERIODCHOICE.DAY_displayName =JOUR
 
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Année jusqu'à la date
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Trimestre jusqu'à la date
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mois jusqu'à la date
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semaine jusqu'à la date
 
 timeFunction.toolTip.to=A
