@@ -143,9 +143,7 @@ public class StreamManager
 			//so we are safe to use 2_0 as the indication of BDO mode
 			if( this.version == VersionManager.VERSION_2_0 )
 				this.version = VersionManager.getLatestVersion( );
-			//Do not save the version into output stream. Since the version info maybe the BDO
-			//The version info will be saved when data engine shut down
-            //vm.setVersion( this.version );	
+			vm.setVersion( this.version );	
 		}
 		else if ( context.getMode( ) == DataEngineContext.MODE_UPDATE
 				&& this.rootQueryResultID == null )
