@@ -75,6 +75,9 @@ public class VersionManager
 	//Relative Time period function support
 	public final static int VERSION_2_6_3_1 = 180;
 	
+	//Update aggregation flag support
+	public final static int VERSION_2_6_3_2 = 190;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -148,7 +151,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_6_3_1;
+		return VERSION_2_6_3_2;
 	}
 
 }
