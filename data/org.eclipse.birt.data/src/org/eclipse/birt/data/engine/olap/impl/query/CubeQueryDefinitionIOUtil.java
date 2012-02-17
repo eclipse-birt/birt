@@ -943,6 +943,10 @@ public class CubeQueryDefinitionIOUtil
 		if ( type != FILTER_DEFN_FLAG_CUBE )
 		{
 			FilterDefinition fd = new FilterDefinition( expr );
+			if( version >= VersionManager.VERSION_2_6_3_2 )
+			{
+				fd.setUpdateAggregation( IOUtil.readBool( dis ) );		
+			}
 			return fd;
 		}
 		assert type == FILTER_DEFN_FLAG_CUBE;
