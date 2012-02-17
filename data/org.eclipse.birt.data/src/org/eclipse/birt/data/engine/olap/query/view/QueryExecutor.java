@@ -45,7 +45,6 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
-import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -159,7 +158,7 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
 				.getFilterOption( ) == 0 );
 		
-		switch ( executor.getContext( ).getMode( ))
+		switch ( executor.getContext( ).getMode( ) )
 		{
 			case DataEngineContext.MODE_GENERATION:
 			{
@@ -273,8 +272,8 @@ public class QueryExecutor
 								.nextID( );
 					}
 					// save rs back to report document
-					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
-							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
+					CubeQueryDefinitionIOUtil.save( id, executor.getContext( ),
+							executor.getCubeQueryDefinition( ) );
 					AggregationResultSetSaveUtil.save( id,
 							rs,
 							executor.getContext( ).getDocWriter( ) );
@@ -882,7 +881,7 @@ public class QueryExecutor
 		if ( saveToRD )
 		{
 			CubeQueryDefinitionIOUtil.save( queryResutID, executor.getContext( )
-					.getDocWriter( ), executor.getCubeQueryDefinition( ) );
+					, executor.getCubeQueryDefinition( ) );
 			AggregationResultSetSaveUtil.save( queryResutID, rs, executor.getContext( )
 					.getDocWriter( ) );
 		}

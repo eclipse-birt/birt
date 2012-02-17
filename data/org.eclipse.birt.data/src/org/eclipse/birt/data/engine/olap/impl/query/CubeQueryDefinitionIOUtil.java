@@ -29,6 +29,8 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.BindingIOUtil;
 import org.eclipse.birt.data.engine.impl.document.ExprUtil;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.CubeSortDefinition;
@@ -92,12 +94,18 @@ public class CubeQueryDefinitionIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static void save( String queryResultID, IDocArchiveWriter writer, ICubeQueryDefinition qd ) 
+	public static void save( String queryResultID, DataEngineContext context, ICubeQueryDefinition qd ) 
 		throws DataException, IOException
 	{
 		DataOutputStream dos = null;
 		try 
 		{
+			StreamManager manager = new StreamManager( context,
+					new QueryResultInfo( queryResultID, null, 0 ) );
+
+			int version = manager.getVersion( );
+			IDocArchiveWriter writer = context.getDocWriter( );
+
 			RAOutputStream outputStream = writer.createRandomAccessStream( queryResultID + STREAM_FLAG );
 			dos = new DataOutputStream( outputStream );
 			
@@ -109,7 +117,7 @@ public class CubeQueryDefinitionIOUtil
 			IOUtil.writeInt( dos, qd.getFilterOption( ) );
 			
 			//save bindings	
-			saveBindings( dos, qd.getBindings( ), VersionManager.getLatestVersion( ) );
+			saveBindings( dos, qd.getBindings( ), version );
 			
 			//save filters
 			saveFilters( dos, qd.getFilters( ));
@@ -124,17 +132,15 @@ public class CubeQueryDefinitionIOUtil
 			saveComputedMeasures( dos, qd.getComputedMeasures( ) );
 			
 			//save calculated measures
-			saveCalculatedMeasures( dos, qd.getDerivedMeasures( ) );
+			saveCalculatedMeasures( dos, qd.getDerivedMeasures( ), version );
 			
 			//save edges
 			saveEdges( dos, qd );
 			
 			//save cube operations
-			saveCubeOperations( dos, qd.getCubeOperations( ), VersionManager.getLatestVersion( ) );
+			saveCubeOperations( dos, qd.getCubeOperations( ), version );
 			
 			dos.flush( );
-
-			saveVersion( queryResultID, writer );
 		}
 		finally
 		{
@@ -145,8 +151,11 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
-	private static void saveCalculatedMeasures( DataOutputStream dos, List<IDerivedMeasureDefinition> derivedMeasures ) throws IOException, DataException
+	private static void saveCalculatedMeasures( DataOutputStream dos, List<IDerivedMeasureDefinition> derivedMeasures, int version ) throws IOException, DataException
 	{
+		// no calculated measure support
+		if( version < VersionManager.VERSION_2_6_3_1 )
+			return;
 		if ( writeSize( dos, derivedMeasures ) > 0 )
 		{
 			for ( IDerivedMeasureDefinition m : derivedMeasures )
@@ -158,7 +167,8 @@ public class CubeQueryDefinitionIOUtil
 	
 	private static void loadCalculatedMeasures( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
-		if ( version < VersionManager.getLatestVersion( ) )
+		// no calculated measure support
+		if ( version < VersionManager.VERSION_2_6_3_1 )
 			return;
 		int size = IOUtil.readInt( dis );
 		for ( int i = 0; i < size; i++)
@@ -199,16 +209,7 @@ public class CubeQueryDefinitionIOUtil
 		dmd.setAggrFunction( md.getAggrFunction( ) );
 		return dmd;
 	}
-	
-	private static void saveVersion(  String queryResultID, IDocArchiveWriter writer ) throws IOException
-	{
-		RAOutputStream outputStream = writer.createRandomAccessStream( queryResultID + "_VERSION" );
-		DataOutputStream dos = new DataOutputStream( outputStream );
 		
-		IOUtil.writeInt( dos, VersionManager.getLatestVersion( ) );
-		dos.close( );
-	}
-	
 	/**
 	 * Loads {@code CubeQueryDefinition} instance from report document
 	 * @param queryResultID
@@ -223,16 +224,21 @@ public class CubeQueryDefinitionIOUtil
 		DataInputStream dis = null;
 		IDocArchiveReader reader = context.getDocReader( );
 		
-		int version = 0;
-		try 
+		int version;
+		if( context.hasInStream( null,
+				null,
+				DataEngineContext.VERSION_INFO_STREAM ) == false )
 		{
-			if( reader.exists( queryResultID + "_VERSION" ) )
-			{
-				RAInputStream inputStream = reader.getStream( queryResultID + "_VERSION" );
-				DataInputStream stream = new DataInputStream( inputStream );
-				version = IOUtil.readInt( stream );
-			}
-			
+			version = 0;
+		}
+		else
+		{
+			StreamManager manager = new StreamManager( context,
+					new QueryResultInfo( queryResultID, null, 0 ) );
+			version = manager.getVersion( );			
+		}
+		try 
+		{			
 			RAInputStream inputStream = reader.getStream( queryResultID + STREAM_FLAG );
 			dis = new DataInputStream( inputStream );
 			

@@ -80,7 +80,10 @@ public class CubeQueryDefinitionIOUtilTest extends TestCase
 	{
 		IDocArchiveWriter writer = new FileArchiveWriter( tempFile.getAbsolutePath( ));
 		ICubeQueryDefinition toSave = createQueryDefn( );
-		CubeQueryDefinitionIOUtil.save( queryResultID, writer, toSave );
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION, null,
+				null,
+				writer );
+		CubeQueryDefinitionIOUtil.save( queryResultID, context, toSave );
 		writer.flush( );
 		writer.finish( );
 		
