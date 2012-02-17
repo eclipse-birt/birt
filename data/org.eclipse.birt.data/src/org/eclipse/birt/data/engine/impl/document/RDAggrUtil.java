@@ -40,18 +40,20 @@ public class RDAggrUtil implements IRDAggrUtil
 
 	private HashMap<String, RDAggrValueHolder> holders = new HashMap<String, RDAggrValueHolder>( );
 	private IBaseQueryDefinition qd;
+	private RAInputStream aggrIndexStream;
+	private DataInputStream valueStream;
 	
 	public RDAggrUtil( StreamManager manager, IBaseQueryDefinition qd ) throws DataException
 	{
 		this.qd = qd;
 		try
 		{
-			RAInputStream aggrIndexStream = manager.getInStream( DataEngineContext.AGGR_INDEX_STREAM,
+			aggrIndexStream = manager.getInStream( DataEngineContext.AGGR_INDEX_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
 			int aggrSize = IOUtil.readInt( aggrIndexStream );
 			DataInputStream aggrIndexDis = new DataInputStream( aggrIndexStream );
-			DataInputStream valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
+			valueStream = new DataInputStream( new WrapperedRAInputStream( manager.getInStream( DataEngineContext.AGGR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE ),
 					0,
@@ -61,6 +63,7 @@ public class RDAggrUtil implements IRDAggrUtil
 			{
 				RDAggrValueHolder holder = new RDAggrValueHolder( valueStream );
 				holders.put( holder.getName( ), holder );
+				valueStream.close( );
 				if ( i < aggrSize - 1 )
 				{
 					long offset = IOUtil.readLong( aggrIndexDis );
@@ -233,7 +236,19 @@ public class RDAggrUtil implements IRDAggrUtil
 
 	public void close( ) throws DataException
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			if ( valueStream != null )
+			{
+				valueStream.close( );
+			}
+			if ( aggrIndexStream != null )
+			{
+				aggrIndexStream.close( );
+			}
+		}
+		catch ( IOException ex )
+		{
+		}
 	}
 }

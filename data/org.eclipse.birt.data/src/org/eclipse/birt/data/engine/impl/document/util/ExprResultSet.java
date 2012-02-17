@@ -61,6 +61,9 @@ public class ExprResultSet implements IExprResultSet
 	
 	private IBaseQueryDefinition qd;
 	
+	private List<RAInputStream> aggrIndexStreams;
+	private List<RAInputStream> aggrStreams;
+	
 	/**
 	 * @param streamManager
 	 * @param rdGroupUtil
@@ -101,12 +104,12 @@ public class ExprResultSet implements IExprResultSet
 				StreamManager.SELF_SCOPE );
 		if( version >=VersionManager.VERSION_2_5_1_0 )
 		{
-			List<RAInputStream> aggrStreams = streamManager.getInStreams( DataEngineContext.AGGR_VALUE_STREAM,
+			aggrStreams = streamManager.getInStreams( DataEngineContext.AGGR_VALUE_STREAM,
 						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE ); 
 			if((!aggrStreams.isEmpty( )) || streamManager.hasInStream( DataEngineContext.COMBINED_AGGR_VALUE_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE ))
 			{
-				List<RAInputStream> aggrIndexStreams = streamManager.getInStreams( DataEngineContext.AGGR_INDEX_STREAM,
+				aggrIndexStreams = streamManager.getInStreams( DataEngineContext.AGGR_INDEX_STREAM,
 						StreamManager.ROOT_STREAM,
 						StreamManager.SELF_SCOPE ); 
 				RAInputStream combinedAggrIndex = null;
@@ -300,6 +303,20 @@ public class ExprResultSet implements IExprResultSet
 			{
 				rdGroupUtil.close( );
 				rdGroupUtil = null;
+			}
+			if( aggrIndexStreams!= null )
+			{
+				for( int i=0; i< aggrIndexStreams.size( ); i++ )
+				{
+					aggrIndexStreams.get( i ).close( );
+				}
+			}
+			if( aggrStreams!= null )
+			{
+				for( int i=0; i< aggrStreams.size( ); i++ )
+				{
+					aggrStreams.get( i ).close( );
+				}
 			}
 		}
 		catch ( IOException e )
