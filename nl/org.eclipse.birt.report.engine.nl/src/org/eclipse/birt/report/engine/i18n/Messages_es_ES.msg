@@ -127,7 +127,7 @@ Error.UnsupportedExprssionType = Tipo de expresión no admitido.
 Error.UnknownContentVersion = Versión de contenido desconocida.
 Error.UnknownFieldID = ID de campo desconocida: {0}.
 Error.ResourceNotAccessible = {0} no es accesible.
-Error.ERROR_WITH_STATUS=There are errors in the document: {0}.
+Error.ERROR_WITH_STATUS=Hay errores en el documento: {0}.
 
 ###########################################################
 Error.ElementID = ID del elemento

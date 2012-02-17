@@ -127,7 +127,7 @@ Error.UnsupportedExprssionType = 不支持的表达式类型。
 Error.UnknownContentVersion = 未知内容版本。
 Error.UnknownFieldID = 未知字段 id: {0}。
 Error.ResourceNotAccessible = {0} 不可访问。
-Error.ERROR_WITH_STATUS=There are errors in the document: {0}.
+Error.ERROR_WITH_STATUS=文档中存在错误: {0}。
 
 ###########################################################
 Error.ElementID = 元素 ID
