@@ -2955,7 +2955,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 		// AXIS LINE
 		LineAttributes lia = LineAttributesImpl.createDefault( null,
 				LineStyle.SOLID_LITERAL,
-				1 );
+				1,
+				true );
 		setLineAttributes( lia );
 
 		// INTERSECTION VALUE
