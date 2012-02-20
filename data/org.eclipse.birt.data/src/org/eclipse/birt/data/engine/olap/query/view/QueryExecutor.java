@@ -185,7 +185,7 @@ public class QueryExecutor
 					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ),
+							new VersionManager( executor.getContext( ) ).getVersion( executor.getCubeQueryDefinition().getQueryResultsID() ),
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					initLoadedAggregationResultSets( rs, finalAggregation );
 
@@ -227,6 +227,7 @@ public class QueryExecutor
 				}
 				if ( !CubeQueryDefinitionIOUtil.existStream( executor.getContext( ).getDocReader( ), id ) 
 						|| ieh == null
+						//|| ieh.isNoIncrement()
 						//Currently, do not support increment execution when cube operations are involved.
 						|| (!ieh.isNoIncrement( ) && executor.getCubeQueryDefinition( ).getCubeOperations( ).length > 0) 
 				)
@@ -245,7 +246,7 @@ public class QueryExecutor
 					//increment execute the query based on the saved aggregation result sets.
 					rs = AggregationResultSetSaveUtil.load( id,
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ),
+							new VersionManager( executor.getContext( ) ).getVersion( id ),
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					
 					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
@@ -829,7 +830,7 @@ public class QueryExecutor
 					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ),
+							new VersionManager( executor.getContext( ) ).getVersion( id ),
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					initLoadedAggregationResultSets( rs, aggrDefns );
 

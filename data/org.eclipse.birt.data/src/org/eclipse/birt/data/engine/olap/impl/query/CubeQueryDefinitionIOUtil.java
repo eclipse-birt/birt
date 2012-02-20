@@ -225,18 +225,10 @@ public class CubeQueryDefinitionIOUtil
 		IDocArchiveReader reader = context.getDocReader( );
 		
 		int version;
-		if( context.hasInStream( null,
-				null,
-				DataEngineContext.VERSION_INFO_STREAM ) == false )
-		{
-			version = 0;
-		}
-		else
-		{
-			StreamManager manager = new StreamManager( context,
+		
+		StreamManager manager = new StreamManager( context,
 					new QueryResultInfo( queryResultID, null, 0 ) );
 			version = manager.getVersion( );			
-		}
 		try 
 		{			
 			RAInputStream inputStream = reader.getStream( queryResultID + STREAM_FLAG );

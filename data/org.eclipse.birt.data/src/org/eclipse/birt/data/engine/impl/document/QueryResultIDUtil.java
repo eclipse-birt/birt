@@ -55,7 +55,7 @@ public class QueryResultIDUtil
 	{
 		String newID = _1partQueryResultID;
 		if ( newID != null )
-			newID += QURE_ID_SEPARATOR + _2partQueryResultID;
+			newID += _2partQueryResultID == null?"": QURE_ID_SEPARATOR + _2partQueryResultID;
 		else
 			newID = _2partQueryResultID;
 

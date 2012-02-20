@@ -25,6 +25,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
@@ -136,32 +137,36 @@ public class StreamManager
 		VersionManager vm = new VersionManager( context );
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
 		{	
-			this.version = vm.getVersion( );
+			this.version = vm.getVersion( this.getQueryResultUID() );
 			
 			//Only in the BDO mode the document version in a generation task
 			//returns a non VERSION_2_0 value. The BDO is introduced after 2_5_0
 			//so we are safe to use 2_0 as the indication of BDO mode
+			
 			if( this.version == VersionManager.VERSION_2_0 )
+			{	
+				//non .data based report document generation mode, or BDO generation mode. Save one general version for
+				//all the queries
 				this.version = VersionManager.getLatestVersion( );
-			vm.setVersion( this.version );	
-		}
-		else if ( context.getMode( ) == DataEngineContext.MODE_UPDATE
-				&& this.rootQueryResultID == null )
-		{
-			//TODO add this for the case when doing IV without query result id
-			if ( this.context.hasInStream( null,
-					null,
-					DataEngineContext.VERSION_INFO_STREAM ) == false )
-			{
-				this.version = VersionManager.getLatestVersion( );
-				vm.setVersion( this.version );
 			}
-			else
-				this.version = vm.getVersion( );
+			
+			vm.setVersion( version, this.getQueryResultUID( ) );
+			//Keep it by now so that not to introduce potential backward issue.
+			vm.setVersion(VersionManager.getLatestVersion(), null);
+
 		}
 		else
 		{
-			this.version = vm.getVersion( );
+			String queryResultId = this.getQueryResultUID();
+			this.version = vm.getVersion( queryResultId );
+			
+			//TODO: Remove me. We should not reset the version id in IV. We add following logic 
+			//to temporiarily resolve [25079]. Dashboard's using of Data Engine API is incorrect.We always need first issue a generation task before any IV operation.
+			if( this.version == 0 && queryResultId != null )
+			{
+				this.version = vm.getLatestVersion();
+				vm.setVersion( this.version, queryResultId );
+			}
 		}
 	}
 	
