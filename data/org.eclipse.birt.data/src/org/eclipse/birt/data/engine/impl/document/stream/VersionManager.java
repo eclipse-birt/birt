@@ -151,7 +151,7 @@ public class VersionManager
 	void setVersion( int version, String queryResultId ) throws DataException
 	{
 		
-		if( queryResultId == null || queryResultId.trim().isEmpty() )
+		if( queryResultId == null || queryResultId.trim().length( ) == 0 )
 		{
 			this.setVersion( version );
 			return;
@@ -206,7 +206,7 @@ public class VersionManager
 	
 	public int getVersion( String queryResultId ) throws DataException
 	{
-		if( queryResultId != null && !queryResultId.trim().isEmpty() )
+		if( queryResultId != null && queryResultId.trim().length( )> 0 )
 		{
 			Integer version = this.getQueryIdVersionMap().get( queryResultId );
 			if( version!= null )
