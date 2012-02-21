@@ -45,7 +45,7 @@ class RDSave2 implements IRDSave
 		this.context = context;
 
 		this.streamManager = new StreamManager( context, queryResultInfo );
-		this.saveUtilHelper = new RDSaveUtil( this.context.getMode( ),
+		this.saveUtilHelper = new RDSaveUtil( this.context,
 				queryDefn,
 				this.streamManager );
 	}
