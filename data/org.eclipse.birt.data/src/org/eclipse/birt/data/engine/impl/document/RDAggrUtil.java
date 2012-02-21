@@ -13,7 +13,9 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -63,7 +65,6 @@ public class RDAggrUtil implements IRDAggrUtil
 			{
 				RDAggrValueHolder holder = new RDAggrValueHolder( valueStream );
 				holders.put( holder.getName( ), holder );
-				valueStream.close( );
 				if ( i < aggrSize - 1 )
 				{
 					long offset = IOUtil.readLong( aggrIndexDis );
@@ -232,15 +233,28 @@ public class RDAggrUtil implements IRDAggrUtil
 
 			return this.currentValue;
 		}
+		
+		public void close( ) throws IOException
+		{
+			if( valueStream!= null )
+			{
+				valueStream.close( );
+			}
+		}
 	}
 
 	public void close( ) throws DataException
 	{
 		try
 		{
-			if ( valueStream != null )
+			if ( !this.holders.isEmpty( ) )
 			{
-				valueStream.close( );
+				Collection<RDAggrValueHolder> values = this.holders.values( );
+				Iterator<RDAggrValueHolder> iter = values.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					iter.next( ).close( );
+				}
 			}
 			if ( aggrIndexStream != null )
 			{
