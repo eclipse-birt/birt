@@ -224,11 +224,9 @@ public class CubeQueryDefinitionIOUtil
 		DataInputStream dis = null;
 		IDocArchiveReader reader = context.getDocReader( );
 		
-		int version;
-		
-		StreamManager manager = new StreamManager( context,
-					new QueryResultInfo( queryResultID, null, 0 ) );
-			version = manager.getVersion( );			
+		VersionManager vm = new VersionManager( context );
+		int version = vm.getVersion( queryResultID );
+
 		try 
 		{			
 			RAInputStream inputStream = reader.getStream( queryResultID + STREAM_FLAG );
