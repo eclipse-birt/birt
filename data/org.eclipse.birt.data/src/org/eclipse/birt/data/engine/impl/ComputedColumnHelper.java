@@ -62,7 +62,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	
 	private static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
-	// private Object groupMethod.
+	private boolean suppressException;
 
 	/**
 	 * 
@@ -99,10 +99,17 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		this.currentModel = this.dataSetInstance;
 		
 		this.dataSet = dataSet;
+		this.suppressException = false;
 		logger.exiting( ComputedColumnHelper.class.getName( ),
 				"ComputedColumnHelper" );
 	}
 
+	//TODO: Enhance me. This is temply introduced for support aggregation on row sort.
+	public void suppressException( boolean suppressException )
+	{
+		this.suppressException = suppressException;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -506,23 +513,26 @@ public class ComputedColumnHelper implements IResultObjectEvent
 						}
 						catch ( BirtException e )
 						{
-							String fieldName = resultClass.getFieldName( columnIndexArray[i] );
-							// Exception from System computed column for Sort, Group or Filter
-							if ( fieldName != null
-									&& fieldName.startsWith( "_{$TEMP_" ) )
+							if ( !suppressException )
 							{
-								throw new DataException( ResourceConstants.WRONG_SYSTEM_COMPUTED_COLUMN,
-										e );
+								String fieldName = resultClass.getFieldName( columnIndexArray[i] );
+								// Exception from System computed column for Sort, Group or Filter
+								if ( fieldName != null
+										&& fieldName.startsWith( "_{$TEMP_" ) )
+								{
+									throw new DataException( ResourceConstants.WRONG_SYSTEM_COMPUTED_COLUMN,
+											e );
+								}
+								//Exception from "Any" type
+								if ( resultClass.wasAnyType( columnIndexArray[i] ))
+									throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN,
+											e );
+	
+								//All other exceptions
+								throw new DataException( ResourceConstants.FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN,
+										e,
+										resultClass.getFieldName( columnIndexArray[i] ) );
 							}
-							//Exception from "Any" type
-							if ( resultClass.wasAnyType( columnIndexArray[i] ))
-								throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN,
-										e );
-
-							//All other exceptions
-							throw new DataException( ResourceConstants.FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN,
-									e,
-									resultClass.getFieldName( columnIndexArray[i] ) );
 						}
 
 						resultObject.setCustomFieldValue( columnIndexArray[i],
