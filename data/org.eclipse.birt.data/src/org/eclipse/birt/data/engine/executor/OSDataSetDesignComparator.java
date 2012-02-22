@@ -130,9 +130,6 @@ public class OSDataSetDesignComparator
 		
 		if ( ComparatorUtil.isEqualFilters( filter1, filter2 ) == false )
 			return false;
-		
-		if ( dataSetDesign.getFilters( ).size() > dataSetDesign2.getFilters( ).size( ) )
-			return false;
 
 		if ( dataSetDesign.getCacheRowCount( ) != dataSetDesign2.getCacheRowCount( ))
 			return false;

@@ -37,7 +37,7 @@ public class GroupDefnUtil
 	 * @throws DataException
 	 */
 	static void saveGroupDefn( OutputStream outputStream,
-			List groupList, int version ) throws DataException
+			List groupList, int version, String bundleVersion ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 
@@ -56,7 +56,7 @@ public class GroupDefnUtil
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
 				FilterDefnUtil.saveFilterDefn( dos, groupDefn.getFilters( ), version );
 				QueryDefnIOUtil.saveSorts( dos, groupDefn.getSorts( ), version );
-				QueryDefnIOUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version );
+				QueryDefnIOUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version, bundleVersion );
 			}
 			
 			dos.flush( );

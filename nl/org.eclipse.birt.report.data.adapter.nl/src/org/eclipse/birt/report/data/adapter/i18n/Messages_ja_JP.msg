@@ -22,7 +22,7 @@ datasource.exid.error=ƒf[ƒ^ƒ\[ƒX’è‹` {0} ‚ÉŠg’£ ID ‚ª‚ ‚è‚Ü‚¹‚ñB
 datasethandle.null.error=DataSetHandle ‚Í NULL ‚É‚Å‚«‚Ü‚¹‚ñB
 datasethandle.invalidColumnIndex=—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚ª–³Œø‚Å‚·B
 adapter.invalid.datetimetype=“úŒ^ "{0}" ‚ª–³Œø‚Å‚·B
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=WŒvŠÖ” {0} ‚ª–³Œø‚Å‚·B
 
 invalid.datetime.value=“ú‚Ì’l "{0}" ‚ª–³Œø‚Å‚·B
 missing.join.condition=ƒLƒ…[ƒu "{2}" ‚Ìƒvƒ‰ƒCƒ}ƒŠƒf[ƒ^ƒZƒbƒg "{0}" ‚ÆƒfƒBƒƒ“ƒWƒ‡ƒ“ "{1}" ‚Æ‚ÌŠÔ‚ÉƒWƒ‡ƒCƒ“ğŒ‚ª‚ ‚è‚Ü‚¹‚ñB
@@ -37,7 +37,7 @@ cube.error.createmeasure=ƒƒWƒƒ[—v‘f‚Ìì¬’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 cube.error.datasetmiss=ŠÖ˜A‚·‚éƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚ç‚È‚¢‚½‚ßAƒLƒ…[ƒu‚ğì¬‚Å‚«‚Ü‚¹‚ñB
 cube.jointColumnNotInLevels=Œ‹‡—ñ "{0}" ‚ÍƒfƒBƒƒ“ƒVƒ‡ƒ“ "{1}" ‚Ì‚¢‚¸‚ê‚ÌƒŒƒxƒ‹‚ÌƒL[ƒtƒB[ƒ‹ƒh‚Æ‚µ‚Ä‚à’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 cube.unsupportedAggregationInBinding=ƒoƒCƒ“ƒh "{0}" ‚Ì TopN ‚Æ BottomN ŠÖ”‚ÍAxTab ‚Å‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=ˆø” "{0}" ‚ª–³Œø‚Å‚·B ƒtƒBƒ‹ƒ^®‚ªŒvZÏ‚İ‚ÌƒƒWƒƒ[ "{1}" ‚ğQÆ‚µ‚Ä‚¢‚Ü‚·B
 
 cube.query.error.dimensionMiss=ƒfƒBƒƒ“ƒVƒ‡ƒ“ "{0}" ‚ªƒLƒ…[ƒu‚É‘¶İ‚µ‚Ü‚¹‚ñB
 cube.query.error.levelMiss=ŠÔ‚Ìí—Ş‚ª "{0}" ‚ÌƒŒƒxƒ‹‚ªƒLƒ…[ƒu‚ÌŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“ "{1}" ‚É‘¶İ‚µ‚Ü‚¹‚ñB
@@ -97,7 +97,7 @@ timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.name = N ŠúŠÔ‘O‚©‚ç‚ÌŒ»İ‚Ü‚Å‚ÌŠúŠ
 timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description = N ŠúŠÔ‘O‚©‚ç‚Ì“¯‚¶ŠúŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name = N ŠúŠÔ‘O‚©‚ç‚Ì‰ß‹ N ŠúŠÔ 
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description = N ŠúŠÔ‘O‚©‚ç‚Ì‰ß‹ N ŠúŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
-timeFunction.TRAILING_N_MONTHS.name = Trailing N Months 
+timeFunction.TRAILING_N_MONTHS.name = ‰ß‹ N ‚©ŒŠÔ 
 timeFunction.TRAILING_N_MONTHS.description = ‰ß‹ N ‚©ŒŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
 timeFunction.TRAILING_N_DAYS.name = ‰ß‹ N “úŠÔ 
 timeFunction.TRAILING_N_DAYS.description = ‰ß‹ N “úŠÔ‚Ìw’è‚³‚ê‚½ƒƒgƒŠƒNƒX‚ğŒvZ‚·‚é
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =Œ
 timeFunction.PERIODCHOICE.WEEK_displayName =T
 timeFunction.PERIODCHOICE.DAY_displayName =“ú
  
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Œ»İ‚Ü‚Å‚Ì 1 ”NŠÔ
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Œ»İ‚Ü‚Å‚Ìl”¼Šú
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Œ»İ‚Ü‚Å‚Ì 1 ‚©Œ
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Œ»İ‚Ü‚Å‚Ì 1 TŠÔ
 
 timeFunction.toolTip.to=I—¹“ú

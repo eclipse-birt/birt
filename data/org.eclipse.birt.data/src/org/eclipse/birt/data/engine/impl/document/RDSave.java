@@ -79,7 +79,7 @@ class RDSave implements IRDSave
 		this.queryDefn = queryDefn;
 		
 		this.streamManager = new StreamManager( context, queryResultInfo );
-		this.rdSaveUtil = new RDSaveUtil( this.context.getMode( ),
+		this.rdSaveUtil = new RDSaveUtil( this.context,
 				queryDefn,
 				this.streamManager );
 	}

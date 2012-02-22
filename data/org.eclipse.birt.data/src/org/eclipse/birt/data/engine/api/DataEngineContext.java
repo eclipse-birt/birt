@@ -161,6 +161,8 @@ public class DataEngineContext
 	
 	public final static int PROGRESSIVE_VIEWING_GROUP_STREAM = 120;
 	
+	public final static int QUERY_ID_BASED_VERSIONING_STREAM = 130;
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -393,8 +395,8 @@ public class DataEngineContext
 	{
 		String relativePath = getPath( streamID, subStreamID, streamType );
 
-		if ( reader != null )
-			return reader.exists( relativePath );
+		if ( reader != null && reader.exists( relativePath ) )
+			return true;
 		else if ( writer!= null && writer.exists( relativePath ))
 			return true;
 		return false;
@@ -465,7 +467,7 @@ public class DataEngineContext
 		{
 			RAInputStream inputStream = null;
 			
-			if ( reader != null )
+			if ( reader != null && reader.exists( relativePath ))
 			{	
 			  inputStream = reader.getStream( relativePath );
 			}
@@ -696,6 +698,9 @@ public class DataEngineContext
 			case EMPTY_NESTED_QUERY_ID:
 				relativePath = "EmptyNestQueryResultIDs";
 				break;
+			case QUERY_ID_BASED_VERSIONING_STREAM:
+				return "/DataEngine/QueryIdBasedVersioningStream";
+			
 			default :
 				assert false; // impossible
 		}

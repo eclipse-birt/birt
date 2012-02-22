@@ -13,7 +13,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeACLExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.LinkToCubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
@@ -433,7 +433,7 @@ public class DateLevelDialog extends TitleAreaDialog
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_CONTEXT,
 								input );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROVIDER,
-								new CubeExpressionProvider( input ) );
+								new CubeACLExpressionProvider( input ) );
 						helper.setProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY,
 								input.getACLExpression( ) );
 						helper.createContent( parent );

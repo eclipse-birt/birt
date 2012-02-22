@@ -22,7 +22,7 @@ datasource.exid.error=Falta el ID de extensión en la definición de la fuente de 
 datasethandle.null.error=DataSetHandle no puede ser nulo.
 datasethandle.invalidColumnIndex=El índice de columna no es válido.
 adapter.invalid.datetimetype=El tipo de fecha/hora "{0}" no es válido.
-adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
+adapter.invalid.aggregationfunctionname=La función de agregación {0} no es válida.
 
 invalid.datetime.value=El valor Fecha/Hora "{0}"no es válido.
 missing.join.condition=Falta la condición de combinación entre el conjunto de datos primario "{0}" y la dimensión "{1}" en el cubo "{2}".
@@ -37,7 +37,7 @@ cube.error.createmeasure=Se produce un error al crear la medida.
 cube.error.datasetmiss=El cubo no se puede crear porque falta el conjunto de datos relacionado.
 cube.jointColumnNotInLevels=La columna de combinación "{0}" no está definida como campo clave de ningún nivel en la dimensión "{1}".
 cube.unsupportedAggregationInBinding=La función TopN/BottomN al enlazar "{0}" no se admite en xTab.
-cube.error.aggregationFilter.referCalculatedMeasure=Invalid aggregation "{0}". The filter expression referenced a calculated measure "{1}".
+cube.error.aggregationFilter.referCalculatedMeasure=Agregación no válida "{0}". La expresión de filtro hace referencia a una medida calculada "{1}".
 
 cube.query.error.dimensionMiss="{0}" de dimensión no existe en el cubo.
 cube.query.error.levelMiss=El nivel con "{0}" de tipo tiempo no existe en "{1}" de dimensión con tiempo en cubo.
@@ -97,7 +97,7 @@ timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.name = Período hasta la fecha desd
 timeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO.description = Calcular la medida específica para el mismo período desde hace N períodos
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.name = N períodos finales desde hace N períodos 
 timeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.description = Calcular la medida especificada para N períodos finales desde hace N períodos
-timeFunction.TRAILING_N_MONTHS.name = Trailing N Months 
+timeFunction.TRAILING_N_MONTHS.name = N meses finales 
 timeFunction.TRAILING_N_MONTHS.description = Calcular la medida especificada para los últimos N meses
 timeFunction.TRAILING_N_DAYS.name = N días finales 
 timeFunction.TRAILING_N_DAYS.description = Calcular la medida especificada para los últimos N días
@@ -142,9 +142,9 @@ timeFunction.PERIODCHOICE.MONTH_displayName =MES
 timeFunction.PERIODCHOICE.WEEK_displayName =SEMANA
 timeFunction.PERIODCHOICE.DAY_displayName =DÍA
 
-timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Year to Date
-timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quarter to Date
-timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Month to Date
-timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Week to Date
+timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Año hasta la fecha
+timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Trimestre hasta la fecha
+timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mes hasta la fecha
+timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semana hasta la fecha
 
 timeFunction.toolTip.to=A

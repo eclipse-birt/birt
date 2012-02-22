@@ -45,7 +45,6 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
-import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -159,7 +158,7 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
 				.getFilterOption( ) == 0 );
 		
-		switch ( executor.getContext( ).getMode( ))
+		switch ( executor.getContext( ).getMode( ) )
 		{
 			case DataEngineContext.MODE_GENERATION:
 			{
@@ -186,7 +185,7 @@ public class QueryExecutor
 					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ),
+							new VersionManager( executor.getContext( ) ).getVersion( executor.getCubeQueryDefinition().getQueryResultsID() ),
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					initLoadedAggregationResultSets( rs, finalAggregation );
 
@@ -228,7 +227,7 @@ public class QueryExecutor
 				}
 				if ( !CubeQueryDefinitionIOUtil.existStream( executor.getContext( ).getDocReader( ), id ) 
 						|| ieh == null
-						|| ieh.isNoIncrement()
+						//|| ieh.isNoIncrement()
 						//Currently, do not support increment execution when cube operations are involved.
 						|| (!ieh.isNoIncrement( ) && executor.getCubeQueryDefinition( ).getCubeOperations( ).length > 0) 
 				)
@@ -247,7 +246,7 @@ public class QueryExecutor
 					//increment execute the query based on the saved aggregation result sets.
 					rs = AggregationResultSetSaveUtil.load( id,
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ),
+							new VersionManager( executor.getContext( ) ).getVersion( id ),
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					
 					//Restore{@code AggregationDefinition} info first which are lost during saving aggregation result sets
@@ -273,8 +272,8 @@ public class QueryExecutor
 								.nextID( );
 					}
 					// save rs back to report document
-					CubeQueryDefinitionIOUtil.save( id, executor.getContext( )
-							.getDocWriter( ), executor.getCubeQueryDefinition( ) );
+					CubeQueryDefinitionIOUtil.save( id, executor.getContext( ),
+							executor.getCubeQueryDefinition( ) );
 					AggregationResultSetSaveUtil.save( id,
 							rs,
 							executor.getContext( ).getDocWriter( ) );
@@ -831,7 +830,7 @@ public class QueryExecutor
 					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 							.getQueryResultsID( ),
 							executor.getContext( ).getDocReader( ),
-							new VersionManager( executor.getContext( ) ).getVersion( ),
+							new VersionManager( executor.getContext( ) ).getVersion( id ),
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					initLoadedAggregationResultSets( rs, aggrDefns );
 
@@ -882,7 +881,7 @@ public class QueryExecutor
 		if ( saveToRD )
 		{
 			CubeQueryDefinitionIOUtil.save( queryResutID, executor.getContext( )
-					.getDocWriter( ), executor.getCubeQueryDefinition( ) );
+					, executor.getCubeQueryDefinition( ) );
 			AggregationResultSetSaveUtil.save( queryResutID, rs, executor.getContext( )
 					.getDocWriter( ) );
 		}

@@ -107,15 +107,6 @@ public class PreparedQueryUtil
 		
 		IPreparedQuery preparedQuery;
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
-				
-		if ( queryDefn instanceof CubeCreationQueryDefinition )
-		{
-			if ( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) != null )
-			{
-				dset.getFilters( )
-						.addAll( ( (CubeCreationQueryDefinition) queryDefn ).getDataSetFilters( ) );
-			}
-		}
 		
 		if( dset!= null )
 		{
@@ -267,7 +258,7 @@ public class PreparedQueryUtil
 		{
 			validateComputedColumns(dataSet);
 		}
-		validateSorts( queryDefn );
+		//validateSorts( queryDefn );
 		//validateSummaryQuery( queryDefn );
 	}
 	
@@ -304,9 +295,11 @@ public class PreparedQueryUtil
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void validateSorts( IQueryDefinition queryDefn ) throws DataException
+	public static boolean hasSortOnAggregat( IBaseQueryDefinition iBaseQueryDefinition ) throws DataException
 	{
-		List<ISortDefinition> sorts = queryDefn.getSorts( );
+		List<ISortDefinition> sorts = iBaseQueryDefinition.getSorts( );
+		Map bindings = iBaseQueryDefinition.getBindings();
+		
 		if ( sorts != null )
 		{
 			for ( ISortDefinition sd : sorts )
@@ -316,24 +309,25 @@ public class PreparedQueryUtil
 				{
 					for ( String bindingName : bindingNames )
 					{
-						IBinding binding = (IBinding)queryDefn.getBindings( ).get( bindingName );
+						IBinding binding = (IBinding)bindings.get( bindingName );
 						if ( binding != null )
 						{
 							//sort key expression can't base on Aggregation
 							if( binding.getAggrFunction( ) != null )
-								throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
+								return true;
 							
 							List refBindingName = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ), ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
 							if( refBindingName.size( ) > 0 )
 							{
-								if( existAggregationBinding( refBindingName, queryDefn.getBindings( ) ) )
-									throw new DataException( ResourceConstants.SORT_ON_AGGR, bindingName );
+								if( existAggregationBinding( refBindingName, bindings ) )
+									return true;
 							}
 						}
 					}
 				}
 			}
 		}
+		return false;
 	}
 	
 	private static boolean existAggregationBinding( List bindingName, Map bindings ) throws DataException

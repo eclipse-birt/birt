@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.executor.transform.group.IncrementalUpdateGr
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
+import org.eclipse.birt.data.engine.impl.PreparedQueryUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -382,10 +383,16 @@ class ResultSetProcessUtil extends RowProcessUtil
 	{
 		boolean needGroupFiltering = this.needDoGroupFiltering( );
 		boolean needGroupSorting = this.needDoGroupSorting( );
+		boolean needRowSortOnAggregation = this.needRowSortOnAggregation( );
 		boolean needAggrFiltering = psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING );
 		if ( needPreCalculateForGroupFilterSort( needGroupFiltering,
-				needGroupSorting ) || needAggrFiltering )
+				needGroupSorting ) || needAggrFiltering || needRowSortOnAggregation )
 		{
+			//TODO: Enhance me so that invalid computed column will not be evaluated at all
+			if( needRowSortOnAggregation && this.computedColumnHelper!= null )
+				this.computedColumnHelper.suppressException( true );
+			//ENDTODO
+			
 			if ( !groupingDone )
 			{
 				PassUtil.pass( this.populator,
@@ -402,6 +409,10 @@ class ResultSetProcessUtil extends RowProcessUtil
 						this.populator );
 				this.populator.getResultIterator( ).addAggrValueHolder( helper );
 			}
+			//TODO: Enhance me so that invalid computed column will not be evaluated at all
+			this.computedColumnHelper.suppressException( false );
+			//ENDTODO
+			
 		}
 	}
 
@@ -437,6 +448,11 @@ class ResultSetProcessUtil extends RowProcessUtil
 			}
 		}
 		return false;
+	}
+	
+	private boolean needRowSortOnAggregation( ) throws DataException
+	{
+		return PreparedQueryUtil.hasSortOnAggregat( this.populator.getQuery().getQueryDefinition() );
 	}
 	
 	/**

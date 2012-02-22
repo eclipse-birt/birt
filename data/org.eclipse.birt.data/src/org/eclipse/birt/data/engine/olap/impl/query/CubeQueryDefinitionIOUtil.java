@@ -29,6 +29,8 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.BindingIOUtil;
 import org.eclipse.birt.data.engine.impl.document.ExprUtil;
+import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.CubeSortDefinition;
@@ -92,12 +94,18 @@ public class CubeQueryDefinitionIOUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static void save( String queryResultID, IDocArchiveWriter writer, ICubeQueryDefinition qd ) 
+	public static void save( String queryResultID, DataEngineContext context, ICubeQueryDefinition qd ) 
 		throws DataException, IOException
 	{
 		DataOutputStream dos = null;
 		try 
 		{
+			StreamManager manager = new StreamManager( context,
+					new QueryResultInfo( queryResultID, null, 0 ) );
+
+			int version = manager.getVersion( );
+			IDocArchiveWriter writer = context.getDocWriter( );
+
 			RAOutputStream outputStream = writer.createRandomAccessStream( queryResultID + STREAM_FLAG );
 			dos = new DataOutputStream( outputStream );
 			
@@ -109,10 +117,10 @@ public class CubeQueryDefinitionIOUtil
 			IOUtil.writeInt( dos, qd.getFilterOption( ) );
 			
 			//save bindings	
-			saveBindings( dos, qd.getBindings( ), VersionManager.getLatestVersion( ) );
+			saveBindings( dos, qd.getBindings( ), version );
 			
 			//save filters
-			saveFilters( dos, qd.getFilters( ));
+			saveFilters( dos, qd.getFilters( ), version );
 			
 			//save sorts
 			saveSortDefns( dos, qd.getSorts( ));
@@ -124,17 +132,15 @@ public class CubeQueryDefinitionIOUtil
 			saveComputedMeasures( dos, qd.getComputedMeasures( ) );
 			
 			//save calculated measures
-			saveCalculatedMeasures( dos, qd.getDerivedMeasures( ) );
+			saveCalculatedMeasures( dos, qd.getDerivedMeasures( ), version );
 			
 			//save edges
-			saveEdges( dos, qd );
+			saveEdges( dos, qd, version );
 			
 			//save cube operations
-			saveCubeOperations( dos, qd.getCubeOperations( ), VersionManager.getLatestVersion( ) );
+			saveCubeOperations( dos, qd.getCubeOperations( ), version );
 			
 			dos.flush( );
-
-			saveVersion( queryResultID, writer );
 		}
 		finally
 		{
@@ -145,8 +151,11 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
-	private static void saveCalculatedMeasures( DataOutputStream dos, List<IDerivedMeasureDefinition> derivedMeasures ) throws IOException, DataException
+	private static void saveCalculatedMeasures( DataOutputStream dos, List<IDerivedMeasureDefinition> derivedMeasures, int version ) throws IOException, DataException
 	{
+		// no calculated measure support
+		if( version < VersionManager.VERSION_2_6_3_1 )
+			return;
 		if ( writeSize( dos, derivedMeasures ) > 0 )
 		{
 			for ( IDerivedMeasureDefinition m : derivedMeasures )
@@ -158,7 +167,8 @@ public class CubeQueryDefinitionIOUtil
 	
 	private static void loadCalculatedMeasures( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
-		if ( version < VersionManager.getLatestVersion( ) )
+		// no calculated measure support
+		if ( version < VersionManager.VERSION_2_6_3_1 )
 			return;
 		int size = IOUtil.readInt( dis );
 		for ( int i = 0; i < size; i++)
@@ -199,16 +209,7 @@ public class CubeQueryDefinitionIOUtil
 		dmd.setAggrFunction( md.getAggrFunction( ) );
 		return dmd;
 	}
-	
-	private static void saveVersion(  String queryResultID, IDocArchiveWriter writer ) throws IOException
-	{
-		RAOutputStream outputStream = writer.createRandomAccessStream( queryResultID + "_VERSION" );
-		DataOutputStream dos = new DataOutputStream( outputStream );
 		
-		IOUtil.writeInt( dos, VersionManager.getLatestVersion( ) );
-		dos.close( );
-	}
-	
 	/**
 	 * Loads {@code CubeQueryDefinition} instance from report document
 	 * @param queryResultID
@@ -223,16 +224,11 @@ public class CubeQueryDefinitionIOUtil
 		DataInputStream dis = null;
 		IDocArchiveReader reader = context.getDocReader( );
 		
-		int version = 0;
+		VersionManager vm = new VersionManager( context );
+		int version = vm.getVersion( queryResultID );
+
 		try 
-		{
-			if( reader.exists( queryResultID + "_VERSION" ) )
-			{
-				RAInputStream inputStream = reader.getStream( queryResultID + "_VERSION" );
-				DataInputStream stream = new DataInputStream( inputStream );
-				version = IOUtil.readInt( stream );
-			}
-			
+		{			
 			RAInputStream inputStream = reader.getStream( queryResultID + STREAM_FLAG );
 			dis = new DataInputStream( inputStream );
 			
@@ -247,7 +243,7 @@ public class CubeQueryDefinitionIOUtil
 			loadBindings( dis, cqd , version );
 			
 			//load filters
-			loadFilters( dis, cqd );
+			loadFilters( dis, cqd, version );
 			
 			//load sorts
 			loadSortDefns( dis, cqd );
@@ -262,7 +258,7 @@ public class CubeQueryDefinitionIOUtil
 			loadCalculatedMeasures( dis, cqd , version );
 			
 			//load edges
-			loadEdges( dis, cqd );
+			loadEdges( dis, cqd, version );
 			
 			//load cube operations
 			loadCubeOperations( dis, cqd, version );
@@ -278,33 +274,33 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
-	private static void saveFilters( DataOutputStream dos, List<IFilterDefinition> filters ) throws DataException, IOException
+	private static void saveFilters( DataOutputStream dos, List<IFilterDefinition> filters, int version ) throws DataException, IOException
 	{
 		if ( writeSize( dos, filters ) > 0 )
 		{
 			for ( IFilterDefinition fd : filters )
 			{
-				saveFilterDefn( dos, fd );
+				saveFilterDefn( dos, fd, version );
 			}
 		}
 	}
 	
-	private static void loadFilters( DataInputStream dis, ICubeQueryDefinition qd ) throws DataException, IOException
+	private static void loadFilters( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
 		int size = IOUtil.readInt( dis );
 		for ( int i = 0; i < size; i++)
 		{
-			IFilterDefinition fd = loadFilterDefn( dis );
+			IFilterDefinition fd = loadFilterDefn( dis, version );
 			qd.addFilter( fd );
 		}
 	}
 	
-	private static void loadFilters( DataInputStream dis, IEdgeDrillFilter edf ) throws DataException, IOException
+	private static void loadFilters( DataInputStream dis, IEdgeDrillFilter edf, int version ) throws DataException, IOException
 	{
 		int size = IOUtil.readInt( dis );
 		for ( int i = 0; i < size; i++)
 		{
-			IFilterDefinition fd = loadFilterDefn( dis );
+			IFilterDefinition fd = loadFilterDefn( dis, version );
 			edf.addLevelFilter( fd );
 		}
 	}
@@ -368,28 +364,28 @@ public class CubeQueryDefinitionIOUtil
 	
 	}
 	
-	private static void saveEdges( DataOutputStream dos, ICubeQueryDefinition qd ) throws DataException, IOException
+	private static void saveEdges( DataOutputStream dos, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
-		saveEdge( dos, qd.getEdge( ICubeQueryDefinition.ROW_EDGE ));
-		saveEdge( dos, qd.getEdge( ICubeQueryDefinition.COLUMN_EDGE));
-		saveEdge( dos, qd.getEdge( ICubeQueryDefinition.PAGE_EDGE));
+		saveEdge( dos, qd.getEdge( ICubeQueryDefinition.ROW_EDGE ), version );
+		saveEdge( dos, qd.getEdge( ICubeQueryDefinition.COLUMN_EDGE), version );
+		saveEdge( dos, qd.getEdge( ICubeQueryDefinition.PAGE_EDGE), version );
 	}
 	
-	private static void loadEdges( DataInputStream dis, ICubeQueryDefinition qd ) throws DataException, IOException
+	private static void loadEdges( DataInputStream dis, ICubeQueryDefinition qd, int version ) throws DataException, IOException
 	{
-		IEdgeDefinition ed = loadEdge( dis );
+		IEdgeDefinition ed = loadEdge( dis, version );
 		if ( ed != null )
 		{
 			IEdgeDefinition ed1 = qd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 			copy( ed, ed1 );
 		}
-		ed = loadEdge( dis );
+		ed = loadEdge( dis, version );
 		if ( ed != null )
 		{
 			IEdgeDefinition ed1 = qd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 			copy( ed, ed1 );
 		}
-		ed = loadEdge( dis );
+		ed = loadEdge( dis, version );
 		if ( ed != null )
 		{
 			IEdgeDefinition ed1 = qd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
@@ -397,7 +393,7 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
-	private static void saveEdge( DataOutputStream dos, IEdgeDefinition ed ) throws DataException, IOException
+	private static void saveEdge( DataOutputStream dos, IEdgeDefinition ed, int version ) throws DataException, IOException
 	{
 		if ( ed == null )
 		{
@@ -417,13 +413,13 @@ public class CubeQueryDefinitionIOUtil
 		{
 			for (IEdgeDrillFilter edf : ed.getDrillFilter( ) )
 			{
-				saveEdgeDrillFilter( dos, edf );
+				saveEdgeDrillFilter( dos, edf, version );
 			}
 		}
 		saveMirroredDefn( dos, ed.getMirroredDefinition( ));
 	}
 	
-	private static IEdgeDefinition loadEdge( DataInputStream dis ) throws DataException, IOException
+	private static IEdgeDefinition loadEdge( DataInputStream dis, int version ) throws DataException, IOException
 	{
 		if ( !IOUtil.readBool( dis ))
 		{
@@ -445,7 +441,7 @@ public class CubeQueryDefinitionIOUtil
 		count = IOUtil.readInt( dis );
 		for ( int i=0; i<count; i++)
 		{
-			IEdgeDrillFilter edf = loadEdgeDrillFilter( dis );
+			IEdgeDrillFilter edf = loadEdgeDrillFilter( dis, version );
 			IEdgeDrillFilter edf1 = ed.createDrillFilter( edf.getName( ) );
 			copy( edf, edf1 );
 		}
@@ -484,7 +480,7 @@ public class CubeQueryDefinitionIOUtil
 		return md;
 	}
 	
-	private static void saveEdgeDrillFilter( DataOutputStream dos, IEdgeDrillFilter edf ) throws DataException, IOException
+	private static void saveEdgeDrillFilter( DataOutputStream dos, IEdgeDrillFilter edf, int version ) throws DataException, IOException
 	{
 		if ( edf == null )
 		{
@@ -495,7 +491,7 @@ public class CubeQueryDefinitionIOUtil
 		IOUtil.writeString( dos, edf.getName( ) );
 		saveHierarchyDefinition( dos, edf.getTargetHierarchy( ) );
 		IOUtil.writeString( dos, edf.getTargetLevelName( ) );
-		saveFilters( dos, edf.getLevelFilter( ));
+		saveFilters( dos, edf.getLevelFilter( ), version );
 		saveSortDefns( dos, edf.getLevelSort( ) );
 		if ( writeSize( dos, edf.getTuple( ) ) > 0 )
 		{
@@ -512,7 +508,7 @@ public class CubeQueryDefinitionIOUtil
 		}
 	}
 	
-	private static IEdgeDrillFilter loadEdgeDrillFilter( DataInputStream dis ) throws DataException, IOException
+	private static IEdgeDrillFilter loadEdgeDrillFilter( DataInputStream dis, int version ) throws DataException, IOException
 	{
 		if ( !IOUtil.readBool( dis ))
 		{
@@ -523,7 +519,7 @@ public class CubeQueryDefinitionIOUtil
 		edf.setTargetHierarchy( loadHierarchyDefinition( dis ) );
 		edf.setTargetLevelName( IOUtil.readString( dis ) );
 		//load filters
-		loadFilters( dis, edf );
+		loadFilters( dis, edf, version );
 		loadSortDefns( dis, edf );
 		int count = IOUtil.readInt( dis );
 		List<Object[]> tuples = new ArrayList<Object[]>( );
@@ -889,7 +885,7 @@ public class CubeQueryDefinitionIOUtil
 		to.setTuple( from.getTuple( ) );
 	}
 	
-	private static void saveFilterDefn( DataOutputStream dos, IFilterDefinition fd ) throws IOException
+	private static void saveFilterDefn( DataOutputStream dos, IFilterDefinition fd, int version ) throws IOException
 	{
 		if ( fd == null )
 		{
@@ -922,9 +918,11 @@ public class CubeQueryDefinitionIOUtil
 				}
 			}
 		}
+		if( version >= VersionManager.VERSION_2_6_3_2 )
+			IOUtil.writeBool( dos,fd.updateAggregation( ) );
 	}
 	
-	private static IFilterDefinition loadFilterDefn( DataInputStream dis ) throws IOException
+	private static IFilterDefinition loadFilterDefn( DataInputStream dis, int version ) throws IOException
 	{
 		if ( !IOUtil.readBool( dis ))
 		{
@@ -935,6 +933,10 @@ public class CubeQueryDefinitionIOUtil
 		if ( type != FILTER_DEFN_FLAG_CUBE )
 		{
 			FilterDefinition fd = new FilterDefinition( expr );
+			if( version >= VersionManager.VERSION_2_6_3_2 )
+			{
+				fd.setUpdateAggregation( IOUtil.readBool( dis ) );		
+			}
 			return fd;
 		}
 		assert type == FILTER_DEFN_FLAG_CUBE;
@@ -956,6 +958,10 @@ public class CubeQueryDefinitionIOUtil
 					org.eclipse.birt.data.engine.impl.DataEngineSession.getCurrentClassLoader( ) );
 		}
 		cfd.setAxisQualifierValues( os );
+		if( version >= VersionManager.VERSION_2_6_3_2 )
+		{
+			cfd.setUpdateAggregation( IOUtil.readBool( dis ) );		
+		}
 		return cfd;
 	}
 	

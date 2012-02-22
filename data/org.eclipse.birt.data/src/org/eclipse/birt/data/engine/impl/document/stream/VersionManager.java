@@ -14,6 +14,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,6 +77,9 @@ public class VersionManager
 	//Relative Time period function support
 	public final static int VERSION_2_6_3_1 = 180;
 	
+	//Update aggregation flag support
+	public final static int VERSION_2_6_3_2 = 190;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -86,7 +91,7 @@ public class VersionManager
 	/**
 	 * @return
 	 */
-	public int getVersion( )
+	private int getVersion( )
 	{
 		//Default is 2.2
 		int version = getLatestVersion( );
@@ -123,7 +128,7 @@ public class VersionManager
 	 * @param string
 	 * @throws DataException
 	 */
-	public void setVersion( int version )
+	private void setVersion( int version )
 			throws DataException
 	{
 		OutputStream versionOs = this.dataEngineContext.getOutputStream( null,
@@ -142,13 +147,82 @@ public class VersionManager
 		}
 	}
 	
+	//TODO: Enhance the performance -- current approach is not efficient in nested query's case
+	void setVersion( int version, String queryResultId ) throws DataException
+	{
+		
+		if( queryResultId == null || queryResultId.trim().length( ) == 0 )
+		{
+			this.setVersion( version );
+			return;
+		}
+		
+		Map<String, Integer> idVersionMap = this.getQueryIdVersionMap();
+		idVersionMap.put( queryResultId, version );
+		this.dataEngineContext.dropStream( null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM );
+		
+		OutputStream versionOs = this.dataEngineContext.getOutputStream( null,
+				null,
+				DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM );
+		DataOutputStream versionDos = new DataOutputStream( versionOs );
+		try
+		{
+			IOUtil.writeMap( versionDos, idVersionMap );
+			versionDos.close( );
+			versionOs.close( );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR, e );
+		}
+		
+	}
+	
+	private Map<String, Integer> getQueryIdVersionMap( ) throws DataException
+	{
+		Map<String, Integer> result = new HashMap<String, Integer>( );
+
+		if( !dataEngineContext.hasInStream( null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM ))
+			return result;
+		
+		
+		try
+		{
+			DataInputStream is = new DataInputStream(dataEngineContext.getInputStream( null, null, DataEngineContext.QUERY_ID_BASED_VERSIONING_STREAM ));
+			result = IOUtil.readMap( is );
+			is.close( );
+		}
+		catch ( DataException e )
+		{
+			logger.log( Level.FINE, e.getMessage( ), e );
+		}
+		catch ( IOException e )
+		{
+			logger.log( Level.FINE, e.getMessage( ), e );
+		}
+	
+		return result;
+	}
+	
+	public int getVersion( String queryResultId ) throws DataException
+	{
+		if( queryResultId != null && queryResultId.trim().length( )> 0 )
+		{
+			Integer version = this.getQueryIdVersionMap().get( queryResultId );
+			if( version!= null )
+				return version;
+		}
+		
+		return this.getVersion();
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_6_3_1;
+		return VERSION_2_6_3_2;
 	}
 
 }

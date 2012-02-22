@@ -177,17 +177,12 @@ public class CubeQueryDefinitionUtil
 			{
 				if (!filter.updateAggregation()) 
 				{
-					if (ExpressionCompilerUtil.extractColumnExpression(
-							((IFilterDefinition) filter).getExpression(),
-							ScriptConstants.DATA_BINDING_SCRIPTABLE).size() > 0) 
-					{
-						resultFilters.add(filter);
-					}
+					resultFilters.add(filter);
 				} 
 				else
 					return null;
 			}
-				
+	
 		}
 		
 		return resultFilters.toArray(new IFilterDefinition[0]);

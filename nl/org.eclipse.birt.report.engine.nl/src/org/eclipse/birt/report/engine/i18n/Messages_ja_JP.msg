@@ -127,7 +127,7 @@ Error.UnsupportedExprssionType = この式の型はサポートされていません。
 Error.UnknownContentVersion = コンテンツのバージョンが不明です。
 Error.UnknownFieldID = フィールド ID {0} は不明です。
 Error.ResourceNotAccessible = {0} にアクセスできません。
-Error.ERROR_WITH_STATUS=There are errors in the document: {0}.
+Error.ERROR_WITH_STATUS=ドキュメント {0} でエラーが発生しました。
 
 ###########################################################
 Error.ElementID = 要素 ID

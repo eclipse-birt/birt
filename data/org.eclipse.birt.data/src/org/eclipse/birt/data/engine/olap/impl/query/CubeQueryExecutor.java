@@ -281,7 +281,30 @@ public class CubeQueryExecutor
 		return referedScriptable != null;
 	}
 	
-	
+	private boolean adjustCubeFilterUpdateAggregationFlag(IFilterDefinition filter,Set dimLevelSet)
+	{
+		if( filter instanceof CubeFilterDefinition && ((CubeFilterDefinition) filter).getTargetLevel() != null )
+		{
+			IHierarchyDefinition hierarchy = ((CubeFilterDefinition) filter).getTargetLevel().getHierarchy();
+			DimLevel[] dims = (DimLevel[])dimLevelSet.toArray(new DimLevel[0]);
+			
+			for( int j = 0 ; j <dims.length;j++)
+			{
+				boolean existDimLevel = false;
+				for (int p=0;p<hierarchy.getLevels().size();p++)
+				{
+					if(dims[j].getDimensionName().equals(hierarchy.getDimension().getName()) && dims[j].getLevelName().equals(hierarchy.getLevels().get(p).getName()))
+						existDimLevel = true;
+				}
+				if( !existDimLevel )
+				{
+					filter.setUpdateAggregation( true );
+					break;
+				}
+			}
+		}
+		return filter.updateAggregation();
+	}
 	
 	private void populateFilterHelpers( ) throws DataException
 	{
@@ -293,8 +316,18 @@ public class CubeQueryExecutor
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			if ( !filter.updateAggregation( ) )
 			{
-				//For the filter that not requires updating aggregation, we would not populate them here. 
+				Set dimLevelSet = OlapExpressionCompiler.getReferencedDimLevel(filter.getExpression(),  defn.getBindings( ));
+				if ( dimLevelSet.size() <= 1)
+				{
+					//For the filter that not requires updating aggregation, we would not populate them here. 
 					continue;
+				}
+				else 
+				{
+					if( !adjustCubeFilterUpdateAggregationFlag(filter,dimLevelSet) )
+						continue;
+				}
+					
 			}
 			switch ( this.getFilterType( filter, dimLevelInCubeQuery ))
 			{ 

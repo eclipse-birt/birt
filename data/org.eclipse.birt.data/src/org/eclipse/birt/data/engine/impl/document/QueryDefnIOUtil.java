@@ -59,7 +59,7 @@ public class QueryDefnIOUtil
 	 * @throws IOException
 	 */
 	static void saveBaseQueryDefn( OutputStream outputStream,
-			IBaseQueryDefinition queryDefn, int version ) throws DataException
+			IBaseQueryDefinition queryDefn, int version, String bundleVersion ) throws DataException
 	{
 		try
 		{
@@ -69,18 +69,18 @@ public class QueryDefnIOUtil
 			// filter definition
 			FilterDefnUtil.saveFilterDefn( outputStream, queryDefn.getFilters( ), version );
 			// group definition
-			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ), version );
+			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ), version, bundleVersion );
 			// sort definition
 			saveSorts( outputStream, queryDefn.getSorts( ), version );
 
 			// misc property: max row, use details
 			IOUtil.writeInt( outputStream, queryDefn.getMaxRows( ) );
 			IOUtil.writeBool( outputStream, queryDefn.usesDetails( ) );
-			if ( version >= VersionManager.VERSION_2_5_2_1 )
+			if ( version >= VersionManager.VERSION_2_5_2_1 && !"2.6.1.v20100915".equals( bundleVersion ) )
 				IOUtil.writeBool( outputStream, queryDefn.cacheQueryResults( ) );
 			
 			// sub query name
-			saveSubQuery( outputStream, queryDefn.getSubqueries( ), version );
+			saveSubQuery( outputStream, queryDefn.getSubqueries( ), version, bundleVersion );
 			
 			// query execution hint
 			saveQueryExecutionHints( outputStream, queryDefn.getQueryExecutionHints( ), version );
@@ -208,7 +208,7 @@ public class QueryDefnIOUtil
 	 *
 	 */
 	static void saveSubQuery( OutputStream outputStream,
-			Collection subQuery, int version ) throws DataException, IOException
+			Collection subQuery, int version, String bundleVersion ) throws DataException, IOException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 
@@ -226,7 +226,7 @@ public class QueryDefnIOUtil
 				ISubqueryDefinition subQueryDefn = (ISubqueryDefinition) it.next( );
 				IOUtil.writeString( dos, subQueryDefn.getName( ) );
 				IOUtil.writeBool( outputStream, subQueryDefn.applyOnGroup( ) );
-				saveBaseQueryDefn( outputStream, subQueryDefn, version );
+				saveBaseQueryDefn( outputStream, subQueryDefn, version, bundleVersion );
 			}
 		}
 

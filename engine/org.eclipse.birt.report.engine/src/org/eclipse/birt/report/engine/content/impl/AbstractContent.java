@@ -155,6 +155,11 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			setExtension( IContent.LAYOUT_EXTENSION, ext );
 		}
+		Map<String, Object> properties = content.getUserProperties();
+		if (properties != null && !properties.isEmpty()) 
+		{
+			setUserProperties( properties );
+		}
 	}
 	
 	protected IStyle copyInlineStyle( IContent content )

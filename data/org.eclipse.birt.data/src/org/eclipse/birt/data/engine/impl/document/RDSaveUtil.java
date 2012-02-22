@@ -34,14 +34,16 @@ class RDSaveUtil
 	private int mode;
 	private IBaseQueryDefinition queryDefn;
 	private StreamManager streamManager;
+	private String bundleVersion;
 	
 	/**
 	 * @param queryDefn
 	 */
-	RDSaveUtil( int mode, IBaseQueryDefinition queryDefn,
+	RDSaveUtil( DataEngineContext context, IBaseQueryDefinition queryDefn,
 			StreamManager streamManager )
 	{
-		this.mode = mode;
+		this.mode = context.getMode( );
+		this.bundleVersion = context.getBundleVersion( );
 		this.queryDefn = queryDefn;
 		this.streamManager = streamManager;
 	}
@@ -258,7 +260,7 @@ class RDSaveUtil
 		OutputStream outputStream = streamManager.getOutStream( DataEngineContext.QUERY_DEFN_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
-		QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ) );
+		QueryDefnIOUtil.saveBaseQueryDefn( outputStream, queryDefn, streamManager.getVersion( ), this.bundleVersion  );
 		try
 		{
 			outputStream.close( );
