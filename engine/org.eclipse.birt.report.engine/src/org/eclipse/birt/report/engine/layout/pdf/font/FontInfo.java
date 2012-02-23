@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.font;
 
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 
+import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 
 public class FontInfo
@@ -196,7 +198,15 @@ public class FontInfo
 		{
 			return word.length( ) * ( fontSize / 2 );
 		}
-		// FIXME the width should consider the italic/bold font style.
+		
+		// get width for text with simulated italic font.
+		if ( simulation
+				&& ( Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle ) )
+		{
+			return ( bf.getWidthPoint( word, fontSize ) + fontHeight
+					* EmitterUtil.getItalicHorizontalCoefficient( ) );
+		}
+
 		return bf.getWidthPoint( word, fontSize );
 	}
 

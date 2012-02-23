@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
@@ -19,7 +18,6 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.text.Bidi;
-import com.lowagie.text.Font;
 
 public class TextArea extends AbstractArea implements ITextArea
 {
@@ -241,19 +239,6 @@ public class TextArea extends AbstractArea implements ITextArea
 	public void accept( IAreaVisitor visitor )
 	{
 		visitor.visitText( this );
-	}
-
-	public int getWidth( )
-	{
-		int fontStyle = style.getFontInfo( ).getFontStyle( );
-		// get width for text with simulated italic font.
-		if ( style.getFontInfo( ).getSimulation( )
-				&& ( Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle ) )
-		{
-			width = (int) ( width + height
-					* EmitterUtil.getItalicHorizontalCoefficient( ) );
-		}
-		return width;
 	}
 
 	public int getTextWidth( String text )
