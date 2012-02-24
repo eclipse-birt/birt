@@ -27,7 +27,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 /**
  * 
@@ -36,17 +35,14 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 public class PublishTemplateNavigatorAction implements IViewActionDelegate
 {
 
-	protected ResourceNavigator navigator;
+	protected IViewPart navigator;
 
 	/**
 	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
 	 */
 	public void init( IViewPart view )
 	{
-		if ( view instanceof ResourceNavigator )
-		{
-			navigator = (ResourceNavigator) view;
-		}
+		navigator = view;
 	}
 
 	/**
@@ -117,8 +113,7 @@ public class PublishTemplateNavigatorAction implements IViewActionDelegate
 	{
 		if ( navigator != null )
 		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getTreeViewer( )
-					.getSelection( );
+			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite( ).getSelectionProvider( ).getSelection( );
 			if ( selection.size( ) == 1
 					&& selection.getFirstElement( ) instanceof IFile )
 			{
