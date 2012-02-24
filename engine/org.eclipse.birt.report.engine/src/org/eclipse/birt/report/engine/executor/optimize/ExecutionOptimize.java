@@ -511,11 +511,45 @@ public class ExecutionOptimize
 			parentNode = parent;
 			return Boolean.TRUE;
 		}
+		
+		protected boolean hasListingObject(RowDesign row) 
+		{
+			int cellCount = row.getCellCount( );
+			for ( int i = 0; i < cellCount; i++ )
+			{
+				CellDesign cell = row.getCell( i );
+				for ( int j = 0; j < cell.getContentCount( ); j++ )
+				{
+					ReportItemDesign item = cell.getContent( j );
+					if(item instanceof ListingDesign || item instanceof ExtendedItemDesign)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
+		protected void setRowExecute( PolicyNode node )
+		{
+			node.execute = true;
+			for ( int i = 0; i < node.children.size( ); i++ )
+			{
+				PolicyNode child = (PolicyNode) node.children.get( i );
+				child.execute = true;
+				for ( int j = 0; j < child.children.size( ); j++ )
+				{
+					PolicyNode grandson = (PolicyNode) child.children.get( j );
+					grandson.execute = true;
+				}
+			}
+		}
 
 		public Object visitRow( RowDesign row, Object value )
 		{
 			PolicyNode parent = parentNode;
 			visitReportItem( row, true );
+			PolicyNode rowNode = currentNode;
 			parentNode = currentNode;
 			rows.addLast( currentNode );
 			int cellCount = row.getCellCount( );
@@ -523,6 +557,10 @@ public class ExecutionOptimize
 			{
 				CellDesign cell = row.getCell( i );
 				cell.accept( this, null );
+			}
+			if ( hasListingObject( row ) )
+			{
+				setRowExecute( rowNode );
 			}
 			parentNode = parent;
 			rows.removeLast( );
