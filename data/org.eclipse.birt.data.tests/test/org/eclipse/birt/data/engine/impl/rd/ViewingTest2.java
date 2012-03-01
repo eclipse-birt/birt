@@ -520,6 +520,57 @@ public class ViewingTest2 extends RDTestCase
 	}
 	
 	/**
+	 * same initial position between run and render task
+	 * @throws BirtException
+	 */
+	public void testBasic9( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_group1 = true;
+		this.GEN_USE_RUNNING_AGGR = true;
+		
+		int initialPostion1 = -1;
+		
+		QueryDefinition qd = newGenIVReportQuery( );
+		qd.setUsesDetails( true );
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		initialPostion1 = ri.getRowIndex( );
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+		myGenDataEngine.clearCache( dataSource, dataSet );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		 // here queryResultID needs to set as the data set
+		qd = newPreIVReportQuery( this.UPDATE_add_filter,
+				this.UPDATE_add_sort,
+				-1,
+				UPDATE );
+		qd.setUsesDetails( true );
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+		ri = qr.getResultIterator();
+		int initialPostion2 = ri.getRowIndex( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+		
+		assertTrue( initialPostion1 == initialPostion2 && initialPostion2 == 0 );
+	}
+	
+	/**
 	 * Test the feature of Skip to
 	 * @throws Exception
 	 */
