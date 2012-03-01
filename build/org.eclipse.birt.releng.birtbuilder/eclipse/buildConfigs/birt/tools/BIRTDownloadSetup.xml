@@ -266,6 +266,11 @@
 		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="${wtpVersion}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#WTPURL#" value="${wtpURL}"/>
 	
+		<exec executable="git" dir="${buildDirectory}/scmCache/${BirtRepoCache}" outputproperty="lastcommitid">
+			<arg line="log ${mapVersionTag} -1 --pretty=format:%H" />
+		</exec>
+		<replace file="${OutputDir}\${birt.info}" token="#lastcommitid#" value="${lastcommitid}"/>
+		
 	</target>
 
 	<target name="createBirtNLFeatureOverlay">
