@@ -147,7 +147,7 @@ public class ChartElementUtil
 				.getEStructuralFeature( attribute );
 		if ( esf == null )
 		{
-			return false;
+			return null;
 		}
 		return eContainer.eGet( esf );
 	}
