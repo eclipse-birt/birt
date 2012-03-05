@@ -202,7 +202,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		grpGeneral = new Group( cmpContent, SWT.NONE );
 		GridData gdCMPGeneral = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
-		gdCMPGeneral.widthHint = 180;
+		gdCMPGeneral.widthHint = 200;
 		grpGeneral.setLayoutData( gdCMPGeneral );
 		grpGeneral.setLayout( new GridLayout( ) );
 		grpGeneral.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties" ) ); //$NON-NLS-1$
