@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * A List class providing the service of reading/writing objects from one file
@@ -75,12 +76,26 @@ public class StructureDiskArray extends BaseDiskArray
 	 */
 	private void createReadersAndWriters( int size )
 	{
-		fieldWriters = new ObjectWriter[size];
-		fieldReaders = new ObjectReader[size];
-		for ( int i = 0; i < size; i++ )
+		if ( fieldWriters == null && fieldReaders == null )
 		{
-			fieldWriters[i] = new ObjectWriter( );
-			fieldReaders[i] = new ObjectReader( );
+			fieldWriters = new ObjectWriter[size];
+			fieldReaders = new ObjectReader[size];
+			for ( int i = 0; i < size; i++ )
+			{
+				fieldWriters[i] = new ObjectWriter( );
+				fieldReaders[i] = new ObjectReader( );
+			}
+		}
+		else
+		{
+			int i = fieldWriters.length;
+			fieldReaders = Arrays.copyOf( fieldReaders, size );
+			fieldWriters = Arrays.copyOf( fieldWriters, size );
+			for ( ; i < fieldReaders.length; i++ )
+			{
+				fieldWriters[i] = new ObjectWriter( );
+				fieldReaders[i] = new ObjectReader( );
+			}
 		}
 	}
 	
