@@ -152,8 +152,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMin.setToolTipText( Messages.getString( "Radar.Composite.Label.ScaleMinToolTip" ) ); //$NON-NLS-1$
 			webMin.addListener( this );
 		}
-		webMin.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale ) );
-		
+
 		lblWebMax = new Label( cmpMinMax, SWT.NONE );
 		{
 			lblWebMax.setText( Messages.getString( "Radar.Composite.Label.ScaleMax" ) ); //$NON-NLS-1$
@@ -177,9 +176,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			webMax.addListener( this );
 		}
 		
-		webMax.setEnabled( getContext().getUIFactory( ).canEnableUI( btnAutoScale ) );
-		
-		boolean enabled = getContext().getUIFactory( ).canEnableUI( btnAutoScale );
+		boolean enabled = !( btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 		updateScaleUI( enabled );
 
 		Label lblWebStep = new Label( cmpMinMax, SWT.NONE );
@@ -296,7 +293,7 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 					btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED,
 					btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_GRAYED );
 			
-			boolean enabled = getContext().getUIFactory( ).canEnableUI( btnAutoScale );
+			boolean enabled = !( btnAutoScale.getSelectionState( ) == ChartCheckbox.STATE_SELECTED );
 			updateScaleUI( enabled );
 		}
 		else if ( event.widget == btnScaleCntAuto )
