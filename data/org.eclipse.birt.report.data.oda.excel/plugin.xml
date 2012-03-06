@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource
+            driverClass="org.eclipse.birt.report.data.oda.excel.impl.Driver"
+            defaultDisplayName="%data.source.name"
+            setThreadContextClassLoader="false"
+            odaVersion="3.2"
+            id="%oda.data.source.id">
+         <properties>
+            <property
+                  allowsEmptyValueAsNull="true"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.home"
+                  isEncryptable="false"
+                  name="HOME"
+                  type="string">
+            </property>
+            <property
+                  allowsEmptyValueAsNull="true"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.inclcolumnnameline"
+                  defaultValue="YES"
+                  isEncryptable="false"
+                  name="INCLCOLUMNNAME"
+                  type="choice">
+                  <choice name="no" value="no" defaultDisplayName="%datasource.property.no"/>
+                  <choice name="yes" value="yes" defaultDisplayName="%datasource.property.yes"/>
+            </property>
+            <property
+                  allowsEmptyValueAsNull="true"
+                  canInherit="true"
+                  defaultDisplayName="%datasource.property.incltypeline"
+                  defaultValue="NO"
+                  isEncryptable="false"
+                  name="INCLTYPELINE"
+                  type="choice">
+                  <choice name="no" value="no" defaultDisplayName="%datasource.property.yes"/>
+                  <choice name="yes" value="yes" defaultDisplayName="%datasource.property.no"/>
+            </property>
+         </properties>
+      </dataSource>
+      <dataSet
+            defaultDisplayName="%data.set.name"
+            id="org.eclipse.birt.report.data.oda.excel.dataSet">
+            <dataTypeMapping
+                  nativeDataType="INT"
+                  nativeDataTypeCode="4"
+                  odaScalarDataType="Integer"/>
+            <dataTypeMapping
+                  nativeDataType="DOUBLE"
+                  nativeDataTypeCode="8"
+                  odaScalarDataType="Double"/>
+            <dataTypeMapping
+                  nativeDataType="STRING"
+                  nativeDataTypeCode="12"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="DATE"
+                  nativeDataTypeCode="91"
+                  odaScalarDataType="Date"/>
+            <dataTypeMapping
+                  nativeDataType="TIME"
+                  nativeDataTypeCode="92"
+                  odaScalarDataType="Time"/>
+            <dataTypeMapping
+                  nativeDataType="TIMESTAMP"
+                  nativeDataTypeCode="93"
+                  odaScalarDataType="Timestamp"/>
+            <dataTypeMapping
+                  nativeDataType="BLOB"
+                  nativeDataTypeCode="2004"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="CLOB"
+                  nativeDataTypeCode="2005"
+                  odaScalarDataType="String"/>
+            <dataTypeMapping
+                  nativeDataType="BIGDECIMAL"
+                  nativeDataTypeCode="2"
+                  odaScalarDataType="Decimal"/>
+            <dataTypeMapping
+                  nativeDataType="BOOLEAN"
+                  nativeDataTypeCode="16"
+                  odaScalarDataType="Boolean"/>
+         <properties>
+            <propertyGroup
+               defaultDisplayName="Dataset Properties"
+               name="dateset properties">
+            <property
+                  defaultDisplayName="%datasource.property.worksheets"
+                  name="WORKSHEETS"
+                  canInherit="true"
+                  type="string"/>
+            <property
+                  allowsEmptyValueAsNull="true"
+                  canInherit="true"
+                  defaultDisplayName="dataset.property.worksheets.dateFormat"
+                  defaultValue="yyyy-MM-dd"
+                  isEncryptable="false"
+                  name="DATEFORMAT"
+                  type="string">
+            </property>
+         </propertyGroup>
+            <propertyVisibility name="WORKSHEETS" visibility="change"/>
+            <propertyVisibility
+                  name="DATEFORMAT"
+                  visibility="change">
+            </propertyVisibility>
+         </properties>
+      </dataSet>
+   </extension>
+   <extension
+         point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category
+            name="%data.source.name"
+            parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory"
+            id="%oda.data.source.id">
+      </category>
+      <connectionProfile
+            pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
+            name="%connection.profile.name"
+            category="%oda.data.source.id"
+            id="%oda.data.source.id">
+      </connectionProfile>
+      <connectionFactory
+            name="ODA Connection Factory"
+            profile="%oda.data.source.id"
+            class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
+            id="org.eclipse.datatools.connectivity.oda.IConnection">
+      </connectionFactory>
+   </extension>
+
+</plugin>

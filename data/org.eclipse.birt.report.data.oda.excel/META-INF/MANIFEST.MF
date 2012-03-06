@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin.name
+Bundle-SymbolicName: org.eclipse.birt.report.data.oda.excel; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .,
+ src,
+ lib/poi-3.7/poi-3.7-20101029.jar,
+ lib/poi-3.7/poi-examples-3.7-20101029.jar,
+ lib/poi-3.7/poi-ooxml-3.7-20101029.jar,
+ lib/poi-3.7/poi-ooxml-schemas-3.7-20101029.jar,
+ lib/poi-3.7/poi-scratchpad-3.7-20101029.jar,
+ lib/poi-3.7/lib/commons-logging-1.1.jar,
+ lib/poi-3.7/lib/junit-3.8.1.jar,
+ lib/poi-3.7/lib/log4j-1.2.13.jar,
+ lib/poi-3.7/ooxml-lib/dom4j-1.6.1.jar,
+ lib/poi-3.7/ooxml-lib/geronimo-stax-api_1.0_spec-1.0.jar,
+ lib/poi-3.7/ooxml-lib/xmlbeans-2.3.0.jar
+Bundle-Activator: org.eclipse.birt.report.data.oda.excel.Activator
+Bundle-Vendor: Megha Nidhi Dahal
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.report.data.oda.excel,
+ org.eclipse.birt.report.data.oda.excel.impl;version="1.0.0.qualifier",
+ org.eclipse.birt.report.data.oda.excel.impl.util,
+ org.eclipse.birt.report.data.oda.excel.impl.util.querytextutil
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.datatools.connectivity.oda;bundle-version="[3.3.0,4.0.0)",
+ org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.0,4.0.0)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
