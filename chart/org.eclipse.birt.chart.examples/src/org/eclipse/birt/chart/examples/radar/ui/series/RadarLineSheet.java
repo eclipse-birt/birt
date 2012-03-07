@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.AbstractChartTextEditor;
 import org.eclipse.birt.chart.ui.swt.ChartCheckbox;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -261,7 +262,10 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			double tmax = this.getTypedDataElement( webMax.getText( ) );
 			if ( tmin > tmax )
 				tmin = tmax;
-			series.setWebLabelMin( tmin );
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( event.data ) )
+			{
+				series.setWebLabelMin( tmin );
+			}
 			webMin.setText( Double.toString( tmin ) );
 		}
 		else if ( event.widget.equals( webMax ) )
@@ -271,7 +275,10 @@ public class RadarLineSheet extends AbstractPopupSheet implements Listener
 			double tmax = this.getTypedDataElement( webMax.getText( ) );
 			if ( tmax < tmin )
 				tmax = tmin;
-			series.setWebLabelMax( tmax );
+			if ( !TextEditorComposite.TEXT_RESET_MODEL.equals( event.data ) )
+			{
+				series.setWebLabelMax( tmax );
+			}
 			webMax.setText( Double.toString( tmax ) );
 
 		}
