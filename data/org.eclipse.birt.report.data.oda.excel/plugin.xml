@@ -23,7 +23,7 @@
                   allowsEmptyValueAsNull="true"
                   canInherit="true"
                   defaultDisplayName="%datasource.property.inclcolumnnameline"
-                  defaultValue="YES"
+                  defaultValue="yes"
                   isEncryptable="false"
                   name="INCLCOLUMNNAME"
                   type="choice">
@@ -34,7 +34,7 @@
                   allowsEmptyValueAsNull="true"
                   canInherit="true"
                   defaultDisplayName="%datasource.property.incltypeline"
-                  defaultValue="NO"
+                  defaultValue="no"
                   isEncryptable="false"
                   name="INCLTYPELINE"
                   type="choice">
@@ -63,21 +63,9 @@
                   nativeDataTypeCode="91"
                   odaScalarDataType="Date"/>
             <dataTypeMapping
-                  nativeDataType="TIME"
-                  nativeDataTypeCode="92"
-                  odaScalarDataType="Time"/>
-            <dataTypeMapping
                   nativeDataType="TIMESTAMP"
                   nativeDataTypeCode="93"
                   odaScalarDataType="Timestamp"/>
-            <dataTypeMapping
-                  nativeDataType="BLOB"
-                  nativeDataTypeCode="2004"
-                  odaScalarDataType="String"/>
-            <dataTypeMapping
-                  nativeDataType="CLOB"
-                  nativeDataTypeCode="2005"
-                  odaScalarDataType="String"/>
             <dataTypeMapping
                   nativeDataType="BIGDECIMAL"
                   nativeDataTypeCode="2"

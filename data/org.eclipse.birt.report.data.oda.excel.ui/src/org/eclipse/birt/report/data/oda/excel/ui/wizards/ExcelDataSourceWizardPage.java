@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,7 +7,10 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
-  *******************************************************************************/
+  *    Actuate Corporation - added support of read-only design session
+  ******************************************************************************
+  **/
+
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.util.Properties;
@@ -70,5 +73,15 @@ public class ExcelDataSourceWizardPage  extends DataSourceWizardPage{
 			return; // ignore, wait till createPageCustomControl to initialize
 		pageHelper.initCustomControl( folderProperties );
 	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage#refresh()
+     */
+    @Override
+    public void refresh()
+    {
+        // enable/disable all controls on page based on the session editable state
+        enableAllControls( getControl(), isSessionEditable() );
+    }
 
 }
