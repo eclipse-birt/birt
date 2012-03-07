@@ -19,7 +19,5 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
  */
 public interface IFilterUtil
 {
-
 	String[] populatedPushdownableFilterOperators( DataSetHandle dataSet, String[] candidateOperator ) throws AdapterException;
-
 }
