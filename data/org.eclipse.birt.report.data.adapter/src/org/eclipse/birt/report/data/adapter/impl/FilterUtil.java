@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.util.List;
+
 import org.eclipse.birt.report.data.adapter.api.IFilterUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
@@ -21,7 +23,7 @@ public class FilterUtil implements IFilterUtil
 	/*
 	 * 
 	 */
-	public String[] populatedPushdownableFilterOperators( DataSetHandle dataSet, String[] candidateOperator )
+	public List<String> populatedNonPushdownableFilterOperators( DataSetHandle dataSet, int filterType, String columnNameOrAlias, List<String> candidateOperator )
 	{
 		throw new UnsupportedOperationException( );
 	}
