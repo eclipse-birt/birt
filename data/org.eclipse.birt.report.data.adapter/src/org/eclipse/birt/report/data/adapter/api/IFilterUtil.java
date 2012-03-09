@@ -13,6 +13,7 @@
 package org.eclipse.birt.report.data.adapter.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -22,5 +23,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
  */
 public interface IFilterUtil
 {
-	List<String> populatedNonPushdownableFilterOperators( DataSetHandle dataSet, int filterType, String columnNameOrAlias, List<String> candidateOperator ) throws BirtException;
+	public Map<String, List<String>> populatedNonPushdownableFilterOperators(
+			DataSetHandle dataSet, int filterType ) throws BirtException;
 }
