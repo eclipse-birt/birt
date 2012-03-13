@@ -412,9 +412,12 @@ public class LabelFigure extends ReportElementFigure
 		// if the display equals none, as the block
 		if ( DesignChoiceConstants.DISPLAY_NONE.equals( display ) )
 		{
-			setDisplay( DesignChoiceConstants.DISPLAY_BLOCK );
+			this.display =  DesignChoiceConstants.DISPLAY_BLOCK ;
 		}
-		this.display = display;
+		else
+		{
+			this.display = display;
+		}
 	}
 
 	/**
@@ -665,5 +668,12 @@ public class LabelFigure extends ReportElementFigure
 	public void setFixLayout( boolean isFixLayout )
 	{
 		this.isFixLayout = isFixLayout;
+	}
+	
+	@Override
+	public void setBounds( Rectangle rect )
+	{
+		// TODO Auto-generated method stub
+		super.setBounds( rect );
 	}
 }
