@@ -220,6 +220,10 @@ public class CubeQueryDefinitionUtil
 		{
 			return false;
 		}
+		if ( fd1.updateAggregation( ) != fd2.updateAggregation( ) )
+		{
+			return false;
+		}
 		if ( fd1 instanceof ICubeSortDefinition )
 		{
 			ICubeFilterDefinition cfd1 = (ICubeFilterDefinition)fd1;
