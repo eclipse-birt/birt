@@ -39,6 +39,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -286,7 +287,7 @@ public class CubeDropAdapter implements IDropAdapter
 								}
 							}
 						}
-
+						CrosstabUtil.validateCrosstabHeader(( CrosstabReportItemHandle)handle.getReportItem( ) );
 						stack.commit( );
 
 						viewer.flush( );

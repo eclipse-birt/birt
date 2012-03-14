@@ -21,9 +21,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
-import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
@@ -31,22 +29,22 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -604,5 +602,131 @@ public class CrosstabUtil implements ICrosstabConstants
 
 		return dimension;
 
+	}
+	
+	//add support multiple header
+	public static void validateCrosstabHeader(CrosstabReportItemHandle crosstab)
+	{
+		int headerCellCount = crosstab.getHeaderCount( );
+		List<LevelViewHandle> columnLevelList = getLevelList( crosstab, ICrosstabConstants.COLUMN_AXIS_TYPE );
+		List<LevelViewHandle> rowLevelList = getLevelList(crosstab, ICrosstabConstants.ROW_AXIS_TYPE);
+		PropertyHandle headerHandle = crosstab.getModelHandle( ).getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
+		int rowSize = rowLevelList.size( );
+		int columnSize = columnLevelList.size( );
+		
+		if (!crosstab.isHideMeasureHeader( ))
+		{
+			if (ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( )))
+			{
+				rowSize = rowSize + 1;
+			}
+			else
+			{
+				columnSize = columnSize + 1;
+			}
+		}
+		int total = rowSize * columnSize - headerCellCount;
+		if (rowLevelList.size( ) == 0)
+		{
+			return;
+		}
+		else if (columnLevelList.size( ) == 0 && rowLevelList.size( ) > 0)
+		{
+			for (int i=0; i<headerCellCount; i++)
+			{
+				CrosstabCellHandle temp = crosstab.getHeader( i );
+				LabelHandle labelHandle = crosstab.getModuleHandle( ).getElementFactory()
+						.newLabel( null );
+				try
+				{
+					labelHandle.setText( rowLevelList.get( i).getCubeLevel( ).getName( ) );
+					temp.addContent( labelHandle );
+				}
+				catch ( SemanticException e )
+				{
+					//Do nothing
+				}
+			}
+			if (headerCellCount < rowSize)
+			{
+				for (int i=0; i<rowSize - headerCellCount; i++)
+				{
+					ExtendedItemHandle cellHandle = null;
+					try
+					{
+						cellHandle = CrosstabExtendedItemFactory.createCrosstabCell( crosstab.getModuleHandle( ) );
+						headerHandle.add(cellHandle);
+					}
+					catch ( SemanticException e )
+					{
+						//do nothing
+						continue;
+					}
+					if (i < rowLevelList.size( ))
+					{
+						try
+						{
+							CrosstabCellHandle cellItemHandle = (CrosstabCellHandle)getReportItem( cellHandle );
+							LabelHandle labelHandle = crosstab.getModuleHandle( ).getElementFactory()
+									.newLabel( null );
+							labelHandle.setText( rowLevelList.get( i ).getCubeLevelName( ) );
+							cellItemHandle.addContent( labelHandle );
+						}
+						catch ( SemanticException e )
+						{
+							//do nothing
+						}
+					}
+				}
+			}
+			
+			return;
+		}
+		
+		for (int i=0; i<total; i++)
+		{
+			ExtendedItemHandle cellHandle = null;
+			try
+			{
+				cellHandle = CrosstabExtendedItemFactory.createCrosstabCell( crosstab.getModuleHandle( ) );
+				headerHandle.add(cellHandle);
+			}
+			catch ( SemanticException e )
+			{
+				//do nothing
+				continue;
+			}
+			if (i>=total - rowSize && i+rowSize - total<rowSize)
+			{				
+				try
+				{
+					CrosstabCellHandle cellItemHandle = (CrosstabCellHandle)getReportItem( cellHandle );
+					LabelHandle labelHandle = crosstab.getModuleHandle( ).getElementFactory()
+							.newLabel( null );
+					labelHandle.setText( rowLevelList.get( i+rowSize - total ).getCubeLevelName( ) );
+					cellItemHandle.addContent( labelHandle );
+				}
+				catch ( SemanticException e )
+				{
+						//do nothing
+				}	
+			}
+		}
+	}
+	
+	public static List<LevelViewHandle> getLevelList(CrosstabReportItemHandle crosstab, int axisType)
+	{
+		List retValue = new ArrayList();
+		int dimensionCount = crosstab.getDimensionCount( axisType );
+		for (int i=0; i<dimensionCount; i++)
+		{
+			DimensionViewHandle dimensionViewhandle = crosstab.getDimension( axisType, i );
+			int leveViewHandleCount = dimensionViewhandle.getLevelCount( );
+			for (int j=0; j<leveViewHandleCount; j++)
+			{
+				retValue.add( dimensionViewhandle.getLevel( j ) );
+			}
+		}
+		return retValue;
 	}
 }

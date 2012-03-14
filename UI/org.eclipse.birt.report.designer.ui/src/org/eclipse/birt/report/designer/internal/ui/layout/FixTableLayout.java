@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class FixTableLayout extends TableLayout
 {
-	private static final int ALLOW_ROW_HEIGHT = 1;
+	private static final int ALLOW_ROW_HEIGHT = 12;
 	private static final int ALLOW_COLOUMN_WIDTH = 1;
 	public static final int DEFAULT_ROW_HEIGHT = 16;
 

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -173,13 +174,44 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		else
 		{
-			first = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
-					handle.getHeader( ),
-					1,
-					rowBase,
-					1,
-					columnBase,
-					false );
+			List<LevelViewHandle> columnList = CrosstabUtil.getLevelList(handle, ICrosstabConstants.COLUMN_AXIS_TYPE);
+			int temp = rowBase;
+			if (columnList.size( ) == 0 && rowBase == 2)
+			{
+				temp= temp - 1;
+			}
+			if (handle.getHeaderCount( ) > 1 && columnBase*temp == handle.getHeaderCount( ))
+			{				
+				for (int i=0; i<temp; i++)
+				{
+					for (int j=0; j<columnBase; j++)
+					{
+						int rowSpan = 1;
+						if (temp != rowBase)
+						{
+							rowSpan = 2;
+						}
+						CrosstabCellAdapter cellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
+								handle.getHeader( ),
+								i + 1,
+								rowSpan,
+								j + 1,
+								1,
+								false );
+						list.add( cellAdapter );
+					}
+				}
+			}
+			else
+			{
+				first = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
+						handle.getHeader( ),
+						1,
+						rowBase,
+						1,
+						columnBase,
+						false );
+			}
 		}
 		if ( first != null )
 		{
@@ -1820,4 +1852,6 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		return true;
 	}
+	//support the nultiple header cells
+	
 }

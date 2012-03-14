@@ -1354,6 +1354,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 					try
 					{
 						headerHandle.setValue( CrosstabExtendedItemFactory.createCrosstabCell( getModuleHandle( ) ) );
+						CrosstabUtil.validateCrosstabHeader( this );
 					}
 					catch ( SemanticException e )
 					{
@@ -1403,6 +1404,34 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		}
 
 		return list;
+	}
+	
+	//Support the multiple left coner head cells
+
+	public CrosstabCellHandle getHeader( int index )
+	{
+		PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
+		if (headerHandle == null)
+		{
+			return null;
+		}
+		List list = headerHandle.getContents( );
+		if (list == null || index < 0 || index > list.size( ) - 1)
+		{
+			return null;
+		}
+		return (CrosstabCellHandle) CrosstabUtil.getReportItem( headerHandle.getContent( index ) );
+
+	}
+
+	public int getHeaderCount( )
+	{
+		PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
+		if (headerHandle == null)
+		{
+			return 0;
+		}
+		return headerHandle.getContentCount( );
 	}
 
 }
