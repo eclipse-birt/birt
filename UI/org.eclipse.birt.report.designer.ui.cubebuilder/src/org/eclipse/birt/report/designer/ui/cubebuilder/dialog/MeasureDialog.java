@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
@@ -23,10 +25,13 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
+import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
+import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeACLExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeMeasureExpressionProvider;
@@ -78,6 +83,7 @@ public class MeasureDialog extends TitleAreaDialog
 	private boolean isEdit = false;
 	private boolean isAutoPrimaryKeyChecked = false;
 	private ExpressionButton exprBtn;
+	private ExpressionHelper helper;
 	private CubeMeasureExpressionProvider provider;
 	private Combo typeCombo;
 	private Text expressionText;
@@ -570,10 +576,22 @@ public class MeasureDialog extends TitleAreaDialog
 		} );
 
 		provider = new CubeMeasureExpressionProvider( input, input.isCalculated() );
+		
+		helper = new ExpressionHelper( ) {
+			public IExpressionContextFactory getExpressionContextFactory( )
+			{
+				Map<String, Object> extras = new HashMap<String, Object>( );
+				extras.put( BuilderConstants.PROP_DERIVED_MEASURE, derivedMeasureBtn.getSelection() );
+				return new ExpressionContextFactoryImpl( getContextObject(), provider, extras );
+			}
+
+		};
+		
 		exprBtn = ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
 				provider,
-				input );
+				input,
+				helper );
 
 		new Label( group, SWT.NONE );
 		exprDesc = new Label( group, SWT.NONE );
