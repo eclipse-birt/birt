@@ -24,6 +24,7 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -102,10 +103,10 @@ public class JDBCDriverManager
 		return instance;
 	}
 	
-	public synchronized Driver getDriverInstance( Class driver, boolean refreshDriver ) throws OdaException
+	public Driver getDriverInstance( Class driver, boolean refreshDriver ) throws OdaException
 	{
 		String driverName = driver.getName( );
-		Driver drv = cachedJdbcDrivers.get( driverName );
+		Driver drv = getDriverInstance( driverName );
 
 		if ( refreshDriver || drv == null )
 		{
@@ -126,6 +127,11 @@ public class JDBCDriverManager
 		{
 			return drv;
 		}
+	}
+	
+	private Driver getDriverInstance( String driverName )
+	{
+		return cachedJdbcDrivers.get( driverName );
 	}
 
 	/**
@@ -230,7 +236,7 @@ public class JDBCDriverManager
 	 * Implementation of getConnection() methods. Gets connection from either java.sql.DriverManager, 
 	 * or from IConnectionFactory defined in the extension
 	 */    
-    private Connection doConnect( String driverClass, String url, 
+    private synchronized Connection doConnect( String driverClass, String url, 
             String jndiNameUrl,
             Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
     {
@@ -436,7 +442,7 @@ public class JDBCDriverManager
 	 * instance of the factory if there is a connection factory for the driver class. Returns null
 	 * otherwise.
 	 */
-	public synchronized IConnectionFactory getDriverConnectionFactory( String driverClass ) throws OdaException
+	public IConnectionFactory getDriverConnectionFactory( String driverClass ) throws OdaException
 	{
 		loadDriverExtensions();
 		
@@ -887,7 +893,7 @@ public class JDBCDriverManager
 		return true;
 	}
 	
-	public synchronized void loadAndRegisterDriver( String className, Collection<String> driverClassPath ) 
+	public void loadAndRegisterDriver( String className, Collection<String> driverClassPath ) 
 		throws OdaException
 	{
 		if ( className == null || className.length() == 0)
