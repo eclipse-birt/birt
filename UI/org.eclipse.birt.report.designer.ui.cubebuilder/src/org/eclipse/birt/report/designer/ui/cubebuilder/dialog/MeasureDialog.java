@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
@@ -25,13 +23,10 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
-import org.eclipse.birt.report.designer.internal.ui.expressions.ExpressionContextFactoryImpl;
-import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionContextFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil.ExpressionHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeACLExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeMeasureExpressionProvider;
@@ -82,8 +77,6 @@ public class MeasureDialog extends TitleAreaDialog
 
 	private boolean isEdit = false;
 	private boolean isAutoPrimaryKeyChecked = false;
-	private ExpressionButton exprBtn;
-	private ExpressionHelper helper;
 	private CubeMeasureExpressionProvider provider;
 	private Combo typeCombo;
 	private Text expressionText;
@@ -291,6 +284,8 @@ public class MeasureDialog extends TitleAreaDialog
 			handleFunctionSelectEvent( );
 			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
 					: getDataTypeDisplayName( input.getDataType( ) ) );
+			derivedMeasureBtn.setSelection( input.isCalculated( ) );
+			derivedMeasureBtn.notifyListeners( SWT.Selection, new Event( ) );
 		}
 
 		if ( formatHelper != null )
@@ -354,7 +349,16 @@ public class MeasureDialog extends TitleAreaDialog
 				}
 
 				measure.setCalculated( derivedMeasureBtn.getSelection( ) );
-				measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+
+				if ( derivedMeasureBtn.getSelection( ) )
+				{
+					measure.setFunction( null );
+				}
+				else
+				{
+					measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+				}
+
 				measure.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				if ( expressionText.isEnabled( ) )
 				{
@@ -362,11 +366,25 @@ public class MeasureDialog extends TitleAreaDialog
 							measure,
 							MeasureHandle.MEASURE_EXPRESSION_PROP );
 				}
+
+				if ( !derivedMeasureBtn.getSelection( ) )
+				{
+					if ( securityHelper != null )
+					{
+						securityHelper.validate( );
+						measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+								(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+					}
+				}
+				else
+				{
+					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+							null );
+				}
+
 				if ( securityHelper != null )
 				{
-					securityHelper.validate( );
-					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
-							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+
 				}
 				if ( alignmentHelper != null )
 				{
@@ -397,14 +415,23 @@ public class MeasureDialog extends TitleAreaDialog
 					}
 
 				}
-				measure.setVisible(!visibilityBtn.getSelection());
+				measure.setVisible( !visibilityBtn.getSelection( ) );
 				result = measure;
 			}
 			else
 			{
 				input.setName( nameText.getText( ) );
 				input.setCalculated( derivedMeasureBtn.getSelection( ) );
-				input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+
+				if ( derivedMeasureBtn.getSelection( ) )
+				{
+					input.setFunction( null );
+				}
+				else
+				{
+					input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+				}
+
 				input.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				if ( expressionText.isEnabled( ) )
 				{
@@ -414,12 +441,22 @@ public class MeasureDialog extends TitleAreaDialog
 				}
 				else
 					input.setMeasureExpression( null );
-				if ( securityHelper != null )
+
+				if ( !derivedMeasureBtn.getSelection( ) )
 				{
-					securityHelper.validate( );
-					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
-							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+					if ( securityHelper != null )
+					{
+						securityHelper.validate( );
+						input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+								(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+					}
 				}
+				else
+				{
+					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+							null );
+				}
+
 				if ( alignmentHelper != null )
 				{
 					input.setAlignment( (String) alignmentHelper.getProperty( BuilderConstants.ALIGNMENT_VALUE ) );
@@ -449,7 +486,7 @@ public class MeasureDialog extends TitleAreaDialog
 					}
 
 				}
-				input.setVisible(!visibilityBtn.getSelection());
+				input.setVisible( !visibilityBtn.getSelection( ) );
 				result = input;
 			}
 
@@ -499,16 +536,21 @@ public class MeasureDialog extends TitleAreaDialog
 		new Label( group, SWT.NONE );
 		derivedMeasureBtn = new Button( group, SWT.CHECK );
 		derivedMeasureBtn.setText( Messages.getString( "MeasureDialog.Label.DerivedMeasure" ) ); //$NON-NLS-1$
-		derivedMeasureBtn.setSelection( input.isCalculated( ) );
 
 		derivedMeasureBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				functionCombo.setEnabled( !( derivedMeasureBtn.getSelection( ) || isAutoPrimaryKeyChecked ) );
+				if ( securityHelper != null )
+				{
+					securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_ENABLE,
+							!( derivedMeasureBtn.getSelection( ) ) );
+					securityHelper.update( true );
+				}
 				exprDesc.setText( Messages.getString( derivedMeasureBtn.getSelection( ) ? "MeasureDialog.Label.ExprDesc.Derived" : "MeasureDialog.Label.ExprDesc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				provider.setDerivedMeasure(derivedMeasureBtn.getSelection( ));
-				if(!derivedMeasureBtn.getSelection())
+				provider.setDerivedMeasure( derivedMeasureBtn.getSelection( ) );
+				if ( !derivedMeasureBtn.getSelection( ) )
 				{
 					handleTypeSelectEvent( );
 				}
@@ -546,7 +588,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if (!derivedMeasureBtn.getSelection())
+				if ( !derivedMeasureBtn.getSelection( ) )
 				{
 					handleTypeSelectEvent( );
 				}
@@ -575,23 +617,12 @@ public class MeasureDialog extends TitleAreaDialog
 
 		} );
 
-		provider = new CubeMeasureExpressionProvider( input, input.isCalculated() );
-		
-		helper = new ExpressionHelper( ) {
-			public IExpressionContextFactory getExpressionContextFactory( )
-			{
-				Map<String, Object> extras = new HashMap<String, Object>( );
-				extras.put( BuilderConstants.PROP_DERIVED_MEASURE, derivedMeasureBtn.getSelection() );
-				return new ExpressionContextFactoryImpl( getContextObject(), provider, extras );
-			}
-
-		};
-		
-		exprBtn = ExpressionButtonUtil.createExpressionButton( group,
+		provider = new CubeMeasureExpressionProvider( input,
+				input.isCalculated( ) );
+		ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
 				provider,
-				input,
-				helper );
+				input );
 
 		new Label( group, SWT.NONE );
 		exprDesc = new Label( group, SWT.NONE );
@@ -626,8 +657,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 		visibilityBtn = new Button( group, SWT.CHECK );
 		visibilityBtn.setText( Messages.getString( "MeasureDialog.Label.Visibility" ) ); //$NON-NLS-1$
-		visibilityBtn.setSelection(!input.isVisible());
-		
+		visibilityBtn.setSelection( !input.isVisible( ) );
+
 		return group;
 	}
 

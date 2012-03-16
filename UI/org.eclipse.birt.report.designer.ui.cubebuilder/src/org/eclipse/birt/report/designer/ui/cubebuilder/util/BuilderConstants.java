@@ -42,7 +42,8 @@ public class BuilderConstants
 	public static final String SECURITY_EXPRESSION_LABEL = "Security Label"; //$NON-NLS-1$
 	public static final String SECURITY_HELPER_KEY = "Security Helper"; //$NON-NLS-1$
 	public static final String SECURITY_EXPRESSION_PROPERTY = "Security Expression Property"; //$NON-NLS-1$
-
+	public static final String SECURITY_EXPRESSION_ENABLE = "Security Expression Enable"; //$NON-NLS-1$
+	
 	public static final String HYPERLINK_HELPER_KEY = "HyperLink Helper"; //$NON-NLS-1$
 	public static final String HYPERLINK_LABEL = "HyperLink Label"; //$NON-NLS-1$
 	public static final String HYPERLINK_REPORT_ITEM_HANDLE = "HyperLink Report Item Handle"; //$NON-NLS-1$

@@ -147,8 +147,9 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			if ( isDataViewer )
 			{
-				List<DimensionHandle> dimensions = getSharedDimensionHandles();
-				if(dimensions.contains( ((LevelHandle)element).getContainer( ).getContainer( ) ))
+				List<DimensionHandle> dimensions = getSharedDimensionHandles( );
+				if ( dimensions.contains( ( (LevelHandle) element ).getContainer( )
+						.getContainer( ) ) )
 					return IMG_DATAFIELD_USED;
 			}
 			return IMG_LEVEL;
@@ -238,11 +239,18 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			try
 			{
-				return ( (MeasureHandle) element ).getName( ) + "(" //$NON-NLS-1$
-						+ DataUtil.getAggregationManager( )
-								.getAggregation( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
-								.getDisplayName( )
-						+ ")"; //$NON-NLS-1$
+				if ( ( (MeasureHandle) element ).isCalculated( ) )
+				{
+					return ( (MeasureHandle) element ).getName( );
+				}
+				else
+				{
+					return ( (MeasureHandle) element ).getName( ) + "(" //$NON-NLS-1$
+							+ DataUtil.getAggregationManager( )
+									.getAggregation( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
+									.getDisplayName( )
+							+ ")"; //$NON-NLS-1$
+				}
 			}
 			catch ( Exception e )
 			{
@@ -278,9 +286,10 @@ public class CubeLabelProvider extends LabelProvider
 		return getText( element );
 	}
 
-	private List<DimensionHandle> getSharedDimensionHandles(){
-		
-		List<DimensionHandle> dimensions = new ArrayList<DimensionHandle>();
+	private List<DimensionHandle> getSharedDimensionHandles( )
+	{
+
+		List<DimensionHandle> dimensions = new ArrayList<DimensionHandle>( );
 		List list = input.getContents( CubeHandle.DIMENSIONS_PROP );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
@@ -294,7 +303,7 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		return dimensions;
 	}
-	
+
 	private Map<String, List<String>> getColumnMap( )
 	{
 		Map<String, List<String>> columnMap = new HashMap<String, List<String>>( );
