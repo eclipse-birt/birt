@@ -182,6 +182,11 @@ public class CubeQueryDefinitionUtil
 				else
 					return null;
 			}
+			else
+			{
+				if (filter.updateAggregation()) 
+					return null;
+			}
 	
 		}
 		
