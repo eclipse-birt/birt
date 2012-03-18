@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -77,6 +78,8 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 			//CrosstabUtil.insertDimension( reportHandle, childViewHandle, parentVewHandle.getAxisType( ), findPosition( ), measureMap, funcMap );
 			boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings( reportHandle);
 			reportHandle.pivotDimension( childViewHandle.getAxisType( ), childViewHandle.getIndex( ), getType( ), findPosition( ) );
+			
+			CrosstabAdaptUtil.addAllHadleLabel( reportHandle );
 			if (bool)
 			{
 				CrosstabAdaptUtil.removeInvalidBindings( reportHandle );

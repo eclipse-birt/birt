@@ -28,11 +28,13 @@ import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
@@ -41,6 +43,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -542,6 +545,8 @@ public class CrosstabAdaptUtil
 		MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 				position );
 		measureViewHandle.addHeader( );
+		
+		CrosstabModelUtil.updateHeaderCell( measureViewHandle.getCrosstab( ), -1, -1 );
 
 		// LabelHandle labelHandle = DesignElementFactory.getInstance( )
 		// .newLabel( null );
@@ -672,6 +677,50 @@ public class CrosstabAdaptUtil
 		catch ( SemanticException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+	}
+	
+	public static void addAllHadleLabel(CrosstabReportItemHandle reportHandle)
+	{
+		for (int i=0; i<reportHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++)
+		{
+			DimensionViewHandle viewHandle = reportHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i );
+			for (int j=0; j<viewHandle.getLevelCount( ); j++)
+			{
+				CrosstabAdaptUtil.addLabelToHeader( viewHandle.getLevel( j ) );
+			}
+		}
+	}
+	
+	public static void addLabelToHeader(LevelViewHandle levelHandle)
+	{
+		if (ICrosstabConstants.COLUMN_AXIS_TYPE == levelHandle.getAxisType( ))
+		{
+			addAllHadleLabel( levelHandle.getCrosstab( ) );
+			return;
+		}
+		
+		DimensionViewHandle viewHandle = (DimensionViewHandle)levelHandle.getContainer( );
+		int count = CrosstabModelUtil.findPreLevelCount( viewHandle ) + levelHandle.getIndex( );
+		
+		CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
+		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
+		count = (numbers[0]-1)*(numbers[1])+count;
+		if (crosstab.getHeader( count ) != null && crosstab.getHeader( count ).getContents( ).size( ) == 0)
+		{
+			LabelHandle labelHandle = crosstab.getModuleHandle( )
+					.getElementFactory( )
+					.newLabel( null );
+			try
+			{
+				labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+			
+				crosstab.getHeader( count ).addContent( labelHandle );
+			}
+			catch ( SemanticException e )
+			{
+				//Do nothing now
+			}
 		}
 	}
 }

@@ -210,6 +210,8 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 		cellHandle.addContent( dataHandle );
+		
+		CrosstabAdaptUtil.addLabelToHeader( levelViewHandle );
 
 	}
 

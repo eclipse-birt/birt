@@ -71,7 +71,7 @@ public class MeasureViewTask extends AbstractCrosstabModelTask
 			stack.rollback( );
 			throw e;
 		}
-
+		
 		stack.commit( );
 	}
 
@@ -117,6 +117,7 @@ public class MeasureViewTask extends AbstractCrosstabModelTask
 			throw e;
 		}
 
+		
 		stack.commit( );
 	}
 

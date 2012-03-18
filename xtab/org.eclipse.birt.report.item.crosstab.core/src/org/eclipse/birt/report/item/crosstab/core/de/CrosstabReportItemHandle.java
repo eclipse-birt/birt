@@ -35,7 +35,10 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -62,6 +65,22 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	CrosstabReportItemHandle( DesignElementHandle handle )
 	{
 		super( handle );
+		handle.addListener( new Listener()
+		{
+			public void elementChanged( DesignElementHandle focus,
+					NotificationEvent ev )
+			{
+				if (ev instanceof PropertyEvent)
+				{
+					PropertyEvent proEvent = (PropertyEvent)ev;
+					if (ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( proEvent.getPropertyName( ) ))
+					{
+						CrosstabModelUtil.updateHeaderCell( CrosstabReportItemHandle.this, -1, -1);
+					}
+				}		
+			}
+			
+		});
 	}
 
 	/**
@@ -1354,7 +1373,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 					try
 					{
 						headerHandle.setValue( CrosstabExtendedItemFactory.createCrosstabCell( getModuleHandle( ) ) );
-						CrosstabUtil.validateCrosstabHeader( this );
+						CrosstabModelUtil.validateCrosstabHeader( this );
 					}
 					catch ( SemanticException e )
 					{
@@ -1362,6 +1381,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 					}
 				}
 			}
+			
 
 			if ( errorList.size( ) > 0 )
 			{

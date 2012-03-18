@@ -27,7 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -174,7 +174,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		}
 		else
 		{
-			List<LevelViewHandle> columnList = CrosstabUtil.getLevelList(handle, ICrosstabConstants.COLUMN_AXIS_TYPE);
+			List<LevelViewHandle> columnList = CrosstabModelUtil.getLevelList(handle, ICrosstabConstants.COLUMN_AXIS_TYPE);
 			int temp = rowBase;
 			if (columnList.size( ) == 0 && rowBase == 2)
 			{
@@ -192,7 +192,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 							rowSpan = 2;
 						}
 						CrosstabCellAdapter cellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
-								handle.getHeader( ),
+								handle.getHeader(i*columnBase + j ),
 								i + 1,
 								rowSpan,
 								j + 1,

@@ -123,6 +123,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				if ( levelHandle != null && crosstab != null )
 				{
 					doPostInsert( levelView );
+					
+					CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), CrosstabModelUtil.findPreLevelCount( dimensionView ) + index, dimensionView.getAxisType( ) );
 				}
 			}
 		}
@@ -358,9 +360,18 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			{
 				doPreRemove( levelView );
 			}
-
+			int count = CrosstabModelUtil.findPreLevelCount( dimensionView );
+//			for (int i=0; i<dimensionView.getLevelCount( ); i++)
+//			{
+//				if (dimensionView.getLevel( i ) == levelView)
+//				{
+//					break;
+//				}
+//				count = count + 1;
+//			}
+			count = count + levelView.getIndex( );
 			levelView.getModelHandle( ).drop( );
-
+			CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), count, dimensionView.getAxisType( ) );
 			if ( crosstab != null )
 			{
 				validateFilterCondition( );
