@@ -545,8 +545,6 @@ public class CrosstabAdaptUtil
 		MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 				position );
 		measureViewHandle.addHeader( );
-		
-		CrosstabModelUtil.updateHeaderCell( measureViewHandle.getCrosstab( ), -1, -1 );
 
 		// LabelHandle labelHandle = DesignElementFactory.getInstance( )
 		// .newLabel( null );
@@ -680,7 +678,7 @@ public class CrosstabAdaptUtil
 		}
 	}
 	
-	public static void addAllHadleLabel(CrosstabReportItemHandle reportHandle)
+	public static void addAllHeaderLabel(CrosstabReportItemHandle reportHandle)
 	{
 		for (int i=0; i<reportHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++)
 		{
@@ -696,7 +694,7 @@ public class CrosstabAdaptUtil
 	{
 		if (ICrosstabConstants.COLUMN_AXIS_TYPE == levelHandle.getAxisType( ))
 		{
-			addAllHadleLabel( levelHandle.getCrosstab( ) );
+			//addAllHeaderLabel( levelHandle.getCrosstab( ) );
 			return;
 		}
 		
@@ -722,5 +720,27 @@ public class CrosstabAdaptUtil
 				//Do nothing now
 			}
 		}
+	}
+	
+	public static boolean canMergeCrosstabHeaderCell(CrosstabReportItemHandle crosstab)
+	{
+		//int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
+		if (crosstab.getHeaderCount( ) > 1 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean canSpliteCrosstabHeaderCell(CrosstabReportItemHandle crosstab)
+	{
+		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
+		if (crosstab.getHeaderCount( ) == 1 && numbers[0] * numbers[1] > 1)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

@@ -65,22 +65,6 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	CrosstabReportItemHandle( DesignElementHandle handle )
 	{
 		super( handle );
-		handle.addListener( new Listener()
-		{
-			public void elementChanged( DesignElementHandle focus,
-					NotificationEvent ev )
-			{
-				if (ev instanceof PropertyEvent)
-				{
-					PropertyEvent proEvent = (PropertyEvent)ev;
-					if (ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( proEvent.getPropertyName( ) ))
-					{
-						CrosstabModelUtil.updateHeaderCell( CrosstabReportItemHandle.this, -1, -1);
-					}
-				}		
-			}
-			
-		});
 	}
 
 	/**
@@ -393,6 +377,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			handle.setStringProperty( MEASURE_DIRECTION_PROP, direction );
 
 			new CrosstabReportItemTask( this ).validateCrosstab( );
+			CrosstabModelUtil.updateHeaderCell( this, -2, -1 );
 		}
 		catch ( SemanticException e )
 		{
@@ -441,6 +426,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public void setHideMeasureHeader( boolean value ) throws SemanticException
 	{
 		handle.setProperty( HIDE_MEASURE_HEADER_PROP, Boolean.valueOf( value ) );
+		CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 	}
 
 	/**
@@ -819,6 +805,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 				new CrosstabReportItemTask( this ).validateCrosstab( );
 
 				mv = (MeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
+				
+				CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 			}
 		}
 		catch ( SemanticException e )
@@ -863,6 +851,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 				new CrosstabReportItemTask( this ).validateCrosstab( );
 
 				mv = (ComputedMeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
+				CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 			}
 		}
 		catch ( SemanticException e )
@@ -949,6 +938,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		}
 
 		measureView.handle.drop( );
+		
+		CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 	}
 
 	/**
@@ -962,6 +953,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public void removeMeasure( int index ) throws SemanticException
 	{
 		getMeasuresProperty( ).drop( index );
+		CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 	}
 
 	/**

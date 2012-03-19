@@ -105,7 +105,6 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 			{
 				boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings(reportItem );
 				reportItem.removeMeasure( measureViewHandle.getIndex( ) );
-				CrosstabModelUtil.updateHeaderCell( reportItem, -1, -1 );
 				if (bool)
 				{
 					CrosstabAdaptUtil.removeInvalidBindings( reportItem );

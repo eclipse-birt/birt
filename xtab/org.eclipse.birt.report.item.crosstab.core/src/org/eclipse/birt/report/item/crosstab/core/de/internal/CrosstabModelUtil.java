@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.script.DataRow;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -48,6 +49,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Provide all util methods for Model part of x-tab.
@@ -1624,24 +1626,6 @@ public class CrosstabModelUtil implements ICrosstabConstants
 						// do nothing
 						continue;
 					}
-//					if ( i < rowLevelList.size( ) )
-//					{
-//						try
-//						{
-//							CrosstabCellHandle cellItemHandle = (CrosstabCellHandle) CrosstabUtil.getReportItem( cellHandle );
-//							LabelHandle labelHandle = crosstab.getModuleHandle( )
-//									.getElementFactory( )
-//									.newLabel( null );
-//							labelHandle.setText( rowLevelList.get( i )
-//									.getCubeLevel( )
-//									.getName( ));
-//							cellItemHandle.addContent( labelHandle );
-//						}
-//						catch ( SemanticException e )
-//						{
-//							// do nothing
-//						}
-//					}
 				}
 			}
 
@@ -1661,23 +1645,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				// do nothing
 				continue;
 			}
-			if ( i >= total - rowSize && i + rowSize - total < rowSize )
-			{
-				try
-				{
-					CrosstabCellHandle cellItemHandle = (CrosstabCellHandle) CrosstabUtil.getReportItem( cellHandle );
-					LabelHandle labelHandle = crosstab.getModuleHandle( )
-							.getElementFactory( )
-							.newLabel( null );
-					labelHandle.setText( rowLevelList.get( i + rowSize - total )
-							.getCubeLevelName( ) );
-					cellItemHandle.addContent( labelHandle );
-				}
-				catch ( SemanticException e )
-				{
-					// do nothing
-				}
-			}
+
 		}
 	}
 
@@ -1706,41 +1674,93 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	{
 		updateHeaderCell( crosstab, pos, axisType, false );
 	}
-	
+
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
 			int pos, int axisType, boolean isMoveDimension )
 	{
-	
+
 		HeaderData data = caleHeaderData( crosstab );
-		//hide or show measere hider
-		if (pos == -1 )
+		int total = data.rowNumber * data.columnNumber;
+
+		PropertyHandle headerHandle = crosstab.getModelHandle( )
+				.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
+		// hide or show measere hider
+		if ( pos == -1 )
 		{
-			if (ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ))
+			if ( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) )
+			{
+				pos = total - crosstab.getHeaderCount( ) > 0 ? data.columnNumber - 1 : data.columnNumber;
+				axisType = ICrosstabConstants.ROW_AXIS_TYPE;
+			}
+			else
+			{
+				pos = total - crosstab.getHeaderCount( ) > 0 ? data.rowNumber - 1 : data.rowNumber;
+				axisType = ICrosstabConstants.COLUMN_AXIS_TYPE;
+			}
+		}
+		else if ( pos == -2
+				&& !crosstab.isHideMeasureHeader( )
+				&& crosstab.getMeasureCount( ) > 0 )// setHideMeasureHeader
+		{
+			if ( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) )
+			{
+
+				if ( total - crosstab.getHeaderCount( ) != data.rowNumber )
+				{
+					for ( int i = 0; i < data.columnNumber - 1; i++ )
+					{
+						try
+						{
+							headerHandle.removeItem( ( data.rowNumber - 1 )
+									* ( data.columnNumber - 1 ) );
+						}
+						catch ( PropertyValueException e )
+						{
+							// do nothing now
+						}
+					}
+				}
+			}
+			else
+			{
+				if ( total - crosstab.getHeaderCount( ) != data.columnNumber )
+				{
+					for ( int i = data.rowNumber - 2; i >= 0; i-- )
+					{
+						try
+						{
+							headerHandle.removeItem( i*(data.columnNumber + 1) + data.columnNumber );
+						}
+						catch ( PropertyValueException e )
+						{
+							// do nothing now
+						}
+					}
+				}
+			}
+			if ( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) )
 			{
 				pos = data.columnNumber - 1;
 				axisType = ICrosstabConstants.ROW_AXIS_TYPE;
 			}
-			else 
+			else
 			{
 				pos = data.rowNumber - 1;
 				axisType = ICrosstabConstants.COLUMN_AXIS_TYPE;
 			}
 		}
-		
-		int total = data.rowNumber * data.columnNumber;
+
 		boolean isAdd = total - crosstab.getHeaderCount( ) > 0;
 		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, isAdd ) )
 		{
 			return;
 		}
-		
+
 		if ( total == crosstab.getHeaderCount( ) )
 		{
 			return;
 		}
-		PropertyHandle headerHandle = crosstab.getModelHandle( )
-				.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
-		
+
 		if ( ICrosstabConstants.COLUMN_AXIS_TYPE == axisType )
 		{
 			for ( int i = 0; i < data.columnNumber; i++ )
@@ -1750,7 +1770,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					if ( isAdd )
 					{
 						int insertRow = pos;
-						if (insertRow == data.rowNumber - 1)
+						if ( insertRow == data.rowNumber - 1 )
 						{
 							insertRow = insertRow - 1;
 						}
@@ -1762,7 +1782,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					}
 					else
 					{
-						headerHandle.removeItem( pos * data.columnNumber  );
+						headerHandle.removeItem( pos==data.rowNumber?pos-1:pos * data.columnNumber );
 					}
 				}
 				catch ( SemanticException e )
@@ -1781,11 +1801,15 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					{
 						ExtendedItemHandle cellHandle = CrosstabExtendedItemFactory.createCrosstabCell( crosstab.getModuleHandle( ) );
 
-						headerHandle.add( cellHandle, i* (data.columnNumber-1) + pos);
+						headerHandle.add( cellHandle, i
+								* ( data.columnNumber - 1 )
+								+ pos );
 					}
 					else
 					{
-						headerHandle.removeItem( i* (data.columnNumber+1) + pos );
+						headerHandle.removeItem( i
+								* ( data.columnNumber + 1 )
+								+ pos );
 					}
 				}
 				catch ( SemanticException e )
@@ -1812,7 +1836,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		{
 			return true;
 		}
-		int value = isAdd ? 2:1;
+		int value = isAdd ? 2 : 1;
 		if ( columnLevelList.size( ) == 0 )
 		{
 			if ( rowLevelList.size( ) <= value )
@@ -1827,7 +1851,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 		if ( rowLevelList.size( ) == 0 )
 		{
-			if ( columnLevelList.size( ) == value )
+			if ( columnLevelList.size( ) <= value )
 			{
 				return true;
 			}
@@ -1836,14 +1860,18 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
-	public static int[] getHeaderRowAndColumnNumber(CrosstabReportItemHandle crosstab)
+	public static int[] getHeaderRowAndColumnNumber(
+			CrosstabReportItemHandle crosstab )
 	{
 		HeaderData data = caleHeaderData( crosstab );
-		return  new int[]{data.rowNumber, data.columnNumber};
+		return new int[]{
+				data.rowNumber, data.columnNumber
+		};
 	}
+
 	private static HeaderData caleHeaderData( CrosstabReportItemHandle crosstab )
 	{
 		HeaderData data = new HeaderData( );
@@ -1934,16 +1962,17 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		public int rowNumber = 1;
 		public int columnNumber = 1;
 	}
-	
-	public static int findPreLevelCount(DimensionViewHandle viewHandle)
+
+	public static int findPreLevelCount( DimensionViewHandle viewHandle )
 	{
 		int count = 0;
 		CrosstabReportItemHandle crosstab = viewHandle.getCrosstab( );
 		int dimensionCount = crosstab.getDimensionCount( viewHandle.getAxisType( ) );
-		for (int i=0; i<dimensionCount; i++)
+		for ( int i = 0; i < dimensionCount; i++ )
 		{
-			DimensionViewHandle handle = crosstab.getDimension( viewHandle.getAxisType( ), i );
-			if (handle == viewHandle)
+			DimensionViewHandle handle = crosstab.getDimension( viewHandle.getAxisType( ),
+					i );
+			if ( handle == viewHandle )
 			{
 				break;
 			}

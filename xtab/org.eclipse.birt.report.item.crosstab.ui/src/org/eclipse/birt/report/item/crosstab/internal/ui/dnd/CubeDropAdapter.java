@@ -287,8 +287,8 @@ public class CubeDropAdapter implements IDropAdapter
 								}
 							}
 						}
-						CrosstabModelUtil.validateCrosstabHeader(( CrosstabReportItemHandle)handle.getReportItem( ) );
-						CrosstabAdaptUtil.addAllHadleLabel( ( CrosstabReportItemHandle)handle.getReportItem( ) );
+						//CrosstabModelUtil.validateCrosstabHeader(( CrosstabReportItemHandle)handle.getReportItem( ) );
+						CrosstabAdaptUtil.addAllHeaderLabel( ( CrosstabReportItemHandle)handle.getReportItem( ) );
 						stack.commit( );
 
 						viewer.flush( );

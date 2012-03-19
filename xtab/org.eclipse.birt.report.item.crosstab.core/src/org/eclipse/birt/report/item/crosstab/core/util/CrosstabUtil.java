@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -603,5 +604,48 @@ public class CrosstabUtil implements ICrosstabConstants
 		return dimension;
 
 	}
+	//Support multiple header cell
+	public static void mergeHeaderCell(CrosstabReportItemHandle crosstab)
+	{	
+		int count = crosstab.getHeaderCount( );
+		if (count <= 1)
+		{
+			return;
+		}
+		PropertyHandle headerHandle = crosstab.getModelHandle( )
+				.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
+		for (int i=1; i<count; i++)
+		{
+			try
+			{
+				headerHandle.removeItem( 1 );
+			}
+			catch ( PropertyValueException e )
+			{
+				//do nothing now
+			}
+		}
+	}
 	
+	public static void spliteHeaderCell(CrosstabReportItemHandle crosstab)
+	{
+		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
+		int total = numbers[0]*numbers[1];
+		PropertyHandle headerHandle = crosstab.getModelHandle( )
+				.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
+		for (int i=1; i<total; i++)
+		{
+			ExtendedItemHandle cellHandle = CrosstabExtendedItemFactory.createCrosstabCell( crosstab.getModuleHandle( ) );
+
+			try
+			{
+				headerHandle.add( cellHandle );
+			}
+			catch ( SemanticException e )
+			{
+				//do nothing now
+			}
+		}
+		
+	}
 }

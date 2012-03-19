@@ -79,7 +79,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 			boolean bool = CrosstabAdaptUtil.needRemoveInvaildBindings( reportHandle);
 			reportHandle.pivotDimension( childViewHandle.getAxisType( ), childViewHandle.getIndex( ), getType( ), findPosition( ) );
 			
-			CrosstabAdaptUtil.addAllHadleLabel( reportHandle );
+			CrosstabAdaptUtil.addAllHeaderLabel( reportHandle );
 			if (bool)
 			{
 				CrosstabAdaptUtil.removeInvalidBindings( reportHandle );

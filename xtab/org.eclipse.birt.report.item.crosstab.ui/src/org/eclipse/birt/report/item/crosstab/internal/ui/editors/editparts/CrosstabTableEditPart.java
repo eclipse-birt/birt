@@ -997,7 +997,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals( obj )
 					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals( obj )
 					|| ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP.equals( obj )
-					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals( obj ) )
+					|| ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP.equals( obj )
+					|| ICrosstabReportItemConstants.HEADER_PROP.equals( obj ))
 			{
 				refresh( );
 				return;
