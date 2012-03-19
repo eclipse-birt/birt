@@ -30,55 +30,58 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
 public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 {
+
 	private TabularMeasureHandle handle = null;
 	private DataSetHandle dataSetHandle = null;
 	private ExpressionFilter filter = null;
 
 	private boolean isDerivedMeasure;
-	
-	public boolean isDerivedMeasure()
+
+	public boolean isDerivedMeasure( )
 	{
 		return isDerivedMeasure;
 	}
 
-	public void setDerivedMeasure(boolean isDerivedMeasure)
+	public void setDerivedMeasure( boolean isDerivedMeasure )
 	{
 		this.isDerivedMeasure = isDerivedMeasure;
-		
-		this.clearFilters();
-		this.addFilterToProvider(handle);
+
+		this.clearFilters( );
+		this.addFilterToProvider( handle );
 	}
 
-	public CubeMeasureExpressionProvider(TabularMeasureHandle handle, boolean isDerivedMeasure)
+	public CubeMeasureExpressionProvider( TabularMeasureHandle handle,
+			boolean isDerivedMeasure )
 	{
-		super(handle);
+		super( handle );
 		this.isDerivedMeasure = isDerivedMeasure;
 		this.handle = handle;
-		this.clearFilters();
+		this.clearFilters( );
 
-		if(isDerivedMeasure)
+		if ( isDerivedMeasure )
 		{
 			dataSetHandle = null;
 		}
 		else
 		{
-			Object parent = ( (TabularMeasureHandle) handle ).getContainer( ).getContainer( );
+			Object parent = ( (TabularMeasureHandle) handle ).getContainer( )
+					.getContainer( );
 			if ( parent instanceof TabularCubeHandle )
 			{
 				dataSetHandle = ( (TabularCubeHandle) parent ).getDataSet( );
 			}
 		}
-		
+
 		addFilterToProvider( handle );
 	}
-	
+
 	protected void addFilterToProvider( final DesignElementHandle handle )
 	{
 		filter = new ExpressionFilter( ) {
 
 			public boolean select( Object parentElement, Object element )
 			{
-				if(isDerivedMeasure) // filters DATA_SET
+				if ( isDerivedMeasure ) // filters DATA_SET
 				{
 					if ( ExpressionFilter.CATEGORY.equals( parentElement )
 							&& ExpressionProvider.DATASETS.equals( element ) )
@@ -99,11 +102,49 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 						return false;
 					}
 				}
-				
+				if ( CURRENT_CUBE.equals( parentElement )
+						&& element instanceof PropertyHandle )
+				{
+					if ( ( (PropertyHandle) element ).getPropertyDefn( )
+							.getName( )
+							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+					{
+						return true;
+					}
+					return false;
+				}
+				if ( parentElement instanceof MeasureGroupHandle )
+				{
+					if ( !isDerivedMeasure( ) )
+					{
+						return true;
+					}
+					if ( !( elementHandle instanceof MeasureHandle ) )
+					{
+						return true;
+					}
+					CubeHandle cubeHandle = (CubeHandle) ( (MeasureGroupHandle) parentElement ).getContainer( );
+					List<MeasureHandle> measureHnadles = new ArrayList<MeasureHandle>( );
+					try
+					{
+						measureHnadles = CubeMeasureUtil.getIndependentReferences( cubeHandle,
+								elementHandle.getName( ) );
+					}
+					catch ( BirtException e )
+					{
+						// Do nothing now
+						return true;
+					}
+					if ( measureHnadles.contains( element ) )
+					{
+						return true;
+					}
+					return false;
+				}
 				return true;
 			}
 		};
-		
+
 		this.addFilter( filter );
 	}
 
@@ -111,78 +152,17 @@ public class CubeMeasureExpressionProvider extends CubeExpressionProvider
 	{
 		List categoryList = super.getCategoryList( );
 
-		if(isDerivedMeasure)
+		if ( isDerivedMeasure )
 		{
-			categoryList.add(CURRENT_CUBE);
+			categoryList.add( CURRENT_CUBE );
 		}
 		return categoryList;
 	}
-	
+
 	public Object[] getChildren( Object parent )
 	{
-		Object[] children = super.getChildren(parent);
-		
-		if ( CURRENT_CUBE.equals( parent ) )
-		{
-			ExpressionFilter ft = new ExpressionFilter( ) {
-
-				public boolean select( Object parentElement, Object element )
-				{
-					// Derived measure expression can only use measure of cube.
-					if ( CURRENT_CUBE.equals( parentElement ) && element instanceof PropertyHandle)
-					{
-						if ( ((PropertyHandle)element).getPropertyDefn( )
-								.getName( )
-								.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-						{
-							return true;
-						}
-						return false;
-					}
-					return true;
-				}
-			};
-			
-			children = ft.filter( parent, children );
-		}
-		else if (parent instanceof MeasureGroupHandle)
-		{
-			ExpressionFilter ft = new ExpressionFilter( ) {
-
-				public boolean select( Object parentElement, Object element )
-				{
-					if (!isDerivedMeasure( ))
-					{
-						return true;
-					}
-					if (!(elementHandle instanceof MeasureHandle))
-					{
-						return true;
-					}
-					CubeHandle cubeHandle = (CubeHandle)((MeasureGroupHandle)parentElement).getContainer( );
-					List<MeasureHandle> measureHnadles = new ArrayList<MeasureHandle>( );
-					try
-					{
-						measureHnadles = CubeMeasureUtil.getIndependentReferences( cubeHandle, elementHandle.getName( ) );
-					}
-					catch ( BirtException e )
-					{
-						//Do nothing now
-						return true;
-					}
-					if (measureHnadles.contains( element ))
-					{
-						return true;
-					}
-					return false;
-				}
-			};
-			
-			children = ft.filter( parent, children );
-			
-		}
-		
+		Object[] children = super.getChildren( parent );
 		return children;
 	}
-	
+
 }
