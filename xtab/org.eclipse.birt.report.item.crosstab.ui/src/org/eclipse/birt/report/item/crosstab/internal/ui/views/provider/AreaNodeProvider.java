@@ -99,6 +99,8 @@ public class AreaNodeProvider extends CrosstabWrapperNodeProvider
 			return CrosstabUIHelper.getImage( CrosstabUIHelper.ROWS_AREA_IMAGE );
 		if ( propertyName.equals( ICrosstabReportItemConstants.MEASURES_PROP ) )
 			return CrosstabUIHelper.getImage( CrosstabUIHelper.DETAIL_AREA_IMAGE );
+		if ( propertyName.equals( ICrosstabReportItemConstants.HEADER_PROP ) )
+			return CrosstabUIHelper.getImage( CrosstabUIHelper.HEADERS_AREA_IMAGE );
 		return super.getNodeIcon( element );
 	}
 }
