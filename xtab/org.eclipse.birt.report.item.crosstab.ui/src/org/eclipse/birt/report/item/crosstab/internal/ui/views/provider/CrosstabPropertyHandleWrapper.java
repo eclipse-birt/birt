@@ -25,6 +25,7 @@ public class CrosstabPropertyHandleWrapper implements IAdaptable
 {
 
 	private PropertyHandle handle;
+	private String type;
 
 	public Object getAdapter( Class adapter )
 	{
@@ -35,6 +36,19 @@ public class CrosstabPropertyHandleWrapper implements IAdaptable
 				return element;
 		}
 		return null;
+	}
+	
+	public void setTestType(String testType)
+	{
+		this.type = testType;
+	}
+	public String getTestType()
+	{
+		if (type == null)
+		{
+			return getModel( ).getPropertyDefn( ).getName( );
+		}
+		return type;
 	}
 
 	public CrosstabPropertyHandleWrapper( PropertyHandle handle )

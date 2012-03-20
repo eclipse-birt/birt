@@ -31,7 +31,6 @@ import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -41,7 +40,6 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -605,6 +603,9 @@ public class CrosstabUtil implements ICrosstabConstants
 
 	}
 	//Support multiple header cell
+	/**Merge all header cell
+	 * @param crosstab
+	 */
 	public static void mergeHeaderCell(CrosstabReportItemHandle crosstab)
 	{	
 		int count = crosstab.getHeaderCount( );
@@ -627,6 +628,9 @@ public class CrosstabUtil implements ICrosstabConstants
 		}
 	}
 	
+	/**Splite the header cell
+	 * @param crosstab
+	 */
 	public static void spliteHeaderCell(CrosstabReportItemHandle crosstab)
 	{
 		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );

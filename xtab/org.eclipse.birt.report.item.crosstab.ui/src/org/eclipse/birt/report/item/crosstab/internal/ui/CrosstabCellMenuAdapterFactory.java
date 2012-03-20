@@ -134,11 +134,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 	}
 
-	private void createCrosstabHeaderCellMenu(IMenuManager menu, Object firstSelectedObj,
-			IContributionItem beforeThis)
-	{
-		
-	}
 	private void createLevelMenu( IMenuManager menu, Object firstSelectedObj,
 			IContributionItem beforeThis )
 	{

@@ -678,6 +678,9 @@ public class CrosstabAdaptUtil
 		}
 	}
 	
+	/**Add all the label to the header cell
+	 * @param reportHandle
+	 */
 	public static void addAllHeaderLabel(CrosstabReportItemHandle reportHandle)
 	{
 		for (int i=0; i<reportHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++)
@@ -690,6 +693,9 @@ public class CrosstabAdaptUtil
 		}
 	}
 	
+	/**Add the label to the header cell. 
+	 * @param levelHandle
+	 */
 	public static void addLabelToHeader(LevelViewHandle levelHandle)
 	{
 		if (ICrosstabConstants.COLUMN_AXIS_TYPE == levelHandle.getAxisType( ))
@@ -722,6 +728,10 @@ public class CrosstabAdaptUtil
 		}
 	}
 	
+	 /**If merge crosstab header cell.
+	 * @param crosstab
+	 * @return
+	 */
 	public static boolean canMergeCrosstabHeaderCell(CrosstabReportItemHandle crosstab)
 	{
 		//int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
@@ -733,6 +743,10 @@ public class CrosstabAdaptUtil
 		return false;
 	}
 	
+	/**If splite the crosstab header cell
+	 * @param crosstab
+	 * @return
+	 */
 	public static boolean canSpliteCrosstabHeaderCell(CrosstabReportItemHandle crosstab)
 	{
 		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );

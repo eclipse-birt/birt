@@ -177,6 +177,8 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 						List newAction = ModelUtil.cloneStructList( source );
 						dataHandle.setAction( (Action) newAction.get( 0 ) );
 					}
+					
+					CrosstabAdaptUtil.addLabelToHeader( levelViewHandle );
 				}
 
 			}

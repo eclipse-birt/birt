@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
-import org.eclipse.birt.data.engine.script.DataRow;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -41,7 +40,6 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -1563,6 +1561,9 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	}
 
 	// add support multiple header
+	/**Validate the crosstab header cell
+	 * @param crosstab
+	 */
 	public static void validateCrosstabHeader( CrosstabReportItemHandle crosstab )
 	{
 		int headerCellCount = crosstab.getHeaderCount( );
@@ -1593,24 +1594,6 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		}
 		else if ( columnLevelList.size( ) == 0 && rowLevelList.size( ) > 0 )
 		{
-			for ( int i = 0; i < headerCellCount; i++ )
-			{
-				CrosstabCellHandle temp = crosstab.getHeader( i );
-				LabelHandle labelHandle = crosstab.getModuleHandle( )
-						.getElementFactory( )
-						.newLabel( null );
-				try
-				{
-					labelHandle.setText( rowLevelList.get( i )
-							.getCubeLevel( )
-							.getName( ) );
-					temp.addContent( labelHandle );
-				}
-				catch ( SemanticException e )
-				{
-					// Do nothing
-				}
-			}
 			if ( headerCellCount < rowSize )
 			{
 				for ( int i = 0; i < rowSize - headerCellCount; i++ )
@@ -1669,17 +1652,35 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 	// pos < 0 means , is n't add or remove lever cause the update header cell,
 	// (hide measer header cell)
+	/**Update the header cell
+	 * @param crosstab
+	 * @param pos
+	 * @param axisType
+	 */
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
 			int pos, int axisType )
 	{
-		updateHeaderCell( crosstab, pos, axisType, false );
+		updateHeaderCell( crosstab, pos, axisType, false, 0);
 	}
 
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
-			int pos, int axisType, boolean isMoveDimension )
+			int pos, int axisType, boolean isMoveDimension, int adjustCount )
 	{
 
 		HeaderData data = caleHeaderData( crosstab );
+		
+		if (isMoveDimension)
+		{
+			if ( ICrosstabConstants.COLUMN_AXIS_TYPE == axisType )
+			{
+				data.rowNumber = data.rowNumber - adjustCount;
+			}
+			else
+			{
+				data.columnNumber = data.columnNumber - adjustCount;
+			}
+		}
+		
 		int total = data.rowNumber * data.columnNumber;
 
 		PropertyHandle headerHandle = crosstab.getModelHandle( )
@@ -1749,7 +1750,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				axisType = ICrosstabConstants.COLUMN_AXIS_TYPE;
 			}
 		}
-
+ 
 		boolean isAdd = total - crosstab.getHeaderCount( ) > 0;
 		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, isAdd ) )
 		{
