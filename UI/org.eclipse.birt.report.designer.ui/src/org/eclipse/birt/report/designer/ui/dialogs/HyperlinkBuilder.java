@@ -28,7 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlin
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IReportHyperlinkParameter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameterProvider;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -82,7 +82,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
