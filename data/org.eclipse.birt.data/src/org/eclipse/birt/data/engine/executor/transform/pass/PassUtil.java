@@ -175,7 +175,18 @@ class PassUtil
 		populator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.setResultSetCache( smartCache );
-		populator.setCache( smartCache );
+		//clear existing smart cache when reset the smart cache in populator
+		if( populator.getCache( )!= null && populator.clearCacheResultSet( ) )
+		{
+			try 
+			{
+				populator.getCache().close( );
+			}
+			catch ( DataException e )
+			{
+			}
+		}
+		populator.setCache( smartCache );		
 	}
 
 	/**
