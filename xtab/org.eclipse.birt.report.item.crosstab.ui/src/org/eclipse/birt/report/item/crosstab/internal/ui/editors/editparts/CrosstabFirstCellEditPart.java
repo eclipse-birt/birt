@@ -17,6 +17,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.No
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.FirstCellFigure;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -80,6 +82,49 @@ public class CrosstabFirstCellEditPart extends  CrosstabCellEditPart
 	{
 		super.refreshFigure( );
 		setLayoutConstraint( this, controlFigure, controlFigure.getConstraint() );
+	}
+	
+	protected void setTextAliment(StyleHandle style )
+	{
+		String hAlign = style.getTextAlign( );
+		String vAlign = style.getVerticalAlign( );
+
+		ReportFlowLayout rflayout = (ReportFlowLayout) contentPane
+				.getLayoutManager( );
+
+		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( hAlign ) )
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_CENTER );
+		}
+		else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( hAlign ) 
+				&& !this.getFigure( ).isMirrored( ) ) // bidi_hcg
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( hAlign ) 
+				&& this.getFigure( ).isMirrored( ) ) // bidi_hcg
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
+		}
+
+		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_CENTER );
+		}
+		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
+		}
+		
+		rflayout.layout( getFigure( ) );
 	}
 	
 	/* (non-Javadoc)
