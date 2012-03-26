@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
@@ -51,8 +52,10 @@ import org.eclipse.birt.chart.model.attribute.impl.AttributeFactoryImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.model.data.impl.ActionImpl;
+import org.eclipse.birt.chart.model.data.impl.DataFactoryImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.reportitem.api.ChartCubeUtil;
@@ -1219,6 +1222,27 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase 
 		if ( b != null )
 		{
 			cm.getBlock( ).setBounds( b );
+		}
+		
+		// Update default grouping type for optional Y if it isn't set yet, Y
+		// optional Y still should have grouping type.
+		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
+		{
+			String expr = sd.getQuery( ).getDefinition( );
+			if ( expr != null
+					&& !expr.trim( ).equals( "" ) //$NON-NLS-1$
+					&& sd.getQuery( ).getGrouping( ) == null )
+			{
+				SeriesGrouping sg = DataFactoryImpl.init( )
+						.createSeriesGrouping( );
+				sd.getQuery( ).setGrouping( sg );
+				DataType dt = ChartItemUtil.getExpressionDataType( expr,
+						this.modelHandle );
+				if ( dt != null )
+				{
+					sg.setGroupType( dt );
+				}
+			}
 		}
 	}
 	
