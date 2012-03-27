@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
@@ -978,8 +979,16 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected void processCubeStyle( Chart cm, LevelHandle category,
 			MeasureHandle measure, LevelHandle yoption )
 	{
+		GroupingUnitType gut = computeLevelHandleGroupUnit( yoption);
 		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
+			// Adapts grouping unit type according to level handle type.
+			if ( gut != null &&  sd.getQuery( ).getGrouping( ) != null && !sd.getQuery( ).getGrouping( ).isSetGroupingUnit( ) )
+			{
+				sd.getQuery( ).getGrouping( ).setEnabled( true );
+				sd.getQuery( ).getGrouping( ).setGroupingUnit( gut );
+			}
+			
 			// Since renderer always use runtime series, set format to
 			// runtime series here
 			for ( Series series : sd.getRunTimeSeries( ) )
@@ -1021,11 +1030,24 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					.setFormatSpecifier( createFormatSpecifier( yoption ) );
 		}
 
+		gut = computeLevelHandleGroupUnit( category );
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
 			Axis xAxis = cwa.getAxes( ).get( 0 );
-
+			
+			// Adapts grouping unit type according to level handle type.
+			if ( gut != null )
+			{
+				for ( SeriesDefinition sd : xAxis.getSeriesDefinitions( ) )
+				{
+					if ( sd.getGrouping( ) != null )
+					{
+						sd.getGrouping( ).setEnabled( true );
+						sd.getGrouping( ).setGroupingUnit( gut );
+					}
+				}
+			}
 			if ( xAxis.getLabel( ).isVisible( )
 					&& xAxis.getFormatSpecifier( ) == null )
 			{
@@ -1042,6 +1064,17 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			}
 		} else {
 			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
+			// Adapts grouping unit type according to level handle type.
+			if ( gut != null )
+			{
+				SeriesDefinition sd = cwa.getSeriesDefinitions( ).get( 0 );
+				if ( sd.getGrouping( ) != null
+						&& !sd.getGrouping( ).isSetGroupingUnit( ) )
+				{
+					sd.getGrouping( ).setEnabled( true );
+					sd.getGrouping( ).setGroupingUnit( gut );
+				}
+			}
 			if ( cwa.getSeriesDefinitions( ).get( 0 ).getFormatSpecifier( ) == null )
 			{
 				cwa.getSeriesDefinitions( )
@@ -1049,6 +1082,48 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 						.setFormatSpecifier( createFormatSpecifier( category ) );
 			}
 		}
+	}
+
+	private GroupingUnitType computeLevelHandleGroupUnit( LevelHandle levelHandle )
+	{
+		GroupingUnitType gut = null;
+		if ( levelHandle != null )
+		{
+			String dtLevelType = levelHandle.getDateTimeLevelType( );
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.YEARS_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.QUARTERS_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.MONTHS_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.WEEKS_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.DAYS_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.HOURS_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.MINUTES_LITERAL;
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( dtLevelType ) )
+			{
+				gut = GroupingUnitType.SECONDS_LITERAL;
+			}
+		}
+		return gut;
 	}
 	
 	private final LevelHandle findLevelHandle(CubeHandle cube,
