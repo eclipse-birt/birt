@@ -104,7 +104,7 @@ public class SampleDbSelectionPageHelper
 		
 		// sampledb uses predined connection property values, and does not support
 		// external reference to a connection profile
-        props.setProperty( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY, "" );
+//        props.setProperty( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY, "" );
      
 		BidiFormat externalDefaultBDiFormat = new BidiFormat( SampledbUIPlugin.getDefault( )
 				.getPluginPreferences( )
