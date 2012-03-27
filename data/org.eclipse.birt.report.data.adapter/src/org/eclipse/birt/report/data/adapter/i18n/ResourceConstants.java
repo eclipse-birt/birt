@@ -125,6 +125,7 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
 	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
 	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
+	public final static String TIMEFUNCTION_N1_NEXT_DISPLAYNAME = "timeFunction.N1.next.displayName";
 	
 	public final static String TIMEFUNCITON_N1_YEAR_DISPLAYNAME = "timeFunction.N1.Year.displayName";
 	public final static String TIMEFUNCITON_N2_YEAR_DISPLAYNAME = "timeFunction.N2.Year.displayName";

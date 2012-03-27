@@ -242,7 +242,7 @@ public class BaseTimeFunction implements ITimeFunction
 		else if ( this.name.equals( IBuildInBaseTimeFunction.NEXT_N_PERIODS ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCTION_N1_NEXT_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
