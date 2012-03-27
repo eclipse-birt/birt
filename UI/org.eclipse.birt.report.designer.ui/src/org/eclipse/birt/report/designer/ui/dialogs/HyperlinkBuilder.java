@@ -2295,7 +2295,7 @@ public class HyperlinkBuilder extends BaseDialog
 		closeTargetReport( );
 		targetReportHandle = null;
 		String errorMessage = null;
-		if ( newFilename.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+		if ( newFilename.toLowerCase( ).endsWith( ".rptdocument" ) ) //$NON-NLS-1$
 		{
 			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 
