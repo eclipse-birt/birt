@@ -182,6 +182,11 @@ public class CubeQueryDefinitionUtil
 				else
 					return null;
 			}
+			else
+			{
+				if (filter.updateAggregation()) 
+					return null;
+			}
 	
 		}
 		
@@ -217,6 +222,10 @@ public class CubeQueryDefinitionUtil
 			return false;
 		}
 		if ( !ExprUtil.isEqualExpression( fd1.getExpression( ), fd2.getExpression( ) ))
+		{
+			return false;
+		}
+		if ( fd1.updateAggregation( ) != fd2.updateAggregation( ) )
 		{
 			return false;
 		}
