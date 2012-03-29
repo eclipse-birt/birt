@@ -100,7 +100,12 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 		String emptyValue = crosstab.getEmptyCellValue( );
 
 		// process crosstab header
-		handleCell( crosstab.getHeader( ), null );
+		int headerCount = crosstab.getHeaderCount( );
+
+		for ( int i = 0; i < headerCount; i++ )
+		{
+			handleCell( crosstab.getHeader( i ), null );
+		}
 
 		// process column edge
 		if ( crosstab.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
