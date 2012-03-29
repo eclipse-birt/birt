@@ -896,8 +896,8 @@ public class MeasureDialog extends TitleAreaDialog
 					if ( getButton( IDialogConstants.OK_ID ) != null )
 					{
 						getButton( IDialogConstants.OK_ID ).setEnabled( false );
-						setErrorMessage( null );
 						setMessage( null );
+						setErrorMessage( Messages.getString("MeasureDialog.Message.BlankExpression") ); //$NON-NLS-1$
 						return;
 					}
 				}
@@ -908,7 +908,7 @@ public class MeasureDialog extends TitleAreaDialog
 		{
 			getButton( IDialogConstants.OK_ID ).setEnabled( true );
 			setErrorMessage( null );
-			setMessage( null );
+			setMessage( Messages.getString( "MeasureDialog.Text.Description" ) ); //$NON-NLS-1$
 		}
 	}
 }
