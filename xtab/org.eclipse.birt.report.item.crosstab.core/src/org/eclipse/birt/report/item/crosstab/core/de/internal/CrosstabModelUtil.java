@@ -1861,7 +1861,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				return false;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public static int[] getHeaderRowAndColumnNumber(

@@ -203,4 +203,12 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 			getContentPane( ).setLayoutManager(new FixTableLayout(this));
 		}	
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getFixAllowMinRowHight()
+	 */
+	public int getFixAllowMinRowHight()
+	{
+		return FixTableLayout.ALLOW_ROW_HEIGHT;
+	}
 }
