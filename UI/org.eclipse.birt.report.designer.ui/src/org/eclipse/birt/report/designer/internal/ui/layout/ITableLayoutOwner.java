@@ -102,6 +102,11 @@ public interface ITableLayoutOwner
 	 */
 	int getColumnWidthValue(int number);
 	
+	/**Gets the allow min row hight.If no special request, return FixTableLayout.DEFAULT_ROW_HEIGHT; 
+	 * @return
+	 */
+	int getFixAllowMinRowHight();
+	
 	/**value and unit 
 	 * DimensionInfomation
 	 */

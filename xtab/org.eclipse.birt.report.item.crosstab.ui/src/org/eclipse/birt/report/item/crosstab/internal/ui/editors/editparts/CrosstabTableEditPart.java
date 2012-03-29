@@ -1048,4 +1048,12 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements
 		}
 		return super.isinterestSelection( object );
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart#getFixAllowMinRowHight()
+	 */
+	public int getFixAllowMinRowHight()
+	{
+		return 18;
+	}
 }

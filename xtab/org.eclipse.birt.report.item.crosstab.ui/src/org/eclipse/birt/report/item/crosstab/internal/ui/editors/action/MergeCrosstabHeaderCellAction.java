@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -26,7 +27,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 public class MergeCrosstabHeaderCellAction extends AbstractCrosstabAction
 {
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.MergeCrosstabHeaderCellAction"; //$NON-NLS-1$
-	private static final String NAME = "Merge Header Cell";
+	private static final String NAME = Messages.getString("MergeCrosstabHeaderCellAction_name"); //$NON-NLS-1$
 	private CrosstabCellHandle cellHandle;
 	public MergeCrosstabHeaderCellAction( DesignElementHandle handle )
 	{
