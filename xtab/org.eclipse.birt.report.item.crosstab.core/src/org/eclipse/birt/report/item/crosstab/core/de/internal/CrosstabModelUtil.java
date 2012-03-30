@@ -52,7 +52,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 /**
  * Provide all util methods for Model part of x-tab.
  */
-public class CrosstabModelUtil implements ICrosstabConstants
+public final class CrosstabModelUtil implements ICrosstabConstants
 {
 
 	private static AggregationManager manager;
@@ -1791,7 +1791,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			int pos, int axisType, boolean isMoveDimension, int adjustCount )
 	{
 
-		HeaderData data = caleHeaderData( crosstab );
+		HeaderData data = calcHeaderData( crosstab );
 
 		if ( isMoveDimension )
 		{
@@ -1993,16 +1993,16 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		return false;
 	}
 
-	public static int[] getHeaderRowAndColumnNumber(
+	public static int[] getHeaderRowAndColumnCount(
 			CrosstabReportItemHandle crosstab )
 	{
-		HeaderData data = caleHeaderData( crosstab );
+		HeaderData data = calcHeaderData( crosstab );
 		return new int[]{
 				data.rowNumber, data.columnNumber
 		};
 	}
 
-	private static HeaderData caleHeaderData( CrosstabReportItemHandle crosstab )
+	private static HeaderData calcHeaderData( CrosstabReportItemHandle crosstab )
 	{
 		HeaderData data = new HeaderData( );
 		List<LevelViewHandle> columnLevelList = getLevelList( crosstab,
@@ -2093,7 +2093,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		public int columnNumber = 1;
 	}
 
-	public static int findPreLevelCount( DimensionViewHandle viewHandle )
+	public static int findPriorLevelCount( DimensionViewHandle viewHandle )
 	{
 		int count = 0;
 		CrosstabReportItemHandle crosstab = viewHandle.getCrosstab( );

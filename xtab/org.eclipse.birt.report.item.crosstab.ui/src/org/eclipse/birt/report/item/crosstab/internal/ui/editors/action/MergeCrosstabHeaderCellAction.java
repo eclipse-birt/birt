@@ -52,7 +52,7 @@ public class MergeCrosstabHeaderCellAction extends AbstractCrosstabAction
 	public void run( )
 	{
 		transStar( NAME );
-		CrosstabUtil.mergeHeaderCell( cellHandle.getCrosstab( ) );
+		CrosstabUtil.mergeCrosstabHeaderCell( cellHandle.getCrosstab( ) );
 		transEnd( );
 	}
 	@Override
@@ -67,7 +67,7 @@ public class MergeCrosstabHeaderCellAction extends AbstractCrosstabAction
 			return false;
 		}
 		
-		return CrosstabAdaptUtil.canMergeCrosstabHeaderCell( cellHandle.getCrosstab( ) );
+		return CrosstabUtil.canMergeCrosstabHeaderCell( cellHandle.getCrosstab( ) );
 	}
 
 }

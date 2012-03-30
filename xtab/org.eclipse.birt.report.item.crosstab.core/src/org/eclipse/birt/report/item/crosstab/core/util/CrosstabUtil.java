@@ -57,7 +57,7 @@ import org.eclipse.birt.report.model.api.util.CubeUtil;
  * Utility clas for crosstab.
  */
 
-public class CrosstabUtil implements ICrosstabConstants
+public final class CrosstabUtil implements ICrosstabConstants
 {
 
 	private CrosstabUtil( )
@@ -602,20 +602,59 @@ public class CrosstabUtil implements ICrosstabConstants
 		return dimension;
 
 	}
-	//Support multiple header cell
-	/**Merge all header cell
+
+	/**
+	 * Check if can merge crosstab header cell.
+	 * 
+	 * @param crosstab
+	 * @return
+	 */
+	public static boolean canMergeCrosstabHeaderCell(
+			CrosstabReportItemHandle crosstab )
+	{
+		// int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber(
+		// crosstab );
+		if ( crosstab.getHeaderCount( ) > 1 )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if can split the crosstab header cell
+	 * 
+	 * @param crosstab
+	 * @return
+	 */
+	public static boolean canSplitCrosstabHeaderCell(
+			CrosstabReportItemHandle crosstab )
+	{
+		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnCount( crosstab );
+		if ( crosstab.getHeaderCount( ) == 1 && numbers[0] * numbers[1] > 1 )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Merge all crosstab header cell
+	 * 
 	 * @param crosstab
 	 */
-	public static void mergeHeaderCell(CrosstabReportItemHandle crosstab)
-	{	
+	public static void mergeCrosstabHeaderCell( CrosstabReportItemHandle crosstab )
+	{
 		int count = crosstab.getHeaderCount( );
-		if (count <= 1)
+		if ( count <= 1 )
 		{
 			return;
 		}
 		PropertyHandle headerHandle = crosstab.getModelHandle( )
 				.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
-		for (int i=1; i<count; i++)
+		for ( int i = 1; i < count; i++ )
 		{
 			try
 			{
@@ -623,21 +662,23 @@ public class CrosstabUtil implements ICrosstabConstants
 			}
 			catch ( PropertyValueException e )
 			{
-				//do nothing now
+				// do nothing now
 			}
 		}
 	}
-	
-	/**Splite the header cell
+
+	/**
+	 * Splite the crosstab header cell
+	 * 
 	 * @param crosstab
 	 */
-	public static void spliteHeaderCell(CrosstabReportItemHandle crosstab)
+	public static void splitCrosstabHeaderCell( CrosstabReportItemHandle crosstab )
 	{
-		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
-		int total = numbers[0]*numbers[1];
+		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnCount( crosstab );
+		int total = numbers[0] * numbers[1];
 		PropertyHandle headerHandle = crosstab.getModelHandle( )
 				.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP );
-		for (int i=1; i<total; i++)
+		for ( int i = 1; i < total; i++ )
 		{
 			ExtendedItemHandle cellHandle = CrosstabExtendedItemFactory.createCrosstabCell( crosstab.getModuleHandle( ) );
 
@@ -647,9 +688,29 @@ public class CrosstabUtil implements ICrosstabConstants
 			}
 			catch ( SemanticException e )
 			{
-				//do nothing now
+				// do nothing now
 			}
 		}
-		
+
+	}
+
+	/**
+	 * @return Returns the row and column count for crosstab header cells
+	 */
+	public static int[] getCrosstabHeaderRowAndColumnCount(
+			CrosstabReportItemHandle crosstab )
+	{
+		return CrosstabModelUtil.getHeaderRowAndColumnCount( crosstab );
+	}
+
+	public static int findPriorLevelCount( DimensionViewHandle viewHandle )
+	{
+		return CrosstabModelUtil.findPriorLevelCount( viewHandle );
+	}
+
+	public static List<LevelViewHandle> getLevelList(
+			CrosstabReportItemHandle crosstab, int axisType )
+	{
+		return CrosstabModelUtil.getLevelList( crosstab, axisType );
 	}
 }

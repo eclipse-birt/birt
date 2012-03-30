@@ -34,7 +34,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
@@ -705,10 +704,10 @@ public class CrosstabAdaptUtil
 		}
 		
 		DimensionViewHandle viewHandle = (DimensionViewHandle)levelHandle.getContainer( );
-		int count = CrosstabModelUtil.findPreLevelCount( viewHandle ) + levelHandle.getIndex( );
+		int count = CrosstabUtil.findPriorLevelCount( viewHandle ) + levelHandle.getIndex( );
 		
 		CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
-		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
+		int[] numbers = CrosstabUtil.getCrosstabHeaderRowAndColumnCount( crosstab );
 		count = (numbers[0]-1)*(numbers[1])+count;
 		if (crosstab.getHeader( count ) != null && crosstab.getHeader( count ).getContents( ).size( ) == 0)
 		{
@@ -728,33 +727,4 @@ public class CrosstabAdaptUtil
 		}
 	}
 	
-	 /**If merge crosstab header cell.
-	 * @param crosstab
-	 * @return
-	 */
-	public static boolean canMergeCrosstabHeaderCell(CrosstabReportItemHandle crosstab)
-	{
-		//int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
-		if (crosstab.getHeaderCount( ) > 1 )
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**If splite the crosstab header cell
-	 * @param crosstab
-	 * @return
-	 */
-	public static boolean canSpliteCrosstabHeaderCell(CrosstabReportItemHandle crosstab)
-	{
-		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnNumber( crosstab );
-		if (crosstab.getHeaderCount( ) == 1 && numbers[0] * numbers[1] > 1)
-		{
-			return true;
-		}
-		
-		return false;
-	}
 }

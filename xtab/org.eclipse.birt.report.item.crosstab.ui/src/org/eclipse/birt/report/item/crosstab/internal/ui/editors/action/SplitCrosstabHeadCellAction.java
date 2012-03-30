@@ -53,7 +53,7 @@ public class SplitCrosstabHeadCellAction extends AbstractCrosstabAction
 	public void run( )
 	{
 		transStar( NAME );
-		CrosstabUtil.spliteHeaderCell(  cellHandle.getCrosstab( ) );
+		CrosstabUtil.splitCrosstabHeaderCell(  cellHandle.getCrosstab( ) );
 		CrosstabAdaptUtil.addAllHeaderLabel( cellHandle.getCrosstab( ) );
 		transEnd( );
 	}
@@ -74,7 +74,7 @@ public class SplitCrosstabHeadCellAction extends AbstractCrosstabAction
 			return false;
 		}
 		
-		return CrosstabAdaptUtil.canSpliteCrosstabHeaderCell( cellHandle.getCrosstab( ));		
+		return CrosstabUtil.canSplitCrosstabHeaderCell( cellHandle.getCrosstab( ));		
 	}
 
 }

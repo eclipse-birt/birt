@@ -124,7 +124,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				{
 					doPostInsert( levelView );
 					
-					CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), CrosstabModelUtil.findPreLevelCount( dimensionView ) + index, dimensionView.getAxisType( ) );
+					CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), CrosstabModelUtil.findPriorLevelCount( dimensionView ) + index, dimensionView.getAxisType( ) );
 				}
 			}
 		}
@@ -360,7 +360,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			{
 				doPreRemove( levelView );
 			}
-			int count = CrosstabModelUtil.findPreLevelCount( dimensionView );
+			int count = CrosstabModelUtil.findPriorLevelCount( dimensionView );
 //			for (int i=0; i<dimensionView.getLevelCount( ); i++)
 //			{
 //				if (dimensionView.getLevel( i ) == levelView)

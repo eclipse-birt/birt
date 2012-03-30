@@ -750,7 +750,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 			}
 
 			validateCrosstab( );
-			int pos = CrosstabModelUtil.findPreLevelCount( clonedDimensionView );
+			int pos = CrosstabModelUtil.findPriorLevelCount( clonedDimensionView );
 			for (int i=0; i<clonedDimensionView.getLevelCount( ); i++)
 			{
 				CrosstabModelUtil.updateHeaderCell( clonedDimensionView.getCrosstab( ), pos + i, 
