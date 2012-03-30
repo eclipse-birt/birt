@@ -46,17 +46,17 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 	}
 	
 
-	private boolean containsInAggrLevels( String level )
-	{
-		for ( DimLevel dimLevel : aggrLevels )
-		{
-			if ( dimLevel.getLevelName( ).equals( level ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean containsInAggrLevels( String level )
+//	{
+//		for ( DimLevel dimLevel : aggrLevels )
+//		{
+//			if ( dimLevel.getLevelName( ).equals( level ) )
+//			{
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 	 
 	
 	/* (non-Javadoc)
@@ -75,15 +75,10 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 				for ( int i = 0; i < axisLevels.length; i++ )
 				{
 					DimLevel level = new DimLevel( axisLevels[i] );
-					if ( containsInAggrLevels( level.getLevelName( ) ) )
+					if ( CompareUtil.compare ( resultRow.getFieldValue(level.toString()), axisValues[i]) != 0)
 					{
-						if ( CompareUtil.compare( resultRow.getFieldValue( level.toString( ) ),
-								axisValues[i] ) != 0 )
-						{
-							return false;
-						}
+						return false;
 					}
-					
 				}
 			}
 			Object result = ScriptEvalUtil.evalExpr( expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );

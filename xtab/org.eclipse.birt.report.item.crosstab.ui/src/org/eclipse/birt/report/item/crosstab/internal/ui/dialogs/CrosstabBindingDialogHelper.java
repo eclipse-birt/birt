@@ -792,8 +792,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					final String name = infos.get( i ).getName( );
 					Label lblParam = new Label( calculationComposite, SWT.NONE );
 					lblParam.setText( infos.get( i ).getDisplayName( ) + ":" ); //$NON-NLS-1$
-					if ( !infos.get( i ).isOptional( ) )
-						lblParam.setText( "*" + lblParam.getText( ) );
+					//if ( !infos.get( i ).isOptional( ) )
+					//	lblParam.setText( "*" + lblParam.getText( ) );
 					GridData gd = new GridData( );
 					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
 							SWT.DEFAULT ).x;
@@ -1969,8 +1969,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					Label lblParam = new Label( paramsComposite, SWT.NONE );
 					lblParam.setText( param.getDisplayName( ) + ":" ); //$NON-NLS-1$
-					if ( !param.isOptional( ) )
-						lblParam.setText( "*" + lblParam.getText( ) );
+					//if ( !param.isOptional( ) )
+					//	lblParam.setText( "*" + lblParam.getText( ) );
 					GridData gd = new GridData( );
 					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
 							SWT.DEFAULT ).x;
