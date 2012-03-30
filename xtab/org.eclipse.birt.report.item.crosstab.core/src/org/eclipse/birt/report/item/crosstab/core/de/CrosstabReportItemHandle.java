@@ -802,7 +802,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 				new CrosstabReportItemTask( this ).validateCrosstab( );
 
 				mv = (MeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
-				
+
 				CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 			}
 		}
@@ -934,9 +934,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 							name ) );
 		}
 
-		measureView.handle.drop( );
-		
-		CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
+		removeMeasure( measureView.getIndex( ) );
 	}
 
 	/**
@@ -950,6 +948,39 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public void removeMeasure( int index ) throws SemanticException
 	{
 		getMeasuresProperty( ).drop( index );
+
+		int targetAxis = MEASURE_DIRECTION_VERTICAL.equals( getMeasureDirection( ) ) ? ROW_AXIS_TYPE
+				: COLUMN_AXIS_TYPE;
+
+		// check redundant subtotals
+		List<LevelViewHandle> levels = CrosstabModelUtil.getAllAggregationLevels( this,
+				targetAxis );
+
+		for ( LevelViewHandle lv : levels )
+		{
+			if ( lv.isInnerMost( ) || lv.getAggregationHeader( ) == null )
+			{
+				continue;
+			}
+
+			// if no aggregation measure after removal, we should remove the
+			// subtotal header
+			if ( lv.getAggregationMeasures( ).size( ) == 0 )
+			{
+				lv.getAggregationHeaderProperty( ).drop( 0 );
+			}
+		}
+
+		// check redundant grandtotal
+		CrosstabCellHandle grandtotalCell = getGrandTotal( targetAxis );
+		if ( grandtotalCell != null
+				&& getAggregationMeasures( targetAxis ).size( ) == 0 )
+		{
+			// if no aggregation measure after removal, we should remove the
+			// grandtotal header
+			grandtotalCell.getModelHandle( ).drop( );
+		}
+
 		CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 	}
 
@@ -1370,7 +1401,6 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 					}
 				}
 			}
-			
 
 			if ( errorList.size( ) > 0 )
 			{
@@ -1414,18 +1444,18 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 
 		return list;
 	}
-	
-	//Support the multiple left coner head cells
+
+	// Support the multiple left coner head cells
 
 	public CrosstabCellHandle getHeader( int index )
 	{
 		PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
-		if (headerHandle == null)
+		if ( headerHandle == null )
 		{
 			return null;
 		}
 		List list = headerHandle.getContents( );
-		if (list == null || index < 0 || index > list.size( ) - 1)
+		if ( list == null || index < 0 || index > list.size( ) - 1 )
 		{
 			return null;
 		}
@@ -1436,7 +1466,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public int getHeaderCount( )
 	{
 		PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
-		if (headerHandle == null)
+		if ( headerHandle == null )
 		{
 			return 0;
 		}
