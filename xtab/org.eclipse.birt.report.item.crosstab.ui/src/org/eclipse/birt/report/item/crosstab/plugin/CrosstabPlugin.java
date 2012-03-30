@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.plugin;
 
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -18,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
+import org.eclipse.birt.report.item.crosstab.core.util.AbstractCrosstabUpateListener;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -91,10 +94,24 @@ public class CrosstabPlugin extends AbstractUIPlugin
 
 		// There add a listener, when create a measure head, add a lable to the
 		// head cell
-		CrosstabUtil.setCrosstabUpdateListener( new ICrosstabUpdateListener( ) {
+		CrosstabUtil.setCrosstabUpdateListener( new AbstractCrosstabUpateListener( ) {
 
-			public void onCreated( int type, Object model )
+			public void onCreated( int type, Object model,
+					Map<String, Object> extras )
 			{
+				if ( context != null )
+				{
+					try
+					{
+						// do not call this if want to perform custom handling
+						context.performDefaultCreation( type, model, extras );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionUtil.handle( e );
+					}
+				}
+
 				if ( type == ICrosstabUpdateListener.MEASURE_HEADER
 						&& model instanceof CrosstabCellHandle )
 				{
@@ -118,8 +135,22 @@ public class CrosstabPlugin extends AbstractUIPlugin
 				}
 			}
 
-			public void onValidate( int type, Object model )
+			public void onValidate( int type, Object model,
+					Map<String, Object> extras )
 			{
+				if ( context != null )
+				{
+					try
+					{
+						// do not call this if want to perform custom handling
+						context.performDefaultValidation( type, model, extras );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionUtil.handle( e );
+					}
+				}
+
 				if ( type == ICrosstabUpdateListener.MEASURE_DETAIL
 						&& model instanceof AggregationCellHandle )
 				{

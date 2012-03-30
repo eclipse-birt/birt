@@ -14,10 +14,12 @@ package org.eclipse.birt.report.item.crosstab.core.de.internal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -36,6 +38,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateContext;
+import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -48,6 +52,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * Provide all util methods for Model part of x-tab.
@@ -56,6 +61,69 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 {
 
 	private static AggregationManager manager;
+
+	private static class DefaultCrosstabUpdateContext implements
+			ICrosstabUpdateContext
+	{
+
+		public void performDefaultCreation( int type, Object model,
+				Map<String, Object> extras ) throws SemanticException
+		{
+			// do nothing for now
+		}
+
+		public void performDefaultValidation( int type, Object model,
+				Map<String, Object> extras ) throws SemanticException
+		{
+			if ( type == ICrosstabUpdateListener.MEASURE_DETAIL
+					|| type == ICrosstabUpdateListener.MEASURE_AGGREGATION )
+			{
+				if ( !( model instanceof AggregationCellHandle ) )
+				{
+					return;
+				}
+
+				AggregationCellHandle cell = (AggregationCellHandle) model;
+
+				MeasureViewHandle measureView = (MeasureViewHandle) cell.getContainer( );
+
+				if ( measureView instanceof ComputedMeasureViewHandle )
+				{
+					// computed measure doesn't need update bindings and cell
+					// content
+					return;
+				}
+
+				CrosstabReportItemHandle crosstab = cell.getCrosstab( );
+
+				LevelHandle rowLevel = cell.getAggregationOnRow( );
+				LevelHandle colLevel = cell.getAggregationOnColumn( );
+
+				String aggregateRowName = rowLevel == null ? null
+						: rowLevel.getQualifiedName( );
+				String aggregateColumnName = colLevel == null ? null
+						: colLevel.getQualifiedName( );
+
+				String function = null;
+				if ( extras != null )
+				{
+					function = (String) extras.get( ICrosstabUpdateListener.EXTRA_FUNCTION_HINT );
+				}
+
+				// TODO the rowDimension/colDimension parameter is not really
+				// needed here, so we pass null, but need check if future
+				// implementation changes.
+				addDataItem( crosstab,
+						cell,
+						measureView,
+						function,
+						null/* ! */,
+						aggregateRowName,
+						null/* ! */,
+						aggregateColumnName );
+			}
+		}
+	}
 
 	private static ThreadLocal<ICrosstabModelListener> modelListener = new ThreadLocal<ICrosstabModelListener>( );
 
@@ -67,6 +135,10 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 		else
 		{
+			if ( listener instanceof ICrosstabUpdateListener )
+			{
+				( (ICrosstabUpdateListener) listener ).setContext( new DefaultCrosstabUpdateContext( ) );
+			}
 			modelListener.set( listener );
 		}
 	}
@@ -85,12 +157,22 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	 * @param model
 	 *            the model object associated with this event.
 	 */
-	public static void notifyCreation( int type, Object model )
+	public static void notifyCreation( int type, Object model,
+			Map<String, Object> extras )
 	{
 		ICrosstabModelListener listener = modelListener.get( );
 		if ( listener != null )
 		{
-			listener.onCreated( type, model );
+			if ( listener instanceof ICrosstabUpdateListener )
+			{
+				( (ICrosstabUpdateListener) listener ).onCreated( type,
+						model,
+						extras );
+			}
+			else
+			{
+				listener.onCreated( type, model );
+			}
 		}
 	}
 
@@ -103,12 +185,22 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	 * @param model
 	 *            the model object associated with this event.
 	 */
-	public static void notifyValidate( int type, Object model )
+	public static void notifyValidate( int type, Object model,
+			Map<String, Object> extras )
 	{
 		ICrosstabModelListener listener = modelListener.get( );
 		if ( listener != null )
 		{
-			listener.onValidate( type, model );
+			if ( listener instanceof ICrosstabUpdateListener )
+			{
+				( (ICrosstabUpdateListener) listener ).onValidate( type,
+						model,
+						extras );
+			}
+			else
+			{
+				listener.onValidate( type, model );
+			}
 		}
 	}
 
@@ -283,92 +375,6 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	}
 
 	/**
-	 * Adjust measure aggregations for the given two level views.
-	 * 
-	 * @param crosstab
-	 *            the crosstab where the leve views reside
-	 * @param leftDimension
-	 *            the first dimension name
-	 * @param leftLevel
-	 *            the first level name
-	 * @param axisType
-	 *            the row/column axis type for the first level view
-	 * @param rightDimension
-	 *            the second dimension name
-	 * @param rightLevel
-	 *            the second level name
-	 * @param measures
-	 * @param functions
-	 * @param isAdd
-	 *            true if add aggregation, otherwise false
-	 * @throws SemanticException
-	 */
-	public static void addMeasureAggregations(
-			CrosstabReportItemHandle crosstab, String leftDimension,
-			String leftLevel, int axisType, String rightDimension,
-			String rightLevel, List<MeasureViewHandle> measures,
-			List<String> functions ) throws SemanticException
-	{
-		if ( crosstab == null
-				|| !isValidAxisType( axisType )
-				|| measures == null )
-			return;
-		if ( functions == null || functions.size( ) != measures.size( ) )
-			return;
-
-		String rowDimension = null;
-		String rowLevel = null;
-		String colDimension = null;
-		String colLevel = null;
-
-		if ( axisType == ROW_AXIS_TYPE )
-		{
-			rowDimension = leftDimension;
-			rowLevel = leftLevel;
-
-			colDimension = rightDimension;
-			colLevel = rightLevel;
-		}
-		else if ( axisType == COLUMN_AXIS_TYPE )
-		{
-			rowDimension = rightDimension;
-			rowLevel = rightLevel;
-
-			colDimension = leftDimension;
-			colLevel = leftLevel;
-		}
-		for ( int i = 0; i < measures.size( ); i++ )
-		{
-			MeasureViewHandle measureView = measures.get( i );
-			if ( measureView.getCrosstab( ) != crosstab )
-				continue;
-			addDataItem( crosstab,
-					measureView,
-					functions.get( i ),
-					rowDimension,
-					rowLevel,
-					colDimension,
-					colLevel );
-		}
-	}
-
-	public static void addDataItem( CrosstabReportItemHandle crosstab,
-			MeasureViewHandle measureView, String function,
-			String rowDimension, String rowLevel, String colDimension,
-			String colLevel ) throws SemanticException
-	{
-		addDataItem( crosstab,
-				null,
-				measureView,
-				function,
-				rowDimension,
-				rowLevel,
-				colDimension,
-				colLevel,
-				true );
-	}
-
-	/**
 	 * @param crosstab
 	 * @param measureView
 	 * @param function
@@ -383,11 +389,14 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	public static void addDataItem( CrosstabReportItemHandle crosstab,
 			AggregationCellHandle cell, MeasureViewHandle measureView,
 			String function, String rowDimension, String rowLevel,
-			String colDimension, String colLevel, boolean forceAdd )
-			throws SemanticException
+			String colDimension, String colLevel ) throws SemanticException
 	{
-		if ( crosstab == null || measureView == null )
+		if ( crosstab == null
+				|| measureView == null
+				|| measureView instanceof ComputedMeasureViewHandle )
+		{
 			return;
+		}
 
 		if ( cell == null )
 		{
@@ -398,16 +407,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					colLevel );
 		}
 
-		if ( cell == null && forceAdd )
-		{
-			cell = measureView.addAggregation( rowDimension,
-					rowLevel,
-					colDimension,
-					colLevel );
-		}
-
-		if ( cell != null
-				&& !( measureView instanceof ComputedMeasureViewHandle ) )
+		if ( cell != null )
 		{
 			// create a computed column and set some properties
 			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
@@ -431,12 +431,24 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					// reset the data type to default by the aggregatino
 					// function
 
-					String targetType = DataAdapterUtil.adapterToModelDataType( getAggregationManager( ).getAggregation( column.getAggregateFunction( ) )
-							.getDataType( ) );
+					IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
 
-					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+					if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
 					{
-						column.setDataType( targetType );
+						// for running aggregation functions, it does not
+						// support
+						// direct calculation on measure, so we reset the func
+						// to default func.
+						column.setAggregateFunction( defaultFunction );
+					}
+					else
+					{
+						String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+
+						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						{
+							column.setDataType( targetType );
+						}
 					}
 				}
 				catch ( BirtException e )
@@ -478,14 +490,42 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			}
 			else
 			{
-				// try reset binding on first data item
+				// try reset binding on first eligible data item
 				// TODO should have better logic or move logic out
 				for ( Object item : cell.getContents( ) )
 				{
 					if ( item instanceof DataItemHandle )
 					{
-						( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
-						break;
+						String bindingName = ( (DataItemHandle) item ).getResultSetColumn( );
+
+						ComputedColumnHandle binding = ( (ReportItemHandle) crosstab.getModelHandle( ) ).findColumnBinding( bindingName );
+
+						// TODO only update bindings already having a function.
+						// this is still bad, logic should be moved outside
+						// here.
+
+						if ( binding != null
+								&& binding.getAggregateFunction( ) != null )
+						{
+							try
+							{
+								IAggrFunction aggFunc = getAggregationManager( ).getAggregation( binding.getAggregateFunction( ) );
+
+								// TODO we ignore any existing running type
+								// aggregation binding here, logic need be
+								// refined and moved out.
+								if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR )
+								{
+									( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
+
+									break;
+								}
+							}
+							catch ( BirtException e )
+							{
+								// ignore
+							}
+						}
 					}
 				}
 			}
@@ -2016,7 +2056,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 		if ( columnLevelList.size( ) == 0 )
 		{
-			if ( isAddtionMeaserHeader( crosstab,
+			if ( needCrosstabHeaderCellForMeasureHeader( crosstab,
 					ICrosstabConstants.ROW_AXIS_TYPE ) )
 			{
 				data.columnNumber = rowLevelList.size( ) + 1;
@@ -2031,7 +2071,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 
 		if ( rowLevelList.size( ) == 0 )
 		{
-			if ( isAddtionMeaserHeader( crosstab,
+			if ( needCrosstabHeaderCellForMeasureHeader( crosstab,
 					ICrosstabConstants.COLUMN_AXIS_TYPE ) )
 			{
 				data.rowNumber = columnLevelList.size( ) + 1;
@@ -2044,17 +2084,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			return data;
 		}
 
-		data.rowNumber = isAddtionMeaserHeader( crosstab,
+		data.rowNumber = needCrosstabHeaderCellForMeasureHeader( crosstab,
 				ICrosstabConstants.COLUMN_AXIS_TYPE ) ? columnLevelList.size( ) + 1
 				: columnLevelList.size( );
-		data.columnNumber = isAddtionMeaserHeader( crosstab,
+		data.columnNumber = needCrosstabHeaderCellForMeasureHeader( crosstab,
 				ICrosstabConstants.ROW_AXIS_TYPE ) ? rowLevelList.size( ) + 1
 				: rowLevelList.size( );
 
 		return data;
 	}
 
-	private static boolean isAddtionMeaserHeader(
+	private static boolean needCrosstabHeaderCellForMeasureHeader(
 			CrosstabReportItemHandle crosstab, int axisType )
 	{
 		if ( crosstab.isHideMeasureHeader( ) )

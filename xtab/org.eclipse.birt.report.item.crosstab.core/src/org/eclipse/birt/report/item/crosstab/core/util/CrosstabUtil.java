@@ -287,8 +287,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 				rowDimension,
 				rowLevel,
 				colDimension,
-				colLevel,
-				false );
+				colLevel );
 	}
 
 	public static List<IDimensionLevel> getReferencedLevels(
