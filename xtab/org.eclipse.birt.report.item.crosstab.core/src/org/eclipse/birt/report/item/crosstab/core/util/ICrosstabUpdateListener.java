@@ -9,16 +9,14 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.item.crosstab.core.de.internal;
+package org.eclipse.birt.report.item.crosstab.core.util;
 
-import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.ICrosstabModelListener;
 
 /**
- * ICrosstabModelListener
- * 
- * @deprecated use {@link ICrosstabUpdateListener} instead
+ * Listener interface to monitor crosstab model updates
  */
-public interface ICrosstabModelListener
+public interface ICrosstabUpdateListener extends ICrosstabModelListener
 {
 
 	int MEASURE_HEADER = 1;

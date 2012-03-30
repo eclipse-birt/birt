@@ -64,6 +64,24 @@ public final class CrosstabUtil implements ICrosstabConstants
 	{
 	}
 
+	public static void setCrosstabUpdateListener(
+			ICrosstabUpdateListener listener )
+	{
+		CrosstabModelUtil.setCrosstabModelListener( listener );
+	}
+
+	public static ICrosstabUpdateListener getCrosstabUpdateListener( )
+	{
+		Object listener = CrosstabModelUtil.getCrosstabModelListener( );
+
+		if ( listener instanceof ICrosstabUpdateListener )
+		{
+			return (ICrosstabUpdateListener) listener;
+		}
+
+		return null;
+	}
+
 	public static int getOppositeAxisType( int axisType )
 	{
 		switch ( axisType )
@@ -645,7 +663,8 @@ public final class CrosstabUtil implements ICrosstabConstants
 	 * 
 	 * @param crosstab
 	 */
-	public static void mergeCrosstabHeaderCell( CrosstabReportItemHandle crosstab )
+	public static void mergeCrosstabHeaderCell(
+			CrosstabReportItemHandle crosstab )
 	{
 		int count = crosstab.getHeaderCount( );
 		if ( count <= 1 )
@@ -672,7 +691,8 @@ public final class CrosstabUtil implements ICrosstabConstants
 	 * 
 	 * @param crosstab
 	 */
-	public static void splitCrosstabHeaderCell( CrosstabReportItemHandle crosstab )
+	public static void splitCrosstabHeaderCell(
+			CrosstabReportItemHandle crosstab )
 	{
 		int[] numbers = CrosstabModelUtil.getHeaderRowAndColumnCount( crosstab );
 		int total = numbers[0] * numbers[1];
