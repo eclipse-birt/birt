@@ -559,6 +559,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			for ( int i = 0; i < infos.size( ); i++ )
 			{
 				String argName = infos.get( i ).getName( );
+				String argValue = calculationParamsValueMap.get( argName );
 				if ( calculationParamsMap.containsKey( argName ) )
 				{
 					if ( getArgumentValue( getBinding( ), argName ) != null )
@@ -594,6 +595,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 								}
 
 							}
+						}
+						// restore arg value
+						if ( control instanceof Text && argValue != null )
+						{
+							((Text)control).setText(argValue);
 						}
 					}
 				}
