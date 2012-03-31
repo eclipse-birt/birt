@@ -559,6 +559,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			for ( int i = 0; i < infos.size( ); i++ )
 			{
 				String argName = infos.get( i ).getName( );
+				String argValue = calculationParamsValueMap.get( argName );
 				if ( calculationParamsMap.containsKey( argName ) )
 				{
 					if ( getArgumentValue( getBinding( ), argName ) != null )
@@ -594,6 +595,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 								}
 
 							}
+						}
+						// restore arg value
+						if ( control instanceof Text && argValue != null )
+						{
+							((Text)control).setText(argValue);
 						}
 					}
 				}
@@ -792,8 +798,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					final String name = infos.get( i ).getName( );
 					Label lblParam = new Label( calculationComposite, SWT.NONE );
 					lblParam.setText( infos.get( i ).getDisplayName( ) + ":" ); //$NON-NLS-1$
-					if ( !infos.get( i ).isOptional( ) )
-						lblParam.setText( "*" + lblParam.getText( ) );
+					//if ( !infos.get( i ).isOptional( ) )
+					//	lblParam.setText( "*" + lblParam.getText( ) );
 					GridData gd = new GridData( );
 					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
 							SWT.DEFAULT ).x;
@@ -1969,8 +1975,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					Label lblParam = new Label( paramsComposite, SWT.NONE );
 					lblParam.setText( param.getDisplayName( ) + ":" ); //$NON-NLS-1$
-					if ( !param.isOptional( ) )
-						lblParam.setText( "*" + lblParam.getText( ) );
+					//if ( !param.isOptional( ) )
+					//	lblParam.setText( "*" + lblParam.getText( ) );
 					GridData gd = new GridData( );
 					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
 							SWT.DEFAULT ).x;

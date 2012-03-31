@@ -410,7 +410,8 @@ class ResultSetProcessUtil extends RowProcessUtil
 				this.populator.getResultIterator( ).addAggrValueHolder( helper );
 			}
 			//TODO: Enhance me so that invalid computed column will not be evaluated at all
-			this.computedColumnHelper.suppressException( false );
+			if( this.computedColumnHelper!= null )
+				this.computedColumnHelper.suppressException( false );
 			//ENDTODO
 			
 		}

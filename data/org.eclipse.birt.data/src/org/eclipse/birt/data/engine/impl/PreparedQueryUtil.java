@@ -312,7 +312,6 @@ public class PreparedQueryUtil
 						IBinding binding = (IBinding)bindings.get( bindingName );
 						if ( binding != null )
 						{
-							//sort key expression can't base on Aggregation
 							if( binding.getAggrFunction( ) != null )
 								return true;
 							
@@ -335,9 +334,17 @@ public class PreparedQueryUtil
 		for( int i = 0; i < bindingName.size( ); i++ )
 		{
 			Object binding = bindings.get( bindingName.get( i ) );
-			if( binding != null && OlapExpressionUtil.isAggregationBinding( ( IBinding )binding ) )
+			if( binding != null )
 			{
-				return true;
+				if( OlapExpressionUtil.isAggregationBinding( ( IBinding )binding )  )
+					return true;
+				
+				//Need not worry about the cycling reference here as that is already
+				//handled by previous logic 
+				if( existAggregationBinding( ExpressionCompilerUtil.extractColumnExpression( ((IBinding)binding).getExpression( ), ScriptConstants.DATA_SET_BINDING_SCRIPTABLE ), bindings ))
+				{
+					return true;
+				}
 			}
 		}
 		return false;
