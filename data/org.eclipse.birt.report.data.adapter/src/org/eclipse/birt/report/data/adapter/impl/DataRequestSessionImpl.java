@@ -93,6 +93,7 @@ import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
 import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
+import org.eclipse.birt.report.data.adapter.api.IFilterUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
@@ -2679,5 +2680,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws BirtException
 	{
 		return prepare( query, null );
+	}
+
+	@Override
+	public IFilterUtil getFilterUtil( ) throws BirtException
+	{
+		return new FilterUtil( );
 	}
 }

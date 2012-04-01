@@ -557,6 +557,8 @@ public abstract class DataRequestSession
 	 */
 	abstract public AggregationManager getAggregationManager( ) throws BirtException;
 	
+	abstract public IFilterUtil getFilterUtil( ) throws BirtException;
+	
 	/**
 	 * Cancel the current operation
 	 */

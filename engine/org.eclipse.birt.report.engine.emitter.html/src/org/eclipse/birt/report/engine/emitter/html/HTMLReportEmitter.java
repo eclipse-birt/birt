@@ -88,6 +88,8 @@ import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -1181,13 +1183,44 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		double measure = pageWidth.getMeasure( );
 		String unit = pageWidth.getUnits( );
-		if ( leftMargin != null && isSameUnit( unit, leftMargin.getUnits( ) ) )
+		if ( leftMargin != null )
 		{
-			measure -= leftMargin.getMeasure( );
+			if ( isSameUnit( unit, leftMargin.getUnits( ) ) )
+			{
+				measure -= leftMargin.getMeasure( );
+			}
+			else
+			{
+				if ( DimensionUtil.isAbsoluteUnit( unit )
+						&& DimensionUtil
+								.isAbsoluteUnit( leftMargin.getUnits( ) ) )
+				{
+					DimensionValue converted = DimensionUtil.convertTo(
+							leftMargin.getMeasure( ), leftMargin.getUnits( ),
+							unit );
+					measure -= converted.getMeasure( );
+				}
+			}
 		}
-		if ( rightMargin != null && isSameUnit( unit, rightMargin.getUnits( ) ) )
+		if ( rightMargin != null )
 		{
-			measure -= rightMargin.getMeasure( );
+			if ( isSameUnit( unit, rightMargin.getUnits( ) ) )
+			{
+				measure -= rightMargin.getMeasure( );
+
+			}
+			else
+			{
+				if ( DimensionUtil.isAbsoluteUnit( unit )
+						&& DimensionUtil
+								.isAbsoluteUnit( rightMargin.getUnits( ) ) )
+				{
+					DimensionValue converted = DimensionUtil.convertTo(
+							rightMargin.getMeasure( ), rightMargin.getUnits( ),
+							unit );
+					measure -= converted.getMeasure( );
+				}
+			}
 		}
 		if ( measure > 0 )
 		{
