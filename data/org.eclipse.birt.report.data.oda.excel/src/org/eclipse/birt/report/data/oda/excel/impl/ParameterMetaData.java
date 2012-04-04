@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,22 +7,19 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - code cleanup
   *******************************************************************************/
 
 
 package org.eclipse.birt.report.data.oda.excel.impl;
 
+import org.eclipse.birt.report.data.oda.excel.impl.util.DataTypes;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * Implementation class of IParameterMetaData for an ODA runtime driver.
- * <br>
- * For demo purpose, the auto-generated method stubs have
- * hard-coded implementation that returns a pre-defined set
- * of meta-data and query results.
- * A custom ODA driver is expected to implement own data source specific
- * behavior in its place.
+ * Implementation class of IParameterMetaData for Excel ODA runtime driver,
+ * which does not currently support input nor output parameters.
  */
 public class ParameterMetaData implements IParameterMetaData
 {
@@ -32,10 +29,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterCount() throws OdaException
 	{
-        // TODO replace with data source specific implementation
-
-        // hard-coded for demo purpose
-        return 1;
+        return 0;
 	}
 
     /*
@@ -43,8 +37,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterMode( int param ) throws OdaException
 	{
-        // TODO Auto-generated method stub
-		return IParameterMetaData.parameterModeIn;
+		return IParameterMetaData.parameterModeUnknown;
 	}
 
     /* (non-Javadoc)
@@ -52,7 +45,6 @@ public class ParameterMetaData implements IParameterMetaData
      */
     public String getParameterName( int param ) throws OdaException
     {
-        // TODO Auto-generated method stub
         return null;    // name is not available
     }
 
@@ -61,10 +53,7 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getParameterType( int param ) throws OdaException
 	{
-        // TODO replace with data source specific implementation
-
-        // hard-coded for demo purpose
-        return java.sql.Types.CHAR;   // as defined in data set extension manifest
+        return DataTypes.getTypeCode( null );
 	}
 
 	/*
@@ -73,7 +62,7 @@ public class ParameterMetaData implements IParameterMetaData
 	public String getParameterTypeName( int param ) throws OdaException
 	{
         int nativeTypeCode = getParameterType( param );
-        return Driver.getNativeDataTypeName( nativeTypeCode );
+        return DataTypes.getNativeDataTypeName( nativeTypeCode );
 	}
 
 	/*
@@ -81,7 +70,6 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getPrecision( int param ) throws OdaException
 	{
-        // TODO Auto-generated method stub
 		return -1;
 	}
 
@@ -90,7 +78,6 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int getScale( int param ) throws OdaException
 	{
-        // TODO Auto-generated method stub
 		return -1;
 	}
 
@@ -99,7 +86,6 @@ public class ParameterMetaData implements IParameterMetaData
 	 */
 	public int isNullable( int param ) throws OdaException
 	{
-        // TODO Auto-generated method stub
 		return IParameterMetaData.parameterNullableUnknown;
 	}
 

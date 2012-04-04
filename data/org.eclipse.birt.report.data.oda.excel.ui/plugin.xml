@@ -49,8 +49,8 @@
          </newDataSourceWizard>
       </dataSourceUI>
       <dataSetUI
-            supportsOutParameters="true"
-            supportsInParameters="true"
+            supportsOutParameters="false"
+            supportsInParameters="false"
             initialPageId="org.eclipse.birt.report.data.oda.excel.dataSet.page1"
             id="org.eclipse.birt.report.data.oda.excel.dataSet">
          <dataSetWizard

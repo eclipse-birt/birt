@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - code cleanup
   *******************************************************************************/
 
 
@@ -116,7 +117,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 */
 	public String getColumnTypeName(int index) throws OdaException {
 		int nativeTypeCode = getColumnType(index);
-		return Driver.getNativeDataTypeName(nativeTypeCode);
+		return DataTypes.getNativeDataTypeName(nativeTypeCode);
 	}
 
 	/*
@@ -133,7 +134,6 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * (int)
 	 */
 	public int getPrecision(int index) throws OdaException {
-		// TODO Auto-generated method stub
 		return -1;
 	}
 
@@ -142,7 +142,6 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getScale(int)
 	 */
 	public int getScale(int index) throws OdaException {
-		// TODO Auto-generated method stub
 		return -1;
 	}
 

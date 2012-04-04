@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - code cleanup
   *******************************************************************************/
 
 
@@ -43,8 +44,6 @@ public class Connection implements IConnection {
 
 		this.connProperties = connProperties;
 		validateHomeDir();
-
-		isOpen = true;
 	}
 
 	private void validateHomeDir() throws OdaException {
@@ -77,7 +76,6 @@ public class Connection implements IConnection {
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
 	public void close() throws OdaException {
-		// TODO replace with data source specific implementation
 		isOpen = false;
 	}
 
@@ -85,7 +83,6 @@ public class Connection implements IConnection {
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
 	public boolean isOpen() throws OdaException {
-		// TODO Auto-generated method stub
 		return isOpen;
 	}
 

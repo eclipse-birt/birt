@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - code cleanup
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
@@ -90,6 +91,24 @@ public final class DataTypes {
 
 		return (typeMapping != null);
 	}
+
+    /**
+     * Returns the native data type name of the specified code, as
+     * defined in this data source extension's manifest.
+     * @param nativeTypeCode    the native data type code
+     * @return                  corresponding native data type name
+     * @throws OdaException     if lookup fails
+     */
+    public static String getNativeDataTypeName( int nativeDataTypeCode )
+        throws OdaException
+    {
+        DataTypeMapping typeMapping =
+                            getManifest().getDataSetType( null )
+                                .getDataTypeMapping( nativeDataTypeCode );
+        if( typeMapping != null )
+            return typeMapping.getNativeType();
+        return "Non-defined";
+    }
 
 	private DataTypes() {
 	}
