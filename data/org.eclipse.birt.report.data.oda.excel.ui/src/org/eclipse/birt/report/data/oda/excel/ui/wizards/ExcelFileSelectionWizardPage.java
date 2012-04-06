@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,7 +7,9 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - support of timestamp, datetime, time, and date data types
   *******************************************************************************/
+
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.io.File;
@@ -73,7 +75,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -95,15 +96,16 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private static String originalName = Messages
 			.getString("editor.title.originalName"); //$NON-NLS-1$
 	private static String dataType = Messages.getString("editor.title.type"); //$NON-NLS-1$
-	private String dateFormat = ExcelODAConstants.DEFAULT_DATE_FORMAT;
 
-	private static String[] dataTypeDisplayNames = new String[] {
-			Messages.getString("datatypes.decimal"), //$NON-NLS-1$
-			Messages.getString("datatypes.float"), //$NON-NLS-1$
-			Messages.getString("datatypes.integer"), //$NON-NLS-1$
-			Messages.getString("datatypes.date"), //$NON-NLS-1$
-			Messages.getString("datatypes.string"), //$NON-NLS-1$
-			Messages.getString("datatypes.boolean") //$NON-NLS-1$
+	private static String[] dataTypeDisplayNames = new String[]{
+		Messages.getString( "datatypes.dateTime" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.decimal" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.float" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.integer" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.date" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.time" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.string" ), //$NON-NLS-1$
+		Messages.getString( "datatypes.boolean" ) //$NON-NLS-1$
 	};
 
 	private Map<Object, Object> dataTypeDisplayNameMap = new HashMap<Object, Object>();
@@ -115,7 +117,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 	private transient ComboViewer fileViewer = null;
 	private transient ComboViewer worksheetsCombo = null;
-	private transient Text dateFormatText = null;
 	private transient List availableList = null;
 	private transient TableViewer selectedColumnsViewer = null;
 	private transient Button btnAdd = null;
@@ -178,36 +179,39 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				IHelpConstants.CONEXT_ID_DATASET_EXCEL);
 	}
 
-	/**
-	 *
-	 *
-	 */
-	private void createColumnTypeMap() {
-		dataTypeDisplayNameMap.put(new Integer(4),
-				Messages.getString("datatypes.integer")); //$NON-NLS-1$
-		dataTypeDisplayNameMap.put(new Integer(8),
-				Messages.getString("datatypes.float")); //$NON-NLS-1$
-		dataTypeDisplayNameMap.put(new Integer(12),
-				Messages.getString("datatypes.string")); //$NON-NLS-1$
-		dataTypeDisplayNameMap.put(new Integer(91),
-				Messages.getString("datatypes.date")); //$NON-NLS-1$
-		dataTypeDisplayNameMap.put(new Integer(2),
-				Messages.getString("datatypes.decimal")); //$NON-NLS-1$
-		dataTypeDisplayNameMap.put(new Integer(16),
-				Messages.getString("datatypes.boolean")); //$NON-NLS-1$
+	private void createColumnTypeMap( )
+	{
+		dataTypeDisplayNameMap.put( new Integer(4),
+				Messages.getString( "datatypes.integer" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(8),
+				Messages.getString( "datatypes.float" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(12),
+				Messages.getString( "datatypes.string" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(91),
+				Messages.getString( "datatypes.date" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(92),
+				Messages.getString( "datatypes.time" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(93),
+				Messages.getString( "datatypes.dateTime" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(2),
+				Messages.getString( "datatypes.decimal" ) ); //$NON-NLS-1$
+		dataTypeDisplayNameMap.put( new Integer(16),
+				Messages.getString( "datatypes.boolean" ) ); //$NON-NLS-1$
 
-		dataTypeValueMape.put(Messages.getString("datatypes.integer"), "INT"); //$NON-NLS-1$ //$NON-NLS-2$
-		dataTypeValueMape.put(Messages.getString("datatypes.float"), //$NON-NLS-1$
-				"DOUBLE"); //$NON-NLS-1$
-		dataTypeValueMape.put(Messages.getString("datatypes.string"), //$NON-NLS-1$
-				"STRING"); //$NON-NLS-1$
-		dataTypeValueMape.put(Messages.getString("datatypes.date"), "DATE"); //$NON-NLS-1$ //$NON-NLS-2$
-		dataTypeValueMape.put(Messages.getString("datatypes.decimal"), //$NON-NLS-1$
-				"BIGDECIMAL"); //$NON-NLS-1$
-		dataTypeValueMape.put(Messages.getString("datatypes.boolean"), //$NON-NLS-1$
-				"BOOLEAN"); //$NON-NLS-1$
+		dataTypeValueMape.put( Messages.getString( "datatypes.integer" ), "INT" ); //$NON-NLS-1$ //$NON-NLS-2$
+		dataTypeValueMape.put( Messages.getString( "datatypes.float" ), //$NON-NLS-1$
+				"DOUBLE" ); //$NON-NLS-1$
+		dataTypeValueMape.put( Messages.getString( "datatypes.string" ), //$NON-NLS-1$
+				"STRING" ); //$NON-NLS-1$
+		dataTypeValueMape.put( Messages.getString( "datatypes.date" ), "DATE" ); //$NON-NLS-1$ //$NON-NLS-2$
+		dataTypeValueMape.put( Messages.getString( "datatypes.time" ), "TIME" ); //$NON-NLS-1$ //$NON-NLS-2$
+		dataTypeValueMape.put( Messages.getString( "datatypes.dateTime" ), //$NON-NLS-1$
+				"TIMESTAMP" ); //$NON-NLS-1$
+		dataTypeValueMape.put( Messages.getString( "datatypes.decimal" ), //$NON-NLS-1$
+				"BIGDECIMAL" ); //$NON-NLS-1$
+		dataTypeValueMape.put( Messages.getString( "datatypes.boolean" ), //$NON-NLS-1$
+		        "BOOLEAN" ); //$NON-NLS-1$
 	}
-
 	/**
 	 *
 	 *
@@ -232,12 +236,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			currentSheetName = dataSetDesign.getPublicProperties().getProperty(
 					ExcelODAConstants.CONN_WORKSHEETS_PROP);
 		}
-		if (dataSetDesign.getPublicProperties() != null) {
-			dateFormat = dataSetDesign.getPublicProperties().getProperty(
-					ExcelODAConstants.CONN_DATE_FORMAT_PROP);
-			dateFormat = dateFormat == null ? ExcelODAConstants.DEFAULT_DATE_FORMAT : dateFormat.trim();
-			dateFormatText.setText(dateFormat);
-		}
+
 		/*
 		 * Optionally honor the request for an editable or read-only design
 		 * session isSessionEditable();
@@ -368,17 +367,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		data = new FormData();
 		data.left = new FormAttachment(worksheetsCombo.getControl(), 5);
 		data.top = new FormAttachment(0, 5);
-
-		label = new Label(composite, SWT.NONE);
-		label.setText(Messages.getString("label.dateFormat")); //$NON-NLS-1$
-		label.setLayoutData(data);
-
-		data = new FormData();
-		data.left = new FormAttachment(label, 5);
-		data.right = new FormAttachment(100, -5);
-		dateFormatText = new Text(composite, SWT.BORDER);
-		dateFormatText.setLayoutData(data);
-		dateFormatText.setText(dateFormat);
 	}
 
 	/**
@@ -913,10 +901,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		if (dataSetDesign.getPublicProperties() != null) {
 			currentSheetName = dataSetDesign.getPublicProperties().getProperty(
 					ExcelODAConstants.CONN_WORKSHEETS_PROP);
-		}
-		if (dataSetDesign.getPublicProperties() != null) {
-			dateFormat = dataSetDesign.getPublicProperties().getProperty(
-					ExcelODAConstants.CONN_DATE_FORMAT_PROP);
 		}
 	}
 
@@ -1598,17 +1582,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 						.findProperty(ExcelODAConstants.CONN_WORKSHEETS_PROP)
 						.setNameValue(ExcelODAConstants.CONN_WORKSHEETS_PROP,
 								currentSheetName);
-			if (dataSetDesign.getPublicProperties().findProperty(
-					ExcelODAConstants.CONN_DATE_FORMAT_PROP) != null)
-				dateFormat = dateFormatText.getText();
-			dateFormat = dateFormat != null ? dateFormat.trim() : ExcelODAConstants.DEFAULT_DATE_FORMAT;
-				dataSetDesign
-						.getPublicProperties()
-						.findProperty(ExcelODAConstants.CONN_DATE_FORMAT_PROP)
-						.setNameValue(ExcelODAConstants.CONN_DATE_FORMAT_PROP,
-								dateFormat);
 		}
-
 	}
 
 	private java.util.Properties getPageProperties() {

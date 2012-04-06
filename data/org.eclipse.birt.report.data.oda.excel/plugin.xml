@@ -63,6 +63,14 @@
                   nativeDataTypeCode="91"
                   odaScalarDataType="Date"/>
             <dataTypeMapping
+                  nativeDataType="TIME"
+                  nativeDataTypeCode="92"
+                  odaScalarDataType="Time"/>
+            <dataTypeMapping
+                  nativeDataType="DATETIME"
+                  nativeDataTypeCode="93"
+                  odaScalarDataType="Timestamp"/>
+            <dataTypeMapping
                   nativeDataType="TIMESTAMP"
                   nativeDataTypeCode="93"
                   odaScalarDataType="Timestamp"/>
@@ -83,21 +91,9 @@
                   name="WORKSHEETS"
                   canInherit="true"
                   type="string"/>
-            <property
-                  allowsEmptyValueAsNull="true"
-                  canInherit="true"
-                  defaultDisplayName="dataset.property.worksheets.dateFormat"
-                  defaultValue="yyyy-MM-dd"
-                  isEncryptable="false"
-                  name="DATEFORMAT"
-                  type="string">
-            </property>
          </propertyGroup>
             <propertyVisibility name="WORKSHEETS" visibility="change"/>
-            <propertyVisibility
-                  name="DATEFORMAT"
-                  visibility="change">
-            </propertyVisibility>
+
          </properties>
       </dataSet>
    </extension>

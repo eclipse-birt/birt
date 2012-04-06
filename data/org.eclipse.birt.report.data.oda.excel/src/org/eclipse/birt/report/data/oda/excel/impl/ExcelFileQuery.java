@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,6 +7,8 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - more efficient xlsx processing;
+  *         support of timestamp, datetime, time, and date data types
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl;
@@ -37,14 +39,13 @@ import org.eclipse.datatools.connectivity.oda.SortSpec;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**
- * Implementation class of IQuery for an ODA runtime driver. <br>
- * For demo purpose, the auto-generated method stubs have hard-coded
- * implementation that returns a pre-defined set of meta-data and query results.
- * A custom ODA driver is expected to implement own data source specific
- * behavior in its place.
+ * Implementation class of IQuery for the Excel ODA runtime driver.
  */
 public class ExcelFileQuery implements IQuery {
+    public static final int DEFAULT_MAX_ROWS_TO_READ = 10;
+
 	private int maxRows;
+	private int maxRowsToRead = DEFAULT_MAX_ROWS_TO_READ;
 
 	private static final String NAME_LITERAL = "NAME"; //$NON-NLS-1$
 	private static final String TYPE_LITERAL = "TYPE"; //$NON-NLS-1$
@@ -71,7 +72,6 @@ public class ExcelFileQuery implements IQuery {
 	private ResultSetMetaDataHelper resultSetMetaDataHelper;
 
 	private String worksheetNames;
-	private String dateFormatString = ExcelODAConstants.DEFAULT_DATE_FORMAT;
 
 	private String savedSelectedColInfo;
 
@@ -189,8 +189,10 @@ public class ExcelFileQuery implements IQuery {
 	 * @throws OdaException
 	 */
 	private void prepareMetaData() throws OdaException {
+		// limit the number of Rows to read to optimize getting metadata
+		// from a xlsx file
 		ExcelFileSource excelFileReader = new ExcelFileSource(connProperties,
-				currentTableName, worksheetNames, dateFormatString, 0, null,
+				currentTableName, worksheetNames, maxRowsToRead, null,
 				null);
 
 		String[] allColumnNames;
@@ -483,9 +485,11 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	private String[] discoverActualColumnMetaData(String metaDataType,
 			String tableName) throws OdaException {
+        // limit the number of Rows to read to optimize getting metadata
+        // from a xlsx file
 		ExcelFileSource excelFileSource = new ExcelFileSource(
 				this.connProperties, tableName, worksheetNames,
-				dateFormatString, 0, null, null);
+				maxRowsToRead, null, null);
 		try {
 			if (!(metaDataType.trim().equalsIgnoreCase(NAME_LITERAL) || metaDataType
 					.trim().equalsIgnoreCase(TYPE_LITERAL)))
@@ -495,12 +499,12 @@ public class ExcelFileQuery implements IQuery {
 			// if want to discover type information then just skip all the empty
 			// lines and the first line
 			if (metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL)) {
-				while (ExcelFileSource.isEmptyRow(excelFileSource.readLine()))
+				while (excelFileSource.isEmptyRow(excelFileSource.readLine()))
 					continue;
 			}
 			// Skip all the empty lines until reach the first line
 			List<String> columnNameLine;
-			while (ExcelFileSource.isEmptyRow(columnNameLine = excelFileSource
+			while (excelFileSource.isEmptyRow(columnNameLine = excelFileSource
 					.readLine()))
 				continue;
 
@@ -567,7 +571,7 @@ public class ExcelFileQuery implements IQuery {
 			return;
 		for (int i = 0; i < aCT.length; i++) {
 			if (!DataTypes.isValidType(aCT[i])) {
-				throw new OdaException("TYPE_NAME_INVALID" + aCT[i]); //$NON-NLS-1$
+				throw new OdaException( Messages.getString("dataTypes_TYPE_NAME_INVALID") + aCT[i]); //$NON-NLS-1$
 			}
 		}
 	}
@@ -649,7 +653,7 @@ public class ExcelFileQuery implements IQuery {
 					Messages.getString("query_COMMAND_NOT_VALID")); //$NON-NLS-1$
 
 		return new ResultSet(new ExcelFileSource(this.connProperties,
-				this.currentTableName, worksheetNames, this.dateFormatString,
+				this.currentTableName, worksheetNames,
 				this.maxRows, this.resultSetMetaData,
 				this.resultSetMetaDataHelper), this.resultSetMetaData);
 	}
@@ -662,11 +666,6 @@ public class ExcelFileQuery implements IQuery {
 	public void setProperty(String name, String value) throws OdaException {
 		if (name.equals(ExcelODAConstants.CONN_WORKSHEETS_PROP))
 			this.worksheetNames = value;
-		if (name.equals(ExcelODAConstants.CONN_DATE_FORMAT_PROP)) {
-			if (name == null || name.trim().equals(""))
-				throw new OdaException(Messages.getString("date_format_null"));
-			this.dateFormatString = value;
-		}
 	}
 
 	/*
@@ -687,7 +686,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#clearInParameters()
 	 */
 	public void clearInParameters() throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -697,7 +695,6 @@ public class ExcelFileQuery implements IQuery {
 	 * int)
 	 */
 	public void setInt(String parameterName, int value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -705,7 +702,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setInt(int, int)
 	 */
 	public void setInt(int parameterId, int value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -716,7 +712,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setDouble(String parameterName, double value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -724,7 +719,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setDouble(int, double)
 	 */
 	public void setDouble(int parameterId, double value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -735,7 +729,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setBigDecimal(String parameterName, BigDecimal value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -745,7 +738,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setBigDecimal(int parameterId, BigDecimal value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -756,7 +748,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setString(String parameterName, String value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 		System.out.println(parameterName);
 	}
@@ -766,7 +757,6 @@ public class ExcelFileQuery implements IQuery {
 	 * java.lang.String)
 	 */
 	public void setString(int parameterId, String value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 		System.out.println(value);
 	}
@@ -777,7 +767,6 @@ public class ExcelFileQuery implements IQuery {
 	 * java.sql.Date)
 	 */
 	public void setDate(String parameterName, Date value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -786,7 +775,6 @@ public class ExcelFileQuery implements IQuery {
 	 * java.sql.Date)
 	 */
 	public void setDate(int parameterId, Date value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -796,7 +784,6 @@ public class ExcelFileQuery implements IQuery {
 	 * java.sql.Time)
 	 */
 	public void setTime(String parameterName, Time value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -805,7 +792,6 @@ public class ExcelFileQuery implements IQuery {
 	 * java.sql.Time)
 	 */
 	public void setTime(int parameterId, Time value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -816,7 +802,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setTimestamp(String parameterName, Timestamp value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -826,7 +811,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setTimestamp(int parameterId, Timestamp value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -839,7 +823,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setBoolean(String parameterName, boolean value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -850,7 +833,6 @@ public class ExcelFileQuery implements IQuery {
 	 * boolean)
 	 */
 	public void setBoolean(int parameterId, boolean value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -863,7 +845,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void setObject(String parameterName, Object value)
 			throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -874,7 +855,6 @@ public class ExcelFileQuery implements IQuery {
 	 * java.lang.Object)
 	 */
 	public void setObject(int parameterId, Object value) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -885,7 +865,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
 	 */
 	public void setNull(String parameterName) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 	}
 
@@ -895,7 +874,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
 	 */
 	public void setNull(int parameterId) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to input parameter
 	}
 
@@ -905,7 +883,6 @@ public class ExcelFileQuery implements IQuery {
 	 * .String)
 	 */
 	public int findInParameter(String parameterName) throws OdaException {
-		// TODO Auto-generated method stub
 		// only applies to named input parameter
 		return 0;
 	}
@@ -914,10 +891,6 @@ public class ExcelFileQuery implements IQuery {
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getParameterMetaData()
 	 */
 	public IParameterMetaData getParameterMetaData() throws OdaException {
-		/*
-		 * TODO Auto-generated method stub Replace with implementation to return
-		 * an instance based on this prepared query.
-		 */
 		return new ParameterMetaData();
 	}
 
@@ -969,7 +942,6 @@ public class ExcelFileQuery implements IQuery {
 	 * org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
 	 */
 	public String getEffectiveQueryText() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 

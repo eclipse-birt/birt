@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,7 +7,10 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - more efficient xlsx processing;
+  *         support of timestamp, datetime, time, and date data types
   *******************************************************************************/
+
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
 import java.io.File;
@@ -15,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +53,7 @@ public class ExcelFileReader {
 	private int maxRowsInThisSheet;
 	private int currentRowIndex = 0;
 	private int maxColumnIndex = 0;
+	private int xlsxRowsToRead;
 	private XlsxRowCallBack callback;
 	private XlsxFileReader xlsxread;
 	Map<String, String> xlsxSheetRidNameMap;
@@ -58,10 +63,11 @@ public class ExcelFileReader {
 	}
 
 	public ExcelFileReader(FileInputStream fis, String fileExtension,
-			List<String> sheetNameList, String dateFormatString) {
+			List<String> sheetNameList, int rowsToRead) {
 		this.fis = fis;
 		this.fileExtension = fileExtension;
 		this.workSheetList = sheetNameList;
+		this.xlsxRowsToRead = rowsToRead;
 	}
 
 	public List<String> readLine() throws IOException, OdaException {
@@ -107,17 +113,17 @@ public class ExcelFileReader {
 				callback = new XlsxRowCallBack();
 				xlsxSheetRidNameMap = xlsxread.getSheetNames();
 				String rid = xlsxSheetRidNameMap.get(workSheetList.get(currentSheetIndex));
-				xlsxread.processSheet(rid, callback);
+				xlsxread.processSheet(rid, callback, this.xlsxRowsToRead);
 				maxRowsInThisSheet = callback.getMaxRowsInSheet();
 
 				for (String sheetName : workSheetList) {
 					rid = xlsxSheetRidNameMap.get(sheetName);
 					if (rid == null)
 						throw new OdaException(
-								Messages.getString("invalid_sheet_name"));
+								Messages.getString("invalid_sheet_name")); //$NON-NLS-1$
 
 					XlsxRowCallBack newCallback = new XlsxRowCallBack();
-					xlsxread.processSheet(rid, newCallback);
+					xlsxread.processSheet(rid, newCallback, this.xlsxRowsToRead);
 					maxRowsInAllSheet += newCallback.getMaxRowsInSheet();
 				}
 
@@ -141,7 +147,12 @@ public class ExcelFileReader {
 		} catch (OpenXML4JException e) {
 			throw new OdaException(e);
 		} catch (SAXException e) {
-			throw new OdaException(e);
+			if( e.getMessage().equalsIgnoreCase( XlsxFileReader.ROW_LIMIT_REACHED_EX_MSG ) ){
+				maxRowsInThisSheet = callback.getMaxRowsInSheet();
+				isInitialised = true;
+			}else{
+				throw new OdaException(e);
+			}
 		}
 	}
 
@@ -153,7 +164,7 @@ public class ExcelFileReader {
 			try {
 				String rid = xlsxSheetRidNameMap.get(workSheetList.get(currentSheetIndex));
 				callback = new XlsxRowCallBack();
-				xlsxread.processSheet(rid, callback);
+				xlsxread.processSheet(rid, callback,this.xlsxRowsToRead);
 				maxRowsInThisSheet = callback.getMaxRowsInSheet();
 			} catch (OpenXML4JException e) {
 				throw new OdaException(e);
@@ -187,10 +198,11 @@ public class ExcelFileReader {
 		}
 
 		if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-			/*if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
-				Date date = cell.getDateCellValue();
-				return dateFormat.format(date);
-			}*/
+			if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
+				Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
+				long millis = myjavadate.getTime();
+				return Long.toString(millis);
+			}
 			return ((Double) cell.getNumericCellValue()).toString();
 		}
 
@@ -201,15 +213,20 @@ public class ExcelFileReader {
 		if (formulaEvaluator == null)
 			return cell.toString();
 
+		if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell) ){
+			//need to check for nulls
+			//double myexdate = org.apache.poi.ss.usermodel.DateUtil.getExcelDate(cell.getDateCellValue());
+			Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
+			long millis = myjavadate.getTime();
+			return Long.toString(millis);
+
+		}
+
 		switch (formulaEvaluator.evaluateFormulaCell(cell)) {
 		case Cell.CELL_TYPE_BOOLEAN:
 			return ((Boolean) cell.getBooleanCellValue()).toString();
 
 		case Cell.CELL_TYPE_NUMERIC:
-			/*if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
-				Date date = cell.getDateCellValue();
-				return dateFormat.format(date);
-			}*/
 			return ((Double) cell.getNumericCellValue()).toString();
 
 		case Cell.CELL_TYPE_STRING:
@@ -228,7 +245,7 @@ public class ExcelFileReader {
 
 	public static List<String> getSheetNamesInExcelFile(File file) {
 		String extension = file.getName();
-		extension = extension.substring(extension.lastIndexOf(".") + 1,
+		extension = extension.substring(extension.lastIndexOf(".") + 1, //$NON-NLS-1$
 				extension.length());
 		FileInputStream fis;
 		List<String> sheetNames = new ArrayList<String>();

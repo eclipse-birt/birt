@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,7 +7,10 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - more efficient xlsx processing;
+  *         support of timestamp, datetime, time, and date data types
   *******************************************************************************/
+
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
 import java.io.File;
@@ -45,11 +48,6 @@ public class ExcelFileSource {
 	private String[] originalColumnNames;
 	private boolean isFirstTimeToReadSourceData = true;
 	private List<String> nextDataLine;
-	private String dateFormatString;
-
-	public String getDateFormatString() {
-		return dateFormatString;
-	}
 
 	/**
 	 * Constructor
@@ -58,7 +56,6 @@ public class ExcelFileSource {
 	 *            Connection properties
 	 * @param currentTableName
 	 *            The current table name of this connection
-	 * @param dateFormatString
 	 * @param statementMaxRows
 	 *            The max number of rows specified in the query
 	 * @param rsmd
@@ -68,14 +65,14 @@ public class ExcelFileSource {
 	 * @throws OdaException
 	 */
 	public ExcelFileSource(Properties connProperties, String currentTableName,
-			String workSheetNames, String dateFormatString,
+			String workSheetNames,
 			int statementMaxRows, IResultSetMetaData rsmd,
 			ResultSetMetaDataHelper rsmdHelper) throws OdaException {
 		this.rsmd = rsmd;
 		this.rsmdHelper = rsmdHelper;
 		this.statementMaxRows = statementMaxRows;
 		this.currentTableName = currentTableName;
-		this.dateFormatString = dateFormatString;
+
 		this.fileExtension = extractFileExtension(currentTableName);
 		Properties properties = getCopyOfConnectionProperties(connProperties);
 		populateHomeDir(properties);
@@ -184,10 +181,11 @@ public class ExcelFileSource {
 		try {
 			String dataFilePath = findDataFileAbsolutePath();
 			FileInputStream fis = new FileInputStream(dataFilePath);
-			ExcelFileReader excelreader = new ExcelFileReader(fis,
-					fileExtension, sheetNameList, dateFormatString);
+			//ExcelFileReader excelreader = new ExcelFileReader(fis,
+			//		fileExtension, sheetNameList);
+			initialiseReader();
 			List<String> columnLine;
-			while (isEmptyRow(columnLine = excelreader.readLine())) {
+			while (isEmptyRow(columnLine = this.excelFileReader.readLine())) {
 				continue;
 			}
 			count = columnLine.size();
@@ -213,8 +211,8 @@ public class ExcelFileSource {
 		File file = new File(this.homeDir + File.separator
 				+ this.currentTableName.trim());
 		if (!file.exists())
-			throw new OdaException(Messages.getString("query_invalidTableName")
-					+ this.homeDir + File.separator + this.currentTableName); //$NON-NLS-1$
+			throw new OdaException(Messages.getString("query_invalidTableName") //$NON-NLS-1$
+					+ this.homeDir + File.separator + this.currentTableName);
 		return file.getAbsolutePath();
 	}
 
@@ -424,8 +422,7 @@ public class ExcelFileSource {
 			if (this.excelFileReader == null) {
 				String dataFilePath = findDataFileAbsolutePath();
 				this.excelFileReader = new ExcelFileReader(new FileInputStream(
-						dataFilePath), this.fileExtension, this.sheetNameList,
-						dateFormatString);
+						dataFilePath), this.fileExtension, this.sheetNameList, this.statementMaxRows);
 			}
 
 		} catch (IOException e) {
@@ -471,7 +468,7 @@ public class ExcelFileSource {
 	 * @return
 	 * @throws OdaException
 	 */
-	public static boolean isEmptyRow(List<String> line) throws OdaException {
+	public boolean isEmptyRow(List<String> line) throws OdaException {
 		if (line == null)
 			throw new OdaException(
 					Messages.getString("query_INVALID_EXCEL_FILE")); //$NON-NLS-1$
