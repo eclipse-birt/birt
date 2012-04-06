@@ -96,6 +96,7 @@ public class MeasureDialog extends TitleAreaDialog
 	private IDialogHelper securityHelper;
 	private IDialogHelper formatHelper;
 	private IDialogHelper alignmentHelper;
+	private Text displayNameText;
 
 	public MeasureDialog( boolean newOrEdit )
 	{
@@ -281,6 +282,7 @@ public class MeasureDialog extends TitleAreaDialog
 					MeasureHandle.MEASURE_EXPRESSION_PROP );
 
 			nameText.setText( input.getName( ) == null ? "" : input.getName( ) ); //$NON-NLS-1$
+			displayNameText.setText( input.getDisplayName( ) == null ? "" : input.getDisplayName( ) ); //$NON-NLS-1$
 			handleFunctionSelectEvent( );
 			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
 					: getDataTypeDisplayName( input.getDataType( ) ) );
@@ -340,12 +342,31 @@ public class MeasureDialog extends TitleAreaDialog
 			{
 				TabularMeasureHandle measure;
 				if ( input == null )
+				{
 					measure = DesignElementFactory.getInstance( )
 							.newTabularMeasure( nameText.getText( ) );
+					if ( displayNameText.getText( ).trim( ).length( ) > 0 )
+					{
+						measure.setDisplayName( displayNameText.getText( )
+								.trim( ) );
+					}
+					else
+					{
+						measure.setDisplayName( null );
+					}
+				}
 				else
 				{
 					measure = input;
 					input.setName( nameText.getText( ) );
+					if ( displayNameText.getText( ).trim( ).length( ) > 0 )
+					{
+						input.setDisplayName( displayNameText.getText( ).trim( ) );
+					}
+					else
+					{
+						input.setDisplayName( null );
+					}
 				}
 
 				measure.setCalculated( derivedMeasureBtn.getSelection( ) );
@@ -421,6 +442,14 @@ public class MeasureDialog extends TitleAreaDialog
 			else
 			{
 				input.setName( nameText.getText( ) );
+				if ( displayNameText.getText( ).trim( ).length( ) > 0 )
+				{
+					input.setDisplayName( displayNameText.getText( ).trim( ) );
+				}
+				else
+				{
+					input.setDisplayName( null );
+				}
 				input.setCalculated( derivedMeasureBtn.getSelection( ) );
 
 				if ( derivedMeasureBtn.getSelection( ) )
@@ -525,6 +554,21 @@ public class MeasureDialog extends TitleAreaDialog
 		gd.horizontalSpan = 2;
 		nameText.setLayoutData( gd );
 		nameText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				checkOkButtonStatus( );
+			}
+
+		} );
+
+		Label displayNameLabel = new Label( group, SWT.NONE );
+		displayNameLabel.setText( Messages.getString( "MeasureDialog.Label.DisplayName" ) ); //$NON-NLS-1$
+		displayNameText = new Text( group, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		displayNameText.setLayoutData( gd );
+		displayNameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
@@ -897,7 +941,7 @@ public class MeasureDialog extends TitleAreaDialog
 					{
 						getButton( IDialogConstants.OK_ID ).setEnabled( false );
 						setMessage( null );
-						setErrorMessage( Messages.getString("MeasureDialog.Message.BlankExpression") ); //$NON-NLS-1$
+						setErrorMessage( Messages.getString( "MeasureDialog.Message.BlankExpression" ) ); //$NON-NLS-1$
 						return;
 					}
 				}
