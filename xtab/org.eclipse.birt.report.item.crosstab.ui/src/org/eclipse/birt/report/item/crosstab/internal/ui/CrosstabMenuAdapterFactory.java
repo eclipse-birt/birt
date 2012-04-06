@@ -30,7 +30,6 @@ import org.eclipse.jface.action.IMenuManager;
 public class CrosstabMenuAdapterFactory implements IAdapterFactory
 {
 
-	@Override
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{
 		if ( adaptableObject instanceof ExtendedItemHandle
@@ -69,7 +68,6 @@ public class CrosstabMenuAdapterFactory implements IAdapterFactory
 		return null;
 	}
 
-	@Override
 	public Class[] getAdapterList( )
 	{
 		return null;

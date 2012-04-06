@@ -1647,12 +1647,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{	
 		List calculatedMeasures = query.getDerivedMeasures( );
 		List measures = query.getMeasures( );
-		List measureNameList = new ArrayList( );
+		HashSet<String> measureNameList = new HashSet<String>( );
 		for ( int i = 0; i < measures.size( ); i++ )
 		{
 			measureNameList.add( ( (IMeasureDefinition) measures.get( i ) ).getName( ));
 		}
-		List derivedMeasureNameList = new ArrayList();
+		HashSet<String> derivedMeasureNameList = new HashSet<String>();
 		for ( int i = 0 ; i < calculatedMeasures.size( );i++)
 		{
 			derivedMeasureNameList.add( ( (IDerivedMeasureDefinition) calculatedMeasures.get( i ) ).getName( ) );
@@ -1702,6 +1702,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 								.toString( ) ) )
 				{
 					IMeasureDefinition md = query.createMeasure( measureNames.get( j ).toString( ) );
+					measureNameList.add( md.getName( ) );
 					if ( this.cubeMetaDataHandleMap != null
 							&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
 					{
@@ -1723,7 +1724,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 	
 	private void validateBindings( List<IBinding> bindings,
-			List calculatedMeasures ) throws AdapterException
+			Collection calculatedMeasures ) throws AdapterException
 	{
 		// Not support aggregation filter reference calculated measures.
 		try
