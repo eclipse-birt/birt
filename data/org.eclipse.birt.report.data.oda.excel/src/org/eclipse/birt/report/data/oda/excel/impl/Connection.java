@@ -8,12 +8,13 @@
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - code cleanup
+  *    Actuate Corporation - added support of relative file path
   *******************************************************************************/
 
 
 package org.eclipse.birt.report.data.oda.excel.impl;
 
-import java.io.File;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
@@ -22,6 +23,7 @@ import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 import com.ibm.icu.util.ULocale;
 
@@ -31,7 +33,7 @@ import com.ibm.icu.util.ULocale;
 public class Connection implements IConnection {
 	private boolean isOpen = false;
 	private Properties connProperties;
-
+	private Map appContext = null;
 	/*
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties
@@ -46,21 +48,16 @@ public class Connection implements IConnection {
 		validateHomeDir();
 	}
 
-	private void validateHomeDir() throws OdaException {
-		String homeDir = connProperties
-				.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP);
-		if (homeDir != null) // found property
+	// move the test connection to ExcelDataSourcePageHelper.createTestConnectionRunnable
+	private void validateHomeDir( ) throws OdaException
+	{
+		String homeDir = connProperties.getProperty( ExcelODAConstants.CONN_HOME_DIR_PROP );
+		if ( homeDir != null && homeDir.trim( ).length( ) > 0 ) // found
 		{
-			File file = new File(homeDir);
-			if (file.exists()) {
-				this.isOpen = true;
-				return; // is valid, done
-			}
+			this.isOpen = true;
+			return; // is valid, done
 		}
-
-		throw new OdaException(
-				Messages.getString("connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR") //$NON-NLS-1$
-						+ homeDir);
+		throw new OdaException( Messages.getString( "connection_MISSING_FILELOCATION" ));
 	}
 
 	/*
@@ -70,6 +67,7 @@ public class Connection implements IConnection {
 	 */
 	public void setAppContext(Object context) throws OdaException {
 		// do nothing; assumes no support for pass-through context
+		this.appContext = (Map) context;
 	}
 
 	/*
@@ -110,6 +108,11 @@ public class Connection implements IConnection {
 					Messages.getString("common_CONNECTION_HAS_NOT_OPEN")); //$NON-NLS-1$
 
 		return new ExcelFileQuery(connProperties, this);
+	}
+
+	public ResourceIdentifiers getResourceIdentifiers( )
+	{
+		return (ResourceIdentifiers) appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS );
 	}
 
 	/*

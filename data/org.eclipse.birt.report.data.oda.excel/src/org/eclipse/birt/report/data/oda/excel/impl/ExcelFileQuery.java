@@ -9,6 +9,7 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - more efficient xlsx processing;
   *         support of timestamp, datetime, time, and date data types
+  *    Actuate Corporation - added support of relative file path
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl;
@@ -193,7 +194,7 @@ public class ExcelFileQuery implements IQuery {
 		// from a xlsx file
 		ExcelFileSource excelFileReader = new ExcelFileSource(connProperties,
 				currentTableName, worksheetNames, maxRowsToRead, null,
-				null);
+				null, connection);
 
 		String[] allColumnNames;
 		String[] allColumnTypes;
@@ -489,7 +490,7 @@ public class ExcelFileQuery implements IQuery {
         // from a xlsx file
 		ExcelFileSource excelFileSource = new ExcelFileSource(
 				this.connProperties, tableName, worksheetNames,
-				maxRowsToRead, null, null);
+				maxRowsToRead, null, null, connection);
 		try {
 			if (!(metaDataType.trim().equalsIgnoreCase(NAME_LITERAL) || metaDataType
 					.trim().equalsIgnoreCase(TYPE_LITERAL)))
@@ -655,7 +656,7 @@ public class ExcelFileQuery implements IQuery {
 		return new ResultSet(new ExcelFileSource(this.connProperties,
 				this.currentTableName, worksheetNames,
 				this.maxRows, this.resultSetMetaData,
-				this.resultSetMetaDataHelper), this.resultSetMetaData);
+				this.resultSetMetaDataHelper, connection), this.resultSetMetaData);
 	}
 
 	/*

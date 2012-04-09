@@ -8,6 +8,7 @@
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - support of timestamp, datetime, time, and date data types
+  *    Actuate Corporation - added support of relative file path
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
@@ -38,6 +39,7 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -142,6 +144,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<String[]>();
 	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<String[]>();
 
+	private ResourceIdentifiers ri;
 	/**
 	 * @param pageName
 	 */
@@ -879,6 +882,11 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				.getProperty(ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY);
 		if (sourcePath != null) {
 			File cpFile = new File(sourcePath);
+			if ( !cpFile.isAbsolute( ) )
+			{
+				cpFile = new File( getResourceFolder( )
+						+ File.separator + cpFile );
+			}
 			if (!cpFile.exists()) {
 				setMessage(
 						Messages.getFormattedString(
@@ -904,6 +912,38 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		}
 	}
 
+	private String getResourceFolder( )
+	{
+		if ( ri == null )
+		{
+			ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
+		}
+		if ( ri != null )
+		{
+			if ( ri.getApplResourceBaseURI( ) != null )
+			{
+				return new File( ri.getApplResourceBaseURI( ) ).getAbsolutePath( );
+			}
+		}
+		return null;
+	}
+
+	static class ExcelFileFilter implements FilenameFilter {
+		@Override
+		public boolean accept(File dir, String fileName) {
+			File file = new File(dir + File.separator + fileName);
+			if (file.isFile() && !file.isHidden()) {
+				if (fileName.endsWith(ExcelODAConstants.XLS_FORMAT)
+						|| fileName
+								.endsWith(ExcelODAConstants.XLSX_FORMAT))
+					return true;
+
+				return false;
+			} else
+				return false;
+		}
+	}
+
 	/**
 	 * Update file list in combo viewer
 	 */
@@ -915,24 +955,14 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			}
 
 			File folder = new File(odaHome);
-			FilenameFilter filenameFilter = new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String fileName) {
-					File file = new File(dir + File.separator + fileName);
-					if (file.isFile() && !file.isHidden()) {
-						if (fileName.endsWith(ExcelODAConstants.XLS_FORMAT)
-								|| fileName
-										.endsWith(ExcelODAConstants.XLSX_FORMAT))
-							return true;
-
-						return false;
-					} else
-						return false;
-				}
-			};
+			if ( !folder.isAbsolute( ) )
+			{
+				folder = new File( getResourceFolder( )
+						+ File.separator + folder );
+			}
 			if (folder.isDirectory() && folder.exists()) {
 				File[] files = folder.getAbsoluteFile().listFiles(
-						filenameFilter);
+						new ExcelFileFilter());
 
 				if (files != null) {
 					fileViewer.setInput(files);
@@ -1158,6 +1188,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		savedSelectedColumnsInfoString = (new QueryTextUtil(queryText))
 				.getColumnsInfo();
+
+		Map<String, Object> appContext =
+			    DesignSessionUtil.createResourceIdentifiersContext( getHostResourceIdentifiers() );
+		conn.setAppContext( appContext );
 
 		conn.open(prop);
 

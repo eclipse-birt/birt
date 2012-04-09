@@ -8,6 +8,7 @@
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - added support of read-only design session
+  *    Actuate Corporation - added support of relative file path
   ******************************************************************************
   **/
 
@@ -15,6 +16,7 @@ package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.util.Properties;
 
+import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
@@ -36,6 +38,7 @@ public class ExcelDataSourceWizardPage  extends DataSourceWizardPage{
 	{
 		if ( pageHelper == null )
 			pageHelper = new ExcelDataSourcePageHelper( this );
+		pageHelper.setResourceIdentifiers( getHostResourceIdentifiers( ) );
 		pageHelper.createCustomControl( parent );
 		pageHelper.initCustomControl( folderProperties ); // in case init was called before create
 
@@ -83,5 +86,14 @@ public class ExcelDataSourceWizardPage  extends DataSourceWizardPage{
         // enable/disable all controls on page based on the session editable state
         enableAllControls( getControl(), isSessionEditable() );
     }
+
+    /* (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSourceWizardPageCore#createTestConnectionRunnable(org.eclipse.datatools.connectivity.IConnectionProfile)
+	 */
+	protected Runnable createTestConnectionRunnable( IConnectionProfile profile )
+	{
+		return pageHelper.createTestConnectionRunnable( profile );
+	}
+
 
 }

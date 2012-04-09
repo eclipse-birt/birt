@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - added support of relative file path
   *******************************************************************************/
 
 
@@ -14,6 +15,7 @@ package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.util.Properties;
 
+import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage;
 import org.eclipse.swt.widgets.Composite;
 
@@ -52,7 +54,7 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage
 	{
 		if ( pageHelper == null )
 			pageHelper = new ExcelDataSourcePageHelper( this );
-
+		pageHelper.setResourceIdentifiers( getHostResourceIdentifiers( ) );
 		pageHelper.createCustomControl( parent );
 
 		/*
@@ -80,6 +82,14 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage
 
         // enable/disable all controls on page in respect of the editable session state
         enableAllControls( getControl(), isSessionEditable() );
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSourceEditorPageCore#createTestConnectionRunnable(org.eclipse.datatools.connectivity.IConnectionProfile)
+     */
+    protected Runnable createTestConnectionRunnable( IConnectionProfile profile )
+    {
+	return pageHelper.createTestConnectionRunnable( profile );
     }
 
 }

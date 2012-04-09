@@ -1,5 +1,5 @@
 /*******************************************************************************
-  * Copyright (c) 2012 Megha Nidhi Dahal.
+  * Copyright (c) 2012 Megha Nidhi Dahal and others.
   * All rights reserved. This program and the accompanying materials
   * are made available under the terms of the Eclipse Public License v1.0
   * which accompanies this distribution, and is available at
@@ -7,19 +7,30 @@
   *
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
+  *    Actuate Corporation - added support of relative file path
   *******************************************************************************/
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
 import org.eclipse.birt.report.data.oda.excel.ui.i18n.Messages;
 import org.eclipse.birt.report.data.oda.excel.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.excel.ui.util.Utility;
+import org.eclipse.birt.report.data.oda.excel.ui.wizards.ExcelFileSelectionWizardPage.ExcelFileFilter;
+import org.eclipse.datatools.connectivity.IConnection;
+import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.nls.TextProcessorWrapper;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
+import org.eclipse.datatools.connectivity.ui.PingJob;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -33,6 +44,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
 public class ExcelDataSourcePageHelper {
@@ -45,13 +58,20 @@ public class ExcelDataSourcePageHelper {
 
 	private transient Text folderLocation = null;
 	private transient Button typeLineCheckBox = null;
-	private transient Button browseFolderButton = null;
+	private transient MenuButton browseFolderButton = null;
 	private transient Button columnNameLineCheckBox = null;
+	private transient Composite parent = null;
 
 	private static final int CORRECT_FOLDER = 0;
 	private static final int ERROR_FOLDER = 1;
 	private static final int ERROR_EMPTY_PATH = 2;
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+    private static final String CURRENT_DIRECTORY = ".";
+
+	private static final Integer SELECT_RELATIVE_PATH = 1;
+	private static final Integer SELECT_ABSOLUTE_PATH = 2;
+
+	private ResourceIdentifiers ri;
 
 	public ExcelDataSourcePageHelper(ExcelDataSourceWizardPage page) {
 		wizardPage = page;
@@ -67,6 +87,7 @@ public class ExcelDataSourcePageHelper {
 	 * @param parent
 	 */
 	void createCustomControl(Composite parent) {
+		this.parent = parent;
 		Composite content = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout(3, false);
 		content.setLayout(layout);
@@ -99,32 +120,114 @@ public class ExcelDataSourcePageHelper {
 
 		});
 
-		browseFolderButton = new Button(composite, SWT.NONE);
-		browseFolderButton.setText(Messages
-				.getString("button.selectFolder.browse")); //$NON-NLS-1$
-		browseFolderButton.addSelectionListener(new SelectionAdapter() {
+		browseFolderButton = new MenuButton( composite, SWT.NONE );
+		browseFolderButton.setText( Messages.getString( "button.selectFolder.browse" ) ); //$NON-NLS-1$
 
-			/*
-			 * @see
-			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
-			 * .swt.events.SelectionEvent)
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dialog = new DirectoryDialog(folderLocation
-						.getShell());
-				String folderLocationValue = getFolderLocationString();
-				if (folderLocationValue != null
-						&& folderLocationValue.trim().length() > 0) {
-					dialog.setFilterPath(folderLocationValue);
+		Menu menu = new Menu( composite.getShell( ), SWT.POP_UP );
+		SelectionAdapter action = new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( e.widget instanceof MenuItem )
+				{
+					MenuItem item = (MenuItem) e.widget;
+					Integer type = (Integer) item.getData( );
+					handleFileSelection( type );
 				}
-
-				dialog.setMessage(DEFAULT_MESSAGE);
-				String selectedLocation = dialog.open();
-				if (selectedLocation != null) {
-					setFolderLocationString(selectedLocation);
+				else if ( e.widget instanceof MenuButton )
+				{
+					handleFileSelection( SELECT_RELATIVE_PATH );
 				}
 			}
-		});
+		};
+
+		MenuItem item;
+		if ( ri != null )
+		{
+			item = new MenuItem( menu, SWT.PUSH );
+			item.setText( Messages.getString( "button.selectFileURI.menuItem.relativePath" ) ); //$NON-NLS-1$
+			item.setData( SELECT_RELATIVE_PATH );
+			item.addSelectionListener( action );
+		}
+
+		item = new MenuItem( menu, SWT.PUSH );
+		item.setText( Messages.getString( "button.selectFileURI.menuItem.absolutePath" ) ); //$NON-NLS-1$
+		item.setData( SELECT_ABSOLUTE_PATH );
+		item.addSelectionListener( action );
+
+		// Add relative path selection support while having resource identifier
+		browseFolderButton.setDropDownMenu( menu );
+		browseFolderButton.addSelectionListener( action );
+
+	}
+
+
+	public void setResourceIdentifiers( org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers resourceIdentifiers )
+	{
+		if ( resourceIdentifiers != null )
+		{
+            this.ri = DesignSessionUtil.createRuntimeResourceIdentifiers( resourceIdentifiers );
+		}
+	}
+
+	private String getResourceFolder( )
+	{
+		if ( ri != null )
+		{
+			if ( ri.getApplResourceBaseURI( ) != null )
+			{
+				return new File(ri.getApplResourceBaseURI( )).getAbsolutePath( );
+			}
+		}
+		return null;
+	}
+
+
+	private void handleFileSelection( int selectionType )
+	{
+		if ( selectionType == SELECT_RELATIVE_PATH )
+		{
+			RelativeFolderSelectionDialog dialog = new RelativeFolderSelectionDialog( folderLocation.getShell( ),
+					new File( getResourceFolder( ) ) );
+			if ( dialog.open( ) == Window.OK )
+			{
+				try
+				{
+					URI uri = dialog.getSelectedURI( );
+					if ( uri != null )
+					{
+						if (uri.getPath().trim().equals(""))
+						{
+							setFolderLocationString( CURRENT_DIRECTORY );
+						}
+						else
+						{
+							setFolderLocationString( uri.getPath( ) );
+						}
+					}
+				}
+				catch ( URISyntaxException e )
+				{
+				}
+			}
+		}
+		else if ( selectionType == SELECT_ABSOLUTE_PATH )
+		{
+			DirectoryDialog dialog = new DirectoryDialog( folderLocation.getShell( ) );
+			String folderLocationValue = getFolderLocationString( );
+			if ( folderLocationValue != null
+					&& folderLocationValue.trim( ).length( ) > 0 )
+			{
+				dialog.setFilterPath( folderLocationValue );
+			}
+
+			dialog.setMessage( DEFAULT_MESSAGE );
+			String selectedLocation = dialog.open( );
+			if ( selectedLocation != null )
+			{
+				setFolderLocationString( selectedLocation );
+			}
+		}
 	}
 
 	/**
@@ -279,25 +382,93 @@ public class ExcelDataSourcePageHelper {
 			propertyPage.setValid(complete);
 	}
 
+
+	public Runnable createTestConnectionRunnable(
+			final IConnectionProfile profile )
+	{
+		return new Runnable( ) {
+
+			public void run( )
+			{
+				IConnection conn = PingJob.createTestConnection( profile );
+
+				Throwable exception = PingJob.getTestConnectionException( conn );
+
+				if ( exception == null ) // succeed in creating connection
+				{
+					exception = testConnection( );
+				}
+
+				PingJob.PingUIJob.showTestConnectionMessage( parent.getShell( ),
+						exception );
+				if ( conn != null )
+				{
+					conn.close( );
+				}
+			}
+
+			private Throwable testConnection( )
+			{
+				Throwable exception = null;
+				try
+				{
+					int verify = verifyFileLocation( );
+					if ( verify == ERROR_FOLDER )
+					{
+						throw new OdaException( Messages.getString( "connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR" ) );//$NON-NLS-1$
+					}
+				}
+				catch ( Exception ex )
+				{
+					exception = ex;
+				}
+				return exception;
+			}
+		};
+	}
+
 	/**
 	 *
 	 * @return
 	 */
-	private int verifyFileLocation() {
+	private int verifyFileLocation( ) {
 		int result = CORRECT_FOLDER;
-		String folderLocationValue = getFolderLocationString();
-		if (folderLocationValue.trim().length() > 0) {
-			File f = new File(folderLocationValue.trim());
-			if (f.exists()) {
-				setMessage(DEFAULT_MESSAGE, IMessageProvider.NONE);
-				setPageComplete(true);
-			} else {
-				setMessage(
-						Messages.getString("error.selectFolder"), IMessageProvider.ERROR); //$NON-NLS-1$
-				setPageComplete(false);
+		String folderLocationValue = getFolderLocationString().trim();
+		if ( folderLocationValue.length( ) > 0 )
+		{
+			File f = new File( folderLocationValue );
+			if ( !f.isAbsolute( ) )
+			{
+				folderLocationValue = getResourceFolder( )
+						+ File.separator + folderLocationValue;
+				f = new File( folderLocationValue.trim( ) );
+			}
+			if ( f.exists( ) )
+			{
+				if (f.isDirectory() ) {
+					File[] files = f.getAbsoluteFile().listFiles(
+							new ExcelFileFilter());
+					if (files.length == 0)
+					{
+						setMessage( Messages.getString( "error.emptyFolder" ), IMessageProvider.ERROR ); //$NON-NLS-1$
+						setPageComplete( false );
+						result = ERROR_FOLDER;
+					}
+					else
+					{
+						setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+						setPageComplete( true );
+					}
+				}
+			}
+			else
+			{
+				setMessage( Messages.getString( "error.selectFolder" ), IMessageProvider.ERROR ); //$NON-NLS-1$
+				setPageComplete( false );
 				result = ERROR_FOLDER;
 			}
-		} else {
+		}
+		else {
 			setMessage(
 					Messages.getString("error.emptyPath"), IMessageProvider.ERROR); //$NON-NLS-1$
 			setPageComplete(false);

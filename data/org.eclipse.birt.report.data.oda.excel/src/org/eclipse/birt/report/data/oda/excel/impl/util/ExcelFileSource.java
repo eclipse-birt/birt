@@ -9,6 +9,7 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - more efficient xlsx processing;
   *         support of timestamp, datetime, time, and date data types
+  *    Actuate Corporation - added support of relative file path
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
@@ -24,8 +25,10 @@ import java.util.Properties;
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
 import org.eclipse.birt.report.data.oda.excel.ResultSetMetaDataHelper;
 import org.eclipse.birt.report.data.oda.excel.impl.i18n.Messages;
+import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
 public class ExcelFileSource {
 	private String fileExtension;
@@ -48,7 +51,7 @@ public class ExcelFileSource {
 	private String[] originalColumnNames;
 	private boolean isFirstTimeToReadSourceData = true;
 	private List<String> nextDataLine;
-
+	private IConnection connection;
 	/**
 	 * Constructor
 	 *
@@ -67,12 +70,12 @@ public class ExcelFileSource {
 	public ExcelFileSource(Properties connProperties, String currentTableName,
 			String workSheetNames,
 			int statementMaxRows, IResultSetMetaData rsmd,
-			ResultSetMetaDataHelper rsmdHelper) throws OdaException {
+			ResultSetMetaDataHelper rsmdHelper, IConnection connection) throws OdaException {
 		this.rsmd = rsmd;
 		this.rsmdHelper = rsmdHelper;
 		this.statementMaxRows = statementMaxRows;
 		this.currentTableName = currentTableName;
-
+        this.connection = connection;
 		this.fileExtension = extractFileExtension(currentTableName);
 		Properties properties = getCopyOfConnectionProperties(connProperties);
 		populateHomeDir(properties);
@@ -122,10 +125,26 @@ public class ExcelFileSource {
 		this.homeDir = connProperties
 				.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP);
 		File file = new File(this.homeDir);
+		if ( !file.isAbsolute( ) )
+		{
+			file = new File( getAbsoluteFile( ) + File.separator + homeDir );
+		}
 		if (!file.exists())
 			throw new OdaException(
 					Messages.getString("connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR") //$NON-NLS-1$
 							+ this.homeDir);
+	}
+
+
+	private String getAbsoluteFile( )
+	{
+		ResourceIdentifiers ri = ( (org.eclipse.birt.report.data.oda.excel.impl.Connection) connection ).getResourceIdentifiers( );
+		if ( ri.getApplResourceBaseURI( ) != null )
+		{
+			return new File( ri.getApplResourceBaseURI( ) ).getAbsolutePath( );
+		}
+
+		return null;
 	}
 
 	/**
@@ -210,6 +229,12 @@ public class ExcelFileSource {
 	public String findDataFileAbsolutePath() throws OdaException {
 		File file = new File(this.homeDir + File.separator
 				+ this.currentTableName.trim());
+		if ( !file.isAbsolute( ) )
+		{
+			file = new File( getAbsoluteFile( )
+					+ File.separator + this.homeDir + File.separator
+					+ this.currentTableName.trim( ) );
+		}
 		if (!file.exists())
 			throw new OdaException(Messages.getString("query_invalidTableName") //$NON-NLS-1$
 					+ this.homeDir + File.separator + this.currentTableName);
