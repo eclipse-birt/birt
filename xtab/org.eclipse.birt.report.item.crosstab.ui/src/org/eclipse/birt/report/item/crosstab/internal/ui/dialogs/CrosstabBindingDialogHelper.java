@@ -1598,15 +1598,32 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			measures.add( "" ); //$NON-NLS-1$
 
-			for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+//			for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+//			{
+//				MeasureViewHandle mv = xtabHandle.getMeasure( i );
+//
+//				if ( mv instanceof ComputedMeasureViewHandle )
+//				{
+//					continue;
+//				}
+//				measures.add( DEUtil.getExpression( mv.getCubeMeasure( ) ) );
+//			}
+			
+			CubeHandle cubeHandle = xtabHandle.getCube( );
+			List children = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+			for (int i=0; i<children.size( ); i++)
 			{
-				MeasureViewHandle mv = xtabHandle.getMeasure( i );
-
-				if ( mv instanceof ComputedMeasureViewHandle )
+				MeasureGroupHandle group = (MeasureGroupHandle)children.get( i );
+				List measreHandles = group.getContents(  MeasureGroupHandle.MEASURES_PROP );
+				for (int j=0; j<measreHandles.size( ); j++)
 				{
-					continue;
+					MeasureHandle measure = (MeasureHandle)measreHandles.get( j );
+					String str = DEUtil.getExpression( measure );
+					if (!measures.contains( str ))
+					{
+						measures.add( str );
+					}
 				}
-				measures.add( DEUtil.getExpression( mv.getCubeMeasure( ) ) );
 			}
 		}
 		catch ( ExtendedElementException e )
