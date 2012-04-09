@@ -237,15 +237,18 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof MeasureHandle )
 		{
+			String name = ( (MeasureHandle) element ).getDisplayName( );
+			if ( name == null || name.trim( ).length( ) == 0 )
+				name = ( (MeasureHandle) element ).getName( );
 			try
 			{
 				if ( ( (MeasureHandle) element ).isCalculated( ) )
 				{
-					return ( (MeasureHandle) element ).getName( );
+					return name;
 				}
 				else
 				{
-					return ( (MeasureHandle) element ).getName( ) + "(" //$NON-NLS-1$
+					return name + "(" //$NON-NLS-1$
 							+ DataUtil.getAggregationManager( )
 									.getAggregation( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
 									.getDisplayName( )

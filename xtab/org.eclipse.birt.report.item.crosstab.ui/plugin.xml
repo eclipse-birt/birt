@@ -492,6 +492,15 @@
                type="org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ILayoutCheck">
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+         <adapter
+               factory="org.eclipse.birt.report.item.crosstab.internal.ui.CrosstabMenuAdapterFactory"
+               id="org.eclipse.birt.report.item.crosstab.ui.crossta.menu"
+               singleton="false"
+               type="org.eclipse.jface.action.IMenuListener">
+         </adapter>
+      </adaptable>
    </extension>
    <extension point="org.eclipse.core.runtime.adapters">
 		<factory 

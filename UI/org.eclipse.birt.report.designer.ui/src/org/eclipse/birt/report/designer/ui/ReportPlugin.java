@@ -1035,8 +1035,21 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getTemplatePreference( )
 	{
-		return PreferenceFactory.getInstance( ).getPreferences( this,
+		String temp = PreferenceFactory.getInstance( ).getPreferences( this,
 				UIUtil.getCurrentProject( ) ).getString( TEMPLATE_PREFERENCE );
+		String str = temp;
+		try
+		{
+			IStringVariableManager mgr = VariablesPlugin.getDefault( )
+					.getStringVariableManager( );
+			str = mgr.performStringSubstitution( temp );
+		}
+		catch ( CoreException e )
+		{
+			str = temp;
+		}
+		
+		return str;
 	}
 
 	/**

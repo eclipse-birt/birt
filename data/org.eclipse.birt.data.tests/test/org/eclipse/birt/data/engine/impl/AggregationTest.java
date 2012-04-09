@@ -14,11 +14,16 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.APITestCase;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -420,6 +425,377 @@ public class AggregationTest extends APITestCase
 		assertTrue( ae1.getRegId( ) == ae3.getRegId( ) );
 		assertTrue( ae1.getRegId( ) != ae4.getRegId( ) );
 		assertTrue( ae1.getRegId( ) != ae5.getRegId( ) );
+	}
+	
+	/**
+	 * test sort on aggregation bindings add a aggregation binding, then sort it
+	 * 
+	 * @throws Exception
+	 */
+	public void test5( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
+		query.addResultSetExpression( "e1", e1 );
+
+		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
+		query.addResultSetExpression( "e2", e2 );
+
+		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		query.addResultSetExpression( "e3", e3 );
+
+		ScriptExpression e4 = new ScriptExpression( "dataSetRow.SKU" );
+		query.addResultSetExpression( "e4", e4 );
+
+		ScriptExpression e10 = new ScriptExpression( "dataSetRow.PRICE" );
+		query.addResultSetExpression( "e10", e10 );
+
+		ScriptExpression e11 = new ScriptExpression( "dataSetRow.QUANTITY" );
+		query.addResultSetExpression( "e11", e11 );
+
+		// grouping levels: CITY
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "dataSetRow.CITY" );
+		query.addGroup( g1 );
+
+		IBinding aggr1 = new Binding( "Rank",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr1.setAggrFunction( "RANK" );
+		aggr1.addAggregateOn( "G1" );
+		query.addBinding( aggr1 );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"Rank\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "Rank"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile( );
+	}
+
+	/**
+	 * test sort on aggregation bindings add tow aggregation bingdings, then
+	 * sort it
+	 * 
+	 * @throws Exception
+	 */
+	public void test6( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
+		query.addResultSetExpression( "e1", e1 );
+
+		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
+		query.addResultSetExpression( "e2", e2 );
+
+		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		query.addResultSetExpression( "e3", e3 );
+
+		ScriptExpression e4 = new ScriptExpression( "dataSetRow.SKU" );
+		query.addResultSetExpression( "e4", e4 );
+
+		ScriptExpression e10 = new ScriptExpression( "dataSetRow.PRICE" );
+		query.addResultSetExpression( "e10", e10 );
+
+		ScriptExpression e11 = new ScriptExpression( "dataSetRow.QUANTITY" );
+		query.addResultSetExpression( "e11", e11 );
+
+		// grouping levels: CITY
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "dataSetRow.CITY" );
+		query.addGroup( g1 );
+
+		// grouping levels: store
+		GroupDefinition g2 = new GroupDefinition( "G2" );
+		g2.setKeyExpression( "dataSetRow.STORE" );
+		query.addGroup( g2 );
+
+		IBinding aggr1 = new Binding( "Rank",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr1.setAggrFunction( "RANK" );
+		aggr1.addAggregateOn( "G1" );
+		query.addBinding( aggr1 );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"Rank\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		IBinding aggr2 = new Binding( "Runningsum",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr2.setAggrFunction( IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC );
+		aggr2.addAggregateOn( "G2" );
+		query.addBinding( aggr2 );
+
+		sort = new SortDefinition( );
+		sort.setExpression( "row[\"Runningsum\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "Rank", "Runningsum"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile( );
+	}
+
+	/**
+	 * test sort on aggregation bindings add a binding, which use aggregation
+	 * bindings.
+	 * 
+	 * @throws Exception
+	 */
+	public void test7( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
+		query.addResultSetExpression( "e1", e1 );
+
+		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
+		query.addResultSetExpression( "e2", e2 );
+
+		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		query.addResultSetExpression( "e3", e3 );
+
+		ScriptExpression e4 = new ScriptExpression( "dataSetRow.SKU" );
+		query.addResultSetExpression( "e4", e4 );
+
+		ScriptExpression e10 = new ScriptExpression( "dataSetRow.PRICE" );
+		query.addResultSetExpression( "e10", e10 );
+
+		ScriptExpression e11 = new ScriptExpression( "dataSetRow.QUANTITY" );
+		query.addResultSetExpression( "e11", e11 );
+
+		// grouping levels: CITY
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "dataSetRow.CITY" );
+		query.addGroup( g1 );
+
+		// grouping levels: store
+		GroupDefinition g2 = new GroupDefinition( "G2" );
+		g2.setKeyExpression( "dataSetRow.STORE" );
+		query.addGroup( g2 );
+
+		IBinding aggr2 = new Binding( "Runningsum",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr2.setAggrFunction( IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC );
+		aggr2.addAggregateOn( "G2" );
+		query.addBinding( aggr2 );
+
+		IBinding binding1 = new Binding( "sqrtSum",
+				new ScriptExpression( "Math.sqrt(row[\"Runningsum\"])" ) );
+		query.addBinding( binding1 );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"sqrtSum\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "sqrtSum"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile( );
+	}
+
+	/**
+	 * test sort on aggregation bindings add two bindings, one is aggregation,
+	 * another is not aggregation.
+	 * 
+	 * @throws Exception
+	 */
+	public void test8( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
+		query.addResultSetExpression( "e1", e1 );
+
+		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
+		query.addResultSetExpression( "e2", e2 );
+
+		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		query.addResultSetExpression( "e3", e3 );
+
+		ScriptExpression e4 = new ScriptExpression( "dataSetRow.SKU" );
+		query.addResultSetExpression( "e4", e4 );
+
+		ScriptExpression e10 = new ScriptExpression( "dataSetRow.PRICE" );
+		query.addResultSetExpression( "e10", e10 );
+
+		ScriptExpression e11 = new ScriptExpression( "dataSetRow.QUANTITY" );
+		query.addResultSetExpression( "e11", e11 );
+
+		// grouping levels: CITY
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "dataSetRow.CITY" );
+		query.addGroup( g1 );
+
+		IBinding aggr1 = new Binding( "Rank",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr1.setAggrFunction( "RANK" );
+		aggr1.addAggregateOn( "G1" );
+		query.addBinding( aggr1 );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"Rank\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		// grouping levels: store
+		GroupDefinition g2 = new GroupDefinition( "G2" );
+		g2.setKeyExpression( "dataSetRow.STORE" );
+		query.addGroup( g2 );
+
+		IBinding aggr2 = new Binding( "Runningsum",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr2.setAggrFunction( IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC );
+		aggr2.addAggregateOn( "G2" );
+		query.addBinding( aggr2 );
+
+		IBinding binding1 = new Binding( "sqrtSum",
+				new ScriptExpression( "Math.sqrt(row[\"Runningsum\"])" ) );
+		query.addBinding( binding1 );
+
+		sort = new SortDefinition( );
+		sort.setExpression( "row[\"Runningsum\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "Rank", "sqrtSum"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile( );
+	}
+
+	/**
+	 * test sort on aggregation bindings add a aggregation binding, add filter
+	 * 
+	 * @throws Exception
+	 */
+	public void test9( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
+		query.addResultSetExpression( "e1", e1 );
+
+		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
+		query.addResultSetExpression( "e2", e2 );
+
+		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		query.addResultSetExpression( "e3", e3 );
+
+		ScriptExpression e4 = new ScriptExpression( "dataSetRow.SKU" );
+		query.addResultSetExpression( "e4", e4 );
+
+		ScriptExpression e10 = new ScriptExpression( "dataSetRow.PRICE" );
+		query.addResultSetExpression( "e10", e10 );
+
+		ScriptExpression e11 = new ScriptExpression( "dataSetRow.QUANTITY" );
+		query.addResultSetExpression( "e11", e11 );
+
+		// grouping levels: CITY
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "dataSetRow.CITY" );
+		query.addGroup( g1 );
+
+		IBinding aggr1 = new Binding( "Rank",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr1.setAggrFunction( "RANK" );
+		aggr1.addAggregateOn( "G1" );
+		query.addBinding( aggr1 );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"Rank\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		IConditionalExpression filter = new ConditionalExpression( "dataSetRow.CITY",
+				IConditionalExpression.OP_EQ,
+				"\"LONDON\"" );
+
+		FilterDefinition filterDefn = new FilterDefinition( filter );
+		query.addFilter( filterDefn );
+
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "Rank"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile( );
+	}
+
+	/**
+	 * test sort on aggregation bindings add a computed column, the binding
+	 * which use bind with a aggregation. e,g, aggr is a aggregation, then
+	 * define a binding bind(aggr), then add a computed column sqrt(aggr),
+	 * 
+	 * @throws Exception
+	 */
+	public void test10( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
+		query.addResultSetExpression( "e1", e1 );
+
+		ScriptExpression e2 = new ScriptExpression( "dataSetRow.STORE" );
+		query.addResultSetExpression( "e2", e2 );
+
+		ScriptExpression e3 = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		query.addResultSetExpression( "e3", e3 );
+
+		ScriptExpression e4 = new ScriptExpression( "dataSetRow.SKU" );
+		query.addResultSetExpression( "e4", e4 );
+
+		ScriptExpression e10 = new ScriptExpression( "dataSetRow.PRICE" );
+		query.addResultSetExpression( "e10", e10 );
+
+		ScriptExpression e11 = new ScriptExpression( "dataSetRow.QUANTITY" );
+		query.addResultSetExpression( "e11", e11 );
+
+		// grouping levels: CITY
+		GroupDefinition g1 = new GroupDefinition( "G1" );
+		g1.setKeyExpression( "dataSetRow.CITY" );
+		query.addGroup( g1 );
+
+		IBinding aggr2 = new Binding( "Runningsum",
+				new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		aggr2.setAggrFunction( IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC );
+		aggr2.addAggregateOn( "G1" );
+		query.addBinding( aggr2 );
+
+		IBinding bind1 = new Binding( "bind1",
+				new ScriptExpression( "row[\"Runningsum\"]" ) );
+		query.addBinding( bind1 );
+
+		IBinding binding2 = new Binding( "sqrtBind1",
+				new ScriptExpression( "Math.sqrt(row[\"bind1\"])" ) );
+		query.addBinding( binding2 );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"sqrtBind1\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		String[] exprs = new String[]{
+				"e1", "e2", "e3", "e4", "e10", "e11", "sqrtBind1"
+		};
+
+		outputQueryResult( executeQuery( query ), exprs );
+		checkOutputFile( );
 	}
 	
 	/*
