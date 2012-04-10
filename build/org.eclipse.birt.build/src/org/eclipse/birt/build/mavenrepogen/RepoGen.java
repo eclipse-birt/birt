@@ -99,10 +99,44 @@ public class RepoGen
 		this.rootFileName = rootFileName;
 		externalDependencies = new HashMap<String, ExternalDependency>();
 		addExternalDependency("commons-cli-1.0.jar", "commons-cli", "commons-cli", "1.0");
-		addExternalDependency("org.eclipse.core.resources_3.7.101.v20120125-1505.jar",
-			"org.jibx.config.3rdparty.org.eclipse", "org.eclipse.core.resources",
-			"3.7.101.v20120125-1505");
+		//addExternalDependency("org.eclipse.core.resources_3.7.101.v20120125-1505.jar","org.jibx.config.3rdparty.org.eclipse", "org.eclipse.core.resources","3.7.101.v20120125-1505");
 		addExternalDependency("flute.jar", "org.milyn", "flute", "1.3");
+		// below for 3.7.2 release
+		addExternalDependency("com.lowagie.text-2.1.7.jar","org.eclipse.birt.runtime.3_7_1","com.lowagie.text","2.1.7");
+		addExternalDependency("derby-10.5.1000001.jar","org.eclipse.birt.runtime.3_7_1","derby","10.5.1000001");
+		addExternalDependency("org.mozilla.javascript-1.7.2.jar","org.eclipse.birt.runtime.3_7_1","org.mozilla.javascript","1.7.2");
+		addExternalDependency("javax.wsdl-1.5.1.jar","org.eclipse.birt.runtime.3_7_1","javax.wsdl","1.5.1");
+		addExternalDependency("org.apache.batik.bridge-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.bridge","1.6.0");
+		addExternalDependency("org.apache.batik.svggen-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.svggen","1.6.0");
+		addExternalDependency("org.apache.batik.ext.awt-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.ext.awt","1.6.0");
+		addExternalDependency("org.apache.batik.css-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.css","1.6.0");
+		addExternalDependency("org.apache.batik.dom-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.dom","1.6.0");
+		addExternalDependency("org.apache.batik.parser-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.parser","1.6.0");
+		addExternalDependency("org.apache.batik.util.gui-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.util.gui","1.6.0");
+		addExternalDependency("org.apache.batik.dom.svg-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.dom.svg","1.6.0");
+		addExternalDependency("org.apache.batik.xml-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.xml","1.6.0");
+		addExternalDependency("org.apache.batik.pdf-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.pdf","1.6.0");
+        addExternalDependency("org.apache.batik.transcoder-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.transcoder","1.6.0");
+        addExternalDependency("org.apache.batik.util-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.util","1.6.0");
+        addExternalDependency("org.apache.commons.codec-1.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.commons.codec","1.3.0");
+        addExternalDependency("org.apache.xerces-2.9.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xerces","2.9.0");
+        addExternalDependency("org.apache.xml.resolver-1.2.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xml.resolver","1.2.0");
+        addExternalDependency("org.apache.xml.serializer-2.7.1.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xml.serializer","2.7.1");
+        addExternalDependency("org.eclipse.core.contenttype-3.4.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.contenttype","3.4.100");
+        addExternalDependency("org.eclipse.core.expressions-3.4.300.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.expressions","3.4.300");
+        addExternalDependency("org.eclipse.core.filesystem-1.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.filesystem","1.3.100");
+        addExternalDependency("org.eclipse.core.runtime-3.7.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.runtime","3.7.0");
+        addExternalDependency("org.eclipse.datatools.enablement.mysql-1.0.2.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.datatools.enablement.mysql","1.0.2");
+        addExternalDependency("org.eclipse.equinox.app-1.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.app","1.3.100");
+        addExternalDependency("org.eclipse.equinox.common-3.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.common","3.6.0");
+        addExternalDependency("org.eclipse.equinox.registry-3.5.101.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.registry","3.5.101");
+        addExternalDependency("org.eclipse.osgi.services-3.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.osgi.services","3.3.0");
+        addExternalDependency("org.eclipse.update.configurator-3.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.update.configurator","3.3.100");
+        addExternalDependency("org.w3c.css.sac-1.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.css.sac","1.3.0");
+        addExternalDependency("org.w3c.dom.smil-1.0.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.smil","1.0.0");
+        addExternalDependency("org.w3c.dom.svg-1.1.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.svg","1.1.0");
+        addExternalDependency("Tidy-1.jar","org.eclipse.birt.runtime.3_7_1","Tidy","1");
+
 	}
 
 	private void addExternalDependency(final String fileName, final String groupId,
@@ -410,13 +444,20 @@ public class RepoGen
 		exec(
 			new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
 				jarFile.getName() }, versionDir);
+		exec(
+				new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
+					sourceFile.getName() }, versionDir);
+		exec(
+				new String[] { "/usr/bin/gpg", "-ab", "--batch", "--passphrase", passphrase,
+					javadocFile.getName() }, versionDir);
 		// it would be nice to bundle the entire library in one jar but Sonatype doesn't
 		// seem to want to accept multiple POM's in a single bundle.
-		createJar(new File(versionDir, "bundle.jar"), new File[] { pomFile, jarFile,
+		createJar(new File(versionDir, "bundle.jar"), new File[] { pomFile, jarFile,javadocFile,sourceFile,
 			new File(pomFile.getAbsolutePath() + ".asc"),
-			new File(jarFile.getAbsolutePath() + ".asc") });
-		//System.out.println( fileInfo.getArtifactId() );
-		//System.out.println( fileInfo.getVersion(snapshot));
+			new File(jarFile.getAbsolutePath() + ".asc"),
+			new File(javadocFile.getAbsolutePath() + ".asc"),
+			new File(sourceFile.getAbsolutePath() + ".asc")});
+		
 
 		templatePomFileWriter.println("   <dependency>");
 		templatePomFileWriter.print("    <groupId>");
@@ -577,35 +618,6 @@ public class RepoGen
 				pw.print(jarFile);
 				pw.println("\"/>");
 				pw.println("  </artifact:mvn>");
-				
-				pw.println("");
-				pw.println("  <!-- deploy source jars -->");
-				pw.println("  <artifact:mvn>");
-				pw.println("   <arg value=\"org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file\"/>");
-				pw.println("   <arg value=\"-Durl=${maven-snapshots-repository-url}\"/>");
-				pw.println("   <arg value=\"-DrepositoryId=${maven-snapshots-repository-id}\"/>");
-				pw.print("   <arg value=\"-DpomFile=");
-				pw.print(pomFile);
-				pw.println("\"/>");
-				pw.print("   <arg value=\"-Dfile=");
-				pw.print(sourceFile);
-				pw.println("\"/>");
-				pw.println("   <arg value=\"-Dclassifier=sources\"/>");
-				pw.println("  </artifact:mvn>");
-				pw.println("");
-				pw.println("  <!-- deploy source jars -->");
-				pw.println("  <artifact:mvn>");
-				pw.println("   <arg value=\"org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file\"/>");
-				pw.println("   <arg value=\"-Durl=${maven-snapshots-repository-url}\"/>");
-				pw.println("   <arg value=\"-DrepositoryId=${maven-snapshots-repository-id}\"/>");
-				pw.print("   <arg value=\"-DpomFile=");
-				pw.print(pomFile);
-				pw.println("\"/>");
-				pw.print("   <arg value=\"-Dfile=");
-				pw.print(javadocFile);
-				pw.println("\"/>");
-				pw.println("   <arg value=\"-Dclassifier=javadoc\"/>");
-				pw.println("  </artifact:mvn>");
 				pw.println(" </target>");
 			}
 			else
@@ -630,7 +642,7 @@ public class RepoGen
 				pw.println("");
 				pw.println("  <!-- deploy source jars -->");
 				pw.println("  <artifact:mvn>");
-				pw.println("   <arg value=\"org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file\"/>");
+				pw.println("   <arg value=\"org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file\" />");
 				pw.println("   <arg value=\"-Durl=${maven-staging-repository-url}\"/>");
 				pw.println("   <arg value=\"-DrepositoryId=${maven-staging-repository-id}\"/>");
 				pw.print("   <arg value=\"-DpomFile=");
@@ -645,7 +657,7 @@ public class RepoGen
 				pw.println("");
 				pw.println("  <!-- deploy javadoc jars -->");
 				pw.println("  <artifact:mvn>");
-				pw.println("   <arg value=\"org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file\"/>");
+				pw.println("   <arg value=\"org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file\" />");
 				pw.println("   <arg value=\"-Durl=${maven-staging-repository-url}\"/>");
 				pw.println("   <arg value=\"-DrepositoryId=${maven-staging-repository-id}\"/>");
 				pw.print("   <arg value=\"-DpomFile=");
