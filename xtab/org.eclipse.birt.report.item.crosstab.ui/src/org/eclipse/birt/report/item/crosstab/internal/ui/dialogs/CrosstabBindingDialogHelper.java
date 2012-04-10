@@ -542,6 +542,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				ITimeFunction function = getTimeFunctionByDisplaName( getBinding( ).getCalculationType( ) );
+				if (function == null)
+				{
+					return;
+				}
 				String name = function.getName( );
 				int itemIndex = getItemIndex( names, name );
 				if ( itemIndex >= 0 )
@@ -2234,39 +2238,43 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if ( isTimePeriod( ) )
 			{
 				ITimeFunction timeFunction = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
-				List<IArgumentInfo> infos = timeFunction.getArguments( );
-
-				for ( int i = 0; i < infos.size( ); i++ )
+				if (timeFunction != null)
 				{
-					String paramValue = getControlValue( calculationParamsMap.get( infos.get( i )
-							.getName( ) ) );
-					if ( paramValue == null
-							|| paramValue.trim( ).equals( "" ) && !infos.get( i ).isOptional( ) ) //$NON-NLS-1$
+					
+					List<IArgumentInfo> infos = timeFunction.getArguments( );
+	
+					for ( int i = 0; i < infos.size( ); i++ )
+					{
+						String paramValue = getControlValue( calculationParamsMap.get( infos.get( i )
+								.getName( ) ) );
+						if ( paramValue == null
+								|| paramValue.trim( ).equals( "" ) && !infos.get( i ).isOptional( ) ) //$NON-NLS-1$
+						{
+							dialog.setCanFinish( false );
+							return;
+						}
+	
+					}
+					String dimensionName = getTimeDimsionName( );
+					if ( !isUseDimension( dimensionName )
+							&& recentButton.getSelection( ) )
+					{
+						this.messageLine.setText( Messages.getString( "CrosstabBindingDialogHelper.timeperiod.wrongdate" ) ); //$NON-NLS-1$
+						this.messageLine.setImage( PlatformUI.getWorkbench( )
+								.getSharedImages( )
+								.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+						dialog.setCanFinish( false );
+						return;
+					}
+					if ( dateSelectionButton.getSelection( )
+							&& ( dateText.getText( ) == null || dateText.getText( )
+									.trim( )
+									.equals( "" ) ) ) //$NON-NLS-1$
+	
 					{
 						dialog.setCanFinish( false );
 						return;
 					}
-
-				}
-				String dimensionName = getTimeDimsionName( );
-				if ( !isUseDimension( dimensionName )
-						&& recentButton.getSelection( ) )
-				{
-					this.messageLine.setText( Messages.getString( "CrosstabBindingDialogHelper.timeperiod.wrongdate" ) ); //$NON-NLS-1$
-					this.messageLine.setImage( PlatformUI.getWorkbench( )
-							.getSharedImages( )
-							.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
-					dialog.setCanFinish( false );
-					return;
-				}
-				if ( dateSelectionButton.getSelection( )
-						&& ( dateText.getText( ) == null || dateText.getText( )
-								.trim( )
-								.equals( "" ) ) ) //$NON-NLS-1$
-
-				{
-					dialog.setCanFinish( false );
-					return;
 				}
 			}
 			dialogCanFinish( );
