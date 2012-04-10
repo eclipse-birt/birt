@@ -27,6 +27,7 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -952,7 +953,7 @@ public class ExpressionProvider implements ISortableExpressionProvider,
 			return ((IScriptFunctionCategory) element).getDescription();
 		} else if (element instanceof ComputedColumnHandle) {
 			return TOOLTIP_BINDING_PREFIX
-					+ ((ComputedColumnHandle) element).getExpression();
+					+ DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
 		} else if (element instanceof InheritedComputedColumnHandle) {
 			return TOOLTIP_BINDING_PREFIX
 					+ ((InheritedComputedColumnHandle) element).getHandle()
