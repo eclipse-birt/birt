@@ -297,24 +297,24 @@ public class QueryExecutor
 				IFilterDefinition filter = (IFilterDefinition) finalFilters.get( i );
 				boolean find = false;
 				String bindingName = OlapExpressionCompiler.getReferencedScriptObject(filter.getExpression(), ScriptConstants.DATA_BINDING_SCRIPTABLE );
-				if(executor.getCubeQueryDefinition().getCubeOperations().length>0)
+				if( executor.getCubeQueryDefinition().getCubeOperations( ).length > 0 )
 				{
-					ICubeOperation[] operations = executor.getCubeQueryDefinition().getCubeOperations();
+					ICubeOperation[] operations = executor.getCubeQueryDefinition( ).getCubeOperations( );
 					for( int j = 0 ; j < operations.length;j++)
 					{
-					if ( operations[j] instanceof AddingNestAggregations )
-					{
-						AddingNestAggregations aggr = (AddingNestAggregations)operations[i];
-						IBinding[] bindings = aggr.getNewBindings();
-						for(int k = 0 ; k<bindings.length;k++)
+						if ( operations[j] instanceof AddingNestAggregations )
 						{
-							if(bindings[k].getBindingName().equals(bindingName))
+							AddingNestAggregations aggr = (AddingNestAggregations)operations[i];
+							IBinding[] bindings = aggr.getNewBindings( );
+							for(int k = 0 ; k < bindings.length ; k++ )
 							{
-								find = true;
-								break;
+								if(bindings[k].getBindingName().equals( bindingName ) )
+								{
+									find = true;
+									break;
+								}
 							}
 						}
-					}
 					}
 					
 				}
@@ -808,7 +808,9 @@ public class QueryExecutor
 		rs = coe.execute( rs, stopSign );
 		int rsLenAfter = rs.length;
 		
-		if (rsLenBefore != rsLenAfter) 
+		List noAggrUpdateFilters = getNoAggrUpdateFilters(executor
+				.getCubeQueryDefinition().getFilters());
+		if (rsLenBefore < rsLenAfter && noAggrUpdateFilters.size() > 0 ) 
 		{
 			IAggregationResultSet[] result = new IAggregationResultSet[rsLenAfter- rsLenBefore];
 
@@ -817,8 +819,7 @@ public class QueryExecutor
 				result[i] = rs[rsLenBefore + i];
 			}
 
-			result = applyNoAggrUpdateFilters(getNoAggrUpdateFilters(executor
-					.getCubeQueryDefinition().getFilters()), executor, result,
+			result = applyNoAggrUpdateFilters( noAggrUpdateFilters, executor, result,
 					view.getCube(), fetcher, true);
 
 			for (int i = 0; i < result.length; i++) 
