@@ -124,26 +124,26 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
             function = (BaseTimeFunction) function;
 			if ( function.getName( ).equals( IBuildInBaseTimeFunction.PREVIOUS_MONTH ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1,ArgumentLayout.ALIGN_INLINE_NONE));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1));
 			}
 			else
 			if( function.getName( ).equals( IBuildInBaseTimeFunction.PREVIOUS_QUARTER ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1,ArgumentLayout.ALIGN_INLINE_NONE) );
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1) );
 			}
 			else
 			if( function.getName( ).equals( IBuildInBaseTimeFunction.PREVIOUS_YEAR ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1,ArgumentLayout.ALIGN_INLINE_NONE ));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1 ));
 			}
 			else if ( function.getName( ).equals( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1,ArgumentLayout.ALIGN_INLINE_NONE));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1));
 			}
 			else
 			if( function.getName( ).equals( IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1,ArgumentLayout.ALIGN_INLINE_NONE));			
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1));			
 			}
 			else
 			if( function.getName( ).equals( IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR ) )
@@ -162,7 +162,6 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 			else if( function.getName( ).equals( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE ) )
 			{
 				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1));
-				
 			}
 			else if( function.getName( ).equals( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE ))
 			{
@@ -170,20 +169,17 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 			}
 			else if ( function.getName( ).equals( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO ) )
 			{
-
-				layoutarguments.add( layout1 );
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD2));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1));
 				
-				
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD2, ArgumentLayout.ALIGN_INLINE_BEFORE));
 				layoutarguments.add( new ArgumentLayout(IArgumentInfo.PERIOD_2,ArgumentLayout.LIGN_INLINEL_AFTER ));
 			}
 			else if ( function.getName( ).equals( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ) )
 			{
-		
-				layoutarguments.add( layout1 );
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD2 ) );
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1));
 				
-				layoutarguments.add(new ArgumentLayout( IArgumentInfo.PERIOD_2,ArgumentLayout.LIGN_INLINEL_AFTER));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD2, ArgumentLayout.ALIGN_INLINE_BEFORE));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.PERIOD_2, ArgumentLayout.LIGN_INLINEL_AFTER));
 			}
 			else if( function.getName( ).equals( IBuildInBaseTimeFunction.TRAILING_N_MONTHS ))
 			{
@@ -195,18 +191,16 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 			}
 			else if ( function.getName( ).equals( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1 ) );
-							
-				layoutarguments.add(new ArgumentLayout( IArgumentInfo.PERIOD_1, ArgumentLayout.ALIGN_INLINE_NONE));
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD2) );
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1, ArgumentLayout.ALIGN_INLINE_BEFORE ) );
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.PERIOD_1, ArgumentLayout.ALIGN_INLINE_NONE));
 
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.PERIOD_2,ArgumentLayout.LIGN_INLINEL_AFTER) );		
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD2, ArgumentLayout.ALIGN_INLINE_BEFORE) );
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.PERIOD_2,ArgumentLayout.LIGN_INLINEL_AFTER) );
 			}
 			else if ( function.getName( ).equals( IBuildInBaseTimeFunction.NEXT_N_PERIODS ) )
 			{
-				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1) );
-
-				layoutarguments.add(new ArgumentLayout( IArgumentInfo.PERIOD_1,ArgumentLayout.ALIGN_INLINE_NONE));
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.N_PERIOD1,ArgumentLayout.ALIGN_INLINE_BEFORE) );
+				layoutarguments.add( new ArgumentLayout( IArgumentInfo.PERIOD_1,ArgumentLayout.ALIGN_INLINE_NONE));
 			}
 			return layoutarguments;
 	}	

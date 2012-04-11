@@ -18,11 +18,7 @@ public class ArgumentLayout implements IArgumentLayout
 
 	private int layoutHint;
 	private String name;
-	public static final int ALIGN_BLOCK = 0x0;
-	public static final int ALIGN_INLINE = 0x10;
-	public static final int ALIGN_INLINE_BEFORE = 0x10;
-	public static final int LIGN_INLINEL_AFTER = 0x11;
-	public static final int ALIGN_INLINE_NONE = 0x12;
+
 	
 	public ArgumentLayout( String name,int layoutHint )
 	{
