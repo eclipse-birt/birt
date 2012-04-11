@@ -38,6 +38,8 @@ import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.TimeFunctionManager;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.data.DataService;
+import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgumentLayout;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
@@ -721,7 +723,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		GridLayout layout = new GridLayout( );
 		// layout.horizontalSpacing = layout.verticalSpacing = 0;
 		//layout.marginWidth = layout.marginHeight = 0;
-		layout.numColumns = 4;
+		layout.numColumns = 5;
 		Layout parentLayout = calculationComposite.getParent( ).getLayout( );
 		if ( parentLayout instanceof GridLayout )
 			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
@@ -735,7 +737,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		
 		calculationType = new Combo( calculationComposite, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
+		gd.horizontalSpan = 4;
 		calculationType.setLayoutData( gd );
 		calculationType.setVisibleItemCount( 30 );
 
@@ -784,6 +786,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			else
 			{
+				List<IArgumentLayout> argLayouts = DataService.getInstance().getArgumentLayout(function, infos);
+
 				( (GridData) calculationComposite.getLayoutData( ) ).exclude = false;
 				( (GridData) calculationComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
 				calculationComposite.setVisible( true );
@@ -809,66 +813,33 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 				for ( int i = 0; i < infos.size( ); i++ )
 				{
-					final String name = infos.get( i ).getName( );
-					Label lblParam = new Label( calculationComposite, SWT.NONE );
-					lblParam.setText( infos.get( i ).getDisplayName( ) + ":" ); //$NON-NLS-1$
-					//if ( !infos.get( i ).isOptional( ) )
-					//	lblParam.setText( "*" + lblParam.getText( ) );
-					GridData gd = new GridData( );
-					gd.widthHint = lblParam.computeSize( SWT.DEFAULT,
-							SWT.DEFAULT ).x;
-					if ( gd.widthHint < width )
-						gd.widthHint = width;
-					lblParam.setLayoutData( gd );
-
-					final List<Period_Type> types = infos.get( i )
-							.getPeriodChoices( );
-					if ( types != null && types.size( ) > 0 )
+					IArgumentInfo info = infos.get( i );
+					IArgumentLayout argLayout = argLayouts.get(i);
+					int layoutHint = argLayout.getLayoutHint();
+					
+					final List<Period_Type> types = info.getPeriodChoices( );
+					final String name = info.getName( );
+					final String displayName = info.getDisplayName();
+					Label lblParam = null;
+					
+					if(IArgumentLayout.ALIGN_BLOCK == layoutHint)
 					{
-						final Combo cmbDataField = new Combo( calculationComposite,
-								SWT.BORDER | SWT.READ_ONLY );
-						cmbDataField.setLayoutData( GridDataFactory.fillDefaults( )
-								.grab( true, false )
-								.span( 3, 1 )
-								.create( ) );
-						cmbDataField.setVisibleItemCount( 30 );
-						initCalculationDataFields( cmbDataField, name, types );
-
-						cmbDataField.addModifyListener( new ModifyListener( ) {
-
-							public void modifyText( ModifyEvent e )
-							{
-								modifyDialogContent( );
-								validate( );
-
-								calculationParamsValueMap.put( name,
-										cmbDataField.getText( ) );
-							}
-						} );
-
-						calculationParamsMap.put( name, cmbDataField );
+						createPeriodLabelPart(lblParam, displayName, false);
+						createPeriodPart(name, types, 4);
 					}
-					else
+					else if (IArgumentLayout.ALIGN_INLINE_BEFORE == layoutHint)
 					{
-						final Text txtParam = new Text( calculationComposite,
-								SWT.BORDER );
-						initCalculationTextFild( txtParam, name );
-						txtParam.addModifyListener( new ModifyListener( ) {
-
-							public void modifyText( ModifyEvent e )
-							{
-								modifyDialogContent( );
-								validate( );
-								calculationParamsValueMap.put( name,
-										txtParam.getText( ) );
-							}
-						} );
-						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-						gridData.horizontalIndent = 0;
-						gridData.horizontalSpan = 2;
-						txtParam.setLayoutData( gridData );
-						createExpressionButton( calculationComposite, txtParam );
-						calculationParamsMap.put( name, txtParam );
+						createPeriodLabelPart(lblParam, displayName, false);
+						createPeriodPart(name, types, 1);
+					}
+					else if (IArgumentLayout.LIGN_INLINEL_AFTER == layoutHint)
+					{
+						createPeriodPart(name, types, 1);
+						createPeriodLabelPart(lblParam, displayName, true);
+					}
+					else if (IArgumentLayout.ALIGN_INLINE_NONE == layoutHint)
+					{
+						createPeriodPart(name, types, 2);
 					}
 				}
 			}
@@ -878,6 +849,83 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		setContentSize( composite );
 	}
 
+	/**
+	 * Creates the label control part of an argument info.
+	 * @param lblParam The Label control
+	 * @param displayName The display text
+	 * @param width the width hint of the control
+	 * @param isPlacedAfter before or after the Period part
+	 */
+	private void createPeriodLabelPart(Label lblParam, String displayName, boolean isPlacedAfter)
+	{
+		lblParam = new Label( calculationComposite, SWT.NONE );
+		lblParam.setText( displayName + (isPlacedAfter ? "" : ":") ); //$NON-NLS-1$ //$NON-NLS-2$
+		//if ( !infos.get( i ).isOptional( ) )
+		//	lblParam.setText( "*" + lblParam.getText( ) );
+		GridData gd = new GridData( );
+		gd.widthHint = lblParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		//if ( gd.widthHint < width )
+		//	gd.widthHint = width;
+		lblParam.setLayoutData( gd );
+	}
+	
+	/**
+	 * Creates the Period control part of an argument info.
+	 * @param name The name of the argument info
+	 * @param types The period types
+	 * @param numColumns Number of columns the control takes
+	 */
+	private void createPeriodPart(final String name, List<Period_Type> types, int numColumns)
+	{
+		if ( types != null && types.size( ) > 0 )
+		{
+			final Combo cmbDataField = new Combo( calculationComposite,
+					SWT.BORDER | SWT.READ_ONLY );
+			cmbDataField.setLayoutData( GridDataFactory.fillDefaults( )
+					.grab( true, false )
+					.span( numColumns, 1 )
+					.create( ) );
+			cmbDataField.setVisibleItemCount( 30 );
+			initCalculationDataFields( cmbDataField, name, types );
+
+			cmbDataField.addModifyListener( new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					modifyDialogContent( );
+					validate( );
+
+					calculationParamsValueMap.put( name,
+							cmbDataField.getText( ) );
+				}
+			} );
+
+			calculationParamsMap.put( name, cmbDataField );
+		}
+		else
+		{
+			final Text txtParam = new Text( calculationComposite,
+					SWT.BORDER );
+			initCalculationTextFild( txtParam, name );
+			txtParam.addModifyListener( new ModifyListener( ) {
+
+				public void modifyText( ModifyEvent e )
+				{
+					modifyDialogContent( );
+					validate( );
+					calculationParamsValueMap.put( name,
+							txtParam.getText( ) );
+				}
+			} );
+			GridData gridData = new GridData( SWT.FILL, SWT.FILL, true, false );
+			//gridData.horizontalIndent = 0;
+			//gridData.horizontalSpan = 2;
+			txtParam.setLayoutData( gridData );
+			createExpressionButton( calculationComposite, txtParam );
+			calculationParamsMap.put( name, txtParam );
+		}
+	}
+	
 	private void initCalculationTextFild( Text txtParam, String name )
 	{
 		if ( calculationParamsValueMap.containsKey( name ) )
