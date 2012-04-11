@@ -15,6 +15,7 @@ package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.Map;
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
 import org.eclipse.birt.report.data.oda.excel.impl.Driver;
 import org.eclipse.birt.report.data.oda.excel.impl.util.ExcelFileReader;
+import org.eclipse.birt.report.data.oda.excel.impl.util.ResourceLocatorUtil;
 import org.eclipse.birt.report.data.oda.excel.impl.util.querytextutil.ColumnsInfoUtil;
 import org.eclipse.birt.report.data.oda.excel.impl.util.querytextutil.QueryTextUtil;
 import org.eclipse.birt.report.data.oda.excel.ui.i18n.Messages;
@@ -144,7 +146,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<String[]>();
 	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<String[]>();
 
-	private ResourceIdentifiers ri;
 	/**
 	 * @param pageName
 	 */
@@ -153,7 +154,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		setTitle(pageName);
 		createColumnTypeMap();
 		setMessage(DEFAULT_MESSAGE);
-
 		setPageComplete(false);
 	}
 
@@ -881,12 +881,25 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		String sourcePath = dataSourceProps
 				.getProperty(ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY);
 		if (sourcePath != null) {
-			File cpFile = new File(sourcePath);
-			if ( !cpFile.isAbsolute( ) )
-			{
-				cpFile = new File( getResourceFolder( )
-						+ File.separator + cpFile );
+
+			URI uri = null;
+			try {
+				ResourceIdentifiers ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
+				uri = ResourceLocatorUtil.resolvePath(ri, sourcePath);
+			} catch (OdaException e) {
+				setMessage(Messages
+						.getFormattedString(
+								e.getMessage( ), new Object[] { sourcePath })); //$NON-NLS-1$
+				return;
 			}
+			if (uri == null)
+			{
+				setMessage(Messages
+						.getFormattedString(
+								"ui.ExcelFileNotFound", new Object[] { sourcePath })); //$NON-NLS-1$
+				return;
+			}
+			File cpFile = new File(uri);
 			if (!cpFile.exists()) {
 				setMessage(
 						Messages.getFormattedString(
@@ -910,22 +923,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			currentSheetName = dataSetDesign.getPublicProperties().getProperty(
 					ExcelODAConstants.CONN_WORKSHEETS_PROP);
 		}
-	}
-
-	private String getResourceFolder( )
-	{
-		if ( ri == null )
-		{
-			ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
-		}
-		if ( ri != null )
-		{
-			if ( ri.getApplResourceBaseURI( ) != null )
-			{
-				return new File( ri.getApplResourceBaseURI( ) ).getAbsolutePath( );
-			}
-		}
-		return null;
 	}
 
 	static class ExcelFileFilter implements FilenameFilter {
@@ -954,12 +951,28 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				return;
 			}
 
-			File folder = new File(odaHome);
-			if ( !folder.isAbsolute( ) )
+			URI uri = null;
+			try
 			{
-				folder = new File( getResourceFolder( )
-						+ File.separator + folder );
+				ResourceIdentifiers ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
+				uri = ResourceLocatorUtil.resolvePath( ri, odaHome );
 			}
+			catch ( OdaException e )
+			{
+				setMessage( Messages.getFormattedString( "ui.ExcelFileNotFound", new Object[]{odaHome} ) ); //$NON-NLS-1$
+				disableAll( );
+				return;
+			}
+			if (uri == null)
+			{
+				setMessage(Messages
+						.getFormattedString(
+								"ui.ExcelFileNotFound", new Object[] { odaHome })); //$NON-NLS-1$
+				disableAll();
+				return;
+			}
+
+			File folder = new File(uri);
 			if (folder.isDirectory() && folder.exists()) {
 				File[] files = folder.getAbsoluteFile().listFiles(
 						new ExcelFileFilter());

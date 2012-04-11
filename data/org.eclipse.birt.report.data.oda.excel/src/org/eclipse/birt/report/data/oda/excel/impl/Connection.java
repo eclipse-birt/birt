@@ -106,8 +106,9 @@ public class Connection implements IConnection {
 		if (!isOpen())
 			throw new OdaException(
 					Messages.getString("common_CONNECTION_HAS_NOT_OPEN")); //$NON-NLS-1$
-
-		return new ExcelFileQuery(connProperties, this);
+		ExcelFileQuery excelFileQuery = new ExcelFileQuery(connProperties, this);
+		excelFileQuery.setAppContext( appContext );
+		return excelFileQuery;
 	}
 
 	public ResourceIdentifiers getResourceIdentifiers( )

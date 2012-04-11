@@ -21,6 +21,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -81,6 +82,8 @@ public class ExcelFileQuery implements IQuery {
 	private String[] columnLabels;
 
 	private boolean isInvalidQuery;
+
+	private Map appContext = null;
 
 	public ExcelFileQuery(Properties connProperties, Connection connection)
 			throws OdaException {
@@ -194,7 +197,7 @@ public class ExcelFileQuery implements IQuery {
 		// from a xlsx file
 		ExcelFileSource excelFileReader = new ExcelFileSource(connProperties,
 				currentTableName, worksheetNames, maxRowsToRead, null,
-				null, connection);
+				null, appContext);
 
 		String[] allColumnNames;
 		String[] allColumnTypes;
@@ -490,7 +493,7 @@ public class ExcelFileQuery implements IQuery {
         // from a xlsx file
 		ExcelFileSource excelFileSource = new ExcelFileSource(
 				this.connProperties, tableName, worksheetNames,
-				maxRowsToRead, null, null, connection);
+				maxRowsToRead, null, null, appContext);
 		try {
 			if (!(metaDataType.trim().equalsIgnoreCase(NAME_LITERAL) || metaDataType
 					.trim().equalsIgnoreCase(TYPE_LITERAL)))
@@ -624,7 +627,7 @@ public class ExcelFileQuery implements IQuery {
 	 * .Object)
 	 */
 	public void setAppContext(Object context) throws OdaException {
-		// do nothing; assumes no support for pass-through context
+		this.appContext = (Map) context;
 	}
 
 	/*
@@ -656,7 +659,7 @@ public class ExcelFileQuery implements IQuery {
 		return new ResultSet(new ExcelFileSource(this.connProperties,
 				this.currentTableName, worksheetNames,
 				this.maxRows, this.resultSetMetaData,
-				this.resultSetMetaDataHelper, connection), this.resultSetMetaData);
+				this.resultSetMetaDataHelper, appContext), this.resultSetMetaData);
 	}
 
 	/*

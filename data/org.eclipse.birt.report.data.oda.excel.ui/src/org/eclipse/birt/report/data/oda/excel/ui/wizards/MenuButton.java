@@ -69,11 +69,6 @@ public class MenuButton extends Composite
 
 	private static final int WIDTH_MORE = 2 * MARGIN_GAP + TRIANGLE_WIDTH + 1;
 
-	public void setText( String text )
-	{
-		this.text = text;
-		layoutControl( );
-	}
 
 	public void setToolTipText( String string )
 	{
@@ -95,6 +90,7 @@ public class MenuButton extends Composite
 		int height;
 
 		Button tmp = new Button( this, button.getStyle( ) );
+		String text = button.getText( );
 		if ( text != null )
 		{
 			tmp.setText( text );
@@ -169,16 +165,16 @@ public class MenuButton extends Composite
 		button.redraw( );
 	}
 
-	public MenuButton( Composite parent, int style )
+	public MenuButton( Composite parent, int style, String text )
 	{
-		this( parent, style, false );
+		this( parent, style, false, text );
 	}
 
 	private boolean isFixed = true;
 
 	private boolean mouseSelection = false;
 
-	public MenuButton( Composite parent, int style, boolean fixed )
+	public MenuButton( Composite parent, int style, boolean fixed, String text )
 	{
 		super( parent, SWT.NONE );
 		isFixed = fixed;
@@ -187,6 +183,8 @@ public class MenuButton extends Composite
 		this.setLayout( layout );
 
 		button = new Button( this, style );
+		button.setText( text );
+		layoutControl( );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		button.setLayoutData( gd );
 		button.addPaintListener( new PaintListener( ) {
@@ -264,12 +262,33 @@ public class MenuButton extends Composite
 				if ( listeners == null )
 					return;
 
-				e.widget = MenuButton.this;
+				// separate the mouse click from the key press event on the button
+                boolean keyPress = false;
+                if( e.widget instanceof Button )
+                {
+                    if( ((Button)e.widget).getParent() instanceof MenuButton )
+                    {
+                        if ( menu != null )
+                        {
+                            keyPress = true;
+                            Rectangle size = button.getBounds( );
+                            menu.setLocation( button.toDisplay( new Point( 0,
+                                    size.height - 1 ) ) );
+                            menu.setVisible( true );
+                        }
+                    }
+                }
 
-				for ( int i = 0; i < listeners.size( ); i++ )
-				{
-					( (SelectionListener) listeners.get( i ) ).widgetSelected( new SelectionEvent( e ) );
-				}
+                if( !keyPress )
+                {
+                    e.widget = MenuButton.this;
+
+                    for ( int i = 0; i < listeners.size( ); i++ )
+                    {
+                        ( (SelectionListener) listeners.get( i ) ).widgetSelected( new SelectionEvent( e ) );
+                    }
+                }
+
 			}
 
 		} );

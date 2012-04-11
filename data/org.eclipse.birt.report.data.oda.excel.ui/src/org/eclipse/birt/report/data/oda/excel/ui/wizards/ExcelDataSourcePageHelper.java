@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.excel.ExcelODAConstants;
+import org.eclipse.birt.report.data.oda.excel.impl.util.ResourceLocatorUtil;
 import org.eclipse.birt.report.data.oda.excel.ui.i18n.Messages;
 import org.eclipse.birt.report.data.oda.excel.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.excel.ui.util.Utility;
@@ -55,6 +56,7 @@ public class ExcelDataSourcePageHelper {
 
 	private WizardPage wizardPage;
 	private PreferencePage propertyPage;
+    private String errorMsg = Messages.getString( "connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR" );
 
 	private transient Text folderLocation = null;
 	private transient Button typeLineCheckBox = null;
@@ -120,9 +122,9 @@ public class ExcelDataSourcePageHelper {
 
 		});
 
-		browseFolderButton = new MenuButton( composite, SWT.NONE );
-		browseFolderButton.setText( Messages.getString( "button.selectFolder.browse" ) ); //$NON-NLS-1$
-
+		browseFolderButton = new MenuButton( composite,
+				SWT.NONE,
+				Messages.getString( "button.selectFolder.browse" ) );
 		Menu menu = new Menu( composite.getShell( ), SWT.POP_UP );
 		SelectionAdapter action = new SelectionAdapter( ) {
 
@@ -415,7 +417,7 @@ public class ExcelDataSourcePageHelper {
 					int verify = verifyFileLocation( );
 					if ( verify == ERROR_FOLDER )
 					{
-						throw new OdaException( Messages.getString( "connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR" ) );//$NON-NLS-1$
+						throw new OdaException( errorMsg );//$NON-NLS-1$
 					}
 				}
 				catch ( Exception ex )
@@ -431,24 +433,36 @@ public class ExcelDataSourcePageHelper {
 	 *
 	 * @return
 	 */
-	private int verifyFileLocation( ) {
+	private int verifyFileLocation( )  {
 		int result = CORRECT_FOLDER;
 		String folderLocationValue = getFolderLocationString().trim();
 		if ( folderLocationValue.length( ) > 0 )
 		{
-			File f = new File( folderLocationValue );
-			if ( !f.isAbsolute( ) )
+			URI uri = null;
+			try
 			{
-				folderLocationValue = getResourceFolder( )
-						+ File.separator + folderLocationValue;
-				f = new File( folderLocationValue.trim( ) );
+				uri = ResourceLocatorUtil.resolvePath( ri, folderLocationValue );
 			}
+			catch ( OdaException e )
+			{
+				setMessage( e.getMessage( ), IMessageProvider.ERROR );
+				setPageComplete( false );
+				return ERROR_FOLDER;
+			}
+			if ( uri == null )
+			{
+				setMessage( Messages.getString( "ui.ExcelFileNotFound" ), IMessageProvider.ERROR ); //$NON-NLS-1$
+				setPageComplete( false );
+				return ERROR_FOLDER;
+			}
+			File f = new File( uri );
 			if ( f.exists( ) )
 			{
-				if (f.isDirectory() ) {
-					File[] files = f.getAbsoluteFile().listFiles(
-							new ExcelFileFilter());
-					if (files.length == 0)
+				if ( f.isDirectory( ) )
+				{
+					File[] files = f.getAbsoluteFile( )
+							.listFiles( new ExcelFileFilter( ) );
+					if ( files.length == 0 )
 					{
 						setMessage( Messages.getString( "error.emptyFolder" ), IMessageProvider.ERROR ); //$NON-NLS-1$
 						setPageComplete( false );
@@ -480,7 +494,7 @@ public class ExcelDataSourcePageHelper {
 		if (wizardPage == null) {
 			setPageComplete(true);
 			setMessage(
-					Messages.getString("error.invalidFlatFilePath"), IMessageProvider.ERROR); //$NON-NLS-1$
+					Messages.getString("error.invalidExcelFilePath"), IMessageProvider.ERROR); //$NON-NLS-1$
 		}
 		return result;
 	}
@@ -511,6 +525,7 @@ public class ExcelDataSourcePageHelper {
 			wizardPage.setMessage(newMessage, newType);
 		else if (propertyPage != null)
 			propertyPage.setMessage(newMessage, newType);
+		errorMsg = newMessage;
 	}
 
 	private Control getControl() {
