@@ -19,6 +19,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
@@ -178,7 +179,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 						dataHandle.setAction( (Action) newAction.get( 0 ) );
 					}
 					
-					CrosstabAdaptUtil.addLabelToHeader( levelViewHandle );
+					CrosstabUtil.addLabelToHeader( levelViewHandle );
 				}
 
 			}

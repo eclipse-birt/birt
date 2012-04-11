@@ -40,6 +40,7 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -731,5 +732,55 @@ public final class CrosstabUtil implements ICrosstabConstants
 			CrosstabReportItemHandle crosstab, int axisType )
 	{
 		return CrosstabModelUtil.getLevelList( crosstab, axisType );
+	}
+	
+	/**Add all the label to the header cell
+	 * @param reportHandle
+	 */
+	public static void addAllHeaderLabel(CrosstabReportItemHandle reportHandle)
+	{
+		for (int i=0; i<reportHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++)
+		{
+			DimensionViewHandle viewHandle = reportHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i );
+			for (int j=0; j<viewHandle.getLevelCount( ); j++)
+			{
+				addLabelToHeader( viewHandle.getLevel( j ) );
+			}
+		}
+	}
+	
+	/**Add the label to the header cell. 
+	 * @param levelHandle
+	 */
+	public static void addLabelToHeader(LevelViewHandle levelHandle)
+	{
+		if (ICrosstabConstants.COLUMN_AXIS_TYPE == levelHandle.getAxisType( ))
+		{
+			//addAllHeaderLabel( levelHandle.getCrosstab( ) );
+			return;
+		}
+		
+		DimensionViewHandle viewHandle = (DimensionViewHandle)levelHandle.getContainer( );
+		int count = CrosstabUtil.findPriorLevelCount( viewHandle ) + levelHandle.getIndex( );
+		
+		CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
+		int[] numbers = CrosstabUtil.getCrosstabHeaderRowAndColumnCount( crosstab );
+		count = (numbers[0]-1)*(numbers[1])+count;
+		if (crosstab.getHeader( count ) != null && crosstab.getHeader( count ).getContents( ).size( ) == 0)
+		{
+			LabelHandle labelHandle = crosstab.getModuleHandle( )
+					.getElementFactory( )
+					.newLabel( null );
+			try
+			{
+				labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+			
+				crosstab.getHeader( count ).addContent( labelHandle );
+			}
+			catch ( SemanticException e )
+			{
+				//Do nothing now
+			}
+		}
 	}
 }
