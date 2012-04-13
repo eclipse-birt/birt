@@ -51,7 +51,7 @@ public class LabelFigure extends ReportElementFigure
 	private boolean isFixLayout;
 
 	/**
-	 * Creates a new LabelFigure with a default MarginBorder size 3 and a
+	 * Creates a new LabelFigure with a default MarginBorder size 1 and a
 	 * FlowPage containing a TextFlow with the style WORD_WRAP_SOFT.
 	 */
 	public LabelFigure( )
