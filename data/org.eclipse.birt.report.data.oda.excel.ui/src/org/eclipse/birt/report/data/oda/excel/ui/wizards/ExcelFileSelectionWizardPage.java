@@ -430,7 +430,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				| GridData.FILL_HORIZONTAL);
 		gridData.heightHint = 25;
 		btnAdd.setLayoutData(gridData);
-		btnAdd.setToolTipText(Messages.getString("tooltip.button.add"));
+		btnAdd.setToolTipText(Messages.getString("tooltip.button.add")); //$NON-NLS-1$
 
 		if (btnAdd.getStyle() == (btnAdd.getStyle() | SWT.LEFT_TO_RIGHT)) {
 			btnAdd.setImage(PlatformUI.getWorkbench().getSharedImages()
@@ -554,8 +554,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		btnComposite.setLayout(layout);
 
 		btnMoveUp = new Button(btnComposite, SWT.NONE);
-		btnMoveUp.setText(Messages.getString("button.moveUp"));
-		btnMoveUp.setToolTipText(Messages.getString("tooltip.button.up"));
+		btnMoveUp.setText(Messages.getString("button.moveUp")); //$NON-NLS-1$
+		btnMoveUp.setToolTipText(Messages.getString("tooltip.button.up")); //$NON-NLS-1$
 		btnMoveUp.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -564,8 +564,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		});
 
 		btnRemove = new Button(btnComposite, SWT.NONE);
-		btnRemove.setText(Messages.getString("button.delete"));
-		btnRemove.setToolTipText(Messages.getString("tooltip.button.delete"));
+		btnRemove.setText(Messages.getString("button.delete")); //$NON-NLS-1$
+		btnRemove.setToolTipText(Messages.getString("tooltip.button.delete")); //$NON-NLS-1$
 		btnRemove.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -574,8 +574,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		});
 
 		btnMoveDown = new Button(btnComposite, SWT.NONE);
-		btnMoveDown.setText(Messages.getString("button.moveDown"));
-		btnMoveDown.setToolTipText(Messages.getString("tooltip.button.down"));
+		btnMoveDown.setText(Messages.getString("button.moveDown")); //$NON-NLS-1$
+		btnMoveDown.setToolTipText(Messages.getString("tooltip.button.down")); //$NON-NLS-1$
 		btnMoveDown.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -889,14 +889,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			} catch (OdaException e) {
 				setMessage(Messages
 						.getFormattedString(
-								e.getMessage( ), new Object[] { sourcePath })); //$NON-NLS-1$
+								e.getMessage( ), new Object[] { sourcePath }));
 				return;
 			}
 			if (uri == null)
 			{
-				setMessage(Messages
-						.getFormattedString(
-								"ui.ExcelFileNotFound", new Object[] { sourcePath })); //$NON-NLS-1$
+				setMessage(Messages.getString("ui.ExcelFileNotFound") + sourcePath ); //$NON-NLS-1$
 				return;
 			}
 			File cpFile = new File(uri);
@@ -959,15 +957,14 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			}
 			catch ( OdaException e )
 			{
-				setMessage( Messages.getFormattedString( "ui.ExcelFileNotFound", new Object[]{odaHome} ) ); //$NON-NLS-1$
+				setMessage( Messages.getString("ui.ExcelFileNotFound") + odaHome +  //$NON-NLS-1$
+				            "; " + e.getLocalizedMessage()); //$NON-NLS-1$
 				disableAll( );
 				return;
 			}
 			if (uri == null)
 			{
-				setMessage(Messages
-						.getFormattedString(
-								"ui.ExcelFileNotFound", new Object[] { odaHome })); //$NON-NLS-1$
+				setMessage(Messages.getString("ui.ExcelFileNotFound") + odaHome ); //$NON-NLS-1$
 				disableAll();
 				return;
 			}

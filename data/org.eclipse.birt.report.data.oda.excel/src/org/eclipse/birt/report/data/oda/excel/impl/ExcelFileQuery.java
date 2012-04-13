@@ -31,7 +31,6 @@ import org.eclipse.birt.report.data.oda.excel.impl.i18n.Messages;
 import org.eclipse.birt.report.data.oda.excel.impl.util.DataTypes;
 import org.eclipse.birt.report.data.oda.excel.impl.util.ExcelFileSource;
 import org.eclipse.birt.report.data.oda.excel.impl.util.querytextutil.QueryTextUtil;
-import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
@@ -64,9 +63,6 @@ public class ExcelFileQuery implements IQuery {
 	// the properties of the connection
 	private Properties connProperties;
 
-	// The Connection instance associated with the Query.
-	private IConnection connection;
-
 	// The meta data of the query's result set.
 	// It is available only after a query is prepared.
 	private ResultSetMetaData resultSetMetaData;
@@ -85,16 +81,13 @@ public class ExcelFileQuery implements IQuery {
 
 	private Map appContext = null;
 
-	public ExcelFileQuery(Properties connProperties, Connection connection)
+	public ExcelFileQuery(Properties connProperties)
 			throws OdaException {
 		if (connProperties == null
-				|| connProperties
-						.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP) == null
-				|| connection == null)
+				|| connProperties.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP) == null )
 			throw new OdaException(
 					Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
 		this.connProperties = connProperties;
-		this.connection = connection;
 
 		extractsHasColumnNamesInfo();
 		extractsHasColumnTypeLineInfo();
@@ -130,11 +123,9 @@ public class ExcelFileQuery implements IQuery {
 	 * absoluteFileName
 	 */
 	public void prepare(String queryText) throws OdaException {
-		validateOpenConnection();
 		if (queryText == null) {
 			throw new OdaException(Messages.getString("common_NULL_QUERY_TEXT")); //$NON-NLS-1$
 		}
-		validateOpenConnection();
 
 		QueryTextUtil qtu = new QueryTextUtil(queryText);
 		String query = formatQueryText(qtu.getQuery());
@@ -170,18 +161,6 @@ public class ExcelFileQuery implements IQuery {
 			result.append(temp[i]).append(ExcelODAConstants.DELIMITER_SPACE);
 		}
 		return result.toString().trim();
-	}
-
-	/**
-	 * Validate whether the query's connection is open.
-	 *
-	 * @throws OdaException
-	 *             if connection is not open yet
-	 */
-	private void validateOpenConnection() throws OdaException {
-		if (connection.isOpen() == false)
-			throw new OdaException(
-					Messages.getString("common_CONNECTION_IS_NOT_OPEN")); //$NON-NLS-1$
 	}
 
 	/**
@@ -635,7 +614,6 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public void close() throws OdaException {
 		maxRows = 0;
-		connection = null;
 		resultSetMetaData = null;
 	}
 

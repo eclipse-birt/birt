@@ -1,5 +1,5 @@
 /*************************************************************************
- * Copyright (c) 2011 Actuate Corporation.
+ * Copyright (c) 2012 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,15 +66,16 @@ public class ResourceLocatorUtil
 			}
 			else
 			{
-				logger.log( Level.SEVERE,
-						Messages.getString("Connection.InvalidRelativePath")
-								+ uri );
-				throw new OdaException( Messages.getString( "Connection.InvalidSource" ) );
+			    String errMsg = Messages.getString("connection_missingResourceIdentifier") + uri; //$NON-NLS-1$
+				logger.log( Level.SEVERE, errMsg );
+				throw new OdaException( errMsg );
 			}
 		}
 		catch ( URISyntaxException e1 )
 		{
-			throw new OdaException( Messages.getString( "Connection.InvalidSource" ) ); //$NON-NLS-1$
+		    OdaException odaEx = new OdaException( Messages.getString( "connection_invalidSource" )  ); //$NON-NLS-1$
+		    odaEx.initCause( e1 );
+		    throw odaEx;
 		}
 	}
 

@@ -52,8 +52,11 @@ public class ExcelFileSource {
 	private String[] originalColumnNames;
 	private boolean isFirstTimeToReadSourceData = true;
 	private List<String> nextDataLine;
-	private ResourceIdentifiers ri;
-	/**
+
+	// use Object type in case ResourceIdentifiers instance was loaded by a different classloader
+    private Object resourceIdentifiers;
+
+    /**
 	 * Constructor
 	 *
 	 * @param connProperties
@@ -77,7 +80,9 @@ public class ExcelFileSource {
 		this.statementMaxRows = statementMaxRows;
 		this.currentTableName = currentTableName;
 		this.fileExtension = extractFileExtension(currentTableName);
-		this.ri = (ResourceIdentifiers) appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS );
+		this.resourceIdentifiers = appContext != null ?
+		                appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS ) :
+		                null;
 		Properties properties = getCopyOfConnectionProperties(connProperties);
 		populateHomeDir(properties);
 		populateHasColumnNames(properties);
@@ -126,20 +131,20 @@ public class ExcelFileSource {
 		this.homeDir = connProperties
 				.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP);
 
-		URI uri = ResourceLocatorUtil.resolvePath(ri, homeDir);
+		URI uri = ResourceLocatorUtil.resolvePath(resourceIdentifiers, homeDir);
 		if (uri == null)
 		{
 			throw new OdaException(
-					Messages.getString("ui.ExcelFileNotFound") //$NON-NLS-1$
-							+ this.homeDir);
+					Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
+					        new Object[]{homeDir} ));
 		}
 
 
 		File file = new File(uri);
 		if (!file.exists())
 			throw new OdaException(
-					Messages.getString("ui.ExcelFileNotFound") //$NON-NLS-1$
-							+ this.homeDir);
+                    Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
+                            new Object[]{homeDir} ));
 	}
 
 
@@ -223,13 +228,14 @@ public class ExcelFileSource {
 	 *             if the table name cannot be found
 	 */
 	public String findDataFileAbsolutePath() throws OdaException {
-		URI uri = ResourceLocatorUtil.resolvePath(ri, this.homeDir + File.separator
-				+ this.currentTableName.trim());
+	    String filePath = this.homeDir + File.separator
+                + this.currentTableName.trim();
+		URI uri = ResourceLocatorUtil.resolvePath(resourceIdentifiers, filePath);
 		if (uri == null)
 		{
 			throw new OdaException(
-					Messages.getString("ui.ExcelFileNotFound") //$NON-NLS-1$
-							+ this.homeDir);
+					Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
+					            new Object[]{filePath} ));
 		}
 		File file = new File(uri);
 

@@ -56,7 +56,7 @@ public class ExcelDataSourcePageHelper {
 
 	private WizardPage wizardPage;
 	private PreferencePage propertyPage;
-    private String errorMsg = Messages.getString( "connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR" );
+    private String errorMsg = Messages.getString( "connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR" ); //$NON-NLS-1$
 
 	private transient Text folderLocation = null;
 	private transient Button typeLineCheckBox = null;
@@ -68,7 +68,7 @@ public class ExcelDataSourcePageHelper {
 	private static final int ERROR_FOLDER = 1;
 	private static final int ERROR_EMPTY_PATH = 2;
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
-    private static final String CURRENT_DIRECTORY = ".";
+    private static final String CURRENT_DIRECTORY = "."; //$NON-NLS-1$
 
 	private static final Integer SELECT_RELATIVE_PATH = 1;
 	private static final Integer SELECT_ABSOLUTE_PATH = 2;
@@ -124,7 +124,7 @@ public class ExcelDataSourcePageHelper {
 
 		browseFolderButton = new MenuButton( composite,
 				SWT.NONE,
-				Messages.getString( "button.selectFolder.browse" ) );
+				Messages.getString( "button.selectFolder.browse" ) ); //$NON-NLS-1$
 		Menu menu = new Menu( composite.getShell( ), SWT.POP_UP );
 		SelectionAdapter action = new SelectionAdapter( ) {
 
@@ -198,7 +198,7 @@ public class ExcelDataSourcePageHelper {
 					URI uri = dialog.getSelectedURI( );
 					if ( uri != null )
 					{
-						if (uri.getPath().trim().equals(""))
+						if (uri.getPath().trim().isEmpty())
 						{
 							setFolderLocationString( CURRENT_DIRECTORY );
 						}
@@ -417,7 +417,7 @@ public class ExcelDataSourcePageHelper {
 					int verify = verifyFileLocation( );
 					if ( verify == ERROR_FOLDER )
 					{
-						throw new OdaException( errorMsg );//$NON-NLS-1$
+						throw new OdaException( errorMsg );
 					}
 				}
 				catch ( Exception ex )
@@ -492,9 +492,8 @@ public class ExcelDataSourcePageHelper {
 			return result;
 
 		if (wizardPage == null) {
+		    // error message is already set above when result is set to an error state
 			setPageComplete(true);
-			setMessage(
-					Messages.getString("error.invalidExcelFilePath"), IMessageProvider.ERROR); //$NON-NLS-1$
 		}
 		return result;
 	}
