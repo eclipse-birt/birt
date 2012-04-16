@@ -42,7 +42,6 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
-import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -876,34 +875,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		} catch (OdaException e) {
 			this.setMessage(e.getLocalizedMessage(), ERROR);
 			return;
-		}
-
-		String sourcePath = dataSourceProps
-				.getProperty(ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY);
-		if (sourcePath != null) {
-
-			URI uri = null;
-			try {
-				ResourceIdentifiers ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
-				uri = ResourceLocatorUtil.resolvePath(ri, sourcePath);
-			} catch (OdaException e) {
-				setMessage(Messages
-						.getFormattedString(
-								e.getMessage( ), new Object[] { sourcePath }));
-				return;
-			}
-			if (uri == null)
-			{
-				setMessage(Messages.getString("ui.ExcelFileNotFound") + sourcePath ); //$NON-NLS-1$
-				return;
-			}
-			File cpFile = new File(uri);
-			if (!cpFile.exists()) {
-				setMessage(
-						Messages.getFormattedString(
-								"error.invalidConnectionFilePath", new Object[] { cpFile.getPath() }), ERROR); //$NON-NLS-1$
-				return;
-			}
 		}
 
 		odaHome = dataSourceProps
