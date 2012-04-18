@@ -43,6 +43,7 @@ import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
@@ -75,7 +76,6 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.SubActionBars;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.LabelRetargetAction;
 import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.menus.IMenuService;
 
@@ -257,6 +257,8 @@ public class DesignerActionBarContributor extends
 				ImportLibraryAction.ACTION_TEXT ) );
 		addRetargetAction( new RetargetAction( InsertAggregationAction.ID,
 				InsertAggregationAction.TEXT ) );
+		addRetargetAction( new RetargetAction( InsertRelativeTimePeriodAction.ID,
+				InsertRelativeTimePeriodAction.TEXT ) );
 	}
 
 	/**
@@ -414,6 +416,7 @@ public class DesignerActionBarContributor extends
 		contributeActionsToMenu( insertMenu, getInsertElementActions( ) );
 		insertMenu.add( new Separator( ) );
 		insertMenu.add( getAction( InsertAggregationAction.ID ) );
+		insertMenu.add( getAction( InsertRelativeTimePeriodAction.ID ) );
 		insertMenu.add( new Separator( ) );
 		// insertMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );
