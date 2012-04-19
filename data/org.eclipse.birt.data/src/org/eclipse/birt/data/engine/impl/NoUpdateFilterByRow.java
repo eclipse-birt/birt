@@ -65,6 +65,7 @@ public class NoUpdateFilterByRow implements IFilterByRow
 	public void close( ) throws DataException
 	{
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
+		filterByRow.close( );
 		filterByRow = null;
 		rowFilter.close( );
 		rowFilter = null;

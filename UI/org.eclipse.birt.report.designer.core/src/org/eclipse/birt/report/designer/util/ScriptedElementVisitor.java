@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 
 public class ScriptedElementVisitor
@@ -42,6 +43,16 @@ public class ScriptedElementVisitor
 					ScriptObjectNode scriptElementNode = new ScriptObjectNode( elementHandle.getPropertyHandle( methodName ) );
 					scriptNodes.add( scriptElementNode );
 				}
+			}
+		}
+		
+		if (elementHandle instanceof ReportItemHandle)
+		{
+			ReportItemHandle handle = (ReportItemHandle)elementHandle;
+			if (handle.getCurrentView( ) != null)
+			{
+				ScriptedDesignVisitor visitor = new ScriptedDesignVisitor( );
+				scriptNodes.addAll( visitor.getScriptNodes( handle.getCurrentView( ) ) );
 			}
 		}
 		return scriptNodes;

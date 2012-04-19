@@ -610,10 +610,11 @@ public class CrosstabSubTotalDialog extends BaseDialog
 	protected void okPressed( )
 	{
 		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+		
 
 		if ( input == null )
 		{
+			stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
 			List measureList = new ArrayList( );
 			List functionList = new ArrayList( );
 			measureList.addAll( getLevel( ).getAggregationMeasures( ) );
