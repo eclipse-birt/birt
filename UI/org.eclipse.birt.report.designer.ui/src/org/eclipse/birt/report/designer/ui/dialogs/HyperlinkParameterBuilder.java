@@ -264,7 +264,7 @@ public class HyperlinkParameterBuilder extends BaseDialog
 					{
 						helper.setProperty( HYPERLINK_EXPRESSIONPROVIDER,
 								hyperlinkBuilder.getExpressionProvider( ) );
-						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle );
+						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle.getElementHandle( ) );
 						helper.createContent( parent );
 						helper.update( true );
 						return helper;
