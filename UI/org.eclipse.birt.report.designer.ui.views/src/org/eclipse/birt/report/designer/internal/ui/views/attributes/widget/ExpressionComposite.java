@@ -228,7 +228,7 @@ public class ExpressionComposite extends Composite
 			super.setContextObject( contextObject );
 		}
 
-		protected void setProvider( IExpressionProvider provider )
+		public void setProvider( IExpressionProvider provider )
 		{
 			super.setProvider( provider );
 		}
