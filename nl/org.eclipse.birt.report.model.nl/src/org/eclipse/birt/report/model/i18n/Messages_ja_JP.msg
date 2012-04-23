@@ -3729,7 +3729,7 @@ New.DataMartDataSource=新規 DataMart データソース
 New.DataMartDataSet=新規 DataMart データセット
 New.DataMartCube=新規 DataMart キューブ
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=レポート項目テーマの新規作成
+New.ReportItemTheme=新規レポート項目テーマ
 
 ###########################################################
 #Default theme name.
