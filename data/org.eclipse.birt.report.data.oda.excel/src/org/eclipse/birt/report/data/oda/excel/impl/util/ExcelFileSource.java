@@ -10,12 +10,11 @@
   *    Actuate Corporation - more efficient xlsx processing;
   *         support of timestamp, datetime, time, and date data types
   *    Actuate Corporation - added support of relative file path
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -38,7 +37,8 @@ public class ExcelFileSource {
 	private ResultSetMetaDataHelper rsmdHelper;
 	private int statementMaxRows;
 	private String currentTableName;
-	private String homeDir;
+	private String uriPath;
+	private URI uri;
 	private boolean hasColumnNames;
 	private boolean hasTypeLine;
 	private List<String> sheetNameList = new ArrayList<String>();
@@ -70,6 +70,7 @@ public class ExcelFileSource {
 	 * @param rsmdHelper
 	 *            ResultSet meta-data helper
 	 * @throws OdaException
+     * @throws IOException
 	 */
 	public ExcelFileSource(Properties connProperties, String currentTableName,
 			String workSheetNames,
@@ -79,10 +80,10 @@ public class ExcelFileSource {
 		this.rsmdHelper = rsmdHelper;
 		this.statementMaxRows = statementMaxRows;
 		this.currentTableName = currentTableName;
-		this.fileExtension = extractFileExtension(currentTableName);
 		this.resourceIdentifiers = appContext != null ?
 		                appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS ) :
 		                null;
+		this.fileExtension = ExcelFileReader.getExtensionName(resourceIdentifiers, connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
 		Properties properties = getCopyOfConnectionProperties(connProperties);
 		populateHomeDir(properties);
 		populateHasColumnNames(properties);
@@ -90,14 +91,6 @@ public class ExcelFileSource {
 		populateWorksheetNames(workSheetNames);
 	}
 
-	private static String extractFileExtension(String fileName) {
-		int lastIndexOfDot = fileName.lastIndexOf('.');
-		if (lastIndexOfDot == -1) {
-			return ExcelODAConstants.XLS_FORMAT;
-		} else {
-			return fileName.substring(lastIndexOfDot + 1, fileName.length());
-		}
-	}
 
 	/**
 	 *
@@ -107,10 +100,15 @@ public class ExcelFileSource {
 	private Properties getCopyOfConnectionProperties(Properties connProperties) {
 		Properties copyConnProperites = new Properties();
 
-		copyConnProperites.setProperty(ExcelODAConstants.CONN_HOME_DIR_PROP,
+        if (connProperties
+				.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP) != null)
+        {
+		copyConnProperites.setProperty(ExcelODAConstants.CONN_FILE_URI_PROP,
 				connProperties
-						.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP));
-		copyConnProperites
+						.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
+        }
+
+        copyConnProperites
 				.setProperty(
 						ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP,
 						connProperties
@@ -128,23 +126,27 @@ public class ExcelFileSource {
 	 * @throws OdaException
 	 */
 	private void populateHomeDir(Properties connProperties) throws OdaException {
-		this.homeDir = connProperties
-				.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP);
+		this.uriPath = connProperties.getProperty( ExcelODAConstants.CONN_FILE_URI_PROP );
+		uri = ResourceLocatorUtil.resolvePath( resourceIdentifiers, uriPath );
 
-		URI uri = ResourceLocatorUtil.resolvePath(resourceIdentifiers, homeDir);
 		if (uri == null)
 		{
 			throw new OdaException(
 					Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
-					        new Object[]{homeDir} ));
+					        new Object[]{uriPath} ));
 		}
 
-
-		File file = new File(uri);
-		if (!file.exists())
-			throw new OdaException(
-                    Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
-                            new Object[]{homeDir} ));
+		try
+		{
+			ResourceLocatorUtil.validateFileURI( uri );
+		}
+		catch (Exception e)
+		{
+			throw new OdaException( Messages.getFormattedString( "fileSource_excelFileNotFound", //$NON-NLS-1$
+					new Object[]{
+						uriPath
+					} ) );
+		}
 	}
 
 
@@ -199,17 +201,12 @@ public class ExcelFileSource {
 
 		int count;
 		try {
-			String dataFilePath = findDataFileAbsolutePath();
-			FileInputStream fis = new FileInputStream(dataFilePath);
-			//ExcelFileReader excelreader = new ExcelFileReader(fis,
-			//		fileExtension, sheetNameList);
 			initialiseReader();
 			List<String> columnLine;
 			while (isEmptyRow(columnLine = this.excelFileReader.readLine())) {
 				continue;
 			}
 			count = columnLine.size();
-			fis.close();
 		} catch (IOException e) {
 			throw new OdaException(Messages.getString("query_IO_EXCEPTION") //$NON-NLS-1$
 					+ findDataFileAbsolutePath());
@@ -228,21 +225,22 @@ public class ExcelFileSource {
 	 *             if the table name cannot be found
 	 */
 	public String findDataFileAbsolutePath() throws OdaException {
-	    String filePath = this.homeDir + File.separator
-                + this.currentTableName.trim();
-		URI uri = ResourceLocatorUtil.resolvePath(resourceIdentifiers, filePath);
 		if (uri == null)
 		{
-			throw new OdaException(
-					Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
-					            new Object[]{filePath} ));
+			throw new OdaException( Messages.getFormattedString( "fileSource_excelFileNotFound", //$NON-NLS-1$
+					new Object[]{
+					uriPath
+					} ) );
 		}
-		File file = new File(uri);
+		try {
+			ResourceLocatorUtil.validateFileURI(uri);
+		} catch (Exception e) {
+			throw new OdaException( Messages.getString( "query_invalidTableName" ) //$NON-NLS-1$
+					+ this.uriPath );
+		}
 
-		if (!file.exists())
-			throw new OdaException(Messages.getString("query_invalidTableName") //$NON-NLS-1$
-					+ this.homeDir + File.separator + this.currentTableName);
-		return file.getAbsolutePath();
+		return uri.toString();
+
 	}
 
 	/**
@@ -447,16 +445,10 @@ public class ExcelFileSource {
 	 */
 	private void initialiseReader() throws OdaException, IOException {
 
-		try {
-			if (this.excelFileReader == null) {
-				String dataFilePath = findDataFileAbsolutePath();
-				this.excelFileReader = new ExcelFileReader(new FileInputStream(
-						dataFilePath), this.fileExtension, this.sheetNameList, this.statementMaxRows);
-			}
+		this.fileExtension = ExcelFileReader.getExtensionName( uri );
+		this.excelFileReader = new ExcelFileReader(ResourceLocatorUtil.getURIStream( uri ), this.fileExtension,
+				this.sheetNameList, this.statementMaxRows);
 
-		} catch (IOException e) {
-			throw new OdaException(e.getMessage());
-		}
 	}
 
 	/**

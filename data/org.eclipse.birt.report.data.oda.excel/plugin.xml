@@ -14,9 +14,9 @@
             <property
                   allowsEmptyValueAsNull="true"
                   canInherit="true"
-                  defaultDisplayName="%datasource.property.home"
+                  defaultDisplayName="%datasource.property.uri"
                   isEncryptable="false"
-                  name="HOME"
+                  name="URI"
                   type="string">
             </property>
             <property

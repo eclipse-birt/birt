@@ -9,6 +9,7 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - code cleanup
   *    Actuate Corporation - added support of relative file path
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 
@@ -45,18 +46,20 @@ public class Connection implements IConnection {
 					Messages.getString("connection_CONNECTION_PROPERTIES_MISSING")); //$NON-NLS-1$
 
 		this.connProperties = connProperties;
-		validateHomeDir();
+		validateURI();
 	}
 
 	// move the test connection to ExcelDataSourcePageHelper.createTestConnectionRunnable
-	private void validateHomeDir( ) throws OdaException
+	private void validateURI( ) throws OdaException
 	{
-		String homeDir = connProperties.getProperty( ExcelODAConstants.CONN_HOME_DIR_PROP );
-		if ( homeDir != null && homeDir.trim( ).length( ) > 0 ) // found
+		String uri = connProperties.getProperty( ExcelODAConstants.CONN_FILE_URI_PROP );
+
+		if ( uri != null && uri.trim( ).length( ) > 0 ) // found
 		{
 			this.isOpen = true;
 			return; // is valid, done
 		}
+
 		throw new OdaException( Messages.getString( "connection_MISSING_FILELOCATION" ));
 	}
 

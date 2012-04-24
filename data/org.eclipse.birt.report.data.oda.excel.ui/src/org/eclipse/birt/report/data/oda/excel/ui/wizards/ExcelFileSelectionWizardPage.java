@@ -9,12 +9,14 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - support of timestamp, datetime, time, and date data types
   *    Actuate Corporation - added support of relative file path
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,13 +129,13 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private transient Button btnMoveUp = null;
 	private transient Button btnMoveDown = null;
 
-	private String odaHome;
+	private String uriPath;
 	private String inclColumnNameLine;
 	private String inclTypeLine;
 	private String savedSelectedColumnsInfoString;
 
 	/** store latest selected file */
-	private File selectedFile;
+	private Object selectedFile;
 
 	/** store latest selected sheet name */
 	private String currentSheetName;
@@ -330,7 +332,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		fileViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				File file = (File) ((IStructuredSelection) event.getSelection())
+				Object file =  ((IStructuredSelection) event.getSelection())
 						.getFirstElement();
 
 				if (file.equals(selectedFile))
@@ -341,12 +343,17 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 				selectedFile = file;
 				isNewFile = true;
-				populateWorkSheetCombo();
+				try {
+					populateWorkSheetCombo();
+				} catch (Exception e) {
+					setMessage(Messages.getString("ui.ExcelFileNotFound"), //$NON-NLS-1$
+							ERROR);
+				}
 			}
 		});
 		fileViewer.setLabelProvider(new LabelProvider() {
 			public String getText(Object element) {
-				return ((File) element).getName();
+				return getFileName( element );
 			}
 		});
 
@@ -813,6 +820,13 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		}
 	}
 
+	private String getFileName( Object obj )
+	{
+		if ( obj instanceof File )
+			return ( (File) obj ).getName( );
+		return obj.toString( );
+	}
+
 	/*
 	 * File Combo Viewer selection changed listener
 	 *
@@ -844,7 +858,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		availableList.removeAll();
 		nameOfFileWithErrorInLastAccess = null;
 
-		String fileName = selectedFile.getName();
+		String fileName = getFileName( selectedFile );
 		String[] columnNames = getFileColumnNames(selectedFile);
 
 		if (columnNames != null && columnNames.length != 0) {
@@ -877,8 +891,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			return;
 		}
 
-		odaHome = dataSourceProps
-				.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP);
+		uriPath = dataSourceProps
+				.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP);
 		inclColumnNameLine = dataSourceProps
 				.getProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP);
 		inclTypeLine = dataSourceProps
@@ -915,66 +929,71 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 */
 	private void updateFileList() {
 		if (fileViewer != null && !fileViewer.getControl().isDisposed()) {
-			if (odaHome == null) {
+			if (uriPath == null) {
 				disableAll();
 				return;
 			}
+			ArrayList<Object> allFiles = new ArrayList<Object>( );
 
 			URI uri = null;
 			try
 			{
 				ResourceIdentifiers ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
-				uri = ResourceLocatorUtil.resolvePath( ri, odaHome );
+				uri = ResourceLocatorUtil.resolvePath( ri, uriPath );
 			}
 			catch ( OdaException e )
 			{
-				setMessage( Messages.getString("ui.ExcelFileNotFound") + odaHome +  //$NON-NLS-1$
+				setMessage( Messages.getString("ui.ExcelFileNotFound") + uri +  //$NON-NLS-1$
 				            "; " + e.getLocalizedMessage()); //$NON-NLS-1$
 				disableAll( );
 				return;
 			}
 			if (uri == null)
 			{
-				setMessage(Messages.getString("ui.ExcelFileNotFound") + odaHome ); //$NON-NLS-1$
+				setMessage(Messages.getString("ui.ExcelFileNotFound") + uri ); //$NON-NLS-1$
 				disableAll();
 				return;
 			}
-
-			File folder = new File(uri);
-			if (folder.isDirectory() && folder.exists()) {
-				File[] files = folder.getAbsoluteFile().listFiles(
-						new ExcelFileFilter());
-
-				if (files != null) {
-					fileViewer.setInput(files);
-				} else {
-					fileViewer.setInput(new File[] {});
-				}
-			} else {
-				fileViewer.setInput(new File[] {});
+			try
+			{
+				ResourceLocatorUtil.validateFileURI( uri );
+				allFiles.add( uri );
 			}
-			File[] files = (File[]) fileViewer.getInput();
-			if (files.length > 0) {
+			catch (Exception ignore)
+			{
+			}
+
+			fileViewer.setInput( allFiles );
+			ArrayList<Object> files = (ArrayList<Object>) fileViewer.getInput( );
+			if (files.size() > 0) {
 				enableListAndViewer();
-				File toSelectFile = null;
+				Object toSelectFile = null;
 				if (selectedFile != null)
-					for (int i = 0; i < files.length; i++) {
-						if (files[i].equals(selectedFile)) {
+					for (int i = 0; i < files.size(); i++) {
+						if (files.get(i).equals(selectedFile)) {
 							toSelectFile = selectedFile;
 							break;
 						}
 					}
 				if (toSelectFile == null)
-					toSelectFile = files[0];
+					toSelectFile = files.get(0);
 
 				fileViewer.setSelection(new StructuredSelection(toSelectFile));
 				if (!(nameOfFileWithErrorInLastAccess != null && nameOfFileWithErrorInLastAccess
 						.equals(fileViewer.getCombo().getText())))
 					setMessage(DEFAULT_MESSAGE);
+
+				String extension = ExcelFileReader.getExtensionName( uri );
+				if (extension.equals( ExcelODAConstants.XLS_FORMAT ) || extension
+						.equals( ExcelODAConstants.XLSX_FORMAT )) {
+					setMessage(DEFAULT_MESSAGE);
+				} else
+					setMessage(Messages.getString("warning.fileExtensionInvalid"), //$NON-NLS-1$
+							ERROR);
 			} else {
 				setMessage(Messages
 						.getFormattedString(
-								"error.noFiles", new Object[] { folder.getAbsolutePath() })); //$NON-NLS-1$
+								"error.noFile", new Object[] { uri.toString( ) })); //$NON-NLS-1$
 				disableAll();
 			}
 		}
@@ -986,9 +1005,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * @param file
 	 * @return
 	 */
-	private String[] getFileColumnNames(File file) {
+	private String[] getFileColumnNames(Object file) {
 		java.util.List<String[]> propList = getQueryColumnsInfo(
-				"select * from " + QueryTextUtil.getQuotedName(file.getName()), file, currentSheetName); //$NON-NLS-1$
+				"select * from " + QueryTextUtil.getQuotedName(getFileName(file)), file, currentSheetName); //$NON-NLS-1$
 
 		String[] result;
 		if (propList != null) {
@@ -1009,7 +1028,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * @return
 	 */
 	private java.util.List<String[]> getQueryColumnsInfo(String queryText,
-			File file, String sheetName) {
+			Object file, String sheetName) {
 		IDriver excelDriver = new Driver();
 		IConnection conn = null;
 		java.util.List<String[]> columnList = new ArrayList<String[]>();
@@ -1150,14 +1169,22 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * @throws OdaException
 	 */
 	private IResultSetMetaData getResultSetMetaData(String queryText,
-			File file, IConnection conn, String sheetName) throws OdaException {
+			Object file, IConnection conn, String sheetName) throws OdaException {
 		java.util.Properties prop = new java.util.Properties();
 		if (file != null) {
-			if (file.getParent() == null) {
-				throw new OdaException(
-						Messages.getString("error.unexpectedError")); //$NON-NLS-1$
+			if (file instanceof File)
+			{
+				if (((File)file).getParent() == null) {
+					throw new OdaException(
+							Messages.getString("error.unexpectedError")); //$NON-NLS-1$
+				}
+				prop.put(ExcelODAConstants.CONN_FILE_URI_PROP, ((File)file).getAbsolutePath());
 			}
-			prop.put(ExcelODAConstants.CONN_HOME_DIR_PROP, file.getParent());
+
+			else if (file instanceof URI)
+			{
+				prop.put(ExcelODAConstants.CONN_FILE_URI_PROP, file.toString());
+			}
 		}
 		if (inclColumnNameLine != null) {
 			prop.put(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP,
@@ -1233,10 +1260,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		String tableName = null;
 		StringBuffer buf = new StringBuffer();
-		File file = (File) ((StructuredSelection) fileViewer.getSelection())
-				.getFirstElement();
-		if (file != null) {
-			tableName = file.getName();
+		Object file = ( (StructuredSelection) fileViewer.getSelection( ) ).getFirstElement( );
+		if ( file != null )
+		{
+			tableName = getFileName( file );
 		}
 		if (tableName != null) {
 			tableName = QueryTextUtil.getQuotedName(tableName);
@@ -1293,7 +1320,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			if (metadata != null && metadata[0] != null && metadata[2] != null) {
 				// Now select the table in the list. If it doesn't exists, no
 				// need to process the columns.
-				File f = selectTableFromQuery(metadata[2]);
+				Object f = selectTableFromQuery(metadata[2]);
 				if (f != null) {
 					updateColumnsFromQuery(queryText, f);
 				}
@@ -1313,7 +1340,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * @param queryText
 	 * @param file
 	 */
-	private void updateColumnsFromQuery(String queryText, File file) {
+	private void updateColumnsFromQuery(String queryText, Object file) {
 		availableList.setItems(getFileColumnNames(file));
 		selectedColumnsViewer.getTable().removeAll();
 
@@ -1338,15 +1365,18 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * @param tableName
 	 * @return File
 	 */
-	private File selectTableFromQuery(String tableName) {
+	private Object selectTableFromQuery(String tableName) {
 		// for page refresh
-		File[] files = (File[]) fileViewer.getInput();
-		if (files != null) {
-			for (int n = 0; n < files.length; n++) {
-				if (files[n].getName().equalsIgnoreCase(tableName)) {
-					fileViewer.setSelection(new StructuredSelection(files[n]));
+		ArrayList<Object> files = (ArrayList<Object>) fileViewer.getInput( );
+		if ( files != null )
+		{
+			for ( int n = 0; n < files.size( ); n++ )
+			{
+				if ( getFileName( files.get( n ) ).equalsIgnoreCase( tableName ) )
+				{
+					fileViewer.setSelection( new StructuredSelection( files.get( n ) ) );
 					isNewFile = false;
-					return files[n];
+					return files.get( n );
 				}
 			}
 		}
@@ -1727,7 +1757,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		getControl().setFocus();
 	}
 
-	private void populateWorkSheetCombo() {
+	private void populateWorkSheetCombo() throws IOException {
 		java.util.List<String> sheetNameList = ExcelFileReader
 				.getSheetNamesInExcelFile(selectedFile);
 		worksheetsCombo.setInput(sheetNameList.toArray());

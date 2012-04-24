@@ -7,13 +7,16 @@
  *
  * Contributors:
  *  Actuate Corporation - added support of relative file path
- *
+ *  Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
  *************************************************************************
  */
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
@@ -31,8 +34,15 @@ public class ResourceLocatorUtil
 	public static URI resolvePath( Object resourceIdentifiers, String path ) throws OdaException
 	{
 		URI uri = null;
-		File f = new File( path );
-		if( f.isAbsolute( ) && f.exists( ) )
+		File f = null;
+		try
+		{
+			f = new File( path );
+		}
+		catch ( Exception ignore )
+		{
+		}
+		if (f != null && f.isAbsolute() && f.exists() )
 		{
 			uri = f.toURI();
 			logger.log( Level.FINER, "Excel source folder exists on local file system. Using path: " + uri );
@@ -77,6 +87,50 @@ public class ResourceLocatorUtil
 		    odaEx.initCause( e1 );
 		    throw odaEx;
 		}
+	}
+
+	public static void validateFileURI( Object obj )
+			throws Exception
+	{
+
+		InputStream stream = null;
+		try
+		{
+			stream = getURIStream( obj );
+		}
+		catch (Exception e)
+		{
+			throw e ;
+		}
+		finally
+		{
+			if ( stream != null )
+			{
+				try
+				{
+					stream.close( );
+				}
+				catch ( IOException ignore )
+				{
+				}
+			}
+
+		}
+	}
+
+	public static InputStream getURIStream( Object obj ) throws IOException
+	{
+		if ( obj instanceof File )
+		{
+			return new FileInputStream( (File) obj );
+		}
+
+		else if ( obj instanceof URI )
+		{
+			return ( (URI) obj ).toURL( ).openStream( );
+		}
+
+		return null;
 	}
 
 }

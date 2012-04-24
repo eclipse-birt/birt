@@ -8,6 +8,7 @@
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - added support of relative file path
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
@@ -21,7 +22,6 @@ import org.eclipse.birt.report.data.oda.excel.impl.util.ResourceLocatorUtil;
 import org.eclipse.birt.report.data.oda.excel.ui.i18n.Messages;
 import org.eclipse.birt.report.data.oda.excel.ui.util.IHelpConstants;
 import org.eclipse.birt.report.data.oda.excel.ui.util.Utility;
-import org.eclipse.birt.report.data.oda.excel.ui.wizards.ExcelFileSelectionWizardPage.ExcelFileFilter;
 import org.eclipse.datatools.connectivity.IConnection;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -43,7 +43,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -52,7 +52,7 @@ import org.eclipse.swt.widgets.Text;
 public class ExcelDataSourcePageHelper {
 
 	static final String DEFAULT_MESSAGE = Messages
-			.getString("wizard.defaultMessage.selectFolder"); //$NON-NLS-1$
+			.getString("wizard.defaultMessage.selectExcelFile"); //$NON-NLS-1$
 
 	private WizardPage wizardPage;
 	private PreferencePage propertyPage;
@@ -73,7 +73,14 @@ public class ExcelDataSourcePageHelper {
 	private static final Integer SELECT_RELATIVE_PATH = 1;
 	private static final Integer SELECT_ABSOLUTE_PATH = 2;
 
+	private static final String ALL_XLSX_EXTENSION = "*.xlsx"; //$NON-NLS-1$
+	private static final String ALL_XLS_EXTENSION = "*.xls"; //$NON-NLS-1$
+	private static final String ALL_EXTENSION = "*.*";
+
 	private ResourceIdentifiers ri;
+
+	private static final String[] fileExtensions = new String[]{
+		ALL_XLS_EXTENSION, ALL_XLSX_EXTENSION, ALL_EXTENSION};
 
 	public ExcelDataSourcePageHelper(ExcelDataSourceWizardPage page) {
 		wizardPage = page;
@@ -107,7 +114,7 @@ public class ExcelDataSourcePageHelper {
 
 	private void setupFolderLocation(Composite composite) {
 		Label label = new Label(composite, SWT.NONE);
-		label.setText(Messages.getString("label.selectFolder")); //$NON-NLS-1$
+		label.setText(Messages.getString("label.selectFile")); //$NON-NLS-1$
 
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 
@@ -189,8 +196,9 @@ public class ExcelDataSourcePageHelper {
 	{
 		if ( selectionType == SELECT_RELATIVE_PATH )
 		{
-			RelativeFolderSelectionDialog dialog = new RelativeFolderSelectionDialog( folderLocation.getShell( ),
+			RelativeFileSelectionDialog dialog = new RelativeFileSelectionDialog( folderLocation.getShell( ),
 					new File( getResourceFolder( ) ) );
+
 			if ( dialog.open( ) == Window.OK )
 			{
 				try
@@ -215,7 +223,8 @@ public class ExcelDataSourcePageHelper {
 		}
 		else if ( selectionType == SELECT_ABSOLUTE_PATH )
 		{
-			DirectoryDialog dialog = new DirectoryDialog( folderLocation.getShell( ) );
+			FileDialog dialog = new FileDialog( folderLocation.getShell( ) );
+			dialog.setFilterExtensions( fileExtensions );
 			String folderLocationValue = getFolderLocationString( );
 			if ( folderLocationValue != null
 					&& folderLocationValue.trim( ).length( ) > 0 )
@@ -223,7 +232,6 @@ public class ExcelDataSourcePageHelper {
 				dialog.setFilterPath( folderLocationValue );
 			}
 
-			dialog.setMessage( DEFAULT_MESSAGE );
 			String selectedLocation = dialog.open( );
 			if ( selectedLocation != null )
 			{
@@ -291,7 +299,7 @@ public class ExcelDataSourcePageHelper {
 			props = new Properties();
 
 		// set custom driver specific properties
-		props.setProperty(ExcelODAConstants.CONN_HOME_DIR_PROP,
+		props.setProperty(ExcelODAConstants.CONN_FILE_URI_PROP,
 				getFolderLocation().trim());
 		props.setProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP,
 				getWhetherUseFirstLineAsColumnNameLine());
@@ -344,7 +352,7 @@ public class ExcelDataSourcePageHelper {
 			return; // nothing to initialize
 
 		String folderPath = profileProps
-				.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP);
+				.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP);
 		if (folderPath == null)
 			folderPath = EMPTY_STRING;
 		setFolderLocationString(folderPath);
@@ -455,31 +463,17 @@ public class ExcelDataSourcePageHelper {
 				setPageComplete( false );
 				return ERROR_FOLDER;
 			}
-			File f = new File( uri );
-			if ( f.exists( ) )
+			try
 			{
-				if ( f.isDirectory( ) )
-				{
-					File[] files = f.getAbsoluteFile( )
-							.listFiles( new ExcelFileFilter( ) );
-					if ( files.length == 0 )
-					{
-						setMessage( Messages.getString( "error.emptyFolder" ), IMessageProvider.ERROR ); //$NON-NLS-1$
-						setPageComplete( false );
-						result = ERROR_FOLDER;
-					}
-					else
-					{
-						setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
-						setPageComplete( true );
-					}
-				}
+				ResourceLocatorUtil.validateFileURI( uri );
+				setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+				setPageComplete( true );
 			}
-			else
+			catch ( Exception e )
 			{
-				setMessage( Messages.getString( "error.selectFolder" ), IMessageProvider.ERROR ); //$NON-NLS-1$
+				setMessage( Messages.getString( "ui.ExcelFileNotFound" ), IMessageProvider.ERROR ); //$NON-NLS-1$
 				setPageComplete( false );
-				result = ERROR_FOLDER;
+				return ERROR_FOLDER;
 			}
 		}
 		else {

@@ -9,14 +9,16 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - more efficient xlsx processing;
   *         support of timestamp, datetime, time, and date data types
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -37,7 +39,7 @@ import org.xml.sax.SAXException;
 
 public class ExcelFileReader {
 
-	private FileInputStream fis;
+	private InputStream fis;
 	private String fileExtension;
 	private List<String> workSheetList;
 	static LinkedHashMap<String, String> xlsxWorkSheetList;
@@ -62,7 +64,7 @@ public class ExcelFileReader {
 		this.maxColumnIndex = maxColumnIndex;
 	}
 
-	public ExcelFileReader(FileInputStream fis, String fileExtension,
+	public ExcelFileReader(InputStream fis, String fileExtension,
 			List<String> sheetNameList, int rowsToRead) {
 		this.fis = fis;
 		this.fileExtension = fileExtension;
@@ -79,7 +81,7 @@ public class ExcelFileReader {
 				return null;
 		}
 		List<String> rowData = new ArrayList<String>();
-		if (!isXlsxFile(fileExtension)) {
+		if (isXlsFile(fileExtension)) {
 			Row row = sheet.getRow(currentRowIndex);
 			if (row != null) {
 				if (maxColumnIndex == 0)
@@ -93,7 +95,7 @@ public class ExcelFileReader {
 			} else {
 				return null;
 			}
-		} else {
+		} else if (isXlsxFile(fileExtension)){
 			rowData = callback.getRow(currentRowIndex);
 		}
 
@@ -127,7 +129,7 @@ public class ExcelFileReader {
 					maxRowsInAllSheet += newCallback.getMaxRowsInSheet();
 				}
 
-			} else {
+			} else if ( isXlsFile( fileExtension ) ){
 
 				workBook = new HSSFWorkbook(fis);
 				formulaEvaluator = workBook.getCreationHelper()
@@ -171,7 +173,7 @@ public class ExcelFileReader {
 			} catch (SAXException e) {
 				throw new OdaException(e);
 			}
-		} else {
+		} else if ( isXlsFile( fileExtension ) ){
 			do {
 				sheet = workBook.getSheet(workSheetList.get(currentSheetIndex));
 				maxRowsInThisSheet = sheet.getPhysicalNumberOfRows();
@@ -186,7 +188,56 @@ public class ExcelFileReader {
 	}
 
 	private static boolean isXlsxFile(String extension) {
-		return !extension.equals(ExcelODAConstants.XLS_FORMAT);
+		return extension.equals(ExcelODAConstants.XLSX_FORMAT);
+	}
+
+	private static boolean isXlsFile(String extension) {
+		return extension.equals(ExcelODAConstants.XLS_FORMAT);
+	}
+
+	public static String getExtensionName(Object ri, String path ) throws OdaException
+	{
+		URI uri = ResourceLocatorUtil.resolvePath(ri, path);
+		return getExtensionName( uri );
+	}
+
+	public static String getExtensionName( Object uri )
+	{
+		InputStream xlsxIs = null;
+		InputStream xlsIs = null;
+		try
+		{
+			xlsxIs = ResourceLocatorUtil.getURIStream( uri );
+			new XlsxFileReader( xlsxIs );
+			return ExcelODAConstants.XLSX_FORMAT;
+		}
+		catch ( Exception e )
+		{
+			try {
+				xlsIs = ResourceLocatorUtil.getURIStream( uri );
+				new HSSFWorkbook(xlsIs);
+				return ExcelODAConstants.XLS_FORMAT;
+			} catch (Exception e1) {
+			}
+
+		}
+		finally
+		{
+			try {
+				if (xlsIs != null)
+				{
+					xlsIs.close();
+				}
+				if ( xlsxIs != null)
+				{
+					xlsxIs.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return ExcelODAConstants.UNSUPPORT_FORMAT;
 	}
 
 	public String getCellValue(Cell cell) {
@@ -243,15 +294,14 @@ public class ExcelFileReader {
 		return maxRowsInAllSheet;
 	}
 
-	public static List<String> getSheetNamesInExcelFile(File file) {
-		String extension = file.getName();
-		extension = extension.substring(extension.lastIndexOf(".") + 1, //$NON-NLS-1$
-				extension.length());
-		FileInputStream fis;
+
+	public static List<String> getSheetNamesInExcelFile(Object file) throws MalformedURLException, IOException {
+		String extension = getExtensionName (file);
+		InputStream fis = ResourceLocatorUtil.getURIStream( file );
 		List<String> sheetNames = new ArrayList<String>();
 		try {
-			fis = new FileInputStream(file);
 
+			// using uri, we may not know the extension name of the file.
 			if (isXlsxFile(extension)) {
 				XlsxFileReader poiRdr = new XlsxFileReader(fis);
 				xlsxWorkSheetList = poiRdr.getSheetNames();
@@ -259,7 +309,7 @@ public class ExcelFileReader {
 						.entrySet()) {
 					sheetNames.add(entry.getKey());
 				}
-			} else {
+			} else if ( isXlsFile( extension ) ){
 				Workbook workBook = new HSSFWorkbook(fis);
 				for (int i = 0; i < workBook.getNumberOfSheets(); i++) {
 					sheetNames.add(workBook.getSheetName(i));
@@ -272,6 +322,10 @@ public class ExcelFileReader {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally
+		{
+			fis.close( );
 		}
 		return sheetNames;
 	}

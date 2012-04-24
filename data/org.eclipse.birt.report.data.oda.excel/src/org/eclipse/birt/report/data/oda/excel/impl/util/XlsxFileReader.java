@@ -9,11 +9,11 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - more efficient xlsx processing;
   *         support of timestamp, datetime, time, and date data types
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class XlsxFileReader {
 		STATIC
 	}
 
-	public XlsxFileReader(FileInputStream fis) throws IOException,
+	public XlsxFileReader(InputStream fis) throws IOException,
 			OpenXML4JException {
 		OPCPackage pkg = OPCPackage.open(fis);
 		reader = new XSSFReader(pkg);

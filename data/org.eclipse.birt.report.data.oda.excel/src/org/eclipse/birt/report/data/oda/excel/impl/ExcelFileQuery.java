@@ -10,6 +10,7 @@
   *    Actuate Corporation - more efficient xlsx processing;
   *         support of timestamp, datetime, time, and date data types
   *    Actuate Corporation - added support of relative file path
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel.impl;
@@ -81,16 +82,16 @@ public class ExcelFileQuery implements IQuery {
 
 	private Map appContext = null;
 
-	public ExcelFileQuery(Properties connProperties)
-			throws OdaException {
-		if (connProperties == null
-				|| connProperties.getProperty(ExcelODAConstants.CONN_HOME_DIR_PROP) == null )
-			throw new OdaException(
-					Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
+	public ExcelFileQuery( Properties connProperties ) throws OdaException
+	{
+		if ( connProperties == null
+				||  connProperties.getProperty( ExcelODAConstants.CONN_FILE_URI_PROP ) == null  )
+			throw new OdaException( Messages.getString( "common_ARGUMENT_CANNOT_BE_NULL" ) ); //$NON-NLS-1$
+
 		this.connProperties = connProperties;
 
-		extractsHasColumnNamesInfo();
-		extractsHasColumnTypeLineInfo();
+		extractsHasColumnNamesInfo( );
+		extractsHasColumnTypeLineInfo( );
 	}
 
 	/**

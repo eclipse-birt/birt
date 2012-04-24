@@ -1,13 +1,16 @@
-/*******************************************************************************
-  * Copyright (c) 2012 Actuate Corporation.
-  * All rights reserved. This program and the accompanying materials
-  * are made available under the terms of the Eclipse Public License v1.0
-  * which accompanies this distribution, and is available at
-  * http://www.eclipse.org/legal/epl-v10.html
-  *
-  * Contributors:
-  *    Actuate Corporation - added support of relative file path
-  *******************************************************************************/
+/*
+ *************************************************************************
+ * Copyright (c) 2011 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation - support of relative file path
+ *
+ *************************************************************************
+ */
 
 package org.eclipse.birt.report.data.oda.excel.ui.wizards;
 
@@ -21,7 +24,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.birt.report.data.oda.excel.ui.i18n.Messages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -37,7 +39,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
-public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
+public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 {
 
 	private final static Image IMG_FOLDER = PlatformUI.getWorkbench( )
@@ -50,7 +52,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 
 	private File rootFolder;
 
-	public RelativeFolderSelectionDialog( Shell parent, File rootFolder )
+	public RelativeFileSelectionDialog( Shell parent, File rootFolder )
 	{
 		super( parent, new LabelProvider( ), new ContentProvider( ) );
 
@@ -58,7 +60,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 
 		this.setValidator( new SelectionValidator( ) );
 		this.setInput( rootFolder.getAbsolutePath( ) );
-		this.setTitle( Messages.getString( "RelativeFolderSelectionDialog.Title.SelectFolder" ) ); //$NON-NLS-1$
+		this.setTitle( "SelectFile.Title" ); //$NON-NLS-1$
 		this.rootFolder = rootFolder;
 	}
 
@@ -98,7 +100,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 			if ( arg0 instanceof File )
 			{
 				File f = (File) arg0;
-				return RelativeFolderSelectionDialog.getChildren( f );
+				return RelativeFileSelectionDialog.getChildren( f );
 			}
 			return null;
 		}
@@ -113,7 +115,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 			if ( arg0 instanceof File )
 			{
 				File f = (File) arg0;
-				return RelativeFolderSelectionDialog.getChildren( f ).length > 0;
+				return RelativeFileSelectionDialog.getChildren( f ).length > 0;
 			}
 			return false;
 		}
@@ -207,10 +209,10 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 				{
 					if ( o instanceof File )
 					{
-						if ( ( (File) o ).isDirectory( ) )
+						if ( ( (File) o ).isFile( ) )
 						{
 							return new Status( IStatus.OK,
-									"org.eclipse.birt.report.data.oda.excel.ui", //$NON-NLS-1$
+									"org.eclipse.datatools.connectivity.oda.flatfile.ui", //$NON-NLS-1$
 									IStatus.OK,
 									"", //$NON-NLS-1$
 									null );
@@ -219,7 +221,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 				}
 			}
 			return new Status( IStatus.ERROR,
-					"org.eclipse.birt.report.data.oda.excel.ui", //$NON-NLS-1$
+					"org.eclipse.datatools.connectivity.oda.flatfile.ui", //$NON-NLS-1$
 					IStatus.ERROR,
 					"", //$NON-NLS-1$
 					null );
@@ -237,7 +239,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 
 			public boolean accept( File child )
 			{
-				if ( child.isFile( ) )
+				if ( child.isDirectory( ) )
 				{
 					return true;
 				}
@@ -259,7 +261,7 @@ public class RelativeFolderSelectionDialog extends ElementTreeSelectionDialog
 		for ( Object o : selected )
 		{
 			File f = (File) o;
-			if ( f.isDirectory( ) )
+			if ( f.isFile( ) )
 			{
 				URI relative = rootFolder.toURI( ).relativize( f.toURI( ) );
 				result.add( relative.getPath( ) );

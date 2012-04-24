@@ -8,15 +8,17 @@
   * Contributors:
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *    Actuate Corporation - support of timestamp, datetime, time, and date data types
+  *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
 package org.eclipse.birt.report.data.oda.excel;
 
 public class ExcelODAConstants {
 
-	public static final String CONN_HOME_DIR_PROP = "HOME"; //$NON-NLS-1$
+	public static final String CONN_FILE_URI_PROP = "URI"; //$NON-NLS-1$
 	public static final String XLS_FORMAT = "xls"; //$NON-NLS-1$
 	public static final String XLSX_FORMAT = "xlsx"; //$NON-NLS-1$
+	public static final String UNSUPPORT_FORMAT="unSupportFormat";
 	public static final String CONN_INCLCOLUMNNAME_PROP = "INCLCOLUMNNAME"; //$NON-NLS-1$
 	public static final String INC_COLUMN_NAME_YES = "YES"; //$NON-NLS-1$
 	public static final String CONN_INCLTYPELINE_PROP = "INCLTYPELINE"; //$NON-NLS-1$
