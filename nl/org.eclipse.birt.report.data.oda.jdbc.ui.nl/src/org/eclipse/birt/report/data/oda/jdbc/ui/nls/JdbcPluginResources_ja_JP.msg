@@ -112,7 +112,7 @@ driverManagerDialog.ErrorDialog.addDriver.title=ドライバを登録できません
 driverManagerDialog.ErrorDialog.addDriver.message=次のドライバを登録できませんでした : 
 driverManagerDialog.ErrorDialog.deregisterDriver.title=ドライバの登録を解除できません
 driverManagerDialog.ErrorDialog.deregisterDriver.message=次のドライバの登録を解除できませんでした : 
-datasource.propertyPage.tooltip=JDBC データソース
+datasource.propertyPage.tooltip=JDBCデータソース
 
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=事前にすべてのスキーマをデータベースからフェッチする(&P) 
