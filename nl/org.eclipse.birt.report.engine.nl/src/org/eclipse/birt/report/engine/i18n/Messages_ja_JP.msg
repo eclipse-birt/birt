@@ -105,7 +105,7 @@ Error.ResultsetExtractError = 結果セットが見つかりません。
 Error.FailedToInitializeEmitter = エミッターを初期化できませんでした。
 
 ###########################################################
-PDFCreator = BIRT レポートエンジン {0} (iText {1} を使用)
+PDFCreator = BIRTレポートエンジン {0} (iText {1} を使用)
 
 ###########################################################
 Error.FlashObjectNotSupported = Flash オブジェクトのレポート項目は、このレポート形式ではサポートされていません。

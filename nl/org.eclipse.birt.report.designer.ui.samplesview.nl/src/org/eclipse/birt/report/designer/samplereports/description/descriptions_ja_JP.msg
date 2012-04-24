@@ -4,7 +4,7 @@
 #Listing
 ProductCatalog=Classic Models ŽÐ‚Ì»•iƒJƒ^ƒƒO‚ðA»•i‚ÌƒJƒeƒSƒŠ‚²‚Æ‚É‚Ü‚Æ‚ß‚Äo—Í‚µ‚Ü‚·B‚±‚ÌƒJƒ^ƒƒO‚É‚ÍA»•i–¼AƒRƒXƒgAà–¾‚ªŠÜ‚Ü‚ê‚Ü‚·BƒŒƒxƒ‹‚²‚Æ‚ÉƒOƒ‹[ƒv‰»‚µAƒe[ƒuƒ‹‚âƒOƒŠƒbƒh‚ðŽg‚Á‚ÄƒŒƒCƒAƒEƒg‚ð®‚¦‚Ü‚·B‚Ü‚½AƒCƒ[ƒW‚ð“ü‚ê‚½‚èA<value-of> ƒ^ƒO‚ðŽg‚¤‚±‚Æ‚ÅƒeƒLƒXƒg€–Ú‚Éƒf[ƒ^ƒx[ƒX—ñ‚Ì“à—e‚ðŽæ‚èž‚Ý‚Ü‚·B‚±‚ÌƒJƒ^ƒƒO‚ÍAŒˆ‚Ü‚Á‚½ƒXƒ^ƒCƒ‹‚Åo—Í‚³‚ê‚é‚½‚ßAŒ©‚½–Ú‚ª“ˆê‚³‚êŠÇ—‚àŠÈ’P‚Å‚·B 
 TopSellingProducts=»•i‚²‚Æ‚Ì”„ã‚‚ð‰~ƒOƒ‰ƒt‚ÅŽ¦‚µ‚Ü‚·B‚Ç‚Ì‚æ‚¤‚È»•i‚ªãˆÊ‚ðè‚ß‚Ä‚¢‚é‚©‚ª‚í‚©‚é‚æ‚¤‚ÉA”„ã‚‚Ì‘½‚¢»•i‚©‚ç‡‚ÉŽ¦‚µ‚Ü‚·BƒOƒ‰ƒt‚ÌŽg—p‚âŒ‹‰ÊƒZƒbƒg‚Ìƒ\[ƒg•û–@‚ðŽ¦‚µ‚Ü‚·B‚Ü‚½AƒCƒ[ƒW‚ð“ü‚ê‚½‚èAƒe[ƒuƒ‹‚âƒOƒŠƒbƒh‚ðŽg‚Á‚ÄƒŒƒCƒAƒEƒg‚ð®‚¦‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚ÍAŒˆ‚Ü‚Á‚½ƒXƒ^ƒCƒ‹‚Åo—Í‚³‚ê‚é‚½‚ßAŒ©‚½–Ú‚ª“ˆê‚³‚êŠÇ—‚àŠÈ’P‚Å‚·B 
-TopNPercent=‚±‚ÌƒŒƒ|[ƒg‚ÍABIRT 2.0 ‚ÌV‚µ‚¢ƒtƒBƒ‹ƒ^‹@”\‚ðŽg‚Á‚ÄA‚Ç‚ÌŒÚ‹q‚Ö‚Ì”„ã‚‚ªãˆÊ‚ðè‚ß‚Ä‚¢‚é‚©‚ð’²‚×A–_ƒOƒ‰ƒt‚ÅŽ¦‚µ‚Ü‚·BƒŒƒ|[ƒg‚ÌŽÀsŽž‚É‡ˆÊ (ãˆÊ N ”Ô–Ú) ‚âŠ„‡ (M%) ‚ðŽw’è‚µ‚Ü‚·BƒOƒ‰ƒt‚Ì‰º‚ÉAãˆÊ M% ‚Ü‚Å‚ÌŒÚ‹q‚ð–¼‘O‡‚ÉŽ¦‚µ‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚ðo—Í‚·‚é‚É‚Íƒf[ƒ^‚ÌŽó‚¯“n‚µ‚ð”‰ñs‚¤•K—v‚ª‚ ‚è‚Ü‚·‚ªABIRT ƒŒƒ|[ƒgƒGƒ“ƒWƒ“‚ª‚·‚×‚Äˆ—‚µ‚Ü‚·Bƒ†[ƒU‚ªƒŒƒ|[ƒg‚ÌŽÀsŽž‚ÉŽw’è‚·‚é‡ˆÊ (N) ‚âƒp[ƒZƒ“ƒg (M) ‚Ì”’l‚ÍAƒpƒ‰ƒƒ^‚Æ‚µ‚ÄƒŒƒ|[ƒg‚É“n‚³‚ê‚Ü‚·B 
+TopNPercent=‚±‚ÌƒŒƒ|[ƒg‚ÍABIRT 2.0 ‚ÌV‚µ‚¢ƒtƒBƒ‹ƒ^‹@”\‚ðŽg‚Á‚ÄA‚Ç‚ÌŒÚ‹q‚Ö‚Ì”„ã‚‚ªãˆÊ‚ðè‚ß‚Ä‚¢‚é‚©‚ð’²‚×A–_ƒOƒ‰ƒt‚ÅŽ¦‚µ‚Ü‚·BƒŒƒ|[ƒg‚ÌŽÀsŽž‚É‡ˆÊ (ãˆÊ N ”Ô–Ú) ‚âŠ„‡ (M%) ‚ðŽw’è‚µ‚Ü‚·BƒOƒ‰ƒt‚Ì‰º‚ÉAãˆÊ M% ‚Ü‚Å‚ÌŒÚ‹q‚ð–¼‘O‡‚ÉŽ¦‚µ‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚ðo—Í‚·‚é‚É‚Íƒf[ƒ^‚ÌŽó‚¯“n‚µ‚ð”‰ñs‚¤•K—v‚ª‚ ‚è‚Ü‚·‚ªABIRTƒŒƒ|[ƒgƒGƒ“ƒWƒ“‚ª‚·‚×‚Äˆ—‚µ‚Ü‚·Bƒ†[ƒU‚ªƒŒƒ|[ƒg‚ÌŽÀsŽž‚ÉŽw’è‚·‚é‡ˆÊ (N) ‚âƒp[ƒZƒ“ƒg (M) ‚Ì”’l‚ÍAƒpƒ‰ƒƒ^‚Æ‚µ‚ÄƒŒƒ|[ƒg‚É“n‚³‚ê‚Ü‚·B 
 StaticCrosstab=‚±‚Ì—á‚ÍABIRT ‚Ì Total ŠÖ”‚ðŽg‚Á‚ÄA‚Ç‚Ì‚æ‚¤‚ÉƒXƒ^ƒeƒBƒbƒNƒNƒƒXƒ^ƒuƒŒƒ|[ƒg‚ð\’z‚·‚é‚©‚ðŽ¦‚µ‚½‚à‚Ì‚Å‚·B‚±‚ÌƒŒƒ|[ƒg‚ÍAClassic Models ŽÐ‚Ì»•iƒ‰ƒCƒ“•Ê”NŠÔ”„ã‚‚ðŽl”¼Šú‚²‚Æ‚É•\‚µ‚Ä‚¢‚Ü‚·B‚Ü‚½A‡Œv‚Íc‚Æ‰¡‚Ì 2 ‚Â‚ÌŽŸŒ³‚ÅWŒv‚³‚ê‚Ä‚¢‚Ü‚·BBIRT ‚Ì Total ŠÖ”‚Å‚ÍA2 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚ðŽg‚Á‚ÄWŒvƒf[ƒ^‚ðƒtƒBƒ‹ƒ^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚±‚ÌƒŒƒ|[ƒg‚Å‚ÍA‚±‚Ì‹@”\‚ªu“S“¹–ÍŒ^v‚È‚Ç‚Ì»•iŒQ‚ÉŠÖ‚·‚é”’l‚ð•\‚·‚½‚ß‚Ì‚Ý‚ÉŽg‚í‚ê‚Ä‚¢‚Ü‚·BTotal ŠÖ”‚ÌÅ‰‚Ìƒpƒ‰ƒƒ^‚ÍWŒv’l‚Å‚·B‚±‚Ì—á‚Å‚ÍA”„ãŒÂ”‚Æ’P‰¿‚ðŠ|‚¯‚½’l‚É“K—p‚³‚ê‚Ä‚¢‚Ü‚·B2 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚ÍƒtƒBƒ‹ƒ^‚Å‚·B‚½‚Æ‚¦‚ÎAƒtƒBƒ‹ƒ^‚ª dataSetRow["Products::PRODUCTLINE"]=="–ÍŒ^ƒI[ƒgƒoƒC" ‚Æ‚¢‚¤ƒtƒBƒ‹ƒ^‚ªŽw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍAu–ÍŒ^ƒI[ƒgƒoƒCv‚Ì»•iŒQ‚¾‚¯‚ªWŒv‚³‚ê‚Ü‚·B 
 
 #Business Forms
@@ -24,7 +24,7 @@ Newsfeeds_After=‚±‚Ì—á‚Å‚ÍAÄ—˜—p‰Â”\‚ÈƒRƒ“ƒ|[ƒlƒ“ƒgƒŒƒ|[ƒgƒ‰ƒCƒuƒ‰ƒŠ‚ðABIRT
 CustomerOrdersFinal=‚±‚Ì—á‚Å‚ÍABIRT ‚ðŽg‚Á‚½•¡‡ƒOƒ‰ƒt‚Ìì¬•û–@‚ðŽ¦‚µ‚Ü‚·B‚Ü‚½AƒOƒ‰ƒt“à•”‚ÌƒuƒbƒNƒ}[ƒN‚Æ Chart Interactivity Editor ‚ðŽg‚Á‚ÄÚ×î•ñ‚ðƒhƒŠƒ‹ƒ_ƒEƒ“‚·‚é‹@”\‚Ì’Ç‰Á•û–@‚àŽ¦‚µ‚Ü‚·B•¡‡ƒOƒ‰ƒt‚É‚ÍAãˆÊ 5 ˆÊ‚ÌŒÚ‹q‚Ì–¢•¥‚¢‹àŠz‚ð–_ƒOƒ‰ƒt‚ÅŽ¦‚µA‚»‚Ìã‚ÉŠeŒÚ‹q‚ÌM—pŒÀ“xŠz‚ðüŒn—ñ‚ÅŽ¦‚µ‚Ü‚·B‚»‚ê‚¼‚ê‚Ì–_‚ÍAŠeŒÚ‹q‚Ì’•¶‚ÌÚ×‚ÉƒŠƒ“ƒN‚³‚ê‚Ü‚·B 
 
 #Cascading
-cascade=‚±‚Ì—á‚Å‚ÍAƒJƒXƒP[ƒhƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ðŽg—p‚·‚é BIRT ƒŒƒ|[ƒg‚Ì\’z•û–@‚ðŽ¦‚µ‚Ü‚·BƒJƒXƒP[ƒhƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒpƒ‰ƒƒ^‚ÍA‘ŠŒÝ‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚Â‚Ü‚èA1 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚É’l‚ðŠ„‚è“–‚Ä‚é‚ÆA‚»‚ÌŒã‚Ìƒpƒ‰ƒƒ^‚ÉŠ„‚è“–‚Ä‚ç‚ê‚é’l‚Ì‘I‘ðŽˆ‚ªŒˆ‚Ü‚è‚Ü‚·BƒJƒXƒP[ƒhƒpƒ‰ƒƒ^‚ÍA1 ‚Â‚Ü‚½‚Í•¡”‚Ìƒf[ƒ^ƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·BƒJƒXƒP[ƒh‚ÌŠeƒŒƒxƒ‹‚É‚Íƒf[ƒ^ƒZƒbƒg‚ªŠ„‚è“–‚Ä‚ç‚ê‚Ü‚·B‚±‚Ìƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚Æ‘g‚Ý‡‚í‚¹‚é‚±‚Æ‚ÅAƒŒƒ|[ƒg‚É•Ô‚³‚ê‚éƒf[ƒ^‚Ì‘I”²‚ð_“î‚És‚¤‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+cascade=‚±‚Ì—á‚Å‚ÍAƒJƒXƒP[ƒhƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ðŽg—p‚·‚é BIRTƒŒƒ|[ƒg‚Ì\’z•û–@‚ðŽ¦‚µ‚Ü‚·BƒJƒXƒP[ƒhƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒpƒ‰ƒƒ^‚ÍA‘ŠŒÝ‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚Â‚Ü‚èA1 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚É’l‚ðŠ„‚è“–‚Ä‚é‚ÆA‚»‚ÌŒã‚Ìƒpƒ‰ƒƒ^‚ÉŠ„‚è“–‚Ä‚ç‚ê‚é’l‚Ì‘I‘ðŽˆ‚ªŒˆ‚Ü‚è‚Ü‚·BƒJƒXƒP[ƒhƒpƒ‰ƒƒ^‚ÍA1 ‚Â‚Ü‚½‚Í•¡”‚Ìƒf[ƒ^ƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·BƒJƒXƒP[ƒh‚ÌŠeƒŒƒxƒ‹‚É‚Íƒf[ƒ^ƒZƒbƒg‚ªŠ„‚è“–‚Ä‚ç‚ê‚Ü‚·B‚±‚Ìƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚Æ‘g‚Ý‡‚í‚¹‚é‚±‚Æ‚ÅAƒŒƒ|[ƒg‚É•Ô‚³‚ê‚éƒf[ƒ^‚Ì‘I”²‚ð_“î‚És‚¤‚±‚Æ‚ª‚Å‚«‚Ü‚·B
 
 #Drill to details
 MasterDetailOneReport=‚±‚Ì—á‚Å‚ÍAƒ}ƒXƒ^î•ñ‚ÆÚ×î•ñ‚ð 1 ‚Â‚ÌƒŒƒ|[ƒg‚É‚Ü‚Æ‚ß‚Ä¶¬‚·‚é•û–@‚ðŽ¦‚µ‚Ü‚·B
@@ -35,16 +35,16 @@ OrderDetailAfter=ƒ}ƒXƒ^ƒŒƒ|[ƒg‚Ì€–Ú‚ðƒNƒŠƒbƒN‚µ‚Ä‚¢‚­‚ÆÚ×ƒŒƒ|[ƒg‚ª•\Ž¦‚³‚ê‚
 ParameterToDataSetParameter=‚±‚±‚Å‚ÍAƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ðƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÉƒŠƒ“ƒN‚·‚é—á‚ðŽ¦‚µ‚Ä‚¢‚Ü‚·B
 
 #Expressions
-Expressions=‚±‚±‚Å‚ÍAŠÖ”‚ðŽg‚Á‚½ BIRT ƒŒƒ|[ƒg‚Ìì¬—á‚ðŽ¦‚µ‚Ä‚¢‚Ü‚·B
+Expressions=‚±‚±‚Å‚ÍAŠÖ”‚ðŽg‚Á‚½ BIRTƒŒƒ|[ƒg‚Ìì¬—á‚ðŽ¦‚µ‚Ä‚¢‚Ü‚·B
 
 #Grouping
 CustomerListAfter_Grouping=‚±‚Ì—á‚Å‚ÍABIRT ‚ÅƒOƒ‹[ƒv‰»‚µ‚½ƒŒƒ|[ƒg‚Ì\’z•û–@‚ðŽ¦‚·‚½‚ß‚ÉAŒÚ‹q‚ð‘•Ê‚ÉƒOƒ‹[ƒv‰»‚µ‚Ä‚¢‚Ü‚·BBIRT ‚ÌŽå—v‹@”\‚Å‚ ‚éƒOƒ‹[ƒv‰»A‰üƒy[ƒWA–ÚŽŸA‚¨‚æ‚ÑƒOƒ‹[ƒv‚²‚Æ‚Ìƒf[ƒ^‚ÌWŒv‚Æ‡Œv‚ÌWŒv‚àŽg—p‚µ‚Ä‚¢‚Ü‚·B 
 
 #Highlighting and Conditional Formatting
-ProductListAfter=‚±‚Ì—á‚Å‚ÍABIRT ƒŒƒ|[ƒg‚É‹­’²•\Ž¦‚âðŒ•t‚«‘Ž®‚ð’Ç‰Á‚·‚é•û–@‚ðŽ¦‚µ‚Ü‚·B‰ïŽÐ‚Ì‘S»•i‚ðˆê——‚É‚Ü‚Æ‚ß‚½»•iƒŒƒ|[ƒg‚ðŠî‚ÉAs‚ÌF‚ðŒðŒÝ‚É•Ï‚¦‚½‚èAÝŒÉ”‚ª­‚È‚¢»•i‚ð‹­’²•\Ž¦‚µ‚Ä‚¢‚Ü‚·B‚Ü‚½As‚Ì onCreate ƒCƒxƒ“ƒg‚ÉƒXƒNƒŠƒvƒg‚ð’Ç‰Á‚·‚é‚±‚Æ‚ÅA—˜•‚ª‘å‚«‚¢»•i‚ðŽÎ‘Ì‚ÅŽ¦‚µ‚Ä‚¢‚Ü‚·B 
+ProductListAfter=‚±‚Ì—á‚Å‚ÍABIRTƒŒƒ|[ƒg‚É‹­’²•\Ž¦‚âðŒ•t‚«‘Ž®‚ð’Ç‰Á‚·‚é•û–@‚ðŽ¦‚µ‚Ü‚·B‰ïŽÐ‚Ì‘S»•i‚ðˆê——‚É‚Ü‚Æ‚ß‚½»•iƒŒƒ|[ƒg‚ðŠî‚ÉAs‚ÌF‚ðŒðŒÝ‚É•Ï‚¦‚½‚èAÝŒÉ”‚ª­‚È‚¢»•i‚ð‹­’²•\Ž¦‚µ‚Ä‚¢‚Ü‚·B‚Ü‚½As‚Ì onCreate ƒCƒxƒ“ƒg‚ÉƒXƒNƒŠƒvƒg‚ð’Ç‰Á‚·‚é‚±‚Æ‚ÅA—˜•‚ª‘å‚«‚¢»•i‚ðŽÎ‘Ì‚ÅŽ¦‚µ‚Ä‚¢‚Ü‚·B 
 
 #Mapping and Sorting 
-CustomerListAfter_Mapping=‚±‚Ì—á‚ÍABIRT ‚Ìƒ}ƒbƒv‚Æƒ\[ƒg‚Ì‹@”\‚ðŽ¦‚µ‚½‚à‚Ì‚Å‚·Bƒ}ƒbƒv‹@”\‚ÍAƒNƒGƒŠŽ®‚ÉŠî‚Ã‚­‚³‚Ü‚´‚Ü‚È’l‚ð BIRT ƒŒƒ|[ƒg‚É•Ô‚µ‚Ü‚·B‚½‚Æ‚¦‚ÎAƒNƒGƒŠ‚©‚ç”’lƒtƒB[ƒ‹ƒh‚ÉŒŽ‚Ì’l (1`12) ‚ð•Ô‚µ‚½ê‡‚ÍA‚»‚ê‚ðu1 ŒŽv‚©‚çu12 ŒŽv‚Æ‚¢‚¤’l‚ðƒŒƒ|[ƒg‚É•\Ž¦‚µ‚Ü‚·B‚±‚ÌƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚Å‚ÍAClassic Models ŽÐ‚ÌŒÚ‹q‚ÌM—p“x‚ðƒ}ƒbƒv‚µ‚Ä‚¢‚Ü‚·Bƒ\[ƒg‹@”\‚ÍA”ñí‚É•Ö—˜‚È‹@”\‚ÅA‘½‚­‚Ì BIRT ƒŒƒ|[ƒg‚ÅŽg—p‚³‚ê‚Ä‚¢‚Ü‚·B‚±‚±‚Å‚ÍAƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é Table —v‘f‚Éƒ\[ƒgŽ®‚ðŽg‚Á‚Ä‚¢‚Ü‚·B‚±‚Ìƒpƒ‰ƒƒ^‚É“ü—Í‚µ‚½ŒŸõ•¶Žš—ñ‚ªƒ\[ƒgŽ®‚É‘g‚Ýž‚Ü‚êAƒe[ƒuƒ‹‚Ìƒ\[ƒg‡‚ªŒˆ‚Ü‚è‚Ü‚·B 
+CustomerListAfter_Mapping=‚±‚Ì—á‚ÍABIRT ‚Ìƒ}ƒbƒv‚Æƒ\[ƒg‚Ì‹@”\‚ðŽ¦‚µ‚½‚à‚Ì‚Å‚·Bƒ}ƒbƒv‹@”\‚ÍAƒNƒGƒŠŽ®‚ÉŠî‚Ã‚­‚³‚Ü‚´‚Ü‚È’l‚ð BIRTƒŒƒ|[ƒg‚É•Ô‚µ‚Ü‚·B‚½‚Æ‚¦‚ÎAƒNƒGƒŠ‚©‚ç”’lƒtƒB[ƒ‹ƒh‚ÉŒŽ‚Ì’l (1`12) ‚ð•Ô‚µ‚½ê‡‚ÍA‚»‚ê‚ðu1 ŒŽv‚©‚çu12 ŒŽv‚Æ‚¢‚¤’l‚ðƒŒƒ|[ƒg‚É•\Ž¦‚µ‚Ü‚·B‚±‚ÌƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚Å‚ÍAClassic Models ŽÐ‚ÌŒÚ‹q‚ÌM—p“x‚ðƒ}ƒbƒv‚µ‚Ä‚¢‚Ü‚·Bƒ\[ƒg‹@”\‚ÍA”ñí‚É•Ö—˜‚È‹@”\‚ÅA‘½‚­‚Ì BIRTƒŒƒ|[ƒg‚ÅŽg—p‚³‚ê‚Ä‚¢‚Ü‚·B‚±‚±‚Å‚ÍAƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é Table —v‘f‚Éƒ\[ƒgŽ®‚ðŽg‚Á‚Ä‚¢‚Ü‚·B‚±‚Ìƒpƒ‰ƒƒ^‚É“ü—Í‚µ‚½ŒŸõ•¶Žš—ñ‚ªƒ\[ƒgŽ®‚É‘g‚Ýž‚Ü‚êAƒe[ƒuƒ‹‚Ìƒ\[ƒg‡‚ªŒˆ‚Ü‚è‚Ü‚·B 
 
 #Parallel Report 
 EmployeeAfter=‚±‚Ì—á‚Å‚ÍA•À—ñƒZƒNƒVƒ‡ƒ“‚ðŽ‚ÂƒŒƒ|[ƒg‚ð\’z‚µAƒe[ƒuƒ‹ƒtƒBƒ‹ƒ^‚ðŽg‚Á‚Ä•\Ž¦ƒf[ƒ^‚ð‘I”²‚·‚é•û–@‚ðŽ¦‚µ‚Ü‚·B‚±‚ÌƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ÍƒOƒŠƒbƒh—v‘f‚Å 2 —ñ‚É•ª‚¯A‚»‚ê‚¼‚ê‚Ì—ñ‚ÉƒlƒXƒg‰»‚µ‚½ƒe[ƒuƒ‹‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚Ü‚·B‚±‚±‚ÉA–ðE‚ÌŠK‘w‚²‚Æ‚ÉƒOƒ‹[ƒv‰»‚µ‚½ŽÐˆõî•ñ‚ªŽæ‚èž‚Ü‚ê‚Ü‚·Bƒe[ƒuƒ‹‚ÍƒIƒtƒBƒXƒR[ƒh‚É‚æ‚Á‚ÄƒtƒBƒ‹ƒ^‚³‚ê‚Ü‚·B 

@@ -9,7 +9,7 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-report.debug=BIRT レポート
+report.debug=BIRTレポート
 script.debug=レポート
 LaunchActionSet.label=レポートのデバッグ(&E) 
 Script.source.locator=レポートスクリプトのソースロケータ
