@@ -61,11 +61,11 @@ public class ResourceLocatorUtil
 				uri = new URI( null, null, path, null );
 			}
 
-			logger.log( Level.FINER, "Resolved excel source URI: " + uri );
+			logger.log( Level.FINER, "Resolved Excel source URI: " + uri );
 
 			if ( uri.isAbsolute() )
 			{
-				logger.log( Level.FINER, "Excel source folder URI is resolved as the absolute path: " + uri );
+				logger.log( Level.FINER, "Excel data source file URI is resolved as the absolute path: " + uri );
 				return uri;
 			}
 			else if ( !uri.isAbsolute( ) && resourceIdentifiers != null )

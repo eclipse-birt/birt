@@ -91,7 +91,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		ISelectionChangedListener {
 
 	private static String DEFAULT_MESSAGE = Messages
-			.getString("wizard.defaultMessage.selectFile"); //$NON-NLS-1$
+			.getString("wizard.defaultMessage.selectDataSet"); //$NON-NLS-1$
 
 	private static final String queryTextDelimiter = ":"; //$NON-NLS-1$
 	private static final String columnsInfoStartSymbol = "{"; //$NON-NLS-1$
@@ -991,9 +991,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 					setMessage(Messages.getString("warning.fileExtensionInvalid"), //$NON-NLS-1$
 							ERROR);
 			} else {
-				setMessage(Messages
+			    String decodedURIPath = uri.getPath();
+			    if( decodedURIPath == null )
+			        decodedURIPath = uriPath;
+			    setErrorMessage(Messages
 						.getFormattedString(
-								"error.noFile", new Object[] { uri.toString( ) })); //$NON-NLS-1$
+								"error.noFile", new Object[] { decodedURIPath })); //$NON-NLS-1$
 				disableAll();
 			}
 		}
