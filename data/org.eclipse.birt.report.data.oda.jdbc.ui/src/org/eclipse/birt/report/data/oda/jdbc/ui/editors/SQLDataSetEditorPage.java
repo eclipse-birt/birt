@@ -424,17 +424,21 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	private void computeSize( )
 	{
-		availableDbObjectsTree.setBounds( availableDbObjectsTree.getBounds( ).x,
-				availableDbObjectsTree.getBounds( ).y,
-				this.getShell( ).getSize( ).x / 3,
-				this.getShell( ).getSize( ).y / 4 );
-		sComposite.setMinSize( max( this.getShell( ).getSize( ).x / 3 - 30,
-				DB_OBJECT_TREE_WIDTH_MIN ),
-				max( this.getShell( ).getSize( ).y / 4,
-						DB_OBJECT_TREE_HEIGHT_MIN )
-						+ selectTableGroup.getBounds( ).height
-						+ sqlOptionGroup.getBounds( ).height + 30 );
-		tablescomposite.layout( );
+		if ( this.getShell( ) != null )
+		{
+			availableDbObjectsTree.setBounds( availableDbObjectsTree.getBounds( ).x,
+					availableDbObjectsTree.getBounds( ).y,
+					this.getShell( ).getSize( ).x / 3,
+					this.getShell( ).getSize( ).y / 4 );
+			sComposite.setMinSize( max( this.getShell( ).getSize( ).x / 3 - 30,
+					DB_OBJECT_TREE_WIDTH_MIN ),
+					max( this.getShell( ).getSize( ).y / 4,
+							DB_OBJECT_TREE_HEIGHT_MIN )
+							+ selectTableGroup.getBounds( ).height
+							+ sqlOptionGroup.getBounds( ).height + 30 );
+			tablescomposite.layout( );
+		}
+
 	}
 	
 	private int max( double d, double b )
