@@ -13,7 +13,7 @@ dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
 dataset.property.rowFetchSize=フェッチする行サイズ(&R)
 #
 oda.data.source.name=Classic Models Inc. サンプルデータベース
-connection.profile.name=BIRT サンプルデータベースのデータソース接続プロファイル
+connection.profile.name=BIRT サンプルデータベースデータソース接続プロファイル
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
