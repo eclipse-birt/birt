@@ -470,8 +470,15 @@ abstract class AbstractReportParameterAdapter
 				reportParam
 						.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
 			else
-				reportParam
-						.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC );
+			{
+				DataSetHandle dataSet = reportParam.getDataSet();
+				if (dataSet != null && dataSet instanceof OdaDataSetHandle) 
+				{
+					reportParam
+							.setValueType(DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC);
+				}
+			}
+
 		}
 	}
 
