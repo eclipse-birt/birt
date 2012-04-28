@@ -67,6 +67,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -120,7 +121,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private final int DEFAULT_WIDTH = 200;
 	private final int DEFAULT_HEIGHT = 200;
 
-	private transient ComboViewer fileViewer = null;
 	private transient ComboViewer worksheetsCombo = null;
 	private transient List availableList = null;
 	private transient TableViewer selectedColumnsViewer = null;
@@ -140,9 +140,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	/** store latest selected sheet name */
 	private String currentSheetName;
 
-	private boolean isNewFile;
-
-	private String nameOfFileWithErrorInLastAccess = null;
 
 	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<String[]>();
 	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<String[]>();
@@ -257,7 +254,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 */
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
 		// if this page in DataSetEditor hasn't been activated
-		if (fileViewer == null)
+		if (worksheetsCombo == null)
 			return design;
 
 		savePage(design);
@@ -297,7 +294,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		data.top = new FormAttachment(0, 5);
 
 		Label label = new Label(composite, SWT.NONE);
-		label.setText(Messages.getString("label.selectFile")); //$NON-NLS-1$
+		label.setText(Messages.getString("label.selectworksheet")); //$NON-NLS-1$
 		label.setLayoutData(data);
 
 		createTopComposite(composite, label);
@@ -326,53 +323,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		FormData data = new FormData();
 		data.left = new FormAttachment(label, 5);
 		data.right = new FormAttachment(40, -5);
-		fileViewer = new ComboViewer(composite, SWT.BORDER | SWT.READ_ONLY);
-		fileViewer.getControl().setLayoutData(data);
-		fileViewer.setContentProvider(new ArrayContentProvider());
-		fileViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				Object file =  ((IStructuredSelection) event.getSelection())
-						.getFirstElement();
-
-				if (file.equals(selectedFile))
-				{
-					isNewFile = false;
-					return;
-				}
-
-				selectedFile = file;
-				isNewFile = true;
-				try {
-					populateWorkSheetCombo();
-				} catch (Exception e) {
-					setMessage(Messages.getString("ui.ExcelFileNotFound"), //$NON-NLS-1$
-							ERROR);
-				}
-			}
-		});
-		fileViewer.setLabelProvider(new LabelProvider() {
-			public String getText(Object element) {
-				return getFileName( element );
-			}
-		});
-
-		data = new FormData();
-		data.left = new FormAttachment(fileViewer.getControl(), 5);
-		data.top = new FormAttachment(0, 5);
-
-		label = new Label(composite, SWT.NONE);
-		label.setText(Messages.getString("label.selectworksheet")); //$NON-NLS-1$
-		label.setLayoutData(data);
-
-		data = new FormData();
-		data.left = new FormAttachment(label, 5);
-		data.right = new FormAttachment(80, -5);
 		worksheetsCombo = new ComboViewer(composite, SWT.BORDER | SWT.READ_ONLY);
 		worksheetsCombo.getControl().setLayoutData(data);
 		worksheetsCombo.setContentProvider(new ArrayContentProvider());
 		worksheetsCombo.addSelectionChangedListener(this);
-
+		worksheetsCombo.setLabelProvider(new LabelProvider() {
+			public String getText(Object element) {
+				return getFileName( element );
+			}
+		});
 		data = new FormData();
 		data.left = new FormAttachment(worksheetsCombo.getControl(), 5);
 		data.top = new FormAttachment(0, 5);
@@ -385,7 +344,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 */
 	private void createLeftComposite(Composite composite) {
 		FormData data = new FormData();
-		data.top = new FormAttachment(fileViewer.getControl(), 10, SWT.BOTTOM);
+		data.top = new FormAttachment(worksheetsCombo.getControl(), 10, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
 		data.right = new FormAttachment(40, -5);
 		data.bottom = new FormAttachment(100, -5);
@@ -465,7 +424,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private void createRightComposite(Composite composite,
 			Composite btnComposite) {
 		FormData data = new FormData();
-		data.top = new FormAttachment(fileViewer.getControl(), 10, SWT.BOTTOM);
+		data.top = new FormAttachment(worksheetsCombo.getControl(), 10, SWT.BOTTOM);
 		data.left = new FormAttachment(btnComposite, 3);
 		data.right = new FormAttachment(100, -2);
 		data.bottom = new FormAttachment(100, -5);
@@ -824,6 +783,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	{
 		if ( obj instanceof File )
 			return ( (File) obj ).getName( );
+		else if ( obj instanceof URI)
+			return ((URI)obj).getPath( );
 		return obj.toString( );
 	}
 
@@ -835,13 +796,20 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
+
 		String sheetName = (String) ((IStructuredSelection) event
 				.getSelection()).getFirstElement();
+		if (this.getShell( ) != null)
+		{
+			Cursor waitCursor = new Cursor(this.getShell().getDisplay(),
+					SWT.CURSOR_WAIT);
+			this.getControl( ).setCursor( waitCursor );
+		}
 
-		if (!isNewFile && sheetName.equalsIgnoreCase(currentSheetName))
+		if (sheetName.equalsIgnoreCase(currentSheetName))
 			return;
 
-		else if (!isNewFile && !MessageDialog.openConfirm(worksheetsCombo.getControl()
+		else if (currentSheetName != null && !MessageDialog.openConfirm(worksheetsCombo.getControl()
 				.getShell(), Messages
 				.getString("confirm.reselectWorksheetTitle"), //$NON-NLS-1$
 				Messages.getString("confirm.reselectWorksheetMessage"))) //$NON-NLS-1$
@@ -856,7 +824,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		selectedColumnsViewer.getTable().removeAll();
 		savedSelectedColumnsInfoList.clear();
 		availableList.removeAll();
-		nameOfFileWithErrorInLastAccess = null;
 
 		String fileName = getFileName( selectedFile );
 		String[] columnNames = getFileColumnNames(selectedFile);
@@ -865,6 +832,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			enableListAndViewer();
 			availableList.setItems(columnNames);
 			availableList.select(0);
+			btnAdd.setEnabled( true );
 			btnRemove.setEnabled(false);
 			btnMoveUp.setEnabled(false);
 			btnMoveDown.setEnabled(false);
@@ -875,6 +843,13 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			} else
 				setMessage(DEFAULT_MESSAGE);
 		}
+		if (this.getShell( ) != null)
+		{
+			Cursor normalCursor = new Cursor(this.getShell().getDisplay(),
+					SWT.CURSOR_ARROW);
+			this.getControl( ).setCursor( normalCursor );
+		}
+
 	}
 
 	/**
@@ -927,78 +902,76 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	/**
 	 * Update file list in combo viewer
 	 */
-	private void updateFileList() {
-		if (fileViewer != null && !fileViewer.getControl().isDisposed()) {
-			if (uriPath == null) {
-				disableAll();
-				return;
-			}
-			ArrayList<Object> allFiles = new ArrayList<Object>( );
+	private void updateFileList( )
+	{
+		if ( uriPath == null )
+		{
+			disableAll( );
+			return;
+		}
+		ArrayList<Object> allFiles = new ArrayList<Object>( );
 
-			URI uri = null;
+		URI uri = null;
+		try
+		{
+			ResourceIdentifiers ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
+			uri = ResourceLocatorUtil.resolvePath( ri, uriPath );
+		}
+		catch ( OdaException e )
+		{
+			setMessage( Messages.getString( "ui.ExcelFileNotFound" ) + uri + //$NON-NLS-1$
+			"; " + e.getLocalizedMessage( ) ); //$NON-NLS-1$
+			disableAll( );
+			return;
+		}
+		if ( uri == null )
+		{
+			setMessage( Messages.getString( "ui.ExcelFileNotFound" ) + uri ); //$NON-NLS-1$
+			disableAll( );
+			return;
+		}
+		try
+		{
+			ResourceLocatorUtil.validateFileURI( uri );
+			allFiles.add( uri );
+		}
+		catch ( Exception ignore )
+		{
+		}
+
+		if ( allFiles.size( ) > 0 )
+		{
+			enableListAndViewer( );
+			selectedFile = allFiles.get( 0 );
+
+			String extension = ExcelFileReader.getExtensionName( selectedFile );
+			if ( extension.equals( ExcelODAConstants.XLS_FORMAT )
+					|| extension.equals( ExcelODAConstants.XLSX_FORMAT ) )
+			{
+				setMessage( DEFAULT_MESSAGE );
+			}
+			else
+				setMessage( Messages.getString( "warning.fileExtensionInvalid" ), //$NON-NLS-1$
+						ERROR );
 			try
 			{
-				ResourceIdentifiers ri = DesignSessionUtil.createRuntimeResourceIdentifiers( getHostResourceIdentifiers( ) );
-				uri = ResourceLocatorUtil.resolvePath( ri, uriPath );
+				populateWorkSheetCombo( );
+				String[] columnNames = getFileColumnNames(selectedFile);
+				availableList.setItems( columnNames );
 			}
-			catch ( OdaException e )
+			catch ( Exception e )
 			{
-				setMessage( Messages.getString("ui.ExcelFileNotFound") + uri +  //$NON-NLS-1$
-				            "; " + e.getLocalizedMessage()); //$NON-NLS-1$
-				disableAll( );
-				return;
+				setMessage( Messages.getString( "ui.ExcelFileNotFound" ), //$NON-NLS-1$
+						ERROR );
 			}
-			if (uri == null)
-			{
-				setMessage(Messages.getString("ui.ExcelFileNotFound") + uri ); //$NON-NLS-1$
-				disableAll();
-				return;
-			}
-			try
-			{
-				ResourceLocatorUtil.validateFileURI( uri );
-				allFiles.add( uri );
-			}
-			catch (Exception ignore)
-			{
-			}
-
-			fileViewer.setInput( allFiles );
-			ArrayList<Object> files = (ArrayList<Object>) fileViewer.getInput( );
-			if (files.size() > 0) {
-				enableListAndViewer();
-				Object toSelectFile = null;
-				if (selectedFile != null)
-					for (int i = 0; i < files.size(); i++) {
-						if (files.get(i).equals(selectedFile)) {
-							toSelectFile = selectedFile;
-							break;
-						}
-					}
-				if (toSelectFile == null)
-					toSelectFile = files.get(0);
-
-				fileViewer.setSelection(new StructuredSelection(toSelectFile));
-				if (!(nameOfFileWithErrorInLastAccess != null && nameOfFileWithErrorInLastAccess
-						.equals(fileViewer.getCombo().getText())))
-					setMessage(DEFAULT_MESSAGE);
-
-				String extension = ExcelFileReader.getExtensionName( uri );
-				if (extension.equals( ExcelODAConstants.XLS_FORMAT ) || extension
-						.equals( ExcelODAConstants.XLSX_FORMAT )) {
-					setMessage(DEFAULT_MESSAGE);
-				} else
-					setMessage(Messages.getString("warning.fileExtensionInvalid"), //$NON-NLS-1$
-							ERROR);
-			} else {
-			    String decodedURIPath = uri.getPath();
-			    if( decodedURIPath == null )
-			        decodedURIPath = uriPath;
-			    setErrorMessage(Messages
-						.getFormattedString(
-								"error.noFile", new Object[] { decodedURIPath })); //$NON-NLS-1$
-				disableAll();
-			}
+		}
+		else
+		{
+			String decodedURIPath = uri.getPath( );
+			if ( decodedURIPath == null )
+				decodedURIPath = uriPath;
+			setErrorMessage( Messages.getFormattedString( "error.noFile", new Object[]{decodedURIPath} ) ); //$NON-NLS-1$
+			disableAll( );
 		}
 	}
 
@@ -1067,7 +1040,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	}
 
 	private void updateExceptionInfo() {
-		nameOfFileWithErrorInLastAccess = fileViewer.getCombo().getText();
 		if (availableList.getItemCount() == 0)
 			disableAvailableListAndButtons();
 	}
@@ -1263,10 +1235,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		String tableName = null;
 		StringBuffer buf = new StringBuffer();
-		Object file = ( (StructuredSelection) fileViewer.getSelection( ) ).getFirstElement( );
-		if ( file != null )
+		if ( selectedFile != null )
 		{
-			tableName = getFileName( file );
+			tableName = getFileName( selectedFile );
 		}
 		if (tableName != null) {
 			tableName = QueryTextUtil.getQuotedName(tableName);
@@ -1313,25 +1284,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 	private void updateValuesFromQuery(String queryText) {
 		if (queryText.length() == 0)
-			return;
-
-		try {
-			String query = (new QueryTextUtil(queryText)).getQuery();
-			String[] metadata = QueryTextUtil.getQueryMetaData(query);
-
-			// The query must have a table name and columns.
-			if (metadata != null && metadata[0] != null && metadata[2] != null) {
-				// Now select the table in the list. If it doesn't exists, no
-				// need to process the columns.
-				Object f = selectTableFromQuery(metadata[2]);
-				if (f != null) {
-					updateColumnsFromQuery(queryText, f);
-				}
+		{
+			if (selectedColumnsViewer.getTable().getItemCount() == 0 && this.getControl( ).getShell( ).getText( ).startsWith( "Edit" )) {
+				setPageComplete(false);
+				setMessage(Messages.getString("error.selectColumns"), ERROR);
 			}
-		} catch (OdaException e) {
-			setMessage(e.getLocalizedMessage(), ERROR);
-			updateExceptionInfo();
+			return;
 		}
+
+	    updateColumnsFromQuery(queryText, selectedFile);
 
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
@@ -1362,28 +1323,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
 		}
-	}
-
-	/**
-	 * @param tableName
-	 * @return File
-	 */
-	private Object selectTableFromQuery(String tableName) {
-		// for page refresh
-		ArrayList<Object> files = (ArrayList<Object>) fileViewer.getInput( );
-		if ( files != null )
-		{
-			for ( int n = 0; n < files.size( ); n++ )
-			{
-				if ( getFileName( files.get( n ) ).equalsIgnoreCase( tableName ) )
-				{
-					fileViewer.setSelection( new StructuredSelection( files.get( n ) ) );
-					isNewFile = false;
-					return files.get( n );
-				}
-			}
-		}
-		return null;
 	}
 
 	private void moveUpItem() {
