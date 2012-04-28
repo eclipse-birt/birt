@@ -217,7 +217,7 @@ public class ElementStructureUtil
 			if ( content instanceof ExtendedItem )
 			{
 				if ( !( (ExtendedItem) content )
-						.hasLocalPropertyValuesOnOwnModel( ) )
+						.hasLocalPropertyValues( ) )
 				{
 					( (ExtendedItem) content ).getExtensibilityProvider( )
 							.clearOwnModel( );
