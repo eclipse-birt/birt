@@ -4,10 +4,10 @@ birt.web.project.description=BIRT ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg‚ðŠÜ‚Þ Web ƒvƒƒWƒFƒNƒ
 birt.web.actionsets.description=BIRT Web ƒvƒƒWƒFƒNƒg‚Å‚Ì‘€ì
 create.birt.web.module=BIRT Web ƒ‚ƒWƒ…[ƒ‹‚Ìì¬
 
-BIRT_FACET_LABEL=BIRTƒŒƒ|[ƒgì¬ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg
-BIRT_FACET_DESCRIPTION=BIRTƒŒƒ|[ƒgì¬ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg
-BIRT_FACET_TEMPLATE_LABEL=BIRTƒŒƒ|[ƒgì¬ Web ƒvƒƒWƒFƒNƒg
-BIRT_FACET_TEMPLATE_DESCRIPTION=BIRTƒŒƒ|[ƒgì¬ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì Web ƒvƒƒWƒFƒNƒg
+BIRT_FACET_LABEL=BIRT ƒŒƒ|[ƒgì¬ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg
+BIRT_FACET_DESCRIPTION=BIRT ƒŒƒ|[ƒgì¬ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg
+BIRT_FACET_TEMPLATE_LABEL=BIRT ƒŒƒ|[ƒgì¬ Web ƒvƒƒWƒFƒNƒg
+BIRT_FACET_TEMPLATE_DESCRIPTION=BIRT ƒŒƒ|[ƒgì¬ƒ‰ƒ“ƒ^ƒCƒ€ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì Web ƒvƒƒWƒFƒNƒg
 
 JSP_New_context_type_Extension_Element.name=V‹K JSP (BIRT ƒ^ƒO‚ðŽg—p)
 JSP_Tag_context_type_Extension_Element.name=V‹K BIRT JSP ƒ^ƒO

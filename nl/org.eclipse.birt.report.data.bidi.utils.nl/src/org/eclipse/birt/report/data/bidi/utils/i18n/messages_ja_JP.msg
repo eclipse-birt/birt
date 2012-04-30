@@ -1,4 +1,4 @@
-preference.description = JDBCデータソースのデフォルトの双方向形式
+preference.description = JDBC データソースのデフォルトの双方向形式
 preference.bidiframe.title = 双方向形式 
 preference.bidiframe.arabictitle = アラビア語固有の機能
  
