@@ -12,7 +12,7 @@
 ###############################################################################
 # NLS String
 ###############################################################################
-oda.xml.datasource=XMLデータソース
+oda.xml.datasource=XML データソース
 oda.xml.dataset=XML データセット
 oda.xml.tablemapping=テーブルのマッピング
 oda.xml.columnmapping=列のマッピング
@@ -25,12 +25,12 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 #
 plugin.name=BIRT ODA XML Designer
 oda.data.source.name=BIRT 2.1.x XML の旧データソース
-connection.profile.name=XMLデータソース接続プロファイル
+connection.profile.name=XML データソース接続プロファイル
 newwizard.name=BIRT 2.1.x XML の旧データソース
-newwizard.description=BIRT 2.1.x XMLデータソース接続プロファイルの作成
-wizard.window.title=XMLデータソースプロファイルの新規作成
+newwizard.description=BIRT 2.1.x XML データソース接続プロファイルの作成
+wizard.window.title=XML データソースプロファイルの新規作成
 wizard.data.source.page.title=XML ファイルとスキーマ情報への ULR を定義してください。
-profile.propertypage.name=XMLデータソースの接続プロパティ
+profile.propertypage.name=XML データソースの接続プロパティ
 preference.datasetpreview=XML データセット
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored

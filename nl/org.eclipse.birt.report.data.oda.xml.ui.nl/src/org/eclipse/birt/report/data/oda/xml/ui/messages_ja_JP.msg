@@ -1,5 +1,5 @@
 # wizard dialog messages
-wizard.title.selectFolder=XMLデータソース
+wizard.title.selectFolder=XML データソース
 wizard.defaultMessage.selectFolder=XML ファイルとスキーマ情報に ULR を定義してください。
 wizard.title.newDataSet=新規データセット
 wizard.title.selectXmlFile=プレビューする XML データの選択
@@ -46,7 +46,7 @@ dataset.editor.columnName=名前
 dataset.editor.xpathexpression=XPath
 dataset.editor.datatype=型
 dataset.editor.rowelement=行要素
-dataset.error.populateXMLTree=XMLデータソースを取得できません。XMLデータソースファイルが無効か、存在しません。
+dataset.error.populateXMLTree=XML データソースを取得できません。XML データソースファイルが無効か、存在しません。
 
 error.label=エラー
 error.selectFolder=選択したファイルの URL は無効か、ファイルが存在しません。
@@ -76,4 +76,4 @@ dataset.new=新規データセット
 file.choose=参照(&B)...
 title.warning=警告
 
-datasource.propertyPage.tooltip=XMLデータソース
+datasource.propertyPage.tooltip=XML データソース

@@ -25,8 +25,8 @@ TemplateEditor=テンプレートエディタ
 
 WizardCategoryName=ビジネスインテリジェンスおよびレポーティングツール
 ReportWizard=レポート
-ReportWizardDescription=このウィザードでは、定義済みのテンプレートを使って新しい BIRTレポートを作成します。
+ReportWizardDescription=このウィザードでは、定義済みのテンプレートを使って新しい BIRT レポートを作成します。
 TemplateWizard=テンプレート
 TemplateWizardDescription=このウィザードでは、新しい BIRT テンプレートを作成します。
 LibraryWizard=ライブラリ
-LibraryWizardDescription=このウィザードでは、新しい BIRTレポートライブラリを作成します。
+LibraryWizardDescription=このウィザードでは、新しい BIRT レポートライブラリを作成します。
