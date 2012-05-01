@@ -13,9 +13,11 @@ package org.eclipse.birt.data.engine.executor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -23,7 +25,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * Manage the cache map
  */
-class CacheMapManager
+public class CacheMapManager
 {
 	/**
 	 * Please notice that we must use static variable here for the sharing of
@@ -190,6 +192,28 @@ class CacheMapManager
 				}
 			}
 			return null;
+		}
+	}
+	
+	public static void clearCache( Set<String> cacheIDs ) 
+	{
+		List<IDataSetCacheObject> removed = new ArrayList<IDataSetCacheObject>( );
+		
+		Object[] keyArray = JVMLevelCacheMap.keySet( ).toArray( new DataSourceAndDataSet[]{} );
+		for( Object dsAndDs : keyArray )
+		{
+			if( cacheIDs.contains( ((DataSourceAndDataSet)dsAndDs).getCacheScopeID( ) ))
+			{
+				IDataSetCacheObject cacheObj = (IDataSetCacheObject) JVMLevelCacheMap.remove( dsAndDs );
+				if( cacheObj != null )
+					removed.add( cacheObj );
+				
+			}
+		}
+		
+		for( IDataSetCacheObject dataSetCacheObject : removed )
+		{
+			dataSetCacheObject.release( );
 		}
 	}
 }
