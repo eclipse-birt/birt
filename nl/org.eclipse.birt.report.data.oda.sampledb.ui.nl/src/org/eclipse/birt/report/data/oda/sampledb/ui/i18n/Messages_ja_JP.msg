@@ -1,5 +1,5 @@
 datasource.page.title=Classic Models Inc. の新規サンプルデータソース
-datasource.page.msg=次の接続プロパティに基づいて、Classic Models Inc. のサンプルデータベースへ接続する JDBC データソースを作成します。
+datasource.page.msg=次の接続プロパティに基づいて、Classic Models Inc. サンプルデータベースへ接続する JDBC データソースを作成します。
 datasource.page.driver.class=ドライバクラス :
 datasource.page.url=データベースの URL : 
 datasource.page.user=データベースのユーザー :
