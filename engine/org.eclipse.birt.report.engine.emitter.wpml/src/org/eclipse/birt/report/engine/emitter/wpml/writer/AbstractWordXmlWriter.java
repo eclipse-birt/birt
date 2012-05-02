@@ -948,7 +948,12 @@ public abstract class AbstractWordXmlWriter
 			writeIndent( indent );
 		}
 		writeBidi( CSSConstants.CSS_RTL_VALUE.equals( style.getDirection( ) ) ); // bidi_hcg
-
+		// We need to apply the text font style to the paragraph. It is useful
+		// if the end user want to paste some text into this paragraph and
+		// changes the text to the paragraph's font style.
+		writer.openTag( "w:rPr" );
+		writeRunProperties( style, fontFamily, info );
+		writer.closeTag( "w:rPr" );
 		writer.closeTag( "w:pPr" );
 		writeTextInRun( type, txt, style, fontFamily, info, false,
 				paragraphWidth, runIsRtl );
