@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui;
 
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
 import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.gef.ui.views.palette.PaletteView;
@@ -23,7 +24,7 @@ import org.eclipse.ui.IPerspectiveFactory;
  * JRPPerspective generates the initial page layout and visible action set for
  * birt.
  * 
- *  
+ * 
  */
 public class ReportPerspective implements IPerspectiveFactory
 {
@@ -31,16 +32,25 @@ public class ReportPerspective implements IPerspectiveFactory
 	public static final String BIRT_REPORT_PERSPECTIVE = "org.eclipse.birt.report.designer.ui.ReportPerspective"; //$NON-NLS-1$
 
 	public static final String NEW_REPORT_ID = "org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard";//$NON-NLS-1$
-	
+
 	public static final String NEW_TEMPLATE_ID = "org.eclipse.birt.report.designer.ui.ide.wizards.NewTemplateWizard";//$NON-NLS-1$
+
+	private IReportPerspectiveExtra extra;
 
 	/**
 	 * Constructs a new Default layout engine.
 	 */
-
 	public ReportPerspective( )
 	{
 		super( );
+
+		Object adapter = ElementAdapterManager.getAdapter( this,
+				IReportPerspectiveExtra.class );
+
+		if ( adapter instanceof IReportPerspectiveExtra )
+		{
+			extra = (IReportPerspectiveExtra) adapter;
+		}
 	}
 
 	/**
@@ -48,8 +58,8 @@ public class ReportPerspective implements IPerspectiveFactory
 	 * 
 	 * Implementors of this method may add additional views to a perspective.
 	 * The perspective already contains an editor folder with
-	 * <code>ID = ILayoutFactory.ID_EDITORS</code>. Add additional views to
-	 * the perspective in reference to the editor folder.
+	 * <code>ID = ILayoutFactory.ID_EDITORS</code>. Add additional views to the
+	 * perspective in reference to the editor folder.
 	 * 
 	 * This method is only called when a new perspective is created. If an old
 	 * perspective is restored from a persistence file then this method is not
@@ -70,21 +80,44 @@ public class ReportPerspective implements IPerspectiveFactory
 	private void defineActions( IPageLayout layout )
 	{
 		// Add "new wizards".
-		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
+		layout.addNewWizardShortcut( "org.eclipse.ui.wizards.new.folder" );//$NON-NLS-1$
 		layout.addNewWizardShortcut( NEW_REPORT_ID );
 		layout.addNewWizardShortcut( NEW_TEMPLATE_ID );
-		
-		// Add "show views".
-		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
-		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
-		layout.addShowViewShortcut(PaletteView.ID);
-		layout.addShowViewShortcut(AttributeView.ID);
-		layout.addShowViewShortcut(DataView.ID);
-		layout.addShowViewShortcut(LibraryExplorerView.ID);
-		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
-		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 
-		layout.addPerspectiveShortcut(BIRT_REPORT_PERSPECTIVE);	
+		// Add "show views".
+		layout.addShowViewShortcut( IPageLayout.ID_RES_NAV );
+		layout.addShowViewShortcut( IPageLayout.ID_OUTLINE );
+		layout.addShowViewShortcut( PaletteView.ID );
+		layout.addShowViewShortcut( AttributeView.ID );
+		layout.addShowViewShortcut( DataView.ID );
+		layout.addShowViewShortcut( LibraryExplorerView.ID );
+		layout.addShowViewShortcut( IPageLayout.ID_PROP_SHEET );
+		layout.addShowViewShortcut( IPageLayout.ID_PROBLEM_VIEW );
+
+		layout.addPerspectiveShortcut( BIRT_REPORT_PERSPECTIVE );
+
+		if ( extra != null )
+		{
+			String[] ids = extra.getExtraShowViewShortcut( );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					layout.addShowViewShortcut( id );
+				}
+			}
+
+			ids = extra.getExtraNewWizardShortcut( );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					layout.addNewWizardShortcut( id );
+				}
+			}
+		}
 	}
 
 	/**
@@ -99,14 +132,79 @@ public class ReportPerspective implements IPerspectiveFactory
 		topLeft.addView( PaletteView.ID );
 		topLeft.addView( DataView.ID );
 		topLeft.addView( LibraryExplorerView.ID );
+
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder( "bottomLeft", IPageLayout.BOTTOM, (float) 0.50,//$NON-NLS-1$
 				"topLeft" );//$NON-NLS-1$
 		bottomLeft.addView( IPageLayout.ID_RES_NAV );
 		bottomLeft.addView( IPageLayout.ID_OUTLINE );
+
 		// Bottom right.
-		IFolderLayout bootomRight = layout.createFolder( "bootomRight", IPageLayout.BOTTOM, (float) 0.66, editorArea );//$NON-NLS-1$
-		bootomRight.addView( AttributeView.ID );
-		bootomRight.addView( IPageLayout.ID_PROBLEM_VIEW );
+		IFolderLayout bottomRight = layout.createFolder( "bottomRight", IPageLayout.BOTTOM, (float) 0.66, editorArea );//$NON-NLS-1$
+		bottomRight.addView( AttributeView.ID );
+		bottomRight.addView( IPageLayout.ID_PROBLEM_VIEW );
+
+		if ( extra != null )
+		{
+			String[] ids = extra.getExtraLayoutView( IReportPerspectiveExtra.LAYOUT_TOP_LEFT );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					topLeft.addView( id );
+				}
+			}
+
+			ids = extra.getExtraLayoutView( IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					bottomLeft.addView( id );
+				}
+			}
+
+			ids = extra.getExtraLayoutView( IReportPerspectiveExtra.LAYOUT_BOTTOM_RIGHT );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					bottomRight.addView( id );
+				}
+			}
+
+			ids = extra.getExtraLayoutPlaceholder( IReportPerspectiveExtra.LAYOUT_TOP_LEFT );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					topLeft.addPlaceholder( id );
+				}
+			}
+
+			ids = extra.getExtraLayoutPlaceholder( IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					bottomLeft.addPlaceholder( id );
+				}
+			}
+
+			ids = extra.getExtraLayoutPlaceholder( IReportPerspectiveExtra.LAYOUT_BOTTOM_RIGHT );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					bottomRight.addPlaceholder( id );
+				}
+			}
+		}
 	}
 }
