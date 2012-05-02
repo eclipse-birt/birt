@@ -379,10 +379,15 @@ public class ExcelFileSource {
 		String[] tempColumnNames = new String[aRow.size()];
 
 		for (int i = 0; i < aRow.size(); i++) {
-			tempColumnNames[i] = "COLUMN_" + (i + 1); //$NON-NLS-1$
+			tempColumnNames[i] = formatTempColumnName(i + 1);
 		}
 
 		return tempColumnNames;
+	}
+
+	private static String formatTempColumnName( int columnPosition )
+	{
+	    return "COLUMN_" + columnPosition; //$NON-NLS-1$
 	}
 
 	/**
@@ -477,7 +482,12 @@ public class ExcelFileSource {
 		if (list != null) {
 			array = new String[list.size()];
 			for (int i = 0; i < list.size(); i++)
-				array[i] = (String) list.get(i);
+			{
+			    String columnName = (String) list.get(i);
+			    if( columnName == null || columnName.isEmpty() )
+			        columnName = formatTempColumnName(i+1);
+				array[i] = columnName;
+			}
 		}
 		return array;
 	}

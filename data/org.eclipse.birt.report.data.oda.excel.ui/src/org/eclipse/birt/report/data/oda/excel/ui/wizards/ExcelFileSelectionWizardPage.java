@@ -231,12 +231,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		if (queryText == null)
 			return; // nothing to initialize
 
-		updateValuesFromQuery(queryText);
-
-		if (dataSetDesign.getPublicProperties() != null) {
-			currentSheetName = dataSetDesign.getPublicProperties().getProperty(
-					ExcelODAConstants.CONN_WORKSHEETS_PROP);
-		}
+        updateValuesFromQuery(queryText);
 
 		/*
 		 * Optionally honor the request for an editable or read-only design
@@ -799,17 +794,11 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		String sheetName = (String) ((IStructuredSelection) event
 				.getSelection()).getFirstElement();
-		if (this.getShell( ) != null)
-		{
-			Cursor waitCursor = new Cursor(this.getShell().getDisplay(),
-					SWT.CURSOR_WAIT);
-			this.getControl( ).setCursor( waitCursor );
-		}
 
 		if (sheetName.equalsIgnoreCase(currentSheetName))
 			return;
 
-		else if (currentSheetName != null && !MessageDialog.openConfirm(worksheetsCombo.getControl()
+		if (currentSheetName != null && !MessageDialog.openConfirm(worksheetsCombo.getControl()
 				.getShell(), Messages
 				.getString("confirm.reselectWorksheetTitle"), //$NON-NLS-1$
 				Messages.getString("confirm.reselectWorksheetMessage"))) //$NON-NLS-1$
@@ -824,6 +813,13 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		selectedColumnsViewer.getTable().removeAll();
 		savedSelectedColumnsInfoList.clear();
 		availableList.removeAll();
+
+		if (this.getShell( ) != null)
+        {
+            Cursor waitCursor = new Cursor(this.getShell().getDisplay(),
+                    SWT.CURSOR_WAIT);
+            this.getControl( ).setCursor( waitCursor );
+        }
 
 		String fileName = getFileName( selectedFile );
 		String[] columnNames = getFileColumnNames(selectedFile);
@@ -843,6 +839,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			} else
 				setMessage(DEFAULT_MESSAGE);
 		}
+
+		// reset cursor back to normal state
 		if (this.getShell( ) != null)
 		{
 			Cursor normalCursor = new Cursor(this.getShell().getDisplay(),
@@ -956,8 +954,11 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			try
 			{
 				populateWorkSheetCombo( );
+				if( currentSheetName != null )
+				{
 				String[] columnNames = getFileColumnNames(selectedFile);
 				availableList.setItems( columnNames );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -1285,10 +1286,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	private void updateValuesFromQuery(String queryText) {
 		if (queryText.length() == 0)
 		{
-			if (selectedColumnsViewer.getTable().getItemCount() == 0 && this.getControl( ).getShell( ).getText( ).startsWith( "Edit" )) {
-				setPageComplete(false);
-				setMessage(Messages.getString("error.selectColumns"), ERROR);
-			}
+		    validateHasSelectedColumns();
 			return;
 		}
 
@@ -1297,6 +1295,23 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
 		}
+	}
+
+	private boolean validateHasSelectedColumns()
+	{
+	    // in an editing session with no selected columns
+        if ( selectedColumnsViewer.getTable().getItemCount() == 0 &&
+             this.getControl( ).getShell( ).getText( ).startsWith( "Edit" ))  //$NON-NLS-1$
+        {
+            setPageComplete(false);
+            String errMsg = currentSheetName == null ?
+                        Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
+                        Messages.getString("error.selectColumns");      //$NON-NLS-1$
+            setMessage( errMsg, ERROR );
+            return false;
+        }
+
+        return true;
 	}
 
 	/**
@@ -1517,6 +1532,14 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		/*if (queryText.equals(dataSetDesign.getQueryText()))
 			return;*/
 		dataSetDesign.setQueryText(queryText);
+        savePublicProperties(dataSetDesign);
+
+		if( ! validateHasSelectedColumns() )
+		{
+		    // don't prepare query; simply reset result set definition
+            dataSetDesign.setResultSets(null);
+            return;
+		}
 
 		// obtain query's result set metadata, and update
 		// the dataSetDesign with it
@@ -1526,7 +1549,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			conn = excelDriver.getConnection(null);
 			IResultSetMetaData metadata = getResultSetMetaData(queryText,
 					selectedFile, conn, currentSheetName);
-			savePublicProperties(dataSetDesign);
 			setResultSetMetaData(dataSetDesign, metadata);
 		} catch (OdaException e) {
 			// no result set definition available, reset in dataSetDesign
@@ -1534,11 +1556,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		} finally {
 			closeConnection(conn);
 		}
-
-		/*
-		 * See DesignSessionUtil for more convenience methods to define a data
-		 * set design instance.
-		 */
 
 		/*
 		 * Since this excelfile driver does not support query parameters and
