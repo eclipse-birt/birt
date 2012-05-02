@@ -233,6 +233,11 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
         updateValuesFromQuery(queryText);
 
+		if (dataSetDesign.getPublicProperties() != null) {
+			currentSheetName = dataSetDesign.getPublicProperties().getProperty(
+					ExcelODAConstants.CONN_WORKSHEETS_PROP);
+		}
+
 		/*
 		 * Optionally honor the request for an editable or read-only design
 		 * session isSessionEditable();
