@@ -11,21 +11,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 ###############################################################################
 #
 plugin.name=Excel Data Source ODA Runtime Driver
-data.source.name=Excel Data Source
-data.set.name=Excel Data Set
-connection.profile.name=Excel Data Source Connection Profile
+data.source.name=Excel-Datenquelle
+data.set.name=Excel-Datensatz
+connection.profile.name=Excel-Datenquellen-Verbindungsprofil
 
 datasource.property.uri=&URI
-datasource.property.incltypeline=Use Second Line as &Data Type Indicator
-datasource.property.inclcolumnnameline=Use First Line as Column &Name Indicator
+datasource.property.incltypeline=Zweite Zeile als &Datentypindikator verwenden
+datasource.property.inclcolumnnameline=Erste Zeile als Spalten&namenindikator verwenden
 
-datasource.property.no=NO
-datasource.property.yes=YES
+datasource.property.no=NEIN
+datasource.property.yes=JA
 
 ###############################################################################
 #	Date Set Properties
-datasource.property.excelFile=Select the excel file
-datasource.property.worksheets=Worksheet(s)
-dataset.property.worksheets.dateFormat=Date Format
+datasource.property.excelFile=Wählen Sie die Excel-Datei.
+datasource.property.worksheets=Arbeitsblätter
+dataset.property.worksheets.dateFormat=Datenformat
 #
 ###############################################################################

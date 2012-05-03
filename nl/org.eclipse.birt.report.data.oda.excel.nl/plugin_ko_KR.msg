@@ -11,21 +11,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 ###############################################################################
 #
 plugin.name=Excel Data Source ODA Runtime Driver
-data.source.name=Excel Data Source
-data.set.name=Excel Data Set
-connection.profile.name=Excel Data Source Connection Profile
+data.source.name=Excel 데이터 원본
+data.set.name=Excel 데이터 집합
+connection.profile.name=Excel 데이터 원본 연결 프로필
 
 datasource.property.uri=&URI
-datasource.property.incltypeline=Use Second Line as &Data Type Indicator
-datasource.property.inclcolumnnameline=Use First Line as Column &Name Indicator
+datasource.property.incltypeline=데이터 형식 표시기로 두 번째 줄 사용(&D)
+datasource.property.inclcolumnnameline=열 이름 표시기로 첫 번째 줄 사용(&N)
 
-datasource.property.no=NO
-datasource.property.yes=YES
+datasource.property.no=아니요
+datasource.property.yes=예
 
 ###############################################################################
 #	Date Set Properties
-datasource.property.excelFile=Select the excel file
-datasource.property.worksheets=Worksheet(s)
-dataset.property.worksheets.dateFormat=Date Format
+datasource.property.excelFile=Excel 파일 선택
+datasource.property.worksheets=워크시트
+dataset.property.worksheets.dateFormat=날짜 형식
 #
 ###############################################################################

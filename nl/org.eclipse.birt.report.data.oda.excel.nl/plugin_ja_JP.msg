@@ -11,21 +11,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 ###############################################################################
 #
 plugin.name=Excel Data Source ODA Runtime Driver
-data.source.name=Excel Data Source
-data.set.name=Excel Data Set
-connection.profile.name=Excel Data Source Connection Profile
+data.source.name=Excel データソース
+data.set.name=Excel データセット
+connection.profile.name=Excel データソース接続プロファイル
 
 datasource.property.uri=&URI
-datasource.property.incltypeline=Use Second Line as &Data Type Indicator
-datasource.property.inclcolumnnameline=Use First Line as Column &Name Indicator
+datasource.property.incltypeline=2 行目をデータ型のインジケータとして使用する(&D)
+datasource.property.inclcolumnnameline=1 行目を列名のインジケータとして使用する(&N)
 
-datasource.property.no=NO
-datasource.property.yes=YES
+datasource.property.no=いいえ
+datasource.property.yes=はい
 
 ###############################################################################
 #	Date Set Properties
-datasource.property.excelFile=Select the excel file
-datasource.property.worksheets=Worksheet(s)
-dataset.property.worksheets.dateFormat=Date Format
+datasource.property.excelFile=Excel ファイルの選択
+datasource.property.worksheets=ワークシート
+dataset.property.worksheets.dateFormat=日付形式
 #
 ###############################################################################

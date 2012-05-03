@@ -11,21 +11,21 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 ###############################################################################
 #
 plugin.name=Excel Data Source ODA Runtime Driver
-data.source.name=Excel Data Source
-data.set.name=Excel Data Set
-connection.profile.name=Excel Data Source Connection Profile
+data.source.name=Source de données Excel
+data.set.name=Jeu de données Excel
+connection.profile.name=Profil de connexion à la source de données Excel
 
 datasource.property.uri=&URI
-datasource.property.incltypeline=Use Second Line as &Data Type Indicator
-datasource.property.inclcolumnnameline=Use First Line as Column &Name Indicator
+datasource.property.incltypeline=Utilisez la deuxième ligne comme indicateur du type de &données
+datasource.property.inclcolumnnameline=Utiliser la première ligne en tant qu'indicateur de &nom de colonne
 
 datasource.property.no=NO
 datasource.property.yes=YES
 
 ###############################################################################
 #	Date Set Properties
-datasource.property.excelFile=Select the excel file
-datasource.property.worksheets=Worksheet(s)
-dataset.property.worksheets.dateFormat=Date Format
+datasource.property.excelFile=Sélectionnez un fichier Excel
+datasource.property.worksheets=Classeur(s)
+dataset.property.worksheets.dateFormat=Format de date
 #
 ###############################################################################

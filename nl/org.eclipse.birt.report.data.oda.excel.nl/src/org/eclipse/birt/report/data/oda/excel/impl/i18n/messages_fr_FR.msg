@@ -12,50 +12,50 @@
 #
 # User messages for the Excel File ODA Runtime Driver
 
-connection_CONNECTION_PROPERTIES_MISSING=Connection properties are missing.
+connection_CONNECTION_PROPERTIES_MISSING=Des propriétés de connexion sont manquantes.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=The Excel data source file property is not defined; requires a file path or URI for the Excel input file.
-connection_invalidSource=Invalid or malformed URI specified for the Excel data source file.
-connection_missingResourceIdentifier=No resource identifier is available to resolve the relative path of the Excel data source:
-fileSource_excelFileNotFound=Unable to locate the specified Excel data source folder or file ({0}).
+connection_MISSING_FILELOCATION=Les propriétés du dossier de la source de données Excel n'ont pas été définies. Vous devez indiquer le chemin d'un dossier racine ou l'URI d'un fichier d'entrée Excel. 
+connection_invalidSource=URI incorrecte ou mal renseignée pour le dossier de la source de données Excel.
+connection_missingResourceIdentifier=Aucun identificateur de ressource disponible pour résoudre le chemin d'accès relatif de la source de données Excel : 
+fileSource_excelFileNotFound=Impossible de trouver le dossier ou le fichier de la source de données Excel ({0}) indiqué. 
 
-query_COMMAND_IS_EMPTY=Query command is empty.
-query_DO_NOT_SUPPORT_CROSS_TABLE_QUERY=Cross-table query is not supported.
-query_COMMAND_NOT_VALID=Invalid header information in the supplied Excel file.
-query_ARGUMENT_ERROR=The argument should be either 'NAME' or 'TYPE'.
-query_IO_EXCEPTION=An I/O Exception occurred when reading the file.
-query_SOURCE_DATA_ERROR=Duplicate column names found in source data.
-query_COLUMN_NAME_ERROR=Column name error
-query_INVALID_EXCEL_FILE=The worksheet does not contain any data. Please select a different sheet.
-query_text_error=Query-text format error
-query_WORKSHEET_CANNOT_BE_NULL=Worksheet name cannot be null.
-resultSet_COLUMN_NOT_FOUND=Column not found:
-resultSet_CURSOR_HAS_NOT_BEEN_INITIALIZED=Cursor has not been initialized yet.
+query_COMMAND_IS_EMPTY=La commande de requête est vide.
+query_DO_NOT_SUPPORT_CROSS_TABLE_QUERY=Les requêtes sur des tables croisées ne sont pas prises en charge.
+query_COMMAND_NOT_VALID=En-tête incorrecte dans le fichier Excel fourni.
+query_ARGUMENT_ERROR=L'argument doit être "NAME" ou "TYPE".
+query_IO_EXCEPTION=Une exception d'E/S s'est produite lors de la lecture du fichier.
+query_SOURCE_DATA_ERROR=Noms de colonnes en doublon trouvés dans les données sources.
+query_COLUMN_NAME_ERROR=Erreur de nom de colonne
+query_INVALID_EXCEL_FILE=La feuille ne comprend aucune donnée. Veuillez sélectionner une autre feuille.
+query_text_error=Erreur de format du texte de la requête
+query_WORKSHEET_CANNOT_BE_NULL=Le nom du classeur doit être renseigné.
+resultSet_COLUMN_NOT_FOUND=Colonne non trouvée :
+resultSet_CURSOR_HAS_NOT_BEEN_INITIALIZED=Le curseur n'a pas encore été initialisé.
 
-resultSetMetaData_INVALID_COLUMN_INDEX=Invalid column index:
+resultSetMetaData_INVALID_COLUMN_INDEX=Index de colonne non valide :
 
-savedSelectedColumnsInfoString_INVALID=Invalid Saved Columns Information
+savedSelectedColumnsInfoString_INVALID=Informations de colonnes enregistrées incorrectes
 
-dataTypes_TYPE_NAME_INVALID=Invalid data type name:
+dataTypes_TYPE_NAME_INVALID=Nom du type de données non valide : 
 
-dataSetMetaData_PRODUCT_NAME=Excel ODA Data Source Provider
+dataSetMetaData_PRODUCT_NAME=Fournisseur de sources de données Excel ODA
 
-common_ARGUMENT_CANNOT_BE_NULL=Arguments cannot be null.
-common_CONNECTION_HAS_NOT_OPEN=Connection is not open.
-common_CANNOT_FIND_COLUMN=Cannot find any columns.
-common_NULL_QUERY_TEXT = Query text is null
+common_ARGUMENT_CANNOT_BE_NULL=Les arguments ne peuvent pas être nuls.
+common_CONNECTION_HAS_NOT_OPEN=La connexion n'est pas ouverte.
+common_CANNOT_FIND_COLUMN=Colonnes introuvables.
+common_NULL_QUERY_TEXT = La valeur du texte de la requête est nulle
 
-data_read_error=Cannot read data correctly, data source settings probably changed
+data_read_error=Impossible de lire les données correctement, les paramètres de la source de données ont probablement été modifiés
 
-Invalid_column_name = Invalid column name
+Invalid_column_name = Nom de colonne incorrect
 
-invalid_excelfile_format = Invalid Excel file format
-date_format_null = Date format cannot be null.
-invalid_date_value = {0} cannot be parsed as a valid date. Please check the date format in the data set properties.
-invalid_sheet_name = Supplied file does not contain any sheet by name {0}
+invalid_excelfile_format = Format de fichier Excel non valide
+date_format_null = Le format de date ne peut-être nul.
+invalid_date_value = {0} ne peut être interprétée comme une date valide. Veuillez vérifier le format de la date défini dans les propriétés du jeu de données.
+invalid_sheet_name = Le fichier fourni ne contient aucune feuille du nom de {0}
 
-query_streamClosed=Stream closed
-query_invalidTableName=Invalid table name:
+query_streamClosed=Flux fermé
+query_invalidTableName=Nom de table incorrect :
 
-dateUtil.ConvertFails=Convert to date fails. Source:
-dateFormatISO_cannotConvert=Cannot convert the value of {0}.
+dateUtil.ConvertFails=Échec de la conversion vers les données. Source :
+dateFormatISO_cannotConvert=Impossible de convertir la valeur de {0}.
