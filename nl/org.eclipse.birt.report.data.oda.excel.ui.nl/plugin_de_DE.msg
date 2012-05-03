@@ -10,10 +10,10 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 # NLS strings
 #
 plugin.name=Excel Data Source ODA Designer
-newwizard.name=Excel Data Source
-newwizard.description=Create a Excel Data Source connection profile
-wizard.window.title=New Excel Data Source Profile
-wizard.data.source.page.title=Excel Data Source
-profile.propertypage.name=Excel Data Source Connection Properties
-wizard.data.set.window.title=New Excel Data Set
-wizard.data.set.page.title=Select Columns
+newwizard.name=Excel-Datenquelle
+newwizard.description=Ein Excel-Datenquellen-Verbindungsprofil erstellen
+wizard.window.title=Neues Excel-Datenquellenprofil
+wizard.data.source.page.title=Excel-Datenquelle
+profile.propertypage.name=Excel-Datenquellen-Verbindungseigenschaften
+wizard.data.set.window.title=Neuer Excel-Datensatz
+wizard.data.set.page.title=Spalten auswählen

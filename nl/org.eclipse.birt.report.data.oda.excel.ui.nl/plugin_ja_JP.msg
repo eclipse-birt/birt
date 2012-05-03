@@ -10,10 +10,10 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.excel
 # NLS strings
 #
 plugin.name=Excel Data Source ODA Designer
-newwizard.name=Excel Data Source
-newwizard.description=Create a Excel Data Source connection profile
-wizard.window.title=New Excel Data Source Profile
-wizard.data.source.page.title=Excel Data Source
-profile.propertypage.name=Excel Data Source Connection Properties
-wizard.data.set.window.title=New Excel Data Set
-wizard.data.set.page.title=Select Columns
+newwizard.name=Excel データソース
+newwizard.description=Excel データソース接続プロファイルを作成します。
+wizard.window.title=Excel データソースプロファイルの新規作成
+wizard.data.source.page.title=Excel データソース
+profile.propertypage.name=Excel データソースの接続プロパティ
+wizard.data.set.window.title=新規 Excel データセット
+wizard.data.set.page.title=列の選択
