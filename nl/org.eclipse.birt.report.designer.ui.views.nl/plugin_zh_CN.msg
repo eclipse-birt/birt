@@ -21,5 +21,5 @@ Build=@BUILD@
 QuickEditView=属性编辑器
 ReportViews=报表设计
 DataExplorerView=数据资源管理器
-Variable.Actions=New &Variable
-Command.Name.CreateVariable=Create Variable
+Variable.Actions=新变量(&V)
+Command.Name.CreateVariable=创建变量

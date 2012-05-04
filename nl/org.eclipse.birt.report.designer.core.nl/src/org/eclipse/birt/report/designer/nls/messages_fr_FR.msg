@@ -4306,7 +4306,7 @@ GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de \"A-Z a-z 0-9 - _ : .\". Cela peut poser problème lors de l'exécution.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4640,8 +4640,8 @@ ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 CrosstabBindingDialogHelper.AggOn.All=Tous
 CrosstabBindingDialogHelper.bindngName.timeperiod=Période
 CrosstabBindingDialogHelper.calculation.label=Intervalle de tem&ps :
-CrosstabBindingDialogHelper.calculation.group=Time Period
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.calculation.group=Intervalle de temps
+CrosstabBindingDialogHelper.recentday.description=Dernière date de la période
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :
 CrosstabBindingDialogHelper.thisdate.example.label=Saisissez les valeurs de dates selon le modèle suivant : AAAA-MM-JJ
@@ -4752,10 +4752,10 @@ GeneralConfigurationBlock.message.general.description=Paramètres généraux pour l
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &dégradé 
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
 GeneralConfigurationBlock.group.label=Invite
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=Bibliothèque de thèmes par défaut
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activer la bibliothèque de &thèmes par défaut
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Inclure les thèmes par défaut
 GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers le parent pour améliorer les performances
 GeneralConfigurationBlock.move.binding.always=&Toujours
 GeneralConfigurationBlock.move.binding.never=Ja&mais

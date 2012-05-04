@@ -21,5 +21,5 @@ Build=@BUILD@
 QuickEditView=Editor de propiedades
 ReportViews=Diseño de informe
 DataExplorerView=Explorador de datos
-Variable.Actions=New &Variable
-Command.Name.CreateVariable=Create Variable
+Variable.Actions=Nueva &variable
+Command.Name.CreateVariable=Crear variable

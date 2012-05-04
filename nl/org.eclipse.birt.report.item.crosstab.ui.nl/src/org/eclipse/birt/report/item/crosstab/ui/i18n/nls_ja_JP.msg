@@ -33,7 +33,7 @@ MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
 AddMeasureViewHandleCommand.TransName=メジャーの追加
-AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_action_label=相対期間の追加(&L)
 AddRelativeTimePeriodAction_trans_label=相対期間の追加
 ChangeAreaCommand.TransName=ディメンジョンの削除
 ChangeMeasureOrderCommand.TransName=メジャー順の変更

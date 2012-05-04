@@ -4306,7 +4306,7 @@ GeneralPage.Library.Included=库:
 GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
 #BookMarkPage
-BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.Note=书签还包含除 \"A-Z a-z 0-9 - _ : .\" 之外的特殊字符，运行时可能会出现问题。
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4640,8 +4640,8 @@ ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 CrosstabBindingDialogHelper.AggOn.All=全部
 CrosstabBindingDialogHelper.bindngName.timeperiod=周期
 CrosstabBindingDialogHelper.calculation.label=时间周期(&P):
-CrosstabBindingDialogHelper.calculation.group=Time Period
-CrosstabBindingDialogHelper.recentday.description=Last date in the period
+CrosstabBindingDialogHelper.calculation.group=时间周期
+CrosstabBindingDialogHelper.recentday.description=周期中的最后日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:
 CrosstabBindingDialogHelper.thisdate.example.label=请按以下格式输入日期值: yyyy-MM-dd
@@ -4752,10 +4752,10 @@ GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=用渐变选择(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N)
 GeneralConfigurationBlock.group.label=提示
-GeneralConfigurationBlock.group.defaultThemes=Default themes library
+GeneralConfigurationBlock.group.defaultThemes=默认主题库
 GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=启用默认主题库(&T)
+GeneralConfigurationBlock.button.text.defaultTheme.include=包含默认主题(&I)
 GeneralConfigurationBlock.move.binding.group=将本地绑定移动到父层以获得更好的性能
 GeneralConfigurationBlock.move.binding.always=始终(&W)
 GeneralConfigurationBlock.move.binding.never=从不(&V)

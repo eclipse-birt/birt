@@ -33,7 +33,7 @@ MeasureComboPropertyDescriptorProvider.TransName=Kreuztabellen-Ausrichtung änder
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
 AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
-AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_action_label=Relative Z&eitperiode hinzufügen
 AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen
 ChangeAreaCommand.TransName=Dimension verwerfen
 ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
