@@ -71,26 +71,31 @@ public class CreateCrosstabHandler extends AbstractHandler
 			throw new ExecutionException( e.getLocalizedMessage( ), e );
 		}
 
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
+		EditPart targetEditPart = null;
 
-		EditPart targetEditPart = (EditPart) context.getVariable( "targetEditPart" ); //$NON-NLS-1$
-		if ( targetEditPart == null )
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
+		Object object = context.getVariable( "targetEditPart" ); //$NON-NLS-1$
+		
+		if ( object instanceof EditPart )
 		{
+			targetEditPart = (EditPart) object;
+		}
+		else{
 			targetEditPart = UIUtil.getCurrentEditPart( );
 		}
 
 		Object parentModel = DNDUtil.unwrapToModel( targetEditPart.getModel( ) );
 
-		CreateRequest request = (CreateRequest) context.getVariable( "request" ); //$NON-NLS-1$
+		Object request = context.getVariable( "request" ); //$NON-NLS-1$
 
-		if ( request != null )
+		if ( request instanceof CreateRequest )
 		{
-			request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
+			((CreateRequest)request).getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
 					handle );
 
 			try
 			{
-				targetEditPart.getCommand( request ).execute( );
+				targetEditPart.getCommand( ((CreateRequest)request) ).execute( );
 				stack.commit( );
 			}
 			catch ( Exception e )

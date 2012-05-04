@@ -697,9 +697,12 @@ public class DataSetBasePage extends WizardPage
 		{
 			OdaDataSetTypeElement dElement = (OdaDataSetTypeElement) dataSetElement;
 			IConfigurationElement element = dElement.getIConfigurationElement( );
-			
-			AbstractDataSetWizard newWizard = (AbstractDataSetWizard) htDataSetWizards.get( element.getAttribute( "id" ) );//$NON-NLS-1$
-			if ( newWizard == null )
+			AbstractDataSetWizard newWizard = null;
+			if ( element != null )
+			{
+				newWizard = (AbstractDataSetWizard) htDataSetWizards.get( element.getAttribute( "id" ) );//$NON-NLS-1$
+			}
+			if ( newWizard == null && element != null )
 			{
 				// Get the new wizard from this element
 				IConfigurationElement[] elements = element.getChildren( "newDataSetWizard" );//$NON-NLS-1$
@@ -920,11 +923,17 @@ public class DataSetBasePage extends WizardPage
 			DataSetType dataSetElement = (DataSetType) ( (Object[]) getSelectedDataSet( ) )[0];
 			dataSetTypeName = dataSetElement.getID( );
 		}
+		else if ( getSelectedDataSet( ) instanceof OdaDataSetTypeElement )
+		{
+			dataSetTypeName = ( (OdaDataSetTypeElement) getSelectedDataSet( ) ).getDataSetType( )
+					.getID( );
+		}
 		else if ( getSelectedDataSet( ) instanceof DataSetTypeElement )
 		{
 			dataSetTypeName = ( (DataSetTypeElement) getSelectedDataSet( ) ).getDataSetTypeName( );
 		}
-
+        
+		
 		return createDataSet( dataSetTypeName );
 	}
 

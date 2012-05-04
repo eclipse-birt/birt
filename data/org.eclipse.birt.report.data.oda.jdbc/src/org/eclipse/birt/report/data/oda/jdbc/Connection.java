@@ -422,7 +422,12 @@ public class Connection implements IConnection
 			try
 			{
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData( );
-				return dbMetadata.getMaxStatements( );
+				int maxstmts = dbMetadata.getMaxStatements( );
+				int maxconns = dbMetadata.getMaxConnections( );
+				if ( maxconns == 0 || maxstmts < maxconns )
+					return 1;
+				else
+					return maxstmts / maxconns;
 			}
 			catch ( SQLException e )
 			{

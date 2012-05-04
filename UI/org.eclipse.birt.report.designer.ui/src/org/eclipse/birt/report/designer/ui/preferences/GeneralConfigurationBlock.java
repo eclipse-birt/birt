@@ -15,9 +15,13 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Sel
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.PixelConverter;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -35,6 +39,8 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 	private final Key PREF_ENABLE_GRADIENT = getReportKey( ReportPlugin.ENABLE_GRADIENT_SELECTION_PREFERENCE );
 	private final Key PREF_ENABLE_ANIMATION = getReportKey( ReportPlugin.ENABLE_ANIMATION_SELECTION_PREFERENCE );
 	private final Key PREF_LIBRARY_WARNING = getReportKey( ReportPlugin.LIBRARY_WARNING_PREFERENCE );
+	private final Key PREF_LIBRARY_DEFAULT_THEME_ENABLE = getReportKey( ReportPlugin.LIBRARY_DEFAULT_THEME_ENABLE );
+	private final Key PREF_LIBRARY_DEFAULT_THEME_INCLUDE = getReportKey( ReportPlugin.LIBRARY_DEFAULT_THEME_INCLUDE );
 	private final Key PREF_LIBRARY_MOVE_BINDINGS = getReportKey( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE );
 
 	private static final String ENABLED = "true"; //$NON-NLS-1$
@@ -43,6 +49,8 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 	private PixelConverter fPixelConverter;
 
 	private Button ckGradient;
+
+	private LibraryHandle defaultLibraryHandle;
 
 	public GeneralConfigurationBlock( IStatusChangeListener context,
 			IProject project )
@@ -57,6 +65,8 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 				PREF_ENABLE_GRADIENT,
 				PREF_ENABLE_ANIMATION,
 				PREF_LIBRARY_WARNING,
+				PREF_LIBRARY_DEFAULT_THEME_ENABLE,
+				PREF_LIBRARY_DEFAULT_THEME_INCLUDE,
 				PREF_LIBRARY_MOVE_BINDINGS
 		};
 		return keys;
@@ -141,6 +151,38 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 				promptValues,
 				0 );
 
+		if ( hasDefaultLibraryHandle( ) )
+		{
+			Group themeGroup = new Group(pageContent, SWT.NONE);
+			themeGroup.setText( Messages.getString( "GeneralConfigurationBlock.group.defaultThemes" ) );
+			themeGroup.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+			themeGroup.setLayout( new GridLayout() );
+			
+			final Button btnEnable = addCheckBox( themeGroup,
+					Messages.getString( "GeneralConfigurationBlock.button.text.defaultTheme.enable" ), //$NON-NLS-1$
+					PREF_LIBRARY_DEFAULT_THEME_ENABLE,
+					enableDisableValues,
+					0 );
+			final Button btnInclude = addCheckBox( themeGroup,
+					Messages.getString( "GeneralConfigurationBlock.button.text.defaultTheme.include" ), //$NON-NLS-1$
+					PREF_LIBRARY_DEFAULT_THEME_INCLUDE,
+					enableDisableValues,
+					20 );
+			
+			btnInclude.setEnabled(btnEnable.getSelection());
+			btnEnable.addSelectionListener(new SelectionListener(){
+
+				public void widgetDefaultSelected(SelectionEvent arg0) {
+					
+				}
+
+				public void widgetSelected(SelectionEvent arg0) {
+					btnInclude.setEnabled(btnEnable.getSelection());
+				}
+				
+			});
+			
+		}
 		String[] labels = new String[]{
 				Messages.getString( "GeneralConfigurationBlock.move.binding.group" ), //$NON-NLS-1$
 				Messages.getString( "GeneralConfigurationBlock.move.binding.always" ), //$NON-NLS-1$
@@ -205,5 +247,11 @@ public class GeneralConfigurationBlock extends OptionsConfigurationBlock
 		validateSettings( PREF_ENABLE_ANIMATION,
 				null,
 				getValue( PREF_ENABLE_ANIMATION ) );
+	}
+
+	private boolean hasDefaultLibraryHandle( )
+	{
+		defaultLibraryHandle = DEUtil.getDefaultLibraryHandle( );
+		return defaultLibraryHandle != null ? true : false;
 	}
 }

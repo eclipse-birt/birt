@@ -356,6 +356,7 @@ public class SimpleResultSet implements IResultIterator
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+		this.groupCalculator.next( 0 );
 	}
 
 	private IResultClass populateResultClass( IResultClass meta )
@@ -559,11 +560,12 @@ public class SimpleResultSet implements IResultIterator
 		}
 		try
 		{
-			this.groupCalculator.next( this.rowResultSet.getIndex( ));
 			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
 			this.currResultObj = this.rowResultSet.next( );
 			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
 			this.groupCalculator.registerNextResultObject( this.rowResultSet );
+			if ( this.currResultObj != null )
+				this.groupCalculator.next( this.rowResultSet.getIndex( ));
 		}
 		catch ( DataException e )
 		{
