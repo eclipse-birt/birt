@@ -112,8 +112,13 @@ timeFunction.N2 = Valeur N pour la deuxième période
 timeFunction.PERIOD1.displayName = La pre&mière période
 timeFunction.PERIOD2.displayName = La deuxième pé&riode
 timeFunction.N1.displayName = Nombre de périodes écoulées depuis
-timeFunction.N2.displayName = Nombre de périodes écoulées depuis
-
+timeFunction.N2.displayName = From
+timeFunction.N1.next.displayName = Next
+timeFunction.N2.Ago.displayName=Ago
+timeFunction.N1.current.displayName=Current
+timeFunction.N1.period.displayName= Period
+timeFunction.trailing.N1.period.displayName=Trailing
+timeFunction.trailing.N1.Month.displayName= Number of Trailing Month(s)
 timeFunction.N1.Year.displayName = Nombre d'années écoulées depuis
 timeFunction.N2.Year.displayName = Nombre d'années écoulées depuis
 timeFunction.N1.Year = Valeur N pour le nombre d'années écoulées depuis
@@ -148,3 +153,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mois jusqu'à la date
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semaine jusqu'à la date
 
 timeFunction.toolTip.to=A
+

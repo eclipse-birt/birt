@@ -112,8 +112,14 @@ timeFunction.N2 = N-Wert für das zweite Zeitintervall
 timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
 timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
 timeFunction.N1.displayName = Anzahl (Zeitintervall) zurückliegend
-timeFunction.N2.displayName = Anzahl (Zeitintervall) zurückliegend
-
+timeFunction.N2.displayName = From
+timeFunction.N1.next.displayName = Next
+timeFunction.N2.Ago.displayName=Ago
+timeFunction.N1.current.displayName=Current
+timeFunction.N1.period.displayName= Period
+timeFunction.trailing.N1.period.displayName=Trailing
+timeFunction.trailing.N1.Month.displayName= Number of Trailing Month(s)
+ 
 timeFunction.N1.Year.displayName = Anzahl Jahre zurückliegend
 timeFunction.N2.Year.displayName = Anzahl Jahre zurückliegend
 timeFunction.N1.Year = N-Wert für Anzahl Jahre zurückliegend
@@ -141,10 +147,12 @@ timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTAL
 timeFunction.PERIODCHOICE.MONTH_displayName =MONAT
 timeFunction.PERIODCHOICE.WEEK_displayName =WOCHE
 timeFunction.PERIODCHOICE.DAY_displayName =TAG
- 
+
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Jahr bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quartal bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Monat bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Woche bis Datum
 
 timeFunction.toolTip.to=Bis
+
+ 
