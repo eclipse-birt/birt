@@ -7,3 +7,4 @@ datasource.upgrade.msg.firstLine=La source de données ({0}) utilisée par ce jeu 
 datasource.upgrade.msg.secondLine=Sa définition doit être mise à jour. \n\nSélectionnez OK pour mettre à jour la source de données {0} maintenant. 
 datasource.upgrade.msg.thirdLine=Ensuite, vous devez ouvrir à nouveau cet éditeur de jeu de données.
 datasource.propertyPage.tooltip=Source de données JDBC
+datasource.page.warning=The use of externalized connection profile is not supported for the sample db, \n  the design is being changed to use local properties

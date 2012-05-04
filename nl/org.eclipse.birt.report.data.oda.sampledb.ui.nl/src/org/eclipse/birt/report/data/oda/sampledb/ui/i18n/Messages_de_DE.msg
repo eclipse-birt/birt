@@ -7,3 +7,4 @@ datasource.upgrade.msg.firstLine=Die von diesem Datensatz verwendete Datenquelle
 datasource.upgrade.msg.secondLine=Die Definition muss aktualisiert werden. \n\nW‰hlen Sie 'OK', um die Datenquelle {0} jetzt zu aktualisieren. 
 datasource.upgrade.msg.thirdLine=÷ffnen Sie den Datensatzeditor anschlieﬂend erneut.
 datasource.propertyPage.tooltip=JDBC-Datenquelle
+datasource.page.warning=The use of externalized connection profile is not supported for the sample db, \n  the design is being changed to use local properties

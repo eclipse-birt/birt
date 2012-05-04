@@ -7,3 +7,4 @@ datasource.upgrade.msg.firstLine=このデータセットで使用しているデータソース ({0}
 datasource.upgrade.msg.secondLine=データソースの定義を更新する必要があります。 \n\nデータソース {0} を今すぐ更新するには、[OK] をクリックしてください。 
 datasource.upgrade.msg.thirdLine=更新した後で、このデータセットエディタをもう一度開いてください。
 datasource.propertyPage.tooltip=JDBC データソース
+datasource.page.warning=The use of externalized connection profile is not supported for the sample db, \n  the design is being changed to use local properties
