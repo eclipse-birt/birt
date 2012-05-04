@@ -21,3 +21,5 @@ Build=@BUILD@
 QuickEditView=プロパティエディタ
 ReportViews=レポートデザイン
 DataExplorerView=データエクスプローラ
+Variable.Actions=New &Variable
+Command.Name.CreateVariable=Create Variable

@@ -33,8 +33,8 @@ MeasureComboPropertyDescriptorProvider.TransName=更改交叉表方向
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=添加维
 AddMeasureViewHandleCommand.TransName=添加度量
-AddRelativeTimePeriodAction_action_label=添加相对时间周期
-AddRelativeTimePeriodAction_trans_label=添加相对时间周期 
+AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_trans_label=添加相对时间周期
 ChangeAreaCommand.TransName=废弃维
 ChangeMeasureOrderCommand.TransName=更改度量顺序
 CreateDimensionViewCommand.TransName=创建维
