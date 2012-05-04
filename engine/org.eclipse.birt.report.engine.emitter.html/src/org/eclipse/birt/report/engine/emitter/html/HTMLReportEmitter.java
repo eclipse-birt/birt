@@ -2925,7 +2925,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String url = validate( hyperlinkAction );
 		if ( url != null )
 		{
-			writer.attribute( HTMLTags.ATTR_STYLE, "width:0;" );
+			String divWidth = "width:0;";
+			// Fix Images with hyperlinks do not center properly
+			if ( image.getWidth( ) != null )
+			{
+				divWidth = "width:" + image.getWidth( ) + ";";
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, divWidth );
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );
