@@ -4305,6 +4305,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ または
 GeneralPage.Library.Included=ライブラリ :
 GeneralPage.Library.Modified.Note=注 : このレポート項目はライブラリで編集されています。元に戻すには、{0}[プロパティの復元] をクリックしてください。
 
+#BookMarkPage
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4636,8 +4639,9 @@ ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=すべて
 CrosstabBindingDialogHelper.bindngName.timeperiod=期間
-CrosstabBindingDialogHelper.calculation.labe=期間(&P) :
-CrosstabBindingDialogHelper.recentday.description=時間のディメンション内の最新の日付
+CrosstabBindingDialogHelper.calculation.label=期間(&P) :
+CrosstabBindingDialogHelper.calculation.group=Time Period
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
 CrosstabBindingDialogHelper.thisdate.example.label=日付は、yyyy-MM-dd の形式で入力してください
@@ -4710,6 +4714,11 @@ PasteFormatAction.text=書式の貼り付け(&O)
 #InsertAggregationAction
 InsertAggregationAction.text=集計(&A)
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=現在のビューの設定
@@ -4743,12 +4752,14 @@ GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的な
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
 GeneralConfigurationBlock.group.label=確認する
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
 GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
 GeneralConfigurationBlock.move.binding.never=続行しない(&V)
 GeneralConfigurationBlock.move.binding.prompt=確認メッセージを表示する(&R)
-
 
 ###########################################################
 #ResetImageSizeAction
