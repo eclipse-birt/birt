@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
@@ -34,6 +35,13 @@ public class ScopedCacheTest extends APITestCase
 		super.setUp();
 		tableName = ConfigText.getString( "Api.TestData.TableName" );
 	}
+	
+	public void tearDown( ) throws Exception
+	{
+		super.tearDown( );
+		this.dataEngine.clearCache( "12345" );
+	}
+	
 	@Override
 	protected DataSourceInfo getDataSourceInfo( )
 	{
@@ -123,6 +131,74 @@ public class ScopedCacheTest extends APITestCase
 		this.testPrintln( "Clear Cache" );
 		this.dataEngine.clearCache( "12345" );
 		this.executeQuery( query, new String[]{"COUNTRY", "CITY"} );
+
+		checkOutputFile( );
+	}
+	
+	//Test Double
+	public void test4( ) throws Exception
+	{
+		BaseDataSetDesign design = this.newDataSet( "testCache", "select COUNTRY from "+ tableName );
+		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
+		
+		this.dataEngine.defineDataSet( design );
+		QueryDefinition query = this.newReportQuery( design );
+		query.setAutoBinding( true );
+		this.executeQuery( query, new String[]{"COUNTRY"} );
+		
+		this.testPrintln( "Cache Complete" );
+		
+		design = this.newDataSet( "testCache", "select COUNTRY, AMOUNT from "+ tableName );
+		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
+		ColumnDefinition amount = new ColumnDefinition( "AMOUNT" );
+		
+		amount.setDisplayName( "AMOUNT DISPLAY" );
+		amount.setDataType( DataType.DOUBLE_TYPE );
+		design.addResultSetHint( amount );
+
+		this.dataEngine.defineDataSet( design );
+		query = this.newReportQuery( design );
+		query.setAutoBinding( true );
+
+		this.executeQuery( query, new String[]{"COUNTRY", "AMOUNT"} );
+		
+		this.testPrintln( "Clear Cache" );
+		this.dataEngine.clearCache( "12345" );
+		this.executeQuery( query, new String[]{"COUNTRY", "AMOUNT"} );
+
+		checkOutputFile( );
+	}
+	
+	//Test Double
+	public void test5( ) throws Exception
+	{
+		BaseDataSetDesign design = this.newDataSet( "testCache", "select COUNTRY from "+ tableName );
+		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
+		
+		this.dataEngine.defineDataSet( design );
+		QueryDefinition query = this.newReportQuery( design );
+		query.setAutoBinding( true );
+		this.executeQuery( query, new String[]{"COUNTRY"} );
+		
+		this.testPrintln( "Cache Complete" );
+		
+		design = this.newDataSet( "testCache", "select COUNTRY, AMOUNT from "+ tableName );
+		design.addResultSetHint( new ColumnDefinition( "COUNTRY" ) );
+		ColumnDefinition amount = new ColumnDefinition( "AMOUNT" );
+		
+		amount.setDisplayName( "AMOUNT DISPLAY" );
+		amount.setDataType( DataType.DECIMAL_TYPE );
+		design.addResultSetHint( amount );
+
+		this.dataEngine.defineDataSet( design );
+		query = this.newReportQuery( design );
+		query.setAutoBinding( true );
+
+		this.executeQuery( query, new String[]{"COUNTRY", "AMOUNT"} );
+		
+		this.testPrintln( "Clear Cache" );
+		this.dataEngine.clearCache( "12345" );
+		this.executeQuery( query, new String[]{"COUNTRY", "AMOUNT"} );
 
 		checkOutputFile( );
 	}

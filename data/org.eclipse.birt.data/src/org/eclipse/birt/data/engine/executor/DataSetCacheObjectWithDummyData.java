@@ -1,8 +1,10 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -21,7 +23,7 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject
 	public DataSetCacheObjectWithDummyData( IBaseDataSetDesign dataSetDesign, IDataSetCacheObject base ) throws DataException
 	{
 		this.base = base;
-		this.resultClass = this.populateResultClass( dataSetDesign );
+		this.resultClass = this.populateResultClass( dataSetDesign, base.getResultClass( ) );
 	}
 	
 	public boolean isCachedDataReusable( int requiredCapability )
@@ -49,15 +51,23 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject
 		return this.base;
 	}
 	
-	private IResultClass populateResultClass( IBaseDataSetDesign dataSetDesign ) throws DataException
+	private IResultClass populateResultClass( IBaseDataSetDesign dataSetDesign, IResultClass baseResultClass ) throws DataException
 	{
 		List resultHints = dataSetDesign.getResultSetHints( );
 		List computedColumns = dataSetDesign.getComputedColumns();
 		List columnsList = new ArrayList( );
-		Iterator it = resultHints.iterator( );
+		for( int i = 1; i <= baseResultClass.getFieldCount( ); i++ )
+		{
+			columnsList.add( baseResultClass.getFieldMetaData( i ) );
+		}
+
+		Iterator it = resultHints.iterator( ); 
 		for ( int j = 0; it.hasNext( ); j++ )
 		{
 			IColumnDefinition columnDefn = (IColumnDefinition) it.next( );
+		
+			if( baseResultClass.getFieldIndex( columnDefn.getColumnName( ) ) != -1 )
+				continue;
 				
 			ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,
 						columnDefn.getColumnName( ),
@@ -70,7 +80,7 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject
 						columnDefn.isCompressedColumn( ) );
 			columnsList.add( columnMetaData );
 			columnMetaData.setAlias( columnDefn.getAlias( ) );
-		}
+		}	
 		
 		// Add computed columns
 		int count = columnsList.size();
@@ -78,6 +88,8 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject
 		for ( int j = resultHints.size(); it.hasNext( ); j++ )
 		{
 		    IComputedColumn compColumn = (IComputedColumn)it.next();
+		    if( baseResultClass.getFieldIndex( compColumn.getName( ) ) != -1 )
+				continue;
 		    ResultFieldMetadata columnMetaData = new ResultFieldMetadata( 
 		    		++count,
 					compColumn.getName(),

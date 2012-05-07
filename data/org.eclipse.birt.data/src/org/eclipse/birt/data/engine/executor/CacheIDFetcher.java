@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 public class CacheIDFetcher
 {
 	private static CacheIDFetcher instance = null;
-	
+	private static long idleTime = 3600 * 1000;
 	private Map<String, Long> activeCacheIDs;
 	
 	public static CacheIDFetcher getInstance( )
@@ -43,7 +43,7 @@ public class CacheIDFetcher
 		this.activeCacheIDs = new java.util.concurrent.ConcurrentHashMap<String, Long>( );
 		Timer timer = new Timer( true );
 		TimerTask task = new CacheIDPurgeTimeTask( );
-		timer.schedule( task, 0, 3600 * 1000 );
+		timer.schedule( task, 0, idleTime );
 	}
 	
 	public String getCacheID( Map appContext )
@@ -59,7 +59,9 @@ public class CacheIDFetcher
 			Object o = appContext.get( DataEngine.QUERY_EXECUTION_SESSION_ID );
 			if ( o != null )
 			{
-				return o.toString( );
+				String cacheID = o.toString( );
+				this.activeCacheIDs.put( cacheID, System.currentTimeMillis( ) );
+				return cacheID;
 			}
 		}
 		catch ( Exception e )
@@ -82,13 +84,15 @@ public class CacheIDFetcher
 			for( String cacheID : keyArray )
 			{
 				long lastAccessTime = activeCacheIDs.get( cacheID );
-				if( currentTime - lastAccessTime > 3600 * 1000 )
+				if( currentTime - lastAccessTime > idleTime )
 				{
 					inActiveCacheIDs.add( cacheID );
 				}
 			}
 			
 			CacheMapManager.clearCache( inActiveCacheIDs );
+			for( String cacheID: inActiveCacheIDs )
+				activeCacheIDs.remove( cacheID );
 		}
 		
 	}
