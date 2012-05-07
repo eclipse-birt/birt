@@ -62,6 +62,8 @@ public class ResultSetPopulator
 	 * 
 	 */
 	private IEventHandler eventHandler;
+
+	private boolean clearCacheResultSet = true;
 	
 	protected DataEngineSession session;
 	/**
@@ -138,6 +140,24 @@ public class ResultSetPopulator
 	public ResultSetCache getCache( )
 	{
 		return this.smartCache;
+	}
+	
+	/**
+	 * whether clear smart cache when smart cache is reset.
+	 * @return
+	 */
+	public boolean clearCacheResultSet( )
+	{
+		return clearCacheResultSet;
+	}
+
+	/**
+	 * set whether clear smart cache when smart cache is reset
+	 * @param flag
+	 */
+	public void setClearCacheResultSet( boolean flag )
+	{
+		clearCacheResultSet = flag;
 	}
 
 	/**
