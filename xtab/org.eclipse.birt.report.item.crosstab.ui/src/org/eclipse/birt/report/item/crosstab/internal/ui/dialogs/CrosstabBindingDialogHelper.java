@@ -161,7 +161,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Button btnDisplayNameID, btnRemoveDisplayNameID;
 	private List<ITimeFunction> times;
 	private Button todayButton, dateSelectionButton, recentButton;
-	private Label recentLabel;
 	private Map<String, Control> calculationParamsMap = new HashMap<String, Control>( );
 	private Map<String, String> calculationParamsValueMap = new HashMap<String, String>( );
 	private boolean isStatic = true;
@@ -364,9 +363,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 		} );
-		new Label( radioContainer, SWT.NONE ).setText( Messages.getString( "CrosstabBindingDialogHelper.today.label" ) ); //$NON-NLS-1$
+		todayButton.setText( Messages.getString( "CrosstabBindingDialogHelper.today.label" ) ); //$NON-NLS-1$
+		todayButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false, 2, 1));
 
 		dateSelectionButton = new Button( radioContainer, SWT.RADIO );
+		dateSelectionButton.setText( Messages.getString( "CrosstabBindingDialogHelper.thisdate.label" ) ); //$NON-NLS-1$
 		dateSelectionButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -381,24 +382,17 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-		Composite dateContainer = new Composite( radioContainer, SWT.NONE );
-		dateContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		layout = new GridLayout( );
-		layout.marginWidth = layout.marginHeight = 0;
-		layout.numColumns = 3;
-		dateContainer.setLayout( layout );
-
-		new Label( dateContainer, SWT.NONE ).setText( Messages.getString( "CrosstabBindingDialogHelper.thisdate.label" ) ); //$NON-NLS-1$
-
-		Composite dateSelecionContainer = new Composite( dateContainer,
+		Composite dateSelecionContainer = new Composite( radioContainer,
 				SWT.NONE );
-		dateSelecionContainer.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL );
+		gridData.horizontalAlignment = SWT.FILL;
+		gridData.grabExcessHorizontalSpace = true;
+		dateSelecionContainer.setLayoutData( gridData );
 
 		layout = new GridLayout( );
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.horizontalSpacing = 0;
-		layout.numColumns = 3;
+		layout.numColumns = 2;
 		dateSelecionContainer.setLayout( layout );
 
 		dateText = new Text( dateSelecionContainer, SWT.BORDER );
@@ -452,8 +446,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 		} );
-		recentLabel = new Label( radioContainer, SWT.NONE );
-		recentLabel.setText( Messages.getString( "CrosstabBindingDialogHelper.recentday.description" ) ); //$NON-NLS-1$
+		recentButton.setText( Messages.getString( "CrosstabBindingDialogHelper.recentday.description" ) ); //$NON-NLS-1$
+		recentButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false, 3, 1));
 	}
 
 	private void handleTimeDimensionSelectEvent( )
@@ -464,12 +458,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( inUseDimsion )
 		{
 			recentButton.setEnabled( true );
-			recentLabel.setEnabled( true );
 		}
 		else
 		{
 			recentButton.setEnabled( false );
-			recentLabel.setEnabled( false );
 		}
 	}
 
@@ -1103,12 +1095,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( inUseDimsion )
 		{
 			recentButton.setEnabled( true );
-			recentLabel.setEnabled( true );
 		}
 		else
 		{
 			recentButton.setEnabled( false );
-			recentLabel.setEnabled( false );
 		}
 
 	}

@@ -73,6 +73,18 @@ public class DateLevelDialog extends TitleAreaDialog
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH,
 				new String[][]{
 						{
+								new DateFormatter( "MM" ).format( defaultDate ), //$NON-NLS-1$
+								"MM" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MM yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"MM yyyy" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MM yy" ).format( defaultDate ), //$NON-NLS-1$
+								"MM yy" //$NON-NLS-1$
+						},
+						{
 								new DateFormatter( "MMM" ).format( defaultDate ), //$NON-NLS-1$
 								"MMM" //$NON-NLS-1$
 						},
@@ -83,6 +95,18 @@ public class DateLevelDialog extends TitleAreaDialog
 						{
 								new DateFormatter( "MMM yy" ).format( defaultDate ), //$NON-NLS-1$
 								"MMM yy" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MMMM" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MMMM yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM yyyy" //$NON-NLS-1$
+						},
+						{
+								new DateFormatter( "MMMM yy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM yy" //$NON-NLS-1$
 						}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR,

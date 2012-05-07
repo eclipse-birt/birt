@@ -43,6 +43,7 @@
       <plugin id="javax.xml"/>
       <plugin id="javax.xml.rpc"/>
       <plugin id="javax.xml.soap"/>
+      <plugin id="javax.xml.stream"/>
       <plugin id="org.apache.axis"/>
       <plugin id="org.apache.batik.bridge"/>
       <plugin id="org.apache.batik.css"/>
@@ -92,6 +93,8 @@
       <plugin id="org.eclipse.birt.report.data.adapter"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils"/>
       <plugin id="org.eclipse.birt.report.data.bidi.utils.ui"/>
+      <plugin id="org.eclipse.birt.report.data.oda.excel"/>
+      <plugin id="org.eclipse.birt.report.data.oda.excel.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.hive"/>
       <plugin id="org.eclipse.birt.report.data.oda.hive.ui"/>
       <plugin id="org.eclipse.birt.report.data.oda.jdbc"/>

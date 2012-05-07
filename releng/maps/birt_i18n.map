@@ -18,6 +18,8 @@ fragment@org.eclipse.birt.data.nl1=GIT,tag=master,repo=git://git.eclipse.org/git
 fragment@org.eclipse.birt.integration.wtp.ui.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.integration.wtp.ui.nl
 fragment@org.eclipse.birt.report.data.adapter.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.adapter.nl
 fragment@org.eclipse.birt.report.data.bidi.utils.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.bidi.utils.nl
+fragment@org.eclipse.birt.report.data.oda.excel.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.oda.excel.nl
+fragment@org.eclipse.birt.report.data.oda.excel.ui.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.oda.excel.ui.nl
 fragment@org.eclipse.birt.report.data.oda.hive.nl=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.oda.hive.nl
 fragment@org.eclipse.birt.report.data.oda.hive.ui.nl=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.oda.hive.ui.nl
 fragment@org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1=GIT,tag=master,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=nl/org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl
