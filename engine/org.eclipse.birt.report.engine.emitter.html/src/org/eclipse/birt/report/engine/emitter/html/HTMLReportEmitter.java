@@ -324,7 +324,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
-	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -2090,19 +2089,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			outputBookmark( group, null );
 			startedGroups.remove( group );
 		}
-		
-		if ( fixedReport )
-		{
-			DimensionType rowHeight = row.getHeight( );
-			if ( rowHeight != null && !"%".equals( rowHeight.getUnits( ) ) )
-			{
-				fixedRowHeightStack.push( rowHeight );
-			}
-			else
-			{
-				fixedRowHeightStack.push( null );
-			}
-		}
+
 	}
 	
 	/*
@@ -2120,11 +2107,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
-
-		if ( fixedReport )
-		{
-			fixedRowHeightStack.pop( );
-		}
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -2190,39 +2172,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
 
-		boolean fixedCellHeight = false;
-		DimensionType cellHeight = null;
 		// rowspan
 		int rowSpan = cell.getRowSpan( );
 		if ( rowSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
-		else if ( fixedReport )
-		{
-			// fixed cell height requires the rowspan to be 1.
-			cellHeight = (DimensionType) fixedRowHeightStack.peek( );
-			if ( cellHeight != null )
-			{
-				fixedCellHeight = true;
-			}
-		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead, fixedCellHeight );
+		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		htmlEmitter.handleCellAlign( cell );
-		if ( fixedCellHeight )
-		{
-			// Fixed cell height requires the vertical aline must be top.
-			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
-		}
-		else
-		{
-			htmlEmitter.handleCellVAlign( cell );
-		}
-
+		htmlEmitter.handleCellVAlign( cell );
+		
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2255,31 +2218,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.clear( );
 		}
 
-		if ( fixedCellHeight )
+		if ( cell.hasDiagonalLine( ) )
 		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					"position: relative; height: 100%;" );
-			if ( cell.hasDiagonalLine( ) )
-			{
-				outputDiagonalImage( cell, cellHeight );
-			}
-			writer.openTag( HTMLTags.TAG_DIV );
-			styleBuffer.setLength( 0 );
-			styleBuffer.append( " height: " );
-			styleBuffer.append( cellHeight.toString( ) );
-			styleBuffer.append( "; width: 100%; position: absolute; left: 0px;" );
-			HTMLEmitterUtil.buildOverflowStyle( styleBuffer,
-					cell.getStyle( ),
-					true );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-		}
-		else if ( cell.hasDiagonalLine( ) )
-		{
-			if ( cellHeight == null )
-			{
-				cellHeight = getCellHeight( cell );
-			}
+			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
 			{
 				writer.openTag( HTMLTags.TAG_DIV );
@@ -2408,13 +2349,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		boolean fixedRowHeight = ( fixedReport && fixedRowHeightStack.peek( ) != null );
-		if ( fixedRowHeight && cell.getRowSpan( ) == 1 )
-		{
-			writer.closeTag( HTMLTags.TAG_DIV );
-			writer.closeTag( HTMLTags.TAG_DIV );
-		}
-		else if ( cell.hasDiagonalLine( ) )
+		if ( cell.hasDiagonalLine( ) )
 		{
 			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
@@ -2925,13 +2860,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String url = validate( hyperlinkAction );
 		if ( url != null )
 		{
-			String divWidth = "width:0;";
-			// Fix Images with hyperlinks do not center properly
-			if ( image.getWidth( ) != null )
-			{
-				divWidth = "width:" + image.getWidth( ) + ";";
-			}
-			writer.attribute( HTMLTags.ATTR_STYLE, divWidth );
+			writer.attribute( HTMLTags.ATTR_STYLE, "width:0;" );
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );
