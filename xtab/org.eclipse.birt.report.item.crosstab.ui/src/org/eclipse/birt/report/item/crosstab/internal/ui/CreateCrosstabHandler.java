@@ -74,7 +74,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 		EditPart targetEditPart = null;
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object object = context.getVariable( "targetEditPart" ); //$NON-NLS-1$
+		Object object = UIUtil.getVariableFromContext( context, "targetEditPart" ); //$NON-NLS-1$
 		
 		if ( object instanceof EditPart )
 		{
@@ -86,7 +86,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 
 		Object parentModel = DNDUtil.unwrapToModel( targetEditPart.getModel( ) );
 
-		Object request = context.getVariable( "request" ); //$NON-NLS-1$
+		Object request = UIUtil.getVariableFromContext( context, "request" ); //$NON-NLS-1$
 
 		if ( request instanceof CreateRequest )
 		{
