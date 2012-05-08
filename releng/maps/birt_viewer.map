@@ -1,4 +1,4 @@
-plugin@org.eclipse.birt.report.viewer=GIT,tag=v20120320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer
-plugin@org.eclipse.birt.integration.wtp.ui=GIT,tag=v20120320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.integration.wtp.ui
+plugin@org.eclipse.birt.report.viewer=GIT,tag=v20120508,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer
+plugin@org.eclipse.birt.integration.wtp.ui=GIT,tag=v20120508,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.integration.wtp.ui
 
-plugin@org.eclipse.birt.report.viewer.tests=GIT,tag=v20120320,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer.tests
+plugin@org.eclipse.birt.report.viewer.tests=GIT,tag=v20120508,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer.tests
