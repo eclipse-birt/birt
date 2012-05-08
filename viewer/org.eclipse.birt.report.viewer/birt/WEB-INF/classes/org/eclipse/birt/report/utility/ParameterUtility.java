@@ -151,11 +151,9 @@ public class ParameterUtility
 							parameterBean.setDefaultValueInList( true );
 							
 							// remove current value from the defaultvalues list
-							//If the default values is one, the defaultValues is null
-							if (defaultValues != null)
-							{
-								defaultValues.remove(displayValue);
-							}
+							
+							defaultValues.remove(displayValue);
+							
 						}
 					}
 					// if it is a single default value
@@ -164,7 +162,11 @@ public class ParameterUtility
 						parameterBean.setDefaultValueInList( true );
 						
 						// remove current value from the defaultvalues list
-						defaultValues.remove(displayValue);
+						//If the default values is one, the defaultValues is null
+						if (defaultValues != null)
+						{
+							defaultValues.remove(displayValue);
+						}
 					}
 				}
 			}
