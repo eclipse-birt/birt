@@ -40,4 +40,6 @@ public class ExcelODAConstants {
 	public static final String KEYWORD_FROM = "FROM"; //$NON-NLS-1$
 	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
 	public static final String ALL_SHEETS = "ALL"; //$NON-NLS-1$
+	public static final int BLANK_LOOK_AHEAD = 5;
+
 }

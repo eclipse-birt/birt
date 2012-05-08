@@ -91,6 +91,37 @@ public class ExcelFileSource {
 		populateWorksheetNames(workSheetNames);
 	}
 
+	public IResultSetMetaData getRsmd() {
+		return rsmd;
+	}
+
+	public void setRsmd(IResultSetMetaData rsmd) {
+		this.rsmd = rsmd;
+	}
+
+	public ResultSetMetaDataHelper getRsmdHelper() {
+		return rsmdHelper;
+	}
+
+	public void setRsmdHelper(ResultSetMetaDataHelper rsmdHelper) {
+		this.rsmdHelper = rsmdHelper;
+	}
+
+	public int getStatementMaxRows() {
+		return statementMaxRows;
+	}
+
+	public void setStatementMaxRows(int statementMaxRows) {
+		this.statementMaxRows = statementMaxRows;
+	}
+
+	public String getCurrentTableName() {
+		return currentTableName;
+	}
+
+	public void setCurrentTableName(String currentTableName) {
+		this.currentTableName = currentTableName;
+	}
 
 	/**
 	 *
@@ -103,7 +134,7 @@ public class ExcelFileSource {
         if (connProperties
 				.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP) != null)
         {
-		copyConnProperites.setProperty(ExcelODAConstants.CONN_FILE_URI_PROP,
+			copyConnProperites.setProperty(ExcelODAConstants.CONN_FILE_URI_PROP,
 				connProperties
 						.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
         }
@@ -273,6 +304,7 @@ public class ExcelFileSource {
 		List<String[]> result = new ArrayList<String[]>();
 		try {
 			if (isFirstTimeToReadSourceData) {
+				excelFileReader.setCurrentRowIndex(0);
 				// make a copy of column names if there are
 				if (this.hasColumnNames) {
 					List<String> columeNameLine;
@@ -443,6 +475,12 @@ public class ExcelFileSource {
 		return excelFileReader.readLine();
 	}
 
+	public void resetRowCounter(){
+		
+		if( this.excelFileReader != null)
+		this.excelFileReader.setCurrentRowIndex(0);
+	}
+
 	/**
 	 *
 	 * @throws OdaException
@@ -450,9 +488,12 @@ public class ExcelFileSource {
 	 */
 	private void initialiseReader() throws OdaException, IOException {
 
+		if( isReaderInitialised )
+		    return;
 		this.fileExtension = ExcelFileReader.getExtensionName( uri );
 		this.excelFileReader = new ExcelFileReader(ResourceLocatorUtil.getURIStream( uri ), this.fileExtension,
 				this.sheetNameList, this.statementMaxRows);
+		isReaderInitialised = true;
 
 	}
 

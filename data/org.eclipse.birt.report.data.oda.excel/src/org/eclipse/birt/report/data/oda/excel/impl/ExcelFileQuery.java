@@ -44,11 +44,12 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
  * Implementation class of IQuery for the Excel ODA runtime driver.
  */
 public class ExcelFileQuery implements IQuery {
-    public static final int DEFAULT_MAX_ROWS_TO_READ = 10;
+    public static final int DEFAULT_MAX_ROWS_TO_READ = 0;
 
 	private int maxRows;
 	private int maxRowsToRead = DEFAULT_MAX_ROWS_TO_READ;
-
+	private ExcelFileSource masterExcelFileSource = null;
+	
 	private static final String NAME_LITERAL = "NAME"; //$NON-NLS-1$
 	private static final String TYPE_LITERAL = "TYPE"; //$NON-NLS-1$
 
@@ -96,7 +97,6 @@ public class ExcelFileQuery implements IQuery {
 
 	/**
 	 *
-	 *
 	 */
 	private void extractsHasColumnNamesInfo() {
 		this.hasColumnNames = connProperties.getProperty(
@@ -105,7 +105,6 @@ public class ExcelFileQuery implements IQuery {
 	}
 
 	/**
-	 *
 	 *
 	 */
 	private void extractsHasColumnTypeLineInfo() {
@@ -175,7 +174,7 @@ public class ExcelFileQuery implements IQuery {
 	private void prepareMetaData() throws OdaException {
 		// limit the number of Rows to read to optimize getting metadata
 		// from a xlsx file
-		ExcelFileSource excelFileReader = new ExcelFileSource(connProperties,
+		masterExcelFileSource = new ExcelFileSource(connProperties,
 				currentTableName, worksheetNames, maxRowsToRead, null,
 				null, appContext);
 
@@ -184,10 +183,10 @@ public class ExcelFileQuery implements IQuery {
 
 		allColumnNames = this.hasColumnNames ? discoverActualColumnMetaData(
 				NAME_LITERAL, currentTableName)
-				: createTempColumnNames(excelFileReader.getColumnCount());
+				: createTempColumnNames(masterExcelFileSource.getColumnCount());
 		allColumnTypes = this.hasTypeLine ? discoverActualColumnMetaData(
 				TYPE_LITERAL, currentTableName)
-				: createTempColumnTypes(excelFileReader.getColumnCount());
+				: createTempColumnTypes(masterExcelFileSource.getColumnCount());
 		resultSetMetaData = new ResultSetMetaData(allColumnNames,
 				allColumnTypes);
 
@@ -469,12 +468,13 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	private String[] discoverActualColumnMetaData(String metaDataType,
 			String tableName) throws OdaException {
-        // limit the number of Rows to read to optimize getting metadata
-        // from a xlsx file
-		ExcelFileSource excelFileSource = new ExcelFileSource(
-				this.connProperties, tableName, worksheetNames,
-				maxRowsToRead, null, null, appContext);
+		// use cached copy to reduce number of times the xlsx file is read
+
+		//ExcelFileSource excelFileSource = new ExcelFileSource(
+		//		this.connProperties, tableName, worksheetNames,
+		//		 10, null, null);
 		try {
+			masterExcelFileSource.resetRowCounter();
 			if (!(metaDataType.trim().equalsIgnoreCase(NAME_LITERAL) || metaDataType
 					.trim().equalsIgnoreCase(TYPE_LITERAL)))
 				throw new OdaException(
@@ -483,16 +483,16 @@ public class ExcelFileQuery implements IQuery {
 			// if want to discover type information then just skip all the empty
 			// lines and the first line
 			if (metaDataType.trim().equalsIgnoreCase(TYPE_LITERAL)) {
-				while (excelFileSource.isEmptyRow(excelFileSource.readLine()))
+				while (masterExcelFileSource.isEmptyRow(masterExcelFileSource.readLine()))
 					continue;
 			}
 			// Skip all the empty lines until reach the first line
 			List<String> columnNameLine;
-			while (excelFileSource.isEmptyRow(columnNameLine = excelFileSource
+			while (masterExcelFileSource.isEmptyRow(columnNameLine = masterExcelFileSource
 					.readLine()))
 				continue;
 
-			String[] result = excelFileSource
+			String[] result = masterExcelFileSource
 					.getColumnNameArray(columnNameLine);
 
 			if (metaDataType.trim().equalsIgnoreCase(NAME_LITERAL))
@@ -505,8 +505,8 @@ public class ExcelFileQuery implements IQuery {
 		} catch (IOException e) {
 			throw new OdaException(e);
 		} finally {
-			if (excelFileSource != null)
-				excelFileSource.close();
+			if (masterExcelFileSource != null)
+				masterExcelFileSource.close();
 		}
 	}
 
@@ -634,11 +634,25 @@ public class ExcelFileQuery implements IQuery {
 		if (this.isInvalidQuery)
 			throw new OdaException(
 					Messages.getString("query_COMMAND_NOT_VALID")); //$NON-NLS-1$
+			
+		//Should only happen while designing the dataset
+		if( masterExcelFileSource == null){
+			return new ResultSet(new ExcelFileSource(this.connProperties,
+					this.currentTableName, worksheetNames,
+					this.maxRows, this.resultSetMetaData,
+					this.resultSetMetaDataHelper, appContext), this.resultSetMetaData);			
+			
+		}
+		if( this.resultSetMetaData != null)
+			masterExcelFileSource.setRsmd(this.resultSetMetaData);
 
-		return new ResultSet(new ExcelFileSource(this.connProperties,
-				this.currentTableName, worksheetNames,
-				this.maxRows, this.resultSetMetaData,
-				this.resultSetMetaDataHelper, appContext), this.resultSetMetaData);
+		if( this.resultSetMetaDataHelper != null)
+			masterExcelFileSource.setRsmdHelper(this.resultSetMetaDataHelper);
+			
+		masterExcelFileSource.setStatementMaxRows(this.maxRows);
+
+
+		return new ResultSet(masterExcelFileSource, this.resultSetMetaData);
 	}
 
 	/*
