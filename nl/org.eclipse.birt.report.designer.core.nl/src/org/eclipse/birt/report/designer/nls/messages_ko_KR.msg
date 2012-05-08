@@ -4305,6 +4305,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 GeneralPage.Library.Included=라이브러리:
 GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
+#BookMarkPage
+BookMarkPage.Modified.Note=책갈피에 \"A-Z a-z 0-9 - _ : .\" 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
+
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4636,8 +4639,9 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
 CrosstabBindingDialogHelper.bindngName.timeperiod=기간
-CrosstabBindingDialogHelper.calculation.labe=시간(&P):
-CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
+CrosstabBindingDialogHelper.calculation.label=시간(&P):
+CrosstabBindingDialogHelper.calculation.group=시간
+CrosstabBindingDialogHelper.recentday.description=기간 최종일
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=날짜 지정:
 CrosstabBindingDialogHelper.thisdate.example.label=날짜 값을 yyyy-MM-dd 형식으로 입력하십시오.
@@ -4710,6 +4714,11 @@ PasteFormatAction.text=서식 붙여넣기(&O)
 #InsertAggregationAction
 InsertAggregationAction.text=집계(&A)
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=현재 보기 설정
@@ -4743,12 +4752,14 @@ GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일�
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N)
 GeneralConfigurationBlock.group.label=묻기
+GeneralConfigurationBlock.group.defaultThemes=기본 테마 라이브러리
 GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표시(&P)
+GeneralConfigurationBlock.button.text.defaultTheme.enable=기본 테마 라이브러리 사용(&T)
+GeneralConfigurationBlock.button.text.defaultTheme.include=기본 테마 포함(&I)
 GeneralConfigurationBlock.move.binding.group=성능 향상을 위해 로컬 바인딩을 상위로 이동
 GeneralConfigurationBlock.move.binding.always=항상(&W)
 GeneralConfigurationBlock.move.binding.never=안 함(&V)
 GeneralConfigurationBlock.move.binding.prompt=묻기(&R)
-
 
 ###########################################################
 #ResetImageSizeAction

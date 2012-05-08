@@ -112,8 +112,13 @@ timeFunction.N2 = Valor N para el segundo período
 timeFunction.PERIOD1.displayName = El &primer período
 timeFunction.PERIOD2.displayName = El segundo pe&ríodo
 timeFunction.N1.displayName = Número de periodos transcurridos
-timeFunction.N2.displayName = Número de periodos transcurridos
-
+timeFunction.N2.displayName = De
+timeFunction.N1.next.displayName = Siguiente
+timeFunction.N2.Ago.displayName=Transcurridos
+timeFunction.N1.current.displayName=Actual
+timeFunction.N1.period.displayName= Período
+timeFunction.trailing.N1.period.displayName=Final
+timeFunction.trailing.N1.Month.displayName= Número de meses transcurridos
 timeFunction.N1.Year.displayName = Número de años transcurridos
 timeFunction.N2.Year.displayName = Número de años transcurridos
 timeFunction.N1.Year = Valor N para el número de años transcurridos
@@ -148,3 +153,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mes hasta la fecha
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semana hasta la fecha
 
 timeFunction.toolTip.to=A
+
