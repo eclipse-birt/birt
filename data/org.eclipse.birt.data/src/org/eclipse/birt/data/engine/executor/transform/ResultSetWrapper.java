@@ -64,6 +64,17 @@ public class ResultSetWrapper implements IResultIterator
 		}
 	}
 	
+	protected void initialize( ) throws DataException
+	{
+		this.index = source.getCurrentResultIndex( );
+		if( this.index == 0 )
+		{
+			this.cachedRows.add( new ResultObjectHolder( source.getCurrentResult( ),
+					source.getStartingGroupLevel( ),
+					source.getEndingGroupLevel( ), source.getGroupIndex( ) ) );
+		}
+	}
+	
 	public IResultClass getResultClass( ) throws DataException
 	{
 		return this.source.getResultClass( );

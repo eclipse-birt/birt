@@ -998,14 +998,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) );
 				if ( strategy  != Strategy.Complex )
 				{
-					for( IResultObjectEvent event: (List<IResultObjectEvent>)this.getFetchEvents( ) )
-					{
-						if( event instanceof ComputedColumnHelper )
-						{
-							((ComputedColumnHelper)event).setModel( TransformationConstants.ALL_MODEL );
-						}
-					}
-					
 					SimpleResultSet simpleResult = new SimpleResultSet( this,
 							rs,
 							newResultClass,
@@ -1014,11 +1006,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 							this.session,
 							strategy == Strategy.SimpleLookingFoward);
 					
-					IResultIterator it = strategy == Strategy.SimpleLookingFoward
-							? new ResultSetWrapper( this.session, simpleResult )
-							: simpleResult;
-					eventHandler.handleEndOfDataSetProcess( it );
-					return it;
+					return simpleResult.getResultSetIterator( );
 				}
 			}
 	    	

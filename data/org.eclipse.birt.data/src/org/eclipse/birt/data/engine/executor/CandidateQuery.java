@@ -127,14 +127,6 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 							: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) );
 					if ( strategy  != Strategy.Complex )
 					{
-						for( IResultObjectEvent event: (List<IResultObjectEvent>)this.getFetchEvents( ) )
-						{
-							if( event instanceof ComputedColumnHelper )
-							{
-								((ComputedColumnHelper)event).setModel( TransformationConstants.ALL_MODEL );
-							}
-						}
-						
 						SimpleResultSet simpleResult = new SimpleResultSet( this,
 								customDataSet,
 								resultMetadata,
@@ -143,11 +135,7 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 								this.session,
 								strategy == Strategy.SimpleLookingFoward);
 						
-						IResultIterator it = strategy == Strategy.SimpleLookingFoward
-								? new ResultSetWrapper( this.session, simpleResult )
-								: simpleResult;
-						eventHandler.handleEndOfDataSetProcess( it );
-						return it;
+						return simpleResult.getResultSetIterator( );
 					}
 				}
 							
