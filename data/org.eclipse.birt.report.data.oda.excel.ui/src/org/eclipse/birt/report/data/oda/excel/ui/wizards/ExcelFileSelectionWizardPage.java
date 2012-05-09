@@ -857,10 +857,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			{
 				if (selectedColumnsViewer.getTable().getItemCount() == 0)
 				{
-					String errMsg = currentSheetName == null ?
-		                    Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
-		                    Messages.getString("error.selectColumns");      //$NON-NLS-1$
-		            setMessage( errMsg, ERROR );
+		            setMessage( getEmptyColumnErrMsg( ), ERROR );
 				}
 				else
 				{
@@ -880,6 +877,13 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 	}
 
+	
+	private String getEmptyColumnErrMsg()
+	{
+		return this.currentSheetName == null
+				? Messages.getString( "error.selectWorksheet" ) : 
+				Messages.getString( "error.selectColumns" );
+	}
 	/**
 	 * Load the custom properties
 	 */
@@ -1333,10 +1337,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
-			String errMsg = currentSheetName == null ?
-                    Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
-                    Messages.getString("error.selectColumns");      //$NON-NLS-1$
-            setMessage( errMsg, ERROR );
+            setMessage( getEmptyColumnErrMsg(), ERROR );
 		}
 	}
 
@@ -1347,10 +1348,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
              this.getControl( ).getShell( ).getText( ).startsWith( "Edit" ))  //$NON-NLS-1$
         {
             setPageComplete(false);
-            String errMsg = currentSheetName == null ?
-                        Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
-                        Messages.getString("error.selectColumns");      //$NON-NLS-1$
-            setMessage( errMsg, ERROR );
+            setMessage( getEmptyColumnErrMsg( ), ERROR );
             return false;
         }
 
@@ -1534,10 +1532,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
-			String errMsg = currentSheetName == null ?
-                    Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
-                    Messages.getString("error.selectColumns");      //$NON-NLS-1$
-            setMessage( errMsg, ERROR );
+            setMessage( getEmptyColumnErrMsg( ), ERROR );
 		}
 	}
 
@@ -1779,5 +1774,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				worksheetsCombo.setSelection(new StructuredSelection(
 						currentSheetName));
 		}
+		if ( worksheetsCombo.getSelection( ).isEmpty( ) )
+			this.currentSheetName = null;
 	}
 }
