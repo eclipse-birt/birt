@@ -198,7 +198,7 @@ public class ExcelDataSourcePageHelper {
 		{
 			RelativeFileSelectionDialog dialog = new RelativeFileSelectionDialog( folderLocation.getShell( ),
 					new File( getResourceFolder( ) ) );
-
+			dialog.setTitle( Messages.getString( "SelectFile.Title" ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				try
