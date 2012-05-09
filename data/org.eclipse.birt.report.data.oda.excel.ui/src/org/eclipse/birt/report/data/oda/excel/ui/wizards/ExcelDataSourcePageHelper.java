@@ -145,7 +145,14 @@ public class ExcelDataSourcePageHelper {
 				}
 				else if ( e.widget instanceof MenuButton )
 				{
-					handleFileSelection( SELECT_RELATIVE_PATH );
+					if ( ri == null)
+					{
+						handleFileSelection( SELECT_ABSOLUTE_PATH );
+					}
+					else 
+					{
+						handleFileSelection( SELECT_RELATIVE_PATH );
+					}
 				}
 			}
 		};
