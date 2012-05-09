@@ -167,6 +167,9 @@ public class ExcelFileReader {
 						.createFormulaEvaluator();
 				workBook.setMissingCellPolicy(Row.RETURN_NULL_AND_BLANK);
 				sheet = workBook.getSheet(workSheetList.get(currentSheetIndex));
+				if (sheet == null)
+					throw new OdaException(
+							Messages.getString("invalid_sheet_name")); 
 				maxRowsInThisSheet = sheet.getPhysicalNumberOfRows();
 
 				for (String sheetName : workSheetList) {

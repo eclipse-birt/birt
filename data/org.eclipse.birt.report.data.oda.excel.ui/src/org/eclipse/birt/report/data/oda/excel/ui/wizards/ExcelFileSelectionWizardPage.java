@@ -140,7 +140,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	/** store latest selected sheet name */
 	private String currentSheetName;
 
-
+    private boolean flag = false;
 	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<String[]>();
 	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<String[]>();
 
@@ -796,20 +796,31 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
-
+		
 		String sheetName = (String) ((IStructuredSelection) event
 				.getSelection()).getFirstElement();
 
-		if (sheetName.equalsIgnoreCase(currentSheetName))
+		String queryText = this.getInitializationDesign( ).getQueryText( );
+		if ( sheetName.equalsIgnoreCase( currentSheetName ) && isNewFile( queryText, getFileName( selectedFile ) ))
+		{
+			flag = false;
 			return;
-
+		}
+		else if (flag)
+		{
+			flag = false;
+			return;
+		}
+		
 		if (currentSheetName != null && !MessageDialog.openConfirm(worksheetsCombo.getControl()
 				.getShell(), Messages
 				.getString("confirm.reselectWorksheetTitle"), //$NON-NLS-1$
 				Messages.getString("confirm.reselectWorksheetMessage"))) //$NON-NLS-1$
 		{
+			flag = true;
 			worksheetsCombo.setSelection(new StructuredSelection(
 					currentSheetName));
+			
 			return;
 		}
 
@@ -841,8 +852,22 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 					.endsWith(ExcelODAConstants.XLSX_FORMAT))) {
 				setMessage(Messages.getString("warning.fileExtensionInvalid"), //$NON-NLS-1$
 						WARNING);
-			} else
-				setMessage(DEFAULT_MESSAGE);
+			} 
+			else
+			{
+				if (selectedColumnsViewer.getTable().getItemCount() == 0)
+				{
+					String errMsg = currentSheetName == null ?
+		                    Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
+		                    Messages.getString("error.selectColumns");      //$NON-NLS-1$
+		            setMessage( errMsg, ERROR );
+				}
+				else
+				{
+					setMessage(DEFAULT_MESSAGE);
+				}
+			}
+				
 		}
 
 		// reset cursor back to normal state
@@ -902,6 +927,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		}
 	}
 
+	private boolean isNewFile(String queryText, String selectedFile)
+	{
+		return queryText.contains( selectedFile );
+	}
 	/**
 	 * Update file list in combo viewer
 	 */
@@ -959,10 +988,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			try
 			{
 				populateWorkSheetCombo( );
-				if( currentSheetName != null )
+				String queryText = getInitializationDesign().getQueryText();
+				if ( currentSheetName != null
+						&& isNewFile(queryText, getFileName( selectedFile ) ) )
 				{
-				String[] columnNames = getFileColumnNames(selectedFile);
-				availableList.setItems( columnNames );
+					String[] columnNames = getFileColumnNames( selectedFile );
+					availableList.setItems( columnNames );
 				}
 			}
 			catch ( Exception e )
@@ -1294,11 +1325,18 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		    validateHasSelectedColumns();
 			return;
 		}
-
-	    updateColumnsFromQuery(queryText, selectedFile);
+		if ( isNewFile( queryText, getFileName( selectedFile ) ) )
+        {
+        	updateColumnsFromQuery(queryText, selectedFile);
+        }
+	    
 
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
+			String errMsg = currentSheetName == null ?
+                    Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
+                    Messages.getString("error.selectColumns");      //$NON-NLS-1$
+            setMessage( errMsg, ERROR );
 		}
 	}
 
@@ -1496,6 +1534,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 
 		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			setPageComplete(false);
+			String errMsg = currentSheetName == null ?
+                    Messages.getString("error.selectWorksheet") :   //$NON-NLS-1$
+                    Messages.getString("error.selectColumns");      //$NON-NLS-1$
+            setMessage( errMsg, ERROR );
 		}
 	}
 
@@ -1534,8 +1576,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	 */
 	private void savePage(DataSetDesign dataSetDesign) {
 		String queryText = getQueryText();
-		/*if (queryText.equals(dataSetDesign.getQueryText()))
-			return;*/
+		if (queryText.equals(dataSetDesign.getQueryText()))
+			return;
 		dataSetDesign.setQueryText(queryText);
         savePublicProperties(dataSetDesign);
 
@@ -1726,7 +1768,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				.getSheetNamesInExcelFile(selectedFile);
 		worksheetsCombo.setInput(sheetNameList.toArray());
 		for (String sheet : sheetNameList) {
-			if (sheet.equals(currentSheetName))
+			String queryText = getInitializationDesign().getQueryText();
+			if ( sheet.equals( currentSheetName )
+					&& isNewFile( queryText, getFileName( selectedFile ) ) )
 				worksheetsCombo.setSelection(new StructuredSelection(
 						currentSheetName));
 		}
