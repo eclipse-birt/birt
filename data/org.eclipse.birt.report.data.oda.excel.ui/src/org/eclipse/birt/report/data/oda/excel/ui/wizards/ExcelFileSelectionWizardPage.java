@@ -228,10 +228,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			return; // nothing to initialize
 
 		String queryText = dataSetDesign.getQueryText();
-		if (queryText == null)
+		if (queryText == null || selectedFile == null)
 			return; // nothing to initialize
-
-        updateValuesFromQuery(queryText);
+        
+		updateValuesFromQuery(queryText);
 
 		if (dataSetDesign.getPublicProperties() != null) {
 			currentSheetName = dataSetDesign.getPublicProperties().getProperty(
@@ -1325,7 +1325,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		    validateHasSelectedColumns();
 			return;
 		}
-		if ( isNewFile( queryText, getFileName( selectedFile ) ) )
+		if (selectedFile != null && isNewFile( queryText, getFileName( selectedFile ) ) )
         {
         	updateColumnsFromQuery(queryText, selectedFile);
         }
@@ -1580,7 +1580,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 			return;
 		dataSetDesign.setQueryText(queryText);
         savePublicProperties(dataSetDesign);
-
+        
+        if ( selectedFile == null )
+        {
+        	 dataSetDesign.setResultSets(null);
+             return;
+        }
 		if( ! validateHasSelectedColumns() )
 		{
 		    // don't prepare query; simply reset result set definition
