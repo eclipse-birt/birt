@@ -1773,7 +1773,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				if ( measureHandle != null )
 					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
 				//if cube is auto primary key, measure definition should ignore the aggregation function.
-				if(  cubeHandle instanceof TabularCubeHandle && ((TabularCubeHandle)cubeHandle).autoPrimaryKey( ) )
+				if( cubeHandle.getBooleanProperty( ITabularCubeModel.AUTO_KEY_PROP ) )
 				{
 					measureDef.setAggrFunction( null );
 				}
