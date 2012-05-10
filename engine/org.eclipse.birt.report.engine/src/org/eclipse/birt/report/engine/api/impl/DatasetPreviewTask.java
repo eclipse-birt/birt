@@ -5,8 +5,10 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -23,8 +25,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-
-
 public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTask
 {
 	
@@ -33,6 +33,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected DataSetHandle dataset;
 
 	protected int maxRow;
+	
+	protected IFilterDefinition[] filterExpressions = null;
+
+	protected ISortDefinition[] sortExpressions = null;
 	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
@@ -76,6 +80,16 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		this.runnable = runnable;
 		setReportRunnable( (ReportRunnable)runnable );
+	}
+	
+	public void setFilters( IFilterDefinition[] simpleFilterExpression )
+	{
+		filterExpressions = simpleFilterExpression;
+	}
+
+	public void setSorts( ISortDefinition[] simpleSortExpression )
+	{
+		sortExpressions = simpleSortExpression;
 	}
 	
 	protected ModuleHandle getHandle( )
@@ -186,8 +200,25 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		{
 			query.setMaxRows( maxRow );
 		}
+		// add filter
+		if ( filterExpressions != null )
+		{
+			for ( int i = 0; i < filterExpressions.length; i++ )
+			{
+				query.getFilters( ).add( filterExpressions[i] );
+			}
+			filterExpressions = null;
+		}
+		// add sort
+		if ( sortExpressions != null )
+		{
+			for ( int i = 0; i < sortExpressions.length; i++ )
+			{
+				query.getSorts( ).add( sortExpressions[i] );
+			}
+			sortExpressions = null;
+		}
 		return query;
-
 	}
 	
 	protected void validateStringParameter( String paramName,
