@@ -226,7 +226,6 @@ public class SimpleResultSet implements IResultIterator
 			if ( event instanceof ComputedColumnHelper )
 			{
 				this.ccHelper = (ComputedColumnHelper) event;
-				break;
 			}
 			else if ( event instanceof OnFetchScriptHelper )
 			{
