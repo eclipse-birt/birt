@@ -1772,6 +1772,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				MeasureHandle measureHandle = cubeHandle.getMeasure( measureDef.getName( ) );
 				if ( measureHandle != null )
 					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
+				//if cube is auto primary key, measure definition should ignore the aggregation function.
+				if(  cubeHandle instanceof TabularCubeHandle && ((TabularCubeHandle)cubeHandle).autoPrimaryKey( ) )
+				{
+					measureDef.setAggrFunction( null );
+				}
 			}
 		}
 	}
