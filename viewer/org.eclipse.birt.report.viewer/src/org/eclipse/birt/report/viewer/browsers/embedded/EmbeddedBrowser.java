@@ -435,11 +435,10 @@ public class EmbeddedBrowser
 					}
 				}
 
-				Image image = null;
-				String key = imageURL.toString( );
-				
+				Image image = null;				
 				if ( imageURL != null )
 				{
+					String key = imageURL.toString( );
 					if (CorePlugin.getDefault( ).getImageRegistry( ).get( key ) != null)
 					{
 						image =  CorePlugin.getDefault( ).getImageRegistry( ).get( key );
