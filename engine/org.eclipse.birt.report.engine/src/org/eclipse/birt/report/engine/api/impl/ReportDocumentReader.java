@@ -676,7 +676,7 @@ public class ReportDocumentReader
 		String extensions = (String) properties.get( BIRT_ENGINE_EXTENSIONS );
 		if ( extensions != null && extensions.length( ) > 0 )
 		{
-			String[] extIds = extensions.split( "," );
+			String[] extIds = extensions.split( ";" );
 			for ( String extId : extIds )
 			{
 				IReportEngineExtension ext = engine.getEngineExtension( extId );
