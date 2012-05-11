@@ -57,10 +57,24 @@ public class WebViewer
 	public final static String PDF = "pdf"; //$NON-NLS-1$
 
 	/**
-	 * DOC format name
+	 * DOC/DOCX format names
 	 */
 	public final static String DOC = "doc"; //$NON-NLS-1$
+	public final static String DOCX = "docx"; //$NON-NLS-1$
 
+	/**
+	 * PPT/PPTX format names
+	 */
+	public final static String PPT = "ppt"; //$NON-NLS-1$
+	public final static String PPTX = "pptx"; //$NON-NLS-1$
+	
+	/**
+	 * Open document format names
+	 */
+	public final static String ODP = "odp"; //$NON-NLS-1$
+	public final static String ODS = "ods"; //$NON-NLS-1$
+	public final static String ODT = "odt"; //$NON-NLS-1$
+	
 	/**
 	 * POSTSCRIPT format name
 	 */
@@ -660,10 +674,17 @@ public class WebViewer
 			encodedResourceFolder = ""; //$NON-NLS-1$
 		}
 
-		// workaround for postscript format, force "Content-Disposition" as
+		// workaround for postscript/doc/docx/ppt/pptx/odp/ods/odt formats, force "Content-Disposition" as
 		// "attachment"
 		String asattachment = null;
-		if ( POSTSCRIPT.equalsIgnoreCase( format ) )
+		if ( POSTSCRIPT.equalsIgnoreCase( format )
+				|| DOC.equalsIgnoreCase( format )
+				|| DOCX.equalsIgnoreCase( format )
+				|| PPT.equalsIgnoreCase( format )
+				|| PPTX.equalsIgnoreCase( format )
+				|| ODP.equalsIgnoreCase( format )
+				|| ODS.equalsIgnoreCase( format )
+				|| ODT.equalsIgnoreCase( format ))
 		{
 			asattachment = "&__asattachment=true"; //$NON-NLS-1$
 		}
