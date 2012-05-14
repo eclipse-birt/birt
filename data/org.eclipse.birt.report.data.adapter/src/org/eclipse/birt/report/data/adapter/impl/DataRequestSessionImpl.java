@@ -454,6 +454,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	}
 
 	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#clearCache(java.lang.String)
+	 */
+	public void clearCache( String cacheID ) throws BirtException
+	{
+		dataEngine.clearCache( cacheID );
+	}
+	/*
 	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition,
 	 *      java.util.Map)
 	 */

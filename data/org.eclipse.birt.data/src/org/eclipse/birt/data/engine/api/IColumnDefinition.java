@@ -43,6 +43,13 @@ public interface IColumnDefinition
 	public String getColumnName();
 	
 	/**
+	 * Get the display name of column.
+	 * 
+	 * @return
+	 */
+	public String getDisplayName( );
+	
+	/**
 	 * Gets the column native name. Column native name identifies a column in the meta data.
 	 * 
 	 * @return Native Name of column. If column native name is unnamed, returns null.
