@@ -206,6 +206,8 @@ public class StyleUtil
 				StyleConstants.STYLE_BORDER_RIGHT_COLOR );
 		ruleStyleName2Index.put( HighlightRule.BACKGROUND_COLOR_MEMBER,
 				StyleConstants.STYLE_BACKGROUND_COLOR );
+		ruleStyleName2Index.put( HighlightRule.BACKGROUND_IMAGE_MEMBER,
+				StyleConstants.STYLE_BACKGROUND_IMAGE );
 		/*
 		ruleStyleName2Index.put( HighlightRule.DATE_TIME_FORMAT_MEMBER,
 				StyleConstants.STYLE_SQL_DATE_FORMAT );
