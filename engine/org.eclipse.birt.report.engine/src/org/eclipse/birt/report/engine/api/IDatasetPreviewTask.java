@@ -19,16 +19,20 @@ public interface IDatasetPreviewTask extends IEngineTask
 	
 	/**
 	 * set the filter conditions
-	 * 
-	 * @param filters
+	 * @param filters the filter definitions.
 	 */
 	public void setFilters( IFilterDefinition[] filters );
 
 	/**
 	 * set the sorting conditions
-	 * 
-	 * @param sorts
+	 * @param sorts the sort definitions.
 	 */
 	public void setSorts( ISortDefinition[] sorts );
+	
+	/**
+	 * select columns from the data set.
+	 * @param columnNames the selected column names
+	 */
+	public void selectColumns( String[] columnNames );
 	
 }

@@ -38,6 +38,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	protected ISortDefinition[] sortExpressions = null;
 	
+	protected String[] selectedColumns;
+	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
 		super(engine, TASK_DATASETPREVIEW);
@@ -80,6 +82,11 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		this.runnable = runnable;
 		setReportRunnable( (ReportRunnable)runnable );
+	}
+	
+	public void selectColumns( String[] columnNames )
+	{
+		selectedColumns = columnNames;
 	}
 	
 	public void setFilters( IFilterDefinition[] simpleFilterExpression )
@@ -181,6 +188,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 				null, executionContext.getScriptContext( ) );
 		ResultMetaData metadata = new ResultMetaData(
 				result.getResultMetaData( ) );
+		if ( null != selectedColumns )
+		{
+			metadata = new ResultMetaData( metadata, selectedColumns );
+		}
 		return new ExtractionResults( result, metadata, null, 0, maxRow );
 	}
 
