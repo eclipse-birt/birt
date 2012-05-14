@@ -1900,41 +1900,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else
 		{
-			// #49124
-			// Create a parent query definition for nested chart in xtab here,
-			// sometimes chart in xtab needs to use parent query for live
-			// preview.
-			IDataQueryDefinition parentQuery = null;
-			if ( itemHandle.getCube( ) == null )
-			{
-
-				DesignElementHandle parentHandle = itemHandle.getContainer( );
-				while ( parentHandle != null )
-				{
-					if ( parentHandle instanceof ExtendedItemHandle
-							&& ( (ExtendedItemHandle) parentHandle ).getReportItem( ) instanceof CrosstabReportItemHandle )
-					{
-						parentQuery = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) ( (ExtendedItemHandle) parentHandle ).getReportItem( ),
-								null,
-								session.getModelAdaptor( ),
-								true,
-								true,
-								true,
-								true,
-								true,
-								true );
-						break;
-					}
-					else
-					{
-						parentHandle = parentHandle.getContainer( );
-					}
-				}
-			}
 			qd = new ChartCubeQueryHelper( itemHandle,
 					cm,
-					session.getModelAdaptor( ) ).createCubeQuery( parentQuery );
-
+					session.getModelAdaptor( ) ).createCubeQuery( null );
 		}
 
 		resetCubeQuery( qd );
