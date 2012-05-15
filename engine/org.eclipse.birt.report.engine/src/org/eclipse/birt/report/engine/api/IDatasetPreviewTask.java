@@ -1,11 +1,9 @@
 package org.eclipse.birt.report.engine.api;
 
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
 
-public interface IDatasetPreviewTask extends IEngineTask
+public interface IDatasetPreviewTask extends IExtractionTask
 {
 
 
@@ -18,17 +16,9 @@ public interface IDatasetPreviewTask extends IEngineTask
 	public void setMaxRow( int maxRow );
 	
 	/**
-	 * set the filter conditions
-	 * 
-	 * @param filters
+	 * select columns from the data set.
+	 * @param columnNames the selected column names
 	 */
-	public void setFilters( IFilterDefinition[] filters );
-
-	/**
-	 * set the sorting conditions
-	 * 
-	 * @param sorts
-	 */
-	public void setSorts( ISortDefinition[] sorts );
+	public void selectColumns( String[] columnNames );
 	
 }
