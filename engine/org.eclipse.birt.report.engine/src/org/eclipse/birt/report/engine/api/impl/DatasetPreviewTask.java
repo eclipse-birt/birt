@@ -1,6 +1,8 @@
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -13,11 +15,21 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
+import org.eclipse.birt.report.engine.api.IEngineConfig;
+import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunnable;
+import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
@@ -44,7 +56,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		super(engine, TASK_DATASETPREVIEW);
 	}
-
+	
 	public IExtractionResults execute( ) throws EngineException
 	{
 		if ( dataset == null )
@@ -53,6 +65,127 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 					"dataset can not be null" );
 		}
 		return runDataset( );
+	}
+	
+	public IExtractionResults extract( ) throws EngineException
+	{
+		return execute( );
+	}
+	
+	public void extract( IExtractionOption options ) throws BirtException
+	{
+		IDataExtractionOption option = null;
+		if ( options == null )
+		{
+			option = new DataExtractionOption( );
+		}
+		else
+		{
+			option = new DataExtractionOption( options.getOptions( ) );
+		}
+		IDataExtractionOption extractOption = setupExtractOption( option );
+		IDataExtractionExtension dataExtraction = getDataExtractionExtension( extractOption );
+		try
+		{
+			dataExtraction.initialize( executionContext.getReportContext( ),
+					extractOption );
+			IExtractionResults results = execute( );
+			if ( executionContext.isCanceled( ) )
+			{
+				return;
+			}
+			else
+			{
+				dataExtraction.output( results );
+			}
+		}
+		finally
+		{
+			dataExtraction.release( );
+		}
+	}
+	
+	private IDataExtractionOption setupExtractOption(
+			IExtractionOption options )
+	{
+		// setup the data extraction options from:
+		HashMap allOptions = new HashMap( );
+
+		// try to get the default render option from the engine config.
+		HashMap configs = engine.getConfig( ).getEmitterConfigs( );
+		// get the default format of the emitters, the default format key is
+		// IRenderOption.OUTPUT_FORMAT;
+		IRenderOption defaultOptions = (IRenderOption) configs
+				.get( IEngineConfig.DEFAULT_RENDER_OPTION );
+		if ( defaultOptions != null )
+		{
+			allOptions.putAll( defaultOptions.getOptions( ) );
+		}
+
+		// try to get the render options by the format
+		IRenderOption defaultHtmlOptions = (IRenderOption) configs
+				.get( IRenderOption.OUTPUT_FORMAT_HTML );
+		if ( defaultHtmlOptions != null )
+		{
+			allOptions.putAll( defaultHtmlOptions.getOptions( ) );
+		}
+
+		// merge the user's setting
+		allOptions.putAll( options.getOptions( ) );
+
+		// copy the new setting to old APIs
+		Map appContext = executionContext.getAppContext( );
+		Object renderContext = appContext
+				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+		if ( renderContext == null )
+		{
+			HTMLRenderContext htmlContext = new HTMLRenderContext( );
+			HTMLRenderOption htmlOptions = new HTMLRenderOption( allOptions );
+			htmlContext.setBaseImageURL( htmlOptions.getBaseImageURL( ) );
+			htmlContext.setBaseURL( htmlOptions.getBaseURL( ) );
+			htmlContext.setImageDirectory( htmlOptions.getImageDirectory( ) );
+			htmlContext.setSupportedImageFormats( htmlOptions
+					.getSupportedImageFormats( ) );
+			htmlContext.setRenderOption( htmlOptions );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					htmlContext );
+		}
+		
+		IDataExtractionOption extractOption = new DataExtractionOption(
+				allOptions );
+		
+		return extractOption;
+	}
+	
+	private IDataExtractionExtension getDataExtractionExtension(
+			IDataExtractionOption option ) throws EngineException
+	{
+		IDataExtractionExtension dataExtraction = null;
+		String extension = option.getExtension( );
+		ExtensionManager extensionManager = ExtensionManager.getInstance( );
+		if ( extension != null )
+		{
+			dataExtraction = extensionManager
+					.createDataExtractionExtensionById( extension );
+		}
+
+		String format = null;
+		if ( dataExtraction == null )
+		{
+			format = option.getOutputFormat( );
+			if ( format != null )
+			{
+				dataExtraction = extensionManager
+						.createDataExtractionExtensionByFormat( format );
+			}
+		}
+		if ( dataExtraction == null )
+		{
+			throw new EngineException(
+					MessageConstants.INVALID_EXTENSION_ERROR, new Object[]{
+							extension, format} );
+		}
+		return dataExtraction;
 	}
 	
 	public void setMaxRow(int maxRow)
