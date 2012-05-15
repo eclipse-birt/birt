@@ -12,6 +12,7 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Column;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ConnectionMetaData;
@@ -20,7 +21,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Schema;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Table;
 import org.eclipse.birt.report.data.oda.jdbc.utils.ISQLSyntax;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
@@ -78,10 +81,24 @@ public class JdbcSQLContentAssistProcessor implements
 		String password = dataSourceHandle.getPublicProperties( )
 				.findProperty( Constants.ODAPassword )
 				.getValue( );
+		
 		metaData = ConnectionMetaDataManager.getInstance( )
 				.getMetaData( driverClass, url, user, password, //$NON-NLS-1$
-						null, timeout );
+						getConnectionProperties( dataSourceHandle ), timeout );
 
+	}
+    
+	private Properties getConnectionProperties(
+			DataSourceDesign dataSourceDesign )
+	{
+		try
+		{
+			return DesignSessionUtil.getEffectiveDataSourceProperties( dataSourceDesign );
+		}
+		catch ( OdaException ignore )
+		{
+		}
+		return null;
 	}
 
 	/*
