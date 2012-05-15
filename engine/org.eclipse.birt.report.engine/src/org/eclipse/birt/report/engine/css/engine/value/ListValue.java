@@ -116,6 +116,10 @@ public class ListValue extends Value implements CSSValueList
 	{
 		char[] chars = value.toCharArray( );
 		
+		//if the value is already surrounded by quotes, then no more quotes are needed.
+		if( chars[0] == '"' && chars[chars.length - 1] == '"') 
+			return value;
+		
 		boolean needQuote = false;
 		for (int i = 0; i < chars.length; i++)
 		{
