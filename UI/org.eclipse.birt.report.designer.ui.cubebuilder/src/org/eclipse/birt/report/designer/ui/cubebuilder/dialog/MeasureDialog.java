@@ -287,7 +287,7 @@ public class MeasureDialog extends TitleAreaDialog
 			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
 					: getDataTypeDisplayName( input.getDataType( ) ) );
 			derivedMeasureBtn.setSelection( input.isCalculated( ) );
-			derivedMeasureBtn.notifyListeners( SWT.Selection, new Event( ) );
+			updateDerivedMeasureStatus( );
 		}
 
 		if ( formatHelper != null )
@@ -585,15 +585,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				functionCombo.setEnabled( !( derivedMeasureBtn.getSelection( ) || isAutoPrimaryKeyChecked ) );
-				if ( securityHelper != null )
-				{
-					securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_ENABLE,
-							!( derivedMeasureBtn.getSelection( ) ) );
-					securityHelper.update( true );
-				}
-				exprDesc.setText( Messages.getString( derivedMeasureBtn.getSelection( ) ? "MeasureDialog.Label.ExprDesc.Derived" : "MeasureDialog.Label.ExprDesc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				provider.setDerivedMeasure( derivedMeasureBtn.getSelection( ) );
+				updateDerivedMeasureStatus( );
 				if ( !derivedMeasureBtn.getSelection( ) )
 				{
 					handleTypeSelectEvent( );
@@ -954,5 +946,18 @@ public class MeasureDialog extends TitleAreaDialog
 			setErrorMessage( null );
 			setMessage( Messages.getString( "MeasureDialog.Text.Description" ) ); //$NON-NLS-1$
 		}
+	}
+
+	private void updateDerivedMeasureStatus( )
+	{
+		functionCombo.setEnabled( !( derivedMeasureBtn.getSelection( ) || isAutoPrimaryKeyChecked ) );
+		if ( securityHelper != null )
+		{
+			securityHelper.setProperty( BuilderConstants.SECURITY_EXPRESSION_ENABLE,
+					!( derivedMeasureBtn.getSelection( ) ) );
+			securityHelper.update( true );
+		}
+		exprDesc.setText( Messages.getString( derivedMeasureBtn.getSelection( ) ? "MeasureDialog.Label.ExprDesc.Derived" : "MeasureDialog.Label.ExprDesc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		provider.setDerivedMeasure( derivedMeasureBtn.getSelection( ) );
 	}
 }
