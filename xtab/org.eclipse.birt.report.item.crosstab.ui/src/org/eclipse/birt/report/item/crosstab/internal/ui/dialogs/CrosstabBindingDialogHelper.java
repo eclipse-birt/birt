@@ -472,8 +472,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		int count = crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE );
 		for ( int i = 0; i < count; i++ )
 		{
-			if ( crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, i )
-					.getCubeDimensionName( )
+			if ( crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, i ).getCubeDimension( ).getName( )
 					.equals( dimensionName ) )
 			{
 				inUseDimsion = true;
@@ -483,8 +482,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		count = crosstab.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE );
 		for ( int i = 0; i < count; i++ )
 		{
-			if ( crosstab.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i )
-					.getCubeDimensionName( )
+			if ( crosstab.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i ).getCubeDimension( ).getName( )
 					.equals( dimensionName ) )
 			{
 				inUseDimsion = true;
