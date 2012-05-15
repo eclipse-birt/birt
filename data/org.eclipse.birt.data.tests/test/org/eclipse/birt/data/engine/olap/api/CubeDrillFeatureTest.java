@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 
 import testutil.BaseTestCase;
@@ -68,7 +69,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
 		hier3.createLevel( "PRODUCTLINE" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
@@ -184,7 +186,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
 		hier3.createLevel( "PRODUCTLINE" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
@@ -276,7 +279,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
 		hier3.createLevel( "PRODUCTLINE" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
@@ -381,7 +385,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
 		hier3.createLevel( "PRODUCTLINE" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
@@ -495,7 +500,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		hier3.createLevel( "PRODUCTLINE" );
 		hier3.createLevel( "PRODUCTTYPE" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
@@ -625,7 +631,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
 		hier3.createLevel( "PRODUCTLINE" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
@@ -763,7 +770,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension3" );
 		hier3.createLevel( "PRODUCTLINE" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "binding1" );
 
