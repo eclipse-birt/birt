@@ -257,17 +257,23 @@ public class XlsxFileReader {
 		}
 
 		private int getColumnNumber(String colname) {
+			int tmpcol = 0;
+			String drpNumber = colname;
+			for (int ch = 0; ch < colname.length(); ++ch) {
+				if (!Character.isLetter(colname.charAt(ch))) {
+					drpNumber = colname.substring(0, ch);
+					break;
+				}
+			}
 
-            int tmpcol = 0;
+			int sum = 0;
+			for (int ii = 0; ii < drpNumber.length(); ii++) {
+				tmpcol = (drpNumber.charAt(ii) - 'A') + 1;
+				sum = sum * 26 + tmpcol;
+			}
+			return sum - 1;
 
-            //remove cell number
-            for (int ch = 0; ch < colname.length(); ++ch) {
-            	if( Character.isLetter(colname.charAt(ch)) ){
-            		tmpcol = (ch*26) + colname.charAt(ch) - 'A';
-            	}
-            }
-	        return tmpcol;
-	    }
+		}
 	}
 
 	/**
