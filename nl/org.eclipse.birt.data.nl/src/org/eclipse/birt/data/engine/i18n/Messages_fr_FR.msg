@@ -67,7 +67,7 @@ data.engine.DupColumnName=Nom de colonne en double : {0}.
 data.engine.DupAlias=Alias ou nom de colonne en double : {0}.
 data.engine.InvalidFieldIndex=Index de champ incorrect : {0}.
 data.engine.fail.prepareExecution=Echec de préparation de l'exécution de la requête pour le jeu de données : {0}.
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Etat de la mise à jour du groupe incorrect : groupe actuel <{0}> supérieur au groupe de traitement <{1}>.
 
 data.engine.MatchError=Vérifiez la syntaxe du motif. Erreur de correspondance entre la chaîne et le motif : {0}.
 
