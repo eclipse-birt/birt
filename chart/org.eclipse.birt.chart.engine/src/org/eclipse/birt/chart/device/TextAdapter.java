@@ -149,4 +149,12 @@ public class TextAdapter implements ITextMetrics
 	{
 		return 0;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.ITextMetrics#getWidth(int)
+	 */
+	public double getWidth( int iIndex )
+	{
+		return 0d;
+	}
 }

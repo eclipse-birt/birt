@@ -50,6 +50,8 @@ public final class ChartTextMetrics extends TextAdapter
 
 	private String[] fsa = null;
 
+	private double[] faWidth = null;
+	
 	private transient Object bi = null;
 
 	private Label la = null;
@@ -230,8 +232,9 @@ public final class ChartTextMetrics extends TextAdapter
 	 */
 	private final double stringWidth( )
 	{
+		faWidth = new double[iLineCount];
 		Rectangle2D r2d;
-
+		
 		if ( iLineCount > 1 )
 		{
 			double dWidth, dMaxWidth = 0;
@@ -239,6 +242,7 @@ public final class ChartTextMetrics extends TextAdapter
 			{
 				r2d = tla[i].getBounds( );
 				dWidth = r2d.getWidth( );
+				faWidth[i] = Math.max( 0, dWidth );
 				
 				if ( dWidth > dMaxWidth )
 				{
@@ -261,12 +265,14 @@ public final class ChartTextMetrics extends TextAdapter
 			 * string contains full pitch characters.
 			 */
 			double w = fm.getStringBounds( fsa[0], g2d ).getWidth( );
-
+			
 			/**
 			 * Fixed for java.awt.font.TextLine.getBounds() bug, when string is
 			 * blank, e.g. " ", it will return an negative result.
 			 */
-			return Math.max( 0, w );
+			w = Math.max( 0, w );
+			faWidth[0] = w;
+			return w;
 		}
 
 		return 0;
@@ -295,7 +301,17 @@ public final class ChartTextMetrics extends TextAdapter
 	{
 		return stringWidth( ) + ( ins.getLeft( ) + ins.getRight( ) );
 	}
-
+	
+	@Override
+	public double getWidth( int iIndex )
+	{
+		if ( faWidth == null )
+		{
+			stringWidth( );
+		}
+		return faWidth[iIndex];
+	}
+	
 	/**
 	 * 
 	 * @return The number of lines created due to the hard breaks inserted
