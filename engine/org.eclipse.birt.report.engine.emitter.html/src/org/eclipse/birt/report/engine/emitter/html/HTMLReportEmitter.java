@@ -2860,7 +2860,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String url = validate( hyperlinkAction );
 		if ( url != null )
 		{
-			writer.attribute( HTMLTags.ATTR_STYLE, "width:0;" );
+			String strWidth = "width:0;";
+			DimensionType w = image.getWidth( );
+			if ( w != null )
+			{
+				strWidth = "width:" + w.toString( );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, strWidth );
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );
