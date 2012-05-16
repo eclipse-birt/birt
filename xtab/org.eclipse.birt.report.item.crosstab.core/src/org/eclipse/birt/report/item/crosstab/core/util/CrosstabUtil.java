@@ -747,40 +747,107 @@ public final class CrosstabUtil implements ICrosstabConstants
 				addLabelToHeader( viewHandle.getLevel( j ) );
 			}
 		}
+		for (int i=0; i<reportHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++)
+		{
+			DimensionViewHandle viewHandle = reportHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, i );
+			for (int j=0; j<viewHandle.getLevelCount( ); j++)
+			{
+				addLabelToHeader( viewHandle.getLevel( j ) );
+			}
+		}
 	}
 	
+	private static boolean isShowColumnMeasureHeader(CrosstabReportItemHandle crosstab)
+	{
+		return (!crosstab.isHideMeasureHeader( )) && crosstab.getMeasureCount( ) != 0 && ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals( crosstab.getMeasureDirection( ));
+	}
 	/**Add the label to the header cell. 
 	 * @param levelHandle
 	 */
 	public static void addLabelToHeader(LevelViewHandle levelHandle)
 	{
-		if (ICrosstabConstants.COLUMN_AXIS_TYPE == levelHandle.getAxisType( ))
-		{
-			//addAllHeaderLabel( levelHandle.getCrosstab( ) );
-			return;
-		}
+//		if (ICrosstabConstants.COLUMN_AXIS_TYPE == levelHandle.getAxisType( ))
+//		{
+//			//addAllHeaderLabel( levelHandle.getCrosstab( ) );
+//			return;
+//		}
+		
+		int type = levelHandle.getAxisType( );
+		
 		
 		DimensionViewHandle viewHandle = (DimensionViewHandle)levelHandle.getContainer( );
 		int count = CrosstabUtil.findPriorLevelCount( viewHandle ) + levelHandle.getIndex( );
 		
 		CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
+		boolean addForce = false;
 		int[] numbers = CrosstabUtil.getCrosstabHeaderRowAndColumnCount( crosstab );
-		count = (numbers[0]-1)*(numbers[1])+count;
-		if (crosstab.getHeader( count ) != null && crosstab.getHeader( count ).getContents( ).size( ) == 0)
+		if (ICrosstabConstants.COLUMN_AXIS_TYPE == type && !isShowColumnMeasureHeader( crosstab ) && count == numbers[0] - 1)
 		{
-			LabelHandle labelHandle = crosstab.getModuleHandle( )
-					.getElementFactory( )
-					.newLabel( null );
-			try
+			if (findPreLeveHandle( levelHandle ) != null)
 			{
-				labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
-			
-				crosstab.getHeader( count ).addContent( labelHandle );
+				addLabelToHeader( findPreLeveHandle( levelHandle ) );
 			}
-			catch ( SemanticException e )
+			if (getLevelList( crosstab,
+					ICrosstabConstants.ROW_AXIS_TYPE ).size( ) != 0)
 			{
-				//Do nothing now
+				if (!( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( )) && crosstab.getMeasureCount( ) != 0) || crosstab.isHideMeasureHeader( ))
+				{
+					return;
+				}
+				else
+				{
+					addForce = true;
+				}
 			}
 		}
+		if (ICrosstabConstants.COLUMN_AXIS_TYPE == type)
+		{
+			count = (count + 1)*(numbers[1]) - 1;
+		}
+		else
+		{
+			count = (numbers[0]-1)*(numbers[1])+count;	
+		}
+		try
+		{
+			if (crosstab.getHeader( count ) != null && crosstab.getHeader( count ).getContents( ).size( ) == 0)
+			{
+				LabelHandle labelHandle = crosstab.getModuleHandle( )
+						.getElementFactory( )
+						.newLabel( null );
+				
+				labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+				
+				crosstab.getHeader( count ).addContent( labelHandle );
+			}
+			else if (crosstab.getHeader( count ) != null && addForce)
+			{
+				if ( crosstab.getHeader( count ).getContents( ).get( 0 ) instanceof LabelHandle)
+				{
+					LabelHandle labelHandle = (LabelHandle)crosstab.getHeader( count ).getContents( ).get( 0 );
+					labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			//Do nothing now
+		}
+	}
+	
+	private static LevelViewHandle findPreLeveHandle(LevelViewHandle handle)
+	{
+		DimensionViewHandle viewHandle = (DimensionViewHandle)handle.getContainer( );
+		if (handle.getIndex( ) != 0)
+		{
+			return viewHandle.getLevel( handle.getIndex( ) - 1 );
+		}
+		if (viewHandle.getIndex( ) == 0)
+		{
+			return null;
+		}
+		
+		viewHandle = handle.getCrosstab( ).getDimension( viewHandle.getAxisType( ), viewHandle.getIndex( ) - 1);
+		return viewHandle.getLevel( viewHandle.getLevelCount( ) - 1 );
 	}
 }

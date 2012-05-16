@@ -1832,7 +1832,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	{
 
 		HeaderData data = calcHeaderData( crosstab );
-
+		List<LevelViewHandle> rowLevelList = getLevelList( crosstab,
+				ICrosstabConstants.ROW_AXIS_TYPE );
 		if ( isMoveDimension )
 		{
 			if ( ICrosstabConstants.COLUMN_AXIS_TYPE == axisType )
@@ -1896,9 +1897,14 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					{
 						try
 						{
+							int delPos = data.columnNumber - 1;
+							if (i == data.rowNumber - 2)
+							{
+								delPos = data.columnNumber;
+							}
 							headerHandle.removeItem( i
 									* ( data.columnNumber + 1 )
-									+ data.columnNumber );
+									+ delPos );
 						}
 						catch ( PropertyValueException e )
 						{
@@ -1920,7 +1926,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 
 		boolean isAdd = total - crosstab.getHeaderCount( ) > 0;
-		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, isAdd ) )
+		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, isAdd, axisType  ) )
 		{
 			return;
 		}
@@ -1939,7 +1945,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					if ( isAdd )
 					{
 						int insertRow = pos;
-						if ( insertRow == data.rowNumber - 1 )
+						if ( insertRow == data.rowNumber - 1 && rowLevelList.size( ) != 0)
 						{
 							insertRow = insertRow - 1;
 						}
@@ -1951,8 +1957,8 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					}
 					else
 					{
-						headerHandle.removeItem( pos == data.rowNumber ? pos - 1
-								: pos * data.columnNumber );
+						headerHandle.removeItem( (pos == data.rowNumber ? pos - 1
+								: pos) * data.columnNumber );
 					}
 				}
 				catch ( SemanticException e )
@@ -1969,17 +1975,27 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				{
 					if ( isAdd )
 					{
+						int insertColumn = pos;
+						if (pos == data.columnNumber - 1 && i != data.rowNumber - 1)
+						{
+							insertColumn = pos - 1;
+						}
 						ExtendedItemHandle cellHandle = CrosstabExtendedItemFactory.createCrosstabCell( crosstab.getModuleHandle( ) );
 
 						headerHandle.add( cellHandle, i
 								* ( data.columnNumber - 1 )
-								+ pos );
+								+ insertColumn );
 					}
 					else
 					{
+						int newPos = pos;
+						if (pos==data.columnNumber && i != data.rowNumber - 1)
+						{
+							newPos = pos - 1;
+						}
 						headerHandle.removeItem( i
 								* ( data.columnNumber + 1 )
-								+ pos );
+								+ newPos);
 					}
 				}
 				catch ( SemanticException e )
@@ -1991,7 +2007,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	}
 
 	private static boolean needUpdateHeaderCell(
-			CrosstabReportItemHandle crosstab, boolean isAdd )
+			CrosstabReportItemHandle crosstab, boolean isAdd, int axisType )
 	{
 		if ( crosstab.getHeaderCount( ) > 1 )
 		{
@@ -2028,6 +2044,17 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 			else
 			{
 				return false;
+			}
+		}
+		if (isAdd)
+		{
+			if (ICrosstabConstants.COLUMN_AXIS_TYPE == axisType && (columnLevelList.size( ) == value || columnLevelList.size( ) == 1) && rowLevelList.size( ) == 1)
+			{
+				return true;
+			}
+			else if (ICrosstabConstants.ROW_AXIS_TYPE == axisType && columnLevelList.size( ) == 1 && (rowLevelList.size( ) == value || rowLevelList.size( ) == 1))
+			{
+				return true;
 			}
 		}
 		return false;

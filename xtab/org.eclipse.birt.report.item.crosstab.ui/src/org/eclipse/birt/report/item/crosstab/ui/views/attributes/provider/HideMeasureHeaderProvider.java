@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -75,6 +76,7 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider
 			// start trans
 			stack.startTrans( TRANS_NAME );
 			crosstabHandle.setHideMeasureHeader( Boolean.valueOf( (String)value ) );
+			CrosstabUtil.addAllHeaderLabel( crosstabHandle );
 			stack.commit( );
 		}
 

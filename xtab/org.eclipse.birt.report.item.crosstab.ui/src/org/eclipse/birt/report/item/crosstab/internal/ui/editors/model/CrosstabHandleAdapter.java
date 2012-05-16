@@ -175,31 +175,64 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		else
 		{
 			List<LevelViewHandle> columnList = CrosstabUtil.getLevelList(handle, ICrosstabConstants.COLUMN_AXIS_TYPE);
-			int temp = rowBase;
-			if (columnList.size( ) == 0 && rowBase == 2)
-			{
-				temp= temp - 1;
-			}
-			if (handle.getHeaderCount( ) > 1 && columnBase*temp == handle.getHeaderCount( ))
-			{				
-				for (int i=0; i<temp; i++)
+			List<LevelViewHandle> rowList = CrosstabUtil.getLevelList(handle, ICrosstabConstants.ROW_AXIS_TYPE);
+			
+			if (handle.getHeaderCount( ) > 1 )
+			{	
+				int temp = rowBase;
+				
+				int rowCount = rowBase;
+				int columnCount = columnBase;
+				int needSpan = 0;
+				if (columnList.size( ) == 0 && rowBase == 2)
 				{
-					for (int j=0; j<columnBase; j++)
+					temp= temp - 1;
+					rowCount = 1;
+					needSpan = 1;
+				}
+				else if (rowList.size( ) == 0 && columnBase == 2)
+				{
+					temp= columnBase - 1;
+					columnCount = 1;
+					needSpan = 2;
+				}
+				//if ((columnBase*temp == handle.getHeaderCount( )&& needSpan != 2) || (needSpan == 2 && rowBase * temp == handle.getHeaderCount( )))
+				if (rowCount*columnCount == handle.getHeaderCount( ))
+				{				
+					for (int i=0; i<rowCount; i++)
 					{
-						int rowSpan = 1;
-						if (temp != rowBase)
+						for (int j=0; j<columnCount; j++)
 						{
-							rowSpan = 2;
+							int rowSpan = 1;
+							int columnSpan = 1;
+							if (needSpan == 1)
+							{
+								rowSpan = 2;
+							}
+							else if (needSpan == 2)
+							{
+								columnSpan = 2;
+							}
+							CrosstabCellAdapter cellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
+									handle.getHeader(i*columnCount + j ),
+									i + 1,
+									rowSpan,
+									j + 1,
+									columnSpan,
+									false );
+							list.add( cellAdapter );
 						}
-						CrosstabCellAdapter cellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
-								handle.getHeader(i*columnBase + j ),
-								i + 1,
-								rowSpan,
-								j + 1,
-								1,
-								false );
-						list.add( cellAdapter );
 					}
+				}
+				else
+				{
+					first = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
+							handle.getHeader( ),
+							1,
+							rowBase,
+							1,
+							columnBase,
+							false );
 				}
 			}
 			else
