@@ -17,6 +17,9 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
+import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgumentLayout;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -137,4 +140,8 @@ public class DataService
 		provider.updateColumnCache( dataSetHandle, holdEvent );
 	}
 	
+	public List<IArgumentLayout> getArgumentLayout(ITimeFunction function,List<IArgumentInfo> infos)
+	{
+		return provider.getArgumentLayout( function, infos );
+	}
 }

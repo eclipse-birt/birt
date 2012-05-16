@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.data.ui.datasource;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DataUIConstants;
@@ -37,16 +39,23 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession;
-import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DataSourceDesignSession.IDesignNameValidator;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -581,6 +590,60 @@ public class DataSourceSelectionPage extends WizardPage
 			dataSourceIsCreated = false;
 		}
 	}
+	
+	public boolean performFinish( )
+	{
+		if ( isCPSelected( ) )
+		{
+			IRunnableWithProgress op = new IRunnableWithProgress( ) {
+
+				public void run( IProgressMonitor monitor )
+						throws InvocationTargetException
+				{
+					try
+					{
+						IPath location = Path.fromOSString( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( )
+								.getFileName( ) );
+						IFile resource = ResourcesPlugin.getWorkspace( )
+								.getRoot( )
+								.getFileForLocation( location );
+						if ( resource != null && resource.getProject( ) != null )
+						{
+							resource.getProject( )
+									.refreshLocal( IResource.DEPTH_INFINITE,
+											monitor );
+						}
+					}
+					catch ( CoreException e )
+					{
+						throw new InvocationTargetException( e );
+					}
+					finally
+					{
+						monitor.done( );
+					}
+				}
+			};
+			try
+			{
+				getContainer( ).run( true, false, op );
+			}
+			catch ( InterruptedException e )
+			{
+				ExceptionHandler.handle( e );
+				return false;
+			}
+			catch ( InvocationTargetException e )
+			{
+				Throwable realException = e.getTargetException( );
+				ExceptionHandler.handle( realException );
+				return false;
+			}
+		}
+
+		return this.createSelectedDataSource( );
+	}
 
 	/**
 	 * 
@@ -589,7 +652,7 @@ public class DataSourceSelectionPage extends WizardPage
 	public boolean createSelectedDataSource( )
 	{
 		createSelectedDataSourceInit( );
-
+		
 		if ( isCPSelected( ) )
 			return createSelectedDataSourceODAV3( );
 

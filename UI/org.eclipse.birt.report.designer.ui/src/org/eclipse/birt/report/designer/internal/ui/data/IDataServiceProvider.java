@@ -16,6 +16,9 @@ import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
+import org.eclipse.birt.report.data.adapter.api.timeFunction.ITimeFunction;
+import org.eclipse.birt.report.designer.internal.ui.data.function.layout.IArgumentLayout;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -59,4 +62,6 @@ public interface IDataServiceProvider
 	 * @throws BirtException
 	 */
 	void unRegisterSession( DataRequestSession session ) throws BirtException;
+	
+	List<IArgumentLayout> getArgumentLayout(ITimeFunction function,List<IArgumentInfo> infos);
 }

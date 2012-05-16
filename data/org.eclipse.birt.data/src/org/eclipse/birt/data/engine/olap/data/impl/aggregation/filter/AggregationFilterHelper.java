@@ -865,7 +865,10 @@ class AggrFilterDefinition
 	{
 		filterHelper = filterEvalHelper;
 		ICubeFilterDefinition cubeFilter = filterEvalHelper.getCubeFilterDefinition( );
-		targetLevel = new DimLevel( cubeFilter.getTargetLevel( ) );
+		if ( cubeFilter.getTargetLevel( ) != null )
+		{
+			targetLevel = new DimLevel( cubeFilter.getTargetLevel( ) );
+		}
 		aggrLevels = filterEvalHelper.getAggrLevels( );
 		ILevelDefinition[] axisLevels = cubeFilter.getAxisQualifierLevels( );
 		if ( axisLevels != null )

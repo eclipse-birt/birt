@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -55,13 +56,13 @@ public class ApplyStyleHandler extends SelectionHandler
 		SharedStyleHandle handle = null;
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = context.getVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME );
+		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.STYLE_HANDLE_NAME );
 		if ( obj != null && obj instanceof SharedStyleHandle )
 		{
 			handle = (SharedStyleHandle) obj;
 		}
 		
-		obj = context.getVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED);
+		obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED);
 		if ( obj != null && obj instanceof Boolean )
 		{
 			isChecked = ((Boolean) obj).booleanValue( );

@@ -366,7 +366,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 
 			// Model said that should checkReport( ) before getting error and
 			// warning list.
-			reportDesignHandle.checkReport( );
+			reportDesignHandle.checkReportIfNecessary( );
 			List list = reportDesignHandle.getErrorList( );
 			int errorListSize = list.size( );
 			list.addAll( reportDesignHandle.getWarningList( ) );

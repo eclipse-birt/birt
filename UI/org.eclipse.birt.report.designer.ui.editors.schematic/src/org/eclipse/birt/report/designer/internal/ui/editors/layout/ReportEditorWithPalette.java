@@ -88,6 +88,7 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -423,6 +424,10 @@ abstract public class ReportEditorWithPalette extends
 		addEditPartAction( (SelectionAction) action );
 
 		action = new InsertAggregationAction( this );
+		getSelectionActions( ).add( action.getId( ) );
+		addEditPartAction( (SelectionAction) action );
+		
+		action = new InsertRelativeTimePeriodAction( this );
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
 

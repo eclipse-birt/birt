@@ -16,7 +16,8 @@ package org.eclipse.birt.report.designer.internal.ui.expressions;
  */
 public interface IExpressionContext
 {
-
+	String EXPRESSION_PROVIDER_PROPERTY = "ExpressionProvider";
+	
 	Object getContextObject( );
 
 	Object getExtra( String key );

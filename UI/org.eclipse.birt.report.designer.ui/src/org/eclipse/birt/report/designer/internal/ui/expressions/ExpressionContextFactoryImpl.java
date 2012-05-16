@@ -35,6 +35,8 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 
 	private Map<String, Object> extras = new HashMap<String, Object>( );
 
+	private IExpressionProvider provider;
+
 	public ExpressionContextFactoryImpl( Object contextObj,
 			IExpressionProvider javaScriptExpressionProvider )
 	{
@@ -43,6 +45,8 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 		contexts.put( ExpressionType.JAVASCRIPT,
 				new JSExpressionContext( javaScriptExpressionProvider,
 						contextObj ) );
+
+		this.provider = javaScriptExpressionProvider;
 
 		if ( javaScriptExpressionProvider instanceof IExpressionFilterSupport )
 		{
@@ -100,14 +104,14 @@ public class ExpressionContextFactoryImpl implements IExpressionContextFactory
 		{
 			DefaultExpressionContext defaultCxt = new DefaultExpressionContext( contextObj );
 			defaultCxt.setFilters( filters );
-
+			defaultCxt.putExtra( IExpressionContext.EXPRESSION_PROVIDER_PROPERTY, provider );
 			Iterator iter = extras.keySet( ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				String key = (String) iter.next( );
 				defaultCxt.putExtra( key, extras.get( key ) );
 			}
-			
+
 			return defaultCxt;
 		}
 		else

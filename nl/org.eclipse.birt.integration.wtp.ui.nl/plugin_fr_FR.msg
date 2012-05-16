@@ -15,3 +15,5 @@ JSP_Tag_context_type_Extension_Element.name=Nouvelle balise JSP BIRT
 BirtResourcesDefinition= Définition des ressources d'application Web BIRT
 
 birt.action.importruntime.name=Importer le composant d'exécution &BIRT...
+
+plugin.version=4.2.0

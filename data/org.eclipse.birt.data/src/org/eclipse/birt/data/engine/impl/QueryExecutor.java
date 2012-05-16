@@ -492,18 +492,26 @@ public abstract class QueryExecutor implements IQueryExecutor
 				String groupName = populateGroupName( i, expr );
 				int dataType = getColumnDataType( cx, getGroupKeyExpression( src ) );
 				
+				boolean doGroupSorting = false;
+				if ( this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
+					doGroupSorting = true;
+				else if ( src.getSortDirection( ) == IGroupDefinition.NO_SORT )
+					doGroupSorting = false;
+				else if ( this.baseQueryDefn.getQueryExecutionHints( ) == null )
+					doGroupSorting  = true;
+				else if ( this.baseQueryDefn.getSorts( ).size( ) > 0 )
+					doGroupSorting = true;
+				else
+					doGroupSorting = this.baseQueryDefn.getQueryExecutionHints( )
+							.doSortBeforeGrouping( );
+				
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
 						expr,
 						groupName,
 						-1,
 						dataType,
-						this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE? true:(
-						src.getSortDirection( ) == IGroupDefinition.NO_SORT ? false:(
-						this.baseQueryDefn.getQueryExecutionHints( ) == null 
-								? true
-								: this.baseQueryDefn.getQueryExecutionHints( )
-										.doSortBeforeGrouping( ) )));
+						doGroupSorting );
 				
 				groupSpecs[i] = dest;
 				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,

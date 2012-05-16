@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -112,7 +113,7 @@ public class SelectionHandler extends AbstractHandler
 	protected Object getFirstSelectVariable( )
 	{
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object selectVariable = context.getVariable( ISources.ACTIVE_CURRENT_SELECTION_NAME );
+		Object selectVariable = UIUtil.getVariableFromContext( context, ISources.ACTIVE_CURRENT_SELECTION_NAME );
 		Object selectList = selectVariable;
 		if ( selectVariable instanceof StructuredSelection )
 		{
@@ -228,7 +229,7 @@ public class SelectionHandler extends AbstractHandler
 	protected IStructuredSelection getSelection( )
 	{
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object selectVariable = context.getVariable( ISources.ACTIVE_CURRENT_SELECTION_NAME );
+		Object selectVariable = UIUtil.getVariableFromContext( context, ISources.ACTIVE_CURRENT_SELECTION_NAME );
 		if ( selectVariable != null )
 		{
 			if ( selectVariable instanceof IStructuredSelection )
@@ -263,7 +264,7 @@ public class SelectionHandler extends AbstractHandler
 		boolean isEditPart = false;
 		List selList = null;
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = context.getVariable( ICommandParameterNameContants.SELECTION );
+		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.SELECTION );
 		if ( obj != null )
 		{
 			selList = new ArrayList( );

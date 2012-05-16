@@ -222,6 +222,7 @@ public class Connection implements IConnection
 								getDriverClassPath( ),
 								this.appContext );
 				populateConnectionProp( );
+				logger.log(Level.FINE, "JDBC connection success : " + jdbcConn );
 			}
 		}
 		catch ( Exception e )
@@ -229,9 +230,17 @@ public class Connection implements IConnection
 			if( e instanceof SQLException )
 			{
 				SQLException e1 = (SQLException)e;
+				logger.log( Level.SEVERE,
+						"JDBC connection throws exception: Error Code "
+								+ e1.getErrorCode( ) + " Message:"
+								+ e1.getLocalizedMessage( ) );
 				//First try to identify the authorization info. 28000 is xOpen standard for login failure
 				if( "28000".equals( e1.getSQLState( )))
 					throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e1 );
+			}
+			else
+			{
+				logger.log( Level.SEVERE, "JDBC connection throws exception: " + e.getLocalizedMessage( ) );
 			}
 		}
 		try
@@ -413,7 +422,12 @@ public class Connection implements IConnection
 			try
 			{
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData( );
-				return dbMetadata.getMaxStatements( );
+				int maxstmts = dbMetadata.getMaxStatements( );
+				int maxconns = dbMetadata.getMaxConnections( );
+				if ( maxconns == 0 || maxstmts < maxconns )
+					return 1;
+				else
+					return maxstmts / maxconns;
 			}
 			catch ( SQLException e )
 			{
@@ -451,7 +465,7 @@ public class Connection implements IConnection
 			if ( jdbcConn.isClosed( ) == false )
 			{
 				jdbcConn.close( );
-				logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is closed");
+				logger.log(Level.FINE, "JDBC connection: " + jdbcConn + " is closed");
 			}
 			else
 			{

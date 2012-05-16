@@ -182,7 +182,15 @@ public class ReportEngineService
 		StringBuffer scriptlibClassPath = new StringBuffer( );
 		for ( int i = 0; i < jarFileList.size( ); i++ )
 		{
-			String p = ( (File) jarFileList.get( i ) ).getAbsolutePath( );
+			String p = null;
+			try
+			{
+				p = ( (File) jarFileList.get( i ) ).getCanonicalPath();
+			}
+			catch (IOException e)
+			{
+				p = ( (File) jarFileList.get( i ) ).getAbsolutePath( );
+			}
 
 			if ( p != null && p.length( ) > 0 )
 			{

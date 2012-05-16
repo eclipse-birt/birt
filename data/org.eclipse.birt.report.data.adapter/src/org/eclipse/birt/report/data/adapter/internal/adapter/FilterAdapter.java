@@ -15,6 +15,8 @@ package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -57,12 +59,21 @@ public class FilterAdapter extends FilterDefinition
 						&& !filterOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN ) )
 				{
 					String operand1 = modelFilter.getValue1( );
-//					String operand2 = modelFilter.getValue2( );
-
-					setExpression( adapter.adaptConditionalExpression( DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER )),
+					String operand2 = modelFilter.getValue2( );
+					Expression mainExpr=DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER ));
+					String exp=	mainExpr.getStringExpression( );
+					if (operand1==null&&operand2==null )
+					{
+						Pattern pattern = Pattern.compile("LOWER\\((.*?)\\)");					
+						Matcher matcher = pattern.matcher(exp);
+			        	while(matcher.find()){
+			        		exp=matcher.group(1);
+			            }	        	
+					}
+					setExpression( adapter.adaptConditionalExpression( (new Expression((Object)exp,mainExpr.getType( ))),
 							filterOpr,
 							operand1 == null? null: modelFilter.getValue1ExpressionList( ).getListValue().get( 0 ),
-							DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.VALUE2_MEMBER ))));
+							DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.VALUE2_MEMBER ))));	
 				}
 				else
 				{

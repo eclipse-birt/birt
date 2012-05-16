@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -44,7 +45,7 @@ public class EditGroupHandler extends SelectionHandler
 
 		GroupHandle handle = null;
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = context.getVariable( EditGroupAction.GROUP_HANDLE_NAME );
+		Object obj =UIUtil.getVariableFromContext( context, EditGroupAction.GROUP_HANDLE_NAME );
 		if ( obj != null && obj instanceof GroupHandle )
 		{
 			handle = (GroupHandle) obj;

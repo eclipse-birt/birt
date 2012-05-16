@@ -575,6 +575,7 @@ public class ImageBuilder extends BaseDialog
 								embeddedImageList.add( image.getName( ) );
 								embeddedImageList.select( embeddedImageList.indexOf( image.getName( ) ) );
 
+								hasModified = true;
 								updateButtons( );
 							}
 						}

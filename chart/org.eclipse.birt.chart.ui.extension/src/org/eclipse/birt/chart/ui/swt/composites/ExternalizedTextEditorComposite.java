@@ -54,6 +54,8 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     private transient String sKey = null;
 
     private transient String sCurrent = ""; //$NON-NLS-1$
+    
+    private String sDisplyText = ""; //$NON-NLS-1$
 
     private transient List<String> keys = null;
 
@@ -143,6 +145,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         sKey = getKey(str);
         sCurrent = getValue(str);
         txtSelection.setText(getLocalizedValue(str));
+        sDisplyText = txtSelection.getText();
     }
 
     public String getText()
@@ -258,7 +261,10 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
      */
     public void handleEvent(Event event)
     {
-        sCurrent = txtSelection.getText();
-        fireEvent();
+    	// If display text doesn't changed, don't update it.
+		if (!sDisplyText.equals(txtSelection.getText())) {
+			sCurrent = txtSelection.getText();
+			fireEvent();
+		}
     }
 }

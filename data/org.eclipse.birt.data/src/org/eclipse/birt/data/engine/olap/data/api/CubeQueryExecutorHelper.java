@@ -28,22 +28,27 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.SecuredCube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRowComparator;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.CubeDimensionReader;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSetFromOriginalCube;
@@ -64,10 +69,14 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterato
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
@@ -100,6 +109,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public long memoryCacheSize = 0;
 	
 	private IBindingValueFetcher fetcher;
+	private CubeQueryExecutor cubeQueryExecutor;
 	/**
 	 * 
 	 * @param cube
@@ -470,11 +480,139 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		IAggregationResultSet[] resultSet = onePassExecute( aggregations,
 				stopSign );
 		
+		resultSet = processDimensionFiltersInAggrBindingFilter( resultSet );
+		
 		applyAggrFilters( aggregations, resultSet, stopSign );
 		
 		applyAggrSort( resultSet );
 		
 		return resultSet;
+	}
+	
+	
+	public void setCubeQueryExecutor(CubeQueryExecutor executor)
+	{
+		this.cubeQueryExecutor = executor;
+	}
+	
+	private IAggregationResultSet[] processDimensionFiltersInAggrBindingFilter(IAggregationResultSet[] rs) throws IOException, BirtException
+	{
+		for( int i = 0; i< rs.length ; i++ )
+		{
+			AggregationFunctionDefinition[] functions  = rs[i].getAggregationDefinition().getAggregationFunctions();
+			
+			if(functions != null)
+			{
+				IAggregationResultSet[] subAggrRs = new IAggregationResultSet[functions.length];
+				boolean applyMerge = false;
+				for (int j = 0; j < functions.length; j++) 
+				{
+					if (functions[j].getFilterEvalHelper() != null && functions[j].getFilterEvalHelper() instanceof JSFacttableFilterEvalHelper)
+					{
+						
+						IBaseExpression expr = ((JSFacttableFilterEvalHelper) functions[j]
+								.getFilterEvalHelper()).getFilterExpression();
+						Set dimLevelSet = OlapExpressionCompiler
+								.getReferencedDimLevel(expr, cubeQueryExecutor
+										.getCubeQueryDefinition().getBindings());
+						if (dimLevelSet.size() > 0) 
+						{
+							applyMerge = true;
+							CubeQueryExecutorHelper executorHelper = new CubeQueryExecutorHelper(
+									this.cube, cubeQueryExecutor.getComputedMeasureHelper(),fetcher);
+							
+							executorHelper.setBreakHierarchy(cubeQueryExecutor.getCubeQueryDefinition().getFilterOption() == 0);
+							CubeFilterDefinition cubeFilter = new CubeFilterDefinition(
+									expr);
+							executorHelper.addJSFilter(BaseDimensionFilterEvalHelper.createFilterHelper(
+									cubeQueryExecutor.getOuterResults(),
+									cubeQueryExecutor.getScope(), cubeQueryExecutor
+													.getCubeQueryDefinition(),
+											cubeFilter, cubeQueryExecutor.getContext()
+													.getScriptContext()));
+
+							AggregationDefinition[] aggregations = new AggregationDefinition[1];
+							AggregationFunctionDefinition[] func = new AggregationFunctionDefinition[1];
+							func[0] = new AggregationFunctionDefinition("temp_"
+									+ functions[j].getName(),
+									functions[j].getMeasureName(),
+									functions[j].getFunctionName());
+							aggregations[0] = new AggregationDefinition(rs[i]
+									.getAggregationDefinition().getLevels(),
+									rs[i].getAggregationDefinition()
+											.getSortTypes(), func);
+
+							IAggregationResultSet[] result = executorHelper
+									.execute(aggregations, cubeQueryExecutor
+											.getSession().getStopSign());
+							subAggrRs[j] = result[0];
+						}
+					}
+				}
+				
+				if(applyMerge)
+				{
+					mergeAggrResultsSetsResult(rs[i],subAggrRs);
+				}
+			}
+		}
+		return rs;
+	}
+	
+	private int[] getKeyLevelIndexs( DimLevel[] keyLevels, IAggregationResultSet rs ) throws DataException
+	{
+		int[] keyLevelIndexes = new int[keyLevels.length];
+		DimLevel[] allLevels = rs.getAllLevels( );
+		for ( int i = 0; i < keyLevels.length; i++ )
+		{
+			keyLevelIndexes[i] = -1;
+			for ( int j = 0; j < allLevels.length; j++ )
+			{
+				if ( keyLevels[i].equals( allLevels[j] ) )
+					keyLevelIndexes[i] = j;
+			}
+			if( keyLevelIndexes[i] == -1 )
+			{
+				throw new DataException( DataResourceHandle.getInstance( )
+						.getMessage( ResourceConstants.NONEXISTENT_LEVEL )
+						+ keyLevels[i].getLevelName( ) );
+			}
+		}
+		return keyLevelIndexes;
+	}
+	
+	
+	private void mergeAggrResultsSetsResult(IAggregationResultSet source, IAggregationResultSet[] result) throws IOException, DataException
+	{
+		IDiskArray sourceRows = ((AggregationResultSet)source).getAggregationResultRows();
+		AggregationResultRowComparator comparator = new AggregationResultRowComparator(getKeyLevelIndexs(source.getAggregationDefinition().getLevels(),source),source.getSortType());
+		for( int i = 0 ; i< source.length(); i++)
+		{
+			IAggregationResultRow row = (IAggregationResultRow)sourceRows.get(i);
+			
+			
+			for( int j = 0; j< result.length; j++)
+			{
+				IAggregationResultSet rs = result[j];
+				if(rs == null)
+					continue;
+				IDiskArray subRows =  ((AggregationResultSet)rs).getAggregationResultRows();
+				boolean find = false;
+				for( int k = 0 ; k<subRows.size();k++)
+				{
+					IAggregationResultRow subRow = (IAggregationResultRow)subRows.get(k);
+					if(comparator.compare(row, subRow) == 0)
+					{
+						find = true;
+						row.getAggregationValues()[j] = subRow.getAggregationValues()[0];
+						break;
+					}
+				}
+				if(!find)
+					row.getAggregationValues()[j] = null;
+			}
+			
+		}
 	}
 	
 	/**

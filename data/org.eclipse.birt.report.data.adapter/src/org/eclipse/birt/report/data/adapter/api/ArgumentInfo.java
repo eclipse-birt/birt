@@ -78,4 +78,11 @@ public class ArgumentInfo implements IArgumentInfo
 	{
 		return this.displayName;
 	}
+	/**
+	 * set display name for argument
+	 */
+	public void setDisplayname( String displayName)
+	{
+		this.displayName = displayName;
+	}
 }

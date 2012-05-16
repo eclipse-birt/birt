@@ -238,8 +238,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		getContainer( ).setMessage( Messages.getString( "dataset.editor.preview" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 
-		if ( modelChanged
-				|| ( (DataSetEditor) this.getContainer( ) ).modelChanged( ) )
+		if ( modelChanged )
 		{
 			modelChanged = false;
 

@@ -324,6 +324,40 @@ public class IDEOpenSampleReportAction extends Action implements
 			if ( messageDlg.getReturnCode( ) == 0 )
 			{
 				// proceed
+				if (isJavaProject)
+				{
+					try
+					{
+						if (!projectHandle.hasNature( JavaCore.NATURE_ID ))
+						{
+							IProjectDescription projectDesc = projectHandle.getDescription( );
+							String[] IDs = projectDesc.getNatureIds( );
+							
+							String[] newIDs;
+							if (IDs == null || IDs.length == 0)
+							{
+								newIDs = new String[]{JavaCore.NATURE_ID };
+							}
+							else
+							{
+								newIDs = new String[IDs.length + 1];
+								for (int i=0; i<IDs.length; i++)
+								{
+									newIDs[i] = IDs[i];
+								}
+								newIDs[IDs.length] = JavaCore.NATURE_ID;
+							}
+							projectDesc.setNatureIds( newIDs );
+							addJavaBuildSpec( projectDesc );
+							projectHandle.setDescription( projectDesc, null );
+							//refreshReportProject( reportProject );
+						}
+					}
+					catch ( CoreException e )
+					{
+						//Do nothing
+					}
+				}
 				return projectHandle;
 			}
 

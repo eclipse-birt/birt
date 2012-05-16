@@ -60,7 +60,8 @@ public final class Stock extends AxesRenderer
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
-
+	private final static int MIN_HOTSPOT_WIDTH = 12;
+	
 	/**
 	 * The constructor.
 	 */
@@ -308,6 +309,21 @@ public final class Stock extends AxesRenderer
 			if ( ss.isShowAsBarStick( ) )
 			{
 				int stickLength = ss.getStickLength( );
+				
+				// For stick sub type, the front face is used to create the hotspot
+				// of the tooltip. To make it easier for user to show the tooltip, just
+				// use topmost, bottommost, rightmost and leftmost point as the hotspot
+				// boundaries. Use a cap width in case the stick length is too small.
+				// #41900
+				
+				int hotspotHalfWidth = Math.min(stickLength, MIN_HOTSPOT_WIDTH / 2);
+				double hotspotHigh = Math.max( dHigh, dLow);
+				double hotspotLow = Math.min(dHigh, dLow);                
+
+				loaFrontFace[0].set( dX - hotspotHalfWidth, hotspotHigh );
+				loaFrontFace[1].set( dX - hotspotHalfWidth, hotspotLow );
+				loaFrontFace[2].set( dX + hotspotHalfWidth, hotspotLow );
+				loaFrontFace[3].set( dX + hotspotHalfWidth, hotspotHigh );
 
 				Location loStart2 = goFactory.createLocation( 0, 0 ), loEnd2 = goFactory.createLocation( 0,
 						0 );

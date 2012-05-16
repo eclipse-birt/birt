@@ -100,6 +100,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		this.currentScope.setParentScope( currentScope );
 		this.jsRow = new DummyJSResultSetRow();
 		this.currentScope.put( "row", this.currentScope, this.jsRow );
+		this.currentScope.put( "dataSetRow", this.currentScope, this.jsRow );
 		this.populateAggregations( tempDir );
 	}
 

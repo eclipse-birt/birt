@@ -104,6 +104,8 @@ public class WizardTemplateChoicePage extends WizardPage implements
 
 	private static final String MESSAGE_SHOW_CHEATSHEET = Messages.getString( "WizardTemplateChoicePage.label.ShowCheatSheets" ); //$NON-NLS-1$)
 
+	private static final String ENABLED = "true"; //$NON-NLS-1$
+
 	private ImageCanvas previewCanvas;
 
 	private Button chkBox;
@@ -348,11 +350,20 @@ public class WizardTemplateChoicePage extends WizardPage implements
 		chkBox.setLayoutData( data );
 		
 		defaultLibraryHandle = getDefaultLibraryHandleFromResource( );
-		if (defaultLibraryHandle != null)
+
+		String value = ReportPlugin.getDefault( )
+				.getPreferenceStore( )
+				.getString( ReportPlugin.LIBRARY_DEFAULT_THEME_ENABLE );
+
+		if ( defaultLibraryHandle != null && ENABLED.equals( value ) )
 		{
+			String state = ReportPlugin.getDefault( )
+					.getPreferenceStore( )
+					.getString( ReportPlugin.LIBRARY_DEFAULT_THEME_INCLUDE );
+			
 			useDefaultLibraryBox = new Button( composite, SWT.CHECK );
-			useDefaultLibraryBox.setText( "&Include the default themes" );
-			useDefaultLibraryBox.setSelection( true );
+			useDefaultLibraryBox.setText( "&Include the default themes" ); //$NON-NLS-1$
+			useDefaultLibraryBox.setSelection( ENABLED.equals(state) );
 		}
 
 		// bidi_hcg start

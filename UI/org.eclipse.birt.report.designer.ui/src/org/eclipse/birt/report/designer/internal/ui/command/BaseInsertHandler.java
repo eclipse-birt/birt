@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -101,7 +102,7 @@ public class BaseInsertHandler extends SelectionHandler
 	protected boolean initializeVariable(ExecutionEvent event)
 	{
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = context.getVariable( ICommandParameterNameContants.BASE_INSERT_TYPE_NAME );
+		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.BASE_INSERT_TYPE_NAME );
 		if(obj == null || (obj instanceof String))
 		{
 			insertType = (String)obj;
@@ -111,7 +112,7 @@ public class BaseInsertHandler extends SelectionHandler
 			return false;
 		}	
 		
-		obj = context.getVariable( ICommandParameterNameContants.BASE_INSERT_SLOT_HANDLE_NAME );
+		obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.BASE_INSERT_SLOT_HANDLE_NAME );
 		if(obj == null || (obj instanceof SlotHandle))
 		{
 			slotHandle = (SlotHandle)obj;
@@ -121,7 +122,7 @@ public class BaseInsertHandler extends SelectionHandler
 			return false;
 		}
 		
-		obj = context.getVariable( ICommandParameterNameContants.BASE_INSERT_MODEL_NAME );
+		obj = UIUtil.getVariableFromContext( context,ICommandParameterNameContants.BASE_INSERT_MODEL_NAME );
 		if(obj == null)
 		{
 			return false;

@@ -1,5 +1,5 @@
 !*** This file was created on May 12, 2008 7:21:42 PM GMT
-!*** http://download.eclipse.org/tools/orbit/downloads/drops/S20110521195923/bundles
+!*** http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/plugins
 plugin@javax.wsdl,1.5.1=GET,http://buildsha-win/software/platform/orbit-S20110521195923-Indigo/bundles/javax.wsdl_1.5.1.v201012040544.jar,usetimestamp=true
 plugin@javax.xml,1.3.4=GET,http://buildsha-win/software/platform/orbit-S20110521195923-Indigo/bundles/javax.xml_1.3.4.v201005080400.jar,usetimestamp=true
 
@@ -77,3 +77,5 @@ plugin@com.lowagie.text,2.1.7=GET,http://buildsha-win/software/platform/orbit-S2
 plugin@org.w3c.dom.events,3.0.0=GET,http://buildsha-win/software/platform/orbit-S20110521195923-Indigo/bundles/org.w3c.dom.events_3.0.0.draft20060413_v201105210656.jar,usetimestamp=true
 
 plugin@org.mozilla.javascript,1.7.2=GET,http://buildsha-win/software/platform/orbit-S20110521195923-Indigo/bundles/org.mozilla.javascript_1.7.2.v201005080400.jar,usetimestamp=true
+
+plugin@javax.xml.stream,1.0.1=GET,http://buildsha-win/software/platform/orbit-S20110521195923-Indigo/bundles/javax.xml.stream_1.0.1.v201004272200.jar,usetimestamp=true

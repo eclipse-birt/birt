@@ -26,7 +26,7 @@ public class AggregationResultRowComparator implements Comparator<IAggregationRe
 	private int[] keyLevelIndexs;
 	private int[] sortTypes;
 	
-	AggregationResultRowComparator( int[] keyLevelIndexs, int[] sortTypes )
+	public AggregationResultRowComparator( int[] keyLevelIndexs, int[] sortTypes )
 	{
 		this.keyLevelIndexs = keyLevelIndexs;
 		this.sortTypes = sortTypes;

@@ -1,0 +1,61 @@
+#************************************************************************
+# Copyright (c) 2012 Megha Nidhi Dahal and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#    Megha Nidhi Dahal - initial API and implementation
+#    Actuate Corporation - enhanced and refined user messages
+#************************************************************************
+#
+# User messages for the Excel File ODA Runtime Driver
+
+connection_CONNECTION_PROPERTIES_MISSING=Connection properties are missing.
+#connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
+connection_MISSING_FILELOCATION=The Excel data source file property is not defined; requires a file path or URI for the Excel input file.
+connection_invalidSource=Invalid or malformed URI specified for the Excel data source file.
+connection_missingResourceIdentifier=No resource identifier is available to resolve the relative path of the Excel data source:
+fileSource_excelFileNotFound=Unable to locate the specified Excel data source folder or file ({0}).
+
+query_COMMAND_IS_EMPTY=Query command is empty.
+query_DO_NOT_SUPPORT_CROSS_TABLE_QUERY=Cross-table query is not supported.
+query_COMMAND_NOT_VALID=Invalid header information in the supplied Excel file.
+query_ARGUMENT_ERROR=The argument should be either 'NAME' or 'TYPE'.
+query_IO_EXCEPTION=An I/O Exception occurred when reading the file.
+query_SOURCE_DATA_ERROR=Duplicate column names found in source data.
+query_COLUMN_NAME_ERROR=Column name error
+query_INVALID_EXCEL_FILE=The worksheet does not contain any data. Please select a different sheet.
+query_text_error=Query-text format error
+query_WORKSHEET_CANNOT_BE_NULL=Worksheet name cannot be null.
+resultSet_COLUMN_NOT_FOUND=Column not found:
+resultSet_CURSOR_HAS_NOT_BEEN_INITIALIZED=Cursor has not been initialized yet.
+
+resultSetMetaData_INVALID_COLUMN_INDEX=Invalid column index:
+
+savedSelectedColumnsInfoString_INVALID=Invalid Saved Columns Information
+
+dataTypes_TYPE_NAME_INVALID=Invalid data type name:
+
+dataSetMetaData_PRODUCT_NAME=Excel ODA Data Source Provider
+
+common_ARGUMENT_CANNOT_BE_NULL=Arguments cannot be null.
+common_CONNECTION_HAS_NOT_OPEN=Connection is not open.
+common_CANNOT_FIND_COLUMN=Cannot find any columns.
+common_NULL_QUERY_TEXT = Query text is null
+
+data_read_error=Cannot read data correctly, data source settings probably changed
+
+Invalid_column_name = Invalid column name
+
+invalid_excelfile_format = Invalid Excel file format
+date_format_null = Date format cannot be null.
+invalid_date_value = {0} cannot be parsed as a valid date. Please check the date format in the data set properties.
+invalid_sheet_name = Supplied file does not contain any sheet by name {0}
+
+query_streamClosed=Stream closed
+query_invalidTableName=Invalid table name:
+
+dateUtil.ConvertFails=Convert to date fails. Source:
+dateFormatISO_cannotConvert=Cannot convert the value of {0}.

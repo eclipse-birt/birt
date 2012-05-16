@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -32,15 +34,18 @@ abstract public class AbstractRenderImageActionHandler
 
 	public void __execute( ) throws Exception
 	{
-		context.getResponse( ).setContentType( "image" ); //$NON-NLS-1$
-		String imageId = context.getRequest( ).getParameter(
-				ParameterAccessor.PARAM_IMAGEID );
-		ServletOutputStream out;
+		HttpServletRequest request = context.getRequest( );
+		HttpServletResponse response = context.getResponse();
+		
 		String docName = null;// TODO: Do we need document name?
+		String imageId = request.getParameter( ParameterAccessor.PARAM_IMAGEID );
+		
+		response.setContentType( imageId.endsWith(".svg") ? "image/svg+xml" : "image" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+		ServletOutputStream out = response.getOutputStream( );
 
 		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		out = context.getResponse( ).getOutputStream( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		
 		getReportService( ).getImage( docName, imageId, out, options );
 	}
 }

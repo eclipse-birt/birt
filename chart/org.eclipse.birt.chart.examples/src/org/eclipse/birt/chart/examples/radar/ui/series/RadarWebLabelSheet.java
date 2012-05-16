@@ -97,7 +97,7 @@ public class RadarWebLabelSheet extends AbstractPopupSheet implements Listener
 		LabelAttributesContext attributesContext = new LabelAttributesContext( );
 		attributesContext.isPositionEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
-		attributesContext.isVisibilityEnabled = getContext().getUIFactory( ).canEnableUI( btnWebLabels );
+		attributesContext.isVisibilityEnabled = false;
 		if ( series.getWebLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );

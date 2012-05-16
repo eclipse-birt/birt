@@ -77,7 +77,7 @@ public class CategoryWrapper extends ScriptableObject
 				{
 					if ( scope == null )
 						return null;
-					Object obj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+					Object obj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCTION_BEAN_NAME,
 							scope );
 					if ( obj == org.mozilla.javascript.UniqueTag.NOT_FOUND )
 					{

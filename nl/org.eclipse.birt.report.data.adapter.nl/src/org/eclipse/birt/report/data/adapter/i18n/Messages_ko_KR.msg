@@ -112,8 +112,13 @@ timeFunction.N2 = 이차 기간에 대한 N값
 timeFunction.PERIOD1.displayName = 첫 번째 기간(&F)
 timeFunction.PERIOD2.displayName = 두 번째 기간(&R)
 timeFunction.N1.displayName = 지난 기간 수
-timeFunction.N2.displayName = 지난 기간 수
-
+timeFunction.N2.displayName = 시작
+timeFunction.N1.next.displayName = 다음
+timeFunction.N2.Ago.displayName=이전
+timeFunction.N1.current.displayName=현재
+timeFunction.N1.period.displayName= 기간
+timeFunction.trailing.N1.period.displayName=후행
+timeFunction.trailing.N1.Month.displayName= 후행 개월 수
 timeFunction.N1.Year.displayName = 지난 연도 수
 timeFunction.N2.Year.displayName = 지난 연도 수
 timeFunction.N1.Year = 지난 연도에 대한 N 값
@@ -148,3 +153,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =월별 누계
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =주간 누계
 
 timeFunction.toolTip.to=대상
+

@@ -92,8 +92,7 @@ public class JSExpression
 				{
 					try
 					{
-						objectMeta = JSSyntaxContext.getJavaClassMeta( preCode
-								+ currentCode );
+						objectMeta = getFieldObjectMeta( currentCode, preCode );
 					}
 					catch ( ClassNotFoundException e )
 					{
@@ -132,6 +131,13 @@ public class JSExpression
 			preCode += currentCode;
 		}
 		return objectMeta;
+	}
+
+	protected JSObjectMetaData getFieldObjectMeta( String currentCode,
+			String preCode ) throws ClassNotFoundException
+	{
+		return JSSyntaxContext.getJavaClassMeta( preCode
+				+ currentCode );
 	}
 
 	private boolean isArray( String currentCode )

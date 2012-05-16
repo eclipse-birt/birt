@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -67,6 +68,7 @@ import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
+import org.eclipse.birt.data.engine.olap.impl.query.AddingNestAggregations;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationsExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinitionIOUtil;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
@@ -140,6 +142,7 @@ public class QueryExecutor
 				cube );
 		cubeQueryExecutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ), fetcher );
+		cubeQueryExecutorHelper.setCubeQueryExecutor( executor );
 		
 		cubeQueryExecutorHelper.setMemoryCacheSize( CacheUtil.computeMemoryBufferSize( view.getAppContext( ) ) );
 		cubeQueryExecutorHelper.setMaxDataObjectRows( CacheUtil.getMaxRows( view.getAppContext( ) ) );
@@ -165,7 +168,7 @@ public class QueryExecutor
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign,
 						true, fetcher );
-				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
+				rs = processOperationOnQuery( executor, view, stopSign, rs, aggrDefns , fetcher );
 				
 				break;
 			}
@@ -173,7 +176,7 @@ public class QueryExecutor
 			{
 				rs = populateRs( view, finalAggregation, cubeQueryExecutorHelper, 
 						stopSign, false, fetcher );
-				rs = processOperationOnQuery( view, stopSign, rs, aggrDefns );
+				rs = processOperationOnQuery( executor, view, stopSign, rs, aggrDefns , fetcher );
 				
 				break;
 			}
@@ -189,26 +192,20 @@ public class QueryExecutor
 							cubeQueryExecutorHelper.getMemoryCacheSize( ) );
 					initLoadedAggregationResultSets( rs, finalAggregation );
 
-					rs = processOperationOnQuery( view,
-							stopSign,
-							rs,
-							aggrDefns );
+					rs = processOperationOnQuery( executor, view, stopSign, rs, aggrDefns , fetcher );
 					break;
 				}
 				else
 				{
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
-					rs = applyNoAggrUpdateFilters(getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
+					rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher, false );
 					
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 					rs = moe.execute( rs, view, cubeQueryExecutorHelper );
 					validateLimitSetting( view, rs );
 
-					rs = processOperationOnQuery( view,
-							stopSign,
-							rs,
-							aggrDefns );
+					rs = processOperationOnQuery( executor, view, stopSign, rs, aggrDefns ,fetcher );
 					
 					break;
 				}
@@ -234,7 +231,7 @@ public class QueryExecutor
 				{
 					//need to re-execute the query.
 					rs = cubeQueryExecutorHelper.execute( finalAggregation, stopSign );
-					rs = applyNoAggrUpdateFilters(getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher );
+					rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ), executor, rs, cube, fetcher, false );
 					
 					//process mirror operation
 					MirrorOperationExecutor moe = new MirrorOperationExecutor( );
@@ -260,7 +257,7 @@ public class QueryExecutor
 						{
 							finalFilters.add(filters[j]);
 						}
-						rs = applyNoAggrUpdateFilters(finalFilters,executor, rs, cube, fetcher);
+						rs = applyNoAggrUpdateFilters( finalFilters,executor, rs, cube, fetcher, false );
 					}
 				}
 				if ( executor.getContext( ).getDocWriter( ) != null )
@@ -280,17 +277,15 @@ public class QueryExecutor
 					executor.setQueryResultsId( id );
 				}
 
-				rs = processOperationOnQuery( view,
-						stopSign,
-						rs,
-						aggrDefns );
+				rs = processOperationOnQuery( executor,view, stopSign, rs, aggrDefns , fetcher );
+				
 			}
 		}
 		
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 	
-	private IAggregationResultSet[] applyNoAggrUpdateFilters ( List finalFilters, CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher ) throws DataException, IOException
+	private IAggregationResultSet[] applyNoAggrUpdateFilters ( List finalFilters, CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher,boolean fromCubeOperation ) throws DataException, IOException
 	{
 		if( !finalFilters.isEmpty( ) )
 		{
@@ -300,6 +295,31 @@ public class QueryExecutor
 			for ( int i = 0; i < finalFilters.size( ); i++ )
 			{
 				IFilterDefinition filter = (IFilterDefinition) finalFilters.get( i );
+				boolean find = false;
+				String bindingName = OlapExpressionCompiler.getReferencedScriptObject( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
+				if( executor.getCubeQueryDefinition( ).getCubeOperations( ).length > 0 )
+				{
+					ICubeOperation[] operations = executor.getCubeQueryDefinition( ).getCubeOperations( );
+					for( int j = 0 ; j < operations.length ; j++ )
+					{
+						if ( operations[j] instanceof AddingNestAggregations )
+						{
+							AddingNestAggregations aggr = (AddingNestAggregations)operations[i];
+							IBinding[] bindings = aggr.getNewBindings( );
+							for(int k = 0 ; k < bindings.length; k++)
+							{
+								if( bindings[k].getBindingName( ).equals( bindingName ) )
+								{
+									find = true;
+									break;
+								}
+							}
+						}
+					}
+					
+				}
+				if( find != fromCubeOperation )
+					continue;
 				int type = executor.getFilterType( filter,
 						executor.getDimLevelsDefinedInCubeQuery( ) );
 			
@@ -355,9 +375,40 @@ public class QueryExecutor
 							rs[affectedAggrResultSetIndex.get( j ).intValue( )] );
 				}
 			}
+			
+			if( edgeResultSet.size( ) > 1 )
+			{
+				combineEdgeResultSetsInfo( edgeResultSet );
+			}
 		}
 		
 		return rs;
+	}
+	
+	private void combineEdgeResultSetsInfo( List<IAggregationResultSet> edgeResultSet )
+	{
+		int index = -1;
+		for( int i = 0; i < edgeResultSet.size( ); i++ )
+		{
+			IAggregationResultSet rs = edgeResultSet.get( i );
+			if( rs.length() == 0 )
+				index = i;
+		}
+		if( index >= 0 )
+		{
+			for( int i = 0; i < edgeResultSet.size( ); i++ )
+			{
+				if ( i != index ) 
+				{
+					IAggregationResultSet rs = edgeResultSet.get( i );
+					IDiskArray newRsRows = new BufferedStructureArray( AggregationResultRow.getCreator( ), rs.length( ) );
+					if ( rs instanceof AggregationResultSet )
+						( (AggregationResultSet) rs ).setAggregationResultRows( newRsRows );
+					else if (rs instanceof CachedAggregationResultSet)
+						( (CachedAggregationResultSet) rs ).setAggregationResultRows( newRsRows );
+				}
+			}
+		}
 	}
 
 	private List<IAggregationResultSet> populateAndFilterEdgeResultSet(IAggregationResultSet[] rs,
@@ -373,7 +424,7 @@ public class QueryExecutor
 			{
 				edgeResultSet.add( rs[i] );
 				
-				if( edgeDrillFilterMap.isEmpty() )
+				if( edgeDrillFilterMap == null || edgeDrillFilterMap.isEmpty() )
 					continue;
 		
 				filterEdgeAggrSet(edgeDrillFilterMap,  rs[i]);
@@ -414,7 +465,10 @@ public class QueryExecutor
 		if( edgeAggrSet instanceof AggregationResultSet )
 			((AggregationResultSet)edgeAggrSet).setAggregationResultRows( newRs );
 		else if( edgeAggrSet instanceof CachedAggregationResultSet )
+		{
 			((CachedAggregationResultSet)edgeAggrSet).setAggregationResultRows( newRs );
+			((CachedAggregationResultSet)edgeAggrSet).setLength(newRs.size());
+		}
 	}
 
 	/**
@@ -484,8 +538,13 @@ public class QueryExecutor
 		IDiskArray aggregationResultRows = null;
 
     	joinLevelKeys = joinRS.getLevelKeys( );
+    	
+    	if( detailLevelKeys == null )
+    		return;
 
     	int pos = getPos(joinLevelKeys, detailLevelKeys);
+    	if( pos < 0 )
+    		return;
     	
     	for (int index = 0; index < detailRS.length( ); index++)
     	{
@@ -718,9 +777,9 @@ public class QueryExecutor
 		return false;
 	}
 
-	private IAggregationResultSet[] processOperationOnQuery( BirtCubeView view,
+	private IAggregationResultSet[] processOperationOnQuery( CubeQueryExecutor executor,BirtCubeView view,
 			StopSign stopSign, IAggregationResultSet[] rs,
-			AggregationDefinition[] aggrDefns ) throws DataException,
+			AggregationDefinition[] aggrDefns,IBindingValueFetcher fetcher ) throws DataException,
 			IOException, BirtException
 	{
 		//process drill operation
@@ -745,7 +804,39 @@ public class QueryExecutor
 				view.getCubeQueryExecutor( ).getScope( ),
 				view.getCubeQueryExecutor( ).getSession( ).getEngineContext( ).getScriptContext( ));
 
+		int rsLenBefore = rs.length;
 		rs = coe.execute( rs, stopSign );
+		int rsLenAfter = rs.length;
+		
+		List noAggrUpdateFilters = getNoAggrUpdateFilters(executor
+				.getCubeQueryDefinition().getFilters());
+		if (rsLenBefore < rsLenAfter && noAggrUpdateFilters.size() > 0 ) 
+		{
+			IAggregationResultSet[] result = new IAggregationResultSet[rsLenAfter- rsLenBefore];
+
+			for (int i = 0; i < result.length; i++) 
+			{
+				result[i] = rs[rsLenBefore + i];
+			}
+
+			result = applyNoAggrUpdateFilters( noAggrUpdateFilters, executor, result,
+					view.getCube(), fetcher, true);
+
+			for (int i = 0; i < result.length; i++) 
+			{
+				rs[i + rsLenBefore] = result[i];
+			}
+
+			List<IAggregationResultSet> edgeResultSet = populateAndFilterEdgeResultSet(rs, null);
+
+			for (int i = 0; i < edgeResultSet.size(); i++) 
+			{
+				for (int j = 0; j < result.length; j++) 
+				{
+					this.applyJoin(edgeResultSet.get(i), result[j]);
+				}
+			}
+		}
 		
 		return rs;
 	}
@@ -854,7 +945,7 @@ public class QueryExecutor
 		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		
 		rs = cubeQueryExecutorHelper.execute( aggrDefns, executor.getSession( ).getStopSign( ) );
-		rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, view.getCube( ) , fetcher );
+		rs = applyNoAggrUpdateFilters( getNoAggrUpdateFilters( executor.getCubeQueryDefinition( ).getFilters( ) ),executor, rs, view.getCube( ) , fetcher , false );
 		//process mirror operation
 		MirrorOperationExecutor moe = new MirrorOperationExecutor( );
 		rs = moe.execute( rs, view, cubeQueryExecutorHelper );
