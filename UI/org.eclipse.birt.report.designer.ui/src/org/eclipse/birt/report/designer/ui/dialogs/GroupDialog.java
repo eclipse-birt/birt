@@ -76,6 +76,7 @@ import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -753,7 +754,11 @@ public class GroupDialog extends BaseDialog implements Listener
 		{
 			List<String> groups = getGroupNames( inputGroup.getContainer( )
 					.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );
-			startCollapsed = groups.contains( inputGroup.getName( ) );
+			String position = ""
+					+ ( inputGroup.getContainer( )
+							.getSlot( IListingElementModel.GROUP_SLOT )
+							.findPosn( inputGroup ) + 1 );
+			startCollapsed = groups.contains( position );
 			startCollapsedHelper.createContent( parent );
 			startCollapsedHelper.setProperty( START_COLLAPSED, startCollapsed );
 			startCollapsedHelper.update( true );
@@ -1508,14 +1513,18 @@ public class GroupDialog extends BaseDialog implements Listener
 
 				List<String> groups = getGroupNames( inputGroup.getContainer( )
 						.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );
+				String position = ""
+						+ ( inputGroup.getContainer( )
+								.getSlot( IListingElementModel.GROUP_SLOT )
+								.findPosn( inputGroup ) + 1 );
 				if ( startCollapsed )
 				{
-					if ( !groups.contains( inputGroup.getName( ) ) )
-						groups.add( inputGroup.getName( ) );
+					if ( !groups.contains( position ) )
+						groups.add( position );
 				}
 				else
 				{
-					groups.remove( inputGroup.getName( ) );
+					groups.remove( position );
 				}
 
 				StringBuffer buffer = new StringBuffer( );
@@ -1525,9 +1534,13 @@ public class GroupDialog extends BaseDialog implements Listener
 					if ( i < groups.size( ) - 1 )
 						buffer.append( "," ); //$NON-NLS-1$
 				}
+
+				String value = buffer.toString( ).trim( ).length( ) > 0 ? buffer.toString( )
+						.trim( )
+						: null;
 				inputGroup.getContainer( )
 						.setStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY,
-								buffer.toString( ) );
+								value );
 			}
 		}
 		catch ( SemanticException e )
