@@ -586,6 +586,10 @@ public class CubeQueryDefinitionUtil
 		for ( Iterator i = measureList.iterator( ); i.hasNext( ); )
 		{
 			MeasureDefinition measure = (MeasureDefinition) i.next( );
+			if( measure.getAggrFunction() == null || measure.getAggrFunction().trim().length()==0 )
+			{
+				continue;
+			}
 			IBinding referenceBinding = getMeasureDirectReferenceBinding( measure,
 					bindings,
 					measureAggrOns );

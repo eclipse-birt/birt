@@ -88,6 +88,8 @@ import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -322,7 +324,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
-	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -1181,13 +1182,44 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		double measure = pageWidth.getMeasure( );
 		String unit = pageWidth.getUnits( );
-		if ( leftMargin != null && isSameUnit( unit, leftMargin.getUnits( ) ) )
+		if ( leftMargin != null )
 		{
-			measure -= leftMargin.getMeasure( );
+			if ( isSameUnit( unit, leftMargin.getUnits( ) ) )
+			{
+				measure -= leftMargin.getMeasure( );
+			}
+			else
+			{
+				if ( DimensionUtil.isAbsoluteUnit( unit )
+						&& DimensionUtil
+								.isAbsoluteUnit( leftMargin.getUnits( ) ) )
+				{
+					DimensionValue converted = DimensionUtil.convertTo(
+							leftMargin.getMeasure( ), leftMargin.getUnits( ),
+							unit );
+					measure -= converted.getMeasure( );
+				}
+			}
 		}
-		if ( rightMargin != null && isSameUnit( unit, rightMargin.getUnits( ) ) )
+		if ( rightMargin != null )
 		{
-			measure -= rightMargin.getMeasure( );
+			if ( isSameUnit( unit, rightMargin.getUnits( ) ) )
+			{
+				measure -= rightMargin.getMeasure( );
+
+			}
+			else
+			{
+				if ( DimensionUtil.isAbsoluteUnit( unit )
+						&& DimensionUtil
+								.isAbsoluteUnit( rightMargin.getUnits( ) ) )
+				{
+					DimensionValue converted = DimensionUtil.convertTo(
+							rightMargin.getMeasure( ), rightMargin.getUnits( ),
+							unit );
+					measure -= converted.getMeasure( );
+				}
+			}
 		}
 		if ( measure > 0 )
 		{
@@ -2057,19 +2089,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			outputBookmark( group, null );
 			startedGroups.remove( group );
 		}
-		
-		if ( fixedReport )
-		{
-			DimensionType rowHeight = row.getHeight( );
-			if ( rowHeight != null && !"%".equals( rowHeight.getUnits( ) ) )
-			{
-				fixedRowHeightStack.push( rowHeight );
-			}
-			else
-			{
-				fixedRowHeightStack.push( null );
-			}
-		}
+
 	}
 	
 	/*
@@ -2087,11 +2107,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
-
-		if ( fixedReport )
-		{
-			fixedRowHeightStack.pop( );
-		}
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -2157,39 +2172,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
 
-		boolean fixedCellHeight = false;
-		DimensionType cellHeight = null;
 		// rowspan
 		int rowSpan = cell.getRowSpan( );
 		if ( rowSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
-		else if ( fixedReport )
-		{
-			// fixed cell height requires the rowspan to be 1.
-			cellHeight = (DimensionType) fixedRowHeightStack.peek( );
-			if ( cellHeight != null )
-			{
-				fixedCellHeight = true;
-			}
-		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead, fixedCellHeight );
+		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		htmlEmitter.handleCellAlign( cell );
-		if ( fixedCellHeight )
-		{
-			// Fixed cell height requires the vertical aline must be top.
-			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
-		}
-		else
-		{
-			htmlEmitter.handleCellVAlign( cell );
-		}
-
+		htmlEmitter.handleCellVAlign( cell );
+		
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2222,31 +2218,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.clear( );
 		}
 
-		if ( fixedCellHeight )
+		if ( cell.hasDiagonalLine( ) )
 		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					"position: relative; height: 100%;" );
-			if ( cell.hasDiagonalLine( ) )
-			{
-				outputDiagonalImage( cell, cellHeight );
-			}
-			writer.openTag( HTMLTags.TAG_DIV );
-			styleBuffer.setLength( 0 );
-			styleBuffer.append( " height: " );
-			styleBuffer.append( cellHeight.toString( ) );
-			styleBuffer.append( "; width: 100%; position: absolute; left: 0px;" );
-			HTMLEmitterUtil.buildOverflowStyle( styleBuffer,
-					cell.getStyle( ),
-					true );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-		}
-		else if ( cell.hasDiagonalLine( ) )
-		{
-			if ( cellHeight == null )
-			{
-				cellHeight = getCellHeight( cell );
-			}
+			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
 			{
 				writer.openTag( HTMLTags.TAG_DIV );
@@ -2375,13 +2349,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		boolean fixedRowHeight = ( fixedReport && fixedRowHeightStack.peek( ) != null );
-		if ( fixedRowHeight && cell.getRowSpan( ) == 1 )
-		{
-			writer.closeTag( HTMLTags.TAG_DIV );
-			writer.closeTag( HTMLTags.TAG_DIV );
-		}
-		else if ( cell.hasDiagonalLine( ) )
+		if ( cell.hasDiagonalLine( ) )
 		{
 			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
@@ -2892,7 +2860,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String url = validate( hyperlinkAction );
 		if ( url != null )
 		{
-			writer.attribute( HTMLTags.ATTR_STYLE, "width:0;" );
+			String strWidth = "width:0;";
+			DimensionType w = image.getWidth( );
+			if ( w != null )
+			{
+				strWidth = "width:" + w.toString( );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, strWidth );
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );

@@ -54,6 +54,11 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 		initialize( parentScope, cubeFilter, cx, outerResults, query  );
 	}
 	
+	public IBaseExpression getFilterExpression()
+	{
+		return this.expr;
+	}
+	
 	/**
 	 * 
 	 * @param parentScope

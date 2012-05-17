@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
@@ -176,7 +175,7 @@ public class AggrMeasureFilterHelper
 		for ( int j = 0; j < aggregationNames.length; j++ )
 		{
 			if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0
-					&& !( resultSet.getAggregationDefinition( ) instanceof DrilledAggregationDefinition ) )
+					&& resultSet.getAggregationDefinition( ).getDrilledInfo( ) == null )
 			{
 				return true;
 			}

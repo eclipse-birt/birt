@@ -44,6 +44,21 @@ public class JdbcMetaDataProvider
 	private static Logger logger = Logger.getLogger( JdbcMetaDataProvider.class.getName( ) );
 	
 	private static JdbcMetaDataProvider instance = null;
+
+	private String getCatalog( ) throws SQLException
+	{
+		// if the data source has no Catalog to store table, and the table is
+		// stored in the root(seldom),the connection.getCatalog( ) will return
+		// "". in this case if the user want to get all the 'root' table, they
+		// needs to use Catalog= null to search. as a result here is the
+		// connection.getCatalog( ) is "", to make user convenient to do it,
+		// just set it as null.
+		if ( connection.getCatalog( ) != null
+				&& connection.getCatalog( ).trim( ).length( ) == 0 )
+			return null;
+		else
+			return connection.getCatalog( );
+	}
 	
 	private JdbcMetaDataProvider(String driverClass, String url, String userName, String password, Properties props )
 	{
@@ -314,7 +329,7 @@ public class JdbcMetaDataProvider
 			try
 			{
 				return connection.getMetaData( ).getColumns( 
-						connection.getCatalog( ), schemaPattern, tableNamePattern, columnNamePattern );
+						getCatalog( ), schemaPattern, tableNamePattern, columnNamePattern );
 			}
 			catch ( SQLException e )
 			{
@@ -329,7 +344,7 @@ public class JdbcMetaDataProvider
 		try
 		{
 			return connection.getMetaData( ).getColumns( 
-					connection.getCatalog( ), schemaPattern, tableNamePattern, columnNamePattern );
+					getCatalog( ), schemaPattern, tableNamePattern, columnNamePattern );
 		}
 		catch ( SQLException e )
 		{
@@ -337,7 +352,7 @@ public class JdbcMetaDataProvider
 			{
 				reconnect( );
 				return connection.getMetaData( )
-						.getColumns( connection.getCatalog( ),
+						.getColumns( getCatalog( ),
 								schemaPattern,
 								tableNamePattern,
 								columnNamePattern );
@@ -373,7 +388,7 @@ public class JdbcMetaDataProvider
 			try
 			{
 				return connection.getMetaData( ).getProcedures( 
-						connection.getCatalog( ), schemaPattern, procedureNamePattern );
+						getCatalog( ), schemaPattern, procedureNamePattern );
 			}
 			catch ( SQLException e )
 			{
@@ -388,7 +403,7 @@ public class JdbcMetaDataProvider
 		try
 		{
 			return connection.getMetaData( ).getProcedures( 
-					connection.getCatalog( ), schemaPattern, procedureNamePattern );
+					getCatalog( ), schemaPattern, procedureNamePattern );
 		}
 		catch ( SQLException e )
 		{
@@ -396,7 +411,7 @@ public class JdbcMetaDataProvider
 			{
 				reconnect( );
 				return connection.getMetaData( ).getProcedures( 
-						connection.getCatalog( ), schemaPattern, procedureNamePattern );
+						getCatalog( ), schemaPattern, procedureNamePattern );
 			}
 			catch ( Exception e1 )
 			{
@@ -423,7 +438,7 @@ public class JdbcMetaDataProvider
 			try
 			{
 				return connection.getMetaData( ).getProcedureColumns( 
-						connection.getCatalog( ), schemaPattern, procedureNamePattern, columnNamePattern );
+						getCatalog( ), schemaPattern, procedureNamePattern, columnNamePattern );
 			}
 			catch ( SQLException e )
 			{
@@ -438,7 +453,7 @@ public class JdbcMetaDataProvider
 		try
 		{
 			return connection.getMetaData( ).getProcedureColumns( 
-					connection.getCatalog( ), schemaPattern, procedureNamePattern, columnNamePattern );
+					getCatalog( ), schemaPattern, procedureNamePattern, columnNamePattern );
 		}
 		catch ( SQLException e )
 		{
@@ -446,7 +461,7 @@ public class JdbcMetaDataProvider
 			{
 				reconnect( );
 				return connection.getMetaData( )
-						.getProcedureColumns( connection.getCatalog( ),
+						.getProcedureColumns( getCatalog( ),
 								schemaPattern,
 								procedureNamePattern,
 								columnNamePattern );
@@ -482,7 +497,7 @@ public class JdbcMetaDataProvider
 			try
 			{
 				return connection.getMetaData( ).getTables( 
-						connection.getCatalog( ), schemaPattern, namePattern, types );
+						getCatalog( ), schemaPattern, namePattern, types );
 			}
 			catch ( SQLException e )
 			{
@@ -497,7 +512,7 @@ public class JdbcMetaDataProvider
 		try
 		{
 			return connection.getMetaData( ).getTables( 
-					connection.getCatalog( ), schemaPattern, namePattern, types );
+					getCatalog( ), schemaPattern, namePattern, types );
 		}
 		catch ( SQLException e )
 		{
@@ -505,7 +520,7 @@ public class JdbcMetaDataProvider
 			{
 				reconnect( );
 				return connection.getMetaData( )
-						.getTables( connection.getCatalog( ),
+						.getTables( getCatalog( ),
 								schemaPattern,
 								namePattern,
 								types );

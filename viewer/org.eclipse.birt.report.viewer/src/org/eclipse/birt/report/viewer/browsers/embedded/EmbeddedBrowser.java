@@ -15,6 +15,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ImageMenuAdapterFactory;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Path;
@@ -84,7 +86,12 @@ public class EmbeddedBrowser
 		shell = new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 
 		initializeShell( shell );
-
+		shell.addDisposeListener( new DisposeListener( ) {
+			public void widgetDisposed( DisposeEvent e )
+			{
+				browser.close( );
+			}
+		} );
 		shell.addControlListener( new ControlListener( ) {
 
 			public void controlMoved( ControlEvent e )
@@ -428,12 +435,21 @@ public class EmbeddedBrowser
 					}
 				}
 
-				Image image = null;
-
+				Image image = null;				
 				if ( imageURL != null )
 				{
-					image = ImageDescriptor.createFromURL( imageURL )
+					String key = imageURL.toString( );
+					if (CorePlugin.getDefault( ).getImageRegistry( ).get( key ) != null)
+					{
+						image =  CorePlugin.getDefault( ).getImageRegistry( ).get( key );
+					}
+					else
+					{	
+						image = ImageDescriptor.createFromURL( imageURL )
 							.createImage( );
+						
+						CorePlugin.getDefault( ).getImageRegistry( ).put( key, image );
+					}
 				}
 
 				if ( image != null )

@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
@@ -339,7 +340,9 @@ public class CubeUtility
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
+		
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition productLineDim1 = rowEdge.createDimension( "dimension5" );
 		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension5" );
@@ -372,7 +375,9 @@ public class CubeUtility
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
+		
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition productLineDim1 = columnEdge.createDimension( "dimension5" );
 		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension5" );
@@ -409,7 +414,8 @@ public class CubeUtility
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
 		IDimensionDefinition pageDim1 = pageEdge.createDimension( "dimension5" );
 		IHierarchyDefinition pagetLineHie1 = pageDim1.createHierarchy( "dimension5" );
@@ -447,7 +453,8 @@ public class CubeUtility
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition productLineDim1 = rowEdge.createDimension( "dimension5" );
 		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension5" );
@@ -482,7 +489,8 @@ public class CubeUtility
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition productLineDim1 = rowEdge.createDimension( "dimension5" );
 		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension5" );

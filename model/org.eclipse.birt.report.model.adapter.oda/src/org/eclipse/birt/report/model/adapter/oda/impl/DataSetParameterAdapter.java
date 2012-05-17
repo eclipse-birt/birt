@@ -434,7 +434,7 @@ class DataSetParameterAdapter
 		// also need to be updated.
 
 		String name = setParam.getName( );
-		if ( StringUtil.isBlank( name ) || !name.equalsIgnoreCase( nativeName ) )
+		if ( StringUtil.isBlank( name ) || ( !name.equalsIgnoreCase( nativeName ) && !StringUtil.isBlank( nativeName ) ) )
 		{
 			setParam.setName( nativeName );
 		}

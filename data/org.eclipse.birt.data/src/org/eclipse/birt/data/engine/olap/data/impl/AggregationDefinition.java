@@ -24,6 +24,7 @@ public class AggregationDefinition
 	private int[] sortTypes;
 	private AggregationFunctionDefinition[] aggregationFunctions;
 	private AggregationFunctionDefinition[] aggregationTimeFunctions;
+	private DrilledInfo drilledAggregation;
 	
 	/**
 	 * 
@@ -140,5 +141,22 @@ public class AggregationDefinition
 		return sortTypes;
 	}
 
+	/**
+	 * set its related drilled info
+	 * @param aggregation
+	 */
+	public void setDrilledInfo( DrilledInfo aggregation )
+	{
+		drilledAggregation = aggregation;
+	}
 	
+	/**
+	 * get its related drilled info
+	 * @return
+	 */
+	public DrilledInfo getDrilledInfo( )
+	{
+		return this.drilledAggregation;
+	}
+
 }

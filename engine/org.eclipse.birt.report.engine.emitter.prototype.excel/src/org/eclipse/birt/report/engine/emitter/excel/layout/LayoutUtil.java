@@ -15,7 +15,9 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 
 public class LayoutUtil
 {
-
+	private static final int DEFAULT_WIDTH = 40000;
+	private static final int MIN_WIDTH = 128;
+	
 	private static final Logger log = Logger.getLogger( LayoutUtil.class
 			.getName( ) );
 
@@ -124,8 +126,17 @@ public class LayoutUtil
 			return columns;
 		}
 
-		return EmitterUtil.resizeTableColumn( tableWidth, columns,
+		columns =  EmitterUtil.resizeTableColumn( tableWidth, columns,
 				unassignedCount, totalAssigned );
+		
+		for (int i = 0; i < columns.length; i++ )
+		{
+			if ( columns[i] == 0 )
+			{
+				columns[i] = MIN_WIDTH;
+			}
+		}
+		return columns;
 	}
 
 	public static ColumnsInfo createTable( ITableContent table, int width,
@@ -208,6 +219,21 @@ public class LayoutUtil
 				}
 			}
 			columns[index] = leftWidth - per * ( unassignedCount - 1 );
+		}
+		
+		for (int i = 0; i < columns.length; i++ )
+		{
+			if ( columns[i] == 0 )
+			{
+				if ( autoExtend )
+				{
+					columns[i] = DEFAULT_WIDTH;
+				}
+				else
+				{
+					columns[i] = MIN_WIDTH;
+				}
+			}
 		}
 		return new ColumnsInfo( columns );
 	}

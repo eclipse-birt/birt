@@ -600,7 +600,7 @@ dataset.warning.invalidReponseStatus=カスタム ODA ページからのデザインの応答が無
 
 DataSetBasePage.tooltip=名前は空白にできません。
 DataSetBasePage.ScriptedDataSet.name=スクリプトデータセット
-DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みのデータソース
+DataSetBasePage.ScriptedDataSource.name=スクリプト記述済みデータソース
 DataSetBasePage.Group.DataSourceSelection=データソースの選択
 
 ###########################################################
@@ -769,7 +769,7 @@ DataSourceProcess.text.Suffix=この要素を削除しますか ?
 ###########################################################
 #DataSourceSelectionPage properties
 
-DataSourceSelectionPage.ScriptDataSource.DisplayName=スクリプト記述済みのデータソース
+DataSourceSelectionPage.ScriptDataSource.DisplayName=スクリプト記述済みデータソース
 
 ###########################################################
 #DataSourcesSlotOutlineProcess properties

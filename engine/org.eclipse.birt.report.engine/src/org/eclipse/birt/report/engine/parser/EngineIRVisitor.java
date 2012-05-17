@@ -191,10 +191,10 @@ public class EngineIRVisitor extends DesignVisitor
 	 * The default value of masterPage's margin, in inch.
 	 * See rom.ref in model: <PropertyGroup displayNameID="Element.MasterPage.margin">
 	 */
-	protected static final double DEFAULT_MASTERPAGE_TOP_MARGIN = 1; 
-	protected static final double DEFAULT_MASTERPAGE_LEFT_MARGIN = 1.25; 
-	protected static final double DEFAULT_MASTERPAGE_BOTTOM_MARGIN = 1; 
-	protected static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 1.25;
+	protected static final double DEFAULT_MASTERPAGE_TOP_MARGIN = 0.25; 
+	protected static final double DEFAULT_MASTERPAGE_LEFT_MARGIN = 0.25; 
+	protected static final double DEFAULT_MASTERPAGE_BOTTOM_MARGIN = 0.25; 
+	protected static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 0.25;
 	protected static final double DEFAULT_MASTERPAGE_HEIGHT = 11;
 	protected static final double DEFAULT_MASTERPAGE_WIDTH = 8.5;
 	

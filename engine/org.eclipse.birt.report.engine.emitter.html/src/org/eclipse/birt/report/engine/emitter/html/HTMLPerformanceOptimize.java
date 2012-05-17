@@ -377,7 +377,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 * Build the style of cell content.
 	 */
 	public void buildCellStyle( ICellContent cell, StringBuffer styleBuffer,
-			boolean isHead, boolean fixedCellHeight )
+			boolean isHead )
 	{
 		// The method getStyle( ) will never return a null value;
 		IStyle style = cell.getStyle( );
@@ -402,25 +402,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		style = getElementStyle( cell );
 		if ( style == null )
 		{
-			if ( fixedCellHeight )
-			{
-				// Fixed cell height requires the padding must be 0px.
-				styleBuffer.append( " padding: 0px;" );
-			}
 			return;
 		}
 		
 		AttributeBuilder.buildFont( styleBuffer, style );
 		AttributeBuilder.buildMargins( styleBuffer, style );
-		if ( fixedCellHeight )
-		{
-			// Fixed cell height requires the padding must be 0px.
-			styleBuffer.append( " padding: 0px;" );
-		}
-		else
-		{
-			AttributeBuilder.buildPaddings( styleBuffer, style );
-		}
+		AttributeBuilder.buildPaddings( styleBuffer, style );
 		AttributeBuilder.buildBorders( styleBuffer, style );
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
 		AttributeBuilder.buildText( styleBuffer, style );
@@ -433,7 +420,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 */
 	public void handleCellVAlign( ICellContent cell )
 	{
-		// The method getStyle( ) will nevel return a null value;
+		// The method getStyle( ) will never return a null value;
 		IStyle style = cell.getStyle( );
 
 		// Build the Vertical-Align property of the row content

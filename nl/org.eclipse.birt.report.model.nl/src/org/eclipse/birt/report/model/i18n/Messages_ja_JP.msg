@@ -1822,7 +1822,7 @@ Class.GlobalBirt.appContext.toolTip=このレポートに関連したコンテキスト
 Class.DataSource=DataSource クラス
 Class.DataSource.toolTip=Factory 実行時の状態のデータソースには、データソースのクラスを使ってアクセスします。DataSource オブジェクトには、そのオブジェクトを使用する DataSet オブジェクトを使用してアクセスします。
 Class.DataSource.extensionID=extensionID
-Class.DataSource.extensionID.toolTip=ODA ドライバ拡張で定義されている ODA データソースの extensionID の値を返します。extensionID は、BIRT 環境のデータソースのユニークな型を識別します。このプロパティは更新できません。
+Class.DataSource.extensionID.toolTip=ODA ドライバ拡張で定義されている ODAデータソースの extensionID の値を返します。extensionID は、BIRT 環境のデータソースのユニークな型を識別します。このプロパティは更新できません。
 Class.DataSource.isOpen=isOpen
 Class.DataSource.isOpen.toolTip=データソースが接続されているかどうかを示す論理値を返します。
 Class.DataSource.extensionProperties=extensionProperties
@@ -2401,7 +2401,7 @@ Element.VariableElement=変数
 Element.DataGroup=データグループ
 Element.DerivedDataSet=派生データセット
 Element.DataMart=データオブジェクト
-Element.DataMartDataSource=データオブジェクトのデータソース
+Element.DataMartDataSource=データオブジェクトデータソース
 Element.DataMartDataSet=データオブジェクトのデータセット
 Element.DataMartCube=データオブジェクトキューブ
 Element.TimeDimension=時間のディメンジョン
@@ -3729,7 +3729,7 @@ New.DataMartDataSource=新規 DataMart データソース
 New.DataMartDataSet=新規 DataMart データセット
 New.DataMartCube=新規 DataMart キューブ
 New.TimeDimension=NewTimeDimension
-New.ReportItemTheme=レポート項目テーマの新規作成
+New.ReportItemTheme=新規レポート項目テーマ
 
 ###########################################################
 #Default theme name.

@@ -751,6 +751,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
 			for ( int i = 0; i < dataSet.getFilters( ).size( ); i++ )
 			{
+				if ( !( (IFilterDefinition) dataSet.getFilters( ).get( i ) ).updateAggregation( ) )
+					continue;
+				
 				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) dataSet.getFilters( )
 						.get( i ),
 						bindings ) )

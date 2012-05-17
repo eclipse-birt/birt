@@ -57,6 +57,8 @@ public class ResultMetaData implements IResultMetaData
 	private void adaptDTE(
 			org.eclipse.birt.data.engine.api.IResultMetaData dteMeta )
 	{
+		if (dteMeta == null)
+			return;
 		int count = dteMeta.getColumnCount( );
 		for ( int index = 0; index < count; index++ )
 		{

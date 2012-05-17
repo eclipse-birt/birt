@@ -1227,8 +1227,10 @@ public class ResultIterator implements IResultIterator
 				if ( odiResult.getRowCount( ) == 0
 						&& resultService.getQueryDefn( ).getParentQuery( ) != null
 						&& this.queryDefn instanceof IQueryDefinition )
-
 				{
+					if ( hasOutputParameter( queryDefn ) )
+						return;
+					
 					if ( resultService.getSession( )
 							.getEngineContext( )
 							.getMode( ) == DataEngineContext.MODE_GENERATION )
@@ -1246,6 +1248,20 @@ public class ResultIterator implements IResultIterator
 			catch ( DataException e )
 			{
 			}
+		}
+		
+		boolean hasOutputParameter( IBaseQueryDefinition queryDefn )
+				throws DataException
+		{
+			if ( ResultIterator.this.resultService.getQueryResults( ) instanceof IQueryService )
+			{
+				DataSetRuntime[] runtimes = ( (IQueryService) ResultIterator.this.resultService.getQueryResults( ) ).getDataSetRuntime( 1 );
+				if ( runtimes != null
+						&& runtimes.length > 0 && runtimes[0] != null
+						&& runtimes[0].getOutputParameters( ).size( ) > 0 )
+					return true;
+			}
+			return false;
 		}
 
 		/**

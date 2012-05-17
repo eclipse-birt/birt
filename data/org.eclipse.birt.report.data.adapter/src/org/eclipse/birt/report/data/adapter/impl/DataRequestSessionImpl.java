@@ -93,6 +93,7 @@ import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
 import org.eclipse.birt.report.data.adapter.api.ICubeInterceptor;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptor;
+import org.eclipse.birt.report.data.adapter.api.IFilterUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
@@ -452,6 +453,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 		dataEngine.clearCache( dataSource, dataSet );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#clearCache(java.lang.String)
+	 */
+	public void clearCache( String cacheID ) throws BirtException
+	{
+		dataEngine.clearCache( cacheID );
+	}
 	/*
 	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition,
 	 *      java.util.Map)
@@ -1771,6 +1780,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				MeasureHandle measureHandle = cubeHandle.getMeasure( measureDef.getName( ) );
 				if ( measureHandle != null )
 					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
+				//if cube is auto primary key, measure definition should ignore the aggregation function.
+				if( cubeHandle.getBooleanProperty( ITabularCubeModel.AUTO_KEY_PROP ) )
+				{
+					measureDef.setAggrFunction( null );
+				}
 			}
 		}
 	}
@@ -2679,5 +2693,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws BirtException
 	{
 		return prepare( query, null );
+	}
+
+	@Override
+	public IFilterUtil getFilterUtil( ) throws BirtException
+	{
+		return new FilterUtil( );
 	}
 }

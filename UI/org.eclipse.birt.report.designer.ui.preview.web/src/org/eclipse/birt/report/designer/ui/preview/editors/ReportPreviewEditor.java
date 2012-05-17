@@ -526,14 +526,14 @@ public abstract class ReportPreviewEditor extends EditorPart
 			this.options.put( WebViewer.MAX_ROWS_KEY, ViewerPlugin.getDefault( )
 					.getPluginPreferences( )
 					.getString( WebViewer.PREVIEW_MAXROW ) );
-			this.options.put( WebViewer.MAX_CUBE_ROW_LEVELS_KEY,
-					ViewerPlugin.getDefault( )
-							.getPluginPreferences( )
-							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
-			this.options.put( WebViewer.MAX_CUBE_COLUMN_LEVELS_KEY,
-					ViewerPlugin.getDefault( )
-							.getPluginPreferences( )
-							.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
+//			this.options.put( WebViewer.MAX_CUBE_ROW_LEVELS_KEY,
+//					ViewerPlugin.getDefault( )
+//							.getPluginPreferences( )
+//							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
+//			this.options.put( WebViewer.MAX_CUBE_COLUMN_LEVELS_KEY,
+//					ViewerPlugin.getDefault( )
+//							.getPluginPreferences( )
+//							.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
 			String extKey = ViewerPlugin.getDefault( )
 					.getPluginPreferences( )
 					.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
@@ -562,14 +562,14 @@ public abstract class ReportPreviewEditor extends EditorPart
 					ViewerPlugin.getDefault( )
 							.getPluginPreferences( )
 							.getString( WebViewer.PREVIEW_MAXROW ) );
-			System.setProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS,
-					ViewerPlugin.getDefault( )
-							.getPluginPreferences( )
-							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
-			System.setProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS,
-					ViewerPlugin.getDefault( )
-							.getPluginPreferences( )
-							.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
+//			System.setProperty( IPreviewConstants.MAX_CUBE_ROW_LEVELS,
+//					ViewerPlugin.getDefault( )
+//							.getPluginPreferences( )
+//							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
+//			System.setProperty( IPreviewConstants.MAX_CUBE_COLUMN_LEVELS,
+//					ViewerPlugin.getDefault( )
+//							.getPluginPreferences( )
+//							.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
 
 			if ( browser != null && !browser.isDisposed( ) )
 			{

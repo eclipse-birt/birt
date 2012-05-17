@@ -88,7 +88,7 @@ public abstract class HTMLEmitter
 	public abstract void handleRowAlign( IRowContent row );
 
 	public abstract void buildCellStyle( ICellContent cell,
-			StringBuffer styleBuffer, boolean isHead, boolean fixedCellHeight );
+			StringBuffer styleBuffer, boolean isHead );
 
 	/**
 	 * Handles the text align property of the element content.

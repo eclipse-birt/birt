@@ -748,6 +748,19 @@ public abstract class EngineTask implements IEngineTask
 					buffer.append( "\n" );
 					return true;
 				}
+				
+				boolean visitDynamicFilterParameter(
+						DynamicFilterParameterHandle param, Object userData )
+				{
+					String paramName = param.getName( );
+					Object paramValue = runValues.get( paramName );
+					buffer.append( paramName );
+					buffer.append( ":" );
+					buffer.append( paramValue );
+					buffer.append( "\n" );
+					return true;
+				}
+
 
 				boolean visitParameterGroup( ParameterGroupHandle group,
 						Object value )

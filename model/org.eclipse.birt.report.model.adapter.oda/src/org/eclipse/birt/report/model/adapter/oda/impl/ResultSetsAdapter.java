@@ -548,18 +548,21 @@ class ResultSetsAdapter
 			newHint.setProperty( ColumnHint.ON_COLUMN_LAYOUT_MEMBER, newValue );
 		}
 
-		// ODA does not support analysis column.
-		/*
-		 * newValue = axisAttributes.getRelatedColumns( ); oldValue =
-		 * cachedAxisAttributes == null ? null : cachedAxisAttributes
-		 * .getRelatedColumns( ); if ( !CompareUtil.isEquals( oldValue, newValue
-		 * ) ) { String analysisColumnName = null; DataElementIdentifiers
-		 * columns = ( (ResultSubset) newValue ) .getColumnIdentifiers( ); if (
-		 * columns != null && !columns.getIdentifiers( ).isEmpty( ) )
-		 * analysisColumnName = columns.getIdentifiers( ).get( 0 ) .getName( );
-		 * newHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
-		 * analysisColumnName ); }
-		 */
+		newValue = axisAttributes.getRelatedColumns( );
+		oldValue = cachedAxisAttributes == null ? null : cachedAxisAttributes
+				.getRelatedColumns( );
+		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		{
+			String analysisColumnName = null;
+			DataElementIdentifiers columns = ( (ResultSubset) newValue )
+					.getColumnIdentifiers( );
+			if ( columns != null && !columns.getIdentifiers( ).isEmpty( ) )
+				analysisColumnName = columns.getIdentifiers( ).get( 0 )
+						.getName( );
+			newHint.setProperty( ColumnHint.ANALYSIS_COLUMN_MEMBER,
+					analysisColumnName );
+		}
+		 
 	}
 
 	/**
@@ -1293,7 +1296,7 @@ class ResultSetsAdapter
 			axisAttrs = designFactory.createAxisAttributes( );
 			axisAttrs.setAxisType( axisType );
 			axisAttrs.setOnColumnLayout( hint.isOnColumnLayout( ) );
-			String analysisColumnName = hint.getColumnName( );
+			String analysisColumnName = hint.getAnalysisColumn( );
 			if ( !StringUtil.isBlank( analysisColumnName ) )
 			{
 				ResultSubset relatedColumns = designFactory

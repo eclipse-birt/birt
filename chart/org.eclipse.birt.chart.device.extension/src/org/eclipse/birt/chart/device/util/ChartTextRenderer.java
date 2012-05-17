@@ -402,7 +402,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i ); 
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -410,7 +410,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth =  textMetrics.getWidth( i ); 
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -478,12 +478,11 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < textMetrics.getLineCount( ); i++ )
 						{
-							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( lineCount
-									- i
-									- 1 );
+							int index = lineCount - i - 1; 
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( index );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index  );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -491,7 +490,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -568,7 +567,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -576,7 +575,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -642,7 +641,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -650,7 +649,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -717,7 +716,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -725,7 +724,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -853,7 +852,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -861,7 +860,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -939,7 +938,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -947,7 +946,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1014,7 +1013,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1022,7 +1021,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1091,7 +1090,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1099,7 +1098,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1167,7 +1166,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1175,7 +1174,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1294,7 +1293,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1302,7 +1301,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1378,7 +1377,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1386,7 +1385,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1448,7 +1447,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1456,7 +1455,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1524,7 +1523,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1532,7 +1531,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1605,7 +1604,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1613,7 +1612,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1743,13 +1742,12 @@ public class ChartTextRenderer extends TextRendererAdapter
 							// TextLayout(textMetrics.getLine(lineCount - i -
 							// 1),
 							// g2d.getFont(), g2d.getFontRenderContext());
-							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( lineCount
-									- i
-									- 1 );
+							int index = lineCount - i - 1;
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( index );
 
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1757,7 +1755,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1899,12 +1897,11 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < textMetrics.getLineCount( ); i++ )
 						{
-							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( lineCount
-									- i
-									- 1 );
+							int index = lineCount - i - 1;
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( index );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1912,7 +1909,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -1986,7 +1983,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -1994,7 +1991,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -2066,7 +2063,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -2074,7 +2071,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -2211,7 +2208,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -2219,7 +2216,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -2287,12 +2284,11 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < textMetrics.getLineCount( ); i++ )
 						{
-							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( lineCount
-									- i
-									- 1 );
+							int index = lineCount - i - 1;
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( index );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -2300,7 +2296,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( index );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -2375,7 +2371,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -2383,7 +2379,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -2449,7 +2445,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -2457,7 +2453,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;
@@ -2524,7 +2520,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ dFullWidth
 										- dWidth
@@ -2532,7 +2528,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dWidth = textLayout.getBounds( ).getWidth( );
+								dWidth = textMetrics.getWidth( i );
 								dXOffset = -insets.getLeft( )
 										+ ( dFullWidth - dWidth )
 										/ 2;

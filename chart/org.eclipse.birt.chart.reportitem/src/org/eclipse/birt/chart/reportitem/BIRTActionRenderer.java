@@ -280,54 +280,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 		else if ( ActionType.SHOW_TOOLTIP_LITERAL.equals( action.getType( ) ) )
 		{
-			TooltipValue tv = (TooltipValue) action.getValue( );
-
-			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
-			{
-				final DataPointHints dph = (DataPointHints) source.getSource( );
-				if ( !dph.isVirtual( ) )
-				{
-					// Output chart variable values directly
-					if ( ScriptHandler.VARIABLE_CATEGORY.equals( tv.getText( ) ) )
-					{
-						tv.setText( dph.getBaseDisplayValue( ) );
-					}
-					else if ( ScriptHandler.VARIABLE_VALUE.equals( tv.getText( ) ) )
-					{
-						tv.setText( dph.getOrthogonalDisplayValue( ) );
-					}
-					else if ( ScriptHandler.VARIABLE_SERIES.equals( tv.getText( ) ) )
-					{
-						tv.setText( dph.getSeriesDisplayValue( ) );
-					}
-					else
-					{
-						// Get evaluated values in other expressions
-						Object value = dph.getUserValue( tv.getText( ) );
-						if ( value instanceof Number )
-						{
-							tv.setText( ChartUtil.getDefaultNumberFormat( )
-									.format( value ) );
-						}
-						else
-						{
-							tv.setText( ChartUtil.stringValue( value ) );
-						}
-					}
-				}
-				else
-				{
-					tv.setText( null );
-				}
-			}
-			else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
-			{
-				LegendItemHints lih = (LegendItemHints) source.getSource( );
-				if ( tv.getText( ) == null || tv.getText( ).equals( "" ) ) //$NON-NLS-1$
-				{
-					tv.setText( lih.getItemText( ) );
-				}
-			}
+			processTooltipAction(action, source);
 		}
 		else if ( ActionType.INVOKE_SCRIPT_LITERAL.equals( action.getType( ) ) )
 		{
@@ -343,6 +296,58 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				cacheScriptEvaluator.put( sv.getScript( ), evaluatResult );
 			}
 			sv.setScript( evaluatResult );
+		}
+	}
+	
+	public static void processTooltipAction ( Action action, StructureSource source )
+	{
+		TooltipValue tv = (TooltipValue) action.getValue( );
+
+		if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
+		{
+			final DataPointHints dph = (DataPointHints) source.getSource( );
+			if ( !dph.isVirtual( ) )
+			{
+				// Output chart variable values directly
+				if ( ScriptHandler.VARIABLE_CATEGORY.equals( tv.getText( ) ) )
+				{
+					tv.setText( dph.getBaseDisplayValue( ) );
+				}
+				else if ( ScriptHandler.VARIABLE_VALUE.equals( tv.getText( ) ) )
+				{
+					tv.setText( dph.getOrthogonalDisplayValue( ) );
+				}
+				else if ( ScriptHandler.VARIABLE_SERIES.equals( tv.getText( ) ) )
+				{
+					tv.setText( dph.getSeriesDisplayValue( ) );
+				}
+				else
+				{
+					// Get evaluated values in other expressions
+					Object value = dph.getUserValue( tv.getText( ) );
+					if ( value instanceof Number )
+					{
+						tv.setText( ChartUtil.getDefaultNumberFormat( )
+								.format( value ) );
+					}
+					else
+					{
+						tv.setText( ChartUtil.stringValue( value ) );
+					}
+				}
+			}
+			else
+			{
+				tv.setText( null );
+			}
+		}
+		else if ( StructureType.LEGEND_ENTRY.equals( source.getType( ) ) )
+		{
+			LegendItemHints lih = (LegendItemHints) source.getSource( );
+			if ( tv.getText( ) == null || tv.getText( ).equals( "" ) ) //$NON-NLS-1$
+			{
+				tv.setText( lih.getItemText( ) );
+			}
 		}
 	}
 

@@ -165,7 +165,8 @@ public class StreamManager
 			if( this.version == 0 && queryResultId != null )
 			{
 				this.version = vm.getLatestVersion();
-				vm.setVersion( this.version, queryResultId );
+				if( this.context.getDocWriter( )!= null )
+					vm.setVersion( this.version, queryResultId );
 			}
 		}
 	}

@@ -110,7 +110,7 @@ public class RowResultSet implements IRowResultSet
 		IResultObject odaObject = null;
 		while ( true )
 		{
-			odaObject = odiAdpater.fetch( );
+			odaObject = fetch( );
 			if ( odaObject == null )
 			{
 				break;
@@ -134,6 +134,11 @@ public class RowResultSet implements IRowResultSet
 
 		return odaObject;
 	}
+	
+	protected IResultObject fetch( ) throws DataException
+	{
+		return odiAdpater.fetch( );
+	}
 
 	/**
 	 * Process onFetchEvent in such a time window that closely after data gotten
@@ -151,6 +156,8 @@ public class RowResultSet implements IRowResultSet
 	{
 		assert resultObject != null;
 		
+		beforeProcessFetchEvent( resultObject, currentIndex );
+		
 		if ( eventList != null )
 		{
 			int size = eventList.size( );
@@ -164,7 +171,21 @@ public class RowResultSet implements IRowResultSet
 			}
 		}
 		
+		afterProcessFetchEvent( resultObject, currentIndex );
+		
 		return true;
+	}
+	
+	protected void beforeProcessFetchEvent( IResultObject resultObject, int currentIndex )
+			throws DataException
+	{
+		// Template method for subclasses
+	}
+
+	protected void afterProcessFetchEvent( IResultObject resultObject, int currentIndex )
+			throws DataException
+	{
+		// Template method for subclasses
 	}
 	
 	/**

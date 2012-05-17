@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
@@ -203,7 +204,8 @@ public class DateTimeCursorTest extends BaseTestCase
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( DateCube.cubeName );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IDimensionDefinition productLineDim1 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension2" );

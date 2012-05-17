@@ -94,6 +94,13 @@ public interface ITextMetrics
 	 * @return A line of text (subset)
 	 */
 	String getLine( int iIndex );
+	
+	/**
+	 * The text's width of associated with a line index.
+	 * @param iIndex
+	 * @return
+	 */
+	double getWidth( int iIndex );
 
 	/**
 	 * Perform a cleanup when this object is not required anymore

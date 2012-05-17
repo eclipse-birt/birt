@@ -1317,6 +1317,7 @@
     <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.right.width" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Member displayNameID="Structure.HighlightRule.border.right.color" name="borderRightColor" since="1.0" type="color"/>
     <Member displayNameID="Structure.HighlightRule.background.color" name="backgroundColor" since="1.0" type="color"/>
+	<Member displayNameID="Structure.HighlightRule.background.image" name="backgroundImage" since="1.0" type="uri"/>
     <Member detailType="DateTimeFormatValue" displayNameID="Structure.HighlightRule.format.dateTime" name="dateTimeFormat" since="1.0" type="structure"/>
     <Member detailType="NumberFormatValue" displayNameID="Structure.HighlightRule.format.number" name="numberFormat" since="1.0" type="structure"/>
     <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" since="1.0" type="choice"/>

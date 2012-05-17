@@ -64,6 +64,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -121,7 +122,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -203,7 +205,8 @@ public class CubeIVTest extends BaseTestCase
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding = new Binding( "grandTotal" );
 		binding.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
@@ -278,7 +281,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -422,7 +426,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -529,7 +534,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -646,7 +652,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -729,7 +736,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -1394,7 +1402,8 @@ public class CubeIVTest extends BaseTestCase
 	private void createSortTestBindings( ICubeQueryDefinition cqd )
 			throws DataException
 	{
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -1882,7 +1891,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -2007,7 +2017,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -2133,7 +2144,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
@@ -2274,7 +2286,8 @@ public class CubeIVTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 		
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
