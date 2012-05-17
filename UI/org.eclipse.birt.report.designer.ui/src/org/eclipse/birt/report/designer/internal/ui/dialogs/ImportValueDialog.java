@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -613,7 +611,6 @@ public class ImportValueDialog extends BaseDialog
 							resultList.add( result );
 						}
 					}
-					Collections.sort( resultList, new AlphabeticallyComparator( ) );
 				}
 				filteValues( );
 			}
@@ -677,10 +674,6 @@ public class ImportValueDialog extends BaseDialog
 			{
 			}
 		}
-		java.util.List<String> itemList = Arrays.asList(selectedList.getItems());
-		Collections.sort(itemList, new AlphabeticallyComparator());
-		selectedList.setItems((String[]) itemList.toArray());
-
 		updateButtons( );
 	}
 

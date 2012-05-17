@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -264,9 +265,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 					{
 						helper.setProperty( HYPERLINK_EXPRESSIONPROVIDER,
 								hyperlinkBuilder.getExpressionProvider( ) );
-						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle.getElementHandle( ) );
+						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle );
 						helper.createContent( parent );
-						helper.update( true );
 						return helper;
 					}
 				}

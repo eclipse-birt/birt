@@ -284,9 +284,11 @@ public class ChartExtensionValueUpdater
 				{
 					if ( refChild instanceof IChartObject )
 					{
-						child = updateFromReference( childName,
-								refChild,
-								eChildParntObj );
+						child = ( (IChartObject) refChild ).copyInstance( );
+						ChartElementUtil.setEObjectAttribute( eChildParntObj,
+								childName,
+								child,
+								false );
 					}
 				}
 				else if ( defChild != null )
@@ -333,17 +335,6 @@ public class ChartExtensionValueUpdater
 				}
 			}
 		}
-	}
-
-	protected Object updateFromReference( String childName, Object refChild,
-			EObject eChildParntObj )
-	{
-		Object child = ( (IChartObject) refChild ).copyInstance( );
-		ChartElementUtil.setEObjectAttribute( eChildParntObj,
-				childName,
-				child,
-				false );
-		return child;
 	}
 
 	private Map<String, EObject> defaultObjCache = new HashMap<String, EObject>( );

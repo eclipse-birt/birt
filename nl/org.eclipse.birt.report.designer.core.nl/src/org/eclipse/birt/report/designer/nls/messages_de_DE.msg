@@ -4305,9 +4305,6 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
-#BookMarkPage
-BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der Zeichen \"A-Z a-z 0-9 - _ : .\". Dies kann zu Problemen während der Laufzeit führen.
-
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4639,9 +4636,8 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
-CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
-CrosstabBindingDialogHelper.calculation.group=Zeitintervall
-CrosstabBindingDialogHelper.recentday.description=Letztes Datum im Zeitintervall
+CrosstabBindingDialogHelper.calculation.labe=Zeit&intervall:
+CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
 CrosstabBindingDialogHelper.thisdate.example.label=Datumswerte im folgenden Format eingeben: jjjj-MM-tt
@@ -4714,11 +4710,6 @@ PasteFormatAction.text=F&ormat einfügen
 #InsertAggregationAction
 InsertAggregationAction.text=&Aggregat
 
-
-###########################################################
-#InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
-
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
@@ -4752,14 +4743,12 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
-GeneralConfigurationBlock.group.defaultThemes=Bibliothek der Standardthemen
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Bibliothek der Standard&themen aktivieren
-GeneralConfigurationBlock.button.text.defaultTheme.include=Standardthemen e&inschließen
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
 GeneralConfigurationBlock.move.binding.prompt=Auff&ordern
+
 
 ###########################################################
 #ResetImageSizeAction

@@ -96,7 +96,6 @@ public class DeleteHandler extends SelectionHandler
 					else if (objs.get( j ) instanceof MeasureGroupHandle)
 					{
 						retValue.addAll(( (MeasureGroupHandle) objs.get( j ) ).getContents( MeasureGroupHandle.MEASURES_PROP )) ;
-						retValue.add( objs.get( j ) );
 					}
 					else
 					{
@@ -107,7 +106,6 @@ public class DeleteHandler extends SelectionHandler
 			else if (obj instanceof MeasureGroupHandle)
 			{
 				retValue.addAll(( (MeasureGroupHandle)obj ).getContents( MeasureGroupHandle.MEASURES_PROP )) ;
-				retValue.add( obj );
 			}
 			else
 			{

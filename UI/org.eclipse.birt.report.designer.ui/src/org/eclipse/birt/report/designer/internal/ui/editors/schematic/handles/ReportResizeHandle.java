@@ -12,10 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportResizeTracker;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Locator;
-import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.handles.ResizeHandle;
 import org.eclipse.gef.handles.SquareHandle;
@@ -28,7 +26,6 @@ import org.eclipse.swt.graphics.Cursor;
 public class ReportResizeHandle extends ResizeHandle
 {
 
-	private DragTracker tracker;
 	/**
 	 * Creates a new ResizeHandle for the given GraphicalEditPart.
 	 * <code>direction</code> is the relative direction from the center of the
@@ -44,7 +41,6 @@ public class ReportResizeHandle extends ResizeHandle
 	public ReportResizeHandle( GraphicalEditPart owner, int direction )
 	{
 		super( owner, direction );
-		tracker = new ReportResizeTracker(getOwner(), direction );
 	}
 
 	/**
@@ -69,11 +65,5 @@ public class ReportResizeHandle extends ResizeHandle
 	{
 		return ( isPrimary( ) ) ? ReportColorConstants.SelctionFillColor
 				: ColorConstants.white;
-	}
-	
-	@Override
-	protected DragTracker createDragTracker( )
-	{
-		return tracker;
 	}
 }

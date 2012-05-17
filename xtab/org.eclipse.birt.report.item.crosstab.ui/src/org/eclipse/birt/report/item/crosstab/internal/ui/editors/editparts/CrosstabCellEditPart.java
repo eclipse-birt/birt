@@ -128,12 +128,9 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 		refreshBorder( getCrosstabCellAdapter( ).getDesignElementHandle( ),
 				cborder );
 		refreshBackground( getCrosstabCellAdapter( ).getDesignElementHandle( ) );
-	
+
 		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
-		if (getCrosstabCellAdapter( ).getDesignElementHandle( ) != null)
-		{
-			setTextAliment(getCrosstabCellAdapter( ).getDesignElementHandle( ).getPrivateStyle()  );
-		}
+
 	}
 
 	/*

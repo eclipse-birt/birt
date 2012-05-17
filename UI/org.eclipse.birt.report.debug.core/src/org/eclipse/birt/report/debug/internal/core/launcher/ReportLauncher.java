@@ -71,7 +71,6 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	private static final Logger logger = Logger.getLogger( ReportLauncher.class.getName( ) );
 
 	private static final String RPTDOC_SUFFIX = "rptdocument"; //$NON-NLS-1$
-	private static final String RPTDOC_SUFFIXA = "RPTDOCUMENT"; //$NON-NLS-1$
 	
 
 	private IReportEngine engine;
@@ -170,11 +169,6 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 	private void initParameters( )
 	{
-		
-		if (getFileName( ).endsWith( "." + RPTDOC_SUFFIX ) || getFileName( ).endsWith( "." + RPTDOC_SUFFIXA ))
-		{
-			return;
-		}
 		if ( allParameters == null )
 		{
 			allParameters = new ArrayList( );

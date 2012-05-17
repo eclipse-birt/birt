@@ -89,7 +89,7 @@ public class JDBCSelectionPageHelper
 	private String DEFAULT_MESSAGE;
 
 	// constant string
-	final private static String EMPTY_DRIVER_CLASS_OR_URL = JdbcPlugin.getResourceString( "error.emptyDriverclassOrURL" );//$NON-NLS-1$
+	final private static String EMPTY_URL = JdbcPlugin.getResourceString( "error.emptyDatabaseUrl" );//$NON-NLS-1$
 
 	private final String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
 
@@ -570,20 +570,6 @@ public class JDBCSelectionPageHelper
 	 */
 	private void addControlListeners( )
 	{
-		driverChooserCombo.getCombo( ).addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				if ( !driverChooserCombo.getCombo( ).isFocusControl( )
-						&& driverChooserCombo.getCombo( ).getText( ).trim( ).length( ) == 0 )
-				{
-					return;
-				}
-				verifyJDBCProperties( );
-				updateTestButton( );
-			}
-		} );
-		
 		jdbcUrl.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -823,20 +809,11 @@ public class JDBCSelectionPageHelper
 	 */
 	private void updateTestButton( )
 	{
-		// Jdbc Url cannot be blank
-		if ( isDriverClassBlank( ) || isURLBlank( ) )
+		if ( isDriverClassBlank( ) || ( isURLBlank( ) && isJNDIBlank( ) ) )
 		{
-			if( isJNDIBlank( ) )
-			{
-				setMessage( EMPTY_DRIVER_CLASS_OR_URL, IMessageProvider.ERROR );
-				testButton.setEnabled( false );
-			}
-			else
-			{
-				setMessage( DEFAULT_MESSAGE );
-				if ( !testButton.isEnabled( ) )
-					testButton.setEnabled( true );
-			}
+			// Jdbc Url cannot be blank
+			setMessage( EMPTY_URL, IMessageProvider.ERROR );
+			testButton.setEnabled( false );
 		}
 		else
 		{
@@ -851,28 +828,20 @@ public class JDBCSelectionPageHelper
 	 */
 	protected void resetTestAndMngButton( )
 	{
-		updateTestButton( );
-		manageButton.setEnabled( true );
-		enableParent( manageButton );
-	}
-
-	private void verifyJDBCProperties( )
-	{
-		if ( isDriverClassBlank( ) || isURLBlank( ) )
+		if ( isURLBlank( ) && isJNDIBlank( ) )
 		{
-			if ( !isJNDIBlank( ) )
-			{
-				setPageComplete( true );
-			}
-			else
-			{
-				setPageComplete( false );
-			}
+			// Jdbc Url cannot be blank
+			setMessage( EMPTY_URL, IMessageProvider.ERROR );
+			testButton.setEnabled( false );
 		}
 		else
 		{
-			setPageComplete( true );
+			setMessage( DEFAULT_MESSAGE );
+			if ( !testButton.isEnabled( ) )
+				testButton.setEnabled( true );
 		}
+		manageButton.setEnabled( true );
+		enableParent( manageButton );
 	}
 
 	/**
@@ -890,6 +859,25 @@ public class JDBCSelectionPageHelper
 			parent.setEnabled( true );
 		}
 		enableParent( parent );
+	}
+
+	private void verifyJDBCProperties( )
+	{
+		if ( !isDriverClassBlank( ) )
+		{
+			if ( !isJNDIBlank( ) )
+			{
+				setPageComplete( true );
+			}
+			else if ( !isURLBlank( ) )
+			{
+				setPageComplete( true );
+			}
+			else
+				setPageComplete( false );
+		}
+		else
+			setPageComplete( false );
 	}
 
 	/**

@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -1818,7 +1819,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		returnObj[0] = Boolean.FALSE;
 		String columnName = exprCodec.getBindingName( );
 
-		Iterator<ComputedColumnHandle> iterator = ChartItemUtil.getAllColumnBindingsIterator( itemHandle );
+		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = iterator.next( );

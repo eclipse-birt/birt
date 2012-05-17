@@ -216,11 +216,6 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		return this.attributeDataTypes[levelIndex][getLevelAttributeIndex( level,
 				attributeName )];
 	}
-	
-	public void setLength( int length)
-	{
-		this.length = length;
-	}
 
 	/*
 	 * (non-Javadoc)

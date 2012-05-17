@@ -146,10 +146,51 @@ public class TableCellEditPart extends AbstractCellEditPart
 
 		( (CellBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( ist );
 
-		setTextAliment( ( (CellHandle) getModel( ) ).getPrivateStyle( ) );
+		StyleHandle style = ( (CellHandle) getModel( ) ).getPrivateStyle( );
+
+		String hAlign = style.getTextAlign( );
+		String vAlign = style.getVerticalAlign( );
+
+		ReportFlowLayout rflayout = (ReportFlowLayout) getFigure( )
+				.getLayoutManager( );
+
+		if ( DesignChoiceConstants.TEXT_ALIGN_CENTER.equals( hAlign ) )
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_CENTER );
+		}
+		else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( hAlign ) 
+				&& !this.getFigure( ).isMirrored( ) ) // bidi_hcg
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( hAlign ) 
+				&& this.getFigure( ).isMirrored( ) ) // bidi_hcg
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
+		}
+
+		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_CENTER );
+		}
+		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else
+		{
+			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
+		}
+
 
 		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils
 				.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
+
+		rflayout.layout( getFigure( ) );
 
 		updateBlankString( );
 

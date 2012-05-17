@@ -31,7 +31,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.LibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportMultiBookPage.EmptyPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IResourceEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.EditorContributorManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
@@ -733,8 +732,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 
 		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage
-				|| outlinePage.getCurrentPage( ) == null 
-				|| outlinePage.getCurrentPage( ) instanceof EmptyPage )
+				|| outlinePage.getCurrentPage( ) == null )
 		{
 			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
 		}

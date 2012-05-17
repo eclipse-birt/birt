@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -56,7 +55,6 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
 	private static final String ICON = "/icons/obj16/relativetime.gif"; //$NON-NLS-1$
 	private MeasureViewHandle measureViewHandle;
-	private CrosstabReportItemHandle reportHandle;
 	public AddRelativeTimePeriodAction( Object selectedObject )
 	{
 		super( selectedObject );
@@ -68,6 +66,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	
 	public void run( )
 	{ 
+		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
 		reportHandle.getModuleHandle( ).getCommandStack( ).startTrans(  Messages.getString("AddRelativeTimePeriodAction_trans_label") ); //$NON-NLS-1$
 //		AddRelativeTimePeriodDialog computedSummaryDialog = new AddRelativeTimePeriodDialog(UIUtil.getDefaultShell( ), "Add Relative TimeP eriod");
 //		computedSummaryDialog.setBindingHolder( (ReportItemHandle)reportHandle.getModelHandle( ) );
@@ -78,7 +77,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		dialog.setTimePeriod( true );
 		if(dialog.open( ) == Dialog.OK)
 		{			
-			int index = caleIndex( );
+			int index = reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
 			
 			try
 			{
@@ -139,30 +138,16 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		{
 			return false;
 		}
-		if (extendedHandle.getExtensionName( ).equals( "Crosstab" ))
-		{
-			try
-			{
-				reportHandle = (CrosstabReportItemHandle)extendedHandle.getReportItem( );
-			}
-			catch ( ExtendedElementException e )
-			{
-				return false;
-			}
-		}
-		else
-		{
-			measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-			if ( measureViewHandle == null )
-			{
-				return false;
-			}
-			reportHandle = measureViewHandle.getCrosstab( );
-		}
-		if (DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) ))
+		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+		if ( measureViewHandle == null )
 		{
 			return false;
 		}
+		if (DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) ))
+		{
+			return false;
+		}
+		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
 		CubeHandle cube = reportHandle.getCube( );
 		if (cube == null)
 		{
@@ -210,18 +195,6 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 			}
 		}
 		return false;
-	}
-	
-	private int caleIndex()
-	{
-		if (measureViewHandle != null)
-		{
-			return reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
-		}
-		else
-		{
-			return reportHandle.getAllMeasures().size( );
-		}
 	}
 
 }

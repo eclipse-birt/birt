@@ -148,25 +148,12 @@ public class ParameterUtility
 					{
 						if ( DataUtil.contain( (List<?>)defaultValues, displayValue, true ) )
 						{
-							parameterBean.setDefaultValueInList( true );
-							
-							// remove current value from the defaultvalues list
-							
-							defaultValues.remove(displayValue);
-							
+							parameterBean.setDefaultValueInList( true );							
 						}
 					}
-					// if it is a single default value
 					else if ( DataUtil.equals( displayValue, parameterBean.getDefaultValue( ) ) )
 					{
 						parameterBean.setDefaultValueInList( true );
-						
-						// remove current value from the defaultvalues list
-						//If the default values is one, the defaultValues is null
-						if (defaultValues != null)
-						{
-							defaultValues.remove(displayValue);
-						}
 					}
 				}
 			}
@@ -183,17 +170,6 @@ public class ParameterUtility
 											.getDisplayText( ), parameterBean
 											.getValue( ) ) );
 					isDisplayTextInList = true;
-				}
-				
-				// handle multiple default values
-				if ( defaultValues != null && defaultValues.size() > 0 )
-				{
-					for (int i = 0; i < defaultValues.size(); i++)
-					{
-						// add these default values which are not in the selectionList as string values, 
-						// for those values have already been evaluated and are of string type.
-						processedList.add(i, new ParameterSelectionChoice( defaultValues.get(i), defaultValues.get(i) ) );
-					}
 				}
 	
 				parameterBean.setDisplayTextInList( isDisplayTextInList );

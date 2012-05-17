@@ -28,8 +28,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.draw2d.FlowLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -142,36 +140,34 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 					if ( OlapUtil.getDataField( hierarchy.getDataSet( ),
 							joinCondition.getHierarchyKey( ) ) != null )
 					{
-						List columnList = new ArrayList( );
-
-						TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
-								.toArray( new TabularLevelHandle[0] );
-						if ( levels != null )
+						List columnList = null;
+						try
 						{
-							for ( int i = 0; i < levels.length; i++ )
-							{
-								ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField( hierarchy.getDataSet( ),
-										levels[i].getColumnName( ) );
-								if ( resultSetColumn != null
-										&& !columnList.contains( resultSetColumn ) )
-									columnList.add( resultSetColumn );
-							}
+							columnList = DataUtil.getColumnList( hierarchy.getDataSet( ) );
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
 						}
 
-						for ( int i = 0; i < columnList.size( ); i++ )
+						if ( columnList != null )
 						{
-							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
-
-							if ( resultSetColumn != null
-									&& resultSetColumn.getColumnName( ) != null
-									&& resultSetColumn.getColumnName( )
-											.equals( joinCondition.getHierarchyKey( ) ) )
+							for ( int i = 0; i < columnList.size( ); i++ )
 							{
-								targetjoins.add( joinCondition );
-								break;
+								ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
+
+								if ( resultSetColumn != null
+										&& resultSetColumn.getColumnName( ) != null
+										&& resultSetColumn.getColumnName( )
+												.equals( joinCondition.getHierarchyKey( ) ) )
+								{
+									targetjoins.add( joinCondition );
+									break;
+								}
 							}
 						}
 					}
+
 				}
 			}
 		}

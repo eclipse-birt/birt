@@ -112,7 +112,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -2964,24 +2963,5 @@ public class UIUtil
 		}
 
 		return null;
-	}
-	
-	/**Gets the object from the context through the key.If the value is a Object return null.
-	 * @param context
-	 * @param key
-	 * @return
-	 */
-	public static Object getVariableFromContext(IEvaluationContext context, String key)
-	{
-		Object retValue = context.getVariable( key );
-		if (retValue == null)
-		{
-			return null;
-		}
-		if (retValue.getClass( ).getName( ).equals( "java.lang.Object" ))
-		{
-			retValue = null;
-		}
-		return retValue;
 	}
 }

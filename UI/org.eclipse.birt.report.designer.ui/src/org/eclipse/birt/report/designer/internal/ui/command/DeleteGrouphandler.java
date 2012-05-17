@@ -4,7 +4,6 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -28,14 +27,14 @@ public class DeleteGrouphandler extends SelectionHandler
 		ReportElementEditPart editPart = null;
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj =UIUtil.getVariableFromContext( context, ICommandParameterNameContants.DELETE_GROUP_HANDLE );
+		Object obj = context.getVariable( ICommandParameterNameContants.DELETE_GROUP_HANDLE );
 		if ( ( obj == null ) || ( !( obj instanceof GroupHandle ) ) )
 		{
 			return Boolean.FALSE;
 		}
 		handle = (GroupHandle) obj;
 
-		obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.DELETE_GROUP_EDIT_PART );
+		obj = context.getVariable( ICommandParameterNameContants.DELETE_GROUP_EDIT_PART );
 		if ( ( obj == null ) || ( !( obj instanceof ReportElementEditPart ) ) )
 		{
 			return Boolean.FALSE;

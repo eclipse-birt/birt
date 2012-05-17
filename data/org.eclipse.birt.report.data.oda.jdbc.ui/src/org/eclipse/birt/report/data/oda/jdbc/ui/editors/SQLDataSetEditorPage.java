@@ -123,8 +123,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Button includeSchemaCheckBox = null;
 	private DataSetDesign dataSetDesign;
 	private Exception prepareException = null;
-	private Group sqlOptionGroup = null;
-	private Group selectTableGroup = null;
 
 	private static String DEFAULT_MESSAGE = JdbcPlugin.getResourceString( "dataset.new.query" );//$NON-NLS-1$	
 
@@ -143,10 +141,6 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	String metadataBidiFormatStr = null; // bidi_hcg
 	
 	private boolean continueConnect = true;
-	
-	private static final int DB_OBJECT_TREE_HEIGHT_MIN = 150;
-	private static final int DB_OBJECT_TREE_WIDTH_MIN = 200;
-			
 
 	/**
 	 * constructor
@@ -424,28 +418,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	private void computeSize( )
 	{
-		if ( this.getShell( ) != null )
-		{
-			availableDbObjectsTree.setBounds( availableDbObjectsTree.getBounds( ).x,
-					availableDbObjectsTree.getBounds( ).y,
-					this.getShell( ).getSize( ).x / 3,
-					this.getShell( ).getSize( ).y / 4 );
-			sComposite.setMinSize( max( this.getShell( ).getSize( ).x / 3 - 30,
-					DB_OBJECT_TREE_WIDTH_MIN ),
-					max( this.getShell( ).getSize( ).y / 4,
-							DB_OBJECT_TREE_HEIGHT_MIN )
-							+ selectTableGroup.getBounds( ).height
-							+ sqlOptionGroup.getBounds( ).height + 30 );
-			tablescomposite.layout( );
-		}
-
+		sComposite.setMinSize( tablescomposite.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+		tablescomposite.layout( );
 	}
 	
-	private int max( double d, double b )
-	{
-		return (int) Math.max( d, b );
-	}
-
 	private void createDBObjectTree( Composite tablescomposite )
 	{
 		// Available Items
@@ -457,7 +433,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		availableDbObjectsTree = new Tree( tablescomposite, SWT.BORDER
 				| SWT.MULTI );
 		GridData treeData = new GridData( GridData.FILL_BOTH );
-		treeData.minimumHeight = DB_OBJECT_TREE_HEIGHT_MIN;
+		treeData.minimumHeight = 150;
 		availableDbObjectsTree.setLayoutData( treeData );
 
 		availableDbObjectsTree.addMenuDetectListener( new MenuDetectListener( ) {
@@ -508,7 +484,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	{
 		// Group for selecting the Tables etc
 		// Searching the Tables and Views
-		selectTableGroup = new Group( tablescomposite, SWT.FILL );
+		Group selectTableGroup = new Group( tablescomposite, SWT.FILL );
 
 		GridLayout groupLayout = new GridLayout( );
 		groupLayout.numColumns = 3;
@@ -647,7 +623,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 	private void createSQLOptionGroup( Composite tablescomposite )
 	{
-		sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
+		Group sqlOptionGroup = new Group( tablescomposite, SWT.FILL );
 		sqlOptionGroup.setText( JdbcPlugin.getResourceString( "tablepage.group.title" ) ); //$NON-NLS-1$
 		GridLayout sqlOptionGroupLayout = new GridLayout( );
 		sqlOptionGroupLayout.verticalSpacing = 10;

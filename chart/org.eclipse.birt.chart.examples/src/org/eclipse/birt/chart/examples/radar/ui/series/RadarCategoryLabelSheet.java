@@ -99,7 +99,7 @@ public class RadarCategoryLabelSheet extends AbstractPopupSheet implements
 		LabelAttributesContext clattributesContext = new LabelAttributesContext( );
 		clattributesContext.isPositionEnabled = false;
 		clattributesContext.isFontAlignmentEnabled = false;
-		clattributesContext.isVisibilityEnabled = false;
+		clattributesContext.isVisibilityEnabled = getContext().getUIFactory( ).canEnableUI( btnCatLabels );
 		if ( series.getCatLabel( ) == null )
 		{
 			org.eclipse.birt.chart.model.component.Label lab = LabelImpl.create( );

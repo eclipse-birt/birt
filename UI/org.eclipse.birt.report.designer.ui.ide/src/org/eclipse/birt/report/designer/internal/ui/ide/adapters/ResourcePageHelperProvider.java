@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.ui.preferences.ResourceConfigurationBlock;
-import org.eclipse.birt.report.designer.ui.preferences.TemplateConfigurationBlock;
-import org.eclipse.swt.SWT;
 
 /**
  * 
@@ -32,24 +30,22 @@ public class ResourcePageHelperProvider implements IDialogHelperProvider
 	 */
 	public IDialogHelper createHelper( Object container, String helperKey )
 	{
+		if ( canCreateHelper( container, helperKey ) )
+		{
+			return new IDEResourcePageHelper( );
+		}
+		return null;
+	}
+
+	private boolean canCreateHelper( Object container, String helperKey )
+	{
 		if ( container instanceof ResourceConfigurationBlock )
 		{
 			if ( ResourceConfigurationBlock.BUTTON_KEY.equals( helperKey ) )
 			{
-				return new IDEResourcePageHelper( );
+				return true;
 			}
 		}
-		else if (container instanceof TemplateConfigurationBlock)
-		{
-			if ( TemplateConfigurationBlock.BUTTON_KEY.equals( helperKey ) )
-			{
-				IDEResourcePageHelper helper = new IDEResourcePageHelper();
-				helper.setButtonLabels( new String[]{ IDEResourcePageHelper.FILESYSTEM_BUTTON, IDEResourcePageHelper.VARIABLES_BUTTON} );
-				//helper.setButonAlignment( SWT.BEGINNING );
-				return helper;
-			}
-		}
-		
-		return null;
+		return false;
 	}
 }

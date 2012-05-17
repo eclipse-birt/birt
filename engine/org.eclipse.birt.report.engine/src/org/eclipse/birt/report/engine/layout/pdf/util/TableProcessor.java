@@ -324,7 +324,6 @@ public class TableProcessor implements HTMLConstants
 	{
 
 		private int columnCount;
-		private int MaxRowSpanCount;
 
 		public RowState( Element element,
 				Map<Element, StyleProperties> cssStyles, IContent parent,
@@ -353,23 +352,8 @@ public class TableProcessor implements HTMLConstants
 						content, action );
 				cellState.processNodes( );
 				columnCount += cellState.getColSpan( );
-				if(cellState.getRowSpan( )>MaxRowSpanCount)  MaxRowSpanCount = cellState.getRowSpan( );
-			
-				
 			}
-			columnCount += getMaxRowSpanCountToColumnCount( );
 		}
-        
-		
-		
-		private int getMaxRowSpanCountToColumnCount( )
-		{
-			if(MaxRowSpanCount>1)
-				return MaxRowSpanCount-1;
-			else
-				return 0;
-		}
-
 
 		public int getColumnCount( )
 		{
@@ -405,11 +389,6 @@ public class TableProcessor implements HTMLConstants
 		public int getColSpan( )
 		{
 			return cell.getColSpan( );
-		}
-
-		public int getRowSpan( )
-		{
-			return cell.getRowSpan( );
 		}
 	}
 

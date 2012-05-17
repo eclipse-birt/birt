@@ -265,12 +265,11 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	public void setAction( String actionID, IAction action )
 	{
 		super.setAction( actionID, action );
-		if ( action != null && action.getId( ) == null )
+		if ( action.getId( ) == null )
 		{
 			action.setId( actionID );
 		}
-		if ( action != null )
-			getActionRegistry( ).registerAction( action );
+		getActionRegistry( ).registerAction( action );
 	}
 
 	/*

@@ -112,14 +112,14 @@ public class TableUtil
 	 */
 	private static boolean isInTable( EditPart child )
 	{
-		if ( child instanceof AbstractCellEditPart )
+		if ( child instanceof TableCellEditPart )
 		{
 			return false;
 		}
 		EditPart part = child.getParent( );
 		while ( part != null )
 		{
-			if ( part instanceof AbstractCellEditPart )
+			if ( part instanceof TableCellEditPart )
 			{
 				return true;
 			}

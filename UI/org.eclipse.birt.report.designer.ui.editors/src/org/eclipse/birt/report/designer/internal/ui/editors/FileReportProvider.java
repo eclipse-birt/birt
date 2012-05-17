@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizard;
 import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAsWizardDialog;
@@ -117,10 +116,6 @@ public class FileReportProvider implements IReportProvider
 							designerVersion );
 					properties.put( IModuleOption.CREATED_BY_KEY,
 							designerVersion );
-					if (fileName.endsWith( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ))
-					{
-						properties.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, false );
-					}
 					String projectFolder = getProjectFolder( (IPathEditorInput) element );
 					if ( projectFolder != null )
 					{

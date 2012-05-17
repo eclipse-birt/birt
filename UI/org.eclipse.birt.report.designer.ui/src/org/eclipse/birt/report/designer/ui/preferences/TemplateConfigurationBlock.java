@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.util.PixelConverter;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -27,9 +24,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
@@ -40,7 +35,6 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock
 
 	private final Key PREF_TEMPLATE = getReportKey( ReportPlugin.TEMPLATE_PREFERENCE );
 	private PixelConverter fPixelConverter;
-	public static final String BUTTON_KEY = "buttons";//$NON-NLS-1$
 
 	public TemplateConfigurationBlock( IStatusChangeListener context,
 			IProject project )
@@ -121,58 +115,33 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock
 				PREF_TEMPLATE,
 				0,
 				0 );
-		
-		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
-				IDialogHelperProvider.class );
-		IDialogHelper controlTypeHelper = null;
-		if ( helperProvider != null )
-		{
-			controlTypeHelper = helperProvider.createHelper( this, BUTTON_KEY );
-		}
+		new Label( pageContent, SWT.NONE );
+		Button browser = new Button( pageContent, SWT.PUSH );
+		browser.setText( BROWSER_BUTTON );
+		data = new GridData( );
+		browser.setLayoutData( data );
+		browser.addSelectionListener( new SelectionAdapter( ) {
 
-		if ( controlTypeHelper != null )
-		{
-			controlTypeHelper.setContainer( this );
-			controlTypeHelper.createContent( pageContent );
+			public void widgetSelected( SelectionEvent event )
+			{
+				DirectoryDialog dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ) );
 
-			controlTypeHelper.addListener( SWT.Selection, new Listener( ) {
-
-				public void handleEvent( Event event )
+				dialog.setText( OPEN_DIALOG_TITLE );
+				String folderName = dialog.open( );
+				if ( folderName == null )
 				{
-					resourceText.setText( event.text );
+					return;
 				}
-			} );
-		}
-		else
-		{
-			new Label( pageContent, SWT.NONE );
-			Button browser = new Button( pageContent, SWT.PUSH );
-			browser.setText( BROWSER_BUTTON );
-			data = new GridData( );
-			browser.setLayoutData( data );
-			browser.addSelectionListener( new SelectionAdapter( ) {
-	
-				public void widgetSelected( SelectionEvent event )
+				folderName = folderName.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$ 
+				if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$ 
 				{
-					DirectoryDialog dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ) );
-	
-					dialog.setText( OPEN_DIALOG_TITLE );
-					String folderName = dialog.open( );
-					if ( folderName == null )
-					{
-						return;
-					}
-					folderName = folderName.replace( '\\', '/' ); //$NON-NLS-1$ //$NON-NLS-2$ 
-					if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$ 
-					{
-						folderName = folderName + "/"; //$NON-NLS-1$ 
-					}
-					resourceText.setText( folderName );
+					folderName = folderName + "/"; //$NON-NLS-1$ 
 				}
-			} );
-		}
+				resourceText.setText( folderName );
+			}
+		} );
 		return pageContent;
 	}
 }

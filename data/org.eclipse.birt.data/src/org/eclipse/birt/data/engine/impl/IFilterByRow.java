@@ -32,9 +32,4 @@ public interface IFilterByRow extends IResultObjectEvent
 	 * @throws DataException If any error occurs.
 	 */
 	void setWorkingFilterSet( int filterSetType ) throws DataException;
-
-	/**
-	 * Close IFilterByRow and release allocated resources.
-	 */
-	void close( ) throws DataException;
 }

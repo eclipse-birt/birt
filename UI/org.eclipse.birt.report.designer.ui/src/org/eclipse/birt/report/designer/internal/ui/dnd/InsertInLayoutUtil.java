@@ -552,10 +552,6 @@ public class InsertInLayoutUtil
 					else
 					{
 						DNDUtil.addElementHandle( positions[i], newObj );
-						if (newObj instanceof DesignElementHandle)
-						{
-							DEUtil.setDefaultTheme( (DesignElementHandle)newObj );
-						}
 					}
 				}
 			}

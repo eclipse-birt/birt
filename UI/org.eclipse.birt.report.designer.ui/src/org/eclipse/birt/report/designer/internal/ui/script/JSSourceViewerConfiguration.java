@@ -41,7 +41,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 {
 
 	private RuleBasedScanner scanner;
-	protected JSSyntaxContext context;
+	private JSSyntaxContext context;
 	private IPreferenceStore preferenceStore;
 	private Color foregroundColor;
 

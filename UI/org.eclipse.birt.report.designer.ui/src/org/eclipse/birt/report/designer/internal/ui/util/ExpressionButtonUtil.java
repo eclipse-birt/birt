@@ -128,12 +128,12 @@ public class ExpressionButtonUtil
 			}
 		}
 
-		public void setProvider( IExpressionProvider provider )
+		protected void setProvider( IExpressionProvider provider )
 		{
 			this.provider = provider;
 		}
 
-		public IExpressionProvider getProvider( )
+		protected IExpressionProvider getProvider( )
 		{
 			return provider;
 		}
@@ -158,7 +158,7 @@ public class ExpressionButtonUtil
 			return contextObject;
 		}
 
-		public void setContextObject( Object contextObject )
+		protected void setContextObject( Object contextObject )
 		{
 			this.contextObject = contextObject;
 		}

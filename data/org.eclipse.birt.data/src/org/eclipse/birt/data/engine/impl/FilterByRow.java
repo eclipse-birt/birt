@@ -25,7 +25,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompareHints;
-import org.eclipse.birt.data.engine.expression.ExprEvaluator;
+import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.FilterUtil;
@@ -59,15 +59,10 @@ public class FilterByRow implements IFilterByRow
 	private FilterByRowHelper allRowFilters;
 	private FilterByRowHelper aggrFilters;
 	private FilterByRowHelper noUpdateRowFilters;
-	
-	private final ExprEvaluator exprEvaluator;
 
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
 
-	FilterByRow ( )
-	{ 
-		exprEvaluator = new ExprEvaluator( );
-	}
+	FilterByRow ( ){ }
 	
 	/**
 	 * 
@@ -79,7 +74,6 @@ public class FilterByRow implements IFilterByRow
 	FilterByRow( List<IFilterDefinition> dataSetFilters, List<IFilterDefinition> queryFilters, List<IFilterDefinition> groupFilters,
 			List<IFilterDefinition> aggrFilters, List<IFilterDefinition> dataSetAggrFilters, List<IFilterDefinition> noUpdateRowFilters, DataSetRuntime dataSet ) throws DataException
 	{
-		this( );
 		Object[] params = {
 				dataSetFilters, queryFilters, groupFilters, dataSet
 		};
@@ -304,13 +298,8 @@ public class FilterByRow implements IFilterByRow
 			assert false;
 		}
 	}
-	
-	public void close( )
-	{
-		this.exprEvaluator.close( );
-	}
 
-	private class FilterByRowHelper
+	private static class FilterByRowHelper
 	{
 
 		private DataSetRuntime dataSet;
@@ -370,7 +359,7 @@ public class FilterByRow implements IFilterByRow
 						 * cx,dataSet.getScriptScope(), "Filter", 0 );
 						 */
 						if ( expr instanceof IConditionalExpression )
-							result = exprEvaluator.evaluateConditionExpression( (IConditionalExpression) expr,
+							result = ExprEvaluateUtil.evaluateConditionExpression( (IConditionalExpression) expr,
 									dataSet.getScriptScope( ),
 									true,
 									dataSet.getSession( )
@@ -379,7 +368,7 @@ public class FilterByRow implements IFilterByRow
 									compareHints,
 									dataSet );
 						else
-							result = exprEvaluator.evaluateRawExpression2( expr,
+							result = ExprEvaluateUtil.evaluateRawExpression2( expr,
 									dataSet.getScriptScope( ),
 									dataSet.getSession( )
 											.getEngineContext( )

@@ -43,7 +43,6 @@ import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
-import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
@@ -67,14 +66,10 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.SubActionBars;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 import org.eclipse.ui.menus.IMenuService;
@@ -180,34 +175,6 @@ public class DesignerActionBarContributor extends
 	 */
 	public static final String M_DATA = "birtData"; //$NON-NLS-1$
 
-	 private IPropertyChangeListener propertyChangeListener = new IPropertyChangeListener() {
-	        public void propertyChange(PropertyChangeEvent event) {
-	        	RegisterAction[] actions = getInsertElementActions( );
-	        	if (actions != null)
-	        	{
-	        		for (int i=0; i<actions.length; i++)
-	        		{
-	        			if (event.getProperty().equals(SubActionBars.P_ACTION_HANDLERS)) 
-	        			{
-	        	           if (getAction( actions[i].id ) instanceof ReportRetargetAction)
-	        	           {
-	        	        	   ((ReportRetargetAction)getAction( actions[i].id )).propagateChange( event );
-	        	           }
-	        			}
-	        		}
-	        	}
-	        }
-	    };
-	public void init( IActionBars bars )
-	{
-		super.init( bars );
-		if (bars instanceof SubActionBars)
-		{
-			((SubActionBars)bars).addPropertyChangeListener( propertyChangeListener );
-		}
-	}
-	
-	
 	/*
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
 	 */
@@ -257,8 +224,6 @@ public class DesignerActionBarContributor extends
 				ImportLibraryAction.ACTION_TEXT ) );
 		addRetargetAction( new RetargetAction( InsertAggregationAction.ID,
 				InsertAggregationAction.TEXT ) );
-		addRetargetAction( new RetargetAction( InsertRelativeTimePeriodAction.ID,
-				InsertRelativeTimePeriodAction.TEXT ) );
 	}
 
 	/**
@@ -336,22 +301,9 @@ public class DesignerActionBarContributor extends
 		for ( int i = 0; i < actions.length; i++ )
 		{
 			if ( actions[i] != null )
-				addRetargetAction( new ReportRetargetAction( actions[i].id,
+				addRetargetAction( new RetargetAction( actions[i].id,
 						actions[i].displayName,
 						actions[i].style ) );
-		}
-	}
-	
-	private static class ReportRetargetAction extends RetargetAction
-	{
-		public ReportRetargetAction( String actionID, String text, int style )
-		{
-			super( actionID, text, style );
-		}
-
-		public void propagateChange( PropertyChangeEvent event )
-		{
-			super.propagateChange( event );
 		}
 	}
 
@@ -416,7 +368,6 @@ public class DesignerActionBarContributor extends
 		contributeActionsToMenu( insertMenu, getInsertElementActions( ) );
 		insertMenu.add( new Separator( ) );
 		insertMenu.add( getAction( InsertAggregationAction.ID ) );
-		insertMenu.add( getAction( InsertRelativeTimePeriodAction.ID ) );
 		insertMenu.add( new Separator( ) );
 		// insertMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );
@@ -527,10 +478,7 @@ public class DesignerActionBarContributor extends
 		{
 			if ( actions[i] != null )
 			{
-				IAction action = getAction( actions[i].id );
-				
-				menu.add( action );
-				
+				menu.add( getAction( actions[i].id ) );
 			}
 			else
 			{
@@ -646,10 +594,6 @@ public class DesignerActionBarContributor extends
 		if (toggleBreadcrumbAction != null)
 		{
 			toggleBreadcrumbAction.dispose( );
-		}
-		if (getActionBars( ) instanceof SubActionBars)
-		{
-			((SubActionBars)getActionBars( )).removePropertyChangeListener( propertyChangeListener );
 		}
 		super.dispose( );
 	}

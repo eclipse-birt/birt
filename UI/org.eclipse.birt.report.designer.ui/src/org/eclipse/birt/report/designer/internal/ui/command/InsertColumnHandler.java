@@ -19,7 +19,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -42,7 +41,7 @@ public class InsertColumnHandler extends SelectionHandler
 		super.execute( event );
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object position = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_COLUMN_POSITION );
+		Object position = context.getVariable( ICommandParameterNameContants.INSERT_COLUMN_POSITION );
 		int intPos = -1;
 		if ( position instanceof Integer )
 		{

@@ -62,36 +62,28 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
 		IAction action = new RefreshAction( sourceViewer );
-		if ( action.isEnabled( ) )
+		if (action.isEnabled( ))
 		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS
-					+ "-refresh", action ); //$NON-NLS-1$
+			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action ); //$NON-NLS-1$
 		}
 	}
 
-	public Object getParent( Object model )
-	{
+	public Object getParent(Object model){
 		MeasureHandle measure = (MeasureHandle) model;
 		return measure.getContainer( );
 	}
-
+	
 	public String getNodeDisplayName( Object model )
 	{
 		MeasureHandle handle = (MeasureHandle) model;
-		if ( handle.getDisplayName( ) != null
-				&& handle.getDisplayName( ).trim( ).length( ) > 0 )
-		{
-			return handle.getDisplayName( );
-		}
 		return handle.getName( );
 	}
+
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
-	 * #hasChildren(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#hasChildren(java.lang.Object)
 	 */
 	public boolean hasChildren( Object object )
 	{
@@ -101,17 +93,15 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
-	 * getNodeDisplayName(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
 	 */
 	protected boolean performEdit( ReportElementHandle handle )
 	{
 		MeasureHandle measureHandle = (MeasureHandle) handle;
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ),
-				(TabularCubeHandle) measureHandle.getContainer( )
-						.getContainer( ) );
+				.getActiveShell( ), (TabularCubeHandle) measureHandle.getContainer( )
+				.getContainer( ) );
 		dialog.showPage( CubeBuilder.GROUPPAGE );
 		return dialog.open( ) == Dialog.OK;
 	}

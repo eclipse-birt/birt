@@ -39,10 +39,10 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	 * presentation wrapper class for expression script objects.
 	 */
 	// private static IExpressionProvider provider = new ExpressionProvider( );
-	protected JSSyntaxContext context;
+	private JSSyntaxContext context;
 
-	protected String currentWord = ""; //$NON-NLS-1$
-	protected String currentExpressionStr = ""; //$NON-NLS-1$
+	private String currentWord = ""; //$NON-NLS-1$
+	private String currentExpressionStr = ""; //$NON-NLS-1$
 	private JSExpression currentExpression;
 
 	public JSCompletionProcessor( JSSyntaxContext context )
@@ -122,7 +122,8 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 			// can not cache last expression, because context may be
 			// changed.
 			this.currentExpressionStr = expression;
-			this.currentExpression = createJSExpression( );
+			this.currentExpression = new JSExpression( context,
+					currentExpressionStr );
 			// }
 			return getCompletionProposals( currentExpression.getReturnType( ),
 					offset );
@@ -132,12 +133,6 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 			// ignore
 		}
 		return null;
-	}
-
-	protected JSExpression createJSExpression( )
-	{
-		return new JSExpression( context,
-				currentExpressionStr );
 	}
 
 	/**
@@ -222,7 +217,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 		return null;
 	}
 
-	protected CompletionProposal[] getCompletionProposals(
+	private CompletionProposal[] getCompletionProposals(
 			JSObjectMetaData[] metas, int offset )
 	{
 		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
@@ -247,7 +242,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 		return proposals.toArray( new CompletionProposal[proposals.size( )] );
 	}
 
-	protected CompletionProposal[] getCompletionProposals( JSObjectMetaData meta,
+	private CompletionProposal[] getCompletionProposals( JSObjectMetaData meta,
 			int offset )
 	{
 		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
@@ -305,7 +300,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 		return proposals.toArray( new CompletionProposal[proposals.size( )] );
 	}
 
-	protected Image getMemberImage( int visibility )
+	private Image getMemberImage( int visibility )
 	{
 		switch ( visibility )
 		{
@@ -323,7 +318,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 		return null;
 	}
 
-	protected Image getMethodImage( int visibility )
+	private Image getMethodImage( int visibility )
 	{
 		switch ( visibility )
 		{

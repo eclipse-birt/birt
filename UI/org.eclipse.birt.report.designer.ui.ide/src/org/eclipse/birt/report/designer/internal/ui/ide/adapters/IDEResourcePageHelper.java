@@ -38,9 +38,10 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 public class IDEResourcePageHelper extends AbstractDialogHelper
 {
-	public static final String WOKSPACE_BUTTON = Messages.getString("IDEResourcePageHelper.WorkSpace.Button"); //$NON-NLS-1$
-	public static final String FILESYSTEM_BUTTON = Messages.getString("IDEResourcePageHelper.File.Button"); //$NON-NLS-1$
-	public static final String VARIABLES_BUTTON = Messages.getString("IDEResourcePageHelper.Varible.Button"); //$NON-NLS-1$
+
+	private static final String WOKSPACE_BUTTON = Messages.getString("IDEResourcePageHelper.WorkSpace.Button"); //$NON-NLS-1$
+	private static final String FILESYSTEM_BUTTON = Messages.getString("IDEResourcePageHelper.File.Button"); //$NON-NLS-1$
+	private static final String VARIABLES_BUTTON = Messages.getString("IDEResourcePageHelper.Varible.Button"); //$NON-NLS-1$
 	private static final String DirectoryDialog_Text = Messages.getString("IDEResourcePageHelper.Dialog.Title"); //$NON-NLS-1$
 	private static final String DirectoryDialog_Message = Messages.getString("IDEResourcePageHelper.Dialog.Prompt"); //$NON-NLS-1$
 	private static final String ContainerSelectionDialog_Message = Messages.getString("IDEResourcePageHelper.Dialog.Text"); //$NON-NLS-1$
@@ -49,21 +50,7 @@ public class IDEResourcePageHelper extends AbstractDialogHelper
 	private Button fFileSystemButton;
 	private Button fWorkspaceButton;
 	private Control control;
-	private int butonAlignment = SWT.END;
 	private ButtonListener fListener = new ButtonListener( );
-	private String[] buttonLabels = new String[]{
-			WOKSPACE_BUTTON, FILESYSTEM_BUTTON, VARIABLES_BUTTON
-	};
-	
-	public void setButonAlignment( int butonAlignment )
-	{
-		this.butonAlignment = butonAlignment;
-	}
-
-	public void setButtonLabels( String[] buttonLabels )
-	{
-		this.buttonLabels = buttonLabels;
-	}
 
 	class ButtonListener extends SelectionAdapter
 	{
@@ -90,15 +77,17 @@ public class IDEResourcePageHelper extends AbstractDialogHelper
 	public void createContent( Composite parent )
 	{
 		Composite buttons = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( buttonLabels.length, false );
+		GridLayout layout = new GridLayout( 3, false );
 		layout.marginHeight = layout.marginWidth = 0;
 		buttons.setLayout( layout );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan =  2;
+		gd.horizontalSpan = 2;
 		buttons.setLayoutData( gd );
 
 		this.control = buttons;
-		createButtons( buttons,  buttonLabels);
+		createButtons( buttons, new String[]{
+				WOKSPACE_BUTTON, FILESYSTEM_BUTTON, VARIABLES_BUTTON
+		} );
 	}
 
 	@Override
@@ -109,33 +98,13 @@ public class IDEResourcePageHelper extends AbstractDialogHelper
 
 	protected void createButtons( Composite parent, String[] buttonLabels )
 	{
-		Button button = createButton( parent, buttonLabels[0] );
-		populateButton( button,buttonLabels[0] );
+		fWorkspaceButton = createButton( parent, buttonLabels[0] );
 		GridData gd = new GridData( );
 		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = butonAlignment;
-		button.setLayoutData( gd );
-		
-		for (int i=1; i<buttonLabels.length; i++)
-		{
-			populateButton( createButton( parent, buttonLabels[i]), buttonLabels[i] );
-		}
-	}
-	
-	private void populateButton(Button button, String label)
-	{
-		if (WOKSPACE_BUTTON.equals( label ))
-		{
-			fWorkspaceButton = button;
-		}
-		else if (FILESYSTEM_BUTTON.equals( label ))
-		{
-			fFileSystemButton = button;
-		}
-		else if (VARIABLES_BUTTON.equals( label ))
-		{
-			fVariablesButton = button;
-		}
+		gd.horizontalAlignment = SWT.END;
+		fWorkspaceButton.setLayoutData( gd );
+		fFileSystemButton = createButton( parent, buttonLabels[1] );
+		fVariablesButton = createButton( parent, buttonLabels[2] );
 	}
 
 	protected Button createButton( Composite parent, String text )

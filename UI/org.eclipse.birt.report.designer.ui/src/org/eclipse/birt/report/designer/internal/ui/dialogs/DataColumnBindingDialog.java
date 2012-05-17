@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
@@ -179,19 +169,14 @@ public class DataColumnBindingDialog extends BaseDialog
 			
 		}
 		
-		if ( isTimePeriod || isEditTimePeriod())
+		if ( isTimePeriod
+				|| ( bindingColumn != null
+						&& bindingColumn.getTimeDimension( ) != null && !bindingColumn.getTimeDimension( ).equals( "" ))) //$NON-NLS-1$
 		{
 			setTitle( TIMEPERIOD_BUILDER_TITLE );
 		}
 	}
 
-	private boolean isEditTimePeriod ()
-	{
-		return ( bindingColumn != null
-				&& bindingColumn.getTimeDimension( ) != null 
-				&& !bindingColumn.getTimeDimension( ).equals( "" )); //$NON-NLS-1$
-	}
-	
 	public void setInput( ReportItemHandle bindingObject,
 			ComputedColumnHandle bindingColumn )
 	{
@@ -257,7 +242,7 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper.setExpressionProvider( expressionProvider );
 		dialogHelper.createContent( content );
-		UIUtil.bindHelp( content, isTimePeriod || isEditTimePeriod()? IHelpContextIds.RELATIVE_TIME_PERIOD_DIALOG : IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
+		UIUtil.bindHelp( content, isTimePeriod? IHelpContextIds.RELATIVE_TIME_PERIOD_DIALOG : IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
 		return content;
 	}
 

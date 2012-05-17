@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -67,7 +66,7 @@ public class NewStyleHandler extends SelectionHandler
 		stack.startTrans( STACK_MSG_ADD_STYLE );
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
+		Object obj = context.getVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
 		if ( obj instanceof AbstractThemeHandle )
 		{
 			themeHandle = (AbstractThemeHandle) obj;

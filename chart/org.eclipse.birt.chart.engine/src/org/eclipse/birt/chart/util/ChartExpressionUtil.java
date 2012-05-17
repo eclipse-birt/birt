@@ -17,8 +17,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -58,10 +56,7 @@ public class ChartExpressionUtil
 		}
 		if ( hasOperation )
 		{
-			// The pattern needs to include line terminator characters to
-			// support checking complex script expression.
-			Matcher m = Pattern.compile( ".*\\Q" + indicator + "[\"\\E.*\\Q\"]\\E.*", Pattern.DOTALL ).matcher( expr ); //$NON-NLS-1$ //$NON-NLS-2$
-			return m.matches( );
+			return expr.matches( ".*\\Q" + indicator + "[\"\\E.*\\Q\"]\\E.*" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		String regExp = "\\Q" + indicator + "[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$ //$NON-NLS-2$
 		String regExp2 = "\\Q"//$NON-NLS-1$

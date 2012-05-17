@@ -1546,7 +1546,7 @@ public class TaskSelectType extends SimpleTask implements
 	protected void updateSelection( )
 	{
 		boolean bOutXtab = !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
-		if (getCurrentChartType().isChartWithAxes())
+		if ( chartModel instanceof ChartWithAxes )
 		{
 			if ( cbMultipleY != null )
 			{
