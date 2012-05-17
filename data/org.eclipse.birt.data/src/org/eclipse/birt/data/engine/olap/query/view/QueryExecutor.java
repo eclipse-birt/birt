@@ -54,6 +54,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.CachedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.MergedAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregationRowArray;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggrMeasureFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
@@ -661,21 +662,50 @@ public class QueryExecutor
 		
 		List noAggrUpdateFilters = getNoAggrUpdateFilters(executor
 				.getCubeQueryDefinition().getFilters());
-		if (rsLenBefore < rsLenAfter && noAggrUpdateFilters.size() > 0 ) 
+		if ( noAggrUpdateFilters.size() > 0 ) 
 		{
-			IAggregationResultSet[] result = new IAggregationResultSet[rsLenAfter- rsLenBefore];
-
-			for (int i = 0; i < result.length; i++) 
+			IAggregationResultSet[] result = null;
+			if ( rsLenBefore < rsLenAfter )
 			{
-				result[i] = rs[rsLenBefore + i];
+				result = new IAggregationResultSet[rsLenAfter - rsLenBefore];
+
+				for ( int i = 0; i < result.length; i++ )
+				{
+					result[i] = rs[rsLenBefore + i];
+				}
+
+				result = applyNoAggrUpdateFilters( noAggrUpdateFilters,
+						executor,
+						result,
+						view.getCube( ),
+						fetcher,
+						true );
+
+				for ( int i = 0; i < result.length; i++ )
+				{
+					rs[i + rsLenBefore] = result[i];
+				}
 			}
-
-			result = applyNoAggrUpdateFilters( noAggrUpdateFilters, executor, result,
-					view.getCube(), fetcher, true);
-
-			for (int i = 0; i < result.length; i++) 
+			else if ( rsLenBefore == rsLenAfter )
 			{
-				rs[i + rsLenBefore] = result[i];
+				List<IAggregationResultSet> mergedResult = new ArrayList<IAggregationResultSet>(); 
+				for( int i = 0 ; i < rs.length; i++)
+				{
+					if ( rs[i].getAggregationDefinition( )
+							.getAggregationFunctions( ) != null
+							&& rs[i] instanceof MergedAggregationResultSet )
+					{
+						IAggregationResultSet[] applyResults = applyNoAggrUpdateFilters( noAggrUpdateFilters,
+								executor,
+								new IAggregationResultSet[]{rs[i]},
+								view.getCube( ),
+								fetcher,
+								true );
+						rs[i] = applyResults[0];
+						mergedResult.add( rs[i] );
+					}
+				}
+				result = mergedResult.toArray( new IAggregationResultSet[0] );
 			}
 
 			List<IAggregationResultSet> edgeResultSet = populateAndFilterEdgeResultSet(rs, null);
