@@ -74,6 +74,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementException
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
@@ -332,7 +333,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected boolean needFixTransparentPNG = false;
 	private ITableContent cachedStartTable = null;
-
+	
+	protected TableLayout tableLayout = new TableLayout( this );
+	
 	/**
 	 * the constructor
 	 */
@@ -1747,6 +1750,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void startTable( ITableContent table )
 	{
 		cachedStartTable = table;
+		tableLayout.startTable( table );
 	}
 
 	protected void doStartTable( ITableContent table )
@@ -1920,7 +1924,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( HTMLTags.TAG_DIV );
 		}
-
+		tableLayout.endTable( table );
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}
 
@@ -2089,6 +2093,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			outputBookmark( group, null );
 			startedGroups.remove( group );
 		}
+		
+		tableLayout.startRow( );
 
 	}
 	
@@ -2107,6 +2113,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
+		tableLayout.endRow( );
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -2142,9 +2149,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#startCell(org.eclipse.birt.report.engine.content.ICellContent)
 	 */
 	public void startCell( ICellContent cell )
-	{				
+	{			
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
-			
+		
+		tableLayout.startCell( cell );	
 		// output 'th' tag in table head, otherwise 'td' tag
 		String tagName = null;
 		boolean isHead = isCellInHead( cell ); 
@@ -2366,6 +2374,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( HTMLTags.TAG_TD );
 		}
+		
+		tableLayout.endCell( cell );
 	}
 
 	/*
@@ -3691,4 +3701,127 @@ class IDGenerator
 		//Ted issue 37427 Proj 1336: in IV failed to drill-down from the second level in a chart in Safari browser
 		return "AUTOGENBOOKMARK_" + bookmarkId + "_" + java.util.UUID.randomUUID( ).toString( );
 	}
+}
+
+class TableLayout
+{
+	Stack<int[]> layoutStack = new Stack<int[]>();
+	Stack<Integer> columnCountStack = new Stack<Integer>();
+	int columnCount;
+	int[] cells = null;
+	ICellContent currentCell = null;
+	HTMLReportEmitter emitter = null;
+	
+	TableLayout(HTMLReportEmitter emitter)
+	{
+		this.emitter = emitter;
+	}
+	
+	protected void startTable(ITableContent tableContent)
+	{
+		int columnCount = tableContent.getColumnCount( );
+		cells = new int[columnCount];
+		this.columnCount = columnCount;
+		layoutStack.push( cells );
+		columnCountStack.push( columnCount );
+	}
+
+	protected void endTable( ITableContent tableContent )
+	{
+		layoutStack.pop( );
+		columnCountStack.pop( );
+		if ( !layoutStack.isEmpty( ) )
+		{
+			cells = layoutStack.peek( );
+		}
+		if ( !columnCountStack.isEmpty( ) )
+		{
+			columnCount = columnCountStack.peek( );
+		}
+	}
+	
+	protected void startRow()
+	{
+		
+	}
+	protected void endRow()
+	{
+		currentCell = null;
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			cells[i]--;
+		}
+	}
+	
+	protected void startCell(ICellContent cell)
+	{
+		if ( needAddEmptyCell( cell ) )
+		{
+			addEmptyCell( cell );
+		}
+
+	}
+	
+	protected void endCell(ICellContent cell)
+	{
+		currentCell = cell;
+		for ( int i = cell.getColumn( ); i < cell.getColumn( )
+				+ cell.getColSpan( ); i++ )
+		{
+			cells[i] += cell.getRowSpan( );
+		}
+		for(int i=0; i<cells.length; i++)
+		System.out.print(cells[i] );
+		System.out.println();
+	}
+	
+	protected boolean needAddEmptyCell( ICellContent cell )
+	{
+		if ( cell.getColumn( ) > 0 )
+		{
+			if ( cells[cell.getColumn( ) - 1] == 0 )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected ICellContent newCell(ICellContent cell, int startCol, int endCol)
+	{
+		CellContentWrapper tempCell = new CellContentWrapper(
+				cell );
+		tempCell.setRowSpan( cell.getRowSpan( ) );
+		tempCell.setColumn( startCol );
+		tempCell.setColSpan( endCol - startCol );
+		return tempCell;
+	}
+	
+	//TODO complex case maybe multiple cells need be added
+	protected int getEmptyStartIndex( int columnIndex )
+	{
+		for ( int i = 0; i < columnIndex; i++ )
+		{
+			if ( cells[i] == 0 )
+			{
+				return i;
+			}
+		}
+		return columnIndex;
+	}
+	
+	protected void addEmptyCell( ICellContent cell ) 
+	{
+		int startCol = this.getEmptyStartIndex( cell.getColumn( ) );
+		int endCol = cell.getColumn( );
+		if ( startCol < endCol )
+		{
+			ICellContent newCell = newCell( currentCell == null
+					? cell
+					: currentCell, startCol, endCol );
+			emitter.startCell( newCell );
+			emitter.endCell(newCell);
+		}
+	}
+	
 }
