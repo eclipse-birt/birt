@@ -13,9 +13,11 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
@@ -740,6 +742,45 @@ class ResultSetsAdapter
 	 */
 
 	static OdaResultSetColumnHandle findOdaResultSetColumn( Iterator columns,
+			String paramName, Integer position, Integer nativeDataType, Boolean duplicate )
+	{
+		if ( position == null || nativeDataType == null )
+			return null;
+
+		while ( columns.hasNext( ) )
+		{
+			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) columns
+					.next( );
+
+			Integer tmpNativeDataType = column.getNativeDataType( );
+			String nativeName = column.getNativeName( );
+			// if same column name appears in more than one table, column position needs to be checked
+			if ( ( StringUtil.isBlank( nativeName ) || nativeName
+					.equalsIgnoreCase( paramName ) )
+					&& ( duplicate == Boolean.FALSE || position.equals( column.getPosition( ) ) )  
+					&& ( tmpNativeDataType == null || nativeDataType
+							.equals( tmpNativeDataType ) ) )
+				return column;
+
+		}
+		return null;
+
+	}
+	
+	/**
+	 * Returns the matched oda result set column with the specified name and
+	 * position.
+	 * 
+	 * @param columns
+	 *            the iterator that includes oda result set columns
+	 * @param paramName
+	 *            the result set column name
+	 * @param position
+	 *            the position
+	 * @return the matched oda result set column
+	 */
+
+	static OdaResultSetColumnHandle findOdaResultSetColumn( Iterator columns,
 			String paramName, Integer position, Integer nativeDataType )
 	{
 		if ( position == null || nativeDataType == null )
@@ -849,6 +890,27 @@ class ResultSetsAdapter
 		List<ResultSetColumnInfo> retList = new ArrayList<ResultSetColumnInfo>( );
 
 		ResultSetColumnInfo setInfo = null;
+		
+		Map<String, Boolean> duplicateColumnName = new HashMap<String, Boolean>();
+		
+		for ( int i = 0; i < odaSetColumns.size( ); i++ )
+		{
+			DataElementAttributes dataAttrs = ( (ColumnDefinition) odaSetColumns
+					.get( i ) ).getAttributes( );
+			if ( dataAttrs != null)
+			{
+				String nativeName = dataAttrs.getName( );
+				Boolean exist = duplicateColumnName.get( nativeName );
+				if ( exist == null)
+				{
+					duplicateColumnName.put( nativeName, Boolean.FALSE );
+				}
+				else
+				{
+					duplicateColumnName.put( nativeName, Boolean.TRUE );
+				}
+			}
+		}
 		for ( int i = 0; i < odaSetColumns.size( ); i++ )
 		{
 
@@ -868,7 +930,8 @@ class ResultSetsAdapter
 
 				oldColumn = findOdaResultSetColumn(
 						setDefinedResults.iterator( ), nativeName, position,
-						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ) );
+						Integer.valueOf( dataAttrs.getNativeDataTypeCode( ) ), 
+						duplicateColumnName.get( nativeName ) );
 			}
 
 			OdaResultSetColumn newColumn = null;
