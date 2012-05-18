@@ -3770,9 +3770,6 @@ class TableLayout
 		{
 			cells[i] += cell.getRowSpan( );
 		}
-		for(int i=0; i<cells.length; i++)
-		System.out.print(cells[i] );
-		System.out.println();
 	}
 	
 	protected boolean needAddEmptyCell( ICellContent cell )
