@@ -81,7 +81,14 @@ public class SampleDbSelectionPageHelper
 		m_sampleUser = new Label( content, SWT.LEFT );
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
 		
-		setMessage( Messages.getMessage( "datasource.page.warning" ), IMessageProvider.WARNING);
+		if (parent.getShell().getText().startsWith("New Data Source"))
+		{
+			setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+		}
+		else 
+		{
+			setMessage( Messages.getMessage( "datasource.page.warning" ), IMessageProvider.WARNING);
+		}
 
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl(),
 				CONEXT_ID_DATASOURCE_SAMPLEDB );
