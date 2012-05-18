@@ -34,7 +34,6 @@ import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.odi.IQuery;
-import org.mozilla.javascript.Context;
 
 
 /**
@@ -184,7 +183,46 @@ public final class QueryExecutorUtil
 			throw DataException.wrap( e );
 		}
 	}
+	
+	public static boolean isValidFilterExpression( IBaseExpression expr,
+			Map<String, IBinding> bindings, ScriptContext context )
+			throws DataException
+	{
+		try
+		{
+			if ( !ExpressionCompilerUtil.isValidExpressionInQueryFilter( expr,
+					context ) )
+				return false;
+			
+			Set<String> nameSet = getBindingNamesFromExpr( expr );
+			Iterator<String> it = nameSet.iterator( );
+			while ( it.hasNext( ) )
+			{
+				String key = it.next( );
+				IBinding binding = bindings.get( key );
+				if ( binding == null )
+					continue;
 
+				if ( binding.getAggrFunction( ) == null
+						&& !ExpressionCompilerUtil.isValidExpressionInQueryFilter( binding.getExpression( ),
+								context ) )
+					return false;
+
+				Map<String, IBinding> newBindingMap = new HashMap<String, IBinding>( bindings );
+				newBindingMap.remove( key );
+				if ( !isValidFilterExpression( binding.getExpression( ),
+						bindings,
+						context ) )
+					return false;
+			}
+			return true;
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
+	}
+	
 	/**
 	 * 
 	 * @param expr
