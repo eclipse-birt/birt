@@ -19,6 +19,7 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
@@ -90,25 +91,39 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 					case ColumnEvent.ROW_EDGE_CHANGE :
 					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
-						if ( blankStarted
-								&& ev.type != ColumnEvent.ROW_EDGE_CHANGE
-								&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE )
+						if ( blankStarted )
 						{
-							nextExecutor = new CrosstabCellExecutor( this,
-									crosstabItem.getHeader( ),
-									rowSpan,
-									colSpan,
-									currentColIndex - colSpan + 1 );
+							int headerCount = crosstabItem.getHeaderCount( );
 
-							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							if ( headerCount > 1
+									|| ( ev.type != ColumnEvent.ROW_EDGE_CHANGE && ev.type != ColumnEvent.MEASURE_HEADER_CHANGE ) )
+							{
+								CrosstabCellHandle headerCell = null;
+								
+								int colIndex = currentColIndex - colSpan + 1;
 
-							blankStarted = false;
-							hasLast = false;
+								if ( colIndex < headerCount )
+								{
+									headerCell = crosstabItem.getHeader( colIndex );
+								}
+
+								nextExecutor = new CrosstabCellExecutor( this,
+										headerCell,
+										rowSpan,
+										colSpan,
+										currentColIndex - colSpan + 1 );
+
+								( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+								blankStarted = false;
+								hasLast = false;
+							}
 						}
 						break;
 				}
 
-				if ( !blankStarted && ( ev.type == ColumnEvent.ROW_EDGE_CHANGE ) )
+				if ( !blankStarted
+						&& ( ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE ) )
 				{
 					blankStarted = true;
 					rowSpan = 1;
@@ -152,8 +167,17 @@ public class CrosstabCornerHeaderRowExecutor extends BaseCrosstabExecutor
 			// handle last column
 			if ( blankStarted )
 			{
+				CrosstabCellHandle headerCell = null;
+
+				int colIndex = currentColIndex - colSpan + 1;
+
+				if ( colIndex < crosstabItem.getHeaderCount( ) )
+				{
+					headerCell = crosstabItem.getHeader( colIndex );
+				}
+
 				nextExecutor = new CrosstabCellExecutor( this,
-						crosstabItem.getHeader( ),
+						headerCell,
 						rowSpan,
 						colSpan,
 						currentColIndex - colSpan + 1 );

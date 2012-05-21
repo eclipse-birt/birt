@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class FixTableLayout extends TableLayout
 {
-	private static final int ALLOW_ROW_HEIGHT = 1;
+	public static final int ALLOW_ROW_HEIGHT = 1;
 	private static final int ALLOW_COLOUMN_WIDTH = 1;
 	public static final int DEFAULT_ROW_HEIGHT = 16;
 
@@ -160,7 +160,7 @@ public class FixTableLayout extends TableLayout
 			}
 			else if ( !data.rowHeights[i].isSetting )
 			{
-				data.rowHeights[i].height = ALLOW_ROW_HEIGHT;
+				data.rowHeights[i].height = getOwner( ).getFixAllowMinRowHight( );
 				noSettingList.add( data.rowHeights[i] );
 			}
 			forceTotal = forceTotal + data.rowHeights[i].height;
@@ -173,7 +173,7 @@ public class FixTableLayout extends TableLayout
 				RowData rData = data.rowHeights[i];
 				if ( !rData.isSetting )
 				{
-					rData.height = ALLOW_ROW_HEIGHT;
+					rData.height = getOwner( ).getFixAllowMinRowHight( );
 					rData.trueMinRowHeight = ALLOW_COLOUMN_WIDTH;
 				}
 			}
@@ -204,7 +204,7 @@ public class FixTableLayout extends TableLayout
 			else
 			{
 				int noSettingSize = noSettingList.size( );
-				if ( moreWith < noSettingSize*(DEFAULT_ROW_HEIGHT - ALLOW_ROW_HEIGHT) )
+				if ( moreWith < noSettingSize*(DEFAULT_ROW_HEIGHT - getOwner( ).getFixAllowMinRowHight( )) )
 				{
 					argaWith = moreWith / noSettingSize;
 
@@ -230,7 +230,7 @@ public class FixTableLayout extends TableLayout
 						RowData adjust = noSettingList.get( i );
 						adjust.height = DEFAULT_ROW_HEIGHT;
 					}
-					moreWith = moreWith - noSettingSize*(DEFAULT_ROW_HEIGHT - ALLOW_ROW_HEIGHT);
+					moreWith = moreWith - noSettingSize*(DEFAULT_ROW_HEIGHT - getOwner( ).getFixAllowMinRowHight( ));
 	
 					argaWith = moreWith / forceCount;
 					others = moreWith % forceCount;
@@ -396,7 +396,7 @@ public class FixTableLayout extends TableLayout
 				}
 				if (!rowData.isSetting)
 				{
-					rowData.height = ALLOW_ROW_HEIGHT;
+					rowData.height = getOwner( ).getFixAllowMinRowHight( );
 				}
 				//rowData.height = ALLOW_ROW_HEIGHT;
 			}
@@ -510,7 +510,7 @@ public class FixTableLayout extends TableLayout
 					rowData.trueMinRowHeight = dim.height;
 				}
 				
-				rowData.height = ALLOW_ROW_HEIGHT;
+				rowData.height = getOwner( ).getFixAllowMinRowHight( );
 				rowData.isSetting = true;
 			}
 //			else if ( dim.height > rowData.trueMinRowHeight )
@@ -758,7 +758,7 @@ public class FixTableLayout extends TableLayout
 			rowHeights[i - 1].rowNumber = i;
 
 			rowHeights[i - 1].height = getOwner( ).getRowHeightValue( i );
-			rowHeights[i - 1].minRowHeight = ALLOW_ROW_HEIGHT;
+			rowHeights[i - 1].minRowHeight = getOwner( ).getFixAllowMinRowHight( );
 
 			// add to handle percentage case.
 			ITableLayoutOwner.DimensionInfomation dim = getOwner( ).getRowHeight( i );
@@ -776,9 +776,9 @@ public class FixTableLayout extends TableLayout
 			rowHeights[i - 1].trueMinRowHeight = ( rowHeights[i - 1].isForce ) ? rowHeights[i - 1].height
 					: DEFAULT_ROW_HEIGHT;
 
-			if ( rowHeights[i - 1].trueMinRowHeight < ALLOW_ROW_HEIGHT )
+			if ( rowHeights[i - 1].trueMinRowHeight < getOwner( ).getFixAllowMinRowHight( ) )
 			{
-				rowHeights[i - 1].trueMinRowHeight = ALLOW_ROW_HEIGHT;
+				rowHeights[i - 1].trueMinRowHeight = getOwner( ).getFixAllowMinRowHight( );
 			}
 		}
 
@@ -789,7 +789,7 @@ public class FixTableLayout extends TableLayout
 			columnWidths[i - 1].columnNumber = i;
 
 			columnWidths[i - 1].width = getOwner( ).getColumnWidthValue( i );
-			columnWidths[i - 1].minColumnWidth = ALLOW_ROW_HEIGHT;
+			columnWidths[i - 1].minColumnWidth = getOwner( ).getFixAllowMinRowHight( );
 			// add to handle percentage case.
 			ITableLayoutOwner.DimensionInfomation dim = getOwner( ).getColumnWidth( i );
 
@@ -823,7 +823,7 @@ public class FixTableLayout extends TableLayout
 			rowHeights[i - 1].rowNumber = i;
 
 			rowHeights[i - 1].height = getOwner( ).getRowHeightValue( i );
-			rowHeights[i - 1].minRowHeight = ALLOW_ROW_HEIGHT;
+			rowHeights[i - 1].minRowHeight = getOwner( ).getFixAllowMinRowHight( );
 
 			// add to handle percentage case.
 			ITableLayoutOwner.DimensionInfomation dim = getOwner( ).getRowHeight( i );
@@ -842,7 +842,7 @@ public class FixTableLayout extends TableLayout
 			}
 
 			rowHeights[i - 1].trueMinRowHeight = rowHeights[i - 1].isForce ? rowHeights[i - 1].height
-					: ALLOW_ROW_HEIGHT;//DEFAULT_ROW_HEIGHT;
+					: getOwner( ).getFixAllowMinRowHight( );//DEFAULT_ROW_HEIGHT;
 		}
 	}
 

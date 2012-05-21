@@ -37,6 +37,10 @@ public class AreaNodeProvider extends CrosstabWrapperNodeProvider
 			List measures = (List) value;
 			return measures.toArray( );
 		}
+		if (propertyName.equals( ICrosstabReportItemConstants.HEADER_PROP ))
+		{
+			return handle.getContents( ).toArray( );
+		}
 		return new Object[0];
 	}
 
@@ -78,6 +82,8 @@ public class AreaNodeProvider extends CrosstabWrapperNodeProvider
 			return Messages.getString("AreaNodeProvider.RowArea"); //$NON-NLS-1$
 		if ( propertyName.equals( ICrosstabReportItemConstants.MEASURES_PROP ) )
 			return Messages.getString("AreaNodeProvider.DetailArea"); //$NON-NLS-1$
+		if ( propertyName.equals( ICrosstabReportItemConstants.HEADER_PROP ) )
+			return "Headers"; //$NON-NLS-1$
 
 		return null;
 	}
@@ -93,6 +99,8 @@ public class AreaNodeProvider extends CrosstabWrapperNodeProvider
 			return CrosstabUIHelper.getImage( CrosstabUIHelper.ROWS_AREA_IMAGE );
 		if ( propertyName.equals( ICrosstabReportItemConstants.MEASURES_PROP ) )
 			return CrosstabUIHelper.getImage( CrosstabUIHelper.DETAIL_AREA_IMAGE );
+		if ( propertyName.equals( ICrosstabReportItemConstants.HEADER_PROP ) )
+			return CrosstabUIHelper.getImage( CrosstabUIHelper.HEADERS_AREA_IMAGE );
 		return super.getNodeIcon( element );
 	}
 }

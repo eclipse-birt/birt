@@ -118,6 +118,48 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 		return null;
 	}
 
+	private boolean needCornerHeaderCell( )
+	{
+		if ( !hasColumnGroups )
+		{
+			return true;
+		}
+
+		int cgCount = columnGroups.size( );
+		int rgCount = rowGroups == null ? 0 : rowGroups.size( );
+
+		int offset = cgCount * rgCount;
+
+		// assuming all header cell span == 1 for now
+		if ( offset < crosstabItem.getHeaderCount( ) )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	private CrosstabCellHandle getCornerHeaderCell( int colIndex )
+	{
+		int offset = 0;
+
+		if ( hasColumnGroups )
+		{
+			int cgCount = columnGroups.size( );
+			int rgCount = rowGroups == null ? 0 : rowGroups.size( );
+
+			offset = cgCount * rgCount;
+		}
+
+		// assuming all header cell span == 1 for now
+		if ( ( colIndex + offset ) < crosstabItem.getHeaderCount( ) )
+		{
+			return crosstabItem.getHeader( colIndex + offset );
+		}
+
+		return null;
+	}
+
 	private void advance( )
 	{
 		try
@@ -131,20 +173,30 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					case ColumnEvent.ROW_EDGE_CHANGE :
 					case ColumnEvent.MEASURE_HEADER_CHANGE :
 
-						if ( blankStarted
-								&& ev.type != ColumnEvent.ROW_EDGE_CHANGE
-								&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE )
+						if ( blankStarted )
 						{
-							nextExecutor = new CrosstabCellExecutor( this,
-									crosstabItem.getHeader( ),
-									rowSpan,
-									colSpan,
-									currentColIndex - colSpan + 1 );
+							int headerCount = crosstabItem.getHeaderCount( );
 
-							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							// TODO to simplify, only check headerCount>1 for
+							// now (e.g. assume all cell span == 1), later if
+							// header cell span supported, should calculate
+							// based on real span.
+							if ( headerCount > 1
+									|| ( ev.type != ColumnEvent.ROW_EDGE_CHANGE && ev.type != ColumnEvent.MEASURE_HEADER_CHANGE ) )
+							{
+								nextExecutor = new CrosstabCellExecutor( this,
+										getCornerHeaderCell( currentColIndex
+												- colSpan
+												+ 1 ),
+										rowSpan,
+										colSpan,
+										currentColIndex - colSpan + 1 );
 
-							blankStarted = false;
-							hasLast = false;
+								( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+								blankStarted = false;
+								hasLast = false;
+							}
 						}
 						break;
 					case ColumnEvent.MEASURE_CHANGE :
@@ -204,8 +256,8 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					hasLast = true;
 				}
 				else if ( !blankStarted
-						&& !hasColumnGroups
-						&& ( ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE ) )
+						&& ( ev.type == ColumnEvent.ROW_EDGE_CHANGE || ev.type == ColumnEvent.MEASURE_HEADER_CHANGE )
+						&& needCornerHeaderCell( ) )
 				{
 					blankStarted = true;
 					rowSpan = 1;
@@ -246,7 +298,9 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 					if ( blankStarted )
 					{
 						nextExecutor = new CrosstabCellExecutor( this,
-								crosstabItem.getHeader( ),
+								getCornerHeaderCell( currentColIndex
+										- colSpan
+										+ 1 ),
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -72,6 +73,7 @@ public class MeasureComboPropertyDescriptorProvider extends
 			}
 
 			crosstabHandle.setMeasureDirection( stringValue );
+			CrosstabUtil.addAllHeaderLabel( crosstabHandle );
 			AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstabHandle );
 			providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.CHANGE_ORIENTATION_TYPE );
 

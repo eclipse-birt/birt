@@ -9,34 +9,37 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.item.crosstab.core.de.internal;
+package org.eclipse.birt.report.item.crosstab.core.util;
 
-import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
+import java.util.Map;
+
+import org.eclipse.birt.report.item.crosstab.core.de.internal.ICrosstabModelListener;
 
 /**
- * ICrosstabModelListener
- * 
- * @deprecated use {@link ICrosstabUpdateListener} instead
+ * Listener interface to monitor crosstab model updates
  */
-public interface ICrosstabModelListener
+public interface ICrosstabUpdateListener extends ICrosstabModelListener
 {
 
 	int MEASURE_HEADER = 1;
 	int MEASURE_DETAIL = 2;
+	int MEASURE_AGGREGATION = 3;
+
+	String EXTRA_FUNCTION_HINT = "function.hint"; //$NON-NLS-1$
+
+	/**
+	 * Sets the context for crosstab model update. Note this context may change
+	 * and be set frequently, so do not cache it across event calls.
+	 */
+	void setContext( ICrosstabUpdateContext context );
 
 	/**
 	 * Called after certain crosstab model has been created.
-	 * 
-	 * @param type
-	 * @param model
 	 */
-	void onCreated( int type, Object model );
+	void onCreated( int type, Object model, Map<String, Object> extras );
 
 	/**
 	 * Called whenever the given crosstab model need be validated.
-	 * 
-	 * @param type
-	 * @param model
 	 */
-	void onValidate( int type, Object model );
+	void onValidate( int type, Object model, Map<String, Object> extras );
 }

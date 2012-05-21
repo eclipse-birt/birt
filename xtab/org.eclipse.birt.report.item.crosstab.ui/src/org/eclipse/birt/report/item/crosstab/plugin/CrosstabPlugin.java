@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.plugin;
 
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
@@ -18,7 +20,9 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
-import org.eclipse.birt.report.item.crosstab.core.de.internal.ICrosstabModelListener;
+import org.eclipse.birt.report.item.crosstab.core.util.AbstractCrosstabUpateListener;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -87,13 +91,28 @@ public class CrosstabPlugin extends AbstractUIPlugin
 				.getPreferences( CrosstabPlugin.getDefault( ) )
 				.setDefault( CUBE_BUILDER_WARNING_PREFERENCE,
 						MessageDialogWithToggle.PROMPT );
-		
-		//There add a listener, when create a measure head, add a lable to the head cell
-		CrosstabModelUtil.setCrosstabModelListener( new ICrosstabModelListener( ) {
 
-			public void onCreated( int type, Object model )
+		// There add a listener, when create a measure head, add a lable to the
+		// head cell
+		CrosstabUtil.setCrosstabUpdateListener( new AbstractCrosstabUpateListener( ) {
+
+			public void onCreated( int type, Object model,
+					Map<String, Object> extras )
 			{
-				if ( type == ICrosstabModelListener.MEASURE_HEADER
+				if ( context != null )
+				{
+					try
+					{
+						// do not call this if want to perform custom handling
+						context.performDefaultCreation( type, model, extras );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionUtil.handle( e );
+					}
+				}
+
+				if ( type == ICrosstabUpdateListener.MEASURE_HEADER
 						&& model instanceof CrosstabCellHandle )
 				{
 					CrosstabCellHandle cellHandle = ( (CrosstabCellHandle) model );
@@ -116,9 +135,23 @@ public class CrosstabPlugin extends AbstractUIPlugin
 				}
 			}
 
-			public void onValidate( int type, Object model )
+			public void onValidate( int type, Object model,
+					Map<String, Object> extras )
 			{
-				if ( type == ICrosstabModelListener.MEASURE_DETAIL
+				if ( context != null )
+				{
+					try
+					{
+						// do not call this if want to perform custom handling
+						context.performDefaultValidation( type, model, extras );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionUtil.handle( e );
+					}
+				}
+
+				if ( type == ICrosstabUpdateListener.MEASURE_DETAIL
 						&& model instanceof AggregationCellHandle )
 				{
 					AggregationCellHandle cellHandle = (AggregationCellHandle) model;
@@ -127,18 +160,20 @@ public class CrosstabPlugin extends AbstractUIPlugin
 							&& cellHandle.getContents( ).get( 0 ) instanceof DataItemHandle )
 					{
 						MeasureViewHandle measureView = (MeasureViewHandle) cellHandle.getContainer( );
-						
-						DataItemHandle dataItem = (DataItemHandle) cellHandle.getContents( ).get( 0 );
 
-						CrosstabAdaptUtil.formatDataItem( measureView.getCubeMeasure( ), dataItem );
+						DataItemHandle dataItem = (DataItemHandle) cellHandle.getContents( )
+								.get( 0 );
+
+						CrosstabAdaptUtil.formatDataItem( measureView.getCubeMeasure( ),
+								dataItem );
 						// update action to dataHandle
-						if (measureView.getCubeMeasure( ) == null)
+						if ( measureView.getCubeMeasure( ) == null )
 						{
 							return;
 						}
 						ActionHandle actionHandle = measureView.getCubeMeasure( )
 								.getActionHandle( );
-						
+
 						if ( actionHandle != null )
 						{
 							try
@@ -165,6 +200,6 @@ public class CrosstabPlugin extends AbstractUIPlugin
 	{
 		super.stop( context );
 		plugin = null;
-		CrosstabModelUtil.setCrosstabModelListener(null);
+		CrosstabModelUtil.setCrosstabModelListener( null );
 	}
 }
