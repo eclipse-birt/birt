@@ -109,7 +109,7 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		expressionLabel.setLayoutData( new GridData( ) );
 		expressionLabel.setFont( parent.getFont( ) );
 
-		expressionText = new Text( container, SWT.BORDER | SWT.SINGLE );
+		expressionText = new Text( container, SWT.BORDER | SWT.WRAP );
 		expressionText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		Button expressionButton = new Button( container, SWT.PUSH );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
