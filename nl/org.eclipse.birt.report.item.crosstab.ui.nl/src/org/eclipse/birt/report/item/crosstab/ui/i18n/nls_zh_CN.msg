@@ -90,6 +90,7 @@ CrossTabMeasureNodeProvider.Detail=详细资料 -
 MeasureSubNodeProvider.Header=页眉
 MeasureSubNodeProvider.Detail=详细资料
 MeasureSubNodeProvider.Aggregation=聚合
+MergeCrosstabHeaderCellAction_name=Merge Header Cell
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=组级别
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
@@ -275,6 +276,7 @@ SelectValueDialog.noExpressionSet=尚未设置表达式
 SelectValueDialog.retrieving=正在检索列表...
 SelectValueDialog.selectValue=选择值
 SelectValueDialog.messages.info.selectVauleUnavailable=值列表不可用。
+SplitCrosstabHeadCellAction_name=Split Cell
 
 CrosstabPreferencePage.Title=交叉表
 CrosstabPreferencePage.filterLimit=筛选限制

@@ -90,6 +90,7 @@ CrossTabMeasureNodeProvider.Detail=詳細 -
 MeasureSubNodeProvider.Header=ヘッダ
 MeasureSubNodeProvider.Detail=詳細
 MeasureSubNodeProvider.Aggregation=集計
+MergeCrosstabHeaderCellAction_name=Merge Header Cell
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
@@ -275,6 +276,7 @@ SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...
 SelectValueDialog.selectValue=値の選択
 SelectValueDialog.messages.info.selectVauleUnavailable=値リストがありません。
+SplitCrosstabHeadCellAction_name=Split Cell
 
 CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限

@@ -90,6 +90,7 @@ CrossTabMeasureNodeProvider.Detail=Detail -
 MeasureSubNodeProvider.Header=Kopfzeile
 MeasureSubNodeProvider.Detail=Detail
 MeasureSubNodeProvider.Aggregation=Aggregat
+MergeCrosstabHeaderCellAction_name=Merge Header Cell
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Gruppenebene
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
@@ -275,6 +276,7 @@ SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht angegeben.
 SelectValueDialog.retrieving=Liste wird abgerufen ...
 SelectValueDialog.selectValue=Wert auswählen
 SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verfügbar.
+SplitCrosstabHeadCellAction_name=Split Cell
 
 CrosstabPreferencePage.Title=Kreuztabelle
 CrosstabPreferencePage.filterLimit=Filter-Limit

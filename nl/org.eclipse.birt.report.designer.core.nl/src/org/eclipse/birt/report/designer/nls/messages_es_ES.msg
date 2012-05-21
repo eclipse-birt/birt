@@ -4641,6 +4641,7 @@ CrosstabBindingDialogHelper.recentday.description=Fecha más reciente en Dimensió
 CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
 CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
 CrosstabBindingDialogHelper.thisdate.example.label=Introduzca los valores de fecha como: aaaa-MM-dd
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=Di&mensión de tiempo:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Esta dimensión no es compatible con la fecha de referencia reciente 
 CrosstabBindingDialogHelper.today.label=Hoy
