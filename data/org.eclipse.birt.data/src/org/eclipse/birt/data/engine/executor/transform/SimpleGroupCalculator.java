@@ -61,6 +61,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	private List<String> runningAggrs;
 	private List<String> overallAggrs;
 	private GroupInfo[] previousGroupInstances;
+	private Object[] previousRunningAggrs;
 	  
 	
 	public SimpleGroupCalculator( DataEngineSession session, GroupSpec[] groups, IResultClass rsMeta ) throws DataException
@@ -201,13 +202,29 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		}
 	}
 	
-	/**
-	 * Do grouping, and fill group indexes
-	 * 
-	 * @param stopsign
-	 * @throws DataException
-	 */
-	public void next( int rowId ) throws DataException
+	private void savePreviousRunningAggrs( ) throws DataException
+	{
+		if ( previousRunningAggrs != null && this.streamManager != null )
+		{
+			try
+			{
+				for ( int i = 0; i < this.previousRunningAggrs.length; i++ )
+				{
+					IOUtil.writeObject( this.combinedAggrOutput,
+							previousRunningAggrs[ i ] );
+				}
+				IOUtil.writeLong( this.combinedAggrIndexOutput,
+							this.combinedAggrRAOutput.getOffset( ) );
+				previousRunningAggrs = null;
+			}
+			catch( IOException ioex )
+			{
+				throw new DataException( ioex.getLocalizedMessage( ), ioex );
+			}
+		}
+	}
+	
+	private void savePreviousAggrsToDocument( ) throws DataException
 	{
 		if ( previousGroupInstances != null && this.streamManager != null )
 		{
@@ -217,6 +234,18 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			}
 			previousGroupInstances = null;
 		}
+	}
+	
+	/**
+	 * Do grouping, and fill group indexes
+	 * 
+	 * @param stopsign
+	 * @throws DataException
+	 */
+	public void next( int rowId ) throws DataException
+	{
+		savePreviousAggrsToDocument( );
+		savePreviousRunningAggrs( );
 		
 		// breakLevel is the outermost group number to differentiate row
 		// data
@@ -225,7 +254,10 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		{
 			breakLevel = 0; // Special case for first row
 			if ( this.streamManager == null )
+			{
 				this.previousGroupInstances = new GroupInfo[groupBys.length];
+				this.previousRunningAggrs = runningAggrs.size( ) > 0 ? new Object[runningAggrs.size( )] : null ;
+			}
 		}
 		else
 		{
@@ -266,6 +298,13 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			}
 			
 			this.aggrHelper.onRow( this.getStartingGroup( ), this.getEndingGroup( ), this.current, rowId);
+			if ( previousRunningAggrs != null )
+			{
+				for ( int i = 0; i < this.runningAggrs.size( ); i++ )
+				{
+					previousRunningAggrs[i] = this.aggrHelper.getLatestAggrValue( this.runningAggrs.get( i ) );
+				}
+			}
 
 			if ( this.runningAggrs.size( ) > 0
 					&& this.combinedAggrOutput != null
@@ -380,6 +419,9 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	{
 		try
 		{
+			savePreviousAggrsToDocument( );
+			savePreviousRunningAggrs( );
+			
 			if ( this.groupOutput!= null  )
 			{
 				for( int i = 0; i < this.groupOutput.length; i++ )
