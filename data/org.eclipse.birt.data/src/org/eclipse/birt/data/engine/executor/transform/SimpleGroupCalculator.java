@@ -60,6 +60,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	private List<List<String>> groupAggrs;
 	private List<String> runningAggrs;
 	private List<String> overallAggrs;
+	private GroupInfo[] previousGroupInstances;
 	  
 	
 	public SimpleGroupCalculator( DataEngineSession session, GroupSpec[] groups, IResultClass rsMeta ) throws DataException
@@ -162,6 +163,44 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		this.next = rowResultSet.getNext( );
 	}
 	
+	private void saveGroupInfo( GroupInfo group, int level, int rowId ) throws DataException
+	{
+		try
+		{
+			if ( this.streamManager != null )
+			{
+				IOUtil.writeInt( this.groupOutput[level], group.parent );
+				IOUtil.writeInt( this.groupOutput[level], group.firstChild );
+				//Add this per report engine's request.
+				//See ted 41188
+				this.groupOutput[level].flush( );
+				/*tobePrint += "["
+						+ level + ":" + group.firstChild + ","
+						+ group.parent + "]";*/
+			}
+		}
+		catch( IOException ioex )
+		{
+			throw new DataException( ioex.getLocalizedMessage( ), ioex );
+		}
+	}
+	
+	private void saveAggregationValues( int level, int rowId )
+			throws DataException
+	{
+		try
+		{
+			if ( this.streamManager != null && this.previous != null )
+			{
+				saveToAggrValuesToDocument( level, rowId );
+			}
+		}
+		catch ( IOException ioex )
+		{
+			throw new DataException( ioex.getLocalizedMessage( ), ioex );
+		}
+	}
+	
 	/**
 	 * Do grouping, and fill group indexes
 	 * 
@@ -170,13 +209,28 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	 */
 	public void next( int rowId ) throws DataException
 	{
+		if ( previousGroupInstances != null && this.streamManager != null )
+		{
+			for ( int level = 0; level < groupInstanceIndex.length; level++ )
+			{
+				saveGroupInfo( previousGroupInstances[level], level, 0 );
+			}
+			previousGroupInstances = null;
+		}
+		
 		// breakLevel is the outermost group number to differentiate row
 		// data
 		int breakLevel;
 		if ( this.previous == null )
+		{
 			breakLevel = 0; // Special case for first row
+			if ( this.streamManager == null )
+				this.previousGroupInstances = new GroupInfo[groupBys.length];
+		}
 		else
+		{
 			breakLevel = getBreakLevel( this.current, this.previous );
+		}
 
 		//String tobePrint = "";
 		try
@@ -186,7 +240,9 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			for ( int level = breakLevel; level < groupInstanceIndex.length; level++ )
 			{
 				GroupInfo group = new GroupInfo( );
-
+				if ( previousGroupInstances != null )
+					previousGroupInstances[level] = group;
+				
 				if ( level != 0 )
 					group.parent = groupInstanceIndex[level - 1] - 1;
 				if ( level == groupInstanceIndex.length - 1 )
@@ -205,25 +261,10 @@ public class SimpleGroupCalculator implements IGroupCalculator
 
 				groupInstanceIndex[level]++;
 
-				if ( this.streamManager != null )
-				{
-
-					IOUtil.writeInt( this.groupOutput[level], group.parent );
-					IOUtil.writeInt( this.groupOutput[level], group.firstChild );
-					//Add this per report engine's request.
-					//See ted 41188
-					this.groupOutput[level].flush( );
-					/*tobePrint += "["
-							+ level + ":" + group.firstChild + ","
-							+ group.parent + "]";*/
-
-					if ( this.previous != null )
-					{
-						saveToAggrValuesToDocument( level, rowId );
-					}
-
-				}
+				saveGroupInfo( group, level, rowId );
+				saveAggregationValues( level, rowId );
 			}
+			
 			this.aggrHelper.onRow( this.getStartingGroup( ), this.getEndingGroup( ), this.current, rowId);
 
 			if ( this.runningAggrs.size( ) > 0

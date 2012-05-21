@@ -684,9 +684,6 @@ public class SimpleResultSet implements IResultIterator
 	
 	private void saveDataSetResultSet( IResultObject rs, int index ) throws DataException
 	{
-		if ( index == 0 )
-			this.groupCalculator.next( 0 );
-		
 		if ( this.streamsWrapper != null && rs != null )
 		{
 			try
