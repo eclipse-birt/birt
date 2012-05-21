@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Palet
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ExtendedResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -51,6 +53,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -71,6 +74,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -148,6 +152,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String CLASSPATH_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.classpath"; //$NON-NLS-1$
 	public static final String COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
+	public static final String CUSTOM_COLORS_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.custom.colors.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
 	private static final List<String> elementToFilter = Arrays.asList( new String[]{
@@ -899,9 +904,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCustomNamePreference( String[] elements )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( CUSTOM_NAME_PREFERENCE,
-				convertStrArray2Str( elements ) );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( CUSTOM_NAME_PREFERENCE,
+						convertStrArray2Str( elements ) );
 	}
 
 	/**
@@ -912,9 +918,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCustomNamePreference( String element )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( CUSTOM_NAME_PREFERENCE,
-				element );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( CUSTOM_NAME_PREFERENCE, element );
 	}
 
 	/**
@@ -925,9 +931,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDescriptionPreference( String[] elements )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( DESCRIPTION_PREFERENCE,
-				convertStrArray2Str( elements ) );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( DESCRIPTION_PREFERENCE,
+						convertStrArray2Str( elements ) );
 	}
 
 	/**
@@ -938,9 +945,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDescriptionPreference( String element )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( DESCRIPTION_PREFERENCE,
-				element );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( DESCRIPTION_PREFERENCE, element );
 	}
 
 	/**
@@ -1035,8 +1042,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getTemplatePreference( )
 	{
-		String temp = PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).getString( TEMPLATE_PREFERENCE );
+		String temp = PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( TEMPLATE_PREFERENCE );
 		String str = temp;
 		try
 		{
@@ -1048,7 +1056,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		{
 			str = temp;
 		}
-		
+
 		return str;
 	}
 
@@ -1058,9 +1066,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setTemplatePreference( String preference )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( TEMPLATE_PREFERENCE,
-				preference );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( TEMPLATE_PREFERENCE, preference );
 	}
 
 	/**
@@ -1139,8 +1147,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getResourcePreference( )
 	{
-		return PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).getString( RESOURCE_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( RESOURCE_PREFERENCE );
 	}
 
 	/**
@@ -1163,9 +1172,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setResourcePreference( String preference )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( RESOURCE_PREFERENCE,
-				preference );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( RESOURCE_PREFERENCE, preference );
 		CorePlugin.RESOURCE_FOLDER = preference;
 	}
 
@@ -1231,8 +1240,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getCommentPreference( )
 	{
-		return PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).getString( COMMENT_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( COMMENT_PREFERENCE );
 	}
 
 	public String getCommentPreference( IProject project )
@@ -1248,9 +1258,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCommentPreference( String preference )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( COMMENT_PREFERENCE,
-				preference );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( COMMENT_PREFERENCE, preference );
 	}
 
 	/**
@@ -1329,6 +1339,62 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( )
 				.getPreferences( this, UIUtil.getCurrentProject( ) )
 				.setValue( ENABLE_COMMENT_PREFERENCE, preference );
+	}
+
+	public RGB[] getCustomColorsPreference( )
+	{
+		String rgbs = PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( CUSTOM_COLORS_PREFERENCE );
+		List<RGB> rgbList = new ArrayList<RGB>( );
+		if ( rgbs != null )
+		{
+			String[] splits = rgbs.split( ";" );
+			for ( int i = 0; i < splits.length; i++ )
+			{
+				try
+				{
+					RGB rgb = DEUtil.getRGBValue( Integer.parseInt( splits[i] ) );
+					rgbList.add( rgb );
+				}
+				catch ( Exception e )
+				{
+					// handle nothing
+				}
+			}
+		}
+		return rgbList.toArray( new RGB[0] );
+	}
+
+	public void setCustomColorsPreference( RGB[] rgbs )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		if ( rgbs != null )
+		{
+			for ( int i = 0; i < rgbs.length; i++ )
+			{
+				buffer.append( DEUtil.getRGBInt( rgbs[i] ) );
+				if ( i < rgbs.length - 1 )
+					buffer.append( ";" );
+			}
+		}
+
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( CUSTOM_COLORS_PREFERENCE,
+						buffer.toString( ).length( ) > 0 ? buffer.toString( )
+								: null );
+		try
+		{
+			PreferenceFactory.getInstance( )
+					.getPreferences( this, UIUtil.getCurrentProject( ) )
+					.save( );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
 	}
 
 	/**
@@ -1564,9 +1630,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setLTRReportDirection( boolean ltrDirection )
 	{
-		PreferenceFactory.getInstance( ).getPreferences( this,
-				UIUtil.getCurrentProject( ) ).setValue( LTR_BIDI_DIRECTION,
-				ltrDirection );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( LTR_BIDI_DIRECTION, ltrDirection );
 	}
 
 	/**
@@ -1609,8 +1675,9 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	public String getDefaultUnitPreference( IProject project )
 	{
-		String unit = PreferenceFactory.getInstance( ).getPreferences( this,
-				project ).getString( DEFAULT_UNIT_PREFERENCE );
+		String unit = PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
+				.getString( DEFAULT_UNIT_PREFERENCE );
 		if ( unit == DEFAULT_UNIT_AUTO )
 			return null;
 		else
