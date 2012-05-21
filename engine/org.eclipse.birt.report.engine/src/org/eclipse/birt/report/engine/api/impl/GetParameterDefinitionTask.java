@@ -633,14 +633,6 @@ public class GetParameterDefinitionTask extends EngineTask
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
 		queryDefn.setAutoBinding( true );
-		for ( Iterator itr = dataSet.filtersIterator( ); itr.hasNext( ); )
-		{
-			FilterConditionHandle fh = (FilterConditionHandle) itr.next( );
-			FilterDefinition dataSetFilter;
-			dataSetFilter = getDataSession( ).getModelAdaptor( )
-					.adaptFilter( fh );
-			queryDefn.addFilter( dataSetFilter );
-		}
 		return queryDefn;
 	}
 
