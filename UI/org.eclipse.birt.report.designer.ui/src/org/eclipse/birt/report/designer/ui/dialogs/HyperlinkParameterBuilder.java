@@ -162,7 +162,7 @@ public class HyperlinkParameterBuilder extends BaseDialog
 				layout.numColumns = 2;
 				valueControl.setLayout( layout );
 
-				text = new Text( valueControl, SWT.BORDER );
+				text = new Text( valueControl, SWT.BORDER | SWT.WRAP );
 				text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				text.addModifyListener( new ModifyListener( ) {
 
@@ -264,7 +264,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 					{
 						helper.setProperty( HYPERLINK_EXPRESSIONPROVIDER,
 								hyperlinkBuilder.getExpressionProvider( ) );
-						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle.getElementHandle( ) );
+						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT,
+								handle.getElementHandle( ) );
 						helper.createContent( parent );
 						helper.update( true );
 						return helper;

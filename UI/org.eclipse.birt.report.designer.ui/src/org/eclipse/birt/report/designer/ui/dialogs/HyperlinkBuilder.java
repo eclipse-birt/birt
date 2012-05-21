@@ -678,7 +678,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK
 				+ LABEL_LOCATION );
-		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
+		locationEditor = new Text( displayArea, SWT.BORDER | SWT.WRAP );
 		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		locationEditor.addModifyListener( new ModifyListener( ) {
 
@@ -938,7 +938,7 @@ public class HyperlinkBuilder extends BaseDialog
 		group.setLayout( layout );
 		new Label( group, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.DrillThroughLinkExpression" ) ); //$NON-NLS-1$
 
-		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY );
+		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( group, bookmarkEditor );
 	}
@@ -1472,7 +1472,9 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 		new Label( displayArea, SWT.NONE );
 		new Label( displayArea, SWT.NONE ).setText( LABEL_LINKED_EXPRESSION );
-		bookmarkEditor = new Text( displayArea, SWT.BORDER | SWT.READ_ONLY );
+		bookmarkEditor = new Text( displayArea, SWT.BORDER
+				| SWT.READ_ONLY
+				| SWT.WRAP );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( displayArea, bookmarkEditor );
 	}
