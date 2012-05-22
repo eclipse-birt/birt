@@ -61,7 +61,9 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	private List<String> runningAggrs;
 	private List<String> overallAggrs;
 	private GroupInfo[] previousGroupInstances;
+	private Object[][] previousGroupAggrs;
 	private Object[] previousRunningAggrs;
+	private Object[] previousOverallAggrs;
 	  
 	
 	public SimpleGroupCalculator( DataEngineSession session, GroupSpec[] groups, IResultClass rsMeta ) throws DataException
@@ -186,7 +188,7 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		}
 	}
 	
-	private void saveAggregationValues( int level, int rowId )
+	private void savePreviousGroupAggrs( int level, int rowId )
 			throws DataException
 	{
 		try
@@ -201,7 +203,30 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			throw new DataException( ioex.getLocalizedMessage( ), ioex );
 		}
 	}
-	
+
+	private void savePreviousOverallAggrs( ) throws DataException
+	{
+		if ( previousOverallAggrs != null && this.streamManager != null )
+		{
+			try
+			{
+				this.combinedAggrIndexRAOutput.seek( 0 );
+				IOUtil.writeLong( this.combinedAggrIndexOutput,
+						this.combinedAggrRAOutput.getOffset( ) );
+				for ( int i = 0; i < previousOverallAggrs.length; i++ )
+				{
+					IOUtil.writeObject( this.combinedAggrOutput,
+							previousOverallAggrs[i] );
+				}
+				previousOverallAggrs = null;
+			}
+			catch ( IOException ioex )
+			{
+				throw new DataException( ioex.getLocalizedMessage( ), ioex );
+			}
+		}
+	}
+
 	private void savePreviousRunningAggrs( ) throws DataException
 	{
 		if ( previousRunningAggrs != null && this.streamManager != null )
@@ -211,20 +236,20 @@ public class SimpleGroupCalculator implements IGroupCalculator
 				for ( int i = 0; i < this.previousRunningAggrs.length; i++ )
 				{
 					IOUtil.writeObject( this.combinedAggrOutput,
-							previousRunningAggrs[ i ] );
+							previousRunningAggrs[i] );
 				}
 				IOUtil.writeLong( this.combinedAggrIndexOutput,
-							this.combinedAggrRAOutput.getOffset( ) );
+						this.combinedAggrRAOutput.getOffset( ) );
 				previousRunningAggrs = null;
 			}
-			catch( IOException ioex )
+			catch ( IOException ioex )
 			{
 				throw new DataException( ioex.getLocalizedMessage( ), ioex );
 			}
 		}
 	}
 	
-	private void savePreviousAggrsToDocument( ) throws DataException
+	private void savePreviousGroupInfos( ) throws DataException
 	{
 		if ( previousGroupInstances != null && this.streamManager != null )
 		{
@@ -236,6 +261,36 @@ public class SimpleGroupCalculator implements IGroupCalculator
 		}
 	}
 	
+	private void savePreviousGroupAggrs( ) throws DataException
+	{
+		if ( this.previousGroupAggrs != null && this.streamManager != null )
+		{
+			try
+			{
+				for ( int i = 0; i < this.previousGroupAggrs.length; i++ )
+				{
+					if ( this.previousGroupAggrs[i] == null )
+						continue;
+					for ( int j = 0; j < this.previousGroupAggrs[i].length; j++ )
+					{
+						IOUtil.writeObject( this.aggrOutput[i],
+								previousGroupAggrs[i][j] );
+					}
+					if ( this.aggrIndexOutput[i] != null )
+					{
+						IOUtil.writeLong( this.aggrIndexOutput[i],
+								this.aggrRAOutput[i].getOffset( ) );
+					}
+				}
+				previousGroupAggrs = null;
+			}
+			catch ( IOException ex )
+			{
+				throw new DataException( ex.getLocalizedMessage( ), ex );
+			}
+		}
+	}
+	
 	/**
 	 * Do grouping, and fill group indexes
 	 * 
@@ -244,8 +299,10 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	 */
 	public void next( int rowId ) throws DataException
 	{
-		savePreviousAggrsToDocument( );
+		savePreviousGroupInfos( );
+		savePreviousGroupAggrs( );
 		savePreviousRunningAggrs( );
+		savePreviousOverallAggrs( );
 		
 		// breakLevel is the outermost group number to differentiate row
 		// data
@@ -256,7 +313,22 @@ public class SimpleGroupCalculator implements IGroupCalculator
 			if ( this.streamManager == null )
 			{
 				this.previousGroupInstances = new GroupInfo[groupBys.length];
-				this.previousRunningAggrs = runningAggrs.size( ) > 0 ? new Object[runningAggrs.size( )] : null ;
+				this.previousRunningAggrs = runningAggrs.size( ) > 0
+						? new Object[runningAggrs.size( )] : null;
+				this.previousOverallAggrs = overallAggrs.size( ) > 0
+						&& this.next == null ? new Object[overallAggrs.size( )]
+						: null;
+				if ( this.next == null )
+				{
+					this.previousGroupAggrs = new Object[groupBys.length][];
+					for ( int i = 0; i < groupBys.length; i++ )
+					{
+						if ( !groupAggrs.get( i ).isEmpty( ) )
+						{
+							this.previousGroupAggrs[i] = new Object[groupAggrs.get( i ).size( )];
+						}
+					}
+				}
 			}
 		}
 		else
@@ -294,16 +366,15 @@ public class SimpleGroupCalculator implements IGroupCalculator
 				groupInstanceIndex[level]++;
 
 				saveGroupInfo( group, level, rowId );
-				saveAggregationValues( level, rowId );
+				savePreviousGroupAggrs( level, rowId );
 			}
 			
 			this.aggrHelper.onRow( this.getStartingGroup( ), this.getEndingGroup( ), this.current, rowId);
-			if ( previousRunningAggrs != null )
+			
+			for ( int i = 0; previousRunningAggrs != null
+					&& i < this.runningAggrs.size( ); i++ )
 			{
-				for ( int i = 0; i < this.runningAggrs.size( ); i++ )
-				{
-					previousRunningAggrs[i] = this.aggrHelper.getLatestAggrValue( this.runningAggrs.get( i ) );
-				}
+				previousRunningAggrs[i] = this.aggrHelper.getLatestAggrValue( this.runningAggrs.get( i ) );
 			}
 
 			if ( this.runningAggrs.size( ) > 0
@@ -343,6 +414,23 @@ public class SimpleGroupCalculator implements IGroupCalculator
 					}
 				}
 				
+				for ( int i = 0; previousOverallAggrs != null
+						&& i < this.overallAggrs.size( ); i++ )
+				{
+					this.previousOverallAggrs[i] = this.aggrHelper.getLatestAggrValue( this.overallAggrs.get( i ) );
+				}
+
+				for ( int i = 0; previousGroupAggrs != null
+						&& i < previousGroupAggrs.length; i++ )
+				{
+					if ( previousGroupAggrs[i] == null )
+						continue;
+					for ( int j = 0; j < groupAggrs.get( i ).size( ); j++ )
+					{
+						previousGroupAggrs[i][j] = this.aggrHelper.getLatestAggrValue( groupAggrs.get( i )
+								.get( j ) );
+					}
+				}
 			}
 		}
 		catch ( IOException e )
@@ -419,8 +507,10 @@ public class SimpleGroupCalculator implements IGroupCalculator
 	{
 		try
 		{
-			savePreviousAggrsToDocument( );
+			savePreviousGroupInfos( );
+			savePreviousGroupAggrs( );
 			savePreviousRunningAggrs( );
+			savePreviousOverallAggrs( );
 			
 			if ( this.groupOutput!= null  )
 			{
