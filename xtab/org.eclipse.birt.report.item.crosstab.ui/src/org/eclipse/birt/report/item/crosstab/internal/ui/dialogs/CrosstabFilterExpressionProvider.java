@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
+import org.eclipse.core.runtime.IAdaptable;
 
 public class CrosstabFilterExpressionProvider extends
 		CrosstabExpressionProvider
@@ -57,13 +58,20 @@ public class CrosstabFilterExpressionProvider extends
 					return false;
 				}
 
-				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
-						&& ( element instanceof PropertyHandle ) )
+				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) ) )
 				{
-					PropertyHandle handle = (PropertyHandle) element;
-					if ( handle.getPropertyDefn( )
-							.getName( )
-							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+
+					PropertyHandle handle = null;
+
+					if ( element instanceof PropertyHandle )
+						handle = (PropertyHandle) element;
+					else if ( element instanceof IAdaptable
+							&& ( (IAdaptable) element ).getAdapter( PropertyHandle.class ) instanceof PropertyHandle )
+						handle = (PropertyHandle) ( (IAdaptable) element ).getAdapter( PropertyHandle.class );
+					if ( handle != null
+							&& handle.getPropertyDefn( )
+									.getName( )
+									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 					{
 						return false;
 					}
