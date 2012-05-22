@@ -161,7 +161,7 @@ public class SimpleResultSet implements IResultIterator
 	}
 
 	public SimpleResultSet( CandidateQuery dataSourceQuery,
-			final ICustomDataSet customDataSet, IResultClass resultMetadata,
+			final ICustomDataSet customDataSet, IResultClass resultClass,
 			IEventHandler handler, GroupSpec[] groupSpecs,
 			DataEngineSession session, boolean forceLookingForward )
 			throws DataException
@@ -169,7 +169,7 @@ public class SimpleResultSet implements IResultIterator
 		SmartCacheRequest scRequest = new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( customDataSet ),
-				resultMetadata,
+				resultClass,
 				false );
 
 		this.closeable = new ICloseable( ) {
