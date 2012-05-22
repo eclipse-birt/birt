@@ -60,14 +60,13 @@ public class CrosstabFilterExpressionProvider extends
 
 				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) ) )
 				{
-
 					PropertyHandle handle = null;
-
 					if ( element instanceof PropertyHandle )
 						handle = (PropertyHandle) element;
 					else if ( element instanceof IAdaptable
 							&& ( (IAdaptable) element ).getAdapter( PropertyHandle.class ) instanceof PropertyHandle )
 						handle = (PropertyHandle) ( (IAdaptable) element ).getAdapter( PropertyHandle.class );
+
 					if ( handle != null
 							&& handle.getPropertyDefn( )
 									.getName( )

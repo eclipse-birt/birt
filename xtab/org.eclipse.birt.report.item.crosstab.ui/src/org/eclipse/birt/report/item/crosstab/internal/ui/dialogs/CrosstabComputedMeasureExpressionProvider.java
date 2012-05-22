@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * 
@@ -39,14 +40,21 @@ public class CrosstabComputedMeasureExpressionProvider extends
 				if ( ExpressionFilter.CATEGORY.equals( parentElement )
 						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
 				{
-					//return false;
+					// return false;
 				}
-				if ( CURRENT_CUBE.equals( parentElement )
-						&& element instanceof PropertyHandle )
+				if ( CURRENT_CUBE.equals( parentElement ) )
 				{
-					if ( ( (PropertyHandle) element ).getPropertyDefn( )
-							.getName( )
-							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+					PropertyHandle handle = null;
+					if ( element instanceof PropertyHandle )
+						handle = (PropertyHandle) element;
+					else if ( element instanceof IAdaptable
+							&& ( (IAdaptable) element ).getAdapter( PropertyHandle.class ) instanceof PropertyHandle )
+						handle = (PropertyHandle) ( (IAdaptable) element ).getAdapter( PropertyHandle.class );
+
+					if ( handle != null
+							&& handle.getPropertyDefn( )
+									.getName( )
+									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 					{
 						return true;
 					}
