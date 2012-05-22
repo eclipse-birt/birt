@@ -48,8 +48,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
 
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion.Setting;
-
 /**
  * Class <code>HTML2Content</code> encapsulates the logic of converting a
  * section of HTML text to report content. Currently the supported tags are:
@@ -417,30 +415,6 @@ public class HTML2Content implements HTMLConstants
 	
 	protected static char[] listChar = new char[]{'\u2022', '\u25E6', '\u25AA'};
 
-	private static boolean isInExcelMode=false;
-	private static boolean isFirst = true;
-	private static ILabelContent firstLabel = null;
-	private static StringBuilder builder=new StringBuilder();
-    
-	public static void setIsInExcelMode(boolean  value)
-	{
-		 isInExcelMode=value;
-	}
-	public static boolean getIsInExcelMode()
-	{
-		return isInExcelMode;
-	}
-	public static void setIsfirst(boolean value)
-	{
-		firstLabel=null;
-		builder=new StringBuilder();
-		isFirst=value;
-	}
-	public static boolean getIsfirst()
-	{
-		return isFirst;
-		
-	}
 	public static char getListChar( int nestCount )
 	{
 		if ( nestCount <= 2 )
@@ -449,7 +423,7 @@ public class HTML2Content implements HTMLConstants
 		}
 		return listChar[2];
 	}
-    
+
 	public static void html2Content( IForeignContent foreign )
 	{
 		processForeignData( foreign );
@@ -531,69 +505,54 @@ public class HTML2Content implements HTMLConstants
 	 *            the parent content of the element
 	 * 
 	 */
- protected	static void processNodes( Element ele, Map cssStyles, IContent content,
+	static void processNodes( Element ele, Map cssStyles, IContent content,
 			ActionContent action, int nestCount )
 	{
 		int level = 0;
-		for (Node node = ele.getFirstChild(); node != null; node = node
-				.getNextSibling()) {
-			if (node.getNodeName().equals(TAG_VALUEOF)) //$NON-NLS-1$
+		for ( Node node = ele.getFirstChild( ); node != null; node = node
+				.getNextSibling( ) )
+		{
+			if ( node.getNodeName( ).equals( TAG_VALUEOF ) ) //$NON-NLS-1$
 			{
-				if (node.getFirstChild() instanceof Element) {
-					processNodes((Element) node.getFirstChild(), cssStyles,
-							content, action, nestCount);
+				if ( node.getFirstChild( ) instanceof Element )
+				{
+					processNodes( (Element) node.getFirstChild( ), cssStyles,
+							content, action, nestCount );
 				}
-			} else if (node.getNodeName().equals(TAG_IMAGE)) //$NON-NLS-1$
+			}
+			else if ( node.getNodeName( ).equals( TAG_IMAGE ) ) //$NON-NLS-1$
 			{
-				if (node.getFirstChild() instanceof Element) {
-					processNodes((Element) node.getFirstChild(), cssStyles,
-							content, action, nestCount);
+				if ( node.getFirstChild( ) instanceof Element )
+				{
+					processNodes( (Element) node.getFirstChild( ), cssStyles,
+							content, action, nestCount );
 				}
-			} else if (node.getNodeName().equals(TAG_SCRIPT)) //$NON-NLS-1$
+			}
+			else if ( node.getNodeName( ).equals( TAG_SCRIPT ) ) //$NON-NLS-1$
 			{
 				continue;
-			} else if (node.getNodeType() == Node.TEXT_NODE) {
-				if (isInExcelMode) {
-					if (isFirst) {
-						isFirst=false;
-						builder.append(node.getNodeValue());
-						ILabelContent label = createLabel(node.getNodeValue(),
-								content);
-						firstLabel = label;
-						if (action != null) {
-							label.setHyperlinkAction(action);
-							
-						}
-						
-					} else {
-						if (firstLabel != null) {
-							firstLabel.setText(builder.append(node.getNodeValue()).toString());
-							if (action != null) {
-								firstLabel.setHyperlinkAction(action);
-							}
-						}
-
-					}
-				} else {
-
-					ILabelContent label = createLabel(node.getNodeValue(),
-							content);
-					if (action != null) {
-						label.setHyperlinkAction(action);
-					}
-
+			}
+			else if ( node.getNodeType( ) == Node.TEXT_NODE )
+			{
+				ILabelContent label = createLabel( node.getNodeValue( ),
+						content );
+				if ( action != null )
+				{
+					label.setHyperlinkAction( action );
 				}
-			} else if ( // supportedHTMLElementTags.contains(node.getNodeName().
+			}
+			else if ( // supportedHTMLElementTags.contains(node.getNodeName().
 			// toUpperCase())
 			// &&
-			node.getNodeType() == Node.ELEMENT_NODE) {
-				handleElement((Element) node, cssStyles, content, action,
-						++level, nestCount);
+			node.getNodeType( ) == Node.ELEMENT_NODE )
+			{
+				handleElement( (Element) node, cssStyles, content, action,
+						++level, nestCount );
 			}
 		}
 	}
 
- protected	static void handleElement( Element ele,
+	static void handleElement( Element ele,
 			Map<Element, StyleProperties> cssStyles, IContent content,
 			ActionContent action, int index, int nestCount )
 	{
