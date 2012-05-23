@@ -20,8 +20,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
-import org.eclipse.birt.report.engine.css.engine.value.ListValue;
-import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
@@ -2001,22 +1999,6 @@ abstract public class AbstractStyle implements IStyle
 				{
 					CSSValue value = DataFormatValue.read( in );
 					setProperty( index, value );
-				}
-				else if ( index == StyleConstants.STYLE_FONT_FAMILY )
-				{
-					String propertyCssText = IOUtil.readString( in );
-					if ( propertyCssText != null
-							&& propertyCssText.length( ) != 0 )
-					{
-						ListValue list = new ListValue( );
-						String[] fontFamilies = propertyCssText.split( ""
-								+ list.getSeparatorChar( ) );
-						for ( String fontFamily : fontFamilies )
-						{
-							list.append( new StringValue( CSSPrimitiveValue.CSS_STRING, fontFamily ) );
-						}
-						setProperty( index, list );
-					}
 				}
 				else
 				{
