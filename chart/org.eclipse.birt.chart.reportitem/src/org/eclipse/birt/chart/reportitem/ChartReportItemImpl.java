@@ -97,7 +97,7 @@ public class ChartReportItemImpl extends ReportItem implements
 		IExternalizer
 {
 
-	private Chart cm = null;
+	protected Chart cm = null;
 
 	private final Serializer serializer;
 
@@ -109,7 +109,7 @@ public class ChartReportItemImpl extends ReportItem implements
 
 	private static final List<IChoiceDefinition> liChartDimensions = new LinkedList<IChoiceDefinition>( );
 
-	private transient ExtendedItemHandle handle = null;
+	protected transient ExtendedItemHandle handle = null;
 
 	private transient SharedScaleContext sharedScale = null;
 
