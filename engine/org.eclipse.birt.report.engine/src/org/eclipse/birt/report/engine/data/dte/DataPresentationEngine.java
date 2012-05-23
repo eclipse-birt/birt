@@ -159,7 +159,9 @@ public class DataPresentationEngine extends AbstractDataEngine
 		String resultSetID = loadResultSetID( parentResult, queryID );
 		if ( resultSetID == null )
 		{
-			if ( queryOwner instanceof DesignElementHandle )
+			throw new EngineException(
+					MessageConstants.REPORT_QUERY_LOADING_ERROR );
+			/*if ( queryOwner instanceof DesignElementHandle )
 			{
 				throw new EngineException( MessageConstants.REPORT_QUERY_LOADING_ERROR2,
 						new Object[]{
@@ -171,7 +173,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 			{
 				throw new EngineException( MessageConstants.REPORT_QUERY_LOADING_ERROR,
 						queryID );
-			}
+			}*/
 		}
 
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
