@@ -971,7 +971,7 @@ public class PostscriptWriter
 
 	public void startRenderer( ) throws IOException
 	{
-		startRenderer( null, null, null, TRAYCODE_AUTO, null, 1, false, null,
+		startRenderer( null, null, null, null, null, 1, false, null,
 		               false, 100, false, false );
 	}
 
@@ -982,7 +982,7 @@ public class PostscriptWriter
 	 * org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
 	public void startRenderer( String author, String description,
-	        String paperSize, int paperTray, Object duplex, int copies,
+	        String paperSize, String paperTray, Object duplex, int copies,
 	        boolean collate, String resolution, boolean color, int scale,
 	        boolean autoPaperSizeSelection, boolean fitToPaper )
 	        throws IOException
@@ -1016,7 +1016,7 @@ public class PostscriptWriter
 		out.println( "%%EndSetup" );
 	}
 
-	private void setPaperTray( int paperTray )
+	private void setPaperTray( String paperTray )
 	{
 		String trayString = getPaperTrayCode( paperTray );
 		if ( trayString != null )
@@ -1027,25 +1027,37 @@ public class PostscriptWriter
 		}
 	}
 
-	private String getPaperTrayCode( int paperTray )
+	private String getPaperTrayCode( String trayCode )
 	{
-		if ( paperTray == TRAYCODE_MANUAL )
-		{
-			return "<</ManualFeed true /TraySwitch false>>setpagedevice";
-		}
-		// tray code should be positive number
-		// bigger than
-		// 257. For some printers use 257 and /MediaPosition
-		// 0 for first printer, whiles some others printers
-		// use code 258 and /MediaPosition 1 for first paper
-		// tray.
-		paperTray = paperTray - 257;
-		if ( paperTray < 0 )
+		if( trayCode == null )
 		{
 			return null;
 		}
-		return "<</ManualFeed false /MediaPosition " + paperTray
-		        + " /TraySwitch false>>setpagedevice";
+		try
+        {
+	        int paperTray = Integer.parseInt( trayCode ); 
+	        if ( paperTray == TRAYCODE_MANUAL )
+	        {
+	        	return "<</ManualFeed true /TraySwitch false>>setpagedevice";
+	        }
+	        // tray code should be positive number
+	        // bigger than
+	        // 257. For some printers use 257 and /MediaPosition
+	        // 0 for first printer, whiles some others printers
+	        // use code 258 and /MediaPosition 1 for first paper
+	        // tray.
+	        paperTray = paperTray - 257;
+	        if ( paperTray < 0 )
+	        {
+	        	return null;
+	        }
+	        return "<</ManualFeed false /MediaPosition " + paperTray
+	                + " /TraySwitch false>>setpagedevice";
+        }
+        catch ( NumberFormatException e )
+        {
+        	return trayCode;
+        }
 	}
 
 	private void setPaperSize( String paperSize, int width, int height )
