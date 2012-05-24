@@ -865,6 +865,59 @@ public class AggregationTest extends APITestCase
 			assertEquals( resultValue0, resultValue3);
 		}
 	}
+	
+	/**
+	 * Test sort on aggregation and filtering on a none-sort key column.
+	 * 
+	 * @throws Exception
+	 */
+	public void testTed49051( ) throws Exception
+	{
+		QueryDefinition query = newReportQuery( );
+
+		Binding b = new Binding( "b1",
+				new ScriptExpression( "dataSetRow[\"CITY\"]" ) );
+		query.addBinding( b );
+
+		b = new Binding( "b2", new ScriptExpression( "dataSetRow[\"STORE\"]" ) );
+		query.addBinding( b );
+
+		b = new Binding( "b3",
+				new ScriptExpression( "dataSetRow[\"SALE_DATE\"]" ) );
+		query.addBinding( b );
+
+		b = new Binding( "b4", new ScriptExpression( "dataSetRow[\"SKU\"]" ) );
+		query.addBinding( b );
+
+		b = new Binding( "b5", new ScriptExpression( "dataSetRow[\"PRICE\"]" ) );
+		query.addBinding( b );
+
+		b = new Binding( "b6",
+				new ScriptExpression( "dataSetRow[\"QUANTITY\"]" ) );
+		query.addBinding( b );
+
+		b = new Binding( "aggr1", null );
+		b.setAggrFunction( "RANK" );
+		b.addArgument( new ScriptExpression( "row[\"b5\"]" ) );
+		query.addBinding( b );
+
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( "row[\"aggr1\"]" );
+		sort.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sort );
+
+		FilterDefinition filter = new FilterDefinition( new ConditionalExpression( "row[\"b5\"]",
+				IConditionalExpression.OP_TOP_N,
+				"3" ) );
+		query.addFilter( filter );
+
+		String[] cols = new String[]{
+				"b1", "b2", "b3", "b4", "b5", "b6", "aggr1"
+		};
+
+		outputQueryResult( executeQuery( query ), cols );
+		checkOutputFile( );
+	}
 }
 
 class CancelDataEngineThread extends Thread 
