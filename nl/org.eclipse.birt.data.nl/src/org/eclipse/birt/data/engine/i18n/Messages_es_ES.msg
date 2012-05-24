@@ -115,7 +115,7 @@ data.engine.ComputedColumnCycle=La columna procesada "{0}" tiene ciclo de depend
 data.engine.SortOnAggregation=El orden en la agregación sin agrupación o en la columna procesada que se refiere a la agregación "{0}" no es compatible.
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
-data.engine.BadFilterDefn=Error al evaluar el filtro basado en la expresión "{0}".
+data.engine.BadFilterDefn=No se puede evaluar el filtro basado en la expresión "{0}".
 
 #clob and blob error
 data.engine.opencloberror=Error de apertura de secuencia de caracteres CLOB.
@@ -407,7 +407,7 @@ data.olap.UnsupportedFunction=Función no admitida:
 data.olap.UnspecifiedBindingName=Nombre de enlace no especificado.
 data.olap.NotNestAggregationBinding=Sin enlace de agregación de nido de cubo: {0}
 data.olap.InvalidNestAggregationExpression=La expresión de una agregación de nido de cubo no es válida.
-data.olap.InvalidNestAggregationOn="{0}" añadido a la agregación de nido de cubo "{1}" no existe en su agregación de base.
+data.olap.InvalidNestAggregationOn=Error al calcular la agregación de nido "{0}" ya que su agregación en niveles no existe en sus agregaciones de base.
 data.olap.InvalidAggregationFilterExpr=La expresión de filtro "{0}" no es válida. la aldición de la lista de enlace "{1}" no contiene el nivel de la dimensión a la que se hace referencia "{2}". 
 data.olap.sort.exprError=El nivel de la dimensión a la que se hace referencia establecido sólo debería contener un nivel.
 data.olap.query.noCubeBinding=Error al ejecutar la consulta de cubo porque no hay disponible ningún enlace de cubo.

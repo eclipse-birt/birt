@@ -115,7 +115,7 @@ data.engine.ComputedColumnCycle=계산 열 "{0}"에 종속 사이클이 형성되어 있습니다.
 data.engine.SortOnAggregation=비그룹 집계 또는 집계 "{0}"을(를) 참조하는 계산 열에서 정렬은 지원되지 않습니다.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
-data.engine.BadFilterDefn=식 "{0}" 기반 필터를 계산하지 못했습니다.
+data.engine.BadFilterDefn=식 "{0}" 기반 필터를 계산할 수 없습니다.
 
 #clob and blob error
 data.engine.opencloberror=CLOB 문자 스트림 열기 오류입니다.
@@ -407,7 +407,7 @@ data.olap.UnsupportedFunction=지원되지 않는 함수:
 data.olap.UnspecifiedBindingName=바인딩 이름이 지정되지 않았습니다.
 data.olap.NotNestAggregationBinding=큐브 중첩 집계 바인딩이 아닙니다: {0}
 data.olap.InvalidNestAggregationExpression=큐브 중첩 집계의 식이 잘못되었습니다.
-data.olap.InvalidNestAggregationOn=큐브 중첩 집계 "{1}"의 "{0}" 집계가 해당 기본 집계에 없습니다.
+data.olap.InvalidNestAggregationOn=해당 기본 집계에 없는 수준의 집계로 인해 중첩 집계 "{0}"을(를) 계산하지 못했습니다.
 data.olap.InvalidAggregationFilterExpr=필터 식"{0}"이(가) 잘못되었습니다. 참조되는 차원 수준 "{2}"이(가) "{1}"을(를) 바인딩하는 집계의 aggregationOn 목록에 포함되어 있지 않습니다. 
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 data.olap.query.noCubeBinding=사용 가능한 큐브 바인딩이 없어 큐브 쿼리를 실행하지 못했습니다!

@@ -115,7 +115,7 @@ data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitsz
 data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für Aggregat '{0}' wird nicht unterstützt.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
-data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht evaluiert werden.
+data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht ausgewertet werden.
 
 #clob and blob error
 data.engine.opencloberror=Fehler beim Öffnen eines CLOB-Zeichenstroms.
@@ -407,7 +407,7 @@ data.olap.UnsupportedFunction=Nicht unterstützte Funktion:
 data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
 data.olap.NotNestAggregationBinding=Aggregatsbindung nicht mit Quader verschachteln: {0}
 data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachtelungsaggregats ist ungültig.
-data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsaggregat '{1}' ist nicht in basierten Aggregaten vorhanden.
+data.olap.InvalidNestAggregationOn=Verschachtelungsaggregat '{0}' konnte aufgrund seines Aggregats auf Ebenen, die in seinen basierten Aggregaten nicht vorhanden sind, nicht berechnet werden.
 data.olap.InvalidAggregationFilterExpr=Der Filterausdruck '{0}' ist ungültig. Das Aggregat auf der Liste der Aggregatsbindung '{1}' enthält nicht den Dimensionsebenensatz '{2}', auf den verwiesen wird. 
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
