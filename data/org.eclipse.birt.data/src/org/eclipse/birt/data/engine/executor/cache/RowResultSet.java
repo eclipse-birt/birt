@@ -33,7 +33,7 @@ public class RowResultSet implements IRowResultSet
 	// result meta data
 	private IResultClass resultClass;
 
-	// max rows will be fecthed
+	// max rows will be fetched
 	private int maxRows;
 	
 	// current row index
@@ -58,11 +58,16 @@ public class RowResultSet implements IRowResultSet
 	 */
 	public RowResultSet( SmartCacheRequest smartCacheRequest )
 	{
+		this( smartCacheRequest, smartCacheRequest.getMaxRow() );
+	}
+	
+	public RowResultSet( SmartCacheRequest smartCacheRequest, int maxRow )
+	{
 		this.eventList = smartCacheRequest.getEventList( );
 		this.odiAdpater = smartCacheRequest.getOdiAdapter( );
 		this.resultClass = smartCacheRequest.getResultClass( );
 
-		this.maxRows = smartCacheRequest.getMaxRow( );
+		this.maxRows = maxRow;
 		if ( maxRows <= 0 )
 			maxRows = Integer.MAX_VALUE;
 		

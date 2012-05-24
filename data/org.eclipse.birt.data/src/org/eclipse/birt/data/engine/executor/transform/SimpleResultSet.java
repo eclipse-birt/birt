@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
+import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
@@ -95,6 +96,7 @@ public class SimpleResultSet implements IResultIterator
 	private BaseQuery dataSourceQuery;
 	private DataEngineSession session;
 	private ComputedColumnHelper ccHelper;
+	private FilterByRow filterByRow;
 	private List<OnFetchScriptHelper> onFetchEvents;
 	
 	/**
@@ -231,9 +233,21 @@ public class SimpleResultSet implements IResultIterator
 			{
 				onFetchEvents.add( (OnFetchScriptHelper) event );
 			}
+			else if ( event instanceof FilterByRow )
+			{
+				this.filterByRow = (FilterByRow) event;
+			}
 		}
 	}
 
+	private void updateFetchEventMode( int mode ) throws DataException
+	{
+		if ( this.ccHelper != null )
+			this.ccHelper.setModel( mode );
+		if ( this.filterByRow != null )
+			this.filterByRow.setWorkingFilterSet( mode ==  TransformationConstants.DATA_SET_MODEL ? filterByRow.DATASET_FILTER : filterByRow.QUERY_FILTER );
+	}
+	
 	private void populateRowResultSet( IEventHandler handler,
 			SmartCacheRequest scRequest, boolean lookingForward )
 	{
@@ -395,6 +409,7 @@ public class SimpleResultSet implements IResultIterator
 		this.aggrHelper = null;
 		this.handler = null;
 		this.session = null;
+		this.filterByRow = null;
 		this.dataSourceQuery = null;
 		this.resultSetNameSet.clear( );
 		if ( onFetchEvents != null )
@@ -852,7 +867,7 @@ public class SimpleResultSet implements IResultIterator
 		public RowResultSetWithDataSetScopeAwareness(
 				SmartCacheRequest smartCacheRequest, DataSetRuntime runtime )
 		{
-			super( smartCacheRequest );
+			super( smartCacheRequest, 0 );
 			this.runtime = runtime;
 		}
 		
@@ -867,6 +882,17 @@ public class SimpleResultSet implements IResultIterator
 			this.runtime.setMode( this.cachedMode );
 		}
 		
+		protected void beforeProcessFetchEvent( IResultObject resultObject, int currentIndex )
+				throws DataException
+		{
+			updateFetchEventMode(  TransformationConstants.DATA_SET_MODEL );
+		}
+
+		protected void afterProcessFetchEvent( IResultObject resultObject, int currentIndex )
+				throws DataException
+		{
+			updateFetchEventMode(  TransformationConstants.RESULT_SET_MODEL );
+		}
 	}
 	
 	/**
@@ -915,17 +941,10 @@ public class SimpleResultSet implements IResultIterator
 				int currentIndex ) throws DataException
 		{
 			initialize( );
-			setComputedColumnHelperMode( TransformationConstants.RESULT_SET_MODEL );
+			updateFetchEventMode( TransformationConstants.RESULT_SET_MODEL );
 			this.runtime.setJSResultSetRow( this.evalJSResultSetRow );
 			this.current = resultObject;
 			removeOnFetchScriptHelper( );
-		}
-		
-		private void setComputedColumnHelperMode( int mode )
-		{
-			if ( SimpleResultSet.this.ccHelper == null )
-				return;
-			SimpleResultSet.this.ccHelper.setModel( mode );
 		}
 		
 		private void removeOnFetchScriptHelper( )
@@ -954,7 +973,7 @@ public class SimpleResultSet implements IResultIterator
 		protected void afterProcessFetchEvent( IResultObject rsRow,
 				int currentIndex ) throws DataException
 		{
-			setComputedColumnHelperMode( TransformationConstants.DATA_SET_MODEL );
+			updateFetchEventMode( TransformationConstants.DATA_SET_MODEL );
 			this.runtime.setJSResultSetRow( this.savedJSResultSetRow );
 			restoreOnFetchScriptHelper( );
 		}

@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.executor;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -26,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -89,8 +91,27 @@ public final class QueryExecutionStrategyUtil
 
 		if ( query.getFilters( ) != null && query.getFilters( ).size( ) > 0 )
 		{
-			//if ( FilterUtil.hasMutipassFilters( query.getFilters( ) ) )
+			if ( FilterUtil.hasMutipassFilters( query.getFilters( ) ) )
 				return Strategy.Complex;
+			
+			Map<String, IBinding> queryBindings = query.getBindings();
+						
+			for( Object filter : query.getFilters())
+			{
+				IBaseExpression baseExpr = ((IFilterDefinition)filter).getExpression();
+				if( ExpressionCompilerUtil.hasAggregationInExpr( baseExpr ))
+					return Strategy.Complex;
+				List<String> bindings = ExpressionCompilerUtil.extractColumnExpression( baseExpr, ExpressionUtil.ROW_INDICATOR );
+				for( String columnBinding: bindings )
+				{
+					IBinding binding = queryBindings.get( columnBinding );
+					if( binding!= null && binding.getAggrFunction() != null )
+						return Strategy.Complex;
+				}
+				//TODO: support progressive viewing on viewing time filter
+				if( ((IFilterDefinition)filter).updateAggregation() == false )
+					return Strategy.Complex;
+			}
 		}
 
 		if ( query.getSorts( ) != null && query.getSorts( ).size( ) > 0 )
@@ -182,6 +203,16 @@ public final class QueryExecutionStrategyUtil
 				if ( FilterUtil.hasMutipassFilters( dataSet.getFilters( ) ) )
 				{
 					return Strategy.Complex;
+				}
+				
+				for( Object filter : dataSet.getFilters())
+				{
+					IBaseExpression baseExpr = ((IFilterDefinition)filter).getExpression();
+					if( ExpressionCompilerUtil.hasAggregationInExpr( baseExpr ))
+						return Strategy.Complex;
+					
+					if( ((IFilterDefinition)filter).updateAggregation() == false )
+						return Strategy.Complex;
 				}
 			}
 
