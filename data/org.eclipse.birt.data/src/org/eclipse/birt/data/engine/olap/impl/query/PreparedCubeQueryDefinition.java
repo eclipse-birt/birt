@@ -212,9 +212,17 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 								+ measureName );
 						newBinding.setDataType( md.getDataType( ) );
 						newBinding.setExpression( new ScriptExpression( ExpressionUtil.createJSMeasureExpression( measureName ) ) );
-						newBinding.setAggrFunction( getRollUpAggregationFunctionName( md.getAggrFunction( ) ) );
 						for ( int a = 0; a < levelNames.size( ); a++ )
 							newBinding.addAggregateOn( levelNames.get( a ) );
+						if ( md.getAggrFunction( ) != null )
+						{
+							newBinding.setAggrFunction( getRollUpAggregationFunctionName( md.getAggrFunction( ) ) );
+						}
+						else
+						{
+							newBinding.setAggrFunction( null );
+							newBinding.getAggregatOns( ).clear( );
+						}
 
 						IBinding b = getSameBindingInQuery( newBinding,
 								bindingsInCubeQuery );
