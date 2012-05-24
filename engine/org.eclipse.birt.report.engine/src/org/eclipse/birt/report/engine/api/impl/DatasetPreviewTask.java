@@ -46,6 +46,11 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	protected int maxRow;
 	
+	/**
+	 * Start row.
+	 */
+	protected int startRow = 0;
+	
 	protected IFilterDefinition[] filterExpressions = null;
 
 	protected ISortDefinition[] sortExpressions = null;
@@ -193,6 +198,11 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		this.maxRow = maxRow;
 	}
 	
+	public void setStartRow( int startRow )
+	{
+		this.startRow = startRow;
+	}
+	
 	protected void checkRequiredParamenter(String paramName, String value) throws ParameterValidationException
 	{
 		
@@ -325,7 +335,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		{
 			metadata = new ResultMetaData( metadata, selectedColumns );
 		}
-		return new ExtractionResults( result, metadata, null, 0, maxRow );
+		return new ExtractionResults( result, metadata, null, startRow, maxRow );
 	}
 
 	protected ModuleHandle getModuleHandle( )
@@ -340,7 +350,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		query.setAutoBinding( true );
 		// set max rows
-		if(maxRow>0)
+		if ( maxRow > 0 )
 		{
 			query.setMaxRows( maxRow );
 		}
