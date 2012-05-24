@@ -59,7 +59,7 @@ public class DummyDataCacheLoadUtil implements ILoadUtil
 		}
 		else if( dataType == Double.class )
 		{
-			return 1234.56d;
+			return 1234.00;
 		}
 		else if( dataType == String.class )
 		{	
@@ -67,7 +67,7 @@ public class DummyDataCacheLoadUtil implements ILoadUtil
 		}
 		else if( dataType == BigDecimal.class )
 		{	
-			return new BigDecimal(1234.56d);
+			return BigDecimal.valueOf(1234.56);
 		}
 		else if( dataType == java.sql.Date.class )
 		{
