@@ -109,6 +109,19 @@ public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
         {
 			return new URIValue( value );
         }
+        //A temp solution to fix batik parser issue.
+        //if font family name contains character "_", the parser result is not correct from the batik parser. Add "'" to avoid this issue 
+		if ( idx == IStyle.STYLE_FONT_FAMILY && value != null )
+		{
+			if ( value.indexOf( "_" ) >= 0 && value.indexOf( "," )<0 )
+			{
+				if ( !( value.startsWith( "\"" ) && value.endsWith( "\"" ) )
+						&& ( !( value.startsWith( "'" ) && value.endsWith( "'" ) ) ) )
+				{
+					value = "'" + value + "'";
+				}
+			}
+		}
         try {
             LexicalUnit lu;
             lu = parser.parsePropertyValue(new InputSource(new StringReader(value)));
