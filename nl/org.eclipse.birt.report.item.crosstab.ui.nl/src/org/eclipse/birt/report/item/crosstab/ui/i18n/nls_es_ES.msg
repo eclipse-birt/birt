@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=Mostrar como
 ShowAsViewAction.TransName=Mostrar como
 
 MeasureComboPropertyDescriptorProvider.TransName=Cambiar la orientación de la tabla de referencias cruzadas
+MeasureHandleDropAdapter_trans_name=Add Measure
 
 ###########################################################
 # Crosstab Command trans name

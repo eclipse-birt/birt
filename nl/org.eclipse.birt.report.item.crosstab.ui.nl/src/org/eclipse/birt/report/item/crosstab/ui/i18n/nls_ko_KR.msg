@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=표시
 ShowAsViewAction.TransName=표시
 
 MeasureComboPropertyDescriptorProvider.TransName=크로스 탭 방향 변경
+MeasureHandleDropAdapter_trans_name=Add Measure
 
 ###########################################################
 # Crosstab Command trans name

@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=显示为
 ShowAsViewAction.TransName=显示为
 
 MeasureComboPropertyDescriptorProvider.TransName=更改交叉表方向
+MeasureHandleDropAdapter_trans_name=Add Measure
 
 ###########################################################
 # Crosstab Command trans name

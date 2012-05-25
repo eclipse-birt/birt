@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=表示形式
 ShowAsViewAction.TransName=表示形式
 
 MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
+MeasureHandleDropAdapter_trans_name=Add Measure
 
 ###########################################################
 # Crosstab Command trans name
