@@ -69,3 +69,4 @@ confirm.reselectFileTitle=다른 파일 선택을 확인하십시오.
 confirm.reselectFileMessage=다른 파일을 선택하면 저장되지 않은 이전 작업이 손실됩니다.\n\n계속하시겠습니까?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=폴더 선택
+SelectFile.Title=Select File

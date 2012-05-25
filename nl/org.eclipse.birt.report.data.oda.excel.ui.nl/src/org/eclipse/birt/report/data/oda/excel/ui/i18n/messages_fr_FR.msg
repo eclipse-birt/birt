@@ -69,3 +69,4 @@ confirm.reselectFileTitle=Confirmez pour sélectionner un autre fichier.
 confirm.reselectFileMessage=La sélection d'une autre feuille ne permettra pas l'enregistrement des opérations précédentes.\n\nVoulez-vous continuer ?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=Sélectionner un dossier
+SelectFile.Title=Select File

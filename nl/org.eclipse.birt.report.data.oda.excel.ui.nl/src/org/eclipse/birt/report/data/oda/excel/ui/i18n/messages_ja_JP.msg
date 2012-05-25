@@ -69,3 +69,4 @@ confirm.reselectFileTitle=別のファイルの選択の確認
 confirm.reselectFileMessage=別のファイルを選択すると、これまでの作業が保存されずに破棄されます。\n\nこのフィルタを選択しますか ?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=フォルダの選択
+SelectFile.Title=Select File
