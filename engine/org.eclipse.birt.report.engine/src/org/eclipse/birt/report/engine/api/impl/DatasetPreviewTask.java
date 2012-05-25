@@ -44,7 +44,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	
 	protected DataSetHandle dataset;
 
-	protected int maxRow;
+	protected int maxRow = -1;
 	
 	/**
 	 * Start row.
@@ -335,7 +335,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		{
 			metadata = new ResultMetaData( metadata, selectedColumns );
 		}
-		return new ExtractionResults( result, metadata, null, startRow, maxRow );
+		// apply the startRow and maxRows in query. So here we need not apply them to the result.
+		return new ExtractionResults( result, metadata, null, 0, -1 );
 	}
 
 	protected ModuleHandle getModuleHandle( )
@@ -350,9 +351,14 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		query.setAutoBinding( true );
 		// set max rows
-		if ( maxRow > 0 )
+		if ( maxRow >= 0 )
 		{
 			query.setMaxRows( maxRow );
+		}
+		// set start row.
+		if ( startRow > 0 )
+		{
+			query.setStartingRow( startRow );
 		}
 		// add filter
 		if ( filterExpressions != null )
