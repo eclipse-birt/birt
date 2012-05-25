@@ -21,6 +21,7 @@ import java.security.PrivilegedAction;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -329,11 +330,11 @@ public class PreparedQueryUtil
 		return false;
 	}
 	
-	private static boolean existAggregationBinding( List bindingName, Map bindings ) throws DataException
+	public static boolean existAggregationBinding( Collection<String> bindingNames, Map bindings ) throws DataException
 	{
-		for( int i = 0; i < bindingName.size( ); i++ )
+		for( String bindingName : bindingNames  )
 		{
-			Object binding = bindings.get( bindingName.get( i ) );
+			Object binding = bindings.get( bindingName );
 			if( binding != null )
 			{
 				if( OlapExpressionUtil.isAggregationBinding( ( IBinding )binding )  )

@@ -15,9 +15,11 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -37,6 +39,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.PreparedQueryUtil;
 import org.eclipse.birt.data.engine.impl.SortingOptimizer;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
@@ -94,23 +97,23 @@ public final class QueryExecutionStrategyUtil
 			if ( FilterUtil.hasMutipassFilters( query.getFilters( ) ) )
 				return Strategy.Complex;
 			
-			Map<String, IBinding> queryBindings = query.getBindings();
-						
+			Set<String> bindings = new HashSet<String>();			
 			for( Object filter : query.getFilters())
 			{
 				IBaseExpression baseExpr = ((IFilterDefinition)filter).getExpression();
 				if( ExpressionCompilerUtil.hasAggregationInExpr( baseExpr ))
 					return Strategy.Complex;
-				List<String> bindings = ExpressionCompilerUtil.extractColumnExpression( baseExpr, ExpressionUtil.ROW_INDICATOR );
-				for( String columnBinding: bindings )
-				{
-					IBinding binding = queryBindings.get( columnBinding );
-					if( binding!= null && binding.getAggrFunction() != null )
-						return Strategy.Complex;
-				}
+				bindings.addAll(ExpressionCompilerUtil.extractColumnExpression( baseExpr, ExpressionUtil.ROW_INDICATOR ));
+				
 				//TODO: support progressive viewing on viewing time filter
 				if( ((IFilterDefinition)filter).updateAggregation() == false )
 					return Strategy.Complex;
+			}
+			
+			if (PreparedQueryUtil.existAggregationBinding(bindings,
+					query.getBindings())) 
+			{
+				return Strategy.Complex;
 			}
 		}
 
