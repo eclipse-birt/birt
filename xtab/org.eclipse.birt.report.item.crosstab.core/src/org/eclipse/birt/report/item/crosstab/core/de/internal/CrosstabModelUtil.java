@@ -1826,9 +1826,20 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 	{
 		updateHeaderCell( crosstab, pos, axisType, false, 0 );
 	}
+	
+	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
+			int pos, int axisType, boolean removeLevel )
+	{
+		updateHeaderCell( crosstab, pos, axisType, false, 0, removeLevel );
+	}
 
 	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
 			int pos, int axisType, boolean isMoveDimension, int adjustCount )
+	{
+		updateHeaderCell( crosstab, pos, axisType, isMoveDimension, adjustCount, false );
+	}
+	public static void updateHeaderCell( CrosstabReportItemHandle crosstab,
+			int pos, int axisType, boolean isMoveDimension, int adjustCount, boolean removeLevel )
 	{
 
 		HeaderData data = calcHeaderData( crosstab );
@@ -1926,7 +1937,7 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		}
 
 		boolean isAdd = total - crosstab.getHeaderCount( ) > 0;
-		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, isAdd, axisType  ) )
+		if ( !isMoveDimension && !needUpdateHeaderCell( crosstab, removeLevel?false:isAdd, axisType  ) )
 		{
 			return;
 		}

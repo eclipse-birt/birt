@@ -445,7 +445,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 //			}
 			count = count + levelView.getIndex( );
 			levelView.getModelHandle( ).drop( );
-			CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), count, dimensionView.getAxisType( ) );
+			CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), count, dimensionView.getAxisType( ), true );
 			if ( crosstab != null )
 			{
 				validateFilterCondition( );
