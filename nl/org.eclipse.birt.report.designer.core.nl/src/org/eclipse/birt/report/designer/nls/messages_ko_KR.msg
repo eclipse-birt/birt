@@ -4632,6 +4632,7 @@ BindingDialogHelper.warning.button.no=아니오
 #Scripts Node
 Scripts.Node.DisplayName=스크립트
 ScriptElementNode.Action.Text=보고서 요소로 이동(&G)
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 

@@ -4632,6 +4632,7 @@ BindingDialogHelper.warning.button.no=いいえ
 #Scripts Node
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ(&G)
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
