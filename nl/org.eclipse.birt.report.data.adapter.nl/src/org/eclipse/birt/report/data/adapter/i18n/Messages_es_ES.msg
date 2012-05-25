@@ -112,34 +112,34 @@ timeFunction.N2 = Valor N para el segundo período
 timeFunction.PERIOD1.displayName = El &primer período
 timeFunction.PERIOD2.displayName = El segundo pe&ríodo
 timeFunction.N1.displayName = Número de periodos transcurridos
-timeFunction.N2.displayName = De
-timeFunction.N1.next.displayName = Siguiente
-timeFunction.N2.Ago.displayName=Transcurridos
-timeFunction.N1.current.displayName=Actual
-timeFunction.N1.period.displayName= Período
-timeFunction.trailing.N1.period.displayName=Final
-timeFunction.trailing.N1.Month.displayName= Número de meses transcurridos
-timeFunction.N1.Year.displayName = Número de años transcurridos
-timeFunction.N2.Year.displayName = Número de años transcurridos
+timeFunction.N2.displayName = D&esde
+timeFunction.N1.next.displayName = &Siguiente
+timeFunction.N2.Ago.displayName=&Transcurridos
+timeFunction.N1.current.displayName=Act&ual
+timeFunction.N1.period.displayName= &Periodo
+timeFunction.trailing.N1.period.displayName=Fi&nal
+timeFunction.trailing.N1.Month.displayName= &Número de meses finales
+timeFunction.N1.Year.displayName = &Número de años transcurridos
+timeFunction.N2.Year.displayName = &Número de años transcurridos
 timeFunction.N1.Year = Valor N para el número de años transcurridos
 timeFunction.N2.Year = Valor N para el número de años transcurridos
 
-timeFunction.N1.Month.displayName = Número de meses transcurridos
-timeFunction.N2.Month.displayName = Número de meses transcurridos
+timeFunction.N1.Month.displayName = &Número de meses transcurridos
+timeFunction.N2.Month.displayName = &Número de meses transcurridos
 timeFunction.N1.Month = Valor N para el número de meses transcurridos
 timeFunction.N2.Month = Valor N para el número de meses transcurridos
 
-timeFunction.N1.Quarter.displayName = Número de trimestres transcurridos
-timeFunction.N2.Quarter.displayName = Número de trimestres transcurridos
+timeFunction.N1.Quarter.displayName = &Número de trimestres transcurridos
+timeFunction.N2.Quarter.displayName = &Número de trimestres transcurridos
 timeFunction.N1.Quarter = Valor N para el número de trimestres transcurridos
 timeFunction.N2.Quarter = Valor N para el número de trimestres transcurridos
 
-timeFunction.N1.Week.displayName = Número de semanas transcurridas
-timeFunction.N2.Week.displayName = Número de semanas transcurridas
+timeFunction.N1.Week.displayName = &Número de semanas transcurridas
+timeFunction.N2.Week.displayName = &Número de semanas transcurridas
 timeFunction.N1.Week = Valor N para el número de semanas transcurridas
 timeFunction.N2.Week = Valor N para el número de semanas transcurridas
 
-timeFunction.N1.Day.displayName = Número de días transcurridos
+timeFunction.N1.Day.displayName = &Número de días transcurridos
 
 timeFunction.PERIODCHOICE.YEAR_displayName =AÑO
 timeFunction.PERIODCHOICE.QUARTER_displayName =TRIMESTRE

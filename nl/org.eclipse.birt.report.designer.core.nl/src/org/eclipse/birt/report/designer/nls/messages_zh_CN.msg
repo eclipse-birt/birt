@@ -4632,7 +4632,7 @@ BindingDialogHelper.warning.button.no=否
 #Scripts Node
 Scripts.Node.DisplayName=脚本
 ScriptElementNode.Action.Text=转到报表元素(&G)
-ScriptObjectNode_0=&Reset Script
+ScriptObjectNode_0=重置脚本(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 

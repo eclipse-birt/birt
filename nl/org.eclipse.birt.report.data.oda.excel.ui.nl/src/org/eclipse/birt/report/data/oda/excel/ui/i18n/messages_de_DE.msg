@@ -69,4 +69,4 @@ confirm.reselectFileTitle=Bestätigen Sie zum Auswählen einer anderen Datei.
 confirm.reselectFileMessage=Bei Auswahl einer anderen Datei werden vorherige Vorgänge nicht gespeichert.\n\nTrotzdem fortfahren?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=Wählen Sie einen Ordner aus.
-SelectFile.Title=Select File
+SelectFile.Title=Datei auswählen

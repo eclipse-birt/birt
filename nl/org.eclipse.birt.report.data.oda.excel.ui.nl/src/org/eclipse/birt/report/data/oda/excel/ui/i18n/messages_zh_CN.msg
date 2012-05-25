@@ -69,4 +69,4 @@ confirm.reselectFileTitle=确认选择另一文件。
 confirm.reselectFileMessage=选择另一文件将不保存以上操作。\n\n您确定吗？
 
 RelativeFolderSelectionDialog.Title.SelectFolder=选择文件夹
-SelectFile.Title=Select File
+SelectFile.Title=选择文件
