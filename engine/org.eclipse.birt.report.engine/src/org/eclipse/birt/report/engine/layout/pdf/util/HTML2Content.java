@@ -424,6 +424,71 @@ public class HTML2Content implements HTMLConstants
 		return listChar[2];
 	}
 
+	public static boolean allInline( IForeignContent foreign )
+	{
+		boolean inline = false;
+		Object rawValue = foreign.getRawValue( );
+		Document doc = null;
+		if ( null != rawValue )
+		{
+			doc = new TextParser( ).parse( foreign.getRawValue( ).toString( ),
+					(String) textTypeMapping.get( foreign.getRawType( ) ) );
+		}
+		Element body = null;
+		if ( doc != null )
+		{
+			Node node = doc.getFirstChild( );
+			if ( node instanceof Element )
+			{
+				body = (Element) node;
+			}
+		}
+		if ( body != null )
+		{
+			inline = checkNodes( body );
+		}
+		return inline;
+	}
+
+	public static String getForeignPlainText( IForeignContent foreign )
+	{
+		Object rawValue = foreign.getRawValue( );
+		Document doc = null;
+		if ( null != rawValue )
+		{
+			doc = new TextParser( ).parse( foreign.getRawValue( ).toString( ),
+					(String) textTypeMapping.get( foreign.getRawType( ) ) );
+		}
+		Element body = null;
+		if ( doc != null )
+		{
+			Node node = doc.getFirstChild( );
+			if ( node instanceof Element )
+			{
+				body = (Element) node;
+			}
+		}
+		if ( body != null )
+		{
+			return body.getTextContent( );
+		}
+		return null;
+	}
+
+	private static boolean checkNodes( Element ele )
+	{
+		for ( Node node = ele.getFirstChild( ); node != null; node = node
+				.getNextSibling( ) )
+		{
+			if ( htmlInlineDisplay.contains( node.getNodeName( ) )
+					|| node.getNodeType( ) == Node.TEXT_NODE )
+				continue;
+			else
+				return false;
+		}
+		return true;
+	}
+	
 	public static void html2Content( IForeignContent foreign )
 	{
 		processForeignData( foreign );
