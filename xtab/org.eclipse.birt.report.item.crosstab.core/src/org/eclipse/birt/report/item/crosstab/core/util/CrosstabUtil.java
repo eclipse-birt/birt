@@ -800,6 +800,10 @@ public final class CrosstabUtil implements ICrosstabConstants
 				}
 			}
 		}
+		else if (ICrosstabConstants.ROW_AXIS_TYPE == type && numbers[0]*numbers[1] == 1)
+		{
+			addForce = true;
+		}
 		if (ICrosstabConstants.COLUMN_AXIS_TYPE == type)
 		{
 			count = (count + 1)*(numbers[1]) - 1;
