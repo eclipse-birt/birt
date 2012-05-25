@@ -25,6 +25,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProvider
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
@@ -113,12 +114,17 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 			Command command = editPart.getCommand( request );
 			if ( command != null && command.canExecute( ) )
 			{
+				CrosstabReportItemHandle crosstab = getCrosstab( editPart );
+				if ( crosstab != null )
+				{
+					crosstab.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString("MeasureHandleDropAdapter_trans_name") ); //$NON-NLS-1$
+				}
 				editPart.getViewer( )
 						.getEditDomain( )
 						.getCommandStack( )
 						.execute( command );
 
-				CrosstabReportItemHandle crosstab = getCrosstab( editPart );
+				
 				if ( crosstab != null )
 				{
 					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
@@ -130,6 +136,8 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 								crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) - 1 );
 						CrosstabUtil.addLabelToHeader( viewHnadle.getLevel( viewHnadle.getLevelCount( ) - 1 ) );
 					}
+					
+					crosstab.getModuleHandle( ).getCommandStack( ).commit( );
 				}
 				return true;
 			}
