@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -498,6 +499,10 @@ public class IDEFileReportProvider implements IReportProvider
 							designerVersion );
 					properties.put( IModuleOption.CREATED_BY_KEY,
 							designerVersion );
+					if (fileName.endsWith( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ))
+					{
+						properties.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, false );
+					}
 					String projectFolder = getProjectFolder( input );
 					if ( projectFolder != null )
 					{

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.CategorizedElementSorte
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -45,7 +46,6 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewPr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -292,6 +292,9 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					subMenu.add( new Separator( ) );
 					action = getAction( InsertAggregationAction.ID );
 					action.setText( InsertAggregationAction.TEXT );
+					subMenu.add( action );
+					action = getAction( InsertRelativeTimePeriodAction.ID );
+					action.setText( InsertRelativeTimePeriodAction.TEXT );
 					subMenu.add( action );
 
 					manager.add( new CopyCrosstabCellContentsAction( firstSelectedElement.getCrosstabCellHandle( ) ) );

@@ -721,4 +721,23 @@
          </adapter>
       </adaptable>
 </extension>
+<extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:birtData">
+            <command
+                  commandId="org.eclipse.birt.report.designer.internal.ui.views.createVariable"
+                  label="%Variable.Actions"
+                  style="push">
+            </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.eclipse.birt.report.designer.internal.ui.views.CreateVariableHandler"
+            id="org.eclipse.birt.report.designer.internal.ui.views.createVariable"
+            name="%Command.Name.CreateVariable">
+      </command>
+   </extension>   
 </plugin>

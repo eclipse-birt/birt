@@ -232,7 +232,11 @@ public class CrosstabAdaptUtil
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelAttrHandle.getName( ) );
-		CrosstabAdaptUtil.formatDataItem( levelHandle, dataHandle );
+		
+		String type = levelHandle.getDataType( );
+		String aliment = levelHandle.getAlignment( );
+		
+		formatDataItem( type, null, aliment, dataHandle );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 		
 		if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( levelAttrHandle.getName( ) ) )
@@ -573,8 +577,8 @@ public class CrosstabAdaptUtil
 		}
 		return true;
 	}
-	
-	public static void formatDataItem(LevelHandle levelHandle, DataItemHandle dataHandle)
+
+	public static void formatDataItem(LevelHandle levelHandle, DataItemHandle dataHandle )
 	{
 		if (levelHandle == null || dataHandle == null)
 		{

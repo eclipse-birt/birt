@@ -142,6 +142,7 @@ public class QueryExecutor
 				cube );
 		cubeQueryExecutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ), fetcher );
+		cubeQueryExecutorHelper.setCubeQueryExecutor( executor );
 		
 		cubeQueryExecutorHelper.setMemoryCacheSize( CacheUtil.computeMemoryBufferSize( view.getAppContext( ) ) );
 		cubeQueryExecutorHelper.setMaxDataObjectRows( CacheUtil.getMaxRows( view.getAppContext( ) ) );
@@ -374,9 +375,40 @@ public class QueryExecutor
 							rs[affectedAggrResultSetIndex.get( j ).intValue( )] );
 				}
 			}
+			
+			if( edgeResultSet.size( ) > 1 )
+			{
+				combineEdgeResultSetsInfo( edgeResultSet );
+			}
 		}
 		
 		return rs;
+	}
+	
+	private void combineEdgeResultSetsInfo( List<IAggregationResultSet> edgeResultSet )
+	{
+		int index = -1;
+		for( int i = 0; i < edgeResultSet.size( ); i++ )
+		{
+			IAggregationResultSet rs = edgeResultSet.get( i );
+			if( rs.length() == 0 )
+				index = i;
+		}
+		if( index >= 0 )
+		{
+			for( int i = 0; i < edgeResultSet.size( ); i++ )
+			{
+				if ( i != index ) 
+				{
+					IAggregationResultSet rs = edgeResultSet.get( i );
+					IDiskArray newRsRows = new BufferedStructureArray( AggregationResultRow.getCreator( ), rs.length( ) );
+					if ( rs instanceof AggregationResultSet )
+						( (AggregationResultSet) rs ).setAggregationResultRows( newRsRows );
+					else if (rs instanceof CachedAggregationResultSet)
+						( (CachedAggregationResultSet) rs ).setAggregationResultRows( newRsRows );
+				}
+			}
+		}
 	}
 
 	private List<IAggregationResultSet> populateAndFilterEdgeResultSet(IAggregationResultSet[] rs,

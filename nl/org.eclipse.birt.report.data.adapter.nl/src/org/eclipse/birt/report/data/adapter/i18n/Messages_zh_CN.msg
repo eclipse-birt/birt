@@ -112,8 +112,14 @@ timeFunction.N2 = 第二个周期的 N 值
 timeFunction.PERIOD1.displayName = 第一个周期(&F)
 timeFunction.PERIOD2.displayName = 第一个周期(&R)
 timeFunction.N1.displayName = N 周期前
-timeFunction.N2.displayName = N 周期前
-
+timeFunction.N2.displayName = 自
+timeFunction.N1.next.displayName = 下一个
+timeFunction.N2.Ago.displayName=前
+timeFunction.N1.current.displayName=当前
+timeFunction.N1.period.displayName= 周期
+timeFunction.trailing.N1.period.displayName=尾随
+timeFunction.trailing.N1.Month.displayName= 尾随月数
+ 
 timeFunction.N1.Year.displayName = N 年前
 timeFunction.N2.Year.displayName = N 年前
 timeFunction.N1.Year = N 年前中的 N 值
@@ -141,10 +147,12 @@ timeFunction.PERIODCHOICE.QUARTER_displayName =季度
 timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =周
 timeFunction.PERIODCHOICE.DAY_displayName =日
- 
+
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =年初至今
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =季度初至今
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
 timeFunction.toolTip.to=至
+
+ 
