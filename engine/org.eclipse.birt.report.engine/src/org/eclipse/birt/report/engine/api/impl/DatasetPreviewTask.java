@@ -336,7 +336,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			metadata = new ResultMetaData( metadata, selectedColumns );
 		}
 		// apply the startRow and maxRows in query. So here we need not apply them to the result.
-		return new ExtractionResults( result, metadata, null, 0, -1 );
+		return new ExtractionResults( result, metadata, null, 0, -1, null );
 	}
 
 	protected ModuleHandle getModuleHandle( )
