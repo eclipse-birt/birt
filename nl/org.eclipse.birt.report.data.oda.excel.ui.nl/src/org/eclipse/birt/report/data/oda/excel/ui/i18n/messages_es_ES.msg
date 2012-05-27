@@ -69,3 +69,4 @@ confirm.reselectFileTitle=Confirme para seleccionar un archivo diferente.
 confirm.reselectFileMessage=Si selecciona un archivo diferente no se guardarán las operaciones anteriores.\n\n¿Seguro que desea seleccionar un archivo diferente?
 
 RelativeFolderSelectionDialog.Title.SelectFolder=Seleccionar una carpeta
+SelectFile.Title=Seleccionar archivo

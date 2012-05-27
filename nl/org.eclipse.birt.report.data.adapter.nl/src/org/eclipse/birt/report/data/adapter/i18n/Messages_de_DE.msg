@@ -112,35 +112,35 @@ timeFunction.N2 = N-Wert für das zweite Zeitintervall
 timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
 timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
 timeFunction.N1.displayName = Anzahl (Zeitintervall) zurückliegend
-timeFunction.N2.displayName = Von
-timeFunction.N1.next.displayName = Nächste
-timeFunction.N2.Ago.displayName=Zurückliegend
-timeFunction.N1.current.displayName=Aktuell
-timeFunction.N1.period.displayName= Periode
-timeFunction.trailing.N1.period.displayName=Nachgestellt
-timeFunction.trailing.N1.Month.displayName= Anzahl nachgestellte Monate:
+timeFunction.N2.displayName = V&om
+timeFunction.N1.next.displayName = &Weiter
+timeFunction.N2.Ago.displayName=&Zurückliegend
+timeFunction.N1.current.displayName=A&ktuelle Seite
+timeFunction.N1.period.displayName= &Periode
+timeFunction.trailing.N1.period.displayName=Nac&hgestellt
+timeFunction.trailing.N1.Month.displayName= &Anzahl Monate nachgestellt
  
-timeFunction.N1.Year.displayName = Anzahl Jahre zurückliegend
-timeFunction.N2.Year.displayName = Anzahl Jahre zurückliegend
+timeFunction.N1.Year.displayName = &Anzahl Jahre zurückliegend
+timeFunction.N2.Year.displayName = &Anzahl Jahre zurückliegend
 timeFunction.N1.Year = N-Wert für Anzahl Jahre zurückliegend
 timeFunction.N2.Year = N-Wert für Anzahl Jahre zurückliegend
 
-timeFunction.N1.Month.displayName = Anzahl Monate zurückliegend
-timeFunction.N2.Month.displayName = Anzahl Monate zurückliegend
+timeFunction.N1.Month.displayName = &Anzahl Monate zurückliegend
+timeFunction.N2.Month.displayName = &Anzahl Monate zurückliegend
 timeFunction.N1.Month = N-Wert für Anzahl Monate zurückliegend
 timeFunction.N2.Month = N-Wert für Anzahl Monate zurückliegend
 
-timeFunction.N1.Quarter.displayName = Anzahl Quartale zurückliegend
-timeFunction.N2.Quarter.displayName = Anzahl Quartale zurückliegend
+timeFunction.N1.Quarter.displayName = &Anzahl Quartale zurückliegend
+timeFunction.N2.Quarter.displayName = &Anzahl Quartale zurückliegend
 timeFunction.N1.Quarter = N-Wert für Anzahl Quartale zurückliegend
 timeFunction.N2.Quarter = N-Wert für Anzahl Quartale zurückliegend
 
-timeFunction.N1.Week.displayName = Anzahl Wochen zurückliegend
-timeFunction.N2.Week.displayName = Anzahl Wochen zurückliegend
+timeFunction.N1.Week.displayName = &Anzahl Wochen zurückliegend
+timeFunction.N2.Week.displayName = &Anzahl Wochen zurückliegend
 timeFunction.N1.Week = N-Wert für Anzahl Wochen zurückliegend
 timeFunction.N2.Week = N-Wert für Anzahl Wochen zurückliegend
 
-timeFunction.N1.Day.displayName = Anzahl Tag(e) zurückliegend
+timeFunction.N1.Day.displayName = &Anzahl Tag(e) zurückliegend
 
 timeFunction.PERIODCHOICE.YEAR_displayName =JAHR
 timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTAL

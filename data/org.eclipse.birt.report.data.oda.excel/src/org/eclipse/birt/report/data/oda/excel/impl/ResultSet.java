@@ -376,7 +376,8 @@ public class ResultSet implements IResultSet {
 	private int stringToInt(String stringValue) {
 		if (stringValue != null) {
 			try {
-				return new Integer(stringValue).intValue();
+				//xls is returning doubles 
+				return (int)Double.parseDouble(stringValue);
 			} catch (NumberFormatException e) {
 				try {
 					Number number = NumberFormat
@@ -402,7 +403,7 @@ public class ResultSet implements IResultSet {
 	private double stringToDouble(String stringValue) {
 		if (stringValue != null) {
 			try {
-				return new Double(stringValue).doubleValue();
+				return Double.parseDouble(stringValue);
 			} catch (NumberFormatException e) {
 				try {
 					Number number = NumberFormat

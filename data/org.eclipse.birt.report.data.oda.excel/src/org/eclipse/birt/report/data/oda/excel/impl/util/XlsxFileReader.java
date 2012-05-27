@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class XlsxFileReader {
 
 	public LinkedHashMap<String, String> getSheetNames()
 			throws InvalidFormatException, IOException, SAXException {
-		InputStream wbData = reader.getWorkbookData();
+		BufferedInputStream wbData = new BufferedInputStream(reader.getWorkbookData());
 		LinkedHashMap<String, String> sheetMap = new LinkedHashMap<String, String>();
 		try {
 			InputSource wbSource = new InputSource(wbData);
@@ -82,7 +83,7 @@ public class XlsxFileReader {
 		StylesTable st = reader.getStylesTable();
 
 		XMLReader parser = fetchSheetParser(st, sst, callback, xlsxRowsToRead);
-		InputStream sheet = reader.getSheet(rid);
+		BufferedInputStream sheet = new BufferedInputStream(reader.getSheet(rid));
 		try {
 			InputSource sheetSource = new InputSource(sheet);
 			parser.parse(sheetSource);
@@ -159,9 +160,9 @@ public class XlsxFileReader {
 		                   formatString = BuiltinFormats.getBuiltinFormat(formatIndex);
 
 		            if( org.apache.poi.ss.usermodel.DateUtil.isADateFormat(formatIndex, formatString) ){
-				cellDataType =  cDataType.DATETIME;
+		            	cellDataType =  cDataType.DATETIME;
 		            }else{
-				cellDataType = cDataType.NUMBER;
+		            	cellDataType = cDataType.NUMBER;
 		            }
 		        }
 				else
@@ -172,15 +173,15 @@ public class XlsxFileReader {
                 currentColumn = getColumnNumber( r );
                 //expand the number of columns if needed in existing rows
                 if( currentColumn+1 > columnCount){
-			callback.columnExpansion(currentColumn+1);
-
-			//clean up current row
-			int newvals = (currentColumn+1) - columnCount;
-			for( int ii=0; ii<newvals;ii++){
-				values.add(ExcelODAConstants.EMPTY_STRING);
-			}
-
-			columnCount = currentColumn+1;
+                	callback.columnExpansion(currentColumn+1);
+                	
+                	//clean up current row
+                	int newvals = (currentColumn+1) - columnCount;
+                	for( int ii=0; ii<newvals;ii++){
+                		values.add(ExcelODAConstants.EMPTY_STRING);
+                	}               	
+                	
+            		columnCount = currentColumn+1;
                 }
 
 			}
@@ -256,17 +257,23 @@ public class XlsxFileReader {
 		}
 
 		private int getColumnNumber(String colname) {
+			int tmpcol = 0;
+			String drpNumber = colname;
+			for (int ch = 0; ch < colname.length(); ++ch) {
+				if (!Character.isLetter(colname.charAt(ch))) {
+					drpNumber = colname.substring(0, ch);
+					break;
+				}
+			}
 
-            int tmpcol = 0;
+			int sum = 0;
+			for (int ii = 0; ii < drpNumber.length(); ii++) {
+				tmpcol = (drpNumber.charAt(ii) - 'A') + 1;
+				sum = sum * 26 + tmpcol;
+			}
+			return sum - 1;
 
-            //remove cell number
-            for (int ch = 0; ch < colname.length(); ++ch) {
-		if( Character.isLetter(colname.charAt(ch)) ){
-			tmpcol = (ch*26) + colname.charAt(ch) - 'A';
 		}
-            }
-	        return tmpcol;
-	    }
 	}
 
 	/**

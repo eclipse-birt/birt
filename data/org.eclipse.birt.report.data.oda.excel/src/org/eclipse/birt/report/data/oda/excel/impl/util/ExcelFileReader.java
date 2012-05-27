@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -42,7 +43,7 @@ public class ExcelFileReader {
 	private InputStream fis;
 	private String fileExtension;
 	private List<String> workSheetList;
-	static LinkedHashMap<String, String> xlsxWorkSheetList;
+	LinkedHashMap<String, String> xlsxWorkSheetList;
 	private int currentSheetIndex = 0;
 
 	private Workbook workBook;
@@ -60,6 +61,10 @@ public class ExcelFileReader {
 	private XlsxFileReader xlsxread;
 	Map<String, String> xlsxSheetRidNameMap;
 
+	public void setCurrentRowIndex(int currentRowIndex) {
+		this.currentRowIndex = currentRowIndex;
+	}
+
 	public void setMaxColumnIndex(int maxColumnIndex) {
 		this.maxColumnIndex = maxColumnIndex;
 	}
@@ -72,6 +77,25 @@ public class ExcelFileReader {
 		this.xlsxRowsToRead = rowsToRead;
 	}
 
+	public boolean checkXlsEndOfRows(){
+		for(int cnt=currentRowIndex+1; cnt<= (currentRowIndex + ExcelODAConstants.BLANK_LOOK_AHEAD); cnt++){
+			Row row = sheet.getRow(cnt);
+			if (row != null) {
+				if (maxColumnIndex == 0)
+					maxColumnIndex = row.getLastCellNum();
+
+				for (short colIx = 0; colIx < maxColumnIndex; colIx++) {
+					Cell cell = row.getCell(colIx);
+					String cellVal = getCellValue(cell);
+					if( cell != null && cellVal != null && cellVal != ExcelODAConstants.EMPTY_STRING){
+						return false;
+					}
+				}
+			}			
+		}
+		return true;
+	}
+	
 	public List<String> readLine() throws IOException, OdaException {
 		if (!isInitialised)
 			initialise();
@@ -87,9 +111,17 @@ public class ExcelFileReader {
 				if (maxColumnIndex == 0)
 					maxColumnIndex = row.getLastCellNum();
 
+				boolean blankRow = true;
 				for (short colIx = 0; colIx < maxColumnIndex; colIx++) {
 					Cell cell = row.getCell(colIx);
-					rowData.add(getCellValue(cell));
+					String cellVal = getCellValue(cell);
+					if( cell != null && cellVal != null && cellVal != ExcelODAConstants.EMPTY_STRING){
+						blankRow = false;
+					}
+					rowData.add(cellVal);
+				}
+				if( blankRow ){
+					if( checkXlsEndOfRows() )return null;
 				}
 
 			} else {
@@ -114,28 +146,30 @@ public class ExcelFileReader {
 				xlsxread = new XlsxFileReader(fis);
 				callback = new XlsxRowCallBack();
 				xlsxSheetRidNameMap = xlsxread.getSheetNames();
-				String rid = xlsxSheetRidNameMap.get(workSheetList.get(currentSheetIndex));
-				xlsxread.processSheet(rid, callback, this.xlsxRowsToRead);
-				maxRowsInThisSheet = callback.getMaxRowsInSheet();
 
 				for (String sheetName : workSheetList) {
-					rid = xlsxSheetRidNameMap.get(sheetName);
+					String rid = xlsxSheetRidNameMap.get(sheetName);
 					if (rid == null)
 						throw new OdaException(
 								Messages.getString("invalid_sheet_name")); //$NON-NLS-1$
 
-					XlsxRowCallBack newCallback = new XlsxRowCallBack();
-					xlsxread.processSheet(rid, newCallback, this.xlsxRowsToRead);
-					maxRowsInAllSheet += newCallback.getMaxRowsInSheet();
+					xlsxread.processSheet(rid, callback, this.xlsxRowsToRead);
+					maxRowsInAllSheet = callback.getMaxRowsInSheet();
+					maxRowsInThisSheet = callback.getMaxRowsInSheet();
 				}
 
 			} else if ( isXlsFile( fileExtension ) ){
 
-				workBook = new HSSFWorkbook(fis);
+				if( workBook == null){
+					workBook = new HSSFWorkbook(fis);
+				}
 				formulaEvaluator = workBook.getCreationHelper()
 						.createFormulaEvaluator();
 				workBook.setMissingCellPolicy(Row.RETURN_NULL_AND_BLANK);
 				sheet = workBook.getSheet(workSheetList.get(currentSheetIndex));
+				if (sheet == null)
+					throw new OdaException(
+							Messages.getString("invalid_sheet_name")); 
 				maxRowsInThisSheet = sheet.getPhysicalNumberOfRows();
 
 				for (String sheetName : workSheetList) {
@@ -163,16 +197,7 @@ public class ExcelFileReader {
 			return false;
 		}
 		if (isXlsxFile(fileExtension)) {
-			try {
-				String rid = xlsxSheetRidNameMap.get(workSheetList.get(currentSheetIndex));
-				callback = new XlsxRowCallBack();
-				xlsxread.processSheet(rid, callback,this.xlsxRowsToRead);
-				maxRowsInThisSheet = callback.getMaxRowsInSheet();
-			} catch (OpenXML4JException e) {
-				throw new OdaException(e);
-			} catch (SAXException e) {
-				throw new OdaException(e);
-			}
+			return false;
 		} else if ( isXlsFile( fileExtension ) ){
 			do {
 				sheet = workBook.getSheet(workSheetList.get(currentSheetIndex));
@@ -215,7 +240,9 @@ public class ExcelFileReader {
 		{
 			try {
 				xlsIs = ResourceLocatorUtil.getURIStream( uri );
-				new HSSFWorkbook(xlsIs);
+				
+				//This is expensive.  If not an xlsx document assume it is a xls doc
+				//new HSSFWorkbook(xlsIs);
 				return ExcelODAConstants.XLS_FORMAT;
 			} catch (Exception e1) {
 			}
@@ -249,8 +276,8 @@ public class ExcelFileReader {
 		}
 
 		if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-			if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
-				Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
+			if(	HSSFDateUtil.isCellDateFormatted(cell) ){		
+				Date myjavadate =  HSSFDateUtil.getJavaDate(cell.getNumericCellValue());
 				long millis = myjavadate.getTime();
 				return Long.toString(millis);
 			}
@@ -304,15 +331,17 @@ public class ExcelFileReader {
 			// using uri, we may not know the extension name of the file.
 			if (isXlsxFile(extension)) {
 				XlsxFileReader poiRdr = new XlsxFileReader(fis);
-				xlsxWorkSheetList = poiRdr.getSheetNames();
-				for (Map.Entry<String, String> entry : xlsxWorkSheetList
+				
+				LinkedHashMap<String, String> lxlsxWorkSheetList  = poiRdr.getSheetNames();
+				for (Map.Entry<String, String> entry : lxlsxWorkSheetList
 						.entrySet()) {
 					sheetNames.add(entry.getKey());
 				}
 			} else if ( isXlsFile( extension ) ){
-				Workbook workBook = new HSSFWorkbook(fis);
-				for (int i = 0; i < workBook.getNumberOfSheets(); i++) {
-					sheetNames.add(workBook.getSheetName(i));
+				//Only called in design env
+				HSSFWorkbook lworkBook = new HSSFWorkbook(fis);
+				for (int i = 0; i < lworkBook.getNumberOfSheets(); i++) {
+					sheetNames.add(lworkBook.getSheetName(i));
 				}
 			}
 		} catch (FileNotFoundException e) {

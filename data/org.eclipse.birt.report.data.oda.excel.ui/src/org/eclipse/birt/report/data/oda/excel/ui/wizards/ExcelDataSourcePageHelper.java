@@ -145,7 +145,14 @@ public class ExcelDataSourcePageHelper {
 				}
 				else if ( e.widget instanceof MenuButton )
 				{
-					handleFileSelection( SELECT_RELATIVE_PATH );
+					if ( ri == null)
+					{
+						handleFileSelection( SELECT_ABSOLUTE_PATH );
+					}
+					else 
+					{
+						handleFileSelection( SELECT_RELATIVE_PATH );
+					}
 				}
 			}
 		};
@@ -198,7 +205,7 @@ public class ExcelDataSourcePageHelper {
 		{
 			RelativeFileSelectionDialog dialog = new RelativeFileSelectionDialog( folderLocation.getShell( ),
 					new File( getResourceFolder( ) ) );
-
+			dialog.setTitle( Messages.getString( "SelectFile.Title" ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				try
@@ -226,10 +233,12 @@ public class ExcelDataSourcePageHelper {
 			FileDialog dialog = new FileDialog( folderLocation.getShell( ) );
 			dialog.setFilterExtensions( fileExtensions );
 			String folderLocationValue = getFolderLocationString( );
-			if ( folderLocationValue != null
-					&& folderLocationValue.trim( ).length( ) > 0 )
+			File file = new File (folderLocationValue);
+			String folderValue = file.getParent( );
+			if ( folderValue != null
+					&& folderValue.trim( ).length( ) > 0 )
 			{
-				dialog.setFilterPath( folderLocationValue );
+				dialog.setFilterPath( folderValue );
 			}
 
 			String selectedLocation = dialog.open( );

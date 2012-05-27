@@ -112,35 +112,35 @@ timeFunction.N2 = 2 番目の期間の N 値
 timeFunction.PERIOD1.displayName = 最初の期間(&F)
 timeFunction.PERIOD2.displayName = 2 番目の期間(&R)
 timeFunction.N1.displayName = 過去の期間数
-timeFunction.N2.displayName = 開始
-timeFunction.N1.next.displayName = 次へ
-timeFunction.N2.Ago.displayName=前
-timeFunction.N1.current.displayName=現在
-timeFunction.N1.period.displayName= 期間
-timeFunction.trailing.N1.period.displayName=過去
-timeFunction.trailing.N1.Month.displayName= 過去の月数 :
+timeFunction.N2.displayName = 開始日(&R)
+timeFunction.N1.next.displayName = 次へ(&N)
+timeFunction.N2.Ago.displayName=前(&A)
+timeFunction.N1.current.displayName=現在のページ(&U)
+timeFunction.N1.period.displayName= 期間(&P)
+timeFunction.trailing.N1.period.displayName=過去(&I)
+timeFunction.trailing.N1.Month.displayName= 過去の月数(&N)
  
-timeFunction.N1.Year.displayName = 過去の年数
-timeFunction.N2.Year.displayName = 過去の年数
+timeFunction.N1.Year.displayName = 過去の年数(&N)
+timeFunction.N2.Year.displayName = 過去の年数(&N)
 timeFunction.N1.Year = 過去の期間数の N 値
 timeFunction.N2.Year = 過去の期間数の N 値
 
-timeFunction.N1.Month.displayName = 過去の月数
-timeFunction.N2.Month.displayName = 過去の月数
+timeFunction.N1.Month.displayName = 過去の月数(&N)
+timeFunction.N2.Month.displayName = 過去の月数(&N)
 timeFunction.N1.Month = 過去の月数の N 値
 timeFunction.N2.Month = 過去の月数の N 値
 
-timeFunction.N1.Quarter.displayName = 過去の四半期数
-timeFunction.N2.Quarter.displayName = 過去の四半期数
+timeFunction.N1.Quarter.displayName = 過去の四半期数(&N)
+timeFunction.N2.Quarter.displayName = 過去の四半期数(&N)
 timeFunction.N1.Quarter = 過去の四半期数の N 値
 timeFunction.N2.Quarter = 過去の四半期数の N 値
 
-timeFunction.N1.Week.displayName = 過去の週数
-timeFunction.N2.Week.displayName = 過去の週数
+timeFunction.N1.Week.displayName = 過去の週数(&N)
+timeFunction.N2.Week.displayName = 過去の週数(&N)
 timeFunction.N1.Week = 過去の週数の N 値
 timeFunction.N2.Week = 過去の週数の N 値
 
-timeFunction.N1.Day.displayName = 過去の日数
+timeFunction.N1.Day.displayName = 過去の日数(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =四半期

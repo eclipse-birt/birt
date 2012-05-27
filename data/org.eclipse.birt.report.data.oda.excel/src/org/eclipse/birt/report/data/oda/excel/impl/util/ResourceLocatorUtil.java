@@ -13,6 +13,7 @@
 
 package org.eclipse.birt.report.data.oda.excel.impl.util;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -122,7 +123,7 @@ public class ResourceLocatorUtil
 	{
 		if ( obj instanceof File )
 		{
-			return new FileInputStream( (File) obj );
+			return new BufferedInputStream( new FileInputStream( (File) obj ));
 		}
 
 		else if ( obj instanceof URI )
