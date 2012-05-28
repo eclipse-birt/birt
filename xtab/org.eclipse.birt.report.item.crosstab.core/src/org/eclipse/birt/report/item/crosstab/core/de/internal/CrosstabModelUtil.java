@@ -1881,6 +1881,10 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				&& !crosstab.isHideMeasureHeader( )
 				&& crosstab.getMeasureCount( ) > 0 )// setHideMeasureHeader
 		{
+			if (crosstab.getHeaderCount( ) <= 1)
+			{
+				return;
+			}
 			if ( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) ) )
 			{
 
