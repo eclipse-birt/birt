@@ -4637,6 +4637,7 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
 CrosstabBindingDialogHelper.calculation.labe=Zeit&intervall:
+CrosstabBindingDialogHelper.calculation.group=Time Period
 CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:

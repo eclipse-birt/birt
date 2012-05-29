@@ -4637,6 +4637,7 @@ ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 CrosstabBindingDialogHelper.AggOn.All=全部
 CrosstabBindingDialogHelper.bindngName.timeperiod=周期
 CrosstabBindingDialogHelper.calculation.labe=时间周期(&P):
+CrosstabBindingDialogHelper.calculation.group=Time Period
 CrosstabBindingDialogHelper.recentday.description=时间维中的最近日期
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:

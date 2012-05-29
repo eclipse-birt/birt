@@ -4637,6 +4637,7 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 CrosstabBindingDialogHelper.AggOn.All=모두
 CrosstabBindingDialogHelper.bindngName.timeperiod=기간
 CrosstabBindingDialogHelper.calculation.labe=시간(&P):
+CrosstabBindingDialogHelper.calculation.group=Time Period
 CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=날짜 지정:
