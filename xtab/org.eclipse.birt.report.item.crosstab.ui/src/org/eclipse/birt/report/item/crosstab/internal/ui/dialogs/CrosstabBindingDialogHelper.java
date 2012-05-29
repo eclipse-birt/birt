@@ -107,6 +107,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
@@ -134,8 +135,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
 	private static final String DEFAULT_TIMEPERIOD_NAME = Messages.getString( "CrosstabBindingDialogHelper.bindngName.timeperiod" ); //$NON-NLS-1$
-	private static final String CALCULATION_TYPE = Messages.getString( "CrosstabBindingDialogHelper.calculation.labe" ); //$NON-NLS-1$
-
+	private static final String CALCULATION_TYPE = Messages.getString( "CrosstabBindingDialogHelper.calculation.label" ); //$NON-NLS-1$
+	private static final String CALCULATION_GROUP = Messages.getString( "CrosstabBindingDialogHelper.calculation.group" ); //$NON-NLS-1$
+	
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
@@ -149,7 +151,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Text dateText;
 	private Combo cmbType, cmbFunction, cmbAggOn, calculationType,
 			timeDimension;
-	private Composite paramsComposite, calculationComposite;
+	private Composite paramsComposite;
+	private Group calculationComposite;
 
 	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
 	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
@@ -267,10 +270,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
-		GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true, 4, 1 );
-		gData.heightHint = lbName.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-		Label upperBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
-		upperBreak.setLayoutData(gData);
+//		GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true, 4, 1 );
+//		gData.heightHint = lbName.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+//		Label upperBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+//		upperBreak.setLayoutData(gData);
 		
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -307,8 +310,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			createCommonSection( composite );
 		}
 		
-		Label lowerBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
-		lowerBreak.setLayoutData(gData);
+//		Label lowerBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+//		lowerBreak.setLayoutData(gData);
 		
 		if ( isTimePeriod( ) )
 		{
@@ -759,9 +762,34 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void createCalculationSelection( Composite composite )
 	{
-		new Label( composite, SWT.NONE ).setText( CALCULATION_TYPE );
-		calculationType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		calculationComposite = new Group( composite, SWT.NONE );
+		calculationComposite.setText( CALCULATION_GROUP );
+
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.horizontalSpan = 4;
+		// gridData.exclude = true;
+		calculationComposite.setLayoutData( gridData );
+
+		GridLayout layout = new GridLayout( );
+		// layout.horizontalSpacing = layout.verticalSpacing = 0;
+		// layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 4;
+		Layout parentLayout = calculationComposite.getParent( ).getLayout( );
+		if ( parentLayout instanceof GridLayout )
+			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
+		calculationComposite.setLayout( layout );
+
+		Label calculationLable = new Label( calculationComposite, SWT.NONE );
+		calculationLable.setText( CALCULATION_TYPE );
+		GridData gd = new GridData( );
+		gd.widthHint = lbName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x
+				- layout.marginWidth
+				- 3;
+		calculationLable.setLayoutData( gd );
+
+		calculationType = new Combo( calculationComposite, SWT.BORDER
+				| SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		calculationType.setLayoutData( gd );
 		calculationType.setVisibleItemCount( 30 );
@@ -782,26 +810,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 		} );
-
-		calculationComposite = new Composite( composite, SWT.NONE );
-		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-		gridData.horizontalSpan = 4;
-		gridData.exclude = true;
-		calculationComposite.setLayoutData( gridData );
-		GridLayout layout = new GridLayout( );
-		// layout.horizontalSpacing = layout.verticalSpacing = 0;
-		layout.marginWidth = layout.marginHeight = 0;
-		layout.numColumns = 4;
-		Layout parentLayout = calculationComposite.getParent( ).getLayout( );
-		if ( parentLayout instanceof GridLayout )
-			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
-		calculationComposite.setLayout( layout );
 	}
 
 	private void handleCalculationSelectEvent( )
 	{
 		Control[] children = calculationComposite.getChildren( );
-		for ( int i = 0; i < children.length; i++ )
+		for ( int i = 2; i < children.length; i++ )
 		{
 			children[i].dispose( );
 		}
@@ -809,9 +823,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		ITimeFunction function = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
 		if ( function == null )
 		{
-			( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
-			( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
-			calculationComposite.setVisible( false );
+//			( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
+//			( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
+//			calculationComposite.setVisible( false );
 		}
 		else
 		{
@@ -819,9 +833,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			List<IArgumentInfo> infos = function.getArguments( );
 			if ( infos == null || infos.size( ) == 0 )
 			{
-				( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
-				( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
-				calculationComposite.setVisible( false );
+//				( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
+//				( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
+//				calculationComposite.setVisible( false );
 			}
 			else
 			{
