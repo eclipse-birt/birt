@@ -96,7 +96,7 @@
 	if ( parameterBean.getSelectionList( ) != null )
 	{
 		//TED 50195
-		if( !parameterBean.isRequired( ) || DataUtil.trimString( defaultValue ).length( )<=0  )
+		if( !parameterBean.isRequired( ) || ( (parameterBean.getValueList(  ) == null || parameterBean.getValueList(  ).size(  ) == 0) &&  DataUtil.trimString( defaultValue ).length( )<=0 ) )
 		{
 			if( allowMultiValue && DataUtil.contain( values, "", true ) )
 			{
