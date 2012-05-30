@@ -169,20 +169,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	{
 		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
 		{
-			if ( HTML2Content.allInline( foreign ) )
-			{
-				HyperlinkDef link = parseHyperLink( foreign );
-				IAutoTextContent autoText = foreign.getReportContent( )
-						.createAutoTextContent( );
-				autoText.setText( HTML2Content.getForeignPlainText( foreign ) );
-				startAutoText( autoText );
-			}
-			else
-			{
-				HTML2Content.html2Content( foreign );
-				HyperlinkDef link = parseHyperLink( foreign );
-				engine.processForeign( foreign, link );
-			}
+			HTML2Content.html2Content( foreign );
+			HyperlinkDef link = parseHyperLink(foreign);
+			engine.processForeign( foreign, link );
 		}
 	}
 
