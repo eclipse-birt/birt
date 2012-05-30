@@ -49,6 +49,8 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IBuildInBaseTimeFunction;
+import org.eclipse.birt.report.data.adapter.i18n.Message;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ColumnAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ComputedColumnAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ConditionAdapter;
@@ -345,13 +347,14 @@ public class ModelAdapter implements IModelAdapter
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
-	public IBinding adaptBinding( ComputedColumnHandle handle )
+	public IBinding adaptBinding( ComputedColumnHandle handle ) throws AdapterException
 	{
+		if ( handle == null )
+			return null;
+		Binding result = new Binding( handle.getName( ) );
 		try
 		{
-			if ( handle == null )
-				return null;
-			Binding result = new Binding( handle.getName( ) );
+			
 			if ( handle.getExpression( ) != null )
 			{
 				ScriptExpression expr = this.adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
@@ -371,10 +374,10 @@ public class ModelAdapter implements IModelAdapter
 					: this.adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.FILTER_MEMBER )
 							.getValue( ),
 							DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) );
-			populateArgument( result, handle );
+			
 
 			populateAggregateOns( result, handle );
-			return result;
+			
 		}
 		catch ( Exception e )
 		{
@@ -382,6 +385,9 @@ public class ModelAdapter implements IModelAdapter
 			return null;
 		}
 
+		populateArgument(result, handle);
+
+		return result;
 	}
 	
 	
@@ -873,7 +879,13 @@ public class ModelAdapter implements IModelAdapter
 			try
 			{
 				Expression expr = (Expression)arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER ).getValue( );
-				binding.addArgument( this.adaptExpression( expr ));
+				ScriptExpression scriptExpression = this.adaptExpression( expr );
+				if ( "bre".equals( expr.getType( ) ) && scriptExpression == null )
+					throw new AdapterException(Message.formatMessage(
+							ResourceConstants.INVALID_BINDING_EXPRESSION,
+							new Object[] { expr.getStringExpression() } ) );
+				else
+					binding.addArgument(scriptExpression);
 			}
 			catch ( DataException e )
 			{
@@ -922,6 +934,10 @@ public class ModelAdapter implements IModelAdapter
 			jsExpr.setConstant( true );
 			jsExpr.setConstantValue( expr.getExpression( ) );
 			return jsExpr;
+		}
+		else if ( "bre".equals( expr.getType( ) ) )
+		{
+			return null;
 		}
 		else
 		{
