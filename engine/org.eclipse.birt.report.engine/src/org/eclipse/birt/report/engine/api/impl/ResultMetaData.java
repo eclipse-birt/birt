@@ -23,6 +23,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 public class ResultMetaData implements IResultMetaData
 {
@@ -39,6 +42,12 @@ public class ResultMetaData implements IResultMetaData
 	public ResultMetaData( IBaseQueryDefinition query )
 	{
 		initializeMetaData( query );
+		this.selectedColumns = null;
+	}
+	
+	public ResultMetaData( IBaseQueryDefinition query, DesignElementHandle handle )
+	{
+		initializeMetaData( query, handle );
 		this.selectedColumns = null;
 	}
 	
@@ -78,7 +87,12 @@ public class ResultMetaData implements IResultMetaData
 
 	protected void initializeMetaData( IBaseQueryDefinition query )
 	{
-		appendMetaData( query );
+		initializeMetaData( query, null );
+	}
+	
+	protected void initializeMetaData( IBaseQueryDefinition query, DesignElementHandle handle )
+	{
+		appendMetaData( query, handle );
 	}
 
 	private ArrayList metaEntries = new ArrayList( );
@@ -89,17 +103,48 @@ public class ResultMetaData implements IResultMetaData
 		String name;
 		String displayName;
 		int type;
+		boolean allowExport;
 
 		MetaDataEntry( String name, String displayName, int type )
+		{
+			this( name, displayName, type, true );
+		}
+		
+		MetaDataEntry( String name, String displayName, int type, boolean allowExport )
 		{
 			this.name = name;
 			this.displayName = displayName;
 			this.type = type;
+			this.allowExport = allowExport;
 		}
 	}
 
-	protected void appendMetaData( IBaseQueryDefinition query )
+	protected void appendMetaData( IBaseQueryDefinition query, DesignElementHandle handle )
 	{
+		TableHandle tableHandle = null;
+		ArrayList<ComputedColumn> columnList = null;
+		ArrayList<String> notAllowed = new ArrayList<String>( );
+		if ( handle != null
+				&& handle instanceof TableHandle )
+		{
+			tableHandle = (TableHandle) handle;
+		}
+
+		if (tableHandle != null)
+		{
+			columnList = (ArrayList<ComputedColumn>)tableHandle.getProperty( TableHandle.BOUND_DATA_COLUMNS_PROP );
+		}
+		if (columnList != null )
+		{
+			for( int i = 0; i < columnList.size( ); i++ )
+			{
+				if (!columnList.get( i ).allowExport( ) )
+				{
+					notAllowed.add( columnList.get( i ).getName( ) );
+				}
+			}
+		}
+		
 		Map bindings = query.getBindings( );
 		Iterator iter = bindings.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
@@ -112,7 +157,8 @@ public class ResultMetaData implements IResultMetaData
 				if ( binding.exportable( ) )
 				{
 					metaEntries.add( new MetaDataEntry( name, binding
-							.getDisplayName( ), binding.getDataType( ) ) );
+							.getDisplayName( ), binding.getDataType( ),
+							isColumnAllowedExport( name, notAllowed ) ) );
 				}
 			}
 			catch ( DataException ex )
@@ -122,6 +168,22 @@ public class ResultMetaData implements IResultMetaData
 		}
 	}
 
+	private boolean isColumnAllowedExport(String columnName, ArrayList<String> notAllowed)
+	{
+		if ( notAllowed == null || notAllowed.size( ) <= 0 )
+		{
+			return true;
+		}
+		for ( int i = 0; i < notAllowed.size( ); i++ )
+		{
+			if ( columnName.equals( notAllowed.get( i ) ) )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public int getColumnCount( )
 	{
 		if ( selectedColumns != null )
@@ -194,6 +256,22 @@ public class ResultMetaData implements IResultMetaData
 		return columnLabel;
 	}
 
+	public boolean getAllowExport( int index ) throws BirtException
+	{
+		index = getColumnIndex( index );
+		boolean allowExport;
+		if ( null != parentMetaData )
+		{
+			allowExport = parentMetaData.getAllowExport( index );
+		}
+		else
+		{
+			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
+			allowExport = entry.allowExport;
+		}
+		return allowExport;
+	}
+	
 	private int getColumnIndex( int index ) throws BirtException
 	{
 		if ( selectedColumns == null )
