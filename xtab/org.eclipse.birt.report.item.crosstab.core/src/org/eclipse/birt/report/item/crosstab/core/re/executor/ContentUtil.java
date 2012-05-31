@@ -37,6 +37,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.Expression;
+import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -47,10 +48,13 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * ContentUtil
@@ -364,7 +368,8 @@ class ContentUtil
 				Object result = null;
 				if ( expr != null )
 				{
-					result = evaluator.evaluate( expr );
+					result = evaluateExpression( rule.getExpressionProperty( HideRule.VALUE_EXPR_MEMBER ),
+							evaluator );
 				}
 
 				if ( result == null || !( result instanceof Boolean ) )
@@ -426,9 +431,11 @@ class ContentUtil
 
 		String headers = handle.getModelHandle( )
 				.getStringProperty( ICellModel.HEADERS_PROP );
-		if ( headers != null )
+		if ( validExpression( headers ) != null )
 		{
-			Object tmp = evaluator.evaluate( validExpression( headers ) );
+			Object tmp = evaluateExpression( handle.getModelHandle( )
+					.getExpressionProperty( ICellModel.HEADERS_PROP ),
+					evaluator );
 			if ( tmp != null && !tmp.equals( "" ) ) //$NON-NLS-1$
 			{
 				content.setHeaders( tmp.toString( ) );
@@ -448,9 +455,10 @@ class ContentUtil
 		}
 
 		String bookmark = modelHandle.getBookmark( );
-		if ( bookmark != null )
+		if ( validExpression( bookmark ) != null )
 		{
-			Object tmp = evaluator.evaluate( validExpression( bookmark ) );
+			Object tmp = evaluateExpression( modelHandle.getExpressionProperty( IReportItemModel.BOOKMARK_PROP ),
+					evaluator );
 			if ( tmp != null && !tmp.equals( "" ) ) //$NON-NLS-1$
 			{
 				content.setBookmark( tmp.toString( ) );
@@ -458,9 +466,10 @@ class ContentUtil
 		}
 
 		TOCHandle toc = modelHandle.getTOC( );
-		if ( toc != null )
+		if ( toc != null && validExpression( toc.getExpression( ) ) != null )
 		{
-			Object tmp = evaluator.evaluate( validExpression( toc.getExpression( ) ) );
+			Object tmp = evaluateExpression( toc.getExpressionProperty( TOC.TOC_EXPRESSION ),
+					evaluator );
 			if ( tmp != null )
 			{
 				content.setTOC( tmp );
@@ -482,6 +491,20 @@ class ContentUtil
 		{
 			return expr;
 		}
+		return null;
+	}
+
+	private static Object evaluateExpression( ExpressionHandle expHandle,
+			IBaseResultSet evaluator ) throws BirtException
+	{
+		if ( expHandle != null )
+		{
+			// XXX note this method cannot process the "constant" type, need use
+			// modeladapter in that case.
+			return evaluator.evaluate( expHandle.getType( ),
+					expHandle.getStringExpression( ) );
+		}
+
 		return null;
 	}
 
