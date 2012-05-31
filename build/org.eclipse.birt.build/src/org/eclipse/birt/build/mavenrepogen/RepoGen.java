@@ -122,6 +122,7 @@ public class RepoGen
         addExternalDependency("org.apache.xerces-2.9.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xerces","2.9.0");
         addExternalDependency("org.apache.xml.resolver-1.2.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xml.resolver","1.2.0");
         addExternalDependency("org.apache.xml.serializer-2.7.1.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xml.serializer","2.7.1");
+        /*
         addExternalDependency("org.eclipse.core.contenttype-3.4.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.contenttype","3.4.100");
         addExternalDependency("org.eclipse.core.expressions-3.4.300.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.expressions","3.4.300");
         addExternalDependency("org.eclipse.core.filesystem-1.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.filesystem","1.3.100");
@@ -132,11 +133,38 @@ public class RepoGen
         addExternalDependency("org.eclipse.equinox.registry-3.5.101.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.registry","3.5.101");
         addExternalDependency("org.eclipse.osgi.services-3.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.osgi.services","3.3.0");
         addExternalDependency("org.eclipse.update.configurator-3.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.update.configurator","3.3.100");
+        */
         addExternalDependency("org.w3c.css.sac-1.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.css.sac","1.3.0");
         addExternalDependency("org.w3c.dom.smil-1.0.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.smil","1.0.0");
         addExternalDependency("org.w3c.dom.svg-1.1.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.svg","1.1.0");
         addExternalDependency("Tidy-1.jar","org.eclipse.birt.runtime.3_7_1","Tidy","1");
-
+        
+        addExternalDependency("com.ibm.icu_4.4.2.v20110823.jar","org.eclipse.birt.runtime","com.ibm.icu","4.4.2.v20110823");
+        
+        addExternalDependency("org.eclipse.datatools.connectivity.apache.derby.dbdefinition_1.0.2.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.apache.derby.dbdefinition","1.0.2.v201107221459");
+		addExternalDependency("org.eclipse.datatools.connectivity.apache.derby_1.0.102.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.apache.derby","1.0.102.v201107221459");
+		addExternalDependency("org.eclipse.datatools.connectivity.console.profile_1.0.10.v201109250955.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.console.profile","1.0.10.v201109250955");
+		addExternalDependency("org.eclipse.datatools.connectivity.db.generic_1.0.1.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.db.generic","1.0.1.v201107221459");
+		addExternalDependency("org.eclipse.datatools.connectivity.dbdefinition.genericJDBC_1.0.1.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.dbdefinition.genericJDBC","1.0.1.v201107221459");
+		addExternalDependency("org.eclipse.datatools.connectivity.oda.consumer_3.2.5.v201109151100.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.oda.consumer","3.2.5.v201109151100");
+		addExternalDependency("org.eclipse.datatools.connectivity.oda.flatfile_3.1.2.v201112081200.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.oda.flatfile","3.1.2.v201112081200");
+		addExternalDependency("org.eclipse.datatools.connectivity.oda_3.3.3.v201110130935.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.oda","3.3.3.v201110130935");
+		addExternalDependency("org.eclipse.datatools.enablement.hsqldb.dbdefinition_1.0.0.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.hsqldb.dbdefinition","1.0.0.v201107221502");
+		addExternalDependency("org.eclipse.datatools.enablement.hsqldb_1.0.0.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.hsqldb","1.0.0.v201107221502");
+		addExternalDependency("org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition_1.0.4.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition","1.0.4.v201107221502");
+		addExternalDependency("org.eclipse.datatools.enablement.ibm.db2.luw_1.0.2.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.db2.luw","1.0.2.v201107221502");
+		addExternalDependency("org.eclipse.datatools.enablement.ibm.informix.dbdefinition_1.0.4.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.informix.dbdefinition","1.0.4.v201107221502");
+		addExternalDependency("org.eclipse.datatools.enablement.ibm.informix_1.0.1.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.informix","1.0.1.v201107221502");
+		addExternalDependency("org.eclipse.datatools.enablement.msft.sqlserver_1.0.1.v201107221504.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.msft.sqlserver","1.0.1.v201107221504");
+		addExternalDependency("org.eclipse.datatools.enablement.mysql.dbdefinition_1.0.4.v201109022331.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.mysql.dbdefinition","1.0.4.v201109022331");
+		addExternalDependency("org.eclipse.datatools.enablement.oda.xml_1.2.3.v201112061438.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.oda.xml","1.2.3.v201112061438");
+		addExternalDependency("org.eclipse.datatools.enablement.oracle_1.0.0.v201107221506.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.oracle","1.0.0.v201107221506");
+		addExternalDependency("org.eclipse.datatools.enablement.postgresql.dbdefinition_1.0.2.v201110070445.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.postgresql.dbdefinition","1.0.2.v201110070445");
+		addExternalDependency("org.eclipse.datatools.modelbase.dbdefinition_1.0.2.v201107221519.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.dbdefinition","1.0.2.v201107221519");
+		addExternalDependency("org.eclipse.datatools.modelbase.derby_1.0.0.v201107221519.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.derby","1.0.0.v201107221519");
+		addExternalDependency("org.eclipse.datatools.modelbase.sql.query_1.1.2.v201110151315.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.sql.query","1.1.2.v201110151315");
+		addExternalDependency("org.eclipse.datatools.modelbase.sql_1.0.5.v201110151330.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.sql","1.0.5.v201110151330");
+ 
 	}
 
 	private void addExternalDependency(final String fileName, final String groupId,
