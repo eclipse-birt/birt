@@ -1607,6 +1607,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		localizeIncludeResourceValues( source, targetDesign );
 
 		localizeScriptLibValues( source, targetDesign );
+		
+		localizeIncludeScriptValues( source, targetDesign );
 
 		// css style sheet must be treated here. It is different from other
 		// elements and property values.
@@ -1825,32 +1827,53 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	void localizeIncludeResourceValues( ReportDesign source, ReportDesign target )
 	{
-		List<Library> libs = source.getAllLibraries( );
-
+		localizeIncludeValues(source, target, IModuleModel.INCLUDE_RESOURCE_PROP);
+	}
+	
+	/**
+	 * Flattens the included scripts of the library to the report design.
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 */
+	private void localizeIncludeScriptValues(ReportDesign source, ReportDesign target)
+	{
+		localizeIncludeValues(source, target, IModuleModel.INCLUDE_SCRIPTS_PROP);
+	}
+	
+	/**
+	 * Flattens the included values (resources and scripts) of the library to the report design.
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 * @param propName
+	 * 				the property name of the value
+	 */
+	private void localizeIncludeValues(ReportDesign source, ReportDesign target, String propName)
+	{
 		ElementPropertyDefn propDefn = source
-				.getPropertyDefn( IModuleModel.INCLUDE_RESOURCE_PROP );
+				.getPropertyDefn( propName );
 
 		Object obj = source.getProperty( source, propDefn );
 		List<Object> newValues = new ArrayList<Object>( );
 		if ( obj != null )
 			newValues.addAll( (List<Object>) obj );
 
-		for ( int i = 0; i < libs.size( ); i++ )
+		for ( Library lib : source.getAllLibraries( ) )
 		{
-			Library lib = libs.get( i );
 			Object libObj = lib.getProperty( lib, propDefn );
 
 			if ( libObj == null )
 				continue;
 
-			List<Object> libIncludedResourceList = (List<Object>) libObj;
-
-			for ( int j = 0; j < libIncludedResourceList.size( ); j++ )
+			for ( Object value : (List<Object>) libObj )
 			{
-				String resourceName = (String) libIncludedResourceList.get( j );
-
-				if ( !newValues.contains( resourceName ) )
-					newValues.add( resourceName );
+				if ( !newValues.contains( value ) )
+					newValues.add( value );
 			}
 		}
 
