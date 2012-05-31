@@ -76,6 +76,7 @@ public class JDBCDriverManager
 	// A HashMap of driverinfo extensions which provides IConnectionFactory implementation
 	// Map is from driverClass (String) to either IConfigurationElement or IConnectionFactory 
 	private HashMap driverExtensions = null;
+	private boolean loadedDriver = false;
 	
 	private DriverClassLoader extraDriverLoader = null;
 	
@@ -497,12 +498,14 @@ public class JDBCDriverManager
 	
 	private void loadDriverExtensions()
 	{
-		if ( driverExtensions != null )
+		if ( loadedDriver )
 			// Already loaded
 			return;
 		
 		synchronized( this )
 		{
+			if( loadedDriver )
+				return;
 			// First time: load all driverinfo extensions
 			driverExtensions = new HashMap();
 			IExtensionRegistry extReg = Platform.getExtensionRegistry();
@@ -551,6 +554,7 @@ public class JDBCDriverManager
 					}
 				}
 			}
+			loadedDriver = true;
 		}
 	}
 	
