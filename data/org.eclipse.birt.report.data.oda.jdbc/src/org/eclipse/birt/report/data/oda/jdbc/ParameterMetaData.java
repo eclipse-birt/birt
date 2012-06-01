@@ -156,8 +156,6 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
-			if ( "S1C00".equals( e.getSQLState( ) ) )
-				return -1;
 			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_CANNOT_GET,
 					e );
 		}
