@@ -28,7 +28,7 @@ ShowAsViewAction.DisplayName=표시
 ShowAsViewAction.TransName=표시
 
 MeasureComboPropertyDescriptorProvider.TransName=크로스 탭 방향 변경
-MeasureHandleDropAdapter_trans_name=Add Measure
+MeasureHandleDropAdapter_trans_name=측정값 추가
 
 ###########################################################
 # Crosstab Command trans name
@@ -91,7 +91,7 @@ CrossTabMeasureNodeProvider.Detail=상세 정보 -
 MeasureSubNodeProvider.Header=머리글
 MeasureSubNodeProvider.Detail=상세 정보
 MeasureSubNodeProvider.Aggregation=집계
-MergeCrosstabHeaderCellAction_name=Merge Header Cell
+MergeCrosstabHeaderCellAction_name=머리글 셀 병합
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=그룹 수준
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
@@ -277,7 +277,7 @@ SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...
 SelectValueDialog.selectValue=값 선택
 SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습니다.
-SplitCrosstabHeadCellAction_name=Split Cell
+SplitCrosstabHeadCellAction_name=셀 분할
 
 CrosstabPreferencePage.Title=크로스 탭
 CrosstabPreferencePage.filterLimit=필터 제한

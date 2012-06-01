@@ -28,7 +28,7 @@ ShowAsViewAction.DisplayName=Mostrar como
 ShowAsViewAction.TransName=Mostrar como
 
 MeasureComboPropertyDescriptorProvider.TransName=Cambiar la orientación de la tabla de referencias cruzadas
-MeasureHandleDropAdapter_trans_name=Add Measure
+MeasureHandleDropAdapter_trans_name=Añadir medida
 
 ###########################################################
 # Crosstab Command trans name
@@ -91,7 +91,7 @@ CrossTabMeasureNodeProvider.Detail=Detalle -
 MeasureSubNodeProvider.Header=Encabezado
 MeasureSubNodeProvider.Detail=Detalle
 MeasureSubNodeProvider.Aggregation=Agregación
-MergeCrosstabHeaderCellAction_name=Merge Header Cell
+MergeCrosstabHeaderCellAction_name=Combinar celda de encabezado
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Nivel de grupo
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
@@ -277,7 +277,7 @@ SelectValueDialog.noExpressionSet=No se ha ajustado ninguna expresión
 SelectValueDialog.retrieving=Recuperando lista...
 SelectValueDialog.selectValue=Seleccionar valor
 SelectValueDialog.messages.info.selectVauleUnavailable=La lista de valores no está disponible.
-SplitCrosstabHeadCellAction_name=Split Cell
+SplitCrosstabHeadCellAction_name=Dividir celda
 
 CrosstabPreferencePage.Title=Tabla de referencias cruzadas
 CrosstabPreferencePage.filterLimit=Límite de filtro

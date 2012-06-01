@@ -28,7 +28,7 @@ ShowAsViewAction.DisplayName=表示形式
 ShowAsViewAction.TransName=表示形式
 
 MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
-MeasureHandleDropAdapter_trans_name=Add Measure
+MeasureHandleDropAdapter_trans_name=メジャーの追加
 
 ###########################################################
 # Crosstab Command trans name
@@ -91,7 +91,7 @@ CrossTabMeasureNodeProvider.Detail=詳細 -
 MeasureSubNodeProvider.Header=ヘッダ
 MeasureSubNodeProvider.Detail=詳細
 MeasureSubNodeProvider.Aggregation=集計
-MergeCrosstabHeaderCellAction_name=Merge Header Cell
+MergeCrosstabHeaderCellAction_name=ヘッダセルの結合
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
@@ -277,7 +277,7 @@ SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...
 SelectValueDialog.selectValue=値の選択
 SelectValueDialog.messages.info.selectVauleUnavailable=値リストがありません。
-SplitCrosstabHeadCellAction_name=Split Cell
+SplitCrosstabHeadCellAction_name=セルの分割
 
 CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限
