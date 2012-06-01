@@ -487,6 +487,7 @@ public class ModelAdapter implements IModelAdapter
 	{
 		String calculateType = periodHandle.getCalculationType( );
 		TimePeriod baseTimePeriod = null;
+		Object expression = null;
 		if ( IBuildInBaseTimeFunction.CURRENT_QUARTER.equals( calculateType ) )
 		{
 			baseTimePeriod = new TimePeriod( 0, TimePeriodType.QUARTER, true );
@@ -611,9 +612,10 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 				}
 			}
-			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n ),
+			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n, expression ),
 					TimePeriodType.MONTH );
 		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_N_DAYS.equals( calculateType ) )
@@ -626,9 +628,10 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 				}
 			}
-			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n ),
+			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n, expression ),
 					TimePeriodType.DAY );
 		}
 		else if ( IBuildInBaseTimeFunction.TRAILING_N_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType ) )
@@ -645,9 +648,10 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 				}
 			}
-			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n ),
+			baseTimePeriod = new TimePeriod( 0 - evaluatePeriodsNForTrailingFunction( n, expression ),
 					DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		else if ( IBuildInBaseTimeFunction.NEXT_N_PERIODS.equals( calculateType ) )
@@ -664,9 +668,10 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 				}
 			}
-			baseTimePeriod = new TimePeriod( evaluatePeriodsNForTrailingFunction( n ),
+			baseTimePeriod = new TimePeriod( evaluatePeriodsNForTrailingFunction( n, expression ),
 					DataAdapterUtil.toTimePeriodType( period1 ) );
 		}
 		return baseTimePeriod;
@@ -684,7 +689,7 @@ public class ModelAdapter implements IModelAdapter
 	{
 		String calculateType = periodHandle.getCalculationType( );
 		TimePeriod relativeTimePeriod = null;
-
+        Object expression = null;
 		if ( IBuildInBaseTimeFunction.WEEK_TO_DATE_LAST_YEAR.equals( calculateType )
 				|| IBuildInBaseTimeFunction.MONTH_TO_DATE_LAST_YEAR.equals( calculateType )
 				|| IBuildInBaseTimeFunction.QUARTER_TO_DATE_LAST_YEAR.equals( calculateType ) )
@@ -697,10 +702,11 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 					break;
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n, expression ),
 					TimePeriodType.YEAR );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_WEEK_TO_DATE.equals( calculateType ) )
@@ -713,10 +719,11 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 					break;
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n, expression ),
 					TimePeriodType.WEEK );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_MONTH_TO_DATE.equals( calculateType )
@@ -730,10 +737,11 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 					break;
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n, expression ),
 					TimePeriodType.MONTH );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_QUARTER_TO_DATE.equals( calculateType )
@@ -747,10 +755,11 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 					break;
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n, expression ),
 					TimePeriodType.QUARTER );
 		}
 		else if ( IBuildInBaseTimeFunction.PREVIOUS_YEAR_TO_DATE.equals( calculateType )
@@ -764,10 +773,11 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD1.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 					break;
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n, expression ),
 					TimePeriodType.YEAR );
 		}
 		else if ( IBuildInBaseTimeFunction.CURRENT_PERIOD_FROM_N_PERIOD_AGO.equals( calculateType )
@@ -786,16 +796,16 @@ public class ModelAdapter implements IModelAdapter
 				if ( IArgumentInfo.N_PERIOD2.equals( argument.getName( ) ) )
 				{
 					n = argument.getValue( ).getStringExpression( );
+					expression = argument.getValue( ).getValue( );
 				}
 			}
-			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n ),
+			relativeTimePeriod = new TimePeriod( 0 - evaluatePeriodsN( n, expression ),
 					DataAdapterUtil.toTimePeriodType( period2 ) );
 		}
 		return relativeTimePeriod;
 	}
 	
-	private int evaluatePeriodsN( String n ) throws DataException,
-			BirtException
+	private int evaluatePeriodsN(String n, Object expression) throws DataException, BirtException
 	{
 		int num = 0;
 		if ( n == null || n.trim( ).equals( "" ) )
@@ -808,7 +818,17 @@ public class ModelAdapter implements IModelAdapter
 		}
 		catch ( Exception e )
 		{
-			num = (Integer) ScriptEvalUtil.evalExpr( new ScriptExpression( n ),
+			ScriptExpression scriptExpression = null;
+			if ( expression instanceof Expression )
+			{
+				scriptExpression = this.adaptExpression( (Expression) expression );;
+			}
+			else
+			{
+				scriptExpression = adaptExpression( n,
+						DesignChoiceConstants.PARAM_TYPE_ANY );
+			}
+			num = (Integer) ScriptEvalUtil.evalExpr( scriptExpression,
 					this.context.getDataEngineContext( ).getScriptContext( ),
 					"",
 					0 );
@@ -816,26 +836,14 @@ public class ModelAdapter implements IModelAdapter
 		return num;
 	}
 	
-	private int evaluatePeriodsNForTrailingFunction( String n )
+	private int evaluatePeriodsNForTrailingFunction( String n, Object expression )
 			throws DataException, BirtException
 	{
-		int num = 0;
 		if ( n == null || n.trim( ).equals( "" ) )
 		{
-			n = "1";
+			return 1;
 		}
-		try
-		{
-			num = Integer.valueOf( n );
-		}
-		catch ( Exception e )
-		{
-			num = (Integer) ScriptEvalUtil.evalExpr( new ScriptExpression( n ),
-					this.context.getDataEngineContext( ).getScriptContext( ),
-					"",
-					0 );
-		}
-		return num;
+		return evaluatePeriodsN( n, expression );
 	}
 	/**
 	 * 
@@ -880,7 +888,7 @@ public class ModelAdapter implements IModelAdapter
 			{
 				Expression expr = (Expression)arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER ).getValue( );
 				ScriptExpression scriptExpression = this.adaptExpression( expr );
-				if ( "bre".equals( expr.getType( ) ) && scriptExpression == null )
+				if ( expr != null && "bre".equals( expr.getType( ) ) && scriptExpression == null )
 					throw new AdapterException(Message.formatMessage(
 							ResourceConstants.INVALID_BINDING_EXPRESSION,
 							new Object[] { expr.getStringExpression() } ) );

@@ -173,9 +173,14 @@ public class DateLevelDialog extends TitleAreaDialog
 		String[] items = new String[formatPattern.length];
 		for ( int i = 0; i < items.length; i++ )
 		{
-			items[i] = formatPattern[i][0];
+			items[i] = getFormatPattenString( formatPattern, i );
 		}
 		return items;
+	}
+
+	private String getFormatPattenString( String[][] formatPattern, int i )
+	{
+		return formatPattern[i][0] + " (" + formatPattern[i][1] + ")";
 	}
 
 	private String[] getFormatPatternItems( String type )
@@ -199,7 +204,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		for ( int i = 0; i < formatPattern.length; i++ )
 		{
 			if ( pattern.equals( formatPattern[i][1] ) )
-				return formatPattern[i][0];
+				return getFormatPattenString( formatPattern, i );
 		}
 		return NONE;
 	}
