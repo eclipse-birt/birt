@@ -564,6 +564,7 @@ public class ResultIterator implements IResultIterator
 			{
 				IOUtil.writeObject(rowOutputStream, columnList.get(i));
 			}
+			rowOutputStream.flush( );
 		}
 		IOUtil.writeInt(rowOutputStream, getRowIndex( ));
 		IOUtil.writeInt(rowOutputStream, getStartingGroupLevel( ));
