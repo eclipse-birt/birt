@@ -888,7 +888,7 @@ public class ModelAdapter implements IModelAdapter
 			{
 				Expression expr = (Expression)arg.getExpressionProperty( AggregationArgument.VALUE_MEMBER ).getValue( );
 				ScriptExpression scriptExpression = this.adaptExpression( expr );
-				if ( "bre".equals( expr.getType( ) ) && scriptExpression == null )
+				if ( expr != null && "bre".equals( expr.getType( ) ) && scriptExpression == null )
 					throw new AdapterException(Message.formatMessage(
 							ResourceConstants.INVALID_BINDING_EXPRESSION,
 							new Object[] { expr.getStringExpression() } ) );
