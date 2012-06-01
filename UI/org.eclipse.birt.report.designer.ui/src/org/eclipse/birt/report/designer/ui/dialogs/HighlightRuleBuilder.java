@@ -422,7 +422,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		}
 		else
 		{
-			expressionText = new Text( condition, SWT.BORDER );
+			expressionText = new Text( condition, SWT.BORDER | SWT.WRAP );
 			expressionText.setLayoutData( gdata );
 			if ( handle != null )
 			{
@@ -2522,7 +2522,7 @@ public class HighlightRuleBuilder extends BaseTitleAreaDialog
 		Rectangle constrained = getConstrainedShellBounds( bounds );
 		getShell( ).setBounds( constrained );
 	}
-	
+
 	public void setExpressionProvider( ExpressionProvider expressionProvider )
 	{
 		this.expressionProvider = expressionProvider;

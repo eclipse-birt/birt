@@ -588,11 +588,17 @@ class ResultSetProcessUtil extends RowProcessUtil
 		if(!psController.needDoOperation( PassStatusController.RESULT_SET_FILTERING ))
 			return;
 		
+		if ( needRowSortOnAggregation( ) && this.computedColumnHelper != null )
+			this.computedColumnHelper.suppressException( true );
+		
 		boolean changeMaxRows = filterByRow.getFilterList( FilterByRow.GROUP_FILTER )
 				.size( ) + filterByRow.getFilterList( FilterByRow.AGGR_FILTER )
 				.size( )> 0 ;
 		applyFilters( FilterByRow.QUERY_FILTER, changeMaxRows );
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
+		
+		if ( this.computedColumnHelper != null )
+			this.computedColumnHelper.suppressException( false );
 	}
 
 	/**

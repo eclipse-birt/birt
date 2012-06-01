@@ -2858,9 +2858,17 @@ public class ParameterAccessor
 					URL url = context.getResource( "/" ); //$NON-NLS-1$
 					if ( url != null )
 					{
-						// for other url protocals, e.g. path in an unpacked
-						// war, or other global urls
-						String urlRoot = DataUtil.trimString( url.toExternalForm( ) );
+						String urlRoot = null;
+						// for file urls
+						if("file".equalsIgnoreCase(url.getProtocol())) //$NON-NLS-1$
+						{
+							urlRoot = DataUtil.trimString( url.getPath() );
+						}
+						// for other url protocals, e.g. path in an unpacked war, or other global urls
+						else
+						{
+							urlRoot = DataUtil.trimString( url.toExternalForm( ) );
+						}
 						if ( orginalPath.startsWith( urlRoot ) )
 						{
 							realPath = orginalPath;

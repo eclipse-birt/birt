@@ -149,9 +149,9 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 						cellHandle = cell;
 					}
 					String defaultUnit = reportHandle.getModelHandle( ).getModuleHandle( ).getDefaultUnits( );
-					DimensionValue dimensionValue = DimensionUtil.convertTo( DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN, defaultUnit );
-					reportHandle.setColumnWidth( cellHandle,
-							dimensionValue );
+//					DimensionValue dimensionValue = DimensionUtil.convertTo( DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN, defaultUnit );
+//					reportHandle.setColumnWidth( cellHandle,
+//							dimensionValue );
 				}
 				cell.addContent( dataHandle );
 

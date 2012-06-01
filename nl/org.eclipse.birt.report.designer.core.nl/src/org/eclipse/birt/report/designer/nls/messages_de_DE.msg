@@ -4632,6 +4632,7 @@ BindingDialogHelper.warning.button.no=Nein
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
+ScriptObjectNode_0=&Skript zurücksetzen
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 

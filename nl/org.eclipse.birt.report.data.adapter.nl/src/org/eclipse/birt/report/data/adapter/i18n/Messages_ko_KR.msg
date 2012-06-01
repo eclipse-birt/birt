@@ -112,34 +112,34 @@ timeFunction.N2 = 이차 기간에 대한 N값
 timeFunction.PERIOD1.displayName = 첫 번째 기간(&F)
 timeFunction.PERIOD2.displayName = 두 번째 기간(&R)
 timeFunction.N1.displayName = 지난 기간 수
-timeFunction.N2.displayName = 시작
-timeFunction.N1.next.displayName = 다음
-timeFunction.N2.Ago.displayName=이전
-timeFunction.N1.current.displayName=현재
-timeFunction.N1.period.displayName= 기간
-timeFunction.trailing.N1.period.displayName=후행
-timeFunction.trailing.N1.Month.displayName= 후행 개월 수
-timeFunction.N1.Year.displayName = 지난 연도 수
-timeFunction.N2.Year.displayName = 지난 연도 수
+timeFunction.N2.displayName = 시작(&R)
+timeFunction.N1.next.displayName = 다음(&N)
+timeFunction.N2.Ago.displayName=이전(&A)
+timeFunction.N1.current.displayName=현재(&U)
+timeFunction.N1.period.displayName= 기간(&P)
+timeFunction.trailing.N1.period.displayName=후행(&I)
+timeFunction.trailing.N1.Month.displayName= 후행 개월 수(&N)
+timeFunction.N1.Year.displayName = 지난 연도 수(&N)
+timeFunction.N2.Year.displayName = 지난 연도 수(&N)
 timeFunction.N1.Year = 지난 연도에 대한 N 값
 timeFunction.N2.Year = 지난 연도에 대한 N 값
 
-timeFunction.N1.Month.displayName = 지난 개월 수
-timeFunction.N2.Month.displayName = 지난 개월 수
+timeFunction.N1.Month.displayName = 지난 개월 수(&N)
+timeFunction.N2.Month.displayName = 지난 개월 수(&N)
 timeFunction.N1.Month = 지난 개월에 대한 N 값
 timeFunction.N2.Month = 지난 개월에 대한 N 값
 
-timeFunction.N1.Quarter.displayName = 지난 분기 수
-timeFunction.N2.Quarter.displayName = 지난 분기 수
+timeFunction.N1.Quarter.displayName = 지난 분기 수(&N)
+timeFunction.N2.Quarter.displayName = 지난 분기 수(&N)
 timeFunction.N1.Quarter = 지난 분기에 대한 N 값
 timeFunction.N2.Quarter = 지난 분기에 대한 N 값
 
-timeFunction.N1.Week.displayName = 지난 주 수
-timeFunction.N2.Week.displayName = 지난 주 수
+timeFunction.N1.Week.displayName = 지난 주 수(&N)
+timeFunction.N2.Week.displayName = 지난 주 수(&N)
 timeFunction.N1.Week = 지난 주에 대한 N 값
 timeFunction.N2.Week = 지난 주에 대한 N 값
 
-timeFunction.N1.Day.displayName = 지난 일 수
+timeFunction.N1.Day.displayName = 지난 일 수(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =연도
 timeFunction.PERIODCHOICE.QUARTER_displayName =분기

@@ -351,7 +351,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		bookmakrComposite.setLayout( layout );
 
 		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) ); //$NON-NLS-1$
-		bookmarkEditor = new Text( bookmakrComposite, SWT.SINGLE | SWT.BORDER );
+		bookmarkEditor = new Text( bookmakrComposite, SWT.WRAP | SWT.BORDER );
 		gd = new GridData( );
 		gd.widthHint = 180;
 		bookmarkEditor.setLayoutData( gd );
@@ -380,7 +380,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		tocArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
 		// Creates expression editor
-		tocEditor = new Text( tocArea, SWT.SINGLE | SWT.BORDER );
+		tocEditor = new Text( tocArea, SWT.WRAP | SWT.BORDER );
 		GridData gd = new GridData( );
 		gd.widthHint = 200;
 		tocEditor.setLayoutData( gd );
