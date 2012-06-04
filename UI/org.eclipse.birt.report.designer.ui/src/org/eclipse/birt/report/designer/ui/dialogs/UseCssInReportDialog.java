@@ -35,6 +35,8 @@ import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -143,12 +145,13 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		if ( fileName != null && fileName.trim( ).length( ) > 0 )
 		{
 			fileNameField.setText( fileName.trim( ) );
-			if ( uri != null && uri.trim( ).length( ) > 0 )
-			{
-				viewTimeBtn.setSelection( true );
-				uriText.setEnabled( true );
-				uriText.setText( uri.trim( ) );
-			}
+		}
+
+		if ( uri != null && uri.trim( ).length( ) > 0 )
+		{
+			viewTimeBtn.setSelection( true );
+			uriText.setEnabled( true );
+			uriText.setText( uri.trim( ) );
 		}
 
 		if ( uri == null || uri.trim( ).length( ) == 0 )
@@ -223,7 +226,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		// | SWT.CHECK
 		);
 		data = new GridData( GridData.FILL_BOTH );
-		data.minimumHeight = 100;
+		data.heightHint = 100;
 		stylesTable.setLayoutData( data );
 
 		new Label( styleComposite, SWT.NULL ).setText( Messages.getString( "UseCssInReportDialog.Label.notifications" ) ); //$NON-NLS-1$
@@ -232,7 +235,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 				| SWT.FULL_SELECTION
 				| SWT.BORDER );
 		data = new GridData( GridData.FILL_BOTH );
-		data.minimumHeight = 60;
+		data.heightHint = 60;
 		notificationsTable.setLayoutData( data );
 
 	}
@@ -343,6 +346,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 			{
 				boolean selected = viewTimeBtn.getSelection( );
 				uriText.setEnabled( selected );
+				refresh( );
 			}
 		} );
 
@@ -357,6 +361,14 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		uriText.setLayoutData( gd );
+		uriText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				refresh( );
+			}
+
+		} );
 
 		new Label( nameComposite, SWT.NONE );
 		Label example = new Label( nameComposite, SWT.NONE );
@@ -475,6 +487,12 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 				getButton( IDialogConstants.OK_ID ).setEnabled( true );
 				setErrorMessage( null );
 			}
+			else if ( uriText.isEnabled( )
+					&& uriText.getText( ).trim( ).length( ) > 0 )
+			{
+				getButton( IDialogConstants.OK_ID ).setEnabled( true );
+				setErrorMessage( null );
+			}
 			else
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
@@ -483,19 +501,19 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		}
 	}
 
-//	private boolean checkExtensions( String fileExt[], String fileName )
-//	{
-//		for ( int i = 0; i < fileExt.length; i++ )
-//		{
-//			String ext = fileExt[i].substring( fileExt[i].lastIndexOf( '.' ) );
-//			if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
-//			{
-//				return true;
-//			}
-//		}
-//
-//		return false;
-//	}
+	// private boolean checkExtensions( String fileExt[], String fileName )
+	// {
+	// for ( int i = 0; i < fileExt.length; i++ )
+	// {
+	// String ext = fileExt[i].substring( fileExt[i].lastIndexOf( '.' ) );
+	// if ( fileName.toLowerCase( ).endsWith( ext.toLowerCase( ) ) )
+	// {
+	// return true;
+	// }
+	// }
+	//
+	// return false;
+	// }
 
 	protected void createButtonsForButtonBar( Composite parent )
 	{
