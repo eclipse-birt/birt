@@ -122,11 +122,16 @@ public class IncludedCssStyleSheet extends Structure
 		String fileName = (String) getProperty( module, memberDefn );
 		if ( StringUtil.isBlank( fileName ) )
 		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( FILE_NAME_MEMBER ), fileName,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+			PropertyDefn defn = (PropertyDefn) getDefn( ).getMember(
+					EXTERNAL_CSS_URI_MEMBER );
+			String externalCssURI = (String) getProperty( module, defn );
+			if ( externalCssURI == null )
+			{
+				list.add( new PropertyValueException( element, getDefn( )
+						.getMember( FILE_NAME_MEMBER ), fileName,
+						PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+			}
 		}
-
 		return list;
 	}
 
