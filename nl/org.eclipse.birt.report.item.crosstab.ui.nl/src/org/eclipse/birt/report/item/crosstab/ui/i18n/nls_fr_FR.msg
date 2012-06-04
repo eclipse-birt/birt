@@ -34,12 +34,16 @@ MeasureHandleDropAdapter_trans_name=Ajouter une mesure
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Ajouter une dimension
 AddMeasureViewHandleCommand.TransName=Ajouter une mesure
-AddRelativeTimePeriodAction_action_label=Ajouter la période de temps relatif
-AddRelativeTimePeriodAction_trans_label=Ajouter la période de temps relatif 
+AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_trans_label=Ajouter la période de temps relatif
 ChangeAreaCommand.TransName=Ignorer la dimension
 ChangeMeasureOrderCommand.TransName=Modifier l'ordre de mesure
 CreateDimensionViewCommand.TransName=Créer une dimension
 CreateMeasureViewCommand.TransName=Créer une mesure
+
+MergeCrosstabHeaderCellAction_name=&Merge Header Cells
+SplitCrosstabHeadCellAction_name=&Split Header Cell
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -91,7 +95,6 @@ CrossTabMeasureNodeProvider.Detail=Détails -
 MeasureSubNodeProvider.Header=En-tête
 MeasureSubNodeProvider.Detail=Détails
 MeasureSubNodeProvider.Aggregation=Agrégation
-MergeCrosstabHeaderCellAction_name=Fusionner la cellule d'en-tête
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Niveau de groupe
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Erreur
@@ -277,7 +280,6 @@ SelectValueDialog.noExpressionSet=Une expression n'a pas été définie
 SelectValueDialog.retrieving=Récupération de la liste...
 SelectValueDialog.selectValue=Sélectionner une valeur
 SelectValueDialog.messages.info.selectVauleUnavailable=La liste de valeurs n'est pas disponible.
-SplitCrosstabHeadCellAction_name=Fractionner la cellule
 
 CrosstabPreferencePage.Title=Tableau croisé
 CrosstabPreferencePage.filterLimit=Limite de filtre

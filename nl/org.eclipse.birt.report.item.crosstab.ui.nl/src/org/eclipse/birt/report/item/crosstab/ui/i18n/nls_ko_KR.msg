@@ -34,12 +34,16 @@ MeasureHandleDropAdapter_trans_name=측정값 추가
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=차원 추가
 AddMeasureViewHandleCommand.TransName=측정값 추가
-AddRelativeTimePeriodAction_action_label=상대 시간 추가
-AddRelativeTimePeriodAction_trans_label=상대 시간 추가 
+AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_trans_label=상대 시간 추가
 ChangeAreaCommand.TransName=차원 놓기
 ChangeMeasureOrderCommand.TransName=측정값 순서 변경
 CreateDimensionViewCommand.TransName=차원 생성
 CreateMeasureViewCommand.TransName=측정값 생성
+
+MergeCrosstabHeaderCellAction_name=&Merge Header Cells
+SplitCrosstabHeadCellAction_name=&Split Header Cell
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -91,7 +95,6 @@ CrossTabMeasureNodeProvider.Detail=상세 정보 -
 MeasureSubNodeProvider.Header=머리글
 MeasureSubNodeProvider.Detail=상세 정보
 MeasureSubNodeProvider.Aggregation=집계
-MergeCrosstabHeaderCellAction_name=머리글 셀 병합
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=그룹 수준
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
@@ -277,7 +280,6 @@ SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...
 SelectValueDialog.selectValue=값 선택
 SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습니다.
-SplitCrosstabHeadCellAction_name=셀 분할
 
 CrosstabPreferencePage.Title=크로스 탭
 CrosstabPreferencePage.filterLimit=필터 제한

@@ -34,12 +34,16 @@ MeasureHandleDropAdapter_trans_name=メジャーの追加
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=ディメンジョンの追加
 AddMeasureViewHandleCommand.TransName=メジャーの追加
-AddRelativeTimePeriodAction_action_label=相対期間の追加
-AddRelativeTimePeriodAction_trans_label=相対期間の追加 
+AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_trans_label=相対期間の追加
 ChangeAreaCommand.TransName=ディメンジョンの削除
 ChangeMeasureOrderCommand.TransName=メジャー順の変更
 CreateDimensionViewCommand.TransName=ディメンジョンの作成
 CreateMeasureViewCommand.TransName=メジャーの作成
+
+MergeCrosstabHeaderCellAction_name=&Merge Header Cells
+SplitCrosstabHeadCellAction_name=&Split Header Cell
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -91,7 +95,6 @@ CrossTabMeasureNodeProvider.Detail=詳細 -
 MeasureSubNodeProvider.Header=ヘッダ
 MeasureSubNodeProvider.Detail=詳細
 MeasureSubNodeProvider.Aggregation=集計
-MergeCrosstabHeaderCellAction_name=ヘッダセルの結合
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
@@ -277,7 +280,6 @@ SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...
 SelectValueDialog.selectValue=値の選択
 SelectValueDialog.messages.info.selectVauleUnavailable=値リストがありません。
-SplitCrosstabHeadCellAction_name=セルの分割
 
 CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限

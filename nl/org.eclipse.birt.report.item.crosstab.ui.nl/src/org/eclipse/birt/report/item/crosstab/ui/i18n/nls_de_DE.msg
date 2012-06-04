@@ -34,12 +34,16 @@ MeasureHandleDropAdapter_trans_name=Maßeinheit hinzufügen
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
 AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
-AddRelativeTimePeriodAction_action_label=Relatives Zeitintervall hinzufügen
-AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen 
+AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen
 ChangeAreaCommand.TransName=Dimension verwerfen
 ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
 CreateDimensionViewCommand.TransName=Dimension erstellen
 CreateMeasureViewCommand.TransName=Maßeinheit erstellen
+
+MergeCrosstabHeaderCellAction_name=&Merge Header Cells
+SplitCrosstabHeadCellAction_name=&Split Header Cell
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -91,7 +95,6 @@ CrossTabMeasureNodeProvider.Detail=Detail -
 MeasureSubNodeProvider.Header=Kopfzeile
 MeasureSubNodeProvider.Detail=Detail
 MeasureSubNodeProvider.Aggregation=Aggregat
-MergeCrosstabHeaderCellAction_name=Kopfzeilenzelle verbinden
 
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Gruppenebene
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
@@ -277,7 +280,6 @@ SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht angegeben.
 SelectValueDialog.retrieving=Liste wird abgerufen ...
 SelectValueDialog.selectValue=Wert auswählen
 SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verfügbar.
-SplitCrosstabHeadCellAction_name=Zelle teilen
 
 CrosstabPreferencePage.Title=Kreuztabelle
 CrosstabPreferencePage.filterLimit=Filter-Limit
