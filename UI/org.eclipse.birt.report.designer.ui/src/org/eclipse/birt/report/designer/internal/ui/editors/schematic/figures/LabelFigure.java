@@ -364,7 +364,7 @@ public class LabelFigure extends ReportElementFigure
 			{
 				if ( "\r\n".equals( s.substring( i, i + 2 ) ) ) //$NON-NLS-1$
 				{
-					count++;
+					//count++;
 				}
 				else
 				{
