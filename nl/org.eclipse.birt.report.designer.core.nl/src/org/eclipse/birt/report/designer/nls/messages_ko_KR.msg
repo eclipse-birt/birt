@@ -515,6 +515,7 @@ dataset.editor.dataSource=데이터 원본
 dataset.editor.error.columnOrAliasNameAlreadyUsed=새 열 이름 또는 별칭({0})이 인덱스 {1}의 열에서 이미 사용되고 있습니다.
 dataset.editor.error.computedColumnNameAlreadyUsed=새 계산 열 이름({0})이 출력 열({1})의 별칭으로 이미 사용되었습니다.
 dataset.editor.error.duplicateParameterName=중복된 매개 변수 이름
+dataset.editor.error.nonemptyDefaultvalue=Default value can not be none.
 dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다. 
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.missingComputedColumnName=계산된 열 이름이 널(null)이거나 비어 있을 수 없습니다.

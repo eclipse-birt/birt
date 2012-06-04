@@ -515,6 +515,7 @@ dataset.editor.dataSource=データソース
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新しい列の名前またはエイリアス ({0}) は、すでにインデックス {1} の列で使用されています。
 dataset.editor.error.computedColumnNameAlreadyUsed=新しい計算列の名前 ({0}) は、すでに [出力列] の列のエイリアス ({1}) として使用されています。
 dataset.editor.error.duplicateParameterName=パラメタ名が重複しています。
+dataset.editor.error.nonemptyDefaultvalue=Default value can not be none.
 dataset.editor.error.emptyName=名前は空白にできません。 
 dataset.editor.error.missingComputedColumnExpression=計算列 {0} の式は null または空白にできません。
 dataset.editor.error.missingComputedColumnName=計算列名は null または空白にできません。

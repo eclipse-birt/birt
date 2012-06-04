@@ -515,6 +515,7 @@ dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
 dataset.editor.error.computedColumnNameAlreadyUsed=Le nouveau nom de la colonne de calcul ({0}) est déjà utilisé comme alias pour la colonne ({1}) dans les Colonnes de sortie.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double.
+dataset.editor.error.nonemptyDefaultvalue=Default value can not be none.
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
 dataset.editor.error.missingComputedColumnName=Le nom de la colonne de calcul ne peut être ni nul, ni vide.
