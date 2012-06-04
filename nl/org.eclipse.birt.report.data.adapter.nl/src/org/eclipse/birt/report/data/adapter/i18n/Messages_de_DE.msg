@@ -30,6 +30,7 @@ exception.error=Ein Ausnahmefehler ist während der Verarbeitung aufgetreten. Näh
 invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.
 invalid.data.type=Ungültiger Datentyp: {0}. 
+invalid.binding.expression=Invalid expression: {0}.
 
 cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
 cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
