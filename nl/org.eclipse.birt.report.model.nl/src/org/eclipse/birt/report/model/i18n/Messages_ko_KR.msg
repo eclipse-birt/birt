@@ -2519,6 +2519,9 @@ Element.ReportDesign.onPrepare=준비 시
 Element.ReportDesign.onPrepare.this=보고서 디자인
 Element.ReportDesign.onPrepare.toolTip=스크립트 시작 단계로 아직 데이터 바인딩을 생성할 수 없습니다. 요소 디자인은 여기에서 변경할 수 있습니다.
 Element.ReportDesign.onPrepare.reportContext=보고서 컨텍스트
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Executes on the client side when report content is updated in the BIRT Viewer.
+Element.ReportDesign.onContentUpdate.this=Report design
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름

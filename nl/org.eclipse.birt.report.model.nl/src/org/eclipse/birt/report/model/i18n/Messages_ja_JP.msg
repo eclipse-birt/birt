@@ -2519,6 +2519,9 @@ Element.ReportDesign.onPrepare=準備時
 Element.ReportDesign.onPrepare.this=レポートデザイン
 Element.ReportDesign.onPrepare.toolTip=スクリプトのスタートアップフェーズ用です。 まだデータバインドはありません。 ここで要素のデザインを変更できます。
 Element.ReportDesign.onPrepare.reportContext=レポートのコンテキスト
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Executes on the client side when report content is updated in the BIRT Viewer.
+Element.ReportDesign.onContentUpdate.this=Report design
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名

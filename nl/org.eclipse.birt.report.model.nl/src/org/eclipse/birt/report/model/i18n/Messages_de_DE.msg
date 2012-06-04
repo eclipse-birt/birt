@@ -2519,6 +2519,9 @@ Element.ReportDesign.onPrepare=Beim Vorbereiten
 Element.ReportDesign.onPrepare.this=Berichtdesign
 Element.ReportDesign.onPrepare.toolTip=Für eine Skript-Startphase. Noch keine Datenbindung. Das Design eines Elements kann hier geändert werden.
 Element.ReportDesign.onPrepare.reportContext=Berichtkontext
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Executes on the client side when report content is updated in the BIRT Viewer.
+Element.ReportDesign.onContentUpdate.this=Report design
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename

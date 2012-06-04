@@ -2519,6 +2519,9 @@ Element.ReportDesign.onPrepare=准备时
 Element.ReportDesign.onPrepare.this=报表设计
 Element.ReportDesign.onPrepare.toolTip=用于脚本启动阶段。 尚无数据绑定。 可以在此处更改元素的设计。
 Element.ReportDesign.onPrepare.reportContext=报表上下文
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Executes on the client side when report content is updated in the BIRT Viewer.
+Element.ReportDesign.onContentUpdate.this=Report design
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称

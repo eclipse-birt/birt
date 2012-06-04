@@ -2519,6 +2519,9 @@ Element.ReportDesign.onPrepare=En préparation
 Element.ReportDesign.onPrepare.this=Modèle d'état
 Element.ReportDesign.onPrepare.toolTip=Pour la phase de démarrage d'un script. Aucune liaison de données pour le moment. Le modèle d'un élément peut être modifié ici.
 Element.ReportDesign.onPrepare.reportContext=Contexte d'état
+Element.ReportDesign.onContentUpdate= On content update
+Element.ReportDesign.onContentUpdate.toolTip=Executes on the client side when report content is updated in the BIRT Viewer.
+Element.ReportDesign.onContentUpdate.this=Report design
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nom d'affichage
