@@ -4646,6 +4646,7 @@ CrosstabBindingDialogHelper.recentday.description=기간 최종일
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=날짜 지정:
 CrosstabBindingDialogHelper.thisdate.example.label=날짜 값을 yyyy-MM-dd 형식으로 입력하십시오.
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=시간 차원(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=이 차원은 최근 참조 날짜를 지원하지 않습니다. 
 CrosstabBindingDialogHelper.today.label=오늘

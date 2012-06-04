@@ -4646,6 +4646,7 @@ CrosstabBindingDialogHelper.recentday.description=Letztes Datum im Zeitintervall
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
 CrosstabBindingDialogHelper.thisdate.example.label=Datumswerte im folgenden Format eingeben: jjjj-MM-tt
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Please enter date values as: yyyy-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
 CrosstabBindingDialogHelper.today.label=Heute
