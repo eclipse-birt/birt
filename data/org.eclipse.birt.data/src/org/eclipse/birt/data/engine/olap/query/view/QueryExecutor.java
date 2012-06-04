@@ -544,7 +544,16 @@ public class QueryExecutor
 
     	int pos = getPos(joinLevelKeys, detailLevelKeys);
     	if( pos < 0 )
-    		return;
+    	{
+			int detailLevelKeyslen = detailLevelKeys.length;
+			if ( detailLevelKeyslen == 0 && detailRS.length() == 0 ) 
+			{
+				IDiskArray emptyRows = new BufferedStructureArray(
+						AggregationResultRow.getCreator(), 0 );
+				reSetAggregationResultSetDiskArray( joinRS, emptyRows );
+			}
+			return;
+    	}
     	
     	for (int index = 0; index < detailRS.length( ); index++)
     	{
