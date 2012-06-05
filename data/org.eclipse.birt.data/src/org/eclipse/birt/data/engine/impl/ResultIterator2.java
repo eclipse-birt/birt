@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
@@ -31,6 +32,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
@@ -247,7 +249,7 @@ class ResultIterator2 extends ResultIterator
 				IOUtil.writeString( dos, binding.getBindingName( ) );
 				IOUtil.writeString( dos, null );
 				IOUtil.writeString( dos, null );
-				IOUtil.writeString( dos, String.class.getName( ));
+				IOUtil.writeString( dos, getDataTypeClass( binding ).getName( ) );
 				IOUtil.writeString( dos, null );
 				IOUtil.writeBool( dos, false );
 				IOUtil.writeString( dos, null );
@@ -270,6 +272,12 @@ class ResultIterator2 extends ResultIterator
 		}
 	}
 
+	private Class getDataTypeClass( IBinding binding ) throws DataException
+	{
+		Class clazz = DataType.getClass( binding.getDataType( ) );
+		return clazz == null ? String.class : clazz;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#next()
 	 */
@@ -364,8 +372,17 @@ class ResultIterator2 extends ResultIterator
 
 		for ( IBinding binding : bindings )
 		{
-			IOUtil.writeObject( tempDos,
-					valueMap.get( binding.getBindingName( ) ) );
+			if ( this.streamManager.getVersion( ) >= VersionManager.VERSION_3_7_2_1 )
+			{
+				ResultObjectUtil.writeObject( tempDos,
+						valueMap.get( binding.getBindingName( ) ),
+						this.getDataTypeClass( binding ) );
+			}
+			else
+			{
+				IOUtil.writeObject( tempDos,
+						valueMap.get( binding.getBindingName( ) ) );				
+			}
 		}
 
 		tempDos.flush( );

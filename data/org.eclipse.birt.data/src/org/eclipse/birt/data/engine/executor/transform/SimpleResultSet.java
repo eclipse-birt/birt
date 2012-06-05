@@ -550,7 +550,7 @@ public class SimpleResultSet implements IResultIterator
 							resultSetNameSet,
 							streamsWrapper.getOutputStringTable( getResultClass( ) ),
 							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
-							this.rowCount-1 );
+							this.rowCount-1, streamsWrapper.getStreamManager( ).getVersion( ) );
 				}
 			}
 			catch ( IOException e )

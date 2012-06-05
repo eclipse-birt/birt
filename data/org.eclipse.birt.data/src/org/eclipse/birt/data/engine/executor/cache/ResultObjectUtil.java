@@ -161,74 +161,7 @@ public class ResultObjectUtil
 			for ( int j = 0; j < columnCount; j++ )
 			{
 				Class fieldType = typeArray[j];
-				if ( dis.readByte( ) == 0 )
-				{
-					obs[j] = null;
-					continue;
-				}
-				
-				if ( fieldType.equals( Integer.class ) )
-					obs[j] = Integer.valueOf( dis.readInt( ) );
-				else if ( fieldType.equals( Double.class ) )
-					obs[j] = new Double( dis.readDouble( ) );
-				else if ( fieldType.equals( BigDecimal.class ) )
-					obs[j] = new BigDecimal( dis.readUTF( ) );
-				else if ( fieldType.equals( Time.class ) )
-					obs[j] = new Time( dis.readLong( ) );
-				else if ( fieldType.equals( Timestamp.class ) )
-					obs[j] = new Timestamp( dis.readLong( ) );
-				else if ( fieldType.equals( java.sql.Date.class ) )
-					obs[j] = new java.sql.Date( dis.readLong( ) );
-				else if ( Date.class.isAssignableFrom( fieldType ) )
-					obs[j] = new Date( dis.readLong( ) );
-				else if ( fieldType.equals( Boolean.class ) )
-					obs[j] = Boolean.valueOf( dis.readBoolean( ) );
-				else if ( fieldType.equals( String.class ) )
-					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( IClob.class )
-						|| fieldType.equals( Clob.class ) )
-					obs[j] = IOUtil.readString( dis );
-				else if ( fieldType.equals( IBlob.class )
-						|| fieldType.equals( Blob.class ) )
-				{
-					int len = IOUtil.readInt( dis );
-					if ( len == 0 )
-					{
-						obs[j] = null;
-					}
-					else
-					{
-						byte[] bytes = new byte[len];
-						dis.read( bytes );
-						obs[j] = bytes;
-					}
-				}
-				else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-				{
-					ObjectInputStream ois = null;
-					if( classLoader != null )
-					{
-						ois = ObjectSecurity.createObjectInputStream( dis, classLoader );
-					}
-					else
-					{
-						ois = ObjectSecurity.createObjectInputStream( dis );
-					}
-					try
-					{
-						obs[j] = ObjectSecurity.readObject( ois );
-					}
-					catch ( Exception e )
-					{
-						// impossible
-					}
-					ois.close( );
-				}
-				else
-				{
-					throw new DataException( ResourceConstants.BAD_DATA_TYPE,
-						fieldType.toString( ) );
-				}
+				obs[j] = readObject( dis, fieldType, classLoader );
 			}
 			rowDatas[i] = newResultObject( obs );
 
@@ -240,6 +173,80 @@ public class ResultObjectUtil
 		return rowDatas;
 	}
 
+	public static Object readObject( DataInputStream dis, Class fieldType, ClassLoader classLoader ) throws IOException, DataException
+	{
+		Object obj = null;
+		if ( dis.readByte( ) == 0 )
+		{
+			obj = null;
+			return obj;
+		}
+		
+		if ( fieldType.equals( Integer.class ) )
+			obj = Integer.valueOf( dis.readInt( ) );
+		else if ( fieldType.equals( Double.class ) )
+			obj = new Double( dis.readDouble( ) );
+		else if ( fieldType.equals( BigDecimal.class ) )
+			obj = new BigDecimal( dis.readUTF( ) );
+		else if ( fieldType.equals( Time.class ) )
+			obj = new Time( dis.readLong( ) );
+		else if ( fieldType.equals( Timestamp.class ) )
+			obj = new Timestamp( dis.readLong( ) );
+		else if ( fieldType.equals( java.sql.Date.class ) )
+			obj = new java.sql.Date( dis.readLong( ) );
+		else if ( Date.class.isAssignableFrom( fieldType ) )
+			obj = new Date( dis.readLong( ) );
+		else if ( fieldType.equals( Boolean.class ) )
+			obj = Boolean.valueOf( dis.readBoolean( ) );
+		else if ( fieldType.equals( String.class ) )
+			obj = IOUtil.readString( dis );
+		else if ( fieldType.equals( IClob.class )
+				|| fieldType.equals( Clob.class ) )
+			obj = IOUtil.readString( dis );
+		else if ( fieldType.equals( IBlob.class )
+				|| fieldType.equals( Blob.class ) )
+		{
+			int len = IOUtil.readInt( dis );
+			if ( len == 0 )
+			{
+				obj = null;
+			}
+			else
+			{
+				byte[] bytes = new byte[len];
+				dis.read( bytes );
+				obj = bytes;
+			}
+		}
+		else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+		{
+			ObjectInputStream ois = null;
+			if( classLoader != null )
+			{
+				ois = ObjectSecurity.createObjectInputStream( dis, classLoader );
+			}
+			else
+			{
+				ois = ObjectSecurity.createObjectInputStream( dis );
+			}
+			try
+			{
+				obj = ObjectSecurity.readObject( ois );
+			}
+			catch ( Exception e )
+			{
+				// impossible
+			}
+			ois.close( );
+		}
+		else
+		{
+			throw new DataException( ResourceConstants.BAD_DATA_TYPE,
+				fieldType.toString( ) );
+		}
+		return obj;
+	}
+	
 	/**
 	 * Serialze result object array to file. The serialize procedure is
 	 * conversed with de-serialize(read) procedure.
@@ -289,61 +296,8 @@ public class ResultObjectUtil
 				// never get here since the index value is always value
 			}
 
-			// process null object
-			if ( fieldValue == null )
-			{
-				dos.writeByte( 0 );
-				continue;
-			}
-			else
-			{
-				dos.writeByte( 1 );
-			}
-
 			Class fieldType = typeArray[j];
-			if ( fieldType.equals( Integer.class ) )
-				dos.writeInt( ( (Integer) convert( fieldValue, DataType.INTEGER_TYPE) ).intValue( ) );
-			else if ( fieldType.equals( Double.class ) )
-				dos.writeDouble( ( (Double) convert( fieldValue, DataType.DOUBLE_TYPE) ).doubleValue( ) );
-			else if ( fieldType.equals( BigDecimal.class ) )
-				dos.writeUTF( ( (BigDecimal) convert( fieldValue, DataType.DECIMAL_TYPE) ).toString( ) );
-			else if ( Date.class.isAssignableFrom( fieldType ) )
-				dos.writeLong( ( (Date) convert( fieldValue, DataType.DATE_TYPE )).getTime( ) );
-			else if ( fieldType.equals( Boolean.class ) )
-				dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
-			else if ( fieldType.equals( String.class ) )
-				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( IClob.class )
-					|| fieldType.equals( Clob.class ) )
-				IOUtil.writeString( dos, fieldValue.toString( ) );
-			else if ( fieldType.equals( IBlob.class )
-					|| fieldType.equals( Blob.class ) )
-			{
-				byte[] bytes = (byte[]) fieldValue;
-				if ( bytes == null || bytes.length == 0 )
-				{
-					IOUtil.writeInt( dos, 0 );
-				}
-				else
-				{
-					IOUtil.writeInt( dos, bytes.length );
-					dos.write( (byte[]) fieldValue );
-				}
-			}
-			else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
-			{
-				if ( !( fieldValue instanceof Serializable ) )
-					throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName( ));
-
-				ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
-				oo.writeObject( fieldValue );
-				oo.close( );
-			}
-			else
-			{
-				throw new DataException( ResourceConstants.BAD_DATA_TYPE,
-					fieldType.toString( ) );
-			}
+			writeObject( dos, fieldValue, fieldType );
 		}
 		dos.flush( );
 
@@ -355,8 +309,67 @@ public class ResultObjectUtil
 		dos = null;
 		baos = null;
 	}
+
+	public static void writeObject( DataOutputStream dos, Object fieldValue,
+			Class fieldType ) throws IOException, DataException
+	{
+		// process null object
+		if ( fieldValue == null )
+		{
+			dos.writeByte( 0 );
+			return;
+		}
+		else
+		{
+			dos.writeByte( 1 );
+		}
+
+		if ( fieldType.equals( Integer.class ) )
+			dos.writeInt( ( (Integer) convert( fieldValue, DataType.INTEGER_TYPE) ).intValue( ) );
+		else if ( fieldType.equals( Double.class ) )
+			dos.writeDouble( ( (Double) convert( fieldValue, DataType.DOUBLE_TYPE) ).doubleValue( ) );
+		else if ( fieldType.equals( BigDecimal.class ) )
+			dos.writeUTF( ( (BigDecimal) convert( fieldValue, DataType.DECIMAL_TYPE) ).toString( ) );
+		else if ( Date.class.isAssignableFrom( fieldType ) )
+			dos.writeLong( ( (Date) convert( fieldValue, DataType.DATE_TYPE )).getTime( ) );
+		else if ( fieldType.equals( Boolean.class ) )
+			dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
+		else if ( fieldType.equals( String.class ) )
+			IOUtil.writeString( dos, fieldValue.toString( ) );
+		else if ( fieldType.equals( IClob.class )
+				|| fieldType.equals( Clob.class ) )
+			IOUtil.writeString( dos, fieldValue.toString( ) );
+		else if ( fieldType.equals( IBlob.class )
+				|| fieldType.equals( Blob.class ) )
+		{
+			byte[] bytes = (byte[]) fieldValue;
+			if ( bytes == null || bytes.length == 0 )
+			{
+				IOUtil.writeInt( dos, 0 );
+			}
+			else
+			{
+				IOUtil.writeInt( dos, bytes.length );
+				dos.write( (byte[]) fieldValue );
+			}
+		}
+		else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+		{
+			if ( !( fieldValue instanceof Serializable ) )
+				throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName( ));
+
+			ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
+			oo.writeObject( fieldValue );
+			oo.close( );
+		}
+		else
+		{
+			throw new DataException( ResourceConstants.BAD_DATA_TYPE,
+				fieldType.toString( ) );
+		}
+	}
 	
-	private Object convert( Object o, int type ) throws DataException
+	private static Object convert( Object o, int type ) throws DataException
 	{
 		try
 		{

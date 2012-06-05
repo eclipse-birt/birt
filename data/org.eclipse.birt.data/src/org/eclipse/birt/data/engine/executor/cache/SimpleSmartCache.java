@@ -237,7 +237,7 @@ public class SimpleSmartCache implements ResultSetCache
 	public void doSave( DataOutputStream outputStream,
 			DataOutputStream rowLensStream,
 			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap )
+			Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap, int version )
 			throws DataException
 	{
 		open( );
@@ -246,7 +246,7 @@ public class SimpleSmartCache implements ResultSetCache
 				rowLensStream,
 				stringTable,
 				index,
-				cacheRequestMap );
+				cacheRequestMap, version );
 	}
 
 	/*
@@ -257,7 +257,7 @@ public class SimpleSmartCache implements ResultSetCache
 	public void incrementalUpdate( OutputStream outputStream,
 			OutputStream rowLensStream, int originalRowCount,
 			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version)
 			throws DataException
 	{
 		open( );
@@ -267,7 +267,7 @@ public class SimpleSmartCache implements ResultSetCache
 				originalRowCount,
 				stringTable,
 				map,
-				cacheRequestMap );
+				cacheRequestMap, version );
 	}
 
 	/*
