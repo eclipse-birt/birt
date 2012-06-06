@@ -270,7 +270,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private static final String NONE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Label.None" ); //$NON-NLS-1$
 
 	private static final Image DEFAULT_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT );
-	
+
 	private static final Image NOT_DEFAULT_ICON = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DEFAULT_NOT );
 
 	public static final String CONTROLTYPE_VALUE = "controltype";//$NON-NLS-1$
@@ -391,7 +391,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				{
 					return DEFAULT_ICON;
 				}
-				else return NOT_DEFAULT_ICON;
+				else
+					return NOT_DEFAULT_ICON;
 			}
 			return null;
 		}
@@ -2506,8 +2507,14 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			public IExpressionContextFactory getExpressionContextFactory( )
 			{
+				Map<String, Object> extras = new HashMap<String, Object>( );
+				DataSetHandle dataSetHandle = inputParameter.getModuleHandle( )
+						.findDataSet( dataSetChooser.getText( ) );
+				extras.put( ExpressionProvider.DATASETS, dataSetHandle );
+
 				return new ExpressionContextFactoryImpl( getContextObject( ),
-						getExpressionProvider( ) );
+						getExpressionProvider( ),
+						extras );
 			}
 		};
 
@@ -3570,7 +3577,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 				if ( obj instanceof SelectionChoice )
 				{
 					// contains both default and non-default items
-					if ( firstIsDefault	^ isDefaultChoice( (SelectionChoice) obj ) )
+					if ( firstIsDefault
+							^ isDefaultChoice( (SelectionChoice) obj ) )
 					{
 						isEnable = false;
 						break;
