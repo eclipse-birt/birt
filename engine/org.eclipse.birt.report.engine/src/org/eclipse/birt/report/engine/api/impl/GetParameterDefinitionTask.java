@@ -1520,6 +1520,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		public void visitParameterGroup( ParameterGroupHandle handle )
 		{
 			ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
+			paramGroup.setLocale( ulocale.toLocale( ) );
 			paramGroup.setHandle( handle );
 			paramGroup.setParameterType( IParameterDefnBase.PARAMETER_GROUP );
 			paramGroup.setName( handle.getName( ) );
