@@ -431,21 +431,27 @@ public class CubeQueryExecutor
 					return CubeQueryExecutor.DIMENSION_FILTER;
 				}
 		
-				List derivedBindingNameList = new ArrayList();
-				for( int i = 0 ; i < bindingName.size( ); i++ )
+				if ( !filter.updateAggregation( ) )
 				{
-					IBinding binding = getBinding( bindingName.get( i ).toString( ), this.defn.getBindings( ) );
-					if( binding != null )
+					List derivedBindingNameList = new ArrayList( );
+					for ( int i = 0; i < bindingName.size( ); i++ )
 					{
-						List temp =  ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
-						if( temp != null && temp.size( ) > 0 )
-							derivedBindingNameList.addAll( temp );
+						IBinding binding = getBinding( bindingName.get( i )
+								.toString( ), this.defn.getBindings( ) );
+						if ( binding != null )
+						{
+							List temp = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE );
+							if ( temp != null && temp.size( ) > 0 )
+								derivedBindingNameList.addAll( temp );
+						}
 					}
-				}
-				if( derivedBindingNameList.size( ) > 0 )
-				{
-					if( existAggregationBinding( derivedBindingNameList, this.defn.getBindings( ) ) )
-						return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+					if ( derivedBindingNameList.size( ) > 0 )
+					{
+						if ( existAggregationBinding( derivedBindingNameList,
+								this.defn.getBindings( ) ) )
+							return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+					}
 				}
 				
 				return CubeQueryExecutor.FACTTABLE_FILTER;
