@@ -4119,6 +4119,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.
@@ -4750,7 +4751,6 @@ GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesser
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
 GeneralConfigurationBlock.move.binding.prompt=Auff&ordern
-
 
 ###########################################################
 #ResetImageSizeAction

@@ -4119,6 +4119,7 @@ WizardTemplateChoicePage.label.Description=Description :
 WizardTemplateChoicePage.label.Preview=Aperçu :
 WizardTemplateChoicePage.label.ReportTemplates=Modèles d'état :
 WizardTemplateChoicePage.label.ShowCheatSheets=&Afficher la feuille de fraude de création d'état
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=Créez un état vierge sans aucun contenu prédéfini.
 WizardTemplateChoicePage.message.ChartListing=Créez un état groupé avec un graphique fournissant une représentation visuelle de chaque donnée de groupe.
 WizardTemplateChoicePage.message.DualColumnChartListing=Créez un état groupé avec deux sous-groupes "Graphiques et listes".
@@ -4750,7 +4751,6 @@ GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers 
 GeneralConfigurationBlock.move.binding.always=&Toujours
 GeneralConfigurationBlock.move.binding.never=Ja&mais
 GeneralConfigurationBlock.move.binding.prompt=Invite&r
-
 
 ###########################################################
 #ResetImageSizeAction

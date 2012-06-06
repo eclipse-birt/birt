@@ -4119,6 +4119,7 @@ WizardTemplateChoicePage.label.Description=à–¾ :
 WizardTemplateChoicePage.label.Preview=ƒvƒŒƒrƒ…[ :
 WizardTemplateChoicePage.label.ReportTemplates=ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg :
 WizardTemplateChoicePage.label.ShowCheatSheets=ƒŒƒ|[ƒgì¬ƒKƒCƒh‚Ì•\¦(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=“à—e‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‹ó”’‚ÌƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.ChartListing=ƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·BƒOƒ‰ƒt‚ÍA‚»‚ê‚¼‚ê‚ÌƒOƒ‹[ƒv‚Ìƒf[ƒ^‚ğ‹Šo“I‚É•\‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.DualColumnChartListing=ƒOƒ‰ƒt‚ÆƒŠƒXƒg‚ÌƒTƒuƒOƒ‹[ƒv‚ğ 2 ‚Â‚ÂƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
@@ -4750,7 +4751,6 @@ GeneralConfigurationBlock.move.binding.group=ƒpƒtƒH[ƒ}ƒ“ƒX‚ğŒüã‚³‚¹‚é‚½‚ß‚Éƒ
 GeneralConfigurationBlock.move.binding.always=í‚É‘±s‚·‚é(&W)
 GeneralConfigurationBlock.move.binding.never=‘±s‚µ‚È‚¢(&V)
 GeneralConfigurationBlock.move.binding.prompt=Šm”FƒƒbƒZ[ƒW‚ğ•\¦‚·‚é(&R)
-
 
 ###########################################################
 #ResetImageSizeAction

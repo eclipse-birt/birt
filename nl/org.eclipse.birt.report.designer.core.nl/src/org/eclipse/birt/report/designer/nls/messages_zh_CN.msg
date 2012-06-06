@@ -4119,6 +4119,7 @@ WizardTemplateChoicePage.label.Description=ÃèÊö:
 WizardTemplateChoicePage.label.Preview=Ô¤ÀÀ:
 WizardTemplateChoicePage.label.ReportTemplates=±¨±íÄ£°å:
 WizardTemplateChoicePage.label.ShowCheatSheets=ÏÔÊ¾±¨±í´´½¨±¸Íüµ¥(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=´´½¨ÎŞÔ¤¶¨ÒåÄÚÈİµÄ¿Õ±¨±í¡£
 WizardTemplateChoicePage.message.ChartListing=´´½¨·Ö×é±¨±í£¬²¢¸½´øÖ±¹Û±íÊ¾Ã¿¸ö×éÊı¾İµÄÍ¼±í¡£
 WizardTemplateChoicePage.message.DualColumnChartListing=´´½¨´øÁ½¸ö¡°Í¼±íºÍÁĞ±í¡±×Ó×éµÄ·Ö×é±¨±í¡£
@@ -4750,7 +4751,6 @@ GeneralConfigurationBlock.move.binding.group=½«±¾µØ°ó¶¨ÒÆ¶¯µ½¸¸²ãÒÔ»ñµÃ¸üºÃµÄĞÔÄ
 GeneralConfigurationBlock.move.binding.always=Ê¼ÖÕ(&W)
 GeneralConfigurationBlock.move.binding.never=´Ó²»(&V)
 GeneralConfigurationBlock.move.binding.prompt=ÌáÊ¾(&R)
-
 
 ###########################################################
 #ResetImageSizeAction
