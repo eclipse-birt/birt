@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
@@ -979,14 +980,19 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected void processCubeStyle( Chart cm, LevelHandle category,
 			MeasureHandle measure, LevelHandle yoption )
 	{
-		GroupingUnitType gut = computeLevelHandleGroupUnit( yoption);
+		GroupingUnitType dateGut = computeLevelHandleGroupUnit( yoption);
 		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
 			// Adapts grouping unit type according to level handle type.
-			if ( gut != null &&  sd.getQuery( ).getGrouping( ) != null && !sd.getQuery( ).getGrouping( ).isSetGroupingUnit( ) )
+			if ( dateGut != null
+					&& sd.getQuery( ).getGrouping( ) != null
+					&& !sd.getQuery( ).getGrouping( ).isSetEnabled( ) )
 			{
 				sd.getQuery( ).getGrouping( ).setEnabled( true );
-				sd.getQuery( ).getGrouping( ).setGroupingUnit( gut );
+				sd.getQuery( )
+						.getGrouping( )
+						.setGroupType( DataType.DATE_TIME_LITERAL );
+				sd.getQuery( ).getGrouping( ).setGroupingUnit( dateGut );
 			}
 			
 			// Since renderer always use runtime series, set format to
@@ -1030,21 +1036,23 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					.setFormatSpecifier( createFormatSpecifier( yoption ) );
 		}
 
-		gut = computeLevelHandleGroupUnit( category );
+		dateGut = computeLevelHandleGroupUnit( category );
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
 			Axis xAxis = cwa.getAxes( ).get( 0 );
 			
 			// Adapts grouping unit type according to level handle type.
-			if ( gut != null )
+			if ( dateGut != null )
 			{
 				for ( SeriesDefinition sd : xAxis.getSeriesDefinitions( ) )
 				{
 					if ( sd.getGrouping( ) != null )
 					{
 						sd.getGrouping( ).setEnabled( true );
-						sd.getGrouping( ).setGroupingUnit( gut );
+						sd.getGrouping( )
+								.setGroupType( DataType.DATE_TIME_LITERAL );
+						sd.getGrouping( ).setGroupingUnit( dateGut );
 					}
 				}
 			}
@@ -1065,14 +1073,15 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		} else {
 			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
 			// Adapts grouping unit type according to level handle type.
-			if ( gut != null )
+			if ( dateGut != null )
 			{
 				SeriesDefinition sd = cwa.getSeriesDefinitions( ).get( 0 );
 				if ( sd.getGrouping( ) != null
-						&& !sd.getGrouping( ).isSetGroupingUnit( ) )
+						&& !sd.getGrouping( ).isSetEnabled( ) )
 				{
 					sd.getGrouping( ).setEnabled( true );
-					sd.getGrouping( ).setGroupingUnit( gut );
+					sd.getGrouping( ).setGroupType( DataType.DATE_TIME_LITERAL );
+					sd.getGrouping( ).setGroupingUnit( dateGut );
 				}
 			}
 			if ( cwa.getSeriesDefinitions( ).get( 0 ).getFormatSpecifier( ) == null )
