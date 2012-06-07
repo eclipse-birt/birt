@@ -34,15 +34,15 @@ MeasureHandleDropAdapter_trans_name=Maßeinheit hinzufügen
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
 AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
-AddRelativeTimePeriodAction_action_label=Add Re&lative Time Period
+AddRelativeTimePeriodAction_action_label=Re&lative Zeitperiode hinzufügen
 AddRelativeTimePeriodAction_trans_label=Relatives Zeitintervall hinzufügen
 ChangeAreaCommand.TransName=Dimension verwerfen
 ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
 CreateDimensionViewCommand.TransName=Dimension erstellen
 CreateMeasureViewCommand.TransName=Maßeinheit erstellen
 
-MergeCrosstabHeaderCellAction_name=&Merge Header Cells
-SplitCrosstabHeadCellAction_name=&Split Header Cell
+MergeCrosstabHeaderCellAction_name=&Kopfzeilen verbinden
+SplitCrosstabHeadCellAction_name=Kopfzeile &teilen
 
 ###########################################################
 # Crosstab EditPart
