@@ -9,7 +9,7 @@
 <context id="NewReportProjectWizard_ID" title="New Report Project">
 <!-- updated khahn 20090507 linked 20090604 -->
 <description>
-Eclipse requires that all files are organized in a project. Give the project an arbitrary name. To create the project outside your default workspace, deselect the option to use the default location, and browse to a different location.  
+Eclipse requires that all files are organized in a project. Give the project an arbitrary name. To create the project outside your default workspace, deselect the option to use the default location, and browse to a different location.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/gs-TutT1CreateANewProject.html" label="Create a new project"/>
 </context>
