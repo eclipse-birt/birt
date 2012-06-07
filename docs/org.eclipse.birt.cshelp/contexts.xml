@@ -9,7 +9,7 @@
 <context id="NewReportProjectWizard_ID" title="New Report Project">
 <!-- updated khahn 20090507 linked 20090604 -->
 <description>
-Eclipse requires that all files are organized in a project. Give the project an arbitrary name. To create the project outside your default workspace, deselect the option to use the default location, and browse to a different location.
+Eclipse requires that all files are organized in a project. Give the project an arbitrary name. To create the project outside your default workspace, deselect the option to use the default location, and browse to a different location.  
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/gs-TutT1CreateANewProject.html" label="Create a new project"/>
 </context>
@@ -335,6 +335,13 @@ Define a hyperlink for a data, label, image, or chart element.
 </description>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/iv-HowToCreateAHyperlinkToLinkTwoSections.html" label="How to create a hyperlink that uses an internal bookmark"/>
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/iv-HowToLinkTwoReports.html" label="How to create a drill-through hyperlink"/>
+</context>
+
+<context id="HyperlinkParameterDialog_ID" title="Hyperlink Parameter">
+<!-- SEQUENCE: New a data design. New a cube, add a drill through on measure and add a parameter. Created. JAHT no link 20120606 -->
+<description>
+Define a parameter to provide text in the hyperlink. 
+</description>
 </context>
 
 <context id="ExpressionBuilder_ID" title="Expression Builder">
