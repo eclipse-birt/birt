@@ -1916,6 +1916,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		CssStyleSheet newSheet = new CssStyleSheet( );
 
 		newSheet.setFileName( sheet.getFileName( ) );
+		newSheet.setExternalCssURI( sheet.getExternalCssURI( ) );
+		newSheet.setUseExternalCss( sheet.isUseExternalCss( ) );
 		List<CssStyle> styles = sheet.getStyles( );
 		for ( int i = 0; i < styles.size( ); i++ )
 		{

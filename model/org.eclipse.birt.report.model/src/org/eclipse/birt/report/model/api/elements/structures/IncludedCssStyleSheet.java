@@ -49,6 +49,11 @@ public class IncludedCssStyleSheet extends Structure
 	 * Name of the external css file member.
 	 */
 	public static final String EXTERNAL_CSS_URI_MEMBER = "externalCssURI";//$NON-NLS-1$
+	
+	/**
+	 * Name of the external css file member.
+	 */
+	public static final String USE_EXTERNAL_CSS = "useExternalCss";//$NON-NLS-1$
 
 	/**
 	 * The file name of the included library.
@@ -60,12 +65,9 @@ public class IncludedCssStyleSheet extends Structure
 	 * The URI of the external css.
 	 */
 	protected String externalCssURI;
+	
+	protected boolean useExternalCss;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
-	 */
 
 	public String getStructName( )
 	{
@@ -84,6 +86,8 @@ public class IncludedCssStyleSheet extends Structure
 			return fileName;
 		if ( EXTERNAL_CSS_URI_MEMBER.equals( propName ) )
 			return externalCssURI;
+		if ( USE_EXTERNAL_CSS.equals( propName ) )
+			return useExternalCss;
 
 		assert false;
 		return null;
@@ -102,6 +106,8 @@ public class IncludedCssStyleSheet extends Structure
 			fileName = (String) value;
 		else if ( EXTERNAL_CSS_URI_MEMBER.equals( propName ) )
 			externalCssURI = (String) value;
+		else if ( USE_EXTERNAL_CSS.equals( propName ) )
+			useExternalCss = ((Boolean) value).booleanValue( );
 		else
 			assert false;
 	}
@@ -125,7 +131,7 @@ public class IncludedCssStyleSheet extends Structure
 			PropertyDefn defn = (PropertyDefn) getDefn( ).getMember(
 					EXTERNAL_CSS_URI_MEMBER );
 			String externalCssURI = (String) getProperty( module, defn );
-			if ( externalCssURI == null )
+			if ( externalCssURI == null && !useExternalCss )
 			{
 				list.add( new PropertyValueException( element, getDefn( )
 						.getMember( FILE_NAME_MEMBER ), fileName,
@@ -178,6 +184,25 @@ public class IncludedCssStyleSheet extends Structure
 	{
 		this.externalCssURI = externalCssURI;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
+	 */
+
+	
+	public boolean isUseExternalCss( )
+	{
+		return useExternalCss;
+	}
+
+	
+	public void setUseExternalCss( boolean useExternalCss )
+	{
+		this.useExternalCss = useExternalCss;
+	}
+
 
 	/*
 	 * (non-Javadoc)

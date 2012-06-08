@@ -74,14 +74,68 @@ public class CssStyleSheetHandleAdapter
 	{
 		if ( sheetHandle == null )
 			return;
-		CssCommand command = new CssCommand( module, element );
-		command.addCss( sheetHandle.getStyleSheet( ) );
+		if ( sheetHandle.getFileName( ) != null )
+		{
+			URL url = module.findResource( sheetHandle.getFileName( ),
+					IResourceLocator.CASCADING_STYLE_SHEET );
+			if ( url == null )
+			{
+				throw new CssException( module, new String[]{sheetHandle.getFileName( )},
+						CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
+			}
+		}
+		if(canAddCssStyleSheet( sheetHandle ))
+		{
+			CssCommand command = new CssCommand( module, element );
+			command.addCss( sheetHandle.getStyleSheet( ) );
+		}
+		else
+		{
+			throw new CssException( module, new String[]{sheetHandle.getFileName( )},
+					CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+		}
 	}
 
 	/**
 	 * Includes one css with the given css file name. The new css will be
 	 * appended to the css list.
 	 * 
+	 * @param fileName
+	 *            css file name
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
+	 */
+
+	public final void addCssbyProperties( String fileName, String externalCssURI, boolean isUseExternalCss ) throws SemanticException
+	{
+		if ( fileName != null )
+		{
+			URL url = module.findResource( fileName,
+					IResourceLocator.CASCADING_STYLE_SHEET );
+			if ( url == null )
+			{
+				throw new CssException( module, new String[]{fileName},
+						CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
+			}
+		}
+		
+		if(canAddCssStyleSheetByProperties( fileName, externalCssURI, isUseExternalCss ))
+		{
+			CssCommand command = new CssCommand( module, element );
+			command.addCssByProperties( fileName,  externalCssURI, isUseExternalCss);
+		}
+		else
+		{
+			throw new CssException( module, new String[]{fileName},
+					CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+		}
+	}
+	
+	/**
+	 * Includes one css with the given css file name. The new css will be
+	 * appended to the css list.
+	 * @deprecated
 	 * @param fileName
 	 *            css file name
 	 * @throws SemanticException
@@ -138,12 +192,14 @@ public class CssStyleSheetHandleAdapter
 		if ( sheetHandle == null )
 			return false;
 
-		String fileName = sheetHandle.getFileName( );
-
 		// css not found.
 
-		int position = CssStyleSheetAdapter.getPositionOfCssStyleSheet( module,
-				( (ICssStyleSheetOperation) element ).getCsses( ), fileName );;
+		int position = CssStyleSheetAdapter
+				.getPositionOfCssStyleSheetByProperties( module,
+						( (ICssStyleSheetOperation) element ).getCsses( ),
+						sheetHandle.getFileName( ),
+						sheetHandle.getExternalCssURI( ),
+						sheetHandle.isUseExternalCss( ) );
 		if ( position == -1 )
 		{
 			return false;
@@ -153,7 +209,7 @@ public class CssStyleSheetHandleAdapter
 
 	/**
 	 * Check style sheet can be added or not.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
@@ -187,6 +243,42 @@ public class CssStyleSheetHandleAdapter
 
 		return true;
 	}
+	
+	/**
+	 * Check style sheet can be added or not.
+	 * 
+	 * @param fileName
+	 * @return <code>true</code> can be added.else return <code>false</code>
+	 */
+
+	public final boolean canAddCssStyleSheetByProperties( String fileName,
+			String externalCssURI, boolean isUseExternalCss )
+	{
+		// element is read-only
+
+		if ( !element.canEdit( module ) )
+		{
+			return false;
+		}
+		URL url = null;
+
+		if ( fileName != null )
+		{
+			url = module.findResource( fileName,
+					IResourceLocator.CASCADING_STYLE_SHEET );
+		}
+
+		CssStyleSheet sheet = CssStyleSheetAdapter
+				.getCssStyleSheetByProperties( module,
+						( (ICssStyleSheetOperation) element ).getCsses( ), url,
+						externalCssURI, isUseExternalCss );
+		if ( sheet != null )
+		{
+			return false;
+		}
+		return true;
+	}
+	
 
 	/**
 	 * Check style sheet can be added or not.
@@ -206,8 +298,9 @@ public class CssStyleSheetHandleAdapter
 		{
 			return false;
 		}
-		String fileName = sheetHandle.getFileName( );
-		return canAddCssStyleSheet( fileName );
+		return canAddCssStyleSheetByProperties( sheetHandle.getFileName( ),
+				sheetHandle.getExternalCssURI( ),
+				sheetHandle.isUseExternalCss( ) );
 	}
 
 	/**
@@ -248,16 +341,38 @@ public class CssStyleSheetHandleAdapter
 	public final void addCss( IncludedCssStyleSheet cssStruct )
 			throws SemanticException
 	{
+
 		if ( cssStruct == null )
 			return;
+		if ( cssStruct.getFileName( ) != null )
+		{
+			URL url = module.findResource( cssStruct.getFileName( ),
+					IResourceLocator.CASCADING_STYLE_SHEET );
+			if ( url == null )
+			{
+				throw new CssException( module,
+						new String[]{cssStruct.getFileName( )},
+						CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
+			}
+		}
+		if ( canAddCssStyleSheetByProperties( cssStruct.getFileName( ),
+				cssStruct.getExternalCssURI( ), cssStruct.isUseExternalCss( ) ) )
+		{
+			CssCommand command = new CssCommand( module, element );
+			command.addCss( cssStruct );
+		}
+		else
+		{
+			throw new CssException( module,
+					new String[]{cssStruct.getFileName( )},
+					CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+		}
 
-		CssCommand command = new CssCommand( module, element );
-		command.addCss( cssStruct );
 	}
 
 	/**
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 *            the file name
 	 * @return the includedCssStyleSheet handle.
@@ -299,10 +414,82 @@ public class CssStyleSheetHandleAdapter
 
 		return null;
 	}
+	
+	/**
+	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
+	 * 
+	 * @param fileName
+	 *            the file name
+	 * @return the includedCssStyleSheet handle.
+	 */
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByProperties(
+			String fileName, String externalCssURI, boolean useExternalCss )
+	{
 
+		String propName = null;
+		if ( element instanceof ReportDesign )
+		{
+			propName = IReportDesignModel.CSSES_PROP;
+
+		}
+		else if ( element instanceof AbstractTheme )
+		{
+
+			propName = IAbstractThemeModel.CSSES_PROP;
+		}
+
+		assert propName != null;
+
+		PropertyHandle propHandle = element.getHandle( module )
+				.getPropertyHandle( propName );
+
+		Iterator<Object> handleIter = propHandle.iterator( );
+		while ( handleIter.hasNext( ) )
+		{
+			IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) handleIter
+					.next( );
+			if ( equals( fileName, externalCssURI, useExternalCss, handle ) )
+			{
+				return handle;
+			}
+		}
+		return null;
+	}
+	
+	private boolean equals( String fileName, String externalCssURI,
+			boolean useExternalCss, IncludedCssStyleSheetHandle handle )
+	{
+		if ( fileName != null )
+		{
+			if ( fileName.equals( handle.getFileName( ) ) )
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if ( externalCssURI != null )
+			{
+				if ( externalCssURI.equals( handle.getExternalCssURI( ) ) )
+				{
+					return true;
+				}
+			}
+			else
+			{
+				if ( handle.getExternalCssURI( ) == null
+						&& handle.isUseExternalCss( ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 *            the file name.
 	 * 
@@ -328,8 +515,61 @@ public class CssStyleSheetHandleAdapter
 	}
 
 	/**
-	 * Renames as new file name.
+	 * Gets <code>CssStyleSheetHandle</code> by file name.
 	 * 
+	 * @param fileName
+	 *            the file name.
+	 * 
+	 * @return the cssStyleSheet handle.
+	 */
+	public CssStyleSheetHandle findCssStyleSheetHandleByProperties(
+			String fileName, String externalCssURI, boolean useExternalCss )
+	{
+
+
+		if ( fileName != null )
+		{
+
+			List<CssStyleSheet> list = ( (ICssStyleSheetOperation) element )
+					.getCsses( );
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				CssStyleSheet css = list.get( i );
+				if ( fileName.equals( css.getFileName( ) ) )
+				{
+					return css.handle( module );
+				}
+			}
+		}
+		else
+		{
+			List<CssStyleSheet> list = ( (ICssStyleSheetOperation) element )
+					.getCsses( );
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				CssStyleSheet css = list.get( i );
+				if ( externalCssURI != null )
+				{
+					if ( externalCssURI.equals( css.getExternalCssURI( ) ) )
+					{
+						return css.handle( module );
+					}
+				}
+				else
+				{
+					if ( css.getExternalCssURI( ) == null && css.isUseExternalCss( ) && useExternalCss)
+					{
+						return css.handle( module );
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Renames as new file name.
+	 * @deprecated
 	 * @param handle
 	 *            the includedCssStyleSheet handle
 	 * @param newFileName
@@ -349,10 +589,24 @@ public class CssStyleSheetHandleAdapter
 				.getIncludedCssStyleSheetByLocation( handle.getFileName( ) );
 		command.renameCss( includedCssStyleSheet, newFileName );
 	}
+	
+	public void renameCssByProperties( IncludedCssStyleSheetHandle handle,
+			String fileName, String externalCssURI, boolean isUseExternalCss ) throws SemanticException
+
+	{
+		if ( handle == null )
+			return;
+
+		CssCommand command = new CssCommand( module, element );
+
+		IncludedCssStyleSheet includedCssStyleSheet = command
+				.getIncludedCssStyleSheetByProperties( handle.getFileName( ), handle.getExternalCssURI( ), handle.isUseExternalCss( ) );
+		command.renameCssByProperties( includedCssStyleSheet, fileName,  externalCssURI, isUseExternalCss);
+	}
 
 	/**
 	 * Checks css style sheet can be renamed or not.
-	 * 
+	 * @deprecated
 	 * @param sheetHandle
 	 *            the included css style sheet handle
 	 * @param newFileName
@@ -390,6 +644,45 @@ public class CssStyleSheetHandleAdapter
 		if ( foundIncludedCssStyleSheet == sheetHandle.getStructure( ) )
 			return false;
 
+		return true;
+	}
+	
+	/**
+	 * Checks css style sheet can be renamed or not.
+	 * 
+	 * @param sheetHandle
+	 *            the included css style sheet handle
+	 * @param newFileName
+	 *            the new file name.
+	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 */
+	public boolean canRenameCssByProperties(
+			IncludedCssStyleSheetHandle sheetHandle, String newFileName,
+			String externalCssURI, boolean isUseExternalCss )
+	{
+		if ( sheetHandle == null )
+			return false;
+		CssCommand command = new CssCommand( module, element );
+		IncludedCssStyleSheet includedCssStyleSheet = command
+				.getIncludedCssStyleSheetByProperties(
+						sheetHandle.getFileName( ),
+						sheetHandle.getExternalCssURI( ),
+						sheetHandle.isUseExternalCss( ) );
+
+		IncludedCssStyleSheet foundIncludedCssStyleSheet = null;
+		try
+		{
+			foundIncludedCssStyleSheet = command.checkRenameCssByProperties(
+					includedCssStyleSheet, newFileName, externalCssURI,
+					isUseExternalCss );
+		}
+		catch ( CssException e )
+		{
+			return false;
+		}
+		// check the same location
+		if ( foundIncludedCssStyleSheet == sheetHandle.getStructure( ) )
+			return false;
 		return true;
 	}
 
