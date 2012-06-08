@@ -431,7 +431,7 @@ public class Connection implements IConnection
 			}
 			catch ( SQLException e )
 			{
-				return 0;
+				return 1;
 			}
 		}
 
