@@ -337,6 +337,13 @@ Define a hyperlink for a data, label, image, or chart element.
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/iv-HowToLinkTwoReports.html" label="How to create a drill-through hyperlink"/>
 </context>
 
+<context id="HyperlinkParameterDialog_ID" title="Hyperlink Parameter">
+<!-- SEQUENCE: New a data design. New a cube, add a drill through on measure and add a parameter. Created. JAHT no link 20120606 -->
+<description>
+Define a parameter to provide text in the hyperlink. 
+</description>
+</context>
+
 <context id="ExpressionBuilder_ID" title="Expression Builder">
 <!-- SEQUENCE: Select a table in layout editor, select the Binding tab in property editor, double-click an expression, choose Fx. Updated. khahn 20090602 linked 20090604 -->
 <description>

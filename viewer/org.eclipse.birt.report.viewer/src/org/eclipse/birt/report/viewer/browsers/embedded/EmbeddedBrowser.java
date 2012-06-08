@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.CloseWindowListener;
@@ -136,8 +137,14 @@ public class EmbeddedBrowser
 						( Boolean.valueOf( shell.getMaximized( ) ).toString( ) ) );
 			}
 		} );
-
-		browser = new Browser( shell, SWT.NONE );
+		if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+		{
+			browser = new Browser( shell, SWT.MOZILLA );
+		}
+		else
+		{
+			browser = new Browser( shell, SWT.NONE );
+		}
 
 		initialize( shell.getDisplay( ), browser );
 
@@ -239,7 +246,15 @@ public class EmbeddedBrowser
 
 		initializeShell( shell );
 
-		Browser browser = new Browser( shell, SWT.NONE );
+		Browser browser = null;
+		if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+		{
+			browser = new Browser( shell, SWT.MOZILLA );
+		}
+		else
+		{
+			browser = new Browser( shell, SWT.NONE );
+		}
 
 		initialize( shell.getDisplay( ), browser );
 
