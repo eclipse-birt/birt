@@ -54,6 +54,7 @@ import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
@@ -675,7 +676,22 @@ public class BirtUtility
 			if ( design instanceof IReportRunnable )
 			{
 				IReportRunnable runnable = (IReportRunnable) design;
-				reportTitle = (String) runnable.getProperty( IReportRunnable.TITLE );
+				if ( runnable.getDesignHandle( ) != null )
+				{
+					ModuleHandle moduleHandle = runnable.getDesignHandle( )
+							.getModuleHandle( );
+					String key = moduleHandle.getStringProperty( ReportDesignHandle.TITLE_ID_PROP );
+					if ( key != null && moduleHandle.getMessage( key ) != null )
+					{
+						reportTitle = moduleHandle.getMessage( key );
+					}
+					else
+					{
+						reportTitle = (String) runnable.getProperty( IReportRunnable.TITLE );
+					}
+				}
+				else
+					reportTitle = (String) runnable.getProperty( IReportRunnable.TITLE );
 			}
 		}
 
@@ -1134,15 +1150,17 @@ public class BirtUtility
 				ParameterAccessor.getDpi( request ) );
 
 		// Max cube fetch levels
-//		int maxCubeRowLevels = ParameterAccessor.getMaxCubeRowLevels( request );
-//		if ( maxCubeRowLevels >= 0 )
-//			context.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
-//					Integer.valueOf( maxCubeRowLevels ) );
-//
-//		int maxCubeColumnLevels = ParameterAccessor.getMaxCubeColumnLevels( request );
-//		if ( maxCubeColumnLevels >= 0 )
-//			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
-//					Integer.valueOf( maxCubeColumnLevels ) );
+		// int maxCubeRowLevels = ParameterAccessor.getMaxCubeRowLevels( request
+		// );
+		// if ( maxCubeRowLevels >= 0 )
+		// context.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
+		// Integer.valueOf( maxCubeRowLevels ) );
+		//
+		// int maxCubeColumnLevels = ParameterAccessor.getMaxCubeColumnLevels(
+		// request );
+		// if ( maxCubeColumnLevels >= 0 )
+		// context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
+		// Integer.valueOf( maxCubeColumnLevels ) );
 
 		// Cube memory size
 		int cubeMemorySize = ParameterAccessor.getCubeMemorySize( request );
