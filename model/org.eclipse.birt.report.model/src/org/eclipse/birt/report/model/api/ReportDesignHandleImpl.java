@@ -808,7 +808,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 
 	/**
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 *            the file name
 	 * @return the includedCssStyleSheet handle.
@@ -822,10 +822,27 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		return adapter.findIncludedCssStyleSheetHandleByFileName( fileName );
 
 	}
+	
+	/**
+	 * Gets <code>IncludedCssStyleSheetHandle</code> by properties.
+	 * @param fileName
+	 * @param externalCssURI
+	 * @param useExternalCss
+	 * @return the includedCssStyleSheet handle.
+	 */
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByProperties(
+			String fileName, String externalCssURI, boolean useExternalCss )
+	{
+
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.findIncludedCssStyleSheetHandleByProperties( fileName, externalCssURI, useExternalCss );
+
+	}
 
 	/**
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 *            the file name.
 	 * 
@@ -837,6 +854,22 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
 				module, getElement( ) );
 		return adapter.findCssStyleSheetHandleByFileName( fileName );
+
+	}
+	
+	/**
+	 * Gets <code>CssStyleSheetHandle</code> by file name.
+	 * @param fileName
+	 * @param externalCssURI
+	 * @param useExternalCss
+	 * @return the cssStyleSheet handle.
+	 */
+	public CssStyleSheetHandle findCssStyleSheetHandleByProperties(
+			String fileName, String externalCssURI, boolean useExternalCss  )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.findCssStyleSheetHandleByProperties( fileName, externalCssURI, useExternalCss );
 
 	}
 
@@ -862,7 +895,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	/**
 	 * Includes one css with the given css file name. The new css will be
 	 * appended to the css list.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 *            css file name
 	 * @throws SemanticException
@@ -875,6 +908,24 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
 				module, getElement( ) );
 		adapter.addCss( fileName );
+	}
+	
+	/**
+	 * Includes one css with the given css file name. The new css will be
+	 * appended to the css list.
+	 * 
+	 * @param fileName
+	 *            css file name
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
+	 */
+
+	public void addCssByProperties( String fileName, String externalCssURI, boolean useExternalCss  ) throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.addCssbyProperties( fileName, externalCssURI, useExternalCss );
 	}
 
 	/**
@@ -902,7 +953,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 	/**
 	 * Renames both <code>IncludedCssStyleSheet</code> and
 	 * <code>CSSStyleSheet<code> to newFileName.
-	 * 
+	 * @deprecated
 	 * @param handle
 	 *            the includedCssStyleSheetHandle
 	 * @param newFileName
@@ -916,10 +967,28 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 				module, getElement( ) );
 		adapter.renameCss( handle, newFileName );
 	}
+	
+	/**
+	 * Renames both <code>IncludedCssStyleSheet</code> and
+	 * <code>CSSStyleSheet<code> to newFileName.
+	 * 
+	 * @param handle
+	 *            the includedCssStyleSheetHandle
+	 * @param newFileName
+	 *            the new file name
+	 */
+	public void renameCssByProperties( IncludedCssStyleSheetHandle handle,
+			String fileName, String externalCssURI, boolean useExternalCss  ) throws SemanticException
+	{
 
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.renameCssByProperties( handle, fileName, externalCssURI, useExternalCss );
+	}
+	
 	/**
 	 * Checks css can be renamed or not.
-	 * 
+	 * @deprecated
 	 * @param handle
 	 *            the included css style sheet handle.
 	 * @param newFileName
@@ -934,6 +1003,25 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 				module, getElement( ) );
 		return adapter.canRenameCss( handle, newFileName );
 	}
+	
+	/**
+	 * Checks css can be renamed or not.
+	 * 
+	 * @param handle
+	 *            the included css style sheet handle.
+	 * @param newFileName
+	 *            the new file name.
+	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 * @throws SemanticException
+	 */
+	public boolean canRenameCssByProperties( IncludedCssStyleSheetHandle handle,
+			String fileName, String externalCssURI, boolean useExternalCss  ) throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canRenameCssByProperties( handle, fileName, externalCssURI, useExternalCss );
+	}
+	
 
 	/**
 	 * Drops the given css style sheet of this design file.
@@ -985,7 +1073,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 
 	/**
 	 * Check style sheet can be added or not.
-	 * 
+	 * @deprecated
 	 * @param fileName
 	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
@@ -996,6 +1084,22 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 				module, getElement( ) );
 		return adapter.canAddCssStyleSheet( fileName );
 	}
+	
+	/**
+	 *  Check style sheet can be added or not.
+	 * @param fileName
+	 * @param externalCssURI
+	 * @param useExternalCss
+	 * @return <code>true</code> can be added.else return <code>false</code>
+	 */
+
+	public boolean canAddCssStyleSheetByProperties( String fileName, String externalCssURI, boolean useExternalCss  )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canAddCssStyleSheetByProperties( fileName, externalCssURI, useExternalCss );
+	}
+	
 
 	/**
 	 * Reloads the css with the given css file path. If the css already is
@@ -1385,7 +1489,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				IncludedCssStyleSheetHandle sheetHandle = values.get( i );
-				if ( sheetHandle.getExternalCssURI( ) != null )
+				if ( sheetHandle.getExternalCssURI( )!=null && sheetHandle.isUseExternalCss( ) )
 					ret.add( sheetHandle );
 			}
 		}
@@ -1418,7 +1522,7 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 			{
 				IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) iter
 						.next( );
-				if ( sheetHandle.getExternalCssURI( ) != null )
+				if ( sheetHandle.getExternalCssURI( )!=null || sheetHandle.isUseExternalCss( ) )
 					ret.add( sheetHandle );
 			}
 		}

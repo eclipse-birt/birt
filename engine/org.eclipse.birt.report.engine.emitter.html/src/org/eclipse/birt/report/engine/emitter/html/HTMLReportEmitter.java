@@ -959,10 +959,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter.next( );
 					String href = cssStyleSheetHandle.getExternalCssURI( );
+					if ( cssStyleSheetHandle.isUseExternalCss( )
+							|| href != null )
+					{
+						hasCsslinks = true;
+					}
 					if ( href != null )
 					{
 						boolean isEmbeddable = new HTMLRenderOption( renderOption ).getEmbeddable( );
-						hasCsslinks = true;
 						if ( !isEmbeddable )
 						{// output the CSS link if it is not
 							// is embeddable

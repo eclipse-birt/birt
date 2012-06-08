@@ -77,23 +77,23 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			IncludedCssStyleSheet includeCss = (IncludedCssStyleSheet) struct;
 
 			String fileName = includeCss.getFileName( );
+			String externalCssURI = includeCss.getExternalCssURI( );
+			boolean useExternalCss = includeCss.isUseExternalCss( );
+			
 			if ( !( element instanceof ICssStyleSheetOperation ) )
 				return;
-
-			URL url = handler.module.findResource( fileName,
-					IResourceLocator.CASCADING_STYLE_SHEET );
-			if ( url == null )
-			{
-				// IncludedCssStyleSheetValidator validates the file name. So if
-				// the url of the css file could not be found, just return.
-				return;
-			}
-
+			
+			URL url= null;
 			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;
-
+			if ( fileName != null )
+			{
+				url = handler.module.findResource( fileName,
+						IResourceLocator.CASCADING_STYLE_SHEET );
+			}
+			
 			CssStyleSheet sheet = CssStyleSheetAdapter
-					.getCssStyleSheetByLocation( handler.module, sheetOperation
-							.getCsses( ), url );
+					.getCssStyleSheetByProperties( handler.module, sheetOperation
+							.getCsses( ), url, externalCssURI, useExternalCss );
 
 			if ( sheet != null )
 			{
@@ -104,17 +104,32 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 				return;
 			}
 
-			try
+			if ( fileName != null )
 			{
-				sheet = handler.module.loadCss( element, url, fileName );
-				sheetOperation.addCss( sheet );
+				try
+				{
+					sheet = handler.module.loadCss( element, url, fileName );
+					sheet.setExternalCssURI( externalCssURI );
+					sheet.setUseExternalCss( useExternalCss );
+					sheetOperation.addCss( sheet );
+				}
+
+				catch ( StyleSheetException e )
+				{
+					CssException ex = ModelUtil
+							.convertSheetExceptionToCssException(
+									handler.module, includeCss, fileName, e );
+					handler.getErrorHandler( ).semanticWarning( ex );
+				}
 			}
-			catch ( StyleSheetException e )
+			else
 			{
-				CssException ex = ModelUtil
-						.convertSheetExceptionToCssException( handler.module,
-								includeCss, fileName, e );
-				handler.getErrorHandler( ).semanticWarning( ex );
+				sheet = new CssStyleSheet( );
+				sheet.setExternalCssURI( externalCssURI );
+				sheet.setUseExternalCss( useExternalCss );
+				sheet.setContainer( handler.module );
+				sheetOperation.addCss( sheet );
+				
 			}
 		}
 	}
