@@ -139,8 +139,8 @@ public class RepoGen
         addExternalDependency("org.w3c.dom.svg-1.1.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.svg","1.1.0");
         addExternalDependency("Tidy-1.jar","org.eclipse.birt.runtime.3_7_1","Tidy","1");
         
-        addExternalDependency("com.ibm.icu_4.4.2.v20110823.jar","org.eclipse.birt.runtime","com.ibm.icu","4.4.2.v20110823");
-        
+        /*org.eclipse.birt.runtime repo*/
+        addExternalDependency("com.ibm.icu_4.4.2.v20110823.jar","org.eclipse.birt.runtime","com.ibm.icu","4.4.2.v20110823");        
         addExternalDependency("org.eclipse.datatools.connectivity.apache.derby.dbdefinition_1.0.2.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.apache.derby.dbdefinition","1.0.2.v201107221459");
 		addExternalDependency("org.eclipse.datatools.connectivity.apache.derby_1.0.102.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.apache.derby","1.0.102.v201107221459");
 		addExternalDependency("org.eclipse.datatools.connectivity.console.profile_1.0.10.v201109250955.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.console.profile","1.0.10.v201109250955");
