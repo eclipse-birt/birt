@@ -65,23 +65,23 @@ import org.eclipse.swt.widgets.Text;
 public class ResourceEditDialog extends BaseDialog
 {
 
-	private TableViewer viewer;
+	protected TableViewer viewer;
 
-	private Text keyText, valueText;
+	protected Text keyText, valueText;
 
 	private Button btnDelete;
 
 	private LinkedProperties[] contents;
 
-	private String[] propFileName;
+	protected String[] propFileName;
 
-	private boolean listChanged;
+	protected boolean listChanged;
 
 	private URL[] resourceURLs;
 
 	private Button btnAdd;
 
-	private List<GlobalProperty> globalLinkedProperties = new ArrayList<GlobalProperty>( );
+	protected List<GlobalProperty> globalLinkedProperties = new ArrayList<GlobalProperty>( );
 
 	/**
 	 * PropertyLabelProvider
@@ -636,7 +636,7 @@ public class ResourceEditDialog extends BaseDialog
 		return innerParent;
 	}
 
-	private void updateSelection( )
+	protected void updateSelection( )
 	{
 		if ( viewer.getTable( ).getSelectionCount( ) > 0 )
 		{
@@ -647,7 +647,7 @@ public class ResourceEditDialog extends BaseDialog
 		updateButtonState( );
 	}
 
-	private void addSelection( )
+	protected void addSelection( )
 	{
 		String key = keyText.getText( );
 		String val = valueText.getText( );
