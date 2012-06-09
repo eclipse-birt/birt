@@ -1,7 +1,7 @@
 p.N_Example, div.N_Example
 {
   color: Black;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-family: Arial, Verdana, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-variant: normal;
@@ -26,7 +26,7 @@ p.N_Example, div.N_Example
 .N_Example_inner
 {
   color: Black;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-family: Arial, Verdana, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-variant: normal;
@@ -775,7 +775,7 @@ div.N_i2-_Indent2LessLead
 div.N_i3_Indent3
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -800,7 +800,7 @@ div.N_i3_Indent3
 .N_i3_Indent3_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -821,7 +821,7 @@ div.N_i3_Indent3
 div.N_i3-_Indent3LessLead
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -846,7 +846,7 @@ div.N_i3-_Indent3LessLead
 .N_i3-_Indent3LessLead_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -867,7 +867,7 @@ div.N_i3-_Indent3LessLead
 div.N_n1_NumList1
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -892,7 +892,7 @@ div.N_n1_NumList1
 .N_n1_NumList1_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -959,7 +959,7 @@ div.N_n2_NumList2
 div.N_n3_NumList3
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -984,7 +984,7 @@ div.N_n3_NumList3
 .N_n3_NumList3_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1006,41 +1006,43 @@ p.N_sb_ScanBold, div.N_sb_ScanBold
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 9.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  left: 100%;
-  margin-bottom: 6pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-left: -40px;
+  margin-right: 0px;
+  margin-top: -23px;
+  position: relative;
   text-align: left;
   text-indent: 0pt;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
 }
 
 .N_sb_ScanBold_outer
 {
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: -23px;
 }
 
 .N_sb_ScanBold_inner
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 9.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  left: 100%;
+  position: relative;
   text-align: left;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
   margin-left: 0pt;
   margin-right: 0pt;
@@ -1056,41 +1058,41 @@ p.N_si_ScanIcon, div.N_si_ScanIcon
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 11.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  left: 100%;
-  margin-bottom: 6pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-left: -40px;
+  margin-right: 0px;
+  margin-top: -23px;
   text-align: left;
   text-indent: 0pt;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
 }
 
 .N_si_ScanIcon_outer
 {
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: -23px;
 }
 
 .N_si_ScanIcon_inner
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 11.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  left: 100%;
   text-align: left;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
   margin-left: 0pt;
   margin-right: 0pt;
@@ -1237,7 +1239,7 @@ h3.N_TutorialTask-first, div.N_TutorialTask-first
 p.b_Body, div.b_Body
 {
   color: Black;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1262,7 +1264,7 @@ p.b_Body, div.b_Body
 .b_Body_inner
 {
   color: Black;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1283,7 +1285,7 @@ p.b_Body, div.b_Body
 div.b1_Bullet1
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1308,7 +1310,7 @@ div.b1_Bullet1
 .b1_Bullet1_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1329,7 +1331,7 @@ div.b1_Bullet1
 div.b1_Bullet1-KWN
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1354,7 +1356,7 @@ div.b1_Bullet1-KWN
 .b1_Bullet1-KWN_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1375,7 +1377,7 @@ div.b1_Bullet1-KWN
 div.b1_002b_Bullet1WPara
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1400,7 +1402,7 @@ div.b1_002b_Bullet1WPara
 .b1_002b_Bullet1WPara_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1421,7 +1423,7 @@ div.b1_002b_Bullet1WPara
 div.b1c_Bullet1-Chapter_Opener
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1446,7 +1448,7 @@ div.b1c_Bullet1-Chapter_Opener
 .b1c_Bullet1-Chapter_Opener_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1467,7 +1469,7 @@ div.b1c_Bullet1-Chapter_Opener
 p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
 {
   color: Black;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1492,7 +1494,7 @@ p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
 .b1i_Bullet1-intro_inner
 {
   color: Black;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1513,7 +1515,7 @@ p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
 div.b1iz_Bullet1-introZeroLead
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1538,7 +1540,7 @@ div.b1iz_Bullet1-introZeroLead
 .b1iz_Bullet1-introZeroLead_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1559,7 +1561,7 @@ div.b1iz_Bullet1-introZeroLead
 div.b1z_Bullet1ZeroLead
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1584,7 +1586,7 @@ div.b1z_Bullet1ZeroLead
 .b1z_Bullet1ZeroLead_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1605,7 +1607,7 @@ div.b1z_Bullet1ZeroLead
 div.b1z_Bullet1ZeroLead-KWN
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1630,7 +1632,7 @@ div.b1z_Bullet1ZeroLead-KWN
 .b1z_Bullet1ZeroLead-KWN_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1651,7 +1653,7 @@ div.b1z_Bullet1ZeroLead-KWN
 div.b2_Bullet2
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1676,7 +1678,7 @@ div.b2_Bullet2
 .b2_Bullet2_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1697,7 +1699,7 @@ div.b2_Bullet2
 div.b2_Bullet2-KWN
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1722,7 +1724,7 @@ div.b2_Bullet2-KWN
 .b2_Bullet2-KWN_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1743,7 +1745,7 @@ div.b2_Bullet2-KWN
 div.b2_002b_Bullet2WPara
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1768,7 +1770,7 @@ div.b2_002b_Bullet2WPara
 .b2_002b_Bullet2WPara_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1789,7 +1791,7 @@ div.b2_002b_Bullet2WPara
 div.b2n_Bullet2NumList
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1814,7 +1816,7 @@ div.b2n_Bullet2NumList
 .b2n_Bullet2NumList_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1835,7 +1837,7 @@ div.b2n_Bullet2NumList
 div.b3_Bullet3
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1860,7 +1862,7 @@ div.b3_Bullet3
 .b3_Bullet3_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1881,7 +1883,7 @@ div.b3_Bullet3
 div.b3_Bullet3-KWN
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1906,7 +1908,7 @@ div.b3_Bullet3-KWN
 .b3_Bullet3-KWN_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1927,7 +1929,7 @@ div.b3_Bullet3-KWN
 div.b3_002b_Bullet3WPara
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1952,7 +1954,7 @@ div.b3_002b_Bullet3WPara
 .b3_002b_Bullet3WPara_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1973,7 +1975,7 @@ div.b3_002b_Bullet3WPara
 div.b3n_Bullet3NumList
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -1998,7 +2000,7 @@ div.b3n_Bullet3NumList
 .b3n_Bullet3NumList_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -2019,7 +2021,7 @@ div.b3n_Bullet3NumList
 div.b4_Bullet4
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -2044,7 +2046,7 @@ div.b4_Bullet4
 .b4_Bullet4_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -2065,7 +2067,7 @@ div.b4_Bullet4
 div.b4_Bullet4-KWN
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -2090,7 +2092,7 @@ div.b4_Bullet4-KWN
 .b4_Bullet4-KWN_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -3784,7 +3786,7 @@ div.t_Tbl_Body
 div.tb1_Tbl_Bullet1
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -3809,7 +3811,7 @@ div.tb1_Tbl_Bullet1
 .tb1_Tbl_Bullet1_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -3830,7 +3832,7 @@ div.tb1_Tbl_Bullet1
 div.tb2_Tbl_Bullet2
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -3855,7 +3857,7 @@ div.tb2_Tbl_Bullet2
 .tb2_Tbl_Bullet2_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -4716,7 +4718,7 @@ div.ti1_Tbl_Indent1
 div.tn_Tbl_NumList
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
@@ -4741,7 +4743,7 @@ div.tn_Tbl_NumList
 .tn_Tbl_NumList_inner
 {
   color: #000000;
-  font-family: 'Microsoft Sans Serif', Arial, Verdana, Helvetica, sans-serif;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10pt;
   font-style: normal;
   font-variant: normal;
