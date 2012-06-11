@@ -30,6 +30,7 @@ exception.error=Ã³¸® µµÁß ¿¹¿Ü°¡ ¹ß»ıÇß½À´Ï´Ù. ÀÚ¼¼ÇÑ ³»¿ëÀº ´ÙÀ½ ¸Ş½ÃÁö¸¦ ÂüÁ¶Ç
 invalid.level.expression=¼öÁØ ÀÌ¸§ "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
 invalid.measure.expression=ÃøÁ¤°ª "{0}"ÀÇ ÃøÁ¤°ª ½ÄÀº ³Î(null)ÀÏ ¼ö ¾ø½À´Ï´Ù.
 invalid.data.type=Àß¸øµÈ µ¥ÀÌÅÍ Çü½Ä: {0}. 
+invalid.binding.expression=Invalid expression: {0}.
 
 cube.error.createhierarchy=°èÃş »ı¼º µµÁß {0} ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
 cube.error.createdimension=Â÷¿ø »ı¼º µµÁß {0} ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
