@@ -366,6 +366,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public void setMeasureDirection( String direction )
 			throws SemanticException
 	{
+		if ( direction != null && direction.equals( getMeasureDirection( ) ) )
+		{
+			return;
+		}
+
 		CommandStack stack = getCommandStack( );
 		stack.startTrans( Messages.getString( "CrosstabReportItemHandle.msg.change.measure.direction" ) ); //$NON-NLS-1$
 
@@ -422,6 +427,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public void setHideMeasureHeader( boolean value ) throws SemanticException
 	{
+		if ( value == isHideMeasureHeader( ) )
+		{
+			return;
+		}
+
 		handle.setProperty( HIDE_MEASURE_HEADER_PROP, Boolean.valueOf( value ) );
 		CrosstabModelUtil.updateHeaderCell( this, -1, -1 );
 	}
