@@ -79,6 +79,12 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			String fileName = includeCss.getFileName( );
 			String externalCssURI = includeCss.getExternalCssURI( );
 			boolean useExternalCss = includeCss.isUseExternalCss( );
+			// handle compatibility (No useExternalCss property in design)
+			if ( externalCssURI != null && !useExternalCss )
+			{
+				includeCss.setUseExternalCss( true );
+				useExternalCss = true;
+			}
 			
 			if ( !( element instanceof ICssStyleSheetOperation ) )
 				return;
