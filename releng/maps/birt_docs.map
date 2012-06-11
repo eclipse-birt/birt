@@ -1,5 +1,5 @@
-plugin@org.eclipse.birt.chart.cshelp=GIT,tag=v20120604,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.chart.cshelp
-plugin@org.eclipse.birt.chart.doc.isv=GIT,tag=v20120604,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.chart.doc.isv
-plugin@org.eclipse.birt.cshelp=GIT,tag=v20120604,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.cshelp
-plugin@org.eclipse.birt.doc=GIT,tag=v20120604,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.doc
-plugin@org.eclipse.birt.doc.isv=GIT,tag=v20120604,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.doc.isv
+plugin@org.eclipse.birt.chart.cshelp=GIT,tag=v20120611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.chart.cshelp
+plugin@org.eclipse.birt.chart.doc.isv=GIT,tag=v20120611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.chart.doc.isv
+plugin@org.eclipse.birt.cshelp=GIT,tag=v20120611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.cshelp
+plugin@org.eclipse.birt.doc=GIT,tag=v20120611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.doc
+plugin@org.eclipse.birt.doc.isv=GIT,tag=v20120611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=docs/org.eclipse.birt.doc.isv
