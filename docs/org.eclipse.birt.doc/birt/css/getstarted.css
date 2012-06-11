@@ -1,7 +1,7 @@
 p.N_Example, div.N_Example
 {
   color: Black;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-family: Arial, Verdana, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-variant: normal;
@@ -26,7 +26,7 @@ p.N_Example, div.N_Example
 .N_Example_inner
 {
   color: Black;
-  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-family: Arial, Verdana, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-variant: normal;
@@ -141,11 +141,11 @@ div.N_h1n_Head1-num
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 16.0pt;
   text-align: Left;
-  text-indent: -42.5196pt;
+  text-indent: -42.5196850393701pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -275,11 +275,11 @@ div.N_h2n_Head2-num
   font-variant: normal;
   font-weight: bold;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 14.0pt;
   text-align: Left;
-  text-indent: -28.3464pt;
+  text-indent: -28.3464566929134pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -597,7 +597,7 @@ div.N_i_Indent1
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -643,7 +643,7 @@ div.N_i-_Indent1LessLead
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -689,7 +689,7 @@ div.N_i2_Indent2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -735,7 +735,7 @@ div.N_i2-_Indent2LessLead
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -775,13 +775,13 @@ div.N_i2-_Indent2LessLead
 div.N_i3_Indent3
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -800,8 +800,8 @@ div.N_i3_Indent3
 .N_i3_Indent3_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -821,13 +821,13 @@ div.N_i3_Indent3
 div.N_i3-_Indent3LessLead
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -846,8 +846,8 @@ div.N_i3-_Indent3LessLead
 .N_i3-_Indent3LessLead_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -867,17 +867,17 @@ div.N_i3-_Indent3LessLead
 div.N_n1_NumList1
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -892,8 +892,8 @@ div.N_n1_NumList1
 .N_n1_NumList1_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -919,11 +919,11 @@ div.N_n2_NumList2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -959,17 +959,17 @@ div.N_n2_NumList2
 div.N_n3_NumList3
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -984,8 +984,8 @@ div.N_n3_NumList3
 .N_n3_NumList3_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1006,41 +1006,43 @@ p.N_sb_ScanBold, div.N_sb_ScanBold
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 9.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  left: 100%;
-  margin-bottom: 6pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-left: -40px;
+  margin-right: 0px;
+  margin-top: -23px;
+  position: relative;
   text-align: left;
   text-indent: 0pt;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
 }
 
 .N_sb_ScanBold_outer
 {
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: -23px;
 }
 
 .N_sb_ScanBold_inner
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 9.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  left: 100%;
+  position: relative;
   text-align: left;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
   margin-left: 0pt;
   margin-right: 0pt;
@@ -1056,41 +1058,41 @@ p.N_si_ScanIcon, div.N_si_ScanIcon
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 11.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  left: 100%;
-  margin-bottom: 6pt;
-  margin-left: 0pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-left: -40px;
+  margin-right: 0px;
+  margin-top: -23px;
   text-align: left;
   text-indent: 0pt;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
 }
 
 .N_si_ScanIcon_outer
 {
-  margin-bottom: 6pt;
-  margin-right: 0pt;
-  margin-top: 6pt;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: -23px;
 }
 
 .N_si_ScanIcon_inner
 {
   background-position: left;
   color: #000000;
-  font-family: Arial;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 11.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  left: 100%;
   text-align: left;
   text-transform: none;
+  top: 36px;
   vertical-align: baseline;
   margin-left: 0pt;
   margin-right: 0pt;
@@ -1237,7 +1239,7 @@ h3.N_TutorialTask-first, div.N_TutorialTask-first
 p.b_Body, div.b_Body
 {
   color: Black;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1262,7 +1264,7 @@ p.b_Body, div.b_Body
 .b_Body_inner
 {
   color: Black;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1283,17 +1285,17 @@ p.b_Body, div.b_Body
 div.b1_Bullet1
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1308,8 +1310,8 @@ div.b1_Bullet1
 .b1_Bullet1_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1329,17 +1331,17 @@ div.b1_Bullet1
 div.b1_Bullet1-KWN
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1354,8 +1356,8 @@ div.b1_Bullet1-KWN
 .b1_Bullet1-KWN_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1375,17 +1377,17 @@ div.b1_Bullet1-KWN
 div.b1_002b_Bullet1WPara
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1400,8 +1402,8 @@ div.b1_002b_Bullet1WPara
 .b1_002b_Bullet1WPara_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1421,17 +1423,17 @@ div.b1_002b_Bullet1WPara
 div.b1c_Bullet1-Chapter_Opener
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1446,8 +1448,8 @@ div.b1c_Bullet1-Chapter_Opener
 .b1c_Bullet1-Chapter_Opener_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1467,8 +1469,8 @@ div.b1c_Bullet1-Chapter_Opener
 p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
 {
   color: Black;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1492,8 +1494,8 @@ p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
 .b1i_Bullet1-intro_inner
 {
   color: Black;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1513,8 +1515,8 @@ p.b1i_Bullet1-intro, div.b1i_Bullet1-intro
 div.b1iz_Bullet1-introZeroLead
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1538,8 +1540,8 @@ div.b1iz_Bullet1-introZeroLead
 .b1iz_Bullet1-introZeroLead_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1559,17 +1561,17 @@ div.b1iz_Bullet1-introZeroLead
 div.b1z_Bullet1ZeroLead
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1584,8 +1586,8 @@ div.b1z_Bullet1ZeroLead
 .b1z_Bullet1ZeroLead_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1605,17 +1607,17 @@ div.b1z_Bullet1ZeroLead
 div.b1z_Bullet1ZeroLead-KWN
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1630,8 +1632,8 @@ div.b1z_Bullet1ZeroLead-KWN
 .b1z_Bullet1ZeroLead-KWN_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1651,17 +1653,17 @@ div.b1z_Bullet1ZeroLead-KWN
 div.b2_Bullet2
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1676,7 +1678,7 @@ div.b2_Bullet2
 .b2_Bullet2_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1697,17 +1699,17 @@ div.b2_Bullet2
 div.b2_Bullet2-KWN
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1722,7 +1724,7 @@ div.b2_Bullet2-KWN
 .b2_Bullet2-KWN_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1743,17 +1745,17 @@ div.b2_Bullet2-KWN
 div.b2_002b_Bullet2WPara
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1768,7 +1770,7 @@ div.b2_002b_Bullet2WPara
 .b2_002b_Bullet2WPara_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1789,17 +1791,17 @@ div.b2_002b_Bullet2WPara
 div.b2n_Bullet2NumList
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1814,7 +1816,7 @@ div.b2n_Bullet2NumList
 .b2n_Bullet2NumList_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -1835,17 +1837,17 @@ div.b2n_Bullet2NumList
 div.b3_Bullet3
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1860,8 +1862,8 @@ div.b3_Bullet3
 .b3_Bullet3_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1881,17 +1883,17 @@ div.b3_Bullet3
 div.b3_Bullet3-KWN
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1906,8 +1908,8 @@ div.b3_Bullet3-KWN
 .b3_Bullet3-KWN_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1927,17 +1929,17 @@ div.b3_Bullet3-KWN
 div.b3_002b_Bullet3WPara
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1952,8 +1954,8 @@ div.b3_002b_Bullet3WPara
 .b3_002b_Bullet3WPara_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -1973,17 +1975,17 @@ div.b3_002b_Bullet3WPara
 div.b3n_Bullet3NumList
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -1998,8 +2000,8 @@ div.b3n_Bullet3NumList
 .b3n_Bullet3NumList_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -2019,17 +2021,17 @@ div.b3n_Bullet3NumList
 div.b4_Bullet4
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 56.6928pt;
+  margin-left: 56.6929133858268pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173200000000001pt;
+  text-indent: -14.173228346456696pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2044,8 +2046,8 @@ div.b4_Bullet4
 .b4_Bullet4_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -2065,17 +2067,17 @@ div.b4_Bullet4
 div.b4_Bullet4-KWN
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 56.6928pt;
+  margin-left: 56.6929133858268pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.173200000000001pt;
+  text-indent: -14.173228346456696pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -2090,8 +2092,8 @@ div.b4_Bullet4-KWN
 .b4_Bullet4-KWN_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -2163,11 +2165,11 @@ div.cf_CodeFirst
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2211,11 +2213,11 @@ div.cfb_CodeFirst_Break
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
-  margin-right: 23.81112pt;
+  margin-left: 14.1732283464567pt;
+  margin-right: 23.8110236220472pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2224,7 +2226,7 @@ div.cfb_CodeFirst_Break
 .cfb_CodeFirst_Break_outer
 {
   margin-bottom: 0.0pt;
-  margin-right: 23.81112pt;
+  margin-right: 23.8110236220472pt;
   margin-top: 6.0pt;
 }
 
@@ -2259,11 +2261,11 @@ div.cfi_CodeFirstIndent
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2307,11 +2309,11 @@ div.cfi2_CodeFirstIndent2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2355,11 +2357,11 @@ div.cl_CodeLong
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2628,11 +2630,11 @@ div.co_Code
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2676,11 +2678,11 @@ div.coi_CodeIndent
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2724,11 +2726,11 @@ div.coi2_CodeIndent2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2818,11 +2820,11 @@ div.cs_CodeSpace
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 1.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2866,11 +2868,11 @@ div.cw_CodeWide
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -2914,11 +2916,11 @@ div.cwl_CodeWide-Last
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 3.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -3413,8 +3415,8 @@ div.FigCalloutSmall
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 3.0pt;
-  margin-left: 0.23976pt;
+  margin-bottom: 1.0pt;
+  margin-left: 0.239811023622047pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
@@ -3425,7 +3427,7 @@ div.FigCalloutSmall
 
 .FigCalloutSmall_outer
 {
-  margin-bottom: 3.0pt;
+  margin-bottom: 1.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -3459,7 +3461,7 @@ div.FigCalloutTitle
   font-style: normal;
   font-variant: normal;
   font-weight: bold;
-  margin-bottom: 4.0pt;
+  margin-bottom: 3.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
@@ -3471,7 +3473,7 @@ div.FigCalloutTitle
 
 .FigCalloutTitle_outer
 {
-  margin-bottom: 4.0pt;
+  margin-bottom: 3.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -3552,7 +3554,7 @@ p.i2_Image2, div.i2_Image2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -3598,7 +3600,7 @@ p.i3_Image3, div.i3_Image3
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -3644,7 +3646,7 @@ p.i4_Image4, div.i4_Image4
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
@@ -3784,17 +3786,17 @@ div.t_Tbl_Body
 div.tb1_Tbl_Bullet1
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3809,8 +3811,8 @@ div.tb1_Tbl_Bullet1
 .tb1_Tbl_Bullet1_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -3830,17 +3832,17 @@ div.tb1_Tbl_Bullet1
 div.tb2_Tbl_Bullet2
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -3855,8 +3857,8 @@ div.tb2_Tbl_Bullet2
 .tb2_Tbl_Bullet2_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -4204,11 +4206,11 @@ div.tc_Tbl_Code1-First
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 3.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -4252,11 +4254,11 @@ div.tc1_Tbl_Code1
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -4300,11 +4302,11 @@ div.tc2_Tbl_Code2
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -4348,11 +4350,11 @@ div.tc2f_Tbl_Code2-First
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 3.0pt;
   text-align: Left;
-  text-indent: -14.173199999999997pt;
+  text-indent: -14.173228346456703pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -4396,11 +4398,11 @@ div.tcw_Tbl_CodeWide
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 3.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -4444,11 +4446,11 @@ div.tcwl_Tbl_CodeWide-Last
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 3.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
   white-space: pre;
@@ -4492,11 +4494,11 @@ p.tf_Tbl_Footnote, div.tf_Tbl_Footnote
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 8.0pt;
   text-align: left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -4676,7 +4678,7 @@ div.ti1_Tbl_Indent1
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 0em;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 0em;
   text-align: Left;
@@ -4716,17 +4718,17 @@ div.ti1_Tbl_Indent1
 div.tn_Tbl_NumList
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   margin-bottom: 6pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 6pt;
   text-align: Left;
-  text-indent: -14.1732pt;
+  text-indent: -14.1732283464567pt;
   text-transform: none;
   vertical-align: baseline;
 }
@@ -4741,8 +4743,8 @@ div.tn_Tbl_NumList
 .tn_Tbl_NumList_inner
 {
   color: #000000;
-  font-family: "Microsoft Sans Serif";
-  font-size: 10.0pt;
+  font-family: 'Microsoft Sans Serif', Arial, Verdana, sans-serif;
+  font-size: 10pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -4861,7 +4863,7 @@ div.zNumberAppendix
   font-weight: bold;
   margin-bottom: 0.0pt;
   margin-left: 0pt;
-  margin-right: 5.66928pt;
+  margin-right: 5.66929133858268pt;
   margin-top: 3.0pt;
   text-align: Right;
   text-indent: 0pt;
@@ -4872,7 +4874,7 @@ div.zNumberAppendix
 .zNumberAppendix_outer
 {
   margin-bottom: 0.0pt;
-  margin-right: 5.66928pt;
+  margin-right: 5.66929133858268pt;
   margin-top: 3.0pt;
 }
 
@@ -4907,7 +4909,7 @@ div.zNumberChapter
   font-weight: bold;
   margin-bottom: 0.0pt;
   margin-left: 0pt;
-  margin-right: 5.66928pt;
+  margin-right: 5.66929133858268pt;
   margin-top: 3.0pt;
   text-align: Right;
   text-indent: 0pt;
@@ -4918,7 +4920,7 @@ div.zNumberChapter
 .zNumberChapter_outer
 {
   margin-bottom: 0.0pt;
-  margin-right: 5.66928pt;
+  margin-right: 5.66929133858268pt;
   margin-top: 3.0pt;
 }
 
@@ -4953,7 +4955,7 @@ div.zNumberPart
   font-weight: bold;
   margin-bottom: 0.0pt;
   margin-left: 0pt;
-  margin-right: 5.66928pt;
+  margin-right: 5.66929133858268pt;
   margin-top: 3.0pt;
   text-align: left;
   text-indent: 0pt;
@@ -4964,7 +4966,7 @@ div.zNumberPart
 .zNumberPart_outer
 {
   margin-bottom: 0.0pt;
-  margin-right: 5.66928pt;
+  margin-right: 5.66929133858268pt;
   margin-top: 3.0pt;
 }
 
@@ -5344,7 +5346,7 @@ sup.Superscript
 span.zAuto_0023Format
 {
   color: #000000;
-  font-family: Helvetica;
+  font-family: Arial;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -5356,7 +5358,7 @@ span.zAuto_0023Format
 span.zAuto_0023FormatGray
 {
   color: #595959;
-  font-family: Helvetica;
+  font-family: Arial;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -5368,7 +5370,7 @@ span.zAuto_0023FormatGray
 span.zAuto_0023FormatGray2
 {
   color: #999999;
-  font-family: Helvetica;
+  font-family: Arial;
   font-size: 10.0pt;
   font-style: normal;
   font-variant: normal;
@@ -5404,7 +5406,7 @@ span.zBulletGray
 span.zBulletHyphen
 {
   color: #000000;
-  font-family: Helvetica;
+  font-family: Arial;
   font-size: 11.0pt;
   font-style: normal;
   font-variant: normal;
@@ -5416,7 +5418,7 @@ span.zBulletHyphen
 span.zBulletHyphen2
 {
   color: #000000;
-  font-family: Helvetica;
+  font-family: Arial;
   font-size: 11.0pt;
   font-style: normal;
   font-variant: normal;
@@ -5440,7 +5442,7 @@ span.zPageNumber
 span.zWhite
 {
   color: #ffffff;
-  font-family: Helvetica;
+  font-family: Arial;
   font-size: 4.0pt;
   font-style: normal;
   font-variant: normal;
@@ -5466,7 +5468,7 @@ table.t_Table1
   border-top-style: solid;
   border-top-width: 1px;
   margin-bottom: 12.0pt;
-  margin-left: 62.0784pt;
+  margin-left: 62.0784566929134pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -5510,7 +5512,7 @@ table.t2t_Table2WTitle
   border-right-width: 1pt;
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -5546,7 +5548,7 @@ table.t3t_Table3WTitle
   border-right-width: 1pt;
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -5564,7 +5566,7 @@ table.t4t_Table4WTitle
   border-right-width: 1pt;
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
-  margin-left: 42.5196pt;
+  margin-left: 42.5196850393701pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -5600,7 +5602,7 @@ table.t3_Table3
   border-right-width: 1pt;
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
-  margin-left: 28.3464pt;
+  margin-left: 28.3464566929134pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;
@@ -5618,7 +5620,7 @@ table.t2_Table2
   border-right-width: 1pt;
   border-top-width: 1pt;
   margin-bottom: 12.0pt;
-  margin-left: 14.1732pt;
+  margin-left: 14.1732283464567pt;
   margin-right: 0pt;
   margin-top: 10.0pt;
   padding-bottom: 3pt;

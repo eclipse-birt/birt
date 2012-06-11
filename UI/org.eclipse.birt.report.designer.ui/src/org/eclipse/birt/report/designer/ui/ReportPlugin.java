@@ -53,7 +53,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -1347,7 +1346,7 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getPreferences( this, UIUtil.getCurrentProject( ) )
 				.getString( CUSTOM_COLORS_PREFERENCE );
 		List<RGB> rgbList = new ArrayList<RGB>( );
-		if ( rgbs != null )
+		if ( rgbs != null && rgbs.trim( ).length( ) > 0 )
 		{
 			String[] splits = rgbs.split( ";" );
 			for ( int i = 0; i < splits.length; i++ )
@@ -1379,22 +1378,27 @@ public class ReportPlugin extends AbstractUIPlugin
 			}
 		}
 
-		PreferenceFactory.getInstance( )
+		String newColorStatus = buffer.toString( );
+		String oldColorStatus = PreferenceFactory.getInstance( )
 				.getPreferences( this, UIUtil.getCurrentProject( ) )
-				.setValue( CUSTOM_COLORS_PREFERENCE,
-						buffer.toString( ).length( ) > 0 ? buffer.toString( )
-								: null );
-		try
+				.getString( CUSTOM_COLORS_PREFERENCE );
+
+		if ( !newColorStatus.equalsIgnoreCase( oldColorStatus ) )
 		{
 			PreferenceFactory.getInstance( )
 					.getPreferences( this, UIUtil.getCurrentProject( ) )
-					.save( );
+					.setValue( CUSTOM_COLORS_PREFERENCE, newColorStatus );
+			try
+			{
+				PreferenceFactory.getInstance( )
+						.getPreferences( this, UIUtil.getCurrentProject( ) )
+						.save( );
+			}
+			catch ( IOException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
-		catch ( IOException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
 	}
 
 	/**

@@ -74,41 +74,47 @@ public class ReportPerspective implements IPerspectiveFactory
 		defineActions( layout );
 	}
 
+	private void addNewWizardShortcut( IPageLayout layout, String id )
+	{
+		if ( extra == null || !extra.obsoleteNewWizardShortcut( id ) )
+		{
+			layout.addNewWizardShortcut( id );
+		}
+	}
+
+	private void addShowViewShortcut( IPageLayout layout, String id )
+	{
+		if ( extra == null || !extra.obsoleteShowViewShortcut( id ) )
+		{
+			layout.addShowViewShortcut( id );
+		}
+	}
+
 	/**
 	 * Defines the Actions
 	 */
 	private void defineActions( IPageLayout layout )
 	{
 		// Add "new wizards".
-		layout.addNewWizardShortcut( "org.eclipse.ui.wizards.new.folder" );//$NON-NLS-1$
-		layout.addNewWizardShortcut( NEW_REPORT_ID );
-		layout.addNewWizardShortcut( NEW_TEMPLATE_ID );
+		addNewWizardShortcut( layout, "org.eclipse.ui.wizards.new.folder" );//$NON-NLS-1$
+		addNewWizardShortcut( layout, NEW_REPORT_ID );
+		addNewWizardShortcut( layout, NEW_TEMPLATE_ID );
 
 		// Add "show views".
-		layout.addShowViewShortcut( IPageLayout.ID_RES_NAV );
-		layout.addShowViewShortcut( IPageLayout.ID_OUTLINE );
-		layout.addShowViewShortcut( PaletteView.ID );
-		layout.addShowViewShortcut( AttributeView.ID );
-		layout.addShowViewShortcut( DataView.ID );
-		layout.addShowViewShortcut( LibraryExplorerView.ID );
-		layout.addShowViewShortcut( IPageLayout.ID_PROP_SHEET );
-		layout.addShowViewShortcut( IPageLayout.ID_PROBLEM_VIEW );
+		addShowViewShortcut( layout, IPageLayout.ID_RES_NAV );
+		addShowViewShortcut( layout, IPageLayout.ID_OUTLINE );
+		addShowViewShortcut( layout, PaletteView.ID );
+		addShowViewShortcut( layout, AttributeView.ID );
+		addShowViewShortcut( layout, DataView.ID );
+		addShowViewShortcut( layout, LibraryExplorerView.ID );
+		addShowViewShortcut( layout, IPageLayout.ID_PROP_SHEET );
+		addShowViewShortcut( layout, IPageLayout.ID_PROBLEM_VIEW );
 
 		layout.addPerspectiveShortcut( BIRT_REPORT_PERSPECTIVE );
 
 		if ( extra != null )
 		{
-			String[] ids = extra.getExtraShowViewShortcut( );
-
-			if ( ids != null )
-			{
-				for ( String id : ids )
-				{
-					layout.addShowViewShortcut( id );
-				}
-			}
-
-			ids = extra.getExtraNewWizardShortcut( );
+			String[] ids = extra.getExtraNewWizardShortcut( );
 
 			if ( ids != null )
 			{
@@ -117,6 +123,24 @@ public class ReportPerspective implements IPerspectiveFactory
 					layout.addNewWizardShortcut( id );
 				}
 			}
+
+			ids = extra.getExtraShowViewShortcut( );
+
+			if ( ids != null )
+			{
+				for ( String id : ids )
+				{
+					layout.addShowViewShortcut( id );
+				}
+			}
+		}
+	}
+
+	private void addLayoutView( IFolderLayout folder, int layoutPos, String id )
+	{
+		if ( extra == null || !extra.obsoleteLayoutView( layoutPos, id ) )
+		{
+			folder.addView( id );
 		}
 	}
 
@@ -129,20 +153,35 @@ public class ReportPerspective implements IPerspectiveFactory
 		String editorArea = layout.getEditorArea( );
 		// Top left.
 		IFolderLayout topLeft = layout.createFolder( "topLeft", IPageLayout.LEFT, (float) 0.26, editorArea );//$NON-NLS-1$
-		topLeft.addView( PaletteView.ID );
-		topLeft.addView( DataView.ID );
-		topLeft.addView( LibraryExplorerView.ID );
+
+		addLayoutView( topLeft,
+				IReportPerspectiveExtra.LAYOUT_TOP_LEFT,
+				PaletteView.ID );
+		addLayoutView( topLeft,
+				IReportPerspectiveExtra.LAYOUT_TOP_LEFT,
+				DataView.ID );
+		addLayoutView( topLeft,
+				IReportPerspectiveExtra.LAYOUT_TOP_LEFT,
+				LibraryExplorerView.ID );
 
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder( "bottomLeft", IPageLayout.BOTTOM, (float) 0.50,//$NON-NLS-1$
 				"topLeft" );//$NON-NLS-1$
-		bottomLeft.addView( IPageLayout.ID_RES_NAV );
-		bottomLeft.addView( IPageLayout.ID_OUTLINE );
+		addLayoutView( bottomLeft,
+				IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT,
+				IPageLayout.ID_RES_NAV );
+		addLayoutView( bottomLeft,
+				IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT,
+				IPageLayout.ID_OUTLINE );
 
 		// Bottom right.
 		IFolderLayout bottomRight = layout.createFolder( "bottomRight", IPageLayout.BOTTOM, (float) 0.66, editorArea );//$NON-NLS-1$
-		bottomRight.addView( AttributeView.ID );
-		bottomRight.addView( IPageLayout.ID_PROBLEM_VIEW );
+		addLayoutView( bottomRight,
+				IReportPerspectiveExtra.LAYOUT_BOTTOM_RIGHT,
+				AttributeView.ID );
+		addLayoutView( bottomRight,
+				IReportPerspectiveExtra.LAYOUT_BOTTOM_RIGHT,
+				IPageLayout.ID_PROBLEM_VIEW );
 
 		if ( extra != null )
 		{

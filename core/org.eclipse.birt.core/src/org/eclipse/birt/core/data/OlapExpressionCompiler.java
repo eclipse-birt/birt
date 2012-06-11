@@ -150,6 +150,9 @@ class OlapExpressionCompiler
 		populateDimLevels( grandpa,
 				n.getLastChild( ),
 				result );
+		populateDimLevels( grandpa,
+				n.getNext( ),
+				result );
 	}
 
 	/**

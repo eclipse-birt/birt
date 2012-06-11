@@ -23,6 +23,12 @@ public interface IReportPerspectiveExtra
 
 	int LAYOUT_BOTTOM_RIGHT = 3;
 
+	boolean obsoleteNewWizardShortcut( String id );
+
+	boolean obsoleteShowViewShortcut( String id );
+
+	boolean obsoleteLayoutView( int layoutPos, String id );
+
 	/**
 	 * Defines the extra new wizard shortcuts needed be added into the
 	 * perspective
