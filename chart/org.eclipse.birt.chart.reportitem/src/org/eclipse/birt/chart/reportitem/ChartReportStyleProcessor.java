@@ -980,7 +980,13 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected void processCubeStyle( Chart cm, LevelHandle category,
 			MeasureHandle measure, LevelHandle yoption )
 	{
-		GroupingUnitType dateGut = computeLevelHandleGroupUnit( yoption);
+		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		String optionalYExpr = null;
+		if ( orthSDs != null && orthSDs.size( ) > 0 && orthSDs.get( 0 ).getQuery( ) != null )
+		{
+			optionalYExpr =  orthSDs.get( 0 ).getQuery( ).getDefinition( );
+		}
+		GroupingUnitType dateGut = computeLevelHandleGroupUnit( optionalYExpr, yoption );
 		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
 			// Adapts grouping unit type according to level handle type.
@@ -1036,7 +1042,12 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					.setFormatSpecifier( createFormatSpecifier( yoption ) );
 		}
 
-		dateGut = computeLevelHandleGroupUnit( category );
+		dateGut = null;
+		String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
+		if ( categoryExprs != null && categoryExprs.length > 0 )
+		{
+			dateGut = computeLevelHandleGroupUnit( categoryExprs[0], category );
+		}
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
@@ -1093,12 +1104,17 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		}
 	}
 
-	private GroupingUnitType computeLevelHandleGroupUnit( LevelHandle levelHandle )
+	private GroupingUnitType computeLevelHandleGroupUnit( String chartBindExpr, LevelHandle levelHandle )
 	{
 		GroupingUnitType gut = null;
 		if ( levelHandle != null )
 		{
 			String dtLevelType = levelHandle.getDateTimeLevelType( );
+			if ( dtLevelType == null )
+			{
+				return null;
+			}
+			
 			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( dtLevelType ) )
 			{
 				gut = GroupingUnitType.YEARS_LITERAL;
@@ -1130,6 +1146,33 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND.equals( dtLevelType ) )
 			{
 				gut = GroupingUnitType.SECONDS_LITERAL;
+			}
+		}
+		
+		if ( gut != null )
+		{
+			// #50768
+			// If the cube level is date time type, but the binding expression
+			// chart uses isn't date time type, current data type is
+			// still integer rather than date time, it can't return a default
+			// group unit.
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			String bindingName = exprCodec.getBindingName( chartBindExpr );
+			for ( Iterator<ComputedColumnHandle> bindings = ChartItemUtil.getAllColumnBindingsIterator( (ReportItemHandle) handle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle cc = bindings.next( );
+				if ( cc.getName( ).equals( bindingName ) )
+				{
+					String dateType = cc.getDataType( );
+					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dateType )
+							&& !DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dateType )
+							&& !DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dateType ) )
+					{
+						gut = null;
+					}
+					break;
+				}
 			}
 		}
 		return gut;
