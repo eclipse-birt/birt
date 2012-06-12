@@ -2110,6 +2110,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endRow( IRowContent row )
 	{
+		tableLayout.endRow( );
 		if ( enableMetadata )
 		{
 			metadataEmitter.endRow( row );
@@ -2118,7 +2119,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
-		tableLayout.endRow( );
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -3716,6 +3716,7 @@ class TableLayout
 	int[] cells = null;
 	ICellContent currentCell = null;
 	HTMLReportEmitter emitter = null;
+	ITableContent table = null;
 	
 	TableLayout(HTMLReportEmitter emitter)
 	{
@@ -3729,6 +3730,7 @@ class TableLayout
 		this.columnCount = columnCount;
 		layoutStack.push( cells );
 		columnCountStack.push( columnCount );
+		this.table = tableContent;
 	}
 
 	protected void endTable( ITableContent tableContent )
@@ -3751,6 +3753,7 @@ class TableLayout
 	}
 	protected void endRow()
 	{
+		addEmptyCell();
 		currentCell = null;
 		for ( int i = 0; i < columnCount; i++ )
 		{
@@ -3774,6 +3777,34 @@ class TableLayout
 				+ cell.getColSpan( ); i++ )
 		{
 			cells[i] += cell.getRowSpan( );
+		}
+	}
+	
+	protected void addEmptyCell( )
+	{
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			if ( cells[i] == 0 )
+			{
+				ICellContent newCell = null;
+				if ( currentCell != null )
+				{
+					newCell = newCell( currentCell, i, i + 1 );
+				}
+				else
+				{
+					if ( table != null )
+					{
+						newCell = newCell( table.getReportContent( )
+								.createCellContent( ), i, i + 1 );
+					}
+				}
+				if ( newCell != null )
+				{
+					emitter.startCell( newCell );
+					emitter.endCell( newCell );
+				}
+			}
 		}
 	}
 	
