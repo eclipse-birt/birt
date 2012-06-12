@@ -154,6 +154,8 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_FirstDayOfMonth( );
 		else if( "firstDayOfWeek".equals( functionName ))
 			this.executor = new Function_FirstDayOfWeek( );
+		else if( "date".equals( functionName ))
+			this.executor = new Function_Date( );
 		else
 			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
@@ -1357,6 +1359,65 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 	}
 
+	private static class Function_Date extends Function_temp
+	{
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_Date( )
+		{
+			minParamCount = 3;
+			maxParamCount = 6;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			if ( args.length == 3 )
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						0,
+						0,
+						0 );
+			else if ( args.length == 4 )
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						( (Number) args[3] ).intValue( ),
+						0,
+						0 );
+			else if ( args.length == 5 )
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						( (Number) args[3] ).intValue( ),
+						( (Number) args[4] ).intValue( ),
+						0 );
+			else
+				return getDate( ( (Number) args[0] ).intValue( ),
+						( (Number) args[1] ).intValue( ),
+						( (Number) args[2] ).intValue( ),
+						( (Number) args[3] ).intValue( ),
+						( (Number) args[4] ).intValue( ),
+						( (Number) args[5] ).intValue( ) );
+		}
+	}
+
+	private static Date getDate( int year, int month, int day, int hours,
+			int minutes, int seconds )
+	{
+		Date newDate = new Date( );
+		Calendar calendar = getCalendar( newDate );
+		calendar.set( year, month, day, hours, minutes, seconds );
+		return calendar.getTime( );
+	}
 	/**
 	 * Add num seconds
 	 *
