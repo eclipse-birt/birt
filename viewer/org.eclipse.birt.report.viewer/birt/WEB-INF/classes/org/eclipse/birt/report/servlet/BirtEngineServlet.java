@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -28,10 +27,7 @@ import org.eclipse.birt.report.presentation.aggregation.layout.EngineFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.RequesterFragment;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
-import org.eclipse.birt.report.servlet.BaseReportEngineServlet;
-import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.utility.BirtUtility;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtEngineServlet extends BaseReportEngineServlet
 {
@@ -137,6 +133,7 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 			throws ServletException, IOException
 	{
 		exception.printStackTrace( );
+		response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
 		BirtUtility.appendErrorMessage( response.getOutputStream( ), exception );
 	}
 }
