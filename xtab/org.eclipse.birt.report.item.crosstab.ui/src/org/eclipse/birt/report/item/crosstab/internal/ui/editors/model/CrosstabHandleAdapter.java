@@ -101,9 +101,11 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		adjustColumn( columns, details );
 		adjustRow( rows, details );
 
-		buildLeftConner( list );
+		List leftConner = new ArrayList();
+		buildLeftConner( leftConner );
+		list.addAll( leftConner );
 		
-		adjustGrandTotal( list );
+		adjustGrandTotal( list, (CrosstabCellAdapter)leftConner.get( leftConner.size( ) - 1 ) );
 		
 		//debug("all", list);
 		Collections.sort( list, new ModelComparator( ) );
@@ -112,9 +114,10 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		return list;
 	}
 	
-	private void adjustGrandTotal(List list)
+	private void adjustGrandTotal(List list, CrosstabCellAdapter first)
 	{
-		CrosstabCellAdapter first = (CrosstabCellAdapter)list.get( 0 );
+		//CrosstabCellAdapter first = (CrosstabCellAdapter)list.get( 0 );
+		
 		int rowCount = getRowCount( );
 		int columnCount = getColumnCount( );
 		for (int i=0; i<list.size( ); i++)
