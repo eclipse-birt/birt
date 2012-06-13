@@ -228,8 +228,17 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 						styleBuffer.append( " width: 1px;" );
 					}
 				}
+				CSSValue overflowValue = style.getProperty(IStyle.STYLE_OVERFLOW);
+				if(overflowValue == null)
+				{
+					styleBuffer.append( " overflow:hidden;" );
+				} 
+				else
+				{
+					styleBuffer.append(" overflow:").append(overflowValue.getCssText()).append(";");
+				}
 				// build the table-layout
-				styleBuffer.append( " overflow:hidden; table-layout:fixed;" );
+				styleBuffer.append( " table-layout:fixed;" );
 			}
 		}
 		
