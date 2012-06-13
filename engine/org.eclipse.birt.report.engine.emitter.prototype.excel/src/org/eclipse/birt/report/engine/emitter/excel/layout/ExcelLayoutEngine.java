@@ -725,10 +725,19 @@ public class ExcelLayoutEngine
 					parentSizeInfo.getWidth( ), 0, imageWidthDpi );
 		}
 
-		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( imageWidth );
+		StyleEntry parentStyle = getParentStyle( container );
+		boolean isCenterAligned = false;
+		if ( parentStyle != null
+				&& "center".equalsIgnoreCase( (String) parentStyle
+						.getProperty( StyleConstant.H_ALIGN_PROP ) ) )
+		{
+			isCenterAligned = true;
+		}
+		ColumnsInfo imageColumnsInfo = LayoutUtil.createImage( imageWidth, parentSizeInfo.getWidth( ), isCenterAligned );
 		int[] imageCoordinates = splitColumns( imageColumnsInfo, parentSizeInfo );
 		ContainerSizeInfo imageSize = new ContainerSizeInfo(
-				imageCoordinates[0], imageColumnsInfo.getTotalWidth( ) );
+				imageCoordinates[imageCoordinates.length > 2 ? 1 : 0],
+				imageWidth );
 		StyleEntry entry = engine.getStyle( style, imageSize, parentSizeInfo,
 				getParentStyle( container ) );
 		setlinkStyle( entry, link );

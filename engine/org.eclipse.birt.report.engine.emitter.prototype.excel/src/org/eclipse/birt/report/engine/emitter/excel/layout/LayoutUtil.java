@@ -53,6 +53,17 @@ public class LayoutUtil
 		return new ColumnsInfo( column );
 	}
 
+	public static ColumnsInfo createImage ( int width, int parentWidth, boolean isCenterAligned )
+	{
+		if ( !isCenterAligned || parentWidth < width )
+		{
+			return createImage(width);
+		}
+		
+		int[] column = new int[]{(parentWidth - width)/2, width, (parentWidth - width)/2};
+		return new ColumnsInfo( column );
+	}
+	
 	public static int getImageWidth( DimensionType value, int parentWidth,
 			int imageInfoWidth, int dpi )
 	{
