@@ -291,6 +291,16 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				statusWriter.writeRunTaskStatus( errList );
 				statusWriter.close( );
 			}
+			else
+			{
+				//TODO: need clear all related stream at the beginning of generation task
+				if ( archiveWriter
+						.exists( ReportDocumentConstants.RUN_STATUS_STREAM ) )
+				{
+					archiveWriter
+							.dropStream( ReportDocumentConstants.RUN_STATUS_STREAM );
+				}
+			}
 
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
 			writer.finish( );
