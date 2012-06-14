@@ -3189,14 +3189,23 @@ public final class PieRenderer
 		{
 			boolean hasInnerRadius = ps.isSetInnerRadius( )
 					&& ps.getInnerRadius( ) > 0d;
-			if ( !( ps.isSetInnerRadiusPercent( ) && ps.isInnerRadiusPercent( ) ) )
+			double innerRadius = Double.NaN;
+			if ( hasInnerRadius )
 			{
-				// If inner radius is greater than width/height, don't render it as
-				// dount.
-				hasInnerRadius = hasInnerRadius
-						&& Math.min( sz.getHeight( ), sz.getWidth( ) ) > ps.getInnerRadius( );
+				innerRadius = ps.getInnerRadius( );
+				if ( ps.isInnerRadiusPercent( ) )
+				{
+					innerRadius *= 0.01d;
+				}
+				else
+				{
+					double innerRadiusCap = Math.min( sz.getHeight( ),
+							sz.getWidth( ) ) - 5.0;
+					innerRadius = Math.min( innerRadiusCap, innerRadius );
+
+				}
 			}
-					
+
 			loC.translate( loOffset.getX( ) / 2d, loOffset.getY( ) / 2d );
 
 			if ( isExploded && dExplosion != 0 )
@@ -3242,10 +3251,8 @@ public final class PieRenderer
 			double yInnerS = 0d;
 			if ( hasInnerRadius )
 			{
-				double innerRadius = ps.getInnerRadius( );
 				if ( ps.isInnerRadiusPercent( ) )
 				{
-					innerRadius *= 0.01d;
 					xInnerE = innerRadius * sz.getWidth( ) * dCosThetaEnd;
 					yInnerE = innerRadius * sz.getHeight( ) * dSineThetaEnd;
 					xInnerS = innerRadius * sz.getWidth( ) * dCosThetaStart;
@@ -3292,11 +3299,11 @@ public final class PieRenderer
 				are.setOuterRadius( sz.getWidth( ) );
 				if ( ps.isInnerRadiusPercent( ) )
 				{
-					are.setInnerRadius( sz.getWidth( ) * ps.getInnerRadius( )  * 0.01d );
+					are.setInnerRadius( sz.getWidth( ) * innerRadius );
 				}
 				else
 				{
-					are.setInnerRadius( ps.getInnerRadius( ) );
+					are.setInnerRadius( innerRadius );
 				}
 			}
 			
@@ -3424,7 +3431,6 @@ public final class PieRenderer
 				{
 					if ( ps.isInnerRadiusPercent( ) )
 					{
-						double innerRadius = ps.getInnerRadius( ) * 0.01d;
 						Size innerSize = SizeImpl.create( innerRadius
 								* sz.getWidth( ),
 								innerRadius * sz.getHeight( ) );
@@ -3441,8 +3447,8 @@ public final class PieRenderer
 					else
 					{
 						double radio = sz.getHeight( ) / sz.getWidth( );
-						Size innerSize = SizeImpl.create( ps.getInnerRadius( ),
-								ps.getInnerRadius( ) * radio );
+						Size innerSize = SizeImpl.create( innerRadius,
+								innerRadius * radio );
 						renderCurvedSurface( loC,
 								loCTop,
 								innerSize,
