@@ -2133,14 +2133,14 @@ public class ExecutionContext
 	/**
 	 * Notify page break listeners that page is broken.
 	 */
-	public void firePageBreakEvent( )
+	public void firePageBreakEvent( boolean isHorizontalPageBreak )
 	{
 		if ( pageBreakListeners != null )
 		{
 			for ( int i = 0; i < pageBreakListeners.size( ); i++ )
 			{
 				( (IPageBreakListener) pageBreakListeners.get( i ) )
-						.onPageBreak( );
+						.onPageBreak( isHorizontalPageBreak );
 			}
 		}
 	}

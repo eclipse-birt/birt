@@ -100,7 +100,9 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 				.getPageHandler( );
 		if ( pageHandler != null )
 		{
+			context.setHorizontalPageBreak( true );
 			pageHandler.onPage( pageNumber, context );
+			context.setHorizontalPageBreak( false );
 		}
 	}
 	
