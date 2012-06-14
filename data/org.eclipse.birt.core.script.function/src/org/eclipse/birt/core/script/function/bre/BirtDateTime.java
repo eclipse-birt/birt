@@ -1379,6 +1379,13 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			{
 				return null;
 			}
+			for ( int i = 0; i < args.length; i++ )
+			{
+				if ( args[i] instanceof String )
+				{
+					args[i]=Double.parseDouble((String) args[i]);
+				}
+			}
 			if ( args.length == 3 )
 				return getDate( ( (Number) args[0] ).intValue( ),
 						( (Number) args[1] ).intValue( ),
