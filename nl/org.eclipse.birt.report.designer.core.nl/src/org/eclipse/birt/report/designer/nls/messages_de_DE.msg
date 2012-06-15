@@ -3636,7 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=Vom Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4120,7 +4120,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Standardthemen einschließen
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.

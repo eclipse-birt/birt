@@ -3636,7 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=서버에서
 CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 
 
@@ -4120,7 +4120,7 @@ WizardTemplateChoicePage.label.Description=설명:
 WizardTemplateChoicePage.label.Preview=미리 보기:
 WizardTemplateChoicePage.label.ReportTemplates=보고서 템플릿:
 WizardTemplateChoicePage.label.ShowCheatSheets=보고서 생성 치트 시트 표시(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=기본 테마 포함(&I)
 WizardTemplateChoicePage.message.BlankReport=미리 정의된 내용이 없는 빈 보고서를 생성합니다.
 WizardTemplateChoicePage.message.ChartListing=각 그룹 데이터에 대해 시각적 표현을 제공하는 차트를 사용하여 그룹화한 보고서를 생성합니다.
 WizardTemplateChoicePage.message.DualColumnChartListing=두 개의 "차트 및 목록" 하위 그룹을 사용하여 그룹화한 보고서를 생성합니다.

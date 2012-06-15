@@ -3636,7 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=サーバから
 CssStyleSheetNodeProvider.Tooltip.URI=(表示時に適用)
 
 
@@ -4120,7 +4120,7 @@ WizardTemplateChoicePage.label.Description=説明 :
 WizardTemplateChoicePage.label.Preview=プレビュー :
 WizardTemplateChoicePage.label.ReportTemplates=レポートテンプレート :
 WizardTemplateChoicePage.label.ShowCheatSheets=レポート作成ガイドの表示(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=ディフォルトのテーマを含む(&I)
+WizardTemplateChoicePage.label.EnableDefaultThemes=デフォルトのテーマを含める(&I)
 WizardTemplateChoicePage.message.BlankReport=内容が定義されていない空白のレポートを作成します。
 WizardTemplateChoicePage.message.ChartListing=グループ化されたレポートを作成します。グラフは、それぞれのグループのデータを視覚的に表します。
 WizardTemplateChoicePage.message.DualColumnChartListing=グラフとリストのサブグループを 2 つ持つグループ化されたレポートを作成します。

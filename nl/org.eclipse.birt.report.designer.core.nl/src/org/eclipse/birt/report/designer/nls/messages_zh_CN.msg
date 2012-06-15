@@ -3636,7 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的布景主题。
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=从服务器
 CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 
@@ -4120,7 +4120,7 @@ WizardTemplateChoicePage.label.Description=描述:
 WizardTemplateChoicePage.label.Preview=预览:
 WizardTemplateChoicePage.label.ReportTemplates=报表模板:
 WizardTemplateChoicePage.label.ShowCheatSheets=显示报表创建备忘单(&S)
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=包含默认主题(&I)
 WizardTemplateChoicePage.message.BlankReport=创建无预定义内容的空报表。
 WizardTemplateChoicePage.message.ChartListing=创建分组报表，并附带直观表示每个组数据的图表。
 WizardTemplateChoicePage.message.DualColumnChartListing=创建带两个“图表和列表”子组的分组报表。

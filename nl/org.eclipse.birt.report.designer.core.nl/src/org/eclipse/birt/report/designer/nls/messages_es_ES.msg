@@ -3636,7 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
 UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los estilos del archivo CSS.
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=Del servidor
 CssStyleSheetNodeProvider.Tooltip.URI=(Aplicado en el momento de la visualización)
 
 
@@ -4120,7 +4120,7 @@ WizardTemplateChoicePage.label.Description=Descripción:
 WizardTemplateChoicePage.label.Preview=Vista previa:
 WizardTemplateChoicePage.label.ReportTemplates=Plantillas de informes:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Mostrar archivo de consejos útiles para la creación de informes
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Incluir los temas predeterminados
 WizardTemplateChoicePage.message.BlankReport=Crear un informe en blanco sin contenido predefinido.
 WizardTemplateChoicePage.message.ChartListing=Crear un informe agrupado con un diagrama que ofrece una representación visual de cada dato del grupo.
 WizardTemplateChoicePage.message.DualColumnChartListing=Crear un informe agrupado con dos subgrupos de "diagrama y listado".

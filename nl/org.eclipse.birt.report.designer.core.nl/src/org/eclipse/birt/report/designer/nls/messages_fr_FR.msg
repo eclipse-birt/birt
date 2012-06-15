@@ -3636,7 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
 UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=A partir du serveur
 CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 
 
@@ -4120,7 +4120,7 @@ WizardTemplateChoicePage.label.Description=Description :
 WizardTemplateChoicePage.label.Preview=Aperçu :
 WizardTemplateChoicePage.label.ReportTemplates=Modèles d'état :
 WizardTemplateChoicePage.label.ShowCheatSheets=&Afficher la feuille de fraude de création d'état
-WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Inclure les thèmes par défaut
 WizardTemplateChoicePage.message.BlankReport=Créez un état vierge sans aucun contenu prédéfini.
 WizardTemplateChoicePage.message.ChartListing=Créez un état groupé avec un graphique fournissant une représentation visuelle de chaque donnée de groupe.
 WizardTemplateChoicePage.message.DualColumnChartListing=Créez un état groupé avec deux sous-groupes "Graphiques et listes".
