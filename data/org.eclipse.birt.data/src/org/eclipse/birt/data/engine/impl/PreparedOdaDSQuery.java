@@ -302,7 +302,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			
-			if ( (!this.fromCache()) && queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
 				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
 
@@ -331,18 +331,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				}
 			}
 			
-			//Do not use cached DataSourceQuery when there is push-down operation
-			if ( querySpec != null  )
-			{
-				odiQuery = odiDataSource.newQuery( dataSetType, dataText, false, this.contextVisitor );
-			}
-			else
-			{
-				odiQuery = odiDataSource.newQuery( dataSetType,
-						dataText,
-						this.fromCache( ), this.contextVisitor );
-			}
-
+			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache(), this.contextVisitor );
+			
 			if ( odiQuery instanceof IPreparedDSQuery )
 			{
 				( (IPreparedDSQuery) odiQuery ).setQuerySpecification( querySpec );
