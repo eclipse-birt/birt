@@ -868,7 +868,6 @@ public class JointDataSetPage extends WizardPage
 		dataSetParameter.setAllowNull( parameter.allowNull( ) );
 		dataSetParameter.setDefaultValue( parameter.getDefaultValue( ) );
 		dataSetParameter.setIsInput( parameter.isInput( ) );
-		dataSetParameter.setIsOutput( parameter.isOutput( ) );
 		dataSetParameter.setName( getParameterName( dataSetName,
 				parameter.getName( ) ) );
 		dataSetParameter.setIsOptional( parameter.isOptional( ) );
