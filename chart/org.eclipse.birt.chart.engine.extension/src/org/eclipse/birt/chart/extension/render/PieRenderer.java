@@ -3201,8 +3201,7 @@ public final class PieRenderer
 				{
 					double innerRadiusCap = Math.min( sz.getHeight( ),
 							sz.getWidth( ) ) - 5.0;
-					innerRadius = Math.min( innerRadiusCap, innerRadius );
-
+					innerRadius = Math.min( innerRadiusCap, innerRadius * pie.getDeviceScale( ) );
 				}
 			}
 

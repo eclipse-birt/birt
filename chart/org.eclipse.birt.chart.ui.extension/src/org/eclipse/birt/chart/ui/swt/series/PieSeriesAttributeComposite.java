@@ -65,7 +65,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 {
 
 	private final static String[] MINMUM_SLICE_ITEMS = new String[]{
-			Messages.getString( "PieBottomAreaComponent.Label.Percentage" ), Messages.getString( "PieBottomAreaComponent.Label.Value" ) //$NON-NLS-1$ //$NON-NLS-2$
+			Messages.getString( "PieBottomAreaComponent.Label.Percentage" ), Messages.getString( "PieSeriesAttributeComposite.InnerRadiusType.Points") //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
 	private Group grpLeaderLine = null;
@@ -254,7 +254,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 			cmbInnerRadiusPercent.setItems( MINMUM_SLICE_ITEMS );
 			cmbInnerRadiusPercent.setItemData( MINMUM_SLICE_ITEMS );
 			cmbInnerRadiusPercent.setSelection( series.isInnerRadiusPercent( ) ? Messages.getString( "PieBottomAreaComponent.Label.Percentage" )//$NON-NLS-1$
-					: Messages.getString( "PieBottomAreaComponent.Label.Value" ) );//$NON-NLS-1$
+					: Messages.getString( "PieSeriesAttributeComposite.InnerRadiusType.Points") ); //$NON-NLS-1$
 			cmbInnerRadiusPercent.addSelectionListener( this );
 		}
 
