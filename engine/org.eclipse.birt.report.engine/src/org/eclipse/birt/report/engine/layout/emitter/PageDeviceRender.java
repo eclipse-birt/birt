@@ -682,7 +682,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					bi.getImageData( ), getScaledValue( bi.getXOffset( ) ),
 					getScaledValue( bi.getYOffset( ) ) );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			log( e, Level.WARNING );
 		}
