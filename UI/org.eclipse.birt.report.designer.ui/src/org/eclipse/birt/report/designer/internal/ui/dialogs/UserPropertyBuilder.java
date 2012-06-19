@@ -181,7 +181,7 @@ public class UserPropertyBuilder extends BaseDialog
 						false ) );
 
 				defaultValueEditor = new Text( subComposite, SWT.BORDER
-						| SWT.SINGLE );
+						| SWT.WRAP );
 				defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 				createComplexExpressionButton( subComposite, defaultValueEditor );

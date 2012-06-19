@@ -62,9 +62,9 @@ public class ExpressionComposite extends Composite
 		setLayout( layout );
 		if ( isFormStyle )
 			text = FormWidgetFactory.getInstance( ).createText( this, "", //$NON-NLS-1$
-					SWT.READ_ONLY | SWT.SINGLE );
+					SWT.READ_ONLY | SWT.WRAP );
 		else
-			text = new Text( this, SWT.READ_ONLY | SWT.SINGLE );
+			text = new Text( this, SWT.READ_ONLY | SWT.WRAP );
 		GridData data = new GridData( );
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
@@ -86,14 +86,14 @@ public class ExpressionComposite extends Composite
 				listener,
 				false,
 				isFormStyle ? SWT.FLAT : SWT.PUSH,
-				new VisibilityExpressionHelper( ) );
+				new ExpressionHelper( ) );
 
 		initAccessible( );
 	}
 
 	public void setInput( Object input )
 	{
-		VisibilityExpressionHelper helper = (VisibilityExpressionHelper) button.getExpressionHelper( );
+		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper( );
 		helper.setContextObject( DEUtil.getInputFirstElement( input ) );
 	}
 
@@ -216,22 +216,7 @@ public class ExpressionComposite extends Composite
 
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
-		VisibilityExpressionHelper helper = (VisibilityExpressionHelper) button.getExpressionHelper( );
+		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper( );
 		helper.setProvider( provider );
 	}
-
-	class VisibilityExpressionHelper extends ExpressionHelper
-	{
-
-		public void setContextObject( Object contextObject )
-		{
-			super.setContextObject( contextObject );
-		}
-
-		protected void setProvider( IExpressionProvider provider )
-		{
-			super.setProvider( provider );
-		}
-	}
-
 }

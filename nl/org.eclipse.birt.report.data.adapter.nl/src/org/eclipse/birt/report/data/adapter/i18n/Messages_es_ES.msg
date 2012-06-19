@@ -30,6 +30,7 @@ exception.error=Se ha producido una excepción durante el procesamiento. Consulte
 invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
 invalid.measure.expression=La expresión de medida para la medida "{0}" no puede ser nula.
 invalid.data.type=Tipo de datos no válido: {0}. 
+invalid.binding.expression=Expresión no válida: {0}.
 
 cube.error.createhierarchy=Se produce un error al crear la jerarquía:{0}.
 cube.error.createdimension=Se produce un error al crear la dimensión:{0}.
@@ -112,29 +113,34 @@ timeFunction.N2 = Valor N para el segundo período
 timeFunction.PERIOD1.displayName = El &primer período
 timeFunction.PERIOD2.displayName = El segundo pe&ríodo
 timeFunction.N1.displayName = Número de periodos transcurridos
-timeFunction.N2.displayName = Número de periodos transcurridos
-
-timeFunction.N1.Year.displayName = Número de años transcurridos
-timeFunction.N2.Year.displayName = Número de años transcurridos
+timeFunction.N2.displayName = D&esde
+timeFunction.N1.next.displayName = &Siguiente
+timeFunction.N2.Ago.displayName=&Transcurridos
+timeFunction.N1.current.displayName=Act&ual
+timeFunction.N1.period.displayName= &Periodo
+timeFunction.trailing.N1.period.displayName=Fi&nal
+timeFunction.trailing.N1.Month.displayName= &Número de meses finales
+timeFunction.N1.Year.displayName = &Número de años transcurridos
+timeFunction.N2.Year.displayName = &Número de años transcurridos
 timeFunction.N1.Year = Valor N para el número de años transcurridos
 timeFunction.N2.Year = Valor N para el número de años transcurridos
 
-timeFunction.N1.Month.displayName = Número de meses transcurridos
-timeFunction.N2.Month.displayName = Número de meses transcurridos
+timeFunction.N1.Month.displayName = &Número de meses transcurridos
+timeFunction.N2.Month.displayName = &Número de meses transcurridos
 timeFunction.N1.Month = Valor N para el número de meses transcurridos
 timeFunction.N2.Month = Valor N para el número de meses transcurridos
 
-timeFunction.N1.Quarter.displayName = Número de trimestres transcurridos
-timeFunction.N2.Quarter.displayName = Número de trimestres transcurridos
+timeFunction.N1.Quarter.displayName = &Número de trimestres transcurridos
+timeFunction.N2.Quarter.displayName = &Número de trimestres transcurridos
 timeFunction.N1.Quarter = Valor N para el número de trimestres transcurridos
 timeFunction.N2.Quarter = Valor N para el número de trimestres transcurridos
 
-timeFunction.N1.Week.displayName = Número de semanas transcurridas
-timeFunction.N2.Week.displayName = Número de semanas transcurridas
+timeFunction.N1.Week.displayName = &Número de semanas transcurridas
+timeFunction.N2.Week.displayName = &Número de semanas transcurridas
 timeFunction.N1.Week = Valor N para el número de semanas transcurridas
 timeFunction.N2.Week = Valor N para el número de semanas transcurridas
 
-timeFunction.N1.Day.displayName = Número de días transcurridos
+timeFunction.N1.Day.displayName = &Número de días transcurridos
 
 timeFunction.PERIODCHOICE.YEAR_displayName =AÑO
 timeFunction.PERIODCHOICE.QUARTER_displayName =TRIMESTRE
@@ -148,3 +154,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mes hasta la fecha
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semana hasta la fecha
 
 timeFunction.toolTip.to=A
+

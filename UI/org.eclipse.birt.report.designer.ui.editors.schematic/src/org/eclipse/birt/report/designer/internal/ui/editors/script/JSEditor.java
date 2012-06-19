@@ -765,6 +765,14 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	public Object getAdapter( Class adapter )
 	{
+		if (adapter.equals( ITextEditor.class ))
+		{
+			if (scriptEditor instanceof ITextEditor)
+			{
+				return scriptEditor;
+			}
+			return null;
+		}
 		if ( adapter == ActionRegistry.class )
 		{
 			return scriptEditor.getActionRegistry( );

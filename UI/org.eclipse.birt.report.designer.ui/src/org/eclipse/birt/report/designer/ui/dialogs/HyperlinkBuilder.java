@@ -28,7 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlin
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IHyperlinkParameterProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.IReportHyperlinkParameter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.parameters.ReportHyperlinkParameterProvider;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -82,7 +82,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -679,7 +678,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 		new Label( displayArea, SWT.NONE ).setText( REQUIED_MARK
 				+ LABEL_LOCATION );
-		locationEditor = new Text( displayArea, SWT.BORDER | SWT.SINGLE );
+		locationEditor = new Text( displayArea, SWT.BORDER | SWT.WRAP );
 		locationEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		locationEditor.addModifyListener( new ModifyListener( ) {
 
@@ -939,7 +938,7 @@ public class HyperlinkBuilder extends BaseDialog
 		group.setLayout( layout );
 		new Label( group, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.DrillThroughLinkExpression" ) ); //$NON-NLS-1$
 
-		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY );
+		bookmarkEditor = new Text( group, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( group, bookmarkEditor );
 	}
@@ -1473,7 +1472,9 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 		new Label( displayArea, SWT.NONE );
 		new Label( displayArea, SWT.NONE ).setText( LABEL_LINKED_EXPRESSION );
-		bookmarkEditor = new Text( displayArea, SWT.BORDER | SWT.READ_ONLY );
+		bookmarkEditor = new Text( displayArea, SWT.BORDER
+				| SWT.READ_ONLY
+				| SWT.WRAP );
 		bookmarkEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( displayArea, bookmarkEditor );
 	}
@@ -2295,8 +2296,8 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		closeTargetReport( );
 		targetReportHandle = null;
-		String errorMessage = null;
-		if ( newFilename.endsWith( ".rptdocument" ) ) //$NON-NLS-1$
+		// String errorMessage = null;
+		if ( newFilename.toLowerCase( ).endsWith( ".rptdocument" ) ) //$NON-NLS-1$
 		{
 			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 
@@ -2307,7 +2308,7 @@ public class HyperlinkBuilder extends BaseDialog
 			catch ( EngineException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				errorMessage = e.getMessage( );
+				// errorMessage = e.getMessage( );
 			}
 		}
 		else
@@ -2328,20 +2329,14 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 				catch ( DesignFileException e1 )
 				{
-					errorMessage = ERROR_MSG_INVALID_REPORT;
+					// errorMessage = ERROR_MSG_INVALID_REPORT;
 				}
 			}
 		}
-		if ( errorMessage != null )
-		{
-			messageLine.setText( errorMessage );
-			messageLine.setImage( ERROR_ICON );
-		}
-		else
-		{
-			messageLine.setText( "" ); //$NON-NLS-1$
-			messageLine.setImage( null );
-		}
+
+		messageLine.setText( "" ); //$NON-NLS-1$
+		messageLine.setImage( null );
+
 	}
 
 	private String resolvePath( String file_path )

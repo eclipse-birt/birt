@@ -515,6 +515,7 @@ dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
 dataset.editor.error.computedColumnNameAlreadyUsed=Le nouveau nom de la colonne de calcul ({0}) est déjà utilisé comme alias pour la colonne ({1}) dans les Colonnes de sortie.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double.
+dataset.editor.error.nonemptyDefaultvalue=La valeur par défaut ne peut pas être nulle.
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
 dataset.editor.error.missingComputedColumnName=Le nom de la colonne de calcul ne peut être ni nul, ni vide.
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=Description :
 WizardTemplateChoicePage.label.Preview=Aperçu :
 WizardTemplateChoicePage.label.ReportTemplates=Modèles d'état :
 WizardTemplateChoicePage.label.ShowCheatSheets=&Afficher la feuille de fraude de création d'état
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=Créez un état vierge sans aucun contenu prédéfini.
 WizardTemplateChoicePage.message.ChartListing=Créez un état groupé avec un graphique fournissant une représentation visuelle de chaque donnée de groupe.
 WizardTemplateChoicePage.message.DualColumnChartListing=Créez un état groupé avec deux sous-groupes "Graphiques et listes".
@@ -4304,6 +4306,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ ou
 #GeneralPage
 GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
+
+#BookMarkPage
+BookMarkPage.Modified.Note=Le signet contient des caractères spéciaux différents de \"A-Z a-z 0-9 - _ : .\". Cela peut poser problème lors de l'exécution.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4634,7 @@ BindingDialogHelper.warning.button.no=Non
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Attein&dre l'élément d'état
+ScriptObjectNode_0=&Réinitialiser le script
 
 ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 
@@ -4636,11 +4642,13 @@ ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Tous
 CrosstabBindingDialogHelper.bindngName.timeperiod=Période
-CrosstabBindingDialogHelper.calculation.labe=Intervalle de tem&ps :
-CrosstabBindingDialogHelper.recentday.description=Date la plus récente dans la dimension de temps
+CrosstabBindingDialogHelper.calculation.label=Intervalle de tem&ps :
+CrosstabBindingDialogHelper.calculation.group=Intervalle de temps
+CrosstabBindingDialogHelper.recentday.description=Dernière date de la période
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :
 CrosstabBindingDialogHelper.thisdate.example.label=Saisissez les valeurs de dates selon le modèle suivant : AAAA-MM-JJ
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Saisissez les valeurs de dates selon le modèle suivant : AAAA-MM-JJ
 CrosstabBindingDialogHelper.timedimension.label=Dimension de te&mps :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Cette dimension ne prend pas en charge la date de référence récente 
 CrosstabBindingDialogHelper.today.label=Aujourd'hui
@@ -4710,6 +4718,11 @@ PasteFormatAction.text=Coller le &format
 #InsertAggregationAction
 InsertAggregationAction.text=&Agrégation
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Définir la vue actuelle
@@ -4743,12 +4756,14 @@ GeneralConfigurationBlock.message.general.description=Paramètres généraux pour l
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &dégradé 
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
 GeneralConfigurationBlock.group.label=Invite
+GeneralConfigurationBlock.group.defaultThemes=Bibliothèque de thèmes par défaut
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activer la bibliothèque de &thèmes par défaut
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Inclure les thèmes par défaut
 GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers le parent pour améliorer les performances
 GeneralConfigurationBlock.move.binding.always=&Toujours
 GeneralConfigurationBlock.move.binding.never=Ja&mais
 GeneralConfigurationBlock.move.binding.prompt=Invite&r
-
 
 ###########################################################
 #ResetImageSizeAction

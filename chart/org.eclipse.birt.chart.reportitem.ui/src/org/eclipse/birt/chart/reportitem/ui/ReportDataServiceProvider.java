@@ -1903,7 +1903,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			qd = new ChartCubeQueryHelper( itemHandle,
 					cm,
 					session.getModelAdaptor( ) ).createCubeQuery( null );
-
 		}
 
 		resetCubeQuery( qd );

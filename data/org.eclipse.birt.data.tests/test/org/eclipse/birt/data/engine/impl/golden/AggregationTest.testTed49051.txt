@@ -1,0 +1,5 @@
+*****A new Report Start!*****
+S:0 E:1 NEW YORK    Chelsea    2004-12-20 00:00:00.0    U882X223    189.0    1    1    
+S:1 E:1 NEW YORK    Chelsea    2004-12-02 00:00:00.0    6772344S    299.99    1    2    
+S:1 E:0 HONG KONG    Central    2004-10-27 00:00:00.0    8845613D    988.0    1    3    
+

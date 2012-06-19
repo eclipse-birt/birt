@@ -288,7 +288,10 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // for some jdbc driver need to carry out a query execution before the metadata can be achieved
         // and only when the Parameters are successfully set the query execution can succeed.
         addParameterDefns();
-        
+     
+        //Here the "max rows" means the max number of rows that can fetch from data source.
+      	odaStatement.setMaxRows( this.getRowFetchLimit( ) );
+      		
         IOdaDataSetDesign design = null;
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
@@ -327,8 +330,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			prepareColumns( );
 		}
         
-		//Here the "max rows" means the max number of rows that can fetch from data source.
-		odaStatement.setMaxRows( this.getRowFetchLimit( ) );
+		
 		
         // If ODA can provide result metadata, get it now
         try
@@ -1096,9 +1098,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	
     	//		 set input parameter bindings
 		Iterator inputParamValueslist = getInputParamValues().iterator( );
-		while ( inputParamValueslist.hasNext( ) )
+		int inputParam = 1;
+		while ( inputParamValueslist.hasNext( )
+				&& ( odaStatement.getParameterMetaData( ).size( ) >= inputParam ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
+			inputParam++;
 			if ( paramBind.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
 			{
 				try

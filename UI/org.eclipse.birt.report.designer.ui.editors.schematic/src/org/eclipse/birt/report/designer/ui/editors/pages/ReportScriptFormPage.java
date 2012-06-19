@@ -52,6 +52,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
@@ -507,6 +508,14 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public Object getAdapter( Class adapter )
 	{
+		if (adapter.equals( ITextEditor.class ))
+		{
+			if (jsEditor != null)
+			{
+				return jsEditor.getAdapter( adapter );
+			}
+			return null;
+		}
 		if ( adapter == ActionRegistry.class )
 		{
 			return jsEditor.getAdapter( ActionRegistry.class );

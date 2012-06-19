@@ -515,6 +515,7 @@ dataset.editor.dataSource=Fuente de datos
 dataset.editor.error.columnOrAliasNameAlreadyUsed=El nuevo nombre o alias de columna ({0}) ya se está utilizando en la columna del índice {1}.
 dataset.editor.error.computedColumnNameAlreadyUsed=El nuevo nombre de columna procesada ({0}) ya se está utilizando como alias de la columna ({1}) en Columnas de salida.
 dataset.editor.error.duplicateParameterName=Nombre del parámetro duplicado.
+dataset.editor.error.nonemptyDefaultvalue=El valor predeterminado no puede estar en blanco.
 dataset.editor.error.emptyName=El nombre no puede estar en blanco. 
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.
 dataset.editor.error.missingComputedColumnName=El nombre de columna procesada no puede ser nulo ni estar en blanco.
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=Descripción:
 WizardTemplateChoicePage.label.Preview=Vista previa:
 WizardTemplateChoicePage.label.ReportTemplates=Plantillas de informes:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Mostrar archivo de consejos útiles para la creación de informes
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=Crear un informe en blanco sin contenido predefinido.
 WizardTemplateChoicePage.message.ChartListing=Crear un informe agrupado con un diagrama que ofrece una representación visual de cada dato del grupo.
 WizardTemplateChoicePage.message.DualColumnChartListing=Crear un informe agrupado con dos subgrupos de "diagrama y listado".
@@ -4304,6 +4306,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ o
 #GeneralPage
 GeneralPage.Library.Included=Librería:
 GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
+
+#BookMarkPage
+BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4634,7 @@ BindingDialogHelper.warning.button.no=No
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=&Ir a Elemento de informe
+ScriptObjectNode_0=&Restablecer script
 
 ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 
@@ -4636,11 +4642,13 @@ ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Todos
 CrosstabBindingDialogHelper.bindngName.timeperiod=Período
-CrosstabBindingDialogHelper.calculation.labe=&Periodo de tiempo:
-CrosstabBindingDialogHelper.recentday.description=Fecha más reciente en Dimensión de tiempo
+CrosstabBindingDialogHelper.calculation.label=&Periodo de tiempo:
+CrosstabBindingDialogHelper.calculation.group=Periodo de tiempo
+CrosstabBindingDialogHelper.recentday.description=Última fecha del período
 CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
 CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
 CrosstabBindingDialogHelper.thisdate.example.label=Introduzca los valores de fecha como: aaaa-MM-dd
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Introduzca los valores de fecha como: aaaa-MM-dd
 CrosstabBindingDialogHelper.timedimension.label=Di&mensión de tiempo:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Esta dimensión no es compatible con la fecha de referencia reciente 
 CrosstabBindingDialogHelper.today.label=Hoy
@@ -4710,6 +4718,11 @@ PasteFormatAction.text=Pegar f&ormato
 #InsertAggregationAction
 InsertAggregationAction.text=A&gregación
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Establecer vista actual
@@ -4743,12 +4756,14 @@ GeneralConfigurationBlock.message.general.description=Ajustes generales para Rep
 GeneralConfigurationBlock.button.text.enable.gradient=Activar &selección gradiente 
 GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimada
 GeneralConfigurationBlock.group.label=Solicitar
+GeneralConfigurationBlock.group.defaultThemes=Librería de temas predeterminados
 GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir el archivo de la librería
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados
 GeneralConfigurationBlock.move.binding.group=Mover enlaces locales al principal para disponer de un mejor rendimiento
 GeneralConfigurationBlock.move.binding.always=Sie&mpre
 GeneralConfigurationBlock.move.binding.never=Nu&nca
 GeneralConfigurationBlock.move.binding.prompt=S&olicitud
-
 
 ###########################################################
 #ResetImageSizeAction

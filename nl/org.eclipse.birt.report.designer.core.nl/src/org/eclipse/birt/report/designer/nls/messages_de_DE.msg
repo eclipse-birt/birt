@@ -515,6 +515,7 @@ dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
 dataset.editor.error.computedColumnNameAlreadyUsed=Der neu berechnete Spaltenname ({0}) wird unter "Ausgabespalten" bereits als Spaltenalias für Spalte ({1}) verwendet.
 dataset.editor.error.duplicateParameterName=Parameternamen doppelt vergeben.
+dataset.editor.error.nonemptyDefaultvalue=Standardwert darf nicht leer sein.
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.
@@ -4304,6 +4306,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 #GeneralPage
 GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
+
+#BookMarkPage
+BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der Zeichen \"A-Z a-z 0-9 - _ : .\". Dies kann zu Problemen während der Laufzeit führen.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4629,6 +4634,7 @@ BindingDialogHelper.warning.button.no=Nein
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
+ScriptObjectNode_0=&Skript zurücksetzen
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
@@ -4636,11 +4642,13 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
-CrosstabBindingDialogHelper.calculation.labe=Zeit&intervall:
-CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
+CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
+CrosstabBindingDialogHelper.calculation.group=Zeitintervall
+CrosstabBindingDialogHelper.recentday.description=Letztes Datum im Zeitintervall
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
 CrosstabBindingDialogHelper.thisdate.example.label=Datumswerte im folgenden Format eingeben: jjjj-MM-tt
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Datumswerte im folgenden Format eingeben: JJJJ-MM-TT
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
 CrosstabBindingDialogHelper.today.label=Heute
@@ -4710,6 +4718,11 @@ PasteFormatAction.text=F&ormat einfügen
 #InsertAggregationAction
 InsertAggregationAction.text=&Aggregat
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
@@ -4743,12 +4756,14 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
+GeneralConfigurationBlock.group.defaultThemes=Bibliothek der Standardthemen
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Bibliothek der Standard&themen aktivieren
+GeneralConfigurationBlock.button.text.defaultTheme.include=Standardthemen e&inschließen
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
 GeneralConfigurationBlock.move.binding.prompt=Auff&ordern
-
 
 ###########################################################
 #ResetImageSizeAction

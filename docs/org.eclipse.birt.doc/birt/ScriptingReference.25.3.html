@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>BirtDateTime</title>
+    <title>BirtComp</title>
     <link rel="StyleSheet" href="css/ScriptingReference.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
@@ -30,350 +30,177 @@
     </div>
     <hr align="left" />
     <blockquote>
-      <h2 class="RH1_Class">Class  <a name="275576">BirtDateTime</a></h2>
-      <p class="b_Body"><a name="237677">The BirtDateTime class provides functions to determine the amount of time </a>between two dates or times, to add or subtract time spans, and to get parts of a date. Since date spans are just numbers, the application can use normal math on them: multiplication, division, addition, subtraction, and so on. This class is static. The application cannot create instances of the class.</p>
-      <h3 class="RH2_Method"><a name="237678">BirtDateTime.addDay</a></h3>
-      <p class="b_Body"><a name="238095">This function returns a new date that results from adding a given number of days </a>to a date. The number of days to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="238096">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="238097">BirtDateTime.addDay( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="238098">Parameters</a></p>
-      <p class="RParameter"><a name="237686">date</a></p>
-      <p class="bn_BodyNoLead"><a name="237687">A date object that represents the start date.</a></p>
-      <p class="RParameter"><a name="237692">n</a></p>
-      <p class="bn_BodyNoLead"><a name="237693">The number of days to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="237694">Returns</a></p>
-      <p class="b_Body"><a name="237695">A date that results from adding the specified number of days to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="237696">Examples</a></p>
-      <p class="b_Body"><a name="237697">The following example adds days to a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="251891">var startDate = "2008-12-31"; </a></div>
-      <div class="co_Code"><a name="237698">var endDate;</a></div>
-      <div class="co_Code"><a name="237699">endDate = BirtDateTime.addDay( startDate, 1 ); // returns Jan 01, 2009</a></div>
-      <div class="co_Code"><a name="238325">endDate = BirtDateTime.addDay( startDate, -1 ); // returns Dec 30, 2008</a></div>
-      <p class="b_Body"><a name="251947">The following example adds 15 days to each date value in the InvoiceDate field:</a></p>
-      <div class="cf_CodeFirst"><a name="252065">BirtDateTime.addDay( row["InvoiceDate"], 15 )</a></div>
-      <h3 class="RH2_Method"><a name="238714">BirtDateTime.addHour</a></h3>
-      <p class="b_Body"><a name="238715">This function returns a new date that results from adding a given number of </a>hours to a date. The number of hours to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="238716">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="238717">BirtDateTime.addHour( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="238718">Parameters</a></p>
-      <p class="RParameter"><a name="238719">date</a></p>
-      <p class="bn_BodyNoLead"><a name="251550">A date object that represents the start date. If a start date does not have a time </a>value, the function assumes the time is midnight (00:00:00).</p>
-      <p class="RParameter"><a name="251551">n</a></p>
-      <p class="bn_BodyNoLead"><a name="238722">The number of hours to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="238723">Returns</a></p>
-      <p class="b_Body"><a name="238724">A date that results from adding the specified number of hours to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="238725">Examples</a></p>
-      <p class="b_Body"><a name="252174">The following example adds hours to a specific date and time:</a></p>
-      <div class="cf_CodeFirst"><a name="238726">var startDate = "2008-12-31 15:00:00"; </a></div>
-      <div class="co_Code"><a name="238727">var endDate;</a></div>
-      <div class="co_Code"><a name="238728">endDate = BirtDateTime.addHour( startDate, 8 ); // returns Dec 31, 2008 11:00 PM</a></div>
-      <div class="co_Code"><a name="238729">endDate = BirtDateTime.addHour( startDate, -8 ); // returns Dec 31, 2008 7:00 AM</a></div>
-      <p class="b_Body"><a name="252547">The following example adds 36 hours to each date value in the StartTime field:</a></p>
-      <div class="cf_CodeFirst"><a name="252548">BirtDateTime.addHour( row["StartTime"], 36 )</a></div>
-      <h3 class="RH2_Method"><a name="240681">BirtDateTime.addMinute</a></h3>
-      <p class="b_Body"><a name="240682">This function returns a new date that results from adding a given number of </a>minutes to a date. The number of minutes to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="240683">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="240684">BirtDateTime.addMinute( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="240685">Parameters</a></p>
-      <p class="RParameter"><a name="240686">date</a></p>
-      <p class="bn_BodyNoLead"><a name="240687">A date object that represents the start date. If a start date does not have a time </a>value, the function assumes the time is midnight (00:00:00).</p>
-      <p class="RParameter"><a name="240688">n</a></p>
-      <p class="bn_BodyNoLead"><a name="240689">The number of minutes to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="240690">Returns</a></p>
-      <p class="b_Body"><a name="240691">A date that results from adding the specified number of minutes to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="240692">Examples</a></p>
-      <p class="b_Body"><a name="252214">The following example adds minutes to a specific date and time:</a></p>
-      <div class="cf_CodeFirst"><a name="240693">var startDate = "2008-12-31 10:30:00"; </a></div>
-      <div class="co_Code"><a name="240694">var endDate;</a></div>
-      <div class="co_Code"><a name="240695">endDate = BirtDateTime.addMinute( startDate, 45 ); </a></div>
-      <div class="co_Code"><a name="241028">// returns Dec 31, 2008 11:15 AM</a></div>
-      <div class="co_Code"><a name="240696">endDate = BirtDateTime.addMinute( startDate, -30 ); </a></div>
-      <div class="co_Code"><a name="241045">// returns Dec 31, 2008 10:00 AM</a></div>
-      <p class="b_Body"><a name="252608">The following example adds 15 minutes to each date value in the StartTime field:</a></p>
-      <div class="cf_CodeFirst"><a name="252609">BirtDateTime.addMinute( row["StartTime"], 15 )</a></div>
-      <h3 class="RH2_Method"><a name="241080">BirtDateTime.addMonth</a></h3>
-      <p class="b_Body"><a name="241081">This function returns a new date that results from adding a given number of </a>months to a date. The number of months to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="b_Body"><a name="241274">This function always returns a valid date. If necessary, the day part of the </a>resulting date is adjusted downward to the last day of the resulting month in the resulting year. For example, if you add 1 month to Jan 31, 2008, addMonth(&nbsp;) returns Feb 29, 2008 (2008 is a leap year), not Feb 31, 2008.</p>
-      <p class="N_sb_ScanBold"><a name="241082">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="241083">BirtDateTime.addMonth( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="241084">Parameters</a></p>
-      <p class="RParameter"><a name="241085">date</a></p>
-      <p class="bn_BodyNoLead"><a name="241086">A date object that represents the start date. </a></p>
-      <p class="RParameter"><a name="241087">n</a></p>
-      <p class="bn_BodyNoLead"><a name="241088">The number of months to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="241089">Returns</a></p>
-      <p class="b_Body"><a name="241090">A date that results from adding the specified number of months to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="241091">Examples</a></p>
-      <p class="b_Body"><a name="252246">The following example adds months to a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="241092">var startDate = "2008-12-31"; </a></div>
-      <div class="co_Code"><a name="241093">var endDate;</a></div>
-      <div class="co_Code"><a name="241266">endDate = BirtDateTime.addMonth( startDate, 1 ); // returns Jan 31, 2009</a></div>
-      <div class="co_Code"><a name="241267">endDate = BirtDateTime.addMonth( startDate, -1 ); // returns Nov 30, 2008</a></div>
-      <div class="co_Code"><a name="241268">endDate = BirtDateTime.addMonth( startDate, 2 ); // returns Feb 28, 2009</a></div>
-      <p class="b_Body"><a name="252826">The following example adds 10 months to each date value in the InvoiceDate </a>field:</p>
-      <div class="cf_CodeFirst"><a name="252827">BirtDateTime.addMonth( row["InvoiceDate"], 10 )</a></div>
-      <h3 class="RH2_Method"><a name="250566">BirtDateTime.addQuarter</a></h3>
-      <p class="b_Body"><a name="250567">This function returns a new date that results from adding a given number of </a>quarters to a date. A quarter is equal to three months. For example, if you add 2 quarters to Sep 10, 2008, the function returns Mar 10, 2009. The number of quarters to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="250568">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="250569">BirtDateTime.addQuarter( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="250570">Parameters</a></p>
-      <p class="RParameter"><a name="250571">date</a></p>
-      <p class="bn_BodyNoLead"><a name="250572">A date object that represents the start date.</a></p>
-      <p class="RParameter"><a name="250573">n</a></p>
-      <p class="bn_BodyNoLead"><a name="250574">The number of quarters to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="250575">Returns</a></p>
-      <p class="b_Body"><a name="250576">A date that results from adding the specified number of quarters to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="250634">Examples</a></p>
-      <p class="b_Body"><a name="252353">The following example adds quarters to a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="250645">var startDate = "2008-12-15"; </a></div>
-      <div class="co_Code"><a name="250646">var endDate;</a></div>
-      <div class="co_Code"><a name="250647">endDate = BirtDateTime.addQuarter( startDate, 1 ); //returns Mar 15, 2009</a></div>
-      <div class="co_Code"><a name="250640">endDate = BirtDateTime.addQuarter( startDate, -2 ); //returns Jun 15, 2008</a></div>
-      <p class="b_Body"><a name="252844">The following example adds 2 quarters to each date value in the ForecastClosing </a>field:</p>
-      <div class="cf_CodeFirst"><a name="252845">BirtDateTime.addQuarter( row["ForecastClosing"], 2 )</a></div>
-      <h3 class="RH2_Method"><a name="250699">BirtDateTime.addSecond</a></h3>
-      <p class="b_Body"><a name="250700">This function returns a new date that results from adding a given number of </a>seconds to a date. The number of seconds to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="250701">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="250702">BirtDateTime.addSecond( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="250703">Parameters</a></p>
-      <p class="RParameter"><a name="250704">date</a></p>
-      <p class="bn_BodyNoLead"><a name="250705">A date object that represents the start date. If a start date does not have a time </a>value, the function assumes the time is midnight (00:00:00).</p>
-      <p class="RParameter"><a name="250706">n</a></p>
-      <p class="bn_BodyNoLead"><a name="250707">The number of seconds to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="250708">Returns</a></p>
-      <p class="b_Body"><a name="250709">A date that results from adding the specified number of seconds to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="250710">Examples</a></p>
-      <p class="b_Body"><a name="252370">The following example adds seconds to a specific date and time:</a></p>
-      <div class="cf_CodeFirst"><a name="250936">var startDate = "2008-12-31 10:30:00"; </a></div>
-      <div class="co_Code"><a name="251062">var endDate;</a></div>
-      <div class="co_Code"><a name="251063">endDate = BirtDateTime.addSecond( startDate, 10000 ); </a></div>
-      <div class="co_Code"><a name="251115">// returns returns Dec 31, 2008 1:16:40 PM</a></div>
-      <div class="co_Code"><a name="251064">endDate = BirtDateTime.addSecond( startDate, -10000 ); </a></div>
-      <div class="co_Code"><a name="251144">// returns Dec 31, 2008 7:43:20 AM</a></div>
-      <p class="b_Body"><a name="253064">The following example adds 6000 seconds to each date value in the StartTime </a>field:</p>
-      <div class="cf_CodeFirst"><a name="253065">BirtDateTime.addSecond( row["StartTime"], 6000 )</a></div>
-      <h3 class="RH2_Method"><a name="251173">BirtDateTime.addWeek</a></h3>
-      <p class="b_Body"><a name="251174">This function returns a new date that results from adding a given number of </a>weeks to a date. The number of weeks to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="251175">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="251176">BirtDateTime.addWeek( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="251177">Parameters</a></p>
-      <p class="RParameter"><a name="251178">date</a></p>
-      <p class="bn_BodyNoLead"><a name="251179">A date object that represents the start date.</a></p>
-      <p class="RParameter"><a name="251180">n</a></p>
-      <p class="bn_BodyNoLead"><a name="251181">The number of weeks to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="251182">Returns</a></p>
-      <p class="b_Body"><a name="251183">A date that results from adding the specified number of weeks to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="251184">Examples</a></p>
-      <p class="b_Body"><a name="252443">The following example adds weeks to a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="251245">var startDate = "2008-12-31"; </a></div>
-      <div class="co_Code"><a name="251246">var endDate;</a></div>
-      <div class="co_Code"><a name="251247">endDate = BirtDateTime.addWeek( startDate, 1 ); // returns Jan 07, 2009</a></div>
-      <div class="co_Code"><a name="251190">endDate = BirtDateTime.addWeek( startDate, -1 ); // returns Dec 24, 2008</a></div>
-      <p class="b_Body"><a name="253420">The following example adds 2 weeks to each date value in the InvoiceDate field:</a></p>
-      <div class="cf_CodeFirst"><a name="253421">BirtDateTime.addWeek( row["InvoiceDate"], 2 )</a></div>
-      <h3 class="RH2_Method"><a name="251319">BirtDateTime.addYear</a></h3>
-      <p class="b_Body"><a name="251320">This function returns a new date that results from adding a given number of years </a>to a date. The number of years to add can be negative. In this case, the result is as if that number is subtracted from the date.</p>
-      <p class="N_sb_ScanBold"><a name="251321">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="251322">BirtDateTime.addYear( date, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="251323">Parameters</a></p>
-      <p class="RParameter"><a name="251324">date</a></p>
-      <p class="bn_BodyNoLead"><a name="251325">A date object that represents the start date.</a></p>
-      <p class="RParameter"><a name="251326">n</a></p>
-      <p class="bn_BodyNoLead"><a name="251327">The number of years to add to the date.</a></p>
-      <p class="N_sb_ScanBold"><a name="251328">Returns</a></p>
-      <p class="b_Body"><a name="251329">A date that results from adding the specified number of years to the start date.</a></p>
-      <p class="N_sb_ScanBold"><a name="251330">Examples</a></p>
-      <p class="b_Body"><a name="252526">The following example adds years to a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="251331">var startDate = "2008-12-31"; </a></div>
-      <div class="co_Code"><a name="251332">var endDate;</a></div>
-      <div class="co_Code"><a name="251333">endDate = BirtDateTime.addYear( startDate, 1 ); // returns Dec 31, 2009</a></div>
-      <div class="co_Code"><a name="251334">endDate = BirtDateTime.addYear( startDate, -1 ); // returns Dec 31, 2007</a></div>
-      <p class="b_Body"><a name="253482">The following example adds 5 years to each date value in the HireDate field:</a></p>
-      <div class="cf_CodeFirst"><a name="253483">BirtDateTime.addYear( row["HireDate"], 5 )</a></div>
-      <h3 class="RH2_Method"><a name="299888">BirtDateTime.day</a></h3>
-      <p class="b_Body"><a name="299889">This function returns a number from 1 to 31 that represents the day of the month </a>for a given date. For example, if the date is 2009-01-19, the function returns 19.</p>
-      <p class="N_sb_ScanBold"><a name="299890">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="299891">BirtDateTime.day( date )</a></div>
-      <p class="N_sb_ScanBold"><a name="299892">Parameter</a></p>
-      <p class="RParameter"><a name="299893">date</a></p>
-      <p class="bn_BodyNoLead"><a name="299894">A date object from which to get the day.</a></p>
-      <p class="N_sb_ScanBold"><a name="299895">Returns</a></p>
-      <p class="b_Body"><a name="299896">A number that represents the day of the month for a given date.</a></p>
-      <p class="N_sb_ScanBold"><a name="299897">Examples</a></p>
-      <p class="b_Body"><a name="299898">The following example returns the day of the month for each value in the </a>ShipDate field:</p>
-      <div class="cf_CodeFirst"><a name="299899">BirtDateTime.day( row["ShipDate"] ) </a></div>
-      <p class="b_Body"><a name="299900">The following example returns the day of the month for the current date:</a></p>
-      <div class="cf_CodeFirst"><a name="299901">BirtDateTime.day( (BirtDateTime.today())</a></div>
-      <h3 class="RH2_Method"><a name="299854">BirtDateTime.diffDay</a></h3>
-      <p class="b_Body"><a name="251586">This function returns the number of days between two dates. A day is calculated </a>by subtracting the day value of the first date from the day value of the second date. For example, if the first date is 2008-12-30 23:59:59 and the second date is 2008-12-31 00:00:00, the function returns 1 day, even though only one second separates the two dates.</p>
-      <p class="N_sb_ScanBold"><a name="251663">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="251664">BirtDateTime.diffDay( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="251665">Parameters</a></p>
-      <p class="RParameter"><a name="251666">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="251667">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="251668">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="251669">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="251670">Returns</a></p>
-      <p class="b_Body"><a name="251671">The number of days between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="251672">Examples</a></p>
-      <p class="b_Body"><a name="253881">The following example returns the number of days between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="253884">BirtDateTime.diffDay( "2009-01-01", "2009-04-15" ) // returns 104</a></div>
-      <p class="b_Body"><a name="253879">The following example returns the number of days from the current date to the </a>end of 2009:</p>
-      <div class="cf_CodeFirst"><a name="251885">BirtDateTime.diffDay( BirtDateTime.today(), "2009-12-31" ) </a></div>
-      <p class="b_Body"><a name="253588">The following example returns the number of days between values in the </a>InvoiceDate and PaymentDate fields:</p>
-      <div class="cf_CodeFirst"><a name="253589">BirtDateTime.diffDay( row["InvoiceDate"], row["PaymentDate"] )</a></div>
-      <h3 class="RH2_Method"><a name="253604">BirtDateTime.diffHour</a></h3>
-      <p class="b_Body"><a name="253605">This function returns the number of hours between two dates. An hour is </a>calculated by subtracting the hour value of the first date from the hour value of the second date. For example, if the first date is 2009-01-31 1:30:00 and the second date is 2009-01-31 2:00:00, the function returns 1 hour, even though only 30 minutes separates the two dates. If a date does not have a time value, the function assumes the time is midnight (00:00:00).</p>
-      <p class="N_sb_ScanBold"><a name="253606">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="253607">BirtDateTime.diffHour( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="253608">Parameters</a></p>
-      <p class="RParameter"><a name="253609">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="253610">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="253611">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="253612">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="253613">Returns</a></p>
-      <p class="b_Body"><a name="253614">The number of hours between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="253615">Examples</a></p>
-      <p class="b_Body"><a name="254473">The following example returns the number of hours between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="254518">BirtDateTime.diffHour( "2009-01-31 12:00:00", "2009-02-01 12:00:00")</a></div>
-      <div class="co_Code"><a name="254579">// returns 24</a></div>
-      <div class="cf_CodeFirst"><a name="254474">BirtDateTime.diffHour( "2009-01-31", "2009-02-01 12:00:00")</a></div>
-      <div class="co_Code"><a name="254596">// returns 36. Because the first date does not have a time, midnight is assumed.</a></div>
-      <p class="b_Body"><a name="254451">The following example returns the number of hours from the current date and </a>time to the end of 2009:</p>
-      <div class="cf_CodeFirst"><a name="253617">BirtDateTime.diffHour( BirtDateTime.now(), "2009-12-31" );</a></div>
-      <p class="b_Body"><a name="253618">The following example returns the number of hours between values in the </a>StartTime and FinishTime fields:</p>
-      <div class="cf_CodeFirst"><a name="253619">BirtDateTime.diffHour( row["StartTime"], row["FinishTime"] )</a></div>
-      <h3 class="RH2_Method"><a name="254614">BirtDateTime.diffMinute</a></h3>
-      <p class="b_Body"><a name="254615">This function returns the number of minutes between two dates. A minute is </a>calculated by subtracting the minute value of the first date from the minute value of the second date. For example, if the first date is 2009-01-31 1:30:59 and the second date is 2009-01-31 1:31:00, the function returns 1 minute, even though only one second separates the two dates. If a date does not have a time value, the function assumes the time is midnight (00:00:00).</p>
-      <p class="N_sb_ScanBold"><a name="254616">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="254617">BirtDateTime.diffMinute( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="254618">Parameters</a></p>
-      <p class="RParameter"><a name="254619">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="254620">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="254621">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="254622">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="254623">Returns</a></p>
-      <p class="b_Body"><a name="254624">The number of minutes between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="254625">Examples</a></p>
-      <p class="b_Body"><a name="254626">The following example returns the number of minutes between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="254627">BirtDateTime.diffMinute( "2009-01-31 1:30:30", "2009-01-31 10:45:00")</a></div>
-      <div class="co_Code"><a name="254628">// returns 555</a></div>
-      <div class="cf_CodeFirst"><a name="254629">BirtDateTime.diffMinute( "2009-01-31", "2009-01-31 12:00:00")</a></div>
-      <div class="co_Code"><a name="254630">// returns 720. Because the first date does not have a time, midnight is assumed.</a></div>
-      <p class="b_Body"><a name="254631">The following example returns the number of minutes from the current date and </a>time to the beginning of 2010:</p>
-      <div class="cf_CodeFirst"><a name="254632">BirtDateTime.diffMinute( BirtDateTime.now(), "2010-01-01" ) </a></div>
-      <p class="b_Body"><a name="254633">The following example returns the number of minutes between values in the </a>StartTime and FinishTime fields:</p>
-      <div class="cf_CodeFirst"><a name="254634">BirtDateTime.diffMinute( row["StartTime"], row["FinishTime"] )</a></div>
-      <h3 class="RH2_Method"><a name="256490">BirtDateTime.diffMonth</a></h3>
-      <p class="b_Body"><a name="256491">This function returns the number of months between two dates. A month is </a>calculated by subtracting the month value of the first date from the month value of the second date. For example, if the first date is 2009-01-31 and the second date is 2009-02-01, the function returns 1 month, even though only one day separates the two dates.</p>
-      <p class="N_sb_ScanBold"><a name="256492">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="256493">BirtDateTime.diffMonth( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="256494">Parameters</a></p>
-      <p class="RParameter"><a name="256495">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="256496">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="256497">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="256498">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="256499">Returns</a></p>
-      <p class="b_Body"><a name="256500">The number of months between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="256501">Examples</a></p>
-      <p class="b_Body"><a name="256502">The following example returns the number of months between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="256503">BirtDateTime.diffMonth( "2009-01-31", "2009-04-15") // returns 3</a></div>
-      <p class="b_Body"><a name="256507">The following example returns the number of months from the current date to the </a>beginning of 2010:</p>
-      <div class="cf_CodeFirst"><a name="256508">BirtDateTime.diffMonth( BirtDateTime.today(), "2010-01-01" ); </a></div>
-      <p class="b_Body"><a name="256509">The following example returns the number of months between values in the </a>ProjectStart and ProjectComplete fields:</p>
-      <div class="cf_CodeFirst"><a name="256510">BirtDateTime.diffMonth( row["ProjectStart"], row["ProjectComplete"] )</a></div>
-      <h3 class="RH2_Method"><a name="256921">BirtDateTime.diffQuarter</a></h3>
-      <p class="b_Body"><a name="256922">This function returns the number of quarters between two dates. A quarter is </a>calculated by subtracting the month value of the first date from the month value of the second date. A difference of 3 months is equal to 1 quarter. For example, if the first date is 2009-01-31 and the second date is 2009-07-01, the function returns 2. If the first date is 2009-01-01 and the second date is 2009-09-30, the function also returns 2.</p>
-      <p class="N_sb_ScanBold"><a name="256923">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="256924">BirtDateTime.diffQuarter( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="256925">Parameters</a></p>
-      <p class="RParameter"><a name="256926">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="256927">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="256928">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="256929">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="256930">Returns</a></p>
-      <p class="b_Body"><a name="256931">The number of quarters between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="256932">Examples</a></p>
-      <p class="b_Body"><a name="256933">The following example returns the number of quarters between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="256934">BirtDateTime.diffQuarter( "2009-01-31", "2009-04-15") // returns 1</a></div>
-      <p class="b_Body"><a name="256935">The following example returns the number of quarters from the current date to </a>the beginning of 2010:</p>
-      <div class="cf_CodeFirst"><a name="256936">BirtDateTime.diffQuarter( BirtDateTime.today(), "2010-01-01" ); </a></div>
-      <p class="b_Body"><a name="256937">The following example returns the number of quarters between values in the </a>ProjectStart and ProjectComplete fields:</p>
-      <div class="cf_CodeFirst"><a name="256938">BirtDateTime.diffQuarter( row["ProjectStart"], row["ProjectComplete"] )</a></div>
-      <h3 class="RH2_Method"><a name="257251">BirtDateTime.diffSecond</a></h3>
-      <p class="b_Body"><a name="257252">This function returns the number of seconds between two dates. If a date does not </a>have a time value, the function assumes the time is midnight (00:00:00).</p>
-      <p class="N_sb_ScanBold"><a name="257253">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="257254">BirtDateTime.diffSecond( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="257255">Parameters</a></p>
-      <p class="RParameter"><a name="257256">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="257257">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="257258">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="257259">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="257260">Returns</a></p>
-      <p class="b_Body"><a name="257261">The number of seconds between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="257262">Examples</a></p>
-      <p class="b_Body"><a name="257263">The following example returns the number of seconds between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="257264">BirtDateTime.diffSecond( "2009-01-31 11:30:30", "2009-01-31 12:00:00")</a></div>
-      <div class="co_Code"><a name="257265">// returns 1770</a></div>
-      <div class="cf_CodeFirst"><a name="257266">BirtDateTime.diffSecond( "2009-01-31", "2009-01-31 1:00:00")</a></div>
-      <div class="co_Code"><a name="257267">// returns 3600. Because the first date does not have a time, midnight is assumed.</a></div>
-      <p class="b_Body"><a name="257268">The following example returns the number of seconds from the current date and </a>time to the beginning of 2010:</p>
-      <div class="cf_CodeFirst"><a name="257269">BirtDateTime.diffSecond( BirtDateTime.now(), "2010-01-01" ) </a></div>
-      <p class="b_Body"><a name="257270">The following example returns the number of seconds between values in the </a>StartTime and FinishTime fields:</p>
-      <div class="cf_CodeFirst"><a name="257271">BirtDateTime.diffSecond( row["StartTime"], row["FinishTime"] )</a></div>
-      <h3 class="RH2_Method"><a name="257380">BirtDateTime.diffWeek</a></h3>
-      <p class="b_Body"><a name="257381">This function returns the number of weeks between two dates. A week is </a>calculated by subtracting the week number of the first date from the week number of the second date. For example, if the first date is 2009-01-02 (week 1 of the year) and the second date is 2009-01-05 (week 2 of the year), the function returns 1 week, even though only three days separates the two dates.</p>
-      <p class="N_sb_ScanBold"><a name="257382">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="257383">BirtDateTime.diffWeek( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="257384">Parameters</a></p>
-      <p class="RParameter"><a name="257385">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="257386">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="257387">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="257388">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="257389">Returns</a></p>
-      <p class="b_Body"><a name="257390">The number of weeks between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="257391">Examples</a></p>
-      <p class="b_Body"><a name="257392">The following example returns the number of weeks between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="257393">BirtDateTime.diffWeek( "2009-01-01", "2009-02-01") // returns 5</a></div>
-      <p class="b_Body"><a name="257394">The following example returns the number of weeks from the current date to the </a>beginning of 2010:</p>
-      <div class="cf_CodeFirst"><a name="257395">BirtDateTime.diffWeek( BirtDateTime.today(), "2010-01-01" ); </a></div>
-      <p class="b_Body"><a name="257396">The following example returns the number of weeks between values in the </a>ProjectStart and ProjectComplete fields:</p>
-      <div class="cf_CodeFirst"><a name="257397">BirtDateTime.diffWeek( row["ProjectStart"], row["ProjectComplete"] )</a></div>
-      <h3 class="RH2_Method"><a name="257633">BirtDateTime.diffYear</a></h3>
-      <p class="b_Body"><a name="257634">This function returns the number of years between two dates. A year is calculated </a>by subtracting the year value of the first date from the year value of the second date. For example, if the first date is 2009-01-01 and the second date is 2009-12-31, the function returns 0. If the first date is 2008-11-15 and the second date is 2009-01-15, the function returns 1.</p>
-      <p class="N_sb_ScanBold"><a name="257635">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="257636">BirtDateTime.diffYear( date1, date2 )</a></div>
-      <p class="N_sb_ScanBold"><a name="257637">Parameters</a></p>
-      <p class="RParameter"><a name="257638">date1</a></p>
-      <p class="bn_BodyNoLead"><a name="257639">A date object that represents the start of the time span.</a></p>
-      <p class="RParameter"><a name="257640">date2</a></p>
-      <p class="bn_BodyNoLead"><a name="257641">A date object that represents the end of the time span.</a></p>
-      <p class="N_sb_ScanBold"><a name="257642">Returns</a></p>
-      <p class="b_Body"><a name="257643">The number of years between two dates.</a></p>
-      <p class="N_sb_ScanBold"><a name="257644">Examples</a></p>
-      <p class="b_Body"><a name="257645">The following example returns the number of years between specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="257646">BirtDateTime.diffYear( "2005-01-01", "2009-06-01") // returns 4</a></div>
-      <p class="b_Body"><a name="257647">The following example returns the number of years between each value in the </a>HireDate field and the current date:</p>
-      <div class="cf_CodeFirst"><a name="257648">BirtDateTime.diffYear( row["HireDate"], BirtDateTime.today() )</a></div>
-      <h3 class="RH2_Method"><a name="259860">BirtDateTime.month</a></h3>
-      <p class="b_Body"><a name="259861">This function returns the month for a given date. Depending on the option you </a>specify, the function returns the month as a number, the full month name, or the abbreviated month name. The month name is locale-specific.</p>
-      <p class="N_sb_ScanBold"><a name="259862">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="259863">BirtDateTime.month( date, option )</a></div>
-      <p class="N_sb_ScanBold"><a name="259864">Parameters</a></p>
-      <p class="RParameter"><a name="259865">date</a></p>
-      <p class="bn_BodyNoLead"><a name="259866">A date object from which to get the month.</a></p>
-      <p class="RParameter"><a name="259984">option</a></p>
-      <p class="bn_BodyNoLead"><a name="260000">Optional. A number that represents the month format to return. Use one of the </a>following values:</p>
+      <h2 class="RH1_Class">Class  <a name="275951">BirtComp</a></h2>
+      <p class="b_Body"><a name="275952">The BirtComp class provides functions to compare values, for example, to test if a </a>value is equal to, greater than, or less than another value. All the functions return either true or false. This class is static. The application cannot create instances of the class.</p>
+      <h3 class="RH2_Method"><a name="275953">BirtComp.anyOf</a></h3>
+      <p class="b_Body"><a name="275954">This function tests if a value or values is found in a field.</a></p>
+      <p class="N_sb_ScanBold"><a name="275955">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="275956">BirtComp.anyOf( source, target1, ..., targetN )</a></div>
+      <p class="N_sb_ScanBold"><a name="275957">Parameters</a></p>
+      <p class="RParameter"><a name="275958">source</a></p>
+      <p class="bn_BodyNoLead"><a name="275959">The field that contains the values to compare to.</a></p>
+      <p class="RParameter"><a name="279956">target</a></p>
+      <p class="bn_BodyNoLead"><a name="279960">The value or values to find in source.</a></p>
+      <p class="N_sb_ScanBold"><a name="275960">Returns</a></p>
+      <p class="b_Body"><a name="275961">True if a target value matches a value in source; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="275962">Examples</a></p>
+      <p class="b_Body"><a name="275963">The following example tests if Canada, Mexico, or USA are values in the Country </a>field. If any one of the countries is in the field, the function returns true.</p>
+      <div class="cf_CodeFirst"><a name="275964">BirtComp.anyOf( row["Country"], "Canada", "Mexico", "USA" )</a></div>
+      <p class="b_Body"><a name="275965">The following example tests if Jan 15, 2009 or Jan 31, 2009 are values in the </a>payDate field:</p>
+      <div class="cf_CodeFirst"><a name="275966">BirtComp.anyOf( row["payDate"], "2009-01-15", "2009-01-31" )</a></div>
+      <p class="b_Body"><a name="279982">The following example tests if two specific product codes are values in the </a>productCode field. If either value appears in the field, the string Obsolete is displayed; otherwise the productCode value is displayed as it appears in the field.</p>
+      <div class="cf_CodeFirst"><a name="279991">if (BirtComp.anyOf(row["productCode"], "S18_1749", "S18_2248" )){</a></div>
+      <div class="co_Code"><a name="279992">&nbsp;&nbsp;</a>displayString = "Obsolete"</div>
+      <div class="co_Code"><a name="279993">&nbsp;&nbsp;</a>}</div>
+      <div class="co_Code"><a name="279994">else{</a></div>
+      <div class="co_Code"><a name="279995">&nbsp;&nbsp;</a>row["productCode"]</div>
+      <div class="co_Code"><a name="279986">&nbsp;&nbsp;</a>}</div>
+      <h3 class="RH2_Method"><a name="280059">BirtComp.between</a></h3>
+      <p class="b_Body"><a name="280060">This function tests if a value is between two specified values.</a></p>
+      <p class="N_sb_ScanBold"><a name="280061">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="280062">BirtComp.between( source, target1, target2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="280063">Parameters</a></p>
+      <p class="RParameter"><a name="280064">source</a></p>
+      <p class="bn_BodyNoLead"><a name="280065">The value to test.</a></p>
+      <p class="RParameter"><a name="280066">target1</a></p>
+      <p class="bn_BodyNoLead"><a name="280067">The first value in the range of values to compare to.</a></p>
+      <p class="RParameter"><a name="280458">target2</a></p>
+      <p class="bn_BodyNoLead"><a name="280462">The second value in the range of values to compare to.</a></p>
+      <p class="N_sb_ScanBold"><a name="280068">Returns</a></p>
+      <p class="b_Body"><a name="280069">True if the source value is between the target1 and target values; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="280070">Examples</a></p>
+      <p class="b_Body"><a name="280071">The following expressions test field values to see if they are within a specified </a>range of values:</p>
+      <div class="cf_CodeFirst"><a name="280072">BirtComp.between( row["SalesTotal"], 10000, 20000 )</a></div>
+      <div class="co_Code"><a name="280074">BirtComp.between( row["CustomerName"], "A", "M" )</a></div>
+      <div class="co_Code"><a name="280486">BirtComp.between( row["OrderDate"], "2009-01-01", "2009-01-31" )</a></div>
+      <p class="b_Body"><a name="280075">The following example calculates shipment dates. If an OrderDate value is in </a>December 2008 (between 12/01/08 and 12/31/08), add 5 days to the OrderDate value. If an OrderDate value is in a month other than December, add 3 days to the OrderDate value.</p>
+      <div class="cf_CodeFirst"><a name="280076">if (BirtComp.between(row["OrderDate"], "2008-12-01", "2008-12-31" </a>)){</div>
+      <div class="co_Code"><a name="280077">&nbsp;&nbsp;</a>shipDate = BirtDateTime.addDay( row["OrderDate"], 5 )</div>
+      <div class="co_Code"><a name="280078">&nbsp;&nbsp;</a>}</div>
+      <div class="co_Code"><a name="280079">else{</a></div>
+      <div class="co_Code"><a name="280080">&nbsp;&nbsp;</a>ShipDate = BirtDateTime.addDay( row["OrderDate"], 3 )</div>
+      <div class="co_Code"><a name="280081">&nbsp;&nbsp;</a>}</div>
+      <h3 class="RH2_Method"><a name="287732">BirtComp.compareString</a></h3>
+      <p class="b_Body"><a name="287733">This function tests if a string value matches another string value, given specified </a>conditions.</p>
+      <p class="N_sb_ScanBold"><a name="287734">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="287735">BirtComp.compareString( source1, source2, ignoreCase, trim )</a></div>
+      <p class="N_sb_ScanBold"><a name="287736">Parameters</a></p>
+      <p class="RParameter"><a name="287737">source1</a></p>
+      <p class="bn_BodyNoLead"><a name="287738">The first string value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="288180">source2</a></p>
+      <p class="bn_BodyNoLead"><a name="288184">The second string value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="287739">ignoreCase</a></p>
+      <p class="bn_BodyNoLead"><a name="288343">Specify true to perform a case-insensitive comparison. Specify false to perform a </a>case-sensitive comparison.</p>
+      <p class="RParameter"><a name="288346">trim</a></p>
+      <p class="bn_BodyNoLead"><a name="288350">Specify true to remove any leading or trailing blanks before comparing the two </a>values. Blanks in the middle of a string are not removed. Specify false if you want the comparison to include leading or trailing blanks. </p>
+      <p class="N_sb_ScanBold"><a name="287750">Returns</a></p>
+      <p class="b_Body"><a name="287751">True if the source1 value matches the source2 value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="287752">Examples</a></p>
+      <p class="b_Body"><a name="287755">The following expressions compare strings with different conditions specified:</a></p>
+      <div class="cf_CodeFirst"><a name="287756">BirtComp.compareString( "Jackson", "Jackson", false, false ) // </a>returns true</div>
+      <div class="co_Code"><a name="292200">BirtComp.compareString( "Jackson", "jackson", false, true ) // </a>returns false</div>
+      <div class="co_Code"><a name="292628">BirtComp.compareString( "Jackson", "jackson", true, false ) // </a>returns true</div>
+      <div class="co_Code"><a name="292584">BirtComp.compareString( "Jackson ", "jackson", true, false ) // </a>returns false</div>
+      <div class="co_Code"><a name="292609">BirtComp.compareString( "Jackson ", "jackson", true, true ) // </a>returns true</div>
+      <h3 class="RH2_Method"><a name="280965">BirtComp.equalTo</a></h3>
+      <p class="b_Body"><a name="280966">This function tests if a value is equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="280967">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="280968">BirtComp.equalTo( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="280969">Parameters</a></p>
+      <p class="RParameter"><a name="280970">source</a></p>
+      <p class="bn_BodyNoLead"><a name="280971">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="280972">target</a></p>
+      <p class="bn_BodyNoLead"><a name="280973">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="280976">Returns</a></p>
+      <p class="b_Body"><a name="280977">True if the source value is equal to the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="280978">Examples</a></p>
+      <p class="b_Body"><a name="280979">The following expressions test field values to see if they are equal to specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="280980">BirtComp.equalTo( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="280981">BirtComp.equalTo( row["Country"], "France" )</a></div>
+      <div class="co_Code"><a name="280982">BirtComp.equalTo( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="285949">BirtComp.greaterOrEqual</a></h3>
+      <p class="b_Body"><a name="285950">This function tests if a value is greater than or equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="285951">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="285952">BirtComp.greaterOrEqual( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="285953">Parameters</a></p>
+      <p class="RParameter"><a name="285954">source</a></p>
+      <p class="bn_BodyNoLead"><a name="285955">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="285956">target</a></p>
+      <p class="bn_BodyNoLead"><a name="285957">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="285958">Returns</a></p>
+      <p class="b_Body"><a name="285959">True if the source value is greater than or equal to the target value; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="285960">Examples</a></p>
+      <p class="b_Body"><a name="285961">The following expressions test field values to see if they are greater than or equal </a>to specified values:</p>
+      <div class="cf_CodeFirst"><a name="285962">BirtComp.greaterOrEqual( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="285963">BirtComp.greaterOrEqual( row["ProductCode"], "S50_4000" )</a></div>
+      <div class="co_Code"><a name="285964">BirtComp.greaterOrEqual( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286072">BirtComp.greaterThan</a></h3>
+      <p class="b_Body"><a name="286073">This function tests if a value is greater than another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="286074">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286075">BirtComp.greaterThan( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286076">Parameters</a></p>
+      <p class="RParameter"><a name="286077">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286078">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="286079">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286080">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="286081">Returns</a></p>
+      <p class="b_Body"><a name="286082">True if the source value is greater than the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="286083">Examples</a></p>
+      <p class="b_Body"><a name="286084">The following expressions test field values to see if they are greater than specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="286085">BirtComp.greaterThan( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="286086">BirtComp.greaterThan( row["CustomerName"], "M" )</a></div>
+      <div class="co_Code"><a name="286087">BirtComp.greaterThan( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286109">BirtComp.lessOrEqual</a></h3>
+      <p class="b_Body"><a name="286110">This function tests if a value is less than or equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="286111">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286112">BirtComp.lessOrEqual( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286113">Parameters</a></p>
+      <p class="RParameter"><a name="286114">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286115">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="286116">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286117">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="286118">Returns</a></p>
+      <p class="b_Body"><a name="286119">True if the source value is less than or equal to the target value; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="286120">Examples</a></p>
+      <p class="b_Body"><a name="286121">The following expressions test field values to see if they are less than or equal to </a>specified values:</p>
+      <div class="cf_CodeFirst"><a name="286122">BirtComp.lessOrEqual( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="286123">BirtComp.lessOrEqual( row["ProductCode"], "S18_4000" )</a></div>
+      <div class="co_Code"><a name="286124">BirtComp.lessOrEqual( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="285537">BirtComp.lessThan</a></h3>
+      <p class="b_Body"><a name="285538">This function tests if a value is less than another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="285539">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="285540">BirtComp.lessThan( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="285541">Parameters</a></p>
+      <p class="RParameter"><a name="285542">source</a></p>
+      <p class="bn_BodyNoLead"><a name="285543">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="285544">target</a></p>
+      <p class="bn_BodyNoLead"><a name="285545">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="285546">Returns</a></p>
+      <p class="b_Body"><a name="285547">True if the source value is less than the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="285548">Examples</a></p>
+      <p class="b_Body"><a name="285549">The following expressions test field values to see if they are less than specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="285550">BirtComp.lessThan( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="285551">BirtComp.lessThan( row["CustomerName"], "M" )</a></div>
+      <div class="co_Code"><a name="285552">BirtComp.lessThan( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286184">BirtComp.like</a></h3>
+      <p class="b_Body"><a name="286185">This function tests if a string value matches a pattern. The pattern must use SQL </a>pattern-matching syntax.</p>
+      <p class="N_sb_ScanBold"><a name="286186">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286187">BirtComp.like( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286188">Parameters</a></p>
+      <p class="RParameter"><a name="286189">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286190">The string value to evaluate.</a></p>
+      <p class="RParameter"><a name="286191">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286192">The string pattern to match. You must enclose the pattern in double quotation </a>marks (" "). Use the correct case when typing the characters that you want to match. You can use the following special character in a pattern:</p>
       <div class="b1_Bullet1_outer" style="margin-left: 0pt">
         <table border="0" cellspacing="0" cellpadding="0" summary="">
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="260004">1 to get the month as a number from 1 to 12</a></div>
+              <div class="b1_Bullet1_inner"><a name="286797">A percent character (%) matches zero or more characters. For example, %ace% </a>matches any string value that contains the substring ace, such as Facebook and MySpace. It does not match Ace Corporation because this string contains a capital A, and not the lowercase a.</div>
             </td>
           </tr>
         </table>
@@ -383,11 +210,45 @@
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="260008">2 to get the full month name, for example, January</a></div>
+              <div class="b1_Bullet1_inner"><a name="286830">An underscore character (_) that matches exactly one character. For example, </a>t_n matches tan, ten, tin, and ton. It does not match teen or tn.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="b_Body"><a name="286834">To match a literal percent (%) or underscore (_) character, precede those </a>characters with two backslash (\\) characters. For example, to match S_10, use the following pattern:</p>
+      <div class="cf_CodeFirst"><a name="286838">S\\_10</a></div>
+      <p class="b_Body"><a name="286842">To match 50%, use the following pattern:</a></p>
+      <div class="cf_CodeFirst"><a name="286846">50\\%</a></div>
+      <p class="N_sb_ScanBold"><a name="286193">Returns</a></p>
+      <p class="b_Body"><a name="286194">True if the source value matches the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="286195">Examples</a></p>
+      <p class="b_Body"><a name="286196">The following example returns true for values in the productCode field that start </a>with S18:</p>
+      <div class="cf_CodeFirst"><a name="286197">BirtComp.like( row["productCode"], "S18%" )</a></div>
+      <p class="b_Body"><a name="286720">The following example returns true for productName values that contain the </a>substring Ford preceded by a single character:</p>
+      <div class="cf_CodeFirst"><a name="286762">BirtComp.like( row["productName"], "_Ford%" )</a></div>
+      <h3 class="RH2_Method"><a name="287271">BirtComp.match</a></h3>
+      <p class="b_Body"><a name="287272">This function tests if a string value matches a pattern. The pattern must use </a>JavaScript regular expression syntax.</p>
+      <p class="N_sb_ScanBold"><a name="287273">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="287274">BirtComp.match( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="287275">Parameters</a></p>
+      <p class="RParameter"><a name="287276">source</a></p>
+      <p class="bn_BodyNoLead"><a name="287277">The string value to evaluate.</a></p>
+      <p class="RParameter"><a name="287278">target</a></p>
+      <p class="bn_BodyNoLead"><a name="287279">The string pattern to match. In JavaScript regular expression syntax, you specify a </a>pattern within a pair of forward slash (/) characters. You can use any special character supported by JavaScript regular expressions, such as the following:</p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="287280">A question mark (?) matches zero or one occurrence of the character previous </a>to it. For example, /te?n/ matches tn, ten, and often. It does not match teen or intern.</div>
             </td>
           </tr>
         </table>
@@ -397,98 +258,11 @@
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="260009">3 to get the abbreviated month name, for example, Jan</a></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="b_Body"><a name="260024">If you omit this argument, the function returns the month as a number.</a></p>
-      <p class="N_sb_ScanBold"><a name="259867">Returns</a></p>
-      <p class="b_Body"><a name="259868">The month for a given date.</a></p>
-      <p class="N_sb_ScanBold"><a name="259869">Examples</a></p>
-      <p class="b_Body"><a name="259870">The following example shows the month values returned for a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="259871">BirtDateTime.month( "2009-02-15" ) // returns 2</a></div>
-      <div class="co_Code"><a name="260036">BirtDateTime.month( "2009-02-15", 2 ) // returns February</a></div>
-      <div class="co_Code"><a name="260041">BirtDateTime.month( "2009-02-15", 3) // returns Feb</a></div>
-      <p class="b_Body"><a name="259872">The following example returns the month for the current date:</a></p>
-      <div class="cf_CodeFirst"><a name="259873">BirtDateTime.month( (BirtDateTime.today() )</a></div>
-      <h3 class="RH2_Method"><a name="261363">BirtDateTime.now</a></h3>
-      <p class="b_Body"><a name="261364">This function returns the current date and time, for example, Feb 2, 2009 2:05 PM.</a></p>
-      <p class="N_sb_ScanBold"><a name="261365">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="261366">BirtDateTime.now(</a>&nbsp;)</div>
-      <p class="N_sb_ScanBold"><a name="261370">Returns</a></p>
-      <p class="b_Body"><a name="261371">The current date and time.</a></p>
-      <p class="N_sb_ScanBold"><a name="261372">Example</a></p>
-      <p class="b_Body"><a name="261373">The following example returns the number of hours from the current date and </a>time to Christmas:</p>
-      <div class="cf_CodeFirst"><a name="261374">BirtDateTime.diffHour( BirtDateTime.now(), "2009-12-25" )</a></div>
-      <h3 class="RH2_Method"><a name="260047">BirtDateTime.quarter</a></h3>
-      <p class="b_Body"><a name="260048">This function returns a number from 1 to 4 that represents the quarter in which a </a>given date falls. The first quarter begins on January 1.</p>
-      <p class="N_sb_ScanBold"><a name="260049">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="260050">BirtDateTime.quarter( date )</a></div>
-      <p class="N_sb_ScanBold"><a name="260051">Parameter</a></p>
-      <p class="RParameter"><a name="260052">date</a></p>
-      <p class="bn_BodyNoLead"><a name="260053">A date object from which to get the quarter number.</a></p>
-      <p class="N_sb_ScanBold"><a name="260060">Returns</a></p>
-      <p class="b_Body"><a name="260061">The quarter number for a given date.</a></p>
-      <p class="N_sb_ScanBold"><a name="260062">Examples</a></p>
-      <p class="b_Body"><a name="260063">The following example shows the quarter numbers returned for specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="260498">BirtDateTime.quarter( "2009-02-15" ) // returns 1</a></div>
-      <div class="co_Code"><a name="260499">BirtDateTime.quarter( "2009-07-10" ) // returns 3</a></div>
-      <p class="b_Body"><a name="260471">The following example returns the quarter number for each value in the </a>CloseDate field:</p>
-      <div class="cf_CodeFirst"><a name="260064">BirtDateTime.quarter( row["CloseDate"] )</a></div>
-      <p class="b_Body"><a name="260067">The following example returns the quarter number for the current date:</a></p>
-      <div class="cf_CodeFirst"><a name="260068">BirtDateTime.quarter( (BirtDateTime.today() )</a></div>
-      <h3 class="RH2_Method"><a name="261571">BirtDateTime.today</a></h3>
-      <p class="b_Body"><a name="261572">This function returns the current date </a><span style="font-family: &quot;Microsoft Sans Serif&quot;">that includes a time value of midnight,</span> for example, Feb 2, 2009 12:00 AM.</p>
-      <p class="N_sb_ScanBold"><a name="261573">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="261574">BirtDateTime.today(</a>&nbsp;)</div>
-      <p class="N_sb_ScanBold"><a name="261575">Returns</a></p>
-      <p class="b_Body"><a name="261576">The current date with a time value of midnight.</a></p>
-      <p class="N_sb_ScanBold"><a name="261577">Examples</a></p>
-      <p class="b_Body"><a name="261578">The following example returns the number of days from the current date to </a>Christmas:</p>
-      <div class="cf_CodeFirst"><a name="261579">BirtDateTime.diffDay( BirtDateTime.today(), "2009-12-25" )</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="261670">The following example calculates the number of years from each value in the </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">HireDate data field to the current date.</span></p>
-      <div class="cf_CodeFirst"><a name="261671">BirtDateTime.diffYear( [HireDate], BirtDateTime.today() )</a></div>
-      <h3 class="RH2_Method"><a name="260568">BirtDateTime.week</a></h3>
-      <p class="b_Body"><a name="260569">This function returns a number from 1 to 52 that represents the week number for </a>a given date.</p>
-      <p class="N_sb_ScanBold"><a name="260570">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="260571">BirtDateTime.week( date )</a></div>
-      <p class="N_sb_ScanBold"><a name="260572">Parameter</a></p>
-      <p class="RParameter"><a name="260573">date</a></p>
-      <p class="bn_BodyNoLead"><a name="260574">A date object from which to get the week number.</a></p>
-      <p class="N_sb_ScanBold"><a name="260575">Returns</a></p>
-      <p class="b_Body"><a name="260576">The week number for a given date.</a></p>
-      <p class="N_sb_ScanBold"><a name="260577">Examples</a></p>
-      <p class="b_Body"><a name="260578">The following example shows the week numbers returned for specific dates:</a></p>
-      <div class="cf_CodeFirst"><a name="260579">BirtDateTime.week( "2009-02-15" ) // returns 8</a></div>
-      <div class="co_Code"><a name="260580">BirtDateTime.week( "2009-10-12" ) // returns 42</a></div>
-      <p class="b_Body"><a name="260581">The following example returns the week number for each value in the CloseDate </a>field:</p>
-      <div class="cf_CodeFirst"><a name="260582">BirtDateTime.week( row["CloseDate"] )</a></div>
-      <p class="b_Body"><a name="260583">The following example returns the week number for the current date:</a></p>
-      <div class="cf_CodeFirst"><a name="260584">BirtDateTime.week( (BirtDateTime.today() )</a></div>
-      <h3 class="RH2_Method"><a name="260744">BirtDateTime.weekDay</a></h3>
-      <p class="b_Body"><a name="260745">This function returns the day of the week for a given date. Depending on the </a>option you specify, the function returns the day of the week as a number, the full weekday name, or the abbreviated weekday name. The weekday name is locale-specific.</p>
-      <p class="N_sb_ScanBold"><a name="260746">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="260747">BirtDateTime.weekDay( date, option )</a></div>
-      <p class="N_sb_ScanBold"><a name="260748">Parameters</a></p>
-      <p class="RParameter"><a name="260749">date</a></p>
-      <p class="bn_BodyNoLead"><a name="260750">A date object from which to get the day of the week.</a></p>
-      <p class="RParameter"><a name="260751">option</a></p>
-      <p class="bn_BodyNoLead"><a name="260752">Optional. A number that represents the format to return. Use one of the following </a>values:</p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="261044">1 to get the day as a number from 1 (Sunday) to 7 (Saturday)</a></div>
+              <div class="b1_Bullet1_inner"><a name="287281">An asterisk (*) matches zero or any number of occurrences of the character </a>previous to it. For example, /te*n/ matches tn, ten, often, and teen. It does not match intern.</div>
             </td>
           </tr>
         </table>
@@ -498,11 +272,11 @@
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="261051">2 to get the day as a number from 1 (Monday) to 7 (Sunday)</a></div>
+              <div class="b1_Bullet1_inner"><a name="287714">A period (.) matches any character. For example, /te.*/ matches ten, often, </a>teen, intern.</div>
             </td>
           </tr>
         </table>
@@ -512,11 +286,11 @@
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="261052">3 to get the day as a number from 0 (Monday) to 6 (Sunday)</a></div>
+              <div class="b1_Bullet1_inner"><a name="287724">A caret (^) specifies that the substring to look for is at the beginning of a string. </a>For example, /^ten/ matches ten, tennis, and tense. It does not match often or pretend.</div>
             </td>
           </tr>
         </table>
@@ -526,11 +300,84 @@
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="261060">4 to get the full weekday name, for example, Wednesday</a></div>
+              <div class="b1_Bullet1_inner"><a name="287725">An i character specifies a case-insensitive search. For example, /smith/i </a>matches Smith, blacksmith, and Smithsonian.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="b_Body"><a name="287282">To match a special character literally, precede the special character with a </a>backslash (\) character. For example, to match S*10, use the following pattern:</p>
+      <div class="cf_CodeFirst"><a name="287283">/S\*10/</a></div>
+      <p class="N_sb_ScanBold"><a name="287286">Returns</a></p>
+      <p class="b_Body"><a name="287287">True if the source value matches the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="287288">Examples</a></p>
+      <p class="b_Body"><a name="287289">The following example returns true for values in the productCode field that start </a>with S18:</p>
+      <div class="cf_CodeFirst"><a name="287290">BirtComp.match( row["productCode"], /^S18/ )</a></div>
+      <p class="b_Body"><a name="287291">The following example returns true for productName values that contain the </a>substring Ford:</p>
+      <div class="cf_CodeFirst"><a name="287292">BirtComp.match( row["productName"], /Ford/ )</a></div>
+      <h3 class="RH2_Method"><a name="280508">BirtComp.notBetween</a></h3>
+      <p class="b_Body"><a name="280509">This function tests if a value is not between two specified values.</a></p>
+      <p class="N_sb_ScanBold"><a name="280510">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="280511">BirtComp.notBetween( source, target1, target2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="280512">Parameters</a></p>
+      <p class="RParameter"><a name="280513">source</a></p>
+      <p class="bn_BodyNoLead"><a name="280514">The value to test.</a></p>
+      <p class="RParameter"><a name="280515">target1</a></p>
+      <p class="bn_BodyNoLead"><a name="280516">The first value in the range of values to compare to.</a></p>
+      <p class="RParameter"><a name="280517">target2</a></p>
+      <p class="bn_BodyNoLead"><a name="280518">The second value in the range of values to compare to.</a></p>
+      <p class="N_sb_ScanBold"><a name="280519">Returns</a></p>
+      <p class="b_Body"><a name="280520">True if the source value is not between the target1 and target values; returns false </a>otherwise.</p>
+      <p class="N_sb_ScanBold"><a name="280521">Examples</a></p>
+      <p class="b_Body"><a name="280522">The following expressions test field values to see if they are outside a specified </a>range of values:</p>
+      <div class="cf_CodeFirst"><a name="280523">BirtComp.notBetween( row["SalesTotal"], 10000, 20000 )</a></div>
+      <div class="co_Code"><a name="280524">BirtComp.notBetween( row["CustomerName"], "A", "M" )</a></div>
+      <div class="co_Code"><a name="280525">BirtComp.notBetween( row["OrderDate"], "2009-01-01", "2009-01-31" </a>)</div>
+      <p class="b_Body"><a name="280526">The following example calculates shipment dates. If an OrderDate value is not in </a>December 2008 (not between 12/01/08 and 12/31/08), add 3 days to the OrderDate value. If an OrderDate value is in December, add 5days to the OrderDate value.</p>
+      <div class="cf_CodeFirst"><a name="280527">if (BirtComp.notBetween(row["OrderDate"], "2008-12-01", "2008-12-</a>31" )){</div>
+      <div class="co_Code"><a name="280528">&nbsp;&nbsp;</a>shipDate = BirtDateTime.addDay( row["OrderDate"], 3 )</div>
+      <div class="co_Code"><a name="280529">&nbsp;&nbsp;</a>}</div>
+      <div class="co_Code"><a name="280530">else{</a></div>
+      <div class="co_Code"><a name="280531">&nbsp;&nbsp;</a>ShipDate = BirtDateTime.addDay( row["OrderDate"], 5 )</div>
+      <div class="co_Code"><a name="280532">&nbsp;&nbsp;</a>}</div>
+      <h3 class="RH2_Method"><a name="285068">BirtComp.notEqual</a></h3>
+      <p class="b_Body"><a name="285069">This function tests if a value is not equal to another value.</a></p>
+      <p class="N_sb_ScanBold"><a name="285070">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="285071">BirtComp.notEqual( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="285072">Parameters</a></p>
+      <p class="RParameter"><a name="285073">source</a></p>
+      <p class="bn_BodyNoLead"><a name="285074">The first value to use in the comparison.</a></p>
+      <p class="RParameter"><a name="285075">target</a></p>
+      <p class="bn_BodyNoLead"><a name="285076">The second value to use in the comparison.</a></p>
+      <p class="N_sb_ScanBold"><a name="285077">Returns</a></p>
+      <p class="b_Body"><a name="285078">True if the source value is not equal to the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="285079">Examples</a></p>
+      <p class="b_Body"><a name="285080">The following expressions test field values to see if they are not equal to specified </a>values:</p>
+      <div class="cf_CodeFirst"><a name="285081">BirtComp.notEqual( row["SalesTotal"], 10000 )</a></div>
+      <div class="co_Code"><a name="285082">BirtComp.notEqual( row["Country"], "France" )</a></div>
+      <div class="co_Code"><a name="285083">BirtComp.notEqual( row["OrderDate"], "2009-02-15" )</a></div>
+      <h3 class="RH2_Method"><a name="286853">BirtComp.notLike</a></h3>
+      <p class="b_Body"><a name="286854">This function tests if a string value does not match a pattern. The pattern must </a>use SQL pattern-matching syntax.</p>
+      <p class="N_sb_ScanBold"><a name="286855">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="286856">BirtComp.notLike( source, target )</a></div>
+      <p class="N_sb_ScanBold"><a name="286857">Parameters</a></p>
+      <p class="RParameter"><a name="286858">source</a></p>
+      <p class="bn_BodyNoLead"><a name="286859">The string value to evaluate.</a></p>
+      <p class="RParameter"><a name="286860">target</a></p>
+      <p class="bn_BodyNoLead"><a name="286861">The string pattern to compare to. You must enclose the pattern in double </a>quotation marks (" "). Use the correct case when typing the characters that you want to match. You can use the following special character in a pattern:</p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="286862">A percent character (%) matches zero or more characters. For example, %ace% </a>matches any string value that contains the substring ace, such as Facebook and MySpace. It does not match Ace Corporation because this string contains a capital A, and not the lowercase a.</div>
             </td>
           </tr>
         </table>
@@ -540,45 +387,32 @@
           <tr style="vertical-align: baseline">
             <td>
               <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
+                <img src="Bullet.png" alt="*" border="0" width="6" height="6" />
               </div>
             </td>
             <td width="100%">
-              <div class="b1_Bullet1_inner"><a name="261061">5 to get the abbreviated weekday name, for example Wed</a></div>
+              <div class="b1_Bullet1_inner"><a name="286863">An underscore character (_) that matches exactly one character. For example, </a>t_n matches tan, ten, tin, and ton. It does not match teen or tn.</div>
             </td>
           </tr>
         </table>
       </div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="261062">If you omit this argument, the function assumes option 1.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="260757">Returns</a></p>
-      <p class="b_Body"><a name="260758">The day of the week for a given date.</a></p>
-      <p class="N_sb_ScanBold"><a name="260759">Examples</a></p>
-      <p class="b_Body"><a name="260760">The following example shows the week day values returned for a specific date:</a></p>
-      <div class="cf_CodeFirst"><a name="260761">BirtDateTime.weekDay( "2009-02-02" ) // returns 2</a></div>
-      <div class="co_Code"><a name="260762">BirtDateTime.weekDay( "2009-02-02", 2 ) // returns 1</a></div>
-      <div class="co_Code"><a name="260763">BirtDateTime.weekDay( "2009-02-02", 4 ) // returns Monday</a></div>
-      <p class="b_Body"><a name="260764">The following example returns the day of the week for the current date:</a></p>
-      <div class="cf_CodeFirst"><a name="260765">BirtDateTime.weekDay( (BirtDateTime.today() )</a></div>
-      <h3 class="RH2_Method"><a name="261090">BirtDateTime.year</a></h3>
-      <p class="b_Body"><a name="261091">This function returns the four-digit year value for a given date. For example, if the </a>date is 2009-01-19, the function returns 2009.</p>
-      <p class="N_sb_ScanBold"><a name="261092">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="261093">BirtDateTime.year( date )</a></div>
-      <p class="N_sb_ScanBold"><a name="261094">Parameter</a></p>
-      <p class="RParameter"><a name="261095">date</a></p>
-      <p class="bn_BodyNoLead"><a name="261096">A date object from which to get the year.</a></p>
-      <p class="N_sb_ScanBold"><a name="261097">Returns</a></p>
-      <p class="b_Body"><a name="261098">The four-digit year value for a given date.</a></p>
-      <p class="N_sb_ScanBold"><a name="261099">Examples</a></p>
-      <p class="b_Body"><a name="261100">The following example returns the year for each value in the HireDate field:</a></p>
-      <div class="cf_CodeFirst"><a name="261101">BirtDateTime.year( row["HireDate"] ) </a></div>
-      <p class="b_Body"><a name="261102">The following example returns the year for the current date:</a></p>
-      <div class="cf_CodeFirst"><a name="261103">BirtDateTime.year( (BirtDateTime.today())</a></div>
+      <p class="b_Body"><a name="286864">To match a literal percent (%) or underscore (_) character, precede those </a>characters with two backslash (\\) characters. For example, to match S_10, use the following pattern:</p>
+      <div class="cf_CodeFirst"><a name="286865">S\\_10</a></div>
+      <p class="b_Body"><a name="286866">To match 50%, use the following pattern:</a></p>
+      <div class="cf_CodeFirst"><a name="286867">50\\%</a></div>
+      <p class="N_sb_ScanBold"><a name="286868">Returns</a></p>
+      <p class="b_Body"><a name="286869">True if the source value does not match the target value; returns false otherwise.</a></p>
+      <p class="N_sb_ScanBold"><a name="286870">Examples</a></p>
+      <p class="b_Body"><a name="286871">The following example returns false for values in the productCode field that start </a>with S18:</p>
+      <div class="cf_CodeFirst"><a name="286872">BirtComp.notLike( row["productCode"], "S18%" )</a></div>
+      <p class="b_Body"><a name="286873">The following example returns false for productName values that contain the </a>substring Ford preceded by a single character:</p>
+      <div class="cf_CodeFirst"><a name="286874">BirtComp.notLike( row["productName"], "_Ford%" )</a></div>
     </blockquote>
     <hr align="left" />
     <table align="right" summary="">
       <tr>
         <td class="WebWorks_Company_Name_Bottom">
-          <a href="notices.html">(c) Copyright Actuate Corporation 2011</a>
+          <a href="notices.html">(c) Copyright Actuate Corporation 2012</a>
         </td>
       </tr>
     </table>

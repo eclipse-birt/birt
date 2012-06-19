@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.core.data;
 
-import org.eclipse.birt.core.exception.BirtException;
+import java.util.Set;
 
 import junit.framework.TestCase;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
 
 /**
  * 
@@ -190,6 +193,18 @@ public class ExpressionUtilTest extends TestCase
 		assertEquals( ExpressionUtil.replaceParameterName( "123+ params[\"param2\"]","param2", "PARAM2" ), "123+ params[\"PARAM2\"]");
 		assertEquals( ExpressionUtil.replaceParameterName( "params.param1+ params[\"param2\"]","param2", "PARAM2" ), "params.param1+ params[\"PARAM2\"]");
 		assertEquals( ExpressionUtil.replaceParameterName( "params.param1.value+ params.param2.value","param2", "PARAM2" ), "params.param1.value+ params.PARAM2.value");
-		
 	}
+	
+	public void testGetReferenceDimLevel() throws CoreException
+	{
+		Set<IDimLevel> dimLevels = ExpressionUtil.getReferencedDimLevel("dimension[\"a\"][\"b\"]");
+		assertTrue( dimLevels.size( ) ==1 );
+		dimLevels = ExpressionUtil.getReferencedDimLevel("dimension[\"a\"][\"b\"] + dimension[\"c\"][\"d\"]");
+		assertTrue( dimLevels.size( ) ==2 );
+		dimLevels = ExpressionUtil.getReferencedDimLevel("dimension[\"a\"][\"b\"]+dimension[\"a\"][\"b\"]");
+		assertTrue( dimLevels.size( ) ==1 );
+		dimLevels = ExpressionUtil.getReferencedDimLevel("BirtMath.add( dimension[\"a\"][\"b\"],dimension[\"c\"][\"d\"])");
+		assertTrue( dimLevels.size( ) ==2 );
+	}
+
 }

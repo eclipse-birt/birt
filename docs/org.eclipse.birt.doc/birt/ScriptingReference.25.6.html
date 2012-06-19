@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
-    <title>BirtStr</title>
+    <title>BirtMath</title>
     <link rel="StyleSheet" href="css/ScriptingReference.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
     <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
@@ -30,298 +30,191 @@
     </div>
     <hr align="left" />
     <blockquote>
-      <h2 class="RH1_Class">Class  <a name="267653">BirtStr</a></h2>
-      <p class="b_Body"><a name="261858">The BirtStr class provides functions to manipulate strings, for example, to </a>concatenate strings, trim extra spaces, get parts of a string, and display strings in lower or upper case. This class is static. The application cannot create instances of the class.</p>
-      <h3 class="RH2_Method"><a name="261859">BirtStr.charLength</a></h3>
-      <p class="b_Body"><a name="261860">This function returns the length of a given string.</a></p>
-      <p class="N_sb_ScanBold"><a name="261861">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="261862">BirtStr.charLength( source )</a></div>
-      <p class="N_sb_ScanBold"><a name="261863">Parameter</a></p>
-      <p class="RParameter"><a name="261864">source</a></p>
-      <p class="bn_BodyNoLead"><a name="261865">The string to evaluate.</a></p>
-      <p class="N_sb_ScanBold"><a name="261868">Returns</a></p>
-      <p class="b_Body"><a name="261869">The number of characters in the specified string.</a></p>
-      <p class="N_sb_ScanBold"><a name="261870">Examples</a></p>
-      <p class="b_Body"><a name="261871">The following example returns the length of a specific string:</a></p>
-      <div class="cf_CodeFirst"><a name="261872">BirtStr.charLength( "Julie Murphy" ) // returns 12</a></div>
-      <p class="b_Body"><a name="261876">The following example returns the length of each value in the CustomerName </a>field:</p>
-      <div class="cf_CodeFirst"><a name="261877">BirtStr.charLength( row["CustomerName"] )</a></div>
-      <h3 class="RH2_Method"><a name="263870">BirtStr.concat</a></h3>
-      <p class="b_Body"><a name="263871">This function returns the string that results from concatenating specified strings.</a></p>
-      <p class="N_sb_ScanBold"><a name="263872">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="263873">BirtStr.concat( source1, ..., sourceN )</a></div>
-      <p class="N_sb_ScanBold"><a name="263874">Parameter</a></p>
-      <p class="RParameter"><a name="263875">source1, ..., sourceN</a></p>
-      <p class="bn_BodyNoLead"><a name="263876">The strings to concatenate.</a></p>
-      <p class="N_sb_ScanBold"><a name="263877">Returns</a></p>
-      <p class="b_Body"><a name="263878">The string that results from concatenating a series of strings.</a></p>
-      <p class="N_sb_ScanBold"><a name="263879">Example</a></p>
-      <p class="b_Body"><a name="263882">The following example returns a full address by concatenating values from </a>multiple fields:</p>
-      <div class="cf_CodeFirst"><a name="263883">BirtStr.concat( row["AddressLine1"], ", ", row["AddressLine2"], ", ", row["City"], " </a>", row["PostalCode"], "row["State"], ", ", row["Country"] )</div>
-      <h3 class="RH2_Method"><a name="264323">BirtStr.indexOf</a></h3>
-      <p class="b_Body"><a name="264324">This function returns the position of a specified substring in a given string.</a></p>
-      <p class="N_sb_ScanBold"><a name="264325">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="264326">BirtStr.indexOf( target, source, start )</a></div>
-      <p class="N_sb_ScanBold"><a name="264327">Parameters</a></p>
-      <p class="RParameter"><a name="264328">target</a></p>
-      <p class="bn_BodyNoLead"><a name="264329">The substring to search for. The search is case-sensitive.</a></p>
-      <p class="RParameter"><a name="264373">source</a></p>
-      <p class="bn_BodyNoLead"><a name="264393">The string in which to look for a specified substring.</a></p>
-      <p class="RParameter"><a name="264398">start</a></p>
-      <p class="bn_BodyNoLead"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="264503">Optional. The position in the source string where the search starts. If you omit </a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">this argument, the function starts the search from the first character of the string.</span></p>
-      <p class="N_sb_ScanBold"><a name="264330">Returns</a></p>
-      <p class="b_Body"><a name="264331">The numerical position of the substring in the string. </a><span style="font-family: &quot;Microsoft Sans Serif&quot;">The first character of a string </span><span style="font-family: &quot;Microsoft Sans Serif&quot;">starts at 0. If the substring is not found, the function returns -1.</span></p>
-      <p class="N_sb_ScanBold"><a name="264332">Examples</a></p>
-      <p class="b_Body"><a name="264333">The following example returns the numeric position of specified characters in </a>specific strings:</p>
-      <div class="cf_CodeFirst"><a name="264334">BirtStr.indexOf( " ", "Julie Murphy" ) // returns 5</a></div>
-      <div class="co_Code"><a name="264705">BirtStr.indexOf( "-", "ModelA-1234-567" ) // returns 6</a></div>
-      <div class="co_Code"><a name="266548">BirtStr.indexOf( "-", "ModelA-1234-567", 7 ) // returns 11</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266569">The following example uses BirtStr.indexOf(</a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) in conjunction with BirtStr.left(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) to </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">display the characters that precede the space character in a customer name. The </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">BirtStr.left(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) function extracts a substring of a specified length, starting from the </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">first character. In this example, the length of the substring to display is equal to </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">the numerical position of the space character.</span></p>
-      <div class="cf_CodeFirst"><a name="266570">spaceCharPosition = BirtStr.indexOf( " ", row["customerName"] );</a></div>
-      <div class="co_Code"><a name="266571">displayFirstName = BirtStr.left( row["customerName"], spaceCharPosition );</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266572">If the customer name is Julie Murphy, the expression returns Julie.</a></span></p>
-      <h3 class="RH2_Method"><a name="264831">BirtStr.left</a></h3>
-      <p class="b_Body"><a name="264832">This function </a><span style="font-family: &quot;Microsoft Sans Serif&quot;">extracts a substring of a specified length from a string, starting from </span><span style="font-family: &quot;Microsoft Sans Serif&quot;">the left-most, or first, character</span>.</p>
-      <p class="N_sb_ScanBold"><a name="264833">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="264834">BirtStr.left( source, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="264835">Parameters</a></p>
-      <p class="RParameter"><a name="265142">source</a></p>
-      <p class="bn_BodyNoLead"><a name="265143">The string from which to extract a substring.</a></p>
-      <p class="RParameter"><a name="265144">n</a></p>
-      <p class="bn_BodyNoLead"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="264839">The number of characters to extract, starting from the first character.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="264842">Returns</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265267">A substring of a specific length. </a></span></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265268">If you omit n, the number of characters to extract, the function returns the first </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">character only. </span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265269">If n is zero, the function returns an empty string. </a></span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265270">If n is greater than the length of the string, the function returns the entire </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">string.</span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="N_sb_ScanBold"><a name="264844">Examples</a></p>
-      <p class="b_Body"><a name="264845">The following example returns substrings of various lengths from specific strings:</a></p>
-      <div class="cf_CodeFirst"><a name="264846">BirtStr.left( "Julie Murphy", 5 ) // returns Julie</a></div>
-      <div class="co_Code"><a name="264847">BirtStr.left( "Julie Murphy", 12 ) // returns Julie Murphy</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="264849">The following example uses BirtStr.indexOf(</a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) in conjunction with BirtStr.left(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) to </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">display the characters that precede the space character in a customer name. The </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">BirtStr.left(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) function extracts a substring of a specified length, starting from the </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">first character. In this example, the length of the substring to display is equal to </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">the numerical position of the space character.</span></p>
-      <div class="cf_CodeFirst"><a name="264850">spaceCharPosition = BirtStr.indexOf( " ", row["customerName"] );</a></div>
-      <div class="co_Code"><a name="264851">displayFirstName = BirtStr.left( row["customerName"], spaceCharPosition );</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="264852">If the customer name is Julie Murphy, the expression returns Julie.</a></span></p>
-      <h3 class="RH2_Method"><a name="265393">BirtStr.right</a></h3>
-      <p class="b_Body"><a name="265394">This function </a><span style="font-family: &quot;Microsoft Sans Serif&quot;">extracts a substring of a specified length from a string, starting from </span><span style="font-family: &quot;Microsoft Sans Serif&quot;">the right-most, or last, character</span>.</p>
-      <p class="N_sb_ScanBold"><a name="265395">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="265396">BirtStr.right( source, n )</a></div>
-      <p class="N_sb_ScanBold"><a name="265397">Parameters</a></p>
-      <p class="RParameter"><a name="265398">source</a></p>
-      <p class="bn_BodyNoLead"><a name="265399">The string from which to extract a substring.</a></p>
-      <p class="RParameter"><a name="265400">n</a></p>
-      <p class="bn_BodyNoLead"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="265401">The number of characters to extract, starting from the last character.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="265402">Returns</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265403">A substring of a specific length. </a></span></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265404">If you omit n, the number of characters to extract, the function returns the last </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">character only. </span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265405">If n is zero, the function returns an empty string. </a></span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265406">If n is greater than the length of the string, the function returns the entire </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">string.</span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="N_sb_ScanBold"><a name="265407">Examples</a></p>
-      <p class="b_Body"><a name="265408">The following example returns substrings of various lengths from specific strings:</a></p>
-      <div class="cf_CodeFirst"><a name="265409">BirtStr.right( "Julie Murphy", 6 ) // returns Murphy</a></div>
-      <div class="co_Code"><a name="265410">BirtStr.right( "Julie Murphy", 12 ) // returns Julie Murphy</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265683">The following example uses BirtStr.right(</a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) in conjunction with the </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">BirtStr.indexOf(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) and BirtStr.charLength(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) functions to display the characters </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">that appear after the space character in a customer name. This example assumes </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">that the number of characters after the hyphen varies. Therefore, the length of the </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">entire string (returned by BirtStr.charLength(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">)) minus the length up to the </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">hyphen (returned by BirtStr.indexOf(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">)) is the number of characters to display.</span></p>
-      <div class="cf_CodeFirst"><a name="265684">spaceCharPosition = BirtStr.indexOf( " ", row["customerName"] );</a></div>
-      <div class="co_Code"><a name="265731">displayLastName = BirtStr.right( row["customerName"], (BirtStr.charLength( </a>row["customerName"] - (spaceCharPosition + 1)) )</div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="265685">If the customer name is Julie Murphy, the expression returns Murphy. If the </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">customer name is Kwai Li, the expression returns Li.</span></p>
-      <h3 class="RH2_Method"><a name="265763">BirtStr.search</a></h3>
-      <p class="b_Body"><a name="265764">This function returns the position of a specified substring in a given string</a><span style="font-family: &quot;Microsoft Sans Serif&quot;">. The </span><span style="font-family: &quot;Microsoft Sans Serif&quot;">substring can contain wildcard characters.</span></p>
-      <p class="N_sb_ScanBold"><a name="265765">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="265766">BirtStr.search( pattern, source, index )</a></div>
-      <p class="N_sb_ScanBold"><a name="265767">Parameters</a></p>
-      <p class="RParameter"><a name="265768">pattern</a></p>
-      <p class="bn_BodyNoLead" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266046">The string pattern to search for. The search is case-insensitive. You can use the </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">following wildcard characters in a pattern:</span></p>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="266052">An asterisk (</a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">&nbsp;</span><span style="font-family: &quot;Microsoft Sans Serif&quot;">*</span><span style="font-family: &quot;Microsoft Sans Serif&quot;">&nbsp;</span><span style="font-family: &quot;Microsoft Sans Serif&quot;">) matches zero or more characters, including spaces</span>. For example, t*n matches tn, tin, and teen. </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="b1_Bullet1_outer" style="margin-left: 0pt; vertical-align: baseline">
-        <table border="0" cellspacing="0" cellpadding="0" summary="">
-          <tr style="vertical-align: baseline">
-            <td>
-              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap; color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
-                <span class="zBullet">n&nbsp;&nbsp;</span>
-              </div>
-            </td>
-            <td width="100%">
-              <div class="b1_Bullet1_inner" style="color: #000000; font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266054">A question mark (?) matches exactly one character. For example, t?n matches </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">tan, ten, tin, and ton. It does not match teen or tn.</span></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p class="b_Body"><a name="307053">To match a literal asterisk or question mark in a string, precede those characters </a>with two backslash characters (\\). For example, to find the substring R*10, use the following string pattern:</p>
-      <div class="cfb_CodeFirst_Break"><a name="307079">"R\\*10"</a></div>
-      <p class="RParameter"><a name="266022">source</a></p>
-      <p class="bn_BodyNoLead"><a name="265769">The string in which to look for a specified substring.</a></p>
-      <p class="RParameter"><a name="265770">index</a></p>
-      <p class="bn_BodyNoLead"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="266100">Optional. The position in the source string where the search starts. If you omit </a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">this argument, the function starts the search from the first character of the string.</span></p>
-      <p class="N_sb_ScanBold"><a name="266101">Returns</a></p>
-      <p class="b_Body"><a name="266102">The numerical position of the substring in the string. </a><span style="font-family: &quot;Microsoft Sans Serif&quot;">The first character of a string </span><span style="font-family: &quot;Microsoft Sans Serif&quot;">starts at 0. If the substring is not found, the function returns -1.</span></p>
-      <p class="N_sb_ScanBold"><a name="265777">Examples</a></p>
-      <p class="b_Body"><a name="266358">The following example returns the numeric position of specified string patterns </a>in specific strings:</p>
-      <div class="cf_CodeFirst"><a name="266359">BirtStr.search( "XM?", "XMS-ModelA-1234-567" ) // returns 0</a></div>
-      <div class="co_Code"><a name="266360">BirtStr.search( "ModelA*", "XMS-ModelA-1234-567" ) // returns 4</a></div>
-      <div class="co_Code"><a name="266377">BirtStr.search( "-", "XMS-ModelA-1234-567", 4 ) // returns 10</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266308">The following example searches for the string pattern, S*A, in each value in the </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">ProductCode field. If the product code is KBS5412A, the expression returns 2.</span></p>
-      <div class="cf_CodeFirst"><a name="266214">BirtStr.search( "S*A", row["ProductCode"] )</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266580">The following example uses BirtStr.search(</a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) in conjunction with BirtStr.left(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) to </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">display the characters that precede the string pattern, -Model*, in a product name. </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">The BirtStr.left(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) function extracts a substring of a specified length, starting from </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">the first character. In this example, the length of the substring to display is equal </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">to the numerical position of the string pattern.</span></p>
-      <div class="cf_CodeFirst"><a name="266581">stringPatternPosition = BirtStr.search( "-Model*", row["productName"] );</a></div>
-      <div class="co_Code"><a name="266597">displayString = BirtStr.left( row["productName"], stringPatternPosition );</a></div>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="266582">If the product name is XMS-ModelA-1234, the expression returns XMS.</a></span></p>
-      <h3 class="RH2_Method"><a name="266634">BirtStr.toLower</a></h3>
-      <p class="b_Body"><a name="266635">This function converts all letters in a string to lowercase.</a></p>
-      <p class="N_sb_ScanBold"><a name="266636">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="266637">BirtStr.toLower( source )</a></div>
-      <p class="N_sb_ScanBold"><a name="266638">Parameter</a></p>
-      <p class="RParameter"><a name="266639">source</a></p>
-      <p class="bn_BodyNoLead"><a name="266640">The string to convert to lowercase.</a></p>
-      <p class="N_sb_ScanBold"><a name="266641">Returns</a></p>
-      <p class="b_Body"><a name="266642">The specified string in all lowercase letters</a></p>
-      <p class="N_sb_ScanBold"><a name="266643">Example</a></p>
-      <p class="b_Body"><a name="266644">The following example displays all the values in the productLine field in </a>lowercase:</p>
-      <div class="cf_CodeFirst"><a name="266645">BirtStr.toLower( row["productLine"] ) </a></div>
-      <h3 class="RH2_Method"><a name="266740">BirtStr.toUpper</a></h3>
-      <p class="b_Body"><a name="266741">This function converts all letters in a string to uppercase.</a></p>
-      <p class="N_sb_ScanBold"><a name="266742">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="266743">BirtStr.toUpper( source )</a></div>
-      <p class="N_sb_ScanBold"><a name="266744">Parameter</a></p>
-      <p class="RParameter"><a name="266745">source</a></p>
-      <p class="bn_BodyNoLead"><a name="266746">The string to convert to uppercase.</a></p>
-      <p class="N_sb_ScanBold"><a name="266747">Returns</a></p>
-      <p class="b_Body"><a name="266748">The specified string in all uppercase letters</a></p>
-      <p class="N_sb_ScanBold"><a name="266749">Example</a></p>
-      <p class="b_Body"><a name="266750">The following example displays all the values in the customerName field in </a>uppercase:</p>
-      <div class="cf_CodeFirst"><a name="266751">BirtStr.toUpper( row["customerName"] ) </a></div>
-      <h3 class="RH2_Method"><a name="267084">BirtStr.trim</a></h3>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="267147">This function returns a string with all leading and trailing blank characters </a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">removed. </span>It does not remove blank characters between words.</p>
-      <p class="N_sb_ScanBold"><a name="267148">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="267149">BirtStr.trim( source )</a></div>
-      <p class="N_sb_ScanBold"><a name="267150">Parameter</a></p>
-      <p class="RParameter"><a name="267151">source</a></p>
-      <p class="bn_BodyNoLead" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267152">The string from which to remove leading and trailing blank characters.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="267153">Returns</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267154">A string with all leading and trailing blank characters removed.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="267155">Example</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267156">The following example uses BirtStr.trim(</a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) to remove all leading and trailing </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">blank characters from values in the FirstName and LastName data fields. </span></p>
-      <div class="cf_CodeFirst"><a name="267157">BirtStr.trim( row["FirstName"]) + " " + BirtStr.trim(row["LastName"] )</a></div>
-      <h3 class="RH2_Method"><a name="267249">BirtStr.trimLeft</a></h3>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="267250">This function returns a string with all leading and trailing blank characters </a></span><span style="font-family: &quot;Microsoft Sans Serif&quot;">removed. </span>It does not remove blank characters between words.</p>
-      <p class="N_sb_ScanBold"><a name="267251">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="267252">BirtStr.trimLeft( source )</a></div>
-      <p class="N_sb_ScanBold"><a name="267253">Parameter</a></p>
-      <p class="RParameter"><a name="267254">source</a></p>
-      <p class="bn_BodyNoLead" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267255">The string from which to remove leading blank characters.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="267256">Returns</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267257">A string with all leading blank characters removed.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="267258">Example</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267307">The following example concatenates a literal string with each value in the </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">customerName field. BirtStr.trimLeft(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) removes all blank characters preceding </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">the customerName value so that there are no extra blank characters between the </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">literal string and the customerName value.</span></p>
-      <div class="cf_CodeFirst"><a name="267308">"Customer name: " + BirtStr.trimLeft( row["customerName"] )</a></div>
-      <h3 class="RH2_Method"><a name="267327">BirtStr.trimRight</a></h3>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="font-family: &quot;Microsoft Sans Serif&quot;"><a name="267328">This function returns a string with all trailing blank characters removed. </a></span>It does not remove blank characters between words.</p>
-      <p class="N_sb_ScanBold"><a name="267329">Syntax</a></p>
-      <div class="rs_RSyntax"><a name="267330">BirtStr.trimRight( source )</a></div>
-      <p class="N_sb_ScanBold"><a name="267331">Parameter</a></p>
-      <p class="RParameter"><a name="267332">source</a></p>
-      <p class="bn_BodyNoLead" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267333">The string from which to remove trailing blank characters.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="267334">Returns</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267335">A string with all trailing blank characters removed.</a></span></p>
-      <p class="N_sb_ScanBold"><a name="267336">Example</a></p>
-      <p class="b_Body" style="font-family: &quot;Palatino LT Std&quot;; font-size: 10.0pt; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="267541">The following example concatenates each value in the Comment field with a </a></span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">semicolon, then with a value in the Action field. BirtStr.trimRight(</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">&nbsp;</span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">) removes all </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">blank characters after the Comment value so that there are no extra blank </span><span style="color: #000000; font-family: &quot;Microsoft Sans Serif&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline">characters between the Comment string and the semicolon.</span></p>
-      <div class="cf_CodeFirst"><a name="267542">BirtStr.trimRight( row["Comment"]) + "; " + row["Action"] )</a></div>
+      <h2 class="RH1_Class">Class  <a name="267940">BirtMath</a></h2>
+      <p class="b_Body"><a name="267941">The BirtMath class provides functions to manipulate numeric data, for example, </a>to add, subtract, multiple, divide, and round numbers. This class is static. The application cannot create instances of the class.</p>
+      <h3 class="RH2_Method"><a name="267942">BirtMath.add</a></h3>
+      <p class="b_Body"><a name="267943">This function returns the sum of two numbers.</a></p>
+      <p class="N_sb_ScanBold"><a name="267944">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="267945">BirtMath.add( n1, n2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="267946">Parameters</a></p>
+      <p class="RParameter"><a name="267947">n1</a></p>
+      <p class="bn_BodyNoLead"><a name="267948">The first number to use in the calculation.</a></p>
+      <p class="RParameter"><a name="270526">n2</a></p>
+      <p class="bn_BodyNoLead"><a name="270530">The second number to use in the calculation.</a></p>
+      <p class="N_sb_ScanBold"><a name="267949">Returns</a></p>
+      <p class="b_Body"><a name="267950">A number that results from adding n1 and n2.</a></p>
+      <p class="N_sb_ScanBold"><a name="267951">Example</a></p>
+      <p class="b_Body"><a name="267952">The following example returns the sum of values in the SalesTotal and Shipping </a>fields:</p>
+      <div class="cf_CodeFirst"><a name="267953">BirtMath.add( row["SalesTotal"], row["Shipping"] )</a></div>
+      <h3 class="RH2_Method"><a name="271050">BirtMath.ceiling</a></h3>
+      <p class="b_Body"><a name="271051">This function rounds a number up, away from 0, to the nearest specified multiple.</a></p>
+      <p class="N_sb_ScanBold"><a name="271052">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="271053">BirtMath.ceiling( n, significance )</a></div>
+      <p class="N_sb_ScanBold"><a name="271054">Parameters</a></p>
+      <p class="RParameter"><a name="271055">n</a></p>
+      <p class="bn_BodyNoLead"><a name="271056">The number to round up.</a></p>
+      <p class="RParameter"><a name="271057">significance</a></p>
+      <p class="bn_BodyNoLead"><a name="271058">The multiple to round n to.</a></p>
+      <p class="N_sb_ScanBold"><a name="271059">Returns</a></p>
+      <p class="b_Body"><a name="271060">A number that results from the rounding. If n is an exact multiple of significance, </a>no rounding occurs.</p>
+      <p class="N_sb_ScanBold"><a name="271061">Examples</a></p>
+      <p class="b_Body"><a name="271062">BirtMath.ceiling(</a>&nbsp;) is commonly used to round up prices. For example, to avoid dealing with pennies, you can round prices in a Price field up to the nearest nickel with the following expression:</p>
+      <div class="cf_CodeFirst"><a name="271063">BirtMath.ceiling( row["Price"] , 0.05 )</a></div>
+      <p class="b_Body"><a name="271395">If the Price value is 20.52, the expression returns 20.55.</a></p>
+      <p class="b_Body"><a name="271406">The following expression rounds prices up to the nearest dime:</a></p>
+      <div class="cf_CodeFirst"><a name="271412">BirtMath.ceiling( row["Price"] , 0.1 )</a></div>
+      <p class="b_Body"><a name="271407">If the Price value is 20.52, the expression returns 20.60. If the Price value is 20.40, </a>the expression returns 20.40. No rounding occurs because 20.40 is a multiple of 0.1.</p>
+      <p class="b_Body"><a name="271501">The following expression rounds prices up to the nearest dollar:</a></p>
+      <div class="cf_CodeFirst"><a name="271502">BirtMath.ceiling( row["Price"] , 1 )</a></div>
+      <p class="b_Body"><a name="271518">If the Price value is 20.30, the expression returns 21.</a></p>
+      <h3 class="RH2_Method"><a name="270549">BirtMath.divide</a></h3>
+      <p class="b_Body"><a name="270550">This function returns the result of dividing one number by another.</a></p>
+      <p class="N_sb_ScanBold"><a name="270551">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="270552">BirtMath.divide( dividend, divisor )</a></div>
+      <p class="N_sb_ScanBold"><a name="270553">Parameters</a></p>
+      <p class="RParameter"><a name="270554">dividend</a></p>
+      <p class="bn_BodyNoLead"><a name="270555">The number to be divided.</a></p>
+      <p class="RParameter"><a name="270556">divisor</a></p>
+      <p class="bn_BodyNoLead"><a name="270557">The number by which dividend is divided.</a></p>
+      <p class="N_sb_ScanBold"><a name="270558">Returns</a></p>
+      <p class="b_Body"><a name="270559">A number that results from dividing dividend by divisor.</a></p>
+      <p class="N_sb_ScanBold"><a name="270560">Examples</a></p>
+      <p class="b_Body"><a name="270561">The following example shows the results of dividing specific numbers:</a></p>
+      <div class="cf_CodeFirst"><a name="271010">BirtMath.divide( 10, 2 ) // returns 5</a></div>
+      <div class="co_Code"><a name="271019">BirtMath.divide( 2, 10) // returns 0.2</a></div>
+      <p class="b_Body"><a name="271007">The following example returns the result of dividing values in the Total field by </a>values in the Quantity field:</p>
+      <div class="cf_CodeFirst"><a name="270562">BirtMath.divide( row["Total"], row["Quantity"] )</a></div>
+      <h3 class="RH2_Method"><a name="271580">BirtMath.mod</a></h3>
+      <p class="b_Body"><a name="271581">This function returns the remainder after a number is divided by a divisor.</a></p>
+      <p class="N_sb_ScanBold"><a name="271582">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="271583">BirtMath.mod( number, divisor )</a></div>
+      <p class="N_sb_ScanBold"><a name="271584">Parameters</a></p>
+      <p class="RParameter"><a name="271585">number</a></p>
+      <p class="bn_BodyNoLead"><a name="271586">The number to be divided.</a></p>
+      <p class="RParameter"><a name="271587">divisor</a></p>
+      <p class="bn_BodyNoLead"><a name="271588">The number by which the first number is divided. You must specify a non-zero </a>number.</p>
+      <p class="N_sb_ScanBold"><a name="271589">Returns</a></p>
+      <p class="b_Body"><a name="271590">The remainder after number is divided by divisor.</a></p>
+      <p class="N_sb_ScanBold"><a name="271591">Examples</a></p>
+      <p class="b_Body"><a name="271592">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <div class="cf_CodeFirst"><a name="274476">BirtMath.mod( 10, 3 ) // returns 1</a></div>
+      <div class="co_Code"><a name="274483">BirtMath.mod( 10, 5 ) // returns 0</a></div>
+      <div class="co_Code"><a name="274514">BirtMath.mod( 10, 6 ) // returns 4</a></div>
+      <p class="b_Body"><a name="274193">The following example checks if numbers in the Grade field are odd or even. </a>When the divisor is 2, the function returns 0 for even numbers, and 1 for odd numbers.</p>
+      <div class="cf_CodeFirst"><a name="271593">BirtMath.mod( row["Grade"], 2 ) </a></div>
+      <h3 class="RH2_Method"><a name="270911">BirtMath.multiply</a></h3>
+      <p class="b_Body"><a name="270913">This function returns the multiplication of two numbers. </a></p>
+      <p class="N_sb_ScanBold"><a name="270914">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="270600">BirtMath.multiply( n1, n2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="270601">Parameters</a></p>
+      <p class="RParameter"><a name="270940">n1</a></p>
+      <p class="bn_BodyNoLead"><a name="270941">The first number to use in the calculation.</a></p>
+      <p class="RParameter"><a name="270942">n2</a></p>
+      <p class="bn_BodyNoLead"><a name="270943">The second number to use in the calculation.</a></p>
+      <p class="N_sb_ScanBold"><a name="270944">Returns</a></p>
+      <p class="b_Body"><a name="270945">A number that results from multiplying n1 and n2.</a></p>
+      <p class="N_sb_ScanBold"><a name="270946">Example</a></p>
+      <p class="b_Body"><a name="270947">The following example returns the result of multiplying values in the </a>QuantityOrdered and PriceEach fields:</p>
+      <div class="cf_CodeFirst"><a name="270948">BirtMath.multiply( row["QuantityOrdered"], row["PriceEach"] )</a></div>
+      <h3 class="RH2_Method"><a name="274568">BirtMath.round</a></h3>
+      <p class="b_Body"><a name="274569">This function rounds a number to a specified number of digits.</a></p>
+      <p class="N_sb_ScanBold"><a name="274570">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="274571">BirtMath.round( number, dec )</a></div>
+      <p class="N_sb_ScanBold"><a name="274572">Parameters</a></p>
+      <p class="RParameter"><a name="274573">number</a></p>
+      <p class="bn_BodyNoLead"><a name="274614">The number to round.</a></p>
+      <p class="RParameter"><a name="274615">dec</a></p>
+      <p class="bn_BodyNoLead"><a name="274616">The number of digits to round number to. If you omit this argument, the function </a>assumes 0.</p>
+      <p class="N_sb_ScanBold"><a name="274577">Returns</a></p>
+      <p class="b_Body"><a name="274578">A number rounded to a specified number of digits.</a></p>
+      <p class="N_sb_ScanBold"><a name="274579">Examples</a></p>
+      <p class="b_Body"><a name="274580">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <div class="cf_CodeFirst"><a name="274581">BirtMath.round( 1545.50 ) // returns 1546</a></div>
+      <div class="co_Code"><a name="274695">BirtMath.round( 1545.56, 1 ) // returns 1545.6</a></div>
+      <div class="co_Code"><a name="274650">BirtMath.round( 1545.23, 1 ) // returns 1545.2</a></div>
+      <div class="co_Code"><a name="274582">BirtMath.round( 1545.50, -1 ) // returns 1550</a></div>
+      <p class="b_Body"><a name="274584">The following example rounds the values in the PriceEstimate field to return an </a>integer:</p>
+      <div class="cf_CodeFirst"><a name="274585">BirtMath.round( row["PriceEstimate"], 0 ) </a></div>
+      <h3 class="RH2_Method"><a name="274754">BirtMath.roundDown</a></h3>
+      <p class="b_Body"><a name="274755">This function rounds a number down to a specified number of digits.</a></p>
+      <p class="N_sb_ScanBold"><a name="274756">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="274757">BirtMath.roundDown( number, dec )</a></div>
+      <p class="N_sb_ScanBold"><a name="274758">Parameters</a></p>
+      <p class="RParameter"><a name="274759">number</a></p>
+      <p class="bn_BodyNoLead"><a name="274760">The number to round.</a></p>
+      <p class="RParameter"><a name="274761">dec</a></p>
+      <p class="bn_BodyNoLead"><a name="274762">The number of digits to round number down to. If you omit this argument, the </a>function assumes 0.</p>
+      <p class="N_sb_ScanBold"><a name="274763">Returns</a></p>
+      <p class="b_Body"><a name="274764">A number rounded down to a specified number of digits.</a></p>
+      <p class="N_sb_ScanBold"><a name="274765">Examples</a></p>
+      <p class="b_Body"><a name="274766">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <div class="cf_CodeFirst"><a name="274767">BirtMath.roundDown( 1545.50 ) // returns 1545</a></div>
+      <div class="co_Code"><a name="274768">BirtMath.roundDown( 1545.56, 1 ) // returns 1545.5</a></div>
+      <div class="co_Code"><a name="274769">BirtMath.roundDown( 1545.23, 1 ) // returns 1545.2</a></div>
+      <div class="co_Code"><a name="274770">BirtMath.roundDown( 1545.50, -1 ) // returns 1540</a></div>
+      <p class="b_Body"><a name="274771">The following example rounds down the values in the PriceEstimate field to </a>return an integer:</p>
+      <div class="cf_CodeFirst"><a name="274772">BirtMath.roundDown( row["PriceEstimate"], 0 ) </a></div>
+      <h3 class="RH2_Method"><a name="275084">BirtMath.roundUp</a></h3>
+      <p class="b_Body"><a name="275085">This function rounds a number up to a specified number of digits.</a></p>
+      <p class="N_sb_ScanBold"><a name="275086">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="275087">BirtMath.roundUp( number, dec )</a></div>
+      <p class="N_sb_ScanBold"><a name="275088">Parameters</a></p>
+      <p class="RParameter"><a name="275089">number</a></p>
+      <p class="bn_BodyNoLead"><a name="275090">The number to round up.</a></p>
+      <p class="RParameter"><a name="275091">dec</a></p>
+      <p class="bn_BodyNoLead"><a name="275092">The number of digits to round number up to. If you omit this argument, the </a>function assumes 0.</p>
+      <p class="N_sb_ScanBold"><a name="275093">Returns</a></p>
+      <p class="b_Body"><a name="275094">A number rounded up to a specified number of digits.</a></p>
+      <p class="N_sb_ScanBold"><a name="275095">Examples</a></p>
+      <p class="b_Body"><a name="275096">The following examples shows the results that the function returns for specific </a>numbers:</p>
+      <div class="cf_CodeFirst"><a name="275097">BirtMath.roundUp( 1545.50 ) // returns 1546</a></div>
+      <div class="co_Code"><a name="275098">BirtMath.roundUp( 1545.56, 1 ) // returns 1545.6</a></div>
+      <div class="co_Code"><a name="275099">BirtMath.roundUp( 1545.23, 1 ) // returns 1545.3</a></div>
+      <div class="co_Code"><a name="275100">BirtMath.roundUp( 1545.50, -1 ) // returns 1550</a></div>
+      <p class="b_Body"><a name="275101">The following example rounds up the values in the PriceEstimate field to return </a>an integer:</p>
+      <div class="cf_CodeFirst"><a name="275102">BirtMath.roundUp( row["PriceEstimate"], 0 ) </a></div>
+      <h3 class="RH2_Method"><a name="275121">BirtMath.safeDivide</a></h3>
+      <p class="b_Body"><a name="275122">This function returns the result of dividing one number by another, preventing a </a>division by zero condition. </p>
+      <p class="N_sb_ScanBold"><a name="275123">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="275124">BirtMath.safeDivide( dividend, divisor, ifZero )</a></div>
+      <p class="N_sb_ScanBold"><a name="275125">Parameters</a></p>
+      <p class="RParameter"><a name="275126">dividend</a></p>
+      <p class="bn_BodyNoLead"><a name="275127">The number to be divided.</a></p>
+      <p class="RParameter"><a name="275128">divisor</a></p>
+      <p class="bn_BodyNoLead"><a name="275129">The number by which dividend is divided.</a></p>
+      <p class="RParameter"><a name="275490">ifZero</a></p>
+      <p class="bn_BodyNoLead"><a name="275502">The value to return when divisor is zero.</a></p>
+      <p class="N_sb_ScanBold"><a name="275130">Returns</a></p>
+      <p class="b_Body"><a name="275131">A number that results from dividing dividend by divisor.</a></p>
+      <p class="N_sb_ScanBold"><a name="275132">Examples</a></p>
+      <p class="b_Body"><a name="275133">The following example shows the results that the function returns for specific </a>numbers:</p>
+      <div class="cf_CodeFirst"><a name="275134">BirtMath.safeDivide( 10, 2, 0 ) // returns 5</a></div>
+      <div class="co_Code"><a name="275520">BirtMath.safeDivide( 10, 0, 0 ) // returns 0</a></div>
+      <p class="b_Body"><a name="275521">The following example returns the result of dividing values in the Revenue field </a>by values in the Volume field. If the Volume value is 0, the function returns 0.</p>
+      <div class="cf_CodeFirst"><a name="275517">BirtMath.safeDivide( row["Revenue"], row["Volume"], 0 )</a></div>
+      <h3 class="RH2_Method"><a name="270972">BirtMath.subtract</a></h3>
+      <p class="b_Body"><a name="270974">This function returns the result of subtracting one number from another.</a></p>
+      <p class="N_sb_ScanBold"><a name="270975">Syntax</a></p>
+      <div class="rs_RSyntax"><a name="270976">BirtMath.subtract( n1, n2 )</a></div>
+      <p class="N_sb_ScanBold"><a name="270977">Parameters</a></p>
+      <p class="RParameter"><a name="270978">n1</a></p>
+      <p class="bn_BodyNoLead"><a name="270979">The number from which to subtract.</a></p>
+      <p class="RParameter"><a name="270980">n2</a></p>
+      <p class="bn_BodyNoLead"><a name="270981">The number to subtract from n1.</a></p>
+      <p class="N_sb_ScanBold"><a name="270982">Returns</a></p>
+      <p class="b_Body"><a name="270983">A number that results from subtracting n2 from n1.</a></p>
+      <p class="N_sb_ScanBold"><a name="270984">Example</a></p>
+      <p class="b_Body"><a name="271028">The following example shows the results of subtracting specific numbers:</a></p>
+      <div class="cf_CodeFirst"><a name="271029">BirtMath.subtract( 12, 4 ) // returns 8</a></div>
+      <div class="co_Code"><a name="271030">BirtMath.subtract( 4, 12) // returns -8</a></div>
+      <p class="b_Body"><a name="271031">The following example returns the result of subtracting values in the Discount </a>field from values in the Total field:</p>
+      <div class="cf_CodeFirst"><a name="271032">BirtMath.subtract( row["Total"], row["Discount"] )</a></div>
     </blockquote>
     <hr align="left" />
     <table align="right" summary="">
       <tr>
         <td class="WebWorks_Company_Name_Bottom">
-          <a href="notices.html">(c) Copyright Actuate Corporation 2011</a>
+          <a href="notices.html">(c) Copyright Actuate Corporation 2012</a>
         </td>
       </tr>
     </table>

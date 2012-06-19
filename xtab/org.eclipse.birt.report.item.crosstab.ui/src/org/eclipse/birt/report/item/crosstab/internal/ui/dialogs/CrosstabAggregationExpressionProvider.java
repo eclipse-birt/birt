@@ -16,13 +16,14 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * 
  */
 
 public class CrosstabAggregationExpressionProvider extends
-CrosstabExpressionProvider
+		CrosstabExpressionProvider
 {
 
 	protected void addFilterToProvider( )
@@ -50,17 +51,21 @@ CrosstabExpressionProvider
 
 					if ( CURRENT_CUBE.equals( parent ) )
 					{
+						PropertyHandle handle = null;
 						if ( element instanceof PropertyHandle )
+							handle = (PropertyHandle) element;
+						else if ( element instanceof IAdaptable
+								&& ( (IAdaptable) element ).getAdapter( PropertyHandle.class ) instanceof PropertyHandle )
+							handle = (PropertyHandle) ( (IAdaptable) element ).getAdapter( PropertyHandle.class );
+
+						if ( handle != null
+								&& handle.getPropertyDefn( )
+										.getName( )
+										.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 						{
-							PropertyHandle handle = (PropertyHandle) element;
-							if ( handle.getPropertyDefn( )
-									.getName( )
-									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-							{
-								return true;
-							}
-							return false;
+							return true;
 						}
+						return false;
 					}
 				}
 				return true;

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
@@ -230,9 +231,9 @@ public class ColorSelector extends EventManager
 		{
 			gc.setForeground( display.getSystemColor( SWT.COLOR_BLACK ) );
 			gc.drawRectangle( 0, 2, fExtent.x - 1, fExtent.y - 4 );
-			gc.setBackground(  fButton.getBackground( ) );
+			gc.setBackground( fButton.getBackground( ) );
 			gc.fillRectangle( 1, 3, fExtent.x - 2, fExtent.y - 5 );
-			
+
 		}
 		else
 		{
@@ -267,15 +268,21 @@ public class ColorSelector extends EventManager
 		{
 			shell = new Shell( Display.getCurrent( ), SWT.SHELL_TRIM );
 			shell.setLocation( fButton.toDisplay( 0, 0 ).x
-					+ fButton.getBounds( ).width, fButton.toDisplay( 0, 0 ).y
-					- fButton.getBounds( ).height );
+					+ fButton.getBounds( ).width,
+					fButton.toDisplay( 0, 0 ).y - fButton.getBounds( ).height );
 		}
 		ColorDialog colorDialog = new ColorDialog( isWin32 ? shell
 				: fButton.getShell( ), SWT.APPLICATION_MODAL );
-
+		RGB[] rgbs = ReportPlugin.getDefault( ).getCustomColorsPreference( );
+		if ( rgbs != null )
+		{
+			colorDialog.setRGBs( rgbs );
+		}
 		colorDialog.setRGB( fColorValue );
 		colorDialog.setText( Messages.getString( "ColorSelector.ColorDialog.Title" ) ); //$NON-NLS-1$
 		RGB newColor = colorDialog.open( );
+		ReportPlugin.getDefault( )
+				.setCustomColorsPreference( colorDialog.getRGBs( ) );
 		if ( newColor != null )
 		{
 			RGB oldValue = fColorValue;

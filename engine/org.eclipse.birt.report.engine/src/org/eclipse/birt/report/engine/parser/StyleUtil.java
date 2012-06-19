@@ -244,6 +244,14 @@ public class StyleUtil
 				StyleConstants.STYLE_TEXT_INDENT );
 		ruleStyleName2Index.put( HighlightRule.TEXT_DIRECTION_MEMBER,
 				StyleConstants.STYLE_DIRECTION );
+		ruleStyleName2Index.put( HighlightRule.PADDING_TOP_MEMBER,
+				StyleConstants.STYLE_PADDING_TOP );
+		ruleStyleName2Index.put( HighlightRule.PADDING_LEFT_MEMBER,
+				StyleConstants.STYLE_PADDING_LEFT );
+		ruleStyleName2Index.put( HighlightRule.PADDING_BOTTOM_MEMBER,
+				StyleConstants.STYLE_PADDING_BOTTOM );
+		ruleStyleName2Index.put( HighlightRule.PADDING_RIGHT_MEMBER,
+				StyleConstants.STYLE_PADDING_RIGHT );
 		
 		customName2Index = new HashMap<String, Integer>( );
 		customName2Index.put( BIRTConstants.BIRT_STYLE_DATA_FORMAT,

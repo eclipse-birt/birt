@@ -95,7 +95,8 @@
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
-		if( !parameterBean.isRequired( ) || ( parameterBean.isCascade( ) && DataUtil.trimString( defaultValue ).length( )<=0 ) )
+		//TED 50195
+		if( !parameterBean.isRequired( ) || ( (parameterBean.getValueList(  ) == null || parameterBean.getValueList(  ).size(  ) == 0) &&  DataUtil.trimString( defaultValue ).length( )<=0 ) )
 		{
 			if( allowMultiValue && DataUtil.contain( values, "", true ) )
 			{

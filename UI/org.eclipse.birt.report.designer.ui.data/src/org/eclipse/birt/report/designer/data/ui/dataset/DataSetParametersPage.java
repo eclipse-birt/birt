@@ -1122,6 +1122,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						paramName = ( (OdaDataSetParameterHandle) parameter ).getParamName( );
 					if ( parameter.isInput( )
 							&& paramName == null
+							&& ( !parameter.isOutput( ) )
 							&& ( parameter.getDefaultValue( ) == null || parameter.getDefaultValue( )
 									.trim( )
 									.length( ) == 0 ) ) //$NON-NLS-1$
@@ -1778,6 +1779,12 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			this.isOdaDataSetHandle = isOdaDataSetHandle;
 			structureHandle = getStructureHandle( structureOrHandle );
 		}
+		
+		public void create( )
+		{
+			super.create( );
+			validateSyntax( );
+		}
 
 		protected void setSystemHelp( Composite composite )
 		{
@@ -2292,12 +2299,28 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 			// blankProperty check
 			if ( isBlankProperty( dataSetParamName.getText( ) ) )
 				return getBlankPropertyStatus( ParameterPageUtil.dialogLabels[0] );
-
+			if ( isNull())
+			{
+				return getMiscStatus( IStatus.ERROR,
+						Messages.getString( "dataset.editor.error.nonemptyDefaultvalue" ) );//$NON-NLS-1$ 
+			}
 			return getOKStatus( );
 		}
 
-
-
+		private boolean isNull( )
+		{
+			if ( defaultValueText.isEnabled( )
+					&& defaultValueString.trim( ).length( ) == 0 )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		
 		/**
 		 * Checks whether the linked report parameter's data type matches the
 		 * current data set parameter's data type.

@@ -552,6 +552,10 @@ public class InsertInLayoutUtil
 					else
 					{
 						DNDUtil.addElementHandle( positions[i], newObj );
+						if (newObj instanceof DesignElementHandle)
+						{
+							DEUtil.setDefaultTheme( (DesignElementHandle)newObj );
+						}
 					}
 				}
 			}
@@ -712,6 +716,7 @@ public class InsertInLayoutUtil
 			if ( tableHandle.isSummaryTable( ) )
 			{
 				tableHandle.setDataSet( dataSet );
+				setDataItemAction( model, dataHandle );
 				if ( DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals( UIUtil.getColumnAnalysis( model ) ) )
 				{
 
@@ -1182,14 +1187,7 @@ public class InsertInLayoutUtil
 			dataHandle.setDataSet( dataSet );
 		}
 
-		ActionHandle actionHandle = UIUtil.getColumnAction( model );
-		if ( actionHandle != null )
-		{
-			List source = new ArrayList( );
-			source.add( actionHandle.getStructure( ) );
-			List newAction = ModelUtil.cloneStructList( source );
-			dataHandle.setAction( (Action) newAction.get( 0 ) );
-		}
+		setDataItemAction( model, dataHandle );
 
 		// if ( !bindingExist )
 		// {
@@ -1227,6 +1225,25 @@ public class InsertInLayoutUtil
 		}
 
 		return dataHandle;
+	}
+	
+	private static void setDataItemAction(ResultSetColumnHandle model, DataItemHandle dataHandle)
+	{
+		ActionHandle actionHandle = UIUtil.getColumnAction( model );
+		if ( actionHandle != null )
+		{
+			List source = new ArrayList( );
+			source.add( actionHandle.getStructure( ) );
+			List newAction = ModelUtil.cloneStructList( source );
+			try
+			{
+				dataHandle.setAction( (Action) newAction.get( 0 ) );
+			}
+			catch ( SemanticException e )
+			{
+				//Do nothing now
+			}
+		}
 	}
 
 	/**
