@@ -135,7 +135,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 		btnAutoTitle.setVisible( dynamicTitleVisible );
 		btnAutoTitle.addSelectionListener( this );
-	
 
 		Label lblFont = new Label( cmpBasic, SWT.NONE );
 		lblFont.setText( Messages.getString( "LabelAttributesComposite.Lbl.Font" ) ); //$NON-NLS-1$
@@ -145,7 +144,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				getContext( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getFont( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getColor( ),
-				true );
+				needTitleAlignment( ) );
 		GridData gdFDCFont = new GridData( );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 220;
@@ -349,6 +348,11 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		return getChart( ).getTitle( ).isSetAuto( )
 				&& getChart( ).getTitle( ).isAuto( );
+	}
+	
+	protected boolean needTitleAlignment( )
+	{
+		return true;
 	}
 
 	private String getTitleText( )
