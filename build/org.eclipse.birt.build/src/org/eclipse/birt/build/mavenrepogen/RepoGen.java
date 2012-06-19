@@ -12,8 +12,10 @@ Author: Steve Schafer
  */
 package org.eclipse.birt.build.mavenrepogen;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -48,6 +50,7 @@ public class RepoGen
 	private final File templateReleasePomFile;
 	private final String rootFileName;
 	private final File readmeFile;
+	private final String externalFileName = "./externalRepo.properties";
 	
 	private final Map<String, ExternalDependency> externalDependencies;
 
@@ -98,73 +101,9 @@ public class RepoGen
 		}
 		this.rootFileName = rootFileName;
 		externalDependencies = new HashMap<String, ExternalDependency>();
-		addExternalDependency("commons-cli-1.0.jar", "commons-cli", "commons-cli", "1.0");
-		//addExternalDependency("org.eclipse.core.resources_3.7.101.v20120125-1505.jar","org.jibx.config.3rdparty.org.eclipse", "org.eclipse.core.resources","3.7.101.v20120125-1505");
-		addExternalDependency("flute.jar", "org.milyn", "flute", "1.3");
-		// below for 3.7.2 release
-		addExternalDependency("com.lowagie.text-2.1.7.jar","org.eclipse.birt.runtime.3_7_1","com.lowagie.text","2.1.7");
-		addExternalDependency("derby-10.5.1000001.jar","org.eclipse.birt.runtime.3_7_1","derby","10.5.1000001");
-		addExternalDependency("org.mozilla.javascript-1.7.2.jar","org.eclipse.birt.runtime.3_7_1","org.mozilla.javascript","1.7.2");
-		addExternalDependency("javax.wsdl-1.5.1.jar","org.eclipse.birt.runtime.3_7_1","javax.wsdl","1.5.1");
-		addExternalDependency("org.apache.batik.bridge-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.bridge","1.6.0");
-		addExternalDependency("org.apache.batik.svggen-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.svggen","1.6.0");
-		addExternalDependency("org.apache.batik.ext.awt-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.ext.awt","1.6.0");
-		addExternalDependency("org.apache.batik.css-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.css","1.6.0");
-		addExternalDependency("org.apache.batik.dom-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.dom","1.6.0");
-		addExternalDependency("org.apache.batik.parser-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.parser","1.6.0");
-		addExternalDependency("org.apache.batik.util.gui-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.util.gui","1.6.0");
-		addExternalDependency("org.apache.batik.dom.svg-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.dom.svg","1.6.0");
-		addExternalDependency("org.apache.batik.xml-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.xml","1.6.0");
-		addExternalDependency("org.apache.batik.pdf-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.pdf","1.6.0");
-        addExternalDependency("org.apache.batik.transcoder-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.transcoder","1.6.0");
-        addExternalDependency("org.apache.batik.util-1.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.batik.util","1.6.0");
-        addExternalDependency("org.apache.commons.codec-1.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.commons.codec","1.3.0");
-        addExternalDependency("org.apache.xerces-2.9.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xerces","2.9.0");
-        addExternalDependency("org.apache.xml.resolver-1.2.0.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xml.resolver","1.2.0");
-        addExternalDependency("org.apache.xml.serializer-2.7.1.jar","org.eclipse.birt.runtime.3_7_1","org.apache.xml.serializer","2.7.1");
-        /*
-        addExternalDependency("org.eclipse.core.contenttype-3.4.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.contenttype","3.4.100");
-        addExternalDependency("org.eclipse.core.expressions-3.4.300.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.expressions","3.4.300");
-        addExternalDependency("org.eclipse.core.filesystem-1.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.filesystem","1.3.100");
-        addExternalDependency("org.eclipse.core.runtime-3.7.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.core.runtime","3.7.0");
-        addExternalDependency("org.eclipse.datatools.enablement.mysql-1.0.2.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.datatools.enablement.mysql","1.0.2");
-        addExternalDependency("org.eclipse.equinox.app-1.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.app","1.3.100");
-        addExternalDependency("org.eclipse.equinox.common-3.6.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.common","3.6.0");
-        addExternalDependency("org.eclipse.equinox.registry-3.5.101.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.equinox.registry","3.5.101");
-        addExternalDependency("org.eclipse.osgi.services-3.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.osgi.services","3.3.0");
-        addExternalDependency("org.eclipse.update.configurator-3.3.100.jar","org.eclipse.birt.runtime.3_7_1","org.eclipse.update.configurator","3.3.100");
-        */
-        addExternalDependency("org.w3c.css.sac-1.3.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.css.sac","1.3.0");
-        addExternalDependency("org.w3c.dom.smil-1.0.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.smil","1.0.0");
-        addExternalDependency("org.w3c.dom.svg-1.1.0.jar","org.eclipse.birt.runtime.3_7_1","org.w3c.dom.svg","1.1.0");
-        addExternalDependency("Tidy-1.jar","org.eclipse.birt.runtime.3_7_1","Tidy","1");
-        
-        /*org.eclipse.birt.runtime repo*/
-        addExternalDependency("com.ibm.icu_4.4.2.v20110823.jar","org.eclipse.birt.runtime","com.ibm.icu","4.4.2.v20110823");        
-        addExternalDependency("org.eclipse.datatools.connectivity.apache.derby.dbdefinition_1.0.2.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.apache.derby.dbdefinition","1.0.2.v201107221459");
-		addExternalDependency("org.eclipse.datatools.connectivity.apache.derby_1.0.102.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.apache.derby","1.0.102.v201107221459");
-		addExternalDependency("org.eclipse.datatools.connectivity.console.profile_1.0.10.v201109250955.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.console.profile","1.0.10.v201109250955");
-		addExternalDependency("org.eclipse.datatools.connectivity.db.generic_1.0.1.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.db.generic","1.0.1.v201107221459");
-		addExternalDependency("org.eclipse.datatools.connectivity.dbdefinition.genericJDBC_1.0.1.v201107221459.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.dbdefinition.genericJDBC","1.0.1.v201107221459");
-		addExternalDependency("org.eclipse.datatools.connectivity.oda.consumer_3.2.5.v201109151100.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.oda.consumer","3.2.5.v201109151100");
-		addExternalDependency("org.eclipse.datatools.connectivity.oda.flatfile_3.1.2.v201112081200.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.oda.flatfile","3.1.2.v201112081200");
-		addExternalDependency("org.eclipse.datatools.connectivity.oda_3.3.3.v201110130935.jar","org.eclipse.birt.runtime","org.eclipse.datatools.connectivity.oda","3.3.3.v201110130935");
-		addExternalDependency("org.eclipse.datatools.enablement.hsqldb.dbdefinition_1.0.0.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.hsqldb.dbdefinition","1.0.0.v201107221502");
-		addExternalDependency("org.eclipse.datatools.enablement.hsqldb_1.0.0.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.hsqldb","1.0.0.v201107221502");
-		addExternalDependency("org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition_1.0.4.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition","1.0.4.v201107221502");
-		addExternalDependency("org.eclipse.datatools.enablement.ibm.db2.luw_1.0.2.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.db2.luw","1.0.2.v201107221502");
-		addExternalDependency("org.eclipse.datatools.enablement.ibm.informix.dbdefinition_1.0.4.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.informix.dbdefinition","1.0.4.v201107221502");
-		addExternalDependency("org.eclipse.datatools.enablement.ibm.informix_1.0.1.v201107221502.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.ibm.informix","1.0.1.v201107221502");
-		addExternalDependency("org.eclipse.datatools.enablement.msft.sqlserver_1.0.1.v201107221504.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.msft.sqlserver","1.0.1.v201107221504");
-		addExternalDependency("org.eclipse.datatools.enablement.mysql.dbdefinition_1.0.4.v201109022331.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.mysql.dbdefinition","1.0.4.v201109022331");
-		addExternalDependency("org.eclipse.datatools.enablement.oda.xml_1.2.3.v201112061438.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.oda.xml","1.2.3.v201112061438");
-		addExternalDependency("org.eclipse.datatools.enablement.oracle_1.0.0.v201107221506.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.oracle","1.0.0.v201107221506");
-		addExternalDependency("org.eclipse.datatools.enablement.postgresql.dbdefinition_1.0.2.v201110070445.jar","org.eclipse.birt.runtime","org.eclipse.datatools.enablement.postgresql.dbdefinition","1.0.2.v201110070445");
-		addExternalDependency("org.eclipse.datatools.modelbase.dbdefinition_1.0.2.v201107221519.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.dbdefinition","1.0.2.v201107221519");
-		addExternalDependency("org.eclipse.datatools.modelbase.derby_1.0.0.v201107221519.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.derby","1.0.0.v201107221519");
-		addExternalDependency("org.eclipse.datatools.modelbase.sql.query_1.1.2.v201110151315.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.sql.query","1.1.2.v201110151315");
-		addExternalDependency("org.eclipse.datatools.modelbase.sql_1.0.5.v201110151330.jar","org.eclipse.birt.runtime","org.eclipse.datatools.modelbase.sql","1.0.5.v201110151330");
- 
+		readExternalDependency();
+		System.out.println(externalDependencies.size() + " external dependencies found.");
+		
 	}
 
 	private void addExternalDependency(final String fileName, final String groupId,
@@ -177,6 +116,8 @@ public class RepoGen
 	public static void main(final String[] args) throws IOException
 	{
 		final String propsFileName;
+		
+		
 		if (args.length >= 1)
 			propsFileName = args[0];
 		else
@@ -184,6 +125,7 @@ public class RepoGen
 		String passphrase = null;
 		if (args.length >= 2)
 			passphrase = args[1];
+		
 		final Properties properties = new Properties();
 		final FileReader fr = new FileReader(propsFileName);
 		try
@@ -236,6 +178,10 @@ public class RepoGen
 		File rootFile = null;
 		final List<FileInfo> fileInfos = new ArrayList<FileInfo>();
 		final File[] files = libDir.listFiles();
+		
+		/**
+		 * Handle the jars under lib folder excluding the root file.
+		 */
 		if (files != null)
 		{
 			for (final File file : files)
@@ -256,6 +202,9 @@ public class RepoGen
 				}
 			}
 		}
+		/**
+		 * Handle the root file birt.runtime 
+		 */
 		if (rootFile != null)
 		{
 			final FileInfo fileInfo = getFileInfo(rootFile);
@@ -266,6 +215,10 @@ public class RepoGen
 				globalReleaseScriptFileWriter, templateReleasePomWriter, fileInfos,
 				externalDependencies.values());
 		}
+		
+		int tmpCount = fileInfos.size() + 1;
+		System.out.println(tmpCount + " jars under runtime lib folder founded.");
+		
 		closeTemplatePomWriter(templateSnapshotPomWriter);
 		closeTemplatePomWriter(templateReleasePomWriter);
 		closeBuildFileWriter(globalSnapshotBuildFileWriter);
@@ -282,6 +235,7 @@ public class RepoGen
 		writer.println("# Execute all the builds.");
 		// TODO parameterize these
 		writer.println("export ANT_OPTS=\"-XX:MaxPermSize=256m\"");
+		writer.println("date > time.log");
 		//writer.println("export ANT_HOME=~/java/apache-ant-1.8.2");
 		return writer;
 	}
@@ -301,6 +255,7 @@ public class RepoGen
 		if (writer != null)
 		{
 			writer.println("# done.");
+			writer.println("date >> time.log");
 			writer.close();
 		}
 	}
@@ -406,7 +361,15 @@ public class RepoGen
 				final int indexofsemicolon = artifactId.indexOf(";");
 				if (indexofsemicolon >= 0)
 					artifactId = artifactId.substring(0, indexofsemicolon);
-				version = trimVersion(mainAttributes.getValue("Bundle-Version"));
+				version = mainAttributes.getValue("Bundle-Version");
+				//System.out.println( rootFileName + "," + file.getName());
+				
+				if (file.getName().equals(rootFileName))
+				{
+					
+					version = trimVersion(version);
+					System.out.println("root file found: " + rootFileName + ", version: " + version);
+				}
 			}
 			else
 			{
@@ -776,11 +739,42 @@ public class RepoGen
 			deepDelete(file);
 	}
 
+	private void readExternalDependency () throws IOException
+	{
+	
+		File file = new File(externalFileName);
+		
+		if(!file.exists()||file.isDirectory())
+				throw new FileNotFoundException();
+
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String temp = null;
+		temp = br.readLine();
+		
+		while (temp!=null)
+		{
+			if( temp.startsWith("#") || temp.trim().equals("") )
+			{	
+				temp = br.readLine();
+				continue;
+			}
+			else
+			{
+				String exValue[] = temp.split(",");
+				addExternalDependency(exValue[0].trim(),exValue[1].trim(),
+						exValue[2].trim(), exValue[3].trim());
+				System.out.println("Adding External Dependency: " + exValue[0]);
+				temp = br.readLine();
+			}			
+		}		
+		
+	}
+	
 	private String trimVersion(final String version)
 	{
 		if (version == null)
 			return "1";
-		/*
+		
 		final String[] parts = version.split("\\.");
 		final StringBuilder sb = new StringBuilder();
 		String sep = "";
@@ -792,8 +786,8 @@ public class RepoGen
 			sb.append(part);
 		}
 		return sb.toString();
-		*/
-		return version;
+		
+		//return version;
 	}
 
 	private void copy(final File sourceFile, final File destinationFile) throws IOException
