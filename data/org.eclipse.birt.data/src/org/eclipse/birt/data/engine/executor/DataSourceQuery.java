@@ -305,6 +305,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
     	
+    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
+    	
         if ( design != null )
 		{
 			if ( canAccessResultSetByName( design ) )
@@ -332,11 +334,21 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 			else
 			{
-				prepareColumns( );
+				this.session.getCancelManager( ).register( queryCanceller );
+				if ( !session.getStopSign( ).isStopped( ) )
+				{
+					prepareColumns( );
+				}
+				this.session.getCancelManager( ).deregister( queryCanceller );
 			}
 		}else
 		{
-			prepareColumns( );
+			this.session.getCancelManager( ).register( queryCanceller );
+			if ( !session.getStopSign( ).isStopped( ) )
+			{
+				prepareColumns( );
+			}
+			this.session.getCancelManager( ).deregister( queryCanceller );
 		}
         
 		
@@ -344,7 +356,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // If ODA can provide result metadata, get it now
         try
         {
-        	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
+        	
         	this.session.getCancelManager( ).register( queryCanceller );
         	
         	if( !session.getStopSign().isStopped() )
