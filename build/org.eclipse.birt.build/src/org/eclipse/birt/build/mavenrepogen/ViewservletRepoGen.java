@@ -12,8 +12,10 @@ Author: Steve Schafer
  */
 package org.eclipse.birt.build.mavenrepogen;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -48,19 +50,22 @@ public class ViewservletRepoGen
 	private final File templateReleasePomFile;
 	private final String rootFileName;
 	private final File readmeFile;
+	private final String viewservletsVersion;
+	private final String externalFileName = "./externalRepo-viewservlets.properties";
 	
 	private final Map<String, ExternalDependency> externalDependencies;
 
 	private ViewservletRepoGen(final File libDir, final File repoParentDir, final String groupId,
 			final String passphrase, final boolean snapshot, final boolean release,
-			final boolean clean, final String rootFileName, final String readmeFilePath ) throws IOException
+			final boolean clean, final String rootFileName, final String readmeFilePath, final String viewservletsV) throws IOException
 	{
 		this.libDir = libDir;
 		this.groupId = groupId;
 		this.passphrase = passphrase;
 		this.readmeFile = new File(readmeFilePath);
+		this.viewservletsVersion = viewservletsV;
 		
-		repoDir = new File(repoParentDir, "repository");
+		repoDir = new File(repoParentDir, "repository-viewservlets");
 		repoDir.mkdir();
 		groupDir = new File(repoDir, groupId);
 		if (clean)
@@ -96,12 +101,13 @@ public class ViewservletRepoGen
 			globalReleaseScriptFile = null;
 			templateReleasePomFile = null;
 		}
-		this.rootFileName = rootFileName;
-		externalDependencies = new HashMap<String, ExternalDependency>();
 		
-		addExternalDependency("axis.jar", "org.apache.axis", "axis", "1.4");
-		addExternalDependency("commons-discovery.jar", "commons-discovery", "commons-discovery", "0.5");
-		addExternalDependency("runtime.jar","org.eclipse.birt.runtime","org.eclipse.birt.runtime","3.7.2.v20120214-1408");
+		this.rootFileName = rootFileName;
+		
+		externalDependencies = new HashMap<String, ExternalDependency>();
+		readExternalDependency();
+		System.out.println(externalDependencies.size() + " external dependencies found.");
+
 	}
 
 	private void addExternalDependency(final String fileName, final String groupId,
@@ -131,7 +137,7 @@ public class ViewservletRepoGen
 		{
 			fr.close();
 		}
-		final String libDirName = properties.getProperty("libDir");
+		final String libDirName = properties.getProperty("viewservletsDir");
 		final String repoDirName = properties.getProperty("repoDir");
 		final String groupId = properties.getProperty("groupId");
 		if (passphrase == null)
@@ -139,11 +145,16 @@ public class ViewservletRepoGen
 		final boolean clean = "true".equalsIgnoreCase(properties.getProperty("clean"));
 		final boolean genSnapshot = "true".equalsIgnoreCase(properties.getProperty("snapshot"));
 		final boolean genRelease = "true".equalsIgnoreCase(properties.getProperty("release"));
-		final String rootFileName = properties.getProperty("rootFile");
+		final String rootFileName = properties.getProperty("viewServletsFile");
 		final String readmeFilePath = properties.getProperty("readmeFile");
+		final String viewservletsV= properties.getProperty("viewServletsVersion");	
+		System.out.println("libDir: " + libDirName);
+		System.out.println("servlets version: " + viewservletsV);
+		System.out.println("servlets root file: " + rootFileName);
 		
 		final ViewservletRepoGen repoGen = new ViewservletRepoGen(new File(libDirName), new File(repoDirName), groupId,
-				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath);
+				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath, viewservletsV);
+		
 		repoGen.generate();
 	}
 
@@ -171,8 +182,9 @@ public class ViewservletRepoGen
 		final PrintWriter templateReleasePomWriter = createTemplatePomWriter(
 			templateReleasePomFile, false);
 		File rootFile = null;
-		final List<FileInfo> fileInfos = new ArrayList<FileInfo>();
+		//final List<FileInfo> fileInfos = new ArrayList<FileInfo>();
 		final File[] files = libDir.listFiles();
+	
 		if (files != null)
 		{
 			for (final File file : files)
@@ -181,7 +193,9 @@ public class ViewservletRepoGen
 				{
 					rootFile = file;
 					System.out.println("root file is:" + file.getName());
+					break;
 				}
+				/*
 				else if (!externalDependencies.containsKey(file.getName()))
 				{
 					final FileInfo fileInfo = getFileInfo(file);
@@ -194,16 +208,20 @@ public class ViewservletRepoGen
 							globalReleaseScriptFileWriter, templateReleasePomWriter, null, null);
 					}
 				}
+				*/
 			}
 		}
 		if (rootFile != null)
 		{
+			
 			final FileInfo fileInfo = getFileInfo(rootFile);
+			/* set artifact version for viewservlets */
+			fileInfo.setVersion(viewservletsVersion);
 			generateFile(fileInfo, true, globalSnapshotBuildFileWriter,
-				globalSnapshotScriptFileWriter, templateSnapshotPomWriter, fileInfos,
+				globalSnapshotScriptFileWriter, templateSnapshotPomWriter, null,
 				externalDependencies.values());
 			generateFile(fileInfo, false, globalReleaseBuildFileWriter,
-				globalReleaseScriptFileWriter, templateReleasePomWriter, fileInfos,
+				globalReleaseScriptFileWriter, templateReleasePomWriter, null,
 				externalDependencies.values());
 		}
 		closeTemplatePomWriter(templateSnapshotPomWriter);
@@ -715,7 +733,37 @@ public class ViewservletRepoGen
 		for (final File file : files)
 			deepDelete(file);
 	}
+	
+	private void readExternalDependency () throws IOException
+	{
+	
+		File file = new File(externalFileName);
+		
+		if(!file.exists()||file.isDirectory())
+				throw new FileNotFoundException();
 
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String temp = null;
+		temp = br.readLine();
+		
+		while (temp!=null)
+		{
+			if( temp.startsWith("#") || temp.trim().equals("") )
+			{	
+				temp = br.readLine();
+				continue;
+			}
+			else
+			{
+				String exValue[] = temp.split(",");
+				addExternalDependency(exValue[0].trim(),exValue[1].trim(),
+						exValue[2].trim(), exValue[3].trim());
+				System.out.println("Adding External Dependency: " + exValue[0]);
+				temp = br.readLine();
+			}			
+		}		
+		
+	}
 	private String trimVersion(final String version)
 	{
 		if (version == null)
