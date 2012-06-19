@@ -59,6 +59,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 	protected IReportContext context;
 	protected IDataRowExpressionEvaluator evaluator;
 
+	protected final static String REPORT_VARIABLE_INDICATOR = "vars"; //$NON-NLS-1$
+	
 	/**
 	 * This map is used to cache evaluated script for reducing evaluation
 	 * overhead
@@ -470,7 +472,7 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 		}
 	}
 
-	private String evaluateExpression( String script )
+	protected String evaluateExpression( String script )
 	{
 		if ( script == null || script.trim( ).length( ) == 0 )
 		{
@@ -490,11 +492,47 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 					.matcher( script )
 					.replaceAll( evaluateResult.toString( ) );
 
+			// Repeat to process all parameter expressions.
 			expression = findParameterExp( script, 0 );
+		}
+		
+		expression = findVariableExp(script, 0 );
+		while ( expression != null )
+		{
+			Object evaluateResult = evaluator.evaluate( expression );
+			// Bugzilla#242667 Add double quotation signs automatically
+			if ( evaluateResult instanceof String )
+			{
+				evaluateResult = "\"" + evaluateResult + "\""; //$NON-NLS-1$//$NON-NLS-2$
+			}
+
+			script = Pattern.compile( expression, Pattern.LITERAL )
+					.matcher( script )
+					.replaceAll( evaluateResult.toString( ) );
+
+			// Repeat to process all parameter expressions.
+			expression = findVariableExp( script, 0 );
 		}
 		return script;
 	}
 
+	private static String findVariableExp( String script, int fromIndex )
+	{
+		int iStart = script.indexOf( REPORT_VARIABLE_INDICATOR + '[',
+				fromIndex );
+		if ( iStart < fromIndex )
+		{
+			return null;
+		}
+		int iEnd = script.indexOf( ']', iStart );
+		if ( iEnd < iStart + REPORT_VARIABLE_INDICATOR.length( ) )
+		{
+			return null;
+		}
+		return script.substring( iStart, iEnd
+				+ 1 );
+	}
+	
 	private static String findParameterExp( String script, int fromIndex )
 	{
 		int iStart = script.indexOf( ExpressionUtil.PARAMETER_INDICATOR + '[',
