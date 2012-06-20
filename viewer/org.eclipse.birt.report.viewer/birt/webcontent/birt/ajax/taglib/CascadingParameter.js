@@ -147,9 +147,9 @@ CascadingParameter.prototype =
 		
 		//workaround for Bugzilla Bug 144598. Add request header "Connection" as "keep-alive"
 		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: birtSoapRequest.__xml_document,
+			contentType: 'text/xml; charset=utf-8',
 			onSuccess: this.responseHandler, onFailure: this.invalidResponseHandler,
-			requestHeaders: ['Content-type', 'text/xml; charset=utf-8', 'SOAPAction', '""', 'request-type', 'SOAP', 'Connection', 'keep-alive' ] } );
-
+			requestHeaders: ['SOAPAction', '""', 'request-type', 'SOAP', 'Connection', 'keep-alive' ] } );
 		birtSoapRequest.reset( );		
 	},
 	
