@@ -168,23 +168,36 @@ public class PDFPage extends AbstractPage
 			}
 		}
 
-		float remainX = width;
-		float remainY = height;
+		boolean xExtended = ( repeat & BackgroundImageInfo.REPEAT_X ) == BackgroundImageInfo.REPEAT_X;
+		boolean yExtended = ( repeat & BackgroundImageInfo.REPEAT_Y ) == BackgroundImageInfo.REPEAT_Y;
 		imageWidth = image.getWidth( );
 		imageHeight = image.getHeight( );
+
+		float originalX = offsetX;
+		float originalY = offsetY;
+		if ( xExtended )
+		{
+			while ( originalX > 0 )
+				originalX -= imageWidth;
+		}
+		if ( yExtended )
+		{
+			while ( originalY > 0 )
+				originalY -= imageHeight;
+		}
+
+		float startY = originalY;
 		do
 		{
-			remainX = width;
+			float startX = originalX;
 			do
 			{
-				drawImage( image, x + width - remainX, y + offsetY + height
-						- remainY, imageWidth, imageHeight );
-				remainX -= imageWidth;
-			} while ( remainX > 0
-					&& ( ( repeat & BackgroundImageInfo.REPEAT_X ) == BackgroundImageInfo.REPEAT_X ) );
-			remainY -= imageHeight;
-		} while ( remainY > 0
-				&& ( ( repeat & BackgroundImageInfo.REPEAT_Y ) == BackgroundImageInfo.REPEAT_Y ) );
+				drawImage( image, x + startX, y + startY, imageWidth,
+						imageHeight );
+				startX += imageWidth;
+			} while ( startX < width && xExtended );
+			startY += imageHeight;
+		} while ( startY < height && yExtended );
 		contentByte.restoreState( );
 	}
 
