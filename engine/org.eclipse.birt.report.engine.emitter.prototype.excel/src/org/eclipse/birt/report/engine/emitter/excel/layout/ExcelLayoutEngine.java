@@ -721,6 +721,12 @@ public class ExcelLayoutEngine
 					imageCache.put( image.getURI( ), imageInfo );
 				}
 			}
+			else
+			{
+				imageInfo = EmitterUtil.parseImage( image,
+						image.getImageSource( ), image.getURI( ),
+						image.getMIMEType( ), image.getExtension( ) );
+			}
 			imageData = imageInfo.getData( );
 			int[] imageSize = getImageSize( image, imageInfo, parentSizeInfo,
 					imageWidthDpi, imageHeightDpi );
