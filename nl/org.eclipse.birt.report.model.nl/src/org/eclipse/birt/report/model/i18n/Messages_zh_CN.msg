@@ -190,7 +190,7 @@ Choices.mapOperator.bottom-percent=最低百分比
 Choices.mapOperator.not-like=非类似于
 Choices.mapOperator.not-match=不匹配
 Choices.mapOperator.not-in=不属于
-Choices.mapOperator.in=在其中
+Choices.mapOperator.in=属于
   
 #15.imageRefType
 Choices.imageRefType.none=无图像
@@ -411,7 +411,7 @@ Choices.filterOperator.bottom-percent=最低百分比
 Choices.filterOperator.any=任何
 Choices.filterOperator.match=匹配
 Choices.filterOperator.not-match=不匹配
-Choices.filterOperator.in=在其中
+Choices.filterOperator.in=属于
 Choices.filterOperator.not-in=不属于
 
 #53. propertyMaskType
