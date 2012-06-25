@@ -864,7 +864,7 @@ public class QueryExecutor
 			}
 			else
 			{
-				if ( executor.getContext( ).getDocReader( ) != null )
+				if ( executor.getContext( ).getDocReader( ) != null && executor.getContext( ).getMode( ) != DataEngineContext.MODE_GENERATION )
 				{
 					rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
 							.getQueryResultsID( ),
