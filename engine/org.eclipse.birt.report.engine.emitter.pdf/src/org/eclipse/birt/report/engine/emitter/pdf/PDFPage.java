@@ -75,10 +75,18 @@ public class PDFPage extends AbstractPage
 
 	protected PDFPageDevice pageDevice;
 	
-	Pattern PAGE_LINK_PATTERN_HTML = Pattern.compile("(http|ftp|https):(\\/\\/)([\\w+.\\/])*[\\w+.]?#page=(\\d+)");
-	
-	Pattern PAGE_LINK_PATTERN_LOCAL = Pattern.compile("((([a-zA-Z]:|(\\\\|\\/\\/)(\\w+)*|file:\\/\\/\\/[a-zA-Z]:|file:\\/[a-zA-Z]:)((\\\\|\\/)\\w+)*\\[a-zA-Z0_9]+)?.*)#page=(\\d+)");
-	
+	/**
+	 * The Regular pattern for http/ftp/https pdf;
+	 * */
+	static final Pattern PAGE_LINK_PATTERN_HTML = Pattern
+			.compile( "(http|ftp|https):(\\/\\/)([\\w+.\\/])*[\\w+.]?#page=(\\d+)" );
+
+	/**
+	 * The Regular pattern for local pdf;
+	 * */
+	static final Pattern PAGE_LINK_PATTERN_LOCAL = Pattern
+			.compile( "((([a-zA-Z]:|(\\\\|\\/\\/)(\\w+)*|file:\\/\\/\\/[a-zA-Z]:|file:\\/[a-zA-Z]:)((\\\\|\\/)\\w+)*\\[a-zA-Z0_9]+)?.*)#page=(\\d+)" );// check
+																																						// the
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
 	{
