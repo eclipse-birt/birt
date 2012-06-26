@@ -38,19 +38,16 @@ public class FixedStyle extends AbstractStyle
 	/**
 	 * One should never change the value returned, may cause obscure bugs.
 	 */
-	@Override
 	public CSSValue getProperty( int index )
 	{
 		return values[index];
 	}
 
-	@Override
 	public void setProperty( int index, CSSValue value ) 
 	{
 		values[index] = value;
 	}
 
-	@Override
 	public boolean isEmpty( ) 
 	{
 		for( CSSValue value : values )
