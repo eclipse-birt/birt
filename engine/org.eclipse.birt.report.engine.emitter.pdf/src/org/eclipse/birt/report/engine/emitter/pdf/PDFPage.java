@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
@@ -74,19 +72,7 @@ public class PDFPage extends AbstractPage
 	protected float containerHeight;
 
 	protected PDFPageDevice pageDevice;
-	
-	/**
-	 * The Regular pattern for http/ftp/https pdf;
-	 * */
-	static final Pattern PAGE_LINK_PATTERN_HTML = Pattern
-			.compile( "(http|ftp|https):(\\/\\/)([\\w+.\\/])*[\\w+.]?#page=(\\d+)" );
 
-	/**
-	 * The Regular pattern for local pdf;
-	 * */
-	static final Pattern PAGE_LINK_PATTERN_LOCAL = Pattern
-			.compile( "((([a-zA-Z]:|(\\\\|\\/\\/)(\\w+)*|file:\\/\\/\\/[a-zA-Z]:|file:\\/[a-zA-Z]:)((\\\\|\\/)\\w+)*\\[a-zA-Z0_9]+)?.*)#page=(\\d+)" );// check
-																																						// the
 	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer, PDFPageDevice pageDevice )
 	{
@@ -565,19 +551,6 @@ public class PDFPage extends AbstractPage
 				|| "_self".equalsIgnoreCase( target ) )
 		// Opens the target in a new window.
 		{
-			Matcher matcherHtml = PAGE_LINK_PATTERN_HTML.matcher( hyperlink );
-			if ( matcherHtml.find( ) )
-			{
-				return new PdfAction( hyperlink );
-			}
-			Matcher matcherLocal = PAGE_LINK_PATTERN_LOCAL.matcher( hyperlink );
-			if ( matcherLocal.find( ) )
-			{
-				String fileName = matcherLocal.group( 1 );
-				String pageNumber = matcherLocal.group( matcherLocal
-						.groupCount( ) );
-				return new PdfAction( fileName, Integer.valueOf( pageNumber ) );
-			}
 			return new PdfAction( hyperlink );
 		}
 		else
