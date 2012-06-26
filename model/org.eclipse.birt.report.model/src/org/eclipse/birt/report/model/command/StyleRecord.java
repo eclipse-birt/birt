@@ -94,7 +94,14 @@ public class StyleRecord extends SimpleRecord
 			StyleElement tmpStyle = newStyle == null
 					? null
 					: (StyleElement) newStyle.getElement( );
-			element.setStyle( tmpStyle );
+			if ( tmpStyle != null )
+			{
+				element.setStyle( tmpStyle );
+			}
+			else
+			{
+				element.setStyleName( newStyle.getName( ) );
+			}
 		}
 	}
 

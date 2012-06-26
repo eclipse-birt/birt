@@ -1,9 +1,11 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -198,5 +200,30 @@ public class StyleUtil
 		DesignSession.addExtensionDefaultStyles( (ReportDesign) designHandle
 				.getModule( ), true );
 	}
+	
+	public static boolean hasExternalCSSURI( Module module)
+	{
+		Iterator<IncludedCssStyleSheetHandle> iter = null;
+		if ( module instanceof ReportDesign )
+		{
+			ReportDesignHandle handle = (ReportDesignHandle) module
+					.getHandle( module );
+			iter = handle.includeCssesIterator( );
+		}
+		
+		while ( iter!=null && iter.hasNext( ) )
+		{
+			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
+					.next( );
+			String externalCSSURI = includedCssStyleSheet.getExternalCssURI( );
+			boolean useExternalCSS = includedCssStyleSheet.isUseExternalCss( );
+			if ( externalCSSURI != null || useExternalCSS )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 }

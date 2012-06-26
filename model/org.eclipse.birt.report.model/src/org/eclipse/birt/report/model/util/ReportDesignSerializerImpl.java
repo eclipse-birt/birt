@@ -2411,11 +2411,27 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 			// style properties are handled in styledElement.
 
-			if ( ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
-					|| IStyledElementModel.STYLE_PROP.equals( propName ) )
+			if  ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
+			{
 				continue;
-
+			}
+			
 			Object value = getLocalizablePropertyValue( root, element, propDefn );
+			
+			if( IStyledElementModel.STYLE_PROP.equals( propName ) )
+			{
+				//handle unresolved style name. If using external css style, then style name may be unresolved
+				if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+				{
+					if ( value != null
+							&& !( (ElementRefValue) value ).isResolved( ) && element instanceof StyledElement )
+					{
+						((StyledElement)newElement).setStyleName( ( (ElementRefValue) value ).getName( ) );
+					}
+					continue;
+				}
+			}
+			
 
 			if ( value == null )
 				continue;

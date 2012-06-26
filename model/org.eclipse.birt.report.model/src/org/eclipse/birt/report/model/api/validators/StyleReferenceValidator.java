@@ -13,18 +13,15 @@ package org.eclipse.birt.report.model.api.validators;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.util.StyleUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.StyledElement;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -108,7 +105,7 @@ public class StyleReferenceValidator extends AbstractElementValidator
 			// );
 			if ( resolvedElement == null )
 			{
-				if ( !hasExternalCSSURI( module ) )
+				if ( !StyleUtil.hasExternalCSSURI( module ) )
 				{
 					list.add( new StyleException( toValidate, styleName,
 							StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
@@ -124,26 +121,4 @@ public class StyleReferenceValidator extends AbstractElementValidator
 		return list;
 	}
 	
-	private boolean hasExternalCSSURI( Module module)
-	{
-		Iterator<IncludedCssStyleSheetHandle> iter = null;
-		if ( module instanceof ReportDesign )
-		{
-			ReportDesignHandle handle = (ReportDesignHandle) module
-					.getHandle( module );
-			iter = handle.includeCssesIterator( );
-		}
-		
-		while ( iter!=null && iter.hasNext( ) )
-		{
-			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
-					.next( );
-			String externalCSSURI = includedCssStyleSheet.getExternalCssURI( );
-			if ( externalCSSURI != null )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 }

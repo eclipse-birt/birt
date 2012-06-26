@@ -966,16 +966,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					}
 					if ( href != null )
 					{
-						boolean isEmbeddable = new HTMLRenderOption( renderOption ).getEmbeddable( );
-						if ( !isEmbeddable )
-						{// output the CSS link if it is not
-							// is embeddable
-							writer.openTag( HTMLTags.TAG_LINK );
-							writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
-							writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
-							writer.attribute( HTMLTags.ATTR_HREF, href );
-							writer.closeTag( HTMLTags.TAG_LINK );
-						}
+						// output the CSS link 
+						writer.openTag( HTMLTags.TAG_LINK );
+						writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
+						writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
+						writer.attribute( HTMLTags.ATTR_HREF, href );
+						writer.closeTag( HTMLTags.TAG_LINK );
 					}
 				}
 			}
