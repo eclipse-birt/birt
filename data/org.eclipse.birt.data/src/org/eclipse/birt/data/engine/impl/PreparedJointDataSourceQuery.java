@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseResultMetaData;
@@ -27,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
+import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -52,10 +54,11 @@ import org.eclipse.birt.data.engine.impl.jointdataset.JointResultMetadata;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
-import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * This is an extension of PreparedDataSourceQuery. It is used to provide joint
@@ -632,11 +635,12 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dscm.setDataSourceAndDataSet( 
 						leftDataSourceDesign, leftDataSetDesgin, leftParameterHints, leftAppContext );
 				left = (ResultIterator) leftQueryResults.getResultIterator( );
-				
+				registerOutputParams( leftDataSetDesgin, left.getScope( ) );
+
 				dscm.setDataSourceAndDataSet( 
 						rightDataSourceDesign, rightDataSetDesgin, rightParameterHints, rightAppContext );
 				right = (ResultIterator) rightQueryResults.getResultIterator( );
-				
+				registerOutputParams( rightDataSetDesgin, right.getScope( ) );	
 			}
 			catch ( BirtException e )
 			{
@@ -686,6 +690,29 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			return obList;
 		}
 
+		private void registerOutputParams( IBaseDataSetDesign dataSetDesign, Scriptable scope ) throws BirtException
+		{
+			String dataSetName= dataSetDesign.getName( );
+			for ( int i = 0; i < dataSetDesign.getParameters( ).size( ); i++ )
+			{
+				if ( ( (IParameterDefinition) dataSetDesign.getParameters( )
+						.get( i ) ).isOutputMode( ) )
+				{
+					String paramName = ( (IParameterDefinition) dataSetDesign.getParameters( )
+							.get( i ) ).getName( );
+					String joinname = JointDataSetParameterUtil.getParameterName( dataSetName,
+							paramName );
+					Object value = JavascriptEvalUtil.evaluateRawScript( Context.getCurrentContext( ),
+							scope,
+							JointDataSetParameterUtil.buildOutputParamsExpr( paramName ),
+							"",
+							1 );
+					dataSet.setOutputParameterValue( joinname, value );
+				}
+			}
+			
+		}
+		
 		/**
 		 * @return
 		 * @throws DataException 
