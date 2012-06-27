@@ -455,8 +455,9 @@ public final class ValueFormatter
 				sValue = String.valueOf( dValue );
 			}
 		}
-
-		final int iDecimalPosition = sValue.indexOf( dfs.getDecimalSeparator( ) );
+		
+		// Still use standard decimal separator '.', here isn't related to locale. 
+		final int iDecimalPosition = sValue.indexOf( "." ); //$NON-NLS-1$
 		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
