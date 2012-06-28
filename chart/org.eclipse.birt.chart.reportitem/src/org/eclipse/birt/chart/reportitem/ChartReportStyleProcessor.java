@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
+import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
@@ -980,6 +981,12 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected void processCubeStyle( Chart cm, LevelHandle category,
 			MeasureHandle measure, LevelHandle yoption )
 	{
+		String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
+		String categoryExpr = null;
+		if ( categoryExprs != null && categoryExprs.length > 0 )
+		{
+			categoryExpr = categoryExprs[0];
+		}
 		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
 		String optionalYExpr = null;
 		if ( orthSDs != null && orthSDs.size( ) > 0 && orthSDs.get( 0 ).getQuery( ) != null )
@@ -1014,7 +1021,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 						{
 							if ( dpc.getFormatSpecifier( ) == null )
 							{
-								dpc.setFormatSpecifier( createFormatSpecifier( category ) );
+								dpc.setFormatSpecifier( createFormatSpecifier( category, categoryExpr ) );
 							}
 						}
 						else if ( dpc.getType( ).getValue( ) == DataPointComponentType.ORTHOGONAL_VALUE )
@@ -1028,7 +1035,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 						{
 							if ( dpc.getFormatSpecifier( ) == null )
 							{
-								dpc.setFormatSpecifier( createFormatSpecifier( yoption ) );
+								dpc.setFormatSpecifier( createFormatSpecifier( yoption, optionalYExpr ) );
 							}
 						}
 					}
@@ -1039,14 +1046,14 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		if ( cm.getLegend( ).getFormatSpecifier( ) == null )
 		{
 			cm.getLegend( )
-					.setFormatSpecifier( createFormatSpecifier( yoption ) );
+					.setFormatSpecifier( createFormatSpecifier( yoption, optionalYExpr ) );
 		}
 
 		dateGut = null;
-		String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
-		if ( categoryExprs != null && categoryExprs.length > 0 )
+
+		if ( categoryExpr != null )
 		{
-			dateGut = computeLevelHandleGroupUnit( categoryExprs[0], category );
+			dateGut = computeLevelHandleGroupUnit( categoryExpr, category );
 		}
 		if ( cm instanceof ChartWithAxes )
 		{
@@ -1070,7 +1077,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			if ( xAxis.getLabel( ).isVisible( )
 					&& xAxis.getFormatSpecifier( ) == null )
 			{
-				xAxis.setFormatSpecifier( createFormatSpecifier( category ) );
+				xAxis.setFormatSpecifier( createFormatSpecifier( category, categoryExpr ) );
 			}
 
 			for ( Axis yAxis : xAxis.getAssociatedAxes( ) )
@@ -1099,7 +1106,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 			{
 				cwa.getSeriesDefinitions( )
 						.get( 0 )
-						.setFormatSpecifier( createFormatSpecifier( category ) );
+						.setFormatSpecifier( createFormatSpecifier( category, categoryExpr ) );
 			}
 		}
 	}
@@ -1178,6 +1185,25 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		return gut;
 	}
 	
+	private boolean isDateTimeBinding( String chartBindExpr )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String bindingName = exprCodec.getBindingName( chartBindExpr );
+		for ( Iterator<ComputedColumnHandle> bindings = ChartItemUtil.getAllColumnBindingsIterator( (ReportItemHandle) handle ); bindings.hasNext( ); )
+		{
+			ComputedColumnHandle cc = bindings.next( );
+			if ( cc.getName( ).equals( bindingName ) )
+			{
+				String dateType = cc.getDataType( );
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dateType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dateType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dateType );
+			}
+		}
+		return false;
+	}
+	
 	private final LevelHandle findLevelHandle(CubeHandle cube,
 			ExpressionCodec exprCodec, Query query)
 	{
@@ -1236,8 +1262,14 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		return null;
 	}
 
-	protected FormatSpecifier createFormatSpecifier( LevelHandle levelHandle )
-	{
+	protected FormatSpecifier createFormatSpecifier( LevelHandle levelHandle, String chartBindExpr )
+	{	
+		if ( chartBindExpr == null )
+		{
+			return null;
+		}
+		
+		FormatSpecifier fs = null;
 		if ( levelHandle != null )
 		{
 			if ( levelHandle.getFormat( ) == null
@@ -1246,15 +1278,22 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					&& levelHandle.getDateTimeFormat( ) != null )
 			{
 				// Create format specifier for date time type.
-				return JavaDateFormatSpecifierImpl.create( new DateFormatter( levelHandle.getDateTimeFormat( ) ).getFormatCode( ) );
+				fs = JavaDateFormatSpecifierImpl.create( new DateFormatter( levelHandle.getDateTimeFormat( ) ).getFormatCode( ) );
 			}
 			else
 			{
-				return convertToFormatSpecifier( levelHandle.getFormat( ),
+				fs = convertToFormatSpecifier( levelHandle.getFormat( ),
 						levelHandle.getDataType( ) );
 			}
+			
+			// If the type of related binding isn't date time, not return date
+			// time format specifier. 
+			if ( fs instanceof JavaDateFormatSpecifier && !isDateTimeBinding( chartBindExpr ) )
+			{
+				fs = null;
+			}
 		}
-		return null;
+		return fs;
 	}
 
 	protected FormatSpecifier createFormatSpecifier( MeasureHandle measureHandle )
