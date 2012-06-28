@@ -432,5 +432,6 @@ public class ResourceConstants
 	public final static String ORIGINAL_DATASET_NOT_EXIST= "data.datamart.originalDataSetNotExist";
 	public final static String INCREMENTAL_DATASET_HAS_ERROR_METADATA= "data.datamart.incrementalDatasetMetaDataError";
 
+	public final static String FAIL_PUSH_DOWM_FILTER = "data.filter.pushDownFail";
 
 }

@@ -331,6 +331,12 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				}
 			}
 			
+			if( FilterPrepareUtil.containsExternalFilter( dataSetDesign.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ) ||
+					FilterPrepareUtil.containsExternalFilter( queryDefn.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ))
+			{
+				throw new DataException( ResourceConstants.FAIL_PUSH_DOWM_FILTER );
+			}
+			
 			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache(), this.contextVisitor );
 			
 			if ( odiQuery instanceof IPreparedDSQuery )
