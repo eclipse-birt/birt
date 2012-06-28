@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.
 data.datamart.failLoadDataSet = 데이터 개체 집합 "{0}"을(를) 로드하지 못했습니다.
 data.datamart.originalDataSetNotExist = 증분 업데이트에 실패했습니다. 원본 데이터 집합 "{0}"이(가) 없습니다.
 data.datamart.incrementalDatasetMetaDataError = 증분 업데이트에 실패했습니다. 추가 데이터 집합 "{0}"의 메타데이터가 원본 데이터 집합의 메타데이터와 다릅니다. 
+
+data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.

@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=无效查询文本。
 data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。
 data.datamart.originalDataSetNotExist = 增量更新失败。 原始数据集“{0}”不存在。
 data.datamart.incrementalDatasetMetaDataError = 增量更新失败。 附加数据集“{0}”的元数据与原始数据集的元数据不同。 
+
+data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.

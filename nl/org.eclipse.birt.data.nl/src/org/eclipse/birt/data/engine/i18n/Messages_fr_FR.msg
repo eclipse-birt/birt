@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=Texte de la requête incorrect.
 data.datamart.failLoadDataSet = Impossible de charger le jeu de données de l'Objet de données "{0}".
 data.datamart.originalDataSetNotExist = Echec de la mise à jour incrémentielle. Le jeu de données d'origine "{0}" n'existe pas.
 data.datamart.incrementalDatasetMetaDataError = Echec de la mise à jour incrémentielle. Les métadonnées du jeu de données supplémentaire "{0}" sont différentes de celles du jeu de données d'origine. 
+
+data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.

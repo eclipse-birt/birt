@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=クエリテキストが無効です。
 data.datamart.failLoadDataSet = データオブジェクトデータセット "{0}" を読み込めません。
 data.datamart.originalDataSetNotExist = 増分更新できません。 元のデータセット "{0}" が存在しません。
 data.datamart.incrementalDatasetMetaDataError = 増分更新できません。 追加のデータセット "{0}" のメタデータが、元のデータセットのものと異なります。 
+
+data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.
