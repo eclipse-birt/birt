@@ -72,14 +72,34 @@ public class FontDefinitionComposite extends Composite
 	public static final int FONT_DATA = 0;
 
 	public static final int COLOR_DATA = 1;
+		
+	public static final int ENABLE_ALIGNMENT = 1;
+	
+	public static final int ENABLE_ROTATION = 1 << 1;
+	
+	public static final int DEFAULT_NONE = 0;
 
 	private int iSize = 18;
+	
+	private int optionalStyle = DEFAULT_NONE;
 
 	private boolean bEnabled = true;
 
-	private boolean isAlignmentEnabled = true;
-
 	private ChartWizardContext wizardContext;
+	
+	public FontDefinitionComposite( Composite parent, int style,
+			ChartWizardContext wizardContext, FontDefinition fdSelected,
+			ColorDefinition cdSelected, int optionalStyle )
+	{
+		super( parent, style );
+		this.wizardContext = wizardContext;
+		this.fdCurrent = fdSelected;
+		this.cdCurrent = cdSelected;
+		this.optionalStyle = optionalStyle;
+		init( );
+		placeComponents( );
+		initAccessible( );
+	}
 
 	public FontDefinitionComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, FontDefinition fdSelected,
@@ -89,12 +109,19 @@ public class FontDefinitionComposite extends Composite
 		this.wizardContext = wizardContext;
 		this.fdCurrent = fdSelected;
 		this.cdCurrent = cdSelected;
-		this.isAlignmentEnabled = isAlignmentEnabled;
+		if ( isAlignmentEnabled )
+		{
+			this.optionalStyle |= ENABLE_ALIGNMENT;
+		}
+		// this Rotation is enabled to compatible with old behavior of this
+		// constructor.
+		this.optionalStyle |= ENABLE_ROTATION;
+		
 		init( );
 		placeComponents( );
 		initAccessible( );
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -245,7 +272,7 @@ public class FontDefinitionComposite extends Composite
 						wizardContext,
 						fdCurrent,
 						cdCurrent,
-						isAlignmentEnabled );
+						optionalStyle );
 	}
 
 	private void fireEvent( )

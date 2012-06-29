@@ -144,7 +144,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				getContext( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getFont( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getColor( ),
-				needTitleAlignment( ) );
+				getFontDialogStyles( ) );
 		GridData gdFDCFont = new GridData( );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 220;
@@ -350,9 +350,10 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				&& getChart( ).getTitle( ).isAuto( );
 	}
 	
-	protected boolean needTitleAlignment( )
+	protected int getFontDialogStyles( )
 	{
-		return true;
+		return FontDefinitionComposite.ENABLE_ALIGNMENT
+				| FontDefinitionComposite.ENABLE_ROTATION;
 	}
 
 	private String getTitleText( )
