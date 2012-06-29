@@ -23,6 +23,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -58,7 +60,9 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
 	public Control getControl( )
 	{
@@ -68,13 +72,14 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
 		if ( isFormStyle( ) )
 		{
-			combo = FormWidgetFactory.getInstance( ).createCCombo( parent );
+			combo = FormWidgetFactory.getInstance( ).createCCombo( parent, false );
 		}
 		else
 		{
@@ -104,6 +109,16 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 			{
 				handleComboSelectEvent( );
 			}
+		} );
+		combo.addFocusListener( new FocusAdapter(){
+
+			public void focusLost( FocusEvent e )
+			{
+				if(combo.isEnabled( )){
+					handleComboSelectEvent( );
+				}
+			}
+			
 		} );
 		return combo;
 	}
@@ -172,6 +187,8 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 				combo.setEnabled( false );
 			}
 
+			combo.setEditable( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) );
+
 			int sindex = Arrays.asList( items ).indexOf( oldValue );
 
 			if ( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isSpecialProperty( )
@@ -193,7 +210,6 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 			combo.select( sindex );
 		}
 	}
-
 
 	public void save( Object value ) throws SemanticException
 	{
