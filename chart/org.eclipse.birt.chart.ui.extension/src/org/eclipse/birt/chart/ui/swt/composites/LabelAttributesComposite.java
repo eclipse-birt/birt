@@ -630,7 +630,18 @@ public class LabelAttributesComposite extends Composite implements
 			icInsets.setLayoutData( gdICInsets );
 			icInsets.setEnabled( bEnableUI );
 		}
-
+		
+		// Pack the redundant space if no composites are added in.
+		if ( ( cmpGeneral.getChildren( ) == null || cmpGeneral.getChildren( ).length == 0 )
+				&& ( grpAttributes.getChildren( ) == null || grpAttributes.getChildren( ).length <= 1 ) )
+		{
+			glAttributes = new GridLayout( );
+			glAttributes.horizontalSpacing = 0;
+			glAttributes.verticalSpacing = 0;
+			glAttributes.marginHeight = 0;
+			glAttributes.marginWidth = 0;
+			grpAttributes.setLayout( glAttributes );
+		}
 		populateLists( );
 	}
 
