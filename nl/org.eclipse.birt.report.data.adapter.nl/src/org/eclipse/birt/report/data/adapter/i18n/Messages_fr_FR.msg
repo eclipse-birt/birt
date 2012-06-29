@@ -30,6 +30,7 @@ exception.error=Une exception s'est produite au cours du traitement. Pour plus d
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
 invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.
 invalid.data.type=Type de données incorrect : {0}. 
+invalid.filter.operands=The filter operands should not be null;
 
 cube.error.createhierarchy=Une erreur s''est produite lors de la création de la hiérarchie : {0}.
 cube.error.createdimension=Une erreur s''est produite lors de la création de la dimension : {0}.
@@ -113,7 +114,6 @@ timeFunction.PERIOD1.displayName = La pre&mière période
 timeFunction.PERIOD2.displayName = La deuxième pé&riode
 timeFunction.N1.displayName = Nombre de périodes écoulées depuis
 timeFunction.N2.displayName = Nombre de périodes écoulées depuis
-
 timeFunction.N1.Year.displayName = Nombre d'années écoulées depuis
 timeFunction.N2.Year.displayName = Nombre d'années écoulées depuis
 timeFunction.N1.Year = Valeur N pour le nombre d'années écoulées depuis
@@ -148,3 +148,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mois jusqu'à la date
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semaine jusqu'à la date
 
 timeFunction.toolTip.to=A
+

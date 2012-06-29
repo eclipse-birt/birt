@@ -30,6 +30,7 @@ exception.error=Ã³¸® µµÁß ¿¹¿Ü°¡ ¹ß»ıÇß½À´Ï´Ù. ÀÚ¼¼ÇÑ ³»¿ëÀº ´ÙÀ½ ¸Ş½ÃÁö¸¦ ÂüÁ¶Ç
 invalid.level.expression=¼öÁØ ÀÌ¸§ "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
 invalid.measure.expression=ÃøÁ¤°ª "{0}"ÀÇ ÃøÁ¤°ª ½ÄÀº ³Î(null)ÀÏ ¼ö ¾ø½À´Ï´Ù.
 invalid.data.type=Àß¸øµÈ µ¥ÀÌÅÍ Çü½Ä: {0}. 
+invalid.filter.operands=The filter operands should not be null;
 
 cube.error.createhierarchy=°èÃş »ı¼º µµÁß {0} ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
 cube.error.createdimension=Â÷¿ø »ı¼º µµÁß {0} ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
@@ -113,7 +114,6 @@ timeFunction.PERIOD1.displayName = Ã¹ ¹øÂ° ±â°£(&F)
 timeFunction.PERIOD2.displayName = µÎ ¹øÂ° ±â°£(&R)
 timeFunction.N1.displayName = Áö³­ ±â°£ ¼ö
 timeFunction.N2.displayName = Áö³­ ±â°£ ¼ö
-
 timeFunction.N1.Year.displayName = Áö³­ ¿¬µµ ¼ö
 timeFunction.N2.Year.displayName = Áö³­ ¿¬µµ ¼ö
 timeFunction.N1.Year = Áö³­ ¿¬µµ¿¡ ´ëÇÑ N °ª
@@ -148,3 +148,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =¿ùº° ´©°è
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =ÁÖ°£ ´©°è
 
 timeFunction.toolTip.to=´ë»ó
+

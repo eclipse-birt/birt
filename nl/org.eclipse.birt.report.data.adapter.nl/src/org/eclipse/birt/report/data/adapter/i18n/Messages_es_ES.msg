@@ -30,6 +30,7 @@ exception.error=Se ha producido una excepción durante el procesamiento. Consulte
 invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
 invalid.measure.expression=La expresión de medida para la medida "{0}" no puede ser nula.
 invalid.data.type=Tipo de datos no válido: {0}. 
+invalid.filter.operands=The filter operands should not be null;
 
 cube.error.createhierarchy=Se produce un error al crear la jerarquía:{0}.
 cube.error.createdimension=Se produce un error al crear la dimensión:{0}.
@@ -113,7 +114,6 @@ timeFunction.PERIOD1.displayName = El &primer período
 timeFunction.PERIOD2.displayName = El segundo pe&ríodo
 timeFunction.N1.displayName = Número de periodos transcurridos
 timeFunction.N2.displayName = Número de periodos transcurridos
-
 timeFunction.N1.Year.displayName = Número de años transcurridos
 timeFunction.N2.Year.displayName = Número de años transcurridos
 timeFunction.N1.Year = Valor N para el número de años transcurridos
@@ -148,3 +148,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Mes hasta la fecha
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Semana hasta la fecha
 
 timeFunction.toolTip.to=A
+
