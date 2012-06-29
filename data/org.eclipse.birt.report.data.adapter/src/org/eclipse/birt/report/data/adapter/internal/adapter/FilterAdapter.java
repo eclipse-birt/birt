@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
@@ -67,7 +68,12 @@ public class FilterAdapter extends FilterDefinition
 				else
 				{
 					List<Expression> operands = modelFilter.getValue1ExpressionList( ).getListValue();
+					if ( operands == null)
+					{
+						throw new AdapterException( ResourceConstants.INVALID_FILTER_OPERANDS );
+					}
 					List<IScriptExpression> adaptedExpressions = new ArrayList<IScriptExpression>();
+					
 					for( Expression expr:operands )
 					{
 						adaptedExpressions.add( adapter.adaptExpression( expr ) );
