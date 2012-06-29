@@ -19,7 +19,10 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -84,8 +87,11 @@ public class SimpleComboPropertyDescriptorProvider extends
 		return styleNamesArray;
 	}
 
+	boolean isEditable = false;
+
 	private String[] getModifiedStyles( )
 	{
+		isEditable = false;
 		String[] styleNamesArray = getAllStyles( );
 		List<String> sytleNames = new ArrayList<String>( );
 		sytleNames.addAll( Arrays.asList( styleNamesArray ) );
@@ -99,8 +105,17 @@ public class SimpleComboPropertyDescriptorProvider extends
 			for ( int i = 0; i < cssList.size( ); i++ )
 			{
 				CssStyleSheetHandle css = cssList.get( i );
-				IncludedCssStyleSheetHandle inCss = reportDesign.findIncludedCssStyleSheetHandleByFileName( css.getFileName( ) );
-				if ( inCss != null && inCss.getExternalCssURI( ) != null
+				IncludedCssStyleSheetHandle inCss = reportDesign.findIncludedCssStyleSheetHandleByProperties( css.getFileName( ),
+						css.getExternalCssURI( ),
+						css.isUseExternalCss( ) );
+				if ( css.isUseExternalCss( )
+						|| css.getExternalCssURI( ) != null )
+				{
+					System.out.println( this.property );
+					isEditable = true;
+				}
+				if ( inCss != null
+						&& inCss.getExternalCssURI( ) != null
 						&& inCss.getExternalCssURI( ).length( ) > 0 )
 				{
 					String fileName = inCss.getExternalCssURI( );
@@ -140,14 +155,22 @@ public class SimpleComboPropertyDescriptorProvider extends
 		{
 			LibraryHandle libary = (LibraryHandle) module;
 			ThemeHandle theme = libary.getTheme( );
-			if(theme != null)
+			if ( theme != null )
 			{
 				cssList.addAll( theme.getAllCssStyleSheets( ) );
 				for ( int i = 0; i < cssList.size( ); i++ )
 				{
 					CssStyleSheetHandle css = cssList.get( i );
-					IncludedCssStyleSheetHandle inCss = theme.findIncludedCssStyleSheetHandleByName( css.getFileName( ) );
-					if (inCss != null &&  inCss.getExternalCssURI( ) != null
+					IncludedCssStyleSheetHandle inCss = theme.findIncludedCssStyleSheetHandleByProperties( css.getFileName( ),
+							css.getExternalCssURI( ),
+							css.isUseExternalCss( ) );
+					if ( css.isUseExternalCss( )
+							|| css.getExternalCssURI( ) != null )
+					{
+						isEditable = true;
+					}
+					if ( inCss != null
+							&& inCss.getExternalCssURI( ) != null
 							&& inCss.getExternalCssURI( ).length( ) > 0 )
 					{
 						for ( Iterator iter = css.getStyleIterator( ); iter.hasNext( ); )
@@ -193,7 +216,8 @@ public class SimpleComboPropertyDescriptorProvider extends
 			}
 			else
 			{
-				value = null;
+				if ( !isEditable )
+					value = null;
 			}
 		}
 
@@ -205,14 +229,41 @@ public class SimpleComboPropertyDescriptorProvider extends
 	public Object load( )
 	{
 		Object obj = super.load( );
-		String[] styleNamesArray = getAllStyles( );
-		String[] modifiedArray = getModifiedStyles( );
-		int index = Arrays.asList( styleNamesArray ).indexOf( obj );
-		if ( index >= 0 )
+		if ( ReportItemHandle.STYLE_PROP.equals( getProperty( ) ) )
 		{
-			obj = modifiedArray[index];
+			String[] styleNamesArray = getAllStyles( );
+			String[] modifiedArray = getModifiedStyles( );
+			int index = Arrays.asList( styleNamesArray ).indexOf( obj );
+			if ( index >= 0 )
+			{
+				obj = modifiedArray[index];
+			}
 		}
 		return obj;
 	}
 
+	public boolean isEditable( )
+	{
+		return isEditable;
+	}
+
+	public boolean isReadOnly( )
+	{
+		GroupPropertyHandle propertyHandle = null;
+		if ( input instanceof GroupElementHandle )
+		{
+			propertyHandle = ( (GroupElementHandle) input ).getPropertyHandle( property );
+
+		}
+		else if ( input instanceof List )
+		{
+			propertyHandle = DEUtil.getGroupElementHandle( (List) input )
+					.getPropertyHandle( property );
+		}
+		if ( propertyHandle != null )
+		{
+			return propertyHandle.isReadOnly( );
+		}
+		return false;
+	}
 }
