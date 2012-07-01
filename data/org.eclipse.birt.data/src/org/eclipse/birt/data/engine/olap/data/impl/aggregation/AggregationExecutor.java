@@ -540,7 +540,7 @@ public class AggregationExecutor
 		if ( dims[0].equals( edgeDimLevel1[0] ) )
 		{
 			int i = 0;
-			for ( ; i < edgeDimLevel1.length; i++ )
+			for ( ; i < edgeDimLevel1.length && i < dims.length; i++ )
 			{
 				if ( !dims[i].equals( edgeDimLevel1[i] ) )
 				{
@@ -555,7 +555,7 @@ public class AggregationExecutor
 					}
 				}
 			}
-			if( i == edgeDimLevel1.length )
+			if( i <= edgeDimLevel1.length )
 			{
 				coverDimLevelLength[1] = i;
 			}
@@ -578,7 +578,7 @@ public class AggregationExecutor
 		else if ( dims[0].equals( edgeDimLevel2[0] ) )
 		{
 			int i = 0;
-			for ( ; i < edgeDimLevel2.length; i++ )
+			for ( ; i < edgeDimLevel2.length && i < dims.length; i++ )
 			{
 				if ( !dims[i].equals( edgeDimLevel2[i] ) )
 				{
@@ -593,7 +593,7 @@ public class AggregationExecutor
 					}
 				}
 			}
-			if( i == edgeDimLevel2.length )
+			if( i <= edgeDimLevel2.length )
 			{
 				coverDimLevelLength[1] = i;
 			}
