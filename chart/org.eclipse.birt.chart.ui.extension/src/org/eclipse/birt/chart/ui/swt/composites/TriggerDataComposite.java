@@ -817,6 +817,11 @@ public class TriggerDataComposite extends Composite implements
 			{
 				cmbCursorType.setText( LiteralHelper.cursorSet.getDisplayNameByName( c.getType( )
 						.getName( ) ) );
+				if ( cmbCursorType.getSelectionIndex( ) < 0 )
+				{
+					cmbCursorType.select( 0 );
+					setMouseCursor( CursorType.getByName( LiteralHelper.cursorSet.getNameByDisplayName( cmbCursorType.getText( ) ) ) );
+				}
 			}
 			else if ( cmbCursorType.getSelectionIndex( ) < 0 )
 			{
