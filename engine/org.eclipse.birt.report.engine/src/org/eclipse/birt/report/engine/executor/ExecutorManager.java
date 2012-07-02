@@ -146,7 +146,13 @@ public class ExecutorManager
 	 */
 	public String nextBookmarkID( )
 	{
-		return BOOKMARK_PREFIX + ( ++sequenceID );
+		String bookmark = null;
+		do
+		{
+			bookmark = BOOKMARK_PREFIX + ( ++sequenceID );
+		} while ( context.isBookmarkExist( bookmark ) );
+		return bookmark;
+		
 	}
 
 	public IExecutorContext getExecutorContext( )

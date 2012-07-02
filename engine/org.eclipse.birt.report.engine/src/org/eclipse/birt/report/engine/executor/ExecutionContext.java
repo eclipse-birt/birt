@@ -282,6 +282,8 @@ public class ExecutionContext
 	 * 
 	 */
 	private DocumentDataSource dataSource;
+	
+	private HashMap<Long, String> reportletBookmarkMap = null;
 
 	/**
 	 * All page break listeners.
@@ -2412,4 +2414,39 @@ public class ExecutionContext
 	{
 		this.refreshData = refreshData;
 	}
+	
+	public void setReportletBookmark( long id, String bookmark )
+	{
+		if ( reportletBookmarkMap == null )
+		{
+			reportletBookmarkMap = new HashMap<Long, String>( );
+		}
+		this.reportletBookmarkMap.put( id, bookmark );
+	}
+
+	public String getReportletBookmark( long id )
+	{
+		if ( reportletBookmarkMap == null )
+		{
+			return null;
+		}
+		else
+		{
+			return reportletBookmarkMap.get( id );
+		}
+	}
+	
+	public boolean isBookmarkExist( String bookmark )
+	{
+		if ( reportletBookmarkMap == null )
+		{
+			return false;
+		}
+		else
+		{
+			return reportletBookmarkMap.values( ).contains( bookmark );
+		}
+	}
+	
+	
 }

@@ -355,7 +355,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			if ( item.getQuery( ) != null )
 			{
-				bookmark = this.manager.nextBookmarkID( );
+				if ( context.getReportletBookmark( item.getID( ) ) != null )
+				{
+					bookmark = context.getReportletBookmark( item.getID( ) );
+				}
+				else
+				{
+					bookmark = this.manager.nextBookmarkID( );
+				}
 			}
 		}
 		else

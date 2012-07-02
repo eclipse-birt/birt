@@ -145,7 +145,15 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		{
 			if ( design != null && design.getQuery( ) != null )
 			{
-				content.setBookmark( manager.nextBookmarkID( ) );
+				if ( context.getReportletBookmark( design.getID( ) ) != null )
+				{
+					content.setBookmark( context.getReportletBookmark( design
+							.getID( ) ) );
+				}
+				else
+				{
+					content.setBookmark( manager.nextBookmarkID( ) );
+				}
 			}
 		}
 	}
