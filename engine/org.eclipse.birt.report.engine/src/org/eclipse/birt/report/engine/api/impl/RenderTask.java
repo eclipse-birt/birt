@@ -16,11 +16,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
@@ -613,11 +611,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 						// here the pageExecutor will returns a report.root.
 						IReportItemExecutor pageExecutor = executor
 								.getNextChild( );
-						Map appContext = executionContext.getAppContext( );
-						if (appContext != null )
-						{
-							appContext.put( EngineConstants.PAGE_HINT, pageHint );
-						}
 						if ( pageExecutor != null )
 						{
 							setFilteredPageNumber( filteredTotalPage,
@@ -658,11 +651,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 						// here the pageExecutor will returns a report.root.
 						IReportItemExecutor pageExecutor = executor
 								.getNextChild( );
-						Map appContext = executionContext.getAppContext( );
-						if (appContext != null )
-						{
-							appContext.put( EngineConstants.PAGE_HINT, pageHint );
-						}
 						if ( pageExecutor != null )
 						{
 							setFilteredPageNumber( filteredTotalPage,

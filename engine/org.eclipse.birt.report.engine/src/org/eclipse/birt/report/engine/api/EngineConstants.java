@@ -62,9 +62,4 @@ public class EngineConstants {
 	 * the default value is false;
 	 */
 	public static final String REFRESH_DATA = "REFRESH_DATA";
-	
-	/**
-	 * Store page hint information so that excel pivottable can know if it's contained in a single page
-	 */
-	public static final String PAGE_HINT = "PAGE_HINT";
 }
