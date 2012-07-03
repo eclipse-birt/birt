@@ -71,75 +71,49 @@ class NameExecutorImpl
 	 */
 	public INameHelper getNameHelper( Module module, DesignElement container )
 	{
-		DesignElement e = container;
-		ElementDefn elementDefn = (ElementDefn) focus.getDefn( );
-		IElementDefn holderDefn = elementDefn.getNameConfig( )
-				.getNameContainer( );
-
-		if ( holderDefn == null )
-			return null;
-		IElementDefn moduleDefn = MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.MODULE_ELEMENT );
-
-		// if hold is not module, then search the name container
-		if ( !holderDefn.isKindOf( moduleDefn ) )
-		{
-			if ( holderDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
-			{
-				if ( module instanceof ReportDesign )
-				{
-					ElementPropertyDefn targetProperty = (ElementPropertyDefn) elementDefn
-							.getNameConfig( ).getNameProperty( );
-					if ( targetProperty == null )
-						return null;
-
-					Object value = module.getProperty( module, targetProperty );
-					if ( value == null )
-						return null;
-
-					if ( value instanceof DesignElement )
-					{
-						assert value instanceof INameContainer;
-						return ( (INameContainer) value ).getNameHelper( );
-					}
-					else if ( value instanceof List )
-					{
-						List valueList = (List) value;
-						if ( valueList.isEmpty( ) )
-							return null;
-						Object item = valueList.get( 0 );
-						assert item instanceof INameContainer;
-						return ( (INameContainer) item ).getNameHelper( );
-					}
-
-					return null;
-				}
-				else
-				{
-					return null;
-				}
-			}
-
-			while ( e != null )
-			{
-				if ( e.getDefn( ).isKindOf( holderDefn ) )
-				{
-					if ( e instanceof INameContainer )
-						return ( (INameContainer) e ).getNameHelper( );
-				}
-				e = e.getContainer( );
-			}
-
-			// if not found, then return null
-			return null;
-		}
-		
 		if ( module == null )
 			return null;
-		
-		if ( module.getDefn().isKindOf(holderDefn))
-			return module.getNameHelper();
-		
+
+		ElementDefn elementDefn = (ElementDefn) focus.getDefn( );
+		// first try the target property
+		ElementPropertyDefn targetProperty = (ElementPropertyDefn) elementDefn
+				.getNameConfig( ).getNameProperty( );
+		if ( targetProperty != null )
+		{
+			Object value = module.getProperty( module, targetProperty );
+			if ( value == null )
+				return null;
+			if ( value instanceof List )
+			{
+				List valueList = (List) value;
+				if ( valueList.isEmpty( ) )
+					return null;
+				value = valueList.get( 0 );
+			}
+
+			assert value instanceof INameContainer;
+			return ( (INameContainer) value ).getNameHelper( );
+		}
+
+		IElementDefn holderDefn = elementDefn.getNameConfig( )
+				.getNameContainer( );
+		if ( holderDefn == null )
+			return null;
+		// then try the container
+		while ( container != null )
+		{
+			if ( container.getDefn( ).isKindOf( holderDefn ) )
+			{
+				if ( container instanceof INameContainer )
+					return ( (INameContainer) container ).getNameHelper( );
+			}
+			container = container.getContainer( );
+		}
+
+		// try the module
+		if ( module.getDefn( ).isKindOf( holderDefn ) )
+			return module.getNameHelper( );
+
 		return null;
 	}
 

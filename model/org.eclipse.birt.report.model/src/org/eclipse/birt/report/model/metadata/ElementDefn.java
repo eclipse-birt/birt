@@ -791,49 +791,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 	private void buildNameConfig( ) throws MetaDataException
 	{
-		// Cascade the name space ID.
-
-		if ( parent != null )
+		
+		if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE )
 		{
-			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
-			{
-				// this element has no setting about name space for its parent
-				// is set
-				nameConfig.nameSpaceID = parent.getNameSpaceID( );
-				nameConfig.holder = parent.nameConfig.holder;
-			}
-			else if ( !isExtendedElement( )
-					&& parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
-				throw new MetaDataException( new String[]{name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
-			else
-			{
-				// this element has its own name space set
-				if ( nameConfig.holder == null )
-					nameConfig.holder = MetaDataDictionary.getInstance( )
-							.getElement( ReportDesignConstants.MODULE_ELEMENT );
-				if ( nameConfig.targetPropertyName != null )
-				{
-					nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary
-							.getInstance( )
-							.getElement(
-									ReportDesignConstants.REPORT_DESIGN_ELEMENT )
-							.getProperty( nameConfig.targetPropertyName );
-					if ( nameConfig.targetProperty == null )
-						throw new MetaDataException(
-								MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
-				}
-			}
-		}
-		else
-		{
-			// the name holder must be existing and name
-			// required element or the module type
+			// this element has its own name space set
 			if ( nameConfig.holder == null )
-			{
 				nameConfig.holder = MetaDataDictionary.getInstance( )
 						.getElement( ReportDesignConstants.MODULE_ELEMENT );
-			}
 			if ( nameConfig.targetPropertyName != null )
 			{
 				nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary
@@ -845,21 +809,49 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 					throw new MetaDataException(
 							MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
 			}
-			if ( nameConfig.targetProperty == null
-					&& nameConfig.holder != null
-					&& !( nameConfig.holder.getNameOption( ) == MetaDataConstants.REQUIRED_NAME || nameConfig.holder
-							.isKindOf( MetaDataDictionary
-									.getInstance( )
-									.getElement(
-											ReportDesignConstants.MODULE_ELEMENT ) ) ) )
+		}
+		else
+		{
+			if ( parent != null )
 			{
-				throw new MetaDataException(
-						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+				//inherited from it's parent
+				nameConfig.nameSpaceID = parent.getNameSpaceID( );
+				nameConfig.holder = parent.nameConfig.holder;
+				nameConfig.targetProperty = parent.nameConfig.targetProperty;
 			}
 		}
+	 	// Validate that the name and name space options are consistent.
+
+		if ( !isAbstract( ) )
+		{
+			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
+				nameConfig.nameOption = MetaDataConstants.NO_NAME;
+			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
+					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
+				throw new MetaDataException( new String[]{name},
+						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
+
+			// if name space is set, then holder must be not null
+			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
+					&& nameConfig.holder == null )
+				throw new MetaDataException( new String[]{name},
+						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
+
+		}
+		
+//			if ( nameConfig.targetProperty == null
+//					&& nameConfig.holder != null
+//					&& !( nameConfig.holder.getNameOption( ) == MetaDataConstants.REQUIRED_NAME || nameConfig.holder
+//							.isKindOf( MetaDataDictionary
+//									.getInstance( )
+//									.getElement(
+//											ReportDesignConstants.MODULE_ELEMENT ) ) ) )
+//			{
+//				throw new MetaDataException(
+//						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE );
+//			}
 
 		// Validate that the name and name space options are consistent.
-
 		if ( !isAbstract( ) )
 		{
 			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )

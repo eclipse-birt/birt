@@ -187,7 +187,6 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 			DesignElement innerElement = iter.next( );
 			rename( innerElement );
 		}
-
 	}
 
 	/*
@@ -255,14 +254,19 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 	public ElementRefValue resolve( DesignElement focus, String elementName,
 			PropertyDefn propDefn, IElementDefn elementDefn )
 	{
-		assert isValidReferenceProperty( propDefn );
+		if ( !isValidReferenceProperty( propDefn ) )
+			throw new IllegalArgumentException(
+					"Property should be element reference type or extends type" ); //$NON-NLS-1$
 
-		ElementDefn targetDefn = (ElementDefn) elementDefn;
-
+		ElementDefn targetDefn = propDefn == null
+				? null
+				: (ElementDefn) propDefn.getTargetElementType( );
 		if ( targetDefn == null )
 		{
-			targetDefn = propDefn == null ? null : (ElementDefn) propDefn
-					.getTargetElementType( );
+			if ( elementDefn == null )
+				throw new IllegalArgumentException(
+						"The element definition should not be null" ); //$NON-NLS-1$
+			targetDefn = (ElementDefn) elementDefn;
 		}
 
 		ElementDefn nameContainerDefn = (ElementDefn) targetDefn
@@ -279,9 +283,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 					(ElementDefn) elementDefn );
 		}
 
-		// if the name container has no name, it must define a target property
-		// in report design to find the name host
-		if ( nameContainerDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+		// if there is a target property defined, use the module as the name host
+		ElementPropertyDefn  propertyDefn = (ElementPropertyDefn)(targetDefn.getNameConfig( ).getNameProperty( ));
+		if (propertyDefn != null) 
 		{
 			return resolveNameInNonameHost( focus, elementName, propDefn,
 					targetDefn, nameContainerDefn );
@@ -346,9 +350,9 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 					(ElementDefn) elementDefn );
 		}
 
-		// if the name container has no name, it must define a target property
-		// in report design to find the name host
-		if ( nameContainerDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+		// if there is a target property defined, use the module as the name host
+		ElementPropertyDefn  propertyDefn = (ElementPropertyDefn)(targetDefn.getNameConfig( ).getNameProperty( ));
+		if (propertyDefn != null) 
 		{
 			// TODO
 		}
@@ -447,30 +451,29 @@ abstract public class AbstractNameHelper implements INameHelper, IAccessControl
 		assert nameContainerDefn != null;
 		Module root = getElement( ).getRoot( );
 
-		if ( root != null && root instanceof ReportDesign )
+		if ( root != null )
 		{
 			ElementPropertyDefn targetProperty = (ElementPropertyDefn) elementDefn
 					.getNameConfig( ).getNameProperty( );
 			if ( targetProperty != null )
 			{
 				Object value = root.getProperty( root, targetProperty );
-				if ( value instanceof DesignElement )
-				{
-					assert value instanceof INameContainer;
-					return ( (INameContainer) value ).getNameHelper( ).resolve(
-							focus, elementName, propDefn, elementDefn );
-				}
-				else if ( value instanceof List )
+				if ( value instanceof List )
 				{
 					List valueList = (List) value;
-					if ( !valueList.isEmpty( ) )
+					if ( valueList.isEmpty( ) )
 					{
-						Object item = valueList.get( 0 );
-						assert item instanceof INameContainer;
-						return ( (INameContainer) item ).getNameHelper( )
-								.resolve( focus, elementName, propDefn,
-										elementDefn );
+						value = null;
 					}
+					else {
+						value = valueList.get( 0 );
+					}
+				}
+
+				if ( value instanceof INameContainer )
+				{
+					return ( (INameContainer) value ).getNameHelper( ).resolve(
+							focus, elementName, propDefn, elementDefn );
 				}
 			}
 		}

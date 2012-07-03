@@ -724,6 +724,7 @@ class MetaDataHandlerImpl extends XMLParserHandler
 				else
 				{
 					int length = splitStrings.length;
+					
 					assert length == 2 || length == 3;
 					String holderName = StringUtil.trimString( splitStrings[0] );
 					String nameSpace = StringUtil.trimString( splitStrings[1] );
@@ -737,47 +738,16 @@ class MetaDataHandlerImpl extends XMLParserHandler
 					}
 					else
 					{
-						if ( length == 2 )
+						// the name holder must be existing and name
+						// required element or the module type
+						elementDefn.nameConfig.holder = holderDefn;
+						elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
+								.getInstance( ).getNameSpaceID( holderName,
+										nameSpace );
+						if ( length == 3 )
 						{
-
-							// the name holder must be existing and name
-							// required element or the module type
-							elementDefn.nameConfig.holder = holderDefn;
-							elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-									.getInstance( ).getNameSpaceID( holderName,
-											nameSpace );
-						}
-						else if ( length == 3 )
-						{
-							String targetProperty = StringUtil
+							elementDefn.nameConfig.targetPropertyName = StringUtil
 									.trimString( splitStrings[2] );
-							ElementPropertyDefn propDefn = (ElementPropertyDefn) dictionary
-									.getElement(
-											ReportDesignConstants.REPORT_DESIGN_ELEMENT )
-									.getProperty( targetProperty );
-							if ( propDefn == null )
-							{
-								elementDefn.nameConfig.holder = holderDefn;
-								elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-										.getInstance( ).getNameSpaceID(
-												holderName, nameSpace );
-								elementDefn.nameConfig.targetPropertyName = targetProperty;
-							}
-							else
-							{
-								elementDefn.nameConfig.holder = holderDefn;
-								elementDefn.nameConfig.nameSpaceID = NameSpaceFactory
-										.getInstance( ).getNameSpaceID(
-												holderName, nameSpace );
-								elementDefn.nameConfig.targetProperty = propDefn;
-							}
-						}
-						else
-						{
-							assert false;
-							errorHandler
-									.semanticError( new MetaDataParserException(
-											MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE ) );
 						}
 					}
 				}
