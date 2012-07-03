@@ -1677,7 +1677,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					continue;
 				}
-				measures.add( DEUtil.getExpression( mv.getCubeMeasure( ) ) );
+				String expr = DEUtil.getExpression( mv.getCubeMeasure( ) );
+				if (expr != null)
+				{
+					measures.add( expr );
+				}
 			}
 		}
 		catch ( ExtendedElementException e )
