@@ -470,6 +470,8 @@ public class CssCommand extends AbstractElementCommand
 			else
 			{
 				newStyleSheet = new CssStyleSheet( );
+				newStyleSheet.setExternalCssURI( externalCssURI );
+				newStyleSheet.setUseExternalCss( useExternalCss );
 			}
 			IncludedCssStyleSheet css = StructureFactory
 					.createIncludedCssStyleSheet( );

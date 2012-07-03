@@ -276,6 +276,13 @@ public class CssStyleSheetHandleAdapter
 		{
 			return false;
 		}
+		
+		sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation( module,
+				( (ICssStyleSheetOperation) element ).getCsses( ), url );
+		if ( sheet != null )
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -459,32 +466,15 @@ public class CssStyleSheetHandleAdapter
 	private boolean equals( String fileName, String externalCssURI,
 			boolean useExternalCss, IncludedCssStyleSheetHandle handle )
 	{
-		if ( fileName != null )
-		{
-			if ( fileName.equals( handle.getFileName( ) ) )
-			{
-				return true;
-			}
-		}
-		else
-		{
-			if ( externalCssURI != null )
-			{
-				if ( externalCssURI.equals( handle.getExternalCssURI( ) ) )
-				{
-					return true;
-				}
-			}
-			else
-			{
-				if ( handle.getExternalCssURI( ) == null
-						&& handle.isUseExternalCss( ) )
-				{
-					return true;
-				}
-			}
-		}
-		return false;
+		String name = handle.getFileName( );
+		String uri = handle.getExternalCssURI( );
+		boolean useCss = handle.isUseExternalCss( );
+
+		return ( fileName == null && name == null || fileName != null
+				&& fileName.equals( name ) )
+				&& ( externalCssURI == null && uri == null || externalCssURI != null
+						&& externalCssURI.equals( uri ) )
+				&& ( useExternalCss == useCss );
 	}
 	
 	/**
@@ -525,42 +515,24 @@ public class CssStyleSheetHandleAdapter
 	public CssStyleSheetHandle findCssStyleSheetHandleByProperties(
 			String fileName, String externalCssURI, boolean useExternalCss )
 	{
-
-
 		if ( fileName != null )
 		{
-
 			List<CssStyleSheet> list = ( (ICssStyleSheetOperation) element )
 					.getCsses( );
 			for ( int i = 0; i < list.size( ); i++ )
 			{
 				CssStyleSheet css = list.get( i );
-				if ( fileName.equals( css.getFileName( ) ) )
+				String name = css.getFileName( );
+				String uri = css.getExternalCssURI( );
+				boolean useCss = css.isUseExternalCss( );
+
+				if ( ( fileName == null && name == null || fileName != null
+						&& fileName.equals( name ) )
+						&& ( externalCssURI == null && uri == null || externalCssURI != null
+								&& externalCssURI.equals( uri ) )
+						&& ( useExternalCss == useCss ) )
 				{
 					return css.handle( module );
-				}
-			}
-		}
-		else
-		{
-			List<CssStyleSheet> list = ( (ICssStyleSheetOperation) element )
-					.getCsses( );
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				CssStyleSheet css = list.get( i );
-				if ( externalCssURI != null )
-				{
-					if ( externalCssURI.equals( css.getExternalCssURI( ) ) )
-					{
-						return css.handle( module );
-					}
-				}
-				else
-				{
-					if ( css.getExternalCssURI( ) == null && css.isUseExternalCss( ) && useExternalCss)
-					{
-						return css.handle( module );
-					}
 				}
 			}
 		}

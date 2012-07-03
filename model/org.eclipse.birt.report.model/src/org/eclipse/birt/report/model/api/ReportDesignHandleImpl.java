@@ -1489,7 +1489,8 @@ class ReportDesignHandleImpl extends LayoutModuleHandle
 			for ( int i = 0; i < values.size( ); i++ )
 			{
 				IncludedCssStyleSheetHandle sheetHandle = values.get( i );
-				if ( sheetHandle.getExternalCssURI( )!=null && sheetHandle.isUseExternalCss( ) )
+				if ( sheetHandle.getExternalCssURI( ) != null
+						|| sheetHandle.isUseExternalCss( ) )
 					ret.add( sheetHandle );
 			}
 		}
