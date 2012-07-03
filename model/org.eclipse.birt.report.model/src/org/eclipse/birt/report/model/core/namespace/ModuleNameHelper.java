@@ -55,7 +55,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * used again to avoid the duplicate. This may be used when some extensions
 	 * is not well-parsed or other reasons.
 	 */
-	private List<String> cachedContentNames[] = new ArrayList[Module.NAME_SPACE_COUNT];
+	private List<String> cachedContentNames[];
 
 	/**
 	 * This map to store all level elements for the backward compatibility after
@@ -85,6 +85,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	protected void initialize( )
 	{
 		int count = getNameSpaceCount( );
+		cachedContentNames = new ArrayList[count];
 		nameContexts = new INameContext[count];
 		for ( int i = 0; i < count; i++ )
 		{
@@ -293,7 +294,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 */
 	List<String> getCachedContentNames( int id )
 	{
-		assert id >= 0 && id < Module.NAME_SPACE_COUNT;
+		assert id >= 0 && id < getNameSpaceCount( );
 		return cachedContentNames[id];
 	}
 
@@ -399,7 +400,7 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 */
 	public void addContentName( int id, String name )
 	{
-		if ( id >= 0 && id < Module.NAME_SPACE_COUNT )
+		if ( id >= 0 && id < getNameSpaceCount( ) )
 		{
 			if ( !cachedContentNames[id].contains( name ) )
 				cachedContentNames[id].add( name );
