@@ -13,10 +13,18 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;
 
 import java.util.Arrays;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.SimpleComboPropertyDescriptor;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * @author Administrator
@@ -29,6 +37,44 @@ public class CrosstabSimpleComboPropertyDescriptor extends
 		super(formStyle);
 	}
 
+	public Control createControl( Composite parent )
+	{
+		if ( isFormStyle( ) )
+		{
+			combo = FormWidgetFactory.getInstance( ).createCCombo( parent, false );
+		}
+		else
+		{
+			combo = new CCombo( parent, getStyle() );
+			combo.setVisibleItemCount( 30 );
+		}
+		combo.addControlListener( new ControlListener( ) {
+
+			public void controlMoved( ControlEvent e )
+			{
+				combo.clearSelection( );
+			}
+
+			public void controlResized( ControlEvent e )
+			{
+				combo.clearSelection( );
+			}
+		} );
+		combo.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleComboSelectEvent( );
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				handleComboSelectEvent( );
+			}
+		} );
+		return combo;
+	}
+	
 	protected void refresh(String value) {
 		if (getDescriptorProvider() instanceof CrosstabSimpleComboPropertyDescriptorProvider) {
 
@@ -42,6 +88,8 @@ public class CrosstabSimpleComboPropertyDescriptor extends
 				{
 					combo.setEnabled( false );
 				}
+				
+				combo.setEditable( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) );
 
 				int sindex = Arrays.asList( items ).indexOf( oldValue );
 
