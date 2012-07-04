@@ -327,6 +327,13 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 			seriesList.add( DefaultValueProvider.defDialSeries( ).copyInstance( ) );
 			seriesList.add( DefaultValueProvider.defPieSeries( ).copyInstance( ) );
 		}
+		
+		// Set default chart title according to chart type.
+		instance.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( ChartUtil.getDefaultChartTitle( cm ) );
+
 		return instance;
 	}
 	

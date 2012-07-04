@@ -262,7 +262,9 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     public void handleEvent(Event event)
     {
     	// If display text doesn't changed, don't update it.
-		if (!sDisplyText.equals(txtSelection.getText())) {
+		if ( !sDisplyText.equals( txtSelection.getText( ) )
+				|| !sCurrent.equals( txtSelection.getText( ) ) )
+		{
 			sCurrent = txtSelection.getText();
 			fireEvent();
 		}
