@@ -43,6 +43,8 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 
 	private int style = SWT.BORDER;
 
+	private FocusAdapter focusListener;
+
 	/**
 	 * @param propertyProcessor
 	 */
@@ -79,13 +81,20 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 	{
 		if ( isFormStyle( ) )
 		{
-			combo = FormWidgetFactory.getInstance( ).createCCombo( parent, false );
+			combo = FormWidgetFactory.getInstance( ).createCCombo( parent,
+					false );
 		}
 		else
 		{
 			combo = new CCombo( parent, style );
 			combo.setVisibleItemCount( 30 );
 		}
+		addListeners( );
+		return combo;
+	}
+
+	protected void addListeners( )
+	{
 		combo.addControlListener( new ControlListener( ) {
 
 			public void controlMoved( ControlEvent e )
@@ -110,17 +119,19 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 				handleComboSelectEvent( );
 			}
 		} );
-		combo.addFocusListener( new FocusAdapter(){
+
+		focusListener = new FocusAdapter( ) {
 
 			public void focusLost( FocusEvent e )
 			{
-				if(combo.isEnabled( )){
+				if ( combo.isEnabled( ) )
+				{
 					handleComboSelectEvent( );
 				}
 			}
-			
-		} );
-		return combo;
+
+		};
+
 	}
 
 	/**
@@ -187,7 +198,8 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 				combo.setEnabled( false );
 			}
 
-			combo.setEditable( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) );
+			boolean isEditable =  ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) ;
+			setComboEditable( isEditable );
 
 			int sindex = Arrays.asList( items ).indexOf( oldValue );
 
@@ -208,6 +220,19 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 			}
 
 			combo.select( sindex );
+		}
+	}
+
+	protected void setComboEditable( boolean isEditable )
+	{
+		combo.setEditable(isEditable);
+		if ( focusListener != null )
+		{
+			combo.removeFocusListener( focusListener );
+			if ( combo.getEditable( ) )
+			{
+				combo.addFocusListener( focusListener );
+			}
 		}
 	}
 
