@@ -18,11 +18,11 @@
 		<property name="buildTempFolder" value="${buildDirectory}" />
 
 		<!-- Clean build directory and workspace --> 
-		
+		<!--
 		<delete includeemptydirs="true" failonerror="false">
 			<fileset dir="${buildDirectory}/plugins/*birt*_${BranchVersion}*"/>
 		</delete>
-		
+		-->
 		<!-- prepare rootfile -->
 		<copy todir="${buildDirectory}">
 			<fileset dir="${eclipse.build.configs}/../../extras/root">
