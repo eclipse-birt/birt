@@ -302,6 +302,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			
+			DataException exception = null;
 			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
 				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
@@ -314,15 +315,22 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
 							queryDefn, (IOdaDataSetDesign) dataSetDesign);
 					rollbackHelper.collectOriginalInfo();
-					querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-									((OdaDataSourceRuntime) dataEngine
-											.getDataSourceRuntime(dataSetDesign
-													.getDataSourceName()))
-											.getExtensionID(),
-									validationContext,
-									(IOdaDataSetDesign) dataSetDesign,
-									queryDefn, dataEngine.getSession(),
-									appContext, contextVisitor);
+					try
+					{
+						querySpec = OdaQueryOptimizationUtil.optimizeExecution(
+										((OdaDataSourceRuntime) dataEngine
+												.getDataSourceRuntime(dataSetDesign
+														.getDataSourceName()))
+												.getExtensionID(),
+										validationContext,
+										(IOdaDataSetDesign) dataSetDesign,
+										queryDefn, dataEngine.getSession(),
+										appContext, contextVisitor);
+					}
+					catch ( DataException e )
+					{
+						exception = e;
+					}
 					if ( querySpec == null )
 					{
 						//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
@@ -332,9 +340,12 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			}
 			
 			if( FilterPrepareUtil.containsExternalFilter( dataSetDesign.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ) ||
-					FilterPrepareUtil.containsExternalFilter( queryDefn.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ))
+					FilterPrepareUtil.containsExternalFilter( queryDefn.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ) )
 			{
-				throw new DataException( ResourceConstants.FAIL_PUSH_DOWM_FILTER );
+				if( exception!= null )
+					throw exception;
+				else
+					throw new DataException( ResourceConstants.FAIL_PUSH_DOWM_FILTER );
 			}
 			
 			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache(), this.contextVisitor );

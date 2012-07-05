@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ExpressionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
 
 /**
  * A report filter
@@ -83,6 +84,63 @@ public class FilterAdapter extends FilterDefinition
 							adaptedExpressions ) );
 				}
 				this.setUpdateAggregation(  modelFilter.updateAggregation( ) ); 
+			}
+		}
+	}
+	
+	/**
+	 * Construct a filter based on a Model filter handle and its filter definition
+	 * @throws AdapterException 
+	 */
+	public FilterAdapter( IModelAdapter adapter,  FilterConditionHandle modelFilter, IFilterExprDefinition filterDefn  ) throws AdapterException
+	{
+		super(null);
+		this.adapter = adapter;
+		
+		String filterExpr = modelFilter.getExpr( );
+		if ( filterExpr != null )
+		{
+			// convert to DtE exprFilter if there is no operator
+			String filterOpr = modelFilter.getOperator( );
+			if ( filterOpr == null || filterOpr.length( ) == 0 )
+			{
+				// Standalone expression; data type must be boolean
+				setExpression( adapter.adaptExpression( DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER )) ) );
+			}
+			else
+			{			
+				// Condition filter with operator and operands
+				if ( filterDefn == null || ( filterDefn.getMaxArguments( )!= null && filterDefn.getMaxArguments( ) <= 2 ) )
+				{
+					String operand1 = modelFilter.getValue1( );
+
+					setExpression( adapter.adaptConditionalExpression( DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER ) ),
+							filterOpr,
+							operand1 == null ? null
+									: modelFilter.getValue1ExpressionList( )
+											.getListValue( )
+											.get( 0 ),
+							DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.VALUE2_MEMBER ) ) ) );
+				}
+				else
+				{
+					List<Expression> operands = modelFilter.getValue1ExpressionList( )
+							.getListValue( );
+					if ( operands == null )
+					{
+						throw new AdapterException( ResourceConstants.INVALID_FILTER_OPERANDS );
+					}
+					List<IScriptExpression> adaptedExpressions = new ArrayList<IScriptExpression>( );
+
+					for ( Expression expr : operands )
+					{
+						adaptedExpressions.add( adapter.adaptExpression( expr ) );
+					}
+					setExpression( new ConditionAdapter( adapter.adaptExpression( DataAdapterUtil.getExpression( modelFilter.getExpressionProperty( FilterCondition.EXPR_MEMBER ) ) ),
+							filterOpr,
+							adaptedExpressions ) );
+				}
+				this.setUpdateAggregation( modelFilter.updateAggregation( ) );
 			}
 		}
 	}
