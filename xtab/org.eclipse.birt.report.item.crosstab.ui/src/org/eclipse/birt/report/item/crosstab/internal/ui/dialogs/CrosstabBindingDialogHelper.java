@@ -531,6 +531,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		boolean inUseDimsion = false;
 		CrosstabReportItemHandle crosstab = getCrosstabReportItemHandle( );
+		if(crosstab.getCube() == null)
+		{
+			return false;
+		}
 		int count = crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -560,8 +564,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initCalculationTypeCombo( String dimensionName )
 	{
-		DimensionHandle handle = getCrosstabReportItemHandle( ).getCube( )
-				.getDimension( dimensionName );
+		CubeHandle cube = getCrosstabReportItemHandle( ).getCube( );
+		if (cube == null)
+		{
+			return;
+		}
+		DimensionHandle handle = cube.getDimension( dimensionName );
 		String cal = calculationType.getText( );
 		isStatic = true;
 		if ( recentButton.getSelection( ) )
@@ -1235,6 +1243,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void initTimeDimension( )
 	{
 		String[] strs = getTimeDimensions( );
+		if (strs == null)
+		{
+			return;
+		}
 		timeDimension.setItems( strs );
 
 		if ( getBinding( ) == null )
@@ -1344,6 +1356,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		CrosstabReportItemHandle crosstab = getCrosstabReportItemHandle( );
 		CubeHandle cube = crosstab.getCube( );
+		if(cube == null)
+		{
+			return null;
+		}
 		List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP )
 				.getContents( );
 		for ( int i = 0; i < list.size( ); i++ )
