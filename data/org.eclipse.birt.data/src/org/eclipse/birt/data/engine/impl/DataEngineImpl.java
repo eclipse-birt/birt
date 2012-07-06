@@ -533,7 +533,7 @@ public class DataEngineImpl extends DataEngine
 	public void shutdown( )
 	{
 		logger.entering( "DataEngineImpl", "shutdown" );
-		
+	
 		if ( dataSources == null )
 		{
 			// Already shutdown
@@ -541,7 +541,6 @@ public class DataEngineImpl extends DataEngine
 			return;
 		}
 		
-		// Close all open data sources
 		// Close all open data sources
 		for ( DataSourceRuntime ds : dataSources.values( ) )
 		{
@@ -563,11 +562,14 @@ public class DataEngineImpl extends DataEngine
 		
 		if ( shutdownListenerSet != null )
 		{
-			for ( IShutdownListener shutdownListener : shutdownListenerSet )
+			//NOTE: Some IShutdownListener instance will unregister themselves from shutdownListener list. So 
+			//We should always first create a local copy of shutdownListener before navigation thru it.
+			for ( IShutdownListener shutdownListener : shutdownListenerSet.toArray( new IShutdownListener[0] ) )
  			{
 				shutdownListener.dataEngineShutdown( );
  			}
 			shutdownListenerSet.clear( );
+			shutdownListenerSet = null;
  		}
 		
 		logger.logp( Level.FINE,
@@ -787,6 +789,8 @@ public class DataEngineImpl extends DataEngine
 	
 	private void releaseValidationContexts( )
 	{
+		if ( validationContextMap == null )
+			return;
 		for ( ValidationContext vc : validationContextMap.values( ) )
 		{
 			if ( vc != null && vc.getConnection( ) != null )
