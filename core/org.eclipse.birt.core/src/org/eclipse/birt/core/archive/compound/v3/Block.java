@@ -25,7 +25,7 @@ import org.eclipse.birt.core.archive.cache.FileCacheManager;
 abstract public class Block extends Cacheable
 {
 
-	int blockId;
+	final int blockId;
 
 	public Block( FileCacheManager caches, int blockId )
 	{
