@@ -42,9 +42,9 @@
 		<antcall target="buildBirtOSGI"/>
 		<antcall target="buildBirtChartOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
+		<antcall target="buildBirtTestFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
-		<antcall target="buildBirtTestFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="buildBirtWebViewer"/>
 		<antcall target="BuildChartViewer"/>
