@@ -14,12 +14,10 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +39,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
-import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
@@ -60,11 +57,11 @@ import org.mozilla.javascript.Scriptable;
 public class DataEngineImpl extends DataEngine
 {
 	// Map of data source name (string) to DataSourceRT, for defined data sources
-	private HashMap					dataSources = new HashMap();
+	private HashMap<String, DataSourceRuntime>					dataSources = new HashMap<String, DataSourceRuntime>();
 	
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
-	private HashMap					dataSetDesigns = new HashMap();
-	private HashMap                 dataSourceDesigns = new HashMap();
+	private HashMap<String, IBaseDataSetDesign>					dataSetDesigns = new HashMap<String, IBaseDataSetDesign>();
+	private HashMap<String, IBaseDataSourceDesign>                 dataSourceDesigns = new HashMap<String, IBaseDataSourceDesign>();
 	/** Scriptable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
@@ -76,7 +73,7 @@ public class DataEngineImpl extends DataEngine
 	private Map<String, String> cubeDataSourceMap = new HashMap<String, String>();
 	private Map<String, String> cubeDataObjectMap = new HashMap<String, String>();
 	//shut down listener list
-	private List shutdownListenerList = null;
+	private Set<IShutdownListener> shutdownListenerSet = null;
 
 	private IEngineExecutionHints queryExecutionHints;
 	
@@ -512,14 +509,11 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void addShutdownListener( IShutdownListener listener )
 	{
-		if ( shutdownListenerList == null )
-			shutdownListenerList = new ArrayList( );
-		for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-		{
-			if ( listener == shutdownListenerList.get( i ) )
-				return;
-		}
-		shutdownListenerList.add( listener );
+		if ( shutdownListenerSet == null )
+			shutdownListenerSet = new LinkedHashSet<IShutdownListener>( );
+		if( shutdownListenerSet.contains( listener ) )
+			return;
+		shutdownListenerSet.add( listener );
 	}
 
 	/*
@@ -528,16 +522,9 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void removeListener( IShutdownListener listener )
 	{
-		if ( shutdownListenerList == null )
+		if ( shutdownListenerSet == null )
 			return;
-		for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-		{
-			if ( listener == shutdownListenerList.get( i ) )
-			{
-				shutdownListenerList.remove( i );
-				return;
-			}
-		}
+		shutdownListenerSet.remove( listener );
 	}
 	
 	/*
@@ -555,11 +542,9 @@ public class DataEngineImpl extends DataEngine
 		}
 		
 		// Close all open data sources
-		Collection col = dataSources.values( );
-		Iterator it = col.iterator( );
-		while ( it.hasNext( ) )
+		// Close all open data sources
+		for ( DataSourceRuntime ds : dataSources.values( ) )
 		{
-			DataSourceRuntime ds = (DataSourceRuntime) it.next( );
 			try
 			{
 				closeDataSource( ds );
@@ -576,14 +561,14 @@ public class DataEngineImpl extends DataEngine
 		
 		releaseValidationContexts( );
 		
-		if ( shutdownListenerList != null )
+		if ( shutdownListenerSet != null )
 		{
-			for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-			{
-				( (IShutdownListener) shutdownListenerList.get( i ) ).dataEngineShutdown( );
-			}
-			shutdownListenerList.clear( );
-		}
+			for ( IShutdownListener shutdownListener : shutdownListenerSet )
+ 			{
+				shutdownListener.dataEngineShutdown( );
+ 			}
+			shutdownListenerSet.clear( );
+ 		}
 		
 		logger.logp( Level.FINE,
 				DataEngineImpl.class.getName( ),

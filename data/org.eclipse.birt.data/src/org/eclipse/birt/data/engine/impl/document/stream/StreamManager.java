@@ -25,7 +25,6 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
@@ -109,9 +108,9 @@ public class StreamManager
 	public final static int SUB_QUERY_ROOT_STREAM = 1;
 	public final static int SUB_QUERY_STREAM = 2;
 	
-	private HashMap cachedStreamManagers;
-	private HashMap metaManagers;
-	private HashMap dataMetaManagers;
+	private HashMap<StreamID, StreamWriter> cachedStreamManagers;
+	private HashMap<StreamID, MetaStreamReader> metaManagers;
+	private HashMap<StreamID, DataStreamReader> dataMetaManagers;
 	private int version;
 	private static Logger logger = Logger.getLogger( StreamManager.class.getName( ) );
 
@@ -131,9 +130,9 @@ public class StreamManager
 		this.subQueryID = subQueryName == null ? null
 				: QueryResultIDUtil.buildSubQueryID( subQueryName,
 						queryResultInfo.getIndex( ) );
-		this.cachedStreamManagers = new HashMap();
-		this.metaManagers = new HashMap();
-		this.dataMetaManagers = new HashMap();
+		this.cachedStreamManagers = new HashMap<StreamID, StreamWriter>();
+		this.metaManagers = new HashMap<StreamID, MetaStreamReader>();
+		this.dataMetaManagers = new HashMap<StreamID, DataStreamReader>();
 		VersionManager vm = new VersionManager( context );
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
 		{	
@@ -164,7 +163,7 @@ public class StreamManager
 			//to temporiarily resolve [25079]. Dashboard's using of Data Engine API is incorrect.We always need first issue a generation task before any IV operation.
 			if( this.version == 0 && queryResultId != null )
 			{
-				this.version = vm.getLatestVersion();
+				this.version = VersionManager.getLatestVersion();
 				if( this.context.getDocWriter( )!= null )
 					vm.setVersion( this.version, queryResultId );
 			}
@@ -211,7 +210,7 @@ public class StreamManager
 		RAOutputStream outputStream;
 		try
 		{
-			String path = context.getPath( streamID.getStartStream( ), streamID.getSubQueryStream( ), streamType );
+			String path = DataEngineContext.getPath( streamID.getStartStream( ), streamID.getSubQueryStream( ), streamType );
 			outputStream = context.getDocWriter( ).getOutputStream( path + "/" + subIndex );
 		}
 		catch ( IOException e )
@@ -377,7 +376,7 @@ public class StreamManager
 		{
 			if( this.dataMetaManagers.get( id ) == null )
 				this.dataMetaManagers.put( id, new DataStreamReader( this.context, id ) );
-			return (StreamReader)this.dataMetaManagers.get( id );
+			return this.dataMetaManagers.get( id );
 		}
 		
 		if ( this.metaManagers.get( id ) == null )
@@ -385,7 +384,7 @@ public class StreamManager
 			this.metaManagers.put( id, new MetaStreamReader( this.context, id ) );
 				
 		}
-		return (StreamReader)this.metaManagers.get( id );
+		return this.metaManagers.get( id );
 	}
 	
 	public void dropStreams( int streamType ) throws DataException
@@ -619,7 +618,7 @@ public class StreamManager
 	{
 		if( this.cachedStreamManagers.get( id ) == null )
 			this.cachedStreamManagers.put( id, new StreamWriter( this.context, id ) );
-		return (StreamWriter)this.cachedStreamManagers.get( id );
+		return this.cachedStreamManagers.get( id );
 	}
 	
 	/**
