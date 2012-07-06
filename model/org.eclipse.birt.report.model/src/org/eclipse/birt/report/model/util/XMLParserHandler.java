@@ -139,7 +139,6 @@ public abstract class XMLParserHandler extends DefaultHandler
 		if ( stateStack.size( ) > 0 )
 		{
 			topState = stateStack.lastElement( );
-			topState.endElement( state );
 		}
 		return state;
 	}
