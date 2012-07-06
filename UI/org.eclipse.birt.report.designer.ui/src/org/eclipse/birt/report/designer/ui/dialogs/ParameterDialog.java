@@ -4579,8 +4579,8 @@ public class ParameterDialog extends BaseTitleAreaDialog
 
 			setFirstDefaultValue( value, type );
 			refreshDynamicValueTable( );
-			// defaultValueChooser.setFocus( );
-			// defaultValueChooser.setText( "" );
+			defaultValueChooser.setFocus( );
+			defaultValueChooser.setText( "" );
 		}
 	}
 
