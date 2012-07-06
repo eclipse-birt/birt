@@ -41,6 +41,11 @@ public class FilterAdapter extends FilterDefinition
 	public FilterAdapter( IModelAdapter adapter, FilterConditionHandle modelFilter  ) throws AdapterException
 	{
 		super(null);
+		adatperBuildInFilter( adapter, modelFilter );
+	}
+	
+	private void adatperBuildInFilter( IModelAdapter adapter, FilterConditionHandle modelFilter ) throws AdapterException
+	{
 		this.adapter = adapter;
 		String filterExpr = modelFilter.getExpr( );
 		if ( filterExpr != null )
@@ -94,7 +99,12 @@ public class FilterAdapter extends FilterDefinition
 	 */
 	public FilterAdapter( IModelAdapter adapter,  FilterConditionHandle modelFilter, IFilterExprDefinition filterDefn  ) throws AdapterException
 	{
-		super(null);
+		super( null );
+		if ( filterDefn == null )
+		{
+			adatperBuildInFilter( adapter, modelFilter );
+			return;
+		}
 		this.adapter = adapter;
 		
 		String filterExpr = modelFilter.getExpr( );
@@ -110,7 +120,7 @@ public class FilterAdapter extends FilterDefinition
 			else
 			{			
 				// Condition filter with operator and operands
-				if ( filterDefn == null || ( filterDefn.getMaxArguments( )!= null && filterDefn.getMaxArguments( ) <= 2 ) )
+				if ( filterDefn.getMaxArguments( )!= null && filterDefn.getMaxArguments( ) <= 2 )
 				{
 					String operand1 = modelFilter.getValue1( );
 
