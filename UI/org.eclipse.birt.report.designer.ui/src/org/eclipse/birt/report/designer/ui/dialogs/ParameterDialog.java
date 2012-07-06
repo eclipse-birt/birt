@@ -4058,6 +4058,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				return;
 			}
+			if(choiceSet.findChoice( formatCategroy ) == null)
+			{
+				return;
+			}
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
 			if ( ParameterUtil.isCustomCategory( formatCategroy ) )
