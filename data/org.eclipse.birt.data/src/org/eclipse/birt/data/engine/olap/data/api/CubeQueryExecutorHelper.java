@@ -537,6 +537,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 									+ functions[j].getName(),
 									functions[j].getMeasureName(),
 									functions[j].getFunctionName());
+							if ( functions[j].getTimeFunction( ) != null )
+							{
+								func[0].setTimeFunction( functions[j].getTimeFunction( ) );
+							}
+							if ( functions[j].getTimeFunctionFilter( ) != null )
+							{
+								func[0].setTimeFunctionFilter( functions[j].getTimeFunctionFilter( ) );
+							}
 							aggregations[0] = new AggregationDefinition(rs[i]
 									.getAggregationDefinition().getLevels(),
 									rs[i].getAggregationDefinition()
