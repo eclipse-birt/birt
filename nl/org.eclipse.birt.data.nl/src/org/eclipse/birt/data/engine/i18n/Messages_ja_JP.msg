@@ -443,4 +443,4 @@ data.datamart.failLoadDataSet = ƒf[ƒ^ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒZƒbƒg "{0}" ‚ğ“Ç‚İ‚ß‚
 data.datamart.originalDataSetNotExist = ‘•ªXV‚Å‚«‚Ü‚¹‚ñB Œ³‚Ìƒf[ƒ^ƒZƒbƒg "{0}" ‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 data.datamart.incrementalDatasetMetaDataError = ‘•ªXV‚Å‚«‚Ü‚¹‚ñB ’Ç‰Á‚Ìƒf[ƒ^ƒZƒbƒg "{0}" ‚Ìƒƒ^ƒf[ƒ^‚ªAŒ³‚Ìƒf[ƒ^ƒZƒbƒg‚Ì‚à‚Ì‚ÆˆÙ‚È‚è‚Ü‚·B 
 
-data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.
+data.filter.pushDownFail= ODA Šg’£‘¤‚Å‚Ì‚İƒTƒ|[ƒg‚³‚ê‚éƒtƒBƒ‹ƒ^‚ğƒvƒbƒVƒ… (‰º‚Ö) ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B

@@ -443,4 +443,4 @@ data.datamart.failLoadDataSet = 데이터 개체 집합 "{0}"을(를) 로드하지 못했습니다
 data.datamart.originalDataSetNotExist = 증분 업데이트에 실패했습니다. 원본 데이터 집합 "{0}"이(가) 없습니다.
 data.datamart.incrementalDatasetMetaDataError = 증분 업데이트에 실패했습니다. 추가 데이터 집합 "{0}"의 메타데이터가 원본 데이터 집합의 메타데이터와 다릅니다. 
 
-data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.
+data.filter.pushDownFail= ODA 확장 측에서만 지원되는 필터를 아래로 밀어내지 못했습니다.

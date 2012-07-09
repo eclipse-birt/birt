@@ -443,4 +443,4 @@ data.datamart.failLoadDataSet = Fehler beim Laden von Datenobjekt-Datensatz '{0}
 data.datamart.originalDataSetNotExist = Schrittweise Aktualisierung fehlgeschlagen. Der Originaldatensatz '{0}' ist nicht vorhanden.
 data.datamart.incrementalDatasetMetaDataError = Schrittweise Aktualisierung fehlgeschlagen. Die Metadaten des zusätzlichen Datensatzes '{0}' unterscheiden sich von denen des Originaldatensatzes. 
 
-data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.
+data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.

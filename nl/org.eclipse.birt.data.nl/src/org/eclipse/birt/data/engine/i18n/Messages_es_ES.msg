@@ -443,4 +443,4 @@ data.datamart.failLoadDataSet = Error al cargar el conjunto de datos de objeto d
 data.datamart.originalDataSetNotExist = Error en la actualización incremental. El conjunto de datos original "{0}" no existe.
 data.datamart.incrementalDatasetMetaDataError = Error en la actualización incremental. Los metadatos del conjunto de datos original "{0}" son distintos del conjunto de datos originales. 
 
-data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.
+data.filter.pushDownFail= Error al reducir el filtro que solo es compatible con la extnsión ODA.

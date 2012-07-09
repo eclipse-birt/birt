@@ -443,4 +443,4 @@ data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。
 data.datamart.originalDataSetNotExist = 增量更新失败。 原始数据集“{0}”不存在。
 data.datamart.incrementalDatasetMetaDataError = 增量更新失败。 附加数据集“{0}”的元数据与原始数据集的元数据不同。 
 
-data.filter.pushDownFail= Fail to push down filter which is only supported in ODA extension side.
+data.filter.pushDownFail= 下推仅支持 ODA 扩展端的筛选器失败。
