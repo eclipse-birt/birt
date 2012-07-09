@@ -3674,6 +3674,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				isEnable = false;
 			}
+			//bre can't support null constant value.
+			if ( value == null )
+				isEnable = false;
 		}
 		boolean isDefault = isEnable && isDefaultChoice( selectedChoice );
 		if ( isDefault )
