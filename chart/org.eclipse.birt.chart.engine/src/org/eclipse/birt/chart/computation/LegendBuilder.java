@@ -1470,7 +1470,12 @@ public final class LegendBuilder implements IConstants
 						+ lgData.dSafeSpacing )
 				{
 					flushColumnList( );
-					return placeContentWithSize( lih, size );
+					// The label will be rendered in a new column, it needs to recompute
+					// the available width of label again, if the width of label
+					// is greater than remainder width of legend, the label will
+					// be reduced with ellipsis.
+					Point newSize = computeContentSize( lih );
+					return placeContentWithSize( lih, newSize );
 				}
 				else
 				{
