@@ -590,14 +590,14 @@ public class InputParameterDialog extends BaseDialog
 				if ( !isRequired && !nullAdded )
 				{
 					combo.add( NULL_VALUE_STR );
-					combo.setData( NULL_VALUE_STR, null );
+					combo.setData( String.valueOf(combo.getItemCount() - 1), null );
 					nullAdded = true;
 				}
 			}
 			else
 			{
 				combo.add( label );
-				combo.setData( label, choice.getValue( ) );
+				combo.setData( String.valueOf(combo.getItemCount() - 1), choice.getValue( ) );
 			}
 		}
 
@@ -690,7 +690,7 @@ public class InputParameterDialog extends BaseDialog
 				if ( combo.getSelectionIndex( ) != -1 )
 				{
 					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getData( combo.getItem( combo.getSelectionIndex( ) ) ) );
+							combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
 				}
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
 				{
