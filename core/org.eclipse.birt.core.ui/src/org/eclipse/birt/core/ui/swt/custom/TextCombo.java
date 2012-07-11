@@ -17,7 +17,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -28,9 +27,11 @@ import org.eclipse.swt.widgets.Display;
 public class TextCombo extends CustomChooserComposite
 {
 
-	private Font fontBold;
+	private Font fontBold = new Font( Display.getCurrent( ), "arial", //$NON-NLS-1$
+			9,
+			SWT.BOLD );
 
-	private HashMap<String, Boolean> choiceMarkerMap = new HashMap<String, Boolean>( 10 );
+	private HashMap choiceMarkerMap = new HashMap( 10 );
 
 	private class TextComboChoice extends TextCanvas implements ICustomChoice
 	{
@@ -67,22 +68,7 @@ public class TextCombo extends CustomChooserComposite
 
 		GC gc = new GC( this );
 		itemHeight = gc.getFontMetrics( ).getHeight( ) + 2;
-		
-		if ( gc.getFont( ).getFontData( ) == null
-				|| gc.getFont( ).getFontData( ).length == 0 )
-		{
-			fontBold = new Font( Display.getCurrent( ), "arial", //$NON-NLS-1$
-					9,
-					SWT.BOLD );
-		}
-		else
-		{
-			FontData fd = gc.getFont( ).getFontData( )[0];
-			fontBold = new Font( gc.getDevice( ),
-					fd.getName( ),
-					fd.getHeight( ),
-					fd.getStyle( ) | SWT.BOLD );
-		}
+
 		addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
