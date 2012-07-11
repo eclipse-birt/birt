@@ -328,20 +328,17 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
-			sRatio.setRatio( 10 );
 			sRatio.setLayoutData( gridData );
 			sRatio.setValues( (int) ( series.getRatio( ) * 10 ),
 					1,
 					101,
 					1,
 					1,
+					10,
 					10 );
 			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
 			sRatio.setEnabled( true );
 			sRatio.addSelectionListener( this );
-//			sRatio.addListener( SWT.FocusOut, this );
-//			sRatio.addListener( SWT.KeyDown, this );
-//			sRatio.addListener( SWT.Traverse, this );
 		}
 
 		Label lblRotation = new Label( cmpRight, SWT.NONE );
@@ -363,13 +360,11 @@ public class PieSeriesAttributeComposite extends Composite implements
 					360,
 					1,
 					1,
-					10 );
+					10,
+					1 );
 			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 			sRotation.setEnabled( true );
 			sRotation.addSelectionListener( this );
-//			sRotation.addListener( SWT.FocusOut, this );
-//			sRotation.addListener( SWT.KeyDown, this );
-//			sRotation.addListener( SWT.Traverse, this );
 		}
 
 		btnDirection = context.getUIFactory( )
