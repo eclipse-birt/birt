@@ -754,10 +754,20 @@ class ResultSetsAdapter
 
 			Integer tmpNativeDataType = column.getNativeDataType( );
 			String nativeName = column.getNativeName( );
-			// if same column name appears in more than one table, column position needs to be checked
+			// if the column name is unique, not necessary to check position
+			if ( duplicate == Boolean.FALSE )
+			{
+				if ( !StringUtil.isBlank( nativeName )
+						&& nativeName.equalsIgnoreCase( paramName ) )
+				{
+					return column;
+				}
+			}
+			// if same column name appears in more than one table or oda native name
+			// is missing, column position needs to be checked
 			if ( ( StringUtil.isBlank( nativeName ) || nativeName
 					.equalsIgnoreCase( paramName ) )
-					&& ( duplicate == Boolean.FALSE || position.equals( column.getPosition( ) ) )  
+					&& ( position.equals( column.getPosition( ) ) )
 					&& ( tmpNativeDataType == null || nativeDataType
 							.equals( tmpNativeDataType ) ) )
 				return column;
