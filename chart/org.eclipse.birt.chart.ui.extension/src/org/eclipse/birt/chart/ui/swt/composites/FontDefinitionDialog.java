@@ -706,52 +706,31 @@ public class FontDefinitionDialog extends TrayDialog implements
 			( (Button) oSource ).setSelection( true );
 		}
 		
+		// Chart font UI doesn't support tri-state, set the "bold", "italic"
+		// "underline" and "strikeThru" to false when the button is clicked up
+		// (#51584)
 		if ( oSource.equals( btnBold ) )
 		{
-			if ( btnBold.getSelection( ) )
-			{
-				fdCurrent.setBold( btnBold.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetBold( );
-			}
+			fdCurrent.setBold( btnBold.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnItalic ) )
 		{
-			if ( btnItalic.getSelection( ) )
-			{
-				fdCurrent.setItalic( btnItalic.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetItalic( );
-			}
+			fdCurrent.setItalic( btnItalic.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnUnderline ) )
 		{
-			if ( btnUnderline.getSelection( ) )
-			{
-				fdCurrent.setUnderline( btnUnderline.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetUnderline( );
-			}
+			fdCurrent.setUnderline( btnUnderline.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( btnStrikethru ) )
 		{
-			if ( btnStrikethru.getSelection( ) )
-			{
-				fdCurrent.setStrikethrough( btnStrikethru.getSelection( ) );
-			}
-			else
-			{
-				fdCurrent.unsetStrikethrough( );
-			}
+			fdCurrent.setStrikethrough( btnStrikethru.getSelection( ) );
+
 			updatePreview( );
 		}
 		else if ( oSource.equals( cmbFontNames ) )
