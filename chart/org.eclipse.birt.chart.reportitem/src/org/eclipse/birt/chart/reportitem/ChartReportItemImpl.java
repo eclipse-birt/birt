@@ -795,13 +795,8 @@ public class ChartReportItemImpl extends ReportItem implements
 						SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
 			}
 
-			SeriesDefinition bsd = ChartUtil.getBaseSeriesDefinitions( cm )
-					.get( 0 );
-			List<Query> bsQuery = bsd.getDesignTimeSeries( )
-					.getDataDefinition( );
-			if ( bsQuery.size( ) == 0
-					|| bsQuery.get( 0 ) == null
-					|| !bsQuery.get( 0 ).isDefined( ) )
+			List<SeriesDefinition> sdList = ChartUtil.getBaseSeriesDefinitions( cm );
+			if ( sdList == null || sdList.size( ) == 0 )
 			{
 				ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
 						ChartReportItemPlugin.ID,
@@ -812,6 +807,26 @@ public class ChartReportItemImpl extends ReportItem implements
 								Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.XSeries"//$NON-NLS-1$
 										: "QueryHelper.Text.CategroySeries" ) ) );//$NON-NLS-1$
 				list.add( exception );
+			}
+			else
+			{
+				SeriesDefinition bsd = sdList.get( 0 );
+				List<Query> bsQuery = bsd.getDesignTimeSeries( )
+						.getDataDefinition( );
+				if ( bsQuery.size( ) == 0
+						|| bsQuery.get( 0 ) == null
+						|| !bsQuery.get( 0 ).isDefined( ) )
+				{
+					ExtendedElementException exception = new ExtendedElementException( getHandle( ).getElement( ),
+							ChartReportItemPlugin.ID,
+							"QueryHelper.dataDefnUndefined",//$NON-NLS-1$
+							Messages.getResourceBundle( ) );
+					exception.setProperty( ExtendedElementException.LOCALIZED_MESSAGE,
+							Messages.getString( "QueryHelper.dataDefnUndefined",//$NON-NLS-1$
+									Messages.getString( cm instanceof ChartWithAxes ? "QueryHelper.Text.XSeries"//$NON-NLS-1$
+											: "QueryHelper.Text.CategroySeries" ) ) );//$NON-NLS-1$
+					list.add( exception );
+				}
 			}
 
 			ExtendedElementException yException = new ExtendedElementException( getHandle( ).getElement( ),
