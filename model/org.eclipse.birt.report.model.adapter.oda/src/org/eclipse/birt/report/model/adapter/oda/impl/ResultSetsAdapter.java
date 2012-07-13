@@ -189,7 +189,7 @@ class ResultSetsAdapter
 				: tmpCachedColumnDefn.getAttributes( );
 
 		updateColumnHintFromDataAttrs( columnDefn.getAttributes( ),
-				cachedDataAttrs, newHint );
+				cachedDataAttrs, newHint, resultSetColumn );
 		updateColumnHintFromUsageHints(
 				outputAttrs,
 				tmpCachedColumnDefn == null ? null : tmpCachedColumnDefn
@@ -271,7 +271,8 @@ class ResultSetsAdapter
 
 	private static void updateColumnHintFromDataAttrs(
 			DataElementAttributes dataAttrs,
-			DataElementAttributes cachedDataAttrs, ColumnHint newHint )
+			DataElementAttributes cachedDataAttrs, ColumnHint newHint,
+			OdaResultSetColumn column )
 	{
 		if ( dataAttrs == null )
 			return;
@@ -279,7 +280,15 @@ class ResultSetsAdapter
 		Object oldValue = cachedDataAttrs == null ? null : cachedDataAttrs
 				.getName( );
 		Object newValue = dataAttrs.getName( );
-		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		// If column name in hint already matches column name in column, don't
+		// update it even if
+		// oda has a new column name. Column name in hint and column has to
+		// match as model use column name
+		// as identifier to relate column and hint
+		if ( !CompareUtil.isEquals(
+				newHint.getProperty( null, ColumnHint.COLUMN_NAME_MEMBER ),
+				column.getColumnName( ) )
+				&& !CompareUtil.isEquals( oldValue, newValue ) )
 			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newValue );
 
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
@@ -424,7 +433,8 @@ class ResultSetsAdapter
 		newValue = formatHints.getHorizontalAlignment( );
 		oldValue = cachedFormatHints == null ? null : cachedFormatHints
 				.getHorizontalAlignment( );
-		if ( !CompareUtil.isEquals( oldValue, newValue ) )
+		if ( formatHints.isSetHorizontalAlignment( )
+				&& !CompareUtil.isEquals( oldValue, newValue ) )
 		{
 			newHint.setProperty(
 					ColumnHint.HORIZONTAL_ALIGN_MEMBER,
@@ -758,7 +768,9 @@ class ResultSetsAdapter
 			if ( duplicate == Boolean.FALSE )
 			{
 				if ( !StringUtil.isBlank( nativeName )
-						&& nativeName.equalsIgnoreCase( paramName ) )
+						&& nativeName.equalsIgnoreCase( paramName )
+						&& ( tmpNativeDataType == null || nativeDataType
+								.equals( tmpNativeDataType ) ) )
 				{
 					return column;
 				}
