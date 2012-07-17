@@ -1027,7 +1027,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			liacMarkerRange.setLineAttributes( range.getOutline( ) );
 
 			// Update the Label attribute fields
-//			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ), range );
+			lacLabel.setLabel( range.getLabel( ), getChart( ).getUnits( ), range );
 		}
 	}
 
