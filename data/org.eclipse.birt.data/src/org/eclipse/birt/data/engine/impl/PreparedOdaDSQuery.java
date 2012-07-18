@@ -222,39 +222,20 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			ValidationContext validationContext = null;
 			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				int cacheSize = 0;
-				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
+				validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+				if ( validationContext != null )
 				{
-					cacheSize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
-							.toString( ) )
-							.intValue( );
-				}
-				if ( cacheSize <= 0
-						&& appContext.containsKey( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) )
-				{
-					cacheSize = Integer.valueOf( appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT )
-							.toString( ) )
-							.intValue( );
-				}
-				if ( cacheSize <= 0 )
-				{
-					validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
-					if ( validationContext != null )
-					{
-						Properties connProperties = new Properties( );
-						// merge public and private driver properties into a
-						// single
-						// Map
-						Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
-								( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
+					Properties connProperties = new Properties( );
+					// merge public and private driver properties into a single Map
+					Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
+							( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
 
-						if ( driverProps != null )
-							connProperties.putAll( driverProps );
+					if ( driverProps != null )
+						connProperties.putAll( driverProps );
 
-						QuerySpecHelper.setValidationConnectionContext( validationContext,
-								connProperties,
-								appContext );
-					}
+					QuerySpecHelper.setValidationConnectionContext( validationContext,
+							connProperties,
+							appContext );
 				}
 			}
 		    
