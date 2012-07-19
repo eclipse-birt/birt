@@ -125,8 +125,9 @@ public class SVGImage extends Image
 	@Override
 	public Image getScaledInstance( int arg0, int arg1, int arg2 )
 	{
-		this.image = image.getScaledInstance( arg0, arg1, arg2 );
-		return new SVGImage( image, url, data );
+		return new SVGImage( image.getScaledInstance( arg0, arg1, arg2 ),
+				url,
+				data );
 	}
 
 	@Override

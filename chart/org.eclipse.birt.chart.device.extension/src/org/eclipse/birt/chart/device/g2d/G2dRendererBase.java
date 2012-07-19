@@ -1337,14 +1337,19 @@ public class G2dRendererBase extends DeviceAdapter
 	}
 
 	/**
-	 * Scales image according to output DPI.
+	 * Scales image according to output DPI. If 96, do not need to scale
 	 * 
 	 * @param img
 	 * @return
 	 */
 	private java.awt.Image scaleImage( java.awt.Image img )
 	{
-		double scale = this._ids.getDpiResolution( ) / 72d;
+		if ( this._ids.getDpiResolution( ) == 96 )
+		{
+			// Do not scale in normal dpi
+			return img;
+		}
+		double scale = this._ids.getDpiResolution( ) / 96d;
 		int newWidth = (int) ( img.getWidth( (ImageObserver) getDisplayServer( ).getObserver( ) ) * scale );
 		int newHeight = (int) ( img.getHeight( (ImageObserver) getDisplayServer( ).getObserver( ) ) * scale );
 		return img.getScaledInstance( newWidth, newHeight, Image.SCALE_DEFAULT );
