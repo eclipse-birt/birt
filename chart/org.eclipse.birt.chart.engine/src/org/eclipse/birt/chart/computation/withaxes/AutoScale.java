@@ -4565,6 +4565,10 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			// Use a more precise pattern
 			valuePattern = ValueFormatter.getNumericPattern( dAxisValue );
+
+			// Since the axis step is computed, here normalize it first to avoid
+			// error of precision and avoid to get error format pattern.
+			dAxisStep = ValueFormatter.normalizeDouble( dAxisStep ).doubleValue( );
 			stepPattern = ValueFormatter.getNumericPattern( dAxisStep );
 
 			bValuePrecise = ChartUtil.checkDoublePrecise( dAxisValue );

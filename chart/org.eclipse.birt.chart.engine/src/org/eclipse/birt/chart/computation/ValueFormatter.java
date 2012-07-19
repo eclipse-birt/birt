@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.chart.computation;
 
+import java.text.ParseException;
+
 import org.eclipse.birt.chart.datafeed.IDataPointEntry;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
@@ -51,7 +55,26 @@ public final class ValueFormatter
 	 * data or axis label
 	 */
 	private static final String sNumericPattern = "0"; //$NON-NLS-1$
-
+	
+	public static final String DECIMAL_FORMAT_PATTERN = "#,##0.#########"; //$NON-NLS-1$
+	
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
+	
+	/**
+	 * Still use full decimal format pattern to format number, it avoid to
+	 * format small double as 0.
+	 * 
+	 * @param value
+	 * @param locale
+	 * @return
+	 */
+	private static final String formatNumber( Number value, ULocale locale )
+	{
+		DecimalFormat df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
+				new DecimalFormatSymbols( locale ) );
+		return df.format( value.doubleValue( ) );
+	}
+	
 	/**
 	 * Returns the formatted string representation of given object.
 	 * 
@@ -153,8 +176,7 @@ public final class ValueFormatter
 				}
 				else if ( oValue instanceof Number )
 				{
-					return NumberFormat.getInstance( lcl )
-							.format( ( (Number) oValue ).doubleValue( ) );
+					return formatNumber( (Number) oValue, lcl );
 				}
 				else if ( oValue instanceof NumberDataElement )
 				{
@@ -269,8 +291,7 @@ public final class ValueFormatter
 			}
 			else if ( oValue instanceof Number )
 			{
-				return NumberFormat.getInstance( lcl )
-						.format( ( (Number) oValue ).doubleValue( ) );
+				return formatNumber( (Number) oValue, lcl );
 			}
 			else if ( oValue instanceof NumberDataElement )
 			{
@@ -434,6 +455,9 @@ public final class ValueFormatter
 				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 				return sNumericPattern;
 			}
+			// Still return this pattern to make 9 digits of
+			// decimal precision for double.
+			return DECIMAL_FORMAT_PATTERN;
 		}
 
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
@@ -502,5 +526,33 @@ public final class ValueFormatter
 	public static String getNumericPattern( double dValue )
 	{
 		return getNumericPattern( Double.valueOf( dValue ) );
+	}
+	
+	/**
+	 * Normalize double value to avoid error precision.
+	 * 
+	 * @param value
+	 * @return normalized value of specified double.
+	 */
+	public static Number normalizeDouble( Double value )
+	{
+		if ( value.isNaN( ) )
+		{
+			return 0;
+		}
+		DecimalFormat df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
+				new DecimalFormatSymbols( ULocale.ENGLISH ) );
+		// Normalize double value to avoid double precision error.
+		String sValue = df.format( value );
+		try
+		{
+			return df.parse( sValue );
+		}
+		catch ( ParseException e )
+		{
+			logger.log( e );
+		}
+		
+		return value;
 	}
 }
