@@ -339,8 +339,8 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 				&& eObj.eContainer( ) != null
 				&& eObj.eContainer( ).eContainer( ) instanceof Chart )
 		{
-			// It is chart title block, if chart title is null, we use chart type.
-			if ( eObj.getLabel( ).getCaption( ).getValue( ) == null ) 
+			// It is chart title block, if chart title is null or blank, we use chart type.
+			if ( ChartUtil.isEmpty( eObj.getLabel( ).getCaption( ).getValue( ) ) ) 
 			{
 				eObj.getLabel( )
 						.getCaption( )
