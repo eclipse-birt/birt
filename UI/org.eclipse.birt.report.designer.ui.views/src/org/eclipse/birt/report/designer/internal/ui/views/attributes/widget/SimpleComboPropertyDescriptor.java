@@ -151,9 +151,9 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 		}
 		catch ( SemanticException e )
 		{
-			WidgetUtil.processError( combo.getShell( ), e );
 			combo.setText( oldValue );
 			combo.setSelection( new Point( 0, oldValue.length( ) ) );
+			WidgetUtil.processError( combo.getShell( ), e );
 		}
 
 	}

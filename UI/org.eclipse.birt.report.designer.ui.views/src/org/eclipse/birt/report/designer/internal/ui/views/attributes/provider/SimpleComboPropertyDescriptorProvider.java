@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -111,7 +112,6 @@ public class SimpleComboPropertyDescriptorProvider extends
 				if ( css.isUseExternalCss( )
 						|| css.getExternalCssURI( ) != null )
 				{
-					System.out.println( this.property );
 					isEditable = true;
 				}
 				if ( inCss != null
@@ -147,6 +147,25 @@ public class SimpleComboPropertyDescriptorProvider extends
 									+ " "
 									+ Messages.getString( "CssStyleSheetNodeProvider.Tooltip.URI" );
 						}
+					}
+				}
+			}
+
+			ThemeHandle theme = reportDesign.getTheme( );
+			if ( theme != null )
+			{
+				cssList.addAll( theme.getAllCssStyleSheets( ) );
+				for ( int i = 0; i < cssList.size( ); i++ )
+				{
+					CssStyleSheetHandle css = cssList.get( i );
+					IncludedCssStyleSheetHandle inCss = theme.findIncludedCssStyleSheetHandleByProperties( css.getFileName( ),
+							css.getExternalCssURI( ),
+							css.isUseExternalCss( ) );
+					if ( css.isUseExternalCss( )
+							|| css.getExternalCssURI( ) != null )
+					{
+						isEditable = true;
+						break;
 					}
 				}
 			}
