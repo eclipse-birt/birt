@@ -32,7 +32,7 @@ public class DBConfig
 	public static final int DEFAULT_POLICY = -1;
 	public static final int IGNORE_UNIMPORTANT_EXCEPTION = 3;
 	private HashMap<Integer, Set<String>> driverPolicy = null;
-	private static DBConfig config = null;
+	private volatile static DBConfig config = null;
 
 	public static DBConfig getInstance( )
 	{
