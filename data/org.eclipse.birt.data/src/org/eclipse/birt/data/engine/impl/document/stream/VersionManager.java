@@ -83,6 +83,9 @@ public class VersionManager
 	//Enhance Data Set storage in BDO/Rptdocument
 	public final static int VERSION_3_7_2_1 = 200;
 	
+	//Column storage in BDO
+	public final static int VERSION_4_2_0 = 210;
+	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -225,7 +228,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_3_7_2_1;
+		return VERSION_4_2_0;
 	}
 
 }

@@ -48,6 +48,8 @@ import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.storage.DataSetStore;
+import org.eclipse.birt.data.engine.storage.IDataSetWriter;
 
 /**
  * OdiResultSet is responsible for accessing data sources and some processing
@@ -319,22 +321,32 @@ public class CachedResultSet implements IResultIterator
 					Map<String, IIndexSerializer> index = 
 						streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
 					Map<String, StringTable> stringTables = streamsWrapper.getOutputStringTable( this.getResultClass( ) );
-					this.resultSetPopulator.getCache( )
-							.doSave( streamsWrapper.getStreamForDataSet( ),
-									streamsWrapper.getStreamForDataSetRowLens( ),
-									stringTables,
-									index,
-									resultSetPopulator.getEventHandler( )
-											.getAllColumnBindings( ),
-									streamsWrapper.getStreamManager( )
-											.getVersion( ) );
-					for( StringTable stringTable : stringTables.values( ))
+					
+					IDataSetWriter writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ), getResultClass( ), handler.getAppContext( ) );
+					if ( writer != null )
 					{
-						stringTable.close( );
+						writer.save( this.resultSetPopulator.getCache( ) );
+						writer.close( );
 					}
-					for( IIndexSerializer ind: index.values( ))
+					else
 					{
-						ind.close( );
+						this.resultSetPopulator.getCache( )
+						.doSave( streamsWrapper.getStreamForDataSet( ),
+								streamsWrapper.getStreamForDataSetRowLens( ),
+								stringTables,
+								index,
+								resultSetPopulator.getEventHandler( )
+								.getAllColumnBindings( ),
+								streamsWrapper.getStreamManager( )
+								.getVersion( ) );
+						for( StringTable stringTable : stringTables.values( ))
+						{
+							stringTable.close( );
+						}
+						for( IIndexSerializer ind: index.values( ))
+						{
+							ind.close( );
+						}
 					}
 				}
 				

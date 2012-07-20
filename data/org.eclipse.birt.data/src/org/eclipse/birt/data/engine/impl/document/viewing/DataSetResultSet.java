@@ -36,7 +36,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * The raw result set which will retrieve the raw data of data set from the
  * report document.
  */
-public class DataSetResultSet implements IDataSetPopulator
+public class DataSetResultSet implements IDataSetResultSet
 {
 	private int rowIndex;
 	private int rowCount;

@@ -350,6 +350,11 @@ public class DataEngineContext
 		
 		String relativePath = getPath( streamID, subStreamID, streamType );
 		
+		return openOutputStream( relativePath );
+	}
+	
+	private RAOutputStream openOutputStream( String relativePath ) throws DataException
+	{
 		try
 		{
 			RAOutputStream outputStream = writer.openRandomAccessStream( relativePath );
@@ -363,6 +368,16 @@ public class DataEngineContext
 		{
 			throw new DataException( ResourceConstants.RD_SAVE_STREAM_ERROR, e );
 		}
+	}
+	
+	public RAOutputStream getOutputStream( String streamID, String subStreamID,
+			int streamType, String subName ) throws DataException
+	{
+		assert writer != null;
+		
+		String relativePath = getPath( streamID, subStreamID, streamType, subName );
+		
+		return openOutputStream( relativePath );
 	}
 
 	/**
@@ -402,6 +417,17 @@ public class DataEngineContext
 		return false;
 	}
 	
+	public boolean hasInStream( String streamID, String subStreamID, int streamType, String subname )
+	{
+		String relativePath = getPath( streamID, subStreamID, streamType, subname );
+
+		if ( reader != null && reader.exists( relativePath ) )
+			return true;
+		else if ( writer!= null && writer.exists( relativePath ))
+			return true;
+		return false;
+	}
+	
 	/**
 	 * @param streamID
 	 * @param subStreamID
@@ -410,6 +436,13 @@ public class DataEngineContext
 	public void dropStream( String streamID, String subStreamID, int streamType )
 	{
 		String relativePath = getPath( streamID, subStreamID, streamType );
+		
+		this.dropStream( relativePath );
+	}
+	
+	public void dropStream( String streamID, String subStreamID, int streamType, String subName )
+	{
+		String relativePath = getPath( streamID, subStreamID, streamType, subName );
 		
 		this.dropStream( relativePath );
 	}
@@ -463,6 +496,11 @@ public class DataEngineContext
 
 		String relativePath = getPath( streamID, subStreamID, streamType );
 		
+		return getInStream( relativePath );
+	}
+	
+	private RAInputStream getInStream( String relativePath ) throws DataException
+	{
 		try
 		{
 			RAInputStream inputStream = null;
@@ -487,6 +525,14 @@ public class DataEngineContext
 		{
 			throw new DataException( ResourceConstants.RD_LOAD_STREAM_ERROR, e );
 		}
+	}
+	
+	public RAInputStream getInputStream( String streamID, String subStreamID,
+			int streamType, String subname ) throws DataException
+	{
+		String relativePath = getPath( streamID, subStreamID, streamType, subname );
+		
+		return getInStream( relativePath );
 	}
 	
 	/**
@@ -710,6 +756,14 @@ public class DataEngineContext
 			streamRoot += subStreamID + "/"; //$NON-NLS-1$
 		return streamRoot + relativePath;
 	}	
+	
+	public static String getPath( String streamID, String subStreamID, int streamType, String subName )
+	{
+		String path = getPath( streamID, subStreamID, streamType );
+		if ( subName != null && subName.length( ) > 0 )
+			path += "/" + subName; //$NON-NLS-1$
+		return path;
+	}
 
 	/**
 	 * 
