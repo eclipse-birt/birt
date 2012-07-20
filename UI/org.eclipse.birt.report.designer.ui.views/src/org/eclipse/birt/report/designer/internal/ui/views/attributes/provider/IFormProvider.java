@@ -166,21 +166,21 @@ public interface IFormProvider extends IDescriptorProvider
 	 * @return True needs refresh, false not need.
 	 */
 	boolean needRefreshed( NotificationEvent event );
-	
+
 	boolean needRebuilded( NotificationEvent event );
 
 	boolean isEnable( );
-	
+
 	boolean isEditable( );
-	
-	boolean isAddEnable();
 
-	boolean isEditEnable( );
+	boolean isAddEnable( Object selectedObject );
 
-	boolean isDeleteEnable( );
+	boolean isEditEnable( Object selectedObject );
 
-	boolean isUpEnable( );
+	boolean isDeleteEnable( Object selectedObject );
 
-	boolean isDownEnable( );
+	boolean isUpEnable( Object selectedObject );
+
+	boolean isDownEnable( Object selectedObject );
 
 }
