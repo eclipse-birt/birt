@@ -56,13 +56,15 @@ public final class ValueFormatter
 	 */
 	private static final String sNumericPattern = "0"; //$NON-NLS-1$
 	
+	private static final Double sCriticalDoubleValue = Double.valueOf( "1E-3" );  //$NON-NLS-1$
+	
 	public static final String DECIMAL_FORMAT_PATTERN = "#,##0.#########"; //$NON-NLS-1$
 	
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 	
 	/**
-	 * Still use full decimal format pattern to format number, it avoid to
-	 * format small double as 0.
+	 * Still use full decimal format pattern to format number if number is less
+	 * than 0.001, it avoid to format small double as 0.
 	 * 
 	 * @param value
 	 * @param locale
@@ -70,9 +72,14 @@ public final class ValueFormatter
 	 */
 	private static final String formatNumber( Number value, ULocale locale )
 	{
-		DecimalFormat df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
+		if ( ChartUtil.mathLT( Math.abs( value.doubleValue( ) ), sCriticalDoubleValue ) ) 
+		{
+			DecimalFormat df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
 				new DecimalFormatSymbols( locale ) );
-		return df.format( value.doubleValue( ) );
+			return df.format( value.doubleValue( ) );
+		}
+		
+		return NumberFormat.getInstance( locale ).format( value );
 	}
 	
 	/**
@@ -455,9 +462,12 @@ public final class ValueFormatter
 				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 				return sNumericPattern;
 			}
-			// Still return this pattern to make 9 digits of
-			// decimal precision for double.
-			return DECIMAL_FORMAT_PATTERN;
+			// Returns this pattern to make 9 digits of
+			// decimal precision for double which is less than 0.001.
+			else if ( ChartUtil.mathLT( Math.abs( value ), sCriticalDoubleValue ) )
+			{
+				return DECIMAL_FORMAT_PATTERN;
+			}
 		}
 
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
