@@ -169,8 +169,15 @@ public class CubeQueryDefinitionUtil
 				if (isEqual((IFilterDefinition) newFilters.get(i),
 						(IFilterDefinition) baseFilters.get(j)))
 				{
-					find = true;
-					break;
+					if ( ( (IFilterDefinition) newFilters.get( i ) ).updateAggregation( ) == ( (IFilterDefinition) baseFilters.get( j ) ).updateAggregation( ) )
+					{
+						find = true;
+						break;
+					}
+					else
+					{
+						return null;
+					}
 				}
 			}
 			if( !find )
@@ -222,10 +229,6 @@ public class CubeQueryDefinitionUtil
 			return false;
 		}
 		if ( !ExprUtil.isEqualExpression( fd1.getExpression( ), fd2.getExpression( ) ))
-		{
-			return false;
-		}
-		if ( fd1.updateAggregation( ) != fd2.updateAggregation( ) )
 		{
 			return false;
 		}
