@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -1973,16 +1975,49 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	private void visitCssStyleSheets( ReportDesign source, ReportDesign target )
 	{
+		List<CssStyleSheet> allSheet = new ArrayList<CssStyleSheet>();
 		List<CssStyleSheet> sheets = source.getCsses( );
 		for ( int i = 0; i < sheets.size( ); i++ )
 		{
 			CssStyleSheet sheet = sheets.get( i );
 			CssStyleSheet newSheet = visitCssStyleSheet( sheet );
-
 			newSheet.setContainer( target );
 			target.addCss( newSheet );
+			allSheet.add( newSheet );
 		}
-
+		Theme theme = source.getTheme( source.getRoot( ) );
+		if ( theme != null )
+		{
+			sheets = theme.getCsses( );
+			for ( int i = 0; i < sheets.size( ); i++ )
+			{
+				CssStyleSheet sheet = sheets.get( i );
+				CssStyleSheet newSheet = visitCssStyleSheet( sheet );
+				newSheet.setContainer( target );
+				target.addCss( newSheet );
+				allSheet.add( newSheet );
+			}
+		}
+		
+		if(!allSheet.isEmpty( ))
+		{
+			ArrayList value = new ArrayList();
+			for(CssStyleSheet sheet: sheets)
+			{
+				IncludedCssStyleSheet css = StructureFactory
+						.createIncludedCssStyleSheet( );
+				css.setFileName( sheet.getFileName( ) );
+				css.setExternalCssURI( sheet.getExternalCssURI( ) );
+				css.setUseExternalCss( sheet.isUseExternalCss( ) );
+				value.add( css );
+			}
+			ElementPropertyDefn defn = target
+					.getPropertyDefn( IReportDesignModel.CSSES_PROP );
+			if ( !value.isEmpty( ) )
+			{
+				target.setProperty( defn, ModelUtil.copyValue( defn, value ) );
+			}
+		}
 	}
 
 	/**
@@ -1993,7 +2028,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private CssStyleSheet visitCssStyleSheet( CssStyleSheet sheet )
 	{
 		CssStyleSheet newSheet = new CssStyleSheet( );
-
 		newSheet.setFileName( sheet.getFileName( ) );
 		newSheet.setExternalCssURI( sheet.getExternalCssURI( ) );
 		newSheet.setUseExternalCss( sheet.isUseExternalCss( ) );
@@ -2006,7 +2040,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 			newSheet.addStyle( newStyle );
 		}
-
 		return newSheet;
 	}
 
@@ -2019,7 +2052,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	{
 		CssStyle newStyle = new CssStyle( style.getName( ) );
 		localizePrivateStyleProperties( newStyle, style, (Module) style
-				.getContainer( ), new HashSet<String>( ) );
+				.getRoot(), new HashSet<String>( ) );
 
 		return newStyle;
 	}

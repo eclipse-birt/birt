@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -201,17 +202,10 @@ public class StyleUtil
 				.getModule( ), true );
 	}
 	
-	public static boolean hasExternalCSSURI( Module module)
+	private static boolean hasExternalCSSURI(
+			Iterator<IncludedCssStyleSheetHandle> iter )
 	{
-		Iterator<IncludedCssStyleSheetHandle> iter = null;
-		if ( module instanceof ReportDesign )
-		{
-			ReportDesignHandle handle = (ReportDesignHandle) module
-					.getHandle( module );
-			iter = handle.includeCssesIterator( );
-		}
-		
-		while ( iter!=null && iter.hasNext( ) )
+		while ( iter != null && iter.hasNext( ) )
 		{
 			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
 					.next( );
@@ -220,6 +214,29 @@ public class StyleUtil
 			if ( externalCSSURI != null || useExternalCSS )
 			{
 				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean hasExternalCSSURI( Module module )
+	{
+		if ( module instanceof ReportDesign )
+		{
+			ReportDesignHandle handle = (ReportDesignHandle) module
+					.getHandle( module );
+			Iterator<IncludedCssStyleSheetHandle> iter = handle
+					.includeCssesIterator( );
+			if ( hasExternalCSSURI( iter ) )
+			{
+				return true;
+			}
+
+			ThemeHandle theme = handle.getTheme( );
+			if ( theme != null )
+			{
+				iter = theme.includeCssesIterator( );
+				return hasExternalCSSURI( iter );
 			}
 		}
 		return false;
