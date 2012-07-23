@@ -916,7 +916,11 @@ BirtChartActionsMenu.executeMenuActionImpl = function(evt, menuItemInfo, menuInf
         case BirtChartInteractivityActions.INVOKE_SCRIPTS:
 			var scripts = menuItemInfo.actionValue;
 			if (scripts != undefined) {
-				BirtChartActionsMenu.invokeScripts( scripts, evt, menuInfo.categoryData, menuInfo.valueData, menuInfo.valueSeriesName, menuInfo.legendItemText, menuInfo.legendItemValue, menuInfo.axisLabel, menuInfo );
+				BirtChartActionsMenu.invokeScripts(scripts, evt,
+					menuInfo.categoryData, menuInfo.valueData,
+					menuInfo.valueSeriesName, menuInfo.legendItemData,
+					menuInfo.legendItemText, menuInfo.legendItemValue,
+					menuInfo.axisLabel, menuInfo);
 			}
             break;
         case BirtChartInteractivityActions.HIGHLIGHT:
@@ -956,7 +960,9 @@ BirtChartActionsMenu.redirect = function(url, urlTarget){
     }
 };
 
-BirtChartActionsMenu.invokeScripts = function( scripts, evt, categoryData, valueData, valueSeriesName, legendItemText, legendItemValue, axisLabel, menuInfo  ) {
+BirtChartActionsMenu.invokeScripts = function(scripts, evt, categoryData,
+		valueData, valueSeriesName, legendItemData, legendItemText,
+		legendItemValue, axisLabel, menuInfo) {
 	eval( scripts );
 };
 

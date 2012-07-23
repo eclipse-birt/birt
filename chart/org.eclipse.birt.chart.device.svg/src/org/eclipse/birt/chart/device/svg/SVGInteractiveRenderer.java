@@ -1829,6 +1829,8 @@ public class SVGInteractiveRenderer
 				+ ","//$NON-NLS-1$
 				+ ScriptHandler.SERIES_VALUE
 				+ ","//$NON-NLS-1$
+				+ IActionRenderer.LEGEND_ITEM_DATA				
+				+ ","//$NON-NLS-1$
 				+ IActionRenderer.LEGEND_ITEM_TEXT
 				+ ","//$NON-NLS-1$
 				+ IActionRenderer.LEGEND_ITEM_VALUE
