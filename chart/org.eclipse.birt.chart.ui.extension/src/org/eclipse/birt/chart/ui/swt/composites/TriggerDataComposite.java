@@ -1172,6 +1172,12 @@ public class TriggerDataComposite extends Composite implements
 			else
 			{
 				cmbTriggerType.markSelection( triggerType );
+				// #48981 update the trigger when trigger isn't null.
+				Object trigger = triggersMap.get( triggerType );
+				if ( trigger == null )
+				{
+					updateTrigger( triggerType );
+				}
 			}
 			cmbTriggerType.setText( triggerType );
 			switchUI( );
@@ -1372,6 +1378,11 @@ public class TriggerDataComposite extends Composite implements
 		boolean enableCursor = ( this.triggersList.size( ) > 0 )
 				|| ( cmbActionType.getSelectionIndex( ) > 0 );
 		cmbCursorType.setEnabled( enableCursor );
+		if ( !enableCursor )
+		{
+			cmbCursorType.select( 0 );
+			setMouseCursor( null );
+		}
 		btnCursorImage.setEnabled( btnCursorImage.isEnabled( ) && enableCursor );
 	}
 }
