@@ -2123,10 +2123,14 @@ public abstract class DesignElement
 		errors = executor.perform( this, validatorList );
 
 		List<SemanticException> list = new ArrayList<SemanticException>( errors );
-		int count = cachedDefn.getSlotCount( );
-		for ( int i = 0; i < count; i++ )
+		
+		Iterator<ISlotDefn> slotIter = ( (ElementDefn) cachedDefn )
+				.slotsIterator( );;
+		while ( slotIter.hasNext( ) )
 		{
-			Iterator<DesignElement> iter = getSlot( i ).iterator( );
+			ISlotDefn slotDefn = slotIter.next( );
+			int slotId = slotDefn.getSlotID( );
+			Iterator<DesignElement> iter = getSlot( slotId ).iterator( );
 			while ( iter.hasNext( ) )
 			{
 				list.addAll( iter.next( ).validateWithContents( module ) );
