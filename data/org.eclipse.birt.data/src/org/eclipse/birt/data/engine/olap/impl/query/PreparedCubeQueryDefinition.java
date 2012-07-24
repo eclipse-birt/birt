@@ -107,11 +107,6 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		List<ICubeOperation> all = new ArrayList<ICubeOperation>( Arrays.asList( cqd.getCubeOperations( )));
 		all.addAll( convertedCubeOperations );
 		realCubeOperations = all.toArray( new ICubeOperation[0] );
-		
-		for( int i = 0 ; i < cqd.getFilters( ).size( ) ; i++ )
-		{
-			replaceFilterTextOnCalculateMeasures( ( IFilterDefinition ) cqd.getFilters( ).get( i ), realBindings );
-		}
 	}
 	
 	private String getRollUpAggregationFunctionName( String function )
@@ -124,76 +119,7 @@ public class PreparedCubeQueryDefinition implements ICubeQueryDefinition
 		}
 		return function;
 	}
-	
-	private IBinding getBinding( String bindingName, List bindings ) throws DataException
-	{
-		for( int j = 0; j < bindings.size( ); j++ )
-		{
-			IBinding binding = (IBinding) bindings.get( j );
-			if( bindingName.equals( binding.getBindingName( ) ) )
-			{
-				return binding;
-			}
-		}
-		return null;
-	}
-	
-	private void replaceFilterTextOnCalculateMeasures( IFilterDefinition filter, List bindings ) throws DataException
-	{
-		if( filter.getExpression( ) instanceof ConditionalExpression )
-		{
-			ConditionalExpression filterExpr = (ConditionalExpression) filter.getExpression( );
-			List referenceBindingName = ExpressionCompilerUtil.extractColumnExpression( filterExpr.getExpression( ),
-					ScriptConstants.DATA_BINDING_SCRIPTABLE );
-			if ( referenceBindingName.size( ) > 0 )
-			{
-				for ( int i = 0; i < referenceBindingName.size( ); i++ )
-				{
-					IBinding binding = getBinding( referenceBindingName.get( i )
-							.toString( ), bindings );
-					if ( binding != null && ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
-							ScriptConstants.DATA_BINDING_SCRIPTABLE ).size()>0 )
-					{
-						( (ScriptExpression) filterExpr.getExpression( ) ).setText( ( (ScriptExpression) binding.getExpression( ) ).getText( ) );
-					}
-				}
-
-			}
-			
-			referenceBindingName = ExpressionCompilerUtil.extractColumnExpression( filterExpr.getOperand1( ),
-					ScriptConstants.DATA_BINDING_SCRIPTABLE );
-			if ( referenceBindingName.size( ) > 0 )
-			{
-				for ( int i = 0; i < referenceBindingName.size( ); i++ )
-				{
-					IBinding binding = getBinding( referenceBindingName.get( i )
-							.toString( ), bindings );
-					if ( binding != null && ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
-							ScriptConstants.DATA_BINDING_SCRIPTABLE ).size()>0 )
-					{
-						( (ScriptExpression) filterExpr.getOperand1( ) ).setText( ( (ScriptExpression) binding.getExpression( ) ).getText( ) );
-					}
-				}
-			}
-			
-			referenceBindingName = ExpressionCompilerUtil.extractColumnExpression( filterExpr.getOperand2( ),
-					ScriptConstants.DATA_BINDING_SCRIPTABLE );
-			if ( referenceBindingName.size( ) > 0 )
-			{
-				for ( int i = 0; i < referenceBindingName.size( ); i++ )
-				{
-					IBinding binding = getBinding( referenceBindingName.get( i )
-							.toString( ), bindings );
-					if ( binding != null && ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
-							ScriptConstants.DATA_BINDING_SCRIPTABLE ).size()>0 )
-					{
-						( (ScriptExpression) filterExpr.getOperand2( ) ).setText( ( (ScriptExpression) binding.getExpression( ) ).getText( ) );
-					}
-				}
-			}
-		}
-	}
-	
+		
 	private IBinding getSameBindingInQuery( IBinding binding, List bindings ) throws DataException
 	{
 		for ( int i = 0; i < bindings.size( ); i++ )

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -37,6 +38,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
@@ -56,6 +58,7 @@ public class AggrMeasureFilterHelper
 
 	private Map dimMap = null;
 	private IAggregationResultSet[] resultSet;
+	private CubeQueryExecutor executor;
 
 	/**
 	 * 
@@ -88,6 +91,11 @@ public class AggrMeasureFilterHelper
 			}
 		}
 		return aggregationName;
+	}
+	
+	public void setQueryExecutor(CubeQueryExecutor executor)
+	{
+		this.executor = executor;
 	}
 	
 	/**
@@ -183,6 +191,19 @@ public class AggrMeasureFilterHelper
 		return false;
 	}
 
+	private IBinding getBinding( String bindingName, List bindings ) throws DataException
+	{
+		for( int j = 0; j < bindings.size( ); j++ )
+		{
+			IBinding binding = (IBinding) bindings.get( j );
+			if( bindingName.equals( binding.getBindingName( ) ) )
+			{
+				return binding;
+			}
+		}
+		return null;
+	}
+		
 	/**
 	 * 
 	 * @param jsMeasureEvalFilterHelper
@@ -199,8 +220,25 @@ public class AggrMeasureFilterHelper
 					ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			aggregationNames[i] = (String) getIntersection( allAggrNames, bindingName );
 			if( aggregationNames[i] == null )
+			{
 				aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
 						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
+				if( aggregationNames[i] == null && this.executor !=null )
+				{
+					List bindings = this.executor.getCubeQueryDefinition( ).getBindings( );
+					List referencedNames = new ArrayList( );
+					for ( int j = 0 ; j < bindingName.size( ) ; j++)
+					{
+						IBinding b = getBinding( bindingName.get( j ).toString( ), bindings );
+						if( b != null && b.getAggregatOns( ).size( ) == 0 && b.getAggrFunction( ) == null )
+						{
+							referencedNames.addAll( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE ) );
+						}
+					}
+					aggregationNames[i] = (String) getIntersection( allAggrNames , referencedNames );
+				}
+			}
 		}
 		return aggregationNames;
 	}
