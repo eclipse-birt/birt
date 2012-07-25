@@ -189,8 +189,10 @@ function isSvgTitleToolTipSupported() {
 TM.show = function (evt, id, title, tooltipText) {
 	// If the browser has native tooltip for title element, do not show
 	// it twice.
-	if(isSvgTitleToolTipSupported()) {
-		return;
+	if (evt.type == 'mousemove') {
+		if (isSvgTitleToolTipSupported()) {
+			return;
+		}
 	}
 	
 	if (id != null && typeof id != 'undefined') {
