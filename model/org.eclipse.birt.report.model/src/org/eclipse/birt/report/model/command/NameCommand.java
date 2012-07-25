@@ -217,8 +217,10 @@ public class NameCommand extends AbstractElementCommand
 			// Cannot set the name of an element when the name is not allowed.
 
 			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
-				throw new NameException( element, name,
-						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
+				//the element has name without namespace
+				return;
+//				throw new NameException( element, name,
+//						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 
 			// if the element is a pending node and not in any module, or it is
 			// in a slot that is not managed by namespace, then we need not

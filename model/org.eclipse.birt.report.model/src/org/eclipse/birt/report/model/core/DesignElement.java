@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
+import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
@@ -3129,6 +3130,12 @@ public abstract class DesignElement
 
 	public boolean isManagedByNameSpace( )
 	{
+		int nameOption = getDefn( ).getNameOption( );
+		if ( nameOption == MetaDataConstants.NO_NAME )
+		{
+			return false;
+		}
+
 		ContainerContext infor = getContainerInfo( );
 		if ( infor == null )
 			return false;
