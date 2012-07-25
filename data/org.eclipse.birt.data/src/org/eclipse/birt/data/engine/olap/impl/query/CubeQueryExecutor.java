@@ -80,6 +80,7 @@ public class CubeQueryExecutor
 	private List<SimpleLevelFilter> dimensionSimpleFilter;
 	private List<IAggrMeasureFilterEvalHelper> aggrMeasureFilterEvalHelpers;
 	private List<IJSFacttableFilterEvalHelper> advancedFacttableBasedFilterEvalHelper;
+	private boolean populateFilter = false;
 	
 	public static final int DIMENSION_FILTER = 0;
 	public static final int AGGR_MEASURE_FILTER = 1;
@@ -306,8 +307,10 @@ public class CubeQueryExecutor
 		return filter.updateAggregation();
 	}
 	
-	private void populateFilterHelpers( ) throws DataException
+	public void populateFilterHelpers( ) throws DataException
 	{
+		if( populateFilter )
+			return;
 		List filters = defn.getFilters( );
 		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery( );
 		validateFilter( filters, defn.getBindings( ) );
@@ -378,7 +381,8 @@ public class CubeQueryExecutor
 							filter, this.outResults, this.defn ) );
 				}
 			}
-		}		
+		}
+		populateFilter = true;
 	}
 
 	public int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException

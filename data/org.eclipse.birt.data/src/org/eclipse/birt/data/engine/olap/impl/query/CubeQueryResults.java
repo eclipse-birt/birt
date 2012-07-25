@@ -78,6 +78,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	protected ICubeCursor cubeCursor;
 	private String name;
 	private PreparedCubeQuery preparedQuery;
+	protected CubeQueryExecutor executor;
 	
 	protected static Logger logger = Logger.getLogger( CubeQueryResults.class.getName( ) );
 	
@@ -272,7 +273,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			OLAPException
 	{
 		ICubeCursor cursor;
-		CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
+		executor = new CubeQueryExecutor( this.outResults, cubeQueryDefinition, this.session,
 				this.scope,
 				this.context );
 		executor.getdimensionSimpleFilter( ).addAll( this.preparedQuery.getInternalFilters( ) );
