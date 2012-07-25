@@ -1893,9 +1893,13 @@ public final class AutoScale extends Methods implements Cloneable
 					labelVisHelper.addVisible( i );
 					rrPrev[arrayIndex] = rrCurr;
 					String str = la.getCaption( ).getValue( );
+					double rotation = la.getCaption( )
+							.getFont( )
+							.getRotation( );
 					if ( iOrientation == VERTICAL
 							&& isCategoryScale( )
-							&& axisLabelInfo.dMaxSize > 0 )
+							&& axisLabelInfo.dMaxSize > 0
+							&& Math.abs( rotation ) <= 45 )
 					{
 						double size = info.cComp.computeWidth( xs, la );
 
@@ -1909,14 +1913,21 @@ public final class AutoScale extends Methods implements Cloneable
 									.setValue( EllipsisHelper.ELLIPSIS_STRING );
 							ellipsisWidth = info.cComp.computeWidth( xs, la );
 						}
-
+						
 						if ( ChartUtil.mathGT( size, axisLabelInfo.dMaxSize ) )
 						{
 							int count = (int) ( str.length( )
 									* ( axisLabelInfo.dMaxSize - ellipsisWidth ) / size );
-							hmComputedLabelText.put( i,
-									str.substring( 0, count )
+							if ( count >= 0 )
+							{
+								hmComputedLabelText.put( i,
+										str.substring( 0, count )
 											+ EllipsisHelper.ELLIPSIS_STRING );
+							}
+							else
+							{
+								hmComputedLabelText.put( i, str );	
+							}
 						}
 						else
 						{
