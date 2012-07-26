@@ -1213,6 +1213,7 @@
             <bundle name="org.eclipse.birt.report.engine.emitter.config.odp"/>
             <bundle name="org.eclipse.birt.report.engine.emitter.config.ods"/>
             <bundle name="org.eclipse.birt.report.engine.emitter.config.odt"/>
+			<bundle name="org.eclipse.birt.axis.overlay"/>
 	    	<manifest>
 	    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
 	    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
