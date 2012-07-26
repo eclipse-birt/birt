@@ -827,6 +827,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			AggrMeasureFilterHelper filter = new AggrMeasureFilterHelper( cube,
 					resultSet );
 			filter.setQueryExecutor( cubeQueryExecutor );
+			filter.setBindingValueFetcher( fetcher );
 			cubePosFilters = filter.getCubePosFilters( aggrMeasureFilters );
 			if( cubePosFilters == null )
 			{

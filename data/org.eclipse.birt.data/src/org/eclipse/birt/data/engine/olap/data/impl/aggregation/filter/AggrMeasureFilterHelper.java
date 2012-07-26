@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
@@ -59,6 +60,7 @@ public class AggrMeasureFilterHelper
 	private Map dimMap = null;
 	private IAggregationResultSet[] resultSet;
 	private CubeQueryExecutor executor;
+	private IBindingValueFetcher fetcher;
 
 	/**
 	 * 
@@ -98,6 +100,11 @@ public class AggrMeasureFilterHelper
 		this.executor = executor;
 	}
 	
+	public void setBindingValueFetcher(IBindingValueFetcher fetcher)
+	{
+		this.fetcher = fetcher;
+	}
+	
 	/**
 	 * 
 	 * @param resultSet
@@ -119,7 +126,7 @@ public class AggrMeasureFilterHelper
 				{
 					if ( resultSet[i].length( ) == 0 )
 						return null;
-					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i], null );
+					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i], fetcher );
 					for ( int j = 0; j < jsMeasureEvalFilterHelper.size( ); j++ )
 					{
 						if ( resultSet[i].getAggregationIndex( aggregationNames[j] ) >= 0 )
@@ -380,7 +387,7 @@ public class AggrMeasureFilterHelper
 			String[] aggregationNames ) throws DataException, IOException
 	{
 		IDiskArray result = new BufferedPrimitiveDiskArray( );
-		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, null );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, fetcher );
 		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();
@@ -474,7 +481,7 @@ public class AggrMeasureFilterHelper
 			String[] aggregationNames ) throws DataException, IOException
 	{
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), resultSet.length( ) ); 
-		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, null );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, fetcher );
 		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();

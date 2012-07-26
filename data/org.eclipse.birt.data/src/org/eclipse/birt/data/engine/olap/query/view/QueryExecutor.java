@@ -359,6 +359,7 @@ public class QueryExecutor
 				AggrMeasureFilterHelper aggrFilterHelper = new AggrMeasureFilterHelper( cube,
 						rs );
 				aggrFilterHelper.setQueryExecutor( executor );
+				aggrFilterHelper.setBindingValueFetcher( fetcher );
 				rs = aggrFilterHelper.removeInvalidAggrRows( aggrEvalList, affectedAggrResultSetIndex );
 				
 			}
