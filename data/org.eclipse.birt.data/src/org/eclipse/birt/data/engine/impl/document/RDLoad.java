@@ -231,11 +231,16 @@ public class RDLoad
 	 */
 	public IResultClass loadResultClass( ) throws DataException
 	{
+		return loadResultClass( false );
+	}
+	
+	public IResultClass loadResultClass( boolean includeInnerID ) throws DataException
+	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_META_STREAM,
-					StreamManager.ROOT_STREAM,
-					StreamManager.BASE_SCOPE );
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		IResultClass resultClass = new ResultClass( buffStream, version );
+		IResultClass resultClass = new ResultClass( buffStream, version, includeInnerID );
 		try
 		{
 			buffStream.close( );
@@ -247,7 +252,6 @@ public class RDLoad
 					e,
 					"Result Class" );
 		}
-
 		return resultClass;
 	}
 	
@@ -281,11 +285,27 @@ public class RDLoad
 	 */
 	public IDataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index,
-			boolean includeInnerID, Map<?,?> appContext ) throws DataException
+			boolean includeInnerID, Map<?, ?> appContext ) throws DataException
 	{
+		return loadDataSetData( null,
+				preFilteredRowIds,
+				stringTableMap,
+				index,
+				includeInnerID,
+				appContext );
+	}
+	
+	public IDataSetResultSet loadDataSetData( IResultClass targetResultClass,
+			Set<Integer> preFilteredRowIds,
+			Map<String, StringTable> stringTableMap, Map index,
+			boolean includeInnerID, Map<?, ?> appContext ) throws DataException
+	{
+		if ( targetResultClass == null )
+			targetResultClass = this.loadResultClass( includeInnerID );
+
 		// TODO Pass in filter rowIds as sorted list.
 		IDataSetReader reader = DataSetStore.createReader( streamManager,
-				loadResultClass( ),
+				targetResultClass,
 				appContext );
 		if ( reader != null )
 			return reader.load( preFilteredRowIds == null
@@ -296,6 +316,7 @@ public class RDLoad
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE ) )
 			return null;
+		
 		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
