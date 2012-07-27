@@ -147,6 +147,8 @@
       <plugin id="org.eclipse.birt.report.model"/>
       <plugin id="org.eclipse.birt.report.model.adapter.oda"/>
       <plugin id="org.eclipse.birt.report.viewer"/>
+      <plugin id="org.eclipse.birt.axis.overlay"/>
+      <plugin id="org.eclipse.birt.jetty.overlay"/>
       <plugin id="org.eclipse.birt.resources"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
