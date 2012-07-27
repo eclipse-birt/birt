@@ -49,6 +49,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.storage.DataSetStore;
+import org.eclipse.birt.data.engine.storage.IDataSetUpdater;
 import org.eclipse.birt.data.engine.storage.IDataSetWriter;
 
 /**
@@ -615,6 +616,16 @@ public class CachedResultSet implements IResultIterator
 		if ( isSubQuery == false && (!isSummaryQuery(  this.resultSetPopulator.getQuery( ) )) && 
 				streamsWrapper.getStreamForResultClass( ) != null )
 		{
+			IDataSetUpdater updater = DataSetStore.createUpdater( streamsWrapper.getStreamManager( ),
+					getResultClass( ),
+					handler.getAppContext( ) );
+			if ( updater != null )
+			{
+				updater.incrementalUpdate( this.resultSetPopulator.getCache( ) );
+				updater.close( );
+				return;
+			}
+			
 			try
 			{
 				OutputStream outputStream = streamsWrapper.getStreamManager( ).getOutStream( DataEngineContext.DATASET_DATA_STREAM,

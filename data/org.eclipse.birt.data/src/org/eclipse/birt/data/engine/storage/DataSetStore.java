@@ -25,12 +25,20 @@ public class DataSetStore
 {
 
 	public static IDataSetReader createReader( StreamManager manager,
-			IResultClass resultClass, Map<?,?> appContext ) throws DataException
+			IResultClass resultClass, Map<?, ?> appContext )
+			throws DataException
 	{
 		return null;
 	}
 
 	public static IDataSetWriter createWriter( StreamManager manager,
+			IResultClass resultClass, Map<?, ?> appContext )
+			throws DataException
+	{
+		return null;
+	}
+
+	public static IDataSetUpdater createUpdater( StreamManager manager,
 			IResultClass resultClass, Map<?, ?> appContext )
 			throws DataException
 	{
