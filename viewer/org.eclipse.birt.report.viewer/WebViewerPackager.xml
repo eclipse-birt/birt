@@ -753,6 +753,10 @@
 			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 			<include name="org.eclipse.emf.ecore_*.jar" />
 		</fileset>
+		<!-- Fix TED 52014 -->
+		<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins/">
+			<include name="org.eclipse.birt.axis.overlay_*.jar" />
+		</fileset>
 		</copy>
 
 		<copy todir="${export.dir}/lib">
