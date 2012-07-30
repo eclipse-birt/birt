@@ -508,6 +508,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			if(e.widget instanceof MenuButton)
 			{
 				dateFormatLbl.setText(getDateHintText());
+				composite.getShell().pack(true);
 			}
 		}
 
