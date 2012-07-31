@@ -990,6 +990,7 @@ public class ChartReportItemImpl extends ReportItem implements
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#updateRowExpressions(java.util.Map)
 	 */
+	@SuppressWarnings("rawtypes")
 	public void updateRowExpressions( Map newExpressions )
 	{
 		CompatibleExpressionUpdater.update( cm, newExpressions );
@@ -1130,5 +1131,18 @@ public class ChartReportItemImpl extends ReportItem implements
 		}
 
 		return availableBindings.iterator( );
+	}
+	
+	@Override
+	public boolean hasFixedSize( )
+	{
+		if ( ChartCubeUtil.isInXTabMeasureCell( getHandle( ) ) )
+		{
+			// If chart is in cross tab cell, plot chart and axis chart are
+			// using dynamic size
+			return !( ChartCubeUtil.isPlotChart( getHandle( ) ) || ChartCubeUtil.isAxisChart( getHandle( ) ) );
+
+		}
+		return true;
 	}
 }
