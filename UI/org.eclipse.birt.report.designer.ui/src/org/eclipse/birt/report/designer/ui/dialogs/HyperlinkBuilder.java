@@ -2294,7 +2294,7 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		closeTargetReport( );
 		targetReportHandle = null;
-		//String errorMessage = null;
+		// String errorMessage = null;
 		if ( newFilename.toLowerCase( ).endsWith( ".rptdocument" ) ) //$NON-NLS-1$
 		{
 			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
@@ -2306,7 +2306,7 @@ public class HyperlinkBuilder extends BaseDialog
 			catch ( EngineException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				//errorMessage = e.getMessage( );
+				// errorMessage = e.getMessage( );
 			}
 		}
 		else
@@ -2327,20 +2327,14 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 				catch ( DesignFileException e1 )
 				{
-					//errorMessage = ERROR_MSG_INVALID_REPORT;
+					// errorMessage = ERROR_MSG_INVALID_REPORT;
 				}
 			}
 		}
-//		if ( errorMessage != null )
-//		{
-//			messageLine.setText( errorMessage );
-//			messageLine.setImage( ERROR_ICON );
-//		}
-//		else
-//		{
-//			messageLine.setText( "" ); //$NON-NLS-1$
-//			messageLine.setImage( null );
-//		}
+
+		messageLine.setText( "" ); //$NON-NLS-1$
+		messageLine.setImage( null );
+
 	}
 
 	private String resolvePath( String file_path )
