@@ -161,23 +161,27 @@ public class RowResultSet implements IRowResultSet
 	{
 		assert resultObject != null;
 		
-		beforeProcessFetchEvent( resultObject, currentIndex );
-		
 		if ( eventList != null )
 		{
-			int size = eventList.size( );
-			for ( int i = 0; i < size; i++ )
+			beforeProcessFetchEvent( resultObject, currentIndex );
+			try
 			{
-				IResultObjectEvent onFetchEvent = (IResultObjectEvent) eventList.get( i );
-				if ( onFetchEvent.process( resultObject, currentIndex ) == false )
+				int size = eventList.size( );
+				for ( int i = 0; i < size; i++ )
 				{
-					return false;
+					IResultObjectEvent onFetchEvent = (IResultObjectEvent) eventList.get( i );
+					if ( onFetchEvent.process( resultObject, currentIndex ) == false )
+					{
+						return false;
+					}
 				}
 			}
+			finally
+			{
+				afterProcessFetchEvent( resultObject, currentIndex );
+			}
 		}
-		
-		afterProcessFetchEvent( resultObject, currentIndex );
-		
+
 		return true;
 	}
 	
