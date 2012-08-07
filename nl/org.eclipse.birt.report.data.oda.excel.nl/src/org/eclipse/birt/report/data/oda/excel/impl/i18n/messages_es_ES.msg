@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=Faltan las propiedades de conexión.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=La propiedad de carpeta de fuente de datos de Excel no está definida. Se necesita una ruta de carpeta inicial o URI para el archivo de entrada de Excel. 
-connection_invalidSource=URI especificada para la carpeta de fuente de datos de Excel no válida o incorrecta.
+connection_MISSING_FILELOCATION=La propiedad de archivo de fuente de datos de Excel no está definida. Se necesita una ruta de archivo o URI para el archivo de entrada de Excel. 
+connection_invalidSource=URI especificada para el archivo de fuente de datos de Excel no válida o incorrecta.
 connection_missingResourceIdentifier=No hay ningún identificador de recurso disponible para resolver la ruta relativa de la fuente de datos de Excel: 
 fileSource_excelFileNotFound=No es posible localizar la carpeta de fuente de datos de Excel o el archivo ({0}). 
 

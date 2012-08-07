@@ -11,13 +11,13 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
-wizard.defaultMessage.selectDataSet=Select the worksheet and columns for the data set.
+wizard.defaultMessage.selectExcelFile=Excel データソースファイルのパスまたは URI を選択または入力してください。
+wizard.defaultMessage.selectDataSet=データセットのワークシートおよび列を選択してください。
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=選択したフォルダ内の Excel データソースファイルを開けません。 
-ui.ExcelFileNotFound=指定された Excel データソースファイルまたはフォルダが見つかりません。 
+ui.ExcelFileNotFound=指定された Excel データソースファイルが見つかりません。 
 label.selectFolder=フォルダの選択(&E) : 
 label.selectFile=ファイルの選択(&I) :
-label.selectworksheet=ワークシート :
+label.selectworksheet=ワークシートの選択(&W) :
 label.includeTypeLine=2 行目をデータ型のインジケータとして使用します。(&D)
 label.includeColumnNameLine = 1 行目を列名のインジケータとして使用します。(&A)
 
@@ -50,12 +50,12 @@ tooltip.button.delete=選択した項目を削除します。
 tooltip.trailNull=データ行を読むときに末尾 NULL 列を使用します。 
 error.selectFolder=有効なフォルダを選択してください。
 error.selectWorksheet=Please select a worksheet for the data set.
-error.selectColumns=Please select at least one column for this data set.
+error.selectColumns=このデータセットの列を少なくとも 1 つ選択してください。
 error.emptyPath=パスを入力してください。
 error.unexpectedError=予期しないエラーが発生しました。
 error.invalidConnectionFilePath=接続プロファイルのソースパスとして "{0}" が指定されましたが、このパスは存在しません。
 error.errorExist=現在のページにはエラーがあります。  このページを保存しますか ?
-error.noFile=The Excel data source file ({0}) does not exist.
+error.noFile=Excel データソースファイル ({0}) が存在しません。
 error.invalidFilePath=ファイルパスが無効です。  続行しますか ?
 error.emptyFilePath=ファイルパスが空です。  続行しますか ?
 error.duplicatedNameValueOrEmpty=名前の値が重複しているか、空白です。

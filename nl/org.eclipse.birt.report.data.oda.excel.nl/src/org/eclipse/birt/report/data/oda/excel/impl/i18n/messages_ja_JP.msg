@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=接続プロパティがありません。
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Excel データソースフォルダのプロパティが定義されていません。Excel 入力ファイルのホームフォルダのパスまたは URI が必要です。 
-connection_invalidSource=指定された Excel データソースフォルダの URI が無効か間違っています。
+connection_MISSING_FILELOCATION=Excel データソースファイルのプロパティが定義されていません。Excel 入力ファイルのファイルパスまたは URI が必要です。 
+connection_invalidSource=指定された Excel データソースファイルの URI が無効か間違っています。
 connection_missingResourceIdentifier=Excel データソースの相対パスを解決するリソース ID がありません。 
 fileSource_excelFileNotFound=指定された Excel データソースフォルダまたはファイル ({0}) が見つかりません。 
 

@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=Verbindungseigenschaften sind nicht vorhanden.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Die Eigenschaft des Excel-Datenquellenordners ist nicht definiert. Erfordert einen Stammordnerpfad oder URI für die Excel-Eingabedatei. 
-connection_invalidSource=Ungültiger oder falsch geformter URI für den Excel-Datenquellenordner angegeben.
+connection_MISSING_FILELOCATION=Die Eigenschaft der Excel-Datenquellendatei ist nicht definiert. Erfordert einen Dateipfad oder URI für die Excel-Eingabedatei. 
+connection_invalidSource=Ungültiger oder falsch geformter URI für die Excel-Datenquellendatei angegeben.
 connection_missingResourceIdentifier=Für die Lösung des relativen Pfads der Excel-Datenquelle ist keine Ressourcenkennung verfügbar: 
 fileSource_excelFileNotFound=Der angegebene Excel-Datenquellenordner oder die angegebene Excel-Datenquellendatei ({0}) wurde nicht gefunden. 
 

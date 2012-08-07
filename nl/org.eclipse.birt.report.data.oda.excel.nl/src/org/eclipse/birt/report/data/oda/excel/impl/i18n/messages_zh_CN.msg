@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=缺少连接属性。
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=未定义 Excel 数据源文件夹属性; 需要 Excel 输入文件的主文件夹路径或 URI。 
-connection_invalidSource=为 Excel 数据源文件夹指定的 URI 无效或格式有误。
+connection_MISSING_FILELOCATION=未定义 Excel 数据源文件属性；需要 Excel 输入文件的文件路径或 URI。 
+connection_invalidSource=为 Excel 数据源文件指定的 URI 无效或格式错误。
 connection_missingResourceIdentifier=无法找到资源标识符来解析 Excel 数据源的相对路径: 
 fileSource_excelFileNotFound=无法定位指定的 Excel 数据源文件夹或文件 ({0})。 
 

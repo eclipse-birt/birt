@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=연결 속성이 누락되었습니다.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Excel 데이터 원본 폴더 속성이 정의되지 않았습니다. Excel 입력 파일에 대한 홈 폴더 경로 또는 URI가 필요합니다. 
-connection_invalidSource=Excel 데이터 원본 폴더에 대해 지정된 URI가 유효하지 않거나 잘못되었습니다.
+connection_MISSING_FILELOCATION=Excel 데이터 원본 파일 속성이 정의되지 않았습니다. Excel 입력 파일에 대한 파일 경로 또는 URI가 필요합니다. 
+connection_invalidSource=Excel 데이터 원본 파일에 대해 지정된 URI가 유효하지 않거나 잘못되었습니다.
 connection_missingResourceIdentifier=Excel 데이터 원본의 상대 경로를 해결할 리소스 식별자가 없습니다. 
 fileSource_excelFileNotFound=지정된 Excel 데이터 원본 폴더 또는 파일({0})을 찾을 수 없습니다. 
 
