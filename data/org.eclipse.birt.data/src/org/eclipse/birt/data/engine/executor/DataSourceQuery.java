@@ -1133,12 +1133,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	
     	//		 set input parameter bindings
 		Iterator inputParamValueslist = getInputParamValues().iterator( );
-		int inputParam = 1;
-		while ( inputParamValueslist.hasNext( )
-				&& ( odaStatement.getParameterMetaData( ).size( ) >= inputParam ) )
+		while ( inputParamValueslist.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
-			inputParam++;
 			if ( paramBind.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
 			{
 				try
