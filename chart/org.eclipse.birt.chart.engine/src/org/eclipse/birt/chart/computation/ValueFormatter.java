@@ -571,28 +571,9 @@ public final class ValueFormatter
 			// If abs(value) < 1, at most saving 3 significant figures for default
 			// format, but the decimal figures can't exceed 9.
 			df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
-					new DecimalFormatSymbols( ULocale.ENGLISH ) );
-			String strValue = df.format( value );
-			int dotIndex = strValue.indexOf( "." ); //$NON-NLS-1$
-			int i = 0;
-			for ( i = dotIndex + 1; i < strValue.length( ); i++ )
-			{
-				if ( strValue.charAt( i ) != '0' )
-				{
-					break;
-				}
-			}
-			i += 2;
-			String pattern = DECIMAL_FORMAT_PATTERN;
-			int patternIndex = DECIMAL_FORMAT_PATTERN.indexOf( "." ) + i - dotIndex; //$NON-NLS-1$
-			if ( strValue.length( ) > i && patternIndex < DECIMAL_FORMAT_PATTERN.length( ) )
-			{
-				pattern = DECIMAL_FORMAT_PATTERN.substring( 0, patternIndex  + 1 );
-			}
-
-			// Use calculated pattern to create number format.
-			df = new DecimalFormat( pattern,
 					new DecimalFormatSymbols( locale ) );
+			( (DecimalFormat) df ).setSignificantDigitsUsed( true );
+			( (DecimalFormat) df ).setMaximumSignificantDigits( 3 );
 		}
 		else
 		{
