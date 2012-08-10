@@ -72,14 +72,8 @@ public final class ValueFormatter
 	 */
 	private static final String formatNumber( Number value, ULocale locale )
 	{
-		if ( ChartUtil.mathLT( Math.abs( value.doubleValue( ) ), sCriticalDoubleValue ) ) 
-		{
-			DecimalFormat df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
-				new DecimalFormatSymbols( locale ) );
-			return df.format( value.doubleValue( ) );
-		}
-		
-		return NumberFormat.getInstance( locale ).format( value );
+		NumberFormat format = createDefaultNumberFormat( value, locale );
+		return format.format(  value  );
 	}
 	
 	/**
@@ -550,8 +544,9 @@ public final class ValueFormatter
 		{
 			return 0;
 		}
-		DecimalFormat df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
-				new DecimalFormatSymbols( ULocale.ENGLISH ) );
+		
+		NumberFormat df = createDefaultNumberFormat( value, ULocale.ENGLISH );
+
 		// Normalize double value to avoid double precision error.
 		String sValue = df.format( value );
 		try
@@ -564,5 +559,45 @@ public final class ValueFormatter
 		}
 		
 		return value;
+	}
+
+	private static NumberFormat createDefaultNumberFormat( Number value, ULocale locale )
+	{
+		NumberFormat df;
+		if ( ChartUtil.mathLT( Math.abs( value.doubleValue( ) ), 1d ) )
+		{
+			// If abs(value) < 1, at most saving 3 significant figures for default
+			// format, but the decimal figures can't limited 9.
+			df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
+					new DecimalFormatSymbols( ULocale.ENGLISH ) );
+			String strValue = df.format( value );
+			int dotIndex = strValue.indexOf( "." ); //$NON-NLS-1$
+			int i = 0;
+			for ( i = dotIndex + 1; i < strValue.length( ); i++ )
+			{
+				if ( strValue.charAt( i ) != '0' )
+				{
+					break;
+				}
+			}
+			i += 3;
+			String pattern = DECIMAL_FORMAT_PATTERN;
+			int patternIndex = DECIMAL_FORMAT_PATTERN.indexOf( "." ) + i - dotIndex; //$NON-NLS-1$
+			if ( strValue.length( ) >= i && patternIndex < DECIMAL_FORMAT_PATTERN.length( ) )
+			{
+				pattern = DECIMAL_FORMAT_PATTERN.substring( 0, patternIndex );
+			}
+
+			// Use calculated pattern to create number format.
+			df = new DecimalFormat( pattern,
+					new DecimalFormatSymbols( locale ) );
+		}
+		else
+		{
+			// Get default number format, the default pattern is "#,##0.###", it
+			// just remains 3 figures after decimal dot.
+			df = DecimalFormat.getInstance( locale );
+		}
+		return df;
 	}
 }
