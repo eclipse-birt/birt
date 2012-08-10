@@ -580,12 +580,12 @@ public final class ValueFormatter
 					break;
 				}
 			}
-			i += 3;
+			i += 2;
 			String pattern = DECIMAL_FORMAT_PATTERN;
 			int patternIndex = DECIMAL_FORMAT_PATTERN.indexOf( "." ) + i - dotIndex; //$NON-NLS-1$
-			if ( strValue.length( ) >= i && patternIndex < DECIMAL_FORMAT_PATTERN.length( ) )
+			if ( strValue.length( ) > i && patternIndex < DECIMAL_FORMAT_PATTERN.length( ) )
 			{
-				pattern = DECIMAL_FORMAT_PATTERN.substring( 0, patternIndex );
+				pattern = DECIMAL_FORMAT_PATTERN.substring( 0, patternIndex  + 1 );
 			}
 
 			// Use calculated pattern to create number format.
