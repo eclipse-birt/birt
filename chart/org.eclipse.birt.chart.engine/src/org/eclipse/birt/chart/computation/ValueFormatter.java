@@ -63,8 +63,10 @@ public final class ValueFormatter
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
 	
 	/**
-	 * Still use full decimal format pattern to format number if number is less
-	 * than 0.001, it avoid to format small double as 0.
+	 * Use default number format pattern to format number value. If value < 1
+	 * then at most remains 3 significant figures but the total decimal digits
+	 * can't exceed 9, else use default format instance of system to format
+	 * number.
 	 * 
 	 * @param value
 	 * @param locale
@@ -567,7 +569,7 @@ public final class ValueFormatter
 		if ( ChartUtil.mathLT( Math.abs( value.doubleValue( ) ), 1d ) )
 		{
 			// If abs(value) < 1, at most saving 3 significant figures for default
-			// format, but the decimal figures can't limited 9.
+			// format, but the decimal figures can't exceed 9.
 			df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
 					new DecimalFormatSymbols( ULocale.ENGLISH ) );
 			String strValue = df.format( value );
