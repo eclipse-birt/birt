@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,10 @@ public class CacheMapManager
 	private static Map JVMLevelCacheMap = Collections.synchronizedMap( new HashMap( ) );
 	
 	private Map cacheMap;
+	// use this field temporarily keep the data set object need to be saved in
+	// cache. After the data set result has been cached, saved data set object
+	// into cachedMap
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> tempDataSetCacheMap;
 	
 	/**
 	 * construction
@@ -48,6 +51,7 @@ public class CacheMapManager
 		{
 			cacheMap = new HashMap( );
 		}
+		tempDataSetCacheMap = new HashMap<DataSourceAndDataSet, IDataSetCacheObject>( );
 	}
 	
 	/**
@@ -71,7 +75,7 @@ public class CacheMapManager
 			else
 			{
 				IDataSetCacheObject dsco = dscc.createDataSetCacheObject( );
-				cacheMap.put( dsAndDs, dsco );
+				tempDataSetCacheMap.put( dsAndDs, dsco );
 				return true;
 			}
 		}
@@ -106,8 +110,25 @@ public class CacheMapManager
 	/**
 	 * @return
 	 */
-	IDataSetCacheObject getCacheObject( DataSourceAndDataSet dsAndDs )
+	IDataSetCacheObject getSavedCacheObject( DataSourceAndDataSet dsAndDs )
+	{	
+		return tempDataSetCacheMap.get( dsAndDs );
+	}
+	
+	void saveFinishOnCache( DataSourceAndDataSet dsAndDs,
+			IDataSetCacheObject dsco )
 	{
+		synchronized ( cacheMap )
+		{
+			cacheMap.put( dsAndDs, dsco );
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	IDataSetCacheObject getloadedCacheObject( DataSourceAndDataSet dsAndDs )
+	{	
 		return (IDataSetCacheObject) cacheMap.get( dsAndDs );
 	}
 	
@@ -124,6 +145,7 @@ public class CacheMapManager
 			while ( key != null )
 			{
 				cacheObjects.add( cacheMap.remove( key ) );
+				tempDataSetCacheMap.remove( key );
 				key = getKey(dsAndDs);
 			}
 		}
@@ -143,6 +165,7 @@ public class CacheMapManager
 		synchronized ( this )
 		{
 			cacheMap.clear( );
+			tempDataSetCacheMap.clear( );
 		}
 	}
 	

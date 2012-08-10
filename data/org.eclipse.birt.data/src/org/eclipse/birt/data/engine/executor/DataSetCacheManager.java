@@ -283,17 +283,47 @@ public class DataSetCacheManager
 		temp.add( cacheID );
 		jvmLevelCacheMapManager.clearCache( temp );
 	}
+	
 	/**
 	 * @return
 	 * @throws DataException 
 	 */
-	public IDataSetCacheObject getCacheObject( ) throws DataException
+	public IDataSetCacheObject getSavedCacheObject( ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+				
+		IDataSetCacheObject cached = cacheMapManager.getSavedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ) ); 
+		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
+		{
+			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
+		}	
+		return cached;
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public void saveFinished( IDataSetCacheObject dsco ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+		
+		cacheMapManager.saveFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ), dsco );
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public IDataSetCacheObject getLoadedCacheObject( ) throws DataException
 	{
 		switchCacheMap( dataSetDesign );
-		
-		
-		
-		IDataSetCacheObject cached = cacheMapManager.getCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				
+		IDataSetCacheObject cached = cacheMapManager.getloadedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterHints, this.cacheID ) ); 
 		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
