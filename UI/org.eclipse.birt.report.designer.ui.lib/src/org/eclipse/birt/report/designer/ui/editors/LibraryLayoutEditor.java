@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.editors;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.lib.commands.SetCurrentEditModelCommand;
@@ -73,17 +74,18 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 		return true;
 	}
 
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
+		ReportRequest rq = (ReportRequest) request;
+
 		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( request.getSelectionModelList( ).size( ) == 1 )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof SlotHandle )
+				&& ( rq.getSelectionModelList( ).size( ) == 1 )
+				&& rq.getSelectionModelList( ).get( 0 ) instanceof SlotHandle )
 		{
-			SlotHandle slt = (SlotHandle) request.getSelectionModelList( )
-					.get( 0 );
+			SlotHandle slt = (SlotHandle) rq.getSelectionModelList( ).get( 0 );
 			if ( slt.getSlotID( ) == ReportDesignHandle.BODY_SLOT )
 			{
-				handleOpenDesigner( request );
+				handleOpenDesigner( rq );
 			}
 			return;
 		}
