@@ -17,12 +17,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -141,7 +142,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  */
 abstract public class ReportEditorWithPalette extends
-		GraphicalEditorWithFlyoutPalette implements IColleague
+		GraphicalEditorWithFlyoutPalette implements IMediatorColleague
 {
 
 	protected PaletteRoot paletteRoot;
@@ -426,7 +427,7 @@ abstract public class ReportEditorWithPalette extends
 		action = new InsertAggregationAction( this );
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
-		
+
 		action = new InsertRelativeTimePeriodAction( this );
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
@@ -649,17 +650,22 @@ abstract public class ReportEditorWithPalette extends
 
 	private Object fLastSentPostElement = null;
 
-	public void performRequest( ReportRequest request )
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request );
-			performBreadcrumbRequest( request );
+			handleSelectionChange( (ReportRequest) request );
+			performBreadcrumbRequest( (ReportRequest) request );
 		}
 		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
-			handleCreateElement( request );
-			performBreadcrumbRequest( request );
+			handleCreateElement( (ReportRequest) request );
+			performBreadcrumbRequest( (ReportRequest) request );
 		}
 	}
 

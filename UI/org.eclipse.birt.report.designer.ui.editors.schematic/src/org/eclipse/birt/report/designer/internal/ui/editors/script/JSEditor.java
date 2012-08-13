@@ -25,10 +25,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.birt.core.ui.swt.custom.TextComboViewer;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
@@ -127,7 +128,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  */
 
-public class JSEditor extends EditorPart implements IColleague
+public class JSEditor extends EditorPart implements IMediatorColleague
 {
 
 	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
@@ -368,10 +369,10 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		// colorManager.dispose( );
 
-		 //remove the mediator listener
-//		 SessionHandleAdapter.getInstance( )
-//		 .getMediator( root )
-//		 .removeColleague( this );
+		// remove the mediator listener
+		// SessionHandleAdapter.getInstance( )
+		// .getMediator( root )
+		// .removeColleague( this );
 		selectionMap.clear( );
 		editingDomainEditor = null;
 
@@ -658,7 +659,8 @@ public class JSEditor extends EditorPart implements IColleague
 		scriptValidator = new ScriptValidator( getViewer( ) );
 
 		// suport the mediator
-		//SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
+		// SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this
+		// );
 
 		disableEditor( );
 
@@ -693,7 +695,7 @@ public class JSEditor extends EditorPart implements IColleague
 				.getMediator( root )
 				.addColleague( this );
 	}
-	
+
 	/**
 	 * DisConnect the root to add the listener
 	 * 
@@ -710,7 +712,7 @@ public class JSEditor extends EditorPart implements IColleague
 				.getMediator( root )
 				.removeColleague( this );
 	}
-	
+
 	/**
 	 * Sets the status of the text listener.
 	 * 
@@ -765,9 +767,9 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		if (adapter.equals( ITextEditor.class ))
+		if ( adapter.equals( ITextEditor.class ) )
 		{
-			if (scriptEditor instanceof ITextEditor)
+			if ( scriptEditor instanceof ITextEditor )
 			{
 				return scriptEditor;
 			}
@@ -783,7 +785,7 @@ public class JSEditor extends EditorPart implements IColleague
 			{
 				cmbExprListViewer.addSelectionChangedListener( palettePage.getSupport( ) );
 			}
-			
+
 			palettePage.setViewer( getViewer( ) );
 			return palettePage;
 		}
@@ -1345,7 +1347,7 @@ public class JSEditor extends EditorPart implements IColleague
 			return selection;
 		}
 
-		//DesignElementHandle model = (DesignElementHandle) getModel( );
+		// DesignElementHandle model = (DesignElementHandle) getModel( );
 		if ( !( selection instanceof IStructuredSelection ) )
 		{
 			return selection;
@@ -1605,6 +1607,11 @@ public class JSEditor extends EditorPart implements IColleague
 		return (SourceViewer) scriptEditor.getViewer( );
 	}
 
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1614,16 +1621,18 @@ public class JSEditor extends EditorPart implements IColleague
 	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 	 * )
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
+		ReportRequest rqt = (ReportRequest) request;
+
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request.getSelectionModelList( ) );
+			handleSelectionChange( rqt.getSelectionModelList( ) );
 		}
-		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof ScriptDataSourceHandle )
+		else if ( ReportRequest.CREATE_ELEMENT.equals( rqt.getType( ) )
+				&& rqt.getSelectionModelList( ).get( 0 ) instanceof ScriptDataSourceHandle )
 		{
-			handleSelectionChange( request.getSelectionModelList( ) );
+			handleSelectionChange( rqt.getSelectionModelList( ) );
 		}
 		refreshAll( );
 	}

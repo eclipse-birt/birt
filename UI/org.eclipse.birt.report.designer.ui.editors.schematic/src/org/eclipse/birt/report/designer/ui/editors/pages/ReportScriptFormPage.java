@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
@@ -69,7 +69,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	protected IEditorPart jsEditor;
 
 	private ModelEventManager manager = getModelEventManager( );
-	
+
 	private Control control;
 
 	private int staleType;
@@ -143,7 +143,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
 		boolean notify = true;
-		if (prePage == this)
+		if ( prePage == this )
 		{
 			notify = false;
 		}
@@ -157,7 +157,7 @@ public class ReportScriptFormPage extends ReportFormPage
 			doSave( null );
 		}
 		ModuleHandle newModel = getModel( );
-		
+
 		if ( newModel != null && model != null && model != newModel )
 		{
 			hookModelEventManager( newModel );
@@ -167,9 +167,9 @@ public class ReportScriptFormPage extends ReportFormPage
 					newModel );
 
 			unhookModelEventManager( model );
-			
+
 			model = newModel;
-			
+
 			SessionHandleAdapter.getInstance( )
 					.setReportDesignHandle( newModel );
 
@@ -185,7 +185,7 @@ public class ReportScriptFormPage extends ReportFormPage
 
 			IMediatorState state = SessionHandleAdapter.getInstance( )
 					.getMediator( newModel )
-					.getCurrentState( );
+					.getState( );
 			ReportRequest request = new ReportRequest( state.getSource( ) );
 			List list = new ArrayList( );
 			list.add( newModel );
@@ -214,21 +214,32 @@ public class ReportScriptFormPage extends ReportFormPage
 		// .getMediator( )
 		// .getCurrentState( )
 		// .getSelectionObject( ) );
-		if (notify)
+		if ( notify )
 		{
 			IMediatorState state = SessionHandleAdapter.getInstance( )
 					.getMediator( )
-					.getCurrentState( );
+					.getState( );
 			ReportRequest request = new ReportRequest( state.getSource( ) );
-			List list = new ArrayList( state.getSelectionObject( ) );
-	
+			Object data = state.getData( );
+
+			List list = new ArrayList( );
+
+			if ( data instanceof List )
+			{
+				list.addAll( (List) data );
+			}
+			else if ( data != null )
+			{
+				list.add( data );
+			}
+
 			if ( list.isEmpty( ) )
 			{
 				list.add( new Object( ) );
 			}
 			request.setSelectionObject( list );
 			request.setType( ReportRequest.SELECTION );
-	
+
 			// SessionHandleAdapter.getInstance().getMediator().pushState();
 			SessionHandleAdapter.getInstance( )
 					.getMediator( )
@@ -318,9 +329,9 @@ public class ReportScriptFormPage extends ReportFormPage
 			{
 				onBroughtToTop( previouPage );
 			}
-			
+
 			model = getModel( );
-			
+
 			hookModelEventManager( model );
 		}
 		catch ( Exception e )
@@ -508,9 +519,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		if (adapter.equals( ITextEditor.class ))
+		if ( adapter.equals( ITextEditor.class ) )
 		{
-			if (jsEditor != null)
+			if ( jsEditor != null )
 			{
 				return jsEditor.getAdapter( adapter );
 			}

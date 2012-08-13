@@ -15,11 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 
 /**
  * Mediator calss to control the interactive between different views. This class
  * is used for selection sychronization and other tasks.
+ * 
+ * @deprecated Not used anymore, see {@link IMediator} instead.
  */
 public class ReportMediator
 {

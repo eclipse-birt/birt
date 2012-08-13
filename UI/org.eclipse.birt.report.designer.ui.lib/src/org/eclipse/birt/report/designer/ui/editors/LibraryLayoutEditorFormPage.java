@@ -216,7 +216,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 		}
 		if ( ( newModel != null && getModel( ) != newModel ) || reload )
 		{
-			Object oldModel = getModel( );
+			ModuleHandle oldModel = getModel( );
 
 			setModel( newModel );
 
@@ -244,7 +244,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 	 * 
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( Object oldModel )
+	protected void rebuildReportDesign( ModuleHandle oldModel )
 	{
 		// Initializes command stack
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );

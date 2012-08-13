@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -52,7 +53,7 @@ import org.eclipse.ui.part.Page;
  */
 public abstract class DataViewPage extends Page implements
 		ISelectionProvider,
-		IColleague
+		IMediatorColleague
 {
 
 	private TreeViewer treeViewer;
@@ -91,7 +92,8 @@ public abstract class DataViewPage extends Page implements
 				{
 					provider = ProviderFactory.createProvider( item.getData( ) );
 				}
-				if ( provider != null && item != null
+				if ( provider != null
+						&& item != null
 						&& provider.isReadOnly( item.getData( ) ) )
 				{
 					Color gray = Display.getCurrent( )
@@ -104,7 +106,7 @@ public abstract class DataViewPage extends Page implements
 				else
 				{
 					Color black = ReportColorConstants.ReportForeground;
-					if (item != null && !black.equals( item.getForeground( ) ) )
+					if ( item != null && !black.equals( item.getForeground( ) ) )
 					{
 						item.setForeground( black );
 					}
@@ -310,18 +312,23 @@ public abstract class DataViewPage extends Page implements
 		// remove the mediator listener
 		if ( reportHandle != null )
 		{
-			ReportMediator mediator = SessionHandleAdapter.getInstance( )
-							.getMediator( reportHandle, false );
-			if(mediator != null)
+			IMediator mediator = SessionHandleAdapter.getInstance( )
+					.getMediator( reportHandle, false );
+			if ( mediator != null )
 			{
 				mediator.removeColleague( this );
 			}
-//			SessionHandleAdapter.getInstance( )
-//					.getMediator( reportHandle )
-//					.removeColleague( this );
+			// SessionHandleAdapter.getInstance( )
+			// .getMediator( reportHandle )
+			// .removeColleague( this );
 		}
 
 		super.dispose( );
+	}
+
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
 	}
 
 	/*
@@ -333,11 +340,11 @@ public abstract class DataViewPage extends Page implements
 	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 	 * )
 	 */
-	public void performRequest( final ReportRequest request )
+	public void performRequest( final IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			handleSelectionChange( request );
+			handleSelectionChange( (ReportRequest) request );
 		}
 		if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 		{
@@ -348,7 +355,7 @@ public abstract class DataViewPage extends Page implements
 					if ( getTreeViewer( ) != null )
 					{
 						getTreeViewer( ).refresh( );
-						handleSelectionChange( request );
+						handleSelectionChange( (ReportRequest) request );
 					}
 				}
 			} );

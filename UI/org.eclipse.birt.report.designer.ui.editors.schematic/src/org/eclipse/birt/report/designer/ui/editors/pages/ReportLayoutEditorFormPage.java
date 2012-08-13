@@ -279,7 +279,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 
 		if ( newModel != null && getModel( ) != newModel )
 		{
-			Object oldModel = getModel( );
+			ModuleHandle oldModel = getModel( );
 
 			setModel( newModel );
 
@@ -320,7 +320,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( Object oldModel )
+	protected void rebuildReportDesign( ModuleHandle oldModel )
 	{
 		// Initializes command stack
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );

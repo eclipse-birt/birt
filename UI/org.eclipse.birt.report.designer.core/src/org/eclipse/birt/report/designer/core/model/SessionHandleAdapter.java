@@ -12,12 +12,19 @@
 package org.eclipse.birt.report.designer.core.model;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorStateConverter;
+import org.eclipse.birt.report.designer.core.mediator.MediatorManager;
+import org.eclipse.birt.report.designer.core.util.mediator.ModuleMediatorTarget;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignConfig;
@@ -33,8 +40,6 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.core.DisposeEvent;
-import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -47,7 +52,7 @@ import com.ibm.icu.util.ULocale;
  * methods to GUI requirement SessionHandleAdapter responds to model
  * SessionHandle
  */
-public class SessionHandleAdapter
+public class SessionHandleAdapter implements IMediatorStateConverter
 {
 
 	public static final int UNKNOWFILE = -1;
@@ -56,20 +61,6 @@ public class SessionHandleAdapter
 	public static final int TEMPLATEFILE = 2;
 
 	private int type = DESIGNEFILE;
-
-	private IDisposeListener disposeListener = new IDisposeListener( ) {
-
-		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
-		{
-			ReportMediator media = (ReportMediator) mediatorMap.get( targetElement );
-			if ( media != null )
-			{
-				media.dispose( );
-			}
-			mediatorMap.remove( targetElement );
-			targetElement.removeDisposeListener( this );
-		}
-	};
 
 	private IWindowListener pageListener = new IWindowListener( ) {
 
@@ -91,9 +82,6 @@ public class SessionHandleAdapter
 		{
 		}
 	};
-
-	// add field support mediator
-	private Map mediatorMap = new WeakHashMap( );
 
 	// fix bug when open in new window.
 	private Map reportHandleMap = new HashMap( );
@@ -129,7 +117,7 @@ public class SessionHandleAdapter
 	 * @return return SessionHandleAdapter instance
 	 */
 
-	public static SessionHandleAdapter getInstance( )
+	public synchronized static SessionHandleAdapter getInstance( )
 	{
 		if ( sessionAdapter == null )
 		{
@@ -151,14 +139,15 @@ public class SessionHandleAdapter
 			sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
 			try
 			{
-				if (!CorePlugin.isUseNormalTheme( ))
+				if ( !CorePlugin.isUseNormalTheme( ) )
 				{
-					sessionHandle.setDefaultValue( StyleHandle.COLOR_PROP, DEUtil.getRGBInt( CorePlugin.ReportForeground.getRGB( ) ) );
+					sessionHandle.setDefaultValue( StyleHandle.COLOR_PROP,
+							DEUtil.getRGBInt( CorePlugin.ReportForeground.getRGB( ) ) );
 				}
 			}
 			catch ( PropertyValueException e )
 			{
-				//do nothing
+				// do nothing
 			}
 		}
 		return sessionHandle;
@@ -190,10 +179,10 @@ public class SessionHandleAdapter
 		// !!!dont set handle here, handle is set only when editor is activated.
 		// setReportDesignHandle( handle );
 		postInit( handle, properties );
-		
+
 		// flush any init state change which cannot be undone.
 		handle.getCommandStack( ).flush( );
-		
+
 		return handle;
 	}
 
@@ -237,7 +226,8 @@ public class SessionHandleAdapter
 			}
 		}
 		SimpleMasterPageHandle masterPage = null;
-		if ( handle.getMasterPages( ) != null && handle.getMasterPages( ).getCount( ) == 0 )
+		if ( handle.getMasterPages( ) != null
+				&& handle.getMasterPages( ).getCount( ) == 0 )
 		{
 			masterPage = handle.getElementFactory( ).newSimpleMasterPage( null );
 			try
@@ -371,7 +361,7 @@ public class SessionHandleAdapter
 		return null;
 	}
 
-	public ReportMediator getMediator( ModuleHandle handle )
+	public IMediator getMediator( ModuleHandle handle )
 	{
 		return getMediator( handle, true );
 	}
@@ -383,19 +373,17 @@ public class SessionHandleAdapter
 	 *            the model
 	 * @return corresponding mediator
 	 */
-	public ReportMediator getMediator( ModuleHandle handle, boolean force )
+	public IMediator getMediator( ModuleHandle handle, boolean force )
 	{
-		if ( handle != null )
+		IMediator mt = MediatorManager.getInstance( )
+				.getMediator( new ModuleMediatorTarget( handle ), force );
+
+		if ( mt != null )
 		{
-			handle.addDisposeListener( disposeListener );
+			mt.setStateConverter( this );
 		}
-		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
-		if ( mediator == null && force)
-		{
-			mediator = new ReportMediator( );
-			mediatorMap.put( handle, mediator );
-		}
-		return mediator;
+
+		return mt;
 	}
 
 	/**
@@ -403,7 +391,7 @@ public class SessionHandleAdapter
 	 * 
 	 * @return the current mediator
 	 */
-	public ReportMediator getMediator( )
+	public IMediator getMediator( )
 	{
 		return getMediator( getReportDesignHandle( ) );
 	}
@@ -414,15 +402,11 @@ public class SessionHandleAdapter
 	 * @param newObj
 	 *            new model
 	 */
-	public void resetReportDesign( Object oldObj, Object newObj )
+	public void resetReportDesign( ModuleHandle oldObj, ModuleHandle newObj )
 	{
-		ReportMediator mediator = (ReportMediator) mediatorMap.get( oldObj );
-		if ( mediator == null )
-		{
-			return;
-		}
-		mediatorMap.remove( oldObj );
-		mediatorMap.put( newObj, mediator );
+		MediatorManager.getInstance( )
+				.resetTarget( new ModuleMediatorTarget( oldObj ),
+						new ModuleMediatorTarget( newObj ) );
 	}
 
 	/**
@@ -433,11 +417,30 @@ public class SessionHandleAdapter
 	 */
 	public void clear( ModuleHandle handle )
 	{
-		mediatorMap.remove( handle );
+		MediatorManager.getInstance( )
+				.removeMediator( new ModuleMediatorTarget( handle ) );
+
 		if ( handle == getReportDesignHandle( ) )
 		{
 			setReportDesignHandle( null );
 			getSessionHandle( ).setResourceFolder( null );
 		}
+	}
+
+	public IMediatorRequest convertStateToRequest( IMediatorState state )
+	{
+		ReportRequest request = new ReportRequest( state.getSource( ),
+				state.getType( ) );
+		if ( state.getData( ) instanceof List )
+		{
+			request.setSelectionObject( (List) state.getData( ) );
+		}
+		else if ( state.getData( ) != null )
+		{
+			List lst = new ArrayList( );
+			lst.add( state.getData( ) );
+			request.setSelectionObject( lst );
+		}
+		return request;
 	}
 }

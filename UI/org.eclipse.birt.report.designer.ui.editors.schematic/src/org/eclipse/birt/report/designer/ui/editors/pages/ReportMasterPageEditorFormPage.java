@@ -97,7 +97,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 		
 		if ( newModel != null && getModel( ) != newModel )
 		{
-			Object oldModel = getModel( );
+			ModuleHandle oldModel = getModel( );
 
 			getProvider( ).connect( newModel );
 			setModel( newModel );
@@ -135,7 +135,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor imple
 	 * 
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( Object oldModel )
+	protected void rebuildReportDesign( ModuleHandle oldModel )
 	{
 		// Initializes command stack
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );

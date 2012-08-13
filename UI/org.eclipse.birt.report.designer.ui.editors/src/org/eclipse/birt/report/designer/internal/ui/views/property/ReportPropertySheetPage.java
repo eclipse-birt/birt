@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -105,7 +106,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 public class ReportPropertySheetPage extends Page implements
 		IPropertySheetPage,
 		Listener,
-		IColleague
+		IMediatorColleague
 {
 
 	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
@@ -1102,6 +1103,11 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1111,14 +1117,14 @@ public class ReportPropertySheetPage extends Page implements
 	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 	 * )
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
 			// Remove null from the list. That fix the bug 139422
 			ArrayList selections = new ArrayList( );
 			selections.add( null );
-			selections.addAll( request.getSelectionModelList( ) );
+			selections.addAll( ( (ReportRequest) request ).getSelectionModelList( ) );
 
 			ArrayList nullList = new ArrayList( );
 			nullList.add( null );
