@@ -16,8 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
@@ -454,9 +454,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		// }
 		reportHandle.removeValidationListener( this );
 		// remove the mediator listener
-		ReportMediator mediator = SessionHandleAdapter.getInstance( )
+		IMediator mediator = SessionHandleAdapter.getInstance( )
 				.getMediator( reportHandle, false );
-		if(mediator != null)
+		if ( mediator != null )
 		{
 			mediator.removeColleague( getSelectionSynchronizer( ) );
 		}

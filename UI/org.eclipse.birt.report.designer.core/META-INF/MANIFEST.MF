@@ -8,6 +8,7 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.designer.core,
  org.eclipse.birt.report.designer.core.commands,
+ org.eclipse.birt.report.designer.core.mediator,
  org.eclipse.birt.report.designer.core.model,
  org.eclipse.birt.report.designer.core.model.schematic,
  org.eclipse.birt.report.designer.core.model.views.data,

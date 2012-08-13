@@ -19,9 +19,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediator;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
@@ -81,7 +82,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
  * XML editor for report source file.
  */
 public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
-		IColleague
+		IMediatorColleague
 {
 
 	private ModelEventManager manager;
@@ -197,7 +198,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 							.getSessionHandle( )
 							.openDesign( path.toOSString( ),
 							// No need to close the stream here, the report
-									// design parser will automaically close it.
+							// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
 					if ( checkReport )
 					{
@@ -225,7 +226,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 							.getSessionHandle( )
 							.openModule( path.toOSString( ),
 							// No need to close the stream here, the report
-									// design parser will automaically close it.
+							// design parser will automaically close it.
 									new FileInputStream( path.toFile( ) ) );
 					if ( checkReport )
 					{
@@ -614,6 +615,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		}
 	}
 
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -623,14 +629,14 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 	 * )
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) )
 				&& !( request.getSource( ) instanceof ReportXMLSourceEditorFormPage )
 				&& isActive( )
 				&& request.getSource( ) instanceof DesignerOutlinePage )
 		{
-			handleSelectionChange( request );
+			handleSelectionChange( (ReportRequest) request );
 		}
 	}
 
@@ -666,9 +672,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
 			ModuleHandle model = getModel( );
-			
-			if ( model != null && ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
-					model.getVersion( ) ) > 0 )
+
+			if ( model != null
+					&& ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
+							model.getVersion( ) ) > 0 )
 			{
 				if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
 						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Message" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -692,11 +699,21 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				.addColleague( this );
 		// ser the attribute view disedit.
 
-		ReportMediator mediator = SessionHandleAdapter.getInstance( )
+		IMediator mediator = SessionHandleAdapter.getInstance( )
 				.getMediator( model );
 		ReportRequest request = new ReportRequest( ReportXMLSourceEditorFormPage.this );
-		List list = new ArrayList( mediator.getCurrentState( )
-				.getSelectionObject( ) );
+		Object data = mediator.getState( ).getData( );
+
+		List list = new ArrayList( );
+		if ( data instanceof List )
+		{
+			list.addAll( (List) data );
+		}
+		else if ( data != null )
+		{
+			list.add( data );
+		}
+
 		if ( list.isEmpty( ) )
 		{
 			list.add( new Object( ) );
@@ -746,7 +763,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	 */
 	public Object getAdapter( Class required )
 	{
-		if (required.equals( ITextEditor.class ))
+		if ( required.equals( ITextEditor.class ) )
 		{
 			return reportXMLEditor;
 		}
@@ -905,10 +922,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	{
 		super.dispose( );
 		( (MultiPageEditorSite) getSite( ) ).dispose( );
-		
+
 		reportXMLEditor.dispose( );
 		reportXMLEditor = null;
-		
+
 		unhookModelEventManager( getModel( ) );
 
 		SessionHandleAdapter.getInstance( )

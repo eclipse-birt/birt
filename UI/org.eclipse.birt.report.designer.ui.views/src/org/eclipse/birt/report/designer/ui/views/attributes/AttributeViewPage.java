@@ -19,9 +19,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
+import org.eclipse.birt.report.designer.core.mediator.MediatorManager;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -74,7 +75,7 @@ import org.eclipse.ui.part.Page;
  */
 public class AttributeViewPage extends Page implements
 		INullSelectionListener,
-		IColleague,
+		IMediatorColleague,
 		IModelEventProcessor
 {
 
@@ -158,10 +159,27 @@ public class AttributeViewPage extends Page implements
 	{
 		try
 		{
-			DEUtil.getGroupElementHandle( getModelList( new StructuredSelection( SessionHandleAdapter.getInstance( )
+			Object data = SessionHandleAdapter.getInstance( )
 					.getMediator( )
-					.getCurrentState( )
-					.getSelectionObject( ) ) ) )
+					.getState( )
+					.getData( );
+
+			StructuredSelection selection;
+
+			if ( data instanceof List )
+			{
+				selection = new StructuredSelection( (List) data );
+			}
+			else if ( data != null )
+			{
+				selection = new StructuredSelection( data );
+			}
+			else
+			{
+				selection = new StructuredSelection( );
+			}
+
+			DEUtil.getGroupElementHandle( getModelList( selection ) )
 					.clearLocalProperties( );
 		}
 		catch ( SemanticException e )
@@ -207,7 +225,7 @@ public class AttributeViewPage extends Page implements
 		selection = page.getSelection( );
 		page.addSelectionListener( this );
 
-		ReportMediator.addGlobalColleague( this );
+		MediatorManager.addGlobalColleague( this );
 	}
 
 	private void addActions( )
@@ -360,7 +378,7 @@ public class AttributeViewPage extends Page implements
 		// page.removePartListener( partListener );
 
 		// remove the mediator listener
-		ReportMediator.removeGlobalColleague( this );
+		MediatorManager.removeGlobalColleague( this );
 
 		super.dispose( );
 	}
@@ -581,14 +599,19 @@ public class AttributeViewPage extends Page implements
 
 	private IPageGenerator pageGenerator;
 
-	public void performRequest( ReportRequest request )
+	public boolean isInterested( IMediatorRequest request )
+	{
+		return request instanceof ReportRequest;
+	}
+
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
-			if ( !requesList.equals( request.getSelectionModelList( ) ) )
+			if ( !requesList.equals( request.getData( ) ) )
 			{
 				deRegisterEventManager( );
-				requesList = request.getSelectionModelList( );
+				requesList = (List) request.getData( );
 				handleSelectionChanged( new StructuredSelection( requesList ) );
 				registerEventManager( );
 			}

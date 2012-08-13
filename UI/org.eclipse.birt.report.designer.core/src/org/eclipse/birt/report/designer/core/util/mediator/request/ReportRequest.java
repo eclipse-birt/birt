@@ -13,7 +13,9 @@ package org.eclipse.birt.report.designer.core.util.mediator.request;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.gef.Request;
 
 /**
@@ -22,7 +24,7 @@ import org.eclipse.gef.Request;
  * obtaining selection, and performing generic operations.
  */
 
-public class ReportRequest extends Request
+public class ReportRequest extends Request implements IMediatorRequest
 {
 
 	/**
@@ -159,6 +161,26 @@ public class ReportRequest extends Request
 	public void setRequestConvert( IRequestConvert convert )
 	{
 		this.convert = convert;
+	}
+
+	public String getType( )
+	{
+		return String.valueOf( super.getType( ) );
+	}
+
+	public Object getData( )
+	{
+		return getSelectionModelList( );
+	}
+
+	public boolean isSticky( )
+	{
+		return SELECTION.equals( getType( ) );
+	}
+
+	public Map<?, ?> getExtras( )
+	{
+		return null;
 	}
 
 }
