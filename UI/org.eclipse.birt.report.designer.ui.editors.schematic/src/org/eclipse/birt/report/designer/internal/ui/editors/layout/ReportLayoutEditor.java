@@ -22,6 +22,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -55,7 +56,9 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 		this.parentEditorPart = parent;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
 	public boolean isSaveAsAllowed( )
@@ -63,27 +66,30 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette
+	 * #performRequest(org.eclipse.birt.report.designer
+	 * .core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
 		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( request.getSelectionModelList( ).size( ) == 1 )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof SlotHandle )
+				&& ( ( (ReportRequest) request ).getSelectionModelList( )
+						.size( ) == 1 )
+				&& ( (ReportRequest) request ).getSelectionModelList( ).get( 0 ) instanceof SlotHandle )
 		{
-			SlotHandle slt = (SlotHandle) request.getSelectionModelList( )
-					.get( 0 );
+			SlotHandle slt = (SlotHandle) ( ( (ReportRequest) request ).getSelectionModelList( ).get( 0 ) );
 			if ( slt.getSlotID( ) == ReportDesignHandle.BODY_SLOT )
 			{
-				handleOpenDesigner( request );
+				handleOpenDesigner( (ReportRequest) request );
 			}
 			return;
 		}
 		super.performRequest( request );
 	}
-
-	
 
 	/**
 	 * @param request
@@ -108,24 +114,27 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 */
 	public Object getAdapter( Class adapter )
 	{
-//		if ( adapter == DataViewPage.class )
-//		{
-//			// TODO garbage code
-//			// important: this code is for fixing a bug in emergency.
-//			// Must shift to mediator structure after R1
-//			DataViewPage page = (DataViewPage) super.getAdapter( adapter );
-//			if ( page == null )
-//			{
-//				return null;
-//			}
-//			return page;
-//		}
+		// if ( adapter == DataViewPage.class )
+		// {
+		// // TODO garbage code
+		// // important: this code is for fixing a bug in emergency.
+		// // Must shift to mediator structure after R1
+		// DataViewPage page = (DataViewPage) super.getAdapter( adapter );
+		// if ( page == null )
+		// {
+		// return null;
+		// }
+		// return page;
+		// }
 
 		return super.getAdapter( adapter );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
+	 * AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
 	protected PaletteRoot getPaletteRoot( )
 	{
@@ -137,21 +146,27 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
 	 */
 	protected IEditorPart getMultiPageEditor( )
 	{
 		return parentEditorPart;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportEditorWithPalette#createActions()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.layout.
+	 * ReportEditorWithPalette#createActions()
 	 */
 	protected void createActions( )
 	{
 		super.createActions( );
-		IAction action = new SelectAllAction(this);
-		getActionRegistry( ).registerAction(action);
+		IAction action = new SelectAllAction( this );
+		getActionRegistry( ).registerAction( action );
 	}
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
+import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.palette.MasterPagePaletteFactory;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -113,13 +114,15 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( ReportRequest request )
+	public void performRequest( IMediatorRequest request )
 	{
+		ReportRequest rq = (ReportRequest) request;
+
 		if ( ReportRequest.LOAD_MASTERPAGE.equals( request.getType( ) )
-				&& ( request.getSelectionModelList( ).size( ) == 1 )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle )
+				&& ( rq.getSelectionModelList( ).size( ) == 1 )
+				&& rq.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle )
 		{
-			handlerLoadMasterPage( request );
+			handlerLoadMasterPage( rq );
 			return;
 		}
 
