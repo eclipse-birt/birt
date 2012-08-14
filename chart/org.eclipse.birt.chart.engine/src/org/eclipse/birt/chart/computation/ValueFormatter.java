@@ -566,10 +566,17 @@ public final class ValueFormatter
 	private static NumberFormat createDefaultNumberFormat( Number value, ULocale locale )
 	{
 		NumberFormat df;
-		if ( ChartUtil.mathLT( Math.abs( value.doubleValue( ) ), 1d ) )
+		// Since double 0 is still formatted as '0.0' rather than '0' if calls (
+		// (DecimalFormat) df ).setSignificantDigitsUsed( true ) and (
+		// (DecimalFormat) df).setMaximumSignificantDigits( 3 ), here just make
+		// 0 as common double to process to avoid double 0 is formated as '0.0'.
+		double doubleValue = Math.abs( value.doubleValue( ) );
+		if ( ChartUtil.mathGT( doubleValue, 0d )
+				&& ChartUtil.mathLT( doubleValue, 1d ) )
 		{
-			// If abs(value) < 1, at most saving 3 significant figures for default
-			// format, but the decimal figures can't exceed 9.
+			// If 0 < abs(value) < 1, at most saving 3
+			// significant figures for default format, but the decimal figures
+			// can't exceed 9 figures.
 			df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
 					new DecimalFormatSymbols( locale ) );
 			( (DecimalFormat) df ).setSignificantDigitsUsed( true );
@@ -577,7 +584,7 @@ public final class ValueFormatter
 		}
 		else
 		{
-			// Get default number format, the default pattern is "#,##0.###", it
+			// For common double, use "#,##0.###" as default format pattern, it
 			// just remains 3 figures after decimal dot.
 			df = DecimalFormat.getInstance( locale );
 		}
