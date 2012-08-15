@@ -220,24 +220,7 @@ public class ResultObjectUtil
 		}
 		else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
 		{
-			ObjectInputStream ois = null;
-			if( classLoader != null )
-			{
-				ois = ObjectSecurity.createObjectInputStream( dis, classLoader );
-			}
-			else
-			{
-				ois = ObjectSecurity.createObjectInputStream( dis );
-			}
-			try
-			{
-				obj = ObjectSecurity.readObject( ois );
-			}
-			catch ( Exception e )
-			{
-				// impossible
-			}
-			ois.close( );
+			obj = IOUtil.readObject( dis, classLoader );
 		}
 		else
 		{
@@ -357,10 +340,8 @@ public class ResultObjectUtil
 		{
 			if ( !( fieldValue instanceof Serializable ) )
 				throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName( ));
-
-			ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
-			oo.writeObject( fieldValue );
-			oo.close( );
+			
+			IOUtil.writeObject( dos, fieldValue );
 		}
 		else
 		{

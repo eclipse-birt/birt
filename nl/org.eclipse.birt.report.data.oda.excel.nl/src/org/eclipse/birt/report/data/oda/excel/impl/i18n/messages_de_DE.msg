@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=Verbindungseigenschaften sind nicht vorhanden.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Die Eigenschaft des Excel-Datenquellenordners ist nicht definiert. Erfordert einen Stammordnerpfad oder URI für die Excel-Eingabedatei. 
-connection_invalidSource=Ungültiger oder falsch geformter URI für den Excel-Datenquellenordner angegeben.
+connection_MISSING_FILELOCATION=Die Eigenschaft der Excel-Datenquellendatei ist nicht definiert. Erfordert einen Dateipfad oder URI für die Excel-Eingabedatei. 
+connection_invalidSource=Ungültiger oder falsch geformter URI für die Excel-Datenquellendatei angegeben.
 connection_missingResourceIdentifier=Für die Lösung des relativen Pfads der Excel-Datenquelle ist keine Ressourcenkennung verfügbar: 
 fileSource_excelFileNotFound=Der angegebene Excel-Datenquellenordner oder die angegebene Excel-Datenquellendatei ({0}) wurde nicht gefunden. 
 
@@ -26,7 +26,7 @@ query_ARGUMENT_ERROR=Das Argument muss 'NAME' oder 'TYP' lauten.
 query_IO_EXCEPTION=Beim Lesen der Datei ist ein E/A-Ausnahmefehler aufgetreten.
 query_SOURCE_DATA_ERROR=Doppelte Spaltennamen in Quelldaten gefunden.
 query_COLUMN_NAME_ERROR=Spaltennamenfehler
-query_INVALID_EXCEL_FILE=Das Blatt enthält keine Daten. Wählen Sie ein anderes Blatt.
+query_INVALID_EXCEL_FILE=Das Arbeitsblatt enthält keine Daten. Wählen Sie ein anderes Blatt aus.
 query_text_error=Formatfehler in Abfragetext
 query_WORKSHEET_CANNOT_BE_NULL=Arbeitsblattname darf nicht null sein.
 resultSet_COLUMN_NOT_FOUND=Spalte nicht gefunden:

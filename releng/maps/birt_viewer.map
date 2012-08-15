@@ -3,5 +3,4 @@ plugin@org.eclipse.birt.integration.wtp.ui=GIT,tag=v20120604,repo=git://git.ecli
 plugin@org.eclipse.birt.axis.overlay=GIT,tag=HEAD,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.axis.overlay
 plugin@org.eclipse.birt.jetty.overlay=GIT,tag=HEAD,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.jetty.overlay
 
-
-plugin@org.eclipse.birt.report.viewer.tests=GIT,tag=v20120604,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer.tests
+plugin@org.eclipse.birt.report.viewer.tests=GIT,tag=v20120611,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=viewer/org.eclipse.birt.report.viewer.tests

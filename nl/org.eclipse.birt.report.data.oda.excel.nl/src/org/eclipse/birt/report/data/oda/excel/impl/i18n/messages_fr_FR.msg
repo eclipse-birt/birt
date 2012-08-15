@@ -14,19 +14,19 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=Des propriétés de connexion sont manquantes.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Les propriétés du dossier de la source de données Excel n'ont pas été définies. Vous devez indiquer le chemin d'un dossier racine ou l'URI d'un fichier d'entrée Excel. 
-connection_invalidSource=URI incorrecte ou mal renseignée pour le dossier de la source de données Excel.
+connection_MISSING_FILELOCATION=Les propriétés du fichier de la source de données Excel n'ont pas été définies. Vous devez indiquer le chemin d'un fichier ou l'URI d'un fichier d'entrée Excel. 
+connection_invalidSource=URI incorrecte ou mal renseignée pour le fichier de la source de données Excel.
 connection_missingResourceIdentifier=Aucun identificateur de ressource disponible pour résoudre le chemin d'accès relatif de la source de données Excel : 
 fileSource_excelFileNotFound=Impossible de trouver le dossier ou le fichier de la source de données Excel ({0}) indiqué. 
 
 query_COMMAND_IS_EMPTY=La commande de requête est vide.
 query_DO_NOT_SUPPORT_CROSS_TABLE_QUERY=Les requêtes sur des tables croisées ne sont pas prises en charge.
-query_COMMAND_NOT_VALID=En-tête incorrecte dans le fichier Excel fourni.
+query_COMMAND_NOT_VALID=En-tête incorrect dans le fichier Excel fourni.
 query_ARGUMENT_ERROR=L'argument doit être "NAME" ou "TYPE".
 query_IO_EXCEPTION=Une exception d'E/S s'est produite lors de la lecture du fichier.
 query_SOURCE_DATA_ERROR=Noms de colonnes en doublon trouvés dans les données sources.
 query_COLUMN_NAME_ERROR=Erreur de nom de colonne
-query_INVALID_EXCEL_FILE=La feuille ne comprend aucune donnée. Veuillez sélectionner une autre feuille.
+query_INVALID_EXCEL_FILE=Le classeur ne comprend aucune donnée. Veuillez sélectionner une autre feuille.
 query_text_error=Erreur de format du texte de la requête
 query_WORKSHEET_CANNOT_BE_NULL=Le nom du classeur doit être renseigné.
 resultSet_COLUMN_NOT_FOUND=Colonne non trouvée :

@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=Faltan las propiedades de conexión.
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=La propiedad de carpeta de fuente de datos de Excel no está definida. Se necesita una ruta de carpeta inicial o URI para el archivo de entrada de Excel. 
-connection_invalidSource=URI especificada para la carpeta de fuente de datos de Excel no válida o incorrecta.
+connection_MISSING_FILELOCATION=La propiedad de archivo de fuente de datos de Excel no está definida. Se necesita una ruta de archivo o URI para el archivo de entrada de Excel. 
+connection_invalidSource=URI especificada para el archivo de fuente de datos de Excel no válida o incorrecta.
 connection_missingResourceIdentifier=No hay ningún identificador de recurso disponible para resolver la ruta relativa de la fuente de datos de Excel: 
 fileSource_excelFileNotFound=No es posible localizar la carpeta de fuente de datos de Excel o el archivo ({0}). 
 
@@ -26,7 +26,7 @@ query_ARGUMENT_ERROR=El argumento debe ser 'NAME' o 'TYPE'.
 query_IO_EXCEPTION=Se ha producido una excepción de E/S al leer el archivo.
 query_SOURCE_DATA_ERROR=Se han encontrado nombres de columna duplicados en los datos fuente.
 query_COLUMN_NAME_ERROR=Error de nombre de columna
-query_INVALID_EXCEL_FILE=La hoja no contiene ningún dato. Seleccione una hoja diferente.
+query_INVALID_EXCEL_FILE=La hoja de trabajo no contiene ningún dato. Seleccione una hoja diferente.
 query_text_error=Error de formato de texto de consulta
 query_WORKSHEET_CANNOT_BE_NULL=El nombre de la hoja de trabajo no puede ser nulo.
 resultSet_COLUMN_NOT_FOUND=No se ha encontrado la columna:
