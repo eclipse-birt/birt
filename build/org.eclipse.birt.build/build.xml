@@ -19,7 +19,8 @@
 	<property name="build.dir" value="bin" />
 	<property name="lib.dir" value="lib" />
 	<property name="export.jar.name" value="org.eclipse.birt.build_2.2.0.jar" />
-
+	<property name="export.dir" value="export"/>
+	
 	<path id="class.path">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar"/>
@@ -68,5 +69,16 @@
 				<include name="**/*.properties"/>
 			</fileset>
 		</jar>
+	</target>
+	
+	<target name="export" depends="jar">
+		<copy todir="${export.dir}">
+			<fileset dir=".">
+				<include name="lib/**" />
+				<include name="*.jar" />
+				<include name="runMaven.xml" />
+				<include name="*.properties" />
+			</fileset>
+		</copy>
 	</target>
 </project>

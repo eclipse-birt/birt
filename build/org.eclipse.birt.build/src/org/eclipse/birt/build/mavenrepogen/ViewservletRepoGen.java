@@ -35,7 +35,7 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class RepoGen
+public class ViewservletRepoGen
 {
 	private final File libDir;
 	private final String groupId;
@@ -50,20 +50,22 @@ public class RepoGen
 	private final File templateReleasePomFile;
 	private final String rootFileName;
 	private final File readmeFile;
-	private final String externalFileName = "./externalRepo.properties";
+	private final String viewservletsVersion;
+	private final String externalFileName = "./externalRepo-viewservlets.properties";
 	
 	private final Map<String, ExternalDependency> externalDependencies;
 
-	private RepoGen(final File libDir, final File repoParentDir, final String groupId,
+	private ViewservletRepoGen(final File libDir, final File repoParentDir, final String groupId,
 			final String passphrase, final boolean snapshot, final boolean release,
-			final boolean clean, final String rootFileName, final String readmeFilePath ) throws IOException
+			final boolean clean, final String rootFileName, final String readmeFilePath, final String viewservletsV) throws IOException
 	{
 		this.libDir = libDir;
 		this.groupId = groupId;
 		this.passphrase = passphrase;
 		this.readmeFile = new File(readmeFilePath);
+		this.viewservletsVersion = viewservletsV;
 		
-		repoDir = new File(repoParentDir, "repository");
+		repoDir = new File(repoParentDir, "repository-viewservlets");
 		repoDir.mkdir();
 		groupDir = new File(repoDir, groupId);
 		if (clean)
@@ -99,11 +101,13 @@ public class RepoGen
 			globalReleaseScriptFile = null;
 			templateReleasePomFile = null;
 		}
+		
 		this.rootFileName = rootFileName;
+		
 		externalDependencies = new HashMap<String, ExternalDependency>();
 		readExternalDependency();
 		System.out.println(externalDependencies.size() + " external dependencies found.");
-		
+
 	}
 
 	private void addExternalDependency(final String fileName, final String groupId,
@@ -116,8 +120,6 @@ public class RepoGen
 	public static void main(final String[] args) throws IOException
 	{
 		final String propsFileName;
-		
-		
 		if (args.length >= 1)
 			propsFileName = args[0];
 		else
@@ -125,7 +127,6 @@ public class RepoGen
 		String passphrase = null;
 		if (args.length >= 2)
 			passphrase = args[1];
-		
 		final Properties properties = new Properties();
 		final FileReader fr = new FileReader(propsFileName);
 		try
@@ -136,7 +137,7 @@ public class RepoGen
 		{
 			fr.close();
 		}
-		final String libDirName = properties.getProperty("libDir");
+		final String libDirName = properties.getProperty("viewservletsDir");
 		final String repoDirName = properties.getProperty("repoDir");
 		final String groupId = properties.getProperty("groupId");
 		if (passphrase == null)
@@ -144,11 +145,16 @@ public class RepoGen
 		final boolean clean = "true".equalsIgnoreCase(properties.getProperty("clean"));
 		final boolean genSnapshot = "true".equalsIgnoreCase(properties.getProperty("snapshot"));
 		final boolean genRelease = "true".equalsIgnoreCase(properties.getProperty("release"));
-		final String rootFileName = properties.getProperty("rootFile");
+		final String rootFileName = properties.getProperty("viewServletsFile");
 		final String readmeFilePath = properties.getProperty("readmeFile");
+		final String viewservletsV= properties.getProperty("viewServletsVersion");	
+		System.out.println("libDir: " + libDirName);
+		System.out.println("servlets version: " + viewservletsV);
+		System.out.println("servlets root file: " + rootFileName);
 		
-		final RepoGen repoGen = new RepoGen(new File(libDirName), new File(repoDirName), groupId,
-				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath);
+		final ViewservletRepoGen repoGen = new ViewservletRepoGen(new File(libDirName), new File(repoDirName), groupId,
+				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath, viewservletsV);
+		
 		repoGen.generate();
 	}
 
@@ -176,18 +182,20 @@ public class RepoGen
 		final PrintWriter templateReleasePomWriter = createTemplatePomWriter(
 			templateReleasePomFile, false);
 		File rootFile = null;
-		final List<FileInfo> fileInfos = new ArrayList<FileInfo>();
+		//final List<FileInfo> fileInfos = new ArrayList<FileInfo>();
 		final File[] files = libDir.listFiles();
-		
-		/**
-		 * Handle the jars under lib folder excluding the root file.
-		 */
+	
 		if (files != null)
 		{
 			for (final File file : files)
 			{
 				if (rootFileName != null && rootFileName.equals(file.getName()))
+				{
 					rootFile = file;
+					System.out.println("root file is:" + file.getName());
+					break;
+				}
+				/*
 				else if (!externalDependencies.containsKey(file.getName()))
 				{
 					final FileInfo fileInfo = getFileInfo(file);
@@ -200,25 +208,22 @@ public class RepoGen
 							globalReleaseScriptFileWriter, templateReleasePomWriter, null, null);
 					}
 				}
+				*/
 			}
 		}
-		/**
-		 * Handle the root file birt.runtime 
-		 */
 		if (rootFile != null)
 		{
+			
 			final FileInfo fileInfo = getFileInfo(rootFile);
+			/* set artifact version for viewservlets */
+			fileInfo.setVersion(viewservletsVersion);
 			generateFile(fileInfo, true, globalSnapshotBuildFileWriter,
-				globalSnapshotScriptFileWriter, templateSnapshotPomWriter, fileInfos,
+				globalSnapshotScriptFileWriter, templateSnapshotPomWriter, null,
 				externalDependencies.values());
 			generateFile(fileInfo, false, globalReleaseBuildFileWriter,
-				globalReleaseScriptFileWriter, templateReleasePomWriter, fileInfos,
+				globalReleaseScriptFileWriter, templateReleasePomWriter, null,
 				externalDependencies.values());
 		}
-		
-		int tmpCount = fileInfos.size() + 1;
-		System.out.println(tmpCount + " jars under runtime lib folder founded.");
-		
 		closeTemplatePomWriter(templateSnapshotPomWriter);
 		closeTemplatePomWriter(templateReleasePomWriter);
 		closeBuildFileWriter(globalSnapshotBuildFileWriter);
@@ -235,7 +240,6 @@ public class RepoGen
 		writer.println("# Execute all the builds.");
 		// TODO parameterize these
 		writer.println("export ANT_OPTS=\"-XX:MaxPermSize=256m\"");
-		writer.println("date > time.log");
 		//writer.println("export ANT_HOME=~/java/apache-ant-1.8.2");
 		return writer;
 	}
@@ -255,7 +259,6 @@ public class RepoGen
 		if (writer != null)
 		{
 			writer.println("# done.");
-			writer.println("date >> time.log");
 			writer.close();
 		}
 	}
@@ -361,15 +364,7 @@ public class RepoGen
 				final int indexofsemicolon = artifactId.indexOf(";");
 				if (indexofsemicolon >= 0)
 					artifactId = artifactId.substring(0, indexofsemicolon);
-				version = mainAttributes.getValue("Bundle-Version");
-				//System.out.println( rootFileName + "," + file.getName());
-				
-				if (file.getName().equals(rootFileName))
-				{
-					
-					version = trimVersion(version);
-					System.out.println("root file found: " + rootFileName + ", version: " + version);
-				}
+				version = trimVersion(mainAttributes.getValue("Bundle-Version"));
 			}
 			else
 			{
@@ -738,7 +733,7 @@ public class RepoGen
 		for (final File file : files)
 			deepDelete(file);
 	}
-
+	
 	private void readExternalDependency () throws IOException
 	{
 	
@@ -769,12 +764,11 @@ public class RepoGen
 		}		
 		
 	}
-	
 	private String trimVersion(final String version)
 	{
 		if (version == null)
 			return "1";
-		
+		/*
 		final String[] parts = version.split("\\.");
 		final StringBuilder sb = new StringBuilder();
 		String sep = "";
@@ -786,8 +780,8 @@ public class RepoGen
 			sb.append(part);
 		}
 		return sb.toString();
-		
-		//return version;
+		*/
+		return version;
 	}
 
 	private void copy(final File sourceFile, final File destinationFile) throws IOException

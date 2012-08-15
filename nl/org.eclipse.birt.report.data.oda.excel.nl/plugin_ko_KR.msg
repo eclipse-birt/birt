@@ -15,7 +15,7 @@ data.source.name=Excel 데이터 원본
 data.set.name=Excel 데이터 집합
 connection.profile.name=Excel 데이터 원본 연결 프로필
 
-datasource.property.uri=&URI
+datasource.property.uri=URI(&U)
 datasource.property.incltypeline=데이터 형식 표시기로 두 번째 줄 사용(&D)
 datasource.property.inclcolumnnameline=열 이름 표시기로 첫 번째 줄 사용(&N)
 
