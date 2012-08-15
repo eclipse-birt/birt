@@ -30,7 +30,7 @@ exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してくだ
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
 invalid.data.type=データ型が無効です : {0} 
-invalid.binding.expression=Invalid expression: {0}.
+invalid.binding.expression=式が無効です : {0}
 
 cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
 cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。

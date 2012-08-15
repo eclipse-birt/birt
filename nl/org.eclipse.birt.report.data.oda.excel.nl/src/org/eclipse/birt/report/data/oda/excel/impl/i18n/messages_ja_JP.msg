@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=接続プロパティがありません。
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=Excel データソースフォルダのプロパティが定義されていません。Excel 入力ファイルのホームフォルダのパスまたは URI が必要です。 
-connection_invalidSource=指定された Excel データソースフォルダの URI が無効か間違っています。
+connection_MISSING_FILELOCATION=Excel データソースファイルのプロパティが定義されていません。Excel 入力ファイルのファイルパスまたは URI が必要です。 
+connection_invalidSource=指定された Excel データソースファイルの URI が無効か間違っています。
 connection_missingResourceIdentifier=Excel データソースの相対パスを解決するリソース ID がありません。 
 fileSource_excelFileNotFound=指定された Excel データソースフォルダまたはファイル ({0}) が見つかりません。 
 
@@ -26,7 +26,7 @@ query_ARGUMENT_ERROR=引数は 'NAME' と 'TYPE' のいずれかを指定してください。
 query_IO_EXCEPTION=ファイルの読み込み中に I/O 例外が発生しました。
 query_SOURCE_DATA_ERROR=データソース内で列名が重複しています。
 query_COLUMN_NAME_ERROR=列名エラー
-query_INVALID_EXCEL_FILE=シートにデータが含まれていません。 別のシートを選択してください。
+query_INVALID_EXCEL_FILE=ワークシートにデータが含まれていません。 別のシートを選択してください。
 query_text_error=クエリテキストの書式エラー
 query_WORKSHEET_CANNOT_BE_NULL=ワークシート名は null にできません。
 resultSet_COLUMN_NOT_FOUND=列が見つかりません :

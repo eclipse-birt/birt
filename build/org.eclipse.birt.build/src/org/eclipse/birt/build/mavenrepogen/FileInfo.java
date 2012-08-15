@@ -19,8 +19,8 @@ class FileInfo
 	private final File file;
 	private final String groupId;
 	private final String artifactId;
-	private final String version;
-
+	private String version;
+	
 	public FileInfo(final File file, final String groupId, final String artifactId,
 			final String version)
 	{
@@ -44,7 +44,12 @@ class FileInfo
 	{
 		return version + (snapshot ? "-SNAPSHOT" : "");
 	}
-
+	
+	public void setVersion(String v)
+	{
+		this.version = v;
+	}
+	
 	public String getGroupId()
 	{
 		return groupId;
