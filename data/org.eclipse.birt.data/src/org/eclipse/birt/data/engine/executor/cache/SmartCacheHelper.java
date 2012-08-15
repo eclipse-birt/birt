@@ -259,7 +259,7 @@ class SmartCacheHelper
 			throws DataException
 	{
 		this.eventHandler = cacheRequest.getEventHandler( );
-		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ) );
+		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ), cacheRequest.getCacheSize( ) );
 		return this.resultSetCache;
 	}
 
@@ -282,7 +282,7 @@ class SmartCacheHelper
 				odiAdpater,
 				rsMeta,
 				cacheRequest.getDistinctValueFlag( ) ) );
-		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ) );
+		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ), cacheRequest.getCacheSize( ) );
 	}
 
 	/**
@@ -295,15 +295,17 @@ class SmartCacheHelper
 	 * @throws DataException
 	 */
 	private void populateData( IRowResultSet rowResultSet, IResultClass rsMeta,
-			SortSpec sortSpec ) throws DataException
+			SortSpec sortSpec, long cacheSize ) throws DataException
 	{
 		long startTime = System.currentTimeMillis( );
 		SizeOfUtil sizeOfUtil = new SizeOfUtil( rsMeta );
 
 		// compute the number of rows which can be cached in memory
-		long memoryCacheSize = CacheUtil.computeMemoryBufferSize( eventHandler.getAppContext() );
-		
-		int maxRows = CacheUtil.getMaxRows( eventHandler.getAppContext( ) );
+		long memoryCacheSize = cacheSize > 0
+				? cacheSize
+				: CacheUtil.computeMemoryBufferSize( eventHandler.getAppContext( ) );
+		int maxRows = CacheUtil.getMaxRows( eventHandler == null ? null
+				: eventHandler.getAppContext( ) );
 		
 		IResultObject odaObject;
 		IResultObject[] resultObjects;

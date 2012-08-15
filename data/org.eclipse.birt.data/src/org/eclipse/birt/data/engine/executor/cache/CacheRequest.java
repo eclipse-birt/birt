@@ -25,6 +25,7 @@ public class CacheRequest
 	private IEventHandler eventHandler;
 	
 	private boolean distinctValueFlag;
+	private long cacheSize;
 
 	/**
 	 * @param maxRow
@@ -52,6 +53,14 @@ public class CacheRequest
 	{
 		this( maxRow, fetchEvents, sortSpec, eventHandler );
 		this.distinctValueFlag = distinctValueFlag;
+	}
+	
+	public CacheRequest( int maxRow, List fetchEvents, SortSpec sortSpec,
+			IEventHandler eventHandler, boolean distinctValueFlag, long cacheSize )
+	{
+		this( maxRow, fetchEvents, sortSpec, eventHandler );
+		this.distinctValueFlag = distinctValueFlag;
+		this.cacheSize = cacheSize;
 	}
 
 	/**
@@ -110,4 +119,8 @@ public class CacheRequest
 		this.distinctValueFlag = distinctValueFlag;
 	}
 		
+	public long getCacheSize( )
+	{
+		return this.cacheSize;
+	}
 }
