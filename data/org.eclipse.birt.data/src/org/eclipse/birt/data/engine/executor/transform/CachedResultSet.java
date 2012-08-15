@@ -323,7 +323,10 @@ public class CachedResultSet implements IResultIterator
 						streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
 					Map<String, StringTable> stringTables = streamsWrapper.getOutputStringTable( this.getResultClass( ) );
 					
-					IDataSetWriter writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ), getResultClass( ), handler.getAppContext( ) );
+					IDataSetWriter writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ),
+							getResultClass( ),
+							handler.getAppContext( ),
+							resultSetPopulator.getSession( ) );
 					if ( writer != null )
 					{
 						writer.save( this.resultSetPopulator.getCache( ) );
@@ -618,7 +621,8 @@ public class CachedResultSet implements IResultIterator
 		{
 			IDataSetUpdater updater = DataSetStore.createUpdater( streamsWrapper.getStreamManager( ),
 					getResultClass( ),
-					handler.getAppContext( ) );
+					handler.getAppContext( ),
+					resultSetPopulator.getSession( ) );
 			if ( updater != null )
 			{
 				updater.incrementalUpdate( this.resultSetPopulator.getCache( ) );
