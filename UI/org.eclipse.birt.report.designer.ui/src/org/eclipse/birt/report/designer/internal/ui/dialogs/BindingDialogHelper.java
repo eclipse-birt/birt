@@ -349,8 +349,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
-		txtDisplayName.setFocus( );
+		//txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
+		txtExpression.setFocus( );
 		if ( isAggregate( ) )
 		{
 			initFunction( );
