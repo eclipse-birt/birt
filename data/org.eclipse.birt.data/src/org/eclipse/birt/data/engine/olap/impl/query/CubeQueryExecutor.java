@@ -430,6 +430,29 @@ public class CubeQueryExecutor
 				{
 					return CubeQueryExecutor.DIMENSION_FILTER;
 				}
+				
+				if ( !filter.updateAggregation( ) )
+				{
+					List derivedBindingNameList = new ArrayList( );
+					for ( int i = 0; i < bindingName.size( ); i++ )
+					{
+						IBinding binding = getBinding( bindingName.get( i )
+								.toString( ), this.defn.getBindings( ) );
+						if ( binding != null )
+						{
+							List temp = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE );
+							if ( temp != null && temp.size( ) > 0 )
+								derivedBindingNameList.addAll( temp );
+						}
+					}
+					if ( derivedBindingNameList.size( ) > 0 )
+					{
+						if ( existAggregationBinding( derivedBindingNameList,
+								this.defn.getBindings( ) ) )
+							return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+					}
+				}
 		
 				return CubeQueryExecutor.FACTTABLE_FILTER;
 			}

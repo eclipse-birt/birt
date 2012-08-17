@@ -1277,6 +1277,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					button.refresh( );
 			}
 
+			if ( canUseEmptyValue( ) && "".equals( defaultValue ) )
+			{
+				defaultValue = EMPTY_VALUE;
+			}
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
 				defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
@@ -2835,7 +2839,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
 			return;
 		String textValue = defaultValueChooser.getText( );
-		if ( textValue != null && textValue.length( ) == 0 )
+		if ( textValue != null
+				&& ( textValue.trim( ).length( ) == 0 || textValue.trim( )
+						.equals( EMPTY_VALUE ) ) )
 		{
 			defaultValueChooser.setText( "" ); //$NON-NLS-1$
 		}
@@ -2847,7 +2853,30 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			return;
 		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
+			String text = defaultValueChooser.getText( );
 			defaultValueChooser.removeAll( );
+
+			if ( !isStatic( ) )
+			{
+				defaultValueChooser.add( EMPTY_VALUE );
+				defaultValueChooser.add( CHOICE_SELECT_VALUE );
+			}
+
+			if ( canUseEmptyValue( ) )
+			{
+				defaultValueChooser.setText( text );
+			}
+			else
+			{
+				if ( EMPTY_VALUE.equals( text ) || NULL_VALUE.equals( text ) )
+				{
+
+				}
+				else
+				{
+					defaultValueChooser.setText( text );
+				}
+			}
 		}
 	}
 
@@ -2871,6 +2900,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		defaultValueChooser.setVisibleItemCount( 30 );
 		if ( !isStatic( ) )
 		{
+			defaultValueChooser.add( EMPTY_VALUE );
 			defaultValueChooser.add( CHOICE_SELECT_VALUE );
 		}
 		// if ( getSelectedDataType( ).equals(
@@ -2901,6 +2931,28 @@ public class ParameterDialog extends BaseTitleAreaDialog
 					e.doit = true;
 				}
 			}
+		} );
+
+		defaultValueChooser.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDown( MouseEvent e )
+			{
+				if ( !isStatic( ) )
+				{
+					if ( canUseEmptyValue( ) )
+					{
+						if ( defaultValueChooser.indexOf( EMPTY_VALUE ) != -1 )
+							defaultValueChooser.remove( EMPTY_VALUE );
+						defaultValueChooser.add( EMPTY_VALUE );
+					}
+					else
+					{
+						if ( defaultValueChooser.indexOf( EMPTY_VALUE ) != -1 )
+							defaultValueChooser.remove( EMPTY_VALUE );
+					}
+				}
+			}
+
 		} );
 
 		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
@@ -2937,15 +2989,26 @@ public class ParameterDialog extends BaseTitleAreaDialog
 									selectedValue = exprConverter.getConstantExpression( selectedValue,
 											getSelectedDataType( ) );
 								}
-								defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
+								String value = DEUtil.resolveNull( selectedValue );
+								if ( value.equals( "" ) ) //$NON-NLS-1$
+									defaultValueChooser.setText( EMPTY_VALUE );
+								else
+									defaultValueChooser.setText( value );
 								addDynamicDefaultValue( );
 							}
 						}
 					}
 				}
-				else if ( isStatic( ) )
+				else
 				{
-					refreshStaticValueTable( );
+					if ( isStatic( ) )
+					{
+						refreshStaticValueTable( );
+					}
+					else
+					{
+						addDynamicDefaultValue( );
+					}
 				}
 			}
 		} );
@@ -3540,7 +3603,20 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		delBtn.setEnabled( !selection.isEmpty( ) );
 		delAllBtn.setEnabled( defaultValueViewer.getTable( ).getItemCount( ) > 0 );
 
-		Expression expression = ExpressionButtonUtil.getExpression( defaultValueChooser );
+		String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
+		String value = UIUtil.convertToModelString( defaultValueChooser.getText( ),
+				false );
+		if ( value != null )
+		{
+			if ( value.equals( EMPTY_VALUE ) )
+				value = ""; //$NON-NLS-1$
+			else if ( value.equals( NULL_VALUE ) )
+				value = null;
+		}
+		Expression expression = null;
+		if ( value != null )
+			expression = new Expression( value, type );
+
 		if ( defaultValueChooser.getText( ).trim( ).length( ) == 0 )
 		{
 			addButton.setEnabled( false );
@@ -3598,6 +3674,9 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			{
 				isEnable = false;
 			}
+			//bre can't support null constant value.
+			if ( value == null )
+				isEnable = false;
 		}
 		boolean isDefault = isEnable && isDefaultChoice( selectedChoice );
 		if ( isDefault )
@@ -3979,6 +4058,10 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		else
 		{
 			if ( formatCategroy == null )
+			{
+				return;
+			}
+			if(choiceSet.findChoice( formatCategroy ) == null)
 			{
 				return;
 			}
@@ -4501,6 +4584,12 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
 			String value = UIUtil.convertToModelString( defaultValueChooser.getText( ),
 					false );
+
+			if ( value.equals( EMPTY_VALUE ) )
+				value = ""; //$NON-NLS-1$
+			else if ( value.equals( NULL_VALUE ) )
+				value = null;
+
 			setFirstDefaultValue( value, type );
 			refreshDynamicValueTable( );
 			defaultValueChooser.setFocus( );

@@ -313,14 +313,14 @@ public class IDEReportClasspathResolver implements IReportClasspathResolver
 				continue;
 			}
 			IPath path = curr.getPath( );
-			if (curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
-			{
-				path = JavaCore.getClasspathVariable( path.segment( 0 ) );
-			}
-			else
-			{
+//			if (curr.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE)
+//			{
+//				path = JavaCore.getClasspathVariable( path.segment( 0 ) );
+//			}
+//			else
+//			{
 				path = JavaCore.getResolvedClasspathEntry( curr ).getPath( );
-			}
+//			}
 			
 			if (project != null && curr.getEntryKind( ) == IClasspathEntry.CPE_CONTAINER)
 			{

@@ -359,7 +359,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( bookmakrComposite,
 				bookmarkEditor,
 				new ExpressionProvider( inputGroup ),
-				inputGroup );
+				inputGroup.getContainer( ) );
 	}
 
 	private void createTOCArea( Composite parent )
@@ -405,7 +405,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( tocArea,
 				tocEditor,
 				new ExpressionProvider( inputGroup ),
-				inputGroup );
+				inputGroup.getContainer( ) );
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "GroupDialog.Dialog.TOCStyle" ) ); //$NON-NLS-1$
 
@@ -617,7 +617,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( keyArea,
 				keyChooser,
 				null,
-				inputGroup,
+				inputGroup.getContainer( ),
 				null,
 				false,
 				SWT.PUSH,

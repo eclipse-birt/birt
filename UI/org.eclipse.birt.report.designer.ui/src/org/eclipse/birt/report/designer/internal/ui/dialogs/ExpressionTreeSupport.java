@@ -476,9 +476,14 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	protected void saveSelection( TreeItem selection )
 	{
+		Memento memento = ( (Memento) viewerMemento.getChild( getElementType( ) ) );
+		if (memento == null)
+		{
+			return;
+		}
+		
 		MementoElement[] selectPath = createItemPath( selection );
-		( (Memento) viewerMemento.getChild( getElementType( ) ) ).getMementoElement( )
-				.setAttribute( MementoElement.ATTRIBUTE_SELECTED, selectPath );
+		memento.getMementoElement( ).setAttribute( MementoElement.ATTRIBUTE_SELECTED, selectPath );
 	}
 
 	protected MementoElement[] createItemPath( TreeItem item )
@@ -1144,6 +1149,11 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	public boolean addNode( Memento element, MementoElement[] nodePath )
 	{
+		if (element == null)
+		{
+			return false;
+		}
+		
 		if ( nodePath != null && nodePath.length > 0 )
 		{
 			MementoElement memento = element.getMementoElement( );
@@ -1167,6 +1177,11 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	public boolean removeNode( Memento element, MementoElement[] nodePath )
 	{
+		if(element == null)
+		{
+			return false;
+		}
+		
 		if ( nodePath != null && nodePath.length > 0 )
 		{
 			MementoElement memento = element.getMementoElement( );

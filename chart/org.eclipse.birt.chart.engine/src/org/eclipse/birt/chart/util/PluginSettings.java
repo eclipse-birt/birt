@@ -857,7 +857,7 @@ public final class PluginSettings
 						) );
 				return (IDataPointDefinition) oDefinition;
 			}
-			logger.log( ILogger.ERROR,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "error.stdenv.cannot.find.datapoint.definition", //$NON-NLS-1$
 							new Object[]{
 								sFQClassName
@@ -885,7 +885,7 @@ public final class PluginSettings
 					return (IDataPointDefinition) newInstance( saDataPointDefinitions[i] );
 				}
 			}
-			logger.log( ILogger.ERROR,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "error.stdenv.cannot.find.datapoint.definition", //$NON-NLS-1$
 							new Object[]{
 								sFQClassName

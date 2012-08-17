@@ -35,7 +35,8 @@ public class ExportManifestUtils
 		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
 		"chartexamplescoreapi.jar",
-		"javax.servlet.jsp_.*.jar"
+		"javax.servlet.jsp_.*.jar",
+		"org.eclipse.birt.axis.overlay_.*.jar"
 	};
 	
 	static final Boolean[] API_JAR_VERSIONS = new Boolean[]{
@@ -64,6 +65,7 @@ public class ExportManifestUtils
 		false,//"javax.servlet_.*.jar",
 		false,//"chartexamplescoreapi.jar"
 		false,//"javax.servlet.jsp_.*.jar"
+		false,//"org.eclipse.birt.axis.overlay_.*.jar"
 	};
 
 	static public void main( String[] args ) throws IOException

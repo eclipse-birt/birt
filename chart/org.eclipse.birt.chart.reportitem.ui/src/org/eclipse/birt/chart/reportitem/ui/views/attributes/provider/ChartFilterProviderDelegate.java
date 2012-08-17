@@ -167,21 +167,21 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	}
 
 	@Override
-	public boolean isAddEnable( )
+	public boolean isAddEnable( Object selectedObject )
 	{
-		return baseProvider.isAddEnable( );
+		return baseProvider.isAddEnable( selectedObject );
 	}
 
 	@Override
-	public boolean isDeleteEnable( )
+	public boolean isDeleteEnable( Object selectedObject )
 	{
-		return baseProvider.isDeleteEnable( );
+		return baseProvider.isDeleteEnable( input );
 	}
 
 	@Override
-	public boolean isDownEnable( )
+	public boolean isDownEnable( Object selectedObject )
 	{
-		return baseProvider.isDownEnable( );
+		return baseProvider.isDownEnable( selectedObject );
 	}
 
 	@Override
@@ -191,9 +191,9 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	}
 
 	@Override
-	public boolean isEditEnable( )
+	public boolean isEditEnable( Object selectedObject )
 	{
-		return baseProvider.isEditEnable( );
+		return baseProvider.isEditEnable( selectedObject );
 	}
 
 	@Override
@@ -203,9 +203,9 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	}
 
 	@Override
-	public boolean isUpEnable( )
+	public boolean isUpEnable( Object selectedObject )
 	{
-		return baseProvider.isUpEnable( );
+		return baseProvider.isUpEnable( selectedObject );
 	}
 
 	@Override

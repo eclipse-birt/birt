@@ -424,7 +424,9 @@ public class Connection implements IConnection
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData( );
 				int maxstmts = dbMetadata.getMaxStatements( );
 				int maxconns = dbMetadata.getMaxConnections( );
-				if ( maxconns == 0 || maxstmts < maxconns )
+				if ( maxstmts == 0 && maxconns == 0 )
+					return 0;
+				else if ( maxconns == 0 || maxstmts < maxconns )
 					return 1;
 				else
 					return maxstmts / maxconns;

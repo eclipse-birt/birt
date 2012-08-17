@@ -290,11 +290,22 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         addParameterDefns();
      
         //Here the "max rows" means the max number of rows that can fetch from data source.
-      	odaStatement.setMaxRows( this.getRowFetchLimit( ) );
+        int maxRows = this.getRowFetchLimit( );
+		if ( maxRows <= 0 )
+		{
+			if ( this.getQueryDefinition( ) instanceof IQueryDefinition )
+			{
+				IQueryDefinition qd = (IQueryDefinition) this.getQueryDefinition( );
+				maxRows = qd.getMaxRows( );
+			}
+		}
+      	odaStatement.setMaxRows( maxRows );
       		
         IOdaDataSetDesign design = null;
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
+    	
+    	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
     	
         if ( design != null )
 		{
@@ -323,11 +334,21 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 			else
 			{
-				prepareColumns( );
+				this.session.getCancelManager( ).register( queryCanceller );
+				if ( !session.getStopSign( ).isStopped( ) )
+				{
+					prepareColumns( );
+				}
+				this.session.getCancelManager( ).deregister( queryCanceller );
 			}
 		}else
 		{
-			prepareColumns( );
+			this.session.getCancelManager( ).register( queryCanceller );
+			if ( !session.getStopSign( ).isStopped( ) )
+			{
+				prepareColumns( );
+			}
+			this.session.getCancelManager( ).deregister( queryCanceller );
 		}
         
 		
@@ -335,7 +356,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // If ODA can provide result metadata, get it now
         try
         {
-        	ICancellable queryCanceller = new OdaQueryCanceller( odaStatement, session.getStopSign() );
+        	
         	this.session.getCancelManager( ).register( queryCanceller );
         	
         	if( !session.getStopSign().isStopped() )
@@ -883,6 +904,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	IOdaDataSetDesign design = null;
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
     		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
+    	
 
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
 		{
@@ -900,6 +922,19 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				cacheCountConfig = session.getDataSetCacheManager( )
 						.getCacheCountConfig( );
 			}
+			
+			if( fetchRowLimit <= 0 )
+			{
+		    	int displayMaxRows = -1;
+		    	if( this.getQueryDefinition( ) instanceof IQueryDefinition )
+		    	{
+		    		IQueryDefinition qd = (IQueryDefinition) this.getQueryDefinition( );
+		    		displayMaxRows = qd.getMaxRows();
+		    	}
+		    	
+				fetchRowLimit = displayMaxRows;
+			}
+			
 			if ( cacheCountConfig > 0 )
 			{
 				if ( fetchRowLimit != 0 && fetchRowLimit < cacheCountConfig )
@@ -1098,12 +1133,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	
     	//		 set input parameter bindings
 		Iterator inputParamValueslist = getInputParamValues().iterator( );
-		int inputParam = 1;
-		while ( inputParamValueslist.hasNext( )
-				&& ( odaStatement.getParameterMetaData( ).size( ) >= inputParam ) )
+		while ( inputParamValueslist.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
-			inputParam++;
 			if ( paramBind.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
 			{
 				try

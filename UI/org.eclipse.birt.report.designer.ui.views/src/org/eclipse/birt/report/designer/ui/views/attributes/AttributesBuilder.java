@@ -47,7 +47,7 @@ import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * AttributesBuilder provides methods to create attribute page Generator
@@ -245,7 +245,7 @@ public class AttributesBuilder
 			typeInfo = Messages.getString( "AttributesBuilder.Label.List" ); //$NON-NLS-1$
 			return ListPageGenerator.class;
 		}
-		else if ( type == TabularCubeHandle.class )
+		else if ( CubeHandle.class.isAssignableFrom( type ) )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.Cube" ); //$NON-NLS-1$
 		}

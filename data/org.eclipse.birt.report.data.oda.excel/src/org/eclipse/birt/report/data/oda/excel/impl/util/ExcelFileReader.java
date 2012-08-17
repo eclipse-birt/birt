@@ -87,7 +87,7 @@ public class ExcelFileReader {
 				for (short colIx = 0; colIx < maxColumnIndex; colIx++) {
 					Cell cell = row.getCell(colIx);
 					String cellVal = getCellValue(cell);
-					if( cell != null && cellVal != null && cellVal != ExcelODAConstants.EMPTY_STRING){
+					if( cell != null && cellVal != null &&!ExcelODAConstants.EMPTY_STRING.equals( cellVal ) ){
 						return false;
 					}
 				}
@@ -115,7 +115,7 @@ public class ExcelFileReader {
 				for (short colIx = 0; colIx < maxColumnIndex; colIx++) {
 					Cell cell = row.getCell(colIx);
 					String cellVal = getCellValue(cell);
-					if( cell != null && cellVal != null && cellVal != ExcelODAConstants.EMPTY_STRING){
+					if( cell != null && cellVal != null && !cellVal.equals( ExcelODAConstants.EMPTY_STRING ) ){
 						blankRow = false;
 					}
 					rowData.add(cellVal);

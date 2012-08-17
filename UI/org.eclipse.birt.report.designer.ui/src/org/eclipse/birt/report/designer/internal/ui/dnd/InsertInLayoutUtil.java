@@ -587,7 +587,14 @@ public class InsertInLayoutUtil
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( paramType ) )
 			paramType = DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
 
-		bindingColumn.setDataType( paramType );
+		if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith( model.getParamType( ) ) )
+		{
+			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT );
+		}
+		else
+		{
+			bindingColumn.setDataType( paramType );
+		}
 
 		dataHandle.addColumnBinding( bindingColumn, false );
 		dataHandle.setResultSetColumn( bindingColumn.getName( ) );

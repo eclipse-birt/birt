@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.osgi.runtime"
       label="%featureName"
-      version="4.2.0.qualifier"
+      version="4.2.1.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -559,6 +559,20 @@
 
    <plugin
          id="org.eclipse.birt.report.data.oda.excel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.axis.overlay"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.jetty.overlay"
          download-size="0"
          install-size="0"
          version="0.0.0"

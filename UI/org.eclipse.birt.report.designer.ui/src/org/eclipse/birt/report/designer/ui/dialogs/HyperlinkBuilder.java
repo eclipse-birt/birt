@@ -94,6 +94,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -687,6 +689,16 @@ public class HyperlinkBuilder extends BaseDialog
 				updateButtons( );
 			}
 		} );
+		
+		locationEditor.addTraverseListener(new TraverseListener() {
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_TAB_NEXT
+						|| e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
+					e.doit = true;
+				}
+			}
+		});
+		
 		Composite buttonArea = new Composite( displayArea, SWT.NONE );
 		buttonArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		buttonArea.setLayoutData( new GridData( ) );

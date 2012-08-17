@@ -76,7 +76,7 @@ public class Finance
 
 		if ( life <= 0
 				|| salvage < 0 || cost <= 0 || period <= 0
-				|| life == Double.NaN || salvage == Double.NaN
+				|| Double.isNaN( life ) || Double.isNaN( salvage )
 				|| Double.isNaN( cost ) || Double.isNaN( period ) )
 		{
 			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,

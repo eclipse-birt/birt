@@ -32,9 +32,12 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -285,6 +288,72 @@ public class QueryExecutor
 		return new CubeResultSet( rs, view, cubeQueryExecutorHelper );
 	}
 	
+	private IBinding getBinding( String bindingName, List bindings ) throws DataException
+	{
+		for( int j = 0; j < bindings.size( ); j++ )
+		{
+			IBinding binding = (IBinding) bindings.get( j );
+			if( bindingName.equals( binding.getBindingName( ) ) )
+			{
+				return binding;
+			}
+		}
+		return null;
+	}
+	
+	private void replaceFilterTextOnCalculateMeasures( IFilterDefinition filter, List bindings ) throws DataException
+	{
+		if( filter.getExpression( ) instanceof ConditionalExpression )
+		{
+			ConditionalExpression filterExpr = (ConditionalExpression) filter.getExpression( );
+			List referenceBindingName = ExpressionCompilerUtil.extractColumnExpression( filterExpr.getExpression( ),
+					ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			if ( referenceBindingName.size( ) > 0 )
+			{
+				for ( int i = 0; i < referenceBindingName.size( ); i++ )
+				{
+					IBinding binding = getBinding( referenceBindingName.get( i )
+							.toString( ), bindings );
+					if ( binding != null )
+					{
+						( (ScriptExpression) filterExpr.getExpression( ) ).setText( ( (ScriptExpression) binding.getExpression( ) ).getText( ) );
+					}
+				}
+
+			}
+			
+			referenceBindingName = ExpressionCompilerUtil.extractColumnExpression( filterExpr.getOperand1( ),
+					ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			if ( referenceBindingName.size( ) > 0 )
+			{
+				for ( int i = 0; i < referenceBindingName.size( ); i++ )
+				{
+					IBinding binding = getBinding( referenceBindingName.get( i )
+							.toString( ), bindings );
+					if ( binding != null )
+					{
+						( (ScriptExpression) filterExpr.getOperand1( ) ).setText( ( (ScriptExpression) binding.getExpression( ) ).getText( ) );
+					}
+				}
+			}
+			
+			referenceBindingName = ExpressionCompilerUtil.extractColumnExpression( filterExpr.getOperand2( ),
+					ScriptConstants.DATA_BINDING_SCRIPTABLE );
+			if ( referenceBindingName.size( ) > 0 )
+			{
+				for ( int i = 0; i < referenceBindingName.size( ); i++ )
+				{
+					IBinding binding = getBinding( referenceBindingName.get( i )
+							.toString( ), bindings );
+					if ( binding != null )
+					{
+						( (ScriptExpression) filterExpr.getOperand2( ) ).setText( ( (ScriptExpression) binding.getExpression( ) ).getText( ) );
+					}
+				}
+			}
+		}
+	}
+	
 	private IAggregationResultSet[] applyNoAggrUpdateFilters ( List finalFilters, CubeQueryExecutor executor , IAggregationResultSet[] rs , ICube cube, IBindingValueFetcher fetcher,boolean fromCubeOperation ) throws DataException, IOException
 	{
 		if( !finalFilters.isEmpty( ) )
@@ -335,6 +404,7 @@ public class QueryExecutor
 				}
 				else if ( type == executor.AGGR_MEASURE_FILTER )
 				{
+					replaceFilterTextOnCalculateMeasures ( filter, executor.getCubeQueryDefinition( ).getBindings( ) );
 					aggrEvalList.add( new AggrMeasureFilterEvalHelper( executor.getOuterResults( ),
 							executor.getScope( ),
 							executor.getCubeQueryDefinition( ),
