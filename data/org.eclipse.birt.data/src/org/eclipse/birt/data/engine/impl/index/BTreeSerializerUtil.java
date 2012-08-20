@@ -68,14 +68,12 @@ public class BTreeSerializerUtil
 class ByteArraySerializer implements BTreeSerializer<byte[]>
 {
 
-	@Override
 	public byte[] getBytes( byte[] object ) throws IOException
 	{
 		// TODO Auto-generated method stub
 		return object;
 	}
 
-	@Override
 	public byte[] getObject( byte[] bytes ) throws IOException,
 			ClassNotFoundException
 	{
