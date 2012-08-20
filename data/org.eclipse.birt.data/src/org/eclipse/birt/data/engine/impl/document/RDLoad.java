@@ -46,6 +46,7 @@ import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
+import org.eclipse.birt.data.engine.impl.index.EWAHCompressedBitmap;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.storage.DataSetStore;
 import org.eclipse.birt.data.engine.storage.IDataSetReader;
@@ -255,7 +256,7 @@ public class RDLoad
 		return resultClass;
 	}
 	
-	public IDataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds,
+	public IDataSetResultSet loadDataSetData( EWAHCompressedBitmap preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index )
 			throws DataException
 	{
@@ -266,7 +267,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public IDataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds,
+	public IDataSetResultSet loadDataSetData( EWAHCompressedBitmap preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index, Map<?,?> appContext )
 			throws DataException
 	{
@@ -283,7 +284,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public IDataSetResultSet loadDataSetData( Set<Integer> preFilteredRowIds,
+	public IDataSetResultSet loadDataSetData( EWAHCompressedBitmap preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index,
 			boolean includeInnerID, Map<?, ?> appContext ) throws DataException
 	{
@@ -296,7 +297,7 @@ public class RDLoad
 	}
 	
 	public IDataSetResultSet loadDataSetData( IResultClass targetResultClass,
-			Set<Integer> preFilteredRowIds,
+			EWAHCompressedBitmap preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index,
 			boolean includeInnerID, Map<?, ?> appContext ) throws DataException
 	{
@@ -310,7 +311,7 @@ public class RDLoad
 		if ( reader != null )
 			return reader.load( preFilteredRowIds == null
 					? new ArrayList<Integer>( )
-					: new ArrayList<Integer>( preFilteredRowIds ) );
+					: preFilteredRowIds.getPositions( ) );
 
 		if ( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,

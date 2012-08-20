@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.impl.index;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -60,14 +62,27 @@ public class DataSetInMemoryStringIndex extends HashMap
 		}
 	}
 
-	public Set<Integer> getKeyIndex( Object key, int searchType )
+	public EWAHCompressedBitmap getKeyIndex( Object key, int searchType )
 			throws DataException
 	{
 		if ( searchType != IConditionalExpression.OP_EQ
 				&& searchType != IConditionalExpression.OP_IN )
 			throw new UnsupportedOperationException( );
 		if ( searchType == IConditionalExpression.OP_EQ )
-			return getKeyIndex( key );
+		{
+			EWAHCompressedBitmap set = new EWAHCompressedBitmap();
+			if( getKeyIndex( key ) != null )
+			{
+				ArrayList<Integer> list = new ArrayList<Integer>();
+				list.addAll( getKeyIndex( key ) );
+				Collections.sort( list );
+				for(int i =0;i<list.size( );i++)
+				{
+					set.set( list.get( i ) );
+				}
+			}	
+			return set;
+		}
 		else
 		{
 			List candidate = (List) key;
@@ -76,7 +91,19 @@ public class DataSetInMemoryStringIndex extends HashMap
 			{
 				result.addAll( getKeyIndex( eachKey ) );
 			}
-			return result;
+			
+			EWAHCompressedBitmap set = new EWAHCompressedBitmap();
+			if( result != null )
+			{
+				ArrayList<Integer> list = new ArrayList<Integer>();
+				list.addAll( result );
+				Collections.sort( list );
+				for(int i =0;i<list.size( );i++)
+				{
+					set.set( list.get( i ) );
+				}
+			}	
+			return set;
 		}
 	}
 
@@ -232,7 +259,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 		return keys;
 	}
 	
-	public Set<Integer> getAllKeyRows( ) throws DataException
+	public EWAHCompressedBitmap getAllKeyRows( ) throws DataException
 	{
 		Set<Integer> rowID = new HashSet<Integer>();
 		Object[] values = this.values( ).toArray( );
@@ -241,6 +268,17 @@ public class DataSetInMemoryStringIndex extends HashMap
 			Iterator iterator = ( ( WrapperedValue )values[i] ).getIndex( ).iterator( );
 			rowID.add(  (Integer) iterator.next( ) );
 		}
-		return rowID;
+		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
+		if( rowID != null )
+		{
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			list.addAll( rowID );
+			Collections.sort( list );
+			for(int i =0;i<list.size( );i++)
+			{
+				set.set( list.get( i ) );
+			}
+		}
+		return set;
 	}
 }

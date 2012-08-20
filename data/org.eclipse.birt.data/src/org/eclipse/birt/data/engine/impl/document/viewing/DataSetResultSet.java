@@ -28,7 +28,8 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StringTable;
-import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
+import org.eclipse.birt.data.engine.impl.index.EWAHCompressedBitmap;
+import org.eclipse.birt.data.engine.impl.index.IntIterator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -54,10 +55,11 @@ public class DataSetResultSet implements IDataSetResultSet
 	private RAInputStream dataSetRowLensStream;
 	private DataInputStream disRowLensStream;
 	private long initPos;
-	private List<Integer> prefilteredRowIds;
+	private EWAHCompressedBitmap prefilteredRowIds;
 	private Map index;
 	private Map<String, StringTable> stringTableMap;
 	private boolean includeInnerID = true;
+	private IntIterator iter;
 
 	/**
 	 * @param inputStream
@@ -65,7 +67,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
+			EWAHCompressedBitmap prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
 			throws DataException
 	{
 		this( inputStream,
@@ -84,7 +86,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			Set<Integer> prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
+			EWAHCompressedBitmap prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
 			throws DataException
 	{
 		assert inputStream != null;
@@ -114,11 +116,10 @@ public class DataSetResultSet implements IDataSetResultSet
 
 		if ( prefilteredRows != null )
 		{
-			this.prefilteredRowIds = new LinkedList<Integer>( );
-			this.prefilteredRowIds.addAll( prefilteredRows );
+			this.prefilteredRowIds = prefilteredRows;
+			this.iter = this.prefilteredRowIds.intIterator( );
 		}
-		if ( this.prefilteredRowIds != null )
-			Collections.sort( this.prefilteredRowIds );
+		
 		this.index = index;
 		this.stringTableMap = stringTableMap;
 		this.initLoad( );
@@ -154,7 +155,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	{
 		if ( this.prefilteredRowIds != null )
 		{
-			return this.prefilteredRowIds.size( );
+			return this.prefilteredRowIds.cardinality( );
 		}
 		return this.rowCount;
 	}
@@ -166,10 +167,14 @@ public class DataSetResultSet implements IDataSetResultSet
 	{
 		if ( this.prefilteredRowIds != null )
 		{
-			if ( this.prefilteredRowIds.isEmpty( ) )
+			if ( this.prefilteredRowIds.cardinality( ) == 0 )
 				return null;
-			this.skipTo( this.prefilteredRowIds.get( 0 ) );
-			this.prefilteredRowIds.remove( 0 );
+			
+			if ( this.iter.hasNext( ) )
+				this.skipTo( iter.next( ) );
+			else
+				return null;
+			
 			return this.getResultObject( );
 		}
 

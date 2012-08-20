@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl.index;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -370,8 +371,8 @@ public class DataSetNumberIndex implements IDataSetIndex
 			}
 		}
 	}
-
-	public Set<Integer> getKeyIndex( Object key, int searchType ) throws DataException
+	
+	private Set<Integer> getKeyIndexIntegerSet( Object key, int searchType  ) throws DataException
 	{
 		if( searchType == IConditionalExpression.OP_EQ )
 		{
@@ -399,6 +400,24 @@ public class DataSetNumberIndex implements IDataSetIndex
 			return this.seekBetween( ((List)key).get( 0 ), ((List)key).get( 1 ) );
 		}
 		throw new UnsupportedOperationException();
+	}
+
+	public EWAHCompressedBitmap getKeyIndex( Object key, int searchType ) throws DataException
+	{
+		Set<Integer> rowID = getKeyIndexIntegerSet ( key, searchType );
+		
+		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
+		if( rowID != null )
+		{
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			list.addAll( rowID );
+			Collections.sort( list );
+			for(int i =0;i<list.size( );i++)
+			{
+				set.set( list.get( i ) );
+			}
+		}
+		return set;
 	}
 
 	/*
@@ -430,7 +449,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 		return keys.toArray( );
 	}
 	
-	public Set<Integer> getAllKeyRows( ) throws DataException
+	public EWAHCompressedBitmap getAllKeyRows( ) throws DataException
 	{
 		Set<Integer> rowID = new HashSet<Integer>();
 		for( int i = 0; i < segs.length; i++ )
@@ -442,6 +461,18 @@ public class DataSetNumberIndex implements IDataSetIndex
 				rowID.add( (Integer) rowIDiterator.next( ) );
 			}
 		}
-		return rowID;
+		
+		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
+		if( rowID != null )
+		{
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			list.addAll( rowID );
+			Collections.sort( list );
+			for(int i =0;i<list.size( );i++)
+			{
+				set.set( list.get( i ) );
+			}
+		}
+		return set;
 	}
 }

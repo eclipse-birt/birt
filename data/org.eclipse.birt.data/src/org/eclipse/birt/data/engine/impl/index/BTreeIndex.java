@@ -3,9 +3,8 @@ package org.eclipse.birt.data.engine.impl.index;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -22,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
@@ -32,19 +32,25 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 {
 	private BTree<Object, Integer> btree = null;
+	private BTree<Object, byte[]> compressedBtree = null;
 	private DiskSortedStack sortedKeyRowID = null;
 	private BTreeSerializer serializer = null;
 	private Class keyDataType = null;
 	private long memoryBufferSize = 0;
 	private final int BTREE_CACHE_SIZE = 200;
 	private ArchiveInputFile inputFile = null;
+	private int version;
 	
 	public BTreeIndex( long memoryBufferSize, String indexName, StreamManager manager, Class keyDataType ) throws DataException
 	{
 		serializer = BTreeSerializerUtil.createSerializer( keyDataType );
+		version = manager.getVersion();
 		try
 		{
-			btree = createBTree( new ArchiveOutputFile( manager.getDocWriter( ), manager.getOutStreamName( indexName ) ), BTREE_CACHE_SIZE, serializer );
+			if ( version >= VersionManager.VERSION_4_2_0 )
+				compressedBtree = createCompressedBTree( new ArchiveOutputFile( manager.getDocWriter( ), manager.getOutStreamName( indexName ) ), BTREE_CACHE_SIZE, serializer );
+			else
+				btree = createBTree( new ArchiveOutputFile( manager.getDocWriter( ), manager.getOutStreamName( indexName ) ), BTREE_CACHE_SIZE, serializer );
 		}
 		catch (IOException e)
 		{
@@ -54,9 +60,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		this.memoryBufferSize = memoryBufferSize;
 	}
 
-	public BTreeIndex( String indexName, IDocArchiveReader reader, Class keyDataType, ClassLoader classLoader ) throws DataException
+	public BTreeIndex( String indexName, IDocArchiveReader reader, Class keyDataType, ClassLoader classLoader, int version ) throws DataException
 	{
 		serializer = BTreeSerializerUtil.createSerializer( keyDataType );
+		this.version = version;
 		if( serializer instanceof JavaSerializer )
 		{
 			( ( JavaSerializer )serializer ).setClassLoader( classLoader );
@@ -119,16 +126,73 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 	}
 	
+	private static BTree<Object, byte[]> createCompressedBTree( ArchiveOutputFile file, int cacheSize, BTreeSerializer serializer ) throws DataException
+	{
+		BTreeOption<Object, byte[]> option = new BTreeOption<Object, byte[]>( );
+		option.setKeySerializer( serializer );
+		option.setCacheSize( cacheSize );
+		option.setHasValue( true );
+		option.setAllowDuplicate( true );
+		option.setAllowNullKey( true );
+		option.setReadOnly( false );
+		option.setValueSerializer( new ByteArraySerializer( ) );
+
+		option.setFile( file );
+		
+		try
+		{
+			return new BTree<Object, byte[]>( option);
+		}
+		catch (IOException e)
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+	}
+	
+	private static BTree<Object, byte[]> createCompressedBTree( ArchiveInputFile file, int cacheSize, BTreeSerializer serializer ) throws DataException
+	{
+		BTreeOption<Object, byte[]> option = new BTreeOption<Object, byte[]>( );
+		option.setKeySerializer( serializer );
+		option.setCacheSize( cacheSize );
+		option.setHasValue( true );
+		option.setAllowDuplicate( true );
+		option.setAllowNullKey( true );
+		option.setReadOnly( true );
+		option.setValueSerializer( new ByteArraySerializer( ) );
+
+		option.setFile( file );
+		
+		try
+		{
+			return new BTree<Object, byte[]>( option);
+		}
+		catch (IOException e)
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+	}
+	
 	public void close() throws DataException
 	{
 		try
 		{
 			if( sortedKeyRowID != null )
 			{
-				insertToBTree( );
+				if( version >= VersionManager.VERSION_4_2_0 )
+					insertToCompressedBTree();
+				else
+					insertToBTree( );
 			}
-			if( btree != null )
-				btree.close( );
+			if( version >= VersionManager.VERSION_4_2_0 )
+			{
+				if( compressedBtree != null )
+					compressedBtree.close( );
+			}
+			else
+			{
+				if( btree != null )
+					btree.close( );
+			}
 		}
 		catch (IOException e)
 		{
@@ -143,6 +207,74 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		if( o1 == null || o2 == null )
 			return false;
 		return o1.equals( o2 );
+	}
+	
+	private void concatByteArrays( byte[] source, List<byte[]> addedBytes )
+	{
+		int pos = 0;
+		for( int i = 0 ; i < addedBytes.size( ) ; i++ )
+		{
+			System.arraycopy( addedBytes.get( i ), 0, source, pos, addedBytes.get( i ).length );
+			pos += addedBytes.get( i ).length;
+		}
+	}
+	
+	private void insertToCompressedBTree( ) throws DataException
+	{
+		try
+		{
+			List<byte[]> rowIDByteList = new ArrayList<byte[]>( );
+			KeyRowID keyRowID = ( KeyRowID ) sortedKeyRowID.pop( );
+			boolean isFirst = true;
+			Object lastKey = null;
+			int lastValue = 0 ;
+			int totalBytesCount = 0 ;
+			while( keyRowID != null )
+			{
+				if( isFirst )
+				{
+					lastKey = keyRowID.key;
+					byte[] valueBytes = BTreeUtil.getIncrementBytes( keyRowID.rowID, lastValue );
+					rowIDByteList.add( valueBytes );
+					lastValue = keyRowID.rowID;
+					totalBytesCount += valueBytes.length;
+					isFirst = false;
+				}
+				else if( equals( lastKey, keyRowID.key )  )
+				{
+					byte[] valueBytes = BTreeUtil.getIncrementBytes( keyRowID.rowID, lastValue );
+					lastValue = keyRowID.rowID;
+					rowIDByteList.add( valueBytes );
+					totalBytesCount += valueBytes.length;
+				}
+				else
+				{
+					byte[] resultBytes = new byte[totalBytesCount];
+					concatByteArrays(resultBytes,rowIDByteList);
+					compressedBtree.insert( lastKey, resultBytes );
+					lastKey = keyRowID.key;
+					
+					byte[] valueBytes = BTreeUtil.getIncrementBytes( keyRowID.rowID, 0 );		
+					lastValue = keyRowID.rowID;
+					rowIDByteList.clear( );
+					rowIDByteList.add( valueBytes );
+					totalBytesCount = valueBytes.length;
+				}
+				keyRowID = ( KeyRowID ) sortedKeyRowID.pop( );
+			}
+			if( rowIDByteList.size( ) > 0 )
+			{
+				byte[] resultBytes = new byte[totalBytesCount];
+				concatByteArrays(resultBytes,rowIDByteList);
+				compressedBtree.insert( lastKey, resultBytes );
+			}
+			sortedKeyRowID.close( );
+			sortedKeyRowID = null;
+		}
+		catch (IOException e)
+		{
+			throw new DataException( e.getLocalizedMessage( ), e ); 
+		}
 	}
 	
 	private void insertToBTree( ) throws DataException
@@ -214,8 +346,9 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 		return null;
 	}
-
-	public Set<Integer> getKeyIndex( Object key, int filterType )	throws DataException
+	
+	
+	private EWAHCompressedBitmap getKeyIndexForIntegerSet ( Object key, int filterType ) throws DataException
 	{
 		synchronized( this )
 		{
@@ -254,11 +387,12 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		else if ( filterType == IConditionalExpression.OP_IN )
 		{
 			List candidate = (List) key;
-			Set<Integer> result = new HashSet<Integer>( );
+			List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
 			for ( Object eachKey : candidate )
 			{
-				result.addAll( getKeyIndex( eachKey ) );
+				tempList.add( getKeyIndex( eachKey ) ) ;
 			}
+			EWAHCompressedBitmap result = EWAHCompressedBitmap.or( tempList );
 			return result;
 		}
 		else if ( filterType == IConditionalExpression.OP_GE )
@@ -283,10 +417,94 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			return getBetween( candidate.get( 0 ), candidate.get( 1 ) );
 		}
 		else
-			return new HashSet<Integer>( );
+			return new EWAHCompressedBitmap( );
 	}
 	
-	private Set<Integer> getBetween( Object key1, Object key2 ) throws DataException
+	public EWAHCompressedBitmap getKeyIndex( Object key, int filterType )	throws DataException
+	{
+		if( version >= VersionManager.VERSION_4_2_0 )
+		{
+			return getKeyIndexForCompressedSet( key, filterType );
+		}
+		else
+		{
+			return getKeyIndexForIntegerSet( key, filterType );
+		}
+	}
+
+	public EWAHCompressedBitmap getKeyIndexForCompressedSet( Object key, int filterType )	throws DataException
+	{
+		synchronized( this )
+		{
+			if( compressedBtree == null )
+			{
+				compressedBtree = createCompressedBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+			}			
+		}
+		
+		if( sortedKeyRowID != null )
+		{
+			insertToCompressedBTree( );
+			try
+			{
+				sortedKeyRowID.close( );
+			}
+			catch (IOException e)
+			{
+				throw new DataException( e.getLocalizedMessage( ), e );
+			}
+			sortedKeyRowID = null;
+		}
+		
+		if ( filterType != IConditionalExpression.OP_EQ
+				&& filterType != IConditionalExpression.OP_IN
+				&& filterType != IConditionalExpression.OP_GE
+				&& filterType != IConditionalExpression.OP_GT
+				&& filterType != IConditionalExpression.OP_LE
+				&& filterType != IConditionalExpression.OP_LT
+				&& filterType != IConditionalExpression.OP_BETWEEN )
+		{
+			throw new UnsupportedOperationException( );
+		}
+		if ( filterType == IConditionalExpression.OP_EQ )
+			return getKeyIndexForCompressedSet( key );
+		else if ( filterType == IConditionalExpression.OP_IN )
+		{
+			List candidate = (List) key;
+			List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
+			for ( Object eachKey : candidate )
+			{
+				tempList.add( getKeyIndexForCompressedSet( eachKey ) ) ;
+			}
+			EWAHCompressedBitmap result = EWAHCompressedBitmap.or( tempList );
+			return result;
+		}
+		else if ( filterType == IConditionalExpression.OP_GE )
+		{
+			return getGreaterForCompressedSet( key, true );
+		}
+		else if ( filterType == IConditionalExpression.OP_GT )
+		{
+			return getGreaterForCompressedSet( key, false );
+		}
+		else if ( filterType == IConditionalExpression.OP_LE )
+		{
+			return getLessForCompressedSet( key, true );
+		}
+		else if ( filterType == IConditionalExpression.OP_LT )
+		{
+			return getLessForCompressedSet( key, false );
+		}
+		else if ( filterType == IConditionalExpression.OP_BETWEEN )
+		{
+			List candidate = (List) key;
+			return getBetweenForCompressedSet( candidate.get( 0 ), candidate.get( 1 ) );
+		}
+		else
+			return new EWAHCompressedBitmap( );
+	}
+	
+	private EWAHCompressedBitmap getBetween( Object key1, Object key2 ) throws DataException
 	{
 		Object min, max;
 		if ( ScriptEvalUtil.compare( key1, key2 ) <= 0 )
@@ -309,7 +527,9 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			throw DataException.wrap( e1 );
 		}
 		BTreeCursor bCursor = btree.createCursor( );
-		Set<Integer> result = new HashSet<Integer>( );
+		
+		EWAHCompressedBitmap result = new EWAHCompressedBitmap( );
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
 		try
 		{
 			if( !bCursor.first( ) )
@@ -318,9 +538,21 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			{
 				bCursor.moveTo( min );
 				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
-					return result;
+					return EWAHCompressedBitmap.or( tempList );
 				if( ( (Comparable)bCursor.getKey( ) ).compareTo( min ) >= 0 )
-					result.addAll( bCursor.getValues( ) );
+				{
+					Collection rowID = bCursor.getValues( );
+					if ( rowID != null )
+					{
+						EWAHCompressedBitmap temp = new EWAHCompressedBitmap( );
+						Iterator iter = rowID.iterator( );
+						while ( iter.hasNext( ) )
+						{
+							temp.set( (Integer) iter.next( ) );
+						}
+						tempList.add( temp );
+					}
+				}
 			}
 			else
 			{
@@ -329,18 +561,28 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			while( bCursor.next( ) )
 			{
 				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
-					return result;
-				result.addAll( bCursor.getValues( ) );
+					return EWAHCompressedBitmap.or( tempList );
+				Collection rowID = bCursor.getValues( );
+				if ( rowID != null )
+				{
+					EWAHCompressedBitmap temp = new EWAHCompressedBitmap( );
+					Iterator iter = rowID.iterator( );
+					while ( iter.hasNext( ) )
+					{
+						temp.set( (Integer) iter.next( ) );
+					}
+					tempList.add( temp );
+				}
 			}
 		}
 		catch (IOException e) 
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
-		return result;
+		return EWAHCompressedBitmap.or( tempList );
 	}
 	
-	private Set<Integer> getGreater( Object key, boolean includeKey ) throws DataException
+	private EWAHCompressedBitmap getGreater( Object key, boolean includeKey ) throws DataException
 	{
 		try
 		{
@@ -351,7 +593,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			throw DataException.wrap( e1 );
 		}
 		BTreeCursor bCursor = btree.createCursor( );
-		Set<Integer> result = new HashSet<Integer>( );
+		
+		EWAHCompressedBitmap result = new EWAHCompressedBitmap( );
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
+		
 		try
 		{
 			if( !bCursor.first( ) )
@@ -366,22 +611,42 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 				int cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
 				if( ( includeKey && cr == 0 ) || cr > 0 )
 				{
-					result.addAll( bCursor.getValues( ) );
+					Collection rowID = bCursor.getValues( );
+					if ( rowID != null )
+					{
+						EWAHCompressedBitmap temp = new EWAHCompressedBitmap( );
+						Iterator iter = rowID.iterator( );
+						while ( iter.hasNext( ) )
+						{
+							temp.set( (Integer) iter.next( ) );
+						}
+						tempList.add( temp );
+					}
 				}
 			}
 			while( bCursor.next( ) )
 			{
-				result.addAll( bCursor.getValues( ) );
+				Collection rowID = bCursor.getValues( );
+				if ( rowID != null )
+				{
+					EWAHCompressedBitmap temp = new EWAHCompressedBitmap( );
+					Iterator iter = rowID.iterator( );
+					while ( iter.hasNext( ) )
+					{
+						temp.set( (Integer) iter.next( ) );
+					}
+					tempList.add( temp );
+				}
 			}
 		}
 		catch (IOException e) 
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
-		return result;
+		return EWAHCompressedBitmap.or( tempList );
 	}
 	
-	private Set<Integer> getLess( Object key, boolean includeKey ) throws DataException
+	private EWAHCompressedBitmap getLess( Object key, boolean includeKey ) throws DataException
 	{
 		try
 		{
@@ -392,7 +657,9 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			throw DataException.wrap( e1 );
 		}
 		BTreeCursor bCursor = btree.createCursor( );
-		Set<Integer> result = new HashSet<Integer>( );
+		
+		EWAHCompressedBitmap result = new EWAHCompressedBitmap( );
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
 		try
 		{
 			while( bCursor.next( ) )
@@ -407,21 +674,266 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 					cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
 				}
 				if( cr < 0 ||( cr == 0 && includeKey ) )
-					result.addAll( bCursor.getValues( ) );
+				{
+					Collection rowID = bCursor.getValues( );
+					if ( rowID != null )
+					{
+						EWAHCompressedBitmap temp = new EWAHCompressedBitmap( );
+						Iterator iter = rowID.iterator( );
+						while ( iter.hasNext( ) )
+						{
+							temp.set( (Integer) iter.next( ) );
+						}
+						tempList.add( temp );
+					}
+				}
 				else
-					return result;
+					return EWAHCompressedBitmap.or( tempList );
 			}
 		}
 		catch (IOException e) 
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+		return EWAHCompressedBitmap.or( tempList );
+	}
+	
+	
+	
+	private EWAHCompressedBitmap getBetweenForCompressedSet( Object key1, Object key2 ) throws DataException
+	{
+		Object min, max;
+		if ( ScriptEvalUtil.compare( key1, key2 ) <= 0 )
+		{
+			min = key1;
+			max = key2;
+		}
+		else
+		{
+			min = key2;
+			max = key1;
+		}
+		try
+		{
+			min = DataTypeUtil.convert( min, this.keyDataType );
+			max = DataTypeUtil.convert( max, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
+		BTreeCursor bCursor = compressedBtree.createCursor( );
+		EWAHCompressedBitmap result = new EWAHCompressedBitmap( );
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
+		try
+		{ 
+			if( !bCursor.first( ) )
+				return result;
+			if( ScriptEvalUtil.compare( bCursor.getKey( ), min ) <= 0 )
+			{
+				bCursor.moveTo( min );
+				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
+					return EWAHCompressedBitmap.or( tempList );
+				if( ( (Comparable)bCursor.getKey( ) ).compareTo( min ) >= 0 )
+				{
+					Object obj = bCursor.getValue( );
+					tempList.add( transformToIntegers((byte[])obj ) );
+				}
+			}
+			else
+			{
+				bCursor.beforeFirst( );
+			}
+			while( bCursor.next( ) )
+			{
+				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
+					return EWAHCompressedBitmap.or( tempList );
+				Object obj = bCursor.getValue( );
+				tempList.add( transformToIntegers((byte[])obj ) );
+			}
+		}
+		catch (IOException e) 
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		return EWAHCompressedBitmap.or( tempList );
+	}
+	
+	private EWAHCompressedBitmap getGreaterForCompressedSet( Object key, boolean includeKey ) throws DataException
+	{
+		try
+		{
+			key = DataTypeUtil.convert( key, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
+		BTreeCursor bCursor = compressedBtree.createCursor( );
+		EWAHCompressedBitmap result = new EWAHCompressedBitmap( );
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
+		try
+		{
+			if( !bCursor.first( ) )
+				return result;
+			if( bCursor.getKey( ) != null && ( (Comparable)bCursor.getKey( ) ).compareTo( key ) > 0 )
+			{
+				bCursor.beforeFirst( );
+			}
+			else
+			{
+				bCursor.moveTo( key );
+				int cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
+				if( ( includeKey && cr == 0 ) || cr > 0 )
+				{
+					Object obj = bCursor.getValue( );
+					tempList.add( transformToIntegers((byte[])obj ) );
+					
+				}
+			}
+			while( bCursor.next( ) )
+			{
+				Object obj = bCursor.getValue( );
+				tempList.add( transformToIntegers((byte[])obj ) );
+			}
+		}
+		catch (IOException e) 
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		return EWAHCompressedBitmap.or( tempList );
+	}
+	
+	private EWAHCompressedBitmap getLessForCompressedSet( Object key, boolean includeKey ) throws DataException
+	{
+		try
+		{
+			key = DataTypeUtil.convert( key, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
+		BTreeCursor bCursor = compressedBtree.createCursor( );
+		EWAHCompressedBitmap result = new EWAHCompressedBitmap( );
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
+		try
+		{
+			while( bCursor.next( ) )
+			{
+				int cr = 0;
+				if( bCursor.getKey( ) == null )
+				{
+					cr = -1;
+				}
+				else
+				{
+					cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
+				}
+				if( cr < 0 ||( cr == 0 && includeKey ) )
+				{
+					Object obj = bCursor.getValue( );
+					tempList.add( transformToIntegers((byte[])obj ) );
+				}
+				else
+					return EWAHCompressedBitmap.or( tempList );
+			}
+		}
+		catch (IOException e) 
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		return EWAHCompressedBitmap.or( tempList );
+	}
+	
+	public static int computeInt ( byte[] b,int size)
+	{
+		int LeftMoveCount = 9;
+		int rightBits = 0;
+
+		int result = 0;
+		for ( int i = size; i >= 0; i-- )
+		{
+			byte newByte = b[i];
+			switch ( size - i )
+			{
+				case 0 :
+					rightBits = 0x00;
+					break;
+				case 1 :
+					rightBits = 0x01;
+					LeftMoveCount = 7;
+					break;
+				case 2 :
+					rightBits = 0x03;
+					LeftMoveCount = 6;
+					break;
+				case 3 :
+					rightBits = 0x07;
+					LeftMoveCount = 5;
+					break;
+			}
+			newByte &= rightBits;
+			if ( size == i )
+				result += b[i];
+			else
+				result = result
+						+ ( ( ( newByte << LeftMoveCount ) ) << ( size
+								- i - 1 ) * 8 )
+						+ ( ( ( b[i] >> ( 8 - LeftMoveCount ) ) ) << ( size - i ) * 8 );
+		}
+
 		return result;
 	}
 	
-	private Set<Integer> getKeyIndex( Object key ) throws DataException
+	
+	private EWAHCompressedBitmap transformToIntegers( byte[] obj )
 	{
-		Set<Integer> set = new HashSet<Integer>();
+		int pos= 0;
+		byte[] bytes = new byte[4];
+	
+		int currentValue = 0;
+		int resultInt = 0;
+		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
+		
+		while(pos<obj.length)
+		{
+			byte b = obj[pos];
+			pos++;
+			
+			if (b < 0) 
+			{
+				byte[] compressedBytes = new byte[4];
+				int size=0;
+				while (b < 0) 
+				{
+					b &= 0x7F;
+					compressedBytes[size] = b;
+					b = obj[pos];
+					pos++;
+					size++;
+				}
+				compressedBytes[size] = b;
+							
+				resultInt = computeInt(compressedBytes,size) + currentValue;
+			} 
+			else
+			{
+				bytes[3] = b;
+				resultInt = BTreeUtil.bytesToInteger( bytes ) + currentValue;
+			}
+
+			set.set( resultInt );
+			currentValue = resultInt;
+		}
+		
+		return set;
+	}
+	
+	
+	private EWAHCompressedBitmap getKeyIndex( Object key ) throws DataException
+	{
+		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
 		Collection<Integer> rowID = null;
 		try
 		{
@@ -441,8 +953,38 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 		if( rowID != null )
 		{
-			set.addAll( rowID );
+			Iterator iter = rowID.iterator();
+			while(iter.hasNext())
+			{
+				set.set((Integer)iter.next());
+			}
 		}
+		return set;
+	}
+	
+	
+	private EWAHCompressedBitmap getKeyIndexForCompressedSet( Object key ) throws DataException
+	{
+		EWAHCompressedBitmap set = null;
+		Collection<Integer> rowID = null;
+		try
+		{
+			key = DataTypeUtil.convert( key, this.keyDataType );
+		}
+		catch ( BirtException e1 )
+		{
+			throw DataException.wrap( e1 );
+		}
+		try
+		{
+			Object obj = compressedBtree.getValue( key );
+			set = transformToIntegers( (byte[]) obj );
+		}
+		catch (IOException e)
+		{
+			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		
 		return set;
 	}
 
@@ -460,8 +1002,8 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 		return true;
 	}
-
-	public Object[] getAllKeyValues() throws DataException
+	
+	private Object[] getAllKeyValuesForIntegerSet() throws DataException
 	{
 		if( btree == null )
 		{
@@ -482,8 +1024,43 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 		return key.toArray( );
 	}
+	
+	private Object[] getAllKeyValuesForCompressedSet() throws DataException
+	{
+		if( compressedBtree == null )
+		{
+			compressedBtree = createCompressedBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+		}
+		BTreeCursor<Object, byte[]> bCursor = compressedBtree.createCursor( );
+		List key = new ArrayList( );
+		try
+		{
+			while( bCursor.next( ) )
+			{
+				key.add( bCursor.getKey( ) );
+			}
+		}
+		catch (IOException e)
+		{
+			throw new DataException( e.getLocalizedMessage( ), e ); 
+		}
+		return key.toArray( );
+	}
+	
 
-	public Set<Integer> getAllKeyRows() throws DataException
+	public Object[] getAllKeyValues() throws DataException
+	{
+		if( version >= VersionManager.VERSION_4_2_0 )
+		{
+			return getAllKeyValuesForCompressedSet( );
+		}
+		else
+		{
+			return getAllKeyValuesForIntegerSet( );
+		}
+	}
+	
+	private EWAHCompressedBitmap getAllKeyRowsForIntegerSet( ) throws DataException
 	{
 		if( btree == null )
 		{
@@ -491,20 +1068,65 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 		BTreeCursor<Object, Integer> bCursor = btree.createCursor( );
 		List<Integer> keyRow = new ArrayList<Integer>( );
+		Object key = null;
+		EWAHCompressedBitmap set = null;
+		List<EWAHCompressedBitmap> result = new ArrayList<EWAHCompressedBitmap>(); 
 		try
 		{
 			while( bCursor.next( ) )
 			{
-				keyRow.add( bCursor.getValue( ) );
+				if( bCursor.getKey( ) != key )
+				{
+					if(set != null)
+						result.add( set );
+					set = new EWAHCompressedBitmap();
+				}
+				set.set( bCursor.getValue( ) );
 			}
 		}
 		catch (IOException e)
 		{
 			throw new DataException( e.getLocalizedMessage( ), e ); 
 		}
-		Set<Integer> set = new HashSet<Integer>( );
-		set.addAll( keyRow );
-		return set;
+		
+		return EWAHCompressedBitmap.or( result );
+	}
+	
+	private EWAHCompressedBitmap getAllKeyRowsForCompressedSet( ) throws DataException
+	{
+		if( compressedBtree == null )
+		{
+			compressedBtree = createCompressedBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+		}
+		BTreeCursor<Object, byte[]> bCursor = compressedBtree.createCursor( );
+		
+		List<EWAHCompressedBitmap> tempList = new ArrayList<EWAHCompressedBitmap>();
+		
+		try
+		{
+			while( bCursor.next( ) )
+			{
+				Object obj = bCursor.getValue( );
+				tempList.add( transformToIntegers( (byte[]) obj ) );
+			}
+		}
+		catch (IOException e)
+		{
+			throw new DataException( e.getLocalizedMessage( ), e ); 
+		}
+		return EWAHCompressedBitmap.or( tempList );
+	}
+
+	public EWAHCompressedBitmap getAllKeyRows( ) throws DataException
+	{
+		if( version >= VersionManager.VERSION_4_2_0 )
+		{
+			return getAllKeyRowsForCompressedSet( );
+		}
+		else
+		{
+			return getAllKeyRowsForIntegerSet( );
+		}
 	}
 
 }
