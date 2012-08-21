@@ -11,12 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.RuleHandle;
@@ -30,11 +30,8 @@ import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -110,17 +107,15 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		expressionLabel.setFont( parent.getFont( ) );
 
 		expressionText = new Text( container, SWT.BORDER | SWT.WRAP );
-		expressionText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		Button expressionButton = new Button( container, SWT.PUSH );
-		expressionButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleExpressionButtonSelectEvent( );
-			}
-		} );
-
-		UIUtil.setExpressionButtonImage( expressionButton );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = expressionText.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).y - expressionText.getBorderWidth( ) * 2;
+		expressionText.setLayoutData( gd );
+		
+		ExpressionButtonUtil.createExpressionButton( container,
+				expressionText,
+				new CubeExpressionProvider( input ),
+				input );
 
 		errorMessageText = new Text( container, SWT.READ_ONLY | SWT.WRAP );
 		gd = new GridData( GridData.GRAB_HORIZONTAL
@@ -144,7 +139,7 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		if ( rule != null )
 		{
 			nameText.setText( DEUtil.resolveNull( rule.getDisplayExpression( ) ) );
-			expressionText.setText( DEUtil.resolveNull( rule.getRuleExpression( ) ) );
+			ExpressionButtonUtil.initExpressionButtonControl( expressionText, rule.getExpressionProperty( Rule.RULE_EXPRE_MEMBER ) );
 		}
 		return super.initDialog( );
 	}
@@ -177,17 +172,6 @@ public class LevelStaticAttributeDialog extends BaseDialog
 		}
 	}
 
-	protected void handleExpressionButtonSelectEvent( )
-	{
-		ExpressionBuilder expression = new ExpressionBuilder( expressionText.getText( ) );
-		expression.setExpressionProvider( new CubeExpressionProvider( input ) );
-
-		if ( expression.open( ) == OK )
-		{
-			if ( expression.getResult( ) != null )
-				expressionText.setText( expression.getResult( ) );
-		}
-	}
 
 	public void setErrorMessage( String errorMessage )
 	{

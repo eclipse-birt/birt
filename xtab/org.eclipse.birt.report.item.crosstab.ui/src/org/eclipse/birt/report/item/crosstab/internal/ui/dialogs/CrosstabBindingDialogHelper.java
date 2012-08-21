@@ -420,7 +420,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			}
 		} );
-		dateText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		
+		gd = new GridData( GridData.FILL_HORIZONTAL ) ;
+		gd.heightHint = dateText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- dateText.getBorderWidth( )
+				* 2;
+		dateText.setLayoutData( gd );
 
 		if ( expressionProvider == null )
 		{
@@ -1001,6 +1006,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			GridData gridData = new GridData( SWT.FILL, SWT.FILL, true, false );
 			// gridData.horizontalIndent = 0;
 			// gridData.horizontalSpan = 2;
+			gridData.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+					- txtParam.getBorderWidth( )
+					* 2;
 			txtParam.setLayoutData( gridData );
 			createExpressionButton( calculationComposite, txtParam );
 			calculationParamsMap.put( name, txtParam );
@@ -2020,6 +2028,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 2;
+		gridData.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtFilter.getBorderWidth( )
+				* 2;
 		txtFilter.setLayoutData( gridData );
 		txtFilter.addModifyListener( new ModifyListener( ) {
 
@@ -2088,6 +2099,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		txtExpression = new Text( composite, SWT.BORDER | SWT.WRAP );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
+		gd.heightHint = txtExpression.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtExpression.getBorderWidth( )
+				* 2;
 		txtExpression.setLayoutData( gd );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
@@ -2201,6 +2215,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 						gridData.horizontalIndent = 0;
 						gridData.horizontalSpan = 2;
+						gridData.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+								- txtParam.getBorderWidth( )
+								* 2;
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );

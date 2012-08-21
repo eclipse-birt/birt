@@ -64,10 +64,12 @@ public class ExpressionComposite extends Composite
 			text = FormWidgetFactory.getInstance( ).createText( this, "", //$NON-NLS-1$
 					SWT.READ_ONLY | SWT.WRAP );
 		else
-			text = new Text( this, SWT.READ_ONLY | SWT.WRAP );
+			text = new Text( this, SWT.READ_ONLY | SWT.WRAP | SWT.BORDER );
 		GridData data = new GridData( );
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalAlignment = GridData.FILL;
+		data.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- ( isFormStyle ? 0 : ( text.getBorderWidth( ) * 2 ) );
 		text.setLayoutData( data );
 
 		Listener listener = new Listener( ) {

@@ -643,6 +643,9 @@ public class MeasureDialog extends TitleAreaDialog
 		expressionLabel.setText( Messages.getString( "MeasureDialog.Label.Expression" ) ); //$NON-NLS-1$
 		expressionText = new Text( group, SWT.WRAP | SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- expressionText.getBorderWidth( )
+				* 2;
 		expressionText.setLayoutData( gd );
 		expressionText.addModifyListener( new ModifyListener( ) {
 
