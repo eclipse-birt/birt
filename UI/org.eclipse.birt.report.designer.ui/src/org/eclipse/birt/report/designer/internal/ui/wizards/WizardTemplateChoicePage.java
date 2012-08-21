@@ -351,7 +351,7 @@ public class WizardTemplateChoicePage extends WizardPage implements
 		if (defaultLibraryHandle != null)
 		{
 			useDefaultLibraryBox = new Button( composite, SWT.CHECK );
-			useDefaultLibraryBox.setText( "&Include the default themes" );
+			useDefaultLibraryBox.setText( Messages.getString("WizardTemplateChoicePage.label.EnableDefaultThemes") ); //$NON-NLS-1$
 			useDefaultLibraryBox.setSelection( true );
 		}
 

@@ -28,17 +28,22 @@ ShowAsViewAction.DisplayName=표시
 ShowAsViewAction.TransName=표시
 
 MeasureComboPropertyDescriptorProvider.TransName=크로스 탭 방향 변경
+MeasureHandleDropAdapter_trans_name=측정값 추가
 
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=차원 추가
 AddMeasureViewHandleCommand.TransName=측정값 추가
-AddRelativeTimePeriodAction_action_label=상대 시간 추가
-AddRelativeTimePeriodAction_trans_label=상대 시간 추가 
+AddRelativeTimePeriodAction_action_label=상대 시간 추가(&L)
+AddRelativeTimePeriodAction_trans_label=상대 시간 추가
 ChangeAreaCommand.TransName=차원 놓기
 ChangeMeasureOrderCommand.TransName=측정값 순서 변경
 CreateDimensionViewCommand.TransName=차원 생성
 CreateMeasureViewCommand.TransName=측정값 생성
+
+MergeCrosstabHeaderCellAction_name=머리글 셀 병합(&M)
+SplitCrosstabHeadCellAction_name=머리글 셀 분할(&S)
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

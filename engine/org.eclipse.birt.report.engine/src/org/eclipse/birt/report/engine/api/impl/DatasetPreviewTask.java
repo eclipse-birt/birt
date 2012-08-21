@@ -1,29 +1,41 @@
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
+import org.eclipse.birt.report.engine.api.IEngineConfig;
+import org.eclipse.birt.report.engine.api.IExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunnable;
+import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-
-
 
 public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTask
 {
@@ -32,13 +44,24 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	
 	protected DataSetHandle dataset;
 
-	protected int maxRow;
+	protected int maxRow = -1;
+	
+	/**
+	 * Start row.
+	 */
+	protected int startRow = 0;
+	
+	protected IFilterDefinition[] filterExpressions = null;
+
+	protected ISortDefinition[] sortExpressions = null;
+	
+	protected String[] selectedColumns;
 	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
 		super(engine, TASK_DATASETPREVIEW);
 	}
-
+	
 	public IExtractionResults execute( ) throws EngineException
 	{
 		if ( dataset == null )
@@ -49,9 +72,135 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		return runDataset( );
 	}
 	
+	public IExtractionResults extract( ) throws EngineException
+	{
+		return execute( );
+	}
+	
+	public void extract( IExtractionOption options ) throws BirtException
+	{
+		IDataExtractionOption option = null;
+		if ( options == null )
+		{
+			option = new DataExtractionOption( );
+		}
+		else
+		{
+			option = new DataExtractionOption( options.getOptions( ) );
+		}
+		IDataExtractionOption extractOption = setupExtractOption( option );
+		IDataExtractionExtension dataExtraction = getDataExtractionExtension( extractOption );
+		try
+		{
+			dataExtraction.initialize( executionContext.getReportContext( ),
+					extractOption );
+			IExtractionResults results = execute( );
+			if ( executionContext.isCanceled( ) )
+			{
+				return;
+			}
+			else
+			{
+				dataExtraction.output( results );
+			}
+		}
+		finally
+		{
+			dataExtraction.release( );
+		}
+	}
+	
+	private IDataExtractionOption setupExtractOption(
+			IExtractionOption options )
+	{
+		// setup the data extraction options from:
+		HashMap allOptions = new HashMap( );
+
+		// try to get the default render option from the engine config.
+		HashMap configs = engine.getConfig( ).getEmitterConfigs( );
+		// get the default format of the emitters, the default format key is
+		// IRenderOption.OUTPUT_FORMAT;
+		IRenderOption defaultOptions = (IRenderOption) configs
+				.get( IEngineConfig.DEFAULT_RENDER_OPTION );
+		if ( defaultOptions != null )
+		{
+			allOptions.putAll( defaultOptions.getOptions( ) );
+		}
+
+		// try to get the render options by the format
+		IRenderOption defaultHtmlOptions = (IRenderOption) configs
+				.get( IRenderOption.OUTPUT_FORMAT_HTML );
+		if ( defaultHtmlOptions != null )
+		{
+			allOptions.putAll( defaultHtmlOptions.getOptions( ) );
+		}
+
+		// merge the user's setting
+		allOptions.putAll( options.getOptions( ) );
+
+		// copy the new setting to old APIs
+		Map appContext = executionContext.getAppContext( );
+		Object renderContext = appContext
+				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+		if ( renderContext == null )
+		{
+			HTMLRenderContext htmlContext = new HTMLRenderContext( );
+			HTMLRenderOption htmlOptions = new HTMLRenderOption( allOptions );
+			htmlContext.setBaseImageURL( htmlOptions.getBaseImageURL( ) );
+			htmlContext.setBaseURL( htmlOptions.getBaseURL( ) );
+			htmlContext.setImageDirectory( htmlOptions.getImageDirectory( ) );
+			htmlContext.setSupportedImageFormats( htmlOptions
+					.getSupportedImageFormats( ) );
+			htmlContext.setRenderOption( htmlOptions );
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+					htmlContext );
+		}
+		
+		IDataExtractionOption extractOption = new DataExtractionOption(
+				allOptions );
+		
+		return extractOption;
+	}
+	
+	private IDataExtractionExtension getDataExtractionExtension(
+			IDataExtractionOption option ) throws EngineException
+	{
+		IDataExtractionExtension dataExtraction = null;
+		String extension = option.getExtension( );
+		ExtensionManager extensionManager = ExtensionManager.getInstance( );
+		if ( extension != null )
+		{
+			dataExtraction = extensionManager
+					.createDataExtractionExtensionById( extension );
+		}
+
+		String format = null;
+		if ( dataExtraction == null )
+		{
+			format = option.getOutputFormat( );
+			if ( format != null )
+			{
+				dataExtraction = extensionManager
+						.createDataExtractionExtensionByFormat( format );
+			}
+		}
+		if ( dataExtraction == null )
+		{
+			throw new EngineException(
+					MessageConstants.INVALID_EXTENSION_ERROR, new Object[]{
+							extension, format} );
+		}
+		return dataExtraction;
+	}
+	
 	public void setMaxRow(int maxRow)
 	{
 		this.maxRow = maxRow;
+	}
+	
+	public void setStartRow( int startRow )
+	{
+		this.startRow = startRow;
 	}
 	
 	protected void checkRequiredParamenter(String paramName, String value) throws ParameterValidationException
@@ -76,6 +225,21 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		this.runnable = runnable;
 		setReportRunnable( (ReportRunnable)runnable );
+	}
+	
+	public void selectColumns( String[] columnNames )
+	{
+		selectedColumns = columnNames;
+	}
+	
+	public void setFilters( IFilterDefinition[] simpleFilterExpression )
+	{
+		filterExpressions = simpleFilterExpression;
+	}
+
+	public void setSorts( ISortDefinition[] simpleSortExpression )
+	{
+		sortExpressions = simpleSortExpression;
 	}
 	
 	protected ModuleHandle getHandle( )
@@ -167,7 +331,12 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 				null, executionContext.getScriptContext( ) );
 		ResultMetaData metadata = new ResultMetaData(
 				result.getResultMetaData( ) );
-		return new ExtractionResults( result, metadata, null, 0, maxRow );
+		if ( null != selectedColumns )
+		{
+			metadata = new ResultMetaData( metadata, selectedColumns );
+		}
+		// apply the startRow and maxRows in query. So here we need not apply them to the result.
+		return new ExtractionResults( result, metadata, null, 0, -1, null );
 	}
 
 	protected ModuleHandle getModuleHandle( )
@@ -182,12 +351,34 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		query.setDataSetName( dataset.getQualifiedName( ) );
 		query.setAutoBinding( true );
 		// set max rows
-		if(maxRow>0)
+		if ( maxRow >= 0 )
 		{
 			query.setMaxRows( maxRow );
 		}
+		// set start row.
+		if ( startRow > 0 )
+		{
+			query.setStartingRow( startRow );
+		}
+		// add filter
+		if ( filterExpressions != null )
+		{
+			for ( int i = 0; i < filterExpressions.length; i++ )
+			{
+				query.getFilters( ).add( filterExpressions[i] );
+			}
+			filterExpressions = null;
+		}
+		// add sort
+		if ( sortExpressions != null )
+		{
+			for ( int i = 0; i < sortExpressions.length; i++ )
+			{
+				query.getSorts( ).add( sortExpressions[i] );
+			}
+			sortExpressions = null;
+		}
 		return query;
-
 	}
 	
 	protected void validateStringParameter( String paramName,

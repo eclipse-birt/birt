@@ -30,6 +30,7 @@ exception.error=Ein Ausnahmefehler ist während der Verarbeitung aufgetreten. Näh
 invalid.level.expression=Der Ebenenname "{0}" wurde nicht gefunden.
 invalid.measure.expression=Der Ausdruck für die Maßeinheit "{0}" darf nicht Null sein.
 invalid.data.type=Ungültiger Datentyp: {0}. 
+invalid.filter.operands=Die Filteroperanden sollten nicht null sein;
 
 cube.error.createhierarchy=Fehler beim Erstellen von Hierarchie:{0}.
 cube.error.createdimension=Fehler beim Erstellen von Dimension:{0}.
@@ -113,7 +114,7 @@ timeFunction.PERIOD1.displayName = Erstes Zeitinter&vall
 timeFunction.PERIOD2.displayName = Zweites Zeitinte&rvall
 timeFunction.N1.displayName = Anzahl (Zeitintervall) zurückliegend
 timeFunction.N2.displayName = Anzahl (Zeitintervall) zurückliegend
-
+ 
 timeFunction.N1.Year.displayName = Anzahl Jahre zurückliegend
 timeFunction.N2.Year.displayName = Anzahl Jahre zurückliegend
 timeFunction.N1.Year = N-Wert für Anzahl Jahre zurückliegend
@@ -141,10 +142,12 @@ timeFunction.PERIODCHOICE.QUARTER_displayName =QUARTAL
 timeFunction.PERIODCHOICE.MONTH_displayName =MONAT
 timeFunction.PERIODCHOICE.WEEK_displayName =WOCHE
 timeFunction.PERIODCHOICE.DAY_displayName =TAG
- 
+
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =Jahr bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =Quartal bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =Monat bis Datum
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =Woche bis Datum
 
 timeFunction.toolTip.to=Bis
+
+ 

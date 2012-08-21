@@ -12,10 +12,12 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -23,18 +25,31 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 
-public class DrilledAggregation
+/**
+ * This class is to save the drilled aggregation info, such as target levels,
+ * related normal aggregation etc.
+ * 
+ */
+public class DrilledInfo
 {
 
 	private int[] sortType;
 	private List<AggregationDefinition> originalAggregationList;
 	private DimLevel[] targetLevels;
+	private ICubeQueryDefinition cubeQueryDefinition;
 
-	public DrilledAggregation( DimLevel[] targetLevels,
+	public DrilledInfo( DimLevel[] targetLevels,
 			ICubeQueryDefinition cubeQueryDefinition )
 	{
 		this.targetLevels = targetLevels;
+		this.cubeQueryDefinition = cubeQueryDefinition;
 		originalAggregationList = new ArrayList<AggregationDefinition>( );
+		
+		if( targetLevels == null )
+		{
+			sortType = new int[0];
+			return;
+		}
 		sortType = new int[targetLevels.length];
 		for ( int index = 0; index < targetLevels.length; index++ )
 		{
@@ -54,9 +69,33 @@ public class DrilledAggregation
 	{
 		originalAggregationList.add( aggregation );
 	}
+	
+	public List<AggregationDefinition> getOriginalAggregation( )
+	{
+		return this.originalAggregationList;
+	}
 
 	public boolean usedByAggregation( AggregationDefinition aggregation )
 	{
+		Set aggregtionFunctionNames = new HashSet( );
+		AggregationFunctionDefinition[] functions = aggregation.getAggregationFunctions( );
+		for ( AggregationFunctionDefinition defn : functions )
+		{
+			aggregtionFunctionNames.add( defn.getName( ) );
+		}
+
+		for( int i=0; i< this.originalAggregationList.size( ); i++ )
+		{
+			AggregationFunctionDefinition[] functions1 = this.originalAggregationList.get( i ).getAggregationFunctions( );
+		
+			for( AggregationFunctionDefinition defn : functions1 )
+			{
+				if( aggregtionFunctionNames.contains( defn.getName( ) ) )
+				{
+					return true;
+				}
+			}
+		}
 		return this.originalAggregationList.contains( aggregation );
 	}
 	
@@ -64,6 +103,8 @@ public class DrilledAggregation
 	{
 		if ( levels == targetLevels )
 			return true;
+		if ( targetLevels == null )
+			return false;
 		if ( levels == null )
 			return false;
 		if ( targetLevels.length != levels.length )
@@ -113,6 +154,20 @@ public class DrilledAggregation
 			index++;
 		}
 		return aggr;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public DrilledInfo copy( )
+	{
+		DrilledInfo drilledInfo = new DrilledInfo( this.targetLevels, this.cubeQueryDefinition );
+		for( int i=0; i< this.originalAggregationList.size( ); i++ )
+		{
+			drilledInfo.addOriginalAggregation( this.originalAggregationList.get( i ) );			
+		}
+		return drilledInfo;
 	}
 
 }

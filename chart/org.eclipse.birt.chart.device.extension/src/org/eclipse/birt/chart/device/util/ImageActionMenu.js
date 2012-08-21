@@ -212,14 +212,16 @@ BirtChartMenuHelper.executeMenuAction = function(evt, itemInfo, menuInfo) {
 		if (scripts != undefined) {
 			var f = BirtChartMenuHelper.callScripts;
 			f(scripts, evt, menuInfo.categoryData, menuInfo.valueData,
-					menuInfo.valueSeriesName, menuInfo.legendItemText,
-					menuInfo.legendItemValue, menuInfo.axisLabel, menuInfo);
+					menuInfo.valueSeriesName, menuInfo.legendItemData,
+					menuInfo.legendItemText, menuInfo.legendItemValue,
+					menuInfo.axisLabel, menuInfo);
 		}
 		break;
 	}
 };
 BirtChartMenuHelper.callScripts = function(scripts, evt, categoryData,
-		valueData, valueSeriesName, legendItemText, legendItemValue, axisLabel, menuInfo) {
+		valueData, valueSeriesName, legendItemData, legendItemText,
+		legendItemValue, axisLabel, menuInfo) {
 	eval(scripts);
 };
 
@@ -333,6 +335,7 @@ BirtChartMenuInfo = function() {
 	this.valueData = undefined;
 	this.valueSeriesName = undefined;
 
+	this.legendItemData = undefined;
 	this.legendItemText = undefined;
 	this.legendItemValue = undefined;
 	this.axisLabel = undefined;

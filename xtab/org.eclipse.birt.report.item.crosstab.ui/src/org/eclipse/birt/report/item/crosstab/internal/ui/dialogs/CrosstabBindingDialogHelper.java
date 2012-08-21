@@ -42,6 +42,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialo
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ResourceEditDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.expression.ExpressionButton;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CLabel;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.MenuButton;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -90,6 +91,8 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -103,8 +106,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -129,8 +135,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
 	protected static final String DEFAULT_AGGREGATION_NAME = Messages.getString( "BindingDialogHelper.bindingName.aggregation" ); //$NON-NLS-1$
 	private static final String DEFAULT_TIMEPERIOD_NAME = Messages.getString( "CrosstabBindingDialogHelper.bindngName.timeperiod" ); //$NON-NLS-1$
-	private static final String CALCULATION_TYPE = Messages.getString( "CrosstabBindingDialogHelper.calculation.labe" ); //$NON-NLS-1$
-
+	private static final String CALCULATION_TYPE = Messages.getString( "CrosstabBindingDialogHelper.calculation.label" ); //$NON-NLS-1$
+	private static final String CALCULATION_GROUP = Messages.getString( "CrosstabBindingDialogHelper.calculation.group" ); //$NON-NLS-1$
+	
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
@@ -144,7 +151,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Text dateText;
 	private Combo cmbType, cmbFunction, cmbAggOn, calculationType,
 			timeDimension;
-	private Composite paramsComposite, calculationComposite;
+	private Composite paramsComposite;
+	private Group calculationComposite;
 
 	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
 	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
@@ -158,10 +166,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Button btnDisplayNameID, btnRemoveDisplayNameID;
 	private List<ITimeFunction> times;
 	private Button todayButton, dateSelectionButton, recentButton;
-	private Label recentLabel;
+	private Label dateFormatLbl, recentLabel;
 	private Map<String, Control> calculationParamsMap = new HashMap<String, Control>( );
 	private Map<String, String> calculationParamsValueMap = new HashMap<String, String>( );
 	private boolean isStatic = true;
+	private ExpressionButton button;
 
 	public void createContent( Composite parent )
 	{
@@ -261,6 +270,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
+//		GridData gData = new GridData( SWT.FILL, SWT.FILL, true, true, 4, 1 );
+//		gData.heightHint = lbName.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+//		Label upperBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+//		upperBreak.setLayoutData(gData);
+		
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
@@ -295,6 +309,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			createCommonSection( composite );
 		}
+		
+//		Label lowerBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+//		lowerBreak.setLayoutData(gData);
+		
 		if ( isTimePeriod( ) )
 		{
 			new Label( composite, SWT.NONE ).setText( Messages.getString( "CrosstabBindingDialogHelper.timedimension.label" ) ); //$NON-NLS-1$
@@ -352,13 +370,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				if ( !isStatic )
-				{
-					isStatic = true;
-					initCalculationTypeCombo( getTimeDimsionName( ) );
-				}
-				modifyDialogContent( );
-				validate( );
+				dateButtonSelection (true);
 			}
 		} );
 		new Label( radioContainer, SWT.NONE ).setText( Messages.getString( "CrosstabBindingDialogHelper.today.label" ) ); //$NON-NLS-1$
@@ -368,13 +380,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				if ( !isStatic )
-				{
-					isStatic = true;
-					initCalculationTypeCombo( getTimeDimsionName( ) );
-				}
-				modifyDialogContent( );
-				validate( );
+				dateButtonSelection (true);
 			}
 		} );
 
@@ -403,10 +409,25 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void modifyText( ModifyEvent e )
 			{
+				dateFormatLbl.setText(getDateHintText()); 
 				modifyDialogContent( );
 				validate( );
 			}
 		} );
+		dateText.addFocusListener(new FocusListener(){
+			public void focusGained( FocusEvent e )
+			{
+				todayButton.setSelection(false);
+				recentButton.setSelection(false);
+				dateSelectionButton.setSelection(true);
+				dateButtonSelection (true);
+			}
+
+			public void focusLost(FocusEvent e)
+			{
+				
+			}
+		});
 		dateText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		if ( expressionProvider == null )
@@ -419,10 +440,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						this.binding );
 		}
 
-		ExpressionButton button = ExpressionButtonUtil.createExpressionButton( dateSelecionContainer,
+		button = ExpressionButtonUtil.createExpressionButton( dateSelecionContainer,
 				dateText,
 				expressionProvider,
 				this.bindingHolder,
+				changeExprTypeListener,
 				true,
 				SWT.PUSH );
 		dateText.setData( ExpressionButtonUtil.EXPR_TYPE,
@@ -430,8 +452,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		button.refresh( );
 
 		new Label(radioContainer, SWT.NONE);
-		Label dateFormatLbl = new Label( radioContainer, SWT.NONE );
-		dateFormatLbl.setText(Messages.getString("CrosstabBindingDialogHelper.thisdate.example.label")); //$NON-NLS-1$
+		dateFormatLbl = new Label( radioContainer, SWT.NONE );
+		dateFormatLbl.setText(getDateHintText());
 		dateFormatLbl.setForeground( ColorManager.getColor( 128, 128, 128 ) );
 		dateFormatLbl.setLayoutData( new GridData(GridData.FILL_HORIZONTAL));
 		
@@ -440,19 +462,58 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				if ( isStatic )
-				{
-					isStatic = false;
-					initCalculationTypeCombo( getTimeDimsionName( ) );
-				}
-				modifyDialogContent( );
-				validate( );
+				dateButtonSelection (false);
 			}
 		} );
 		recentLabel = new Label( radioContainer, SWT.NONE );
 		recentLabel.setText( Messages.getString( "CrosstabBindingDialogHelper.recentday.description" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * 
+	 * @param isStaticDate the selected date button is a static date
+	 */
+	private void dateButtonSelection (boolean isStaticDate)
+	{
+		if (isStaticDate)
+		{
+			if ( !isStatic )
+			{
+				isStatic = true;
+				initCalculationTypeCombo( getTimeDimsionName( ) );
+			}
+		}
+		else
+		{
+			if ( isStatic )
+			{
+				isStatic = false;
+				initCalculationTypeCombo( getTimeDimsionName( ) );
+			}
+		}
+		modifyDialogContent( );
+		validate( );
+	}
+	
+	private String getDateHintText()
+	{
+		return ExpressionType.CONSTANT.equalsIgnoreCase(button.getExpressionHelper().getExpressionType()) ? 
+				Messages.getString("CrosstabBindingDialogHelper.thisdate.example.label.constant") 
+				: Messages.getString("CrosstabBindingDialogHelper.thisdate.example.label");
+	}
+	
+	private Listener changeExprTypeListener = new Listener( )
+	{
+		public void handleEvent(Event e) {
+			if(e.widget instanceof MenuButton)
+			{
+				dateFormatLbl.setText(getDateHintText());
+				composite.getShell().pack(true);
+			}
+		}
+
+	};
+	
 	private void handleTimeDimensionSelectEvent( )
 	{
 		String dimensionName = getTimeDimsionName( );
@@ -542,6 +603,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				ITimeFunction function = getTimeFunctionByDisplaName( getBinding( ).getCalculationType( ) );
+				if (function == null)
+				{
+					return;
+				}
 				String name = function.getName( );
 				int itemIndex = getItemIndex( names, name );
 				if ( itemIndex >= 0 )
@@ -698,9 +763,34 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void createCalculationSelection( Composite composite )
 	{
-		new Label( composite, SWT.NONE ).setText( CALCULATION_TYPE );
-		calculationType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		calculationComposite = new Group( composite, SWT.NONE );
+		calculationComposite.setText( CALCULATION_GROUP );
+
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.horizontalSpan = 4;
+		// gridData.exclude = true;
+		calculationComposite.setLayoutData( gridData );
+
+		GridLayout layout = new GridLayout( );
+		// layout.horizontalSpacing = layout.verticalSpacing = 0;
+		// layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 4;
+		Layout parentLayout = calculationComposite.getParent( ).getLayout( );
+		if ( parentLayout instanceof GridLayout )
+			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
+		calculationComposite.setLayout( layout );
+
+		Label calculationLable = new Label( calculationComposite, SWT.NONE );
+		calculationLable.setText( CALCULATION_TYPE );
+		GridData gd = new GridData( );
+		gd.widthHint = lbName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x
+				- layout.marginWidth
+				- 3;
+		calculationLable.setLayoutData( gd );
+
+		calculationType = new Combo( calculationComposite, SWT.BORDER
+				| SWT.READ_ONLY );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		calculationType.setLayoutData( gd );
 		calculationType.setVisibleItemCount( 30 );
@@ -721,26 +811,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				validate( );
 			}
 		} );
-
-		calculationComposite = new Composite( composite, SWT.NONE );
-		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-		gridData.horizontalSpan = 4;
-		gridData.exclude = true;
-		calculationComposite.setLayoutData( gridData );
-		GridLayout layout = new GridLayout( );
-		// layout.horizontalSpacing = layout.verticalSpacing = 0;
-		layout.marginWidth = layout.marginHeight = 0;
-		layout.numColumns = 4;
-		Layout parentLayout = calculationComposite.getParent( ).getLayout( );
-		if ( parentLayout instanceof GridLayout )
-			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
-		calculationComposite.setLayout( layout );
 	}
 
 	private void handleCalculationSelectEvent( )
 	{
 		Control[] children = calculationComposite.getChildren( );
-		for ( int i = 0; i < children.length; i++ )
+		for ( int i = 2; i < children.length; i++ )
 		{
 			children[i].dispose( );
 		}
@@ -748,9 +824,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		ITimeFunction function = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
 		if ( function == null )
 		{
-			( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
-			( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
-			calculationComposite.setVisible( false );
+//			( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
+//			( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
+//			calculationComposite.setVisible( false );
 		}
 		else
 		{
@@ -758,9 +834,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			List<IArgumentInfo> infos = function.getArguments( );
 			if ( infos == null || infos.size( ) == 0 )
 			{
-				( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
-				( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
-				calculationComposite.setVisible( false );
+//				( (GridData) calculationComposite.getLayoutData( ) ).heightHint = 0;
+//				( (GridData) calculationComposite.getLayoutData( ) ).exclude = true;
+//				calculationComposite.setVisible( false );
 			}
 			else
 			{
@@ -1070,6 +1146,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			ExpressionButton button = (ExpressionButton) dateText.getData( ExpressionButtonUtil.EXPR_BUTTON );
 			if ( button != null )
 				button.refresh( );
+			
+			dateFormatLbl.setText(getDateHintText());
 			
 			return true;
 		}
@@ -1592,15 +1670,39 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			measures.add( "" ); //$NON-NLS-1$
 
-			for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+//			for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+//			{
+//				MeasureViewHandle mv = xtabHandle.getMeasure( i );
+//
+//				if ( mv instanceof ComputedMeasureViewHandle )
+//				{
+//					continue;
+//				}
+//				String expr = DEUtil.getExpression( mv.getCubeMeasure( ) );
+//				if (expr != null)
+//				{
+//					measures.add( expr );
+//				}
+//			}
+			
+			CubeHandle cubeHandle = xtabHandle.getCube( );
+			if ( cubeHandle != null )
 			{
-				MeasureViewHandle mv = xtabHandle.getMeasure( i );
-
-				if ( mv instanceof ComputedMeasureViewHandle )
+				List children = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+				for ( int i = 0; i < children.size( ); i++ )
 				{
-					continue;
+					MeasureGroupHandle group = (MeasureGroupHandle) children.get( i );
+					List measreHandles = group.getContents( MeasureGroupHandle.MEASURES_PROP );
+					for ( int j = 0; j < measreHandles.size( ); j++ )
+					{
+						MeasureHandle measure = (MeasureHandle) measreHandles.get( j );
+						String str = DEUtil.getExpression( measure );
+						if ( !measures.contains( str ) )
+						{
+							measures.add( str );
+						}
+					}
 				}
-				measures.add( DEUtil.getExpression( mv.getCubeMeasure( ) ) );
 			}
 		}
 		catch ( ExtendedElementException e )
@@ -2210,40 +2312,42 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			if ( isTimePeriod( ) )
 			{
-				ITimeFunction timeFunction = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
-				List<IArgumentInfo> infos = timeFunction.getArguments( );
-
-				for ( int i = 0; i < infos.size( ); i++ )
+				ITimeFunction timeFunction = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );	
+				if (timeFunction != null)
 				{
-					String paramValue = getControlValue( calculationParamsMap.get( infos.get( i )
-							.getName( ) ) );
-					if ( paramValue == null
-							|| paramValue.trim( ).equals( "" ) && !infos.get( i ).isOptional( ) ) //$NON-NLS-1$
+					List<IArgumentInfo> infos = timeFunction.getArguments( );
+					for ( int i = 0; i < infos.size( ); i++ )
+					{
+						String paramValue = getControlValue( calculationParamsMap.get( infos.get( i )
+								.getName( ) ) );
+						if ( paramValue == null
+								|| paramValue.trim( ).equals( "" ) && !infos.get( i ).isOptional( ) ) //$NON-NLS-1$
+						{
+							dialog.setCanFinish( false );
+							return;
+						}
+	
+					}
+					String dimensionName = getTimeDimsionName( );
+					if ( !isUseDimension( dimensionName )
+							&& recentButton.getSelection( ) )
+					{
+						this.messageLine.setText( Messages.getString( "CrosstabBindingDialogHelper.timeperiod.wrongdate" ) ); //$NON-NLS-1$
+						this.messageLine.setImage( PlatformUI.getWorkbench( )
+								.getSharedImages( )
+								.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+						dialog.setCanFinish( false );
+						return;
+					}
+					if ( dateSelectionButton.getSelection( )
+							&& ( dateText.getText( ) == null || dateText.getText( )
+									.trim( )
+									.equals( "" ) ) ) //$NON-NLS-1$
+	
 					{
 						dialog.setCanFinish( false );
 						return;
 					}
-
-				}
-				String dimensionName = getTimeDimsionName( );
-				if ( !isUseDimension( dimensionName )
-						&& recentButton.getSelection( ) )
-				{
-					this.messageLine.setText( Messages.getString( "CrosstabBindingDialogHelper.timeperiod.wrongdate" ) ); //$NON-NLS-1$
-					this.messageLine.setImage( PlatformUI.getWorkbench( )
-							.getSharedImages( )
-							.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
-					dialog.setCanFinish( false );
-					return;
-				}
-				if ( dateSelectionButton.getSelection( )
-						&& ( dateText.getText( ) == null || dateText.getText( )
-								.trim( )
-								.equals( "" ) ) ) //$NON-NLS-1$
-
-				{
-					dialog.setCanFinish( false );
-					return;
 				}
 			}
 			dialogCanFinish( );

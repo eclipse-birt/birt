@@ -222,39 +222,20 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			ValidationContext validationContext = null;
 			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
-				int cacheSize = 0;
-				if ( appContext.containsKey( DataEngine.MEMORY_DATA_SET_CACHE ) )
+				validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
+				if ( validationContext != null )
 				{
-					cacheSize = Integer.valueOf( appContext.get( DataEngine.MEMORY_DATA_SET_CACHE )
-							.toString( ) )
-							.intValue( );
-				}
-				if ( cacheSize <= 0
-						&& appContext.containsKey( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) )
-				{
-					cacheSize = Integer.valueOf( appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT )
-							.toString( ) )
-							.intValue( );
-				}
-				if ( cacheSize <= 0 )
-				{
-					validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext( );
-					if ( validationContext != null )
-					{
-						Properties connProperties = new Properties( );
-						// merge public and private driver properties into a
-						// single
-						// Map
-						Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
-								( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
+					Properties connProperties = new Properties( );
+					// merge public and private driver properties into a single Map
+					Map driverProps = copyProperties( ( (OdaDataSourceRuntime) dataSource ).getPublicProperties( ),
+							( (OdaDataSourceRuntime) dataSource ).getPrivateProperties( ) );
 
-						if ( driverProps != null )
-							connProperties.putAll( driverProps );
+					if ( driverProps != null )
+						connProperties.putAll( driverProps );
 
-						QuerySpecHelper.setValidationConnectionContext( validationContext,
-								connProperties,
-								appContext );
-					}
+					QuerySpecHelper.setValidationConnectionContext( validationContext,
+							connProperties,
+							appContext );
 				}
 			}
 		    
@@ -302,7 +283,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
 			
-			if ( (!this.fromCache()) && queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			DataException exception = null;
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
 				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
 
@@ -314,15 +296,22 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 					OptimizationRollbackHelper rollbackHelper = new OptimizationRollbackHelper(
 							queryDefn, (IOdaDataSetDesign) dataSetDesign);
 					rollbackHelper.collectOriginalInfo();
-					querySpec = OdaQueryOptimizationUtil.optimizeExecution(
-									((OdaDataSourceRuntime) dataEngine
-											.getDataSourceRuntime(dataSetDesign
-													.getDataSourceName()))
-											.getExtensionID(),
-									validationContext,
-									(IOdaDataSetDesign) dataSetDesign,
-									queryDefn, dataEngine.getSession(),
-									appContext, contextVisitor);
+					try
+					{
+						querySpec = OdaQueryOptimizationUtil.optimizeExecution(
+										((OdaDataSourceRuntime) dataEngine
+												.getDataSourceRuntime(dataSetDesign
+														.getDataSourceName()))
+												.getExtensionID(),
+										validationContext,
+										(IOdaDataSetDesign) dataSetDesign,
+										queryDefn, dataEngine.getSession(),
+										appContext, contextVisitor);
+					}
+					catch ( DataException e )
+					{
+						exception = e;
+					}
 					if ( querySpec == null )
 					{
 						//roll back changes made in <code>dataSetDesign</code> and <code>queryDefn</code>
@@ -331,18 +320,17 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 				}
 			}
 			
-			//Do not use cached DataSourceQuery when there is push-down operation
-			if ( querySpec != null  )
+			if( FilterPrepareUtil.containsExternalFilter( dataSetDesign.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ) ||
+					FilterPrepareUtil.containsExternalFilter( queryDefn.getFilters( ), dataSetType, extDataSet.getDataSource( ).getExtensionID( ) ) )
 			{
-				odiQuery = odiDataSource.newQuery( dataSetType, dataText, false, this.contextVisitor );
+				if( exception!= null )
+					throw exception;
+				else
+					throw new DataException( ResourceConstants.FAIL_PUSH_DOWM_FILTER );
 			}
-			else
-			{
-				odiQuery = odiDataSource.newQuery( dataSetType,
-						dataText,
-						this.fromCache( ), this.contextVisitor );
-			}
-
+			
+			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache(), this.contextVisitor );
+			
 			if ( odiQuery instanceof IPreparedDSQuery )
 			{
 				( (IPreparedDSQuery) odiQuery ).setQuerySpecification( querySpec );

@@ -485,13 +485,13 @@ public class Page
 		{
 			StyleEntry style = container.getStyle( );
 			removeRightBorder( style );
-			int column = axis.getColumnIndexByCoordinate( childStartCoordinate );
+			int column = axis.getColumnIndexByCoordinate( parentStartCoordinate );
 			int num = column
-					- axis.getColumnIndexByCoordinate( parentStartCoordinate )
+					- axis.getColumnIndexByCoordinate( childStartCoordinate )
 					- 1;
 			Data empty = createEmptyData( style );
-			empty.setStartX( childStartCoordinate );
-			empty.setEndX( parentEndCoordinate );
+			empty.setStartX( parentStartCoordinate );
+			empty.setEndX( childStartCoordinate );
 			empty.setRowIndex( data.getRowIndex( ) );
 			addDatatoCache( column, empty );
 			addBlankData( column - num - 1, num, empty );

@@ -601,7 +601,7 @@ public class InputParameterDialog extends BaseDialog
 			}
 		}
 
-		if ( value == null || listParam.getDefaultObject( ) == null)
+		if ( value == null || listParam.getDefaultObject( ) == null )
 		{
 			if ( !isRequired )
 			{
@@ -1143,7 +1143,11 @@ public class InputParameterDialog extends BaseDialog
 					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 			{
 				double value = Double.parseDouble( str );
-				formatStr = new NumberFormatter( formatPattern, formatLocale ).format( value );
+				if ( Double.isInfinite( value ) )
+					formatStr = str;
+				else
+					formatStr = new NumberFormatter( formatPattern,
+							formatLocale ).format( value );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 			{

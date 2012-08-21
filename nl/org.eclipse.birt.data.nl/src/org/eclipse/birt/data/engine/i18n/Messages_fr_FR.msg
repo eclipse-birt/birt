@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -62,12 +61,12 @@ data.engine.NoResultSet=L'exécution de la requête n'a renvoyé aucun jeu de résul
 data.engine.NoResultMetadata=Métadonnées de résultat non disponibles.
 data.engine.QueryAlreadyPrepared=La requête a déjà été préparée.
 data.engine.QueryNotPrepared=La requête n'a pas encore été préparée.
-data.engine.InvalidFieldName=Nom de champ incorrect : {0}.
+data.engine.InvalidFieldName=Impossible d'évaluer l'expression de tri, de groupe, de filtre ou de liaison. Un des champs de données utilisés dans l'expression n'existe pas dans le jeu de données : {0}.
 data.engine.DupColumnName=Nom de colonne en double : {0}.
 data.engine.DupAlias=Alias ou nom de colonne en double : {0}.
 data.engine.InvalidFieldIndex=Index de champ incorrect : {0}.
 data.engine.fail.prepareExecution=Echec de préparation de l'exécution de la requête pour le jeu de données : {0}.
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Etat de la mise à jour du groupe incorrect : groupe actuel <{0}> supérieur au groupe de traitement <{1}>.
 
 data.engine.MatchError=Vérifiez la syntaxe du motif. Erreur de correspondance entre la chaîne et le motif : {0}.
 
@@ -375,7 +374,7 @@ data.olap.FacttableNullMeasureValue=Une des colonnes de mesures comporte une val
 data.olap.InvalidDimensionPositionFacttableRow=La table des faits du cube "{0}" possède une ligne de données non valide dont la valeur de la clé de dimension "{1}" est "{2}", qui n'existe pas dans la dimension "{3}".
 data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
-data.olap.dimensionNameNotFound=Le nom de dimension "{0}" est introuvable.
+data.olap.dimensionNameNotFound=Impossible de trouver la dimension "{0}" dans la requête du cube. Cette dimension n'existe pas ou n'est pas valide.
 data.olap.ReferencedDimensionNotFound=Définition de dimension référencée : {0} n'existe pas.
 data.olap.ReferencedLevelNotFound=Le niveau référencé n'existe pas.
 data.olap.cursorPositionError=Impossible de placer le curseur en position cible.
@@ -407,7 +406,7 @@ data.olap.UnsupportedFunction=Fonction non prise en charge :
 data.olap.UnspecifiedBindingName=Le nom de liaison n'est pas spécifié.
 data.olap.NotNestAggregationBinding=Aucune liaison d'agrégation imbriquée du cube : {0}
 data.olap.InvalidNestAggregationExpression=L'expression d'agrégation imbriquée du cube est incorrecte.
-data.olap.InvalidNestAggregationOn=Agrégation "{0}" sur l'agrégation imbriquée du cube "{1}" n'existe pas dans sa ou ses agrégation(s) de base.
+data.olap.InvalidNestAggregationOn=Echec du calcul de l'agrégation imbriquée "{0}" à cause de l'agrégation de niveaux inexistants dans son ou ses agrégation(s) de base.
 data.olap.InvalidAggregationFilterExpr=L'expression de filtre "{0}" n'est pas valide. La liste d'agrégationOn de liaison d'agrégation "{1}" ne contient pas le niveau de dimension référencé "{2}". 
 data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 data.olap.query.noCubeBinding=Impossible d'exécuter la requête du cube car aucune liaison au cube n'est disponible.
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=Texte de la requête incorrect.
 data.datamart.failLoadDataSet = Impossible de charger le jeu de données de l'Objet de données "{0}".
 data.datamart.originalDataSetNotExist = Echec de la mise à jour incrémentielle. Le jeu de données d'origine "{0}" n'existe pas.
 data.datamart.incrementalDatasetMetaDataError = Echec de la mise à jour incrémentielle. Les métadonnées du jeu de données supplémentaire "{0}" sont différentes de celles du jeu de données d'origine. 
+
+data.filter.pushDownFail= Impossible d'aligner le filtre pris en charge uniquement par un côté de l'extension ODA.

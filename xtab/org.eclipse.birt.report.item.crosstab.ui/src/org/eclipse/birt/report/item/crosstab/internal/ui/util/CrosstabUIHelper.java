@@ -70,6 +70,7 @@ public class CrosstabUIHelper
 	public static final String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
 	public static final String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
 	public static final String ROWS_AREA_IMAGE = "icons/pal/row-area.gif";//$NON-NLS-1$
+	public static final String HEADERS_AREA_IMAGE = "icons/pal/headers-area.gif";//$NON-NLS-1$
 	public static final String DETAIL_AREA_IMAGE = "icons/pal/detail-area.gif";//$NON-NLS-1$
 	public static final String LEVEL_IMAGE = "icons/pal/level.gif";//$NON-NLS-1$
 	public static final String CELL_IMAGE = "icons/pal/cell.gif";//$NON-NLS-1$

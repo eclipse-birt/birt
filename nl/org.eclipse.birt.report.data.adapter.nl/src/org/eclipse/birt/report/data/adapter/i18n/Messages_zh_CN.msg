@@ -30,6 +30,7 @@ exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
 invalid.data.type=无效数据类型: {0}。 
+invalid.filter.operands=筛选器操作数不能为空；
 
 cube.error.createhierarchy=创建层次结构时出现错误: {0}。
 cube.error.createdimension=创建维时出现错误: {0}。
@@ -113,7 +114,7 @@ timeFunction.PERIOD1.displayName = 第一个周期(&F)
 timeFunction.PERIOD2.displayName = 第一个周期(&R)
 timeFunction.N1.displayName = N 周期前
 timeFunction.N2.displayName = N 周期前
-
+ 
 timeFunction.N1.Year.displayName = N 年前
 timeFunction.N2.Year.displayName = N 年前
 timeFunction.N1.Year = N 年前中的 N 值
@@ -141,10 +142,12 @@ timeFunction.PERIODCHOICE.QUARTER_displayName =季度
 timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =周
 timeFunction.PERIODCHOICE.DAY_displayName =日
- 
+
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =年初至今
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =季度初至今
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
 timeFunction.toolTip.to=至
+
+ 

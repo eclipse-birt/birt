@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -23,7 +24,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * Manage the cache map
  */
-class CacheMapManager
+public class CacheMapManager
 {
 	/**
 	 * Please notice that we must use static variable here for the sharing of
@@ -32,6 +33,10 @@ class CacheMapManager
 	private static Map JVMLevelCacheMap = Collections.synchronizedMap( new HashMap( ) );
 	
 	private Map cacheMap;
+	// use this field temporarily keep the data set object need to be saved in
+	// cache. After the data set result has been cached, saved data set object
+	// into cachedMap
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> tempDataSetCacheMap;
 	
 	/**
 	 * construction
@@ -46,6 +51,7 @@ class CacheMapManager
 		{
 			cacheMap = new HashMap( );
 		}
+		tempDataSetCacheMap = new HashMap<DataSourceAndDataSet, IDataSetCacheObject>( );
 	}
 	
 	/**
@@ -69,7 +75,7 @@ class CacheMapManager
 			else
 			{
 				IDataSetCacheObject dsco = dscc.createDataSetCacheObject( );
-				cacheMap.put( dsAndDs, dsco );
+				tempDataSetCacheMap.put( dsAndDs, dsco );
 				return true;
 			}
 		}
@@ -104,8 +110,25 @@ class CacheMapManager
 	/**
 	 * @return
 	 */
-	IDataSetCacheObject getCacheObject( DataSourceAndDataSet dsAndDs )
+	IDataSetCacheObject getSavedCacheObject( DataSourceAndDataSet dsAndDs )
+	{	
+		return tempDataSetCacheMap.get( dsAndDs );
+	}
+	
+	void saveFinishOnCache( DataSourceAndDataSet dsAndDs,
+			IDataSetCacheObject dsco )
 	{
+		synchronized ( cacheMap )
+		{
+			cacheMap.put( dsAndDs, dsco );
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	IDataSetCacheObject getloadedCacheObject( DataSourceAndDataSet dsAndDs )
+	{	
 		return (IDataSetCacheObject) cacheMap.get( dsAndDs );
 	}
 	
@@ -122,6 +145,7 @@ class CacheMapManager
 			while ( key != null )
 			{
 				cacheObjects.add( cacheMap.remove( key ) );
+				tempDataSetCacheMap.remove( key );
 				key = getKey(dsAndDs);
 			}
 		}
@@ -141,6 +165,7 @@ class CacheMapManager
 		synchronized ( this )
 		{
 			cacheMap.clear( );
+			tempDataSetCacheMap.clear( );
 		}
 	}
 	
@@ -190,6 +215,28 @@ class CacheMapManager
 				}
 			}
 			return null;
+		}
+	}
+	
+	public static void clearCache( Set<String> cacheIDs ) 
+	{
+		List<IDataSetCacheObject> removed = new ArrayList<IDataSetCacheObject>( );
+		
+		Object[] keyArray = JVMLevelCacheMap.keySet( ).toArray( new DataSourceAndDataSet[]{} );
+		for( Object dsAndDs : keyArray )
+		{
+			if( cacheIDs.contains( ((DataSourceAndDataSet)dsAndDs).getCacheScopeID( ) ))
+			{
+				IDataSetCacheObject cacheObj = (IDataSetCacheObject) JVMLevelCacheMap.remove( dsAndDs );
+				if( cacheObj != null )
+					removed.add( cacheObj );
+				
+			}
+		}
+		
+		for( IDataSetCacheObject dataSetCacheObject : removed )
+		{
+			dataSetCacheObject.release( );
 		}
 	}
 }

@@ -109,18 +109,18 @@ public class InstanceID
 	 */
 	protected void append( StringBuffer buffer )
 	{
-		buffer.append( "/" );
+		buffer.append( '/' );
 		if ( uid != -1 )
 		{
 			buffer.append( uid );
-			buffer.append( "." );
+			buffer.append( '.' );
 		}
 		buffer.append( designId );
 		if ( dataId != null )
 		{
-			buffer.append( "(" );
+			buffer.append( '(' );
 			dataId.append( buffer );
-			buffer.append( ")" );
+			buffer.append( ')' );
 		}
 	}
 

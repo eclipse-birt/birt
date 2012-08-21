@@ -21,6 +21,7 @@ import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -123,6 +124,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				if ( levelHandle != null && crosstab != null )
 				{
 					doPostInsert( levelView );
+					
+					CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), CrosstabModelUtil.findPriorLevelCount( dimensionView ) + index, dimensionView.getAxisType( ) );
 				}
 			}
 		}
@@ -187,7 +190,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 						}
 
 						// add the data-item
-						CrosstabModelUtil.addMeasureAggregations( crosstab,
+						addMeasureAggregations( crosstab,
 								dimensionName,
 								levelName,
 								counterAxisType,
@@ -237,6 +240,77 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			}
 		}
 	}
+	
+	/**
+	 * Adjust measure aggregations for the given two level views.
+	 * 
+	 * @param crosstab
+	 *            the crosstab where the leve views reside
+	 * @param leftDimension
+	 *            the first dimension name
+	 * @param leftLevel
+	 *            the first level name
+	 * @param axisType
+	 *            the row/column axis type for the first level view
+	 * @param rightDimension
+	 *            the second dimension name
+	 * @param rightLevel
+	 *            the second level name
+	 * @param measures
+	 * @param functions
+	 * @param isAdd
+	 *            true if add aggregation, otherwise false
+	 * @throws SemanticException
+	 */
+	private void addMeasureAggregations(
+			CrosstabReportItemHandle crosstab, String leftDimension,
+			String leftLevel, int axisType, String rightDimension,
+			String rightLevel, List<MeasureViewHandle> measures,
+			List<String> functions ) throws SemanticException
+	{
+		if ( crosstab == null
+				|| !CrosstabModelUtil.isValidAxisType( axisType )
+				|| measures == null )
+			return;
+		if ( functions == null || functions.size( ) != measures.size( ) )
+			return;
+
+		String rowDimension = null;
+		String rowLevel = null;
+		String colDimension = null;
+		String colLevel = null;
+
+		if ( axisType == ROW_AXIS_TYPE )
+		{
+			rowDimension = leftDimension;
+			rowLevel = leftLevel;
+
+			colDimension = rightDimension;
+			colLevel = rightLevel;
+		}
+		else if ( axisType == COLUMN_AXIS_TYPE )
+		{
+			rowDimension = rightDimension;
+			rowLevel = rightLevel;
+
+			colDimension = leftDimension;
+			colLevel = leftLevel;
+		}
+		for ( int i = 0; i < measures.size( ); i++ )
+		{
+			MeasureViewHandle measureView = measures.get( i );
+			if ( measureView.getCrosstab( ) != crosstab )
+				continue;
+			
+			validateSingleMeasureAggregation( crosstab,
+					measureView,
+					functions.get( i ),
+					rowDimension,
+					rowLevel,
+					colDimension,
+					colLevel );
+		}
+	}
 
 	/**
 	 * 
@@ -280,7 +354,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				{
 					MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 					String function = tempLevelView.getAggregationFunction( measureView );
-					CrosstabModelUtil.addDataItem( crosstab,
+					
+					validateSingleMeasureAggregation( crosstab,
 							measureView,
 							function,
 							infor.getRowDimension( ),
@@ -303,7 +378,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 				String function = crosstab.getAggregationFunction( counterAxisType,
 						measureView );
-				CrosstabModelUtil.addDataItem( crosstab,
+				
+				validateSingleMeasureAggregation( crosstab,
 						measureView,
 						function,
 						infor.getRowDimension( ),
@@ -358,9 +434,18 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			{
 				doPreRemove( levelView );
 			}
-
+			int count = CrosstabModelUtil.findPriorLevelCount( dimensionView );
+//			for (int i=0; i<dimensionView.getLevelCount( ); i++)
+//			{
+//				if (dimensionView.getLevel( i ) == levelView)
+//				{
+//					break;
+//				}
+//				count = count + 1;
+//			}
+			count = count + levelView.getIndex( );
 			levelView.getModelHandle( ).drop( );
-
+			CrosstabModelUtil.updateHeaderCell( dimensionView.getCrosstab( ), count, dimensionView.getAxisType( ), true );
 			if ( crosstab != null )
 			{
 				validateFilterCondition( );

@@ -294,6 +294,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
 		gd1.horizontalSpan = 3;
 		gd1.widthHint = 200;
+		gd1.heightHint = cmbType.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		btnAllowExport.setLayoutData( gd1 );
 
 		btnAllowExport.addSelectionListener( new SelectionAdapter( ) {
@@ -304,9 +305,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-		WidgetUtil.setExcludeGridData( allowExportLabel, true );
-		WidgetUtil.setExcludeGridData( btnAllowExport, true );
-		// WidgetUtil.createGridPlaceholder( composite, 1, false );
+		//WidgetUtil.setExcludeGridData( allowExportLabel, true );
+		//WidgetUtil.setExcludeGridData( btnAllowExport, true );
 
 		if ( isAggregate( ) )
 		{

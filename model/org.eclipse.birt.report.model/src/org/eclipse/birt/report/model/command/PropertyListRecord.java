@@ -88,14 +88,12 @@ public class PropertyListRecord extends SimpleRecord
 	 * 
 	 */
 
-	public PropertyListRecord( DesignElement element, StructureContext context,
-			Object toRemove )
+	public PropertyListRecord( DesignElement element, StructureContext context, int posn )
 	{
 		this.element = element;
 		this.isAdd = false;
 
 		this.context = context;
-		this.value = toRemove;
 		this.propDefn = context.getElementProp( );
 
 		// ensure the top of the context is just the element itself
@@ -108,8 +106,9 @@ public class PropertyListRecord extends SimpleRecord
 		else
 			list = (List) ( (DesignElement) valueContainer ).getLocalProperty(
 					null, (ElementPropertyDefn) context.getPropDefn( ) );
-
-		posn = list.indexOf( toRemove );
+		
+		this.posn = posn;
+		this.value = list.get( posn );
 
 		label = CommandLabelFactory.getCommandLabel(
 				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
@@ -210,15 +209,13 @@ public class PropertyListRecord extends SimpleRecord
 	 */
 
 	public PropertyListRecord( DesignElement element,
-			ElementPropertyDefn propDefn, List theList, Object toRemove )
+			ElementPropertyDefn propDefn, List theList, int posn )
 	{
 		this.element = element;
 		this.isAdd = false;
-
-		this.value = toRemove;
-
 		this.list = theList;
-		posn = list.indexOf( toRemove );
+		this.posn = posn;
+		this.value = list.get( posn );
 		this.context = new StructureContext( element, propDefn, null );
 		this.propDefn = propDefn;
 

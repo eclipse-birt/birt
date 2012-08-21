@@ -28,10 +28,12 @@ import org.eclipse.birt.chart.model.attribute.ActionType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
+import org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.MultiURLValues;
 import org.eclipse.birt.chart.model.attribute.StyledComponent;
@@ -979,14 +981,31 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 	protected void processCubeStyle( Chart cm, LevelHandle category,
 			MeasureHandle measure, LevelHandle yoption )
 	{
-		GroupingUnitType gut = computeLevelHandleGroupUnit( yoption);
+		String[] categoryExprs = ChartUtil.getCategoryExpressions( cm );
+		String categoryExpr = null;
+		if ( categoryExprs != null && categoryExprs.length > 0 )
+		{
+			categoryExpr = categoryExprs[0];
+		}
+		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		String optionalYExpr = null;
+		if ( orthSDs != null && orthSDs.size( ) > 0 && orthSDs.get( 0 ).getQuery( ) != null )
+		{
+			optionalYExpr =  orthSDs.get( 0 ).getQuery( ).getDefinition( );
+		}
+		GroupingUnitType dateGut = computeLevelHandleGroupUnit( optionalYExpr, yoption );
 		for ( SeriesDefinition sd : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
 		{
 			// Adapts grouping unit type according to level handle type.
-			if ( gut != null &&  sd.getQuery( ).getGrouping( ) != null && !sd.getQuery( ).getGrouping( ).isSetGroupingUnit( ) )
+			if ( dateGut != null
+					&& sd.getQuery( ).getGrouping( ) != null
+					&& !sd.getQuery( ).getGrouping( ).isSetEnabled( ) )
 			{
 				sd.getQuery( ).getGrouping( ).setEnabled( true );
-				sd.getQuery( ).getGrouping( ).setGroupingUnit( gut );
+				sd.getQuery( )
+						.getGrouping( )
+						.setGroupType( DataType.DATE_TIME_LITERAL );
+				sd.getQuery( ).getGrouping( ).setGroupingUnit( dateGut );
 			}
 			
 			// Since renderer always use runtime series, set format to
@@ -1002,7 +1021,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 						{
 							if ( dpc.getFormatSpecifier( ) == null )
 							{
-								dpc.setFormatSpecifier( createFormatSpecifier( category ) );
+								dpc.setFormatSpecifier( createFormatSpecifier( category, categoryExpr ) );
 							}
 						}
 						else if ( dpc.getType( ).getValue( ) == DataPointComponentType.ORTHOGONAL_VALUE )
@@ -1016,7 +1035,7 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 						{
 							if ( dpc.getFormatSpecifier( ) == null )
 							{
-								dpc.setFormatSpecifier( createFormatSpecifier( yoption ) );
+								dpc.setFormatSpecifier( createFormatSpecifier( yoption, optionalYExpr ) );
 							}
 						}
 					}
@@ -1027,31 +1046,38 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		if ( cm.getLegend( ).getFormatSpecifier( ) == null )
 		{
 			cm.getLegend( )
-					.setFormatSpecifier( createFormatSpecifier( yoption ) );
+					.setFormatSpecifier( createFormatSpecifier( yoption, optionalYExpr ) );
 		}
 
-		gut = computeLevelHandleGroupUnit( category );
+		dateGut = null;
+
+		if ( categoryExpr != null )
+		{
+			dateGut = computeLevelHandleGroupUnit( categoryExpr, category );
+		}
 		if ( cm instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) cm;
 			Axis xAxis = cwa.getAxes( ).get( 0 );
 			
 			// Adapts grouping unit type according to level handle type.
-			if ( gut != null )
+			if ( dateGut != null )
 			{
 				for ( SeriesDefinition sd : xAxis.getSeriesDefinitions( ) )
 				{
 					if ( sd.getGrouping( ) != null )
 					{
 						sd.getGrouping( ).setEnabled( true );
-						sd.getGrouping( ).setGroupingUnit( gut );
+						sd.getGrouping( )
+								.setGroupType( DataType.DATE_TIME_LITERAL );
+						sd.getGrouping( ).setGroupingUnit( dateGut );
 					}
 				}
 			}
 			if ( xAxis.getLabel( ).isVisible( )
 					&& xAxis.getFormatSpecifier( ) == null )
 			{
-				xAxis.setFormatSpecifier( createFormatSpecifier( category ) );
+				xAxis.setFormatSpecifier( createFormatSpecifier( category, categoryExpr ) );
 			}
 
 			for ( Axis yAxis : xAxis.getAssociatedAxes( ) )
@@ -1065,31 +1091,37 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		} else {
 			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
 			// Adapts grouping unit type according to level handle type.
-			if ( gut != null )
+			if ( dateGut != null )
 			{
 				SeriesDefinition sd = cwa.getSeriesDefinitions( ).get( 0 );
 				if ( sd.getGrouping( ) != null
-						&& !sd.getGrouping( ).isSetGroupingUnit( ) )
+						&& !sd.getGrouping( ).isSetEnabled( ) )
 				{
 					sd.getGrouping( ).setEnabled( true );
-					sd.getGrouping( ).setGroupingUnit( gut );
+					sd.getGrouping( ).setGroupType( DataType.DATE_TIME_LITERAL );
+					sd.getGrouping( ).setGroupingUnit( dateGut );
 				}
 			}
 			if ( cwa.getSeriesDefinitions( ).get( 0 ).getFormatSpecifier( ) == null )
 			{
 				cwa.getSeriesDefinitions( )
 						.get( 0 )
-						.setFormatSpecifier( createFormatSpecifier( category ) );
+						.setFormatSpecifier( createFormatSpecifier( category, categoryExpr ) );
 			}
 		}
 	}
 
-	private GroupingUnitType computeLevelHandleGroupUnit( LevelHandle levelHandle )
+	private GroupingUnitType computeLevelHandleGroupUnit( String chartBindExpr, LevelHandle levelHandle )
 	{
 		GroupingUnitType gut = null;
 		if ( levelHandle != null )
 		{
 			String dtLevelType = levelHandle.getDateTimeLevelType( );
+			if ( dtLevelType == null )
+			{
+				return null;
+			}
+			
 			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( dtLevelType ) )
 			{
 				gut = GroupingUnitType.YEARS_LITERAL;
@@ -1123,7 +1155,53 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 				gut = GroupingUnitType.SECONDS_LITERAL;
 			}
 		}
+		
+		if ( gut != null )
+		{
+			// #50768
+			// If the cube level is date time type, but the binding expression
+			// chart uses isn't date time type, current data type is
+			// still integer rather than date time, it can't return a default
+			// group unit.
+			ExpressionCodec exprCodec = ChartModelHelper.instance( )
+					.createExpressionCodec( );
+			String bindingName = exprCodec.getBindingName( chartBindExpr );
+			for ( Iterator<ComputedColumnHandle> bindings = ChartItemUtil.getAllColumnBindingsIterator( (ReportItemHandle) handle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle cc = bindings.next( );
+				if ( cc.getName( ).equals( bindingName ) )
+				{
+					String dateType = cc.getDataType( );
+					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dateType )
+							&& !DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dateType )
+							&& !DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dateType ) )
+					{
+						gut = null;
+					}
+					break;
+				}
+			}
+		}
 		return gut;
+	}
+	
+	private boolean isDateTimeBinding( String chartBindExpr )
+	{
+		ExpressionCodec exprCodec = ChartModelHelper.instance( )
+				.createExpressionCodec( );
+		String bindingName = exprCodec.getBindingName( chartBindExpr );
+		for ( Iterator<ComputedColumnHandle> bindings = ChartItemUtil.getAllColumnBindingsIterator( (ReportItemHandle) handle ); bindings.hasNext( ); )
+		{
+			ComputedColumnHandle cc = bindings.next( );
+			if ( cc.getName( ).equals( bindingName ) )
+			{
+				String dateType = cc.getDataType( );
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dateType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dateType )
+						|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dateType );
+			}
+		}
+		return false;
 	}
 	
 	private final LevelHandle findLevelHandle(CubeHandle cube,
@@ -1184,8 +1262,14 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 		return null;
 	}
 
-	protected FormatSpecifier createFormatSpecifier( LevelHandle levelHandle )
-	{
+	protected FormatSpecifier createFormatSpecifier( LevelHandle levelHandle, String chartBindExpr )
+	{	
+		if ( chartBindExpr == null )
+		{
+			return null;
+		}
+		
+		FormatSpecifier fs = null;
 		if ( levelHandle != null )
 		{
 			if ( levelHandle.getFormat( ) == null
@@ -1194,15 +1278,22 @@ public class ChartReportStyleProcessor extends BaseStyleProcessor
 					&& levelHandle.getDateTimeFormat( ) != null )
 			{
 				// Create format specifier for date time type.
-				return JavaDateFormatSpecifierImpl.create( new DateFormatter( levelHandle.getDateTimeFormat( ) ).getFormatCode( ) );
+				fs = JavaDateFormatSpecifierImpl.create( new DateFormatter( levelHandle.getDateTimeFormat( ) ).getFormatCode( ) );
 			}
 			else
 			{
-				return convertToFormatSpecifier( levelHandle.getFormat( ),
+				fs = convertToFormatSpecifier( levelHandle.getFormat( ),
 						levelHandle.getDataType( ) );
 			}
+			
+			// If the type of related binding isn't date time, not return date
+			// time format specifier. 
+			if ( fs instanceof JavaDateFormatSpecifier && !isDateTimeBinding( chartBindExpr ) )
+			{
+				fs = null;
+			}
 		}
-		return null;
+		return fs;
 	}
 
 	protected FormatSpecifier createFormatSpecifier( MeasureHandle measureHandle )

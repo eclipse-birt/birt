@@ -90,7 +90,7 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 		Object[] sortedObjs = this.cachedValues.toArray( );
 		if ( sortedObjs.length == 0 )
 		{
-			return DataException.wrap( new AggrException( ResourceConstants.INVALID_PERCENTILE_COLUMN ) );
+			return null;
 		}
 		RankAggregationUtil.sortArray( sortedObjs );
 		double n = pct * ( sortedObjs.length - 1 ) + 1;

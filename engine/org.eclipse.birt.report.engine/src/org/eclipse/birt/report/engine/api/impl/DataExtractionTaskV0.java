@@ -515,6 +515,26 @@ public class DataExtractionTaskV0 extends EngineTask
 		return null;
 	}
 
+	/**
+	 * get a result set.
+	 * 
+	 * @param rsetName
+	 * @return
+	 */
+	protected IResultSetItem getResultSetItem( String rsetName )
+	{
+		Iterator iter = resultMetaList.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			IResultSetItem rsetItem = (IResultSetItem) iter.next( );
+			if ( rsetItem.getResultSetName( ).equals( rsetName ) )
+			{
+				return rsetItem;
+			}
+		}
+		return null;
+	}
+	
 	public void selectColumns( String[] columnNames )
 	{
 		selectedColumns = columnNames;
@@ -621,11 +641,19 @@ public class DataExtractionTaskV0 extends EngineTask
 			
 				if ( null != results )
 				{
-					IResultMetaData metaData = getResultMetaData( rsetName );
+					IResultMetaData metaData = null;
+					IResultSetItem rset= getResultSetItem(rsetName);
+					if (rset != null )
+					{
+						metaData = rset.getResultMetaData( );
+					}
 					if (metaData != null)
 					{
 						return new ExtractionResults( results, metaData,
-								this.selectedColumns, startRow, maxRows );
+								this.selectedColumns, startRow, maxRows,
+								( rset instanceof ResultSetItem )
+										? ( (ResultSetItem) rset ).getHandle( )
+										: null );
 					}
 				}
 			}

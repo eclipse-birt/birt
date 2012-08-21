@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.DrilledAggregateResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
 
 public class DrillOperationExecutor
 {
@@ -66,8 +65,8 @@ public class DrillOperationExecutor
 				List<IAggregationResultSet> drillRs = new ArrayList<IAggregationResultSet>( );
 				for ( int j = 0; j < aggregationRsForDrill.length; j++ )
 				{
-					if ( ( (DrilledAggregationDefinition) aggregationRsForDrill[j].getAggregationDefinition( ) ) != null
-							&& ( (DrilledAggregationDefinition) aggregationRsForDrill[j].getAggregationDefinition( ) ).useByAggregation( aggregationRsFromCube[i].getAggregationDefinition( ) ) )
+					if ( aggregationRsForDrill[j].getAggregationDefinition( ).getDrilledInfo() != null
+							&& aggregationRsForDrill[j].getAggregationDefinition( ).getDrilledInfo( ).usedByAggregation( aggregationRsFromCube[i].getAggregationDefinition( ) ) )
 					{
 						drillRs.add( aggregationRsForDrill[j] );
 					}

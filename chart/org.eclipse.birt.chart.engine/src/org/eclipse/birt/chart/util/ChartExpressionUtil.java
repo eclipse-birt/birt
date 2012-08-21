@@ -464,6 +464,32 @@ public class ChartExpressionUtil
 
 			this.sExpr = sExpr.trim( );
 		}
+		
+		/**
+		 * Converts to the javascript type expression
+		 * 
+		 * @param isRow
+		 *            true means row, false means cube
+		 * 
+		 * @return javascript expression
+		 */
+		public String convertJSExpression( boolean isRow )
+		{
+			return sExpr;
+		}
+
+		/**
+		 * Returns the copied instance.
+		 * 
+		 * @return copied instance
+		 */
+		public ExpressionCodec copy( )
+		{
+			ExpressionCodec instance = new ExpressionCodec( );
+			instance.setType( getType( ) );
+			instance.setExpression( getExpression( ) );
+			return instance;
+		}
 
 		public boolean isCubeBinding( boolean hasOperation )
 		{

@@ -3636,6 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=ÔÚ±¨±í¿âÖĞÊ¹ÓÃ CSS ÎÄ¼ş
 UseCssInThemeDialog.TitleArea.Message=Ñ¡ÔñÒª·ÅÖÃ CSS ÎÄ¼şÑùÊ½µÄ²¼¾°Ö÷Ìâ¡£
+CssStyleSheetNodeProvider.Label.FromServer=´Ó·şÎñÆ÷
 CssStyleSheetNodeProvider.Tooltip.URI=(²é¿´Ê±Ó¦ÓÃ)
 
 
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=ÃèÊö:
 WizardTemplateChoicePage.label.Preview=Ô¤ÀÀ:
 WizardTemplateChoicePage.label.ReportTemplates=±¨±íÄ£°å:
 WizardTemplateChoicePage.label.ShowCheatSheets=ÏÔÊ¾±¨±í´´½¨±¸Íüµ¥(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=°üº¬Ä¬ÈÏÖ÷Ìâ(&I)
 WizardTemplateChoicePage.message.BlankReport=´´½¨ÎŞÔ¤¶¨ÒåÄÚÈİµÄ¿Õ±¨±í¡£
 WizardTemplateChoicePage.message.ChartListing=´´½¨·Ö×é±¨±í£¬²¢¸½´øÖ±¹Û±íÊ¾Ã¿¸ö×éÊı¾İµÄÍ¼±í¡£
 WizardTemplateChoicePage.message.DualColumnChartListing=´´½¨´øÁ½¸ö¡°Í¼±íºÍÁĞ±í¡±×Ó×éµÄ·Ö×é±¨±í¡£
@@ -4636,11 +4638,13 @@ ReportPage.PreviewImage.Button.ToolTip=¹ÜÀíËõÂÔÍ¼
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=È«²¿
 CrosstabBindingDialogHelper.bindngName.timeperiod=ÖÜÆÚ
-CrosstabBindingDialogHelper.calculation.labe=Ê±¼äÖÜÆÚ(&P):
+CrosstabBindingDialogHelper.calculation.label=Ê±¼äÖÜÆÚ(&P):
+CrosstabBindingDialogHelper.calculation.group=Ê±¼äÖÜÆÚ
 CrosstabBindingDialogHelper.recentday.description=Ê±¼äÎ¬ÖĞµÄ×î½üÈÕÆÚ
 CrosstabBindingDialogHelper.referencedate.label=²Î¿¼ÈÕÆÚ(&R):
 CrosstabBindingDialogHelper.thisdate.label=´ËÈÕÆÚ:
-CrosstabBindingDialogHelper.thisdate.example.label=Çë°´ÒÔÏÂ¸ñÊ½ÊäÈëÈÕÆÚÖµ: yyyy-MM-dd
+CrosstabBindingDialogHelper.thisdate.example.label=ÇëÓÃÒıºÅÒıÆğÌá¹©µÄÈÕÆÚÖµ¡£\nÀıÈç: "2012-01-23"¡¢"1/23/2012"¡£
+CrosstabBindingDialogHelper.thisdate.example.label.constant=ÀıÈç£º2012-01-23¡¢1/23/2012¡£
 CrosstabBindingDialogHelper.timedimension.label=Ê±¼äÎ¬(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=´ËÎ¬²»Ö§³Ö×î½ü²Î¿¼ÈÕÆÚ 
 CrosstabBindingDialogHelper.today.label=½ñÌì
@@ -4748,7 +4752,6 @@ GeneralConfigurationBlock.move.binding.group=½«±¾µØ°ó¶¨ÒÆ¶¯µ½¸¸²ãÒÔ»ñµÃ¸üºÃµÄĞÔÄ
 GeneralConfigurationBlock.move.binding.always=Ê¼ÖÕ(&W)
 GeneralConfigurationBlock.move.binding.never=´Ó²»(&V)
 GeneralConfigurationBlock.move.binding.prompt=ÌáÊ¾(&R)
-
 
 ###########################################################
 #ResetImageSizeAction

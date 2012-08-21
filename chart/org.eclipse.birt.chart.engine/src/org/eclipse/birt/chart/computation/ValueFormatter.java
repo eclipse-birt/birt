@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.chart.computation;
 
+import java.text.ParseException;
+
 import org.eclipse.birt.chart.datafeed.IDataPointEntry;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
@@ -51,7 +55,29 @@ public final class ValueFormatter
 	 * data or axis label
 	 */
 	private static final String sNumericPattern = "0"; //$NON-NLS-1$
-
+	
+	private static final Double sCriticalDoubleValue = Double.valueOf( "1E-3" );  //$NON-NLS-1$
+	
+	public static final String DECIMAL_FORMAT_PATTERN = "#,##0.#########"; //$NON-NLS-1$
+	
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
+	
+	/**
+	 * Use default number format pattern to format number value. If value < 1
+	 * then at most remains 3 significant figures but the total decimal digits
+	 * can't exceed 9, else use default format instance of system to format
+	 * number.
+	 * 
+	 * @param value
+	 * @param locale
+	 * @return
+	 */
+	private static final String formatNumber( Number value, ULocale locale )
+	{
+		NumberFormat format = createDefaultNumberFormat( value, locale );
+		return format.format(  value  );
+	}
+	
 	/**
 	 * Returns the formatted string representation of given object.
 	 * 
@@ -153,8 +179,7 @@ public final class ValueFormatter
 				}
 				else if ( oValue instanceof Number )
 				{
-					return NumberFormat.getInstance( lcl )
-							.format( ( (Number) oValue ).doubleValue( ) );
+					return formatNumber( (Number) oValue, lcl );
 				}
 				else if ( oValue instanceof NumberDataElement )
 				{
@@ -269,8 +294,7 @@ public final class ValueFormatter
 			}
 			else if ( oValue instanceof Number )
 			{
-				return NumberFormat.getInstance( lcl )
-						.format( ( (Number) oValue ).doubleValue( ) );
+				return formatNumber( (Number) oValue, lcl );
 			}
 			else if ( oValue instanceof NumberDataElement )
 			{
@@ -434,6 +458,12 @@ public final class ValueFormatter
 				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 				return sNumericPattern;
 			}
+			// Returns this pattern to make 9 digits of
+			// decimal precision for double which is less than 0.001.
+			else if ( ChartUtil.mathLT( Math.abs( value ), sCriticalDoubleValue ) )
+			{
+				return DECIMAL_FORMAT_PATTERN;
+			}
 		}
 
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
@@ -455,8 +485,9 @@ public final class ValueFormatter
 				sValue = String.valueOf( dValue );
 			}
 		}
-
-		final int iDecimalPosition = sValue.indexOf( dfs.getDecimalSeparator( ) );
+		
+		// Still use standard decimal separator '.', here isn't related to locale. 
+		final int iDecimalPosition = sValue.indexOf( "." ); //$NON-NLS-1$
 		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
@@ -501,5 +532,62 @@ public final class ValueFormatter
 	public static String getNumericPattern( double dValue )
 	{
 		return getNumericPattern( Double.valueOf( dValue ) );
+	}
+	
+	/**
+	 * Normalize double value to avoid error precision.
+	 * 
+	 * @param value
+	 * @return normalized value of specified double.
+	 */
+	public static Number normalizeDouble( Double value )
+	{
+		if ( value.isNaN( ) )
+		{
+			return 0;
+		}
+		
+		NumberFormat df = createDefaultNumberFormat( value, ULocale.ENGLISH );
+
+		// Normalize double value to avoid double precision error.
+		String sValue = df.format( value );
+		try
+		{
+			return df.parse( sValue );
+		}
+		catch ( ParseException e )
+		{
+			logger.log( e );
+		}
+		
+		return value;
+	}
+
+	private static NumberFormat createDefaultNumberFormat( Number value, ULocale locale )
+	{
+		NumberFormat df;
+		// Since double 0 is still formatted as '0.0' rather than '0' if calls (
+		// (DecimalFormat) df ).setSignificantDigitsUsed( true ) and (
+		// (DecimalFormat) df).setMaximumSignificantDigits( 3 ), here just make
+		// 0 as common double to process to avoid double 0 is formated as '0.0'.
+		double doubleValue = Math.abs( value.doubleValue( ) );
+		if ( ChartUtil.mathGT( doubleValue, 0d )
+				&& ChartUtil.mathLT( doubleValue, 1d ) )
+		{
+			// If 0 < abs(value) < 1, at most saving 3
+			// significant figures for default format, but the decimal figures
+			// can't exceed 9 figures.
+			df = new DecimalFormat( DECIMAL_FORMAT_PATTERN,
+					new DecimalFormatSymbols( locale ) );
+			( (DecimalFormat) df ).setSignificantDigitsUsed( true );
+			( (DecimalFormat) df ).setMaximumSignificantDigits( 3 );
+		}
+		else
+		{
+			// For common double, use "#,##0.###" as default format pattern, it
+			// just remains 3 figures after decimal dot.
+			df = DecimalFormat.getInstance( locale );
+		}
+		return df;
 	}
 }

@@ -150,6 +150,17 @@ public class ExtendedItemState extends ReportItemState
 
 	public void end( ) throws SAXException
 	{
+		try
+		{
+			element.initializeReportItem( handler.module );
+		}
+		catch ( ExtendedElementException e )
+		{
+			return;
+		}
+
+		Object reportItem = element.getExtendedElement( );
+		
 		// try to resolve level and adjust aggregation on property
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_13 )
 		{
@@ -209,20 +220,14 @@ public class ExtendedItemState extends ReportItemState
 
 		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_1 )
 		{
+			if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
+			{
+				( (ICompatibleReportItem) reportItem ).handleCompatibilityIssue( );
+			}
 			super.end( );
 			return;
 		}
 
-		try
-		{
-			element.initializeReportItem( handler.module );
-		}
-		catch ( ExtendedElementException e )
-		{
-			return;
-		}
-
-		Object reportItem = element.getExtendedElement( );
 
 		if ( reportItem != null && reportItem instanceof ICompatibleReportItem )
 		{
@@ -233,6 +238,7 @@ public class ExtendedItemState extends ReportItemState
 							handler.tempValue );
 			( (ICompatibleReportItem) reportItem )
 					.updateRowExpressions( updatedExprs );
+			( (ICompatibleReportItem) reportItem ).handleCompatibilityIssue( );
 		}
 
 		super.end( );

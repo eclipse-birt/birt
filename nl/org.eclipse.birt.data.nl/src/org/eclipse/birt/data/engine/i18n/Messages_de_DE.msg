@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -62,12 +61,12 @@ data.engine.NoResultSet=Ausführung der Abfrage hat kein Ergebnis zurückgegeben.
 data.engine.NoResultMetadata=Metadatenergebnis ist nicht verfügbar.
 data.engine.QueryAlreadyPrepared=Abfrage wurde bereits vorbereitet.
 data.engine.QueryNotPrepared=Abfrage wurde noch nicht vorbereitet.
-data.engine.InvalidFieldName=Ungültiger Feldname: {0}.
+data.engine.InvalidFieldName=Bewertung von Sorte, Gruppierung, Filter oder Bindungsausdruck nicht möglich. Ein Datenfeld, das beim Ausdruck verwendet wird, ist im Datensatz nicht vorhanden: {0}.
 data.engine.DupColumnName=Doppelter Spaltenname: {0}.
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}.
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}.
 data.engine.fail.prepareExecution=Abfrageausführung konnte nicht vorbereitet werden für Datensatz: {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Unzulässiger Gruppenaktualisierungsstatus: aktuelle Gruppe <{0}> größer als Verarbeitungsgruppe <{1}>.
 
 data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abgleichen der Zeichenfolge mit dem Muster: {0}.
 
@@ -115,7 +114,7 @@ data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitsz
 data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für Aggregat '{0}' wird nicht unterstützt.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
-data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht evaluiert werden.
+data.engine.BadFilterDefn=Der auf dem Ausdruck '{0}' basierende Filter konnte nicht ausgewertet werden.
 
 #clob and blob error
 data.engine.opencloberror=Fehler beim Öffnen eines CLOB-Zeichenstroms.
@@ -375,7 +374,7 @@ data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte ist Null. "{0}
 data.olap.InvalidDimensionPositionFacttableRow=Die Faktentabelle des Quaders '{0}' verfügt über eine ungültige Datenzeile, in der der Schlüsselwert '{1}' der Dimension '{2}' ist, obwohl '{2}' nicht in Dimension '{3}' enthalten ist.
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
-data.olap.dimensionNameNotFound=Der Dimensionsname "{0}" wurde nicht gefunden.
+data.olap.dimensionNameNotFound=Dimension "{0}" kann in Quaderanfrage nicht gefunden werden; die Dimension existiert nicht oder ist ungültig.
 data.olap.ReferencedDimensionNotFound=Dimensionsdefinition {0}, auf die verwiesen wird, ist nicht vorhanden.
 data.olap.ReferencedLevelNotFound=Ebene, auf die verwiesen wird, ist nicht vorhanden.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
@@ -407,7 +406,7 @@ data.olap.UnsupportedFunction=Nicht unterstützte Funktion:
 data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
 data.olap.NotNestAggregationBinding=Aggregatsbindung nicht mit Quader verschachteln: {0}
 data.olap.InvalidNestAggregationExpression=Der Ausdruck eines Quader-Verschachtelungsaggregats ist ungültig.
-data.olap.InvalidNestAggregationOn=Aggregat in '{0}' in Quader-Verschachtelungsaggregat '{1}' ist nicht in basierten Aggregaten vorhanden.
+data.olap.InvalidNestAggregationOn=Verschachtelungsaggregat '{0}' konnte aufgrund seines Aggregats auf Ebenen, die in seinen basierten Aggregaten nicht vorhanden sind, nicht berechnet werden.
 data.olap.InvalidAggregationFilterExpr=Der Filterausdruck '{0}' ist ungültig. Das Aggregat auf der Liste der Aggregatsbindung '{1}' enthält nicht den Dimensionsebenensatz '{2}', auf den verwiesen wird. 
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 data.olap.query.noCubeBinding=Fehler bei Ausführung der Quaderanfrage: Keine Quaderbindung verfügbar.
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=Ungültiger Abfragetext.
 data.datamart.failLoadDataSet = Fehler beim Laden von Datenobjekt-Datensatz '{0}'.
 data.datamart.originalDataSetNotExist = Schrittweise Aktualisierung fehlgeschlagen. Der Originaldatensatz '{0}' ist nicht vorhanden.
 data.datamart.incrementalDatasetMetaDataError = Schrittweise Aktualisierung fehlgeschlagen. Die Metadaten des zusätzlichen Datensatzes '{0}' unterscheiden sich von denen des Originaldatensatzes. 
+
+data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.

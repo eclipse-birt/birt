@@ -146,7 +146,7 @@ public class DataSetFromCache
 	 */
 	private IDataSetCacheObject getCacheObject() throws DataException
 	{
-		return session.getDataSetCacheManager( ).getCacheObject( );
+		return session.getDataSetCacheManager( ).getLoadedCacheObject( );
 	}
 	
 	/**

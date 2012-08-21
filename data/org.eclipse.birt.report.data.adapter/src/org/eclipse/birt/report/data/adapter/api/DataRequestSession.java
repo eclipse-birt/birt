@@ -536,6 +536,13 @@ public abstract class DataRequestSession
 			IBaseDataSetDesign dataSet ) throws BirtException;
 
 	/**
+	 * Delete cache content of a specified cacheID. By now we do not expose it in API.
+	 * 
+	 * @param cacheID
+	 * @throws BirtException
+	 */
+	public abstract void clearCache( String cacheID ) throws BirtException;
+	/**
 	 * This method will return NULL if the named data set is not cached. Otherwise, it
 	 * will return an IResultMetaData instance which provides at least the ColumnName
 	 * and ColumnType information for all cached columns.

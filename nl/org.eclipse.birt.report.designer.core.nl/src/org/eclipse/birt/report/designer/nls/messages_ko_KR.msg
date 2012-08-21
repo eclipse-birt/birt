@@ -3636,6 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
+CssStyleSheetNodeProvider.Label.FromServer=서버에서
 CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 
 
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=설명:
 WizardTemplateChoicePage.label.Preview=미리 보기:
 WizardTemplateChoicePage.label.ReportTemplates=보고서 템플릿:
 WizardTemplateChoicePage.label.ShowCheatSheets=보고서 생성 치트 시트 표시(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=기본 테마 포함(&I)
 WizardTemplateChoicePage.message.BlankReport=미리 정의된 내용이 없는 빈 보고서를 생성합니다.
 WizardTemplateChoicePage.message.ChartListing=각 그룹 데이터에 대해 시각적 표현을 제공하는 차트를 사용하여 그룹화한 보고서를 생성합니다.
 WizardTemplateChoicePage.message.DualColumnChartListing=두 개의 "차트 및 목록" 하위 그룹을 사용하여 그룹화한 보고서를 생성합니다.
@@ -4636,11 +4638,13 @@ ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=모두
 CrosstabBindingDialogHelper.bindngName.timeperiod=기간
-CrosstabBindingDialogHelper.calculation.labe=시간(&P):
+CrosstabBindingDialogHelper.calculation.label=시간(&P):
+CrosstabBindingDialogHelper.calculation.group=시간
 CrosstabBindingDialogHelper.recentday.description=시간 차원의 최근 날짜
 CrosstabBindingDialogHelper.referencedate.label=참조 날짜(&R):
 CrosstabBindingDialogHelper.thisdate.label=날짜 지정:
-CrosstabBindingDialogHelper.thisdate.example.label=날짜 값을 yyyy-MM-dd 형식으로 입력하십시오.
+CrosstabBindingDialogHelper.thisdate.example.label=제공된 날짜 값을 따옴표로 묶으십시오.\n예: "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=예: 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=시간 차원(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=이 차원은 최근 참조 날짜를 지원하지 않습니다. 
 CrosstabBindingDialogHelper.today.label=오늘
@@ -4748,7 +4752,6 @@ GeneralConfigurationBlock.move.binding.group=성능 향상을 위해 로컬 바인딩을 상위
 GeneralConfigurationBlock.move.binding.always=항상(&W)
 GeneralConfigurationBlock.move.binding.never=안 함(&V)
 GeneralConfigurationBlock.move.binding.prompt=묻기(&R)
-
 
 ###########################################################
 #ResetImageSizeAction

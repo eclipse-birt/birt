@@ -74,6 +74,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementException
 import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
@@ -324,7 +325,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected HTMLEmitter htmlEmitter;
 	protected Stack tableDIVWrapedFlagStack = new Stack( );
-	protected Stack<DimensionType> fixedRowHeightStack = new Stack<DimensionType>( );
 	
 	/**
 	 * This set is used to store the style class which has been outputted.
@@ -333,7 +333,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected boolean needFixTransparentPNG = false;
 	private ITableContent cachedStartTable = null;
-
+	
+	protected TableLayout tableLayout = new TableLayout( this );
+	
 	/**
 	 * the constructor
 	 */
@@ -957,19 +959,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				{
 					IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter.next( );
 					String href = cssStyleSheetHandle.getExternalCssURI( );
+					if ( cssStyleSheetHandle.isUseExternalCss( )
+							|| href != null )
+					{
+						hasCsslinks = true;
+					}
 					if ( href != null )
 					{
-						boolean isEmbeddable = new HTMLRenderOption( renderOption ).getEmbeddable( );
-						hasCsslinks = true;
-						if ( !isEmbeddable )
-						{// output the CSS link if it is not
-							// is embeddable
-							writer.openTag( HTMLTags.TAG_LINK );
-							writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
-							writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
-							writer.attribute( HTMLTags.ATTR_HREF, href );
-							writer.closeTag( HTMLTags.TAG_LINK );
-						}
+						// output the CSS link 
+						writer.openTag( HTMLTags.TAG_LINK );
+						writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
+						writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
+						writer.attribute( HTMLTags.ATTR_HREF, href );
+						writer.closeTag( HTMLTags.TAG_LINK );
 					}
 				}
 			}
@@ -1850,6 +1852,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writeColumns( table );
+		tableLayout.startTable( table );
+
 	}
 
 	protected void writeColumns( ITableContent table )
@@ -1921,7 +1925,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( HTMLTags.TAG_DIV );
 		}
-
+		tableLayout.endTable( table );
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}
 
@@ -2091,18 +2095,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.remove( group );
 		}
 		
-		if ( fixedReport )
-		{
-			DimensionType rowHeight = row.getHeight( );
-			if ( rowHeight != null && !"%".equals( rowHeight.getUnits( ) ) )
-			{
-				fixedRowHeightStack.push( rowHeight );
-			}
-			else
-			{
-				fixedRowHeightStack.push( null );
-			}
-		}
+		tableLayout.startRow( );
+
 	}
 	
 	/*
@@ -2112,6 +2106,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endRow( IRowContent row )
 	{
+		tableLayout.endRow( );
 		if ( enableMetadata )
 		{
 			metadataEmitter.endRow( row );
@@ -2120,11 +2115,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//
 		// currentData.adjustCols( );
 		writer.closeTag( HTMLTags.TAG_TR );
-
-		if ( fixedReport )
-		{
-			fixedRowHeightStack.pop( );
-		}
 	}
 
 	private boolean isCellInHead( ICellContent cell )
@@ -2160,9 +2150,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#startCell(org.eclipse.birt.report.engine.content.ICellContent)
 	 */
 	public void startCell( ICellContent cell )
-	{				
+	{			
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
-			
+		
+		tableLayout.startCell( cell );	
 		// output 'th' tag in table head, otherwise 'td' tag
 		String tagName = null;
 		boolean isHead = isCellInHead( cell ); 
@@ -2190,39 +2181,20 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_COLSPAN, colSpan );
 		}
 
-		boolean fixedCellHeight = false;
-		DimensionType cellHeight = null;
 		// rowspan
 		int rowSpan = cell.getRowSpan( );
 		if ( rowSpan > 1 )
 		{
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
-		else if ( fixedReport )
-		{
-			// fixed cell height requires the rowspan to be 1.
-			cellHeight = (DimensionType) fixedRowHeightStack.peek( );
-			if ( cellHeight != null )
-			{
-				fixedCellHeight = true;
-			}
-		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead, fixedCellHeight );
+		htmlEmitter.buildCellStyle( cell, styleBuffer, isHead );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		htmlEmitter.handleCellAlign( cell );
-		if ( fixedCellHeight )
-		{
-			// Fixed cell height requires the vertical aline must be top.
-			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
-		}
-		else
-		{
-			htmlEmitter.handleCellVAlign( cell );
-		}
-
+		htmlEmitter.handleCellVAlign( cell );
+		
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2255,31 +2227,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			startedGroups.clear( );
 		}
 
-		if ( fixedCellHeight )
+		if ( cell.hasDiagonalLine( ) )
 		{
-			writer.openTag( HTMLTags.TAG_DIV );
-			writer.attribute( HTMLTags.ATTR_STYLE,
-					"position: relative; height: 100%;" );
-			if ( cell.hasDiagonalLine( ) )
-			{
-				outputDiagonalImage( cell, cellHeight );
-			}
-			writer.openTag( HTMLTags.TAG_DIV );
-			styleBuffer.setLength( 0 );
-			styleBuffer.append( " height: " );
-			styleBuffer.append( cellHeight.toString( ) );
-			styleBuffer.append( "; width: 100%; position: absolute; left: 0px;" );
-			HTMLEmitterUtil.buildOverflowStyle( styleBuffer,
-					cell.getStyle( ),
-					true );
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-		}
-		else if ( cell.hasDiagonalLine( ) )
-		{
-			if ( cellHeight == null )
-			{
-				cellHeight = getCellHeight( cell );
-			}
+			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
 			{
 				writer.openTag( HTMLTags.TAG_DIV );
@@ -2408,13 +2358,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			metadataEmitter.endCell( cell );
 		}
 		
-		boolean fixedRowHeight = ( fixedReport && fixedRowHeightStack.peek( ) != null );
-		if ( fixedRowHeight && cell.getRowSpan( ) == 1 )
-		{
-			writer.closeTag( HTMLTags.TAG_DIV );
-			writer.closeTag( HTMLTags.TAG_DIV );
-		}
-		else if ( cell.hasDiagonalLine( ) )
+		if ( cell.hasDiagonalLine( ) )
 		{
 			DimensionType cellHeight = getCellHeight( cell );
 			if ( cellHeight != null && !"%".equals( cellHeight.getUnits( ) ) )
@@ -2431,6 +2375,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.closeTag( HTMLTags.TAG_TD );
 		}
+		
+		tableLayout.endCell( cell );
 	}
 
 	/*
@@ -2925,7 +2871,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String url = validate( hyperlinkAction );
 		if ( url != null )
 		{
-			writer.attribute( HTMLTags.ATTR_STYLE, "width:0;" );
+			String strWidth = "width:0;";
+			DimensionType w = image.getWidth( );
+			if ( w != null )
+			{
+				strWidth = "width:" + w.toString( );
+			}
+			writer.attribute( HTMLTags.ATTR_STYLE, strWidth );
 		}
 		// action
 		boolean hasAction = handleAction( hyperlinkAction, url );
@@ -3750,4 +3702,155 @@ class IDGenerator
 		//Ted issue 37427 Proj 1336: in IV failed to drill-down from the second level in a chart in Safari browser
 		return "AUTOGENBOOKMARK_" + bookmarkId + "_" + java.util.UUID.randomUUID( ).toString( );
 	}
+}
+
+class TableLayout
+{
+	Stack<int[]> layoutStack = new Stack<int[]>();
+	Stack<Integer> columnCountStack = new Stack<Integer>();
+	int columnCount;
+	int[] cells = null;
+	ICellContent currentCell = null;
+	HTMLReportEmitter emitter = null;
+	ITableContent table = null;
+	
+	TableLayout(HTMLReportEmitter emitter)
+	{
+		this.emitter = emitter;
+	}
+	
+	protected void startTable(ITableContent tableContent)
+	{
+		int columnCount = tableContent.getColumnCount( );
+		cells = new int[columnCount];
+		this.columnCount = columnCount;
+		layoutStack.push( cells );
+		columnCountStack.push( columnCount );
+		this.table = tableContent;
+	}
+
+	protected void endTable( ITableContent tableContent )
+	{
+		layoutStack.pop( );
+		columnCountStack.pop( );
+		if ( !layoutStack.isEmpty( ) )
+		{
+			cells = layoutStack.peek( );
+		}
+		if ( !columnCountStack.isEmpty( ) )
+		{
+			columnCount = columnCountStack.peek( );
+		}
+	}
+	
+	protected void startRow()
+	{
+		
+	}
+	protected void endRow()
+	{
+		addEmptyCell();
+		currentCell = null;
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			cells[i]--;
+		}
+	}
+	
+	protected void startCell(ICellContent cell)
+	{
+		if ( needAddEmptyCell( cell ) )
+		{
+			addEmptyCell( cell );
+		}
+
+	}
+	
+	protected void endCell(ICellContent cell)
+	{
+		currentCell = cell;
+		for ( int i = cell.getColumn( ); i < cell.getColumn( )
+				+ cell.getColSpan( ); i++ )
+		{
+			cells[i] += cell.getRowSpan( );
+		}
+	}
+	
+	protected void addEmptyCell( )
+	{
+		for ( int i = 0; i < columnCount; i++ )
+		{
+			if ( cells[i] == 0 )
+			{
+				ICellContent newCell = null;
+				if ( currentCell != null )
+				{
+					newCell = newCell( currentCell, i, i + 1 );
+				}
+				else
+				{
+					if ( table != null )
+					{
+						newCell = newCell( table.getReportContent( )
+								.createCellContent( ), i, i + 1 );
+					}
+				}
+				if ( newCell != null )
+				{
+					emitter.startCell( newCell );
+					emitter.endCell( newCell );
+				}
+			}
+		}
+	}
+	
+	protected boolean needAddEmptyCell( ICellContent cell )
+	{
+		if ( cell.getColumn( ) > 0 )
+		{
+			if ( cells[cell.getColumn( ) - 1] == 0 )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected ICellContent newCell(ICellContent cell, int startCol, int endCol)
+	{
+		CellContentWrapper tempCell = new CellContentWrapper(
+				cell );
+		tempCell.setRowSpan( cell.getRowSpan( ) );
+		tempCell.setColumn( startCol );
+		tempCell.setColSpan( endCol - startCol );
+		return tempCell;
+	}
+	
+	//TODO complex case maybe multiple cells need be added
+	protected int getEmptyStartIndex( int columnIndex )
+	{
+		for ( int i = 0; i < columnIndex; i++ )
+		{
+			if ( cells[i] == 0 )
+			{
+				return i;
+			}
+		}
+		return columnIndex;
+	}
+	
+	protected void addEmptyCell( ICellContent cell ) 
+	{
+		int startCol = this.getEmptyStartIndex( cell.getColumn( ) );
+		int endCol = cell.getColumn( );
+		if ( startCol < endCol )
+		{
+			ICellContent newCell = newCell( currentCell == null
+					? cell
+					: currentCell, startCol, endCol );
+			emitter.startCell( newCell );
+			emitter.endCell(newCell);
+		}
+	}
+	
 }

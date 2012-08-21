@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -62,12 +61,12 @@ data.engine.NoResultSet=クエリを実行しても、結果セットが返されませんでした。
 data.engine.NoResultMetadata=結果のメタデータがありません。
 data.engine.QueryAlreadyPrepared=クエリはすでに記述済みです。
 data.engine.QueryNotPrepared=クエリはまだ記述されていません。
-data.engine.InvalidFieldName=フィールド名が無効です : {0}
+data.engine.InvalidFieldName=ソート、グループ化、フィルタ、またはバインドの式を評価できません。 式で使用されているデータフィールドがテータセット {0} に存在しません。
 data.engine.DupColumnName=列名が重複しています : {0}
 data.engine.DupAlias=列名またはエイリアスが重複しています : {0}
 data.engine.InvalidFieldIndex=フィールドのインデックスが無効です : {0}
 data.engine.fail.prepareExecution=データセットにクエリの実行を準備できません : {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=グループの更新の状態が正しくありません。現在のグループ <{0}> がプロセスグループ <{1}> より多くなっています。
 
 data.engine.MatchError=パターンの構文を確認してください。文字列とパターンを照合中にエラーが発生しました : {0}
 
@@ -375,7 +374,7 @@ data.olap.FacttableNullMeasureValue=メジャー列の値が NULL です。"{0}"
 data.olap.InvalidDimensionPositionFacttableRow=キューブ "{0}" のファクトテーブルに、無効なデータ行があります。ディメンジョンキー "{1}" の値である "{2}" は、ディメンジョン "{3}" に存在しません。
 data.olap.measureNameNotFound=メジャー名 "{0}" が見つかりません。
 data.olap.levelNameNotFound=レベル名 "{0}" が見つかりません。
-data.olap.dimensionNameNotFound=ディメンジョン名 "{0}" が見つかりません。
+data.olap.dimensionNameNotFound=キューブクエリにディメンション "{0}" が見つかりません。このディメンションは存在しないか、無効です。
 data.olap.ReferencedDimensionNotFound=参照したディメンジョン定義 {0} は存在しません。
 data.olap.ReferencedLevelNotFound=参照したレベルは存在しません。
 data.olap.cursorPositionError=カーソルでは目的の位置にナビゲートできません。
@@ -407,7 +406,7 @@ data.olap.UnsupportedFunction=サポートされていない関数 :
 data.olap.UnspecifiedBindingName=バインド名が指定されていません。
 data.olap.NotNestAggregationBinding=キューブネストされた集計のバインドではありません : {0}
 data.olap.InvalidNestAggregationExpression=キューブネストされた集計の式が無効です。
-data.olap.InvalidNestAggregationOn=キューブネストされた集計 "{1}" での "{0}" 集計は、ベースとなる集計にありません。
+data.olap.InvalidNestAggregationOn=レベルの集計がベースとなる集計に存在しないため、ネストされた集計 "{0}"を計算できません。
 data.olap.InvalidAggregationFilterExpr=フィルタ式 "{0}" が無効です。 集計バインド "{1}" の aggregationOn リストに、参照するディメンジョンレベル "{2}" が含まれていません。 
 data.olap.sort.exprError=参照するディメンジョンレベルにつき 1 つのレベルしか含めることができません。
 data.olap.query.noCubeBinding=キューブのバインドが使用できないため、キューブクエリを実行できませんでした。
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=クエリテキストが無効です。
 data.datamart.failLoadDataSet = データオブジェクトデータセット "{0}" を読み込めません。
 data.datamart.originalDataSetNotExist = 増分更新できません。 元のデータセット "{0}" が存在しません。
 data.datamart.incrementalDatasetMetaDataError = 増分更新できません。 追加のデータセット "{0}" のメタデータが、元のデータセットのものと異なります。 
+
+data.filter.pushDownFail= ODA 拡張側でのみサポートされるフィルタをプッシュ (下へ) できませんでした。

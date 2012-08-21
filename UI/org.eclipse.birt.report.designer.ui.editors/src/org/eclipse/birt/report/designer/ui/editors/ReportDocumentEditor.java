@@ -324,8 +324,10 @@ public class ReportDocumentEditor extends EditorPart
 	@Override
 	public void setFocus( )
 	{
-		// do nothing
-
+		if ( fComposite != null && !fComposite.isDisposed( ) )
+		{
+			fComposite.setFocus( );
+		}
 	}
 
 	public String getFileName( )

@@ -7,9 +7,8 @@
 #
 # Contributors:
 #  Actuate Corporation - initial API and implementation
-#  
+#
 #************************************************************************
-# Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
 ###########################################################
@@ -62,12 +61,12 @@ data.engine.NoResultSet=쿼리 실행에서 결과 집합을 반환하지 않았습니다.
 data.engine.NoResultMetadata=결과 메타데이터를 사용할 수 없습니다.
 data.engine.QueryAlreadyPrepared=쿼리가 이미 준비되었습니다.
 data.engine.QueryNotPrepared=쿼리가 아직 준비되지 않았습니다.
-data.engine.InvalidFieldName=잘못된 필드 이름: {0}.
+data.engine.InvalidFieldName=정렬, 그룹화, 필터 또는 바인딩 식 계산에 실패했습니다. 식에 사용되는 데이터 필드가 데이터 집합에 없습니다: {0}.
 data.engine.DupColumnName=중복된 열 이름: {0}.
 data.engine.DupAlias=중복된 열 이름 또는 별칭: {0}.
 data.engine.InvalidFieldIndex=잘못된 필드 인덱스: {0}.
 data.engine.fail.prepareExecution=데이터 집합 형식에 대해 다음 쿼리를 준비하지 못했습니다: {0}
-data.engine.groupIncrementalUpdate.IllegalGroupOrderState=Illegal group update state: current group <{0}> greater than processing group <{1}>.
+data.engine.groupIncrementalUpdate.IllegalGroupOrderState=잘못된 그룹 업데이트 상태: 프로세스 그룹 <{1}>보다 현재 그룹 <{0}>이 큽니다.
 
 data.engine.MatchError=패턴 구문을 확인하십시오. 문자열을 패턴과 일치시키는 도중 오류가 발생했습니다: {0}.
 
@@ -115,7 +114,7 @@ data.engine.ComputedColumnCycle=계산 열 "{0}"에 종속 사이클이 형성되어 있습니다.
 data.engine.SortOnAggregation=비그룹 집계 또는 집계 "{0}"을(를) 참조하는 계산 열에서 정렬은 지원되지 않습니다.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
-data.engine.BadFilterDefn=식 "{0}" 기반 필터를 계산하지 못했습니다.
+data.engine.BadFilterDefn=식 "{0}" 기반 필터를 계산할 수 없습니다.
 
 #clob and blob error
 data.engine.opencloberror=CLOB 문자 스트림 열기 오류입니다.
@@ -375,7 +374,7 @@ data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}".
 data.olap.InvalidDimensionPositionFacttableRow=큐브 "{0}"의 팩트 테이블에 잘못된 데이터 행이 있습니다. 여기서 차원 키 "{1}"의 값은 "{2}"이며, 이 값은 차원 "{3}"에 더 이상 없습니다.
 data.olap.measureNameNotFound=측정값 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
-data.olap.dimensionNameNotFound=차원 이름 "{0}"을(를) 찾을 수 없습니다.
+data.olap.dimensionNameNotFound=큐브 쿼리에서 "{0}" 차원을 찾을 수 없습니다. 이 차원이 없거나 유효하지 않습니다.
 data.olap.ReferencedDimensionNotFound=참조되는 차원 정의:{0}이(가) 없습니다.
 data.olap.ReferencedLevelNotFound=참조되는 수준이 없습니다.
 data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
@@ -407,7 +406,7 @@ data.olap.UnsupportedFunction=지원되지 않는 함수:
 data.olap.UnspecifiedBindingName=바인딩 이름이 지정되지 않았습니다.
 data.olap.NotNestAggregationBinding=큐브 중첩 집계 바인딩이 아닙니다: {0}
 data.olap.InvalidNestAggregationExpression=큐브 중첩 집계의 식이 잘못되었습니다.
-data.olap.InvalidNestAggregationOn=큐브 중첩 집계 "{1}"의 "{0}" 집계가 해당 기본 집계에 없습니다.
+data.olap.InvalidNestAggregationOn=해당 기본 집계에 없는 수준의 집계로 인해 중첩 집계 "{0}"을(를) 계산하지 못했습니다.
 data.olap.InvalidAggregationFilterExpr=필터 식"{0}"이(가) 잘못되었습니다. 참조되는 차원 수준 "{2}"이(가) "{1}"을(를) 바인딩하는 집계의 aggregationOn 목록에 포함되어 있지 않습니다. 
 data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 data.olap.query.noCubeBinding=사용 가능한 큐브 바인딩이 없어 큐브 쿼리를 실행하지 못했습니다!
@@ -443,3 +442,5 @@ data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.
 data.datamart.failLoadDataSet = 데이터 개체 집합 "{0}"을(를) 로드하지 못했습니다.
 data.datamart.originalDataSetNotExist = 증분 업데이트에 실패했습니다. 원본 데이터 집합 "{0}"이(가) 없습니다.
 data.datamart.incrementalDatasetMetaDataError = 증분 업데이트에 실패했습니다. 추가 데이터 집합 "{0}"의 메타데이터가 원본 데이터 집합의 메타데이터와 다릅니다. 
+
+data.filter.pushDownFail= ODA 확장 측에서만 지원되는 필터를 아래로 밀어내지 못했습니다.

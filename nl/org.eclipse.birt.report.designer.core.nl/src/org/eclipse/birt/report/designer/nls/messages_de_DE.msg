@@ -3636,6 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Label.FromServer=Vom Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=Beschreibung:
 WizardTemplateChoicePage.label.Preview=Vorschau:
 WizardTemplateChoicePage.label.ReportTemplates=Berichtvorlagen:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Spickzettel für Berichterstellung anzeigen
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Standardthemen einschließen
 WizardTemplateChoicePage.message.BlankReport=Einen leeren Bericht ohne vordefinierten Inhalt erstellen.
 WizardTemplateChoicePage.message.ChartListing=Einen gruppierten Bericht mit einem Diagramm mit visueller Darstellung der Gruppendaten erstellen.
 WizardTemplateChoicePage.message.DualColumnChartListing=Einen gruppierten Bericht mit zwei Untergruppen des Typs 'Diagramm und Liste' erstellen.
@@ -4636,11 +4638,13 @@ ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
-CrosstabBindingDialogHelper.calculation.labe=Zeit&intervall:
+CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
+CrosstabBindingDialogHelper.calculation.group=Zeitintervall
 CrosstabBindingDialogHelper.recentday.description=Jüngstes Datum in zeitlicher Dimension
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
-CrosstabBindingDialogHelper.thisdate.example.label=Datumswerte im folgenden Format eingeben: jjjj-MM-tt
+CrosstabBindingDialogHelper.thisdate.example.label=Bitte schließen Sie den angegebenen Datumswert in Anführungszeichen ein.\nBeispiel: "2012-01-23", "1/23/2012".
+CrosstabBindingDialogHelper.thisdate.example.label.constant=Beispiel: 2012-01-23, 1/23/2012.
 CrosstabBindingDialogHelper.timedimension.label=Zeitliche Di&mension:
 CrosstabBindingDialogHelper.timeperiod.wrongdate=Diese Dimension unterstützt das aktuelle Bezugdatum nicht 
 CrosstabBindingDialogHelper.today.label=Heute
@@ -4748,7 +4752,6 @@ GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesser
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
 GeneralConfigurationBlock.move.binding.prompt=Auff&ordern
-
 
 ###########################################################
 #ResetImageSizeAction

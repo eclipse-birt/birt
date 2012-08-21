@@ -14,12 +14,10 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +39,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
-import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
@@ -60,11 +57,11 @@ import org.mozilla.javascript.Scriptable;
 public class DataEngineImpl extends DataEngine
 {
 	// Map of data source name (string) to DataSourceRT, for defined data sources
-	private HashMap					dataSources = new HashMap();
+	private HashMap<String, DataSourceRuntime>					dataSources = new HashMap<String, DataSourceRuntime>();
 	
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
-	private HashMap					dataSetDesigns = new HashMap();
-	private HashMap                 dataSourceDesigns = new HashMap();
+	private HashMap<String, IBaseDataSetDesign>					dataSetDesigns = new HashMap<String, IBaseDataSetDesign>();
+	private HashMap<String, IBaseDataSourceDesign>                 dataSourceDesigns = new HashMap<String, IBaseDataSourceDesign>();
 	/** Scriptable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
@@ -76,7 +73,7 @@ public class DataEngineImpl extends DataEngine
 	private Map<String, String> cubeDataSourceMap = new HashMap<String, String>();
 	private Map<String, String> cubeDataObjectMap = new HashMap<String, String>();
 	//shut down listener list
-	private List shutdownListenerList = null;
+	private Set<IShutdownListener> shutdownListenerSet = null;
 
 	private IEngineExecutionHints queryExecutionHints;
 	
@@ -290,6 +287,20 @@ public class DataEngineImpl extends DataEngine
 	}
 	
 	/**
+	 * 
+	 * @param cacheID
+	 * @throws BirtException
+	 */
+	public void clearCache( String cacheID ) throws BirtException
+	{
+		DataSetCacheManager dscManager = this.getSession( ).getDataSetCacheManager( );
+		if( dscManager == null )
+			return;
+		else
+			dscManager.clearCache( cacheID );
+	}
+	
+	/**
 	 * Returns the runtime defn of a data source. If data source is not found,
 	 * returns null.
 	 */
@@ -498,14 +509,11 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void addShutdownListener( IShutdownListener listener )
 	{
-		if ( shutdownListenerList == null )
-			shutdownListenerList = new ArrayList( );
-		for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-		{
-			if ( listener == shutdownListenerList.get( i ) )
-				return;
-		}
-		shutdownListenerList.add( listener );
+		if ( shutdownListenerSet == null )
+			shutdownListenerSet = new LinkedHashSet<IShutdownListener>( );
+		if( shutdownListenerSet.contains( listener ) )
+			return;
+		shutdownListenerSet.add( listener );
 	}
 
 	/*
@@ -514,16 +522,9 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void removeListener( IShutdownListener listener )
 	{
-		if ( shutdownListenerList == null )
+		if ( shutdownListenerSet == null )
 			return;
-		for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-		{
-			if ( listener == shutdownListenerList.get( i ) )
-			{
-				shutdownListenerList.remove( i );
-				return;
-			}
-		}
+		shutdownListenerSet.remove( listener );
 	}
 	
 	/*
@@ -532,7 +533,7 @@ public class DataEngineImpl extends DataEngine
 	public void shutdown( )
 	{
 		logger.entering( "DataEngineImpl", "shutdown" );
-		
+	
 		if ( dataSources == null )
 		{
 			// Already shutdown
@@ -541,11 +542,8 @@ public class DataEngineImpl extends DataEngine
 		}
 		
 		// Close all open data sources
-		Collection col = dataSources.values( );
-		Iterator it = col.iterator( );
-		while ( it.hasNext( ) )
+		for ( DataSourceRuntime ds : dataSources.values( ) )
 		{
-			DataSourceRuntime ds = (DataSourceRuntime) it.next( );
 			try
 			{
 				closeDataSource( ds );
@@ -562,14 +560,17 @@ public class DataEngineImpl extends DataEngine
 		
 		releaseValidationContexts( );
 		
-		if ( shutdownListenerList != null )
+		if ( shutdownListenerSet != null )
 		{
-			for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-			{
-				( (IShutdownListener) shutdownListenerList.get( i ) ).dataEngineShutdown( );
-			}
-			shutdownListenerList.clear( );
-		}
+			//NOTE: Some IShutdownListener instance will unregister themselves from shutdownListener list. So 
+			//We should always first create a local copy of shutdownListener before navigation thru it.
+			for ( IShutdownListener shutdownListener : shutdownListenerSet.toArray( new IShutdownListener[0] ) )
+ 			{
+				shutdownListener.dataEngineShutdown( );
+ 			}
+			shutdownListenerSet.clear( );
+			shutdownListenerSet = null;
+ 		}
 		
 		logger.logp( Level.FINE,
 				DataEngineImpl.class.getName( ),
@@ -788,6 +789,8 @@ public class DataEngineImpl extends DataEngine
 	
 	private void releaseValidationContexts( )
 	{
+		if ( validationContextMap == null )
+			return;
 		for ( ValidationContext vc : validationContextMap.values( ) )
 		{
 			if ( vc != null && vc.getConnection( ) != null )
@@ -796,60 +799,5 @@ public class DataEngineImpl extends DataEngine
 			}
 		}
 		validationContextMap = null;
-	}
-	
-	public static class DataSourceAndDataSetNames 
-	{
-		private String dataSourceName;
-		private String dataSetName;
-		public DataSourceAndDataSetNames( String dataSource,
-				String dataSet )
-		{
-			super( );
-			this.dataSourceName = dataSource;
-			this.dataSetName = dataSet;
-		}
-		@Override
-		public int hashCode( )
-		{
-			final int prime = 31;
-			int result = 1;
-			result = prime
-					* result
-					+ ( ( dataSetName == null ) ? 0
-							: dataSetName.hashCode( ) );
-			result = prime
-					* result
-					+ ( ( dataSourceName == null ) ? 0
-							: dataSourceName.hashCode( ) );
-			return result;
-		}
-		@Override
-		public boolean equals( Object obj )
-		{
-			if ( this == obj )
-				return true;
-			if ( obj == null )
-				return false;
-			if ( getClass( ) != obj.getClass( ) )
-				return false;
-			DataSourceAndDataSetNames other = (DataSourceAndDataSetNames) obj;
-			if ( dataSetName == null )
-			{
-				if ( other.dataSetName != null )
-					return false;
-			}
-			else if ( !dataSetName.equals( other.dataSetName ) )
-				return false;
-			if ( dataSourceName == null )
-			{
-				if ( other.dataSourceName != null )
-					return false;
-			}
-			else if ( !dataSourceName.equals( other.dataSourceName ) )
-				return false;
-			return true;
-		}
-		
 	}
 }

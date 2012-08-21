@@ -104,7 +104,10 @@ public class DataEngineSession
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		this.cancelManager = new CancelManager( );
-		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
+		if( engine.getContext( ).getClassLoader( )!= null )
+		{
+			classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );			
+		}
 		engine.addShutdownListener( new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -25,11 +26,11 @@ import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.DrilledAggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
@@ -38,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
@@ -57,6 +59,8 @@ public class AggrMeasureFilterHelper
 
 	private Map dimMap = null;
 	private IAggregationResultSet[] resultSet;
+	private CubeQueryExecutor executor;
+	private IBindingValueFetcher fetcher;
 
 	/**
 	 * 
@@ -91,6 +95,16 @@ public class AggrMeasureFilterHelper
 		return aggregationName;
 	}
 	
+	public void setQueryExecutor(CubeQueryExecutor executor)
+	{
+		this.executor = executor;
+	}
+	
+	public void setBindingValueFetcher(IBindingValueFetcher fetcher)
+	{
+		this.fetcher = fetcher;
+	}
+	
 	/**
 	 * 
 	 * @param resultSet
@@ -112,7 +126,7 @@ public class AggrMeasureFilterHelper
 				{
 					if ( resultSet[i].length( ) == 0 )
 						return null;
-					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i], null );
+					AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet[i], fetcher );
 					for ( int j = 0; j < jsMeasureEvalFilterHelper.size( ); j++ )
 					{
 						if ( resultSet[i].getAggregationIndex( aggregationNames[j] ) >= 0 )
@@ -176,7 +190,7 @@ public class AggrMeasureFilterHelper
 		for ( int j = 0; j < aggregationNames.length; j++ )
 		{
 			if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0
-					&& !( resultSet.getAggregationDefinition( ) instanceof DrilledAggregationDefinition ) )
+					&& resultSet.getAggregationDefinition( ).getDrilledInfo( ) == null )
 			{
 				return true;
 			}
@@ -184,6 +198,19 @@ public class AggrMeasureFilterHelper
 		return false;
 	}
 
+	private IBinding getBinding( String bindingName, List bindings ) throws DataException
+	{
+		for( int j = 0; j < bindings.size( ); j++ )
+		{
+			IBinding binding = (IBinding) bindings.get( j );
+			if( bindingName.equals( binding.getBindingName( ) ) )
+			{
+				return binding;
+			}
+		}
+		return null;
+	}
+		
 	/**
 	 * 
 	 * @param jsMeasureEvalFilterHelper
@@ -200,8 +227,25 @@ public class AggrMeasureFilterHelper
 					ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			aggregationNames[i] = (String) getIntersection( allAggrNames, bindingName );
 			if( aggregationNames[i] == null )
+			{
 				aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
 						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
+				if( aggregationNames[i] == null && this.executor !=null )
+				{
+					List bindings = this.executor.getCubeQueryDefinition( ).getBindings( );
+					List referencedNames = new ArrayList( );
+					for ( int j = 0 ; j < bindingName.size( ) ; j++)
+					{
+						IBinding b = getBinding( bindingName.get( j ).toString( ), bindings );
+						if( b != null && b.getAggregatOns( ).size( ) == 0 && b.getAggrFunction( ) == null )
+						{
+							referencedNames.addAll( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE ) );
+						}
+					}
+					aggregationNames[i] = (String) getIntersection( allAggrNames , referencedNames );
+				}
+			}
 		}
 		return aggregationNames;
 	}
@@ -343,7 +387,7 @@ public class AggrMeasureFilterHelper
 			String[] aggregationNames ) throws DataException, IOException
 	{
 		IDiskArray result = new BufferedPrimitiveDiskArray( );
-		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, null );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, fetcher );
 		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();
@@ -437,7 +481,7 @@ public class AggrMeasureFilterHelper
 			String[] aggregationNames ) throws DataException, IOException
 	{
 		IDiskArray result = new BufferedStructureArray( AggregationResultRow.getCreator( ), resultSet.length( ) ); 
-		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, null );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet, fetcher );
 		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
 
 		FilterPassController filterPassController = new FilterPassController();

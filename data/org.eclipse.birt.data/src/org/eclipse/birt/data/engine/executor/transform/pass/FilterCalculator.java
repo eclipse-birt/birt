@@ -146,6 +146,8 @@ class FilterCalculator
 		// the current
 		// ResultSetCache will be overwrite.
 		ResultSetCache sCache = populator.getCache( );
+		//when first pass, we should not clear existing smart cache.
+		populator.setClearCacheResultSet( false );
 
 		makeFirstPassToMultiPassFilter( filterPass );
 
@@ -153,6 +155,7 @@ class FilterCalculator
 		// Reset the smartCache and make cursor stay in first row.
 		sCache.reset( );
 		sCache.next( );
+		populator.setClearCacheResultSet( true );
 		populator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.getGroupInformationUtil( )

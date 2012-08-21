@@ -751,6 +751,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
 			for ( int i = 0; i < dataSet.getFilters( ).size( ); i++ )
 			{
+				if ( !( (IFilterDefinition) dataSet.getFilters( ).get( i ) ).updateAggregation( ) )
+					continue;
+				
 				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) dataSet.getFilters( )
 						.get( i ),
 						bindings ) )
@@ -773,6 +776,23 @@ public abstract class QueryExecutor implements IQueryExecutor
 			for ( int i = 0; i < filters.size( ); i++ )
 			{
 				IFilterDefinition filter = filters.get( i );
+				
+				if ( !QueryExecutorUtil.isValidFilterExpression( filter.getExpression( ),
+						bindings,
+						this.session.getEngineContext( ).getScriptContext( ) ) )
+				{
+					String expression = filter.getExpression( ).toString( );
+					if ( filter.getExpression( ) instanceof IScriptExpression )
+						expression = ( (IScriptExpression) filter.getExpression( ) ).getText( );
+					else if ( filter.getExpression( ) instanceof IConditionalExpression )
+						expression = ( (IConditionalExpression) filter.getExpression( ) ).getExpression( )
+								.getText( );
+					throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
+							new Object[]{
+								expression
+							} );
+				}
+				
 				if ( !filter.updateAggregation( ) )
 				{
 					aggrNoUpdateFilters.add( filter );

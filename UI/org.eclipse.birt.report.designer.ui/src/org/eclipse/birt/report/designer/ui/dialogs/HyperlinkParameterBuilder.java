@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionButtonUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
@@ -25,7 +27,6 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -130,7 +131,7 @@ public class HyperlinkParameterBuilder extends BaseDialog
 		gd.exclude = true;
 		valueLabel.setLayoutData( gd );
 		valueLabel.setVisible( false );
-		// UIUtil.bindHelp( parent, IHelpContextIds.EXPRESSION_EDITOR_ID );
+		UIUtil.bindHelp( parent, IHelpContextIds.HYPERLINK_PARAMETER_DIALOG_ID );
 
 		populateComboBoxItems( );
 

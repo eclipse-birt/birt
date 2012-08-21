@@ -27,7 +27,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 /**
  * Publish library to resouce folder, add this action to navigator This action
@@ -37,7 +36,7 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 public class PublishLibraryNavigatorAction implements IViewActionDelegate
 {
 
-	protected ResourceNavigator navigator;
+	protected IViewPart navigator;
 
 	/*
 	 * (non-Javadoc)
@@ -46,11 +45,7 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	 */
 	public void init( IViewPart view )
 	{
-		// TODO Auto-generated method stub
-		if ( view instanceof ResourceNavigator )
-		{
-			navigator = (ResourceNavigator) view;
-		}
+		navigator = view;
 	}
 
 	/*
@@ -60,8 +55,6 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	 */
 	public void run( IAction action )
 	{
-		// TODO Auto-generated method stub
-
 		IFile file = getSelectedFile( );
 		if ( file == null )
 		{
@@ -122,7 +115,6 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -135,8 +127,7 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	{
 		if ( navigator != null )
 		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getTreeViewer( )
-					.getSelection( );
+			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite( ).getSelectionProvider( ).getSelection( );
 			if ( selection.size( ) == 1
 					&& selection.getFirstElement( ) instanceof IFile )
 			{

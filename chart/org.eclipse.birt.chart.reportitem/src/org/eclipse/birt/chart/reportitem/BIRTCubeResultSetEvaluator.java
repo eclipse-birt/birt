@@ -136,13 +136,24 @@ public class BIRTCubeResultSetEvaluator extends
 				if ( exprCodec.isCubeBinding( false ) )
 				{
 					bindingName = exprCodec.getCubeBindingName( false );
+					result = cubeCursor.getObject( bindingName );
 				}
 				else
 				{
-					// Directly use the binding created in query definition
-					bindingName = ChartUtil.escapeSpecialCharacters( exprCodec.getExpression( ) );
+					// First try the expression as binding name to get result. 
+					try {
+						result = cubeCursor.getObject( exprCodec.getExpression( ) );
+					}
+					catch ( OLAPException e  )
+					{
+						// Try to escape the expression as binding name again, the escaped
+						// expression is used for old approach to evaluate
+						// binding. But now it seems the old approach isn't
+						// used? I am not sure, so I just remain this code here. 
+						bindingName = ChartUtil.escapeSpecialCharacters( exprCodec.getExpression( ) );
+						result = cubeCursor.getObject( bindingName );
+					}
 				}
-				result = cubeCursor.getObject( bindingName );
 			}
 		}
 		catch ( OLAPException e )

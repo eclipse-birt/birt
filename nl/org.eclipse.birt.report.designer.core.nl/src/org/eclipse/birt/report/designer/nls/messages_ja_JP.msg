@@ -600,7 +600,7 @@ dataset.warning.invalidReponseStatus=ƒJƒXƒ^ƒ€ ODA ƒy[ƒW‚©‚ç‚ÌƒfƒUƒCƒ“‚Ì‰“š‚ª–³
 
 DataSetBasePage.tooltip=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 DataSetBasePage.ScriptedDataSet.name=ƒXƒNƒŠƒvƒgƒf[ƒ^ƒZƒbƒg
-DataSetBasePage.ScriptedDataSource.name=ƒXƒNƒŠƒvƒg‹LqÏ‚İ‚Ìƒf[ƒ^ƒ\[ƒX
+DataSetBasePage.ScriptedDataSource.name=ƒXƒNƒŠƒvƒg‹LqÏ‚İƒf[ƒ^ƒ\[ƒX
 DataSetBasePage.Group.DataSourceSelection=ƒf[ƒ^ƒ\[ƒX‚Ì‘I‘ğ
 
 ###########################################################
@@ -769,7 +769,7 @@ DataSourceProcess.text.Suffix=‚±‚Ì—v‘f‚ğíœ‚µ‚Ü‚·‚© ?
 ###########################################################
 #DataSourceSelectionPage properties
 
-DataSourceSelectionPage.ScriptDataSource.DisplayName=ƒXƒNƒŠƒvƒg‹LqÏ‚İ‚Ìƒf[ƒ^ƒ\[ƒX
+DataSourceSelectionPage.ScriptDataSource.DisplayName=ƒXƒNƒŠƒvƒg‹LqÏ‚İƒf[ƒ^ƒ\[ƒX
 
 ###########################################################
 #DataSourcesSlotOutlineProcess properties
@@ -894,8 +894,8 @@ designer.preview.preference.locale.description=ƒƒP[ƒ‹‚Ì‘I‘ğ(&C) :
 designer.preview.preference.timezone.description=ƒ^ƒCƒ€ƒ][ƒ“(&T) :
 designer.preview.preference.resultset.sqldatasetpage.group.title=ƒNƒGƒŠƒy[ƒW
 designer.preview.preference.resultset.previewpage.group.title=ƒvƒŒƒrƒ…[ƒy[ƒW
-designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=s§ŒÀİ’è‚ÌƒvƒŒƒrƒ…[
-designer.preview.preference.resultset.NoLimitOfDispalyRow=•\¦‚Å‚«‚és”§ŒÀ‚Í‚ ‚è‚Ü‚¹‚ñ(&N)B
+designer.preview.preference.resultset.groupTitle.DispalyRowLimitsSetting=ƒvƒŒƒrƒ…[s§ŒÀİ’è
+designer.preview.preference.resultset.NoLimitOfDispalyRow=•\¦s”§ŒÀ‚È‚µ(&N)B
 designer.preview.preference.resultset.maxNoOfSchema.description=•\¦‚·‚éƒXƒL[ƒ}‚ÌÅ‘å”(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=ŠeƒXƒL[ƒ}‚É•\¦‚·‚éƒe[ƒuƒ‹‚ÌÅ‘å”(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Å‘åƒXƒL[ƒ}”‚É‚ÍA0 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
@@ -906,7 +906,7 @@ designer.preview.preference.resultset.maxrowlevelmember.description=ŠesƒŒƒxƒ‹‚É
 designer.preview.preference.resultset.maxrowlevelmember.errormessage=sƒŒƒxƒ‹ƒƒ“ƒo‚ÌÅ‘å”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.resultset.maxcolumnlevelmember.description=Še—ñƒŒƒxƒ‹‚É•\¦‚·‚éƒƒ“ƒo”(&C) :
 designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=—ñƒŒƒxƒ‹ƒƒ“ƒo‚ÌÅ‘å”‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-designer.preview.preference.resultset.maxinmemorycubesize.description=ƒƒ‚ƒŠ“à‚ÌƒLƒ…[ƒuƒTƒCƒY (MB)(&S) :
+designer.preview.preference.resultset.maxinmemorycubesize.description=ƒCƒ“ƒƒ‚ƒŠƒLƒ…[ƒu‚ÌƒTƒCƒY (MB)(&S) :
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=ƒƒ‚ƒŠ“à‚ÌÅ‘åƒLƒ…[ƒuƒTƒCƒY‚É‚ÍA1 ‚©‚ç {0} ‚Ü‚Å‚Ì”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 designer.preview.preference.server.description=“à•”ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒT[ƒo‚Ìİ’èBƒT[ƒo‚ÍABIRT Report Designer\nPreview Framework “à•”‚Åg—p‚³‚ê‚Ü‚·B
 designer.preview.preference.server.hostDescription=ƒ[ƒJƒ‹ƒ}ƒVƒ“‚ÌƒzƒXƒg–¼‚Ü‚½‚Í IP ƒAƒhƒŒƒX(&H)\n©“®“I‚ÉŒˆ’è‚·‚é‚É‚ÍA‹ó”’‚Ì‚Ü‚Ü‚É‚µ‚Ä‚­‚¾‚³‚¢B
@@ -3636,6 +3636,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=ƒŒƒ|[ƒgƒ‰ƒCƒuƒ‰ƒŠ‚Å CSS ƒtƒ@ƒCƒ‹‚ğg—p
 UseCssInThemeDialog.TitleArea.Message=CSS ƒtƒ@ƒCƒ‹‚ÌƒXƒ^ƒCƒ‹‚ğ”z’u‚·‚éƒe[ƒ}‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+CssStyleSheetNodeProvider.Label.FromServer=ƒT[ƒo‚©‚ç
 CssStyleSheetNodeProvider.Tooltip.URI=(•\¦‚É“K—p)
 
 
@@ -4119,6 +4120,7 @@ WizardTemplateChoicePage.label.Description=à–¾ :
 WizardTemplateChoicePage.label.Preview=ƒvƒŒƒrƒ…[ :
 WizardTemplateChoicePage.label.ReportTemplates=ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg :
 WizardTemplateChoicePage.label.ShowCheatSheets=ƒŒƒ|[ƒgì¬ƒKƒCƒh‚Ì•\¦(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=ƒfƒtƒHƒ‹ƒg‚Ìƒe[ƒ}‚ğŠÜ‚ß‚é(&I)
 WizardTemplateChoicePage.message.BlankReport=“à—e‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‹ó”’‚ÌƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.ChartListing=ƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·BƒOƒ‰ƒt‚ÍA‚»‚ê‚¼‚ê‚ÌƒOƒ‹[ƒv‚Ìƒf[ƒ^‚ğ‹Šo“I‚É•\‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.DualColumnChartListing=ƒOƒ‰ƒt‚ÆƒŠƒXƒg‚ÌƒTƒuƒOƒ‹[ƒv‚ğ 2 ‚Â‚ÂƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
@@ -4636,11 +4638,13 @@ ReportPage.PreviewImage.Button.ToolTip=ƒTƒ€ƒlƒCƒ‹‚ÌŠÇ—
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=‚·‚×‚Ä
 CrosstabBindingDialogHelper.bindngName.timeperiod=ŠúŠÔ
-CrosstabBindingDialogHelper.calculation.labe=ŠúŠÔ(&P) :
+CrosstabBindingDialogHelper.calculation.label=ŠúŠÔ(&P) :
+CrosstabBindingDialogHelper.calculation.group=ŠúŠÔ
 CrosstabBindingDialogHelper.recentday.description=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ““à‚ÌÅV‚Ì“ú•t
 CrosstabBindingDialogHelper.referencedate.label=QÆ“ú(&R) :
 CrosstabBindingDialogHelper.thisdate.label=g—p‚·‚é“ú•t :
-CrosstabBindingDialogHelper.thisdate.example.label=“ú•t‚ÍAyyyy-MM-dd ‚ÌŒ`®‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢
+CrosstabBindingDialogHelper.thisdate.example.label=w’è‚³‚ê‚½“ú•t’l‚ğ“ñdˆø—p•„‚ÅˆÍ‚ñ‚Å‚­‚¾‚³‚¢B\n—á : "2012-01-23"A"1/23/2012"B
+CrosstabBindingDialogHelper.thisdate.example.label.constant=—á : 2012-01-23A1/23/2012B
 CrosstabBindingDialogHelper.timedimension.label=ŠÔ‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“(&M) :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=‚±‚ÌƒfƒBƒƒ“ƒVƒ‡ƒ“‚ÍÅ‹ß‚ÌQÆ“ú‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚Ü‚¹‚ñ 
 CrosstabBindingDialogHelper.today.label=¡“ú
@@ -4748,7 +4752,6 @@ GeneralConfigurationBlock.move.binding.group=ƒpƒtƒH[ƒ}ƒ“ƒX‚ğŒüã‚³‚¹‚é‚½‚ß‚Éƒ
 GeneralConfigurationBlock.move.binding.always=í‚É‘±s‚·‚é(&W)
 GeneralConfigurationBlock.move.binding.never=‘±s‚µ‚È‚¢(&V)
 GeneralConfigurationBlock.move.binding.prompt=Šm”FƒƒbƒZ[ƒW‚ğ•\¦‚·‚é(&R)
-
 
 ###########################################################
 #ResetImageSizeAction
