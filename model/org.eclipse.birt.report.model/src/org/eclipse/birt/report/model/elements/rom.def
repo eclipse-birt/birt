@@ -1337,8 +1337,7 @@
     <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" since="1.0" type="dimension"/>
     <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" since="1.0" type="choice"/>
     <Member detailType="Style" displayNameID="Structure.HighlightRule.style" isIntrinsic="true" name="style" since="2.2" type="elementRef"/>
-    <Member detailType="bidiDirection" displayNameID="Structure.HighlightRule.text.direction" name="bidiTextDirection" since="2.3" type="choice" />
-	<Member detailType="backgroundRepeat" displayNameID="Structure.HighlightRule.backgroundRepeat" name="backgroundRepeat" since="2.3" type="choice" />       
+    <Member detailType="bidiDirection" displayNameID="Structure.HighlightRule.text.direction" name="bidiTextDirection" since="2.3" type="choice" />    
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
