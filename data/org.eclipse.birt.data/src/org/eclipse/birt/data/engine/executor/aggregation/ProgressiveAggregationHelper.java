@@ -28,12 +28,16 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.odi.IAggrDefnManager;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -72,7 +76,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	private Scriptable currentScope;
 	private ScriptContext sc;
 	private DummyJSResultSetRow jsRow;
-
+	private IExecutorHelper helper;
 	
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
@@ -82,7 +86,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param odiResult
 	 * @throws DataException 
 	 */
-	public ProgressiveAggregationHelper( IAggrDefnManager manager, String tempDir, Scriptable currentScope, ScriptContext sc ) throws DataException
+	public ProgressiveAggregationHelper( IAggrDefnManager manager, String tempDir, Scriptable currentScope, ScriptContext sc,  IExecutorHelper helper) throws DataException
 	{
 		this.manager = manager;
 		this.currentRoundAggrValue = new List[0];
@@ -102,6 +106,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		this.currentScope.put( "row", this.currentScope, this.jsRow );
 		this.currentScope.put( "dataSetRow", this.currentScope, this.jsRow );
 		this.populateAggregations( tempDir );
+		this.helper = helper;
 	}
 
 	private void populateAggregations( String tempDir ) throws DataException
@@ -499,6 +504,13 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		{
 			try
 			{
+				if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ))
+				{
+					if( helper.getParent( )!= null)
+						return helper.getParent( ).getScriptable( );
+					else
+						throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
+				}
 				if( this.currentRow!= null )
 					return this.currentRow.getFieldValue( name );
 			}

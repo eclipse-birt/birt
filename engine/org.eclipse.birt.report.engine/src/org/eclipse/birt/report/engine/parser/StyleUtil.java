@@ -246,6 +246,8 @@ public class StyleUtil
 				StyleConstants.STYLE_TEXT_INDENT );
 		ruleStyleName2Index.put( HighlightRule.TEXT_DIRECTION_MEMBER,
 				StyleConstants.STYLE_DIRECTION );
+		ruleStyleName2Index.put( HighlightRule.BACKGROUND_REPEAT_MEMBER,
+				StyleConstants.STYLE_BACKGROUND_REPEAT );
 		
 		customName2Index = new HashMap<String, Integer>( );
 		customName2Index.put( BIRTConstants.BIRT_STYLE_DATA_FORMAT,

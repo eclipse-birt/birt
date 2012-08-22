@@ -263,6 +263,9 @@ class BirtStr implements IScriptFunctionExecutor
 				if( args[0] == null )
 					return null;
 				
+				if ( args[0] instanceof Integer )
+					return args[0];
+				
 				if( !(args[0] instanceof String) )
 					throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
 

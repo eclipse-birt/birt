@@ -694,6 +694,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			outputPageCount = layoutEngine.getPageCount( );
 
 			layoutEngine.close( );
+			layoutEngine = null;
 			emitter.end( report );
 			closeRender( );
 			executor.close( );

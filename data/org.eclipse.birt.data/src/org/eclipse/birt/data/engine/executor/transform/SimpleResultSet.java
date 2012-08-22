@@ -285,7 +285,8 @@ public class SimpleResultSet implements IResultIterator
 				? new ProgressiveAggregationHelper( manager,
 						session.getTempDir( ),
 						session.getSharedScope( ),
-						session.getEngineContext( ).getScriptContext( ) )
+						session.getEngineContext( ).getScriptContext( ),
+						handler.getExecutorHelper( ) )
 				: new DummyAggregationHelper( );
 	}
 
