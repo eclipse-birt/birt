@@ -207,7 +207,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		return instance.getAdapter( adapter );
+		if ( instance != null )
+		{
+			return instance.getAdapter( adapter );
+		}
+		return null;
 	}
 
 	/*
