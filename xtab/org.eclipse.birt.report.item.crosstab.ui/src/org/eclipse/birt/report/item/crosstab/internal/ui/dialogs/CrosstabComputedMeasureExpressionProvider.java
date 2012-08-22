@@ -28,20 +28,20 @@ public class CrosstabComputedMeasureExpressionProvider extends
 		super( handle, null );
 	}
 
-	protected void addFilterToProvider( )
-	{
-		this.addFilter( new ExpressionFilter( ) {
-
-			public boolean select( Object parentElement, Object element )
-			{
-				if ( ExpressionFilter.CATEGORY.equals( parentElement )
-						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
-				{
-					return false;
-				}
-				return true;
-			}
-		} );
-	}
+//	protected void addFilterToProvider( )
+//	{
+//		this.addFilter( new ExpressionFilter( ) {
+//
+//			public boolean select( Object parentElement, Object element )
+//			{
+//				if ( ExpressionFilter.CATEGORY.equals( parentElement )
+//						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
+//				{
+//					return false;
+//				}
+//				return true;
+//			}
+//		} );
+//	}
 
 }
