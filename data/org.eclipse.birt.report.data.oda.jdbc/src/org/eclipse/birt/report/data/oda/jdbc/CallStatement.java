@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.oda.jdbc.SPParameterPositionUtil.SPElement;
 import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
@@ -39,6 +40,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * 
@@ -87,6 +90,8 @@ public class CallStatement implements IAdvancedQuery
 	private Map<String, java.sql.ResultSet> outputParameterResultSetsMap = new LinkedHashMap<String,java.sql.ResultSet>();
 	private int resultIndex = 0;
 	private boolean isExecuted = false;
+	private static JdbcResourceHandle resourceHandle = new JdbcResourceHandle( ULocale.getDefault( ) );
+
 	/**
 	 * assertNull(Object o)
 	 * 
@@ -357,6 +362,7 @@ public class CallStatement implements IAdvancedQuery
 			try
 			{
 				this.cachedResultSet = executeQuery( );
+				
 				if ( this.cachedResultSet != null )
 					cachedResultMetaData = cachedResultSet.getMetaData( );
 				else
@@ -365,6 +371,10 @@ public class CallStatement implements IAdvancedQuery
 			catch ( OdaException e )
 			{
 				cachedResultSet = null;
+			}
+			catch ( NullPointerException ex )
+			{
+				throw new OdaException( resourceHandle.getMessage( ResourceConstants.STATEMENT_CANNOT_GET_METADATA ) );
 			}
 		}
 		return cachedResultMetaData;
