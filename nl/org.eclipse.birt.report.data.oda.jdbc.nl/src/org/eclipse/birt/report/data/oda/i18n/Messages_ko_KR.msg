@@ -60,6 +60,7 @@ odajdbc.CannotGetResultSetMetaDataScale=결과 집합 메타데이터를 가져올 수 없습니�
 odajdbc.CannotDetermineColumnSupportForNull=열에서 널(null) 값이 지원되는지 여부를 확인할 수 없습니다.
 
 odajdbc.StatementCannotPrepared=SQL 문을 준비하는 도중 오류가 발생했습니다.
+odajdbc.CannotGetMetaData=Cannot get the result set metadata. 
 odajdbc.CannotClosePreparedStatement=preparedStatement를 닫을 수 없습니다.
 odajdbc.CannotGetPreparedStatementMetadata=preparedStatement 메타데이터를 가져올 수 없습니다.
 odajdbc.ResultSetCannotReturn=SQL 문이 결과 집합 개체를 반환하지 않습니다.

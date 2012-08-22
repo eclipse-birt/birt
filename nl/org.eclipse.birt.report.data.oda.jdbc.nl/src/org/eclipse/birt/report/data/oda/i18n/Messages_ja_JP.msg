@@ -60,6 +60,7 @@ odajdbc.CannotGetResultSetMetaDataScale=結果セットのメタデータのスケールを取得で
 odajdbc.CannotDetermineColumnSupportForNull=列に null 値を指定できるかどうかを識別できません。
 
 odajdbc.StatementCannotPrepared=SQL 文を記述する際にエラーが発生しました。
+odajdbc.CannotGetMetaData=Cannot get the result set metadata. 
 odajdbc.CannotClosePreparedStatement=preparedStatement を閉じることができません。
 odajdbc.CannotGetPreparedStatementMetadata=preparedStatement メタデータを取得できません。
 odajdbc.ResultSetCannotReturn=この SQL 文からは ResultSet オブジェクトが返されません。
