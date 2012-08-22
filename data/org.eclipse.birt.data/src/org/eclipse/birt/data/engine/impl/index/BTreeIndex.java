@@ -83,6 +83,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		option.setAllowNullKey( true );
 		option.setReadOnly( false );
 		option.setValueSerializer( new IntegerSerializer( ) );
+		option.setValueSize( 4 );
 
 		option.setFile( file );
 		
@@ -106,6 +107,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		option.setAllowNullKey( true );
 		option.setReadOnly( true );
 		option.setValueSerializer( new IntegerSerializer( ) );
+		option.setValueSize( 4 );
 
 		option.setFile( file );
 		
