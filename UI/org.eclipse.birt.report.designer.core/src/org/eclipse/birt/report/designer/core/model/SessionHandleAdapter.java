@@ -55,9 +55,21 @@ import com.ibm.icu.util.ULocale;
 public class SessionHandleAdapter implements IMediatorStateConverter
 {
 
+	/**
+	 * @deprecated not used anymore
+	 */
 	public static final int UNKNOWFILE = -1;
+	/**
+	 * @deprecated not used anymore
+	 */
 	public static final int DESIGNEFILE = 0;
+	/**
+	 * @deprecated not used anymore
+	 */
 	public static final int LIBRARYFILE = 1;
+	/**
+	 * @deprecated not used anymore
+	 */
 	public static final int TEMPLATEFILE = 2;
 
 	private int type = DESIGNEFILE;
@@ -70,7 +82,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 
 		public void windowClosed( IWorkbenchWindow window )
 		{
-			reportHandleMap.remove( window );
+			moduleHandleMap.remove( window );
 		}
 
 		public void windowDeactivated( IWorkbenchWindow window )
@@ -84,7 +96,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	};
 
 	// fix bug when open in new window.
-	private Map reportHandleMap = new HashMap( );
+	private Map<IWorkbenchWindow, ModuleHandle> moduleHandleMap = new HashMap<IWorkbenchWindow, ModuleHandle>( );
 
 	/**
 	 * constructor Mark it to private to avoid new opeartion.
@@ -225,6 +237,9 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 				}
 			}
 		}
+
+		// TODO these legacy logic should be move into individual module
+		// counterpart.
 		SimpleMasterPageHandle masterPage = null;
 		if ( handle.getMasterPages( ) != null
 				&& handle.getMasterPages( ).getCount( ) == 0 )
@@ -246,9 +261,11 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	}
 
 	/**
-	 * Create report design instance
+	 * Create an empty report design instance
 	 * 
-	 * @return created report design instance
+	 * @return An empty report design instance
+	 * 
+	 * @deprecated should handled by individual module counterpart.
 	 */
 	public ModuleHandle creatReportDesign( )
 	{
@@ -256,17 +273,29 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	}
 
 	/**
-	 * @deprecated always try find reprot handle in current context first
+	 * @deprecated Always try find reprot handle in current context first. If
+	 *             have to use, use {@link #getModule()} instead.
 	 * 
 	 * @return wrapped report design handle.
 	 */
 	public ModuleHandle getReportDesignHandle( )
 	{
+		return getModule( );
+	}
+
+	/**
+	 * @return Returns the active moudle in current session
+	 * 
+	 * @deprecated It's better to find module from relevant context instead
+	 *             here.
+	 */
+	public ModuleHandle getModule( )
+	{
 		if ( model == null )
 		{
 			IWorkbenchWindow activeWindow = PlatformUI.getWorkbench( )
 					.getActiveWorkbenchWindow( );
-			model = (ModuleHandle) reportHandleMap.get( activeWindow );
+			model = moduleHandleMap.get( activeWindow );
 		}
 		return model;
 	}
@@ -276,15 +305,26 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @param handle
 	 *            the model
+	 * @deprecated use {@link #setModule(ModuleHandle)} instead.
 	 */
 	public void setReportDesignHandle( ModuleHandle handle )
+	{
+		setModule( handle );
+	}
+
+	/**
+	 * Sets the active module in current session.
+	 * 
+	 * @param handle
+	 */
+	public void setModule( ModuleHandle handle )
 	{
 		PlatformUI.getWorkbench( ).removeWindowListener( pageListener );
 		IWorkbenchWindow activeWindow = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( );
 		if ( handle == null )
 		{
-			reportHandleMap.remove( activeWindow );
+			moduleHandleMap.remove( activeWindow );
 		}
 		else
 		{
@@ -292,7 +332,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 		}
 		if ( activeWindow != null )
 		{
-			reportHandleMap.put( activeWindow, handle );
+			moduleHandleMap.put( activeWindow, handle );
 		}
 		model = handle;
 	}
@@ -344,6 +384,8 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 
 	/**
 	 * @return Returns the first master page handle in given module
+	 * 
+	 * @deprecated should be handled by individual module counterpart.
 	 */
 	public MasterPageHandle getFirstMasterPageHandle( ModuleHandle handle )
 	{
@@ -354,7 +396,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 
 		SlotHandle slotHandle = handle.getMasterPages( );
 
-		if ( slotHandle.getCount( ) > 0 )
+		if ( slotHandle != null && slotHandle.getCount( ) > 0 )
 		{
 			return (MasterPageHandle) slotHandle.getContents( ).get( 0 );
 		}
@@ -401,8 +443,21 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 *            old model
 	 * @param newObj
 	 *            new model
+	 * 
+	 * @deprecated use {@link #resetModule(ModuleHandle, ModuleHandle)} instead
 	 */
 	public void resetReportDesign( ModuleHandle oldObj, ModuleHandle newObj )
+	{
+		resetModule( oldObj, newObj );
+	}
+
+	/**
+	 * Resets the module in the mediator registry.
+	 * 
+	 * @param oldObj
+	 * @param newObj
+	 */
+	public void resetModule( ModuleHandle oldObj, ModuleHandle newObj )
 	{
 		MediatorManager.getInstance( )
 				.resetTarget( new ModuleMediatorTarget( oldObj ),
@@ -437,7 +492,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 		}
 		else if ( state.getData( ) != null )
 		{
-			List lst = new ArrayList( );
+			List<Object> lst = new ArrayList<Object>( );
 			lst.add( state.getData( ) );
 			request.setSelectionObject( lst );
 		}

@@ -24,38 +24,14 @@ import org.eclipse.gef.Request;
  * obtaining selection, and performing generic operations.
  */
 
-public class ReportRequest extends Request implements IMediatorRequest
+public class ReportRequest extends Request implements
+		IMediatorRequest,
+		ReportRequestConstants
 {
-
-	/**
-	 * Selection request <code>SELECTION</code>
-	 */
-	public static final String SELECTION = "selection"; //$NON-NLS-1$
-
-	/**
-	 * Open editor request. <code>OPEN_EDITOR</code>
-	 */
-	public static final String OPEN_EDITOR = "open editor"; //$NON-NLS-1$
-
-	/**
-	 * Open editor request. <code>OPEN_EDITOR</code>
-	 */
-	public static final String LOAD_MASTERPAGE = "load masterpage"; //$NON-NLS-1$
-
-	/**
-	 * Create element request. <code>CREATE_ELEMENT</code>
-	 */
-	public static final String CREATE_ELEMENT = "create element"; //$NON-NLS-1$
-
-	/**
-	 * Added for fixing bugs 144165 and 151317 Create scalarparameter or
-	 * resultsetcolumn request.
-	 */
-	public static final String CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN = "create scalarparameter or resultsetcolumn"; //$NON-NLS-1$
 
 	private Object source;
 
-	private IRequestConvert convert;
+	private IRequestConverter converter;
 
 	private List selectionObject = new ArrayList( );
 
@@ -127,9 +103,9 @@ public class ReportRequest extends Request implements IMediatorRequest
 	 */
 	public List getSelectionModelList( )
 	{
-		if ( getRequestConvert( ) != null )
+		if ( converter != null )
 		{
-			return getRequestConvert( ).convertSelectionToModelLisr( getSelectionObject( ) );
+			return converter.convertSelectionToModelLisr( getSelectionObject( ) );
 		}
 		return getSelectionObject( );
 	}
@@ -147,20 +123,29 @@ public class ReportRequest extends Request implements IMediatorRequest
 	}
 
 	/**
-	 * @return Returns the convert.
+	 * @return Returns the request converter.
 	 */
-	public IRequestConvert getRequestConvert( )
+	public IRequestConverter getRequestConverter( )
 	{
-		return convert;
+		return converter;
 	}
 
 	/**
 	 * @param convert
-	 *            The convert to set.
+	 *            The converter to set.
 	 */
-	public void setRequestConvert( IRequestConvert convert )
+	public void setRequestConvert( IRequestConvert converter )
 	{
-		this.convert = convert;
+		this.converter = converter;
+	}
+
+	/**
+	 * @param convert
+	 *            The converter to set.
+	 */
+	public void setRequestConverter( IRequestConverter converter )
+	{
+		this.converter = converter;
 	}
 
 	public String getType( )
