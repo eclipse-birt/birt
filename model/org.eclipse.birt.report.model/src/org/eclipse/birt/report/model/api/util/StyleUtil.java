@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -231,16 +232,19 @@ public class StyleUtil
 			{
 				return true;
 			}
+		}
 
-			ThemeHandle theme = handle.getTheme( );
-			if ( theme != null )
-			{
-				iter = theme.includeCssesIterator( );
-				return hasExternalCSSURI( iter );
-			}
+		Theme theme = module.getTheme( );
+		if ( theme != null )
+		{
+			ThemeHandle themeHandle = (ThemeHandle) theme.getHandle( module );
+			Iterator<IncludedCssStyleSheetHandle> iter = themeHandle
+					.includeCssesIterator( );
+			return hasExternalCSSURI( iter );
 		}
 		return false;
 	}
+
 
 
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
 
@@ -67,6 +68,15 @@ public class ListGroupArea extends RepeatableArea
 					}
 				}
 			}
+		}
+		return true;
+	}
+	
+	public boolean isPageBreakInsideAvoid( )
+	{
+		if ( pageBreakInside != null )
+		{
+			return ( IStyle.AUTO_VALUE != pageBreakInside );
 		}
 		return true;
 	}

@@ -966,7 +966,8 @@ public class LocalizedContentVisitor
 				}
 			}
 			
-			if ( context.getFactoryMode( ) )
+			if ( context.getFactoryMode( )
+					&& context.getTaskType( ) != IEngineTask.TASK_RUNANDRENDER )
 			{
 				IReportItem item = null;;
 				try
