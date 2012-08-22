@@ -107,7 +107,7 @@ public class ChartCombo extends Composite implements SelectionListener
 		this.defaultIndex = indexOf( this.defaultItem );
 	}
 
-	public void setDefualtItem( String itemName )
+	public void setDefaultItem( String itemName )
 	{
 		this.defaultItem = itemName;
 		this.defaultIndex = indexOf( this.defaultItem );
