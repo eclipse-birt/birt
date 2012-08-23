@@ -909,7 +909,7 @@ designer.preview.preference.resultset.maxcolumnlevelmember.errormessage=Introduz
 designer.preview.preference.resultset.maxinmemorycubesize.description=Tamaño del cubo de memoria (MB):
 designer.preview.preference.resultset.maxinmemorycubesize.errormessage=Introduzca un número entre 1 y {0} para el tamaño máximo del cubo de memoria.
 designer.preview.preference.server.description=Configuración del servidor de aplicaciones interno. El frame de vista previa de BIRT Report Designer\nutiliza el servidor internamente.
-designer.preview.preference.server.hostDescription=&Nombre del anfitrión o dirección IP de equipo local. Deje en blanco, se\ndetermina automáticamente.
+designer.preview.preference.server.hostDescription=&Nombre del anfitrión o dirección IP de equipo local. Dejar en blanco, se\ndetermina automáticamente.
 designer.preview.preference.server.note=Nota:
 designer.preview.preference.server.portDescription=&Puerto de comunicación del servidor. Establezca en 0 para asignación dinámica.
 designer.preview.preference.server.requireRestart=Si el servidor ya está en ejecución, estas preferencias sólo serán efectivas\ndespués de reiniciar.
@@ -4063,7 +4063,7 @@ WidgetUtil.MessageBox.Error=Error
 ###########################################################
 #wizard properties
 
-wizard.transaction.createDataSource=Defina el nombre y el tipo de la fuente de datos.
+wizard.transaction.createDataSource=Defina el nombre, la fuente y el tipo del conjunto de datos.
 
 ###########################################################
 #WizardChoicePage properties
