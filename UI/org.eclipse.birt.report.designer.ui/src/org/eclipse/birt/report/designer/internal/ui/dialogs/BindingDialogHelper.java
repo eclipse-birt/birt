@@ -352,7 +352,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		// txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
 		// Expression gets the comment.
-		txtExpression.setFocus( );
+		if(txtExpression!=null&&!txtExpression.isDisposed())//add if/else block to fix TED 52776:NPE thrown
+		{
+			txtExpression.setFocus( );
+		}else{
+			txtDisplayName.setFocus( );
+		}
 		if ( isAggregate( ) )
 		{
 			initFunction( );
