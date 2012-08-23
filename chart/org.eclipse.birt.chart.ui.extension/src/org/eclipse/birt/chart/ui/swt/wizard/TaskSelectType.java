@@ -1098,7 +1098,7 @@ public class TaskSelectType extends SimpleTask implements
 				cbDimension.add( dimensionArray[i] );
 			}
 		}
-		cbDimension.setDefualtItem( chartType.getDefaultDimension( ) );
+		cbDimension.setDefaultItem( chartType.getDefaultDimension( ) );
 		cbDimension.setItemData( cbDimension.getItems( ) );
 		
 		String cache = ChartCacheManager.getInstance( )

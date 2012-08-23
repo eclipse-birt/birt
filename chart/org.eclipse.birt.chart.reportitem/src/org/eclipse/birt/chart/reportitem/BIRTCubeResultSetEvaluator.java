@@ -122,6 +122,10 @@ public class BIRTCubeResultSetEvaluator extends
 		try
 		{
 			exprCodec.decode( expression );
+			if ( exprCodec.isConstant( ) )
+			{
+				return exprCodec.getExpression( );
+			}
 			if ( rs != null )
 			{
 				// If not binding name, evaluate it via report engine
