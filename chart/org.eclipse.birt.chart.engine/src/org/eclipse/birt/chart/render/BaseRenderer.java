@@ -873,8 +873,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 		if ( m == null || !m.isVisible( ) )
 		{
+			// When marker isn't set or is invisible, just get the marker size
+			// or use default size to calculate a valid hot spot area for
+			// interactivity operation.
 			int iSize = 5;
-			if ( m != null )
+			if ( m != null && m.getSize( ) > 0 )
 			{
 				iSize = m.getSize( );
 			}
