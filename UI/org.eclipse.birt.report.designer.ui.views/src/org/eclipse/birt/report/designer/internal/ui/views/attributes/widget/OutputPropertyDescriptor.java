@@ -103,21 +103,21 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		data.verticalAlignment = GridData.BEGINNING;
 		hideCheckbox.setLayoutData( data );
 		hideCheckbox.addSelectionListener( listener );
-		WidgetUtil.createGridPlaceholder( container, 3, true );
-		WidgetUtil.createHorizontalLine( container, 4 );
+		WidgetUtil.createGridPlaceholder( container, 3, true, true );
+		WidgetUtil.createHorizontalLine( container, 4, true );
 
 		allRadio = FormWidgetFactory.getInstance( ).createButton( container,
 				SWT.RADIO,
 				isFormStyle( ) );
 		allRadio.setText( Messages.getString( "VisibilityPage.Radio.AllOutputs" ) ); //$NON-NLS-1$
 		allRadio.addSelectionListener( listener );
-		WidgetUtil.createGridPlaceholder( container, 3, true );
+		WidgetUtil.createGridPlaceholder( container, 3, true, true );
 
 		specRadio = FormWidgetFactory.getInstance( ).createButton( container,
 				SWT.RADIO,
 				isFormStyle( ) );
 		specRadio.setText( Messages.getString( "VisibilityPage.Radio.SpecificOutputs" ) ); //$NON-NLS-1$
-		WidgetUtil.createGridPlaceholder( container, 3, true );
+		WidgetUtil.createGridPlaceholder( container, 3, true, true );
 
 		if ( isFormStyle( ) )
 			group = FormWidgetFactory.getInstance( )
