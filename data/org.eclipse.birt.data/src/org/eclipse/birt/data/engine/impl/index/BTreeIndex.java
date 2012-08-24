@@ -339,6 +339,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+		finally
+		{
+			bCursor.close( );
+		}
 		return result;
 	}
 	
@@ -380,6 +384,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
+		finally
+		{
+			bCursor.close( );
+		}
 		return result;
 	}
 	
@@ -417,6 +425,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		catch (IOException e) 
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
+		}
+		finally
+		{
+			bCursor.close( );
 		}
 		return result;
 	}
@@ -482,6 +494,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			throw new DataException( e.getLocalizedMessage( ), e ); 
 		}
+		finally
+		{
+			bCursor.close( );
+		}
 		return key.toArray( );
 	}
 
@@ -503,6 +519,10 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		catch (IOException e)
 		{
 			throw new DataException( e.getLocalizedMessage( ), e ); 
+		}
+		finally
+		{
+			bCursor.close( );
 		}
 		Set<Integer> set = new HashSet<Integer>( );
 		set.addAll( keyRow );
