@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.computation.LegendItemRenderingHints;
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.PlotComputation;
+import org.eclipse.birt.chart.computation.ValueFormatter;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.computation.withoutaxes.Coordinates;
@@ -2895,14 +2896,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			c = '&';
 		}
-		DataPointHints dph = null;
 		
 		if ( valueHints instanceof DataPointHints )
 		{
-			dph = (DataPointHints)valueHints;
-			
-			// It means current is building urls for series data.
+			DataPointHints dph = (DataPointHints) valueHints;
 
+			// It means current is building urls for series data.
 			if ( uv.getBaseParameterName( ) != null
 					&& uv.getBaseParameterName( ).length( ) > 0 )
 			{
@@ -2910,12 +2909,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				c = '&';
 				sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
 				sb.append( '=' );
-				String urlValue = dph.getBaseDisplayValue( );
-				if ( dph.getBaseValue( ) instanceof Calendar )
-				{
-					// Bugzilla#215442 fix a parse issue to date
-					urlValue = formatDateString( dph.getBaseValue( ) );
-				}
+				String urlValue = formatURLValue( dph.getBaseValue( ) );
 				sb.append( URLValueImpl.encode( urlValue ) );
 			}
 
@@ -2926,12 +2920,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				c = '&';
 				sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
 				sb.append( '=' );
-				String urlValue = dph.getOrthogonalDisplayValue( );
-				if ( dph.getOrthogonalValue( ) instanceof Calendar )
-				{
-					// Bugzilla#215442 fix a parse issue to date
-					urlValue = formatDateString( dph.getOrthogonalValue( ) );
-				}
+				String urlValue = formatURLValue( dph.getOrthogonalValue( ) );
 				sb.append( URLValueImpl.encode( urlValue ) );
 			}
 		}
@@ -2942,14 +2931,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			c = '&';
 			sb.append( URLValueImpl.encode( uv.getSeriesParameterName( ) ) );
 			sb.append( '=' );
-			if ( valueHints instanceof DataPointHints  )
+			String urlValue;
+			if ( valueHints instanceof DataPointHints )
 			{
-				sb.append( URLValueImpl.encode( dph.getSeriesDisplayValue( ) ) );
+				urlValue = formatURLValue( ( (DataPointHints) valueHints ).getSeriesValue( ) );
 			}
 			else
 			{
-				sb.append( URLValueImpl.encode( ((LegendItemHints)valueHints).getItemText( ) ) );
+				urlValue = ( (LegendItemHints) valueHints ).getItemText( );
 			}
+			sb.append( URLValueImpl.encode( urlValue ) );
 		}
 		uv.setBaseUrl( sb.toString( ) );
 	}
@@ -3033,15 +3024,32 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	}
 	
 	/**
+	 * Formats value in URL parameters so that it can be read in server
+	 * 
 	 * @param value
 	 * @return
 	 */
-	private String formatDateString( Object value )
+	private String formatURLValue( Object value )
 	{
-		// Bugzilla#215442 fix a parse issue to date
-		// Bugzilla#245920 Just using default locale to format date string to
-		// avoid passing locale-specific value for drill-through.
-		return DateFormat.getDateInstance( DateFormat.LONG ).format( value );
+		if ( value instanceof Calendar )
+		{
+			// Bugzilla#215442 fix a parse issue to date
+			// Bugzilla#245920 Just using default locale to format date string
+			// to avoid passing locale-specific value for drill-through.
+			return DateFormat.getDateInstance( DateFormat.LONG ).format( value );
+		}
+		if ( value instanceof Number )
+		{
+			// Do not output decimal for integer value, and also avoid double
+			// precision error for double value
+			Number num = (Number) value;
+			if ( ChartUtil.mathEqual( num.doubleValue( ), num.intValue( ) ) )
+			{
+				return String.valueOf( num.intValue( ) );
+			}
+			return String.valueOf( ValueFormatter.normalizeDouble( num.doubleValue( ) ) );
+		}
+		return ChartUtil.stringValue( value );
 	}
 	
 	/**
