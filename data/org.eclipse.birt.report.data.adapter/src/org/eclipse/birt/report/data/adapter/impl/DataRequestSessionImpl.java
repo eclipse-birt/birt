@@ -1053,6 +1053,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throw new AdapterException( ResourceConstants.CUBE_MEASURE_CREATION_ERROR,
 					e );
 		}
+		finally
+		{
+			if( dataForCube!= null )
+				dataForCube.close( );
+		}
 
 		sl.end( );
 
@@ -1441,6 +1446,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			Object originalMemCache = null;
 			Object originalRowLimit = null;
+			IDatasetIterator valueIt = null;
 			try
 			{
 				sl.process( dim );
@@ -1451,7 +1457,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
 					originalRowLimit = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 				}
-				IDatasetIterator valueIt = null;
+				
 				String[] timeType = getTimeLevelType( hierhandle );
 				for( int i = 0; i < timeType.length; i++ )
 				{
@@ -1478,6 +1484,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			finally
 			{
+				if( valueIt!= null )
+				{
+					try
+					{
+						valueIt.close( );
+					}
+					catch ( BirtException e )
+					{
+					}
+				}
 				if ( originalMemCache != null )
 				{
 					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );

@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -80,6 +81,20 @@ public class DataSetCacheManager
 		this.queryExecutionHints = ((DataEngineImpl)session.getEngine( )).getExecutionHints( );
 		this.jvmLevelCacheMapManager = new CacheMapManager( true );
 		this.dteLevelCacheMapManager = new CacheMapManager( false );
+		
+		session.getEngine( ).addShutdownListener( new IShutdownListener(){
+
+			public void dataEngineShutdown( )
+			{
+				try
+				{
+					dteLevelCacheMapManager.clearCache( );
+				}
+				catch ( Exception e )
+				{
+				}
+
+			}} );
 	}
 
 	/**

@@ -32,11 +32,17 @@ public class CacheMapManager
 	 */
 	private static Map JVMLevelCacheMap = Collections.synchronizedMap( new HashMap( ) );
 	
-	private Map cacheMap;
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> cacheMap;
 	// use this field temporarily keep the data set object need to be saved in
 	// cache. After the data set result has been cached, saved data set object
 	// into cachedMap
 	private Map<DataSourceAndDataSet, IDataSetCacheObject> tempDataSetCacheMap;
+	
+	//ensure that JVMLevelCache will be clear when JVM shutdown
+	static
+	{
+		new ShutdownHook( JVMLevelCacheMap );
+	}
 	
 	/**
 	 * construction
@@ -74,8 +80,11 @@ public class CacheMapManager
 			}
 			else
 			{
-				IDataSetCacheObject dsco = dscc.createDataSetCacheObject( );
-				tempDataSetCacheMap.put( dsAndDs, dsco );
+				if( !tempDataSetCacheMap.containsKey( dsAndDs ) )
+				{
+					IDataSetCacheObject dsco = dscc.createDataSetCacheObject( );
+					tempDataSetCacheMap.put( dsAndDs, dsco );					
+				}
 				return true;
 			}
 		}
@@ -237,6 +246,55 @@ public class CacheMapManager
 		for( IDataSetCacheObject dataSetCacheObject : removed )
 		{
 			dataSetCacheObject.release( );
+		}
+	}
+	
+	void clearCache( )
+	{
+		List cacheObjects = new ArrayList( );
+		synchronized ( cacheMap )
+		{
+			for ( DataSourceAndDataSet dataSetAndSource : cacheMap.keySet( ).toArray( new DataSourceAndDataSet[0] ) )
+ 			{
+				cacheObjects.add( cacheMap.remove( dataSetAndSource ) );
+				tempDataSetCacheMap.remove( dataSetAndSource );
+ 			}
+		}
+		for ( int i = 0; i < cacheObjects.size( ); i++ )
+		{
+			IDataSetCacheObject cacheObject = (IDataSetCacheObject)cacheObjects.get( i );
+			cacheObject.release( );
+		}
+	}
+}
+/**
+ * Register shutdown hook on JVM exit to ensure that JVM cache will be cleared correctly.
+ * 
+ *
+ */
+class ShutdownHook implements Runnable
+{
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> cacheMap;
+
+	ShutdownHook(
+			Map<DataSourceAndDataSet, IDataSetCacheObject> jvmLevelCacheMap )
+	{
+		cacheMap = jvmLevelCacheMap;
+		Runtime.getRuntime( ).addShutdownHook( new Thread( this ) );
+	}
+
+	public void run( )
+	{
+		List<IDataSetCacheObject> cacheObjects = new ArrayList<IDataSetCacheObject>( );
+		for ( DataSourceAndDataSet dataSetAndSource : cacheMap.keySet( )
+				.toArray( new DataSourceAndDataSet[0] ) )
+		{
+			cacheObjects.add( cacheMap.remove( dataSetAndSource ) );
+		}
+		for ( int i = 0; i < cacheObjects.size( ); i++ )
+		{
+			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheObjects.get( i );
+			cacheObject.release( );
 		}
 	}
 }
