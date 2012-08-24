@@ -573,7 +573,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 
 	public void endListBand( IListBandContent listBand ) throws BirtException
 	{
-		while ( !( current instanceof ListArea ) )
+		while ( !( current instanceof ListArea || current instanceof ListGroupArea ) )
 		{
 			current.close( );
 			current = current.getParent( );
