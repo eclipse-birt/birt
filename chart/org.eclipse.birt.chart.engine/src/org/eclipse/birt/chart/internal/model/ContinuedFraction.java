@@ -14,58 +14,66 @@ package org.eclipse.birt.chart.internal.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.ValueFormatter;
+
 public class ContinuedFraction
 {
+
 	private double decimal = 0;
-	private List integerList = new ArrayList( );
+	private List<Long> integerList = new ArrayList<Long>( );
 
 	public ContinuedFraction( double decimal )
 	{
-		this.decimal = decimal;
-		computeList();
+		// Correct double precision error here
+		this.decimal = ValueFormatter.normalizeDouble( decimal ).doubleValue( );
+		computeList( );
 	}
-	
-	public Fraction getExactFraction(  )
+
+	public Fraction getExactFraction( )
 	{
-		int lastIndex = integerList.size() - 1;
-		return getFraction( lastIndex, new Fraction( ((Long)integerList.get(lastIndex)).intValue(), 1 ));
+		int lastIndex = integerList.size( ) - 1;
+		return getFraction( lastIndex,
+				new Fraction( ( integerList.get( lastIndex ) ).intValue( ), 1 ) );
 	}
+
 	public Fraction getFractionWithMaxDigits( int maxDigitsForDenominator )
 	{
-		int lastIndex = integerList.size();
+		int lastIndex = integerList.size( );
 		Fraction previousFraction = null;
 		for ( int i = 0; i < lastIndex; i++ )
 		{
-			Fraction fraction = getFraction( i, new Fraction( ((Long)integerList.get(i)).intValue(), 1 ));
-			if ( fraction.getDenominatorDigits() > maxDigitsForDenominator )
+			Fraction fraction = getFraction( i,
+					new Fraction( ( integerList.get( i ) ).intValue( ), 1 ) );
+			if ( fraction.getDenominatorDigits( ) > maxDigitsForDenominator )
 				return previousFraction;
 			previousFraction = fraction;
 		}
 		return previousFraction;
 	}
+
 	private Fraction getFraction( int index, Fraction fraction )
 	{
 		if ( index > 0 )
-			return getFraction( index - 1, (fraction.invert()).add( (Long)integerList.get( index - 1 ) ) );
-		else
-			return fraction;
-		
+		{
+			return getFraction( index - 1,
+					( fraction.invert( ) ).add( integerList.get( index - 1 ) ) );
+		}
+		return fraction;
 	}
-	
+
 	private void computeList( )
 	{
-		
-		int decimalDigits = 0 ;
+		int decimalDigits = 0;
 		double decimalTemp = decimal;
-		while ( Math.abs( Math.ceil( decimalTemp ) - decimalTemp ) > Math.pow( 10, decimalDigits - 8))
+		while ( Math.abs( Math.ceil( decimalTemp ) - decimalTemp ) > Math.pow( 10,
+				decimalDigits - 8 ) )
 		{
 			decimalTemp *= 10.0;
-			decimalDigits ++;
+			decimalDigits++;
 		}
-		long dividend = (long) Math.pow( 10, decimalDigits ) ;
-		long start = (long)decimalTemp ;
-		
-		
+		long dividend = (long) Math.pow( 10, decimalDigits );
+		long start = (long) decimalTemp;
+
 		long quotient = 0;
 		long oldDividend = 0;
 		do
@@ -75,8 +83,22 @@ public class ContinuedFraction
 			oldDividend = dividend;
 			dividend = start % dividend;
 			start = oldDividend;
-			
+
+		} while ( dividend != 0 );
+	}
+
+	@Override
+	public String toString( )
+	{
+		StringBuffer s = new StringBuffer( );
+		for ( long l : integerList )
+		{
+			s.append( l ).append( ',' );
 		}
-		while (dividend != 0);
+		if ( integerList.size( ) > 0 )
+		{
+			s.deleteCharAt( s.length( ) - 1 );
+		}
+		return s.toString( );
 	}
 }
