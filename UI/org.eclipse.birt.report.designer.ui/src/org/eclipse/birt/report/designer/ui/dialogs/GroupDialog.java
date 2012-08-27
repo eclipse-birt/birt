@@ -1106,14 +1106,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		checkReadOnlyControl( IStyleModel.PAGE_BREAK_AFTER_PROP,
 				pagebreakAfterCombo );
 
-		String pagebreakInside = getPageBreakInsideLocalValue( );
-
-		if ( pagebreakInside == null )
-		{
-			index = getPagebreakInsideIndex( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
-		}
-		else
-			index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
+		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
 
 		if ( index < 0 || index >= pagebreakInsideCombo.getItemCount( ) )
 		{
@@ -1136,15 +1129,6 @@ public class GroupDialog extends BaseDialog implements Listener
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
 		checkReadOnlyControl( IGroupElementModel.HIDE_DETAIL_PROP, hideDetail );
 		return true;
-	}
-
-	private String getPageBreakInsideLocalValue( )
-	{
-		List modelList = new ArrayList( );
-		modelList.add( inputGroup );
-		String pagebreakInside = DEUtil.getGroupElementHandle( modelList )
-				.getLocalStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP );
-		return pagebreakInside;
 	}
 
 	private void refreshColumnList( )
@@ -1471,18 +1455,8 @@ public class GroupDialog extends BaseDialog implements Listener
 				inputGroup.setPageBreakAfter( choice );
 
 			choice = pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex( )].getName( );
-			if ( getPageBreakInsideLocalValue( ) != null )
-			{
-				if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
-					inputGroup.setPageBreakInside( choice );
-			}
-			else
-			{
-				if ( !choice.equals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID ) )
-				{
-					inputGroup.setPageBreakInside( choice );
-				}
-			}
+			if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
+				inputGroup.setPageBreakInside( choice );
 
 			if ( inputGroup.repeatHeader( ) != repeatHeaderButton.getSelection( ) )
 			{
