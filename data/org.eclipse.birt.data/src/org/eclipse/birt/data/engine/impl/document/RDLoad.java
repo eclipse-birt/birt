@@ -310,7 +310,7 @@ public class RDLoad
 				appContext );
 		if ( reader != null )
 			return reader.load( preFilteredRowIds == null
-					? new ArrayList<Integer>( )
+					? null
 					: preFilteredRowIds.getPositions( ) );
 
 		if ( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,

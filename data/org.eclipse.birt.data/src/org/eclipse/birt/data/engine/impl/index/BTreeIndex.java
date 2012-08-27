@@ -978,6 +978,8 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		try
 		{
 			Object obj = compressedBtree.getValue( key );
+			if( obj == null )
+				return new EWAHCompressedBitmap( );
 			set = transformToIntegers( (byte[]) obj );
 		}
 		catch (IOException e)
