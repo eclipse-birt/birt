@@ -11,16 +11,18 @@
 
 package org.eclipse.birt.data.engine.impl.index;
 
+import it.uniroma3.mat.extendedset.intset.IntSet;
+
 import org.eclipse.birt.data.engine.core.DataException;
 
 
 public interface IDataSetIndex
 {	
-	public EWAHCompressedBitmap getKeyIndex( Object key, int filterType ) throws DataException;
+	public IntSet getKeyIndex( Object key, int filterType ) throws DataException;
 	
 	public boolean supportFilter( int filterType ) throws DataException;
 	
 	public Object[] getAllKeyValues( ) throws DataException;
 	
-	public EWAHCompressedBitmap getAllKeyRows( ) throws DataException;
+	public IntSet getAllKeyRows( ) throws DataException;
 }

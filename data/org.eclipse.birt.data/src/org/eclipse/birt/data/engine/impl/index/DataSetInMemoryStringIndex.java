@@ -11,11 +11,12 @@
 
 package org.eclipse.birt.data.engine.impl.index;
 
+import it.uniroma3.mat.extendedset.intset.FastSet;
+import it.uniroma3.mat.extendedset.intset.IntSet;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -62,27 +63,24 @@ public class DataSetInMemoryStringIndex extends HashMap
 		}
 	}
 
-	public EWAHCompressedBitmap getKeyIndex( Object key, int searchType )
+	public IntSet getKeyIndex ( Object key, int searchType ) throws DataException
+	{
+		IntSet fastSet = new FastSet();
+		for( int i : this.getKeyIndex1( key, searchType) )
+		{
+			fastSet.add( i );
+		}
+		return fastSet;
+	}
+	
+	public Set<Integer> getKeyIndex1( Object key, int searchType )
 			throws DataException
 	{
 		if ( searchType != IConditionalExpression.OP_EQ
 				&& searchType != IConditionalExpression.OP_IN )
 			throw new UnsupportedOperationException( );
 		if ( searchType == IConditionalExpression.OP_EQ )
-		{
-			EWAHCompressedBitmap set = new EWAHCompressedBitmap();
-			if( getKeyIndex( key ) != null )
-			{
-				ArrayList<Integer> list = new ArrayList<Integer>();
-				list.addAll( getKeyIndex( key ) );
-				Collections.sort( list );
-				for(int i =0;i<list.size( );i++)
-				{
-					set.set( list.get( i ) );
-				}
-			}	
-			return set;
-		}
+			return getKeyIndex( key );
 		else
 		{
 			List candidate = (List) key;
@@ -91,19 +89,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 			{
 				result.addAll( getKeyIndex( eachKey ) );
 			}
-			
-			EWAHCompressedBitmap set = new EWAHCompressedBitmap();
-			if( result != null )
-			{
-				ArrayList<Integer> list = new ArrayList<Integer>();
-				list.addAll( result );
-				Collections.sort( list );
-				for(int i =0;i<list.size( );i++)
-				{
-					set.set( list.get( i ) );
-				}
-			}	
-			return set;
+			return result;
 		}
 	}
 
@@ -259,26 +245,15 @@ public class DataSetInMemoryStringIndex extends HashMap
 		return keys;
 	}
 	
-	public EWAHCompressedBitmap getAllKeyRows( ) throws DataException
+	public IntSet getAllKeyRows( ) throws DataException
 	{
-		Set<Integer> rowID = new HashSet<Integer>();
+		IntSet rowID = new FastSet();
 		Object[] values = this.values( ).toArray( );
 		for( int i = 0; i < values.length; i++ )
 		{
 			Iterator iterator = ( ( WrapperedValue )values[i] ).getIndex( ).iterator( );
 			rowID.add(  (Integer) iterator.next( ) );
 		}
-		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
-		if( rowID != null )
-		{
-			ArrayList<Integer> list = new ArrayList<Integer>();
-			list.addAll( rowID );
-			Collections.sort( list );
-			for(int i =0;i<list.size( );i++)
-			{
-				set.set( list.get( i ) );
-			}
-		}
-		return set;
+		return rowID;
 	}
 }

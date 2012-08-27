@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.storage;
 
-import java.util.List;
+import it.uniroma3.mat.extendedset.intset.IntSet;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 
 public interface IDataSetReader
 {
-	public IDataSetResultSet load( List<Integer> targetRows ) throws DataException;
+	public IDataSetResultSet load( IntSet targetRows ) throws DataException;
 	
 	public void close( ) throws DataException;
 }

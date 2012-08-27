@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.data.engine.impl.index;
 
+import it.uniroma3.mat.extendedset.intset.FastSet;
+import it.uniroma3.mat.extendedset.intset.IntSet;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -371,53 +373,42 @@ public class DataSetNumberIndex implements IDataSetIndex
 			}
 		}
 	}
-	
-	private Set<Integer> getKeyIndexIntegerSet( Object key, int searchType  ) throws DataException
+
+	public IntSet getKeyIndex( Object key, int searchType ) throws DataException
 	{
+		Set<Integer> result = new HashSet<Integer>();
 		if( searchType == IConditionalExpression.OP_EQ )
 		{
-			return this.seekEQ( key );
+			result = this.seekEQ( key );
 		}
 		else if( searchType == IConditionalExpression.OP_LE )
 		{
-			return this.seekL( key, true );
+			result = this.seekL( key, true );
 		}
 		else if( searchType == IConditionalExpression.OP_LT )
 		{
-			return this.seekL( key, false );
+			result = this.seekL( key, false );
 		}
 		else if( searchType == IConditionalExpression.OP_GE )
 		{
-			return this.seekG( key, true );
+			result = this.seekG( key, true );
 		}
 		else if( searchType == IConditionalExpression.OP_GT )
 		{
-			return this.seekG( key, false );
+			result = this.seekG( key, false );
 		}
 		else if( searchType == IConditionalExpression.OP_BETWEEN )
 		{
 			assert key instanceof List && ((List)key).size( ) == 2;
-			return this.seekBetween( ((List)key).get( 0 ), ((List)key).get( 1 ) );
+			result =  this.seekBetween( ((List)key).get( 0 ), ((List)key).get( 1 ) );
 		}
-		throw new UnsupportedOperationException();
-	}
-
-	public EWAHCompressedBitmap getKeyIndex( Object key, int searchType ) throws DataException
-	{
-		Set<Integer> rowID = getKeyIndexIntegerSet ( key, searchType );
-		
-		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
-		if( rowID != null )
+		IntSet fastSet = new FastSet();
+		for( int i : result )
 		{
-			ArrayList<Integer> list = new ArrayList<Integer>();
-			list.addAll( rowID );
-			Collections.sort( list );
-			for(int i =0;i<list.size( );i++)
-			{
-				set.set( list.get( i ) );
-			}
+			fastSet.add( i );
 		}
-		return set;
+		
+		return fastSet;
 	}
 
 	/*
@@ -449,30 +440,18 @@ public class DataSetNumberIndex implements IDataSetIndex
 		return keys.toArray( );
 	}
 	
-	public EWAHCompressedBitmap getAllKeyRows( ) throws DataException
+	public IntSet getAllKeyRows( ) throws DataException
 	{
-		Set<Integer> rowID = new HashSet<Integer>();
+		FastSet fs = new FastSet();
 		for( int i = 0; i < segs.length; i++ )
 		{
 			List<Set<Integer>> index = segs[i].getIndexs( );
 			for( int j = 0; j < index.size( ); j++ )
 			{
 				Iterator rowIDiterator = index.get( j ).iterator();
-				rowID.add( (Integer) rowIDiterator.next( ) );
+				fs.add( (Integer) rowIDiterator.next( ) );
 			}
 		}
-		
-		EWAHCompressedBitmap set = new EWAHCompressedBitmap();
-		if( rowID != null )
-		{
-			ArrayList<Integer> list = new ArrayList<Integer>();
-			list.addAll( rowID );
-			Collections.sort( list );
-			for(int i =0;i<list.size( );i++)
-			{
-				set.set( list.get( i ) );
-			}
-		}
-		return set;
+		return fs;
 	}
 }

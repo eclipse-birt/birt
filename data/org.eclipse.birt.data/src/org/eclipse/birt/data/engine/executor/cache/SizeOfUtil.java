@@ -256,7 +256,7 @@ public class SizeOfUtil
 	 * @param object
 	 * @return
 	 */
-	private static int sizeOf( Class objectClass, Object object )
+	public static int sizeOf( Class objectClass, Object object )
 	{
 		if ( object == null )
 		{

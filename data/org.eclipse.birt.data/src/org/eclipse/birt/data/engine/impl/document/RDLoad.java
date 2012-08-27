@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+import it.uniroma3.mat.extendedset.intset.ConciseSet;
+import it.uniroma3.mat.extendedset.intset.IntSet;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -46,7 +49,6 @@ import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
 import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
-import org.eclipse.birt.data.engine.impl.index.EWAHCompressedBitmap;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.storage.DataSetStore;
 import org.eclipse.birt.data.engine.storage.IDataSetReader;
@@ -256,7 +258,7 @@ public class RDLoad
 		return resultClass;
 	}
 	
-	public IDataSetResultSet loadDataSetData( EWAHCompressedBitmap preFilteredRowIds,
+	public IDataSetResultSet loadDataSetData( IntSet preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index )
 			throws DataException
 	{
@@ -267,8 +269,8 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public IDataSetResultSet loadDataSetData( EWAHCompressedBitmap preFilteredRowIds,
-			Map<String, StringTable> stringTableMap, Map index, Map<?,?> appContext )
+	public IDataSetResultSet loadDataSetData( IntSet preFilteredRowIds,
+			Map<String, StringTable> stringTableMap, Map index, Map appContext )
 			throws DataException
 	{
 		return loadDataSetData( preFilteredRowIds,
@@ -284,9 +286,9 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	public IDataSetResultSet loadDataSetData( EWAHCompressedBitmap preFilteredRowIds,
+	public IDataSetResultSet loadDataSetData( IntSet preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index,
-			boolean includeInnerID, Map<?, ?> appContext ) throws DataException
+			boolean includeInnerID, Map appContext ) throws DataException
 	{
 		return loadDataSetData( null,
 				preFilteredRowIds,
@@ -297,9 +299,9 @@ public class RDLoad
 	}
 	
 	public IDataSetResultSet loadDataSetData( IResultClass targetResultClass,
-			EWAHCompressedBitmap preFilteredRowIds,
+			IntSet preFilteredRowIds,
 			Map<String, StringTable> stringTableMap, Map index,
-			boolean includeInnerID, Map<?, ?> appContext ) throws DataException
+			boolean includeInnerID, Map appContext ) throws DataException
 	{
 		if ( targetResultClass == null )
 			targetResultClass = this.loadResultClass( includeInnerID );
@@ -311,7 +313,7 @@ public class RDLoad
 		if ( reader != null )
 			return reader.load( preFilteredRowIds == null
 					? null
-					: preFilteredRowIds.getPositions( ) );
+					: preFilteredRowIds );
 
 		if ( !streamManager.hasInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,

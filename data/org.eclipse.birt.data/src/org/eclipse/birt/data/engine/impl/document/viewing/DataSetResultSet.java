@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document.viewing;
 
+import it.uniroma3.mat.extendedset.intset.IntSet;
+import it.uniroma3.mat.extendedset.intset.IntSet.IntIterator;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -28,8 +28,6 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StringTable;
-import org.eclipse.birt.data.engine.impl.index.EWAHCompressedBitmap;
-import org.eclipse.birt.data.engine.impl.index.IntIterator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -55,11 +53,12 @@ public class DataSetResultSet implements IDataSetResultSet
 	private RAInputStream dataSetRowLensStream;
 	private DataInputStream disRowLensStream;
 	private long initPos;
-	private EWAHCompressedBitmap prefilteredRowIds;
+	private IntSet prefilteredRowIds;
 	private Map index;
 	private Map<String, StringTable> stringTableMap;
 	private boolean includeInnerID = true;
-	private IntIterator iter;
+	private IntIterator rowIdIterator;
+
 
 	/**
 	 * @param inputStream
@@ -67,7 +66,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			EWAHCompressedBitmap prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
+			IntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
 			throws DataException
 	{
 		this( inputStream,
@@ -86,7 +85,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			EWAHCompressedBitmap prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
+			IntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
 			throws DataException
 	{
 		assert inputStream != null;
@@ -114,11 +113,9 @@ public class DataSetResultSet implements IDataSetResultSet
 		// Notice we should use column count in original metadata
 		this.colCount = rsMetaData.getFieldCount( );
 
-		if ( prefilteredRows != null )
-		{
-			this.prefilteredRowIds = prefilteredRows;
-			this.iter = this.prefilteredRowIds.intIterator( );
-		}
+		this.prefilteredRowIds = prefilteredRows;
+		if( this.prefilteredRowIds != null )
+			this.rowIdIterator = this.prefilteredRowIds.iterator();
 		
 		this.index = index;
 		this.stringTableMap = stringTableMap;
@@ -155,7 +152,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	{
 		if ( this.prefilteredRowIds != null )
 		{
-			return this.prefilteredRowIds.cardinality( );
+			return this.prefilteredRowIds.size( );
 		}
 		return this.rowCount;
 	}
@@ -167,14 +164,9 @@ public class DataSetResultSet implements IDataSetResultSet
 	{
 		if ( this.prefilteredRowIds != null )
 		{
-			if ( this.prefilteredRowIds.cardinality( ) == 0 )
+			if ( !this.rowIdIterator.hasNext() )
 				return null;
-			
-			if ( this.iter.hasNext( ) )
-				this.skipTo( iter.next( ) );
-			else
-				return null;
-			
+			this.skipTo( this.rowIdIterator.next() );
 			return this.getResultObject( );
 		}
 
