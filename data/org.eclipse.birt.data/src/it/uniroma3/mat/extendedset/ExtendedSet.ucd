@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="ExtendedSet" size="977,1126" id="it.uniroma3.mat.extendedset" metadata="uml2-1.0" initialized="true" tag="1000" key="32303037303533312D3130303020457874656E6465645365742F616C657373616E64726F636F6C616E746F6E696F">
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.1/@sourceConnections.0" name="ExtendedSet" location="50,50" size="178,886" id="it.uniroma3.mat.extendedset/ExtendedSet" runTimeClassModel="subSet(LT;LT;),symmetricDifference(Ljava.util.Collection;),it.uniroma3.mat.extendedset.ExtendedSet.ExtendedIterator,intersection(Ljava.util.Collection;),intersectionSize(Ljava.util.Collection;),bitmapCompressionRatio(),convert([Ljava.lang.Object;),jaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),tailSet(LT;),containsAny(Ljava.util.Collection;),difference(Ljava.util.Collection;),descendingIterator,jaccardDistance(Lit.uniroma3.mat.extendedset.ExtendedSet;),union(Ljava.util.Collection;),descending(),fill(LT;LT;),flip(LT;),complemented(),compareTo(Lit.uniroma3.mat.extendedset.ExtendedSet;),headSet(LT;),powerSetSize(),empty(),iterator,weightedJaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),containsAtLeast(Ljava.util.Collection;I),complementSize(),clear(LT;LT;),powerSet(II),unmodifiable(),symmetricDifferenceSize(Ljava.util.Collection;),weightedJaccardDistance(Lit.uniroma3.mat.extendedset.ExtendedSet;),debugInfo(),indexOf(LT;),complement(),get(I),differenceSize(Ljava.util.Collection;),powerSetSize(II),clone(),powerSet(),convert(Ljava.util.Collection;),collectionCompressionRatio(),unionSize(Ljava.util.Collection;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="135,738">
+      <children xsi:type="editmodel:MethodEditModel" name="bitmapCompressionRatio" id="it.uniroma3.mat.extendedset/ExtendedSet#bitmapCompressionRatio()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clear" id="it.uniroma3.mat.extendedset/ExtendedSet#clear(LT;LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clone" id="it.uniroma3.mat.extendedset/ExtendedSet#clone()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="collectionCompressionRatio" id="it.uniroma3.mat.extendedset/ExtendedSet#collectionCompressionRatio()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="compareTo" id="it.uniroma3.mat.extendedset/ExtendedSet#compareTo(Lit.uniroma3.mat.extendedset.ExtendedSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="complement" id="it.uniroma3.mat.extendedset/ExtendedSet#complement()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="complementSize" id="it.uniroma3.mat.extendedset/ExtendedSet#complementSize()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="complemented" id="it.uniroma3.mat.extendedset/ExtendedSet#complemented()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="containsAny" id="it.uniroma3.mat.extendedset/ExtendedSet#containsAny(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="containsAtLeast" id="it.uniroma3.mat.extendedset/ExtendedSet#containsAtLeast(Ljava.util.Collection;I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="convert" id="it.uniroma3.mat.extendedset/ExtendedSet#convert(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="convert" id="it.uniroma3.mat.extendedset/ExtendedSet#convert([Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="debugInfo" id="it.uniroma3.mat.extendedset/ExtendedSet#debugInfo()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="descending" id="it.uniroma3.mat.extendedset/ExtendedSet#descending()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="descendingIterator" id="it.uniroma3.mat.extendedset/ExtendedSet#descendingIterator"/>
+      <children xsi:type="editmodel:MethodEditModel" name="difference" id="it.uniroma3.mat.extendedset/ExtendedSet#difference(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="differenceSize" id="it.uniroma3.mat.extendedset/ExtendedSet#differenceSize(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="empty" id="it.uniroma3.mat.extendedset/ExtendedSet#empty()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fill" id="it.uniroma3.mat.extendedset/ExtendedSet#fill(LT;LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="flip" id="it.uniroma3.mat.extendedset/ExtendedSet#flip(LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="get" id="it.uniroma3.mat.extendedset/ExtendedSet#get(I)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="headSet" id="it.uniroma3.mat.extendedset/ExtendedSet#headSet(LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="indexOf" id="it.uniroma3.mat.extendedset/ExtendedSet#indexOf(LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="intersection" id="it.uniroma3.mat.extendedset/ExtendedSet#intersection(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="intersectionSize" id="it.uniroma3.mat.extendedset/ExtendedSet#intersectionSize(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="iterator" id="it.uniroma3.mat.extendedset/ExtendedSet#iterator"/>
+      <children xsi:type="editmodel:MethodEditModel" name="jaccardDistance" id="it.uniroma3.mat.extendedset/ExtendedSet#jaccardDistance(Lit.uniroma3.mat.extendedset.ExtendedSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="jaccardSimilarity" id="it.uniroma3.mat.extendedset/ExtendedSet#jaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="powerSet" id="it.uniroma3.mat.extendedset/ExtendedSet#powerSet(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="powerSet" id="it.uniroma3.mat.extendedset/ExtendedSet#powerSet()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="powerSetSize" id="it.uniroma3.mat.extendedset/ExtendedSet#powerSetSize()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="powerSetSize" id="it.uniroma3.mat.extendedset/ExtendedSet#powerSetSize(II)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="subSet" id="it.uniroma3.mat.extendedset/ExtendedSet#subSet(LT;LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="symmetricDifference" id="it.uniroma3.mat.extendedset/ExtendedSet#symmetricDifference(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="symmetricDifferenceSize" id="it.uniroma3.mat.extendedset/ExtendedSet#symmetricDifferenceSize(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="tailSet" id="it.uniroma3.mat.extendedset/ExtendedSet#tailSet(LT;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="union" id="it.uniroma3.mat.extendedset/ExtendedSet#union(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="unionSize" id="it.uniroma3.mat.extendedset/ExtendedSet#unionSize(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="unmodifiable" id="it.uniroma3.mat.extendedset/ExtendedSet#unmodifiable()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="weightedJaccardDistance" id="it.uniroma3.mat.extendedset/ExtendedSet#weightedJaccardDistance(Lit.uniroma3.mat.extendedset.ExtendedSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="weightedJaccardSimilarity" id="it.uniroma3.mat.extendedset/ExtendedSet#weightedJaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="155,79">
+      <children xsi:type="editmodel:InterfaceEditModel" name="ExtendedIterator" size="155,77" id="it.uniroma3.mat.extendedset/ExtendedSet$ExtendedIterator" runTimeClassModel="skipAllBefore(LX;)">
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <children xsi:type="editmodel:CompartmentEditModel" size="78,18">
+          <children xsi:type="editmodel:MethodEditModel" name="skipAllBefore" id="it.uniroma3.mat.extendedset/ExtendedSet$ExtendedIterator#skipAllBefore(LX;)"/>
+        </children>
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.2/@sourceConnections.0 //@children.3/@sourceConnections.0 //@children.4/@sourceConnections.0" name="AbstractExtendedSet" location="315,75" size="175,29" id="it.uniroma3.mat.extendedset/AbstractExtendedSet" runTimeClassModel="subSet(LT;LT;),symmetricDifference(Ljava.util.Collection;),intersection(Ljava.util.Collection;),intersectionSize(Ljava.util.Collection;),bitmapCompressionRatio(),convert([Ljava.lang.Object;),jaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),tailSet(LT;),difference(Ljava.util.Collection;),containsAny(Ljava.util.Collection;),iterator(),jaccardDistance(Lit.uniroma3.mat.extendedset.ExtendedSet;),union(Ljava.util.Collection;),first(),descending(),fill(LT;LT;),flip(LT;),compareTo(Lit.uniroma3.mat.extendedset.ExtendedSet;),complemented(),headSet(LT;),powerSetSize(),empty(),weightedJaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),complementSize(),clear(LT;LT;),containsAtLeast(Ljava.util.Collection;I),powerSet(II),unmodifiable(),symmetricDifferenceSize(Ljava.util.Collection;),weightedJaccardDistance(Lit.uniroma3.mat.extendedset.ExtendedSet;),last(),indexOf(LT;),debugInfo(),differenceSize(Ljava.util.Collection;),get(I),powerSetSize(II),clone(),powerSet(),collectionCompressionRatio(),convert(Ljava.util.Collection;),descendingIterator(),unionSize(Ljava.util.Collection;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.uniroma3.mat.extendedset/ExtendedSet&lt;-it.uniroma3.mat.extendedset/AbstractExtendedSet" source="//@children.1" target="//@children.0" targetEnd="//@children.1/@sourceConnections.0/@children.1" sourceEnd="//@children.1/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="77,14" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="178,39"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="GenericExtendedSet" location="540,135" size="171,39" id="it.uniroma3.mat.extendedset.wrappers/GenericExtendedSet" runTimeClassModel="symmetricDifference(Ljava.util.Collection;),subSet(LT;LT;),containsAll(Ljava.util.Collection;),intersection(Ljava.util.Collection;),intersectionSize(Ljava.util.Collection;),bitmapCompressionRatio(),convert([Ljava.lang.Object;),tailSet(LT;),size(),difference(Ljava.util.Collection;),iterator(),union(Ljava.util.Collection;),removeAll(Ljava.util.Collection;),clear(),GenericExtendedSet(Ljava.lang.Class;),equals(Ljava.lang.Object;),first(),fill(LT;LT;),remove(Ljava.lang.Object;),headSet(LT;),empty(),addAll(Ljava.util.Collection;),unmodifiable(),contains(Ljava.lang.Object;),retainAll(Ljava.util.Collection;),add(LT;),last(),debugInfo(),complement(),clone(),isEmpty(),collectionCompressionRatio(),convert(Ljava.util.Collection;),hashCode(),descendingIterator(),comparator()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.uniroma3.mat.extendedset/AbstractExtendedSet&lt;-it.uniroma3.mat.extendedset.wrappers/GenericExtendedSet" source="//@children.2" target="//@children.1" targetEnd="//@children.2/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="20,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="138,29"/>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="IndexedSet" location="405,210" size="125,39" id="it.uniroma3.mat.extendedset.wrappers/IndexedSet" runTimeClassModel="containsAll(Ljava.util.Collection;),bitmapCompressionRatio(),jaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),iterator(),difference(Ljava.util.Collection;),universe(),union(Ljava.util.Collection;),clear(),compareTo(Lit.uniroma3.mat.extendedset.ExtendedSet;),remove(Ljava.lang.Object;),empty(),addAll(Ljava.util.Collection;),containsAtLeast(Ljava.util.Collection;I),powerSet(II),contains(Ljava.lang.Object;),retainAll(Ljava.util.Collection;),last(),get(I),differenceSize(Ljava.util.Collection;),isEmpty(),descendingIterator(),comparator(),absoluteIndexOf(LT;),unionSize(Ljava.util.Collection;),IndexedSet(Lit.uniroma3.mat.extendedset.intset.IntSet;Ljava.util.Collection;),symmetricDifference(Ljava.util.Collection;),intersection(Ljava.util.Collection;),absoluteGet(I),intersectionSize(Ljava.util.Collection;),convert([Ljava.lang.Object;),size(),containsAny(Ljava.util.Collection;),removeAll(Ljava.util.Collection;),first(),equals(Ljava.lang.Object;),fill(LT;LT;),flip(LT;),complemented(),clear(LT;LT;),complementSize(),symmetricDifferenceSize(Ljava.util.Collection;),indices(),add(LT;),indexOf(LT;),debugInfo(),complement(),clone(),powerSet(),collectionCompressionRatio(),convert(Ljava.util.Collection;),hashCode()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.uniroma3.mat.extendedset/AbstractExtendedSet&lt;-it.uniroma3.mat.extendedset.wrappers/IndexedSet" source="//@children.3" target="//@children.1" targetEnd="//@children.3/@sourceConnections.0/@children.1" sourceEnd="//@children.3/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="42,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="132,29"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="it.uniroma3.mat.extendedset.intset/IntSet@indices+it.uniroma3.mat.extendedset.wrappers/IndexedSet@" source="//@children.3" target="//@children.6" targetEnd="//@children.3/@sourceConnections.1/@children.2" label="//@children.3/@sourceConnections.1/@children.0" sourceEnd="//@children.3/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,10" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="10,39" id="it.uniroma3.mat.extendedset.intset/IntSet@indices+it.uniroma3.mat.extendedset.wrappers/IndexedSet@|it.uniroma3.mat.extendedset.wrappers/IndexedSet#" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="indices" location="72,10" id="it.uniroma3.mat.extendedset.intset/IntSet@indices+it.uniroma3.mat.extendedset.wrappers/IndexedSet@|it.uniroma3.mat.extendedset.intset/IntSet#indices" multiplicityLabel="//@children.3/@sourceConnections.1/@children.2/@children.1" roleLabel="//@children.3/@sourceConnections.1/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - indices" location="372,302" size="37,10" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="372,278" size="16,10" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="IntegerSet" location="270,164" size="95,39" id="it.uniroma3.mat.extendedset.wrappers/IntegerSet" runTimeClassModel="containsAll(Ljava.util.Collection;),bitmapCompressionRatio(),jaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),fill(Ljava.lang.Integer;Ljava.lang.Integer;),difference(Ljava.util.Collection;),union(Ljava.util.Collection;),clear(),add(Ljava.lang.Integer;),compareTo(Lit.uniroma3.mat.extendedset.ExtendedSet;),remove(Ljava.lang.Object;),empty(),addAll(Ljava.util.Collection;),iterator,IntegerSet(Lit.uniroma3.mat.extendedset.intset.IntSet;),containsAtLeast(Ljava.util.Collection;I),powerSet(II),contains(Ljava.lang.Object;),retainAll(Ljava.util.Collection;),clear(Ljava.lang.Integer;Ljava.lang.Integer;),last(),differenceSize(Ljava.util.Collection;),get(I),isEmpty(),comparator(),unionSize(Ljava.util.Collection;),symmetricDifference(Ljava.util.Collection;),intersection(Ljava.util.Collection;),indexOf(Ljava.lang.Integer;),intersectionSize(Ljava.util.Collection;),flip(Ljava.lang.Integer;),convert([Ljava.lang.Object;),size(),containsAny(Ljava.util.Collection;),descendingIterator,toString(),removeAll(Ljava.util.Collection;),intSet(),equals(Ljava.lang.Object;),first(),complemented(),weightedJaccardSimilarity(Lit.uniroma3.mat.extendedset.ExtendedSet;),complementSize(),symmetricDifferenceSize(Ljava.util.Collection;),debugInfo(),complement(),clone(),powerSet(),collectionCompressionRatio(),hashCode(),convert(Ljava.util.Collection;)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="it.uniroma3.mat.extendedset/AbstractExtendedSet&lt;-it.uniroma3.mat.extendedset.wrappers/IntegerSet" source="//@children.4" target="//@children.1" targetEnd="//@children.4/@sourceConnections.0/@children.1" sourceEnd="//@children.4/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+      <children xsi:type="editmodel:AssociationEndEditModel" location="69,0" attachSource="true"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="24,29"/>
+    </sourceConnections>
+    <sourceConnections xsi:type="editmodel:AssociationEditModel" autoLocated="true" id="it.uniroma3.mat.extendedset.intset/IntSet@items+it.uniroma3.mat.extendedset.wrappers/IntegerSet@" source="//@children.4" target="//@children.6" targetEnd="//@children.4/@sourceConnections.1/@children.2" label="//@children.4/@sourceConnections.1/@children.0" sourceEnd="//@children.4/@sourceConnections.1/@children.1" connectionRouterKind="Manhattan">
+      <children xsi:type="editmodel:WireLabelEditModel" size="0,10" anchorKind="MiddlePart"/>
+      <children xsi:type="editmodel:AssociationEndEditModel" location="58,39" id="it.uniroma3.mat.extendedset.intset/IntSet@items+it.uniroma3.mat.extendedset.wrappers/IntegerSet@|it.uniroma3.mat.extendedset.wrappers/IntegerSet#" attachSource="true" roleLabel="//@children.4/@sourceConnections.1/@children.1/@children.0">
+        <children xsi:type="editmodel:LabelEditModel" location="321,210" size="0,10" anchorKind="FirstPart"/>
+      </children>
+      <children xsi:type="editmodel:AssociationEndEditModel" name="items" location="35,0" id="it.uniroma3.mat.extendedset.intset/IntSet@items+it.uniroma3.mat.extendedset.wrappers/IntegerSet@|it.uniroma3.mat.extendedset.intset/IntSet#items" multiplicityLabel="//@children.4/@sourceConnections.1/@children.2/@children.1" roleLabel="//@children.4/@sourceConnections.1/@children.2/@children.0" navigable="true">
+        <children xsi:type="editmodel:LabelEditModel" name=" - items" location="335,268" size="31,10" anchorKind="LastPart"/>
+        <children xsi:type="editmodel:LabelEditModel" name="0..1" location="305,268" size="16,10" anchorKind="LastPart"/>
+      </children>
+    </sourceConnections>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:ClassEditModel" name="LongSet" location="780,50" size="177,1056" id="it.uniroma3.mat.extendedset.wrappers/LongSet" runTimeClassModel="it.uniroma3.mat.extendedset.wrappers.LongSet.ExtendedLongIterator,clear(JJ),bitmapCompressionRatio(),LongSet(Lit.uniroma3.mat.extendedset.intset.IntSet;),iterator(),addAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),emptyBlock(),containsAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),removeAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),get(J),clear(),difference(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),remove(J),containsAny(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),empty(),containsAtLeast(Lit.uniroma3.mat.extendedset.wrappers.LongSet;J),last(),isEmpty(),contains(J),size(),indexOf(J),unionSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),symmetricDifferenceSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),toString(),longIterator(),union(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),add(J),compareTo(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),fill(JJ),equals(Ljava.lang.Object;),first(),intersection(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),complemented(),flip(J),symmetricDifference(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),complementSize(),convert([J),retainAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),descendingLongIterator(),toArray(),debugInfo(),intersectionSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),complement(),toArray([J),clone(),differenceSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;),hashCode(),convert(Ljava.util.Collection;),collectionCompressionRatio()">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="135,864">
+      <children xsi:type="editmodel:MethodEditModel" name="LongSet" id="it.uniroma3.mat.extendedset.wrappers/LongSet#LongSet(Lit.uniroma3.mat.extendedset.intset.IntSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="add" id="it.uniroma3.mat.extendedset.wrappers/LongSet#add(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="addAll" id="it.uniroma3.mat.extendedset.wrappers/LongSet#addAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="bitmapCompressionRatio" id="it.uniroma3.mat.extendedset.wrappers/LongSet#bitmapCompressionRatio()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clear" id="it.uniroma3.mat.extendedset.wrappers/LongSet#clear()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clear" id="it.uniroma3.mat.extendedset.wrappers/LongSet#clear(JJ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="clone" id="it.uniroma3.mat.extendedset.wrappers/LongSet#clone()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="collectionCompressionRatio" id="it.uniroma3.mat.extendedset.wrappers/LongSet#collectionCompressionRatio()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="compareTo" id="it.uniroma3.mat.extendedset.wrappers/LongSet#compareTo(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="complement" id="it.uniroma3.mat.extendedset.wrappers/LongSet#complement()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="complementSize" id="it.uniroma3.mat.extendedset.wrappers/LongSet#complementSize()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="complemented" id="it.uniroma3.mat.extendedset.wrappers/LongSet#complemented()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="contains" id="it.uniroma3.mat.extendedset.wrappers/LongSet#contains(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="containsAll" id="it.uniroma3.mat.extendedset.wrappers/LongSet#containsAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="containsAny" id="it.uniroma3.mat.extendedset.wrappers/LongSet#containsAny(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="containsAtLeast" id="it.uniroma3.mat.extendedset.wrappers/LongSet#containsAtLeast(Lit.uniroma3.mat.extendedset.wrappers.LongSet;J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="convert" id="it.uniroma3.mat.extendedset.wrappers/LongSet#convert(Ljava.util.Collection;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="convert" id="it.uniroma3.mat.extendedset.wrappers/LongSet#convert([J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="debugInfo" id="it.uniroma3.mat.extendedset.wrappers/LongSet#debugInfo()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="descendingLongIterator" id="it.uniroma3.mat.extendedset.wrappers/LongSet#descendingLongIterator()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="difference" id="it.uniroma3.mat.extendedset.wrappers/LongSet#difference(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="differenceSize" id="it.uniroma3.mat.extendedset.wrappers/LongSet#differenceSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="empty" id="it.uniroma3.mat.extendedset.wrappers/LongSet#empty()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="emptyBlock" id="it.uniroma3.mat.extendedset.wrappers/LongSet#emptyBlock()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="equals" id="it.uniroma3.mat.extendedset.wrappers/LongSet#equals(Ljava.lang.Object;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="fill" id="it.uniroma3.mat.extendedset.wrappers/LongSet#fill(JJ)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="first" id="it.uniroma3.mat.extendedset.wrappers/LongSet#first()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="flip" id="it.uniroma3.mat.extendedset.wrappers/LongSet#flip(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="get" id="it.uniroma3.mat.extendedset.wrappers/LongSet#get(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="hashCode" id="it.uniroma3.mat.extendedset.wrappers/LongSet#hashCode()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="indexOf" id="it.uniroma3.mat.extendedset.wrappers/LongSet#indexOf(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="intersection" id="it.uniroma3.mat.extendedset.wrappers/LongSet#intersection(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="intersectionSize" id="it.uniroma3.mat.extendedset.wrappers/LongSet#intersectionSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="isEmpty" id="it.uniroma3.mat.extendedset.wrappers/LongSet#isEmpty()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="iterator" id="it.uniroma3.mat.extendedset.wrappers/LongSet#iterator()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="last" id="it.uniroma3.mat.extendedset.wrappers/LongSet#last()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="longIterator" id="it.uniroma3.mat.extendedset.wrappers/LongSet#longIterator()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="remove" id="it.uniroma3.mat.extendedset.wrappers/LongSet#remove(J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="removeAll" id="it.uniroma3.mat.extendedset.wrappers/LongSet#removeAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="retainAll" id="it.uniroma3.mat.extendedset.wrappers/LongSet#retainAll(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="size" id="it.uniroma3.mat.extendedset.wrappers/LongSet#size()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="symmetricDifference" id="it.uniroma3.mat.extendedset.wrappers/LongSet#symmetricDifference(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="symmetricDifferenceSize" id="it.uniroma3.mat.extendedset.wrappers/LongSet#symmetricDifferenceSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toArray" id="it.uniroma3.mat.extendedset.wrappers/LongSet#toArray()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toArray" id="it.uniroma3.mat.extendedset.wrappers/LongSet#toArray([J)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="toString" id="it.uniroma3.mat.extendedset.wrappers/LongSet#toString()"/>
+      <children xsi:type="editmodel:MethodEditModel" name="union" id="it.uniroma3.mat.extendedset.wrappers/LongSet#union(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+      <children xsi:type="editmodel:MethodEditModel" name="unionSize" id="it.uniroma3.mat.extendedset.wrappers/LongSet#unionSize(Lit.uniroma3.mat.extendedset.wrappers.LongSet;)"/>
+    </children>
+    <children xsi:type="editmodel:CompartmentEditModel" size="154,123">
+      <children xsi:type="editmodel:ClassEditModel" name="ExtendedLongIterator" size="154,121" id="it.uniroma3.mat.extendedset.wrappers/LongSet$ExtendedLongIterator" runTimeClassModel="remove(),skipAllBefore(J),hasNext(),next()">
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <children xsi:type="editmodel:CompartmentEditModel" size="78,72">
+          <children xsi:type="editmodel:MethodEditModel" name="hasNext" id="it.uniroma3.mat.extendedset.wrappers/LongSet$ExtendedLongIterator#hasNext()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="next" id="it.uniroma3.mat.extendedset.wrappers/LongSet$ExtendedLongIterator#next()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="remove" id="it.uniroma3.mat.extendedset.wrappers/LongSet$ExtendedLongIterator#remove()"/>
+          <children xsi:type="editmodel:MethodEditModel" name="skipAllBefore" id="it.uniroma3.mat.extendedset.wrappers/LongSet$ExtendedLongIterator#skipAllBefore(J)"/>
+        </children>
+        <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+        <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+      </children>
+    </children>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.4/@sourceConnections.1 //@children.3/@sourceConnections.1" name="IntSet" location="293,285" size="72,49" id="it.uniroma3.mat.extendedset.intset/IntSet" runTimeClassModel="bitmapCompressionRatio(),containsAtLeast(Lit.uniroma3.mat.extendedset.intset.IntSet;I),symmetricDifferenceSize(Lit.uniroma3.mat.extendedset.intset.IntSet;),iterator(),convert([I),intersectionSize(Lit.uniroma3.mat.extendedset.intset.IntSet;),clear(),union(Lit.uniroma3.mat.extendedset.intset.IntSet;),retainAll(Lit.uniroma3.mat.extendedset.intset.IntSet;),empty(),symmetricDifference(Lit.uniroma3.mat.extendedset.intset.IntSet;),it.uniroma3.mat.extendedset.intset.IntSet.IntIterator,removeAll(Lit.uniroma3.mat.extendedset.intset.IntSet;),powerSet(II),indexOf(I),fill(II),add(I),last(),get(I),isEmpty(),descendingIterator(),jaccardSimilarity(Lit.uniroma3.mat.extendedset.intset.IntSet;),weightedJaccardSimilarity(Lit.uniroma3.mat.extendedset.intset.IntSet;),intersection(Lit.uniroma3.mat.extendedset.intset.IntSet;),size(),containsAny(Lit.uniroma3.mat.extendedset.intset.IntSet;),containsAll(Lit.uniroma3.mat.extendedset.intset.IntSet;),toArray([I),contains(I),first(),complemented(),differenceSize(Lit.uniroma3.mat.extendedset.intset.IntSet;),powerSetSize(),complementSize(),weightedJaccardDistance(Lit.uniroma3.mat.extendedset.intset.IntSet;),clear(II),addAll(Lit.uniroma3.mat.extendedset.intset.IntSet;),jaccardDistance(Lit.uniroma3.mat.extendedset.intset.IntSet;),unionSize(Lit.uniroma3.mat.extendedset.intset.IntSet;),toArray(),debugInfo(),complement(),powerSetSize(II),clone(),powerSet(),difference(Lit.uniroma3.mat.extendedset.intset.IntSet;),collectionCompressionRatio(),convert(Ljava.util.Collection;),remove(I),flip(I)">
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+    <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" interactive="false" level="-1" showScope="InPackage" properties="wireOptions=1;Product=eUML2"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>
