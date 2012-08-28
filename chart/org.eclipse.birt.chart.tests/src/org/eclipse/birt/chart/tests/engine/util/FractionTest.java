@@ -31,12 +31,12 @@ public class FractionTest extends TestCase
 		assertEquals( f.getDenominator( ), 50 );
 
 		f = FractionApproximator.getExactFraction( 0.333333333333 );
-		assertEquals( f.getNumerator( ), 333 );
-		assertEquals( f.getDenominator( ), 1000 );
-
+		assertEquals( f.getNumerator( ), 33333333 );
+		assertEquals( f.getDenominator( ), 100000000 );
+		
 		f = FractionApproximator.getExactFraction( -0.333333333333 );
-		assertEquals( f.getNumerator( ), -333 );
-		assertEquals( f.getDenominator( ), 1000 );
+		assertEquals( f.getNumerator( ), -33333333 );
+		assertEquals( f.getDenominator( ), 100000000 );
 
 		f = FractionApproximator.getExactFraction( -0.33 );
 		assertEquals( f.getNumerator( ), -33 );
