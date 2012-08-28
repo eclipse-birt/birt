@@ -14,7 +14,10 @@ package org.eclipse.birt.chart.model.util;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.DialRegion;
@@ -282,6 +285,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 	 *
 	 * @generated Don't change this method manually.
 	 */
+	@Override
 	protected void updateDialRegion( String name, EObject eParentObj,
 			DialRegion eObj, DialRegion eRefObj, DialRegion eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
@@ -307,6 +311,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 
 	}
 	
+	@Override
 	protected void updateMarkerRangeImpl( String name, EObject eParentObj,
 			MarkerRange eObj, MarkerRange eRefObj, MarkerRange eDefObj, boolean eDefOverride, boolean checkVisible )
 	{
@@ -331,6 +336,7 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 		super.updateMarkerRangeImpl( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
 	}
 	
+	@Override
 	protected void updateTitleBlock( String name, EObject eParentObj,
 			TitleBlock eObj, TitleBlock eRefObj, TitleBlock eDefObj,
 			boolean eDefOverride, boolean checkVisible )
@@ -348,5 +354,31 @@ public class ChartValueUpdater extends BaseChartValueUpdater
 			}
 		}
 		super.updateTitleBlock( name, eParentObj, eObj, eRefObj, eDefObj, eDefOverride, checkVisible );
+	}
+	
+	@Override
+	public void updateDataPointComponent( String name, EObject eParentObj,
+			DataPointComponent eObj, DataPointComponent eRefObj,
+			DataPointComponent eDefObj, boolean eDefOverride,
+			boolean checkVisible )
+	{
+		// Set default format for percentile value.
+		DataPointComponent eTmpDefObj = eDefObj;
+		if ( eObj != null
+				&& eObj.getType( ) == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
+				&& ( eDefObj == null || eDefObj.getFormatSpecifier( ) == null ) )
+		{
+			if ( eDefObj == null ) 
+			{
+				eTmpDefObj = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,  DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+			}
+			else if ( eDefObj.getFormatSpecifier( ) == null )
+			{
+				eTmpDefObj = eDefObj.copyInstance( );
+				eTmpDefObj.setFormatSpecifier( DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+			}
+		}
+		
+		super.updateDataPointComponent( name, eParentObj, eObj, eRefObj, eTmpDefObj, eDefOverride, checkVisible );
 	}
 }

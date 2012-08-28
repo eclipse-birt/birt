@@ -105,6 +105,7 @@ public class CacheMapManager
 				if ( !reusable )
 				{
 					cacheObject.release( );
+					tempDataSetCacheMap.remove( dsAndDs );
 					cacheMap.remove( dsAndDs );
 				}
 				return reusable;
