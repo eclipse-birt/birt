@@ -81,6 +81,10 @@ public class DataEngineImpl extends DataEngine
 		= new HashMap<DataSourceAndDataSetNames, ValidationContext>();
 	
 	private static final String BIRT_ENGINE_BUNDEL_VERSION = "BIRT ENGINE BUILD NUMBER";
+	
+	private long startTime;
+	
+	private long endTime;
 
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -108,6 +112,7 @@ public class DataEngineImpl extends DataEngine
 		this.context = context;
 		
 		dataSourceManager = new DataSourceManager( logger );
+		this.startTime=System.currentTimeMillis( );
 		this.session = new DataEngineSession( this );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineStart( );
 		
@@ -622,9 +627,9 @@ public class DataEngineImpl extends DataEngine
 			{
 			}
 		}	
-		this.endTime = System.nanoTime( );
+		this.endTime = System.currentTimeMillis( );
 		logger.log( Level.INFO, "Data Engine lifetime: "
-				+ ( this.endTime - this.startTime ) + " ns" );
+				+ ( this.endTime - this.startTime ) + " ms" );
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	

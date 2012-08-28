@@ -174,11 +174,11 @@ public class QueryResults implements IQueryResults, IQueryService
 				this.queryService.initAutoBinding( );
 				this.queryService.validateQuery( );
 				
-				long startTime = System.nanoTime( );
+				long startTime = System.currentTimeMillis( );
 				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
-				long endTime = System.nanoTime( );
+				long endTime = System.currentTimeMillis( );
 				logger.log( Level.INFO, "ODI query execution: "
-						+ ( endTime - startTime ) + " ns" );
+						+ ( endTime - startTime ) + " ms" );
 				if( queryService.getQueryDefn( ) instanceof IQueryDefinition && ! ((QueryDefinition)queryService.getQueryDefn()).isTempQuery())
 				{
 					iterator = QueryResultsUtil.processOdiResult( session,

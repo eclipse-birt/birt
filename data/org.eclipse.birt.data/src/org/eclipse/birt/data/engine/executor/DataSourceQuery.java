@@ -930,11 +930,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	
     	if( !session.getStopSign().isStopped())
     	{    
-			long startTime = System.nanoTime( );
+			long startTime = System.currentTimeMillis( );
     		odaStatement.execute( );
-			long endTime = System.nanoTime( );
+			long endTime = System.currentTimeMillis( );
 			logger.log( Level.INFO, "ODA query execution time: "
-					+ ( endTime - startTime ) + " ns" );
+					+ ( endTime - startTime ) + " ms" );
     	}
 		
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
