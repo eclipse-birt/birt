@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -174,6 +177,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private DataEngineSession session;
 	
 	private IQueryContextVisitor qcv;
+	
+	private static Logger logger = Logger.getLogger( DataSourceQuery.class.getName( ) );
+
 
 	/**
 	 * Constructor. 
@@ -923,8 +929,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	this.session.getCancelManager( ).register( queryCanceller );
     	
     	if( !session.getStopSign().isStopped())
-    	{    			
+    	{    
+			long startTime = System.nanoTime( );
     		odaStatement.execute( );
+			long endTime = System.nanoTime( );
+			logger.log( Level.INFO, "ODA query execution time: "
+					+ ( endTime - startTime ) + " ns" );
     	}
 		
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,

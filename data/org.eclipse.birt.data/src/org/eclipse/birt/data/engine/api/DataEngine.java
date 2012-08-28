@@ -160,6 +160,10 @@ abstract public class DataEngine
 	 *            default context is DataEngineContext.MODE_DIRECTPRESENT.
 	 * @return an instance of DataEngine under specified context
 	 */
+	
+	protected long startTime = 0;
+	protected long endTime = 0;
+	
     public static DataEngine newDataEngine( DataEngineContext context )
     {
     	try
@@ -186,7 +190,9 @@ abstract public class DataEngine
 		Object factory = Platform.createFactoryObject( IDataEngineFactory.EXTENSION_DATA_ENGINE_FACTORY );
 		if ( factory instanceof IDataEngineFactory )
 		{
-			return ( (IDataEngineFactory) factory ).createDataEngine( dataContext );
+			DataEngine newDataEngine= ( (IDataEngineFactory) factory ).createDataEngine( dataContext );
+			newDataEngine.startTime = System.nanoTime( );
+			return newDataEngine;
 		}
 		else
 		{
@@ -207,10 +213,12 @@ abstract public class DataEngine
 	{
 		try
 		{
-			return newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+			DataEngine newDataEngine =newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 					sharedScope,
 					null,
 					null ) );
+			newDataEngine.startTime = System.nanoTime( );
+			return newDataEngine;
 		}
 		catch ( BirtException e )
 		{
@@ -223,8 +231,10 @@ abstract public class DataEngine
      * @deprecated Use newDataEngine(Scriptable) instead. Home Dir is no longer used.
      */
     public static DataEngine newDataEngine( Scriptable sharedScope, File homeDir )
-    {
-        return newDataEngine( sharedScope );
+    {   	
+		DataEngine newDataEngine =newDataEngine( sharedScope );
+		newDataEngine.startTime = System.nanoTime( );
+		return newDataEngine;
     }
         
     /**

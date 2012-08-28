@@ -622,7 +622,9 @@ public class DataEngineImpl extends DataEngine
 			{
 			}
 		}	
-		
+		this.endTime = System.nanoTime( );
+		logger.log( Level.INFO, "Data Engine lifetime: "
+				+ ( this.endTime - this.startTime ) + " ns" );
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	
