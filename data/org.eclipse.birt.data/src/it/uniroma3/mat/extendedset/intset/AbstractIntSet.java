@@ -35,7 +35,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntSet union(IntSet other) {
 		IntSet res = clone();
 		res.addAll(other);
@@ -45,7 +45,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntSet difference(IntSet other) {
 		IntSet res = clone();
 		res.removeAll(other);
@@ -55,7 +55,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntSet intersection(IntSet other) {
 		IntSet res = clone();
 		res.retainAll(other);
@@ -65,7 +65,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntSet symmetricDifference(IntSet c) {
 		IntSet res = clone();
 		IntIterator itr = c.iterator();
@@ -77,7 +77,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntSet complemented() {
 		IntSet res = clone();
 		res.complement();
@@ -87,7 +87,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void complement() {
 		if (isEmpty())
 			return;
@@ -98,7 +98,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean containsAll(IntSet c) {
 		IntIterator itr = c.iterator();
 		boolean res = true;
@@ -110,7 +110,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean containsAny(IntSet c) {
 		IntIterator itr = c.iterator();
 		boolean res = true;
@@ -123,7 +123,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean containsAtLeast(IntSet c, int minElements) {
 		IntIterator itr = c.iterator();
 		while (minElements > 0 && itr.hasNext())
@@ -135,7 +135,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int intersectionSize(IntSet c) {
 		int res = 0;
 		IntIterator itr = c.iterator();
@@ -149,7 +149,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int unionSize(IntSet other) {
 		return other == null ? size() : size() + other.size() - intersectionSize(other);
 	}
@@ -157,7 +157,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int symmetricDifferenceSize(IntSet other) {
 		return other == null ? size() : size() + other.size() - 2 * intersectionSize(other);
 	}
@@ -165,7 +165,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int differenceSize(IntSet other) {
 		return other == null ? size() : size() - intersectionSize(other);
 	}
@@ -173,7 +173,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int complementSize() {
 		if (isEmpty())
 			return 0;
@@ -183,49 +183,49 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract IntSet empty();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract IntSet clone();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract double bitmapCompressionRatio();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract double collectionCompressionRatio();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract IntIterator iterator();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract IntIterator descendingIterator();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract String debugInfo();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void clear() {
 		IntIterator itr = iterator();
 		while (itr.hasNext()) {
@@ -237,7 +237,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void clear(int from, int to) {
 		if (from > to)
 			throw new IndexOutOfBoundsException("from: " + from + " > to: " + to);
@@ -248,7 +248,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void fill(int from, int to) {
 		if (from > to)
 			throw new IndexOutOfBoundsException("from: " + from + " > to: " + to);
@@ -259,7 +259,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void flip(int e) {
 		if (!add(e))
 			remove(e);
@@ -268,31 +268,31 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract int get(int i);
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract int indexOf(int e);
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract IntSet convert(int... a);
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract IntSet convert(Collection<Integer> c);
 	
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int first() {
 		if (isEmpty())
 			throw new NoSuchElementException();
@@ -302,43 +302,43 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract int last();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract int size();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract boolean isEmpty();
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract boolean contains(int i);
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract boolean add(int i);
 
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public abstract boolean remove(int i);
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean addAll(IntSet c) {
 		if (c == null || c.isEmpty())
 			return false;
@@ -352,7 +352,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean removeAll(IntSet c) {
 		if (c == null || c.isEmpty())
 			return false;
@@ -366,7 +366,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean retainAll(IntSet c) {
 		if (c == null || c.isEmpty())
 			return false;
@@ -385,7 +385,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int[] toArray() {
 		if (isEmpty())
 			return null;
@@ -395,7 +395,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int[] toArray(int[] a) {
 		if (a.length < size())
 			a = new int[size()];
@@ -411,7 +411,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public String toString() {
         IntIterator itr = iterator();
     	if (!itr.hasNext())
@@ -431,7 +431,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int compareTo(IntSet o) {
 		IntIterator thisIterator = this.descendingIterator();
 		IntIterator otherIterator = o.descendingIterator();
@@ -449,7 +449,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public List<? extends IntSet> powerSet() {
 		return powerSet(1, Integer.MAX_VALUE);
 	}
@@ -457,7 +457,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public List<? extends IntSet> powerSet(int min, int max) {
 		if (min < 1 || max < min)
 			throw new IllegalArgumentException();
@@ -522,7 +522,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int powerSetSize() {
 		return isEmpty() ? 0 : (int) Math.pow(2, size()) - 1;
 	}
@@ -530,7 +530,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int powerSetSize(int min, int max) {
 		if (min < 1 || max < min)
 			throw new IllegalArgumentException();
@@ -570,7 +570,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public double jaccardSimilarity(IntSet other) {
 		if (isEmpty() && other.isEmpty())
 			return 1D;
@@ -581,7 +581,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public double jaccardDistance(IntSet other) {
 		return 1D - jaccardSimilarity(other);
 	}
@@ -589,7 +589,7 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public double weightedJaccardSimilarity(IntSet other) {
 		if (isEmpty() && other.isEmpty())
 			return 1D;
@@ -609,13 +609,13 @@ public abstract class AbstractIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public double weightedJaccardDistance(IntSet other) {
 		return 1D - weightedJaccardSimilarity(other);
 	}
 
 	/** {@inheritDoc} */
-	@Override
+	
 	public boolean equals(Object obj) {
 		// special cases
 		if (this == obj)
@@ -635,7 +635,7 @@ public abstract class AbstractIntSet implements IntSet {
 	}
 
 	/** {@inheritDoc} */
-	@Override
+	
 	public int hashCode() {
 		if (isEmpty())
 			return 0;

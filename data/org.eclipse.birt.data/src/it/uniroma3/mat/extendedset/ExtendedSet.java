@@ -20,14 +20,6 @@
 package it.uniroma3.mat.extendedset;
 
 
-import it.uniroma3.mat.extendedset.intset.ArraySet;
-import it.uniroma3.mat.extendedset.intset.IntSet;
-import it.uniroma3.mat.extendedset.wrappers.GenericExtendedSet;
-import it.uniroma3.mat.extendedset.wrappers.IndexedSet;
-import it.uniroma3.mat.extendedset.wrappers.IntegerSet;
-import it.uniroma3.mat.extendedset.wrappers.LongSet;
-import it.uniroma3.mat.extendedset.wrappers.matrix.PairSet;
-
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
@@ -270,7 +262,7 @@ public interface ExtendedSet<T> extends SortedSet<T>, Cloneable, Comparable<Exte
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ExtendedIterator<T> iterator();
 
 	/**
@@ -433,19 +425,19 @@ public interface ExtendedSet<T> extends SortedSet<T>, Cloneable, Comparable<Exte
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ExtendedSet<T> tailSet(T fromElement);
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ExtendedSet<T> headSet(T toElement);
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ExtendedSet<T> subSet(T fromElement, T toElement);
 
 	/**
@@ -540,8 +532,8 @@ public interface ExtendedSet<T> extends SortedSet<T>, Cloneable, Comparable<Exte
 	/**
 	 * Compares this object with the specified object for order. Returns a
 	 * negative integer, zero, or a positive integer as this object is less
-	 * than, equal to, or greater than the specified object. An {@link IntSet}
-	 * instance <code>A</code> is less than another {@link IntSet} instance
+	 * than, equal to, or greater than the specified object. An {@link OrderedIntSet}
+	 * instance <code>A</code> is less than another {@link OrderedIntSet} instance
 	 * <code>B</code> if <code>B-A</code> (that is, the elements in
 	 * <code>B</code> that are not contained in <code>A</code>) contains at
 	 * least one element that is greater than all the elements in
@@ -586,7 +578,7 @@ public interface ExtendedSet<T> extends SortedSet<T>, Cloneable, Comparable<Exte
 	 *             if the specified object's type prevents it from being
 	 *             compared to this object.
 	 */
-	@Override
+	
 	public int compareTo(ExtendedSet<T> o);
 }	
 

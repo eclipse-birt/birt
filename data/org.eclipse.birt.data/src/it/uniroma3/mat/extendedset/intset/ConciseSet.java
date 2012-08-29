@@ -209,7 +209,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		res.lastWordIndex = lastWordIndex;
 		res.modCount = 0;
 		res.size = size;
-		res.words = Arrays.copyOf(words, lastWordIndex + 1);
+		res.words = copyOf(words, lastWordIndex + 1);
 		return res;
 	}
 
@@ -456,7 +456,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			words = new int[capacity];
 			return;
 		}
-		words = Arrays.copyOf(words, capacity);
+		words = copyOf(words, capacity);
 	}
 
 	/**
@@ -465,7 +465,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	 */
 	private void compact() {
 		if (words != null && ((lastWordIndex + 1) << 1) < words.length)
-			words = Arrays.copyOf(words, lastWordIndex + 1);
+			words = copyOf(words, lastWordIndex + 1);
 	}
 	
 	/**
@@ -1820,7 +1820,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	public ConciseSet convert(int... a) {
 		ConciseSet res = empty();
 		if (a != null) {
-			a = Arrays.copyOf(a, a.length);
+			a = copyOf(a, a.length);
 			Arrays.sort(a);
 			for (int i : a)
 				if (res.last != i)
@@ -2730,7 +2730,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
     private void writeObject(ObjectOutputStream s) throws IOException {
     	if (words != null && lastWordIndex < words.length - 1)
     		// compact before serializing
-    		words = Arrays.copyOf(words, lastWordIndex + 1);
+    		words = copyOf(words, lastWordIndex + 1);
     	s.defaultWriteObject();
     }
 
@@ -2764,7 +2764,14 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
     
     public int[] getWords()
     {
-    	return Arrays.copyOf( this.words, this.lastWordIndex + 1);
+    	return copyOf( this.words, this.lastWordIndex + 1);
+    }
+    
+    private int[] copyOf( int[] original, int length )
+    {
+    	int[] copy = new int[length];
+    	System.arraycopy(original, 0, copy, 0,Math.min(original.length, length));
+    	return copy;
     }
     
     public int getLastWordIndex( )

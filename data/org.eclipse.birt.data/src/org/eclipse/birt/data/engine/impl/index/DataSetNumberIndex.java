@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.index;
 
-import it.uniroma3.mat.extendedset.intset.FastSet;
+import it.uniroma3.mat.extendedset.intset.ConciseSet;
 import it.uniroma3.mat.extendedset.intset.IntSet;
 
 import java.io.DataInputStream;
@@ -402,7 +402,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 			assert key instanceof List && ((List)key).size( ) == 2;
 			result =  this.seekBetween( ((List)key).get( 0 ), ((List)key).get( 1 ) );
 		}
-		IntSet fastSet = new FastSet();
+		IntSet fastSet = new ConciseSet();
 		for( int i : result )
 		{
 			fastSet.add( i );
@@ -442,7 +442,7 @@ public class DataSetNumberIndex implements IDataSetIndex
 	
 	public IntSet getAllKeyRows( ) throws DataException
 	{
-		FastSet fs = new FastSet();
+		ConciseSet fs = new ConciseSet();
 		for( int i = 0; i < segs.length; i++ )
 		{
 			List<Set<Integer>> index = segs[i].getIndexs( );

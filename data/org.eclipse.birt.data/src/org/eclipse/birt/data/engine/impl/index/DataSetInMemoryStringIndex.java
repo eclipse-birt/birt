@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.index;
 
-import it.uniroma3.mat.extendedset.intset.FastSet;
+import it.uniroma3.mat.extendedset.intset.ConciseSet;
 import it.uniroma3.mat.extendedset.intset.IntSet;
 
 import java.io.DataInputStream;
@@ -65,7 +65,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 
 	public IntSet getKeyIndex ( Object key, int searchType ) throws DataException
 	{
-		IntSet fastSet = new FastSet();
+		IntSet fastSet = new ConciseSet();
 		for( int i : this.getKeyIndex1( key, searchType) )
 		{
 			fastSet.add( i );
@@ -247,7 +247,7 @@ public class DataSetInMemoryStringIndex extends HashMap
 	
 	public IntSet getAllKeyRows( ) throws DataException
 	{
-		IntSet rowID = new FastSet();
+		IntSet rowID = new ConciseSet();
 		Object[] values = this.values( ).toArray( );
 		for( int i = 0; i < values.length; i++ )
 		{
