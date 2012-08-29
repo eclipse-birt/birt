@@ -42,7 +42,7 @@ public class DocumentIndexReaderV2
 
 	public int getVersion( )
 	{
-		return VERSION_1;
+		return VERSION_2;
 	}
 
 	public void close( )
