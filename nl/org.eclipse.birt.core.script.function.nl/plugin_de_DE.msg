@@ -96,6 +96,7 @@ FunctionDesc.minutes=Anzahl der Minuten zwischen zwei Datumsangaben
 FunctionDesc.months=Anzahl der Monate zwischen zwei Datumsangaben
 FunctionDesc.seconds=Anzahl der Sekunden zwischen zwei Datumsangaben
 FunctionDesc.years=Anzahl der Jahre zwischen zwei Datumsangaben
+FunctionDesc.date= Returns a Date object initialized with the given year, month, day, hours, minutes and seconds. \n(year, month, day are necessary; hours, minutes, seconds are optional) 
 FunctionDesc.duration.year=Ruft den Wert des Felds JAHRE als Ganzzahl ab, * oder 0, wenn nicht angegeben.\nlexicalDuration ist die Repräsentation der Dauerzeichenfolge 'PnYnMnDTnHnMnS' (z. B. P5Y2M15DT4H40M20S)
 FunctionDesc.duration.month=Ruft den Wert des Felds MONATE als Ganzzahl ab, * oder 0, wenn nicht angegeben.\nlexicalDuration ist die Repräsentation der Dauerzeichenfolge 'PnYnMnDTnHnMnS' (z. B. P5Y2M15DT4H40M20S)
 FunctionDesc.duration.day=Ruft den Wert des Felds TAGE als Ganzzahl ab, * oder 0, wenn nicht angegeben.\nlexicalDuration ist die Repräsentation der Dauerzeichenfolge 'PnYnMnDTnHnMnS' (z. B. P5Y2M15DT4H40M20S)

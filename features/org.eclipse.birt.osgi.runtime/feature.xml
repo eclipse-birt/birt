@@ -32,7 +32,6 @@
       <import plugin="org.apache.jasper.glassfish" version="2.2.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.jsp.jasper.registry" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.equinox.http.registry" version="1.0.0" match="compatible"/>
-      <import plugin="org.eclipse.help.base" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
       <import plugin="javax.servlet"/>
       <import plugin="javax.servlet.jsp"/>

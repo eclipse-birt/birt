@@ -96,6 +96,7 @@ FunctionDesc.minutes=두 날짜 사이의 분 수
 FunctionDesc.months=두 날짜 사이의 개월 수
 FunctionDesc.seconds=두 날짜 사이의 초 수
 FunctionDesc.years=두 날짜 사이의 연도 수
+FunctionDesc.date= Returns a Date object initialized with the given year, month, day, hours, minutes and seconds. \n(year, month, day are necessary; hours, minutes, seconds are optional) 
 FunctionDesc.duration.year=YEARS 필드에 값이 없는 경우 정수, * 또는 0을 입력합니다.\nlexicalDuration은 "PnYnMnDTnHnMnS"(예: P5Y2M15DT4H40M20S)로 표시되는 기간 문자열입니다.
 FunctionDesc.duration.month=MONTHS 필드에 값이 없는 경우 정수, * 또는 0을 입력합니다.\nlexicalDuration은 "PnYnMnDTnHnMnS"(예: P5Y2M15DT4H40M20S)로 표시되는 기간 문자열입니다.
 FunctionDesc.duration.day=DAYS 필드에 값이 없는 경우 정수, * 또는 0을 입력합니다.\nlexicalDuration은 "PnYnMnDTnHnMnS"(예: P5Y2M15DT4H40M20S)로 표시되는 기간 문자열입니다.
