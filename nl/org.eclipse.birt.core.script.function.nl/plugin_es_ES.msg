@@ -96,6 +96,7 @@ FunctionDesc.minutes=El número de minutos entre dos fechas
 FunctionDesc.months=El número de meses entre dos fechas
 FunctionDesc.seconds=El número de segundos entre dos fechas
 FunctionDesc.years=El número de años entre dos fechas
+FunctionDesc.date= Returns a Date object initialized with the given year, month, day, hours, minutes and seconds. \n(year, month, day are necessary; hours, minutes, seconds are optional) 
 FunctionDesc.duration.year=Obtiene el valor del campo YEARS como un valor entero,* o 0 si no está presente.\nEl valor lexicalDuration es la presentación del string de duración, "PnYnMnDTnHnMnS"(por ejemplo, P5Y2M15DT4H40M20S)
 FunctionDesc.duration.month=Obtiene el valor del campo MONTHS como un valor entero,* o 0 si no está presente.\nEl valor lexicalDuration es la presentación del string de duración, "PnYnMnDTnHnMnS"(por ejemplo, P5Y2M15DT4H40M20S)
 FunctionDesc.duration.day=Obtiene el valor del campo DAYS como un valor entero,* o 0 si no está presente.\nEl valor lexicalDuration es la presentación del string de duración, "PnYnMnDTnHnMnS"(por ejemplo, P5Y2M15DT4H40M20S)
