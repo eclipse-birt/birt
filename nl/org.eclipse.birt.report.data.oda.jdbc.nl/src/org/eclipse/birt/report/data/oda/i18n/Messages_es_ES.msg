@@ -60,7 +60,7 @@ odajdbc.CannotGetResultSetMetaDataScale=No se puede obtener la escala de los met
 odajdbc.CannotDetermineColumnSupportForNull=No se puede determinar si la columna admite valores nulos.
 
 odajdbc.StatementCannotPrepared=Error al preparar la sentencia de SQL.
-odajdbc.CannotGetMetaData=Cannot get the result set metadata. 
+odajdbc.CannotGetMetaData=No se pueden obtener los metadatos del grupo de resultados. 
 odajdbc.CannotClosePreparedStatement=No se puede cerrar preparedStatement.
 odajdbc.CannotGetPreparedStatementMetadata=No se pueden obtener los metadatos de preparedStatement.
 odajdbc.ResultSetCannotReturn=La sentencia de SQL no devuelve un objeto ResultSet.

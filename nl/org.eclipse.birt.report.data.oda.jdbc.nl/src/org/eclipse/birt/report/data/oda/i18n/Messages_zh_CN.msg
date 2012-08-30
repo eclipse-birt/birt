@@ -60,7 +60,7 @@ odajdbc.CannotGetResultSetMetaDataScale=无法获得结果集元数据进位制。
 odajdbc.CannotDetermineColumnSupportForNull=无法确定列是否支持空值。
 
 odajdbc.StatementCannotPrepared=准备 SQL 语句时出错。
-odajdbc.CannotGetMetaData=Cannot get the result set metadata. 
+odajdbc.CannotGetMetaData=无法获取结果集元数据。 
 odajdbc.CannotClosePreparedStatement=无法关闭 preparedStatement。
 odajdbc.CannotGetPreparedStatementMetadata=无法获得 preparedStatement 元数据。
 odajdbc.ResultSetCannotReturn=SQL 语句不返回 ResultSet 对象。
