@@ -973,26 +973,26 @@ public class TriggerDataComposite extends Composite implements
 
 					ChartAdapter.endIgnoreNotifications( );
 				}
-				else
-				{
-					this.slValues.topControl = cmpURL;
-					URLValue urlValue = (URLValue) trigger.getAction( )
-							.getValue( );
-					sBaseURL = urlValue.getBaseUrl( );
-					// txtBaseURL.setText( sBaseURL );
-					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0
-					// )
-					// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
-					txtBaseParm.setText( ( urlValue.getBaseParameterName( )
-							.length( ) > 0 ) ? urlValue.getBaseParameterName( )
-							: "" ); //$NON-NLS-1$
-					txtValueParm.setText( ( urlValue.getValueParameterName( )
-							.length( ) > 0 ) ? urlValue.getValueParameterName( )
-							: "" ); //$NON-NLS-1$
-					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
-							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
-							: "" ); //$NON-NLS-1$	
-				}
+//				else
+//				{
+//					this.slValues.topControl = cmpURL;
+//					URLValue urlValue = (URLValue) trigger.getAction( )
+//							.getValue( );
+//					sBaseURL = urlValue.getBaseUrl( );
+//					// txtBaseURL.setText( sBaseURL );
+//					// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0
+//					// )
+//					// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
+//					txtBaseParm.setText( ( urlValue.getBaseParameterName( )
+//							.length( ) > 0 ) ? urlValue.getBaseParameterName( )
+//							: "" ); //$NON-NLS-1$
+//					txtValueParm.setText( ( urlValue.getValueParameterName( )
+//							.length( ) > 0 ) ? urlValue.getValueParameterName( )
+//							: "" ); //$NON-NLS-1$
+//					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
+//							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
+//							: "" ); //$NON-NLS-1$	
+//				}
 				break;
 			case INDEX_2_TOOLTIP :
 				this.slValues.topControl = cmpTooltip;
