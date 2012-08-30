@@ -331,6 +331,33 @@ public class DataSetCacheManager
 	}
 	
 	/**
+	 * 
+	 * @param dsco
+	 * @throws DataException
+	 */
+	public void loadStart( ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+		
+		cacheMapManager.loadStart( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ) );
+	}
+	
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public void loadFinished( ) throws DataException
+	{
+		switchCacheMap( dataSetDesign );	
+		
+		cacheMapManager.loadFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+				this.dataSetDesign,
+				this.parameterHints, this.cacheID ) );
+	}
+	
+	/**
 	 * @return
 	 * @throws DataException 
 	 */

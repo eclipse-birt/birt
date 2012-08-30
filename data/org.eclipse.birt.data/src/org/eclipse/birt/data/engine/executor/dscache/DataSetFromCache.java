@@ -49,6 +49,7 @@ public class DataSetFromCache
 		try
 		{
 			countLimit = session.getDataSetCacheManager( ).getCacheCapability( );
+			session.getDataSetCacheManager( ).loadStart( );
 		}
 		catch ( DataException e )
 		{
@@ -242,6 +243,7 @@ public class DataSetFromCache
 		// when in save status, close might be done automatically
 		if ( loadUtil != null )
 		{
+			session.getDataSetCacheManager( ).loadFinished( );
 			loadUtil.close( );
 			loadUtil = null;
 		}
