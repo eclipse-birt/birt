@@ -114,14 +114,14 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			{
 				element = ( (Item) element ).getData( );
 			}
-			MeasureInfo info = (MeasureInfo) element;
-			MeasureViewHandle measureView = crosstab.getMeasure( info.getMeasureName( ) );
-			if (measureView == null
-					|| measureView instanceof ComputedMeasureViewHandle
-					|| (measureView.getCubeMeasure() != null && measureView.getCubeMeasure().isCalculated()))
-			{
-				return false;
-			}
+//			MeasureInfo info = (MeasureInfo) element;
+//			MeasureViewHandle measureView = crosstab.getMeasure( info.getMeasureName( ) );
+//			if (measureView == null
+//					|| measureView instanceof ComputedMeasureViewHandle
+//					|| (measureView.getCubeMeasure() != null && measureView.getCubeMeasure().isCalculated()))
+//			{
+//				return false;
+//			}
 			
 			if ( Arrays.asList( columnNames ).indexOf( property ) == 1 )
 			{
