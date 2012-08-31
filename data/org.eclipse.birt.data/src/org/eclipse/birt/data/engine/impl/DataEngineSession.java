@@ -98,10 +98,17 @@ public class DataEngineSession
 			this.scope = new ImporterTopLevel( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ));
 		}
 		new CoreJavaScriptInitializer( ).initialize( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ), scope );
+		StringBuffer buffer = new StringBuffer( );
+		buffer.append( engine.getContext( ).getTmpdir( ) );
+		buffer.append( "DataEngine" );
 		String processName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName( );
-		long pid = Long.parseLong(processName.split("@")[0]);
-		tempDir = engine.getContext( ).getTmpdir( ) + 
-				"DataEngine_" +pid+"_"+ engine.hashCode( ) + "_" + getCount( ) + File.separator;
+		buffer.append( Integer.toHexString( processName.hashCode( ) ) );
+		buffer.append( "_" );
+		buffer.append( Integer.toHexString( engine.hashCode( )) );
+		buffer.append( "_" );
+		buffer.append( getCount( ) );
+		buffer.append( File.separator );
+		tempDir = buffer.toString( );
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		this.cancelManager = new CancelManager( );
