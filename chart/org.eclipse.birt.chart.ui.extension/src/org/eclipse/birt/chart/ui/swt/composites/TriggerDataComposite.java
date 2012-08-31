@@ -973,8 +973,16 @@ public class TriggerDataComposite extends Composite implements
 
 					ChartAdapter.endIgnoreNotifications( );
 				}
-//				else
-//				{
+				else
+				{
+					// Null case
+					ChartAdapter.beginIgnoreNotifications( );
+					MultiURLValues urlValues = MultiURLValuesImpl.create( );
+					trigger.getAction( ).setValue( urlValues );
+					urlValues.eAdapters( ).addAll( trigger.eAdapters( ) );
+					multiHyperlinksComposite.populateUIValues( urlValues );
+					ChartAdapter.endIgnoreNotifications( );
+					
 //					this.slValues.topControl = cmpURL;
 //					URLValue urlValue = (URLValue) trigger.getAction( )
 //							.getValue( );
@@ -992,7 +1000,7 @@ public class TriggerDataComposite extends Composite implements
 //					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
 //							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
 //							: "" ); //$NON-NLS-1$	
-//				}
+				}
 				break;
 			case INDEX_2_TOOLTIP :
 				this.slValues.topControl = cmpTooltip;
@@ -1048,7 +1056,8 @@ public class TriggerDataComposite extends Composite implements
 		switch ( getTriggerIndex( ) )
 		{
 			case INDEX_1_URL_REDIRECT :
-				value = multiHyperlinksComposite.getURLValues( );
+				// Must copy here to avoid chain set
+				value = multiHyperlinksComposite.getURLValues( ).copyInstance( );
 				break;
 			case INDEX_2_TOOLTIP :
 				value = TooltipValueImpl.create( 200, "" ); //$NON-NLS-1$

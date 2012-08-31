@@ -50,6 +50,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIExtensionUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -597,15 +598,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		{
 			if ( context.getModel( ) instanceof ChartWithAxes )
 			{
-				ChartWithAxes chart = (ChartWithAxes) context.getModel( );
-				if ( chart.getPrimaryBaseAxes( ).length > 0 )
+				// Get the current axis that holds series
+				Axis ax = ChartUtil.getAxisFromSeries( series );
+				if ( ax == null )
 				{
-					Axis ax = chart.getPrimaryOrthogonalAxis( chart.getPrimaryBaseAxes( )[0] );
-					if ( ax != null )
+					ChartWithAxes chart = (ChartWithAxes) context.getModel( );
+					if ( chart.getPrimaryBaseAxes( ).length > 0 )
 					{
-						return ax.getType( );
+						ax = chart.getPrimaryOrthogonalAxis( chart.getPrimaryBaseAxes( )[0] );
 					}
 				}
+				return ax.getType( );
 			}
 		}
 		else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
