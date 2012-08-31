@@ -958,14 +958,14 @@ class KeyIndexHolder
 			return new Iterator<KeyRowIDSet>( ) {
 				private int remainingCount = sortedKeyRowSet.size( );
 
-				@Override
+				
 				public boolean hasNext( )
 				{
 					return this.remainingCount > 0;
 					
 				}
 
-				@Override
+				
 				public KeyRowIDSet next( )
 				{
 					try
@@ -979,7 +979,7 @@ class KeyIndexHolder
 					}
 				}
 
-				@Override
+				
 				public void remove( )
 				{
 					throw new UnsupportedOperationException( );
@@ -992,7 +992,7 @@ class KeyIndexHolder
 			final List keys = getSortedKeys( );
 			return new Iterator<KeyRowIDSet>(){
 				private int currentIndex = -1;
-				@Override
+				
 				public boolean hasNext( )
 				{
 					if( currentIndex < keys.size( )-1)
@@ -1002,7 +1002,7 @@ class KeyIndexHolder
 					return false;
 				}
 
-				@Override
+				
 				public KeyRowIDSet next( )
 				{
 					this.currentIndex ++;
@@ -1013,7 +1013,7 @@ class KeyIndexHolder
 
 				
 
-				@Override
+				
 				public void remove( )
 				{
 					throw new UnsupportedOperationException( );

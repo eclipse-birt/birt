@@ -66,6 +66,8 @@ public class CacheUtil
 	 */
 	public static long computeMemoryBufferSize( Map appContext )
 	{
+		if( true )
+			return 128*1024*1024;
 		//here a simple assumption, that 1M memory can accommodate 2000 rows
 		if ( appContext == null )
 			return 0;

@@ -102,7 +102,7 @@ class ConciseSerializer implements BTreeSerializer<IntSet>
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.btree.BTreeSerializer#getBytes(java.lang.Object)
 	 */
-	@Override
+	
 	public byte[] getBytes( IntSet object ) throws IOException
 	{
 		assert object instanceof ConciseSet;
@@ -127,7 +127,7 @@ class ConciseSerializer implements BTreeSerializer<IntSet>
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.core.btree.BTreeSerializer#getObject(byte[])
 	 */
-	@Override
+	
 	public IntSet getObject( byte[] bytes ) throws IOException,
 			ClassNotFoundException
 	{

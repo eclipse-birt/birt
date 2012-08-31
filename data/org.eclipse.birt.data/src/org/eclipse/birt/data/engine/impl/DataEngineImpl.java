@@ -87,6 +87,8 @@ public class DataEngineImpl extends DataEngine
 
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
+	private long dataEngineStart;
+	
 	/**
 	 * Constructor to specify the DataEngine Context to use by the Data Engine
 	 * for all related ReportQuery processing.
@@ -114,6 +116,7 @@ public class DataEngineImpl extends DataEngine
 		this.session = new DataEngineSession( this );
 		DataEngineThreadLocal.getInstance( ).getCloseListener( ).dataEngineStart( );
 		
+		this.dataEngineStart = System.currentTimeMillis( );
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.FINER, "Data Engine starts up" );
 	}
@@ -622,6 +625,7 @@ public class DataEngineImpl extends DataEngine
 			}
 		}	
 		
+		System.out.println( "Data Engine consumes:" + (System.currentTimeMillis( ) - this.dataEngineStart ));
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	

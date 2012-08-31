@@ -35,12 +35,12 @@ public class OrIntSetImpl implements IntSet
 		this.data = data;
 		
 	}
-	@Override
+	
 	public int compareTo(IntSet o) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet intersection(IntSet other) {
 		if( this.data.length == 1 )
 		{
@@ -61,83 +61,83 @@ public class OrIntSetImpl implements IntSet
 		return result;
 	}
 
-	@Override
+	
 	public IntSet union(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet difference(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet symmetricDifference(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet complemented() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public void complement() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean containsAny(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean containsAtLeast(IntSet other, int minElements) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int intersectionSize(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int unionSize(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int symmetricDifferenceSize(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int differenceSize(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int complementSize() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet empty() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public double bitmapCompressionRatio() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public double collectionCompressionRatio() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntIterator iterator() {
 		
 		IntIterator[] its = new IntIterator[this.data.length];
@@ -184,67 +184,67 @@ public class OrIntSetImpl implements IntSet
 	}
 	
 	
-	@Override
+	
 	public IntIterator descendingIterator() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public String debugInfo() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public void fill(int from, int to) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public void clear(int from, int to) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public void flip(int e) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int get(int i) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int indexOf(int e) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet convert(int... a) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public IntSet convert(Collection<Integer> c) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int first() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int last() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int size() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean isEmpty() {
 		for( IntSet temp : this.data )
 		{
@@ -254,42 +254,42 @@ public class OrIntSetImpl implements IntSet
 		return true;
 	}
 
-	@Override
+	
 	public boolean contains(int i) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean add(int i) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean remove(int i) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean containsAll(IntSet c) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean addAll(IntSet c) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean retainAll(IntSet c) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public boolean removeAll(IntSet c) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public void clear() {
 		throw new UnsupportedOperationException();
 		
@@ -300,52 +300,52 @@ public class OrIntSetImpl implements IntSet
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int[] toArray() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int[] toArray(int[] a) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public List<? extends IntSet> powerSet() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public List<? extends IntSet> powerSet(int min, int max) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int powerSetSize() {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public int powerSetSize(int min, int max) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public double jaccardSimilarity(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public double jaccardDistance(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public double weightedJaccardSimilarity(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
+	
 	public double weightedJaccardDistance(IntSet other) {
 		throw new UnsupportedOperationException();
 	}
@@ -421,7 +421,7 @@ public class OrIntSetImpl implements IntSet
 		/* (non-Javadoc)
 		 * @see it.uniroma3.mat.extendedset.intset.IntSet.IntIterator#hasNext()
 		 */
-		@Override
+		
 		public boolean hasNext( )
 		{
 			return !( (this.leftValue == this.rightValue) && (this.leftValue == Integer.MAX_VALUE) );
@@ -430,7 +430,7 @@ public class OrIntSetImpl implements IntSet
 		/* (non-Javadoc)
 		 * @see it.uniroma3.mat.extendedset.intset.IntSet.IntIterator#remove()
 		 */
-		@Override
+		
 		public void remove( )
 		{
 			throw new UnsupportedOperationException();
@@ -439,7 +439,7 @@ public class OrIntSetImpl implements IntSet
 		/* (non-Javadoc)
 		 * @see it.uniroma3.mat.extendedset.intset.IntSet.IntIterator#skipAllBefore(int)
 		 */
-		@Override
+		
 		public void skipAllBefore( int element )
 		{
 			throw new UnsupportedOperationException();

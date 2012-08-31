@@ -198,7 +198,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet clone() {
 		if (isEmpty())
 			return empty();
@@ -477,12 +477,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		 * @uml.associationEnd  
 		 */
 		AND {
-			@Override 
+			 
 			public int combineLiterals(int literal1, int literal2) {
 				return literal1 & literal2;
 			}
 
-			@Override 
+			 
 			public ConciseSet combineEmptySets(ConciseSet op1, ConciseSet op2) {
 				return op1.empty();
 			}
@@ -502,7 +502,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 				return null;
 			}
 			
-			@Override
+			
 			public ConciseSet combineDisjointSets(ConciseSet op1, ConciseSet op2) {
 				ConciseSet res = oneWayCombineDisjointSets(op1, op2);
 				if (res == null)
@@ -516,12 +516,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		 * @uml.associationEnd  
 		 */
 		OR {
-			@Override 
+			 
 			public int combineLiterals(int literal1, int literal2) {
 				return literal1 | literal2;
 			}
 
-			@Override 
+			 
 			public ConciseSet combineEmptySets(ConciseSet op1, ConciseSet op2) {
 				if (!op1.isEmpty())
 					return op1.clone();
@@ -564,7 +564,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 				return null;
 			}
 
-			@Override
+			
 			public ConciseSet combineDisjointSets(ConciseSet op1, ConciseSet op2) {
 				ConciseSet res = oneWayCombineDisjointSets(op1, op2);
 				if (res == null)
@@ -578,12 +578,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		 * @uml.associationEnd  
 		 */
 		XOR {
-			@Override 
+			 
 			public int combineLiterals(int literal1, int literal2) {
 				return ALL_ZEROS_LITERAL | (literal1 ^ literal2);
 			}
 
-			@Override 
+			 
 			public ConciseSet combineEmptySets(ConciseSet op1, ConciseSet op2) {
 				if (!op1.isEmpty())
 					return op1.clone();
@@ -608,7 +608,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 				return null;
 			}
 
-			@Override
+			
 			public ConciseSet combineDisjointSets(ConciseSet op1, ConciseSet op2) {
 				ConciseSet res = oneWayCombineDisjointSets(op1, op2);
 				if (res == null)
@@ -622,19 +622,19 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		 * @uml.associationEnd  
 		 */
 		ANDNOT {
-			@Override 
+			 
 			public int combineLiterals(int literal1, int literal2) {
 				return ALL_ZEROS_LITERAL | (literal1 & (~literal2));
 			}
 
-			@Override 
+			 
 			public ConciseSet combineEmptySets(ConciseSet op1, ConciseSet op2) {
 				if (!op1.isEmpty())
 					return op1.clone();
 				return op1.empty();
 			}
 			
-			@Override
+			
 			public ConciseSet combineDisjointSets(ConciseSet op1, ConciseSet op2) {
 				// check whether the first operator starts with a sequence that
 				// completely "covers" the second operator
@@ -1133,7 +1133,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int intersectionSize(IntSet o) {
 		// special cases
 		if (isEmpty() || o == null || o.isEmpty()) 
@@ -1195,7 +1195,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int get(int i) {
 		if (i < 0)
 			throw new IndexOutOfBoundsException();
@@ -1261,7 +1261,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int indexOf(int e) {
 		if (e < 0)
 			throw new IllegalArgumentException("positive integer expected: " + Integer.toString(e));
@@ -1326,7 +1326,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet intersection(IntSet other) {
 		if (isEmpty() || other == null || other.isEmpty())
 			return empty();
@@ -1338,7 +1338,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet union(IntSet other) {
 		if (other == null || other.isEmpty() || other == this)
 			return clone();
@@ -1348,7 +1348,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet difference(IntSet  other) {
 		if (other == this)
 			return empty();
@@ -1360,7 +1360,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet symmetricDifference(IntSet other) {
 		if (other == this)
 			return empty();
@@ -1372,7 +1372,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet complemented() {
 		ConciseSet cloned = clone();
 		cloned.complement();
@@ -1382,7 +1382,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void complement() {
 		modCount++;
 		
@@ -1486,37 +1486,37 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		int len = 0;
 		int current = 0;
 		
-		@Override public boolean hasNext() {
+		 public boolean hasNext() {
 			return current < len;
 		}
 
-		@Override public boolean hasPrevious() {
+		 public boolean hasPrevious() {
 			return current > 0;
 		}
 
-		@Override public int next() {
+		 public int next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
 			return buffer[current++];
 		}
 
-		@Override public int previous() {
+		 public int previous() {
 			if (!hasPrevious())
 				throw new NoSuchElementException();
 			return buffer[--current];
 		}
 
-		@Override public void skipAllAfter(int i) {
+		 public void skipAllAfter(int i) {
 			while (hasPrevious() && buffer[current - 1] > i)
 				current--;
 		}
 
-		@Override public void skipAllBefore(int i) {
+		 public void skipAllBefore(int i) {
 			while (hasNext() && buffer[current] < i)
 				current++;
 		}
 		
-		@Override public void reset(int offset, int word, boolean fromBeginning) {
+		 public void reset(int offset, int word, boolean fromBeginning) {
 			if (isLiteral(word)) {
 				len = 0;
 				for (int i = 0; i < MAX_LITERAL_LENGHT; i++) 
@@ -1549,15 +1549,15 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 		int current = 0;
 		int exception = -1;
 		
-		@Override public boolean hasNext() {
+		 public boolean hasNext() {
 			return current < lastInt;
 		}
 
-		@Override public boolean hasPrevious() {
+		 public boolean hasPrevious() {
 			return current > firstInt;
 		}
 
-		@Override public int next() {
+		 public int next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
 			current++;
@@ -1566,7 +1566,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			return current;
 		}
 
-		@Override public int previous() {
+		 public int previous() {
 			if (!hasPrevious())
 				throw new NoSuchElementException();
 			current--;
@@ -1575,19 +1575,19 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			return current;
 		}
 
-		@Override public void skipAllAfter(int i) {
+		 public void skipAllAfter(int i) {
 			if (i >= current)
 				return;
 			current = i + 1;
 		}
 
-		@Override public void skipAllBefore(int i) {
+		 public void skipAllBefore(int i) {
 			if (i <= current)
 				return;
 			current = i - 1;
 		}
 		
-		@Override public void reset(int offset, int word, boolean fromBeginning) {
+		 public void reset(int offset, int word, boolean fromBeginning) {
 			if (!isOneSequence(word))
 				throw new RuntimeException("NOT a sequence of ones!");
 			firstInt = offset;
@@ -1642,12 +1642,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			nextWord();
 		}
 		
-		@Override
+		
 		public boolean hasNext() {
 			return nextIndex <= lastWordIndex || exp.hasNext();
 		}
 
-		@Override
+		
 		public int next() {
 			while (!exp.hasNext()) {
 				if (nextIndex > lastWordIndex)
@@ -1657,12 +1657,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			return exp.next();
 		}
 
-		@Override
+		
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
+		
 		public void skipAllBefore(int element) {
 			while(true) {
 				exp.skipAllBefore(element);
@@ -1716,12 +1716,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			previousWord();
 		}
 		
-		@Override
+		
 		public boolean hasNext() {
 			return nextIndex >= firstIndex || exp.hasPrevious();
 		}
 
-		@Override
+		
 		public int next() {
 			while (!exp.hasPrevious()) {
 				if (nextIndex < firstIndex)
@@ -1731,12 +1731,12 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 			return exp.previous();
 		}
 
-		@Override
+		
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 
-		@Override
+		
 		public void skipAllBefore(int element) {
 			while(true) {
 				exp.skipAllAfter(element);
@@ -1750,14 +1750,14 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntIterator iterator() {
 		if (isEmpty()) {
 			return new IntIterator() {
-				@Override public void skipAllBefore(int element) {/*empty*/}
-				@Override public boolean hasNext() {return false;}
-				@Override public int next() {throw new NoSuchElementException();}
-				@Override public void remove() {throw new UnsupportedOperationException();}
+				 public void skipAllBefore(int element) {/*empty*/}
+				 public boolean hasNext() {return false;}
+				 public int next() {throw new NoSuchElementException();}
+				 public void remove() {throw new UnsupportedOperationException();}
 			};
 		}
 		return new BitIterator();
@@ -1766,14 +1766,14 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public IntIterator descendingIterator() {
 		if (isEmpty()) {
 			return new IntIterator() {
-				@Override public void skipAllBefore(int element) {/*empty*/}
-				@Override public boolean hasNext() {return false;}
-				@Override public int next() {throw new NoSuchElementException();}
-				@Override public void remove() {throw new UnsupportedOperationException();}
+				 public void skipAllBefore(int element) {/*empty*/}
+				 public boolean hasNext() {return false;}
+				 public int next() {throw new NoSuchElementException();}
+				 public void remove() {throw new UnsupportedOperationException();}
 			};
 		}
 		return new ReverseBitIterator();
@@ -1782,7 +1782,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void clear() {
 		reset();
 	}
@@ -1790,7 +1790,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int last() {
 		if (isEmpty()) 
 			throw new NoSuchElementException();
@@ -1816,7 +1816,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet convert(int... a) {
 		ConciseSet res = empty();
 		if (a != null) {
@@ -1832,7 +1832,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet convert(Collection<Integer> c) {
 		ConciseSet res = empty();
 		Collection<Integer> sorted;
@@ -1886,7 +1886,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean add(int e) {
 		modCount++;
 
@@ -1973,7 +1973,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean remove(int o) {
 		modCount++;
 
@@ -2061,7 +2061,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean contains(int o) {
 		if (isEmpty() || o > last || o < 0)
 			return false;
@@ -2106,7 +2106,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean containsAll(IntSet c) {
 		if (c == null || c.isEmpty() || c == this)
 			return true;
@@ -2178,7 +2178,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean containsAny(IntSet c) {
 		if (c == null || c.isEmpty() || c == this)
 			return true;
@@ -2239,7 +2239,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean containsAtLeast(IntSet c, int minElements) {
 		if (minElements < 1)
 			throw new IllegalArgumentException();
@@ -2316,7 +2316,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean isEmpty() {
 		return words == null;
 	}
@@ -2324,7 +2324,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean retainAll(IntSet c) {
 		modCount++;
 
@@ -2352,7 +2352,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean addAll(IntSet c) {
 		modCount++;
 		if (c == null || c.isEmpty() || this == c)
@@ -2368,7 +2368,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean removeAll(IntSet c) {
 		modCount++;
 
@@ -2389,7 +2389,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int size() {
 		if (size < 0) {
 			size = 0;
@@ -2415,7 +2415,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public ConciseSet empty() {
 		return new ConciseSet(simulateWAH);
 	}
@@ -2423,7 +2423,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int hashCode() {
 		int h = 1;
 		for (int i = 0; i <= lastWordIndex; i++)
@@ -2434,7 +2434,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -2460,7 +2460,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public int compareTo(IntSet o) {
 		// empty set cases
 		if (this.isEmpty() && o.isEmpty())
@@ -2566,7 +2566,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void clear(int from, int to) {
 		ConciseSet toRemove = empty();
 		toRemove.fill(from, to);
@@ -2576,7 +2576,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void fill(int from, int to) {
 		ConciseSet toAdd = empty();
 		toAdd.add(to);
@@ -2595,7 +2595,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public void flip(int e) {
 		if (!add(e))
 			remove(e);
@@ -2604,7 +2604,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public double bitmapCompressionRatio() {
 		if (isEmpty())
 			return 0D;
@@ -2614,7 +2614,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public double collectionCompressionRatio() {
 		if (isEmpty())
 			return 0D;
@@ -2643,7 +2643,7 @@ public class ConciseSet extends AbstractIntSet implements java.io.Serializable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+	
 	public String debugInfo() {
 		final StringBuilder s = new StringBuilder("INTERNAL REPRESENTATION:\n");
 		final Formatter f = new Formatter(s, Locale.ENGLISH);

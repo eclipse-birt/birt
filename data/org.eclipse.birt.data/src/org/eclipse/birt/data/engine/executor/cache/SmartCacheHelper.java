@@ -350,7 +350,7 @@ class SmartCacheHelper
 			}
 			else
 			{
-				logger.fine( "DisckCache is used" );
+				logger.info( "DisckCache is used" );
 
 				resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
 				// the order is: resultObjects, odaObject, rowResultSet
@@ -368,7 +368,7 @@ class SmartCacheHelper
 
 		if ( resultSetCache == null )
 		{
-			logger.fine( "MemoryCache is used" );
+			logger.info( "MemoryCache is used" );
 
 			resultObjects = (IResultObject[]) resultObjectsList.toArray( new IResultObject[0] );
 
@@ -383,7 +383,7 @@ class SmartCacheHelper
 		rowResultSet = null;
 
 		long consumedTime = ( System.currentTimeMillis( ) - startTime ) / 1000;
-		logger.fine( "Time consumed by cache is: " + consumedTime + " second" );
+		logger.info( "Time consumed by cache is: " + consumedTime + " second" );
 	}
 	
 	/**

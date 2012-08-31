@@ -61,6 +61,8 @@ import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.storage.DataSetStore;
+import org.eclipse.birt.data.engine.storage.IDataSetWriter;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -87,6 +89,8 @@ public class SimpleResultSet implements IResultIterator
 	private IProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
 	private ICloseable closeable;
+	private IDataSetWriter writer;
+	private DataEngineSession session;
 	
 	/**
 	 * 
@@ -105,6 +109,7 @@ public class SimpleResultSet implements IResultIterator
 				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
 				false );
+
 		populateRowResultSet( handler, scRequest );
 
 		this.closeable = new ICloseable(){
@@ -134,6 +139,7 @@ public class SimpleResultSet implements IResultIterator
 				new OdiAdapter( populator ),
 				resultClass,
 				false );
+		
 		populateRowResultSet( handler, scRequest );
 	
 		this.closeable = (populator instanceof ICloseable)?(ICloseable)populator:null; 
@@ -175,6 +181,7 @@ public class SimpleResultSet implements IResultIterator
 						this.rowResultSet.getMetaData( ) )
 				: new DummyGroupCalculator( );
 		this.currResultObj = this.rowResultSet.next( );
+		this.session = session;
 		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
 		this.groupCalculator.registerNextResultObject( this.rowResultSet );
 		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
@@ -219,6 +226,12 @@ public class SimpleResultSet implements IResultIterator
 		{
 			this.closeable.close( );
 			this.closeable = null;
+		}
+		
+		if( this.writer!= null )
+		{
+			this.writer.close( );
+			this.writer = null;
 		}
 		this.groupCalculator.close( );
 		
@@ -333,6 +346,10 @@ public class SimpleResultSet implements IResultIterator
 	{
 		this.streamsWrapper = streamsWrapper;
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
+		this.writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ),
+				getResultClass( ),
+				handler.getAppContext( ),
+				this.session );
 		try
 		{
 			if ( streamsWrapper.getStreamForResultClass( ) != null )
@@ -343,14 +360,18 @@ public class SimpleResultSet implements IResultIterator
 						streamsWrapper.getStreamManager( ).getVersion( ) );
 				streamsWrapper.getStreamForResultClass( ).close( );
 			}
-			dataSetStream = this.streamsWrapper.getStreamManager( )
-					.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE );
-			dataSetLenStream = streamsWrapper.getStreamForDataSetRowLens( );
-			if ( dataSetStream instanceof RAOutputStream )
-				rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
-			IOUtil.writeInt( dataSetStream, this.initialRowCount );
+
+			if ( writer == null )
+			{
+				dataSetStream = this.streamsWrapper.getStreamManager( )
+						.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				dataSetLenStream = streamsWrapper.getStreamForDataSetRowLens( );
+				if ( dataSetStream instanceof RAOutputStream )
+					rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
+				IOUtil.writeInt( dataSetStream, this.initialRowCount );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -538,7 +559,9 @@ public class SimpleResultSet implements IResultIterator
 		{
 			try 
 			{
-				if ( dataSetStream != null )
+				if ( this.writer != null )
+					this.writer.save( currResultObj, this.rowCount-1 );
+				else if ( dataSetStream != null )
 				{
 					int colCount = this.populateResultClass( this.currResultObj.getResultClass( ) )
 							.getFieldCount( );
