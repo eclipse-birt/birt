@@ -563,6 +563,10 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 		{
 			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
 		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
+		}
 
 		return defaultAnalysisType;
 	}
