@@ -354,6 +354,9 @@ public class GroupDialog extends BaseDialog implements Listener
 		bookmarkEditor = new Text( bookmakrComposite, SWT.WRAP | SWT.BORDER );
 		gd = new GridData( );
 		gd.widthHint = 180;
+		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- bookmarkEditor.getBorderWidth( )
+				* 2;
 		bookmarkEditor.setLayoutData( gd );
 
 		ExpressionButtonUtil.createExpressionButton( bookmakrComposite,
@@ -383,6 +386,9 @@ public class GroupDialog extends BaseDialog implements Listener
 		tocEditor = new Text( tocArea, SWT.WRAP | SWT.BORDER );
 		GridData gd = new GridData( );
 		gd.widthHint = 200;
+		gd.heightHint = tocEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- tocEditor.getBorderWidth( )
+				* 2;
 		tocEditor.setLayoutData( gd );
 		tocEditor.addModifyListener( new ModifyListener( ) {
 

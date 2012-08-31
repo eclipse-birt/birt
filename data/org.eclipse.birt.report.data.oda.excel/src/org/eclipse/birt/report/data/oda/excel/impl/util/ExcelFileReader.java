@@ -290,21 +290,18 @@ public class ExcelFileReader {
 	private String resolveFormula(Cell cell) {
 		if (formulaEvaluator == null)
 			return cell.toString();
-
-		if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell) ){
-			//need to check for nulls
-			//double myexdate = org.apache.poi.ss.usermodel.DateUtil.getExcelDate(cell.getDateCellValue());
-			Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
-			long millis = myjavadate.getTime();
-			return Long.toString(millis);
-
-		}
-
 		switch (formulaEvaluator.evaluateFormulaCell(cell)) {
 		case Cell.CELL_TYPE_BOOLEAN:
 			return ((Boolean) cell.getBooleanCellValue()).toString();
 
 		case Cell.CELL_TYPE_NUMERIC:
+			if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell) ){
+				//need to check for nulls
+				//double myexdate = org.apache.poi.ss.usermodel.DateUtil.getExcelDate(cell.getDateCellValue());
+				Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(cell.getNumericCellValue());
+				long millis = myjavadate.getTime();
+				return Long.toString(millis);
+			}
 			return ((Double) cell.getNumericCellValue()).toString();
 
 		case Cell.CELL_TYPE_STRING:

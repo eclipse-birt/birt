@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -337,8 +338,9 @@ public class InputParameterDialog extends BaseDialog
 
 			if ( paramValues.containsKey( textParam.getHandle( ).getName( ) ) )
 			{
-				value = paramValues.get( textParam.getHandle( ).getName( ) )
-						.toString( );
+//				value = paramValues.get( textParam.getHandle( ).getName( ) )
+//						.toString( );
+				value = getStringFormat( paramValues.get( textParam.getHandle( ).getName( ) ) );
 			}
 
 			if ( value != null )
@@ -470,6 +472,18 @@ public class InputParameterDialog extends BaseDialog
 		}
 
 		return container;
+	}
+	
+	private String getStringFormat(Object obj)
+	{
+		if (obj instanceof Date) {
+			try {
+				return DataTypeUtil.toString(obj);
+			} catch (BirtException e) {
+				//do nothing
+			}
+		}
+		return obj.toString();
 	}
 
 	private void checkParam( final String defaultValueLabel,
