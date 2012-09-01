@@ -201,20 +201,21 @@ class BooleanSerializer implements BTreeSerializer<Boolean>
 class IntegerSerializer implements BTreeSerializer<Integer>
 {
 
-	public byte[] getBytes( Integer object ) throws IOException
+	public byte[] getBytes( Integer i ) throws IOException
 	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
-		DataOutput oo = new DataOutputStream( out );
-		oo.writeInt( object );
-		return out.toByteArray( );
+		byte[] result = new byte[4];
+
+		  result[0] = (byte) (i >> 24);
+		  result[1] = (byte) (i >> 16);
+		  result[2] = (byte) (i >> 8);
+		  result[3] = (byte) ((int)i);
+		  return result;
 	}
 
 	public Integer getObject( byte[] bytes ) throws IOException,
 			ClassNotFoundException
 	{
-		DataInput input = new DataInputStream( new ByteArrayInputStream(
-				bytes ) );
-		return input.readInt( );
+		return ByteBuffer.wrap(bytes).getInt();
 	}
 }
 
