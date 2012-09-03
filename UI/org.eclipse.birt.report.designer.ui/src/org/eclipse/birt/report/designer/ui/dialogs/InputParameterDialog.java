@@ -1105,6 +1105,10 @@ public class InputParameterDialog extends BaseDialog
 
 	private String formatString( String str, ScalarParameter para )
 	{
+		if(str == null || "".equals(str.trim()))//$NON-NLS-1$
+		{
+			return "";//$NON-NLS-1$
+		}
 		ScalarParameterHandle paraHandle = para.getHandle( );
 		String formatCategroy = paraHandle.getCategory( );
 		String formatPattern = paraHandle.getPattern( );
