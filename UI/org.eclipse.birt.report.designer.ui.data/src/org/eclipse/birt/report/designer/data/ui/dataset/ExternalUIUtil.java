@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
@@ -257,4 +258,34 @@ public class ExternalUIUtil
 		}
 		return targetHandle;
 	}
+	
+	public static String getDefaultAnalysisType( String dataType )
+	{
+		String defaultAnalysisType = null;
+
+		dataType = dataType.toLowerCase( );
+		
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT.equals( dataType ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ) )
+		{
+			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
+		}
+
+		return defaultAnalysisType;
+	}
+
 }

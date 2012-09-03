@@ -528,47 +528,20 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 				try
 				{
 					String analysis = hint.getAnalysis( );
-					String defaultAnalysis = getDefaultAnalysisType( item.getName( ),
-							item.getDataTypeName( ) );
-					if ( analysis== null && getDefaultAnalysisForNullValue && updateFlag )
+					if ( analysis == null
+							&& getDefaultAnalysisForNullValue && updateFlag )
 					{
-						hint.setAnalysis( defaultAnalysis );
+						hint.setAnalysis( ExternalUIUtil.getDefaultAnalysisType( item.getDataTypeName( ) ) );
 					}
 				}
 				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
 				}
+				
 				item.setAnalysis( hint.getAnalysis( ) );
 			}
 		}
-	}
-	
-	public String getDefaultAnalysisType( String columnName, String dataType )
-	{
-		String defaultAnalysisType = null;
-
-		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT )
-				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT.equals( dataType ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_MEASURE;
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION;
-		}
-		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ) )
-		{
-			defaultAnalysisType = DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE;
-		}
-
-		return defaultAnalysisType;
 	}
 	
 	/**
@@ -622,12 +595,11 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							{
 								try
 								{
-									hint.setAnalysis( getDefaultAnalysisType( viewData[i].getName( ),
-											viewData[i].getDataTypeName( ) ) );
+									hint.setAnalysis( ExternalUIUtil.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
 								}
 								catch ( SemanticException e )
 								{
-									// TODO Auto-generated catch block
+									ExceptionHandler.handle( e );
 								}
 							}
 							continue;
