@@ -42,6 +42,29 @@ public class JavaUtilLoggerImpl implements ILogger
 	private static StreamHandler fileHandler = null;
 
 	private static String stateDir = null;
+	
+	private void addLogHandler( )
+	{
+		if ( fileHandler == null )
+		{
+			return;
+		}
+
+		/* if file handler already existed, don't added it */
+		boolean handlerExist = false;
+		for ( java.util.logging.Handler hd : this.logger.getHandlers( ) )
+		{
+			if ( hd.equals( fileHandler ) )
+			{
+				handlerExist = true;
+				break;
+			}
+		}
+		if ( !handlerExist )
+		{
+			this.logger.addHandler( fileHandler );
+		}
+	}
 
 	public static void setStateDir( String sStateDir )
 	{
@@ -63,7 +86,7 @@ public class JavaUtilLoggerImpl implements ILogger
 			{
 				javaLevel = fileHandler.getLevel( );
 			}
-			this.logger.addHandler( fileHandler );
+			addLogHandler( );
 			this.logger.setUseParentHandlers( false );
 		}
 
