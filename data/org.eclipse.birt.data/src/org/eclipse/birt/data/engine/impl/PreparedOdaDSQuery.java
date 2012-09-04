@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -284,7 +283,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataText = extDataSet.getQueryText( );
 			
 			DataException exception = null;
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) && !loadFromCache )
 			{
 				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
 

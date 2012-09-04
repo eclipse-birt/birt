@@ -90,7 +90,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private boolean isPrepared = false;
 	private boolean isExecuted = false;
 	
-	private boolean loadFromCache;
+	protected boolean loadFromCache;
 	
 	private Map queryAppContext;
 
