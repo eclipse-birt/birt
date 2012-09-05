@@ -25,6 +25,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -536,11 +537,14 @@ public class AggregationDialog extends BaseDialog
 			}
 			SubTotalInfo temp = (SubTotalInfo) obj;
 			return temp.getLevel( ) == level
-					&& temp.getAggregateOnMeasureName( ).equals( measureQualifiedName )
-					&& temp.getFunction( ) == function
+					&& StringUtil.isEqual( temp.getAggregateOnMeasureName( ),
+							measureQualifiedName )
+					&& StringUtil.isEqual( temp.getFunction( ), function )
 					&& temp.isAggregationOn( ) == aggregationOn
-			&&( (temp == null && expectedView == null )|| temp.getExpectedView( ).equals(expectedView))
-			&& temp.getPosition( ).equals( levelView.getAggregationHeaderLocation( ));
+					&& StringUtil.isEqual( temp.getExpectedView( ),
+							expectedView )
+					&& temp.getPosition( )
+							.equals( levelView.getAggregationHeaderLocation( ) );
 		}
 
 		/**

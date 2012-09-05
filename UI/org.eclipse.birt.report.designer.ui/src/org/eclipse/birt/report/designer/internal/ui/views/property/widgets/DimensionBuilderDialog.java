@@ -128,9 +128,9 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 		gridData.horizontalSpan = 2;
 		measure.setLayoutData(gridData);
 		measure.setFont(composite.getFont());
-		if (measureData != null && measureData != "") {
-			measure.setText(NumberUtil.double2LocaleNum(((Double) measureData)
-					.doubleValue()));
+		if ( measureData != null && !measureData.equals( "" ) ) //$NON-NLS-1$
+		{
+			measure.setText( NumberUtil.double2LocaleNum( ( (Double) measureData ).doubleValue( ) ) );
 		}
 		measure.addVerifyListener(new VerifyListener(){
 
@@ -139,7 +139,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 				boolean doit = false;
 				
 				char eChar = e.character;System.out.print(eChar + 0);
-				String validChars = "0123456789,.\b";
+				String validChars = "0123456789,.\b"; //$NON-NLS-1$
 				if(e.keyCode == SWT.DEL || validChars.indexOf(eChar) >= 0)
 				{					
 					doit = true;

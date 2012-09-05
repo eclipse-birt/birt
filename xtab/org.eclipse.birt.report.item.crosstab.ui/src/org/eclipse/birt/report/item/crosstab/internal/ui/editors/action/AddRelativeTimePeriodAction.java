@@ -130,7 +130,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	public boolean isEnabled( )
 	{
 		Object selection = getSelection( ); 
-		if ( selection == null && !(selection instanceof DesignElementHandle))
+		if ( selection == null || !(selection instanceof DesignElementHandle))
 		{
 			return false;
 		}
