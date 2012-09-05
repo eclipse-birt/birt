@@ -992,12 +992,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
 			};
 		}
-		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ))
-		{
-			compatibleTypes = new String[]{
-					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
-			};
-		}
 		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType ))
 		{
 			compatibleTypes = new String[]{
