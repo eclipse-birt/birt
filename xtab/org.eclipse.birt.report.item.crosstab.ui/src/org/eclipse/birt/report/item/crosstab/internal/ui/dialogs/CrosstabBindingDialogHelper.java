@@ -1367,7 +1367,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		CubeHandle cube = crosstab.getCube( );
 		if(cube == null)
 		{
-			return null;
+			return new String[0];
 		}
 		List list = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP )
 				.getContents( );
@@ -2446,6 +2446,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						dialog.setCanFinish( false );
 						return;
 					}
+				}
+				else
+				{
+					dialog.setCanFinish( false );
+					return;
 				}
 			}
 			dialogCanFinish( );
