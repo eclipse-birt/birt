@@ -216,11 +216,15 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	public void setAction( String actionID, IAction action )
 	{
 		super.setAction( actionID, action );
-		if ( action.getId( ) == null )
+		
+		if ( action != null )
 		{
-			action.setId( actionID );
+			if ( action.getId( ) == null )
+			{
+				action.setId( actionID );
+			}
+			getActionRegistry( ).registerAction( action );
 		}
-		getActionRegistry( ).registerAction( action );
 	}
 
 	/*
