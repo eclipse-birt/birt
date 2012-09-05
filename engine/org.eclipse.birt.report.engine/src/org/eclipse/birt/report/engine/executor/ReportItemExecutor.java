@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -25,7 +26,6 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
@@ -327,7 +327,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			getLogger( ).log(
+					Level.WARNING,
+					"Invalid boolean expression:"
+							+ ( expr == null ? "null" : expr.toString( ) ) );
 		}
 		return null;
 	}
@@ -528,9 +531,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				Boolean result = evaluateBoolean( expr );
 				if ( result == null )
 				{
-					context.addException( new EngineException(
-							MessageConstants.EXPRESSION_EVALUATION_ERROR, rule
-									.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = result.booleanValue( );
@@ -573,8 +573,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				Boolean result = evaluateBoolean( expr );
 				if ( result == null )
 				{
-					context.addException( new EngineException( MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
-							rule.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );
