@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
@@ -57,6 +58,7 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.nLayout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.nLayout.area.impl.ForeignHTMLRegionLayout;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ListArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ListGroupArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
@@ -74,7 +76,6 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		implements
 			IContentEmitter
 {
-
 	protected IContentEmitter emitter;
 
 	protected LayoutContext context;
@@ -727,24 +728,73 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	public void startForeign( IForeignContent foreign ) throws BirtException
 	{
 		checkDisplayNone( foreign, true );
-		//foreign.getStyle( ).setProperty( IStyle.STYLE_DISPLAY, IStyle.BLOCK_VALUE );
-		_startContainer( foreign );
-		if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
+		if ( context.isFixedLayout( )
+				&& context.getEngineTaskType( ) == IEngineTask.TASK_RUN
+				&& IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 		{
-			// build content DOM tree for HTML text
 			HTML2Content.html2Content( foreign );
-			java.util.Collection children = foreign.getChildren( );
-			if ( children != null && !children.isEmpty( ) )
-			{
-				Iterator iter = children.iterator( );
-				IContent child = (IContent) iter.next( );
-				visitContent( child, this );
-			}
-			// FIXME
-			foreign.getChildren( ).clear( );
+			processHTML( foreign );
 		}
-		_endContainer( foreign );
+		else
+		{
+			_startContainer( foreign );
+			if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
+			{
+				// build content DOM tree for HTML text
+				HTML2Content.html2Content( foreign );
+				java.util.Collection children = foreign.getChildren( );
+				if ( children != null && !children.isEmpty( ) )
+				{
+					Iterator iter = children.iterator( );
+					IContent child = (IContent) iter.next( );
+					visitContent( child, this );
+				}
+				// FIXME
+				foreign.getChildren( ).clear( );
+			}
+			_endContainer( foreign );
+		}
 		checkDisplayNone( foreign, false );
+	}
+
+	private void processHTML( IForeignContent foreign ) throws BirtException
+	{
+		boolean isInline = PropertyUtil.isInlineElement( foreign );
+		if ( isInline )
+		{
+			if ( !unfinishedContents.isEmpty( )
+					&& foreign.getParent( ) == unfinishedContents.peek( ) )
+			{
+				IContent parent = unfinishedContents.poll( );
+				_startContainer( parent );
+			}
+			else
+			{
+				if ( current != null && current.isInlineStacking( ) )
+				{
+
+				}
+				else
+				{
+					setContainer( af.createLineArea( current, context ) );
+				}
+			}
+		}
+		else
+		{
+			while ( current != null && current.isInlineStacking( ) )
+			{
+				if ( null != current.getContent( ) )
+				{
+					unfinishedContents.add( current.getContent( ) );
+				}
+				closeContainer( );
+			}
+		}
+
+		ForeignHTMLRegionLayout rle = new ForeignHTMLRegionLayout( current,
+				context, foreign );
+		rle.layout( );
 	}
 
 	protected void resolveTotalPage( IContentEmitter emitter )
