@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
-import org.eclipse.birt.data.engine.impl.index.BTreeIndex;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -145,7 +144,9 @@ public class StreamWrapper
 			Class dataType = resultClass.getFieldValueClass( i );
 			String fieldName = resultClass.getFieldName( i );
 			long memoryBufferSize = CacheUtil.computeMemoryBufferSize( appContext );
-			result.put( fieldName, new BTreeIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType  ) );
+			IIndexSerializer index = DataSetIndexFactory.createIndex( memoryBufferSize/indexColumnCount, "Index/" + fieldName + "/btreeIndex", manager, dataType );
+			if( index!= null )
+				result.put( fieldName, index );
 //			if ( dataType == String.class )
 //			{
 //				result.put( fieldName, new SerializableBirtHash( "Index/"

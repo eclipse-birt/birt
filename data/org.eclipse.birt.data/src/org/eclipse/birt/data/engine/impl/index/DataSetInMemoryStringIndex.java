@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.data.engine.impl.index;
 
-import it.uniroma3.mat.extendedset.intset.ConciseSet;
-import it.uniroma3.mat.extendedset.intset.IntSet;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -63,14 +62,16 @@ public class DataSetInMemoryStringIndex extends HashMap
 		}
 	}
 
-	public IntSet getKeyIndex ( Object key, int searchType ) throws DataException
+	public IOrderedIntSet getKeyIndex ( Object key, int searchType ) throws DataException
 	{
-		IntSet fastSet = new ConciseSet();
+		ArrayList fastSet = new ArrayList();
 		for( int i : this.getKeyIndex1( key, searchType) )
 		{
 			fastSet.add( i );
 		}
-		return fastSet;
+		Collections.sort( fastSet );
+		
+		return new OrderedIntSet( fastSet );
 	}
 	
 	public Set<Integer> getKeyIndex1( Object key, int searchType )
@@ -245,15 +246,69 @@ public class DataSetInMemoryStringIndex extends HashMap
 		return keys;
 	}
 	
-	public IntSet getAllKeyRows( ) throws DataException
+	public IOrderedIntSet getAllKeyRows( ) throws DataException
 	{
-		IntSet rowID = new ConciseSet();
+		List arrayList = new ArrayList();
 		Object[] values = this.values( ).toArray( );
 		for( int i = 0; i < values.length; i++ )
 		{
 			Iterator iterator = ( ( WrapperedValue )values[i] ).getIndex( ).iterator( );
-			rowID.add(  (Integer) iterator.next( ) );
+			arrayList.add(  (Integer) iterator.next( ) );
 		}
-		return rowID;
+		Collections.sort( arrayList );
+		return new OrderedIntSet( arrayList );
+	}
+	
+	private class OrderedIntSet implements IOrderedIntSet
+	{
+		private List values;
+		
+		public OrderedIntSet( List values )
+		{
+			this.values = values;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#iterator()
+		 */
+		@Override
+		public IOrderedIntSetIterator iterator( )
+		{
+			return new IOrderedIntSetIterator(){
+
+				int i = 0;
+				public boolean hasNext( )
+				{
+					return values.size( ) <= i;
+				}
+
+				public int next( )
+				{
+					int result = (Integer) values.get( i );
+					i++;
+					return result;
+				}
+				
+			};
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#isEmpty()
+		 */
+		@Override
+		public boolean isEmpty( )
+		{
+			return this.values.isEmpty( );
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#size()
+		 */
+		@Override
+		public int size( )
+		{
+			return this.values.size( );
+		}
+		
 	}
 }

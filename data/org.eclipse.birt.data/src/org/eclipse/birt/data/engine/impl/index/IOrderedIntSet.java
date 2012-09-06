@@ -9,19 +9,16 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.data.engine.storage;
+package org.eclipse.birt.data.engine.impl.index;
 
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
-import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
 
 /**
  * 
  */
 
-public interface IDataSetReader
+public interface IOrderedIntSet
 {
-	public IDataSetResultSet load( IOrderedIntSet targetRows ) throws DataException;
-	
-	public void close( ) throws DataException;
+	public IOrderedIntSetIterator iterator();
+	public boolean isEmpty();
+	public int size();
 }

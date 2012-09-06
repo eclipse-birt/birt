@@ -9,19 +9,20 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.data.engine.storage;
+package org.eclipse.birt.data.engine.impl.document;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
-import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 
 /**
  * 
  */
 
-public interface IDataSetReader
+public class DataSetIndexFactory
 {
-	public IDataSetResultSet load( IOrderedIntSet targetRows ) throws DataException;
-	
-	public void close( ) throws DataException;
+	public static IIndexSerializer createIndex( long memory, String name, StreamManager manager, Class dataType) throws DataException
+	{
+		return null;
+	}
 }

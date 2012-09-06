@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document.viewing;
 
-import it.uniroma3.mat.extendedset.intset.IntSet;
-import it.uniroma3.mat.extendedset.intset.IntSet.IntIterator;
-
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -28,6 +25,8 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StringTable;
+import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
+import org.eclipse.birt.data.engine.impl.index.IOrderedIntSetIterator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -53,11 +52,11 @@ public class DataSetResultSet implements IDataSetResultSet
 	private RAInputStream dataSetRowLensStream;
 	private DataInputStream disRowLensStream;
 	private long initPos;
-	private IntSet prefilteredRowIds;
+	private IOrderedIntSet prefilteredRowIds;
 	private Map index;
 	private Map<String, StringTable> stringTableMap;
 	private boolean includeInnerID = true;
-	private IntIterator rowIdIterator;
+	private IOrderedIntSetIterator rowIdIterator;
 
 
 	/**
@@ -66,7 +65,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			IntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
+			IOrderedIntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version )
 			throws DataException
 	{
 		this( inputStream,
@@ -85,7 +84,7 @@ public class DataSetResultSet implements IDataSetResultSet
 	 */
 	public DataSetResultSet( RAInputStream inputStream,
 			RAInputStream lensStream, IResultClass rsMetaData,
-			IntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
+			IOrderedIntSet prefilteredRows, Map<String, StringTable> stringTableMap, Map index, int version, boolean includeInnerID )
 			throws DataException
 	{
 		assert inputStream != null;
