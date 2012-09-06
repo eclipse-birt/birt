@@ -299,7 +299,7 @@ public class DataEngineImpl extends DataEngine
 	public void clearCache( String cacheID ) throws BirtException
 	{
 		DataSetCacheManager dscManager = this.getSession( ).getDataSetCacheManager( );
-		if( dscManager == null )
+		if( dscManager == null || cacheID == null )
 			return;
 		else
 			dscManager.clearCache( cacheID );
