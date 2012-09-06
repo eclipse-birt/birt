@@ -283,7 +283,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			String dataText = extDataSet.getQueryText( );
 			
 			DataException exception = null;
-			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) && !loadFromCache )
+			if ( queryDefn.getQueryExecutionHints( ).enablePushDown( ) )
 			{
 				ValidationContext validationContext = ( (OdaDataSetRuntime) dataSet ).getValidationContext();
 
