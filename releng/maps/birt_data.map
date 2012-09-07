@@ -1,7 +1,7 @@
-plugin@org.eclipse.birt.data=GIT,tag=v20120612,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data
+plugin@org.eclipse.birt.data=GIT,tag=v201208151105,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data
 plugin@org.eclipse.birt.data.aggregation=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.aggregation
 plugin@org.eclipse.birt.report.data.adapter=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.adapter
-plugin@org.eclipse.birt.core.script.function=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.core.script.function
+plugin@org.eclipse.birt.core.script.function=GIT,tag=v201208291607,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.core.script.function
 plugin@org.eclipse.birt.report.data.bidi.utils=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.bidi.utils
 plugin@org.eclipse.birt.report.data.bidi.utils.ui=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.bidi.utils.ui
 plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui
@@ -17,7 +17,7 @@ plugin@org.eclipse.birt.report.data.oda.sampledb.ui=GIT,tag=v20120820,repo=git:/
 plugin@org.eclipse.birt.report.data.oda.xml=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.xml
 plugin@org.eclipse.birt.report.data.oda.xml.ui=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.xml.ui
 plugin@org.eclipse.birt.report.engine.script.javascript=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.engine.script.javascript
-plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v20120614,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel
+plugin@org.eclipse.birt.report.data.oda.excel=GIT,tag=v201208281709,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel
 plugin@org.eclipse.birt.report.data.oda.excel.ui=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.report.data.oda.excel.ui
 
 plugin@org.eclipse.birt.data.tests=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=data/org.eclipse.birt.data.tests
