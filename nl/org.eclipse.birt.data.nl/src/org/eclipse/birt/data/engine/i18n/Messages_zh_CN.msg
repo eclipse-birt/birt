@@ -61,7 +61,7 @@ data.engine.NoResultSet=查询执行未返回结果集。
 data.engine.NoResultMetadata=结果元数据不可用。
 data.engine.QueryAlreadyPrepared=已准备查询。
 data.engine.QueryNotPrepared=尚未准备查询。
-data.engine.InvalidFieldName=无法对排序、分组、筛选或绑定表达式求值。 用于表达式的数据字段在数据集中不存在: {0}。
+data.engine.InvalidFieldName=无效的字段名称: {0}。
 data.engine.DupColumnName=重复的列名称: {0}。
 data.engine.DupAlias=重复的列名称或别名: {0}。
 data.engine.InvalidFieldIndex=无效的字段索引: {0}。
@@ -108,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=聚合: {0} 引用了不正确的组名称。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。
-data.engine.ScriptResult.WrongSystemComputedColumn=未能根据排序、组或筛选表达式计算值。
+data.engine.ScriptResult.WrongSystemComputedColumn=无法对排序、分组、筛选或绑定表达式求值。 用于表达式的数据字段在数据集中不存在。
 data.engine.ComputedColumnCycle=计算列“{0}”具有相关性循环。
 
 data.engine.SortOnAggregation=不支持根据非分组聚合或引用聚合“{0}”的计算列排序。

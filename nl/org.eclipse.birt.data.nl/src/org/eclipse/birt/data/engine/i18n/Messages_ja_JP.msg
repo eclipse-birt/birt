@@ -61,7 +61,7 @@ data.engine.NoResultSet=ƒNƒGƒŠ‚ğÀs‚µ‚Ä‚àAŒ‹‰ÊƒZƒbƒg‚ª•Ô‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½B
 data.engine.NoResultMetadata=Œ‹‰Ê‚Ìƒƒ^ƒf[ƒ^‚ª‚ ‚è‚Ü‚¹‚ñB
 data.engine.QueryAlreadyPrepared=ƒNƒGƒŠ‚Í‚·‚Å‚É‹LqÏ‚İ‚Å‚·B
 data.engine.QueryNotPrepared=ƒNƒGƒŠ‚Í‚Ü‚¾‹Lq‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
-data.engine.InvalidFieldName=ƒ\[ƒgAƒOƒ‹[ƒv‰»AƒtƒBƒ‹ƒ^A‚Ü‚½‚ÍƒoƒCƒ“ƒh‚Ì®‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB ®‚Åg—p‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ªƒe[ƒ^ƒZƒbƒg {0} ‚É‘¶İ‚µ‚Ü‚¹‚ñB
+data.engine.InvalidFieldName=ƒtƒB[ƒ‹ƒh–¼‚ª–³Œø‚Å‚· : {0}
 data.engine.DupColumnName=—ñ–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚· : {0}
 data.engine.DupAlias=—ñ–¼‚Ü‚½‚ÍƒGƒCƒŠƒAƒX‚ªd•¡‚µ‚Ä‚¢‚Ü‚· : {0}
 data.engine.InvalidFieldIndex=ƒtƒB[ƒ‹ƒh‚ÌƒCƒ“ƒfƒbƒNƒX‚ª–³Œø‚Å‚· : {0}
@@ -108,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=WŒv {0} ‚Í³‚µ‚­‚È‚¢ƒOƒ‹[ƒv–¼‚ğ
 #computed column value
 data.engine.BadCompColExpr=ŒvZ—ñ "{0}" ‚Ì®‚ª–³Œø‚Å‚·B
 data.engine.CompCol.FailRetrieveValueComputedColumn=ŒvZ—ñ "{0}" ‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
-data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒg®AƒOƒ‹[ƒv®A‚Ü‚½‚ÍƒtƒBƒ‹ƒ^®‚Ì’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
+data.engine.ScriptResult.WrongSystemComputedColumn=ƒ\[ƒgAƒOƒ‹[ƒv‰»AƒtƒBƒ‹ƒ^A‚Ü‚½‚ÍƒoƒCƒ“ƒh‚Ì®‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB ®‚Åg—p‚³‚ê‚Ä‚¢‚éƒf[ƒ^ƒtƒB[ƒ‹ƒh‚ªƒe[ƒ^ƒZƒbƒg‚É‘¶İ‚µ‚Ü‚¹‚ñB
 data.engine.ComputedColumnCycle=ŒvZ—ñ "{0}" ‚ÌˆË‘¶ŠÖŒW‚ªzŠÂQÆ‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
 data.engine.SortOnAggregation=ƒOƒ‹[ƒv‰»‚³‚ê‚Ä‚¢‚È‚¢WŒv‚ğg—p‚·‚éƒ\[ƒgA‚Ü‚½‚ÍWŒv "{0}" ‚ğQÆ‚·‚éŒvZ®‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB

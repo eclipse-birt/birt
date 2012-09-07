@@ -61,7 +61,7 @@ data.engine.NoResultSet=쿼리 실행에서 결과 집합을 반환하지 않았습니다.
 data.engine.NoResultMetadata=결과 메타데이터를 사용할 수 없습니다.
 data.engine.QueryAlreadyPrepared=쿼리가 이미 준비되었습니다.
 data.engine.QueryNotPrepared=쿼리가 아직 준비되지 않았습니다.
-data.engine.InvalidFieldName=정렬, 그룹화, 필터 또는 바인딩 식 계산에 실패했습니다. 식에 사용되는 데이터 필드가 데이터 집합에 없습니다: {0}.
+data.engine.InvalidFieldName=잘못된 필드 이름: {0}.
 data.engine.DupColumnName=중복된 열 이름: {0}.
 data.engine.DupAlias=중복된 열 이름 또는 별칭: {0}.
 data.engine.InvalidFieldIndex=잘못된 필드 인덱스: {0}.
@@ -108,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=집계: {0}이(가) 잘못된 그룹 이름을
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 계산하지 못했습니다.
-data.engine.ScriptResult.WrongSystemComputedColumn=정렬, 그룹 또는 필터 식에서 값을 계산하지 못했습니다.
+data.engine.ScriptResult.WrongSystemComputedColumn=정렬, 그룹화, 필터 또는 바인딩 식 계산에 실패했습니다. 식에 사용되는 데이터 필드가 데이터 집합에 없습니다.
 data.engine.ComputedColumnCycle=계산 열 "{0}"에 종속 사이클이 형성되어 있습니다.
 
 data.engine.SortOnAggregation=비그룹 집계 또는 집계 "{0}"을(를) 참조하는 계산 열에서 정렬은 지원되지 않습니다.

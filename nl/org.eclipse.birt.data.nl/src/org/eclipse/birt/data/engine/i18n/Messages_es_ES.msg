@@ -61,7 +61,7 @@ data.engine.NoResultSet=La ejecución de la consulta no devolvió ningún conjunto 
 data.engine.NoResultMetadata=Los metadatos de resultados no están disponibles.
 data.engine.QueryAlreadyPrepared=La consulta ya se ha preparado.
 data.engine.QueryNotPrepared=La consulta todavía no se ha preparado.
-data.engine.InvalidFieldName=No es posible evaluar la expresión de ordenación, agrupamiento, filtro o enlace. Un campo de datos utilizado en la expresión no existe en el conjunto de datos: {0}.
+data.engine.InvalidFieldName=Nombre de campo no válido: {0}.
 data.engine.DupColumnName=Nombre de columna duplicado: {0}.
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}.
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}.
@@ -108,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=La agregación {0} hace referenciar
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor para la columna procesada "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Error al procesar el valor de la expresión de filtro, grupo u orden.
+data.engine.ScriptResult.WrongSystemComputedColumn=No es posible evaluar la expresión de ordenación, agrupamiento, filtro o enlace. Un campo de datos utilizado en la expresión no existe en el conjunto de datos.
 data.engine.ComputedColumnCycle=La columna procesada "{0}" tiene ciclo de dependencia.
 
 data.engine.SortOnAggregation=El orden en la agregación sin agrupación o en la columna procesada que se refiere a la agregación "{0}" no es compatible.

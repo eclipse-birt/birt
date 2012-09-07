@@ -61,7 +61,7 @@ data.engine.NoResultSet=L'exécution de la requête n'a renvoyé aucun jeu de résul
 data.engine.NoResultMetadata=Métadonnées de résultat non disponibles.
 data.engine.QueryAlreadyPrepared=La requête a déjà été préparée.
 data.engine.QueryNotPrepared=La requête n'a pas encore été préparée.
-data.engine.InvalidFieldName=Impossible d'évaluer l'expression de tri, de groupe, de filtre ou de liaison. Un des champs de données utilisés dans l'expression n'existe pas dans le jeu de données : {0}.
+data.engine.InvalidFieldName=Nom de champ incorrect : {0}.
 data.engine.DupColumnName=Nom de colonne en double : {0}.
 data.engine.DupAlias=Alias ou nom de colonne en double : {0}.
 data.engine.InvalidFieldIndex=Index de champ incorrect : {0}.
@@ -108,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=L'agrégation : {0} se rapporte à u
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur pour la colonne calculée "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Echec du calcul de la valeur à partir d'une expression de filtre, de groupe ou de tri.
+data.engine.ScriptResult.WrongSystemComputedColumn=Impossible d'évaluer l'expression de tri, de groupe, de filtre ou de liaison. Un des champs de données utilisés dans l'expression n'existe pas dans le jeu de données.
 data.engine.ComputedColumnCycle=La colonne de calcul "{0}" possède un cycle de dépendance.
 
 data.engine.SortOnAggregation=Le tri selon l'agrégation de non-regroupement ou la colonne de calcul référencée par l'agrégation "{0}" n'est pas pris en charge.

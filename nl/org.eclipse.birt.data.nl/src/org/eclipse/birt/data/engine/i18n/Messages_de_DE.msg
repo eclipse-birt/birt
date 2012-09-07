@@ -61,7 +61,7 @@ data.engine.NoResultSet=Ausführung der Abfrage hat kein Ergebnis zurückgegeben.
 data.engine.NoResultMetadata=Metadatenergebnis ist nicht verfügbar.
 data.engine.QueryAlreadyPrepared=Abfrage wurde bereits vorbereitet.
 data.engine.QueryNotPrepared=Abfrage wurde noch nicht vorbereitet.
-data.engine.InvalidFieldName=Bewertung von Sorte, Gruppierung, Filter oder Bindungsausdruck nicht möglich. Ein Datenfeld, das beim Ausdruck verwendet wird, ist im Datensatz nicht vorhanden: {0}.
+data.engine.InvalidFieldName=Ungültiger Feldname: {0}.
 data.engine.DupColumnName=Doppelter Spaltenname: {0}.
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}.
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}.
@@ -108,7 +108,7 @@ data.engine.InvalidAggrLevelKeyInSummaryQuery=Das Aggregat: {0} verweist auf ein
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "{0}" konnte nicht berechnet werden.
-data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
+data.engine.ScriptResult.WrongSystemComputedColumn=Bewertung von Sorte, Gruppierung, Filter oder Bindungsausdruck nicht möglich. Ein Datenfeld, das beim Ausdruck verwendet wird, ist im Datensatz nicht vorhanden.
 data.engine.ComputedColumnCycle=Berechnete Spalte "{0}" hat einen Abhängigkeitszyklus.
 
 data.engine.SortOnAggregation=Sortieren nach nicht-gruppierendem Aggregat oder berechneter Spalte für Aggregat '{0}' wird nicht unterstützt.
