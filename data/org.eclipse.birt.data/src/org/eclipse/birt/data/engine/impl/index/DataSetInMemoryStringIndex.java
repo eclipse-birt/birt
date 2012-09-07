@@ -271,7 +271,6 @@ public class DataSetInMemoryStringIndex extends HashMap
 		/* (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#iterator()
 		 */
-		@Override
 		public IOrderedIntSetIterator iterator( )
 		{
 			return new IOrderedIntSetIterator(){
@@ -295,7 +294,6 @@ public class DataSetInMemoryStringIndex extends HashMap
 		/* (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#isEmpty()
 		 */
-		@Override
 		public boolean isEmpty( )
 		{
 			return this.values.isEmpty( );
@@ -304,7 +302,6 @@ public class DataSetInMemoryStringIndex extends HashMap
 		/* (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.impl.index.IOrderedIntSet#size()
 		 */
-		@Override
 		public int size( )
 		{
 			return this.values.size( );
