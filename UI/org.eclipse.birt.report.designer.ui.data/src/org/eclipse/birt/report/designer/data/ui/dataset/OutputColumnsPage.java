@@ -531,7 +531,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					if ( analysis == null
 							&& getDefaultAnalysisForNullValue && updateFlag )
 					{
-						hint.setAnalysis( ExternalUIUtil.getDefaultAnalysisType( item.getDataTypeName( ) ) );
+						hint.setAnalysis( DataSetUIUtility.getDefaultAnalysisType( item.getDataTypeName( ) ) );
 					}
 				}
 				catch ( SemanticException e )
@@ -595,7 +595,7 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 							{
 								try
 								{
-									hint.setAnalysis( ExternalUIUtil.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
+									hint.setAnalysis( DataSetUIUtility.getDefaultAnalysisType( viewData[i].getDataTypeName( ) ) );
 								}
 								catch ( SemanticException e )
 								{
