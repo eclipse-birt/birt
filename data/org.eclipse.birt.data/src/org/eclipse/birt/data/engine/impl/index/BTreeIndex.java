@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.SizeOfUtil;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
@@ -38,13 +39,15 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	private long memoryBufferSize = 0;
 	private final int BTREE_CACHE_SIZE = 200;
 	private ArchiveInputFile inputFile = null;
+	private CompareHints compareHints = null;
 	
-	public BTreeIndex( long memoryBufferSize, String indexName, StreamManager manager, Class keyDataType ) throws DataException
+	public BTreeIndex( long memoryBufferSize, String indexName, StreamManager manager, Class keyDataType, CompareHints compareHints ) throws DataException
 	{
 		serializer = BTreeSerializerUtil.createSerializer( keyDataType );
+		this.compareHints = compareHints;
 		try
 		{
-			btree = createBTree( new ArchiveOutputFile( manager.getDocWriter( ), manager.getOutStreamName( indexName ) ), BTREE_CACHE_SIZE, serializer );
+			btree = createBTree( new ArchiveOutputFile( manager.getDocWriter( ), manager.getOutStreamName( indexName ) ), BTREE_CACHE_SIZE, serializer, compareHints );
 		}
 		catch (IOException e)
 		{
@@ -73,7 +76,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	}
 	
 	
-	private static BTree<Object, Integer> createBTree( ArchiveOutputFile file, int cacheSize, BTreeSerializer serializer ) throws DataException
+	private static BTree<Object, Integer> createBTree( ArchiveOutputFile file, int cacheSize, BTreeSerializer serializer, CompareHints compareHints ) throws DataException
 	{
 		BTreeOption<Object, Integer> option = new BTreeOption<Object, Integer>( );
 		option.setKeySerializer( serializer );
@@ -84,8 +87,13 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		option.setReadOnly( false );
 		option.setValueSerializer( new IntegerSerializer( ) );
 		option.setValueSize( 4 );
-
 		option.setFile( file );
+
+		if ( compareHints != null )
+		{
+			CompareHintsComparator comparator = new CompareHintsComparator( compareHints );
+			option.setComparator( comparator );
+		}
 		
 		try
 		{
@@ -97,7 +105,12 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		}
 	}
 	
-	private static BTree<Object, Integer> createBTree( ArchiveInputFile file, int cacheSize, BTreeSerializer serializer ) throws DataException
+	public void setCompareHints( CompareHints compareHints )
+	{
+		this.compareHints = compareHints;
+	}
+	
+	private static BTree<Object, Integer> createBTree( ArchiveInputFile file, int cacheSize, BTreeSerializer serializer, CompareHints compareHints ) throws DataException
 	{
 		BTreeOption<Object, Integer> option = new BTreeOption<Object, Integer>( );
 		option.setKeySerializer( serializer );
@@ -110,7 +123,11 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		option.setValueSize( 4 );
 
 		option.setFile( file );
-		
+		if ( compareHints != null )
+		{
+			CompareHintsComparator comparator = new CompareHintsComparator( compareHints );
+			option.setComparator( comparator );
+		}
 		try
 		{
 			return new BTree<Object, Integer>( option);
@@ -194,21 +211,26 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		if( sortedKeyRowID == null )
 		{
 			int cacheSize = 10000;
+			
+			IStructureCreator keyRowIDCreator = KeyRowID.getCreator( this.compareHints );
+		
 			if( memoryBufferSize != 0 )
 			{
 				cacheSize = (int) ( memoryBufferSize / ( SizeOfUtil.sizeOf( DataType.getDataType( this.keyDataType ) ) + 16 + 4 ));
-				sortedKeyRowID = new DiskSortedStack( cacheSize, false, false, KeyRowID.getCreator( ) );
+				sortedKeyRowID = new DiskSortedStack( cacheSize, false, false, keyRowIDCreator );	
 			}
 			else
 			{
-				sortedKeyRowID = new DiskSortedStack( cacheSize, false, false, KeyRowID.getCreator( ) );
+				sortedKeyRowID = new DiskSortedStack( cacheSize, false, false, keyRowIDCreator );	
 				sortedKeyRowID.setUseMemoryOnly( true );
 			}
 			
 		}
 		try
 		{
-			sortedKeyRowID.push( new KeyRowID( o1, (Integer) o2 ) );
+			KeyRowID keyRowID = new KeyRowID( o1, (Integer) o2 );
+			keyRowID.compareHints = this.compareHints;
+			sortedKeyRowID.push( keyRowID );
 		}
 		catch (IOException e)
 		{
@@ -223,7 +245,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			if( btree == null )
 			{
-				btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+				btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer, compareHints );
 			}			
 		}
 		
@@ -291,7 +313,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	private Set<Integer> getBetween( Object key1, Object key2 ) throws DataException
 	{
 		Object min, max;
-		if ( ScriptEvalUtil.compare( key1, key2 ) <= 0 )
+		if ( ScriptEvalUtil.compare( key1, key2, compareHints ) <= 0 )
 		{
 			min = key1;
 			max = key2;
@@ -316,12 +338,12 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			if( !bCursor.first( ) )
 				return result;
-			if( ScriptEvalUtil.compare( bCursor.getKey( ), min ) <= 0 )
+			if( ScriptEvalUtil.compare( bCursor.getKey( ), min, compareHints ) <= 0 )
 			{
 				bCursor.moveTo( min );
-				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
+				if( ScriptEvalUtil.compare( bCursor.getKey( ), max, compareHints ) > 0 )
 					return result;
-				if( ( (Comparable)bCursor.getKey( ) ).compareTo( min ) >= 0 )
+				if( ScriptEvalUtil.compare( bCursor.getKey( ), min, compareHints ) >= 0 )
 					result.addAll( bCursor.getValues( ) );
 			}
 			else
@@ -330,7 +352,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 			}
 			while( bCursor.next( ) )
 			{
-				if( ( (Comparable)bCursor.getKey( ) ).compareTo( max ) > 0 )
+				if( ScriptEvalUtil.compare( bCursor.getKey( ), max, compareHints ) > 0 )
 					return result;
 				result.addAll( bCursor.getValues( ) );
 			}
@@ -362,14 +384,14 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 		{
 			if( !bCursor.first( ) )
 				return result;
-			if( bCursor.getKey( ) != null && ( (Comparable)bCursor.getKey( ) ).compareTo( key ) > 0 )
+			if( bCursor.getKey( ) != null && ( ScriptEvalUtil.compare( bCursor.getKey( ), key, compareHints ) > 0 ) )
 			{
 				bCursor.beforeFirst( );
 			}
 			else
 			{
 				bCursor.moveTo( key );
-				int cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
+				int cr = ScriptEvalUtil.compare( bCursor.getKey( ), key, compareHints );
 				if( ( includeKey && cr == 0 ) || cr > 0 )
 				{
 					result.addAll( bCursor.getValues( ) );
@@ -414,7 +436,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 				}
 				else
 				{
-					cr = ( (Comparable)bCursor.getKey( ) ).compareTo( key );
+					cr = ScriptEvalUtil.compare( bCursor.getKey( ), key, compareHints );
 				}
 				if( cr < 0 ||( cr == 0 && includeKey ) )
 					result.addAll( bCursor.getValues( ) );
@@ -479,7 +501,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	{
 		if( btree == null )
 		{
-			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer, compareHints );
 		}
 		BTreeCursor<Object, Integer> bCursor = btree.createCursor( );
 		List key = new ArrayList( );
@@ -505,7 +527,7 @@ public class BTreeIndex implements IIndexSerializer, IDataSetIndex
 	{
 		if( btree == null )
 		{
-			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer );
+			btree = createBTree( inputFile, BTREE_CACHE_SIZE, serializer, compareHints );
 		}
 		BTreeCursor<Object, Integer> bCursor = btree.createCursor( );
 		List<Integer> keyRow = new ArrayList<Integer>( );
@@ -665,6 +687,7 @@ class KeyRowID implements IComparableStructure
 {
 	Object key;
 	Integer rowID;
+	protected CompareHints compareHints = null;
 	
 	KeyRowID( Object key, Integer rowID )
 	{
@@ -683,6 +706,16 @@ class KeyRowID implements IComparableStructure
 
 	public int compareTo( Object o )
 	{
+		try
+		{
+			return ScriptEvalUtil.compare( this.key,
+					( (KeyRowID) o ).key,
+					compareHints );
+		}
+		catch ( DataException e )
+		{
+		}
+		//TODO remove me
 		if( key == null )
 		{
 			return -1;
@@ -698,18 +731,26 @@ class KeyRowID implements IComparableStructure
 	 * 
 	 * @return
 	 */
-	public static IStructureCreator getCreator( )
+	public static IStructureCreator getCreator( CompareHints hints )
 	{
-		return new KeyRowIDCreator( );
+		return new KeyRowIDCreator( hints );
 	}
 	
 }
 
 class KeyRowIDCreator implements IStructureCreator
 {
+	private CompareHints hints;
+	
+	public KeyRowIDCreator( CompareHints hints )
+	{
+		this.hints = hints;
+	}
 
 	public IStructure createInstance( Object[] fields )
 	{
-		return new KeyRowID( fields[0], (Integer) fields[1] );
+		KeyRowID keyRowID = new KeyRowID( fields[0], (Integer) fields[1] );
+        keyRowID.compareHints = hints;
+		return keyRowID;
 	}
 }

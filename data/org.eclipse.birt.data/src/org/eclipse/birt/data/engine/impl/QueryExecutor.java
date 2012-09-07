@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -1150,6 +1151,18 @@ public abstract class QueryExecutor implements IQueryExecutor
 		
 		eventHandler.setExecutorHelper( helper );
 
+	   if ( eventHandler.getAppContext( ) != null && this.dataSet.getDesign( ) != null && dataSet.getSession( ) != null)
+		{
+			String nullOrdering = this.dataSet.getDesign( ).getNullsOrdering( );
+			Collator collator = this.dataSet.getDesign( ).getCompareLocale( ) == null
+					? null : Collator.getInstance( this.dataSet.getDesign( )
+							.getCompareLocale( ) );
+
+			eventHandler.getAppContext( )
+					.put( "org.eclipse.birt.data.engine.expression.compareHints",
+							new CompareHints( collator, nullOrdering ) );
+		}
+		    
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler );
 
