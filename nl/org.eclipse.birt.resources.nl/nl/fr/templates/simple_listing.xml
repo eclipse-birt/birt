@@ -6,9 +6,10 @@
   </intro>
   <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
   title="Créer une source de données" skip="true">
-     <description>- Dans la vue de l'Explorateur de données, cliquez avec le bouton droit sur Sources de données, puis sélectionnez Nouvelle source de données. La nouvelle source de données affiche la base de données exemple Classic Models Inc. comme source de données sélectionnée.<br/>
-      - Choisissez Suivant.<br/>
-      - Choisissez Terminer. 
+     <description>- Dans la vue de l'Explorateur de données, cliquez avec le bouton droit sur Sources de données, puis sélectionnez Nouvelle source de données.<br/>
+      - Sélectionnez la base de données exemple Classic Models Inc.<br/>
+	  - Sélectionnez Suivant.<br/>
+      - Choisissez Terminer.
      </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
      pluginId="org.eclipse.birt.report.designer.ui.data"/>

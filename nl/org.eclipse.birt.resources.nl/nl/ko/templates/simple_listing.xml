@@ -6,8 +6,9 @@
   </intro>
   <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
   title="데이터 원본 생성" skip="true">
-     <description>- 데이터 탐색기 보기에서 데이터 원본을 마우스 오른쪽 단추로 눌러 새 데이터 원본을 선택합니다. 새 데이터 원본에서 Classic Models Inc. 예제 데이터가 선택된 데이터 원본으로 표시됩니다.<br/>
-      - 다음을 선택합니다.<br/>
+     <description>- 데이터 탐색기 보기에서 데이터 원본을 마우스 오른쪽 단추로 클릭하여 새 데이터 원본을 선택합니다.<br/>
+      - Classic Models Inc. 샘플 데이터베이스를 선택합니다.<br/>
+	  - 다음을 선택합니다.<br/>
       - 마침을 선택합니다. 
      </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"
