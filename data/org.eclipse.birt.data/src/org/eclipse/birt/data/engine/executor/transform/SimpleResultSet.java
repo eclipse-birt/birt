@@ -668,10 +668,15 @@ public class SimpleResultSet implements IResultIterator
 		if ( currResultObj == null ) 
 			return false;
 		
-		saveDataSetResultSet( currResultObj, rowCount -1 );
-		
+		if( rowCount == 1 )
+		{
+			saveDataSetResultSet( currResultObj, 0 );			
+		}		
 		doNext( );
 		
+		if ( currResultObj != null )
+			saveDataSetResultSet( currResultObj, rowCount );
+
 		return this.currResultObj != null;
 	}
 	

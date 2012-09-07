@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
 /**
@@ -212,7 +213,32 @@ public class AggregationExecutor
 		}
 		if( func != null && isSimepleFunction( func.getFunctionName() )
 					&& !existReferenceDate )
+		{
+			String mesureName =  func.getMeasureName( );
+			try
+			{
+				MeasureInfo[] infos = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( );
+				for( MeasureInfo info: infos)
+				{
+					// for Double type, different execution sequence will cause
+					// different precision lost during calculation. So only
+					// for Double type, do not calculate beforehand, need
+					// enhance in future
+					if ( info.getMeasureName( ).equals( mesureName )
+							&& "SUM".equals( func.getFunctionName( ) )
+							&& DataType.DOUBLE_TYPE == info.getDataType( ) )
+					{
+						return null;
+					}
+				}
+			}
+			catch ( Exception e )
+			{
+				//ignore it
+			}
+			
 			return func;
+		}
 		else
 			return null;
 	}

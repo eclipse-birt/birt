@@ -947,7 +947,8 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
 					DesignChoiceConstants.COLUMN_DATA_TYPE_DATE,
 					DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT,
-					DesignChoiceConstants.COLUMN_DATA_TYPE_TIME
+					DesignChoiceConstants.COLUMN_DATA_TYPE_TIME,
+					DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB
 			};
 		}
 		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( dataType ))
@@ -992,12 +993,6 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
 			};
 		}
-		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ))
-		{
-			compatibleTypes = new String[]{
-					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
-			};
-		}
 		else if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( dataType ))
 		{
 			compatibleTypes = new String[]{
@@ -1015,7 +1010,12 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL
 			};
 		}
-		
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( dataType ) )
+		{
+			compatibleTypes = new String[]{
+					DesignChoiceConstants.COLUMN_DATA_TYPE_STRING
+			};
+		}
 		if ( compatibleTypes == null )
 			return new String[0];
 		for( int i =0; i<compatibleTypes.length; i++)

@@ -1124,9 +1124,14 @@ public final class DataTypeUtil
 		{
 			return ((Number) source).toString( );
 		}
+		else
+		if ( source instanceof byte[] )
+		{
+			return new String( (byte[])source );
+		}
 		else 
 		{
-		return toLimitedSizeString( source );
+			return source.toString( );
 		}
 	}
 	
@@ -1168,16 +1173,23 @@ public final class DataTypeUtil
 		}
 		else 
 		{
-			return toLimitedSizeString( source );
+			if ( source instanceof byte[] )
+			{
+				return new String( (byte[]) source );
+			}
+			else
+			{
+				return source.toString( );
+			}
 		}
 	}
 
 	/**
-	 * 
+	 * Only for display usage
 	 * @param source
 	 * @return
 	 */
-	private static String toLimitedSizeString( Object source )
+	public static String toLimitedSizeString( Object source )
 	{
 		if ( source instanceof byte[] )
 		{
@@ -1290,6 +1302,10 @@ public final class DataTypeUtil
 						} );
 
 			}
+		}
+		else if( source instanceof String )
+		{
+			return ( (String) source ).getBytes( );
 		}
 		else
 			throw new CoreException( ResourceConstants.CONVERT_FAILS,

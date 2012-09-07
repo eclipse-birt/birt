@@ -14,7 +14,6 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.lang.reflect.Array;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -35,11 +34,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
-import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
@@ -58,7 +54,6 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
@@ -344,7 +339,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         	
         	if( !session.getStopSign().isStopped() )
         		resultMetadata = getMetaData( (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( ), odaStatement );
-        	
+        	if( design != null )
+        	{
+            	List modelResultHints = design.getResultSetHints( );
+            	resultMetadata = mergeResultHint( modelResultHints , resultMetadata );        		
+        	}
+
         	if ( queryCanceller.collectException( ) != null )
     		{
     			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
@@ -841,6 +841,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			return meta;
 		}
+		boolean changed = false;
 		int count = newResultClass.getFieldCount( );
 		try
 		{
@@ -860,6 +861,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						{
 							newResultClass.getFieldMetaData( i )
 									.setDataType( DataType.getClass( apiType ) );
+							changed = true;
 						}
 						break;
 					}
@@ -869,7 +871,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		catch ( Exception ex )
 		{
 		}
-		return newResultClass;
+		
+		if( changed )
+			return newResultClass;
+		else
+			return meta;
 	}
 
 	/*
@@ -983,15 +989,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			rs = odaStatement.getResultSet( );
 		}
 		
-		List modelResultHints = design.getResultSetHints( );
 		// If we did not get a result set metadata at prepare() time, get it now
 		if ( resultMetadata == null )
 		{
+			List modelResultHints = design.getResultSetHints( );
 			resultMetadata = rs.getMetaData( );
 			if ( resultMetadata == null )
 				throw new DataException( ResourceConstants.METADATA_NOT_AVAILABLE );
+			resultMetadata = mergeResultHint( modelResultHints , resultMetadata );
 		}
-		IResultClass newResultClass = mergeResultHint( modelResultHints , resultMetadata );
 		
 		// Initialize CachedResultSet using the ODA result set
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
@@ -1010,7 +1016,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				{
 					SimpleResultSet simpleResult = new SimpleResultSet( this,
 							rs,
-							newResultClass,
+							resultMetadata,
 							eventHandler,
 							this.getGrouping( ),
 							this.session,
@@ -1021,15 +1027,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			}
 	    	
 			ri = new CachedResultSet( this,
-					newResultClass,
+					resultMetadata,
 					rs,
 					eventHandler,
 					session );
 		}
 		else
 			ri = new CachedResultSet( this,
-					newResultClass,
-					new DataSetToCache( rs, newResultClass, session ),
+					resultMetadata,
+					new DataSetToCache( rs, resultMetadata, session ),
 					eventHandler, session );
 		
 		if ( ri != null )

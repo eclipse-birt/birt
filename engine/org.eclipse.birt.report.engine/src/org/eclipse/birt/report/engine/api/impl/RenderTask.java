@@ -221,6 +221,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 			{
 			}
 		}
+		dataSource = null;
+		innerRender = null;
+		reportDocument = null;
+		reportRunnable = null;
 		super.close( );
 	}
 

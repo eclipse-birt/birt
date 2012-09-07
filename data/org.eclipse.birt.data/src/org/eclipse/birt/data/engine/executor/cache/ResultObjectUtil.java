@@ -312,10 +312,10 @@ public class ResultObjectUtil
 			else if ( fieldType.equals( Boolean.class ) )
 				dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
 			else if ( fieldType.equals( String.class ) )
-				IOUtil.writeString( dos, fieldValue.toString( ) );
+				IOUtil.writeString( dos, ( (String)convert( fieldValue, DataType.STRING_TYPE ) ) );
 			else if ( fieldType.equals( IClob.class )
 					|| fieldType.equals( Clob.class ) )
-				IOUtil.writeString( dos, fieldValue.toString( ) );
+				IOUtil.writeString( dos, ( (String)convert( fieldValue, DataType.STRING_TYPE ) ) );
 			else if ( fieldType.equals( IBlob.class )
 					|| fieldType.equals( Blob.class ) )
 			{

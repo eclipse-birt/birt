@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -430,6 +431,11 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							String disp = null;
 							if( value instanceof Number )
 								disp = value.toString( );
+							else
+							if( value instanceof byte[] )
+							{
+								disp = DataTypeUtil.toLimitedSizeString( value );
+							}
 							else
 								disp = iter.getString( meta.getColumnName( n+1 )  );
 							cv.setDisplayValue( disp );
