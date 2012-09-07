@@ -821,6 +821,26 @@ public class ReportDocumentReader
 				manager.remove( engineCacheEntry );
 			}
 		}
+		this.bodyData = null;
+		this.engine = null;
+		this.cachedTreeV0 = null;
+		if ( globalVariables != null )
+		{
+			globalVariables.clear( );
+			globalVariables = null;
+		}
+		if ( moduleOptions != null )
+		{
+			moduleOptions.clear( );
+			moduleOptions = null;
+		}
+		this.preparedRunnable = null;
+		this.reportRunnable = null;
+		if ( parameters != null )
+		{
+			parameters.clear( );
+			parameters = null;
+		}
 	}
 
 	public InputStream getDesignStream( )
