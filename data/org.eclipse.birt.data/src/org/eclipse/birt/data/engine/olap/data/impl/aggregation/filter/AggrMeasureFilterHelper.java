@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.PropertySecurity;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
@@ -40,6 +41,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
+import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
@@ -232,11 +234,20 @@ public class AggrMeasureFilterHelper
 						ScriptConstants.DATA_SET_BINDING_SCRIPTABLE );
 				if( aggregationNames[i] == null && this.executor !=null )
 				{
-					List bindings = this.executor.getCubeQueryDefinition( ).getBindings( );
+					List bindingList = new ArrayList( );
+					ICubeQueryDefinition query = this.executor.getCubeQueryDefinition( );
+					bindingList.addAll( query.getBindings( ) );
+					if ( query instanceof PreparedCubeQueryDefinition )
+						bindingList.addAll( ( (PreparedCubeQueryDefinition) query ).getBindingsForNestAggregation( ) );
 					List referencedNames = new ArrayList( );
 					for ( int j = 0 ; j < bindingName.size( ) ; j++)
 					{
-						IBinding b = getBinding( bindingName.get( j ).toString( ), bindings );
+						IBinding b = getBinding( bindingName.get( j ).toString( ), bindingList );
+						if( this.fetcher!= null && this.fetcher.existBinding( bindingName.get( j ).toString( ) ) )
+						{
+							referencedNames.addAll( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),
+									ScriptConstants.DATA_BINDING_SCRIPTABLE ) );							
+						}
 						if( b != null && b.getAggregatOns( ).size( ) == 0 && b.getAggrFunction( ) == null )
 						{
 							referencedNames.addAll( ExpressionCompilerUtil.extractColumnExpression( b.getExpression( ),

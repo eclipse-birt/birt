@@ -426,7 +426,11 @@ public class CubeQueryExecutor
 			List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			if( bindingName.size( ) > 0 )
 			{
-				if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
+				List bindingList = new ArrayList( );
+				bindingList.addAll( this.defn.getBindings( ) );
+				if ( this.defn instanceof PreparedCubeQueryDefinition )
+					bindingList.addAll( ( (PreparedCubeQueryDefinition) this.defn ).getBindingsForNestAggregation( ) );
+				if( existAggregationBinding( bindingName, bindingList ) )
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
 			
 				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ), this.defn.getBindings( ) );
