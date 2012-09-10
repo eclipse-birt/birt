@@ -35,7 +35,7 @@ feature@org.eclipse.birt.tests=GIT,tag=v20120820,repo=git://git.eclipse.org/gitr
 
 !*************** NL features ***********
 feature@org.eclipse.birt.nl=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.nl.feature
-feature@org.eclipse.birt.dtp.nl=GIT,tag=v201203201405,repo=git://git.eclipse.org/gitroot/datatools/org.eclipse.datatools.build.git,path=features/org.eclipse.birt.dtp.nl.feature
+feature@org.eclipse.birt.dtp.nl=GIT,tag=v201209101445,repo=git://git.eclipse.org/gitroot/datatools/org.eclipse.datatools.build.git,path=features/org.eclipse.birt.dtp.nl.feature
 feature@org.eclipse.birt.rcp.nl=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.rcp.nl.feature
-feature@org.eclipse.birt.dtp.sybase.nl=GIT,tag=v201203201405,repo=git://git.eclipse.org/gitroot/datatools/org.eclipse.datatools.build.git,path=features/org.eclipse.birt.dtp.sybase.nl.feature
+feature@org.eclipse.birt.dtp.sybase.nl=GIT,tag=v201209101445,repo=git://git.eclipse.org/gitroot/datatools/org.eclipse.datatools.build.git,path=features/org.eclipse.birt.dtp.sybase.nl.feature
 feature@org.eclipse.birt.wtp.nl=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.wtp.nl.feature
