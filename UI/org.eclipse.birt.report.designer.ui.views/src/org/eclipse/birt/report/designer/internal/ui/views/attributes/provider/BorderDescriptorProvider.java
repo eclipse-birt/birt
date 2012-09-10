@@ -70,9 +70,9 @@ public abstract class BorderDescriptorProvider extends AbstractDescriptorProvide
 		if ( groupElementHandle != null )
 		{
 			GroupPropertyHandle handle = groupElementHandle.getPropertyHandle( property );
-			if ( handle != null && handle.getValue( ) != null )
+			if ( handle != null && handle.getLocalStringValue( ) != null )
 			{
-				if ( handle.getValue( ).equals( value ) )
+				if ( handle.getLocalStringValue( ).equals( value ) )
 				{
 					return;
 				}
