@@ -593,10 +593,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         Object inputValue = parameterHint.getDefaultInputValue( );
         if ( inputValue != null )
         {
-        	if ( inputValue.getClass( ).isArray( ) )
+			if ( inputValue.getClass( ).isArray( )
+					&& !( inputValue instanceof byte[] ) )
         	{
         		//if multi-value type report parameter is linked with data set parameter
-        		//only take the first provided value to pass it to data set
+        		//only take the first provided value to pass it to data set, except for byte[] Object
         		if ( Array.getLength( inputValue ) == 0 )
         		{
         			inputValue = null;
