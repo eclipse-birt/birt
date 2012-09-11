@@ -801,22 +801,25 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( IExpressionType.JAVASCRIPT.equalsIgnoreCase( type ) )
 		{
 			// for the measure expression case
-			String measureName = null;
+			Set<String> measureNameSet = null;
 
 			try
 			{
-				measureName = ExpressionUtil.getReferencedMeasure( expr );
+				measureNameSet = ExpressionUtil.getAllReferencedMeasures( expr );
 			}
 			catch ( CoreException e )
 			{
 				// Do nothing
 			}
 
-			if ( measureName != null )
+			if ( measureNameSet != null && !measureNameSet.isEmpty( ) )
 			{
-				String newName = nameMap.get( measureName );
-				if ( newName != null )
-					updateMap.put( measureName, newName );
+				for ( String measureName : measureNameSet )
+				{
+					String newName = nameMap.get( measureName );
+					if ( newName != null )
+						updateMap.put( measureName, newName );
+				}
 			}
 			else
 			{
