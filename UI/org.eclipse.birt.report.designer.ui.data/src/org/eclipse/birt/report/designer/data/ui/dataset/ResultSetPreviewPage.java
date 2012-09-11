@@ -432,11 +432,6 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 							if( value instanceof Number )
 								disp = value.toString( );
 							else
-							if( value instanceof byte[] )
-							{
-								disp = DataTypeUtil.toLimitedSizeString( value );
-							}
-							else
 								disp = iter.getString( meta.getColumnName( n+1 )  );
 							cv.setDisplayValue( disp );
 							cv.setRealValue( value );
