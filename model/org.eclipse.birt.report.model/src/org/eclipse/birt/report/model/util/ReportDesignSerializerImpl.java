@@ -39,6 +39,8 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
+import org.eclipse.birt.report.model.api.elements.structures.CalculationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
@@ -718,6 +720,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 				updateBindingExpr( binding, nameMap );
 				updateAggregateOnList( binding, nameMap );
+				updateAggregationArguments( binding, nameMap );
+				updateCalculationArguments( binding, nameMap );
+				updateTimeDimension( binding, nameMap );
 			}
 		}
 
@@ -743,8 +748,20 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		if ( objExpr == null )
 			return;
 
-		String expr = objExpr.getStringExpression( );
-		String type = objExpr.getType( );
+		Expression newExpr = getUpdatedExpression( objExpr, nameMap );
+		if ( newExpr != null )
+			binding.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+					newExpr );
+	}
+	
+	private Expression getUpdatedExpression( Expression old,
+			Map<String, String> nameMap )
+	{
+		if ( old == null )
+			return null;
+
+		String expr = old.getStringExpression( );
+		String type = old.getType( );
 		Map<String, String> updateMap = getUpdateBindingMap( expr, nameMap,
 				type );
 
@@ -758,9 +775,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				newExpr = newExpr.replaceAll( "(\\W)" + oldName + "(\\W)", //$NON-NLS-1$ //$NON-NLS-2$ 
 						"$1" + newName + "$2" ); //$NON-NLS-1$  //$NON-NLS-2$
 			}
-			binding.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
-					new Expression( newExpr, type ) );
+			return new Expression( newExpr, type );
 		}
+		return null;
 
 	}
 
@@ -856,6 +873,70 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				continue;
 
 			aggreOnList.set( i, newName );
+		}
+	}
+	
+	private void updateAggregationArguments( ComputedColumn binding,
+			Map<String, String> nameMap )
+	{
+		@SuppressWarnings("unchecked")
+		List<AggregationArgument> arguments = (List<AggregationArgument>) binding
+				.getProperty( null, ComputedColumn.ARGUMENTS_MEMBER );
+		if ( arguments != null && !arguments.isEmpty( ) )
+		{
+			for ( AggregationArgument aggArg : arguments )
+			{
+				Expression objExpr = aggArg
+						.getExpressionProperty( AggregationArgument.VALUE_MEMBER );
+
+				if ( objExpr == null )
+					return;
+
+				Expression newExpr = getUpdatedExpression( objExpr, nameMap );
+				if ( newExpr != null )
+					aggArg.setExpressionProperty(
+							AggregationArgument.VALUE_MEMBER, newExpr );
+			}
+		}
+	}
+	
+	private void updateCalculationArguments( ComputedColumn binding,
+			Map<String, String> nameMap )
+	{
+		@SuppressWarnings("unchecked")
+		List<CalculationArgument> calculationArgs = (List<CalculationArgument>) binding
+				.getProperty( null, ComputedColumn.CALCULATION_ARGUMENTS_MEMBER );
+		if ( calculationArgs != null && !calculationArgs.isEmpty( ) )
+		{
+			for ( CalculationArgument calArg : calculationArgs )
+			{
+				Expression objExpr = calArg
+						.getExpressionProperty( CalculationArgument.VALUE_MEMBER );
+
+				if ( objExpr == null )
+					return;
+				
+				Expression newExpr = getUpdatedExpression( objExpr, nameMap );
+				if ( newExpr != null )
+					calArg.setExpressionProperty(
+							CalculationArgument.VALUE_MEMBER, newExpr );
+
+			}
+		}
+	}
+	
+	private void updateTimeDimension( ComputedColumn binding,
+			Map<String, String> nameMap )
+	{
+		String timeDimension = (String) binding.getProperty( null,
+				ComputedColumn.TIME_DIMENSION_MEMBER );
+
+		String newTimeDimension = nameMap.get( timeDimension );
+
+		if ( newTimeDimension != null )
+		{
+			binding.setProperty( ComputedColumn.TIME_DIMENSION_MEMBER,
+					newTimeDimension );
 		}
 	}
 
