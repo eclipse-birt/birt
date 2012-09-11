@@ -214,7 +214,7 @@ public class ResultObjectUtil
 			else
 			{
 				byte[] bytes = new byte[len];
-				dis.read( bytes );
+				dis.readFully( bytes );
 				obj = bytes;
 			}
 		}
