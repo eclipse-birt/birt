@@ -3,7 +3,7 @@ feature@org.eclipse.birt.sdk=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroo
 plugin@org.eclipse.birt.sdk=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt.sdk
 
 feature@org.eclipse.birt=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.feature
-plugin@org.eclipse.birt=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt
+plugin@org.eclipse.birt=GIT,tag=v201209061114,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt
 
 feature@org.eclipse.birt.osgi.runtime=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.osgi.runtime
 feature@org.eclipse.birt.osgi.runtime.sdk=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.osgi.runtime.sdk
@@ -12,7 +12,7 @@ feature@org.eclipse.birt.chart.osgi.runtime=GIT,tag=v20120820,repo=git://git.ecl
 feature@org.eclipse.birt.chart.osgi.runtime.sdk=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.chart.osgi.runtime.sdk
 
 feature@org.eclipse.birt.chart=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.chart.feature
-plugin@org.eclipse.birt.chart=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt.chart
+plugin@org.eclipse.birt.chart=GIT,tag=v201209061114,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer.editor.xml.wtp=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
 
@@ -27,7 +27,7 @@ feature@org.eclipse.birt.cshelp=GIT,tag=v20120820,repo=git://git.eclipse.org/git
 feature@org.eclipse.birt.doc.isv=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.doc.isv.feature
 feature@org.eclipse.birt.doc=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.doc.feature
 feature@org.eclipse.birt.example=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.example.feature
-plugin@org.eclipse.birt.example=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt.example
+plugin@org.eclipse.birt.example=GIT,tag=v201209061114,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=build/org.eclipse.birt.example
 
 !*************** BIRT  TEST ***********
 feature@org.eclipse.birt.testhelper=GIT,tag=v20120820,repo=git://git.eclipse.org/gitroot/birt/org.eclipse.birt.git,path=features/org.eclipse.birt.testhelper.feature
