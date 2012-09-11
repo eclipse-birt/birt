@@ -259,4 +259,8 @@ public class ExternalUIUtil
 		return targetHandle;
 	}
 	
+	public static boolean disableCollation( DataSetHandle handle )
+	{
+		return false;
+	}	
 }
