@@ -442,5 +442,7 @@ data.derivedDataSet.invalidQueryText=クエリテキストが無効です。
 data.datamart.failLoadDataSet = データオブジェクトデータセット "{0}" を読み込めません。
 data.datamart.originalDataSetNotExist = 増分更新できません。 元のデータセット "{0}" が存在しません。
 data.datamart.incrementalDatasetMetaDataError = 増分更新できません。 追加のデータセット "{0}" のメタデータが、元のデータセットのものと異なります。 
+data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+
 
 data.filter.pushDownFail= ODA 拡張側でのみサポートされるフィルタをプッシュ (下へ) できませんでした。

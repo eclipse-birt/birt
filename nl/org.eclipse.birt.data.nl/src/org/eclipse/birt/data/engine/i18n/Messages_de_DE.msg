@@ -442,5 +442,7 @@ data.derivedDataSet.invalidQueryText=Ungültiger Abfragetext.
 data.datamart.failLoadDataSet = Fehler beim Laden von Datenobjekt-Datensatz '{0}'.
 data.datamart.originalDataSetNotExist = Schrittweise Aktualisierung fehlgeschlagen. Der Originaldatensatz '{0}' ist nicht vorhanden.
 data.datamart.incrementalDatasetMetaDataError = Schrittweise Aktualisierung fehlgeschlagen. Die Metadaten des zusätzlichen Datensatzes '{0}' unterscheiden sich von denen des Originaldatensatzes. 
+data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+
 
 data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.

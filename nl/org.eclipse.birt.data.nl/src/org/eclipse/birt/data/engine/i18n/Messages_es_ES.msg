@@ -442,5 +442,7 @@ data.derivedDataSet.invalidQueryText=Texto de consulta no válido.
 data.datamart.failLoadDataSet = Error al cargar el conjunto de datos de objeto de datos "{0}".
 data.datamart.originalDataSetNotExist = Error en la actualización incremental. El conjunto de datos original "{0}" no existe.
 data.datamart.incrementalDatasetMetaDataError = Error en la actualización incremental. Los metadatos del conjunto de datos original "{0}" son distintos del conjunto de datos originales. 
+data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+
 
 data.filter.pushDownFail= Error al reducir el filtro que solo es compatible con la extnsión ODA.

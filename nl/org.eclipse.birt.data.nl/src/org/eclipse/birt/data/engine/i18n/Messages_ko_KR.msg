@@ -442,5 +442,7 @@ data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.
 data.datamart.failLoadDataSet = 데이터 개체 집합 "{0}"을(를) 로드하지 못했습니다.
 data.datamart.originalDataSetNotExist = 증분 업데이트에 실패했습니다. 원본 데이터 집합 "{0}"이(가) 없습니다.
 data.datamart.incrementalDatasetMetaDataError = 증분 업데이트에 실패했습니다. 추가 데이터 집합 "{0}"의 메타데이터가 원본 데이터 집합의 메타데이터와 다릅니다. 
+data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+
 
 data.filter.pushDownFail= ODA 확장 측에서만 지원되는 필터를 아래로 밀어내지 못했습니다.

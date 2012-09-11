@@ -442,5 +442,7 @@ data.derivedDataSet.invalidQueryText=无效查询文本。
 data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。
 data.datamart.originalDataSetNotExist = 增量更新失败。 原始数据集“{0}”不存在。
 data.datamart.incrementalDatasetMetaDataError = 增量更新失败。 附加数据集“{0}”的元数据与原始数据集的元数据不同。 
+data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+
 
 data.filter.pushDownFail= 下推仅支持 ODA 扩展端的筛选器失败。
