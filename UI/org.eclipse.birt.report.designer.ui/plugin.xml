@@ -246,7 +246,7 @@
          	class="org.eclipse.birt.report.designer.internal.ui.extension.PropertyHandlePropertyTester"
          	id="ProertyHandleTester"
          	namespace="PropertyHandle"
-         	properties="name"
+         	properties="name,elementName"
          	type="org.eclipse.birt.report.model.api.PropertyHandle">
    		</propertyTester>
    		<propertyTester
