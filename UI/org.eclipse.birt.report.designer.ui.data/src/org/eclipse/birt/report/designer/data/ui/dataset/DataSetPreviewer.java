@@ -66,8 +66,17 @@ public class DataSetPreviewer
 	
 	public IResultIterator preview( ) throws BirtException
 	{
-		result = task.execute( );
-		return result.nextResultIterator( ).getResultIterator( );
+		int max = dataSetHandle.getIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP );
+		try
+		{
+			dataSetHandle.setIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP, this.maxRow );
+			result = task.execute( );
+			return result.nextResultIterator( ).getResultIterator( );
+		}
+		finally
+		{
+			dataSetHandle.setIntProperty( DataSetHandle.ROW_FETCH_LIMIT_PROP, max );
+		}
 	}
 	
 	
