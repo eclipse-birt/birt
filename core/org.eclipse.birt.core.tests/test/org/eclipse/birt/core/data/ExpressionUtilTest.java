@@ -195,16 +195,17 @@ public class ExpressionUtilTest extends TestCase
 		assertEquals( ExpressionUtil.replaceParameterName( "params.param1.value+ params.param2.value","param2", "PARAM2" ), "params.param1.value+ params.PARAM2.value");
 	}
 	
-	public void testGetReferenceDimLevel() throws CoreException
+	public void testReferedMeasureExpression() throws CoreException
 	{
-		Set<IDimLevel> dimLevels = ExpressionUtil.getReferencedDimLevel("dimension[\"a\"][\"b\"]");
-		assertTrue( dimLevels.size( ) ==1 );
-		dimLevels = ExpressionUtil.getReferencedDimLevel("dimension[\"a\"][\"b\"] + dimension[\"c\"][\"d\"]");
-		assertTrue( dimLevels.size( ) ==2 );
-		dimLevels = ExpressionUtil.getReferencedDimLevel("dimension[\"a\"][\"b\"]+dimension[\"a\"][\"b\"]");
-		assertTrue( dimLevels.size( ) ==1 );
-		dimLevels = ExpressionUtil.getReferencedDimLevel("BirtMath.add( dimension[\"a\"][\"b\"],dimension[\"c\"][\"d\"])");
-		assertTrue( dimLevels.size( ) ==2 );
+		assertEquals( ExpressionUtil.getReferencedMeasure( "measure[\"m1\"]" ), "m1");
+		assertEquals( ExpressionUtil.getReferencedMeasure( "measure[\"m1\"]+measure[\"m2\"]" ), "m1");
+		Set str = ExpressionUtil.getAllReferencedMeasures( "measure[\"m1\"]+ measure[\"m2\"]*measure[\"m3\"]");
+		assertEquals( str.contains( "m1" ), true );
+		assertEquals( str.contains( "m2"), true );
+		assertEquals( str.contains( "m3"), true );
+		Set set = ExpressionUtil.getAllReferencedMeasures( "measure[\"m1\"]/measure[\"m2\"]*measure[\"m2\"]");
+		assertEquals( set.contains( "m1" ), true );
+		assertEquals( set.contains( "m2"), true );
+		assertEquals( set.contains( "m3"), false );
 	}
-
 }
