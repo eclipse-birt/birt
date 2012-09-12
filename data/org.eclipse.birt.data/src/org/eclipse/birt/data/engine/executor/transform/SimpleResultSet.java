@@ -675,7 +675,7 @@ public class SimpleResultSet implements IResultIterator
 		doNext( );
 		
 		if ( currResultObj != null )
-			saveDataSetResultSet( currResultObj, rowCount );
+			saveDataSetResultSet( currResultObj, rowCount - 1 );
 
 		return this.currResultObj != null;
 	}
