@@ -34,7 +34,6 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.internal.ui.script.ScriptValidator;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
@@ -48,6 +47,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -776,7 +776,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 			}
 			return null;
 		}
-		if ( adapter == ActionRegistry.class )
+		else if ( adapter == ActionRegistry.class )
 		{
 			return scriptEditor.getActionRegistry( );
 		}
@@ -790,10 +790,8 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 			palettePage.setViewer( getViewer( ) );
 			return palettePage;
 		}
-
-		if ( adapter == IContentOutlinePage.class )
+		else if ( adapter == IContentOutlinePage.class )
 		{
-
 			// ( (NonGEFSynchronizerWithMutiPageEditor)
 			// getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer)
 			// outlinePage.getAdapter( NonGEFSynchronizer.class ) );
@@ -804,31 +802,25 @@ public class JSEditor extends EditorPart implements IMediatorColleague
 					.getReportDesignHandle( ) );
 
 			return outlinePage;
-
 		}
-
-		// return the property sheet page
-		if ( adapter == IPropertySheetPage.class )
+		else if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
 			return sheetPage;
 		}
-
-		if ( adapter == DataViewPage.class )
+		else if ( adapter == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
 			return page;
 		}
-
-		if ( adapter == IAttributeViewPage.class )
+		else if ( adapter == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-
-		if ( adapter == ITextEditor.class )
+		else if ( adapter == ITextEditor.class )
 		{
 			return scriptEditor;
 		}

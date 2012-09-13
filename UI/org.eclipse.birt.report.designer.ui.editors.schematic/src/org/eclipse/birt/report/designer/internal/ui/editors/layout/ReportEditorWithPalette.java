@@ -77,7 +77,6 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPaletteP
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
@@ -96,6 +95,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -1305,7 +1305,6 @@ abstract public class ReportEditorWithPalette extends
 	// }
 	public Object getAdapter( Class type )
 	{
-
 		if ( type == IContentOutlinePage.class )
 		{
 
@@ -1319,28 +1318,23 @@ abstract public class ReportEditorWithPalette extends
 			manager.addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
 		}
-
-		// return the property sheet page
-		if ( type == IPropertySheetPage.class )
+		else if ( type == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;
 		}
-
-		if ( type == DataViewPage.class )
+		else if ( type == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
 			manager.addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-
-		if ( type == IAttributeViewPage.class )
+		else if ( type == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-
-		if ( type == IModelEventManager.class )
+		else if ( type == IModelEventManager.class )
 		{
 			return manager;
 		}

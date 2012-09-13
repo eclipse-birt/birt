@@ -133,6 +133,8 @@ public class ReportRequest extends Request implements
 	/**
 	 * @param convert
 	 *            The converter to set.
+	 * 
+	 * @deprecated use {@link #setRequestConverter(IRequestConverter)} instead.
 	 */
 	public void setRequestConvert( IRequestConvert converter )
 	{

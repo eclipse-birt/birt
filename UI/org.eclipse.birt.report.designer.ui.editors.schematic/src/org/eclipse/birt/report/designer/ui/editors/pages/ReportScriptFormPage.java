@@ -25,7 +25,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEve
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
@@ -34,6 +33,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -527,28 +527,27 @@ public class ReportScriptFormPage extends ReportFormPage
 			}
 			return null;
 		}
-		if ( adapter == ActionRegistry.class )
+		else if ( adapter == ActionRegistry.class )
 		{
 			return jsEditor.getAdapter( ActionRegistry.class );
 		}
-		if ( adapter == PalettePage.class )
+		else if ( adapter == PalettePage.class )
 		{
 			return jsEditor.getAdapter( PalettePage.class );
 		}
-		if ( adapter == IContentOutlinePage.class )
+		else if ( adapter == IContentOutlinePage.class )
 		{
 			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
 			return outlinePage;
 		}
-		if ( adapter == DataViewPage.class )
+		else if ( adapter == IDataViewPage.class )
 		{
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage( getModel( ) );
 			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-
-		if ( adapter == IPropertySheetPage.class )
+		else if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;

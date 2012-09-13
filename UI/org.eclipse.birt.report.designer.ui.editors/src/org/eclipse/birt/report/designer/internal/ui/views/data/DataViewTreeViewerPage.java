@@ -371,7 +371,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 * Initializes the root of the view
 	 * 
 	 */
-	private void initRoot( )
+	protected void initRoot( )
 	{
 		getTreeViewer( ).setInput( new ReportDataHandle( getRoot( ) ) );
 		getRoot( ).addValidationListener( this );

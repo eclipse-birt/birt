@@ -40,7 +40,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -51,6 +50,7 @@ import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.IVersionInfo;
@@ -619,20 +619,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			}
 			return reportProvider;
 		}
-
-		if ( type == ILibraryProvider.class )
+		else if ( type == ILibraryProvider.class )
 		{
 			return new LibraryProvider( );
 		}
-
-		if ( type == PalettePage.class )
+		else if ( type == PalettePage.class )
 		{
 			Object adapter = getPalettePage( );
 			updatePaletteView( getActivePageInstance( ) );
 			return adapter;
 		}
-
-		if ( type == IContentOutlinePage.class )
+		else if ( type == IContentOutlinePage.class )
 		{
 			/*
 			 * Update the logic under eclipse 3.7, eclipse always call the
@@ -648,22 +645,19 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			}
 			return adapter;
 		}
-
-		if ( type == DataViewPage.class )
+		else if ( type == IDataViewPage.class )
 		{
 			Object adapter = getDataPage( );
 			updateDateView( getActivePageInstance( ) );
 			return adapter;
 		}
-
-		if ( type == IAttributeViewPage.class )
+		else if ( type == IAttributeViewPage.class )
 		{
 			Object adapter = getAttributePage( );
 			updateAttributeView( getActivePageInstance( ) );
 			return adapter;
 		}
-
-		if ( getActivePageInstance( ) != null )
+		else if ( getActivePageInstance( ) != null )
 		{
 			return getActivePageInstance( ).getAdapter( type );
 		}
@@ -689,7 +683,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 
-		Object adapter = activePageInstance.getAdapter( DataViewPage.class );
+		Object adapter = activePageInstance.getAdapter( IDataViewPage.class );
 		if ( adapter instanceof DataViewTreeViewerPage )
 		{
 			( (DataViewTreeViewerPage) adapter ).setBackupState( dataBackup );

@@ -26,10 +26,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ReportLay
 import org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportEditorWithPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -203,10 +202,8 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 	 */
 	public Object getAdapter( Class adapter )
 	{
-
 		if ( adapter == IContentOutlinePage.class )
 		{
-
 			// ( (NonGEFSynchronizerWithMutiPageEditor)
 			// getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer)
 			// outlinePage.getAdapter( NonGEFSynchronizer.class ) );
@@ -217,35 +214,15 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 			getModelEventManager( ).addModelEventProcessor( outline.getModelProcessor( ) );
 			return outline;
 		}
-
-		if ( adapter == DataViewPage.class )
+		else if ( adapter == IDataViewPage.class )
 		{
-			// TODO garbage code
-			// important: this code is for fixing a bug in emergency.
-			// Must shift to mediator structure after R1
-			DataViewPage page = (DataViewPage) super.getAdapter( adapter );
-			if ( page == null )
-			{
-				return null;
-			}
-			return page;
+			return super.getAdapter( adapter );
 		}
-
-		if ( adapter == IAttributeViewPage.class )
+		else if ( adapter == IAttributeViewPage.class )
 		{
-			// TODO garbage code
-			// important: this code is for fixing a bug in emergency.
-			// Must shift to mediator structure after R1
-			Object page = super.getAdapter( adapter );
-			if ( page == null )
-			{
-				return null;
-			}
-			return page;
+			return super.getAdapter( adapter );
 		}
-
-		// return the property sheet page
-		if ( adapter == IPropertySheetPage.class )
+		else if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;

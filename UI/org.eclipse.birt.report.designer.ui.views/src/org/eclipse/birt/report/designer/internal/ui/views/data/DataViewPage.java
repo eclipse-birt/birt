@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.ui.views.data.IDataViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.SafeRunner;
@@ -52,6 +53,7 @@ import org.eclipse.ui.part.Page;
  * 
  */
 public abstract class DataViewPage extends Page implements
+		IDataViewPage,
 		ISelectionProvider,
 		IMediatorColleague
 {

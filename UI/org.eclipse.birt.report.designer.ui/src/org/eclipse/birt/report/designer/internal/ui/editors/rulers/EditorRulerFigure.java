@@ -81,10 +81,10 @@ public class EditorRulerFigure extends Figure
 	 * figure adds this width to its preferred width. The border is painted in
 	 * the paintFigure(Graphics) method.
 	 */
-	private static final int BORDER_WIDTH = 3;
+	protected static final int BORDER_WIDTH = 3;
 
 	private boolean horizontal;
-	private int unit, interval, divisions;
+	protected int unit, interval, divisions;
 	private double dpu1 = -1.0;
 
 	private ZoomListener zoomListener = new ZoomListener( )
