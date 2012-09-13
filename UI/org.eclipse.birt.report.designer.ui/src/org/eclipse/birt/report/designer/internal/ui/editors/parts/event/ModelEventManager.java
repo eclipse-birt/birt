@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.api.core.Listener;
  * processor. And through the command stack to listener the model trans if
  * commit or roll back.
  */
-public class ModelEventManager implements Listener
+public class ModelEventManager implements Listener, IModelEventManager
 {
 
 	/**

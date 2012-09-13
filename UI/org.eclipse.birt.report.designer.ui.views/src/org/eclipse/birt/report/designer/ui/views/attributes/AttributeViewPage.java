@@ -74,6 +74,7 @@ import org.eclipse.ui.part.Page;
  * be shown in the attributes view. </P>
  */
 public class AttributeViewPage extends Page implements
+		IAttributeViewPage,
 		INullSelectionListener,
 		IMediatorColleague,
 		IModelEventProcessor
@@ -98,7 +99,7 @@ public class AttributeViewPage extends Page implements
 	/**
 	 * Attribute view UI builder
 	 */
-	private AttributesBuilder builder;
+	protected AttributesBuilder builder;
 
 	// add restore library properties action
 	private RestoreLibraryPropertiesAction restoreLibraryPropertiesAction;
@@ -286,7 +287,7 @@ public class AttributeViewPage extends Page implements
 	 *            the current selection.
 	 * @return
 	 */
-	private List getModelList( ISelection selection )
+	protected List getModelList( ISelection selection )
 	{
 		List list = new ArrayList( );
 		if ( selection == null )

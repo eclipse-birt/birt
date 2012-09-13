@@ -50,7 +50,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.IVersionInfo;
@@ -656,7 +656,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return adapter;
 		}
 
-		if ( type == AttributeViewPage.class )
+		if ( type == IAttributeViewPage.class )
 		{
 			Object adapter = getAttributePage( );
 			updateAttributeView( getActivePageInstance( ) );
@@ -678,9 +678,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 
-		Object adapter = activePageInstance.getAdapter( AttributeViewPage.class );
+		Object adapter = activePageInstance.getAdapter( IAttributeViewPage.class );
 		attributePage.setActivePage( (IPageBookViewPage) adapter );
-
 	}
 
 	private void updateDateView( IFormPage activePageInstance )

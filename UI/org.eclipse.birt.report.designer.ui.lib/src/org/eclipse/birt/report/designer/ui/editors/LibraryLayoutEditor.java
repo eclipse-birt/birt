@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFacto
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -230,12 +231,12 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 			return page;
 		}
 
-		if ( adapter == AttributeViewPage.class )
+		if ( adapter == IAttributeViewPage.class )
 		{
 			// TODO garbage code
 			// important: this code is for fixing a bug in emergency.
 			// Must shift to mediator structure after R1
-			AttributeViewPage page = (AttributeViewPage) super.getAdapter( adapter );
+			Object page = super.getAdapter( adapter );
 			if ( page == null )
 			{
 				return null;
