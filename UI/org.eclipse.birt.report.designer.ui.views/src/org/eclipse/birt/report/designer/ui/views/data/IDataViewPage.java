@@ -9,15 +9,15 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.designer.ui.views.attributes;
+package org.eclipse.birt.report.designer.ui.views.data;
 
 import org.eclipse.ui.part.IPageBookViewPage;
 
 /**
  * This interface is to identify the page implementation that targets for the
- * *Property Editor* view.
+ * *Data Explorer* view.
  */
-public interface IAttributeViewPage extends IPageBookViewPage
+public interface IDataViewPage extends IPageBookViewPage
 {
 
 }

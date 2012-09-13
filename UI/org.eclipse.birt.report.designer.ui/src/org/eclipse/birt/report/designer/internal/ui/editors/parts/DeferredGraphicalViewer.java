@@ -17,11 +17,10 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
+import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConverter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
-import org.eclipse.birt.report.engine.script.internal.element.ReportItem;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.core.runtime.IAdaptable;
@@ -68,6 +67,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 
 	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
 	
+	public static final String PROPERTY_MARGIN_RESET = "Reset Margin"; //$NON-NLS-1$
+
 	/**Show the guide*/
 	public static final String PROPERTY_DRAG_GUIDE = "Drag Guide"; //$NON-NLS-1$
 	
@@ -310,7 +311,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				request.setSelectionObject( list );
 				request.setType( ReportRequest.SELECTION );
 
-				request.setRequestConvert( new EditorReportRequestConvert( ) );
+				request.setRequestConverter( new EditorReportRequestConvert( ) );
 				// SessionHandleAdapter.getInstance().getMediator().pushState();
 				SessionHandleAdapter.getInstance( )
 						.getMediator( )
@@ -356,7 +357,10 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		public int minY, maxY, valueY, extendY;
 	}
 
-	public static class EditorReportRequestConvert implements IRequestConvert
+	/**
+	 * EditorReportRequestConvert
+	 */
+	public static class EditorReportRequestConvert implements IRequestConverter
 	{
 
 		/*
