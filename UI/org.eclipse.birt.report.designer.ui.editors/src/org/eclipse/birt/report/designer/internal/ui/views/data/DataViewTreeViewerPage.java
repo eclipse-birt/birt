@@ -92,13 +92,13 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	/**
 	 * constructor
 	 * 
-	 * @param reportHandle
+	 * @param model
 	 *            the handle of the report design
 	 */
-	public DataViewTreeViewerPage( ModuleHandle reportHandle )
+	public DataViewTreeViewerPage( ModuleHandle model )
 	{
 		super( );
-		setReportHandle( reportHandle );
+		setRoot( model );
 	}
 
 	/**
@@ -297,6 +297,11 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 
 		// add inline renaming support
 
+		addDragAndDropListener( );
+	}
+
+	protected void addDragAndDropListener( )
+	{
 		// Adds drag and drop support
 		int ops = DND.DROP_MOVE | DND.DROP_COPY;
 		Transfer[] transfers = new Transfer[]{
@@ -375,16 +380,6 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	{
 		getTreeViewer( ).setInput( new ReportDataHandle( getRoot( ) ) );
 		getRoot( ).addValidationListener( this );
-	}
-
-	/**
-	 * Gets the root of the viewer
-	 * 
-	 * @return Returns the root
-	 */
-	public ModuleHandle getRoot( )
-	{
-		return getReportHandle( );
 	}
 
 	/**
@@ -483,7 +478,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	/**
 	 * Handles all global actions
 	 */
-	private void handleGlobalAction( )
+	protected void handleGlobalAction( )
 	{
 		for ( int i = 0; i < GlobalActionFactory.GLOBAL_SELECTION_ACTIONS.length; i++ )
 		{
