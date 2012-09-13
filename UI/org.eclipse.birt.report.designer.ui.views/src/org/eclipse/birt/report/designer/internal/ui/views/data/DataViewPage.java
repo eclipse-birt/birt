@@ -59,7 +59,7 @@ public abstract class DataViewPage extends Page implements
 {
 
 	private TreeViewer treeViewer;
-	private ModuleHandle reportHandle;
+	private ModuleHandle model;
 
 	private ListenerList selectionChangedListeners = new ListenerList( ListenerList.IDENTITY );
 
@@ -121,9 +121,9 @@ public abstract class DataViewPage extends Page implements
 		initPage( );
 
 		// suport the mediator
-		if ( reportHandle != null )
+		if ( model != null )
 			SessionHandleAdapter.getInstance( )
-					.getMediator( reportHandle )
+					.getMediator( model )
 					.addColleague( this );
 	}
 
@@ -312,10 +312,10 @@ public abstract class DataViewPage extends Page implements
 		treeViewer = null;
 
 		// remove the mediator listener
-		if ( reportHandle != null )
+		if ( model != null )
 		{
 			IMediator mediator = SessionHandleAdapter.getInstance( )
-					.getMediator( reportHandle, false );
+					.getMediator( model, false );
 			if ( mediator != null )
 			{
 				mediator.removeColleague( this );
@@ -402,13 +402,13 @@ public abstract class DataViewPage extends Page implements
 		return false;
 	}
 
-	public ModuleHandle getReportHandle( )
+	public ModuleHandle getRoot( )
 	{
-		return reportHandle;
+		return model;
 	}
 
-	public void setReportHandle( ModuleHandle reportHandle )
+	protected void setRoot( ModuleHandle reportHandle )
 	{
-		this.reportHandle = reportHandle;
+		this.model = reportHandle;
 	}
 }
