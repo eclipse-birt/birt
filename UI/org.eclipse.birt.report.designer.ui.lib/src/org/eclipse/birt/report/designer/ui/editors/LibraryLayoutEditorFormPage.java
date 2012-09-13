@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewe
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -295,7 +296,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements
 			getModelEventManager( ).addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-		if ( adapter == AttributeViewPage.class )
+		if ( adapter == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;

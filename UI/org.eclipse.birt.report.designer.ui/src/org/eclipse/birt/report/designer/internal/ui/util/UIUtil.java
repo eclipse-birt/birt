@@ -53,6 +53,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.IRelatedFileChangeRe
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
@@ -1676,7 +1677,7 @@ public class UIUtil
 		return image;
 	}
 
-	public static ModelEventManager getModelEventManager( )
+	public static IModelEventManager getModelEventManager( )
 	{
 		IEditorPart input = null;
 
@@ -1688,6 +1689,7 @@ public class UIUtil
 				break;
 			}
 		}
+		
 		if ( input == null )
 		{
 			IEditorPart part = getActiveEditor( true );
@@ -1698,10 +1700,15 @@ public class UIUtil
 		}
 
 		if ( input == null )
+		{
 			return null;
-		Object adapter = input.getAdapter( ModelEventManager.class );
-		if ( adapter != null && adapter instanceof ModelEventManager )
-			return (ModelEventManager) adapter;
+		}
+		
+		Object adapter = input.getAdapter( IModelEventManager.class );
+		if ( adapter instanceof IModelEventManager )
+		{
+			return (IModelEventManager) adapter;
+		}
 		return null;
 	}
 

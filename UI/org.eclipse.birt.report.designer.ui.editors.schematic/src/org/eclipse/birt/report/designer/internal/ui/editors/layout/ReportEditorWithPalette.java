@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ReportViewerKeyHandler;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
@@ -94,6 +95,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
+import org.eclipse.birt.report.designer.ui.views.attributes.IAttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -1332,13 +1334,13 @@ abstract public class ReportEditorWithPalette extends
 			return page;
 		}
 
-		if ( type == AttributeViewPage.class )
+		if ( type == IAttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
 
-		if ( type == ModelEventManager.class )
+		if ( type == IModelEventManager.class )
 		{
 			return manager;
 		}
