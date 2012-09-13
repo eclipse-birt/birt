@@ -679,7 +679,7 @@ public class InputParameterDialog extends BaseDialog
 				else
 				{
 					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getData( combo.getItem( combo.indexOf( combo.getText( ) ) ) ) );
+							combo.getData( String.valueOf( combo.indexOf( combo.getText( ) ) ) ) );
 				}
 
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
