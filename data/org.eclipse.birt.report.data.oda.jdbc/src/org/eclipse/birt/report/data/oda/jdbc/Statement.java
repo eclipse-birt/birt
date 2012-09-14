@@ -176,22 +176,30 @@ public class Statement implements IQuery
 		}
 		else if ( name.equals("rowFetchSize") )
 		{
-			// Ignore null or empty value
-			if ( value != null && value.length() > 0 )
+			try 
 			{
-				try
+				if (value != null && value.length() > 0) 
 				{
-					// Be forgiving if a floating point gets passed in - can happen 
-					// when Javascript gets involved in calculating the property value
-					double rows = Double.parseDouble( value );
-					this.preStat.setFetchSize( (int) rows );
-				}
-				catch ( SQLException e )
+					// Be forgiving if a floating point gets passed in - can
+					// happen
+					// when Javascript gets involved in calculating the property
+					// value
+					double rows = Double.parseDouble(value);
+					this.preStat.setFetchSize((int) rows);
+
+				} 
+				else 
 				{
-					// This is not an essential property; log and ignore error if driver doesn't
-					// support query timeout
-					logger.log( Level.FINE, "Statement.setQueryTimeout failed", e );
+					//Default Set to 10000. This will slowdown MsSql,MySql,Postgress performance while enhance Oracle performance.
+					this.preStat.setFetchSize(10000);
 				}
+			} 
+			catch (SQLException e) 
+			{
+				// This is not an essential property; log and ignore error if
+				// driver doesn't
+				// support query timeout
+				logger.log(Level.FINE, "Statement.setQueryTimeout failed", e);
 			}
 		}
 		else if (name.equals(ConnectionProfileProperty.PROFILE_NAME_PROP_KEY)
