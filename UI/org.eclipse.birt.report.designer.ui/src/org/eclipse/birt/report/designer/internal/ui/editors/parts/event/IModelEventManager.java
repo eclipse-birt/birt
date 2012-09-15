@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts.event;
 
+import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+
 /**
  * IModelEventManager
  */
@@ -20,4 +22,12 @@ public interface IModelEventManager
 	void addModelEventProcessor( IModelEventProcessor processor );
 
 	void removeModelEventProcessor( IModelEventProcessor processor );
+
+	void hookRoot( Object obj );
+
+	void unhookRoot( Object obj );
+
+	void hookCommandStack( WrapperCommandStack stack );
+
+	void unhookCommandStack( WrapperCommandStack stack );
 }

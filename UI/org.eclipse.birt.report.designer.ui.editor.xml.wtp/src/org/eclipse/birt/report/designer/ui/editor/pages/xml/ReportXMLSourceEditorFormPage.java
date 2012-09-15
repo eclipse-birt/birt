@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorRequest;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -68,6 +69,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
@@ -85,7 +87,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		IMediatorColleague
 {
 
-	private ModelEventManager manager;
+	private IModelEventManager manager;
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
 	private static final String switchAction_ID = "switch"; //$NON-NLS-1$
 	private ActionRegistry registry;
@@ -538,7 +540,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				} );
 	}
 
-	private void registerOutlineSwitchAction( )
+	protected void registerOutlineSwitchAction( )
 	{
 		if ( registered == true )
 			return;
@@ -794,13 +796,18 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		return super.getAdapter( required );
 	}
 
-	private ModelEventManager getModelEventManager( )
+	protected IModelEventManager getModelEventManager( )
 	{
 		if ( manager == null )
 		{
-			return manager = new ModelEventManager( );
+			return manager = createModelEventManager( );
 		}
 		return manager;
+	}
+
+	protected IModelEventManager createModelEventManager( )
+	{
+		return new ModelEventManager( );
 	}
 
 	protected void hookModelEventManager( ModuleHandle model )
@@ -933,7 +940,12 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				.removeColleague( this );
 	}
 
-	private OutlineSwitchAction getOutlineSwitchAction( )
+	protected TextEditor getTextEditor( )
+	{
+		return reportXMLEditor;
+	}
+
+	protected OutlineSwitchAction getOutlineSwitchAction( )
 	{
 		if ( outlineSwitchAction == null )
 		{
