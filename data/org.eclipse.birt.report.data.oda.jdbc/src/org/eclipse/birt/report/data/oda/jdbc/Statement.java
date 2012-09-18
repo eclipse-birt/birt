@@ -185,6 +185,9 @@ public class Statement implements IQuery
 					// when Javascript gets involved in calculating the property
 					// value
 					double rows = Double.parseDouble(value);
+					// We do not honor the fetch size > 10000.
+					if( rows > 10000 )
+						rows = 10000;
 					this.preStat.setFetchSize((int) rows);
 
 				} 
