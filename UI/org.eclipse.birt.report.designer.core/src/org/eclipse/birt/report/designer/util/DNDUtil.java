@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -1337,6 +1338,11 @@ public final class DNDUtil
 		if ( targetHandle instanceof CascadingParameterGroupHandle )
 		{
 			return childHandle.getContainer( ) == targetHandle ? CONTAIN_THIS
+					: CONTAIN_NO;
+		}
+		else if(validateContainer && targetHandle instanceof ParameterHandle && targetHandle.getContainer() instanceof CascadingParameterGroupHandle)
+		{
+			return childHandle.getContainer( ) == targetHandle.getContainer() ? CONTAIN_THIS
 					: CONTAIN_NO;
 		}
 		else if ( targetHandle.canContain( DEUtil.getDefaultSlotID( targetHandle ),
