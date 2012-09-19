@@ -496,10 +496,21 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 		return null;
 	}
 	
-	private class DummyJSResultSetRow extends ScriptableObject{
-
+	private class DummyJSResultSetRow extends ScriptableObject
+	{
 		private IResultObject currentRow;
 
+		/*
+		 * @see org.mozilla.javascript.ScriptableObject#get(int, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( int index, Scriptable start )
+		{
+			return this.get( String.valueOf( index ), start );
+		}		
+		
+		/*
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
 		public Object get( String name, Scriptable start )
 		{
 			try
@@ -520,11 +531,11 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 			}
 			return null;
 		}
+		
 		public String getClassName( )
 		{
 			return "row";
 		}
-		
 	}
 	
 }
