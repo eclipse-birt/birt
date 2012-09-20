@@ -2196,7 +2196,7 @@ public class CascadingParametersDialog extends BaseDialog
 		isRequired.setSelection( selectedParameter.isRequired( ) );
 
 		if ( selectedParameter == inputParameterGroup.getParameters( )
-				.get( inputParameterGroup.getParameters( ).getCount( ) - 1 ) )
+				.get( inputParameterGroup.getParameters( ).getCount( ) - 1 ) && selectedParameter.isMustMatch() )//For TED 52772:Add isMustMatch expression to control isMultiple disable if display type is combo box when parameter selected.
 		{
 			isMultiple.setEnabled( true );
 			isMultiple.setSelection( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( selectedParameter.getParamType( ) ) );
