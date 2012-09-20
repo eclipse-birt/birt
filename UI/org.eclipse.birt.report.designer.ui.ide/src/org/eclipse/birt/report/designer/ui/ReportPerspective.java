@@ -109,6 +109,7 @@ public class ReportPerspective implements IPerspectiveFactory
 		addShowViewShortcut( layout, LibraryExplorerView.ID );
 		addShowViewShortcut( layout, IPageLayout.ID_PROP_SHEET );
 		addShowViewShortcut( layout, IPageLayout.ID_PROBLEM_VIEW );
+		addShowViewShortcut( layout, "org.eclipse.pde.runtime.LogView" ); //$NON-NLS-1$
 
 		layout.addPerspectiveShortcut( BIRT_REPORT_PERSPECTIVE );
 
@@ -182,6 +183,9 @@ public class ReportPerspective implements IPerspectiveFactory
 		addLayoutView( bottomRight,
 				IReportPerspectiveExtra.LAYOUT_BOTTOM_RIGHT,
 				IPageLayout.ID_PROBLEM_VIEW );
+		addLayoutView( bottomRight,
+				IReportPerspectiveExtra.LAYOUT_BOTTOM_RIGHT,
+				"org.eclipse.pde.runtime.LogView" ); //$NON-NLS-1$
 
 		if ( extra != null )
 		{
