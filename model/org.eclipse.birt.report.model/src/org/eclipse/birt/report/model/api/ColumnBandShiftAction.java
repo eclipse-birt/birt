@@ -120,7 +120,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 
 		// If the new position is the same as the old, then skip the operation.
 
-		if ( ( posn == newPosn ) || ( newPosn + 1 == posn ) )
+		if ( posn == newPosn ) //)
 			return -1;
 
 		return newPosn;
@@ -271,7 +271,7 @@ class ColumnBandShiftAction extends ColumnBandAction
 						(CellHandle) destCells.get( i ) );
 				// adjust the position since the rule is first drop then add.
 
-				if ( oldPosn > newPosn )
+				if ( oldPosn > newPosn + 1 )
 					newPosn = newPosn + 1;
 			}
 			
