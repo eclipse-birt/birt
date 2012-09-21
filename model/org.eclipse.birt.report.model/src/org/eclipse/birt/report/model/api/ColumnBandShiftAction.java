@@ -239,8 +239,9 @@ class ColumnBandShiftAction extends ColumnBandAction
 	{
 		int targetIndex = destIndex;
 
+		List destCells = adapter.getCellsUnderColumn( destIndex );
 		// adds the copied cells to the destination.
-
+		
 		for ( int i = 0; i < cellInfos.size( ); i++ )
 		{
 			CellContextInfo contextInfo = (CellContextInfo) cellInfos.get( i );
@@ -257,15 +258,30 @@ class ColumnBandShiftAction extends ColumnBandAction
 			cell.setColumn( 0 );
 
 			int oldPosn = row.getCells( ).findPosn( cell );
+			
+			//convert destIndex to position in slot
+			int newPosn = 0;
+			if ( destIndex == 0 )
+			{
+				newPosn = 0;
+			}
+			else
+			{
+				newPosn = row.getCells( ).findPosn(
+						(CellHandle) destCells.get( i ) );
+				// adjust the position since the rule is first drop then add.
 
-			// adjust the position since the rule is first drop then add.
+				if ( oldPosn > newPosn )
+					newPosn = newPosn + 1;
+			}
+			
+			
+			
+			row.getCells( ).shift( cell, newPosn );
 
-			if ( oldPosn < destIndex )
-				targetIndex = destIndex - 1;
-
-			row.getCells( ).shift( cell, targetIndex );
-
-			clearsCellColumnProperties( row, oldPosn, targetIndex );
+			clearsCellColumnProperties( row, oldPosn, newPosn );
+			
+			
 		}
 	}
 
