@@ -818,7 +818,9 @@ public class IOUtil
 		} 
 		catch (Throwable t) 
 		{
-			throw new IOException( t.getLocalizedMessage(), t );
+			IOException ie = new IOException( t.getMessage( ) );
+			ie.initCause( t );
+			throw ie;
 		}
 	}
 
@@ -1189,7 +1191,9 @@ public class IOUtil
 		} 
 		catch (Throwable t) 
 		{
-			throw new IOException(t.getLocalizedMessage(), t);
+			IOException ie = new IOException( t.getMessage( ) );
+			ie.initCause( t );
+			throw ie;
 		}
 	}
 
