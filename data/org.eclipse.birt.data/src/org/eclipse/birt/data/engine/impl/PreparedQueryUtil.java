@@ -368,7 +368,7 @@ public class PreparedQueryUtil
 		while( temp != null )
 		{	
 			bindings.putAll( temp.getBindings() );
-			if( temp instanceof IQueryDefinition )
+			if( temp.getSourceQuery() instanceof IQueryDefinition )
 				temp = (IQueryDefinition) temp.getSourceQuery();
 			else
 				temp = null;
