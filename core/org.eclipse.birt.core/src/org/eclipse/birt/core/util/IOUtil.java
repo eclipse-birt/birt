@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.NotSerializableException;
@@ -798,18 +799,26 @@ public class IOUtil
 	public final static String readString( DataInputStream dis )
 			throws IOException
 	{
-		int type = readInt( dis );
-		if ( type == TYPE_NULL )
+		try 
 		{
-			return null;
-		}
-		else if ( type == TYPE_STRING )
+			int type = readInt(dis);
+			if (type == TYPE_NULL) 
+			{
+				return null;
+			} 
+			else if (type == TYPE_STRING) 
+			{
+				return dis.readUTF();
+			}
+			else if (type == TYPE_LONG_STRING) 
+			{
+				return readUTF(dis);
+			}
+			throw new EOFException( );
+		} 
+		catch (Throwable t) 
 		{
-			return dis.readUTF( );
-		}
-		else
-		{
-			return readUTF( dis );
+			throw new IOException( t.getLocalizedMessage(), t );
 		}
 	}
 
@@ -1171,10 +1180,17 @@ public class IOUtil
 	 */
 	private static String readUTF( DataInputStream dis ) throws IOException
 	{
-		int length = dis.readInt( );
-		byte[] ret = new byte[length];
-		dis.read( ret, 0, length );
-		return convertBytes2String( ret );
+		try 
+		{
+			int length = dis.readInt();
+			byte[] ret = new byte[length];
+			dis.read(ret, 0, length);
+			return convertBytes2String(ret);
+		} 
+		catch (Throwable t) 
+		{
+			throw new IOException(t.getLocalizedMessage(), t);
+		}
 	}
 
 	/**
