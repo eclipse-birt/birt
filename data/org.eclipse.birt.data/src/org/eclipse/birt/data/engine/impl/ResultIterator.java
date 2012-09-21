@@ -167,7 +167,7 @@ public class ResultIterator implements IResultIterator
 		{
 			prepareCurrentRow( );
 		}
-		catch ( DataException ex )
+		catch ( Exception ex )
 		{
 			if ( this.isEmpty( ) )
 			{
@@ -175,7 +175,7 @@ public class ResultIterator implements IResultIterator
 			}
 			else
 			{
-				throw ex;
+				throw new DataException( ex.getLocalizedMessage(), ex );
 			}
 		}
 		this.distinctValue = this.resultService.getQueryDefn( )

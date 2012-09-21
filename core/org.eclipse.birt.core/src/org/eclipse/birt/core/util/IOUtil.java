@@ -816,10 +816,16 @@ public class IOUtil
 			}
 			throw new EOFException( );
 		} 
-		catch (Throwable t) 
+		catch ( OutOfMemoryError e) 
 		{
-			IOException ie = new IOException( t.getMessage( ) );
-			ie.initCause( t );
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
+			throw ie;
+		}
+		catch ( NegativeArraySizeException e )
+		{
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
 			throw ie;
 		}
 	}
@@ -1189,10 +1195,16 @@ public class IOUtil
 			dis.read(ret, 0, length);
 			return convertBytes2String(ret);
 		} 
-		catch (Throwable t) 
+		catch ( OutOfMemoryError e) 
 		{
-			IOException ie = new IOException( t.getMessage( ) );
-			ie.initCause( t );
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
+			throw ie;
+		}
+		catch ( NegativeArraySizeException e )
+		{
+			IOException ie = new IOException( e.getMessage( ) );
+			ie.initCause( e );
 			throw ie;
 		}
 	}
