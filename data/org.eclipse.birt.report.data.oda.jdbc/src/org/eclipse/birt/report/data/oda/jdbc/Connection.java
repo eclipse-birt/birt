@@ -53,7 +53,7 @@ public class Connection implements IConnection
 
 	protected Map appContext;
 	
-	private Boolean autoCommit = null;
+	private Boolean autoCommit = false;
 	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
