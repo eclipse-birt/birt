@@ -29,6 +29,10 @@ public class ScriptUtil
 
 	public static Object getSecurityDomain( final String file )
 	{
+		if ( file == null )
+		{
+			return null;
+		}
 		if ( System.getSecurityManager( ) == null )
 		{
 			return null;
