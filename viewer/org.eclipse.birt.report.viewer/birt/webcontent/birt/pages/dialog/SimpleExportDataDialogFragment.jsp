@@ -244,6 +244,10 @@
 						<TD style="padding-left:20px;" valign="top"><INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"></TD>
 						<TD style="padding-top:2px;" valign="top"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.localeneutral" )%></TD>
 					</TR>
+					<TR>
+						<TD><INPUT TYPE="checkbox" ID="exportDataWithCR"></TD>
+						<TD style="padding-top:2px;" nowrap="nowrap"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.carriage_return" )%></TD>
+					</TR>
 				</TABLE>
 			</DIV>
 		</TD>
