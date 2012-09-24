@@ -18,4 +18,8 @@
 	<Policy type = "3">
 		<Driver name = "Hive"/>
 	</Policy>
+	<Policy type = "4">
+		<Driver name = "Apache Derby Embedded JDBC Driver"/>
+	</Policy>
+	
 </Config>

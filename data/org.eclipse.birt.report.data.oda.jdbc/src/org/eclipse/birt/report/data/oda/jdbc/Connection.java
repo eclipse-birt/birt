@@ -475,6 +475,12 @@ public class Connection implements IConnection
 						jdbcConn.getMetaData().getDriverName(),
 						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
 					return;
+				if ( this.autoCommit == false && DBConfig.getInstance().qualifyPolicy( jdbcConn.getMetaData().getDriverName(), DBConfig.TRY_COMMIT_THEN_CLOSE ))
+				{
+					jdbcConn.commit();
+					jdbcConn.close();
+					return;
+				}
 			} 
 			catch (SQLException e1) {
 
