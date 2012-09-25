@@ -35,7 +35,7 @@ public class MarginsPage extends AttributePage
 				true );
 		leftSection.setProvider( leftProvider );
 		leftSection.setLayoutNum( 2 );
-		leftSection.setWidth( 80 );
+		leftSection.setWidth( 120 );
 		addSection( PageSectionId.MARGINS_LEFT, leftSection );
 		
 		MarginsPropertyDescriptorProvider topProvider = new MarginsPropertyDescriptorProvider( MasterPageHandle.TOP_MARGIN_PROP,
@@ -45,7 +45,7 @@ public class MarginsPage extends AttributePage
 				true );
 		topSection.setProvider( topProvider );
 		topSection.setLayoutNum( 2 );
-		topSection.setWidth( 80 );
+		topSection.setWidth( 120 );
 		addSection( PageSectionId.MARGINS_TOP, topSection );
 		
 		MarginsPropertyDescriptorProvider rightProvider = new MarginsPropertyDescriptorProvider( MasterPageHandle.RIGHT_MARGIN_PROP,
@@ -55,7 +55,7 @@ public class MarginsPage extends AttributePage
 				true );
 		rightSection.setProvider( rightProvider );
 		rightSection.setLayoutNum( 2 );
-		rightSection.setWidth( 80 );
+		rightSection.setWidth( 120 );
 		addSection( PageSectionId.MARGINS_RIGHT, rightSection );
 		
 		MarginsPropertyDescriptorProvider bottomProvider = new MarginsPropertyDescriptorProvider( MasterPageHandle.BOTTOM_MARGIN_PROP,
@@ -65,7 +65,7 @@ public class MarginsPage extends AttributePage
 				true );
 		bottomSection.setProvider( bottomProvider );
 		bottomSection.setLayoutNum( 2 );
-		bottomSection.setWidth( 80 );
+		bottomSection.setWidth( 120 );
 		addSection( PageSectionId.MARGINS_BOTTOM, bottomSection );
 		
 		createSections( );
