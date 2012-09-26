@@ -208,7 +208,7 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 				}
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}
-			else if(! $( 'printer_copies' ).disabled )
+			if(! $( 'printer_copies' ).disabled )
 			{
 				// Set page range setting
 				var copiesNumber = birtUtility.trim( $( 'printer_copies' ).value );
