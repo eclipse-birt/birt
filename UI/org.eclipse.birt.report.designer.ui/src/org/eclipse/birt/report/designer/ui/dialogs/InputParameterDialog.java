@@ -673,8 +673,20 @@ public class InputParameterDialog extends BaseDialog
 				Combo combo = (Combo) e.getSource( );
 				if ( combo.indexOf( combo.getText( ) ) < 0 )
 				{
-					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getText( ) );
+					try {
+						paramValues.put( listParam.getHandle( ).getName( ),
+								listParam.converToDataType( combo.getText( ) ) );
+					}
+					catch (BirtException e1) {
+						MessageDialog.openError( getShell( ),
+								Messages.getString( "InputParameterDialog.err.invalidValueTitle" ), //$NON-NLS-1$
+								Messages.getFormattedString( "InputParameterDialog.err.invalidValue", //$NON-NLS-1$
+										new String[]{
+												combo.getText( ),
+												listParam.getHandle( ).getDataType( )
+										} ) );
+						return;
+					}
 				}
 				else
 				{
