@@ -1345,6 +1345,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
 		paramsComposite.layout( true, true );
+		paramsComposite.getParent( ).layout( true, true );
 		setContentSize( composite );
 	}
 
