@@ -194,6 +194,10 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		{
 			preName.setItems( getPredefinedStyleNames( null ) );
 		}
+		if(preName.getItemCount()==1){//for TED42836:If only one item,set default selected.
+			preName.select(0);
+		}
+
 		preName.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
