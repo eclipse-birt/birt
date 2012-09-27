@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=Ungültiges Ausdruck-Handle.
 data.engine.InvalidAggrGroupExpression=Falscher Gruppenausdruck für Aggregatfunktion: {0}.
 data.engine.InvalidSortKeyColumn=Ungültige Sortierschlüsselspalte: {0}.
 data.engine.InvalidGroupLevel= Die Gruppenebene im Aggregat {0} ist ungültig. 
-data.engine.InvalidGroupKeyName=Ungültiger Gruppenschlüssel-Spaltenname: {0}.
+data.engine.InvalidGroupKeyName=Gruppierung nach Spalte: {0} ist kein unterstützter Vorgang.
 data.engine.BadCloseScript=CloseScript in CustomDataSet konnte nicht ausgewertet werden.
 data.engine.InvalidCustomFieldIdx=Ungültiger Index für benutzerdefiniertes Feld: {0}.
 data.engine.InvalidGroupName=Der Gruppenname ist ungültig.
@@ -442,7 +442,7 @@ data.derivedDataSet.invalidQueryText=Ungültiger Abfragetext.
 data.datamart.failLoadDataSet = Fehler beim Laden von Datenobjekt-Datensatz '{0}'.
 data.datamart.originalDataSetNotExist = Schrittweise Aktualisierung fehlgeschlagen. Der Originaldatensatz '{0}' ist nicht vorhanden.
 data.datamart.incrementalDatasetMetaDataError = Schrittweise Aktualisierung fehlgeschlagen. Die Metadaten des zusätzlichen Datensatzes '{0}' unterscheiden sich von denen des Originaldatensatzes. 
-data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+data.datamart.collation=Beim Vorgängerprodukt wird Kollation beim Datenobjektindex nicht verwendet, auch wenn dies von Ihnen festgelegt wurde. Wir unterstützen jetzt Kollation, deshalb müssen Sie das Datenobjekt neu erzeugen, wenn im Datensatz Kollation festgelegt ist.  
 
 
 data.filter.pushDownFail= Fehler beim Push Down für Filter, der nur von der ODA-Erweiterung unterstützt wird.

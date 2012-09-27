@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=식 처리가 잘못되었습니다.
 data.engine.InvalidAggrGroupExpression=집계 함수에 대한 잘못된 그룹 식: {0}.
 data.engine.InvalidSortKeyColumn=잘못된 정렬 키 열: {0}.
 data.engine.InvalidGroupLevel= 집계의 그룹 수준: {0}이(가) 잘못되었습니다. 
-data.engine.InvalidGroupKeyName=잘못된 그룹 키 열 이름: {0}.
+data.engine.InvalidGroupKeyName=열 그룹화: {0}은(는) 지원되지 않는 작업입니다.
 data.engine.BadCloseScript=CustomDataSet의 closeScript 계산에 실패했습니다.
 data.engine.InvalidCustomFieldIdx=잘못된 사용자 지정 필드 인덱스: {0}.
 data.engine.InvalidGroupName=그룹 이름이 잘못되었습니다.
@@ -442,7 +442,7 @@ data.derivedDataSet.invalidQueryText=잘못된 쿼리 텍스트입니다.
 data.datamart.failLoadDataSet = 데이터 개체 집합 "{0}"을(를) 로드하지 못했습니다.
 data.datamart.originalDataSetNotExist = 증분 업데이트에 실패했습니다. 원본 데이터 집합 "{0}"이(가) 없습니다.
 data.datamart.incrementalDatasetMetaDataError = 증분 업데이트에 실패했습니다. 추가 데이터 집합 "{0}"의 메타데이터가 원본 데이터 집합의 메타데이터와 다릅니다. 
-data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+data.datamart.collation=이전 제품에서는 정렬을 설정했더라도 데이터 개체 인덱스에 정렬이 사용되고 있지 않습니다. 이제 정렬이 지원되므로, 데이터 집합에서 정렬이 설정될 때 데이터 개체를 다시 생성해야 합니다.  
 
 
 data.filter.pushDownFail= ODA 확장 측에서만 지원되는 필터를 아래로 밀어내지 못했습니다.

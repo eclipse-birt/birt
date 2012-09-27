@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=Controlador de expresión no válido.
 data.engine.InvalidAggrGroupExpression=Expresión de grupo incorrecta para la función de agregación: {0}.
 data.engine.InvalidSortKeyColumn=Columna de clave de ordenación no válida: {0}.
 data.engine.InvalidGroupLevel= El nivel de grupo en agregación: {0} no es válido. 
-data.engine.InvalidGroupKeyName=Nombre de columna de clave de grupo no válido: {0}.
+data.engine.InvalidGroupKeyName=Agrupar en columna: {0} no es una operación admitida.
 data.engine.BadCloseScript=Error al evaluar closeScript en CustomDataSet.
 data.engine.InvalidCustomFieldIdx=Índice de campo personalizado no válido:{0}.
 data.engine.InvalidGroupName=El nombre de grupo no es válido.
@@ -442,7 +442,7 @@ data.derivedDataSet.invalidQueryText=Texto de consulta no válido.
 data.datamart.failLoadDataSet = Error al cargar el conjunto de datos de objeto de datos "{0}".
 data.datamart.originalDataSetNotExist = Error en la actualización incremental. El conjunto de datos original "{0}" no existe.
 data.datamart.incrementalDatasetMetaDataError = Error en la actualización incremental. Los metadatos del conjunto de datos original "{0}" son distintos del conjunto de datos originales. 
-data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+data.datamart.collation=En el producto anterior, no se utiliza la intercalación en el índice de objeto de datos incluso si la establece. Ahora se ofrece la intercalación, por lo que necesita regenerar el objeto de datos cuando la intercalación se establece en el conjunto de datos.  
 
 
 data.filter.pushDownFail= Error al reducir el filtro que solo es compatible con la extnsión ODA.

@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=无效的表达式句柄。
 data.engine.InvalidAggrGroupExpression=错误的聚合函数组表达式: {0}。
 data.engine.InvalidSortKeyColumn=无效的排序键列: {1}。
 data.engine.InvalidGroupLevel= 聚合中的组级别: {0} 无效。 
-data.engine.InvalidGroupKeyName=无效的组键列名称: {0}。
+data.engine.InvalidGroupKeyName=在列中分组:“{0}”操作不受支持。
 data.engine.BadCloseScript=对 CustomDataSet 中的 closeScript 求值失败。
 data.engine.InvalidCustomFieldIdx=无效的自定义字段索引: {0}。
 data.engine.InvalidGroupName=组名称无效。
@@ -442,7 +442,7 @@ data.derivedDataSet.invalidQueryText=无效查询文本。
 data.datamart.failLoadDataSet = 无法加载数据对象数据集“{0}”。
 data.datamart.originalDataSetNotExist = 增量更新失败。 原始数据集“{0}”不存在。
 data.datamart.incrementalDatasetMetaDataError = 增量更新失败。 附加数据集“{0}”的元数据与原始数据集的元数据不同。 
-data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+data.datamart.collation=在以前的产品中，即使设置了整理操作，也不将其用于数据对象索引。 现在，系统支持整理操作，因此您需要在数据集中设置整理操作后重新生成数据对象。  
 
 
 data.filter.pushDownFail= 下推仅支持 ODA 扩展端的筛选器失败。

@@ -47,7 +47,7 @@ data.engine.InvalidExprHandle=式ハンドルが無効です。
 data.engine.InvalidAggrGroupExpression=集計関数のグループ式が間違っています : {0}
 data.engine.InvalidSortKeyColumn=ソートキー列が無効です : {0}
 data.engine.InvalidGroupLevel= 層形式 {0} のグループレベルが無効です。 
-data.engine.InvalidGroupKeyName=グループキー列の名前が無効です : {0}
+data.engine.InvalidGroupKeyName=列 {0} でのグループ化はサポートされている操作ではありません。
 data.engine.BadCloseScript=CustomDataSet の closeScript を評価できません。
 data.engine.InvalidCustomFieldIdx=カスタムフィールドのインデックスが無効です : {0}
 data.engine.InvalidGroupName=グループ名が無効です。
@@ -442,7 +442,7 @@ data.derivedDataSet.invalidQueryText=クエリテキストが無効です。
 data.datamart.failLoadDataSet = データオブジェクトデータセット "{0}" を読み込めません。
 data.datamart.originalDataSetNotExist = 増分更新できません。 元のデータセット "{0}" が存在しません。
 data.datamart.incrementalDatasetMetaDataError = 増分更新できません。 追加のデータセット "{0}" のメタデータが、元のデータセットのものと異なります。 
-data.datamart.collation=In previous product,collation is not used in data object index even if you set it. Now we support collation, so you need to regenerate Data Object when collation is set in data set.  
+data.datamart.collation=以前の製品では、照合を設定した場合でもデータオブジェクトのインデックスで照合は使用されません。 現在は照合がサポートされているので、データセットで照合を設定した場合はデータオブジェクトを再生成する必要があります。  
 
 
 data.filter.pushDownFail= ODA 拡張側でのみサポートされるフィルタをプッシュ (下へ) できませんでした。
