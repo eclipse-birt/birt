@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -704,6 +705,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void updateReferredOLAPColumnBinding( Module module, Cube cube,
 			Map<String, String> nameMap )
 	{
+		// update derived measure first
+		updateDerivedMeasure( module, cube, nameMap );
 		List<BackRef> clients = cube.getClientList( );
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
@@ -924,6 +927,41 @@ class ReportDesignSerializerImpl extends ElementVisitor
 					calArg.setExpressionProperty(
 							CalculationArgument.VALUE_MEMBER, newExpr );
 
+			}
+		}
+	}
+	
+	private void updateDerivedMeasure( Module module, Cube cube,
+			Map<String, String> nameMap )
+	{
+		List<Measure> derivedMeasureList = new ArrayList<Measure>( );
+
+		LevelContentIterator iter = new LevelContentIterator( module, cube, 3 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = iter.next( );
+			if ( innerElement instanceof Measure )
+			{
+				Measure measure = (Measure) innerElement;
+				if ( measure.getBooleanProperty( module,
+						MeasureHandle.IS_CALCULATED_PROP ) )
+				{
+					derivedMeasureList.add( measure );
+				}
+			}
+		}
+		if ( !derivedMeasureList.isEmpty( ) )
+		{
+			for ( Measure derivedMeasure : derivedMeasureList )
+			{
+				Expression expr = (Expression) derivedMeasure.getProperty(
+						module, MeasureHandle.MEASURE_EXPRESSION_PROP );
+				Expression newExpr = getUpdatedExpression( expr, nameMap );
+				if ( newExpr != null )
+				{
+					derivedMeasure.setProperty(
+							MeasureHandle.MEASURE_EXPRESSION_PROP, newExpr );
+				}
 			}
 		}
 	}
