@@ -53,7 +53,7 @@ public class Connection implements IConnection
 
 	protected Map appContext;
 	
-	private Boolean autoCommit = false;
+	private Boolean autoCommit;
 	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
@@ -149,7 +149,7 @@ public class Connection implements IConnection
 			{
 				this.autoCommit = Boolean.valueOf( autoCommit );
 			}
-
+			
 			String isolationMode = connProperties.getProperty( Constants.CONNECTION_ISOLATION_MODE );
 			this.isolationMode = Constants.getIsolationMode( isolationMode );
 			
@@ -270,6 +270,14 @@ public class Connection implements IConnection
 		{
 			if( this.autoCommit != null )
 				jdbcConn.setAutoCommit( this.autoCommit );
+			else
+			{
+				if  (DBConfig.getInstance().qualifyPolicy(
+							jdbcConn.getMetaData().getDriverName(),
+							DBConfig.TRY_COMMIT_THEN_CLOSE) ) {
+					jdbcConn.setAutoCommit( false );
+				}
+			}
 			if( this.isolationMode!= Constants.TRANSCATION_ISOLATION_DEFAULT)
 				jdbcConn.setTransactionIsolation( this.isolationMode );
 		}
