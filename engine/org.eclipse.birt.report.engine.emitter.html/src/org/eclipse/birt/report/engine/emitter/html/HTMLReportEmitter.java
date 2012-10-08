@@ -573,7 +573,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void start( IReportContent report )
 	{
-		logger.log( Level.FINE, "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] Start emitter." ); //$NON-NLS-1$
 
 		this.report = report;
 		writer.open( out, "UTF-8" ); //$NON-NLS-1$
@@ -1106,7 +1106,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void end( IReportContent report )
 	{
-		logger.log( Level.FINE, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] End body." ); //$NON-NLS-1$
 		if ( report != null )
 		{
 			List errors = report.getErrors( );
@@ -1696,7 +1696,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void endPage( IPageContent page ) throws BirtException
 	{
 
-		logger.log( Level.FINE, "[HTMLReportEmitter] End page." ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] End page." ); //$NON-NLS-1$
 
 		// close the page body (TR)
 		writer.closeTag( HTMLTags.TAG_TD );
@@ -1795,7 +1795,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		tableDIVWrapedFlagStack.push( Boolean.valueOf( DIVWrap ) );
 		
-		logger.log( Level.FINE, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLTableEmitter] Start table" ); //$NON-NLS-1$
 		//FIXME: code review: use "metadataEmitter != null" to instead of enableMetadata.
 		if ( enableMetadata )
 		{
@@ -1926,7 +1926,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.closeTag( HTMLTags.TAG_DIV );
 		}
 		tableLayout.endTable( table );
-		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -2151,7 +2151,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void startCell( ICellContent cell )
 	{			
-		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
 		
 		tableLayout.startCell( cell );	
 		// output 'th' tag in table head, otherwise 'td' tag
@@ -2351,7 +2351,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	public void endCell( ICellContent cell )
 	{
-		logger.log( Level.FINE, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] End cell." ); //$NON-NLS-1$
 
 		if ( enableMetadata )
 		{
@@ -2388,7 +2388,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	// rename this method to startList.
 	public void startContainer( IContainerContent container )
 	{
-		logger.log( Level.FINE, "[HTMLReportEmitter] Start container" ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] Start container" ); //$NON-NLS-1$
 
 		htmlEmitter.openContainerTag( container );
 
@@ -2431,7 +2431,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		htmlEmitter.closeContainerTag( );
 
-		logger.log( Level.FINE, "[HTMLContainerEmitter] End container" ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLContainerEmitter] End container" ); //$NON-NLS-1$
 	}
 
 	// FIXME: code review: text and foreign need a code review. Including how to
@@ -2446,7 +2446,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		IStyle mergedStyle = text.getStyle( );
 
-		logger.log( Level.FINE, "[HTMLReportEmitter] Start text" ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] Start text" ); //$NON-NLS-1$
 
 		DimensionType x = text.getX( );
 		DimensionType y = text.getY( );
@@ -2540,7 +2540,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		IStyle mergedStyle = foreign.getStyle( );
 
-		logger.log( Level.FINE, "[HTMLReportEmitter] Start foreign" ); //$NON-NLS-1$
+		logger.log( Level.FINEST, "[HTMLReportEmitter] Start foreign" ); //$NON-NLS-1$
 
 		boolean isTemplate = false;
 		boolean wrapTemplateTable = false;
@@ -2856,7 +2856,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		IStyle mergedStyle = image.getStyle( );
 
 
-		logger.log( Level.FINE, "[HTMLImageEmitter] Start image" ); //$NON-NLS-1$ 
+		logger.log( Level.FINEST, "[HTMLImageEmitter] Start image" ); //$NON-NLS-1$ 
 
 		StringBuffer styleBuffer = new StringBuffer( );
 		int display = checkElementType( image.getX( ), image.getY( ),
