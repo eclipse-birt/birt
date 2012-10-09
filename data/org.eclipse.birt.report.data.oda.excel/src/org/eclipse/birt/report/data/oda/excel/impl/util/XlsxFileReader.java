@@ -39,6 +39,8 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
 public class XlsxFileReader {
     final static String PARSER_CLASS_NAME = "org.apache.xerces.parsers.SAXParser"; //$NON-NLS-1$
     final static String ROW_LIMIT_REACHED_EX_MSG = "Row Limit Reached"; //$NON-NLS-1$
@@ -126,7 +128,8 @@ public class XlsxFileReader {
 		private int currentColumn = 0;
 		private int xlsxRowsToRead=0;
 		private int currentXlsxRowNumber = 0;
-
+        private SimpleDateFormat sdf; 
+		
 		private SheetHandler(StylesTable st, SharedStringsTable sst, XlsxRowCallBack callback, int xlsxRowsToRead) {
 			this.sst = sst;
 			this.st = st;
@@ -134,6 +137,7 @@ public class XlsxFileReader {
 			values = new ArrayList<Object>();
 			this.cellDataType = cDataType.NUMBER;
 			this.xlsxRowsToRead = xlsxRowsToRead;
+			sdf = new SimpleDateFormat( );
 		}
 
 		public void startElement(String uri, String localName, String qName,
@@ -159,7 +163,9 @@ public class XlsxFileReader {
 		            if (formatString == null)
 		                   formatString = BuiltinFormats.getBuiltinFormat(formatIndex);
 
-		            if( org.apache.poi.ss.usermodel.DateUtil.isADateFormat(formatIndex, formatString) ){
+					if (org.apache.poi.ss.usermodel.DateUtil.isADateFormat(
+							formatIndex, formatString)
+							|| isDateFormat( lastContents ) ) {
 		            	cellDataType =  cDataType.DATETIME;
 		            }else{
 		            	cellDataType = cDataType.NUMBER;
@@ -196,6 +202,19 @@ public class XlsxFileReader {
 			lastContents = ExcelODAConstants.EMPTY_STRING;
 		}
 
+		private boolean isDateFormat( String formatString )
+		{
+			try
+			{
+				return org.apache.poi.ss.usermodel.DateUtil.isValidExcelDate( Double.valueOf( formatString ) );
+			}
+			catch ( Exception e )
+			{
+				return false;
+			}
+			
+		}
+		
 		public void endElement(String uri, String localName, String name)
 				throws SAXException {
 			if (name.equals("row")) {
@@ -229,8 +248,7 @@ public class XlsxFileReader {
 				}else if( cellDataType == cDataType.DATETIME || cellDataType == cDataType.DATE || cellDataType == cDataType.TIME ){
 
 					Date myjavadate = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(Double.parseDouble(lastContents));
-					long millis = myjavadate.getTime();
-					val = Long.toString(millis);
+					val = sdf.format( myjavadate );
 				}else if( cellDataType == cDataType.BOOL ){
 					if( lastContents.compareTo("1") == 0){
 						Boolean mybool = new Boolean(true);

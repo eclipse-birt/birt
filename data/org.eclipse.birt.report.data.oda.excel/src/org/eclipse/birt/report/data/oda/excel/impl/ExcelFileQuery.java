@@ -77,6 +77,8 @@ public class ExcelFileQuery implements IQuery {
 
 	private String[] columnLabels;
 
+	private String colInfo;
+	
 	private boolean isInvalidQuery;
 
 	private Map appContext = null;
@@ -135,6 +137,8 @@ public class ExcelFileQuery implements IQuery {
 		this.currentTableName = getPreparedTableNames(queryFragments);
 		this.preparedColumnNames = getPreparedColumnNames(queryFragments);
 		this.columnLabels = getColumnLabels(queryFragments);
+		
+		colInfo = qtu.getColumnsInfo( );
 	}
 
 	/**
@@ -168,7 +172,7 @@ public class ExcelFileQuery implements IQuery {
 	 * @param queryText
 	 * @throws OdaException
 	 */
-	private void prepareMetaData() throws OdaException {
+	private void prepareMetaData(String savedSelectedColInfo) throws OdaException {
 		// limit the number of Rows to read to optimize getting metadata
 		// from a xlsx file
 		masterExcelFileSource = new ExcelFileSource(connProperties,
@@ -209,20 +213,29 @@ public class ExcelFileQuery implements IQuery {
 		{
 			queryColumnNames = ExcelFileSource.getStringArrayFromList( stripFormatInfoFromQueryColumnNames( getQueryColumnNamesVector( ( preparedColumnNames ) ) ) );
 			validateColumnName( queryColumnNames, allColumnNames );
-			queryColumnTypes = this.hasTypeLine
-					? getQueryColumnTypes( allColumnNames,
-							allColumnTypes,
-							queryColumnNames )
-					: createTempColumnTypes( queryColumnNames.length );
-			queryColumnLables = this.hasColumnNames ? columnLabels
-					: queryColumnNames;
-			if ( queryColumnLables == null )
-				queryColumnLables = queryColumnNames;
-			this.resultSetMetaDataHelper = new ResultSetMetaDataHelper( queryColumnNames,
-					queryColumnTypes,
-					queryColumnLables );
-			this.resultSetMetaData = new ResultSetMetaData( this.resultSetMetaDataHelper );
-
+			if ( savedSelectedColInfo == null
+					|| savedSelectedColInfo.length( ) == 0 )
+			{
+				queryColumnTypes = this.hasTypeLine
+						? getQueryColumnTypes( allColumnNames,
+								allColumnTypes,
+								queryColumnNames )
+						: createTempColumnTypes( queryColumnNames.length );
+				queryColumnLables = this.hasColumnNames ? columnLabels
+						: queryColumnNames;
+				if ( queryColumnLables == null )
+					queryColumnLables = queryColumnNames;
+				this.resultSetMetaDataHelper = new ResultSetMetaDataHelper( queryColumnNames,
+						queryColumnTypes,
+						queryColumnLables );
+				this.resultSetMetaData = new ResultSetMetaData( this.resultSetMetaDataHelper );
+			
+			}
+			else
+			{
+				this.resultSetMetaDataHelper = new ResultSetMetaDataHelper( savedSelectedColInfo );
+				this.resultSetMetaData = new ResultSetMetaData( this.resultSetMetaDataHelper );
+			}
 		}
 	}
 
@@ -615,7 +628,7 @@ public class ExcelFileQuery implements IQuery {
 	 */
 	public IResultSetMetaData getMetaData() throws OdaException {
 		if (resultSetMetaData == null)
-			prepareMetaData();
+			prepareMetaData( colInfo );
 		return resultSetMetaData;
 	}
 
