@@ -99,6 +99,9 @@ public class SimpleResultSet implements IResultIterator
 	private FilterByRow filterByRow;
 	private List<OnFetchScriptHelper> onFetchEvents;
 	
+	//TODO: refactor me. Add this for emergence -- release.
+	private boolean isFirstNextCall = true;
+	
 	/**
 	 * 
 	 * @param dataSourceQuery
@@ -668,8 +671,9 @@ public class SimpleResultSet implements IResultIterator
 		if ( currResultObj == null ) 
 			return false;
 		
-		if( rowCount == 1 )
+		if( this.isFirstNextCall )
 		{
+			this.isFirstNextCall = false;
 			saveDataSetResultSet( currResultObj, 0 );			
 		}		
 		doNext( );
