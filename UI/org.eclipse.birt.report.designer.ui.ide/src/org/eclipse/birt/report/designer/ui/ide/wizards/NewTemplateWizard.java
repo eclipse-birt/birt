@@ -326,7 +326,7 @@ public class NewTemplateWizard extends NewReportWizard
 			handle.setIconFile( settingPage.getPreviewImagePath( ) );
 			//add the create property
 			UIUtil.addCreateBy( handle );
-			if (handle.getProperty( ReportDesignHandle.IMAGE_DPI_PROP) != null)
+			if (handle.getProperty( ReportDesignHandle.IMAGE_DPI_PROP) == null)
 			{
 				UIUtil.setDPI( handle );
 			}

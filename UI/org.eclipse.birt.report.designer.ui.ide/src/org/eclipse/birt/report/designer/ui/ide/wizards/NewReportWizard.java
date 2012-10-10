@@ -634,7 +634,7 @@ public class NewReportWizard extends Wizard implements
 
 			// add the create property
 			UIUtil.addCreateBy( handle );
-			if (handle.getProperty( ReportDesignHandle.IMAGE_DPI_PROP) != null)
+			if (handle.getProperty( ReportDesignHandle.IMAGE_DPI_PROP) == null)
 			{
 				UIUtil.setDPI( handle );
 			}
