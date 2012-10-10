@@ -182,12 +182,13 @@ public class ExcelFileQuery implements IQuery {
 		String[] allColumnNames;
 		String[] allColumnTypes;
 
+		int columnCount = masterExcelFileSource.getColumnCount( );
 		allColumnNames = this.hasColumnNames ? discoverActualColumnMetaData(
 				NAME_LITERAL, currentTableName)
-				: createTempColumnNames(masterExcelFileSource.getColumnCount());
+				: createTempColumnNames( columnCount );
 		allColumnTypes = this.hasTypeLine ? discoverActualColumnMetaData(
 				TYPE_LITERAL, currentTableName)
-				: createTempColumnTypes(masterExcelFileSource.getColumnCount());
+				: createTempColumnTypes( columnCount );
 		resultSetMetaData = new ResultSetMetaData(allColumnNames,
 				allColumnTypes);
 
