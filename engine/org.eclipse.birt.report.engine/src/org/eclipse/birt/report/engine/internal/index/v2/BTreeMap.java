@@ -48,7 +48,7 @@ class BTreeMap extends BTree<String, Object>
 		option.setAllowDuplicate( false );
 		option.setValueSerializer( new ObjectSerializer( valueType ) );
 		option.setFile( new ArchiveInputFile( archive, name ) );
-		return new BTreeMap( option );
+		return new BTreeMap( option, valueType );
 	}
 
 	static public BTreeMap createTreeMap( IDocArchiveWriter archive,
@@ -60,13 +60,19 @@ class BTreeMap extends BTree<String, Object>
 		option.setAllowDuplicate( false );
 		option.setValueSerializer( new ObjectSerializer( valueType ) );
 		option.setFile( new ArchiveOutputFile( archive, name ) );
-		return new BTreeMap( option );
+		return new BTreeMap( option, valueType );
 	}
 
-	private BTreeMap( BTreeOption<String, Object> option ) throws IOException
+	private BTreeMap( BTreeOption<String, Object> option, int valueType ) throws IOException
 	{
 		super( option );
+
 		indexVersion = IndexConstants.VERSION_0;
+
+		if ( valueType == BTreeMap.BOOKMARK_VALUE )
+		{
+			indexVersion = IndexConstants.VERSION_1;
+		}
 		indexType = IndexConstants.BTREE_MAP;
 	}
 

@@ -280,7 +280,53 @@ public class ResultObjectUtil
 			}
 
 			Class fieldType = typeArray[j];
+<<<<<<< HEAD
 			writeObject( dos, fieldValue, fieldType );
+=======
+			if ( fieldType.equals( Integer.class ) )
+				dos.writeInt( ( (Integer) convert( fieldValue, DataType.INTEGER_TYPE) ).intValue( ) );
+			else if ( fieldType.equals( Double.class ) )
+				dos.writeDouble( ( (Double) convert( fieldValue, DataType.DOUBLE_TYPE) ).doubleValue( ) );
+			else if ( fieldType.equals( BigDecimal.class ) )
+				dos.writeUTF( ( (BigDecimal) convert( fieldValue, DataType.DECIMAL_TYPE) ).toString( ) );
+			else if ( Date.class.isAssignableFrom( fieldType ) )
+				dos.writeLong( ( (Date) convert( fieldValue, DataType.DATE_TYPE )).getTime( ) );
+			else if ( fieldType.equals( Boolean.class ) )
+				dos.writeBoolean( ( (Boolean) convert( fieldValue, DataType.BOOLEAN_TYPE) ).booleanValue( ) );
+			else if ( fieldType.equals( String.class ) )
+				IOUtil.writeString( dos, ( (String)convert( fieldValue, DataType.STRING_TYPE ) ) );
+			else if ( fieldType.equals( IClob.class )
+					|| fieldType.equals( Clob.class ) )
+				IOUtil.writeString( dos, ( (String)convert( fieldValue, DataType.STRING_TYPE ) ) );
+			else if ( fieldType.equals( IBlob.class )
+					|| fieldType.equals( Blob.class ) )
+			{
+				byte[] bytes = (byte[]) fieldValue;
+				if ( bytes == null || bytes.length == 0 )
+				{
+					IOUtil.writeInt( dos, 0 );
+				}
+				else
+				{
+					IOUtil.writeInt( dos, bytes.length );
+					dos.write( (byte[]) fieldValue );
+				}
+			}
+			else if ( fieldType.equals( Object.class ) || fieldType.equals( DataType.getClass( DataType.ANY_TYPE ) ) )
+			{
+				if ( !( fieldValue instanceof Serializable ) )
+					throw new DataException( ResourceConstants.NOT_SERIALIZABLE_CLASS, fieldValue.getClass().getName( ));
+
+				ObjectOutputStream oo = ObjectSecurity.createObjectOutputStream( dos );
+				oo.writeObject( fieldValue );
+				oo.close( );
+			}
+			else
+			{
+				throw new DataException( ResourceConstants.BAD_DATA_TYPE,
+					fieldType.toString( ) );
+			}
+>>>>>>> 11SP4
 		}
 		dos.flush( );
 

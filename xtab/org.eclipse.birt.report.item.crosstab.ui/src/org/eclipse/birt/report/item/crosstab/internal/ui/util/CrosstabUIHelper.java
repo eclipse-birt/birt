@@ -41,7 +41,6 @@ import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -71,6 +70,7 @@ public class CrosstabUIHelper
 	public static final String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
 	public static final String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
 	public static final String ROWS_AREA_IMAGE = "icons/pal/row-area.gif";//$NON-NLS-1$
+	public static final String HEADERS_AREA_IMAGE = "icons/pal/headers-area.gif";//$NON-NLS-1$
 	public static final String DETAIL_AREA_IMAGE = "icons/pal/detail-area.gif";//$NON-NLS-1$
 	public static final String LEVEL_IMAGE = "icons/pal/level.gif";//$NON-NLS-1$
 	public static final String CELL_IMAGE = "icons/pal/cell.gif";//$NON-NLS-1$
@@ -284,63 +284,10 @@ public class CrosstabUIHelper
 				.setWidth( converPixToDefaultUnit( tableSize.width, part),
 						getDefaultUnits(part ) );
 		
-		adjustOthersColumn( new ArrayList( ), part,  getAdjustValue( part ));
+		adjustOthersColumn( new ArrayList( ), part );
 	}
 	
-	private static int getAdjustValue(CrosstabTableEditPart part )
-	{
-		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
-		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
-				.getConstraint( figure );
-		ColumnData[] datas = data.columnWidths;
-		if (datas == null)
-		{
-			return 0;
-		}
-		
-		int needSetNumber = 0; 
-		int totalWidth = 0;
-		for ( int i = 0; i < datas.length; i++ )
-		{
-			ITableLayoutOwner.DimensionInfomation dim = part.getColumnWidth( datas[i].columnNumber );
-			if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0 
-					||  DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) ))
-			{
-				needSetNumber = needSetNumber + 1;	
-			}
-		}
-		
-		CrosstabHandleAdapter adapter = new CrosstabHandleAdapter(part.getCrosstabHandleAdapter( ).getCrosstabItemHandle( ).getCrosstab( ));
-		adapter.getModelList( );
-		
-		for (int i=datas.length + 1; i<= adapter.getColumnCount( ); i++)
-		{
-			DimensionHandle handle = adapter.getColumnWidth( i );
-			if (handle == null)
-			{
-				continue;
-			}
-			if (handle.getUnits( ) == null)
-			{
-				try
-				{
-					handle.setValue( DimensionUtil.convertTo(80,DesignChoiceConstants.UNITS_PT, DesignChoiceConstants.UNITS_PT) );
-				}
-				catch ( SemanticException e )
-				{
-					continue;
-				}
-			}
-			totalWidth = totalWidth + (int)MetricUtility.inchToPixel(DimensionUtil.convertTo(handle.getMeasure( ), handle.getUnits( ), DesignChoiceConstants.UNITS_IN).getMeasure( ));	
-		}
-		if (needSetNumber == 0)
-		{
-			return 0;
-		}
-		return - totalWidth/needSetNumber;
-	}
-	
-	protected static void adjustOthersColumn(List exclusion, CrosstabTableEditPart part, int value)
+	protected static void adjustOthersColumn(List exclusion, CrosstabTableEditPart part)
 	{
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
 		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
@@ -360,11 +307,11 @@ public class CrosstabUIHelper
 			ITableLayoutOwner.DimensionInfomation dim = part.getColumnWidth( datas[i].columnNumber );
 			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( dim.getUnits( ) ))
 			{
-				resizeFixColumn(value,  datas[i].columnNumber, 1, part);
+				resizeFixColumn(0,  datas[i].columnNumber, 1, part);
 			}
 			else if (dim.getUnits( ) == null || dim.getUnits( ).length( ) == 0)
 			{
-				resizeFixColumn(value,  datas[i].columnNumber,  datas[i].columnNumber, part);
+				resizeFixColumn(0,  datas[i].columnNumber,  datas[i].columnNumber, part);
 			}
 		}
 	}
@@ -377,21 +324,11 @@ public class CrosstabUIHelper
 		int endWidth = 0;
 		startWidth = CrosstabTableUtil.caleVisualWidth( part, start );
 		endWidth = CrosstabTableUtil.caleVisualWidth( part, end );
-		int startValue = startWidth + value;
-		int minValue = (int)MetricUtility.inchToPixel( DimensionUtil.convertTo(80,DesignChoiceConstants.UNITS_PT,DesignChoiceConstants.UNITS_IN).getMeasure( ));
-		if (startValue < minValue )
-		{
-			startValue = minValue;
-		}
-		int endValue = endWidth - value;
-		if (endValue < minValue)
-		{
-			endValue = minValue;
-		}
-		crosstabAdapter.setColumnWidth( start, converPixToDefaultUnit( startValue, part), getDefaultUnits( part ) );
+		
+		crosstabAdapter.setColumnWidth( start, converPixToDefaultUnit( startWidth + value, part), getDefaultUnits( part ) );
 		if (start != end)
 		{
-			crosstabAdapter.setColumnWidth( end, converPixToDefaultUnit( endValue, part), getDefaultUnits( part ) );
+			crosstabAdapter.setColumnWidth( end, converPixToDefaultUnit( endWidth - value, part), getDefaultUnits( part ) );
 		}
 	}
 	

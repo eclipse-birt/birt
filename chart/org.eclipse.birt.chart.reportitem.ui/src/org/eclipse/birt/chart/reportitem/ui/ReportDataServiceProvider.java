@@ -1876,33 +1876,69 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true,
 					true,
 					true );
-
-			ICubeQueryDefinition queryDef = (ICubeQueryDefinition) qd;
-
-			if ( columnExpression != null )
-			{
-				ExpressionSet exprSet = new ExpressionSet( );
-				exprSet.addAll( columnExpression );
-				for ( String expr : exprSet )
-				{
-					exprCodec.decode( expr );
-					String bindingName = exprCodec.getExpression( );
-
-					// Create new binding
-					Binding colBinding = new Binding( bindingName );
-					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
-							session.getModelAdaptor( ),
-							true ) );
-					queryDef.addBinding( colBinding );
-				}
-			}
 		}
 		else
 		{
 			qd = new ChartCubeQueryHelper( itemHandle,
 					cm,
 					session.getModelAdaptor( ) ).createCubeQuery( null );
+
+		}
+		
+		// Add additional bindings, those bindings might be defined in chart's triggers.
+		if ( qd instanceof ICubeQueryDefinition
+				&& columnExpression != null
+				&& columnExpression.size( ) > 0 )
+		{
+			ICubeQueryDefinition queryDef = (ICubeQueryDefinition) qd;
+
+			// Generates a set of available binding names.
+			Set<String> bindingNames = new HashSet<String>( );
+			List<Object> bindings = queryDef.getBindings( );
+			for ( int i = 0; i < bindings.size( ); i++ )
+			{
+				bindingNames.add( ( (Binding) bindings.get( i ) ).getBindingName( ) );
+			}
+<<<<<<< HEAD
+		}
+		else
+		{
+			qd = new ChartCubeQueryHelper( itemHandle,
+					cm,
+					session.getModelAdaptor( ) ).createCubeQuery( null );
+=======
+
+			ExpressionSet exprSet = new ExpressionSet( );
+			exprSet.addAll( columnExpression );
+			for ( String expr : exprSet )
+			{
+				exprCodec.decode( expr );
+				String bindingName = null;
+				if ( exprCodec.isCubeBinding( false ) )
+				{
+					bindingName = exprCodec.getCubeBindingName( false );
+				}
+				else
+				{
+					bindingName = exprCodec.getExpression( );
+				}
+				
+				// Don't add duplicate binding.
+				if ( bindingNames.contains( bindingName ) )
+				{
+					continue;
+				}
+				bindingNames.add( bindingName );
+				
+				// Create new binding
+				Binding colBinding = new Binding( bindingName );
+				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
+						session.getModelAdaptor( ),
+						true ) );
+				queryDef.addBinding( colBinding );
+			}
+>>>>>>> 11SP4
 		}
 
 		resetCubeQuery( qd );
@@ -3760,9 +3796,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		public void run( ) throws EngineException
 		{
 			parameterChanged = true;
-			super.run( );
+			usingParameterValues( );
+			// Initial report variables to make sure the report variables can be
+			// access in chart builder.
+			initReportVariable( );
+			loadDesign( );
 		}
-
 	}
 
 }

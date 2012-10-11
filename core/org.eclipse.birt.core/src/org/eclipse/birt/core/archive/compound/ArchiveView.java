@@ -13,8 +13,9 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.RAOutputStream;
@@ -102,22 +103,19 @@ public class ArchiveView implements IArchiveFile
 		throw new FileNotFoundException( name );
 	}
 
-	synchronized public List listEntries( String namePattern )
+	synchronized public List<String> listEntries( String namePattern )
 	{
-		List viewList = view.listEntries( namePattern );
-		List archiveList = archive.listEntries( namePattern );
+		List<String> viewList = view.listEntries( namePattern );
+		List<String> archiveList = archive.listEntries( namePattern );
 
-		Iterator iter = archiveList.iterator( );
-		while ( iter.hasNext( ) )
+		if ( archiveList.isEmpty() )
 		{
-			String entryName = (String) iter.next( );
-			if ( !viewList.contains( entryName ) )
-			{
-				viewList.add( entryName );
-			}
+			return viewList;
 		}
 
-		return viewList;
+		LinkedHashSet<String> entries = new LinkedHashSet<String>( viewList );
+		entries.addAll(archiveList);
+		return new ArrayList<String>(entries);
 	}
 
 	public synchronized Object lockEntry( String entry ) throws IOException

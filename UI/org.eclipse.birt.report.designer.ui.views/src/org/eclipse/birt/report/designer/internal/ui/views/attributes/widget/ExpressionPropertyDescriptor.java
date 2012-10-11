@@ -87,7 +87,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	 */
 	public void load( )
 	{
-		ExpressionHelper helper = (ExpressionHelper) exprButton.getExpressionHelper( );
+		ExpressionPropertyHelper helper = (ExpressionPropertyHelper) exprButton.getExpressionHelper( );
 		helper.setContextObject( DEUtil.getInputFirstElement( this.getInput( ) ) );
 		if ( getDescriptorProvider( ) instanceof ExpressionPropertyDescriptorProvider )
 		{
@@ -224,7 +224,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 					listener,
 					false,
 					isFormStyle( ) ? SWT.FLAT : SWT.PUSH,
-					new ExpressionHelper( ) );
+					new ExpressionPropertyHelper( ) );
 		}
 
 		return containerPane;
@@ -300,4 +300,17 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 		containerPane.setVisible( isVisible );
 	}
 
+	class ExpressionPropertyHelper extends ExpressionHelper
+	{
+
+		public void setContextObject( Object contextObject )
+		{
+			super.setContextObject( contextObject );
+		}
+
+		public void setProvider( IExpressionProvider provider )
+		{
+			super.setProvider( provider );
+		}
+	}
 }

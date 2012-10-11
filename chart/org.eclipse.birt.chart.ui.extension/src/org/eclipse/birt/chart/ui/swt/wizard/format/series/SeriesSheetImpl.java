@@ -236,7 +236,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		int treeIndex = 0;
 
-		if ( getContext( ).getChartType( ) instanceof PieChart )
+		if ( needCategorySeries( ) )
 		{
 			// Pie chart needs Category Series.
 			List<SeriesDefinition> seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
@@ -885,5 +885,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 		return null;
+	}
+	
+	protected boolean needCategorySeries( )
+	{
+		return getContext( ).getChartType( ) instanceof PieChart;
 	}
 }

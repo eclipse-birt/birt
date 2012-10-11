@@ -137,13 +137,8 @@ public class FixedLayoutPageHintGenerator
 		{
 			if ( area instanceof TableArea )
 			{
-				InstanceID instanceID = ( (TableArea) area ).getContent( ).getInstanceID( );
-				// The table content may be generated from a section of HTML
-				// text, which content does not have an instance id.
-				if ( instanceID != null )
-				{
-					tableIds.add( instanceID.toUniqueString( ) );
-				}
+				tableIds.add( ( (TableArea) area ).getContent( )
+						.getInstanceID( ).toUniqueString( ) );
 			}
 			ContainerArea container = (ContainerArea) area;
 			if ( container.content != null && !container.isDummy && container.content.getInstanceID( ) != null )

@@ -22,7 +22,7 @@ class FreeBlockTable implements Ext2Constants
 {
 
 	protected Ext2FileSystem fs;
-	protected LinkedList<Ext2Node> freeNodes;
+	protected final LinkedList<Ext2Node> freeNodes;
 	protected Ext2Node freeNode;
 	protected FreeBlockList freeBlockList;
 	protected boolean dirty;
@@ -136,5 +136,16 @@ class FreeBlockTable implements Ext2Constants
 	{
 		dirty = true;
 		freeNodes.add( node );
+	}
+
+	void clear( ) throws IOException
+	{
+		dirty = true;
+		freeNodes.clear( );
+		if ( freeBlockList != null )
+		{
+			freeBlockList.clear( );
+			freeBlockList = null;
+		}
 	}
 }

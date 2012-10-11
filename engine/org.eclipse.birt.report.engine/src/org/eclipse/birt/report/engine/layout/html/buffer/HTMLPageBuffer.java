@@ -181,7 +181,10 @@ public class HTMLPageBuffer implements IPageBuffer
 			}
 			else if ( isParentStarted( ) )
 			{
-				currentNode.removeChildren( );
+				if ( ( (ContainerBufferNode) currentNode ).isVisible )
+				{
+					currentNode.removeChildren( );
+				}
 			}
 		}
 	}
@@ -229,9 +232,12 @@ public class HTMLPageBuffer implements IPageBuffer
 			{
 				currentNode.removeChildren( );
 			}
-			else if ( isParentStarted( ) )
+			else if ( isParentStarted( )  )
 			{
-				currentNode.removeChildren( );
+				if ( ( (ContainerBufferNode) currentNode ).isVisible )
+				{
+					currentNode.removeChildren( );
+				}
 			}
 		}
 	}

@@ -22,6 +22,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 /**
  * ChartCombo
@@ -39,7 +40,7 @@ public class ChartCombo extends Composite implements SelectionListener
 	private String defaultItem;
 
 	private int defaultIndex;
-	
+
 	protected EObject eParent = null;
 
 	protected String sProperty = null;
@@ -89,12 +90,12 @@ public class ChartCombo extends Composite implements SelectionListener
 	{
 		return cmbItems.getItems( );
 	}
-	
+
 	public int getSelectionIndex( )
 	{
 		return cmbItems.getSelectionIndex( );
 	}
-	
+
 	public void removeAll( )
 	{
 		cmbItems.removeAll( );
@@ -106,7 +107,7 @@ public class ChartCombo extends Composite implements SelectionListener
 		this.defaultIndex = indexOf( this.defaultItem );
 	}
 
-	public void setDefualtItem( String itemName )
+	public void setDefaultItem( String itemName )
 	{
 		this.defaultItem = itemName;
 		this.defaultIndex = indexOf( this.defaultItem );
@@ -119,7 +120,7 @@ public class ChartCombo extends Composite implements SelectionListener
 
 	public void setText( String text )
 	{
-		if ( indexOf( text ) < 0 )
+		if ( text == null )
 		{
 			cmbItems.select( this.defaultIndex );
 			return;
@@ -179,6 +180,43 @@ public class ChartCombo extends Composite implements SelectionListener
 		cmbItems.addSelectionListener( this );
 	}
 
+	@Override
+	public void addListener( int eventType, final Listener listener )
+	{
+		// Only add support for addListener(SWT.Selection, listener)
+		if ( eventType == SWT.Selection )
+		{
+			addSelectionListener( new SelectionListener( ) {
+
+				public void widgetSelected( SelectionEvent event )
+				{
+					Event e = new Event( );
+					e.detail = event.detail;
+					e.data = event.data;
+					e.display = event.display;
+					e.doit = event.doit;
+					e.height = event.height;
+					e.item = event.item;
+					e.stateMask = event.stateMask;
+					e.text = event.text;
+					e.time = event.time;
+					e.width = event.width;
+					e.widget = event.widget;
+					e.x = event.x;
+					e.y = event.y;
+					listener.handleEvent( e );
+				}
+
+				public void widgetDefaultSelected( SelectionEvent evt )
+				{
+					// TODO Auto-generated method stub
+
+				}
+			} );
+		}
+		super.addListener( eventType, listener );
+	}
+
 	public void widgetDefaultSelected( SelectionEvent arg0 )
 	{
 		// TODO Auto-generated method stub
@@ -211,7 +249,7 @@ public class ChartCombo extends Composite implements SelectionListener
 			}
 		}
 	}
-	
+
 	public void setEObjectParent( EObject eParent )
 	{
 		this.eParent = eParent;

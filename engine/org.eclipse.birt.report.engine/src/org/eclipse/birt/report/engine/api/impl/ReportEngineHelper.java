@@ -338,7 +338,7 @@ public class ReportEngineHelper
 	 * 
 	 * @return all emitter info through BIRT engine emitter extension
 	 */
-	public EmitterInfo[] getEmitterInfo()
+	public synchronized EmitterInfo[] getEmitterInfo()
 	{
 		if ( emitterInfos == null )
 		{

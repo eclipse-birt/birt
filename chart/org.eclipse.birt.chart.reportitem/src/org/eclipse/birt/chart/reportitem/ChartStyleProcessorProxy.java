@@ -111,4 +111,14 @@ public class ChartStyleProcessorProxy
 	{
 		return true;
 	}
+	
+	/**
+	 * Sets an instance of ChartValueUpdater.
+	 * 
+	 * @param valueUpdater
+	 */
+	public void setChartValueUpdater( ChartValueUpdater valueUpdater )
+	{
+		this.chartValueUpdater = valueUpdater;
+	}
 }

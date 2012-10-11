@@ -131,12 +131,12 @@ public class CommandUtils
 	
 	public static void setVariable(String name, Object value)
 	{
-		getHandlerService( ).getCurrentState( ).getParent( ).addVariable( name, value );
+		getHandlerService( ).getCurrentState( ).addVariable( name, value );
 	}
 	
 	public static void removeVariable(String name)
 	{
-		getHandlerService( ).getCurrentState( ).getParent( ).removeVariable( name );
+		getHandlerService( ).getCurrentState( ).removeVariable( name );
 	}
 	
 }

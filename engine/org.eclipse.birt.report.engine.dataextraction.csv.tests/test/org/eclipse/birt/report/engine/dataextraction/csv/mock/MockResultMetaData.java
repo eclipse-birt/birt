@@ -67,4 +67,8 @@ public class MockResultMetaData implements IResultMetaData
 		return DataType.getName( getColumnType( index ) );
 	}
 
+	public boolean getAllowExport( int index ) throws BirtException
+	{
+		throw new BirtException("unsupported");
+	}
 }

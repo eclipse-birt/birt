@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
@@ -28,8 +26,6 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.ibm.icu.text.Collator;
-
 /**
  * Tree viewer content provider adapter for resource browser.
  * 
@@ -37,17 +33,6 @@ import com.ibm.icu.text.Collator;
 
 public class CubeContentProvider implements ITreeContentProvider
 {
-
-	private boolean[] useSorting;
-
-	public CubeContentProvider( )
-	{
-	}
-
-	public CubeContentProvider( boolean[] useSorting )
-	{
-		this.useSorting = useSorting;
-	}
 
 	public Object[] getChildren( Object parentElement )
 	{
@@ -97,29 +82,10 @@ public class CubeContentProvider implements ITreeContentProvider
 				VirtualField virtualDimsnion = new VirtualField( VirtualField.TYPE_DIMENSION );
 				virtualDimsnion.setModel( parentElement );
 				List dimensionList = new ArrayList( );
-				List<DimensionHandle> dimensions = new ArrayList<DimensionHandle>( );
 				if ( cube.getContentCount( CubeHandle.DIMENSIONS_PROP ) > 0 )
 				{
-					dimensions.addAll( cube.getContents( CubeHandle.DIMENSIONS_PROP ) );
+					dimensionList.addAll( cube.getContents( CubeHandle.DIMENSIONS_PROP ) );
 				}
-
-				if ( useSorting != null && useSorting[0] )
-				{
-					// sort attribute list
-					Collections.sort( dimensions,
-							new Comparator<DimensionHandle>( ) {
-
-								public int compare( DimensionHandle o1,
-										DimensionHandle o2 )
-								{
-									return Collator.getInstance( )
-											.compare( o1.getName( ),
-													o2.getName( ) );
-								}
-							} );
-				}
-
-				dimensionList.addAll( dimensions );
 				dimensionList.add( 0, virtualDimsnion );
 				return dimensionList.toArray( );
 
@@ -130,27 +96,10 @@ public class CubeContentProvider implements ITreeContentProvider
 				VirtualField virtualMeasureGroup = new VirtualField( VirtualField.TYPE_MEASURE_GROUP );
 				virtualMeasureGroup.setModel( parentElement );
 				List measureGroupList = new ArrayList( );
-				List<MeasureGroupHandle> measures = new ArrayList<MeasureGroupHandle>( );
 				if ( cube.getContentCount( CubeHandle.MEASURE_GROUPS_PROP ) > 0 )
 				{
-					measures.addAll( cube.getContents( CubeHandle.MEASURE_GROUPS_PROP ) );
+					measureGroupList.addAll( cube.getContents( CubeHandle.MEASURE_GROUPS_PROP ) );
 				}
-				if ( useSorting != null && useSorting[0] )
-				{
-					// sort attribute list
-					Collections.sort( measures,
-							new Comparator<MeasureGroupHandle>( ) {
-
-								public int compare( MeasureGroupHandle o1,
-										MeasureGroupHandle o2 )
-								{
-									return Collator.getInstance( )
-											.compare( o1.getName( ),
-													o2.getName( ) );
-								}
-							} );
-				}
-				measureGroupList.addAll( measures );
 				measureGroupList.add( 0, virtualMeasureGroup );
 				return measureGroupList.toArray( );
 			}

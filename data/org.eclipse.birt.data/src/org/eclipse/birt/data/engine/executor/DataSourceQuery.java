@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -32,11 +34,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
-import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.ICancellable;
@@ -55,7 +54,6 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
@@ -174,6 +172,9 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 	private DataEngineSession session;
 	
 	private IQueryContextVisitor qcv;
+	
+	private static Logger logger = Logger.getLogger( DataSourceQuery.class.getName( ) );
+
 
 	/**
 	 * Constructor. 
@@ -361,7 +362,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         	
         	if( !session.getStopSign().isStopped() )
         		resultMetadata = getMetaData( (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( ), odaStatement );
-        	
+        	if( design != null )
+        	{
+            	List modelResultHints = design.getResultSetHints( );
+            	resultMetadata = mergeResultHint( modelResultHints , resultMetadata );        		
+        	}
+
         	if ( queryCanceller.collectException( ) != null )
     		{
     			if ( !( queryCanceller.collectException( ).getCause( ) instanceof UnsupportedOperationException ) )
@@ -610,10 +616,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         Object inputValue = parameterHint.getDefaultInputValue( );
         if ( inputValue != null )
         {
-        	if ( inputValue.getClass( ).isArray( ) )
+			if ( inputValue.getClass( ).isArray( )
+					&& !( inputValue instanceof byte[] ) )
         	{
         		//if multi-value type report parameter is linked with data set parameter
-        		//only take the first provided value to pass it to data set
+        		//only take the first provided value to pass it to data set, except for byte[] Object
         		if ( Array.getLength( inputValue ) == 0 )
         		{
         			inputValue = null;
@@ -858,6 +865,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		{
 			return meta;
 		}
+		boolean changed = false;
 		int count = newResultClass.getFieldCount( );
 		try
 		{
@@ -877,6 +885,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						{
 							newResultClass.getFieldMetaData( i )
 									.setDataType( DataType.getClass( apiType ) );
+							changed = true;
 						}
 						break;
 					}
@@ -886,7 +895,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 		catch ( Exception ex )
 		{
 		}
-		return newResultClass;
+		
+		if( changed )
+			return newResultClass;
+		else
+			return meta;
 	}
 
 	/*
@@ -960,8 +973,12 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	this.session.getCancelManager( ).register( queryCanceller );
     	
     	if( !session.getStopSign().isStopped())
-    	{    			
+    	{    
+			long startTime = System.currentTimeMillis( );
     		odaStatement.execute( );
+			long endTime = System.currentTimeMillis( );
+			logger.log( Level.INFO, "ODA query execution time: "
+					+ ( endTime - startTime ) + " ms" );
     	}
 		
 		QueryContextVisitorUtil.populateEffectiveQueryText( qcv,
@@ -1010,15 +1027,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			rs = odaStatement.getResultSet( );
 		}
 		
-		List modelResultHints = design.getResultSetHints( );
 		// If we did not get a result set metadata at prepare() time, get it now
 		if ( resultMetadata == null )
 		{
+			List modelResultHints = design.getResultSetHints( );
 			resultMetadata = rs.getMetaData( );
 			if ( resultMetadata == null )
 				throw new DataException( ResourceConstants.METADATA_NOT_AVAILABLE );
+			resultMetadata = mergeResultHint( modelResultHints , resultMetadata );
 		}
-		IResultClass newResultClass = mergeResultHint( modelResultHints , resultMetadata );
 		
 		// Initialize CachedResultSet using the ODA result set
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
@@ -1035,40 +1052,28 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) );
 				if ( strategy  != Strategy.Complex )
 				{
-					for( IResultObjectEvent event: (List<IResultObjectEvent>)this.getFetchEvents( ) )
-					{
-						if( event instanceof ComputedColumnHelper )
-						{
-							((ComputedColumnHelper)event).setModel( TransformationConstants.ALL_MODEL );
-						}
-					}
-					
 					SimpleResultSet simpleResult = new SimpleResultSet( this,
 							rs,
-							newResultClass,
+							resultMetadata,
 							eventHandler,
 							this.getGrouping( ),
 							this.session,
 							strategy == Strategy.SimpleLookingFoward);
 					
-					IResultIterator it = strategy == Strategy.SimpleLookingFoward
-							? new ResultSetWrapper( this.session, simpleResult )
-							: simpleResult;
-					eventHandler.handleEndOfDataSetProcess( it );
-					return it;
+					return simpleResult.getResultSetIterator( );
 				}
 			}
 	    	
 			ri = new CachedResultSet( this,
-					newResultClass,
+					resultMetadata,
 					rs,
 					eventHandler,
 					session );
 		}
 		else
 			ri = new CachedResultSet( this,
-					newResultClass,
-					new DataSetToCache( rs, newResultClass, session ),
+					resultMetadata,
+					new DataSetToCache( rs, resultMetadata, session ),
 					eventHandler, session );
 		
 		if ( ri != null )

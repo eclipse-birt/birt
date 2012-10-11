@@ -56,7 +56,7 @@ public class InsertGroupHanlder extends SelectionHandler
 		//currentModel = context.getVariable( ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME );
 
 		int position = 0;
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_GROUP_POSITION);
+		Object obj = context.getVariable(ICommandParameterNameContants.INSERT_GROUP_POSITION);
 		if ( obj != null && obj instanceof Integer )
 		{
 			position = ( (Integer) obj ).intValue( );

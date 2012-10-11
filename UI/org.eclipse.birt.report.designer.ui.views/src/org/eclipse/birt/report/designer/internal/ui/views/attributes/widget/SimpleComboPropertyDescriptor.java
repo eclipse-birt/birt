@@ -23,6 +23,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -41,6 +43,8 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 
 	private int style = SWT.BORDER;
 
+	private FocusAdapter focusListener;
+
 	/**
 	 * @param propertyProcessor
 	 */
@@ -58,7 +62,9 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
 	public Control getControl( )
 	{
@@ -68,19 +74,27 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
 		if ( isFormStyle( ) )
 		{
-			combo = FormWidgetFactory.getInstance( ).createCCombo( parent );
+			combo = FormWidgetFactory.getInstance( ).createCCombo( parent,
+					false );
 		}
 		else
 		{
 			combo = new CCombo( parent, style );
 			combo.setVisibleItemCount( 30 );
 		}
+		addListeners( );
+		return combo;
+	}
+
+	protected void addListeners( )
+	{
 		combo.addControlListener( new ControlListener( ) {
 
 			public void controlMoved( ControlEvent e )
@@ -105,7 +119,19 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 				handleComboSelectEvent( );
 			}
 		} );
-		return combo;
+
+		focusListener = new FocusAdapter( ) {
+
+			public void focusLost( FocusEvent e )
+			{
+				if ( combo.isEnabled( ) )
+				{
+					handleComboSelectEvent( );
+				}
+			}
+
+		};
+
 	}
 
 	/**
@@ -125,9 +151,9 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 		}
 		catch ( SemanticException e )
 		{
-			WidgetUtil.processError( combo.getShell( ), e );
 			combo.setText( oldValue );
 			combo.setSelection( new Point( 0, oldValue.length( ) ) );
+			WidgetUtil.processError( combo.getShell( ), e );
 		}
 
 	}
@@ -172,6 +198,9 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 				combo.setEnabled( false );
 			}
 
+			boolean isEditable =  ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) ;
+			setComboEditable( isEditable );
+
 			int sindex = Arrays.asList( items ).indexOf( oldValue );
 
 			if ( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isSpecialProperty( )
@@ -194,6 +223,18 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 		}
 	}
 
+	protected void setComboEditable( boolean isEditable )
+	{
+		combo.setEditable(isEditable);
+		if ( focusListener != null )
+		{
+			combo.removeFocusListener( focusListener );
+			if ( combo.getEditable( ) )
+			{
+				combo.addFocusListener( focusListener );
+			}
+		}
+	}
 
 	public void save( Object value ) throws SemanticException
 	{

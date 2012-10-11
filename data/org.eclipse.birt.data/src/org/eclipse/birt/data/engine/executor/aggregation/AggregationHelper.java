@@ -207,9 +207,8 @@ public class AggregationHelper implements IAggrValueHolder
 	{
 		assert invalidAggrMsg != null;
 
-		if ( getAggrInfo( index ).getAggregation( ).getType( ) == IAggrFunction.RUNNING_AGGR
-				|| endingGroupLevel <= getAggrInfo( index ).getGroupLevel( )
-				|| getAggrInfo( index ).getGroupLevel( ) == 0 )
+		if ( getAggrInfo( index ).getAggregation( ).getType( ) == IAggrFunction .RUNNING_AGGR
+				|| endingGroupLevel <= getAggrInfo( index ).getGroupLevel( ) )
 			currentRoundAggrValue[index].add( invalidAggrMsg.get( Integer.valueOf( index ) ) );
 	}
 	

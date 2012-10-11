@@ -19,7 +19,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.cache.CacheListener;
@@ -33,7 +32,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
  * <li> "r" open the file for read only.
  * <li> "rw" create the file for read/write
  * <li> "rw+" open file is open for read/write
- * <li> "rwt" create the trainsnt file, it will be removed after closing.
+ * <li> "rwt" create the transient file, it will be removed after closing.
  */
 public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 {
@@ -319,11 +318,9 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			totalDiskBlocks = totalBlocks;
 			allocTbl = AllocTable.loadTable( this );
 			entryTbl = NameTable.loadTable( this );
-			entries = new HashMap( );
-			Iterator iter = entryTbl.listEntries( ).iterator( );
-			while ( iter.hasNext( ) )
+			entries = new HashMap<String, NameEntry>( );
+			for ( NameEntry nameEnt : entryTbl.listEntries( ) )
 			{
-				NameEntry nameEnt = (NameEntry) iter.next( );
 				entries.put( nameEnt.getName( ), nameEnt );
 			}
 		}
@@ -360,7 +357,7 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			head.flush( this );
 			allocTbl = AllocTable.createTable( this );
 			entryTbl = NameTable.createTable( this );
-			entries = new HashMap( );
+			entries = new HashMap<String, NameEntry>( );
 		}
 		catch ( IOException ex )
 		{
@@ -478,13 +475,11 @@ public class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		throw new FileNotFoundException( name );
 	}
 
-	public synchronized List listEntries( String namePattern )
+	public synchronized List<String> listEntries( String namePattern )
 	{
 		ArrayList<String> list = new ArrayList<String>( );
-		Iterator<String> iter = entries.keySet( ).iterator( );
-		while ( iter.hasNext( ) )
+		for ( String name : entries.keySet( ) )
 		{
-			String name = iter.next( );
 			if ( namePattern == null || name.startsWith( namePattern ) )
 			{
 				list.add( name );

@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
@@ -40,11 +39,6 @@ public class ScriptedDesignVisitor extends DesignVisitor
 
 	public List getScriptNodes( ModuleHandle handle )
 	{
-		return getScriptNodes( (DesignElementHandle)handle );
-	}
-	
-	public List getScriptNodes( DesignElementHandle handle )
-	{
 		scriptNodes.clear( );
 		apply( handle );
 		return scriptNodes;
@@ -58,33 +52,13 @@ public class ScriptedDesignVisitor extends DesignVisitor
 	public void visitDesignElement( DesignElementHandle elementHandle )
 	{
 		List scriptMethods = elementHandle.getMethods( );
-		boolean hasCurrentView = false;
-		if (elementHandle instanceof ReportItemHandle)
-		{
-			ReportItemHandle handle = (ReportItemHandle)elementHandle;
-			
-			if (handle.getCurrentView( ) != null)
-			{
-				List currentScriptMethods = handle.getCurrentView( ).getMethods( );
-				for ( Iterator ite = currentScriptMethods.iterator( ); ite.hasNext( ); )
-				{
-					IElementPropertyDefn elementPropDefn = (IElementPropertyDefn) ite.next( );
-					String methodName = elementPropDefn.getMethodInfo( ).getName( );
-					if ( handle.getCurrentView( ).getStringProperty( methodName ) != null )
-					{
-						hasCurrentView = true;
-						break;
-					}
-				}
-			}
-		}
 		if ( scriptMethods != null )
 		{
 			for ( Iterator ite = scriptMethods.iterator( ); ite.hasNext( ); )
 			{
 				IElementPropertyDefn elementPropDefn = (IElementPropertyDefn) ite.next( );
 				String methodName = elementPropDefn.getMethodInfo( ).getName( );
-				if ( elementHandle.getStringProperty( methodName ) != null || hasCurrentView)
+				if ( elementHandle.getStringProperty( methodName ) != null )
 				{
 					ScriptElementNode scriptElementNode = new ScriptElementNode( elementHandle );
 					scriptNodes.add( scriptElementNode );

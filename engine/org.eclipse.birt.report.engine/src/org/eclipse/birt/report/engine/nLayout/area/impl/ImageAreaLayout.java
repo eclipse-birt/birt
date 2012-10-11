@@ -825,7 +825,82 @@ public class ImageAreaLayout implements ILayout
 				area[3] = Integer.parseInt( rawDatas[5] ) - area[1];
 				return area;
 			}
+			else
+			{
+				if ( rawDatas.length >= 6 )
+					return generateRectangleByPolygon( rawDatas );
+			}
 			return null;
+		}
+		
+		private int[] generateRectangleByPolygon( String[] values )
+		{
+			int[] intValues = convertToInt( values );
+			int[] xValues = new int[values.length / 2];
+			for ( int i = 0; i < values.length; i = i + 2 )
+			{
+				xValues[i / 2] = intValues[i];
+			}
+			int[] yValues = new int[values.length / 2];
+			for ( int i = 1; i < values.length; i = i + 2 )
+			{
+				yValues[i / 2] = intValues[i];
+			}
+			int maxX = getMax( xValues );
+			int maxY = getMax( yValues );
+			int minX = getMin( xValues );
+			int minY = getMin( yValues );
+			int avaX = getAva( xValues );
+			int avaY = getAva( yValues );
+			return new int[]{avaX - ( avaX - minX ) / 2,
+					avaY - ( avaY - minY ) / 2, ( maxX - minX ) / 2,
+					( maxY - minY ) / 2};
+		}
+		
+		private int getMax(int[] values)
+		{
+			int max = Integer.MIN_VALUE;
+			for(int i=0; i<values.length; i++)
+			{
+				if(values[i]>max)
+				{
+					max = values[i];
+				}
+			}
+			return max;
+		}
+		
+		private int getAva(int[] values)
+		{
+			int total = 0;
+			for(int i=0; i<values.length; i++)
+			{
+				total+=values[i];
+			}
+			return total/values.length;
+		}
+				
+		private int getMin( int[] values )
+		{
+			int min = Integer.MAX_VALUE;
+			for ( int i = 0; i < values.length; i++ )
+			{
+				if ( values[i] < min )
+				{
+					min = values[i];
+				}
+			}
+			return min;
+		}
+
+		private int[] convertToInt(String[] values)
+		{
+			int[] intValues = new int[values.length];
+			for(int i=0; i<values.length; i++)
+			{
+				intValues[i] = Integer.parseInt( values[i] );
+			}
+			return intValues;
 		}
 
 		private int getTranslatedLengthX( int length )

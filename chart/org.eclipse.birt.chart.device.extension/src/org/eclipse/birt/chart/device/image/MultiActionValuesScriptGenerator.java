@@ -130,6 +130,7 @@ public class MultiActionValuesScriptGenerator
 		sb.append( "\t if ( typeof valueData != 'undefined' ) menuInfo.valueData = valueData;\n" );//$NON-NLS-1$
 		sb.append( "\t if ( typeof valueSeriesName != 'undefined' ) menuInfo.valueSeriesName = valueSeriesName;\n" );//$NON-NLS-1$
 
+		sb.append( "\t if ( typeof legendItemData != 'undefined' ) menuInfo.legendItemData = legendItemData;\n" );//$NON-NLS-1$
 		sb.append( "\t if ( typeof legendItemText != 'undefined' ) menuInfo.legendItemText = legendItemText;\n" );//$NON-NLS-1$
 		sb.append( "\t if ( typeof legendItemValue != 'undefined' ) menuInfo.legendItemValue = legendItemValue;\n" );//$NON-NLS-1$
 		sb.append( "\t if ( typeof axisLabel != 'undefined' ) menuInfo.axisLabel = axisLabel;\n" );//$NON-NLS-1$

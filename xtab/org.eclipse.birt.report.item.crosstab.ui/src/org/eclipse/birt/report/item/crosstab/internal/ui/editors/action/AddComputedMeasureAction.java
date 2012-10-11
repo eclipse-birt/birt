@@ -48,7 +48,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 {
 	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
 	private MeasureViewHandle measureViewHandle;
-	private CrosstabReportItemHandle reportHandle;
+	
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction"; //$NON-NLS-1$
 
@@ -62,37 +62,25 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 	public AddComputedMeasureAction( DesignElementHandle handle )
 	{
 		super( handle );
+		// TODO Auto-generated constructor stub
 		setId( ID );
 		setText( NAME );
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-		reportHandle = measureViewHandle.getCrosstab( );
 
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.ADD_DERIVED_MEASURE );
-		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
-	}
-	
-	public AddComputedMeasureAction( CrosstabReportItemHandle  crosstab )
-	{
-		super( crosstab.getModelHandle( ) );
-
-		setId( ID );
-		setText( NAME );
-		
-		this.reportHandle = crosstab;
 		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.ADD_DERIVED_MEASURE );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
 	
 	public boolean isEnabled( )
 	{
-		CubeHandle cubeHandle = reportHandle.getCube( );
+		CubeHandle cubeHandle = measureViewHandle.getCrosstab( ).getCube( );
 		if (cubeHandle == null)
 		{
 			return false;
 		}
-		return !DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) );
+		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
 	}
 	
 	/*
@@ -104,6 +92,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 	{
 		transStar( NAME );
 		
+		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
 		AddComputedSummaryDialog computedSummaryDialog = new AddComputedSummaryDialog(UIUtil.getDefaultShell( ), reportHandle);
 		if(computedSummaryDialog.open( ) == Dialog.OK)
 		{
@@ -112,7 +101,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 			Expression expression = computedSummaryDialog.getExpression( );
 			String dataType = computedSummaryDialog.getDataType( );
 			
-			int index = caleIndex( );
+			int index = reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
 			
 			try
 			{
@@ -164,18 +153,6 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 			}
 		}
 		transEnd();
-	}
-	
-	private int caleIndex()
-	{
-		if (measureViewHandle != null)
-		{
-			return reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
-		}
-		else
-		{
-			return reportHandle.getAllMeasures().size( );
-		}
 	}
 
 }

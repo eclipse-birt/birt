@@ -53,7 +53,7 @@ public class Connection implements IConnection
 
 	protected Map appContext;
 	
-	private Boolean autoCommit = null;
+	private Boolean autoCommit;
 	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
@@ -149,7 +149,7 @@ public class Connection implements IConnection
 			{
 				this.autoCommit = Boolean.valueOf( autoCommit );
 			}
-
+			
 			String isolationMode = connProperties.getProperty( Constants.CONNECTION_ISOLATION_MODE );
 			this.isolationMode = Constants.getIsolationMode( isolationMode );
 			
@@ -270,6 +270,15 @@ public class Connection implements IConnection
 		{
 			if( this.autoCommit != null )
 				jdbcConn.setAutoCommit( this.autoCommit );
+			else
+			{
+				if  (DBConfig.getInstance().qualifyPolicy(
+							jdbcConn.getMetaData().getDriverName(),
+							DBConfig.SET_COMMIT_TO_FALSE) ) {
+					this.autoCommit = false;
+					jdbcConn.setAutoCommit( false );
+				}
+			}
 			if( this.isolationMode!= Constants.TRANSCATION_ISOLATION_DEFAULT)
 				jdbcConn.setTransactionIsolation( this.isolationMode );
 		}
@@ -422,6 +431,7 @@ public class Connection implements IConnection
 			try
 			{
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData( );
+<<<<<<< HEAD
 				int maxstmts = dbMetadata.getMaxStatements( );
 				int maxconns = dbMetadata.getMaxConnections( );
 				if ( maxstmts == 0 && maxconns == 0 )
@@ -430,6 +440,9 @@ public class Connection implements IConnection
 					return 1;
 				else
 					return maxstmts / maxconns;
+=======
+				return dbMetadata.getMaxStatements( );
+>>>>>>> 11SP4
 			}
 			catch ( SQLException e )
 			{
@@ -482,6 +495,12 @@ public class Connection implements IConnection
 						jdbcConn.getMetaData().getDriverName(),
 						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
 					return;
+				if ( this.autoCommit == Boolean.FALSE && DBConfig.getInstance().qualifyPolicy( jdbcConn.getMetaData().getDriverName(), DBConfig.TRY_COMMIT_THEN_CLOSE ))
+				{
+					jdbcConn.commit();
+					jdbcConn.close();
+					return;
+				}
 			} 
 			catch (SQLException e1) {
 

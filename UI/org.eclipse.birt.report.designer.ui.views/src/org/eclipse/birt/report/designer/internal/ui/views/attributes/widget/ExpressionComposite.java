@@ -88,14 +88,14 @@ public class ExpressionComposite extends Composite
 				listener,
 				false,
 				isFormStyle ? SWT.FLAT : SWT.PUSH,
-				new ExpressionHelper( ) );
+				new VisibilityExpressionHelper( ) );
 
 		initAccessible( );
 	}
 
 	public void setInput( Object input )
 	{
-		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper( );
+		VisibilityExpressionHelper helper = (VisibilityExpressionHelper) button.getExpressionHelper( );
 		helper.setContextObject( DEUtil.getInputFirstElement( input ) );
 	}
 
@@ -218,7 +218,22 @@ public class ExpressionComposite extends Composite
 
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
-		ExpressionHelper helper = (ExpressionHelper) button.getExpressionHelper( );
+		VisibilityExpressionHelper helper = (VisibilityExpressionHelper) button.getExpressionHelper( );
 		helper.setProvider( provider );
 	}
+
+	class VisibilityExpressionHelper extends ExpressionHelper
+	{
+
+		public void setContextObject( Object contextObject )
+		{
+			super.setContextObject( contextObject );
+		}
+
+		public void setProvider( IExpressionProvider provider )
+		{
+			super.setProvider( provider );
+		}
+	}
+
 }

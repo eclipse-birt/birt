@@ -167,11 +167,6 @@ public class GanttChart extends DefaultChartTypeImpl
 				orientation == null );
 		try
 		{
-			// It still needs to set default value of gantt chart orientation as
-			// horizontal, some UI validation logic will check this.
-			ChartElementUtil.setDefaultValue( newChart,
-					"orientation", //$NON-NLS-1$
-					Orientation.HORIZONTAL_LITERAL );
 			ChartElementUtil.setDefaultValue( newChart.getAxes( ).get( 0 ),
 					"categoryAxis", //$NON-NLS-1$
 					true );
@@ -258,18 +253,6 @@ public class GanttChart extends DefaultChartTypeImpl
 						"orientation", //$NON-NLS-1$
 						newOrientation,
 						newOrientation == null );
-				try
-				{
-					// It still needs to set default value of gantt chart orientation as
-					// horizontal, some UI validation logic will check this.
-					ChartElementUtil.setDefaultValue( currentChart,
-							"orientation", //$NON-NLS-1$
-							Orientation.HORIZONTAL_LITERAL );
-				}
-				catch ( ChartException e )
-				{
-					// Do nothing.
-				}
 				return currentChart;
 			}
 			else if ( currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
@@ -348,11 +331,6 @@ public class GanttChart extends DefaultChartTypeImpl
 					sNewDimension == null );
 			try
 			{
-				// It still needs to set default value of gantt chart orientation as
-				// horizontal, some UI validation logic will check this.
-				ChartElementUtil.setDefaultValue( currentChart,
-						"orientation", //$NON-NLS-1$
-						Orientation.HORIZONTAL_LITERAL );
 				ChartElementUtil.setDefaultValue( ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ),
 						"categoryAxis", //$NON-NLS-1$
@@ -390,6 +368,8 @@ public class GanttChart extends DefaultChartTypeImpl
 						.addAll( xAxis.getSeriesDefinitions( )
 								.get( 0 )
 								.getSeriesDefinitions( ) );
+				// Always set datetime type like chart with axes
+				yAxis.setType( AxisType.DATE_TIME_LITERAL );
 
 				// Update the base series
 				Series series = xAxis.getSeriesDefinitions( )
@@ -433,18 +413,6 @@ public class GanttChart extends DefaultChartTypeImpl
 				"orientation", //$NON-NLS-1$
 				newOrientation,
 				newOrientation == null );
-		try
-		{
-			// It still needs to set default value of gantt chart orientation as
-			// horizontal, some UI validation logic will check this.
-			ChartElementUtil.setDefaultValue( currentChart,
-					"orientation", //$NON-NLS-1$
-					Orientation.HORIZONTAL_LITERAL );
-		}
-		catch ( ChartException e )
-		{
-			// Do nothing.
-		}
 		ChartElementUtil.setEObjectAttribute( currentChart,
 				"dimension",//$NON-NLS-1$
 				getDimensionFor( sNewDimension ),

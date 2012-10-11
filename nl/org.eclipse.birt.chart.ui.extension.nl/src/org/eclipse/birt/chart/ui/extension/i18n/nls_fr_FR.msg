@@ -354,6 +354,7 @@ PieBaseSeriesComponent.Text.SpecifyExplodeSlice=Spécifier l'éclatement de la tra
 PieBaseSeriesComponent.Tooltip.EnterBooleanExpression=Entrez une expression booléenne pour contrôler les tranches à éclater. Si le champ reste vierge, la distance d'éclatement s'appliquera à toutes les tranches.
 PieLeftAreaComponent.Label.SliceSizeDefinition=Définition de la taille de tranche :
 PieSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour PieSeriesAttributeComposite.
+PieSeriesAttributeComposite.InnerRadiusType.Points=Points
 PieSeriesAttributeComposite.Lbl.Explosion=Explosion :
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=Rotation du secteur : angle de départ du premier secteur
 PieBottomAreaComponent.Label.Rotation=Rotatio&n du secteur :

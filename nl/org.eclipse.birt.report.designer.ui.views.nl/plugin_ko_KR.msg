@@ -21,5 +21,3 @@ Build=@BUILD@
 QuickEditView=속성 편집기
 ReportViews=보고서 디자인
 DataExplorerView=데이터 탐색기
-Variable.Actions=새 변수(&V)
-Command.Name.CreateVariable=변수 생성

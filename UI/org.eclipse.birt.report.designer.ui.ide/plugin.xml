@@ -224,16 +224,6 @@
               type="org.eclipse.birt.report.designer.internal.ui.extension.IEditputProvider">
         </adapter>
      </adaptable>
-     <adaptable
-           class="org.eclipse.birt.report.designer.ui.preferences.TemplateConfigurationBlock">
-        <adapter
-              class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ResourcePageHelperProvider"
-              id="org.eclipse.birt.report.designer.ui.ide.TemplateConfigurationBlock"
-              priority="3"
-              singleton="true"
-              type="org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider">
-        </adapter>
-     </adaptable>
    </extension>
    
 	<extension point="org.eclipse.ui.popupMenus"> 

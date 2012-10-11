@@ -25,7 +25,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.CategorizedElementSorte
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
-import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -38,7 +37,9 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTo
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.MergeCrosstabHeaderCellAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.SplitCrosstabHeadCellAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewPr
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -195,6 +197,24 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 						manager.insertBefore( firstMemuItem.getId( ),
 								new Separator( ) );
 					}
+					else if (ICrosstabCellAdapterFactory.CROSSTAB_HEADER.equals( position ))
+					{
+						IAction action = new SplitCrosstabHeadCellAction(firstSelectedElement.getCrosstabCellHandle( ).getModelHandle( ));
+						//if (action.isEnabled( ))
+						{
+							manager.insertBefore( firstMemuItem.getId( ), action );
+							
+						}
+						action = new MergeCrosstabHeaderCellAction(firstSelectedElement.getCrosstabCellHandle( ).getModelHandle( ));
+						//if (action.isEnabled( ))
+						{
+							manager.insertBefore( firstMemuItem.getId( ), action );
+							manager.insertBefore( firstMemuItem.getId( ),
+									new Separator( ) );
+						}
+						manager.insertBefore( firstMemuItem.getId( ),
+								new Separator( ) );
+					}
 
 					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) ); //$NON-NLS-1$
 
@@ -292,9 +312,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					subMenu.add( new Separator( ) );
 					action = getAction( InsertAggregationAction.ID );
 					action.setText( InsertAggregationAction.TEXT );
-					subMenu.add( action );
-					action = getAction( InsertRelativeTimePeriodAction.ID );
-					action.setText( InsertRelativeTimePeriodAction.TEXT );
 					subMenu.add( action );
 
 					manager.add( new CopyCrosstabCellContentsAction( firstSelectedElement.getCrosstabCellHandle( ) ) );

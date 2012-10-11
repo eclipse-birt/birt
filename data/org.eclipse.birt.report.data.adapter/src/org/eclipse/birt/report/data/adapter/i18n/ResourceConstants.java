@@ -32,6 +32,7 @@ public class ResourceConstants
 	public final static String MISSING_JOIN_CONDITION="missing.join.condition";
 	public final static String EXCEPTION_ERROR = "exception.error";
 	public final static String INVALID_LEVEL_EXPRESSION = "invalid.level.expression";
+	public final static String INVALID_FILTER_OPERANDS = "invalid.filter.operands";
 	public final static String INVALID_MEASURE_EXPRESSION = "invalid.measure.expression";
 	public final static String INVALID_DATA_TYPE = "invlid.data.type"; 
 	public final static String INVALID_BINDING_EXPRESSION = "invalid.binding.expression";
@@ -126,11 +127,6 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_PERIOD2_DISPLAYNAME = "timeFunction.PERIOD2.displayName";
 	public final static String TIMEFUNCITON_N1_DISPLAYNAME = "timeFunction.N1.displayName";
 	public final static String TIMEFUNCITON_N2_DISPLAYNAME = "timeFunction.N2.displayName";
-	public final static String TIMEFUNCTION_N1_NEXT_DISPLAYNAME = "timeFunction.N1.next.displayName";
-	public static final String TIMEFUNCITON_N2_AGO_DISPLAYNAME = "timeFunction.N2.Ago.displayName";
-	public static final String TIMEFUNCITON_N1_CURRENT_DISPLAYNAME = "timeFunction.N1.current.displayName";
-	public static final String TIMEFUNCITON_N1_PERIOD_DISPLAYNAME = "timeFunction.N1.period.displayName";
-	public static final String TIMEFUNCITON_TRAILING_N1_DISPLAYNAME = "timeFunction.trailing.N1.period.displayName";
 	
 	public final static String TIMEFUNCITON_N1_YEAR_DISPLAYNAME = "timeFunction.N1.Year.displayName";
 	public final static String TIMEFUNCITON_N2_YEAR_DISPLAYNAME = "timeFunction.N2.Year.displayName";
@@ -141,8 +137,6 @@ public class ResourceConstants
 	public final static String TIMEFUNCITON_N1_WEEK_DISPLAYNAME = "timeFunction.N1.Week.displayName";
 	public final static String TIMEFUNCITON_N2_WEEK_DISPLAYNAME = "timeFunction.N2.Week.displayName";
 	public final static String TIMEFUNCITON_N1_DAY_DISPLAYNAME = "timeFunction.N1.Day.displayName";
-	public final static String TIMEFUNCITON_TRAILING_N1_MONTH_DISPLAYNAME = "timeFunction.trailing.N1.Month.displayName";
-
 	
 	public final static String TIMEFUNCITON_PERIODCHOICE_YEAR_DISPLAYNAME = "timeFunction.PERIODCHOICE.YEAR_displayName";
 	public final static String TIMEFUNCITON_PERIODCHOICE_QUARTER_DISPLAYNAME = "timeFunction.PERIODCHOICE.QUARTER_displayName";

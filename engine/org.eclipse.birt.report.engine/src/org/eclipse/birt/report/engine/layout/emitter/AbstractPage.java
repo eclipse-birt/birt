@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.layout.PDFConstants;
@@ -57,7 +56,7 @@ public abstract class AbstractPage implements IPage
 
 	public void drawBackgroundImage( int x, int y, int width, int height,
 			int imageWidth, int imageHeight, int repeat, String imageUrl, byte[] imageData,
-			int absPosX, int absPosY ) throws IOException
+			int absPosX, int absPosY ) throws Exception
 	{
 		if ( imageData == null || imageData.length == 0 )
 		{
@@ -159,7 +158,7 @@ public abstract class AbstractPage implements IPage
 
 	protected abstract void drawBackgroundImage( float x, float y, float width,
 			float height, float imageWidth, float imageHeight, int repeat,
-			String imageUrl, byte[] imageData, float absPosX, float absPosY ) throws IOException;
+			String imageUrl, byte[] imageData, float absPosX, float absPosY ) throws Exception;
 
 	protected abstract void drawImage( String imageId, byte[] imageData,
 			String extension, float imageX, float imageY, float height,

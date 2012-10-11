@@ -1164,6 +1164,7 @@ public class InputParameterDialog extends BaseDialog
 				if ( Double.isInfinite( value ) )
 					formatStr = str;
 				else
+<<<<<<< HEAD
 				{
 					if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED.equals( formatPattern ) )
 					{
@@ -1172,6 +1173,10 @@ public class InputParameterDialog extends BaseDialog
 					formatStr = new NumberFormatter( formatPattern,
 							formatLocale ).format( value );
 				}
+=======
+					formatStr = new NumberFormatter( formatPattern,
+							formatLocale ).format( value );
+>>>>>>> 11SP4
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 			{

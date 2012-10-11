@@ -143,8 +143,6 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_PREFERENCE = "designer.library.preference.libraries.description.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_WARNING_PREFERENCE = "designer.library.preference.libraries.warning.preferencestore"; //$NON-NLS-1$
-	public static final String LIBRARY_DEFAULT_THEME_ENABLE = "designer.library.preference.libraries.enable.default.theme.preferencestore"; //$NON-NLS-1$
-	public static final String LIBRARY_DEFAULT_THEME_INCLUDE = "designer.library.preference.libraries.include.default.theme.preferencestore"; //$NON-NLS-1$
 	public static final String LIBRARY_MOVE_BINDINGS_PREFERENCE = "designer.library.preference.libraries.move.bindings.preferencestore"; //$NON-NLS-1$
 	public static final String TEMPLATE_PREFERENCE = "designer.preview.preference.template.description.preferencestore"; //$NON-NLS-1$
 	public static final String RESOURCE_PREFERENCE = "org.eclipse.birt.report.designer.ui.preferences.resourcestore"; //$NON-NLS-1$
@@ -1041,6 +1039,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getTemplatePreference( )
 	{
+<<<<<<< HEAD
 		String temp = PreferenceFactory.getInstance( )
 				.getPreferences( this, UIUtil.getCurrentProject( ) )
 				.getString( TEMPLATE_PREFERENCE );
@@ -1057,6 +1056,10 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 
 		return str;
+=======
+		return PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).getString( TEMPLATE_PREFERENCE );
+>>>>>>> 11SP4
 	}
 
 	/**

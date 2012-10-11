@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.command;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -39,7 +38,7 @@ public class EditStyleHandler extends SelectionHandler
 		super.execute( event );
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME );
+		Object obj = context.getVariable( ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME );
 		if ( obj != null && obj instanceof SharedStyleHandle )
 		{
 			handle = (SharedStyleHandle) obj;

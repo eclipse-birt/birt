@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.JointDataSetQuery;
+import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.ExpressionProcessor;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -90,7 +91,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private boolean isPrepared = false;
 	private boolean isExecuted = false;
 	
-	private boolean loadFromCache;
+	protected boolean loadFromCache;
 	
 	private Map queryAppContext;
 
@@ -492,26 +493,18 @@ public abstract class QueryExecutor implements IQueryExecutor
 				String groupName = populateGroupName( i, expr );
 				int dataType = getColumnDataType( cx, getGroupKeyExpression( src ) );
 				
-				boolean doGroupSorting = false;
-				if ( this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
-					doGroupSorting = true;
-				else if ( src.getSortDirection( ) == IGroupDefinition.NO_SORT )
-					doGroupSorting = false;
-				else if ( this.baseQueryDefn.getQueryExecutionHints( ) == null )
-					doGroupSorting  = true;
-				else if ( this.baseQueryDefn.getSorts( ).size( ) > 0 )
-					doGroupSorting = true;
-				else
-					doGroupSorting = this.baseQueryDefn.getQueryExecutionHints( )
-							.doSortBeforeGrouping( );
-				
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
 						expr,
 						groupName,
 						-1,
 						dataType,
-						doGroupSorting );
+						this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE? true:(
+						src.getSortDirection( ) == IGroupDefinition.NO_SORT ? false:(
+						this.baseQueryDefn.getQueryExecutionHints( ) == null 
+								? true
+								: this.baseQueryDefn.getQueryExecutionHints( )
+										.doSortBeforeGrouping( ) )));
 				
 				groupSpecs[i] = dest;
 				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,
@@ -759,6 +752,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 			Map bindings = createBindingFromComputedColumn( dataSet.getComputedColumns( ));
 			for ( int i = 0; i < dataSet.getFilters( ).size( ); i++ )
 			{
+				if ( !( (IFilterDefinition) dataSet.getFilters( ).get( i ) ).updateAggregation( ) )
+					continue;
+				
 				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) dataSet.getFilters( )
 						.get( i ),
 						bindings ) )
@@ -781,6 +777,23 @@ public abstract class QueryExecutor implements IQueryExecutor
 			for ( int i = 0; i < filters.size( ); i++ )
 			{
 				IFilterDefinition filter = filters.get( i );
+				
+				if ( !QueryExecutorUtil.isValidFilterExpression( filter.getExpression( ),
+						bindings,
+						this.session.getEngineContext( ).getScriptContext( ) ) )
+				{
+					String expression = filter.getExpression( ).toString( );
+					if ( filter.getExpression( ) instanceof IScriptExpression )
+						expression = ( (IScriptExpression) filter.getExpression( ) ).getText( );
+					else if ( filter.getExpression( ) instanceof IConditionalExpression )
+						expression = ( (IConditionalExpression) filter.getExpression( ) ).getExpression( )
+								.getText( );
+					throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
+							new Object[]{
+								expression
+							} );
+				}
+				
 				if ( !filter.updateAggregation( ) )
 				{
 					aggrNoUpdateFilters.add( filter );
@@ -1138,6 +1151,18 @@ public abstract class QueryExecutor implements IQueryExecutor
 		
 		eventHandler.setExecutorHelper( helper );
 
+	   if ( eventHandler.getAppContext( ) != null && this.dataSet.getDesign( ) != null && dataSet.getSession( ) != null)
+		{
+			String nullOrdering = this.dataSet.getDesign( ).getNullsOrdering( );
+			Collator collator = this.dataSet.getDesign( ).getCompareLocale( ) == null
+					? null : Collator.getInstance( this.dataSet.getDesign( )
+							.getCompareLocale( ) );
+
+			eventHandler.getAppContext( )
+					.put( "org.eclipse.birt.data.engine.expression.compareHints",
+							new CompareHints( collator, nullOrdering ) );
+		}
+		    
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler );
 

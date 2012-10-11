@@ -47,7 +47,7 @@ import org.eclipse.ui.PlatformUI;
 public class VariablesNodeProvider extends DefaultNodeProvider
 {
 
-	public static class AddVariableAction extends AbstractElementAction
+	private static class AddVariableAction extends AbstractElementAction
 	{
 
 		private boolean isDone;

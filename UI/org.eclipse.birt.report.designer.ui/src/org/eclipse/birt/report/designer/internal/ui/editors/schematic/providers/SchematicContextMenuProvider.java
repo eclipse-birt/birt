@@ -82,7 +82,6 @@ import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
-import org.eclipse.birt.report.designer.ui.actions.InsertRelativeTimePeriodAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
@@ -772,10 +771,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		subMenu.add( new Separator( ) );
 		action = getAction( InsertAggregationAction.ID );
 		action.setText( InsertAggregationAction.TEXT );
-		subMenu.add( action );
-		
-		action = getAction( InsertRelativeTimePeriodAction.ID );
-		action.setText( InsertRelativeTimePeriodAction.TEXT );
 		subMenu.add( action );
 
 		menuManager.appendToGroup( group_name, subMenu );

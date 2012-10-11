@@ -447,14 +447,34 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throw new PropertyValueException( element, context.getPropDefn( ),
 					null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		int posn = list.indexOf( structure );
+		
+		int posn = getIndex( structure, list );
 		if ( posn == -1 )
 			throw new PropertyValueException( element, context.getPropDefn( )
 					.getName( ), null,
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
 
 		doRemoveItem( context, posn );
+	}
+
+	private int getIndex( IStructure structure, List list )
+	{
+		//As the structure.equals() has been overwrite. compare the reference first.
+		int posn = -1;
+		int index = -1;
+		for ( Object item : list )
+		{
+			index++;
+			if ( item instanceof IStructure && item == structure )
+			{
+				posn = index;
+			}
+		}
+		if ( posn == -1 )
+		{
+			posn = list.indexOf( structure );
+		}
+		return posn;
 	}
 
 	/**
@@ -493,11 +513,11 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		if ( struct != null )
 			record = new PropertyListRecord( element, struct.getContext( ),
-					item );
+					posn );
 		else
 		{
 			record = new PropertyListRecord( element, memberContext
-					.getElementProp( ), list, item );
+					.getElementProp( ), list, posn );
 		}
 
 		record.setEventTarget( getEventTarget( ) );
@@ -580,7 +600,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		list = context.getList( module );
 		assert list != null;
 
-		int index = list.indexOf( oldItem );
+		int index = getIndex( oldItem, list );
 		if ( index == -1 )
 			throw new PropertyValueException( element, context.getPropDefn( )
 					.getName( ), oldItem,

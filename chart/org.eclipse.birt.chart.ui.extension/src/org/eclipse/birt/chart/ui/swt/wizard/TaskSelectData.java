@@ -94,7 +94,6 @@ public class TaskSelectData extends SimpleTask implements
 	private static final int DEFAULT_HEIGHT = 580;
 	private Composite fHeaderArea;
 	private ScrolledComposite fDataArea;
-	private int[] aSashWeight;
 
 	public TaskSelectData( )
 	{
@@ -154,12 +153,12 @@ public class TaskSelectData extends SimpleTask implements
 			placeComponents( );
 			previewPainter = createPreviewPainter( );
 			// init( );
-			resize( );
 		}
 		else
 		{
 			customizeUI( );
 		}
+		resize( );
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			checkDataTypeForChartWithAxes( );
@@ -188,8 +187,8 @@ public class TaskSelectData extends SimpleTask implements
 		refreshLeftArea( );
 		refreshRightArea( );
 		refreshBottomArea( );
+		resize( );
 		getCustomizeUI( ).layoutAll( );
-		autoSash( );
 	}
 	
 	protected ISelectDataCustomizeUI createDataComponentsUI( )
@@ -201,11 +200,10 @@ public class TaskSelectData extends SimpleTask implements
 	{
 		Point headerSize = computeHeaderAreaSize( );
 		int weight[] = foSashForm.getWeights( );
-		if ( headerSize.y != DEFAULT_HEIGHT / 2 )
+		if ( headerSize.y > DEFAULT_HEIGHT / 2 )
 		{
 			weight[0] = headerSize.y;
 			weight[1] = DEFAULT_HEIGHT / 2;
-			foSashForm.setWeights(weight);
 			( (GridData) foSashForm.getLayoutData( ) ).heightHint = weight[0]
 					+ weight[1];
 		}
@@ -213,10 +211,8 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			weight[0] = 200;
 			weight[1] = 200;
-			foSashForm.setWeights(weight);
 			( (GridData) foSashForm.getLayoutData( ) ).heightHint = DEFAULT_HEIGHT;
 		}
-		aSashWeight = weight;
 	}
 
 	private void refreshLeftArea( )
@@ -473,23 +469,21 @@ public class TaskSelectData extends SimpleTask implements
 		int headerHeight = computeHeaderAreaSize( ).y;
 		int dataHeight = computeDataAreaSize( ).y;
 		int height = foSashForm.getClientArea( ).height;
-		int weight[] = foSashForm.getWeights();
-		int currentRatio = Math.round( (float)weight[0]/(float)weight[1] * 100 );
-		int previousRatio = Math.round( (float)aSashWeight[0]/(float)aSashWeight[1] * 100 );
-		if(  currentRatio != previousRatio )
+		int weight[] = foSashForm.getWeights( );
+		if ( height > headerHeight && height > dataHeight )
 		{
-			if (height > headerHeight && height > dataHeight) {
-				if (height > headerHeight + dataHeight) {
-					weight[0] = height - dataHeight;
-					weight[1] = dataHeight + 1;
-				} else {
-					weight[0] = headerHeight;
-					weight[1] = height - headerHeight;
-				}
+			if ( height > headerHeight + dataHeight )
+			{
+				weight[0] = height - dataHeight;
+				weight[1] = dataHeight + 1;
 			}
-			foSashForm.setWeights(weight);
-			aSashWeight = weight;
+			else
+			{
+				weight[0] = headerHeight;
+				weight[1] = height - headerHeight;
+			}
 		}
+		foSashForm.setWeights( weight );
 	}
 
 	public void changeTask( Notification notification )

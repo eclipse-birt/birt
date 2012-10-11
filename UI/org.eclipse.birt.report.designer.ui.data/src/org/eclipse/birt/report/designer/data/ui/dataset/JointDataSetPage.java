@@ -116,8 +116,6 @@ public class JointDataSetPage extends WizardPage
 	private String leftDataSetName;
 	private String rightDataSetName;
 	
-	private boolean selectionChanged = false;
-	
 	private IPropertyPageContainer propertyPageContainer;
 	private Text nameEditor;
 	private Label nameLabel;
@@ -186,8 +184,6 @@ public class JointDataSetPage extends WizardPage
 		createBottomComposite( bottomComposite );
 		
 		joinType = DesignChoiceConstants.JOIN_TYPE_INNER;
-		
-		selectionChanged = false;
 		
 		Utility.setSystemHelp( composite, IHelpConstants.CONEXT_ID_JOINTDATASET );
 		return composite;
@@ -487,8 +483,6 @@ public class JointDataSetPage extends WizardPage
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
-		selectionChanged = true;
-		
 		if ( event.getSource( ) instanceof ComboViewer )
 		{
 			this.setPageMessage( Messages.getString( "JointDataSetPage.page.detail" ), //$NON-NLS-1$
@@ -1099,8 +1093,6 @@ public class JointDataSetPage extends WizardPage
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			selectionChanged = true;			
-
 			if ( e.getSource( ) instanceof Button )
 			{
 				if ( ( (Button) e.getSource( ) ).equals( innerJoinButton ) )
@@ -1161,11 +1153,25 @@ public class JointDataSetPage extends WizardPage
 		
 		if ( propertyPageContainer instanceof DataSetEditor )
 		{
+			boolean selectionChanged = true;
 			handle = (JointDataSetHandle) ( (DataSetEditor) propertyPageContainer ).getModel( );
+			Iterator iter = handle.getPropertyHandle( JointDataSet.JOIN_CONDITONS_PROP )
+					.iterator( );
+			JoinConditionHandle conditionHandle;
+			while ( iter.hasNext( ) )
+			{
+				conditionHandle = (JoinConditionHandle) iter.next( );
+				if ( ( conditionHandle.getLeftDataSet( ) != null && conditionHandle.getLeftDataSet( )
+						.equals( this.leftDataSetName ) )
+						&& ( conditionHandle.getLeftDataSet( ) != null && conditionHandle.getRightDataSet( )
+								.equals( this.rightDataSetName ) ) )
+				{
+					selectionChanged = false;
+					conditionHandle.setJoinType( joinType );
+				}
+			}
 			if ( selectionChanged )
 			{
-				selectionChanged = false;
-				
 				List datasetName = handle.getDataSetNames( );
 				for ( int i = 0; i < datasetName.size( ); i++ )
 				{
@@ -1283,9 +1289,6 @@ public class JointDataSetPage extends WizardPage
 			}
 
 		}
-		
-		selectionChanged = false;		
-
 	}
 	
 	/**

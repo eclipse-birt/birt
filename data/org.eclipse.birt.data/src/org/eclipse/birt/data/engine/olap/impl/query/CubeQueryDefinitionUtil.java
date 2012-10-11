@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 import org.eclipse.birt.data.engine.api.timefunction.ITimePeriod;
 import org.eclipse.birt.data.engine.api.timefunction.TimePeriodType;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.document.ExprUtil;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
@@ -32,6 +33,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 import com.ibm.icu.util.ULocale;
 
@@ -180,12 +182,10 @@ public class CubeQueryDefinitionUtil
 			}
 			if( !find )
 			{
-				if ( !filter.updateAggregation( )
-						&& newQuery.getFilters( ).size( ) > basedQuery.getFilters( )
-								.size( ) )
+				if (!filter.updateAggregation()) 
 				{
-					resultFilters.add( filter );
-				}
+					resultFilters.add(filter);
+				} 
 				else
 					return null;
 			}

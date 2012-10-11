@@ -14,9 +14,12 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+<<<<<<< HEAD
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.core.runtime.IAdaptable;
+=======
+>>>>>>> 11SP4
 
 /**
  * 
@@ -40,6 +43,7 @@ public class CrosstabComputedMeasureExpressionProvider extends
 //				if ( ExpressionFilter.CATEGORY.equals( parentElement )
 //						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
 //				{
+<<<<<<< HEAD
 //					// return false;
 //				}
 //				if ( CURRENT_CUBE.equals( parentElement ) )
@@ -58,6 +62,8 @@ public class CrosstabComputedMeasureExpressionProvider extends
 //					{
 //						return true;
 //					}
+=======
+>>>>>>> 11SP4
 //					return false;
 //				}
 //				return true;

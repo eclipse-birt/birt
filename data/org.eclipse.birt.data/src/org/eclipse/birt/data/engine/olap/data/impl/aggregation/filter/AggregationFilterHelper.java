@@ -139,6 +139,8 @@ public class AggregationFilterHelper
 	private void populateDimensionLevels( Cube cube )
 	{
 		dimensionMap = new HashMap( );
+		if( cube == null)
+			return ; 
 		IDimension[] dimensions = cube.getDimesions( );
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
@@ -189,6 +191,63 @@ public class AggregationFilterHelper
 						filter.getAggrLevels( ) );
 	}
 
+	private void applyNoUpdateAggrFilter( IAggregationResultSet resultSet, AggrFilterDefinition filter, List levelFilters) throws DataException, IOException
+	{
+		DimLevel targetLevel = filter.getTargetLevel( );
+		int targetIndex = resultSet.getLevelIndex(targetLevel);
+		// template key values' list that have been filtered in the same
+		// qualified level
+		List selKeyValueList = new ArrayList( );
+		// to remember the members of the dimension that consists of the
+		// previous aggregation result's target level
+		Member[] preMembers = null;
+		IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) filter.getFilterHelper( );
+		AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet, fetcher );
+		for ( int k = 0; k < resultSet.length( ); k++ )
+		{
+			resultSet.seek( k );
+			boolean isSelect = filterHelper.evaluateFilter( row4filter );
+			if ( isSelect )
+			{// generate level filter here
+				Member[] members = resultSet.getCurrentRow().getLevelMembers();//getTargetDimMembers( targetLevel.getDimensionName( ),
+						//resultSet );
+				if ( preMembers != null
+						&& !FilterUtil.shareParentLevels( members,
+								preMembers,
+								targetIndex ) )
+				{
+					LevelFilter levelFilter = toLevelFilter( targetLevel,
+							selKeyValueList,
+							preMembers,
+							filterHelper );
+					levelFilters.add( levelFilter );
+					selKeyValueList.clear( );
+				}
+				int levelIndex = resultSet.getLevelIndex( targetLevel );
+				// select aggregation row
+				Object[] levelKeyValue = resultSet.getLevelKeyValue( levelIndex );
+				if ( levelKeyValue != null && levelKeyValue[0] != null )
+					selKeyValueList.add( levelKeyValue );
+				preMembers = members;
+			}
+		}
+		// ---------------------------------------------------------------------------------
+		if ( preMembers == null )
+		{// filter is empty, so that the final x-Tab will be empty
+			isEmptyXtab = true;
+			return;
+		}
+		// generate the last level filter
+		if ( !selKeyValueList.isEmpty( ) )
+		{
+			LevelFilter levelFilter = toLevelFilter( targetLevel,
+					selKeyValueList,
+					preMembers,
+					filterHelper );
+			levelFilters.add( levelFilter );
+		}
+	}
+	
 	/**
 	 * @param resultSet
 	 * @param filter
@@ -425,8 +484,8 @@ public class AggregationFilterHelper
 									rs[i],
 									filter ) && filter.getAxisQualifierLevels( )!=null )
 					{
-						applyAggrFilter( rs[i], filter, levelFilterList );
-						filtered = true;
+						applyNoUpdateAggrFilter( rs[i], filter, levelFilterList );
+						filtered = true;		
 					}
 				}
 				
@@ -439,11 +498,9 @@ public class AggregationFilterHelper
 									rs[i],
 									filter ) && filter.getAxisQualifierLevels( )!=null )
 					{
-						applyTopBottomFilters( new AggregationDefinition[]{
-							rs[i].getAggregationDefinition( )
-						}, new IAggregationResultSet[]{
-							rs[i]
-						}, levelFilterList );
+						applyNoUpdateTopBottomFilters( rs[i].getAggregationDefinition( ),
+								rs[i],
+								levelFilterList );
 						filtered = true;
 					}
 				}
@@ -559,6 +616,83 @@ public class AggregationFilterHelper
 		levelFilter.setDimMembers( dimMembers );
 		levelFilter.setFilterHelper( filterHelper );
 		return levelFilter;
+	}
+
+	private void applyNoUpdateTopBottomFilters(
+			AggregationDefinition aggregation, IAggregationResultSet resultSet,
+			List levelFilterList ) throws DataException, IOException
+	{
+		if ( aggregation.getAggregationFunctions( ) == null )
+			return;
+		Map levelFilterMap = new HashMap( );
+		for ( Iterator j = topbottomFilters.iterator( ); j.hasNext( ); )
+		{
+			TopBottomFilterDefinition filter = (TopBottomFilterDefinition) j.next( );
+			if ( filter.getFilterHelper( ).isAggregationFilter( ) )
+			{
+				if ( FilterUtil.isEqualLevels( aggregation.getLevels( ),
+						filter.getAggrLevels( ) ) )
+				{
+					IDiskArray levelKeyList = populateNoUpdateLevelKeyList( aggregation,
+							resultSet,
+							filter );
+					IDiskArray selectedLevelKeys = null;
+					if ( levelFilterMap.containsKey( filter.getTargetLevel( ) ) )
+					{
+						Object[] valueObjs = (Object[]) levelFilterMap.get( filter.getTargetLevel( ) );
+						selectedLevelKeys = (IDiskArray) valueObjs[0];
+						selectedLevelKeys = SetUtil.getIntersection( selectedLevelKeys,
+								levelKeyList );
+					}
+					else
+					{
+						selectedLevelKeys = levelKeyList;
+					}
+					levelFilterMap.put( filter.getTargetLevel( ), new Object[]{
+							selectedLevelKeys, filter.getFilterHelper( )
+					} );
+				}
+			}
+		}
+		// generate level filters according to the selected level keys
+		for ( Iterator j = levelFilterMap.keySet( ).iterator( ); j.hasNext( ); )
+		{
+			DimLevel target = (DimLevel) j.next( );
+			Object[] valueObjs = (Object[]) levelFilterMap.get( target );
+			IDiskArray selectedKeyArray = (IDiskArray) valueObjs[0];
+			IJSFilterHelper filterHelper = (IJSFilterHelper) valueObjs[1];
+			if ( selectedKeyArray.size( ) == 0 )
+				continue;
+		
+			int index = resultSet.getLevelIndex( target );
+			Map keyMap = new HashMap( );
+			for ( int k = 0; k < selectedKeyArray.size( ); k++ )
+			{
+				MultiKey multiKey = (MultiKey) selectedKeyArray.get( k );
+				String parentKey = getParentKey( multiKey.dimMembers, index );
+				List keyList = (List) keyMap.get( parentKey );
+				if ( keyList == null )
+				{
+					keyList = new ArrayList( );
+					keyMap.put( parentKey, keyList );
+				}
+				keyList.add( multiKey );
+			}
+			for ( Iterator keyItr = keyMap.values( ).iterator( ); keyItr.hasNext( ); )
+			{
+				List keyList = (List) keyItr.next( );
+				ISelection selections = toMultiKeySelection( keyList );
+				LevelFilter levelFilter = new LevelFilter( target,
+						new ISelection[]{
+							selections
+						} );
+				// use the first key's dimension members since all them
+				// share same parent levels (with the same parent key)
+				levelFilter.setDimMembers( ( (MultiKey) keyList.get( 0 ) ).dimMembers );
+				levelFilter.setFilterHelper( filterHelper );
+				levelFilterList.add( levelFilter );
+			}
+		}
 	}
 
 	/**
@@ -699,6 +833,46 @@ public class AggregationFilterHelper
 					Object aggrValue = filterHelper.evaluateFilterExpr( row4filter );
 					Member[] members = getTargetDimMembers( dimensionName,
 							resultSet );
+					aggrValueArray.add( new ValueObject( aggrValue,
+							new MultiKey( levelKey, members ) ) );
+				}
+			}
+			return fetchLevelKeys( aggrValueArray, filterHelper );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( "", e );//$NON-NLS-1$
+		}
+
+	}
+	
+	private IDiskArray populateNoUpdateLevelKeyList( AggregationDefinition aggregation,
+			IAggregationResultSet resultSet, TopBottomFilterDefinition filter )
+			throws DataException
+	{
+		IJSTopBottomFilterHelper filterHelper = (IJSTopBottomFilterHelper) filter.getFilterHelper( );
+		int n = -1;
+		if ( filterHelper.isPercent( ) == false )
+		{
+			n = (int) filterHelper.getN( );
+		}
+
+		IDiskArray aggrValueArray = new OrderedDiskArray( n,
+				filterHelper.isTop( ) );
+		
+		String dimensionName = filter.getTargetLevel( ).getDimensionName( );
+		try
+		{
+			AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet, fetcher );
+			for ( int k = 0; k < resultSet.length( ); k++ )
+			{
+				resultSet.seek( k );
+				int levelIndex = resultSet.getLevelIndex( filter.getTargetLevel( ) );
+				Object[] levelKey = resultSet.getLevelKeyValue( levelIndex );
+				if ( levelKey != null && filterHelper.isQualifiedRow( row4filter ) )
+				{
+					Object aggrValue = filterHelper.evaluateFilterExpr( row4filter );
+					Member[] members = resultSet.getCurrentRow( ).getLevelMembers( );
 					aggrValueArray.add( new ValueObject( aggrValue,
 							new MultiKey( levelKey, members ) ) );
 				}
@@ -865,10 +1039,7 @@ class AggrFilterDefinition
 	{
 		filterHelper = filterEvalHelper;
 		ICubeFilterDefinition cubeFilter = filterEvalHelper.getCubeFilterDefinition( );
-		if ( cubeFilter.getTargetLevel( ) != null )
-		{
-			targetLevel = new DimLevel( cubeFilter.getTargetLevel( ) );
-		}
+		targetLevel = new DimLevel( cubeFilter.getTargetLevel( ) );
 		aggrLevels = filterEvalHelper.getAggrLevels( );
 		ILevelDefinition[] axisLevels = cubeFilter.getAxisQualifierLevels( );
 		if ( axisLevels != null )

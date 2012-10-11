@@ -19,7 +19,7 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 public class DataBlock extends Ext2Block
 {
 
-	private byte[] buffer;
+	final private byte[] buffer;
 	private int dirtyStart;
 	private int dirtyEnd;
 

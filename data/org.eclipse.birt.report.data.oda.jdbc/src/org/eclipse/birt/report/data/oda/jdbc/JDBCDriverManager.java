@@ -76,6 +76,7 @@ public class JDBCDriverManager
 	// A HashMap of driverinfo extensions which provides IConnectionFactory implementation
 	// Map is from driverClass (String) to either IConfigurationElement or IConnectionFactory 
 	private HashMap driverExtensions = null;
+	private boolean loadedDriver = false;
 	
 	private DriverClassLoader extraDriverLoader = null;
 	
@@ -447,48 +448,49 @@ public class JDBCDriverManager
 		
 		IConnectionFactory factory = null;
 		Object driverInfo = null;
-		if ( driverClass != null )
-			driverInfo = driverExtensions.get( driverClass);
-		
-		if ( driverInfo != null )
+		synchronized ( driverExtensions )
 		{
-			// Driver has own connection factory; use it
-			if ( driverInfo instanceof IConfigurationElement )
-			{
-				// connectionFactory not yet created; do it now
-				String factoryClass = ( (IConfigurationElement) driverInfo ).getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
-				try
-				{
-					factory = (IConnectionFactory) ( (IConfigurationElement) driverInfo ).createExecutableExtension( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
+			if ( driverClass != null )
+				driverInfo = driverExtensions.get( driverClass );
 
-					logger.fine( "Created connection factory class "
-							+ factoryClass + " for driverClass " + driverClass );
-				}
-				catch ( CoreException e )
-				{
-					JDBCException ex = new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_FACTORY,
-							null,
-							new Object[]{
-									factoryClass, driverClass
-							} );
-					logger.log( Level.WARNING,
-							"Failed to instantiate connection factory for driverClass "
-									+ driverClass,
-							ex );
-					throw ex;
-				}
-				assert ( factory != null );
-				// Cache factory instance
-				synchronized( driverExtensions )
-				{
-					driverExtensions.put( driverClass, factory);
-				}
-			}
-			else
+			if ( driverInfo != null )
 			{
-				// connectionFactory already created
-				assert driverInfo instanceof IConnectionFactory;
-				factory = (IConnectionFactory) driverInfo;
+				// Driver has own connection factory; use it
+				if ( driverInfo instanceof IConfigurationElement )
+				{
+					// connectionFactory not yet created; do it now
+					String factoryClass = ( (IConfigurationElement) driverInfo ).getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
+					try
+					{
+						factory = (IConnectionFactory) ( (IConfigurationElement) driverInfo ).createExecutableExtension( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_CONNFACTORY );
+
+						logger.fine( "Created connection factory class "
+								+ factoryClass + " for driverClass "
+								+ driverClass );
+					}
+					catch ( CoreException e )
+					{
+						JDBCException ex = new JDBCException( ResourceConstants.CANNOT_INSTANTIATE_FACTORY,
+								null,
+								new Object[]{
+										factoryClass, driverClass
+								} );
+						logger.log( Level.WARNING,
+								"Failed to instantiate connection factory for driverClass "
+										+ driverClass,
+								ex );
+						throw ex;
+					}
+					assert ( factory != null );
+					// Cache factory instance
+					driverExtensions.put( driverClass, factory );
+				}
+				else
+				{
+					// connectionFactory already created
+					assert driverInfo instanceof IConnectionFactory;
+					factory = (IConnectionFactory) driverInfo;
+				}
 			}
 		}
 		
@@ -497,12 +499,14 @@ public class JDBCDriverManager
 	
 	private void loadDriverExtensions()
 	{
-		if ( driverExtensions != null )
+		if ( loadedDriver )
 			// Already loaded
 			return;
 		
 		synchronized( this )
 		{
+			if( loadedDriver )
+				return;
 			// First time: load all driverinfo extensions
 			driverExtensions = new HashMap();
 			IExtensionRegistry extReg = Platform.getExtensionRegistry();
@@ -551,6 +555,7 @@ public class JDBCDriverManager
 					}
 				}
 			}
+			loadedDriver = true;
 		}
 	}
 	

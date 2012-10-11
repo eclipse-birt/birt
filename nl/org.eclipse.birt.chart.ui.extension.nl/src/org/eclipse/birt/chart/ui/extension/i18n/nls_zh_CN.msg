@@ -354,6 +354,7 @@ PieBaseSeriesComponent.Text.SpecifyExplodeSlice=指定分离扇面
 PieBaseSeriesComponent.Tooltip.EnterBooleanExpression=输入布尔表达式以控制要分离的扇面。如果为空，分离距离将应用于所有扇面。
 PieLeftAreaComponent.Label.SliceSizeDefinition=扇面大小定义:
 PieSeriesAttributeComposite.Exception.IllegalArgument=对于 PieSeriesAttributeComposite，类型系列 {0} 是无效参数。
+PieSeriesAttributeComposite.InnerRadiusType.Points=点
 PieSeriesAttributeComposite.Lbl.Explosion=爆炸形:
 PiesBottomAreaComponent.Label.TheRotationOfTheChart=饼图旋转: 第一个饼图扇面的起始角度
 PieBottomAreaComponent.Label.Rotation=饼图旋转(&N):

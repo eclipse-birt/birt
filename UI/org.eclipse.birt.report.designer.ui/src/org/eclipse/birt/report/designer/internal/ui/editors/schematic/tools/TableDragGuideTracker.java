@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite.DragGuideInfo;
@@ -33,9 +34,16 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
@@ -48,14 +56,18 @@ import org.eclipse.swt.widgets.Display;
  */
 public abstract class TableDragGuideTracker extends DragEditPartsTracker
 {
-	public static final DecimalFormat FORMAT = new DecimalFormat("#0.000"); //$NON-NLS-1$
+	protected static final DecimalFormat FORMAT = new DecimalFormat("#0.000"); //$NON-NLS-1$
 	public static final String PIXELS_LABEL = Messages.getString("TableDragGuideTracker.Pixels"); //$NON-NLS-1$
+	private static final int DISTANCE = 30;
+	private static final Insets INSETS = new Insets(2,4,2,4);
 	private int start;
-	private ShowDragInfomationProcessor processor;
+
+	private int maxWidth;
 	private int end;
 
 	private Figure marqueeRectangleFigure;
-	private static IChoiceSet choiceSet = ChoiceSetFactory.getElementChoiceSet(
+	private Label labelFigure;
+	IChoiceSet choiceSet = ChoiceSetFactory.getElementChoiceSet(
 			ReportDesignConstants.REPORT_DESIGN_ELEMENT,
 			ReportDesignHandle.UNITS_PROP );
 
@@ -70,8 +82,6 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		super( sourceEditPart );
 		this.start = start;
 		this.end = end;
-		
-		this.processor = new ShowDragInfomationProcessor( sourceEditPart );
 	}
 
 	protected boolean handleButtonUp( int button )
@@ -102,11 +112,46 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		getMarqueeFeedbackFigure( ).translateToRelative( rect );
 		getMarqueeFeedbackFigure( ).setBounds( rect );
 		
-		processor.getInfomationLabel(getInfomation( ), getStartLocation( ) ).setText( getInfomation( ) );
+		getInfomationLabel( ).setText( getInfomation( ) );
 		
 		showDragGuide( );
 	}
 
+	private Dimension getDistance()
+	{
+		Point p = getStartLocation( );
+		
+		FigureCanvas canvas = ((DeferredGraphicalViewer)getSourceEditPart( ).getViewer( )).getFigureCanvas( );
+		org.eclipse.swt.graphics.Rectangle rect = canvas.getBounds( );
+	
+		Dimension retValue = new Dimension(rect.width - p.x, p.y);
+		if (canvas.getVerticalBar( ).isVisible( ))
+		{
+			retValue.width = retValue.width - canvas.getVerticalBar( ).getSize( ).x;
+		}
+		return retValue;
+	}
+	
+	private void adjustLocation()
+	{
+		if (labelFigure == null)
+		{
+			return;
+		}
+		Rectangle rect = labelFigure.getBounds( );
+		Dimension dim = getDistance( );
+		Point p = labelFigure.getLocation( ).getCopy( );
+		if (dim.width < rect.width)
+		{
+			p.x = p.x - (rect.width - dim.width);
+		}
+		if (dim.height < rect.height + DISTANCE)
+		{
+			p.y = p.y + (rect.height + DISTANCE - dim.height);
+		}
+		
+		labelFigure.setLocation( p );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -155,6 +200,67 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		return marqueeRectangleFigure;
 	}
 	
+	private Label getInfomationLabel()
+	{
+		if ( labelFigure == null )
+		{
+			labelFigure = new Label( );
+			labelFigure.setBorder( new MarginBorder(new Insets(0,3,0,0)) 
+			{
+				public void paint(IFigure figure, Graphics graphics, Insets insets) 
+				{ 
+					tempRect.setBounds(getPaintRectangle(figure, insets));
+					if (getWidth() % 2 != 0) {
+						tempRect.width--;
+						tempRect.height--;
+					}
+					tempRect.shrink(getWidth() / 2, getWidth() / 2);
+					graphics.setLineWidth(getWidth());
+					
+					graphics.drawRectangle(tempRect);
+				}
+				
+				private int getWidth()
+				{
+					return 1;
+				}
+
+			});
+			labelFigure.setLabelAlignment( PositionConstants.LEFT );
+			labelFigure.setOpaque( true );
+
+			labelFigure.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
+		
+			addFeedback( labelFigure );
+			Dimension size = FigureUtilities.getTextExtents( getInfomation( ), getInfomationLabel( ).getFont( ) );
+			
+			
+			Dimension newSize  = size.getCopy( ).expand( INSETS.getWidth( ), INSETS.getHeight( ) ) ;
+			labelFigure.setSize( newSize );
+			
+			maxWidth = size.width;
+			
+			setLabelLocation( );
+				
+			//Insets insets = getInfomationLabel( ).getInsets( );
+			adjustLocation( );
+			
+		}
+		return labelFigure;
+	}
+
+	private void setLabelLocation()
+	{
+		if (labelFigure == null)
+		{
+			return;
+		}
+		Point p = getStartLocation( );
+		
+		labelFigure.translateToRelative( p );
+		labelFigure.setLocation( new Point(p.x, p.y - DISTANCE ));
+	}
+	
 	protected void eraseSourceFeedback( )
 	{
 		super.eraseSourceFeedback( );
@@ -164,7 +270,11 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 			marqueeRectangleFigure = null;
 		}
 		
-		processor.removeLabelFigue( );
+		if ( labelFigure != null )
+		{
+			removeFeedback( labelFigure );
+			labelFigure = null;
+		}
 		
 		eraseDragGuide( );
 	}
@@ -262,7 +372,26 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	 */
 	protected void updateInfomation(String label)
 	{
-		processor.updateInfomation( label, getStartLocation( ) );
+		if (labelFigure == null)
+		{
+			return;
+		}
+		labelFigure.setText( label );
+		Dimension size = FigureUtilities.getTextExtents(  label, labelFigure.getFont( ) );
+		//Insets insets = getInfomationLabel( ).getInsets( );
+		Insets insets = INSETS;
+		Dimension newSize  = size.getCopy( ).expand( insets.getWidth( ), insets.getHeight( ) ) ;
+		if (size.width > maxWidth)
+		{
+			maxWidth = size.width;
+		}
+		else
+		{
+			newSize = new Dimension(maxWidth, size.height).expand( insets.getWidth( ), insets.getHeight( ) );
+		}
+		labelFigure.setSize( newSize);
+		setLabelLocation( );
+		adjustLocation( );
 	}
 	
 	public Dimension getDragWidth( )
@@ -333,7 +462,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	 * @param unit
 	 * @return
 	 */
-	public static String getUnitDisplayName(String unit)
+	protected String getUnitDisplayName(String unit)
 	{
 		IChoice choice = choiceSet.findChoice( unit );
 		return choice.getDisplayName( );

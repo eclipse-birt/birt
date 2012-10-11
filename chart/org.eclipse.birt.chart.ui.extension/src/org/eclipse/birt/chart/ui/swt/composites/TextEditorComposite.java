@@ -298,10 +298,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 		{
 			event = new Event( );
 		}
-		if ( !TEXT_RESET_MODEL.equals(event.data) )
-		{
-			event.data = this.sText;
-		}
+		event.data = this.sText;
 		event.widget = this;
 		event.type = eventType;
 		for ( int i = 0; i < vListeners.size( ); i++ )

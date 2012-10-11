@@ -511,8 +511,11 @@ public class AggregateEditorComposite extends Composite implements
 			IAggregateFunction aFunc = null;
 			try
 			{
-				aFunc = PluginSettings.instance( )
+				if ( aggFuncName != null && !AGG_FUNC_NONE.equals( aggFuncName ) )
+				{
+					aFunc = PluginSettings.instance( )
 						.getAggregateFunction( aggFuncName );
+				}
 			}
 			catch ( ChartException e )
 			{

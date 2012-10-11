@@ -16,6 +16,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
+<<<<<<< HEAD
+=======
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ImageMenuAdapterFactory;
+>>>>>>> 11SP4
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Path;
@@ -86,7 +90,10 @@ public class EmbeddedBrowser
 		shell = new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 
 		initializeShell( shell );
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 11SP4
 		shell.addDisposeListener( new DisposeListener( ) {
 			public void widgetDisposed( DisposeEvent e )
 			{
@@ -449,7 +456,12 @@ public class EmbeddedBrowser
 						}
 					}
 				}
+<<<<<<< HEAD
 				Image image = null;
+=======
+
+				Image image = null;				
+>>>>>>> 11SP4
 				if ( imageURL != null )
 				{
 					String key = imageURL.toString( );

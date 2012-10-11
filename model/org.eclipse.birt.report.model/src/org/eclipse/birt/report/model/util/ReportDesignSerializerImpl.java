@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -57,6 +59,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -702,6 +705,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private void updateReferredOLAPColumnBinding( Module module, Cube cube,
 			Map<String, String> nameMap )
 	{
+		// update derived measure first
+		updateDerivedMeasure( module, cube, nameMap );
 		List<BackRef> clients = cube.getClientList( );
 		for ( int i = 0; i < clients.size( ); i++ )
 		{
@@ -725,7 +730,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 				updateTimeDimension( binding, nameMap );
 			}
 		}
-
 	}
 
 	/**
@@ -778,7 +782,10 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			return new Expression( newExpr, type );
 		}
 		return null;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 11SP4
 	}
 
 	/**
@@ -928,6 +935,44 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 	}
 	
+<<<<<<< HEAD
+=======
+	private void updateDerivedMeasure( Module module, Cube cube,
+			Map<String, String> nameMap )
+	{
+		List<Measure> derivedMeasureList = new ArrayList<Measure>( );
+
+		LevelContentIterator iter = new LevelContentIterator( module, cube, 3 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = iter.next( );
+			if ( innerElement instanceof Measure )
+			{
+				Measure measure = (Measure) innerElement;
+				if ( measure.getBooleanProperty( module,
+						MeasureHandle.IS_CALCULATED_PROP ) )
+				{
+					derivedMeasureList.add( measure );
+				}
+			}
+		}
+		if ( !derivedMeasureList.isEmpty( ) )
+		{
+			for ( Measure derivedMeasure : derivedMeasureList )
+			{
+				Expression expr = (Expression) derivedMeasure.getProperty(
+						module, MeasureHandle.MEASURE_EXPRESSION_PROP );
+				Expression newExpr = getUpdatedExpression( expr, nameMap );
+				if ( newExpr != null )
+				{
+					derivedMeasure.setProperty(
+							MeasureHandle.MEASURE_EXPRESSION_PROP, newExpr );
+				}
+			}
+		}
+	}
+	
+>>>>>>> 11SP4
 	private void updateTimeDimension( ComputedColumn binding,
 			Map<String, String> nameMap )
 	{
@@ -1691,6 +1736,8 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		localizeIncludeResourceValues( source, targetDesign );
 
 		localizeScriptLibValues( source, targetDesign );
+		
+		localizeIncludeScriptValues( source, targetDesign );
 
 		// css style sheet must be treated here. It is different from other
 		// elements and property values.
@@ -1909,32 +1956,53 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	void localizeIncludeResourceValues( ReportDesign source, ReportDesign target )
 	{
-		List<Library> libs = source.getAllLibraries( );
-
+		localizeIncludeValues(source, target, IModuleModel.INCLUDE_RESOURCE_PROP);
+	}
+	
+	/**
+	 * Flattens the included scripts of the library to the report design.
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 */
+	private void localizeIncludeScriptValues(ReportDesign source, ReportDesign target)
+	{
+		localizeIncludeValues(source, target, IModuleModel.INCLUDE_SCRIPTS_PROP);
+	}
+	
+	/**
+	 * Flattens the included values (resources and scripts) of the library to the report design.
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 * @param propName
+	 * 				the property name of the value
+	 */
+	private void localizeIncludeValues(ReportDesign source, ReportDesign target, String propName)
+	{
 		ElementPropertyDefn propDefn = source
-				.getPropertyDefn( IModuleModel.INCLUDE_RESOURCE_PROP );
+				.getPropertyDefn( propName );
 
 		Object obj = source.getProperty( source, propDefn );
 		List<Object> newValues = new ArrayList<Object>( );
 		if ( obj != null )
 			newValues.addAll( (List<Object>) obj );
 
-		for ( int i = 0; i < libs.size( ); i++ )
+		for ( Library lib : source.getAllLibraries( ) )
 		{
-			Library lib = libs.get( i );
 			Object libObj = lib.getProperty( lib, propDefn );
 
 			if ( libObj == null )
 				continue;
 
-			List<Object> libIncludedResourceList = (List<Object>) libObj;
-
-			for ( int j = 0; j < libIncludedResourceList.size( ); j++ )
+			for ( Object value : (List<Object>) libObj )
 			{
-				String resourceName = (String) libIncludedResourceList.get( j );
-
-				if ( !newValues.contains( resourceName ) )
-					newValues.add( resourceName );
+				if ( !newValues.contains( value ) )
+					newValues.add( value );
 			}
 		}
 
@@ -1955,16 +2023,49 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 	private void visitCssStyleSheets( ReportDesign source, ReportDesign target )
 	{
+		List<CssStyleSheet> allSheet = new ArrayList<CssStyleSheet>();
 		List<CssStyleSheet> sheets = source.getCsses( );
 		for ( int i = 0; i < sheets.size( ); i++ )
 		{
 			CssStyleSheet sheet = sheets.get( i );
 			CssStyleSheet newSheet = visitCssStyleSheet( sheet );
-
 			newSheet.setContainer( target );
 			target.addCss( newSheet );
+			allSheet.add( newSheet );
 		}
-
+		Theme theme = source.getTheme( source.getRoot( ) );
+		if ( theme != null )
+		{
+			sheets = theme.getCsses( );
+			for ( int i = 0; i < sheets.size( ); i++ )
+			{
+				CssStyleSheet sheet = sheets.get( i );
+				CssStyleSheet newSheet = visitCssStyleSheet( sheet );
+				newSheet.setContainer( target );
+				target.addCss( newSheet );
+				allSheet.add( newSheet );
+			}
+		}
+		
+		if(!allSheet.isEmpty( ))
+		{
+			ArrayList value = new ArrayList();
+			for(CssStyleSheet sheet: sheets)
+			{
+				IncludedCssStyleSheet css = StructureFactory
+						.createIncludedCssStyleSheet( );
+				css.setFileName( sheet.getFileName( ) );
+				css.setExternalCssURI( sheet.getExternalCssURI( ) );
+				css.setUseExternalCss( sheet.isUseExternalCss( ) );
+				value.add( css );
+			}
+			ElementPropertyDefn defn = target
+					.getPropertyDefn( IReportDesignModel.CSSES_PROP );
+			if ( !value.isEmpty( ) )
+			{
+				target.setProperty( defn, ModelUtil.copyValue( defn, value ) );
+			}
+		}
 	}
 
 	/**
@@ -1975,8 +2076,9 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	private CssStyleSheet visitCssStyleSheet( CssStyleSheet sheet )
 	{
 		CssStyleSheet newSheet = new CssStyleSheet( );
-
 		newSheet.setFileName( sheet.getFileName( ) );
+		newSheet.setExternalCssURI( sheet.getExternalCssURI( ) );
+		newSheet.setUseExternalCss( sheet.isUseExternalCss( ) );
 		List<CssStyle> styles = sheet.getStyles( );
 		for ( int i = 0; i < styles.size( ); i++ )
 		{
@@ -1986,7 +2088,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 			newSheet.addStyle( newStyle );
 		}
-
 		return newSheet;
 	}
 
@@ -1999,7 +2100,7 @@ class ReportDesignSerializerImpl extends ElementVisitor
 	{
 		CssStyle newStyle = new CssStyle( style.getName( ) );
 		localizePrivateStyleProperties( newStyle, style, (Module) style
-				.getContainer( ), new HashSet<String>( ) );
+				.getRoot(), new HashSet<String>( ) );
 
 		return newStyle;
 	}
@@ -2391,11 +2492,27 @@ class ReportDesignSerializerImpl extends ElementVisitor
 
 			// style properties are handled in styledElement.
 
-			if ( ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
-					|| IStyledElementModel.STYLE_PROP.equals( propName ) )
+			if  ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
+			{
 				continue;
-
+			}
+			
 			Object value = getLocalizablePropertyValue( root, element, propDefn );
+			
+			if( IStyledElementModel.STYLE_PROP.equals( propName ) )
+			{
+				//handle unresolved style name. If using external css style, then style name may be unresolved
+				if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+				{
+					if ( value != null
+							&& !( (ElementRefValue) value ).isResolved( ) && element instanceof StyledElement )
+					{
+						((StyledElement)newElement).setStyleName( ( (ElementRefValue) value ).getName( ) );
+					}
+					continue;
+				}
+			}
+			
 
 			if ( value == null )
 				continue;

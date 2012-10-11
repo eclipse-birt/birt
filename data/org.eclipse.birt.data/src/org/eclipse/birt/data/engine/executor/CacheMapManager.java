@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -23,21 +24,35 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * Manage the cache map
  */
-class CacheMapManager
+public class CacheMapManager
 {
 	/**
 	 * Please notice that we must use static variable here for the sharing of
 	 * cached data set would be cross data set session.
 	 */
 	private static Map JVMLevelCacheMap = Collections.synchronizedMap( new HashMap( ) );
+	private static Map<DataSourceAndDataSet, Integer> lockedDataSetCacheMap = Collections.synchronizedMap( new HashMap( ) );	
 	
-	private Map cacheMap;
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> cacheMap;
+	// use this field temporarily keep the data set object need to be saved in
+	// cache. After the data set result has been cached, saved data set object
+	// into cachedMap
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> tempDataSetCacheMap;
+	
+	private boolean useJVMLevelCache;
+	
+	//ensure that JVMLevelCache will be clear when JVM shutdown
+	static
+	{
+		new ShutdownHook( JVMLevelCacheMap );
+	}
 	
 	/**
 	 * construction
 	 */
 	CacheMapManager( boolean useJVMLevelCache )
 	{
+		this.useJVMLevelCache = useJVMLevelCache;
 		if( useJVMLevelCache )
 		{
 			cacheMap = JVMLevelCacheMap;
@@ -46,6 +61,7 @@ class CacheMapManager
 		{
 			cacheMap = new HashMap( );
 		}
+		tempDataSetCacheMap = new HashMap<DataSourceAndDataSet, IDataSetCacheObject>( );
 	}
 	
 	/**
@@ -68,8 +84,11 @@ class CacheMapManager
 			}
 			else
 			{
-				IDataSetCacheObject dsco = dscc.createDataSetCacheObject( );
-				cacheMap.put( dsAndDs, dsco );
+				if( !tempDataSetCacheMap.containsKey( dsAndDs ) )
+				{
+					IDataSetCacheObject dsco = dscc.createDataSetCacheObject( );
+					tempDataSetCacheMap.put( dsAndDs, dsco );					
+				}
 				return true;
 			}
 		}
@@ -89,8 +108,35 @@ class CacheMapManager
 				boolean reusable = cacheObject.isCachedDataReusable( requiredCapability );
 				if ( !reusable )
 				{
+					if ( useJVMLevelCache )
+					{
+						synchronized ( lockedDataSetCacheMap )
+						{
+							if ( lockedDataSetCacheMap.containsKey( dsAndDs ) )
+							{
+								try
+								{
+									// waiting for 60s
+									lockedDataSetCacheMap.wait( 60000 );
+								}
+								catch ( InterruptedException e )
+								{
+								}
+								lockedDataSetCacheMap.remove( dsAndDs );
+							}
+						}
+					}
 					cacheObject.release( );
+					tempDataSetCacheMap.remove( dsAndDs );
 					cacheMap.remove( dsAndDs );
+				}
+				else
+				if ( this.useJVMLevelCache )
+				{
+					if ( !lockedDataSetCacheMap.containsKey( dsAndDs ) )
+					{
+						lockedDataSetCacheMap.put( dsAndDs, 0 );
+					}
 				}
 				return reusable;
 			}
@@ -104,8 +150,71 @@ class CacheMapManager
 	/**
 	 * @return
 	 */
-	IDataSetCacheObject getCacheObject( DataSourceAndDataSet dsAndDs )
+	IDataSetCacheObject getSavedCacheObject( DataSourceAndDataSet dsAndDs )
+	{	
+		synchronized ( cacheMap )
+		{
+			return tempDataSetCacheMap.get( dsAndDs );
+		}
+	}
+	
+	void saveFinishOnCache( DataSourceAndDataSet dsAndDs,
+			IDataSetCacheObject dsco )
 	{
+		synchronized ( cacheMap )
+		{
+			cacheMap.put( dsAndDs, dsco );
+		}
+	}
+	
+	/**
+	 */
+	void loadStart( DataSourceAndDataSet dsAndDs ) throws DataException
+	{
+		if ( this.useJVMLevelCache )
+		{
+			synchronized ( lockedDataSetCacheMap )
+			{
+				if ( lockedDataSetCacheMap.containsKey( dsAndDs ) )
+				{
+					Integer count = lockedDataSetCacheMap.get( dsAndDs );
+					lockedDataSetCacheMap.put( dsAndDs, count + 1 );
+				}
+			}
+		}
+	}
+
+	/**
+	 */
+	void loadFinishOnCache( DataSourceAndDataSet dsAndDs ) throws DataException
+	{
+		if( this.useJVMLevelCache )
+		{
+			synchronized ( lockedDataSetCacheMap )
+			{
+				if( lockedDataSetCacheMap.containsKey( dsAndDs ) )
+				{
+					Integer count = lockedDataSetCacheMap.get( dsAndDs );
+					if( count<=1 )
+					{
+						lockedDataSetCacheMap.remove( dsAndDs );
+						lockedDataSetCacheMap.notifyAll( );
+					}
+					else
+					{
+						lockedDataSetCacheMap.put( dsAndDs, count-1 );
+					}
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * @return
+	 */
+	IDataSetCacheObject getloadedCacheObject( DataSourceAndDataSet dsAndDs )
+	{	
 		return (IDataSetCacheObject) cacheMap.get( dsAndDs );
 	}
 	
@@ -122,6 +231,7 @@ class CacheMapManager
 			while ( key != null )
 			{
 				cacheObjects.add( cacheMap.remove( key ) );
+				tempDataSetCacheMap.remove( key );
 				key = getKey(dsAndDs);
 			}
 		}
@@ -141,6 +251,7 @@ class CacheMapManager
 		synchronized ( this )
 		{
 			cacheMap.clear( );
+			tempDataSetCacheMap.clear( );
 		}
 	}
 	
@@ -190,6 +301,94 @@ class CacheMapManager
 				}
 			}
 			return null;
+		}
+	}
+	
+	public static void clearCache( Set<String> cacheIDs ) 
+	{
+		List<IDataSetCacheObject> removed = new ArrayList<IDataSetCacheObject>( );
+		
+		Object[] keyArray = JVMLevelCacheMap.keySet( ).toArray( new DataSourceAndDataSet[]{} );
+		for( Object dsAndDs : keyArray )
+		{
+			if( cacheIDs.contains( ((DataSourceAndDataSet)dsAndDs).getCacheScopeID( ) ))
+			{
+				// here we do not use while clause to avoid thread suspending if
+				// cached is not properly closed.
+				synchronized ( lockedDataSetCacheMap ) 
+				{
+		          if ( lockedDataSetCacheMap.containsKey( dsAndDs ) )
+		          {
+		             try
+					 {
+		            	 //waiting for 60s
+		              	lockedDataSetCacheMap.wait( 60000 );
+					 }
+					 catch ( InterruptedException e )
+					 {
+					 }
+		             lockedDataSetCacheMap.remove( dsAndDs );
+			      }
+				}
+				IDataSetCacheObject cacheObj = (IDataSetCacheObject) JVMLevelCacheMap.remove( dsAndDs );
+				if( cacheObj != null )
+					removed.add( cacheObj );
+				
+			}
+		}
+		
+		for( IDataSetCacheObject dataSetCacheObject : removed )
+		{
+			dataSetCacheObject.release( );
+		}
+	}
+	
+	void clearCache( )
+	{
+		List cacheObjects = new ArrayList( );
+		synchronized ( cacheMap )
+		{
+			for ( DataSourceAndDataSet dataSetAndSource : cacheMap.keySet( ).toArray( new DataSourceAndDataSet[0] ) )
+ 			{
+				cacheObjects.add( cacheMap.remove( dataSetAndSource ) );
+				tempDataSetCacheMap.remove( dataSetAndSource );
+ 			}
+		}
+		for ( int i = 0; i < cacheObjects.size( ); i++ )
+		{
+			IDataSetCacheObject cacheObject = (IDataSetCacheObject)cacheObjects.get( i );
+			cacheObject.release( );
+		}
+	}
+}
+/**
+ * Register shutdown hook on JVM exit to ensure that JVM cache will be cleared correctly.
+ * 
+ *
+ */
+class ShutdownHook implements Runnable
+{
+	private Map<DataSourceAndDataSet, IDataSetCacheObject> cacheMap;
+
+	ShutdownHook(
+			Map<DataSourceAndDataSet, IDataSetCacheObject> jvmLevelCacheMap )
+	{
+		cacheMap = jvmLevelCacheMap;
+		Runtime.getRuntime( ).addShutdownHook( new Thread( this ) );
+	}
+
+	public void run( )
+	{
+		List<IDataSetCacheObject> cacheObjects = new ArrayList<IDataSetCacheObject>( );
+		for ( DataSourceAndDataSet dataSetAndSource : cacheMap.keySet( )
+				.toArray( new DataSourceAndDataSet[0] ) )
+		{
+			cacheObjects.add( cacheMap.remove( dataSetAndSource ) );
+		}
+		for ( int i = 0; i < cacheObjects.size( ); i++ )
+		{
+			IDataSetCacheObject cacheObject = (IDataSetCacheObject) cacheObjects.get( i );
+			cacheObject.release( );
 		}
 	}
 }

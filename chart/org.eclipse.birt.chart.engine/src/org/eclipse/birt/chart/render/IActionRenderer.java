@@ -21,6 +21,8 @@ import org.eclipse.birt.chart.model.data.Action;
 public interface IActionRenderer
 {
 
+	String LEGEND_ITEM_DATA = "legendItemData";//$NON-NLS-1$
+
 	/**
 	 * Expression evaluated in Legend trigger action.
 	 */

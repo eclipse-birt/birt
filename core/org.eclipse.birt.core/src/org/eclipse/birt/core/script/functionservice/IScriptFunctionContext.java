@@ -18,12 +18,7 @@ package org.eclipse.birt.core.script.functionservice;
  */
 public interface IScriptFunctionContext
 {
-	/**
-	 * @deprecated Replaced by FUNCTION_BEAN_NAME
-	 */
 	public static final String FUNCITON_BEAN_NAME = "org.eclipse.birt.core.script.functionservice.context.functionBean";
-	
-	public static final String FUNCTION_BEAN_NAME = "org.eclipse.birt.core.script.functionservice.context.functionBean";
 
 	public static final String LOCALE ="org.eclipse.birt.core.script.functionservice.context.locale";
 	public static final String TIMEZONE ="org.eclipse.birt.core.script.functionservice.context.timeZone";

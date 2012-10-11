@@ -11,20 +11,14 @@
 
 package org.eclipse.birt.report.designer.core.model.views.outline;
 
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
 
 /**
  * Represents the script method node of a report element
  */
-public class ScriptObjectNode implements IScriptTreeNode, IMenuListener
+public class ScriptObjectNode implements IScriptTreeNode
 {
-	private static final String ACTION_TEXT = Messages.getString("ScriptObjectNode_0"); //$NON-NLS-1$
+
 	private PropertyHandle parent;
 
 	public ScriptObjectNode( PropertyHandle parent )
@@ -48,10 +42,6 @@ public class ScriptObjectNode implements IScriptTreeNode, IMenuListener
 		return parent.getPropertyDefn( ).getName( );
 	}
 
-	public void menuAboutToShow( IMenuManager manager )
-	{
-		manager.add( new ResetScriptAction(  ) );
-	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -78,33 +68,5 @@ public class ScriptObjectNode implements IScriptTreeNode, IMenuListener
 			hashCode += parent.hashCode( ) * 7;
 		return hashCode;
 	}
-	
-	class ResetScriptAction extends Action
-	{	
-		ResetScriptAction()
-		{
-			super(ACTION_TEXT);
-		}
-		
-		public void run( )
-		{
-			CommandStack commandStack = parent.getElementHandle( ).getModuleHandle( ).getCommandStack( );
-			commandStack.startPersistentTrans( ACTION_TEXT );
-			try
-			{
-				reset();
-			}
-			catch ( SemanticException e )
-			{
-				commandStack.rollbackAll( );
-				return;
-			}
-			commandStack.commit( );
-		}
-	}
-	
-	public void reset()throws SemanticException
-	{
-		parent.setValue( null );
-	}
+
 }

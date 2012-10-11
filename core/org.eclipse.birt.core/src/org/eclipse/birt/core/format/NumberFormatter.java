@@ -307,6 +307,11 @@ public class NumberFormatter implements IFormatter
 			{
 				return "NaN"; //$NON-NLS-1$
 			}
+			
+			if ( Double.isInfinite( num ) )
+			{
+				return "Infinity";
+			}
 
 			if ( hexFlag == true )
 			{

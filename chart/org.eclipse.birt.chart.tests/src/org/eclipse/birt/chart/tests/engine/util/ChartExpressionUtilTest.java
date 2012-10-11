@@ -65,9 +65,6 @@ public class ChartExpressionUtilTest extends TestCase
 		assertEquals( true,
 				exprCodec.isCubeBinding( "data[\"year\"]+\"Q\"+data[\"quarter\"]", //$NON-NLS-1$
 						true ) );
-		assertEquals( true,
-				exprCodec.isCubeBinding( "if(data[\"LastJan\"]!=null)\r\n(data[\"ThisMonth\"]-data[\"LastJan\"])/data[\"LastJan\"]\r\nelse \r\nnull", //$NON-NLS-1$
-						true ) );
 	}
 
 	public void testGetCubeBindingName( )
