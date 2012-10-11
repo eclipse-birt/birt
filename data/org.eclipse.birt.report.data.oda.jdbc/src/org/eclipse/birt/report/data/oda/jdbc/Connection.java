@@ -275,6 +275,7 @@ public class Connection implements IConnection
 				if  (DBConfig.getInstance().qualifyPolicy(
 							jdbcConn.getMetaData().getDriverName(),
 							DBConfig.TRY_COMMIT_THEN_CLOSE) ) {
+					this.autoCommit = false;
 					jdbcConn.setAutoCommit( false );
 				}
 			}
