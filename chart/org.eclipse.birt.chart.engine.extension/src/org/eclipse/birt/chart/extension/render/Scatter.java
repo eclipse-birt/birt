@@ -156,8 +156,13 @@ public class Scatter extends Line
 		{
 			fPaletteEntry = FillUtil.getPaletteFill( elPalette,
 					iThisSeriesIndex );
-			updateTranslucency( fPaletteEntry, ss );
 		}
+		else if ( iSeriesIndex > 0 )
+		{
+			fPaletteEntry = FillUtil.getPaletteFill( elPalette,
+					iSeriesIndex - 1 );
+		}
+		updateTranslucency( fPaletteEntry, ss );
 
 		boolean isCategoryAxis = srh.isCategoryScale( );
 
