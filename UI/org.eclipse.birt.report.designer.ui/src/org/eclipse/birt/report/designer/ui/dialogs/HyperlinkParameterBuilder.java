@@ -270,12 +270,8 @@ public class HyperlinkParameterBuilder extends BaseDialog
 					{
 						helper.setProperty( HYPERLINK_EXPRESSIONPROVIDER,
 								hyperlinkBuilder.getExpressionProvider( ) );
-<<<<<<< HEAD
 						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT,
 								handle.getElementHandle( ) );
-=======
-						helper.setProperty( HYPERLINK_EXPRESSIONCONTEXT, handle );
->>>>>>> 11SP4
 						helper.createContent( parent );
 						return helper;
 					}

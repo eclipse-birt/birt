@@ -27,6 +27,7 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -62,6 +63,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
@@ -173,13 +175,6 @@ public class ExpressionProvider implements
 			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 	};
 
-<<<<<<< HEAD
-=======
-	private static final Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
-			"row.__rownum", //$NON-NLS-1$
-			Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
-
->>>>>>> 11SP4
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
 	protected static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
 	protected static final String DISPLAY_TEXT_COMPUTATIONAL = Messages.getString( "ExpressionProvider.Operators.Computational" ); //$NON-NLS-1$
@@ -483,11 +478,7 @@ public class ExpressionProvider implements
 					{
 						return 1;
 					}
-<<<<<<< HEAD
 					else if ( obj instanceof Expression )
-=======
-					else if ( obj == rowNum )
->>>>>>> 11SP4
 					{
 						return 2;
 					}
@@ -618,7 +609,6 @@ public class ExpressionProvider implements
 				}
 				else if ( CURRENT_CUBE.equals( parent ) )
 				{
-<<<<<<< HEAD
 					CubeHandle cube = getCube( elementHandle );
 					if ( cube != null )
 					{
@@ -629,23 +619,6 @@ public class ExpressionProvider implements
 							return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( cube ) );
 						}
 					}
-=======
-					CubeHandle cube = null;
-					if( elementHandle instanceof TabularMeasureHandle)
-					{
-						cube = (CubeHandle)( (TabularMeasureHandle) elementHandle ).getContainer().getContainer();
-					}
-					else
-					{
-						cube = ( (ReportItemHandle) elementHandle ).getCube( );
-					}
-					Object nodeProviderAdapter = ElementAdapterManager.getAdapter( cube,
-							INodeProvider.class );
-					if ( nodeProviderAdapter != null )
-					{
-						return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( cube ) );
-					}
->>>>>>> 11SP4
 				}
 				else if ( BIRT_OBJECTS.equals( parent ) )
 				{
@@ -765,13 +738,10 @@ public class ExpressionProvider implements
 			// add hard code row count expression here
 			if ( DEUtil.enableRowNum( parent ) )
 			{
-<<<<<<< HEAD
 				Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
 						DEUtil.getRowNumExpression( elementHandle,
 								(ReportItemHandle) parent ), //$NON-NLS-1$
 						Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
-=======
->>>>>>> 11SP4
 				childrenList.add( rowNum );
 			}
 			// add edit option
@@ -784,7 +754,6 @@ public class ExpressionProvider implements
 					INodeProvider.class );
 			if ( nodeProviderAdapter != null )
 			{
-<<<<<<< HEAD
 				List children = new ArrayList( );
 				children.addAll( Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) ) );
 				if ( parent instanceof MeasureGroupHandle )
@@ -801,9 +770,6 @@ public class ExpressionProvider implements
 					}
 				}
 				return children;
-=======
-				return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) );
->>>>>>> 11SP4
 			}
 		}
 
@@ -1175,11 +1141,7 @@ public class ExpressionProvider implements
 		else if ( element instanceof ComputedColumnHandle )
 		{
 			return TOOLTIP_BINDING_PREFIX
-<<<<<<< HEAD
 					+ DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
-=======
-					+ ( (ComputedColumnHandle) element ).getExpression( );
->>>>>>> 11SP4
 		}
 		else if ( element instanceof InheritedComputedColumnHandle )
 		{
@@ -1320,19 +1282,11 @@ public class ExpressionProvider implements
 				if ( methodInfo.isStatic( ) )
 				{
 					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
-<<<<<<< HEAD
 				}
 				else if ( methodInfo.isConstructor( ) )
 				{
 					insertText.append( "new " ); //$NON-NLS-1$
 				}
-=======
-				}
-				else if ( methodInfo.isConstructor( ) )
-				{
-					insertText.append( "new " ); //$NON-NLS-1$
-				}
->>>>>>> 11SP4
 				insertText.append( methodInfo.getName( ) );
 				insertText.append( "()" ); //$NON-NLS-1$
 			}

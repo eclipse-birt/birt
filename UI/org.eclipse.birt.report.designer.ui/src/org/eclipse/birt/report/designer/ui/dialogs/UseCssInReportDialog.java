@@ -151,16 +151,6 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 		if ( fileName != null && fileName.trim( ).length( ) > 0 )
 		{
 			fileNameField.setText( fileName.trim( ) );
-<<<<<<< HEAD
-		}
-
-		if ( uri != null && uri.trim( ).length( ) > 0 )
-		{
-			viewTimeBtn.setSelection( true );
-			uriText.setEnabled( true );
-			uriText.setText( uri.trim( ) );
-=======
->>>>>>> 11SP4
 		}
 
 		if ( uri != null && uri.trim( ).length( ) > 0 )
@@ -358,10 +348,7 @@ public class UseCssInReportDialog extends BaseTitleAreaDialog
 			{
 				boolean selected = viewTimeBtn.getSelection( );
 				uriText.setEnabled( selected );
-<<<<<<< HEAD
-=======
 				useUri = selected;
->>>>>>> 11SP4
 				refresh( );
 			}
 		} );

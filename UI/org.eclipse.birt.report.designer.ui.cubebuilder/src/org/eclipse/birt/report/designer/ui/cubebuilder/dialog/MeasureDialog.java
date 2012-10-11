@@ -285,11 +285,8 @@ public class MeasureDialog extends TitleAreaDialog
 			handleFunctionSelectEvent( );
 			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
 					: getDataTypeDisplayName( input.getDataType( ) ) );
-<<<<<<< HEAD
 			derivedMeasureBtn.setSelection( input.isCalculated( ) );
 			updateDerivedMeasureStatus( );
-=======
->>>>>>> 11SP4
 		}
 
 		if ( formatHelper != null )
@@ -504,15 +501,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-<<<<<<< HEAD
 				updateDerivedMeasureStatus( );
 				if ( !derivedMeasureBtn.getSelection( ) )
-=======
-				functionCombo.setEnabled( !( derivedMeasureBtn.getSelection( ) || isAutoPrimaryKeyChecked ) );
-				exprDesc.setText( Messages.getString( derivedMeasureBtn.getSelection( ) ? "MeasureDialog.Label.ExprDesc.Derived" : "MeasureDialog.Label.ExprDesc" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-				provider.setDerivedMeasure(derivedMeasureBtn.getSelection( ));
-				if(!derivedMeasureBtn.getSelection())
->>>>>>> 11SP4
 				{
 					handleTypeSelectEvent( );
 				}
