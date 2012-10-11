@@ -140,7 +140,6 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 	/** store latest selected sheet name */
 	private String currentSheetName;
 
-    private boolean flag = false;
 	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<String[]>();
 	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<String[]>();
 
@@ -801,23 +800,20 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				.getSelection()).getFirstElement();
 
 		String queryText = this.getInitializationDesign( ).getQueryText( );
-		if ( sheetName.equalsIgnoreCase( currentSheetName ) && isNewFile( queryText, getFileName( selectedFile ) ))
-		{
-			flag = false;
+		// When create a new data set, the quertText is an empty string, in this condition
+		// if the sheet name is equal, just return.
+		// When edit a data set, we should check the sheet name is equal and the file name 
+		// is in accordance with query text.
+		if (sheetName.equalsIgnoreCase(currentSheetName)
+				&& (queryText.trim().length() == 0 || isOldFile(queryText,
+						getFileName(selectedFile)))) {
 			return;
 		}
-		else if (flag)
-		{
-			flag = false;
-			return;
-		}
-		
 		if (currentSheetName != null && !MessageDialog.openConfirm(worksheetsCombo.getControl()
 				.getShell(), Messages
 				.getString("confirm.reselectWorksheetTitle"), //$NON-NLS-1$
 				Messages.getString("confirm.reselectWorksheetMessage"))) //$NON-NLS-1$
 		{
-			flag = true;
 			worksheetsCombo.setSelection(new StructuredSelection(
 					currentSheetName));
 			
@@ -931,7 +927,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		}
 	}
 
-	private boolean isNewFile(String queryText, String selectedFile)
+	/**
+	 * When edit the excel data set, we can change the datasource.
+	 * Sometimes, different excel file may have the some sheet name. 
+	 * This method is to check whether the data source(excel file) is changed.
+	 * @param queryText
+	 * @param selectedFile
+	 * @return
+	 */
+	private boolean isOldFile(String queryText, String selectedFile)
 	{
 		return queryText.contains( selectedFile );
 	}
@@ -994,7 +998,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				populateWorkSheetCombo( );
 				String queryText = getInitializationDesign().getQueryText();
 				if ( currentSheetName != null
-						&& isNewFile(queryText, getFileName( selectedFile ) ) )
+						&& isOldFile(queryText, getFileName( selectedFile ) ) )
 				{
 					String[] columnNames = getFileColumnNames( selectedFile );
 					availableList.setItems( columnNames );
@@ -1329,7 +1333,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		    validateHasSelectedColumns();
 			return;
 		}
-		if (selectedFile != null && isNewFile( queryText, getFileName( selectedFile ) ) )
+		if (selectedFile != null && isOldFile( queryText, getFileName( selectedFile ) ) )
         {
         	updateColumnsFromQuery(queryText, selectedFile);
         }
@@ -1770,7 +1774,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 		for (String sheet : sheetNameList) {
 			String queryText = getInitializationDesign().getQueryText();
 			if ( sheet.equals( currentSheetName )
-					&& isNewFile( queryText, getFileName( selectedFile ) ) )
+					&& isOldFile( queryText, getFileName( selectedFile ) ) )
 				worksheetsCombo.setSelection(new StructuredSelection(
 						currentSheetName));
 		}
