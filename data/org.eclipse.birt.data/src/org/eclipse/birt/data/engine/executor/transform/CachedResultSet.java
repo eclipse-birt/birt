@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaUtil;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.AggrHolderManager;
@@ -326,7 +327,9 @@ public class CachedResultSet implements IResultIterator
 					IDataSetWriter writer = DataSetStore.createWriter( streamsWrapper.getStreamManager( ),
 							getResultClass( ),
 							handler.getAppContext( ),
-							resultSetPopulator.getSession( ) );
+							resultSetPopulator.getSession( ),
+							streamsWrapper.getAuxiliaryIndexCreators( ) );
+
 					if ( writer != null )
 					{
 						writer.save( this.resultSetPopulator.getCache( ) );
@@ -334,6 +337,11 @@ public class CachedResultSet implements IResultIterator
 					}
 					else
 					{
+						for ( IAuxiliaryIndexCreator aIndex : streamsWrapper.getAuxiliaryIndexCreators( ) )
+						{
+							aIndex.initialize( resultClass,
+									this.getExecutorHelper( ).getScriptable( ) );
+						}
 						this.resultSetPopulator.getCache( )
 						.doSave( streamsWrapper.getStreamForDataSet( ),
 								streamsWrapper.getStreamForDataSetRowLens( ),
@@ -342,7 +350,8 @@ public class CachedResultSet implements IResultIterator
 								resultSetPopulator.getEventHandler( )
 								.getAllColumnBindings( ),
 								streamsWrapper.getStreamManager( )
-								.getVersion( ) );
+								.getVersion( ),
+								streamsWrapper.getAuxiliaryIndexCreators( ) );
 						for( StringTable stringTable : stringTables.values( ))
 						{
 							stringTable.close( );
@@ -350,6 +359,10 @@ public class CachedResultSet implements IResultIterator
 						for( IIndexSerializer ind: index.values( ))
 						{
 							ind.close( );
+						}
+						for ( IAuxiliaryIndexCreator creator : streamsWrapper.getAuxiliaryIndexCreators( ) )
+						{
+							creator.close( );
 						}
 					}
 				}
@@ -622,7 +635,8 @@ public class CachedResultSet implements IResultIterator
 			IDataSetUpdater updater = DataSetStore.createUpdater( streamsWrapper.getStreamManager( ),
 					getResultClass( ),
 					handler.getAppContext( ),
-					resultSetPopulator.getSession( ) );
+					resultSetPopulator.getSession( ),
+					streamsWrapper.getAuxiliaryIndexCreators( ) );
 			if ( updater != null )
 			{
 				updater.incrementalUpdate( this.resultSetPopulator.getCache( ) );
@@ -649,8 +663,11 @@ public class CachedResultSet implements IResultIterator
 										originalRowCount,
 										stringTables,
 										index,
-										resultSetPopulator.getEventHandler( )
-												.getAllColumnBindings( ), streamsWrapper.getStreamManager( ).getVersion( ) );
+									resultSetPopulator.getEventHandler( )
+											.getAllColumnBindings( ),
+									streamsWrapper.getStreamManager( )
+											.getVersion( ),
+									streamsWrapper.getAuxiliaryIndexCreators( ) );
 					for( StringTable stringTable : stringTables.values( ))
 					{
 						stringTable.close( );
@@ -658,6 +675,10 @@ public class CachedResultSet implements IResultIterator
 					for( IIndexSerializer ind: index.values( ))
 					{
 						ind.close( );
+					}
+					for ( IAuxiliaryIndexCreator creator : streamsWrapper.getAuxiliaryIndexCreators( ) )
+					{
+						creator.close( );
 					}
 					outputStream.close( );
 					dlStream.close( );

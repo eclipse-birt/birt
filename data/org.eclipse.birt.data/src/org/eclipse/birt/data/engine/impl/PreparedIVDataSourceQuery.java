@@ -432,7 +432,9 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 					rowLensStream,
 					null,
 					new HashMap(),
-					eventHandler.getAllColumnBindings( ), manager.getVersion( ) );
+					eventHandler.getAllColumnBindings( ),
+					manager.getVersion( ),
+					null );
 			dataSetDataStream.flush( );
 			cache.close( );
 

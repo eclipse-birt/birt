@@ -13,7 +13,9 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.DataOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -21,6 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -39,6 +42,8 @@ public class StreamWrapper
 	private boolean enableIndexStream;
 	private Map<IResultClass, Map<String, IIndexSerializer>> cachedIndex = new HashMap<IResultClass, Map<String, IIndexSerializer>>( );
 	private Map<IResultClass, Map<String, StringTable>> cachedStringTable = new HashMap<IResultClass, Map<String, StringTable>>( );
+	private List<IAuxiliaryIndexCreator> auxiliaryIndexCreators = new ArrayList<IAuxiliaryIndexCreator>( );
+	
 	/**
 	 * @param streamForResultClass
 	 * @param streamForDataSet
@@ -243,6 +248,16 @@ public class StreamWrapper
 	public OutputStream getStreamForParentIndex( )
 	{
 		return streamForParentIndex;
+	}
+
+	public List<IAuxiliaryIndexCreator> getAuxiliaryIndexCreators( )
+	{
+		return auxiliaryIndexCreators;
+	}
+
+	public void addAuxiliaryIndexCreator( IAuxiliaryIndexCreator auxIndexCreator )
+	{
+		auxiliaryIndexCreators.add( auxIndexCreator );
 	}
 
 }

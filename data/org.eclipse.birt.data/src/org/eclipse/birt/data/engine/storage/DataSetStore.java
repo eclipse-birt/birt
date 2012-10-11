@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.data.engine.storage;
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -34,14 +36,16 @@ public class DataSetStore
 
 	public static IDataSetWriter createWriter( StreamManager manager,
 			IResultClass resultClass, Map<?, ?> appContext,
-			DataEngineSession session ) throws DataException
+			DataEngineSession session,
+			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
 	{
 		return null;
 	}
 
 	public static IDataSetUpdater createUpdater( StreamManager manager,
 			IResultClass resultClass, Map<?, ?> appContext,
-			DataEngineSession session ) throws DataException
+			DataEngineSession session,
+			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
 	{
 		return null;
 	}
