@@ -92,6 +92,10 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 	private Button btnRemove = null;
 
+	private Button btnMoveUp = null;
+
+	private Button btnMoveDown = null;
+
 	private List lstMarkers = null;
 
 	private Group grpGeneral = null;
@@ -207,7 +211,7 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 		// Layout for the buttons composite
 		GridLayout glButtons = new GridLayout( );
-		glButtons.numColumns = 3;
+		glButtons.numColumns = 5;
 		glButtons.horizontalSpacing = 5;
 		glButtons.verticalSpacing = 5;
 		glButtons.marginHeight = 5;
@@ -236,6 +240,18 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 		btnRemove.setLayoutData( gdBTNRemove );
 		btnRemove.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry" ) ); //$NON-NLS-1$
 		btnRemove.addSelectionListener( this );
+
+		btnMoveUp = new Button( cmpButtons, SWT.PUSH );
+		GridData gdBTNMoveUp = new GridData( GridData.FILL_HORIZONTAL );
+		btnMoveUp.setLayoutData( gdBTNMoveUp );
+		btnMoveUp.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MoveUp" ) ); //$NON-NLS-1$
+		btnMoveUp.addSelectionListener( this );
+
+		btnMoveDown = new Button( cmpButtons, SWT.PUSH );
+		GridData gdBTNMoveDown = new GridData( GridData.FILL_HORIZONTAL );
+		btnMoveDown.setLayoutData( gdBTNMoveDown );
+		btnMoveDown.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.MoveDown" ) ); //$NON-NLS-1$
+		btnMoveDown.addSelectionListener( this );
 
 		lstMarkers = new List( cmpList, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL );
 		GridData gdLSTMarkers = new GridData( GridData.FILL_HORIZONTAL );
@@ -687,6 +703,69 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 		}
 	}
+	
+	private void moveUpMarkerItem( )
+	{
+		if ( lstMarkers.getSelection( ).length == 0 )
+		{
+			return;
+		}
+		String sSelectedMarker = lstMarkers.getSelection( )[0];
+		int selectionIdex = lstMarkers.getSelectionIndex( );
+		boolean bLine = sSelectedMarker.startsWith( MARKER_LINE_LABEL );
+		int iMarkerIndex = getMarkerIndex( );
+		if ( bLine )
+		{
+			MarkerLine prevMarkerLine = getAxisForProcessing( ).getMarkerLines( )
+					.get( iMarkerIndex - 1 );
+			getAxisForProcessing( ).getMarkerLines( ).remove( iMarkerIndex - 1 );
+			getAxisForProcessing( ).getMarkerLines( ).add( iMarkerIndex,
+					prevMarkerLine );
+		}
+		else
+		{
+			MarkerRange prvMarkerRange = getAxisForProcessing( ).getMarkerRanges( )
+					.get( iMarkerIndex - 1 );
+			getAxisForProcessing( ).getMarkerRanges( )
+					.remove( iMarkerIndex - 1 );
+			getAxisForProcessing( ).getMarkerRanges( ).add( iMarkerIndex,
+					prvMarkerRange );
+		}
+		buildList( );
+		lstMarkers.select( selectionIdex - 1 );
+		refreshButtons( );
+	}
+	
+	private void moveDownMarkerItem( )
+	{
+		if ( lstMarkers.getSelection( ).length == 0 )
+		{
+			return;
+		}
+		String sSelectedMarker = lstMarkers.getSelection( )[0];
+		int selectionIndex = lstMarkers.getSelectionIndex( );
+		boolean bLine = sSelectedMarker.startsWith( MARKER_LINE_LABEL );
+		int iMarkerIndex = getMarkerIndex( );
+		if ( bLine )
+		{
+			MarkerLine currMarkerLine = getAxisForProcessing( ).getMarkerLines( )
+					.get( iMarkerIndex );
+			getAxisForProcessing( ).getMarkerLines( ).remove( iMarkerIndex );
+			getAxisForProcessing( ).getMarkerLines( ).add( iMarkerIndex + 1,
+					currMarkerLine );
+		}
+		else
+		{
+			MarkerRange currMarkerRange = getAxisForProcessing( ).getMarkerRanges( )
+					.get( iMarkerIndex );
+			getAxisForProcessing( ).getMarkerRanges( ).remove( iMarkerIndex );
+			getAxisForProcessing( ).getMarkerRanges( ).add( iMarkerIndex + 1,
+					currMarkerRange );
+		}
+		buildList( );
+		lstMarkers.select( selectionIndex + 1 );
+		refreshButtons( );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -768,6 +847,14 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 			}
 
 			refreshButtons( );
+		}
+		else if ( e.getSource( ).equals( btnMoveUp ) )
+		{
+			moveUpMarkerItem( );
+		}
+		else if ( e.getSource( ).equals( btnMoveDown ) )
+		{
+			moveDownMarkerItem( );
 		}
 		else if ( e.getSource( ).equals( lstMarkers ) )
 		{
@@ -968,7 +1055,30 @@ public class AxisMarkersSheet extends AbstractPopupSheet implements
 
 	private void refreshButtons( )
 	{
-		btnRemove.setEnabled( lstMarkers.getSelectionIndex( ) != -1 );
+		if ( lstMarkers.getSelectionIndex( ) == -1 )
+		{
+			btnRemove.setEnabled( false );
+			btnMoveUp.setEnabled( false );
+			btnMoveDown.setEnabled( false );
+			return;
+		}
+
+		btnRemove.setEnabled( true );
+
+		int index = getMarkerIndex( );
+		String sSelectedMarker = lstMarkers.getSelection( )[0];
+		int total = 0;
+		if ( sSelectedMarker.startsWith( MARKER_LINE_LABEL ) )
+		{
+			total = getAxisForProcessing( ).getMarkerLines( ).size( );
+		}
+		else
+		{
+			total = getAxisForProcessing( ).getMarkerRanges( ).size( );
+		}
+
+		btnMoveDown.setEnabled( index < total - 1 );
+		btnMoveUp.setEnabled( index > 0 );
 	}
 
 	private void updateUIForSelection( )
