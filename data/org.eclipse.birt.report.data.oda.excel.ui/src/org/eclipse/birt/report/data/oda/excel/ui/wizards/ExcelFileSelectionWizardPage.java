@@ -410,7 +410,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements
 				addColumns();
 			}
 		});
-
+		btnAdd.setEnabled( false );
 		return btnComposite;
 	}
 
