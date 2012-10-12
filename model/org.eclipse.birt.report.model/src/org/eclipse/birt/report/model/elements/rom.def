@@ -1343,7 +1343,6 @@
 	<Member displayNameID="Structure.HighlightRule.padding.bottom" name="paddingBottom" since="1.0" type="dimension"/>
 	<Member displayNameID="Structure.HighlightRule.padding.right" name="paddingRight" since="1.0" type="dimension"/>
 	<Member detailType="backgroundRepeat" displayNameID="Structure.HighlightRule.backgroundRepeat" name="backgroundRepeat" since="2.3" type="choice" />       
->>>>>>> 11SP4
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
