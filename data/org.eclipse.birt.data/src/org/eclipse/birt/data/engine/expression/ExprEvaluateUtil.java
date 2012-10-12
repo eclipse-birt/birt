@@ -254,7 +254,7 @@ public class ExprEvaluateUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static Object doEvaluateRawExpression( IBaseExpression dataExpr,
+	protected static Object doEvaluateRawExpression( IBaseExpression dataExpr,
 			Scriptable scope, boolean javaType, ScriptContext cx )
 			throws BirtException
 	{

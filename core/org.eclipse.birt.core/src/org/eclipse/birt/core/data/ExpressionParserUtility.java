@@ -595,4 +595,20 @@ public class ExpressionParserUtility
 		}
 		return index;
 	}
+	
+	public boolean hasAggregation( )
+	{
+		return this.hasAggregation;
+	}
+	
+	public boolean isDirectColumnRef( )
+	{
+		return this.isDirectColumnRef;
+	}
+	
+	public void reset( )
+	{
+		this.hasAggregation = false;
+		this.isDirectColumnRef = false;
+	}
 }
