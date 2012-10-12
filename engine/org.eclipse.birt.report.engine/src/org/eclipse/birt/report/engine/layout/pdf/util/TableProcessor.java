@@ -334,12 +334,7 @@ public class TableProcessor implements HTMLConstants
 
 		private Hashtable<Integer, Integer> records;
 		private int columnCount;
-<<<<<<< HEAD
 		private int index;
-		
-=======
-
->>>>>>> 11SP4
 		public RowState( Element element,
 				Map<Element, StyleProperties> cssStyles, IContent parent,
 				ActionContent action ,Hashtable<Integer,Integer> records,int index)
@@ -389,13 +384,8 @@ public class TableProcessor implements HTMLConstants
 				}
 				columnCount += cellState.getColSpan( );
 			}
-<<<<<<< HEAD
-           		
 		}
-=======
-		}
-
->>>>>>> 11SP4
+		
 		public int getColumnCount( )
 		{
 			return columnCount;
@@ -431,14 +421,11 @@ public class TableProcessor implements HTMLConstants
 		{
 			return cell.getColSpan( );
 		}
-<<<<<<< HEAD
 		
 		public int getRowSpan( )
 		{
 			return cell.getRowSpan( );
 		}
-=======
->>>>>>> 11SP4
 	}
 
 	private static class InternalCellContent implements Cell.Content

@@ -69,15 +69,11 @@ public class HighlightRule extends StyleRule
 	public static final String TEXT_TRANSFORM_MEMBER = Style.TEXT_TRANSFORM_PROP;
 	public static final String TEXT_INDENT_MEMBER = Style.TEXT_INDENT_PROP;
 	public static final String TEXT_DIRECTION_MEMBER = Style.TEXT_DIRECTION_PROP; // bidi_hcg
-<<<<<<< HEAD
 	public static final String PADDING_TOP_MEMBER = Style.PADDING_TOP_PROP;
 	public static final String PADDING_LEFT_MEMBER = Style.PADDING_LEFT_PROP;
 	public static final String PADDING_BOTTOM_MEMBER = Style.PADDING_BOTTOM_PROP;
 	public static final String PADDING_RIGHT_MEMBER = Style.PADDING_RIGHT_PROP;
-
-=======
 	public static final String BACKGROUND_REPEAT_MEMBER = Style.BACKGROUND_REPEAT_PROP;
->>>>>>> 11SP4
 	/**
 	 * Name of this structure within the meta-data dictionary.
 	 */

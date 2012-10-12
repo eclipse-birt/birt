@@ -782,10 +782,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 			return new Expression( newExpr, type );
 		}
 		return null;
-<<<<<<< HEAD
-
-=======
->>>>>>> 11SP4
 	}
 
 	/**
@@ -935,8 +931,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 	}
 	
-<<<<<<< HEAD
-=======
 	private void updateDerivedMeasure( Module module, Cube cube,
 			Map<String, String> nameMap )
 	{
@@ -972,7 +966,6 @@ class ReportDesignSerializerImpl extends ElementVisitor
 		}
 	}
 	
->>>>>>> 11SP4
 	private void updateTimeDimension( ComputedColumn binding,
 			Map<String, String> nameMap )
 	{
