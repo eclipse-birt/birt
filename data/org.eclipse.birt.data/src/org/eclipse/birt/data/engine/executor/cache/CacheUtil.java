@@ -38,7 +38,7 @@ public class CacheUtil
 	private static final int MAX_DIR_CREATION_ATTEMPT = 1000;
 	private static final String PATH_SEP = File.separator;
 	private static final String TEST_MEM_BUFFER_SIZE = "birt.data.engine.test.memcachesize";
-	
+	private static final int MAGIC_NUMBER = 2000000000;
 	/**
 	 * timestamp.data file will be used in incremental cache, while
 	 * time.data file will be used in disk cache.
@@ -79,6 +79,25 @@ public class CacheUtil
 		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
 	}
 	
+	public static boolean enableSP3CubeQueryChange( Map appContext )
+	{
+		if ( appContext == null )
+			return false;
+		
+		Object propValue = appContext.get( DataEngine.MEMORY_BUFFER_SIZE );
+				
+		String targetBufferSize =  propValue == null
+				? "0" : propValue
+						.toString( );
+		
+		long memoryCacheSize = 0; 
+		
+		if ( targetBufferSize != null )
+			memoryCacheSize = Long.parseLong( targetBufferSize );
+
+		return memoryCacheSize > MAGIC_NUMBER;
+	}
+	
 	public static int getMaxRows( Map appContext )
 	{
 		if ( appContext == null )
@@ -110,7 +129,7 @@ public class CacheUtil
 		if ( targetBufferSize != null )
 			memoryCacheSize = Long.parseLong( targetBufferSize );
 
-		return memoryCacheSize;
+		return memoryCacheSize > MAGIC_NUMBER ? (memoryCacheSize - MAGIC_NUMBER):memoryCacheSize;
 	}
 	
 	// ------------------------service for DiskCache-------------------------
