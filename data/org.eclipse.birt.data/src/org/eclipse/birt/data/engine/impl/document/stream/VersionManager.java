@@ -84,7 +84,7 @@ public class VersionManager
 	public final static int VERSION_3_7_2_1 = 200;
 	
 	//Collation supported in BDO data set index 
-	public final static int VERSION_4_2_1_1 = 200;
+	public final static int VERSION_4_2_1_1 = 210;
 	
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
@@ -228,11 +228,6 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-<<<<<<< HEAD
-		return VERSION_3_7_2_1;
-=======
 		return VERSION_4_2_1_1;
->>>>>>> 11SP4
 	}
-
 }

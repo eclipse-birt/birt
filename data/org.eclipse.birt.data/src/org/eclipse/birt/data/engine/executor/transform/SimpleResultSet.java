@@ -680,29 +680,11 @@ public class SimpleResultSet implements IResultIterator
 		
 		if ( currResultObj != null )
 			saveDataSetResultSet( currResultObj, rowCount - 1 );
-
-<<<<<<< HEAD
-					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
-							currResultObj,
-							colCount,
-							resultSetNameSet,
-							streamsWrapper.getOutputStringTable( getResultClass( ) ),
-							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
-							this.rowCount-1, streamsWrapper.getStreamManager( ).getVersion( ) );
-				}
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( e.getLocalizedMessage( ), e );
-			}
-		}
-=======
 		return this.currResultObj != null;
 	}
 	
 	private void doNext( ) throws DataException
 	{
->>>>>>> 11SP4
 		try
 		{
 			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
@@ -743,7 +725,7 @@ public class SimpleResultSet implements IResultIterator
 							streamsWrapper.getOutputStringTable( getResultClass( ) ),
 							streamsWrapper.getStreamForIndex( getResultClass( ),
 									handler.getAppContext( ) ),
-							index );
+							index, streamsWrapper.getStreamManager( ).getVersion( ) );
 				}
 			}
 			catch ( IOException e )

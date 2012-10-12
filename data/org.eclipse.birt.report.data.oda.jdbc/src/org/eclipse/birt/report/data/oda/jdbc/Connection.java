@@ -431,7 +431,6 @@ public class Connection implements IConnection
 			try
 			{
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData( );
-<<<<<<< HEAD
 				int maxstmts = dbMetadata.getMaxStatements( );
 				int maxconns = dbMetadata.getMaxConnections( );
 				if ( maxstmts == 0 && maxconns == 0 )
@@ -440,9 +439,6 @@ public class Connection implements IConnection
 					return 1;
 				else
 					return maxstmts / maxconns;
-=======
-				return dbMetadata.getMaxStatements( );
->>>>>>> 11SP4
 			}
 			catch ( SQLException e )
 			{
