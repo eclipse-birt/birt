@@ -1899,14 +1899,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				bindingNames.add( ( (Binding) bindings.get( i ) ).getBindingName( ) );
 			}
-<<<<<<< HEAD
-		}
-		else
-		{
-			qd = new ChartCubeQueryHelper( itemHandle,
-					cm,
-					session.getModelAdaptor( ) ).createCubeQuery( null );
-=======
 
 			ExpressionSet exprSet = new ExpressionSet( );
 			exprSet.addAll( columnExpression );
@@ -1938,7 +1930,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						true ) );
 				queryDef.addBinding( colBinding );
 			}
->>>>>>> 11SP4
 		}
 
 		resetCubeQuery( qd );
