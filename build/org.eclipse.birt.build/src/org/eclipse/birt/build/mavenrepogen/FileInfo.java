@@ -45,6 +45,11 @@ class FileInfo
 		return version + (snapshot ? "-SNAPSHOT" : "");
 	}
 	
+	public String getVersion()
+	{
+		return version;
+	}
+	
 	public void setVersion(String v)
 	{
 		this.version = v;
