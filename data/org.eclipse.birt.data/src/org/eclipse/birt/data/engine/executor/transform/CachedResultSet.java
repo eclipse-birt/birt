@@ -639,7 +639,7 @@ public class CachedResultSet implements IResultIterator
 					streamsWrapper.getAuxiliaryIndexCreators( ) );
 			if ( updater != null )
 			{
-				updater.incrementalUpdate( this.resultSetPopulator.getCache( ) );
+				updater.save( this.resultSetPopulator.getCache( ) );
 				updater.close( );
 				return;
 			}

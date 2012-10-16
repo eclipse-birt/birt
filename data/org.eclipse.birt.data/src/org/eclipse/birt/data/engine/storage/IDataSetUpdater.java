@@ -11,18 +11,12 @@
 
 package org.eclipse.birt.data.engine.storage;
 
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 
 /**
  * 
  */
 
-public interface IDataSetUpdater
+public interface IDataSetUpdater extends IDataSetWriter
 {
 
-	public void incrementalUpdate( ResultSetCache results )
-			throws DataException;
-
-	public void close( ) throws DataException;
 }

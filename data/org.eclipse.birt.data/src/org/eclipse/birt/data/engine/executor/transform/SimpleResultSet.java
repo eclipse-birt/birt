@@ -235,6 +235,7 @@ public class SimpleResultSet implements IResultIterator
 			this.writer.close( );
 			this.writer = null;
 		}
+		
 		this.groupCalculator.close( );
 		
 		if ( this.dataSetStream != null )
@@ -321,25 +322,35 @@ public class SimpleResultSet implements IResultIterator
 		
 		try
 		{
-			dataSetStream = this.streamsWrapper.getStreamManager( )
+			writer = DataSetStore.createUpdater( this.streamsWrapper.getStreamManager( ),
+					getResultClass( ),
+					handler.getAppContext( ),
+					this.session,
+					auxiliaryIndexCreators );
+
+			if ( writer == null )
+			{
+				dataSetStream = this.streamsWrapper.getStreamManager( )
 						.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE );
-			OutputStream dlenStream = this.streamsWrapper.getStreamManager( )
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				OutputStream dlenStream = this.streamsWrapper.getStreamManager( )
 						.getOutStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
-							StreamManager.ROOT_STREAM,
-							StreamManager.SELF_SCOPE );
-			if ( dataSetStream instanceof RAOutputStream )
-			{
-				rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
-				( (RAOutputStream) dataSetStream ).seek( ( (RAOutputStream) dataSetStream ).length( ) );
-				offset = ( (RAOutputStream) dataSetStream ).getOffset( );
+								StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE );
+				if ( dataSetStream instanceof RAOutputStream )
+				{
+					rowCountOffset = ( (RAOutputStream) dataSetStream ).getOffset( );
+					( (RAOutputStream) dataSetStream ).seek( ( (RAOutputStream) dataSetStream ).length( ) );
+					offset = ( (RAOutputStream) dataSetStream ).getOffset( );
+				}
+				if ( dlenStream instanceof RAOutputStream )
+				{
+					( (RAOutputStream) dlenStream ).seek( ( (RAOutputStream) dlenStream ).length( ) );
+				}
+				dataSetLenStream = new DataOutputStream( dlenStream );
 			}
-			if ( dlenStream instanceof RAOutputStream )
-			{
-				( (RAOutputStream) dlenStream ).seek( ( (RAOutputStream) dlenStream ).length( ) );
-			}
-			dataSetLenStream = new DataOutputStream( dlenStream );
+			
 			this.rowCount += originalRowCount;
 		}
 		catch ( IOException e )
@@ -582,8 +593,10 @@ public class SimpleResultSet implements IResultIterator
 		{
 			try 
 			{
-				if ( this.writer != null )
-					this.writer.save( currResultObj, this.rowCount-1 );
+				if ( writer != null )
+				{
+					writer.save( currResultObj, rowCount - 1 );
+				}
 				else if ( dataSetStream != null )
 				{
 					int colCount = this.populateResultClass( this.currResultObj.getResultClass( ) )
