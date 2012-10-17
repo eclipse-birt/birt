@@ -291,9 +291,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		btnAllowExport = new Button( composite, SWT.CHECK );
 		btnAllowExport.setSelection( true );
 
-		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
+		GridData gd1 = new GridData( );
 		gd1.horizontalSpan = 3;
-		gd1.widthHint = 200;
 		gd1.heightHint = cmbType.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		btnAllowExport.setLayoutData( gd1 );
 
@@ -352,10 +351,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		// txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
 		// Expression gets the comment.
-		if(txtExpression!=null&&!txtExpression.isDisposed())//add if/else block to fix TED 52776:NPE thrown
+		if ( txtExpression != null && !txtExpression.isDisposed( ) )// add
+																	// if/else
+																	// block to
+																	// fix TED
+																	// 52776:NPE
+																	// thrown
 		{
 			txtExpression.setFocus( );
-		}else{
+		}
+		else
+		{
 			txtDisplayName.setFocus( );
 		}
 		if ( isAggregate( ) )
@@ -1308,7 +1314,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-						gd.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+						gd.heightHint = txtParam.computeSize( SWT.DEFAULT,
+								SWT.DEFAULT ).y
 								- txtParam.getBorderWidth( )
 								* 2;
 						gridData.horizontalIndent = 0;
