@@ -15,3 +15,5 @@ JSP_Tag_context_type_Extension_Element.name=新規 BIRT JSP タグ
 BirtResourcesDefinition= BIRT Web アプリケーションリソースの定義
 
 birt.action.importruntime.name=BIRT ランタイムコンポーネントのインポート(&B)...
+
+plugin.version=4.2.1
