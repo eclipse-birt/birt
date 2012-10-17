@@ -3639,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Label.FromServer=From Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4309,9 +4310,6 @@ ResourceSelectionValidator.ExtErrorSplitter=\ oder
 GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
-#BookMarkPage
-BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der Zeichen \"A-Z a-z 0-9 - _ : .\". Dies kann zu Problemen während der Laufzeit führen.
-
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4636,7 +4634,6 @@ BindingDialogHelper.warning.button.no=Nein
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
-ScriptObjectNode_0=&Skript zurücksetzen
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
@@ -4720,11 +4717,6 @@ PasteFormatAction.text=F&ormat einfügen
 #InsertAggregationAction
 InsertAggregationAction.text=&Aggregat
 
-
-###########################################################
-#InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
-
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
@@ -4758,10 +4750,7 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
-GeneralConfigurationBlock.group.defaultThemes=Bibliothek der Standardthemen
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Bibliothek der Standard&themen aktivieren
-GeneralConfigurationBlock.button.text.defaultTheme.include=Standardthemen e&inschließen
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie

@@ -3639,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
+CssStyleSheetNodeProvider.Label.FromServer=From Server
 CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 
 
@@ -4309,9 +4310,6 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 GeneralPage.Library.Included=라이브러리:
 GeneralPage.Library.Modified.Note=참고: 이 보고서 항목은 라이브러리에서 수정되었습니다. 원래의 라이브러리 항목을 복원하려면 {0}"속성 복원"을 클릭하십시오.
 
-#BookMarkPage
-BookMarkPage.Modified.Note=책갈피에 \"A-Z a-z 0-9 - _ : .\" 이외의 특수 문자가 포함되어 있어 실행 시 문제가 발생할 수 있습니다.
-
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4636,7 +4634,6 @@ BindingDialogHelper.warning.button.no=아니오
 #Scripts Node
 Scripts.Node.DisplayName=스크립트
 ScriptElementNode.Action.Text=보고서 요소로 이동(&G)
-ScriptObjectNode_0=스크립트 재설정(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=축소판 보기 관리
 
@@ -4720,11 +4717,6 @@ PasteFormatAction.text=서식 붙여넣기(&O)
 #InsertAggregationAction
 InsertAggregationAction.text=집계(&A)
 
-
-###########################################################
-#InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
-
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=현재 보기 설정
@@ -4758,10 +4750,7 @@ GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일�
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택(&N)
 GeneralConfigurationBlock.group.label=묻기
-GeneralConfigurationBlock.group.defaultThemes=기본 테마 라이브러리
 GeneralConfigurationBlock.button.text.prompt=라이브러리 파일을 연 후 프롬프트 표시(&P)
-GeneralConfigurationBlock.button.text.defaultTheme.enable=기본 테마 라이브러리 사용(&T)
-GeneralConfigurationBlock.button.text.defaultTheme.include=기본 테마 포함(&I)
 GeneralConfigurationBlock.move.binding.group=성능 향상을 위해 로컬 바인딩을 상위로 이동
 GeneralConfigurationBlock.move.binding.always=항상(&W)
 GeneralConfigurationBlock.move.binding.never=안 함(&V)

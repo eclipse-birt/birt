@@ -3639,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
+CssStyleSheetNodeProvider.Label.FromServer=From Server
 CssStyleSheetNodeProvider.Tooltip.URI=(表示時に適用)
 
 
@@ -4309,9 +4310,6 @@ ResourceSelectionValidator.ExtErrorSplitter=\ または
 GeneralPage.Library.Included=ライブラリ :
 GeneralPage.Library.Modified.Note=注 : このレポート項目はライブラリで編集されています。元に戻すには、{0}[プロパティの復元] をクリックしてください。
 
-#BookMarkPage
-BookMarkPage.Modified.Note=ブックマークに、A～Z、a～z、0～9、-、_、:、. 以外の特殊文字が含まれており、このために実行時に問題が発生する可能性があります。
-
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4636,7 +4634,6 @@ BindingDialogHelper.warning.button.no=いいえ
 #Scripts Node
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ(&G)
-ScriptObjectNode_0=スクリプトのリセット(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
@@ -4720,11 +4717,6 @@ PasteFormatAction.text=書式の貼り付け(&O)
 #InsertAggregationAction
 InsertAggregationAction.text=集計(&A)
 
-
-###########################################################
-#InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
-
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=現在のビューの設定
@@ -4758,10 +4750,7 @@ GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的な
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
 GeneralConfigurationBlock.group.label=確認する
-GeneralConfigurationBlock.group.defaultThemes=デフォルトのテーマライブラリ
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
-GeneralConfigurationBlock.button.text.defaultTheme.enable=デフォルトのテーマライブラリを有効にする(&T)
-GeneralConfigurationBlock.button.text.defaultTheme.include=デフォルトのテーマを含める(&I)
 GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
 GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
 GeneralConfigurationBlock.move.binding.never=続行しない(&V)

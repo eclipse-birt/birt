@@ -3639,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的布景主题。
+CssStyleSheetNodeProvider.Label.FromServer=From Server
 CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 
@@ -4309,9 +4310,6 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 或
 GeneralPage.Library.Included=库:
 GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
 
-#BookMarkPage
-BookMarkPage.Modified.Note=书签还包含除 \"A-Z a-z 0-9 - _ : .\" 之外的特殊字符，运行时可能会出现问题。
-
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4636,7 +4634,6 @@ BindingDialogHelper.warning.button.no=否
 #Scripts Node
 Scripts.Node.DisplayName=脚本
 ScriptElementNode.Action.Text=转到报表元素(&G)
-ScriptObjectNode_0=重置脚本(&R)
 
 ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 
@@ -4720,11 +4717,6 @@ PasteFormatAction.text=粘贴格式(&O)
 #InsertAggregationAction
 InsertAggregationAction.text=聚合(&A)
 
-
-###########################################################
-#InsertRelativeTimePeriodAction
-InsertRelativeTimePeriodAction.text=Relati&ve Time Period
-
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=设置当前视图
@@ -4758,10 +4750,7 @@ GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=用渐变选择(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N)
 GeneralConfigurationBlock.group.label=提示
-GeneralConfigurationBlock.group.defaultThemes=默认主题库
 GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
-GeneralConfigurationBlock.button.text.defaultTheme.enable=启用默认主题库(&T)
-GeneralConfigurationBlock.button.text.defaultTheme.include=包含默认主题(&I)
 GeneralConfigurationBlock.move.binding.group=将本地绑定移动到父层以获得更好的性能
 GeneralConfigurationBlock.move.binding.always=始终(&W)
 GeneralConfigurationBlock.move.binding.never=从不(&V)
