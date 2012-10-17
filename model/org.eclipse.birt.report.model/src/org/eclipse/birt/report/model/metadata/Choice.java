@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.core.i18n.ThreadResources;
+import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -39,6 +41,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 
 	public final static String DISPLAY_NAME_ID_PROP = "displayNameID"; //$NON-NLS-1$
 
+	protected IMessages messages;
 	/**
 	 * The resource key for the choice's display name.
 	 */
@@ -71,7 +74,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * 
 	 */
 
-	protected Choice( )
+	public Choice( )
 	{
 
 	}
@@ -95,7 +98,16 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 
 	public String getDisplayName( )
 	{
-		return ModelMessages.getMessage( displayNameKey );
+		if ( displayNameKey != null )
+		{
+			if ( messages == null )
+			{
+				return ModelMessages.getMessage( this.displayNameKey );
+			}
+			ULocale locale = ThreadResources.getULocale( );
+			return messages.getMessage( displayNameKey, locale );
+		}
+		return name;
 	}
 
 	/**
@@ -106,7 +118,15 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 
 	public String getDisplayName( ULocale locale )
 	{
-		return ModelMessages.getMessage( displayNameKey, locale );
+		if ( displayNameKey != null )
+		{
+			if ( messages == null )
+			{
+				return ModelMessages.getMessage( this.displayNameKey, locale );
+			}
+			return messages.getMessage( displayNameKey, locale );
+		}
+		return name;
 	}
 	
 	/**
@@ -211,5 +231,15 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 			assert false;
 			return null;
 		}
+	}
+
+	public void setMessages( IMessages messages )
+	{
+		this.messages = messages;
+	}
+
+	public IMessages getMessages( )
+	{
+		return messages;
 	}
 }

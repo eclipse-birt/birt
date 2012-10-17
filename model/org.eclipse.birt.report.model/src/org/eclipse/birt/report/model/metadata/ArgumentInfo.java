@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.metadata;
 
+import org.eclipse.birt.core.i18n.ThreadResources;
+import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -18,6 +20,8 @@ import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Represents the definition of argument. The argument definition includes the
@@ -27,11 +31,15 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 public class ArgumentInfo implements IArgumentInfo
 {
 
+	protected IMessages messages;
+	
 	/**
 	 * The script type of this argument.
 	 */
 
 	private String type;
+
+	protected IClassInfo classType;
 
 	/**
 	 * The internal (non-localized) name for the argument. This name is used in
@@ -69,9 +77,23 @@ public class ArgumentInfo implements IArgumentInfo
 	public String getDisplayName( )
 	{
 		if ( displayNameKey != null )
-			return ModelMessages.getMessage( this.displayNameKey );
-
-		return ""; //$NON-NLS-1$
+		{
+			String displayName = null;
+			if ( messages == null )
+			{
+				displayName = ModelMessages.getMessage( this.displayNameKey );
+			}
+			else
+			{
+				ULocale locale = ThreadResources.getULocale( );
+				displayName = messages.getMessage( displayNameKey, locale );
+			}
+			if ( displayName != null )
+			{
+				return displayName;
+			}
+		}
+		return name;
 	}
 
 	/**
@@ -135,6 +157,11 @@ public class ArgumentInfo implements IArgumentInfo
 		this.elementDefn = elementDefn;
 	}
 
+	public void setClassType( IClassInfo classType )
+	{
+		this.classType = classType;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -144,6 +171,9 @@ public class ArgumentInfo implements IArgumentInfo
 
 	public IClassInfo getClassType( )
 	{
+		if ( classType != null )
+			return classType;
+		
 		IClassInfo tmpInfo = new ScriptableClassInfo( ).getClass( type );
 		if ( tmpInfo != null )
 			return tmpInfo;
@@ -182,5 +212,15 @@ public class ArgumentInfo implements IArgumentInfo
 		if ( !StringUtil.isBlank( getName( ) ) )
 			return getName( );
 		return super.toString( );
+	}
+
+	public void setMessages( IMessages messages )
+	{
+		this.messages = messages;
+	}
+
+	public IMessages getMessages( )
+	{
+		return messages;
 	}
 }

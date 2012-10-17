@@ -424,7 +424,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            the Java class to set
 	 */
 
-	void setJavaClass( String theClass )
+	public void setJavaClass( String theClass )
 	{
 		assert !isBuilt;
 		javaClass = theClass;
@@ -437,7 +437,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            The predefined style name.
 	 */
 
-	void setSelector( String value )
+	public void setSelector( String value )
 	{
 		selector = value;
 	}
@@ -449,7 +449,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            The name of the element type which this element extends.
 	 */
 
-	void setExtends( String base )
+	public void setExtends( String base )
 	{
 		assert !isBuilt;
 		extendsFrom = base;
@@ -463,7 +463,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            otherwise.
 	 */
 
-	void setSupportsUserProperties( boolean flag )
+	public void setSupportsUserProperties( boolean flag )
 	{
 		assert !isBuilt;
 		supportsUserProperties = flag;
@@ -510,7 +510,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            True if this element supports style properties, false if not.
 	 */
 
-	void setHasStyle( boolean flag )
+	public void setHasStyle( boolean flag )
 	{
 		assert !isBuilt;
 		hasStyle = flag;
@@ -1490,7 +1490,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            Whether this element supports user-defined properties.
 	 */
 
-	void setAllowsUserProperties( boolean flag )
+	public void setAllowsUserProperties( boolean flag )
 	{
 		assert !isBuilt;
 		supportsUserProperties = flag;
@@ -1531,6 +1531,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public IElementDefn getParent( )
 	{
 		return parent;
+	}
+
+	public void setParent( ElementDefn parent )
+	{
+		this.parent = parent;
 	}
 
 	/**
@@ -1779,7 +1784,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            element cannot be extended.
 	 */
 
-	void setCanExtend( boolean flag )
+	public void setCanExtend( boolean flag )
 	{
 		allowExtend = flag;
 	}
@@ -1813,7 +1818,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 *            concrete (user-visible)
 	 */
 
-	void setAbstract( boolean flag )
+	public void setAbstract( boolean flag )
 	{
 		abstractElement = flag;
 	}

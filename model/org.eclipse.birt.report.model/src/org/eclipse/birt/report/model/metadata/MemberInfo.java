@@ -29,6 +29,8 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 
 	private String dataType;
 
+	protected IClassInfo classType;
+	
 	/**
 	 * Whether this memeber is static.
 	 */
@@ -89,8 +91,17 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	 */
 	public IClassInfo getClassType( )
 	{
+		if ( classType != null )
+		{
+			return classType;
+		}
 		IClassInfo tmpInfo =  new ScriptableClassInfo( ).getClass( dataType ); 
 		return tmpInfo;
+	}
+	
+	public void setClassType(IClassInfo classType)
+	{
+		this.classType = classType;
 	}
 
 }

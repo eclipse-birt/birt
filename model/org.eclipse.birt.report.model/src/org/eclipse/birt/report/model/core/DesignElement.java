@@ -645,7 +645,7 @@ public abstract class DesignElement
 
 	public DesignElement( )
 	{
-		this( null );
+		this( (String) null );
 	}
 
 	/**
@@ -661,6 +661,12 @@ public abstract class DesignElement
 		cachedDefn = MetaDataDictionary.getInstance( ).getElement(
 				getElementName( ) );
 
+		cachedPropStrategy = PropertySearchStrategy.getInstance( );
+	}
+
+	public DesignElement( IElementDefn elementDefn )
+	{
+		cachedDefn = elementDefn;
 		cachedPropStrategy = PropertySearchStrategy.getInstance( );
 	}
 

@@ -685,7 +685,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			newName = DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION;
 		}
 
-		return choiceSets.get( newName );
+		IChoiceSet choiceSet = choiceSets.get( newName );
+		if ( choiceSet != null )
+		{
+			return choiceSet;
+		}
+		return ExtensionManager.getInstance( ).getChoiceSet( choiceSetName );
 	}
 
 	/**
@@ -777,7 +782,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 	public IClassInfo getClass( String name )
 	{
-		return classes.get( name );
+		IClassInfo classInfo = classes.get( name );
+		if ( classInfo != null )
+		{
+			return classInfo;
+		}
+		return ExtensionManager.getInstance( ).getClassInfo( name );
 	}
 
 	/**

@@ -38,6 +38,8 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 */
 
 	private String returnType;
+	
+	private IClassInfo returnClassType;
 
 	/**
 	 * Whether this method is static.
@@ -75,6 +77,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 		super( );
 
 		this.isConstructor = isConstructor;
+	}
+
+	public MethodInfo( )
+	{
+		this( false );
 	}
 
 	/**
@@ -179,6 +186,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 		return isConstructor;
 	}
 
+	public void Constructor( boolean isConstructor )
+	{
+		this.isConstructor = isConstructor;
+	}
+
 	/**
 	 * Returns whether this method is static.
 	 * 
@@ -275,6 +287,10 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 
 	public IClassInfo getClassReturnType( )
 	{
+		if ( returnClassType != null )
+		{
+			return returnClassType;
+		}
 		IClassInfo tmpInfo = new ScriptableClassInfo( )
 				.getClass( returnType );
 		if ( tmpInfo != null )
@@ -289,6 +305,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 			return null;
 
 		return factory.getScriptableClass( returnType );
+	}
+
+	public void setClassReturnType( IClassInfo returnClassType )
+	{
+		this.returnClassType = returnClassType;
 	}
 
 }
