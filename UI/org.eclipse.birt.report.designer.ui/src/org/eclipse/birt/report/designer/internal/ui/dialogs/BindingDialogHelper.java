@@ -111,7 +111,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	protected static final String GROUP = Messages.getString( "BindingDialogHelper.text.Group" ); //$NON-NLS-1$
 	protected static final String EXPRESSION = Messages.getString( "BindingDialogHelper.text.Expression" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME = Messages.getString( "BindingDialogHelper.text.displayName" ); //$NON-NLS-1$
-	protected static final String ALLOW_EXPORT = Messages.getString( "BindingDialogHelper.text.allowExport" ); //$NON-NLS-1$
+	protected static final String ALLOW_EXPORT_LABEL = Messages.getString( "BindingDialogHelper.text.allowExport" ); //$NON-NLS-1$
+	protected static final String ALLOW_EXPORT_BUTTON = Messages.getString( "BindingDialogHelper.text.allowExport.button" ); //$NON-NLS-1$
 	protected static final String DISPLAY_NAME_ID = Messages.getString( "BindingDialogHelper.text.displayNameID" ); //$NON-NLS-1$
 
 	protected static final String DEFAULT_ITEM_NAME = Messages.getString( "BindingDialogHelper.bindingName.dataitem" ); //$NON-NLS-1$
@@ -287,12 +288,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 
 		Label allowExportLabel = new Label( composite, SWT.NONE );
-		allowExportLabel.setText( ALLOW_EXPORT );
+		allowExportLabel.setText( ALLOW_EXPORT_LABEL );
 		btnAllowExport = new Button( composite, SWT.CHECK );
+		btnAllowExport.setText(ALLOW_EXPORT_BUTTON);
 		btnAllowExport.setSelection( true );
 
-		GridData gd1 = new GridData( );
+		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
 		gd1.horizontalSpan = 3;
+		gd1.widthHint = 200;
 		gd1.heightHint = cmbType.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		btnAllowExport.setLayoutData( gd1 );
 
@@ -351,17 +354,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		// txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
 		// Expression gets the comment.
-		if ( txtExpression != null && !txtExpression.isDisposed( ) )// add
-																	// if/else
-																	// block to
-																	// fix TED
-																	// 52776:NPE
-																	// thrown
+		if(txtExpression!=null&&!txtExpression.isDisposed())//add if/else block to fix TED 52776:NPE thrown
 		{
 			txtExpression.setFocus( );
-		}
-		else
-		{
+		}else{
 			txtDisplayName.setFocus( );
 		}
 		if ( isAggregate( ) )
@@ -1314,8 +1310,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-						gd.heightHint = txtParam.computeSize( SWT.DEFAULT,
-								SWT.DEFAULT ).y
+						gd.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
 								- txtParam.getBorderWidth( )
 								* 2;
 						gridData.horizontalIndent = 0;
