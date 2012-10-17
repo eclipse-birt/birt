@@ -3639,7 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
 UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=A partir du serveur
 CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 
 

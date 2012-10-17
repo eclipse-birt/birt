@@ -3639,7 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的布景主题。
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=从服务器
 CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 

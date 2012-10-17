@@ -3639,7 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
-CssStyleSheetNodeProvider.Label.FromServer=From Server
+CssStyleSheetNodeProvider.Label.FromServer=サーバから
 CssStyleSheetNodeProvider.Tooltip.URI=(表示時に適用)
 
 
