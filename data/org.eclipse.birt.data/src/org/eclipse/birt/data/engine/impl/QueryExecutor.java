@@ -468,6 +468,45 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 	}
 	
+	private boolean needSortingOnGroupKeys( )
+	{
+		if ( this.baseQueryDefn.getQueryExecutionHints( ) == null
+				|| this.baseQueryDefn.getQueryExecutionHints( )
+						.doSortBeforeGrouping( ) )
+			return true;
+		
+		// Now do sorting before group is false.
+		List<IGroupDefinition> groups = this.baseQueryDefn.getGroups( );
+		List<ISortDefinition> sorts = this.baseQueryDefn.getSorts( );
+		
+		if ( sorts == null || sorts.size( ) == 0 )
+			return false;
+
+		int i = 0;
+		for ( ; i < groups.size( ) && i < sorts.size( ); )
+		{
+			String groupKey = groups.get( i ).getKeyColumn( ) != null
+					? getColumnRefExpression( groups.get( i ).getKeyColumn( ) )
+					: groups.get( i ).getKeyExpression( );
+			String sortKey = sorts.get( i ).getColumn( ) != null
+					? getColumnRefExpression( sorts.get( i ).getColumn( ) )
+					: sorts.get( i ).getExpression( ).getText( );
+			if ( groupKey.equals( sortKey ) )
+			{
+				i++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if ( i == groups.size( ) )
+			return false;
+		else
+			return true;
+	}
+	
 	/**
 	 * Populate grouping to the query.
 	 * 
@@ -479,6 +518,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		List groups = this.baseQueryDefn.getGroups( );
 		if ( groups != null && !groups.isEmpty( ) )
 		{
+			boolean needSortingOnGroupKeys = needSortingOnGroupKeys( );
 			IQuery.GroupSpec[] groupSpecs = new IQuery.GroupSpec[groups.size( )];
 			Iterator it = groups.iterator( );
 			for ( int i = 0; it.hasNext( ); i++ )
@@ -494,17 +534,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 				
 				boolean doGroupSorting = false;
 				if ( this.session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
+				{
 					doGroupSorting = true;
+				}
 				else if ( src.getSortDirection( ) == IGroupDefinition.NO_SORT )
+				{
 					doGroupSorting = false;
-				else if ( this.baseQueryDefn.getQueryExecutionHints( ) == null )
-					doGroupSorting  = true;
-				else if ( this.baseQueryDefn.getSorts( ).size( ) > 0 )
-					doGroupSorting = true;
+				}
 				else
-					doGroupSorting = this.baseQueryDefn.getQueryExecutionHints( )
-							.doSortBeforeGrouping( );
-				
+				{
+					doGroupSorting = needSortingOnGroupKeys;
+				}
 				IQuery.GroupSpec dest = QueryExecutorUtil.groupDefnToSpec( cx,
 						src,
 						expr,
@@ -523,7 +563,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 						dataType) );
 
 			}
-
+			
 			if ( opt.acceptGroupSorting( ) )
 			{
 				for ( int i = 0; i < groupSpecs.length; i++ )
