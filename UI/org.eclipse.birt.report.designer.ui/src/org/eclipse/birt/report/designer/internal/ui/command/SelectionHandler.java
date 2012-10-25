@@ -113,7 +113,7 @@ public class SelectionHandler extends AbstractHandler
 	protected Object getFirstSelectVariable( )
 	{
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object selectVariable = context.getVariable( ISources.ACTIVE_CURRENT_SELECTION_NAME );
+		Object selectVariable = UIUtil.getVariableFromContext( context, ISources.ACTIVE_CURRENT_SELECTION_NAME );
 		Object selectList = selectVariable;
 		if ( selectVariable instanceof StructuredSelection )
 		{
@@ -229,7 +229,7 @@ public class SelectionHandler extends AbstractHandler
 	protected IStructuredSelection getSelection( )
 	{
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object selectVariable = context.getVariable( ISources.ACTIVE_CURRENT_SELECTION_NAME );
+		Object selectVariable = UIUtil.getVariableFromContext( context, ISources.ACTIVE_CURRENT_SELECTION_NAME );
 		if ( selectVariable != null )
 		{
 			if ( selectVariable instanceof IStructuredSelection )
