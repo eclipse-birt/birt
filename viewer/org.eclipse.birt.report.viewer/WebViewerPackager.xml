@@ -468,6 +468,7 @@
 				<include name="org.eclipse.emf.ecore.change_*.jar"/>
 				<include name="org.eclipse.emf.ecore_*.jar" />
 				<include name="org.eclipse.emf_*.jar" />
+				<include name="org.apache.commons.logging_*.jar" />
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.w3c.dom_*.jar"/>
@@ -476,6 +477,7 @@
 				<include name="org.w3c.dom.smil_*.jar"/>
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
+				<include name="javax.xml.stream_*.jar"/>
 			</fileset>
 			<fileset dir="../org.eclipse.birt.report.engine/lib">
 				<include name="*.jar"/>
