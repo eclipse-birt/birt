@@ -291,16 +291,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         addParameterDefns();
      
         //Here the "max rows" means the max number of rows that can fetch from data source.
-        int maxRows = this.getRowFetchLimit( );
-		if ( maxRows <= 0 )
-		{
-			if ( this.getQueryDefinition( ) instanceof IQueryDefinition )
-			{
-				IQueryDefinition qd = (IQueryDefinition) this.getQueryDefinition( );
-				maxRows = qd.getMaxRows( );
-			}
-		}
-      	odaStatement.setMaxRows( maxRows );
+      	odaStatement.setMaxRows( this.getRowFetchLimit( ) );
       		
         IOdaDataSetDesign design = null;
     	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
@@ -934,18 +925,6 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 			{
 				cacheCountConfig = session.getDataSetCacheManager( )
 						.getCacheCountConfig( );
-			}
-			
-			if( fetchRowLimit <= 0 )
-			{
-		    	int displayMaxRows = -1;
-		    	if( this.getQueryDefinition( ) instanceof IQueryDefinition )
-		    	{
-		    		IQueryDefinition qd = (IQueryDefinition) this.getQueryDefinition( );
-		    		displayMaxRows = qd.getMaxRows();
-		    	}
-		    	
-				fetchRowLimit = displayMaxRows;
 			}
 			
 			if ( cacheCountConfig > 0 )

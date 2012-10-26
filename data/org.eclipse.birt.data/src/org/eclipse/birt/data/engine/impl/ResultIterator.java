@@ -175,7 +175,12 @@ public class ResultIterator implements IResultIterator
 			}
 			else
 			{
-				throw new DataException( ex.getLocalizedMessage(), ex );
+				if ( ex instanceof DataException )
+				{
+					throw (DataException) ex;
+				}
+				else
+					throw DataException.wrap( new BirtException( ex.getLocalizedMessage( ) ) );
 			}
 		}
 		this.distinctValue = this.resultService.getQueryDefn( )
