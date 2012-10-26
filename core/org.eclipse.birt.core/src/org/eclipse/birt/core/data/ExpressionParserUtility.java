@@ -32,12 +32,12 @@ import org.mozilla.javascript.Token;
  */
 public class ExpressionParserUtility
 {
-	private final String pluginId = "org.eclipse.birt.core";
+	private final String pluginId = "org.eclipse.birt.core"; //$NON-NLS-1$
 	
-	private final static String ROWS_0_INDICATOR = "rows";
-	private final static String TOTAL = "Total";
+	private final static String ROWS_0_INDICATOR = "rows"; //$NON-NLS-1$
+	private final static String TOTAL = "Total"; //$NON-NLS-1$
 	
-	private String ROW_INDICATOR = "row";
+	private String ROW_INDICATOR = "row"; //$NON-NLS-1$
 	private boolean hasAggregation = false;
 	private boolean isDirectColumnRef = false;
 	

@@ -114,7 +114,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 			}
 			if ( global
 					.get(
-							org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+							org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCTION_BEAN_NAME,
 							global ) == org.mozilla.javascript.UniqueTag.NOT_FOUND )
 			{
 				IScriptFunctionContext functionContext = new IScriptFunctionContext( ) {
@@ -128,7 +128,7 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 				Object sObj = Context.javaToJS( functionContext, global );
 				global
 						.put(
-								org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCITON_BEAN_NAME,
+								org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCTION_BEAN_NAME,
 								global, sObj );
 			}
 			initWrapFactory( );
