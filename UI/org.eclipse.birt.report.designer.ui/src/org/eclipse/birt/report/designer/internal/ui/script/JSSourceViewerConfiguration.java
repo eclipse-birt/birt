@@ -152,7 +152,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	{
 		if ( scanner != null )
 		{
-			scanner.setDefaultReturnToken( new Token( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) ) );
+			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
 		}
 	}
 }
