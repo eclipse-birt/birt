@@ -11,11 +11,24 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ExpressionSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormTextSection;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * Bookmark expreesion page.
@@ -24,14 +37,29 @@ import org.eclipse.swt.widgets.Composite;
 public class BookMarkExpressionPage extends AttributePage
 {
 
-	public void buildUI( Composite parent  )
+	private FormTextSection noteSection;
+	private ExpressionSection bookMarkSection;
+	private ExpressionPropertyDescriptorProvider bookMarkProvider;
+
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 2, 15 ) );
 
-		ExpressionPropertyDescriptorProvider bookMarkProvider = new ExpressionPropertyDescriptorProvider( IReportItemModel.BOOKMARK_PROP,
+		noteSection = new FormTextSection( "", container, true ); //$NON-NLS-1$
+		noteSection.setWidth( 450 );
+		noteSection.setFillText( false );
+		noteSection.setText( "<form><p><img href=\"image\"/><span color=\"color\">" + //$NON-NLS-1$
+				Messages.getString( "BookMarkPage.Modified.Note" )
+				+ "</span></p></form>" ); //$NON-NLS-1$
+		noteSection.setImage( "image", //$NON-NLS-1$
+				JFaceResources.getImage( Dialog.DLG_IMG_MESSAGE_WARNING ) );
+		noteSection.setColor( "color", ColorManager.getColor( 127, 127, 127 ) ); //$NON-NLS-1$
+		addSection( PageSectionId.GENERAL_LIBRARY_NOTE, noteSection );
+
+		bookMarkProvider = new ExpressionPropertyDescriptorProvider( IReportItemModel.BOOKMARK_PROP,
 				ReportDesignConstants.REPORT_ITEM );
-		ExpressionSection bookMarkSection = new ExpressionSection( bookMarkProvider.getDisplayName( ),
+		bookMarkSection = new ExpressionSection( bookMarkProvider.getDisplayName( ),
 				container,
 				true );
 		bookMarkSection.setProvider( bookMarkProvider );
@@ -41,16 +69,60 @@ public class BookMarkExpressionPage extends AttributePage
 		layoutSections( );
 
 	}
-	/*
-	 * protected void refreshValues( Set propertiesSet ) { if
-	 * (DEUtil.getInputSize(input ) > 0 ) { ReportElementHandle handle =
-	 * (ReportElementHandle) DEUtil.getInputFirstElement(input );
-	 * GroupPropertyHandle propertyHandle = GroupElementFactory.newGroupElement(
-	 * handle.getModuleHandle( ), DEUtil.getInputElements(input ) )
-	 * .getPropertyHandle( IReportItemModel.BOOKMARK_PROP ); Control[] children =
-	 * bookmarkArea.getChildren( ); for ( int i = 0; i < children.length; i++ ) {
-	 * children[i].setEnabled( !propertyHandle.isReadOnly( ) ); } }
-	 * super.refresh( ); }
-	 */
+
+	public void createSections( )
+	{
+		super.createSections( );
+		bookMarkSection.getExpressionControl( )
+				.getTextControl( )
+				.addModifyListener( new ModifyListener( ) {
+
+					public void modifyText( ModifyEvent e )
+					{
+						refreshMessage( );
+					}
+				} );
+	}
+
+	public void refresh( )
+	{
+		refreshMessage( );
+		super.refresh( );
+	}
+
+	private void refreshMessage( )
+	{
+		Text text = bookMarkSection.getExpressionControl( ).getTextControl( );
+		if ( text != null && !text.isDisposed( ) )
+		{
+			boolean isHidden = noteSection.getTextControl( ).isVisible( );
+			if ( !validateBookMark( text.getText( ).trim( ) ) )
+			{
+				noteSection.setHidden( false );
+			}
+			else
+			{
+				noteSection.setHidden( true );
+			}
+			if ( noteSection.getTextControl( ).isVisible( ) != isHidden )
+			{
+				FormWidgetFactory.getInstance( ).paintFormStyle( container );
+				FormWidgetFactory.getInstance( ).adapt( container );
+				container.layout( true );
+				container.redraw( );
+			}
+		}
+	}
+
+	private boolean validateBookMark( String text )
+	{
+		text = DEUtil.removeQuote( text ).trim( );
+		if ( text.length( ) > 0 )
+		{
+			return text.matches( "[a-zA-Z0-9_\\-\\:\\.]+" );
+		}
+		else
+			return true;
+	}
 
 }

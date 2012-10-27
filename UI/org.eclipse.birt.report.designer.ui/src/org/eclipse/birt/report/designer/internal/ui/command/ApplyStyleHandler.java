@@ -62,7 +62,7 @@ public class ApplyStyleHandler extends SelectionHandler
 			handle = (SharedStyleHandle) obj;
 		}
 		
-		obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.STYLE_HANDLE_NAME );
+		obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED);
 		if ( obj != null && obj instanceof Boolean )
 		{
 			isChecked = ((Boolean) obj).booleanValue( );

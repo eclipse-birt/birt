@@ -45,7 +45,7 @@ public class EditGroupHandler extends SelectionHandler
 
 		GroupHandle handle = null;
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, EditGroupAction.GROUP_HANDLE_NAME );
+		Object obj =UIUtil.getVariableFromContext( context, EditGroupAction.GROUP_HANDLE_NAME );
 		if ( obj != null && obj instanceof GroupHandle )
 		{
 			handle = (GroupHandle) obj;

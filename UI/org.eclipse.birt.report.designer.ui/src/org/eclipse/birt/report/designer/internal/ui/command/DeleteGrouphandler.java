@@ -28,7 +28,7 @@ public class DeleteGrouphandler extends SelectionHandler
 		ReportElementEditPart editPart = null;
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.DELETE_GROUP_HANDLE );
+		Object obj =UIUtil.getVariableFromContext( context, ICommandParameterNameContants.DELETE_GROUP_HANDLE );
 		if ( ( obj == null ) || ( !( obj instanceof GroupHandle ) ) )
 		{
 			return Boolean.FALSE;
