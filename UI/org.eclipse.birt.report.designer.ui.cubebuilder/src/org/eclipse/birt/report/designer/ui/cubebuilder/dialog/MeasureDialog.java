@@ -77,7 +77,6 @@ public class MeasureDialog extends TitleAreaDialog
 
 	private boolean isEdit = false;
 	private boolean isAutoPrimaryKeyChecked = false;
-	private ExpressionButton exprBtn;
 	private CubeMeasureExpressionProvider provider;
 	private Combo typeCombo;
 	private Text expressionText;
@@ -97,6 +96,7 @@ public class MeasureDialog extends TitleAreaDialog
 	private IDialogHelper securityHelper;
 	private IDialogHelper formatHelper;
 	private IDialogHelper alignmentHelper;
+	private Text displayNameText;
 
 	public MeasureDialog( boolean newOrEdit )
 	{
@@ -282,6 +282,7 @@ public class MeasureDialog extends TitleAreaDialog
 					MeasureHandle.MEASURE_EXPRESSION_PROP );
 
 			nameText.setText( input.getName( ) == null ? "" : input.getName( ) ); //$NON-NLS-1$
+			displayNameText.setText( input.getDisplayName( ) == null ? "" : input.getDisplayName( ) ); //$NON-NLS-1$
 			handleFunctionSelectEvent( );
 			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
 					: getDataTypeDisplayName( input.getDataType( ) ) );
@@ -341,16 +342,44 @@ public class MeasureDialog extends TitleAreaDialog
 			{
 				TabularMeasureHandle measure;
 				if ( input == null )
+				{
 					measure = DesignElementFactory.getInstance( )
 							.newTabularMeasure( nameText.getText( ) );
+					if ( displayNameText.getText( ).trim( ).length( ) > 0 )
+					{
+						measure.setDisplayName( displayNameText.getText( )
+								.trim( ) );
+					}
+					else
+					{
+						measure.setDisplayName( null );
+					}
+				}
 				else
 				{
 					measure = input;
 					input.setName( nameText.getText( ) );
+					if ( displayNameText.getText( ).trim( ).length( ) > 0 )
+					{
+						input.setDisplayName( displayNameText.getText( ).trim( ) );
+					}
+					else
+					{
+						input.setDisplayName( null );
+					}
 				}
 
 				measure.setCalculated( derivedMeasureBtn.getSelection( ) );
-				measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+
+				if ( derivedMeasureBtn.getSelection( ) )
+				{
+					measure.setFunction( null );
+				}
+				else
+				{
+					measure.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+				}
+
 				measure.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				if ( expressionText.isEnabled( ) )
 				{
@@ -358,11 +387,25 @@ public class MeasureDialog extends TitleAreaDialog
 							measure,
 							MeasureHandle.MEASURE_EXPRESSION_PROP );
 				}
+
+				if ( !derivedMeasureBtn.getSelection( ) )
+				{
+					if ( securityHelper != null )
+					{
+						securityHelper.validate( );
+						measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+								(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+					}
+				}
+				else
+				{
+					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+							null );
+				}
+
 				if ( securityHelper != null )
 				{
-					securityHelper.validate( );
-					measure.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
-							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+
 				}
 				if ( alignmentHelper != null )
 				{
@@ -393,14 +436,31 @@ public class MeasureDialog extends TitleAreaDialog
 					}
 
 				}
-				measure.setVisible(!visibilityBtn.getSelection());
+				measure.setVisible( !visibilityBtn.getSelection( ) );
 				result = measure;
 			}
 			else
 			{
 				input.setName( nameText.getText( ) );
+				if ( displayNameText.getText( ).trim( ).length( ) > 0 )
+				{
+					input.setDisplayName( displayNameText.getText( ).trim( ) );
+				}
+				else
+				{
+					input.setDisplayName( null );
+				}
 				input.setCalculated( derivedMeasureBtn.getSelection( ) );
-				input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+
+				if ( derivedMeasureBtn.getSelection( ) )
+				{
+					input.setFunction( null );
+				}
+				else
+				{
+					input.setFunction( getFunctions( )[functionCombo.getSelectionIndex( )].getName( ) );
+				}
+
 				input.setDataType( getDataTypeNames( )[typeCombo.getSelectionIndex( )] );
 				if ( expressionText.isEnabled( ) )
 				{
@@ -410,12 +470,22 @@ public class MeasureDialog extends TitleAreaDialog
 				}
 				else
 					input.setMeasureExpression( null );
-				if ( securityHelper != null )
+
+				if ( !derivedMeasureBtn.getSelection( ) )
 				{
-					securityHelper.validate( );
-					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
-							(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+					if ( securityHelper != null )
+					{
+						securityHelper.validate( );
+						input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+								(Expression) securityHelper.getProperty( BuilderConstants.SECURITY_EXPRESSION_PROPERTY ) );
+					}
 				}
+				else
+				{
+					input.setExpressionProperty( MeasureHandle.ACL_EXPRESSION_PROP,
+							null );
+				}
+
 				if ( alignmentHelper != null )
 				{
 					input.setAlignment( (String) alignmentHelper.getProperty( BuilderConstants.ALIGNMENT_VALUE ) );
@@ -445,7 +515,7 @@ public class MeasureDialog extends TitleAreaDialog
 					}
 
 				}
-				input.setVisible(!visibilityBtn.getSelection());
+				input.setVisible( !visibilityBtn.getSelection( ) );
 				result = input;
 			}
 
@@ -492,10 +562,24 @@ public class MeasureDialog extends TitleAreaDialog
 
 		} );
 
+		Label displayNameLabel = new Label( group, SWT.NONE );
+		displayNameLabel.setText( Messages.getString( "MeasureDialog.Label.DisplayName" ) ); //$NON-NLS-1$
+		displayNameText = new Text( group, SWT.BORDER );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		displayNameText.setLayoutData( gd );
+		displayNameText.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				checkOkButtonStatus( );
+			}
+
+		} );
+
 		new Label( group, SWT.NONE );
 		derivedMeasureBtn = new Button( group, SWT.CHECK );
 		derivedMeasureBtn.setText( Messages.getString( "MeasureDialog.Label.DerivedMeasure" ) ); //$NON-NLS-1$
-		derivedMeasureBtn.setSelection( input.isCalculated( ) );
 
 		derivedMeasureBtn.addSelectionListener( new SelectionAdapter( ) {
 
@@ -540,7 +624,7 @@ public class MeasureDialog extends TitleAreaDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if (!derivedMeasureBtn.getSelection())
+				if ( !derivedMeasureBtn.getSelection( ) )
 				{
 					handleTypeSelectEvent( );
 				}
@@ -559,9 +643,6 @@ public class MeasureDialog extends TitleAreaDialog
 		expressionLabel.setText( Messages.getString( "MeasureDialog.Label.Expression" ) ); //$NON-NLS-1$
 		expressionText = new Text( group, SWT.WRAP | SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- expressionText.getBorderWidth( )
-				* 2;
 		expressionText.setLayoutData( gd );
 		expressionText.addModifyListener( new ModifyListener( ) {
 
@@ -572,8 +653,9 @@ public class MeasureDialog extends TitleAreaDialog
 
 		} );
 
-		provider = new CubeMeasureExpressionProvider( input, input.isCalculated() );
-		exprBtn = ExpressionButtonUtil.createExpressionButton( group,
+		provider = new CubeMeasureExpressionProvider( input,
+				input.isCalculated( ) );
+		ExpressionButtonUtil.createExpressionButton( group,
 				expressionText,
 				provider,
 				input );
@@ -611,8 +693,8 @@ public class MeasureDialog extends TitleAreaDialog
 
 		visibilityBtn = new Button( group, SWT.CHECK );
 		visibilityBtn.setText( Messages.getString( "MeasureDialog.Label.Visibility" ) ); //$NON-NLS-1$
-		visibilityBtn.setSelection(!input.isVisible());
-		
+		visibilityBtn.setSelection( !input.isVisible( ) );
+
 		return group;
 	}
 
@@ -850,8 +932,8 @@ public class MeasureDialog extends TitleAreaDialog
 					if ( getButton( IDialogConstants.OK_ID ) != null )
 					{
 						getButton( IDialogConstants.OK_ID ).setEnabled( false );
-						setErrorMessage( null );
 						setMessage( null );
+						setErrorMessage( Messages.getString( "MeasureDialog.Message.BlankExpression" ) ); //$NON-NLS-1$
 						return;
 					}
 				}
@@ -862,7 +944,7 @@ public class MeasureDialog extends TitleAreaDialog
 		{
 			getButton( IDialogConstants.OK_ID ).setEnabled( true );
 			setErrorMessage( null );
-			setMessage( null );
+			setMessage( Messages.getString( "MeasureDialog.Text.Description" ) ); //$NON-NLS-1$
 		}
 	}
 

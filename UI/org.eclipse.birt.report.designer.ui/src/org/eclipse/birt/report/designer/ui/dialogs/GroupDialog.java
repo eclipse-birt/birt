@@ -1112,7 +1112,14 @@ public class GroupDialog extends BaseDialog implements Listener
 		checkReadOnlyControl( IStyleModel.PAGE_BREAK_AFTER_PROP,
 				pagebreakAfterCombo );
 
-		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
+		String pagebreakInside = getPageBreakInsideLocalValue( );
+
+		if ( pagebreakInside == null )
+		{
+			index = getPagebreakInsideIndex( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+		}
+		else
+			index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
 
 		if ( index < 0 || index >= pagebreakInsideCombo.getItemCount( ) )
 		{
@@ -1135,6 +1142,15 @@ public class GroupDialog extends BaseDialog implements Listener
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
 		checkReadOnlyControl( IGroupElementModel.HIDE_DETAIL_PROP, hideDetail );
 		return true;
+	}
+
+	private String getPageBreakInsideLocalValue( )
+	{
+		List modelList = new ArrayList( );
+		modelList.add( inputGroup );
+		String pagebreakInside = DEUtil.getGroupElementHandle( modelList )
+				.getLocalStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP );
+		return pagebreakInside;
 	}
 
 	private void refreshColumnList( )
@@ -1461,66 +1477,22 @@ public class GroupDialog extends BaseDialog implements Listener
 				inputGroup.setPageBreakAfter( choice );
 
 			choice = pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex( )].getName( );
-			if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
-				inputGroup.setPageBreakInside( choice );
+			if ( getPageBreakInsideLocalValue( ) != null )
+			{
+				if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
+					inputGroup.setPageBreakInside( choice );
+			}
+			else
+			{
+				if ( !choice.equals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID ) )
+				{
+					inputGroup.setPageBreakInside( choice );
+				}
+			}
 
 			if ( inputGroup.repeatHeader( ) != repeatHeaderButton.getSelection( ) )
 			{
 				inputGroup.setRepeatHeader( repeatHeaderButton.getSelection( ) );
-			}
-			if ( this.startCollapsedHelper != null )
-			{
-				UserPropertyDefnHandle property = inputGroup.getContainer( )
-						.getUserPropertyDefnHandle( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
-				if ( property != null
-						&& property.getType( ) != PropertyType.STRING_TYPE )
-				{
-					inputGroup.getContainer( )
-							.dropUserPropertyDefn( property.getName( ) );
-				}
-				property = inputGroup.getContainer( )
-						.getUserPropertyDefnHandle( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
-				if ( property == null )
-				{
-					UserPropertyDefn propertyDefn = new UserPropertyDefn( );
-					propertyDefn.setName( AC_GROUP_COLLAPSE_LEVEL_PROPERTY );
-					propertyDefn.setType( DEUtil.getMetaDataDictionary( )
-							.getPropertyType( PropertyType.STRING_TYPE ) );
-					// propertyDefn.setVisible( false );
-					inputGroup.getContainer( )
-							.addUserPropertyDefn( propertyDefn );
-				}
-
-				List<String> groups = getGroupNames( inputGroup.getContainer( )
-						.getStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY ) );
-				String position = ""
-						+ ( inputGroup.getContainer( )
-								.getSlot( IListingElementModel.GROUP_SLOT )
-								.findPosn( inputGroup ) + 1 );
-				if ( startCollapsed )
-				{
-					if ( !groups.contains( position ) )
-						groups.add( position );
-				}
-				else
-				{
-					groups.remove( position );
-				}
-
-				StringBuffer buffer = new StringBuffer( );
-				for ( int i = 0; i < groups.size( ); i++ )
-				{
-					buffer.append( groups.get( i ) );
-					if ( i < groups.size( ) - 1 )
-						buffer.append( "," ); //$NON-NLS-1$
-				}
-
-				String value = buffer.toString( ).trim( ).length( ) > 0 ? buffer.toString( )
-						.trim( )
-						: null;
-				inputGroup.getContainer( )
-						.setStringProperty( AC_GROUP_COLLAPSE_LEVEL_PROPERTY,
-								value );
 			}
 			if ( this.startCollapsedHelper != null )
 			{
