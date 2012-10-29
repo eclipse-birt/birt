@@ -202,7 +202,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		grpGeneral = new Group( cmpContent, SWT.NONE );
 		GridData gdCMPGeneral = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
 				| GridData.FILL_HORIZONTAL );
-		gdCMPGeneral.widthHint = 180;
+		gdCMPGeneral.widthHint = 200;
 		grpGeneral.setLayoutData( gdCMPGeneral );
 		grpGeneral.setLayout( new GridLayout( ) );
 		grpGeneral.setText( Messages.getString( "BaseAxisMarkerAttributeSheetImpl.Lbl.DialProperties" ) ); //$NON-NLS-1$
@@ -423,15 +423,22 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 		{
 			( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ).setFill( (Fill) event.data );
 		}
-		else if ( event.widget.equals( txtStartValue ) )
-		{
-			int iMarkerIndex = getMarkerIndex( );
-			( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ).setStartValue( this.getTypedDataElement( txtStartValue.getText( ) ) );
-		}
-		else if ( event.widget.equals( txtEndValue ) )
-		{
-			int iMarkerIndex = getMarkerIndex( );
-			( getDialForProcessing( ).getDialRegions( ) ).get( iMarkerIndex ).setEndValue( this.getTypedDataElement( txtEndValue.getText( ) ) );
+		else if (event.widget.equals(txtStartValue)) {
+			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {
+				int iMarkerIndex = getMarkerIndex();
+				(getDialForProcessing().getDialRegions()).get(iMarkerIndex)
+						.setStartValue(
+								this.getTypedDataElement(txtStartValue
+										.getText()));
+			}
+		} else if (event.widget.equals(txtEndValue)) {
+			if (!TextEditorComposite.TEXT_RESET_MODEL.equals(event.data)) {
+				int iMarkerIndex = getMarkerIndex();
+				(getDialForProcessing().getDialRegions())
+						.get(iMarkerIndex)
+						.setEndValue(
+								this.getTypedDataElement(txtEndValue.getText()));
+			}
 		}
 		else if ( event.widget.equals( liacMarkerRange ) )
 		{

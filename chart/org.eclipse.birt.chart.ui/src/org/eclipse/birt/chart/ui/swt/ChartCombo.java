@@ -120,7 +120,7 @@ public class ChartCombo extends Composite implements SelectionListener
 
 	public void setText( String text )
 	{
-		if ( text == null )
+		if ( indexOf( text ) < 0 )
 		{
 			cmbItems.select( this.defaultIndex );
 			return;
