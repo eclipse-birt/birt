@@ -71,6 +71,8 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.accessibility.AccessibleAdapter;
+import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -921,7 +923,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 		createExpressionButton( composite, txtFilter );
 
-		Label lblAggOn = new Label( composite, SWT.NONE );
+		final Label lblAggOn = new Label( composite, SWT.NONE );
 		lblAggOn.setText( AGGREGATE_ON );
 		gridData = new GridData( );
 		gridData.verticalAlignment = GridData.BEGINNING;
@@ -959,6 +961,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
+		btnTable.getAccessible( ).addAccessibleListener( new AccessibleAdapter(){
+			public void getName( AccessibleEvent e )
+			{
+				e.result = lblAggOn.getText( ).replace( "&", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		} );
+		
 		WidgetUtil.createGridPlaceholder( aggOnComposite, 1, false );
 
 		btnGroup = new Button( aggOnComposite, SWT.RADIO );
@@ -975,6 +984,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				cmbGroup.setEnabled( true );
 			}
 		} );
+		
+		btnTable.getAccessible( ).addAccessibleListener( new AccessibleAdapter(){
+			public void getName( AccessibleEvent e )
+			{
+				e.result = lblAggOn.getText( ).replace( "&", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		} );
+		
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
 		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbGroup.setVisibleItemCount( 30 );
