@@ -1,0 +1,63 @@
+<project name="maven repo">
+	<property name="path" value="."/>
+	<property name="srcFolder" value="runtime.src"/>
+	<property name="bundleName.runtime" value="org.eclipse.birt.runtime"/>
+	<property name="bundleName.viewservlets" value="viewservlets"/>
+	<property name="bundleVersion" value="4.2.1a"/>
+	<target name="copy">
+		<copy todir="${path}/${srcFolder}" overwrite="true">
+			<fileset dir="${path}/org.eclipse.birt.chart.device.extension/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.device.svg/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.engine/src" includes="**"/>
+			<fileset dir="${path}/org.eclipse.birt.chart.engine.extension/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.examples.core/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.chart.reportitem/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.core/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.core.script.function/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.data/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.data.aggregation/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.adapter/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.bidi.utils/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.jdbc/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.hive/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.excel/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.sampledb/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.xml/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.data.oda.jdbc.dbprofile/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.html/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.pdf/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.postscript/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.ppt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.prototype.excel/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.wpml/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.odp/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.ods/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.odt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.odf/src" includes="**"/>
+            <!--<fileset dir="${path}/org.eclipse.birt.report.engine.fonts/src" includes="**"/>-->
+            <fileset dir="${path}/org.eclipse.birt.report.engine.script.javascript/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.item.crosstab.core/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.model/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.model.adapter.oda/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.dataextraction/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.dataextraction.csv/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.excel/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.html/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.pdf/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.postscript/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.ppt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.wpml/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.odp/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.ods/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.report.engine.emitter.config.odt/src" includes="**"/>
+            <fileset dir="${path}/org.eclipse.birt.axis.overlay/src" includes="**"/>
+		</copy>
+	</target>
+	<target name="zipSourcePlugin">
+		  <jar destfile="${path}/${bundleName.runtime}-${bundleVersion}-sources.jar" basedir="${path}/${srcFolder}" /> 
+		  <jar destfile="${path}/${bundleName.viewservlets}-${bundleVersion}-sources.jar" basedir="${path}/org.eclipse.birt.report.viewer/birt/WEB-INF/classes"/>
+	</target>
+</project>
