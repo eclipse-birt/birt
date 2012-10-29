@@ -1482,7 +1482,7 @@ public class BaseChartValueUpdater
 		int index_AreaSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_AreaSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_AreaSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidIndexRef( eRefObj, "markers", index_AreaSeries_markers, element ), getValidIndexRef( eDefObj, "markers", index_AreaSeries_markers, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_AreaSeries_markers++;
 		}
 
@@ -1915,7 +1915,7 @@ public class BaseChartValueUpdater
 		int index_BubbleSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_BubbleSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_BubbleSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidIndexRef( eRefObj, "markers", index_BubbleSeries_markers, element ), getValidIndexRef( eDefObj, "markers", index_BubbleSeries_markers, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_BubbleSeries_markers++;
 		}
 
@@ -2338,7 +2338,7 @@ public class BaseChartValueUpdater
 		int index_DifferenceSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_DifferenceSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_DifferenceSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidIndexRef( eRefObj, "markers", index_DifferenceSeries_markers, element ), getValidIndexRef( eDefObj, "markers", index_DifferenceSeries_markers, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_DifferenceSeries_markers++;
 		}
 
@@ -2366,7 +2366,7 @@ public class BaseChartValueUpdater
 		int index_DifferenceSeries_negativeMarkers = 0;
 		for ( Marker element : eObj.getNegativeMarkers( ) )
 		{
-			updateMarker( "negativeMarkers", eObj, element, getValidMarkerRef( eRefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), getValidMarkerRef( eDefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarker( "negativeMarkers", eObj, element, getValidIndexRef( eRefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers, element ), getValidIndexRef( eDefObj, "negativeMarkers", index_DifferenceSeries_negativeMarkers, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_DifferenceSeries_negativeMarkers++;
 		}
 
@@ -2984,7 +2984,7 @@ public class BaseChartValueUpdater
 		int index_LineSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_LineSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_LineSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidIndexRef( eRefObj, "markers", index_LineSeries_markers, element ), getValidIndexRef( eDefObj, "markers", index_LineSeries_markers, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_LineSeries_markers++;
 		}
 
@@ -3626,7 +3626,7 @@ public class BaseChartValueUpdater
 		int index_ScatterSeries_markers = 0;
 		for ( Marker element : eObj.getMarkers( ) )
 		{
-			updateMarker( "markers", eObj, element, getValidMarkerRef( eRefObj, "markers", index_ScatterSeries_markers ), getValidMarkerRef( eDefObj, "markers", index_ScatterSeries_markers ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarker( "markers", eObj, element, getValidIndexRef( eRefObj, "markers", index_ScatterSeries_markers, element ), getValidIndexRef( eDefObj, "markers", index_ScatterSeries_markers, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_ScatterSeries_markers++;
 		}
 
@@ -4149,14 +4149,14 @@ public class BaseChartValueUpdater
 		int index_Axis_markerLines = 0;
 		for ( MarkerLine element : eObj.getMarkerLines( ) )
 		{
-			updateMarkerLine( "markerLines", eObj, element, ( eRefObj != null && eRefObj.getMarkerLines( ).size( ) > 0 ) ? eRefObj.getMarkerLines( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getMarkerLines( ).size( ) > 0 ) ? eDefObj.getMarkerLines( ).get( 0 ) : null, eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarkerLine( "markerLines", eObj, element, getValidIndexRef( eRefObj, "markerLines", index_Axis_markerLines, element ), getValidIndexRef( eDefObj, "markerLines", index_Axis_markerLines, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Axis_markerLines++;
 		}
 
 		int index_Axis_markerRanges = 0;
 		for ( MarkerRange element : eObj.getMarkerRanges( ) )
 		{
-			updateMarkerRange( "markerRanges", eObj, element, ( eRefObj != null && eRefObj.getMarkerRanges( ).size( ) > 0 ) ? eRefObj.getMarkerRanges( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getMarkerRanges( ).size( ) > 0 ) ? eDefObj.getMarkerRanges( ).get( 0 ) : null, eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateMarkerRange( "markerRanges", eObj, element, getValidIndexRef( eRefObj, "markerRanges", index_Axis_markerRanges, element ), getValidIndexRef( eDefObj, "markerRanges", index_Axis_markerRanges, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Axis_markerRanges++;
 		}
 
@@ -4390,7 +4390,7 @@ public class BaseChartValueUpdater
 		int index_Dial_dialRegions = 0;
 		for ( DialRegion element : eObj.getDialRegions( ) )
 		{
-			updateDialRegion( "dialRegions", eObj, element, ( eRefObj != null && eRefObj.getDialRegions( ).size( ) > 0 ) ? eRefObj.getDialRegions( ).get( 0 ) : null, ( eDefObj != null && eDefObj.getDialRegions( ).size( ) > 0 ) ? eDefObj.getDialRegions( ).get( 0 ) : null, eDefOverride, checkVisible ); //$NON-NLS-1$ 
+			updateDialRegion( "dialRegions", eObj, element, getValidIndexRef( eRefObj, "dialRegions", index_Dial_dialRegions, element ), getValidIndexRef( eDefObj, "dialRegions", index_Dial_dialRegions, element ), eDefOverride, checkVisible ); //$NON-NLS-1$ 
 			index_Dial_dialRegions++;
 		}
 
@@ -10342,18 +10342,21 @@ public class BaseChartValueUpdater
 	}
 
 	/**
-	 * Get valid marker refenerce.
+	 * Get valid index reference.
 	 *
-	 * @param marker parent
-	 *        the parent object which contains markers.
+	 * @param obj
+	 *        the parent object which contains list of specific object.
 	 * @param attribute
-	 *        attribute name of marker.
+	 *        attribute name of specific object.
 	 * @param index
-	 *        the index of marker object.
+	 *        the index of specific object.
+	 * @param element
+	 *        the target object.
 	 *
 	 * @generated
 	 */
-	private Marker getValidMarkerRef( EObject obj, String attribute, int index )
+	private <T> T getValidIndexRef( EObject obj, String attribute, int index,
+			T element )
 	{
 		if ( obj == null )
 		{
@@ -10366,7 +10369,7 @@ public class BaseChartValueUpdater
 					+ attribute.substring( 0, 1 ).toUpperCase( )
 					+ attribute.substring( 1 );
 			Method m = obj.getClass( ).getMethod( methodName );
-			List<Marker> mList = (List<Marker>) m.invoke( obj );
+			List<T> mList = (List<T>) m.invoke( obj );
 			if ( ( mList.size( ) - 1 ) >= index )
 			{
 				return mList.get( index );
