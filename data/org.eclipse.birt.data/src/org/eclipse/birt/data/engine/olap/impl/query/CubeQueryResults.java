@@ -385,6 +385,16 @@ public class CubeQueryResults implements ICubeQueryResults
 	{
 		if( cubeQuery.getQueryResultsID( )!= null && context.getMode( ) == DataEngineContext.MODE_PRESENTATION  )
 		{
+			List filters = cubeQuery.getFilters( );
+			if ( filters != null && filters.size( ) > 0) 
+			{
+				for ( int i = 0; i < filters.size( ); i++ ) 
+				{
+					IFilterDefinition def = (IFilterDefinition) filters.get( i );
+					if ( !def.updateAggregation( ) )
+						return false;
+				}
+			}
 			return true;
 		}
 		return false;

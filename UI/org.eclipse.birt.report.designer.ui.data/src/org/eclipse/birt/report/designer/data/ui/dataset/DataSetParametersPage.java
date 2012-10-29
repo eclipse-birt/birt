@@ -1194,6 +1194,7 @@ public class DataSetParametersPage extends AbstractDescriptionPropertyPage imple
 						paramName = ( (OdaDataSetParameterHandle) parameter ).getParamName( );
 					if ( parameter.isInput( )
 							&& paramName == null
+							&& ( !parameter.isOutput( ) )
 							&& ( parameter.getDefaultValue( ) == null || parameter.getDefaultValue( )
 									.trim( )
 									.length( ) == 0 ) ) //$NON-NLS-1$
