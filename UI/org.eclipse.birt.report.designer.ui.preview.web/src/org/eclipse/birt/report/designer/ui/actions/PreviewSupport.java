@@ -287,7 +287,7 @@ abstract class PreviewSupport
 		if ( editor != null )
 		{
 			IFormPage activePageInstance=editor.getActivePageInstance();
-			if ( model.needsSave( ) ||(activePageInstance!=null && activePageInstance.isDirty()))//For TED 52325:Do save when current active page is dirty.
+			if ( model.needsSave( ) ||(activePageInstance!=null && activePageInstance.isDirty()))//Do save when current active page is dirty.
 			{
 				editor.doSave( null );
 			}

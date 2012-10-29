@@ -76,7 +76,7 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 //		// bidi_hcg end
 //			rulerComp = new EditorRulerComposite( parent, SWT.NONE );
 		super.createGraphicalViewer( rulerComp );
-		if(Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) )){//For TED49703:Linux and Windows has different color behavior.Add OS judgment to set rulerCompsite background color.
+		if(Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) )){//Linux and Windows has different color behavior.Add OS judgment to set rulerCompsite background color.
 			rulerComp.setBackground(ColorManager.getColor(240, 240, 240));
 		}
 		rulerComp.setGraphicalViewer( (ScrollingGraphicalViewer) getGraphicalViewer( ), getModel( ) );

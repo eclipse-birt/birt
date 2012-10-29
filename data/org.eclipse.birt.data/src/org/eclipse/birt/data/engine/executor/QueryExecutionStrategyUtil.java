@@ -66,7 +66,7 @@ public final class QueryExecutionStrategyUtil
 	{
 		SortingOptimizer opt = new SortingOptimizer( dataSet, query );
 
-		// for ted 43040 disable progressive viewing, will fix this problem in 11sp4M2
+		//  disable progressive viewing, will fix this problem in 11sp4M2
 		if ( session.getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
 			return Strategy.Complex;

@@ -115,7 +115,6 @@ public class DeleteWarningDialog extends BaseDialog
 		no.setText( IDialogConstants.NO_LABEL );
 		/**
 		 * Set cancel button on focus when initial.
-		 * This change if for TED 52981
 		 */
 		no.setFocus();
 		getShell( ).setDefaultButton( no );
