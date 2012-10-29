@@ -570,6 +570,7 @@
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
+			<include name="org.apache.commons.logging_*.jar" />
 			<!-- DTP bundles -->
 			<include name="org.eclipse.datatools.connectivity_*.jar" />
 		    <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar" />
@@ -630,6 +631,7 @@
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.apache.commons.codec_*.jar"/>
+			<include name="javax.xml.stream_*.jar"/>
 		</fileset>
 		</copy>
 
@@ -656,6 +658,7 @@
 			<include name="org.eclipse.birt.data.oda_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.hive_*.jar" />
+			<include name="org.eclipse.birt.report.data.oda.excel_*.jar" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile_*.jar" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb_*.jar"/>
 			<include name="org.eclipse.birt.report.data.oda.sampledb_*/**" />
