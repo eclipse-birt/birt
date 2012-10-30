@@ -30,6 +30,7 @@ exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
 invalid.data.type=无效数据类型: {0}。 
+invalid.binding.expression=无效表达式: {0}。
 
 cube.error.createhierarchy=创建层次结构时出现错误: {0}。
 cube.error.createdimension=创建维时出现错误: {0}。
@@ -112,39 +113,47 @@ timeFunction.N2 = 第二个周期的 N 值
 timeFunction.PERIOD1.displayName = 第一个周期(&F)
 timeFunction.PERIOD2.displayName = 第一个周期(&R)
 timeFunction.N1.displayName = N 周期前
-timeFunction.N2.displayName = N 周期前
-
-timeFunction.N1.Year.displayName = N 年前
-timeFunction.N2.Year.displayName = N 年前
+timeFunction.N2.displayName = 自(&R)
+timeFunction.N1.next.displayName = 下一步(&N)
+timeFunction.N2.Ago.displayName=先前(&A)
+timeFunction.N1.current.displayName=当前(&U)
+timeFunction.N1.period.displayName= 周期(&U)
+timeFunction.trailing.N1.period.displayName=尾随(&I)
+timeFunction.trailing.N1.Month.displayName= 尾随月数(&N)
+ 
+timeFunction.N1.Year.displayName = N 年前(&N)
+timeFunction.N2.Year.displayName = N 年前(&N)
 timeFunction.N1.Year = N 年前中的 N 值
 timeFunction.N2.Year = N 年前中的 N 值
 
-timeFunction.N1.Month.displayName = N 月前
-timeFunction.N2.Month.displayName = N 月前
+timeFunction.N1.Month.displayName = N 月前(&N)
+timeFunction.N2.Month.displayName = N 月前(&N)
 timeFunction.N1.Month = N 月前中的 N 值
 timeFunction.N2.Month = N 月前中的 N 值
 
-timeFunction.N1.Quarter.displayName = N 季度前
-timeFunction.N2.Quarter.displayName = N 季度前
+timeFunction.N1.Quarter.displayName = N 季前(&N)
+timeFunction.N2.Quarter.displayName = N 季前(&N)
 timeFunction.N1.Quarter = N 季度前中的 N 值
 timeFunction.N2.Quarter = N 季度前中的 N 值
 
-timeFunction.N1.Week.displayName = N 周前
-timeFunction.N2.Week.displayName = N 周前
+timeFunction.N1.Week.displayName = N 周前(&N)
+timeFunction.N2.Week.displayName = N 周前(&N)
 timeFunction.N1.Week = N 周前中的 N 值
 timeFunction.N2.Week = N 周前中的 N 值
 
-timeFunction.N1.Day.displayName = N 天前
+timeFunction.N1.Day.displayName = N 天前(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =季度
 timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =周
 timeFunction.PERIODCHOICE.DAY_displayName =日
- 
+
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =年初至今
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =季度初至今
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =月初至今
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =周初至今
 
 timeFunction.toolTip.to=至
+
+ 

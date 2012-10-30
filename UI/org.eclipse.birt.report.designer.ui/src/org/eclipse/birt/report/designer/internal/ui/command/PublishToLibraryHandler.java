@@ -44,8 +44,8 @@ public class PublishToLibraryHandler extends SelectionHandler
 //		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		String fileName = (String)context.getVariable(ICommandParameterNameContants.PUBLISH_LIBRARY_FILENAME);
-		LibraryHandle libHandle = (LibraryHandle) context.getVariable(ICommandParameterNameContants.PUBLISH_LIBRARY_LIBRARY_HANDLE);
+		String fileName = (String)UIUtil.getVariableFromContext( context, ICommandParameterNameContants.PUBLISH_LIBRARY_FILENAME);
+		LibraryHandle libHandle = (LibraryHandle) UIUtil.getVariableFromContext( context, ICommandParameterNameContants.PUBLISH_LIBRARY_LIBRARY_HANDLE);
 	
 		PublishLibraryWizard publishLibrary = new PublishLibraryWizard( libHandle,
 				fileName,

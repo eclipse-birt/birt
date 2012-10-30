@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
@@ -43,7 +44,7 @@ public class InsertHandler extends AbstractHandler
 		// variable passed.
 		// Object selection = getDefaultVariable( context );
 		SlotHandle slotHandle = null;
-		Object obj = context.getVariable( ICommandParameterNameContants.INSERT_SLOT_HANDLE );
+		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_SLOT_HANDLE );
 		if ( obj != null && obj instanceof SlotHandle )
 		{
 			slotHandle = (SlotHandle) obj;
@@ -53,15 +54,15 @@ public class InsertHandler extends AbstractHandler
 
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
 
-		if ( context.getVariable( ICommandParameterNameContants.INSERT_ACTION_TYPE ) != null )
+		if ( UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_TYPE ) != null )
 		{
 			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE,
-					context.getVariable( ICommandParameterNameContants.INSERT_ACTION_TYPE ) );
+					UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_TYPE ) );
 		}
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
-				context.getVariable( ICommandParameterNameContants.INSERT_ACTION_POSITION ) );
+				UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_POSITION ) );
 		request.setExtendedData( extendsData );
-		Object selection = context.getVariable( ICommandParameterNameContants.INSERT_ACTION_SELECTION );
+		Object selection = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_ACTION_SELECTION );
 		boolean bool = false;
 		try
 		{

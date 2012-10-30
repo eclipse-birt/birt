@@ -97,14 +97,25 @@ public class DataEngineSession
 		{
 			this.scope = new ImporterTopLevel( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ));
 		}
-
 		new CoreJavaScriptInitializer( ).initialize( scriptEngine.getJSContext( engine.getContext( ).getScriptContext( ) ), scope );
-		tempDir = engine.getContext( ).getTmpdir( ) +
-				"DataEngine_" + engine.hashCode( ) + "_" + getCount( ) + File.separator;
+		StringBuffer buffer = new StringBuffer( );
+		buffer.append( engine.getContext( ).getTmpdir( ) );
+		buffer.append( "DataEngine" );
+		String processName = java.lang.management.ManagementFactory.getRuntimeMXBean().getName( );
+		buffer.append( Integer.toHexString( processName.hashCode( ) ) );
+		buffer.append( "_" );
+		buffer.append( Integer.toHexString( engine.hashCode( )) );
+		buffer.append( "_" );
+		buffer.append( getCount( ) );
+		buffer.append( File.separator );
+		tempDir = buffer.toString( );
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		this.cancelManager = new CancelManager( );
-		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
+		if( engine.getContext( ).getClassLoader( )!= null )
+		{
+			classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );			
+		}
 		engine.addShutdownListener( new IShutdownListener( ) {
 
 			public void dataEngineShutdown( )

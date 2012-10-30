@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -55,6 +56,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
 	private static final String ICON = "/icons/obj16/relativetime.gif"; //$NON-NLS-1$
 	private MeasureViewHandle measureViewHandle;
+	private CrosstabReportItemHandle reportHandle;
 	public AddRelativeTimePeriodAction( Object selectedObject )
 	{
 		super( selectedObject );
@@ -77,7 +79,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		dialog.setTimePeriod( true );
 		if(dialog.open( ) == Dialog.OK)
 		{			
-			int index = reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
+			int index = caleIndex( );
 			
 			try
 			{
@@ -110,9 +112,9 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 						cellHandle = cell;
 					}
 					String defaultUnit = reportHandle.getModelHandle( ).getModuleHandle( ).getDefaultUnits( );
-					DimensionValue dimensionValue = DimensionUtil.convertTo( DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN, defaultUnit );
-					reportHandle.setColumnWidth( cellHandle,
-							dimensionValue );
+//					DimensionValue dimensionValue = DimensionUtil.convertTo( DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN, defaultUnit );
+//					reportHandle.setColumnWidth( cellHandle,
+//							dimensionValue );
 				}
 				cell.addContent( dataHandle );
 
@@ -129,7 +131,7 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	public boolean isEnabled( )
 	{
 		Object selection = getSelection( ); 
-		if ( selection == null && !(selection instanceof DesignElementHandle))
+		if ( selection == null || !(selection instanceof DesignElementHandle))
 		{
 			return false;
 		}
@@ -138,16 +140,30 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		{
 			return false;
 		}
-		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-		if ( measureViewHandle == null )
+		if (extendedHandle.getExtensionName( ).equals( "Crosstab" ))
+		{
+			try
+			{
+				reportHandle = (CrosstabReportItemHandle)extendedHandle.getReportItem( );
+			}
+			catch ( ExtendedElementException e )
+			{
+				return false;
+			}
+		}
+		else
+		{
+			measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+			if ( measureViewHandle == null )
+			{
+				return false;
+			}
+			reportHandle = measureViewHandle.getCrosstab( );
+		}
+		if (DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) ))
 		{
 			return false;
 		}
-		if (DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) ))
-		{
-			return false;
-		}
-		CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
 		CubeHandle cube = reportHandle.getCube( );
 		if (cube == null)
 		{
@@ -195,6 +211,18 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 			}
 		}
 		return false;
+	}
+	
+	private int caleIndex()
+	{
+		if (measureViewHandle != null)
+		{
+			return reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
+		}
+		else
+		{
+			return reportHandle.getAllMeasures().size( );
+		}
 	}
 
 }

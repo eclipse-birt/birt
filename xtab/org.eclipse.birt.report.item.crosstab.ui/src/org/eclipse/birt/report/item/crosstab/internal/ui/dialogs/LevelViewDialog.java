@@ -76,6 +76,14 @@ public class LevelViewDialog extends BaseDialog
 
 		return dialogArea;
 	}
+	
+	@Override
+	protected boolean initDialog( )
+	{
+		checkOKButtonStatus( );
+		
+		return super.initDialog( );
+	}
 
 	private void init( )
 	{
@@ -85,7 +93,7 @@ public class LevelViewDialog extends BaseDialog
 			levelViewer.expandToLevel( dimension.getDefaultHierarchy( )
 					.getContentCount( IHierarchyModel.LEVELS_PROP ) );
 		}
-		checkOKButtonStatus( );
+
 		if ( showLevels == null || showLevels.size( ) == 0 )
 			return;
 		TreeItem item = levelViewer.getTree( ).getItem( 0 );

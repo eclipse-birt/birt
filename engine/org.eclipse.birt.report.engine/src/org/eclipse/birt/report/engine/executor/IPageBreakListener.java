@@ -17,5 +17,5 @@ public interface IPageBreakListener
 	/**
 	 * Handler to preocess page break before event.
 	 */
-	void onPageBreak( );
+	void onPageBreak( boolean isHorizontalPageBreak);
 }

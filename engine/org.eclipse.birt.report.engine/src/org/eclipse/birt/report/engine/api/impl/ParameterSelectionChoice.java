@@ -19,7 +19,10 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
+import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Wraps around a parameter selection choice
@@ -27,7 +30,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 public class ParameterSelectionChoice implements IParameterSelectionChoice, Cloneable
 {
 	protected Locale locale;
-	protected ModuleHandle design;
+	protected SelectionChoiceHandle handle;
 	protected String label;
 	protected String labelKey;
 	
@@ -38,9 +41,9 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	/**
 	 * @param design the report design
 	 */
-	public ParameterSelectionChoice(ModuleHandle handle)
+	public ParameterSelectionChoice(SelectionChoiceHandle handle)
 	{
-		this.design = handle;
+		this.handle = handle;
 	}
 	
 	/**
@@ -109,14 +112,17 @@ public class ParameterSelectionChoice implements IParameterSelectionChoice, Clon
 	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IParameterSelectionChoice#getLabel()
 	 */
-	public String getLabel()
+	public String getLabel( )
 	{
 		if ( labelKey == null )
 			return label;
-		
-		String ret = design.getMessage( labelKey, 
-				(locale == null ) ? Locale.getDefault() : locale);
-		return (ret == null || ret.length() == 0) ? label : ret;
+
+		String ret = handle.getExternalizedValue(
+				SelectionChoice.LABEL_RESOURCE_KEY_MEMBER,
+				SelectionChoice.LABEL_MEMBER,
+				( locale == null ) ? ULocale.getDefault( ) : ULocale
+						.forLocale( locale ) );
+		return ( ret == null || ret.length( ) == 0 ) ? label : ret;
 	}
 	
 	/* (non-Javadoc)

@@ -321,7 +321,7 @@ public class FeaturesTest extends APITestCase
 		}
 		catch ( Exception e )
 		{
-			// TODO: verify e has expected error code 
+			// TODO: verify e has expected error code
 		}
 	}
 	
@@ -437,6 +437,79 @@ public class FeaturesTest extends APITestCase
 		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );		
 		SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
 		sortDefn[0].setColumn( "SORT_SALE_DATE" );
+		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
+
+		String[] bindingNameRow = new String[9];		
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";		
+		bindingNameRow[4] = "ROW_AMOUNT_2";
+		bindingNameRow[5] = "ROW_CITY_2";
+		bindingNameRow[6] = "ROW_CITY_3";
+		bindingNameRow[7] = "ROW_SALE_DATE_2";
+		bindingNameRow[8] = "ROW_AMOUNT_4";		
+		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
+				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
+				new ScriptExpression( "dataSetRow.CITY", 0 ),
+				new ScriptExpression( "dataSetRow.SALE_DATE", 0 ),
+				new ScriptExpression( "dataSetRow.AMOUNT", 0 ),
+				new ConditionalExpression( "dataSetRow.AMOUNT",
+						ConditionalExpression.OP_GT,
+						"5" ),
+				new ConditionalExpression( "dataSetRow.CITY",
+						ConditionalExpression.OP_EQ,
+						"'Beijing'" ),
+				new ConditionalExpression( "dataSetRow.CITY",
+						ConditionalExpression.OP_NE,
+						"'Beijing'" ),
+				new ConditionalExpression( "dataSetRow.SALE_DATE",
+						ConditionalExpression.OP_GE,
+						"'01/01/2004'" ),
+				new ConditionalExpression( "dataSetRow.AMOUNT",
+						ConditionalExpression.OP_BETWEEN,
+						"5",
+						"100" )
+		};
+		
+		createAndRunQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				bindingNameSort,
+				bindingExprSort,
+				sortDefn,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+
+		checkOutputFile( );
+	}
+	
+	/**
+	 * Test feature of
+	 * 		group, sort, ConditionalExpression
+	 */
+	public void test19( ) throws Exception
+	{		
+		String[] bindingNameGroup = new String[2];
+		bindingNameGroup[0] = "GROUP_COUNTRY";
+		bindingNameGroup[1] = "GROUP_CITY";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
+				new GroupDefinition("group1" )};
+		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
+		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
+		
+		String[] bindingNameSort = new String[1];
+		bindingNameSort[0] = "SORT_SALE_DATE";
+		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
+		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );		
+		SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
+		sortDefn[0].setExpression( new ScriptExpression( "row[\"foo\"]") );
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
 
 		String[] bindingNameRow = new String[9];		

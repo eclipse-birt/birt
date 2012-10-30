@@ -42,9 +42,9 @@
 		<antcall target="buildBirtOSGI"/>
 		<antcall target="buildBirtChartOSGI"/>
 		<antcall target="fetchBirtWtpFeature"/>
+		<antcall target="buildBirtTestFeature"/>
 		<antcall target="fetchRCP"/>
 		<antcall target="buildBirtRCPFeature"/>
-		<antcall target="buildBirtTestFeature"/>
 		<antcall target="unpackUpdateJarsForPackaging"/>
 		<antcall target="buildBirtWebViewer"/>
 		<antcall target="BuildChartViewer"/>
@@ -770,10 +770,11 @@
   		<antcall target="logger">
 			<param name="message" value="Export BIRT RCP product started"/>
 		</antcall>
-    	<ant antfile="productBuild.xml" dir="${eclipse.pdebuild.scripts}/productBuild">
+		
+    	<ant antfile="buildProduct.xml" dir="${eclipse.build.configs}/birt.rcp">
     		<property name="builder" value="${eclipse.build.configs}/birt.rcp"/>
-    		<property name="product" value="${buildDirectory}/plugins/org.eclipse.birt.report.designer.ui.rcp/BIRT.product" />
-    	</ant>
+		</ant>
+    	
   		<antcall target="logger">
 			<param name="message" value="Export BIRT RCP product finished"/>
 		</antcall>
@@ -1179,6 +1180,7 @@
 	    	<bundle name="org.eclipse.birt.report.data.bidi.utils"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc"/>
 			<bundle name="org.eclipse.birt.report.data.oda.hive"/>
+			<bundle name="org.eclipse.birt.report.data.oda.excel"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.sampledb"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.xml"/>
 	    	<bundle name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb"/>
@@ -1211,6 +1213,7 @@
             <bundle name="org.eclipse.birt.report.engine.emitter.config.odp"/>
             <bundle name="org.eclipse.birt.report.engine.emitter.config.ods"/>
             <bundle name="org.eclipse.birt.report.engine.emitter.config.odt"/>
+			<bundle name="org.eclipse.birt.axis.overlay"/>
 	    	<manifest>
 	    		<attribute name="Bundle-Version" value="${BranchVersion}.${buildId}"/>
 	    		<attribute name="Bundle-Name" value="BIRT Runtime SDK"/>

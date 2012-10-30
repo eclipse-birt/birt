@@ -41,6 +41,8 @@ public class DataSetResultSet implements IDataSetPopulator
 	private int rowIndex;
 	private int rowCount;
 	
+	private int version;
+	
 	private RAInputStream inputStream;
 	private BufferedInputStream bis;
 	private DataInputStream dis;
@@ -91,6 +93,7 @@ public class DataSetResultSet implements IDataSetPopulator
 		this.inputStream = inputStream;
 		this.rowIndex = -1;
 		this.includeInnerID = includeInnerID;
+		this.version = version;
 
 		this.dataSetRowLensStream = lensStream;
 		if ( lensStream != null )
@@ -179,7 +182,7 @@ public class DataSetResultSet implements IDataSetPopulator
 						rsMetaData,
 						colCount,
 						this.stringTableMap,
-						this.index );
+						this.index, version );
 				if ( this.includeInnerID )
 				{
 					this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,
@@ -230,7 +233,7 @@ public class DataSetResultSet implements IDataSetPopulator
 							rsMetaData,
 							colCount,
 							this.stringTableMap,
-							this.index );
+							this.index, version );
 					if ( this.includeInnerID )
 					{
 						this.currentObject.setCustomFieldValue( ExprMetaUtil.POS_NAME,

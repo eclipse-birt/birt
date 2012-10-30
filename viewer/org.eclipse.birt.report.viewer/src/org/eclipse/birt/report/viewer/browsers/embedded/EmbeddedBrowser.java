@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Path;
@@ -22,6 +23,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.CloseWindowListener;
@@ -84,7 +86,12 @@ public class EmbeddedBrowser
 		shell = new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 
 		initializeShell( shell );
-
+		shell.addDisposeListener( new DisposeListener( ) {
+			public void widgetDisposed( DisposeEvent e )
+			{
+				browser.close( );
+			}
+		} );
 		shell.addControlListener( new ControlListener( ) {
 
 			public void controlMoved( ControlEvent e )
@@ -129,8 +136,14 @@ public class EmbeddedBrowser
 						( Boolean.valueOf( shell.getMaximized( ) ).toString( ) ) );
 			}
 		} );
-
-		browser = new Browser( shell, SWT.NONE );
+		if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+		{
+			browser = new Browser( shell, SWT.MOZILLA );
+		}
+		else
+		{
+			browser = new Browser( shell, SWT.NONE );
+		}
 
 		initialize( shell.getDisplay( ), browser );
 
@@ -232,7 +245,15 @@ public class EmbeddedBrowser
 
 		initializeShell( shell );
 
-		Browser browser = new Browser( shell, SWT.NONE );
+		Browser browser = null;
+		if (Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ))
+		{
+			browser = new Browser( shell, SWT.MOZILLA );
+		}
+		else
+		{
+			browser = new Browser( shell, SWT.NONE );
+		}
 
 		initialize( shell.getDisplay( ), browser );
 
@@ -428,12 +449,21 @@ public class EmbeddedBrowser
 					}
 				}
 
-				Image image = null;
-
+				Image image = null;				
 				if ( imageURL != null )
 				{
-					image = ImageDescriptor.createFromURL( imageURL )
+					String key = imageURL.toString( );
+					if (CorePlugin.getDefault( ).getImageRegistry( ).get( key ) != null)
+					{
+						image =  CorePlugin.getDefault( ).getImageRegistry( ).get( key );
+					}
+					else
+					{	
+						image = ImageDescriptor.createFromURL( imageURL )
 							.createImage( );
+						
+						CorePlugin.getDefault( ).getImageRegistry( ).put( key, image );
+					}
 				}
 
 				if ( image != null )

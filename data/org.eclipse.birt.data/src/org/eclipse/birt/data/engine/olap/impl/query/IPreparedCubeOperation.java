@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
@@ -21,6 +22,7 @@ import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.AggregationRegisterTable;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.mozilla.javascript.Scriptable;
@@ -45,10 +47,11 @@ public interface IPreparedCubeOperation
 	 * @param cx
 	 * @param manager
 	 * @param basedBindings：the bindings this operation can refers to
+	 * @param cubeQueryDefn
+	 *            cube query definition that the operation belongs to
 	 * @throws DataException
 	 */
-	void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings ) throws DataException;
-
+	void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings, ICubeQueryDefinition cubeQueryDefn ) throws DataException;
 	
 	/**
 	 * called after prepare() is called
@@ -56,12 +59,17 @@ public interface IPreparedCubeOperation
 	 *         an empty array is returned if no CubeAggrDefn introduced 
 	 */
 	CubeAggrDefn[] getNewCubeAggrDefns( ); 
+	
+	/**
+	 * get aggregation list of CubeAggrDefns 
+	 * @return
+	 */
+	List<AggregationDefinition> getAggregationDefintions( );
 	              
 	/**
 	 * execute the operation based on sources
 	 * 
-	 * @param cubeQueryDefn
-	 *            cube query definition that the operation belongs to
+
 	 * @param sources:
 	 *            the data to be operated on
 	 * @param stopSign
@@ -69,7 +77,6 @@ public interface IPreparedCubeOperation
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	IAggregationResultSet[] execute( ICubeQueryDefinition cubeQueryDefn,
-			IAggregationResultSet[] sources, Scriptable scope, ScriptContext cx, StopSign stopSign )
+	IAggregationResultSet[] execute( IAggregationResultSet[] sources, Scriptable scope, ScriptContext cx, StopSign stopSign )
 			throws IOException, BirtException;
 }

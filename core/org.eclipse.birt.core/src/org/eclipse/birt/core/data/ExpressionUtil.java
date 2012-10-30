@@ -642,10 +642,26 @@ public final class ExpressionUtil
 	/**
 	 * 
 	 * @param expr
-	 * @return
+	 * 
+	 * @deprecated replaced by getAllReferencedMeasures
+	 * 
+	 * @return get the first measure name in this expression
 	 * @throws CoreException
 	 */
-	public static String getReferencedMeasure( String expr ) throws CoreException
+	public static String getReferencedMeasure( String expr )
+			throws CoreException
+	{
+		Set<String> names = OlapExpressionCompiler.getReferencedMeasure( expr );
+		return names.isEmpty( )? null : names.iterator( ).next( );
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return get the referenced measure name in this expression
+	 * @throws CoreException
+	 */
+	public static Set<String> getAllReferencedMeasures( String expr ) throws CoreException
 	{
 		return OlapExpressionCompiler.getReferencedMeasure( expr );
 	}

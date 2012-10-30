@@ -67,9 +67,9 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private transient AbstractChartInsets icText;
 
-	private transient FormatSpecifierPreview fsp;
+	protected transient FormatSpecifierPreview fsp;
 
-	private transient Button btnFormatSpecifier;
+	protected transient Button btnFormatSpecifier;
 
 	private ChartSpinner spnEllipsis;
 

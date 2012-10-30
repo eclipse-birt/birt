@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf.util;
 
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -264,6 +265,13 @@ public class TableProcessor implements HTMLConstants
 				table.addColumn( new Column(table.getReportContent( )) );
 			}
 		}
+
+		private Hashtable<Integer, Integer> records;
+		private int index;
+		{
+			records = new Hashtable<Integer, Integer>( );
+			index = 0;
+		}
 		private void processNodes( Element ele )
 		{
 			for ( Node node = ele.getFirstChild( ); node != null; node = node
@@ -278,7 +286,7 @@ public class TableProcessor implements HTMLConstants
 				if ( "tr".equals( tagName ) )
 				{
 					RowState rowState = new RowState( element, cssStyles,
-							content, action );
+							content, action, records, index );
 					rowState.processNodes( );
 					columnCount = Math.max( columnCount,
 							rowState.getColumnCount( ) );
@@ -287,6 +295,7 @@ public class TableProcessor implements HTMLConstants
 						addColumn( columnCount - table.getColumnCount( ) );
 					}
 					++rowCount;
+					++index;
 				}
 				else if ( "col".equals( tagName ) )
 				{
@@ -323,11 +332,12 @@ public class TableProcessor implements HTMLConstants
 	private static class RowState extends State
 	{
 
+		private Hashtable<Integer, Integer> records;
 		private int columnCount;
-
+		private int index;
 		public RowState( Element element,
 				Map<Element, StyleProperties> cssStyles, IContent parent,
-				ActionContent action )
+				ActionContent action ,Hashtable<Integer,Integer> records,int index)
 		{
 			super( element, cssStyles, action );
 			content = (RowContent) parent.getReportContent( )
@@ -336,14 +346,18 @@ public class TableProcessor implements HTMLConstants
 			content.setHeight( PropertyUtil.getDimensionAttribute( element,
 					"height" ) );
 			HTML2Content.handleStyle( element, cssStyles, content );
-			
+			this.records=records;
+			this.index=index;
 		}
 
 		public void processNodes( )
 		{
+			if ( records.containsKey( index ) )
+				columnCount += records.get( index );
 			for ( Node node = element.getFirstChild( ); node != null; node = node
 					.getNextSibling( ) )
 			{
+				int current=index;
 				assert ( node.getNodeType( ) == Node.ELEMENT_NODE );
 				Element element = (Element) node;
 				String tagName = element.getTagName( );
@@ -351,10 +365,27 @@ public class TableProcessor implements HTMLConstants
 				CellState cellState = new CellState( element, cssStyles,
 						content, action );
 				cellState.processNodes( );
+				int rowSpan=cellState.getRowSpan( );
+				int colSpan=cellState.getColSpan( );
+				if ( rowSpan > 1 )
+				{
+					for ( int i = 1; i < rowSpan; i++ )
+					{
+						int offset = current + i;//offset means the row's index in table.
+						if ( records.containsKey( offset ) )
+						{
+							records.put( offset, records.get( offset ) + colSpan );
+						}
+						else
+						{
+							records.put( offset, colSpan );
+						}
+					}
+				}
 				columnCount += cellState.getColSpan( );
 			}
 		}
-
+		
 		public int getColumnCount( )
 		{
 			return columnCount;
@@ -389,6 +420,11 @@ public class TableProcessor implements HTMLConstants
 		public int getColSpan( )
 		{
 			return cell.getColSpan( );
+		}
+		
+		public int getRowSpan( )
+		{
+			return cell.getRowSpan( );
 		}
 	}
 

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
@@ -102,6 +103,87 @@ public class InlineContainerArea extends InlineStackingArea
 			currentIP = 0;
 			height = 0;
 		}
+	}
+	
+	private void adjustHeight( )
+	{
+		if ( hasStyle )
+		{
+			localProperties.setMarginBottom( 0 );
+			localProperties.setMarginTop( 0 );
+			height = Math.min( height, context.getMaxBP( ) );
+		}
+		else
+		{
+			height =  Math.min( height, context.getMaxBP( ) );
+		}
+	}
+	
+	protected boolean checkPageBreak( ) throws BirtException
+	{
+		boolean ret = false;
+		if ( !isInInlineStacking && context.isAutoPageBreak( ) )
+		{
+			int aHeight = getAllocatedHeight( );
+			
+			if ( aHeight - 3000 > context.getMaxBP( )
+					&& parent.getAbsoluteBP( ) == 0 && parent.currentBP == 0 )
+			{
+				// In this case, page split can't get anything and current
+				// inlineContainerArea won't fit in a single page. Endless loop
+				// will occur so current inlineContainerArea's height has to be
+				// addjusted
+				adjustHeight( );
+				return false;
+			}
+			
+			// When table resolves its bottom border, the total height may exceed the page body height. 
+			// We add 3pt to avoid unexpected page break. 
+			int preAbsoluteBP = parent.getAbsoluteBP( );
+			int preCurrentBP = parent.currentBP;
+			
+			while ( aHeight + parent.getAbsoluteBP( ) - 3000 > context.getMaxBP( ) )
+			{
+				if ( !parent.autoPageBreak( ) )
+				{
+					return false;
+				}
+				aHeight = getAllocatedHeight( );
+				ret = true;
+				if ( parent.getAbsoluteBP( ) == preAbsoluteBP && parent.currentBP == preCurrentBP )
+				{
+					// page split doesn't change anything so current container's
+					// height has to be adjusted to avoid endless loop
+					if ( isPageBreakAvoid( this ) )
+					{
+						adjustHeight( );
+					}
+					break;
+					
+				}
+				preAbsoluteBP = parent.getAbsoluteBP( );
+				preCurrentBP = parent.currentBP;
+			}
+		}
+		return ret;
+	}
+	
+	protected boolean isPageBreakAvoid( IArea area )
+	{
+		if ( area instanceof ContainerArea )
+		{
+			ContainerArea container = (ContainerArea) area;
+			if ( container.getChildrenCount( ) > 1 )
+			{
+				return false;
+			}
+			else if ( container.getChildrenCount( ) == 1 )
+			{
+				return isPageBreakAvoid( container.getChild( 0 ) );
+			}
+			return true;
+		}
+		return true;
 	}
 	
 	protected void addToExtension( InlineContainerArea area )

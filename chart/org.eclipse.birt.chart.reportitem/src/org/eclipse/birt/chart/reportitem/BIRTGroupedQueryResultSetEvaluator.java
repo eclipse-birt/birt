@@ -91,6 +91,10 @@ public class BIRTGroupedQueryResultSetEvaluator
 		try
 		{
 			exprCodec.decode( expression );
+			if ( exprCodec.isConstant( ) )
+			{
+				return exprCodec.getExpression( );
+			}
 			return ( (QueryResultSet) fQueryResultSet ).evaluate( exprCodec.getType( ),
 					exprCodec.getExpression( ) );
 		}

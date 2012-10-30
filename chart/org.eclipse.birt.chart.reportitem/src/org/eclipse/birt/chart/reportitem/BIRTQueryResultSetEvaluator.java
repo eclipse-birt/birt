@@ -51,6 +51,10 @@ public final class BIRTQueryResultSetEvaluator
 		try
 		{
 			exprCodec.decode( expression );
+			if ( exprCodec.isConstant( ) )
+			{
+				return exprCodec.getExpression( );
+			}
 			return set.evaluate( exprCodec.getType( ),
 					exprCodec.getExpression( ) );
 		}

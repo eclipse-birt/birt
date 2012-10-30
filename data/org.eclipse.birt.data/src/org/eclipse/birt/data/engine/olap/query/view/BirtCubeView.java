@@ -120,7 +120,7 @@ public class BirtCubeView
 		{
 			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation( co );
 			preparedCubeOperations[i++] = pco;
-			pco.prepare( scope, cx, manager, bindings.toArray( new IBinding[0] ) );
+			pco.prepare( scope, cx, manager, bindings.toArray( new IBinding[0] ), this.getCubeQueryDefinition( ) );
 			bindings.addAll( Arrays.asList( co.getNewBindings( ) ) );
 		}
 	}

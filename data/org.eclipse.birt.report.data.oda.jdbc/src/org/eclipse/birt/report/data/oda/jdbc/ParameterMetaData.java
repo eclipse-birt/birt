@@ -156,6 +156,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
+			if ( "S1C00".equals( e.getSQLState( ) ) )
+				return -1;
 			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_CANNOT_GET,
 					e );
 		}
@@ -188,6 +190,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
+			if ( "S1C00".equals( e.getSQLState( ) ) )
+				return "VARCHAR";
 			throw new JDBCException( ResourceConstants.PARAMETER_TYPE_NAME_CANNOT_GET,
 					e );
 		}
@@ -218,6 +222,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
+			if ( "S1C00".equals( e.getSQLState( ) ) )
+				return 0;
 			throw new JDBCException( ResourceConstants.PARAMETER_PRECISION_CANNOT_GET,
 					e );
 		}
@@ -248,6 +254,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
+			if ( "S1C00".equals( e.getSQLState( ) ) )
+				return 0;
 			throw new JDBCException( ResourceConstants.PARAMETER_SCALE_CANNOT_GET,
 					e );
 		}
@@ -271,9 +279,9 @@ public class ParameterMetaData implements IParameterMetaData
 				"isNullable",
 				"ParameterMetaData.isNullable( )" );
 		assertNotNull( paraMetadata );
+		int result = IParameterMetaData.parameterNullableUnknown;
 		try
 		{
-			int result = IParameterMetaData.parameterNullableUnknown;
 			if ( paraMetadata.isNullable( param ) == java.sql.ParameterMetaData.parameterNullable )
 				result = IParameterMetaData.parameterNullable;
 			else if ( paraMetadata.isNullable( param ) == java.sql.ParameterMetaData.parameterNoNulls )
@@ -282,6 +290,8 @@ public class ParameterMetaData implements IParameterMetaData
 		}
 		catch ( SQLException e )
 		{
+			if ( "S1C00".equals( e.getSQLState( ) ) )
+				return result;
 			throw new JDBCException( ResourceConstants.PARAMETER_NULLABILITY_CANNOT_DETERMINE,
 					e );
 		}

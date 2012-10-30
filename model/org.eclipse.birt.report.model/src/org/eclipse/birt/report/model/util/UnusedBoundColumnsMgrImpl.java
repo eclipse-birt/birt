@@ -268,8 +268,7 @@ abstract class UnusedBoundColumnsMgrImpl extends BoundColumnsMgr
 			for ( int i = 0; i < columnBindings.size( ); i++ )
 			{
 				ComputedColumn paramValue = columnBindings.get( i );
-				handleBoundsForValue( element, module, paramValue
-						.getExpression( ) );
+				handleBoundsForExpression( element, module, paramValue.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER ) );
 
 				List<AggregationArgument> args = (List<AggregationArgument>) paramValue
 						.getLocalProperty( module,

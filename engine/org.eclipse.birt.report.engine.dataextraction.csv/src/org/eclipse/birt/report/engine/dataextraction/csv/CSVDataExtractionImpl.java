@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -118,7 +120,7 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 		}
 		try
 		{
-			String[] columnNames = selectedColumnNames;
+			String[] columnNames = null;
 			String[] columnLabels = null;
 
 			IResultMetaData metaData = results.getResultMetaData( );
@@ -146,11 +148,19 @@ public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 					nameLabelMap.put( colName, colLabel );
 				}
 				int selectedCount = selectedColumnNames.length;
-				columnLabels = new String[selectedCount];
+				List<String> labelList = new ArrayList<String>();
+				List<String> nameList = new ArrayList<String>();
 				for ( int i = 0; i < selectedCount; i++ )
 				{
-					columnLabels[i] = nameLabelMap.get( selectedColumnNames[i] );
+					String label = nameLabelMap.get( selectedColumnNames[i] );
+					if( label != null )
+					{
+						nameList.add( selectedColumnNames[i] );
+						labelList.add(label);
+					}
 				}
+				columnLabels = labelList.toArray( new String[0] );
+				columnNames = nameList.toArray( new String[0]);
 			}
 
 			IDataIterator iData = null;

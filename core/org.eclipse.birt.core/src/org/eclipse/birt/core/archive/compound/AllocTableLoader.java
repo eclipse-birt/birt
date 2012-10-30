@@ -36,9 +36,9 @@ class AllocTableLoader implements ArchiveConstants
 		nodes.next = fatNode;
 	}
 
-	ArrayList getEntryies( )
+	ArrayList<AllocEntry> getEntryies( )
 	{
-		ArrayList entries = new ArrayList( );
+		ArrayList<AllocEntry> entries = new ArrayList<AllocEntry>( );
 		Node entryNode = nodes.next;
 		while ( entryNode != null )
 		{

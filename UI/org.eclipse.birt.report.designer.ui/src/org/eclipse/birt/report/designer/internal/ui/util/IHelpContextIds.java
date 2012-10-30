@@ -269,6 +269,9 @@ public interface IHelpContextIds
 
 	public static final String CUBE_FILTER_LIST_DIALOG = PREFIX
 			+ "CubeBuilderFilterListDialog_ID"; //$NON-NLS-1$
+	
+	public static final String HYPERLINK_PARAMETER_DIALOG_ID = PREFIX
+			+ "HyperlinkParameterDialog_ID"; //$NON-NLS-1$
 
 	/* ----------Control: Preference---------- */
 	public static final String PREFERENCE_BIRT_DATA_SET_EDITOR_ID = PREFIX

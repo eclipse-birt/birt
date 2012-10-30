@@ -164,12 +164,12 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveReader#listStreams(java.lang.String)
 	 */
-	public List listStreams(String relativeStoragePath) throws IOException 
+	public List<String> listStreams(String relativeStoragePath) throws IOException
 	{
 		return reader.listStreams( relativeStoragePath );
 	}
-	
-	public List listAllStreams( ) throws IOException
+
+	public List<String> listAllStreams( ) throws IOException
 	{
 		return reader.listAllStreams( );
 	}

@@ -30,6 +30,7 @@ exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してくだ
 invalid.level.expression=レベル名 "{0}" が見つかりません。
 invalid.measure.expression=メジャー "{0}" の式は null にできません。
 invalid.data.type=データ型が無効です : {0} 
+invalid.binding.expression=式が無効です : {0}
 
 cube.error.createhierarchy=階層 {0} の作成中にエラーが発生しました。
 cube.error.createdimension=ディメンジョン {0} の作成中にエラーが発生しました。
@@ -112,39 +113,47 @@ timeFunction.N2 = 2 番目の期間の N 値
 timeFunction.PERIOD1.displayName = 最初の期間(&F)
 timeFunction.PERIOD2.displayName = 2 番目の期間(&R)
 timeFunction.N1.displayName = 過去の期間数
-timeFunction.N2.displayName = 過去の期間数
-
-timeFunction.N1.Year.displayName = 過去の年数
-timeFunction.N2.Year.displayName = 過去の年数
+timeFunction.N2.displayName = 開始日(&R)
+timeFunction.N1.next.displayName = 次へ(&N)
+timeFunction.N2.Ago.displayName=前(&A)
+timeFunction.N1.current.displayName=現在のページ(&U)
+timeFunction.N1.period.displayName= 期間(&P)
+timeFunction.trailing.N1.period.displayName=過去(&I)
+timeFunction.trailing.N1.Month.displayName= 過去の月数(&N)
+ 
+timeFunction.N1.Year.displayName = 過去の年数(&N)
+timeFunction.N2.Year.displayName = 過去の年数(&N)
 timeFunction.N1.Year = 過去の期間数の N 値
 timeFunction.N2.Year = 過去の期間数の N 値
 
-timeFunction.N1.Month.displayName = 過去の月数
-timeFunction.N2.Month.displayName = 過去の月数
+timeFunction.N1.Month.displayName = 過去の月数(&N)
+timeFunction.N2.Month.displayName = 過去の月数(&N)
 timeFunction.N1.Month = 過去の月数の N 値
 timeFunction.N2.Month = 過去の月数の N 値
 
-timeFunction.N1.Quarter.displayName = 過去の四半期数
-timeFunction.N2.Quarter.displayName = 過去の四半期数
+timeFunction.N1.Quarter.displayName = 過去の四半期数(&N)
+timeFunction.N2.Quarter.displayName = 過去の四半期数(&N)
 timeFunction.N1.Quarter = 過去の四半期数の N 値
 timeFunction.N2.Quarter = 過去の四半期数の N 値
 
-timeFunction.N1.Week.displayName = 過去の週数
-timeFunction.N2.Week.displayName = 過去の週数
+timeFunction.N1.Week.displayName = 過去の週数(&N)
+timeFunction.N2.Week.displayName = 過去の週数(&N)
 timeFunction.N1.Week = 過去の週数の N 値
 timeFunction.N2.Week = 過去の週数の N 値
 
-timeFunction.N1.Day.displayName = 過去の日数
+timeFunction.N1.Day.displayName = 過去の日数(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =年
 timeFunction.PERIODCHOICE.QUARTER_displayName =四半期
 timeFunction.PERIODCHOICE.MONTH_displayName =月
 timeFunction.PERIODCHOICE.WEEK_displayName =週
 timeFunction.PERIODCHOICE.DAY_displayName =日
- 
+
 timeFunction.PERIODCHOICE.PeriodToDate.YEAR_displayName =現在までの 1 年間
 timeFunction.PERIODCHOICE.PeriodToDate.QUARTER_displayName =現在までの四半期
 timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =現在までの 1 か月
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =現在までの 1 週間
 
 timeFunction.toolTip.to=終了日
+
+ 

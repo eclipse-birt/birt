@@ -549,8 +549,10 @@ public class GetParameterDefinitionTask extends EngineTask
 				SelectionChoiceHandle choice = (SelectionChoiceHandle) iter
 						.next( );
 
-				String label = design.getMessage( choice.getLabelKey( ),
-						ulocale.toLocale( ) );
+				String label = choice.getExternalizedValue(
+						org.eclipse.birt.report.model.api.elements.structures.SelectionChoice.LABEL_RESOURCE_KEY_MEMBER,
+						org.eclipse.birt.report.model.api.elements.structures.SelectionChoice.LABEL_MEMBER,
+						ulocale );
 				if ( label == null )
 				{
 					label = choice.getLabel( );
@@ -633,14 +635,6 @@ public class GetParameterDefinitionTask extends EngineTask
 		QueryDefinition queryDefn = new QueryDefinition( );
 		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
 		queryDefn.setAutoBinding( true );
-		for ( Iterator itr = dataSet.filtersIterator( ); itr.hasNext( ); )
-		{
-			FilterConditionHandle fh = (FilterConditionHandle) itr.next( );
-			FilterDefinition dataSetFilter;
-			dataSetFilter = getDataSession( ).getModelAdaptor( )
-					.adaptFilter( fh );
-			queryDefn.addFilter( dataSetFilter );
-		}
 		return queryDefn;
 	}
 
@@ -1528,6 +1522,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		public void visitParameterGroup( ParameterGroupHandle handle )
 		{
 			ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
+			paramGroup.setLocale( ulocale.toLocale( ) );
 			paramGroup.setHandle( handle );
 			paramGroup.setParameterType( IParameterDefnBase.PARAMETER_GROUP );
 			paramGroup.setName( handle.getName( ) );
@@ -1696,9 +1691,9 @@ public class GetParameterDefinitionTask extends EngineTask
 				SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
 						.next( );
 				ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
-						this.handle );
-				selectionChoice.setLabel( selection.getLabelKey( ), selection
-						.getLabel( ) );
+						selection );
+				selectionChoice.setLabel( selection.getLabelKey( ),
+						selection.getLabel( ) );
 				selectionChoice.setValue( selection.getValue( ), scalarParameter
 						.getDataType( ) );
 				values.add( selectionChoice );
@@ -1790,7 +1785,7 @@ public class GetParameterDefinitionTask extends EngineTask
 					SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
 						.next( );
 					ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
-						this.handle );
+							selection );
 					selectionChoice.setLabel( selection.getLabelKey( ), selection
 						.getLabel( ) );
 					selectionChoice.setValue( selection.getValue( ), parameter

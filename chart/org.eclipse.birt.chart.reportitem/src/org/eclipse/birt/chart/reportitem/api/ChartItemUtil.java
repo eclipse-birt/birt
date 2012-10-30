@@ -40,7 +40,6 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -1785,16 +1784,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		// error check in many situations.
 		// The ChartReportItemUtil.checkStringInExpression will be refactored.
 
-		boolean complexScripts = false;
-		for ( int i = 0; i < expression.length( ); i++ )
-		{
-			if ( expression.charAt( i ) == '\n'
-					&& i != ( expression.length( ) - 1 ) )
-			{
-				complexScripts = true;
-				break;
-			}
-		}
+		boolean complexScripts = isMultiLineExpression( expression );
 
 		// Checks if expression contains string
 		if ( !complexScripts
@@ -1819,7 +1809,7 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		returnObj[0] = Boolean.FALSE;
 		String columnName = exprCodec.getBindingName( );
 
-		Iterator<ComputedColumnHandle> iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
+		Iterator<ComputedColumnHandle> iterator = ChartItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = iterator.next( );
@@ -1835,5 +1825,30 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 			}
 		}
 		return returnObj;
+	}
+
+	/**
+	 * Check if a expression has multiple lines.
+	 * 
+	 * @param expression
+	 * @return true if a expression has multiple lines.
+	 */
+	public static boolean isMultiLineExpression( String expression )
+	{
+		if ( expression == null )
+		{
+			return false;
+		}
+		boolean complexScripts = false;
+		for ( int i = 0; i < expression.length( ); i++ )
+		{
+			if ( expression.charAt( i ) == '\n'
+					&& i != ( expression.length( ) - 1 ) )
+			{
+				complexScripts = true;
+				break;
+			}
+		}
+		return complexScripts;
 	}
 }

@@ -30,6 +30,7 @@ exception.error=Ã³¸® µµÁß ¿¹¿Ü°¡ ¹ß»ıÇß½À´Ï´Ù. ÀÚ¼¼ÇÑ ³»¿ëÀº ´ÙÀ½ ¸Ş½ÃÁö¸¦ ÂüÁ¶Ç
 invalid.level.expression=¼öÁØ ÀÌ¸§ "{0}"À»(¸¦) Ã£À» ¼ö ¾ø½À´Ï´Ù.
 invalid.measure.expression=ÃøÁ¤°ª "{0}"ÀÇ ÃøÁ¤°ª ½ÄÀº ³Î(null)ÀÏ ¼ö ¾ø½À´Ï´Ù.
 invalid.data.type=Àß¸øµÈ µ¥ÀÌÅÍ Çü½Ä: {0}. 
+invalid.binding.expression=½Ä "{0}"ÀÌ(°¡) Àß¸øµÇ¾ú½À´Ï´Ù.
 
 cube.error.createhierarchy=°èÃş »ı¼º µµÁß {0} ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
 cube.error.createdimension=Â÷¿ø »ı¼º µµÁß {0} ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.
@@ -112,29 +113,34 @@ timeFunction.N2 = ÀÌÂ÷ ±â°£¿¡ ´ëÇÑ N°ª
 timeFunction.PERIOD1.displayName = Ã¹ ¹øÂ° ±â°£(&F)
 timeFunction.PERIOD2.displayName = µÎ ¹øÂ° ±â°£(&R)
 timeFunction.N1.displayName = Áö³­ ±â°£ ¼ö
-timeFunction.N2.displayName = Áö³­ ±â°£ ¼ö
-
-timeFunction.N1.Year.displayName = Áö³­ ¿¬µµ ¼ö
-timeFunction.N2.Year.displayName = Áö³­ ¿¬µµ ¼ö
+timeFunction.N2.displayName = ½ÃÀÛ(&R)
+timeFunction.N1.next.displayName = ´ÙÀ½(&N)
+timeFunction.N2.Ago.displayName=ÀÌÀü(&A)
+timeFunction.N1.current.displayName=ÇöÀç(&U)
+timeFunction.N1.period.displayName= ±â°£(&P)
+timeFunction.trailing.N1.period.displayName=ÈÄÇà(&I)
+timeFunction.trailing.N1.Month.displayName= ÈÄÇà °³¿ù ¼ö(&N)
+timeFunction.N1.Year.displayName = Áö³­ ¿¬µµ ¼ö(&N)
+timeFunction.N2.Year.displayName = Áö³­ ¿¬µµ ¼ö(&N)
 timeFunction.N1.Year = Áö³­ ¿¬µµ¿¡ ´ëÇÑ N °ª
 timeFunction.N2.Year = Áö³­ ¿¬µµ¿¡ ´ëÇÑ N °ª
 
-timeFunction.N1.Month.displayName = Áö³­ °³¿ù ¼ö
-timeFunction.N2.Month.displayName = Áö³­ °³¿ù ¼ö
+timeFunction.N1.Month.displayName = Áö³­ °³¿ù ¼ö(&N)
+timeFunction.N2.Month.displayName = Áö³­ °³¿ù ¼ö(&N)
 timeFunction.N1.Month = Áö³­ °³¿ù¿¡ ´ëÇÑ N °ª
 timeFunction.N2.Month = Áö³­ °³¿ù¿¡ ´ëÇÑ N °ª
 
-timeFunction.N1.Quarter.displayName = Áö³­ ºĞ±â ¼ö
-timeFunction.N2.Quarter.displayName = Áö³­ ºĞ±â ¼ö
+timeFunction.N1.Quarter.displayName = Áö³­ ºĞ±â ¼ö(&N)
+timeFunction.N2.Quarter.displayName = Áö³­ ºĞ±â ¼ö(&N)
 timeFunction.N1.Quarter = Áö³­ ºĞ±â¿¡ ´ëÇÑ N °ª
 timeFunction.N2.Quarter = Áö³­ ºĞ±â¿¡ ´ëÇÑ N °ª
 
-timeFunction.N1.Week.displayName = Áö³­ ÁÖ ¼ö
-timeFunction.N2.Week.displayName = Áö³­ ÁÖ ¼ö
+timeFunction.N1.Week.displayName = Áö³­ ÁÖ ¼ö(&N)
+timeFunction.N2.Week.displayName = Áö³­ ÁÖ ¼ö(&N)
 timeFunction.N1.Week = Áö³­ ÁÖ¿¡ ´ëÇÑ N °ª
 timeFunction.N2.Week = Áö³­ ÁÖ¿¡ ´ëÇÑ N °ª
 
-timeFunction.N1.Day.displayName = Áö³­ ÀÏ ¼ö
+timeFunction.N1.Day.displayName = Áö³­ ÀÏ ¼ö(&N)
 
 timeFunction.PERIODCHOICE.YEAR_displayName =¿¬µµ
 timeFunction.PERIODCHOICE.QUARTER_displayName =ºĞ±â
@@ -148,3 +154,4 @@ timeFunction.PERIODCHOICE.PeriodToDate.MONTH_displayName =¿ùº° ´©°è
 timeFunction.PERIODCHOICE.PeriodToDate.WEEK_displayName =ÁÖ°£ ´©°è
 
 timeFunction.toolTip.to=´ë»ó
+

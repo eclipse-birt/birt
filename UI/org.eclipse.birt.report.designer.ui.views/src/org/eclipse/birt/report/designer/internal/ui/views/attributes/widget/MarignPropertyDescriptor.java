@@ -49,7 +49,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 	private boolean hasError = false;
 
 	private boolean dirty = false;
-	
+
 	/**
 	 * @param propertyHandle
 	 *            the property handle
@@ -59,12 +59,11 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		setFormStyle( formStyle );
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createControl( Composite parent )
 	{
@@ -150,6 +149,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		GridData data = new GridData( );
 		data.widthHint = (int) ( unitCombo.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).x * 1.5 );
+		data.widthHint = data.widthHint < 126 ? 126 : data.widthHint;
 		if ( valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y < unitCombo.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).y )
 			data.heightHint = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y - 2;
@@ -178,8 +178,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		if ( !validateDimensionValue( ) )
 		{
 			setError( );
-			ExceptionUtil.openError( ERROR_BOX_TITLE,
-					ERROR_MESSAGE );
+			ExceptionUtil.openError( ERROR_BOX_TITLE, ERROR_MESSAGE );
 			load( );
 			clearError( );
 			return;
@@ -215,10 +214,12 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		}
 		dirty = false;
 	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
-		 */
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
+	 */
 
 	public Control getControl( )
 	{
@@ -228,7 +229,8 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#resetUIData()
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * resetUIData()
 	 */
 	public void load( )
 	{

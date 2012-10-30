@@ -27,6 +27,7 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -60,7 +61,9 @@ import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
@@ -171,10 +174,6 @@ public class ExpressionProvider implements
 			new Operator( "(", Messages.getString( "ExpressionProvider.Operator.LeftBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 			new Operator( ")", Messages.getString( "ExpressionProvider.Operator.RightBracket" ) ),//$NON-NLS-1$ //$NON-NLS-2$
 	};
-
-	private static final Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
-			"row.__rownum", //$NON-NLS-1$
-			Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
 
 	protected static final String DISPLAY_TEXT_ASSIGNMENT = Messages.getString( "ExpressionProvider.Operators.Assignment" ); //$NON-NLS-1$	
 	protected static final String DISPLAY_TEXT_COMPARISON = Messages.getString( "ExpressionProvider.Operators.Comparison" ); //$NON-NLS-1$
@@ -479,7 +478,7 @@ public class ExpressionProvider implements
 					{
 						return 1;
 					}
-					else if ( obj == rowNum )
+					else if ( obj instanceof Expression )
 					{
 						return 2;
 					}
@@ -610,20 +609,15 @@ public class ExpressionProvider implements
 				}
 				else if ( CURRENT_CUBE.equals( parent ) )
 				{
-					CubeHandle cube = null;
-					if( elementHandle instanceof TabularMeasureHandle)
+					CubeHandle cube = getCube( elementHandle );
+					if ( cube != null )
 					{
-						cube = (CubeHandle)( (TabularMeasureHandle) elementHandle ).getContainer().getContainer();
-					}
-					else
-					{
-						cube = ( (ReportItemHandle) elementHandle ).getCube( );
-					}
-					Object nodeProviderAdapter = ElementAdapterManager.getAdapter( cube,
-							INodeProvider.class );
-					if ( nodeProviderAdapter != null )
-					{
-						return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( cube ) );
+						Object nodeProviderAdapter = ElementAdapterManager.getAdapter( cube,
+								INodeProvider.class );
+						if ( nodeProviderAdapter != null )
+						{
+							return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( cube ) );
+						}
 					}
 				}
 				else if ( BIRT_OBJECTS.equals( parent ) )
@@ -744,6 +738,10 @@ public class ExpressionProvider implements
 			// add hard code row count expression here
 			if ( DEUtil.enableRowNum( parent ) )
 			{
+				Expression rowNum = new Expression( Messages.getString( "ExpressionProvider.Expression.RowNumName" ),//$NON-NLS-1$
+						DEUtil.getRowNumExpression( elementHandle,
+								(ReportItemHandle) parent ), //$NON-NLS-1$
+						Messages.getString( "ExpressionProvider.Expression.RowNumTooltip" ) );//$NON-NLS-1$
 				childrenList.add( rowNum );
 			}
 			// add edit option
@@ -756,7 +754,22 @@ public class ExpressionProvider implements
 					INodeProvider.class );
 			if ( nodeProviderAdapter != null )
 			{
-				return Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) );
+				List children = new ArrayList( );
+				children.addAll( Arrays.asList( ( (INodeProvider) nodeProviderAdapter ).getChildren( parent ) ) );
+				if ( parent instanceof MeasureGroupHandle )
+				{
+					for ( int i = 0; i < children.size( ); i++ )
+					{
+						Object measure = children.get( i );
+						if ( measure instanceof TabularMeasureHandle
+								&& ( (TabularMeasureHandle) measure ).isCalculated( ) )
+						{
+							children.remove( i );
+							i--;
+						}
+					}
+				}
+				return children;
 			}
 		}
 
@@ -771,6 +784,51 @@ public class ExpressionProvider implements
 		}
 
 		return childrenList;
+	}
+
+	private CubeHandle getCube( Object input )
+	{
+		if ( input instanceof CubeHandle )
+		{
+			return (CubeHandle) input;
+		}
+		else if ( input instanceof ReportItemHandle
+				&& ( (ReportItemHandle) input ).getCube( ) != null )
+		{
+			return ( (ReportItemHandle) input ).getCube( );
+		}
+		else
+			return getCubeHandle( input );
+	}
+
+	private CubeHandle getCubeHandle( Object input )
+	{
+		Object parent = null;
+		if ( input instanceof LevelHandle )
+		{
+			parent = ( (LevelHandle) input ).getContainer( )
+					.getContainer( )
+					.getContainer( );
+		}
+		else if ( input instanceof HierarchyHandle )
+		{
+			parent = ( (HierarchyHandle) input ).getContainer( ).getContainer( );
+		}
+		else if ( input instanceof DimensionHandle )
+		{
+			parent = ( (DimensionHandle) input ).getContainer( );
+		}
+		else if ( input instanceof MeasureHandle )
+		{
+			parent = ( (MeasureHandle) input ).getContainer( ).getContainer( );
+		}
+		else if ( input instanceof MeasureGroupHandle )
+		{
+			parent = ( (MeasureGroupHandle) input ).getContainer( );
+		}
+		if ( parent instanceof CubeHandle )
+			return (CubeHandle) parent;
+		return null;
 	}
 
 	/**
@@ -1083,7 +1141,7 @@ public class ExpressionProvider implements
 		else if ( element instanceof ComputedColumnHandle )
 		{
 			return TOOLTIP_BINDING_PREFIX
-					+ ( (ComputedColumnHandle) element ).getExpression( );
+					+ DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
 		}
 		else if ( element instanceof InheritedComputedColumnHandle )
 		{

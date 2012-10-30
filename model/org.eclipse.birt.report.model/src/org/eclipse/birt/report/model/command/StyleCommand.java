@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.StyleUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -171,8 +172,13 @@ public class StyleCommand extends AbstractElementCommand
 			throws StyleException
 	{
 		if ( newStyleValue != null && !newStyleValue.isResolved( ) )
-			throw new StyleException( element, newStyleValue.getName( ),
-					StyleException.DESIGN_EXCEPTION_NOT_FOUND );
+		{
+			if ( !StyleUtil.hasExternalCSSURI( module ) )
+			{
+				throw new StyleException( element, newStyleValue.getName( ),
+						StyleException.DESIGN_EXCEPTION_NOT_FOUND );
+			}
+		}
 
 		if ( newStyleValue != null && newStyleValue.isResolved( )
 				&& newStyleValue.getElement( ) == element.getStyle( ) )

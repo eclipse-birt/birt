@@ -3,7 +3,7 @@ package org.eclipse.birt.report.engine.api;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
 
-public interface IDatasetPreviewTask extends IEngineTask
+public interface IDatasetPreviewTask extends IExtractionTask
 {
 
 
@@ -14,5 +14,13 @@ public interface IDatasetPreviewTask extends IEngineTask
 	public IExtractionResults execute( ) throws EngineException;;
 
 	public void setMaxRow( int maxRow );
+	
+	public void setStartRow( int startRow );
+	
+	/**
+	 * select columns from the data set.
+	 * @param columnNames the selected column names
+	 */
+	public void selectColumns( String[] columnNames );
 	
 }

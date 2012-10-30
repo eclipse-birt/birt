@@ -201,20 +201,20 @@ public class SmartCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap )
+	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap, int version )
 			throws DataException
 	{
-		this.resultSetCache.doSave( outputStream, rowLensStream, stringTable, index, cacheRequestMap );
+		this.resultSetCache.doSave( outputStream, rowLensStream, stringTable, index, cacheRequestMap, version );
 	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
 	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int originalRowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
 			throws DataException
 	{
-		this.resultSetCache.incrementalUpdate( outputStream, rowLensStream, originalRowCount, stringTable, map, cacheRequestMap );
+		this.resultSetCache.incrementalUpdate( outputStream, rowLensStream, originalRowCount, stringTable, map, cacheRequestMap, version );
 	}
 	
 	/**

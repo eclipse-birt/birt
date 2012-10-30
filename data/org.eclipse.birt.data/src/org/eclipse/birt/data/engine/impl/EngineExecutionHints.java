@@ -18,9 +18,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.ICacheable;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
+import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -99,6 +102,31 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					this.cachedDataSetNames.add( temp.get( i ) );
 				else
 					tempSet.add( temp.get( i ) );
+			}
+			
+			//The query filter's type is Only supported in extension, so data set should not be cached anymore.
+			for ( IDataQueryDefinition query : queryDefns )
+			{
+				if ( query instanceof IQueryDefinition )
+				{
+					IQueryDefinition q = (IQueryDefinition) query;
+					String dataSetName = q.getDataSetName( );
+					if ( dataSetName != null && this.cachedDataSetNames.contains( dataSetName ) )
+					{
+						IBaseDataSetDesign dataSet = dataEngine.getDataSetDesign( dataSetName );
+						if( dataSet instanceof IOdaDataSetDesign )
+						{
+							IBaseDataSourceDesign source = dataEngine.getDataSourceDesign( dataSet.getDataSourceName( ) );
+							boolean supportInExtensionOnly = FilterPrepareUtil.containsExternalFilter( ( (IQueryDefinition) query ).getFilters( ),
+									( (IOdaDataSetDesign)dataSet).getExtensionID( ),
+									( (IOdaDataSourceDesign)source).getExtensionID( ) );
+							if ( supportInExtensionOnly )
+							{
+								this.cachedDataSetNames.remove( dataSet.getName( ) );
+							}						
+						}
+					}
+				}
 			}
 		}
 	}

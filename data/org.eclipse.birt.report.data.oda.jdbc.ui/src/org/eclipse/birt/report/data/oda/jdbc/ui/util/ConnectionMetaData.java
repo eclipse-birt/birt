@@ -261,7 +261,8 @@ public class ConnectionMetaData implements Serializable
 				connection = DriverLoader.getConnectionWithExceptionTip( classname,
 						url,
 						username,
-						password );
+						password,
+						properties );
 			}
 		}
 	}

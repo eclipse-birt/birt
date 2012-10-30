@@ -20,7 +20,7 @@ public interface BTreeConstants
 
 	static final int BLOCK_SIZE = 4096;
 
-	static final int MAX_NODE_SIZE = 4092;
+	static final int MAX_NODE_SIZE = 4088;
 
 	static final int MIN_ENTRY_COUNT = 13;
 

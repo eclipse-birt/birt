@@ -294,6 +294,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		GridData gd1 = new GridData( GridData.FILL_HORIZONTAL );
 		gd1.horizontalSpan = 3;
 		gd1.widthHint = 200;
+		gd1.heightHint = cmbType.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
 		btnAllowExport.setLayoutData( gd1 );
 
 		btnAllowExport.addSelectionListener( new SelectionAdapter( ) {
@@ -304,9 +305,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-		WidgetUtil.setExcludeGridData( allowExportLabel, true );
-		WidgetUtil.setExcludeGridData( btnAllowExport, true );
-		// WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.setExcludeGridData( allowExportLabel, true );
+		// WidgetUtil.setExcludeGridData( btnAllowExport, true );
 
 		if ( isAggregate( ) )
 		{
@@ -349,8 +349,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
-		txtDisplayName.setFocus( );
+		// txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
+		// Expression gets the comment.
+		if(txtExpression!=null&&!txtExpression.isDisposed())//add if/else block to fix TED 52776:NPE thrown
+		{
+			txtExpression.setFocus( );
+		}else{
+			txtDisplayName.setFocus( );
+		}
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -894,8 +901,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		paramsComposite.setLayout( layout );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
-		txtFilter = new Text( composite, SWT.BORDER );
+		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gd = new GridData( GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL );
+		gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtFilter.getBorderWidth( )
+				* 2;
 		gd.horizontalSpan = 2;
 		txtFilter.setLayoutData( gd );
 
@@ -1000,9 +1010,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private void createCommonSection( Composite composite )
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
-		txtExpression = new Text( composite, SWT.BORDER );
+
+		txtExpression = new Text( composite, SWT.BORDER | SWT.WRAP );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
+		gd.heightHint = txtExpression.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtExpression.getBorderWidth( )
+				* 2;
 		txtExpression.setLayoutData( gd );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
@@ -1279,7 +1293,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					else
 					{
 						final Text txtParam = new Text( paramsComposite,
-								SWT.BORDER );
+								SWT.BORDER | SWT.WRAP );
 						txtParam.addModifyListener( new ModifyListener( ) {
 
 							public void modifyText( ModifyEvent e )
@@ -1294,6 +1308,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+						gd.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+								- txtParam.getBorderWidth( )
+								* 2;
 						gridData.horizontalIndent = 0;
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );

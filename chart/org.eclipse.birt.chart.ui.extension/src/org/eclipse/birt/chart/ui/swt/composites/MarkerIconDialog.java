@@ -353,9 +353,10 @@ public class MarkerIconDialog extends TrayDialog
 		buttonBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		buttonBar.setLayout( gl );
 
-		Label description = new Label( buttonBar, SWT.NONE );
-		description.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
-		description.setText( Messages.getString("MarkerIconDialog.Label.Description.EmbeddedImage") ); //$NON-NLS-1$
+		Label description = new Label( buttonBar, SWT.WRAP );
+		description.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+				| GridData.HORIZONTAL_ALIGN_BEGINNING ) );
+		description.setText( Messages.getString( "MarkerIconDialog.Label.Description.EmbeddedImage" ) ); //$NON-NLS-1$
 
 		btnBrowse = new Button( buttonBar, SWT.PUSH );
 		btnBrowse.setText( Messages.getString( "MarkerIconDialog.Lbl.Browse" ) ); //$NON-NLS-1$

@@ -62,6 +62,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.DateCube;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
@@ -121,7 +122,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure = cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -258,7 +260,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -318,8 +321,9 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
-
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
+		
 		IBinding binding1 = new Binding( "edge1level1" );
 
 		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
@@ -392,7 +396,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -503,7 +508,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -617,7 +623,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -737,7 +744,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -840,7 +848,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -902,7 +911,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -964,7 +974,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1044,7 +1055,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1120,7 +1132,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1196,7 +1209,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1284,7 +1298,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension4" );
 		hier3.createLevel( "level21" );
 				
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1377,7 +1392,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension4" );
 		hier3.createLevel( "level21" );
 				
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1462,7 +1478,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 		// Invalid binding 1, invalid dim name
@@ -1532,7 +1549,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1705,7 +1723,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1774,7 +1793,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1843,7 +1863,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -1907,7 +1928,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding2 = new Binding( "edge1level2" );
 
@@ -1969,7 +1991,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding2 = new Binding( "edge1level2" );
 
@@ -2038,7 +2061,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -2116,7 +2140,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -2930,7 +2955,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -2994,7 +3020,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -3071,7 +3098,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -3210,7 +3238,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -3278,7 +3307,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -3418,7 +3448,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -3484,7 +3515,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -3578,7 +3610,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding = new Binding( "grandTotal" );
 		binding.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
@@ -3617,7 +3650,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4187,7 +4221,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4334,6 +4369,11 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		IBinding binding5 = new Binding( "measure2" );
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
+		binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding5 );
 
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
@@ -4404,6 +4444,11 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		IBinding binding5 = new Binding( "measure2" );
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
+		binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding5 );
 
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
@@ -4467,6 +4512,10 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		IBinding binding5 = new Binding( "measure2" );
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
+		binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding5 );
 
 		IBinding binding6 = new Binding( "rowGrandTotal" );
@@ -4615,7 +4664,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4687,7 +4737,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4754,7 +4805,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4847,7 +4899,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4919,7 +4972,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -4996,7 +5050,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -5068,7 +5123,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -5153,7 +5209,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -5674,7 +5731,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -5826,6 +5884,11 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		IBinding binding5 = new Binding( "measure2" );
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
+		binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding5 );
 
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
@@ -6378,7 +6441,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -6533,7 +6597,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		hier2.createLevel( "level21" );
 
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 
@@ -7307,7 +7372,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
 
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -7378,7 +7444,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
 
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -7445,7 +7512,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.MONTH);
@@ -7513,7 +7581,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.WEEK);
@@ -7581,8 +7650,9 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
-
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
+		
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(-3, TimePeriodType.MONTH);
 		ReferenceDate referenceDate = new ReferenceDate(new GregorianCalendar(
@@ -7647,7 +7717,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(-3, TimePeriodType.DAY);
@@ -7713,7 +7784,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(-2, TimePeriodType.YEAR);
@@ -7779,7 +7851,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(3, TimePeriodType.YEAR);
@@ -7846,7 +7919,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(3, TimePeriodType.YEAR);
@@ -7933,7 +8007,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -8018,7 +8093,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -8105,7 +8181,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.WEEK);
@@ -8219,7 +8296,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
 
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -8288,7 +8366,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 		
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -8374,7 +8453,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -8442,7 +8522,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.YEAR);
@@ -8510,7 +8591,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.MONTH);
@@ -8576,7 +8658,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		dateHier.createLevel("level12");
 		dateHier.createLevel("level13");
 		dateHier.createLevel("level14");
-		cqd.createMeasure("measure1");
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		TimeFunction timeFunction = new TimeFunction();
 		TimePeriod timePeriod = new TimePeriod(0, TimePeriodType.QUARTER);
@@ -8620,7 +8703,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	private void createSortTestBindings( ICubeQueryDefinition cqd )
 			throws DataException
 	{
-		cqd.createMeasure( "measure1" );
+		IMeasureDefinition measure =cqd.createMeasure( "measure1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 

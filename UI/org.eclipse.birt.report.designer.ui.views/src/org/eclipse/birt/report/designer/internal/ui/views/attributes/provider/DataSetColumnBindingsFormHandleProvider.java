@@ -23,6 +23,7 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.ExpressionUtility;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -285,7 +286,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				}
 				catch ( BirtException e )
 				{
-					ExceptionUtil.handle( e );
+					ExceptionHandler.handle( e );
 				}
 				return null;
 			case 6 :
@@ -460,7 +461,8 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				String groupType = DEUtil.getGroupControlType( bindingObject );
 				List groupList = DEUtil.getGroups( bindingObject );
 				ExpressionUtility.setBindingColumnExpression( param,
-						bindingColumn, true );
+						bindingColumn,
+						true );
 
 				if ( bindingObject instanceof ReportItemHandle )
 				{
@@ -471,7 +473,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 					}
 					catch ( SemanticException e )
 					{
-						ExceptionUtil.handle( e );
+						ExceptionHandler.handle( e );
 					}
 					continue;
 				}
@@ -519,7 +521,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 						String displayKey = UIUtil.getColumnDisplayNameKey( element );
 						if ( displayKey != null )
 							bindingColumn.setDisplayNameID( displayKey );
-						
+
 						if ( bindingObject instanceof ReportItemHandle )
 						{
 							( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
@@ -547,7 +549,30 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				}
 				catch ( SemanticException e )
 				{
+					ExceptionHandler.handle( e );
 				}
+			}
+		}
+	}
+
+	public void clearAllBindingColumns( )
+	{
+		if ( bindingObject instanceof ReportItemHandle )
+		{
+			try
+			{
+				while ( ( (ReportItemHandle) bindingObject ).getColumnBindings( )
+						.getItems( ) != null
+						&& !( (ReportItemHandle) bindingObject ).getColumnBindings( )
+								.getItems( )
+								.isEmpty( ) )
+				{
+					( (ReportItemHandle) bindingObject ).getColumnBindings( ).clearValue( );
+				}
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
 			}
 		}
 	}
@@ -576,7 +601,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				}
 				catch ( SemanticException e )
 				{
-					e.printStackTrace( );
+					ExceptionHandler.handle( e );
 				}
 			}
 		}
@@ -636,5 +661,10 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		Object[] arrays = children.toArray( );
 		Arrays.sort( arrays, new BindingComparator( ) );
 		return Arrays.asList( arrays ).indexOf( children.get( pos ) );
+	}
+
+	public boolean isClearEnable( )
+	{
+		return true;
 	}
 }

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
 import org.eclipse.birt.report.data.oda.sampledb.ui.plugin.SampledbUIPlugin;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -79,8 +80,20 @@ public class SampleDbSelectionPageHelper
 		new Label( content, SWT.LEFT ).setText( Messages.getMessage( "datasource.page.user" ) ); //$NON-NLS-1$
 		m_sampleUser = new Label( content, SWT.LEFT );
 		m_sampleUser.setText( SampleDBJDBCConnectionFactory.getDbUser( ) );//$NON-NLS-1$
-		setMessage( DEFAULT_MESSAGE );
 		
+		if ( this.m_wizardPage.getPreviousPage( )
+				.getClass( )
+				.toString( )
+				.contains( "DataSourceSelectionPage" ) )
+		{
+			setMessage( DEFAULT_MESSAGE, IMessageProvider.NONE );
+		}
+		else
+		{
+			setMessage( Messages.getMessage( "datasource.page.warning" ),
+					IMessageProvider.WARNING );
+		}
+
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl(),
 				CONEXT_ID_DATASOURCE_SAMPLEDB );
 	}
@@ -169,12 +182,12 @@ public class SampleDbSelectionPageHelper
      * set message
      * @param message
      */
-	private void setMessage( String message )
+	private void setMessage( String message, int type )
 	{
 		if ( m_wizardPage != null )
-			m_wizardPage.setMessage( message );
+			m_wizardPage.setMessage( message, type );
 		else if ( m_propertyPage != null )
-			m_propertyPage.setMessage( message );
+			m_propertyPage.setMessage( message, type );
 	}
 
     private Control getControl()
