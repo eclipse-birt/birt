@@ -362,7 +362,7 @@
 				<include name="javax.xml.soap_*/lib/*.jar"/>
 				<include name="org.apache.commons.discovery_*/lib/*.jar"/>		
 				<include name="org.apache.commons.codec*.jar" />
-				<include name="org.mozilla.javascript*.jar"/>
+				<include name="org.mozilla.javascript_*.jar"/>
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
@@ -396,7 +396,7 @@
 				<include name="javax.xml.soap_*/lib/*.jar"/>
 				<include name="org.apache.commons.discovery_*/lib/*.jar"/>
 				<include name="org.apache.commons.codec*.jar" />
-				<include name="org.mozilla.javascript*.jar"/>
+				<include name="org.mozilla.javascript_*.jar"/>
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir.OSGI}/WEB-INF/lib">
 				<include name="*.jar" />
@@ -640,7 +640,7 @@
 			<!-- 3rd party bundles -->
 			<include name="org.apache.derby.core_*/**" />
 			<include name="org.w3c.sac_*/**" />
-			<include name="org.mozilla.javascript*/**" />
+			<include name="org.mozilla.javascript_*/**" />
 			<include name="com.lowagie.text_*/**" />
 			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
