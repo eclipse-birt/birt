@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -100,7 +99,7 @@ public interface IPage
 
 	void drawBackgroundImage( int x, int y, int width, int height,
 			int imageWidth, int imageHeight, int repeat, String imageUrl, byte[] imageData,
-			int absPosX, int absPosY ) throws IOException;
+			int absPosX, int absPosY ) throws Exception;
 	
 	void showHelpText( String text, int x, int y, int width, int height );
 }

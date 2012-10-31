@@ -52,6 +52,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
@@ -765,6 +766,14 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	public Object getAdapter( Class adapter )
 	{
+		if (adapter.equals( ITextEditor.class ))
+		{
+			if (scriptEditor instanceof ITextEditor)
+			{
+				return scriptEditor;
+			}
+			return null;
+		}
 		if ( adapter == ActionRegistry.class )
 		{
 			return scriptEditor.getActionRegistry( );
@@ -1874,6 +1883,14 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 		if ( element instanceof IPropertyDefn )
 		{
 			IPropertyDefn eleDef = (IPropertyDefn) element;
+			
+			// XXX start hack, force "onContentUpdate" to be shown as
+			// "clientScripts"
+			if ( "onContentUpdate".equals( eleDef.getName( ) ) ) //$NON-NLS-1$
+			{
+				return "clientScripts"; //$NON-NLS-1$
+			}
+			// XXX end hack
 			return eleDef.getName( );
 		}
 		return NO_TEXT;
@@ -1965,6 +1982,23 @@ class JSSubFunctionListProvider implements
 				}
 			}
 		}
+		// XXX start hack, add a dummy "onContentUpdate" function for report
+		// design handle in list for pseudo context "clientScripts", it's
+		// actually the real context name hacked hereinbefore.
+		else if ( inputElement instanceof ReportDesignHandle )
+		{
+			int selectedIndex = editor.cmbExpList.getSelectionIndex( );
+			if ( selectedIndex >= 0 )
+			{
+				String scriptName = editor.cmbExpList.getItem( editor.cmbExpList.getSelectionIndex( ) );
+
+				if ( "clientScripts".equals( scriptName ) ) //$NON-NLS-1$
+				{
+					elements.add( "onContentUpdate" ); //$NON-NLS-1$
+				}
+			}
+		}
+		// XXX end hack
 
 		return elements.toArray( );
 	}

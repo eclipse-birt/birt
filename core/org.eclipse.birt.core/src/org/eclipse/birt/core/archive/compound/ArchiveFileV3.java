@@ -132,15 +132,16 @@ public class ArchiveFileV3 implements IArchiveFile
 		return (long) fs.getUsedCacheSize( ) * 4096;
 	}
 
-	public List listEntries( String namePattern )
+	public List<String> listEntries( String namePattern )
 	{
+		Iterable<String> entryNames = ( namePattern == null )
+				? fs.listAllFiles()
+				: fs.listFiles( namePattern );
+
 		ArrayList<String> files = new ArrayList<String>( );
-		for ( String file : fs.listFiles( ) )
+		for ( String file : entryNames )
 		{
-			if ( file.startsWith( namePattern ) )
-			{
-				files.add( file );
-			}
+			files.add(file);
 		}
 		return files;
 	}

@@ -70,6 +70,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
@@ -745,6 +746,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	 */
 	public Object getAdapter( Class required )
 	{
+		if (required.equals( ITextEditor.class ))
+		{
+			return reportXMLEditor;
+		}
 		if ( required.equals( ActionRegistry.class ) )
 		{
 			if ( registry == null )

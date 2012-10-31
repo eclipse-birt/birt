@@ -128,6 +128,6 @@ public class ConnectionTest extends ConnectionManagerTest
 
 	public final void testGetMaxQueries( ) throws DataException
 	{
-		assertEquals( m_connection.getMaxQueries( ), 0 );
+		assertEquals( 1, m_connection.getMaxQueries( ) );
 	}
 }

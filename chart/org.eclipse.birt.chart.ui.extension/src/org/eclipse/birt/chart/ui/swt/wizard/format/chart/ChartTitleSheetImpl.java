@@ -122,8 +122,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				.createUIHelper( )
 				.isDefaultTitleSupported( );
 
-		btnAutoTitle = getContext( ).getUIFactory( )
-				.createChartCheckbox( cmpBasic, SWT.NONE, defTitle.isAuto( ) );
+		btnAutoTitle = new ChartCheckbox( cmpBasic, SWT.NONE, defTitle.isAuto( ) );
 		btnAutoTitle.setText( Messages.getString( "ChartTitleSheetImpl.Text.Auto" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		btnAutoTitle.setLayoutData( gd );
@@ -135,7 +134,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 
 		btnAutoTitle.setVisible( dynamicTitleVisible );
 		btnAutoTitle.addSelectionListener( this );
-	
 
 		Label lblFont = new Label( cmpBasic, SWT.NONE );
 		lblFont.setText( Messages.getString( "LabelAttributesComposite.Lbl.Font" ) ); //$NON-NLS-1$
@@ -145,7 +143,7 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 				getContext( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getFont( ),
 				getChart( ).getTitle( ).getLabel( ).getCaption( ).getColor( ),
-				true );
+				getFontDialogStyles( ) );
 		GridData gdFDCFont = new GridData( );
 		// gdFDCFont.heightHint = fdcFont.getPreferredSize( ).y;
 		gdFDCFont.widthHint = 220;
@@ -223,9 +221,11 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		if ( event.widget.equals( txtTitle ) )
 		{
-			String title = txtTitle.getText( ) ;
-			if ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_GRAYED && (txtTitle.getText( ) == null
-					|| txtTitle.getText( ).trim( ).length( ) == 0 ) )
+			String title = txtTitle.getText( );
+			if ( ( btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_GRAYED || btnAutoTitle.getSelectionState( ) == ChartCheckbox.STATE_UNSELECTED )
+					&& ( txtTitle.getText( ) == null || txtTitle.getText( )
+							.trim( )
+							.length( ) == 0 ) )
 			{
 				title = null;
 			}
@@ -349,6 +349,12 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	{
 		return getChart( ).getTitle( ).isSetAuto( )
 				&& getChart( ).getTitle( ).isAuto( );
+	}
+	
+	protected int getFontDialogStyles( )
+	{
+		return FontDefinitionComposite.ENABLE_ALIGNMENT
+				| FontDefinitionComposite.ENABLE_ROTATION;
 	}
 
 	private String getTitleText( )

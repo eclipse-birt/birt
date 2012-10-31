@@ -93,7 +93,12 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 		if ( context != null )
 		{
 			// process crosstab header
-			processChildQuery( cubeQuery, crosstabItem.getHeader( ) );
+			int headerCount = crosstabItem.getHeaderCount( );
+
+			for ( int i = 0; i < headerCount; i++ )
+			{
+				processChildQuery( cubeQuery, crosstabItem.getHeader( i ) );
+			}
 
 			// process measure
 			for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )

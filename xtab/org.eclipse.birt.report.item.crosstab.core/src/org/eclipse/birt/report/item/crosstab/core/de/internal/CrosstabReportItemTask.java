@@ -697,6 +697,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 
 			targetCrosstabView.getViewsProperty( )
 					.add( clonedDimensionView.getModelHandle( ), targetIndex );
+			
 
 			// transfer pervious recorded grandtotal for target view
 			if ( transferMeasureList.size( ) > 0
@@ -749,6 +750,12 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
 			}
 
 			validateCrosstab( );
+			int pos = CrosstabModelUtil.findPriorLevelCount( clonedDimensionView );
+			for (int i=0; i<clonedDimensionView.getLevelCount( ); i++)
+			{
+				CrosstabModelUtil.updateHeaderCell( clonedDimensionView.getCrosstab( ), pos + i, 
+							clonedDimensionView.getAxisType( ), true, clonedDimensionView.getLevelCount( ) - i - 1 );
+			}
 		}
 		catch ( SemanticException e )
 		{

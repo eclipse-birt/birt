@@ -18,6 +18,7 @@ import java.util.Set;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 
@@ -33,7 +34,7 @@ public class OdaQueryOptimizationUtil
 			ValidationContext validationContext,
 			IOdaDataSetDesign dataSetDesign, IQueryDefinition query,
 			DataEngineSession session, Map appContext,
-			IQueryContextVisitor contextVisitor )
+			IQueryContextVisitor contextVisitor ) throws DataException
 	{
 		return null;
 	}

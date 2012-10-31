@@ -120,7 +120,7 @@ public class ChartCubeQueryHelper
 	 * Maps for registered queries.<br>
 	 * Key: binding name, value: raw query expression
 	 */
-	protected Map<String, String> registeredQueries = new HashMap<String, String>( );
+	protected Map<String, ExpressionCodec> registeredQueries = new HashMap<String, ExpressionCodec>( );
 
 	/**
 	 * Maps for registered level definitions.<br>
@@ -562,8 +562,7 @@ public class ChartCubeQueryHelper
 			// Add binding query expression here
 			registeredBindings.put( binding.getBindingName( ), binding );
 			// Add raw query expression here
-			registeredQueries.put( binding.getBindingName( ),
-					exprCodec.encode( ) );
+			registeredQueries.put( binding.getBindingName( ), exprCodec.copy( ) );
 
 			// Do not add every binding to cube query, since it may be not used.
 			// The binding will be added only if it's used in chart.
@@ -682,7 +681,7 @@ public class ChartCubeQueryHelper
 		String bindingName = colBinding.getBindingName( );
 		// Convert binding expression like data[] to raw expression
 		// like dimension[] or measure[]
-		String expr = registeredQueries.get( bindingName );
+		String expr = registeredQueries.get( bindingName ).encode( );
 
 		// Add binding to query definition
 		if ( !cubeQuery.getBindings( ).contains( colBinding ) )
@@ -974,15 +973,26 @@ public class ChartCubeQueryHelper
 						// measure,
 						// should set dimension/measure expression as filter
 						// directly
-						String newExpr = registeredQueries.get( filterBindingName );
+						ExpressionCodec newExpr = registeredQueries.get( filterBindingName );
 						if ( newExpr != null )
 						{
 							// Replace all data expressions with
 							// dimension/measure
 							// expressions in complex expression
 							exprCodec.setBindingName( filterBindingName, true );
-							filterQuery = filterQuery.replace( exprCodec.encode( ),
-									newExpr );
+							if ( exprCodec.getType( )
+									.equals( newExpr.getType( ) ) )
+							{
+								filterQuery = filterQuery.replace( exprCodec.encode( ),
+										newExpr.encode( ) );
+							}
+							else
+							{
+								// If types are different, use js expression
+								// which is always supported
+								filterQuery = filterQuery.replace( exprCodec.encode( ),
+										newExpr.convertJSExpression( false ) );
+							}
 						}
 					}
 				}

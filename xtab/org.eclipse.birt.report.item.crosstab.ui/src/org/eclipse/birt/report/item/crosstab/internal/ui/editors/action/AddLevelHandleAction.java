@@ -23,6 +23,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.LevelViewDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -210,6 +211,8 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 		cellHandle.addContent( dataHandle );
+		
+		CrosstabUtil.addLabelToHeader( levelViewHandle );
 
 	}
 

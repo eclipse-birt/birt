@@ -115,6 +115,8 @@ do
 		 		 -buildId) buildId="$2"; shift;;
 		 		 -buildLabel) buildLabel="$2"; shift;;
 		 		 -mapVersionTag) mapVersionTag="$2"; shift;;
+		 		 -noAutoTag) noAutoTag=true;;
+		 		 -ForceBuild) ForceBuild=true;;
 		 		 -tagMapFiles) tagMaps="-DtagMaps=true";;
 		 		 -skipPerf) skipPerf="-Dskip.performance.tests=true";;
 		 		 -skipTest) skipTest="-Dskip.tests=true";;
@@ -189,7 +191,61 @@ echo "======[buildDirectory]: $buildDirectory" >> adb.log
 mkdir $builderDir
 cd $builderDir
 
+#Pull or clone a branch from a repository
+#Usage: pull repositoryURL  branch
 
+pull() {
+        mkdir -p $builderDir/gitClones
+        pushd $builderDir/gitClones
+        directory=$(basename $1 .git)
+        if [ ! -d $directory ]; then
+                echo git clone $1
+                git clone $1
+        fi
+        popd
+        pushd $builderDir/gitClones/$directory
+        echo git checkout $2
+        git checkout $2
+        echo git pull
+        git pull
+        popd
+}
+
+if [ "$buildType" == "N" -o "$noAutoTag" ]; then
+        echo "Skipping auto plugins tagging for nightly build or -noAutoTag build"
+else
+        pushd $builderDir
+
+        #remove comments
+        rm -f repos-clean.txt clones.txt
+        GitRoot=ssh://git@git.eclipse.org/gitroot/birt
+        echo "$GitRoot/org.eclipse.birt.git $BranchName" > repos-clean.txt
+		#clone or pull each repository and checkout the appropriate branch
+        while read line; do
+                #each line is of the form <repository> <branch>
+                set -- $line
+                pull $1 $2
+                echo $1 | sed 's/ssh:.*@git.eclipse.org/git:\/\/git.eclipse.org/g' >> clones.txt
+        done < repos-clean.txt
+
+        cat clones.txt| xargs /bin/bash extras/git-map.sh $builderDir/gitClones \
+        $builderDir/gitClones > maps.txt
+
+        #Trim out lines that don't require execution
+        grep -v ^OK maps.txt | grep -v ^Executed >run.txt
+        if ( cat run.txt | grep sed ); then
+                /bin/bash run.txt
+                #mkdir -p $builderDir/report
+                #cp report.txt $builderDir/report/report$buildId.txt
+        elif [ "$ForceBuild" == "true" ]; then
+                echo "Continue to build even if no bundles changed for -ForceBuild build"
+        else
+                echo "No change detected. Build ($buildId) is canceled"
+                exit
+        fi
+
+        popd
+fi
 
 mkdir -p $postingDirectory/$buildLabel
 chmod -R 755 $builderDir

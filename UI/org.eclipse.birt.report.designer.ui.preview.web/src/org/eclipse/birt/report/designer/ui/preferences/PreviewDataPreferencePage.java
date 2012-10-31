@@ -44,9 +44,9 @@ public class PreviewDataPreferencePage extends PreferencePage
 
 	public static final int MAX_DATASET_ROW_DEFAULT = ViewerPlugin.DEFAULT_MAX_ROWS;
 
-	public static final int MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBEROWLEVELS;
+//	public static final int MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBEROWLEVELS;
 
-	public static final int MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBECOLUMNLEVELS;
+//	public static final int MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBECOLUMNLEVELS;
 	
 	public static final int MAX_IN_MEMORY_CUBE_SIZE_DEFAULT = ViewerPlugin.DEFAULT_MAX_IN_MEMORY_CUBE_SIZE;
 
@@ -55,17 +55,17 @@ public class PreviewDataPreferencePage extends PreferencePage
 	/** max Row preference name */
 	public static final String PREVIEW_MAXROW = WebViewer.PREVIEW_MAXROW;
 
-	public static final String PREVIEW_MAX_ROW_LEVEL_MEMBER = WebViewer.PREVIEW_MAXCUBEROWLEVEL;
+//	public static final String PREVIEW_MAX_ROW_LEVEL_MEMBER = WebViewer.PREVIEW_MAXCUBEROWLEVEL;
 
-	public static final String PREVIEW_MAX_COLUMN_LEVEL_MEMBER = WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL;
+//	public static final String PREVIEW_MAX_COLUMN_LEVEL_MEMBER = WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL;
 
 	public static final String PREVIEW_MAX_IN_MEMORY_CUBE_SIZE = WebViewer.PREVIEW_MAXINMEMORYCUBESIZE;
 
 	private transient DisplayNumberFieldEditor txtMaxDataSetRow;
 
-	private transient IntegerFieldEditor txtMaxRowLevelMember;
+//	private transient IntegerFieldEditor txtMaxRowLevelMember;
 
-	private transient IntegerFieldEditor txtMaxColumnLevelMember;
+//	private transient IntegerFieldEditor txtMaxColumnLevelMember;
 
 	private transient IntegerFieldEditor txtMaxInMemoryCubeSize;
 
@@ -84,33 +84,33 @@ public class PreviewDataPreferencePage extends PreferencePage
 
 		createDispalyRowLimitGroup( cmpTop );
 
-		txtMaxRowLevelMember = new IntegerFieldEditor( PREVIEW_MAX_ROW_LEVEL_MEMBER,
-				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
-		txtMaxRowLevelMember.setPage( this );
-		txtMaxRowLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxRowLevelMember.setEmptyStringAllowed( false );
-		txtMaxRowLevelMember.setPropertyChangeListener( new IPropertyChangeListener( ) {
-
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
-					setValid( txtMaxRowLevelMember.isValid( ) );
-			}
-		} );
-		
-		txtMaxColumnLevelMember = new IntegerFieldEditor( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
-				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
-		txtMaxColumnLevelMember.setPage( this );
-		txtMaxColumnLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxColumnLevelMember.setEmptyStringAllowed( false );
-		txtMaxColumnLevelMember.setPropertyChangeListener( new IPropertyChangeListener( ) {
-
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
-					setValid( txtMaxColumnLevelMember.isValid( ) );
-			}
-		} );
+//		txtMaxRowLevelMember = new IntegerFieldEditor( PREVIEW_MAX_ROW_LEVEL_MEMBER,
+//				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
+//		txtMaxRowLevelMember.setPage( this );
+//		txtMaxRowLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
+//		txtMaxRowLevelMember.setEmptyStringAllowed( false );
+//		txtMaxRowLevelMember.setPropertyChangeListener( new IPropertyChangeListener( ) {
+//
+//			public void propertyChange( PropertyChangeEvent event )
+//			{
+//				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+//					setValid( txtMaxRowLevelMember.isValid( ) );
+//			}
+//		} );
+//		
+//		txtMaxColumnLevelMember = new IntegerFieldEditor( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
+//				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
+//		txtMaxColumnLevelMember.setPage( this );
+//		txtMaxColumnLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
+//		txtMaxColumnLevelMember.setEmptyStringAllowed( false );
+//		txtMaxColumnLevelMember.setPropertyChangeListener( new IPropertyChangeListener( ) {
+//
+//			public void propertyChange( PropertyChangeEvent event )
+//			{
+//				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+//					setValid( txtMaxColumnLevelMember.isValid( ) );
+//			}
+//		} );
 
 		txtMaxInMemoryCubeSize = new IntegerFieldEditor( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
 				Messages.getString( "designer.preview.preference.resultset.maxinmemorycubesize.description" ), cmpTop ); //$NON-NLS-1$ 
@@ -204,25 +204,25 @@ public class PreviewDataPreferencePage extends PreferencePage
 
 		txtMaxDataSetRow.setStringValue( previewAllRows ? "" : defaultMaxRow );
 
-		defaultMaxRow = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( PREVIEW_MAX_ROW_LEVEL_MEMBER );
-
-		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
-		{
-			defaultMaxRow = String.valueOf( MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT );
-		}
-		txtMaxRowLevelMember.setStringValue( defaultMaxRow );
-
-		defaultMaxRow = ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( PREVIEW_MAX_COLUMN_LEVEL_MEMBER );
-
-		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
-		{
-			defaultMaxRow = String.valueOf( MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT );
-		}
-		txtMaxColumnLevelMember.setStringValue( defaultMaxRow );
+//		defaultMaxRow = ViewerPlugin.getDefault( )
+//				.getPluginPreferences( )
+//				.getString( PREVIEW_MAX_ROW_LEVEL_MEMBER );
+//
+//		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
+//		{
+//			defaultMaxRow = String.valueOf( MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT );
+//		}
+//		txtMaxRowLevelMember.setStringValue( defaultMaxRow );
+//
+//		defaultMaxRow = ViewerPlugin.getDefault( )
+//				.getPluginPreferences( )
+//				.getString( PREVIEW_MAX_COLUMN_LEVEL_MEMBER );
+//
+//		if ( defaultMaxRow == null || defaultMaxRow.trim( ).length( ) <= 0 )
+//		{
+//			defaultMaxRow = String.valueOf( MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT );
+//		}
+//		txtMaxColumnLevelMember.setStringValue( defaultMaxRow );
 
 		defaultMaxRow = ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
@@ -244,8 +244,8 @@ public class PreviewDataPreferencePage extends PreferencePage
 	protected void performDefaults( )
 	{
 		txtMaxDataSetRow.setStringValue( String.valueOf( MAX_DATASET_ROW_DEFAULT ) );
-		txtMaxRowLevelMember.setStringValue( String.valueOf( MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT ) );
-		txtMaxColumnLevelMember.setStringValue( String.valueOf( MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT ) );
+//		txtMaxRowLevelMember.setStringValue( String.valueOf( MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT ) );
+//		txtMaxColumnLevelMember.setStringValue( String.valueOf( MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT ) );
 		txtMaxInMemoryCubeSize.setStringValue( String.valueOf( MAX_IN_MEMORY_CUBE_SIZE_DEFAULT ) );
 
 		super.performDefaults( );
@@ -259,15 +259,15 @@ public class PreviewDataPreferencePage extends PreferencePage
 				.getPluginPreferences( )
 				.setValue( PREVIEW_MAXROW, maxRowValue );
 
-		ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( PREVIEW_MAX_ROW_LEVEL_MEMBER,
-						txtMaxRowLevelMember.getIntValue( ) );
-
-		ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
-						txtMaxColumnLevelMember.getIntValue( ) );
+//		ViewerPlugin.getDefault( )
+//				.getPluginPreferences( )
+//				.setValue( PREVIEW_MAX_ROW_LEVEL_MEMBER,
+//						txtMaxRowLevelMember.getIntValue( ) );
+//
+//		ViewerPlugin.getDefault( )
+//				.getPluginPreferences( )
+//				.setValue( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
+//						txtMaxColumnLevelMember.getIntValue( ) );
 
 		ViewerPlugin.getDefault( )
 				.getPluginPreferences( )

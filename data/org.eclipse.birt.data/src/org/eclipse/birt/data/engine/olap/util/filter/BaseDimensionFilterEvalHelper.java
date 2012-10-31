@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.olap.util.filter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -161,15 +159,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	private DimLevel[] getAggregateOnLevels( String bindingName )
 			throws DataException
 	{
-		List<IBinding> bindingList = new ArrayList<IBinding>( );
-		bindingList.addAll( queryDefn.getBindings( ) );
-		ICubeOperation[] operations = queryDefn.getCubeOperations( );
-		for( int i=0; i< operations.length; i++ )
-		{
-			IBinding[] b = queryDefn.getCubeOperations( )[i].getNewBindings( );
-			bindingList.addAll( Arrays.asList( b ) );			
-		}
-		for ( Iterator it = bindingList.iterator( ); it.hasNext( ); )
+		for ( Iterator it = queryDefn.getBindings( ).iterator( ); it.hasNext( ); )
 		{
 			IBinding binding = (IBinding) it.next( );
 			if ( binding.getBindingName( ).equals( bindingName ) )

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -928,6 +929,11 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			super( structureOrHandle );
 			populateFunctions( );
 		}
+		public void create( )
+		{
+			super.create( );
+			validateSyntax( );
+		}
 
 		protected void setSystemHelp( Composite composite )
 		{
@@ -1662,6 +1668,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 				return getBlankPropertyStatus( dialogLabels[COLUMN_NAME_INDEX] );
 			if ( isBlankProperty( cmbDataType.getText( ) ) )
 				return getBlankPropertyStatus( dialogLabels[DATA_TYPE_INDEX] );
+			//ColumnName is number
+			if ( isNumeric( txtColumnName.getText( ) ) )
+			{
+				return getMiscStatus( IStatus.ERROR,
+						Messages.getString( "DataSetComputedColumnsPage.numberName" ) );
+			}
 //			if ( expression!=null && isBlankProperty( expression.getText( ) ) )
 //			{
 //				String funcName = getSelectedFunction( ).getName( );
@@ -1704,6 +1716,12 @@ public class DataSetComputedColumnsPage extends AbstractDescriptionPropertyPage
 			return getOKStatus( );
 		}
 		
+		private boolean isNumeric( String text )
+		{
+		    Pattern pattern = Pattern.compile("-[0-9]*|[0-9]*"); 
+		    return pattern.matcher(text).matches(); 
+		}
+
 		private boolean checkExpressionBindingFields( ) throws BirtException
 		{
 			for ( int i = 0; i < txtParams.length; i++ )

@@ -136,7 +136,7 @@
 		<include name="org.eclipse.birt.chart_*/**" />
 		<include name="org.eclipse.birt.core_*.jar" />
 		<include name="org.eclipse.birt.core.ui_*.jar" />
-		<include name="org.mozilla.javascript*/**" />
+		<include name="org.mozilla.javascript_*/**" />
 		<include name="org.apache.commons.codec_*.jar" />
 	</patternset>
 
@@ -266,6 +266,11 @@
 		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="${wtpVersion}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#WTPURL#" value="${wtpURL}"/>
 	
+		<exec executable="git" dir="${buildDirectory}/scmCache/${BirtRepoCache}" outputproperty="lastcommitid">
+			<arg line="log ${mapVersionTag} -1 --pretty=format:%H" />
+		</exec>
+		<replace file="${OutputDir}\${birt.info}" token="#lastcommitid#" value="${lastcommitid}"/>
+		
 	</target>
 
 	<target name="createBirtNLFeatureOverlay">
@@ -451,6 +456,7 @@
 			</zipfileset>
 			-->
 			<zipfileset dir="${package.files.dir}/jee" includes="**/*"/>
+			<zipfileset file="${eclipse.build.configs}/../../extras/eclipse.exe.manifest" prefix="eclipse"/>
                         <zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
                                 <patternset refid="orbit.include.jars" />
                         </zipfileset>
@@ -756,8 +762,11 @@
 		<exec executable="unzip" dir="${OutputDir}/">
 			<arg line="-o -q ${birt.rcp.zip.name}.zip -d ${OutputDir}" />
 		</exec>
+		
+		<!--
 		<delete file="${OutputDir}/${birt.rcp.zip.name}.zip"/>
 
+		
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}/features">
 			<fileset dir="${deposit}/eclipse/features">
 			        <include name="**/*" />
@@ -769,15 +778,19 @@
 			        <patternset refid="third.party.features"/>
 			</fileset>
 		</copy>
+		
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}">
 			<fileset dir="${template.dir}/legal">
 			        <include name="**/*" />
 				<exclude name="eclipse.ini" />
 			</fileset>
 		</copy>
-                <exec executable="zip" dir="${OutputDir}">
-                        <arg line="-q ${OutputDir}/${birt.rcp.zip.name}.zip -r ${birt.rcp.zip.name}" />
-                </exec>
+		
+		<exec executable="zip" dir="${OutputDir}">
+        	<arg line="-q ${OutputDir}/${birt.rcp.zip.name}.zip -r ${birt.rcp.zip.name}" />
+        </exec>
+		-->
+
 
 		<!-- Fix bugzilla bug[214678]Adding org.eclipse.birt.report.designer.ui.rcp plugin to the SDK package-->
 		<!-- Copy rcp bundles for SDK package -->
@@ -1316,7 +1329,7 @@
 		<delete dir="${runtime.download.tmp}" failonerror="false"/>
 	</target>
 	
-	<target name="createGenReport" unless="HQ.BIRT.skip">
+	<target name="createGenReport">
 		<echo message="genReportGenerator lib dir: ${OutputDir}/runtime_nonosgi "/>
 		<echo message="genReport.sh/bat output dir: ${template.dir}/engine.runtime.bin"/>
 		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">

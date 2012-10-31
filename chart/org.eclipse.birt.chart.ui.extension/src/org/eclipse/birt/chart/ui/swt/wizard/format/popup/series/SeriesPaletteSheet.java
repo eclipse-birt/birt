@@ -109,11 +109,6 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 		btnAutoPals.addSelectionListener( this );
 		btnAutoPals.setVisible( context.getUIFactory( ).supportAutoUI( ) );
 		
-		if ( btnAutoPals.isVisible( ) )
-		{
-			updateSeriesPalette( );
-		}
-		
 		// Palete composite
 		createPaletteUI( cmpContent );
 		updateUIStatus( );

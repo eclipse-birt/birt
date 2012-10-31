@@ -26,9 +26,37 @@
 			<fileset dir="${birt.dir}/WEB-INF/classes/" includes="**/*.java"			/>
 		</copy>
 	</target>
+	
 	<target name="pre.build.jars">
 	</target>
-	<target name="post.viewer.jar">
+	
+	<target name="setRelativePath">
+		<!--
+		<property name="workspace.core" value=".."/>
+		<property name="workspace.data" value=".."/>
+		<property name="workspace.engine" value=".."/>
+		<property name="workspace.model" value=".."/>
+		-->
+		<echo message="build.from.workspace flag: ${build.from.workspace}"/>
+        <condition property="workspace.core" value="../../core" else="..">
+        	<equals arg1="${build.from.workspace}" arg2="true" />
+        </condition>
+        <condition property="workspace.data" value="../../data" else="..">
+        	<equals arg1="${build.from.workspace}" arg2="true" />
+        </condition>
+        <condition property="workspace.engine" value="../../engine" else="..">
+        	<equals arg1="${build.from.workspace}" arg2="true" />
+        </condition>
+        <condition property="workspace.model" value="../../model" else="..">
+        	<equals arg1="${build.from.workspace}" arg2="true" />
+        </condition>
+		<echo message="workspace.data: ${workspace.data}"/>
+		<echo message="workspace.core: ${workspace.core}"/>
+		<echo message="workspace.engine: ${workspace.engine}"/>
+		<echo message="workspace.model: ${workspace.model}"/>
+	</target>
+	
+	<target name="post.viewer.jar" depends="setRelativePath">
 		<property name="basedir" location="." />
 		<property name="birt.dir" value="birt" />
 		<property name="build.result.folder" value="${basedir}" />
@@ -36,12 +64,12 @@
 		<property name="plugin.tomcat" value="org.eclipse.tomcat" />
 		<property name="baseLocation" value="${user.dir}" />
 		<!-- plugins used -->
-		<property name="core.dir" location="../org.eclipse.birt.core" />
-		<property name="dataextraction.dir" location="../org.eclipse.birt.report.engine.dataextraction" />
-		<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
-		<property name="engine.dir" location="../org.eclipse.birt.report.engine" />
-		<property name="data.dir" location="../org.eclipse.birt.data" />
-		<property name="data-adapter-api.dir" location="../org.eclipse.birt.report.data.adapter" />
+		<property name="core.dir" location="${workspace.core}/org.eclipse.birt.core" />
+		<property name="dataextraction.dir" location="${workspace.engine}/org.eclipse.birt.report.engine.dataextraction" />
+		<property name="viewer.model.dir" location="${workspace.model}/org.eclipse.birt.report.model" />
+		<property name="engine.dir" location="${workspace.engine}/org.eclipse.birt.report.engine" />
+		<property name="data.dir" location="${workspace.data}/org.eclipse.birt.data" />
+		<property name="data-adapter-api.dir" location="${workspace.data}/org.eclipse.birt.report.data.adapter" />
 
 		<echo message="basedir: ${basedir}" />
 
@@ -53,21 +81,6 @@
 			<fileset dir="${birt.dir}/WEB-INF/classes/" excludes="**/package.htm*" />
 		</copy>
 
-		<!-- Jetty doesn't need precompile jsp files		
-		<taskdef classname="org.apache.jasper.JspC" name="jasper2">
-			<classpath>
-				<fileset dir="${baseLocation}/plugins">
-					<include name="javax.servlet*.jar" />
-					<include name="org.apache.jasper*.jar" />
-					<include name="org.apache.commons.logging*.jar" />
-					<include name="org.apache.commons.el*.jar"/>
-				</fileset>
-				<pathelement path="${core.dir}/@dot" />
-			</classpath>
-		</taskdef>
-		
-		<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes" />
-		-->
 		
 		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.5" debug="true">
 			<classpath>
@@ -104,17 +117,7 @@
 			</classpath>
 			<src path="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" />
 		</javac>
-
-		<!-- Jetty doesn't need precompile jsp files
-		<loadfile property="file" srcFile="${birt.dir}/WEB-INF/generated_web.xml" />
-		<copy file="${birt.dir}/WEB-INF/web-template.xml" toFile="${birt.dir}/WEB-INF/web.xml" filtering="on" overwrite="yes">
-			<filterset>
-				<filter token="generated" value="${file}" />
-			</filterset>
-		</copy>
-		<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
-		-->
-		
+	
 		<copy todir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" failonerror="true">
 			<fileset dir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" excludes="**/*.java, **/package.htm*" />
 		</copy>

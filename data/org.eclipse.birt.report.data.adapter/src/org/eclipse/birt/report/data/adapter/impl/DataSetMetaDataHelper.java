@@ -252,7 +252,13 @@ public class DataSetMetaDataHelper
 				rsColumn.setNativeName( meta.getColumnName( i ) );
 				rsColumn.setPosition( Integer.valueOf( i ) );
 
-				handle.addItem( rsColumn );
+				try 
+				{
+					handle.addItem( rsColumn );
+				} 
+				catch (Exception ex) 
+				{
+				}
 				uniqueColumnNameSet.add( uniqueName );
 			}
 		}

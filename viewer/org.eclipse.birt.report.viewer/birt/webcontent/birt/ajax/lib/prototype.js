@@ -603,6 +603,7 @@ Ajax.Base.prototype = {
     this.options = {
       method:       'post',
       asynchronous: true,
+      contentType:  'application/x-www-form-urlencoded',
       parameters:   ''
     }
     Object.extend(this.options, options || {});
@@ -665,8 +666,7 @@ Ajax.Request.prototype = Object.extend(new Ajax.Base(), {
        'X-Prototype-Version', Prototype.Version];
 
     if (this.options.method == 'post') {
-      requestHeaders.push('Content-type',
-        'application/x-www-form-urlencoded');
+      requestHeaders.push('Content-type', this.options.contentType);
 
       /* Force "Connection: close" for Mozilla browsers to work around
        * a bug where XMLHttpReqeuest sends an incorrect Content-length

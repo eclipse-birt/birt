@@ -55,4 +55,10 @@ public interface ICompatibleReportItem
 	 * @return the compatibility status.
 	 */
 	public CompatibilityStatus checkCompatibility( );
+	
+	/**
+	 * handle the compatibility issue 
+	 */
+	public void handleCompatibilityIssue();
+	
 }

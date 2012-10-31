@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.DrilledInfo;
 
 
 /**
@@ -79,7 +80,17 @@ public class MergedAggregationResultSet implements IAggregationResultSet
 		System.arraycopy( afds1, 0, afds, 0, afds1.length );
 		System.arraycopy( afds2, 0, afds, afds1.length, afds2.length );
 		
-		return new AggregationDefinition( ad1.getLevels( ), ad1.getSortTypes( ), afds );
+		AggregationDefinition aggr = new AggregationDefinition( ad1.getLevels( ), ad1.getSortTypes( ), afds );
+		if( ad1.getDrilledInfo( ) != null )
+		{
+			DrilledInfo info = ad1.getDrilledInfo( ).copy( );
+			if( ad2.getDrilledInfo( ) != null )
+			{
+				info.getOriginalAggregation( ).addAll( ad2.getDrilledInfo( ).getOriginalAggregation( ) );
+			}
+			aggr.setDrilledInfo( info );
+		}
+		return aggr;
 	}
 
 	public int getAggregationIndex( String name ) throws IOException

@@ -588,7 +588,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getValue(java.lang.String)
 	 */
-	public final String getValue( String sKey )
+	public String getValue( String sKey )
 	{
 		String value = extendedHandle.getModuleHandle( ).getMessage( sKey );
 		if ( value == null || value.equals( "" ) ) //$NON-NLS-1$

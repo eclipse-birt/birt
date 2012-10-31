@@ -509,6 +509,11 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 
 	}
 
+	public boolean isAddEnable (Object selectedObject)
+	{
+		return isAddEnable();
+	}
+	
 	public boolean isAddEnable( )
 	{
 		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );

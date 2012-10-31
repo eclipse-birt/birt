@@ -12,7 +12,7 @@
 # NLS Strings
 #
 plugin.name=BIRT Sample Database Connection Profile Plug-in
-connection.profile.name=BIRT Classic Models のサンプルデータベース
+connection.profile.name=BIRT Classic Models サンプルデータベース
 driver.template.name=BIRT SampleDb Derby Embedded JDBC Driver
 driver.definition.name=BIRT SampleDb Derby 埋め込みドライバ
 #

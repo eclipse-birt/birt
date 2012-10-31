@@ -226,6 +226,11 @@
                     	forcePluginActivation="true" 
                     	property="CrosstabPropertyHandleWrapper.type"
                     	value="measures" />
+                     <test
+                           forcePluginActivation="true"
+                           property="CrosstabPropertyHandleWrapper.type"
+                           value="crosstabHeader">
+                     </test>
                	</or>
         	</enablement>
       </adapter>	 
@@ -490,6 +495,15 @@
                class="org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabLayoutCheck"
                id="org.eclipse.birt.report.item.crosstab.ui.crosstabcheck"
                type="org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ILayoutCheck">
+         </adapter>
+      </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+         <adapter
+               factory="org.eclipse.birt.report.item.crosstab.internal.ui.CrosstabMenuAdapterFactory"
+               id="org.eclipse.birt.report.item.crosstab.ui.crossta.menu"
+               singleton="false"
+               type="org.eclipse.jface.action.IMenuListener">
          </adapter>
       </adaptable>
    </extension>

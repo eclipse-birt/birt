@@ -214,8 +214,8 @@ public class ParameterAccessor
 	/**
 	 * URL parameter name that gives the preview max cube fetch levels option.
 	 */
-	public static final String PARAM_MAXCUBE_ROWLEVELS = "__maxrowlevels"; //$NON-NLS-1$
-	public static final String PARAM_MAXCUBE_COLUMNLEVELS = "__maxcolumnlevels"; //$NON-NLS-1$
+//	public static final String PARAM_MAXCUBE_ROWLEVELS = "__maxrowlevels"; //$NON-NLS-1$
+//	public static final String PARAM_MAXCUBE_COLUMNLEVELS = "__maxcolumnlevels"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the cube memory size option.
@@ -802,15 +802,15 @@ public class ParameterAccessor
 	 * @return max levels
 	 */
 
-	public static int getMaxCubeRowLevels( HttpServletRequest request )
-	{
-		int curMaxRowLevels = ParameterAccessor.getParameterAsInt( request,
-				PARAM_MAXCUBE_ROWLEVELS );
-		if ( curMaxRowLevels <= 0 )
-			curMaxRowLevels = maxCubeRowLevels;
-
-		return curMaxRowLevels;
-	}
+//	public static int getMaxCubeRowLevels( HttpServletRequest request )
+//	{
+//		int curMaxRowLevels = ParameterAccessor.getParameterAsInt( request,
+//				PARAM_MAXCUBE_ROWLEVELS );
+//		if ( curMaxRowLevels <= 0 )
+//			curMaxRowLevels = maxCubeRowLevels;
+//
+//		return curMaxRowLevels;
+//	}
 
 	/**
 	 * Get preview max cube fetch column levels.
@@ -820,15 +820,15 @@ public class ParameterAccessor
 	 * @return max levels
 	 */
 
-	public static int getMaxCubeColumnLevels( HttpServletRequest request )
-	{
-		int curMaxColumnLevels = ParameterAccessor.getParameterAsInt( request,
-				PARAM_MAXCUBE_COLUMNLEVELS );
-		if ( curMaxColumnLevels <= 0 )
-			curMaxColumnLevels = maxCubeColumnLevels;
-
-		return curMaxColumnLevels;
-	}
+//	public static int getMaxCubeColumnLevels( HttpServletRequest request )
+//	{
+//		int curMaxColumnLevels = ParameterAccessor.getParameterAsInt( request,
+//				PARAM_MAXCUBE_COLUMNLEVELS );
+//		if ( curMaxColumnLevels <= 0 )
+//			curMaxColumnLevels = maxCubeColumnLevels;
+//
+//		return curMaxColumnLevels;
+//	}
 
 	/**
 	 * Get cube memory size.
@@ -2858,9 +2858,17 @@ public class ParameterAccessor
 					URL url = context.getResource( "/" ); //$NON-NLS-1$
 					if ( url != null )
 					{
-						// for other url protocals, e.g. path in an unpacked
-						// war, or other global urls
-						String urlRoot = DataUtil.trimString( url.toExternalForm( ) );
+						String urlRoot = null;
+						// for file urls
+						if("file".equalsIgnoreCase(url.getProtocol())) //$NON-NLS-1$
+						{
+							urlRoot = DataUtil.trimString( url.getPath() );
+						}
+						// for other url protocals, e.g. path in an unpacked war, or other global urls
+						else
+						{
+							urlRoot = DataUtil.trimString( url.toExternalForm( ) );
+						}
 						if ( orginalPath.startsWith( urlRoot ) )
 						{
 							realPath = orginalPath;

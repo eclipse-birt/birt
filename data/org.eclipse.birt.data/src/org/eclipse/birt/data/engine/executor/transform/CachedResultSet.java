@@ -320,12 +320,14 @@ public class CachedResultSet implements IResultIterator
 						streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) );
 					Map<String, StringTable> stringTables = streamsWrapper.getOutputStringTable( this.getResultClass( ) );
 					this.resultSetPopulator.getCache( )
-								.doSave( streamsWrapper.getStreamForDataSet( ),
-										streamsWrapper.getStreamForDataSetRowLens( ),
-										stringTables,
-										index,
-										resultSetPopulator.getEventHandler( )
-												.getAllColumnBindings( ) );
+							.doSave( streamsWrapper.getStreamForDataSet( ),
+									streamsWrapper.getStreamForDataSetRowLens( ),
+									stringTables,
+									index,
+									resultSetPopulator.getEventHandler( )
+											.getAllColumnBindings( ),
+									streamsWrapper.getStreamManager( )
+											.getVersion( ) );
 					for( StringTable stringTable : stringTables.values( ))
 					{
 						stringTable.close( );
@@ -621,7 +623,7 @@ public class CachedResultSet implements IResultIterator
 										stringTables,
 										index,
 										resultSetPopulator.getEventHandler( )
-												.getAllColumnBindings( ) );
+												.getAllColumnBindings( ), streamsWrapper.getStreamManager( ).getVersion( ) );
 					for( StringTable stringTable : stringTables.values( ))
 					{
 						stringTable.close( );

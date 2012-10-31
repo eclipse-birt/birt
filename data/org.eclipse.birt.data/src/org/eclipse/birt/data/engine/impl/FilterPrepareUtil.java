@@ -17,4 +17,10 @@ public class FilterPrepareUtil
 	{
 		
 	}
+	
+	public static boolean containsExternalFilter( List filterList, String dataSetExtId, String dataSourceExtId )
+	{
+		return false;
+	}
+
 }

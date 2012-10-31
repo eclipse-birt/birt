@@ -94,7 +94,7 @@ public interface ResultSetCache
 	 * 
 	 * @param outputStream
 	 */
-	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping )
+	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping, int version )
 			throws DataException;
 	
 	/**
@@ -108,7 +108,7 @@ public interface ResultSetCache
 	 * @throws DataException
 	 */
 	public void incrementalUpdate( OutputStream outputStream, OutputStream rowLensStream, int rowCount, 
-			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap )
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap, int version )
 			throws DataException;
 	
 	/**

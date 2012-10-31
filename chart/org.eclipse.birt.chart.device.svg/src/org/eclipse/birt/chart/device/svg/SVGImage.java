@@ -99,30 +99,18 @@ public class SVGImage extends Image
 		image.flush( );
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public Graphics getGraphics( )
 	{
 		return image.getGraphics( );
 	}
 
-	/**
-	 * @param arg0
-	 * @return
-	 */
 	@Override
 	public int getHeight( ImageObserver arg0 )
 	{
 		return image.getHeight( arg0 );
 	}
 
-	/**
-	 * @param arg0
-	 * @param arg1
-	 * @return
-	 */
 	@Override
 	public Object getProperty( String arg0, ImageObserver arg1 )
 	{
@@ -137,22 +125,17 @@ public class SVGImage extends Image
 	@Override
 	public Image getScaledInstance( int arg0, int arg1, int arg2 )
 	{
-		return image.getScaledInstance( arg0, arg1, arg2 );
+		return new SVGImage( image.getScaledInstance( arg0, arg1, arg2 ),
+				url,
+				data );
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public ImageProducer getSource( )
 	{
 		return image.getSource( );
 	}
 
-	/**
-	 * @param arg0
-	 * @return
-	 */
 	@Override
 	public int getWidth( ImageObserver arg0 )
 	{

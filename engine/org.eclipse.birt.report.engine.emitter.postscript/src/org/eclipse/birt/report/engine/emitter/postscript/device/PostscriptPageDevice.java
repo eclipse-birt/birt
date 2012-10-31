@@ -42,9 +42,8 @@ public class PostscriptPageDevice implements IPageDevice
 		
 		String paperSize = renderOption
 				.getStringOption( PostscriptRenderOption.OPTION_PAPER_SIZE );
-		int paperTray = renderOption
-		        .getIntOption( PostscriptRenderOption.OPTION_PAPER_TRAY,
-		                       PostscriptWriter.TRAYCODE_AUTO );
+		String paperTray = renderOption
+		        .getStringOption( PostscriptRenderOption.OPTION_PAPER_TRAY );
 		Object duplex = renderOption
 		        .getOption( PostscriptRenderOption.OPTION_DUPLEX );
 		int copies = renderOption.getIntOption(

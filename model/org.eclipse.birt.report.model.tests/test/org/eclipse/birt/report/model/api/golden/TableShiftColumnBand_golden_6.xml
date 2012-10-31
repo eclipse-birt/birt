@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
     <body>
         <table name="Table1" id="6">
             <property name="width">100%</property>
@@ -43,7 +43,9 @@
             </list-property>
             <column id="22"/>
             <column id="23"/>
-            <column id="24"/>
+            <column id="51">
+                <property name="repeat">1</property>
+            </column>
             <column id="25"/>
             <header>
                 <row id="7">
@@ -52,14 +54,16 @@
                             <text-property name="text">CUSTOMERNUMBER</text-property>
                         </label>
                     </cell>
-                    <cell id="9">
-                        <label id="28">
-                            <text-property name="text">ORDERDATE</text-property>
-                        </label>
-                    </cell>
                     <cell id="10">
+                        <property name="column">0</property>
                         <label id="30">
                             <text-property name="text">STATUS</text-property>
+                        </label>
+                    </cell>
+                    <cell id="9">
+                        <property name="column">0</property>
+                        <label id="28">
+                            <text-property name="text">ORDERDATE</text-property>
                         </label>
                     </cell>
                     <cell id="11">
@@ -76,14 +80,16 @@
                             <property name="resultSetColumn">CUSTOMERNUMBER</property>
                         </data>
                     </cell>
-                    <cell id="14">
-                        <data id="29">
-                            <property name="resultSetColumn">ORDERDATE</property>
-                        </data>
-                    </cell>
                     <cell id="15">
+                        <property name="column">0</property>
                         <data id="31">
                             <property name="resultSetColumn">STATUS</property>
+                        </data>
+                    </cell>
+                    <cell id="14">
+                        <property name="column">0</property>
+                        <data id="29">
+                            <property name="resultSetColumn">ORDERDATE</property>
                         </data>
                     </cell>
                     <cell id="16">
@@ -96,8 +102,12 @@
             <footer>
                 <row id="17">
                     <cell id="18"/>
-                    <cell id="19"/>
-                    <cell id="20"/>
+                    <cell id="20">
+                        <property name="column">0</property>
+                    </cell>
+                    <cell id="19">
+                        <property name="column">0</property>
+                    </cell>
                     <cell id="21"/>
                 </row>
             </footer>

@@ -43,7 +43,10 @@ public class ResultIterator2 extends ResultIterator
 		super( tempDir, context, queryResults, queryResultID, qd );
 		
 		this.lowestGroupLevel = lowestGroupLevel;
-		this.currRowIndex = -1;
+		if( this.hasFirstNext )
+			this.currRowIndex = 0;
+		else
+			this.currRowIndex = -1;
 		this.isSummary = isSummary;
 		if( this.isSummary )
 		{
@@ -75,13 +78,16 @@ public class ResultIterator2 extends ResultIterator
 				subQueryName,
 				currParentIndex, qd);
 		this.lowestGroupLevel = lowestGroupLevel;
-		this.currRowIndex = -1;
+		if( this.hasFirstNext )
+			this.currRowIndex = 0;
+		else
+			this.currRowIndex = -1;
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#next()
+	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#doNext()
 	 */
-	public boolean next( ) throws DataException
+	protected boolean doNext( ) throws DataException
 	{
 		boolean hasNext = false;
 		boolean shouldMoveForward = false;
@@ -108,7 +114,7 @@ public class ResultIterator2 extends ResultIterator
 	
 		if( shouldMoveForward )
 		{
-			hasNext = super.next( );
+			hasNext = super.doNext( );
 		}
 		if ( hasNext )
 		{
@@ -160,6 +166,10 @@ public class ResultIterator2 extends ResultIterator
 	 */
 	public void moveTo( int rowIndex ) throws BirtException
 	{
+		if( rowIndex >=0 )
+		{
+			this.isFirstNext = false;
+		}
 		if ( rowIndex < 0 || rowIndex < this.currRowIndex )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
 					Integer.valueOf( rowIndex ) );

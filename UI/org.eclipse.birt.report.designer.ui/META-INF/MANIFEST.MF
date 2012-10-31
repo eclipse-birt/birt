@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Designer UI
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui; singleton:=true
-Bundle-Version: 3.7.2.qualifier
+Bundle-Version: 4.2.2.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.ReportPlugin
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
@@ -14,6 +14,7 @@ Export-Package: org.eclipse.birt.report.designer.data.ui.aggregation,
  org.eclipse.birt.report.designer.internal.ui.actions,
  org.eclipse.birt.report.designer.internal.ui.command,
  org.eclipse.birt.report.designer.internal.ui.data,
+ org.eclipse.birt.report.designer.internal.ui.data.function.layout,
  org.eclipse.birt.report.designer.internal.ui.dialogs,
  org.eclipse.birt.report.designer.internal.ui.dialogs.expression,
  org.eclipse.birt.report.designer.internal.ui.dialogs.helper,

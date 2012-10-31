@@ -515,6 +515,7 @@ dataset.editor.dataSource=数据源
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新的列名称或别名 ({0}) 已经由索引 {1} 处的列使用。
 dataset.editor.error.computedColumnNameAlreadyUsed=新的计算列名称 ({0}) 已经用作输出列中列 ({1}) 的列别名。
 dataset.editor.error.duplicateParameterName=重复的参数名称。
+dataset.editor.error.nonemptyDefaultvalue=默认值不能为无。
 dataset.editor.error.emptyName=名称不能为空白。 
 dataset.editor.error.missingComputedColumnExpression=计算列 {0} 的表达式不能为空或空白。
 dataset.editor.error.missingComputedColumnName=计算列名称不能为空或空白。
@@ -632,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=可用的数据集数少于两个
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=定义计算列。 
 DataSetComputedColumnsPage.description=定义计算列
 DataSetComputedColumnsPage.duplicatedName=重复的列名称。
+DataSetComputedColumnsPage.numberName=列名称不能是数字。
 DataSetComputedColumnsPage.toolTipText.Down=计算列下移。
 DataSetComputedColumnsPage.toolTipText.Up=计算列上移。
 DataSetComputedColumnsPage.toolTipText.Remove=删除计算列。
@@ -1808,6 +1810,7 @@ FormPage.Button.Up=上移(&U)
 FormPage.Button.Up.Alt1=上移(&P)
 FormPage.Button.Up.Alt2=上移(&E)
 FormPage.Button.Binding.Refresh=刷新(&F)
+FormPage.Button.Binding.Clear=清除(&C)
 FormPage.Menu.ModifyProperty=修改属性
 FormPage.toolTipText.Up=上移
 FormPage.toolTipText.Down=下移
@@ -2512,7 +2515,7 @@ MapPreferencePage.displayname.Title=映射
 MapPreferencePage.text.Add=添加(&A)...
 MapPreferencePage.text.Delete=删除(&R)
 MapPreferencePage.text.Description=映射规则:
-MapPreferencePage.text.Edit=编辑(&D)...
+MapPreferencePage.text.Edit=编辑(&E)...
 MapPreferencePage.toolTipText.Up=映射规则上移
 MapPreferencePage.toolTipText.Down=映射规则下移
 MapPreferencePage.text.Duplicate=重复(&D)
@@ -3636,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的布景主题。
+CssStyleSheetNodeProvider.Label.FromServer=从服务器
 CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 
@@ -4119,6 +4123,7 @@ WizardTemplateChoicePage.label.Description=描述:
 WizardTemplateChoicePage.label.Preview=预览:
 WizardTemplateChoicePage.label.ReportTemplates=报表模板:
 WizardTemplateChoicePage.label.ShowCheatSheets=显示报表创建备忘单(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=创建无预定义内容的空报表。
 WizardTemplateChoicePage.message.ChartListing=创建分组报表，并附带直观表示每个组数据的图表。
 WizardTemplateChoicePage.message.DualColumnChartListing=创建带两个“图表和列表”子组的分组报表。
@@ -4304,6 +4309,10 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 或
 #GeneralPage
 GeneralPage.Library.Included=库:
 GeneralPage.Library.Modified.Note=注: 库中的此报表项已被修改。要还原原始库项目，请单击{0}“还原属性”
+
+#BookMarkPage
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4612,7 +4621,8 @@ BindingDialogHelper.text.Grid=网格
 BindingDialogHelper.text.Group=组(&O)
 BindingDialogHelper.text.Expression=表达式(&E):
 BindingDialogHelper.text.displayName=显示名称(&N):
-BindingDialogHelper.text.allowExport=允许导出(&O):
+BindingDialogHelper.text.allowExport=Exp&ort:
+BindingDialogHelper.text.allowExport.button=Allow Export
 BindingDialogHelper.text.displayNameID=显示名称 ID(&S):
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
@@ -4629,6 +4639,7 @@ BindingDialogHelper.warning.button.no=否
 #Scripts Node
 Scripts.Node.DisplayName=脚本
 ScriptElementNode.Action.Text=转到报表元素(&G)
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 
@@ -4636,11 +4647,13 @@ ReportPage.PreviewImage.Button.ToolTip=管理缩略图
 #CrosstabBindingDialogHelper
 CrosstabBindingDialogHelper.AggOn.All=全部
 CrosstabBindingDialogHelper.bindngName.timeperiod=周期
-CrosstabBindingDialogHelper.calculation.labe=时间周期(&P):
-CrosstabBindingDialogHelper.recentday.description=时间维中的最近日期
+CrosstabBindingDialogHelper.calculation.label=时间周期(&P):
+CrosstabBindingDialogHelper.calculation.group=时间周期
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=参考日期(&R):
 CrosstabBindingDialogHelper.thisdate.label=此日期:
-CrosstabBindingDialogHelper.thisdate.example.label=请按以下格式输入日期值: yyyy-MM-dd
+CrosstabBindingDialogHelper.thisdate.example.label=请用引号引起提供的日期值。\n例如："2012-01-23"、"1/23/2012"。
+CrosstabBindingDialogHelper.thisdate.example.label.constant=例如：2012-01-23、1/23/2012。
 CrosstabBindingDialogHelper.timedimension.label=时间维(&M):
 CrosstabBindingDialogHelper.timeperiod.wrongdate=此维不支持最近参考日期 
 CrosstabBindingDialogHelper.today.label=今天
@@ -4710,6 +4723,11 @@ PasteFormatAction.text=粘贴格式(&O)
 #InsertAggregationAction
 InsertAggregationAction.text=聚合(&A)
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=设置当前视图
@@ -4743,12 +4761,14 @@ GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=用渐变选择(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择(&N)
 GeneralConfigurationBlock.group.label=提示
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=打开库文件后显示提示(&P)。
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=将本地绑定移动到父层以获得更好的性能
 GeneralConfigurationBlock.move.binding.always=始终(&W)
 GeneralConfigurationBlock.move.binding.never=从不(&V)
 GeneralConfigurationBlock.move.binding.prompt=提示(&R)
-
 
 ###########################################################
 #ResetImageSizeAction
@@ -4861,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=默认语法(&F):
 ExpressionEditor.Error.EmptyExpression=表达式不能为空。
 ExpressionEditor.Label.Expression=表达式(&E):
 ExpressionEditor.Title=编辑表达式
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
+ExpressionSyntaxColoringPage.Button.Bold=&Bold
+ExpressionSyntaxColoringPage.Button.Enable=Enable
+ExpressionSyntaxColoringPage.Button.Italic=&Italic
+ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Button.Underline=下划线(&U)
+ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
+ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Element.Default=默认值
+ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.String=字符串
+ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
+ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
+ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
 
 ###########################################################
 #VariableDropAdapter

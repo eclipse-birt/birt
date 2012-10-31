@@ -53,7 +53,7 @@ public class Connection implements IConnection
 
 	protected Map appContext;
 	
-	private Boolean autoCommit = null;
+	private Boolean autoCommit;
 	private int isolationMode = Constants.TRANSCATION_ISOLATION_DEFAULT;
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
@@ -149,7 +149,7 @@ public class Connection implements IConnection
 			{
 				this.autoCommit = Boolean.valueOf( autoCommit );
 			}
-
+			
 			String isolationMode = connProperties.getProperty( Constants.CONNECTION_ISOLATION_MODE );
 			this.isolationMode = Constants.getIsolationMode( isolationMode );
 			
@@ -222,6 +222,7 @@ public class Connection implements IConnection
 								getDriverClassPath( ),
 								this.appContext );
 				populateConnectionProp( );
+				logger.log(Level.FINE, "JDBC connection success : " + jdbcConn );
 			}
 		}
 		catch ( Exception e )
@@ -229,9 +230,17 @@ public class Connection implements IConnection
 			if( e instanceof SQLException )
 			{
 				SQLException e1 = (SQLException)e;
+				logger.log( Level.SEVERE,
+						"JDBC connection throws exception: Error Code "
+								+ e1.getErrorCode( ) + " Message:"
+								+ e1.getLocalizedMessage( ) );
 				//First try to identify the authorization info. 28000 is xOpen standard for login failure
 				if( "28000".equals( e1.getSQLState( )))
 					throw new JDBCException( ResourceConstants.CONN_CANNOT_GET, e1 );
+			}
+			else
+			{
+				logger.log( Level.SEVERE, "JDBC connection throws exception: " + e.getLocalizedMessage( ) );
 			}
 		}
 		try
@@ -261,6 +270,15 @@ public class Connection implements IConnection
 		{
 			if( this.autoCommit != null )
 				jdbcConn.setAutoCommit( this.autoCommit );
+			else
+			{
+				if  (DBConfig.getInstance().qualifyPolicy(
+							jdbcConn.getMetaData().getDriverName(),
+							DBConfig.SET_COMMIT_TO_FALSE) ) {
+					this.autoCommit = false;
+					jdbcConn.setAutoCommit( false );
+				}
+			}
 			if( this.isolationMode!= Constants.TRANSCATION_ISOLATION_DEFAULT)
 				jdbcConn.setTransactionIsolation( this.isolationMode );
 		}
@@ -413,11 +431,18 @@ public class Connection implements IConnection
 			try
 			{
 				DatabaseMetaData dbMetadata = jdbcConn.getMetaData( );
-				return dbMetadata.getMaxStatements( );
+				int maxstmts = dbMetadata.getMaxStatements( );
+				int maxconns = dbMetadata.getMaxConnections( );
+				if ( maxstmts == 0 && maxconns == 0 )
+					return 0;
+				else if ( maxconns == 0 || maxstmts < maxconns )
+					return 1;
+				else
+					return maxstmts / maxconns;
 			}
 			catch ( SQLException e )
 			{
-				return 0;
+				return 1;
 			}
 		}
 
@@ -451,7 +476,7 @@ public class Connection implements IConnection
 			if ( jdbcConn.isClosed( ) == false )
 			{
 				jdbcConn.close( );
-				logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is closed");
+				logger.log(Level.FINE, "JDBC connection: " + jdbcConn + " is closed");
 			}
 			else
 			{
@@ -466,6 +491,12 @@ public class Connection implements IConnection
 						jdbcConn.getMetaData().getDriverName(),
 						DBConfig.IGNORE_UNIMPORTANT_EXCEPTION))
 					return;
+				if ( this.autoCommit == Boolean.FALSE && DBConfig.getInstance().qualifyPolicy( jdbcConn.getMetaData().getDriverName(), DBConfig.TRY_COMMIT_THEN_CLOSE ))
+				{
+					jdbcConn.commit();
+					jdbcConn.close();
+					return;
+				}
 			} 
 			catch (SQLException e1) {
 

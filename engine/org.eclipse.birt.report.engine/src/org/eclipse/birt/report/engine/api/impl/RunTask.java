@@ -164,6 +164,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			DocumentDataSource ds = executionContext.getDataSource( );
 			if ( ds != null)
 			{
+				//avoid the auto-generated bookmark will be changed at generation time
+				if ( ds.getInstanceID( ) != null )
+				{
+					executionContext
+							.setReportletBookmark( ds.getInstanceID( ).getComponentID( ), ds.getBookmark( ) );
+				}
 				if( ds.isReportletDocument( ))
 				{
 					writer.saveReportletDocument( ds.getBookmark( ), ds
@@ -290,6 +296,16 @@ public class RunTask extends AbstractRunTask implements IRunTask
 						archiveWriter );
 				statusWriter.writeRunTaskStatus( errList );
 				statusWriter.close( );
+			}
+			else
+			{
+				//TODO: need clear all related stream at the beginning of generation task
+				if ( archiveWriter
+						.exists( ReportDocumentConstants.RUN_STATUS_STREAM ) )
+				{
+					archiveWriter
+							.dropStream( ReportDocumentConstants.RUN_STATUS_STREAM );
+				}
 			}
 
 			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );

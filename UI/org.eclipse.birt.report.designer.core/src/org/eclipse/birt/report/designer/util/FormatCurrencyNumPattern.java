@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.util;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.NumberFormat;
@@ -213,7 +214,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		}
 		decStr = DEUtil.getDecmalStr( decPlaces );
 
-		if ( decStr != "" ) //$NON-NLS-1$
+		if ( !StringUtil.isEmpty( decStr ) )
 		{
 			positivePatt = positivePatt + "." + decStr; //$NON-NLS-1$
 		}

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt"
       label="%featureName"
-      version="3.7.2.qualifier"
+      version="4.2.2.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt"
       image="eclipse_update_120.jpg">
@@ -56,7 +56,6 @@
       <import plugin="org.eclipse.ui.workbench.texteditor" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.help.base" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.help.appserver" version="3.1.100" match="compatible"/>
       <import plugin="org.eclipse.datatools.connectivity.sqm.core" version="1.0.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity.apache.derby" version="1.0.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity.apache.derby.dbdefinition" version="1.0.0" match="greaterOrEqual"/>
@@ -286,6 +285,13 @@
 
    <plugin
          id="org.apache.commons.codec"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.xml.stream"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -772,6 +778,34 @@
 
    <plugin
          id="org.eclipse.birt.report.engine.odf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.excel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.data.oda.excel.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.axis.overlay"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.jetty.overlay"
          download-size="0"
          install-size="0"
          version="0.0.0"

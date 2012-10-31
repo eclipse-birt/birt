@@ -143,8 +143,22 @@ public final class FormatDateTimeAdapter extends FormatAdapter
 	{
 		if ( categoryChoiceArray == null )
 		{
-			categoryChoiceArray = getChoiceArray( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
-					DateTimeFormatValue.CATEGORY_MEMBER );
+			switch (type)
+			{
+				case FormatBuilder.DATETIME:
+				default:
+					categoryChoiceArray = getChoiceArray( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
+							DateTimeFormatValue.CATEGORY_MEMBER );
+					break;
+				case FormatBuilder.DATE:
+					categoryChoiceArray = getChoiceArray( DateFormatValue.FORMAT_VALUE_STRUCT,
+							DateFormatValue.CATEGORY_MEMBER );
+					break;
+				case FormatBuilder.TIME:
+					categoryChoiceArray = getChoiceArray( TimeFormatValue.FORMAT_VALUE_STRUCT,
+							TimeFormatValue.CATEGORY_MEMBER );
+					break;
+			}
 		}
 		return categoryChoiceArray;
 	}

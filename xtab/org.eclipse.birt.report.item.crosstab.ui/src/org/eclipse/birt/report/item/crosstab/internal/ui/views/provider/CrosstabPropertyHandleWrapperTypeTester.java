@@ -31,8 +31,7 @@ public class CrosstabPropertyHandleWrapperTypeTester extends PropertyTester
 			if ( receiver instanceof CrosstabPropertyHandleWrapper )
 			{
 				String propertyName = expectedValue.toString( );
-				return propertyName.equals( ( ( (CrosstabPropertyHandleWrapper) receiver ).getModel( ) ).getPropertyDefn( )
-						.getName( ) );
+				return propertyName.equals( ( ( (CrosstabPropertyHandleWrapper) receiver ).getTestType( ) ));
 
 			}
 		}

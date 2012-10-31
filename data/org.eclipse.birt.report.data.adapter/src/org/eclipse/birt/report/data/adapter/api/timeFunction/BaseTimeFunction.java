@@ -181,12 +181,14 @@ public class BaseTimeFunction implements ITimeFunction
 				}
 			}
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
+			( (ArgumentInfo) period1 ).setDisplayname( Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_CURRENT_DISPLAYNAME ) );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
+			( (ArgumentInfo) period2 ).setDisplayname( Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_AGO_DISPLAYNAME ) );
 			arguments.add( period2 );
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.PERIOD_TO_DATE_FROM_N_PERIOD_AGO ) )
@@ -202,18 +204,20 @@ public class BaseTimeFunction implements ITimeFunction
 				}
 			}
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
+			( (ArgumentInfo) period1 ).setDisplayname( (Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_PERIOD_DISPLAYNAME )) );
 			arguments.add( period1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD2,
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
+			( (ArgumentInfo) period2 ).setDisplayname(Message.getMessage(ResourceConstants.TIMEFUNCITON_N2_AGO_DISPLAYNAME));
 			arguments.add( period2);
 		}
 		else if( this.name.equals( IBuildInBaseTimeFunction.TRAILING_N_MONTHS ))
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N1_MONTH_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_MONTH ),
 					true ) );
 		}
@@ -228,7 +232,7 @@ public class BaseTimeFunction implements ITimeFunction
 		{
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCITON_TRAILING_N1_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
 			arguments.add( period1 );
@@ -237,12 +241,13 @@ public class BaseTimeFunction implements ITimeFunction
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N2 ),
 					false ) );
 			( (ArgumentInfo) period2 ).setPeriodChoices( period_type2 );
-			arguments.add( period2 );
+			( (ArgumentInfo) period2 ).setDisplayname(Message.getMessage(ResourceConstants.TIMEFUNCITON_N2_AGO_DISPLAYNAME));
+			arguments.add( period2 );		
 		}
 		else if ( this.name.equals( IBuildInBaseTimeFunction.NEXT_N_PERIODS ) )
 		{
 			arguments.add( new ArgumentInfo( IArgumentInfo.N_PERIOD1,
-					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1_DISPLAYNAME ),
+					Message.getMessage( ResourceConstants.TIMEFUNCTION_N1_NEXT_DISPLAYNAME ),
 					Message.getMessage( ResourceConstants.TIMEFUNCITON_N1 ),
 					false ) );
 			( (ArgumentInfo) period1 ).setPeriodChoices( period_type1 );

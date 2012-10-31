@@ -16,19 +16,17 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
@@ -37,14 +35,11 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.data.adapter.impl.DefineDataSourceSetUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -53,7 +48,6 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -79,14 +73,23 @@ public final class DataSetProvider
 	private static DataSetProvider instance = null;
 
 	// column hash table
-	private transient Hashtable htColumns = new Hashtable( 10 );
-	private static Hashtable htDataSourceExtensions = new Hashtable( 10 );
-	private transient Hashtable sessionTable = new Hashtable( 10 );
+	private Map<DataSetHandle, DataSetViewData[]> htColumns = new LinkedHashMap<DataSetHandle, DataSetViewData[]>( 10,
+			(float) 0.75,
+			true ) {
 
-	// constant value
-	private static final char RENAME_SEPARATOR = '_';
-	private static String UNNAME_PREFIX = "UNNAMED"; //$NON-NLS-1$
+		private static final long serialVersionUID = 4685315474104939633L;
 
+		/*
+		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+		 */
+		protected boolean removeEldestEntry( final Map.Entry eldest )
+		{
+			return size( ) > 10;
+		}
+	};
+	
+	private static Hashtable<String, IConfigurationElement> htDataSourceExtensions = new Hashtable<String, IConfigurationElement>( 10 );
+	
 	private boolean needToFocusOnOutput = true;
 
 	/**
@@ -158,16 +161,16 @@ public final class DataSetProvider
 		DataRequestSession session = null;
 		try
 		{
-			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSet.getModuleHandle( ) );
-			session = DataRequestSession.newSession( context );
-
 			// Find the data set in the hashtable
-			columns = (DataSetViewData[]) htColumns.get( dataSet );
+			columns = htColumns.get( dataSet );
 
 			// If there are not cached get them from the column hints
 			if ( columns == null || refresh )
 			{
+				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						dataSet.getModuleHandle( ) );
+				session = DataRequestSession.newSession( context );
+				
 				columns = this.populateAllOutputColumns( dataSet, session );
 				htColumns.put( dataSet, columns );
 			}
@@ -530,218 +533,12 @@ public final class DataSetProvider
 	}
 
 	/**
-	 * execute query definition
-	 * 
-	 * @param dataSetHandle
-	 * @param dataSetDesign
-	 * @param rowsToReturn
-	 * @return
-	 * @throws BirtException
-	 */
-	public IQueryResults execute( DataSetHandle dataSetHandle,
-			IBaseDataSetDesign dataSetDesign, int rowsToReturn,
-			ExecutionContext context, DataRequestSession session )
-			throws BirtException
-	{
-		populateAllOutputColumns( dataSetHandle, session );
-
-		if ( !( dataSetHandle instanceof JointDataSetHandle || dataSetHandle instanceof DerivedDataSetHandle ) )
-		{
-			if ( dataSetHandle.getDataSource( ) != null )
-			{
-				session.defineDataSource( session.getModelAdaptor( )
-						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
-			}
-			session.defineDataSet( dataSetDesign );
-		}
-
-		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign,
-				rowsToReturn );
-
-		IQueryResults resultSet = executeQuery( session, queryDefn );
-		saveResultToDataItems( dataSetHandle, resultSet );
-
-		return resultSet;
-	}
-
-	/**
-	 * 
-	 * @param dataSetHandle
-	 * @param dataSetDesign
-	 * @param queryDefn
-	 * @return
-	 * @throws BirtException
-	 */
-	public IQueryResults execute( DataSetHandle dataSetHandle,
-			IBaseDataSetDesign dataSetDesign, IQueryDefinition queryDefn,
-			ExecutionContext context, DataRequestSession session )
-			throws BirtException
-	{
-
-		if ( !( dataSetHandle instanceof JointDataSetHandle || dataSetHandle instanceof DerivedDataSetHandle ) )
-		{
-			if ( dataSetHandle.getDataSource( ) != null )
-			{
-				session.defineDataSource( session.getModelAdaptor( )
-						.adaptDataSource( dataSetHandle.getDataSource( ) ) );
-			}
-
-		}
-		else
-		{
-			DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSetHandle,
-					session );
-		}
-		session.defineDataSet( dataSetDesign );
-		IQueryResults resultSet = executeQuery( session, queryDefn );
-		saveResultToDataItems( dataSetHandle, resultSet );
-
-		return resultSet;
-	}
-
-	/**
-	 * 
-	 * @param dataSet
-	 * @param resultSet
-	 * @throws BirtException
-	 */
-	private void saveResultToDataItems( DataSetHandle dataSet,
-			IQueryResults resultSet ) throws BirtException
-	{
-
-		// Get the metadata
-		IResultMetaData metaData = resultSet.getResultMetaData( );
-		// Put the columns into the hashtable
-		int columnCount = 0;
-		if ( metaData != null )
-			columnCount = metaData.getColumnCount( );
-		DataSetViewData[] columns = new DataSetViewData[columnCount];
-
-		// check whether the column name has been changed,due to changes in
-		// query text.
-		// clear modle resultsetColumn,then execute again.
-
-		// a Set of original column name
-		HashSet orgColumnNameSet = new HashSet( );
-		// a Set of new column name
-		HashSet uniqueColumnNameSet = new HashSet( );
-		for ( int n = 0; n < columns.length; n++ )
-		{
-			orgColumnNameSet.add( metaData.getColumnName( n + 1 ) );
-		}
-
-		for ( int n = 0; n < columns.length; n++ )
-		{
-			columns[n] = new DataSetViewData( );
-			columns[n].setParent( dataSet );
-			columns[n].setDataType( metaData.getColumnType( n + 1 ) );
-			columns[n].setDataTypeName( metaData.getColumnTypeName( n + 1 ) );
-			columns[n].setPosition( n + 1 );
-			columns[n].setAlias( metaData.getColumnAlias( n + 1 ) );
-			columns[n].setComputedColumn( metaData.isComputedColumn( n + 1 ) );
-			String columnName = metaData.getColumnName( n + 1 );
-
-			// give this column a unique name
-			String uniqueColumnName = getUniqueName( orgColumnNameSet,
-					uniqueColumnNameSet,
-					columnName,
-					n );
-
-			// Update the column in UI layer
-			columns[n].setDataSetColumnName( uniqueColumnName );
-			uniqueColumnNameSet.add( uniqueColumnName );
-
-			ColumnHintHandle hint = findColumnHint( dataSet,
-					columns[n].getName( ) );
-			if ( hint != null )
-			{
-				columns[n].setDisplayName( hint.getDisplayName( ) );
-				columns[n].setDisplayNameKey( hint.getDisplayNameKey( ) );
-				columns[n].setAnalysis( hint.getAnalysis( ) );
-				columns[n].setAnalysisColumn( hint.getAnalysisColumn( ) );
-				columns[n].setACLExpression( hint.getACLExpression( ) );
-				columns[n].setFormat( hint.getFormat( ) );
-				columns[n].setDisplayLength( hint.getDisplayLength( ) );
-				columns[n].setHeading( hint.getHeading( ) );
-				columns[n].setHelpText( hint.getHelpText( ) );
-				columns[n].setHorizontalAlign( hint.getHorizontalAlign( ) );
-				columns[n].setTextFormat( hint.getTextFormat( ) );
-				columns[n].setDescription( hint.getDescription( ) );
-				columns[n].setWordWrap( hint.wordWrap( ) );
-				columns[n].setFormatValue( hint.getValueFormat( ) );
-				columns[n].setIndexColumn( hint.isIndexColumn( ) );
-				columns[n].setRemoveDuplicateValues( hint.isCompressed( ) );
-			}
-
-			// Update the column in Model if necessary
-			if ( !uniqueColumnName.equals( columnName ) )
-				updateModelColumn( dataSet, columns[n] );
-		}
-		updateModel( dataSet, columns );
-		htColumns.put( dataSet, columns );
-	}
-
-	/**
-	 * 
-	 * @param ds
-	 * @param column
-	 */
-	private void updateModelColumn( DataSetHandle ds, DataSetViewData column )
-	{
-		PropertyHandle resultSetColumns = ds.getPropertyHandle( DataSetHandle.RESULT_SET_PROP );
-		if ( resultSetColumns == null )
-			return;
-		// update result set columns
-		Iterator iterator = resultSetColumns.iterator( );
-		if ( iterator == null )
-			return;
-		while ( iterator.hasNext( ) )
-		{
-			ResultSetColumnHandle rsColumnHandle = (ResultSetColumnHandle) iterator.next( );
-			assert rsColumnHandle.getPosition( ) != null;
-			if ( rsColumnHandle.getPosition( ).intValue( ) == column.getPosition( ) )
-			{
-				if ( rsColumnHandle.getColumnName( ) != null
-						&& !rsColumnHandle.getColumnName( )
-								.equals( column.getDataSetColumnName( ) ) )
-				{
-					try
-					{
-						rsColumnHandle.setColumnName( column.getDataSetColumnName( ) );
-					}
-					catch ( SemanticException e )
-					{
-					}
-				}
-				break;
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param session
-	 * @param queryDefn
-	 * @return
-	 * @throws BirtException
-	 */
-	private IQueryResults executeQuery( DataRequestSession session,
-			IQueryDefinition queryDefn ) throws BirtException
-	{
-		IPreparedQuery preparedQuery = session.prepare( queryDefn );
-		IQueryResults resultSet = (IQueryResults) session.execute( preparedQuery,
-				null,
-				new ScriptContext( ) );
-		return resultSet;
-	}
-
-	/**
 	 * 
 	 * @param dataSetDesign
 	 * @param rowsToReturn
 	 * @return
 	 */
-	public final QueryDefinition getQueryDefinition(
+	private final QueryDefinition getQueryDefinition(
 			IBaseDataSetDesign dataSetDesign, int rowsToReturn )
 	{
 		if ( dataSetDesign != null )
@@ -817,47 +614,6 @@ public final class DataSetProvider
 			return defn;
 		}
 		return null;
-	}
-
-	/**
-	 * 
-	 * @param orgColumnNameSet
-	 * @param newColumnNameSet
-	 * @param columnName
-	 * @param index
-	 * @return
-	 */
-	private String getUniqueName( HashSet orgColumnNameSet,
-			HashSet newColumnNameSet, String columnName, int index )
-	{
-		String newColumnName;
-		if ( columnName == null
-				|| columnName.trim( ).length( ) == 0
-				|| newColumnNameSet.contains( columnName ) )
-		{
-			// name conflict or no name,give this column a unique name
-			if ( columnName == null || columnName.trim( ).length( ) == 0 )
-				newColumnName = UNNAME_PREFIX
-						+ RENAME_SEPARATOR
-						+ String.valueOf( index + 1 );
-			else
-				newColumnName = columnName
-						+ RENAME_SEPARATOR
-						+ String.valueOf( index + 1 );
-
-			int i = 1;
-			while ( orgColumnNameSet.contains( newColumnName )
-					|| newColumnNameSet.contains( newColumnName ) )
-			{
-				newColumnName += String.valueOf( RENAME_SEPARATOR ) + i;
-				i++;
-			}
-		}
-		else
-		{
-			newColumnName = columnName;
-		}
-		return newColumnName;
 	}
 
 	/**
@@ -941,38 +697,6 @@ public final class DataSetProvider
 	}
 
 	/**
-	 * 
-	 * @param dataSet
-	 * @return
-	 * @throws BirtException
-	 */
-	public IBaseDataSetDesign createDataSetDesign( DataSetHandle dataSet )
-			throws BirtException
-	{
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSet.getModuleHandle( ) );
-		DataRequestSession session = DataRequestSession.newSession( context );
-
-		return session.getModelAdaptor( ).adaptDataSet( dataSet );
-	}
-
-	/**
-	 * 
-	 * @param dataSource
-	 * @return
-	 * @throws BirtException
-	 */
-	public IBaseDataSourceDesign createDataSourceDesign(
-			DataSourceHandle dataSource ) throws BirtException
-	{
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSource.getModuleHandle( ) );
-		DataRequestSession session = DataRequestSession.newSession( context );
-
-		return session.getModelAdaptor( ).adaptDataSource( dataSource );
-	}
-
-	/**
 	 * Get cached data set item model. If none is cached, return null;
 	 * 
 	 * @param ds
@@ -982,7 +706,7 @@ public final class DataSetProvider
 			boolean needToFocusOnOutput )
 	{
 		this.needToFocusOnOutput = needToFocusOnOutput;
-		DataSetViewData[] result = (DataSetViewData[]) this.htColumns.get( ds );
+		DataSetViewData[] result = this.htColumns.get( ds );
 		if ( result == null )
 		{
 
@@ -1046,7 +770,7 @@ public final class DataSetProvider
 		assert ( dataSourceType != null );
 
 		// Find it in the hashtable
-		IConfigurationElement element = (IConfigurationElement) htDataSourceExtensions.get( dataSourceType );
+		IConfigurationElement element = htDataSourceExtensions.get( dataSourceType );
 		if ( element == null )
 		{
 			IConfigurationElement[] elements = Platform.getExtensionRegistry( )
@@ -1075,51 +799,6 @@ public final class DataSetProvider
 		return element;
 	}
 
-	/**
-	 * 
-	 * @param dataSet
-	 * @param useColumnHints
-	 * @param useFilters
-	 * @return
-	 * @throws BirtException
-	 */
-	public final IBaseDataSetDesign getDataSetDesign( DataSetHandle dataSet,
-			boolean useColumnHints, boolean useFilters ) throws BirtException
-	{
-		if ( dataSet != null )
-		{
-			DataRequestSession session = getDataRequestSession( dataSet );
-
-			return getDataSetDesign( dataSet,
-					useColumnHints,
-					useFilters,
-					session );
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param session
-	 * @param dataSet
-	 * @param useColumnHints
-	 * @param useFilters
-	 * @return
-	 * @throws BirtException
-	 */
-	private IBaseDataSetDesign getDataSetDesign( DataRequestSession session,
-			DataSetHandle dataSet, boolean useColumnHints, boolean useFilters )
-			throws BirtException
-	{
-		if ( dataSet != null )
-		{
-			return getDataSetDesign( dataSet,
-					useColumnHints,
-					useFilters,
-					session );
-		}
-		return null;
-	}
 
 	/**
 	 * @param dataSet
@@ -1179,31 +858,9 @@ public final class DataSetProvider
 						|| dsHandle.getName( )
 								.equals( ( (IJointDataSetDesign) dataSetDesign ).getRightDataSetDesignName( ) ) )
 				{
-					getDataSetDesign( session, dsHandle, true, true );
+					getDataSetDesign(  dsHandle, true, true,session );
 				}
 			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param dataSet
-	 * @return
-	 * @throws BirtException
-	 */
-	public DataRequestSession getDataRequestSession( DataSetHandle dataSet )
-			throws BirtException
-	{
-		if ( sessionTable.get( dataSet.getName( ) ) != null )
-			return (DataRequestSession) sessionTable.get( dataSet.getName( ) );
-		else
-		{
-			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSet.getModuleHandle( ) );
-			DataRequestSession session = DataRequestSession.newSession( context );
-			sessionTable.put( dataSet.getName( ), session );
-
-			return session;
 		}
 	}
 
@@ -1215,87 +872,29 @@ public final class DataSetProvider
 	public Collection getParametersFromDataSet( DataSetHandle dataSet )
 			throws BirtException
 	{
-		return prepareQuery( dataSet ).getParameterMetaData( );
-	}
+		DataRequestSession session = null;
+		try
+		{
+			DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					dataSet.getModuleHandle( ) );
+			session = DataRequestSession.newSession( context );
+			IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
+					true,
+					true,
+					session );
 
-	/**
-	 * 
-	 * @param dataSet
-	 * @return
-	 * @throws BirtException
-	 */
-	public IPreparedQuery prepareQuery( DataSetHandle dataSet )
-			throws BirtException
-	{
-		DataRequestSession session = getDataRequestSession( dataSet );
+			QueryDefinition queryDefn = getQueryDefinition( dataSetDesign, -1 );
 
-		IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
-				true,
-				true );
-
-		QueryDefinition queryDefn = getQueryDefinition( dataSetDesign, -1 );
-		return session.prepare( queryDefn, null );
-	}
-
-	/**
-	 * 
-	 * @param dataSet
-	 * @return
-	 * @throws BirtException
-	 */
-	public IPreparedQuery prepareQuery( DataSetHandle dataSet,
-			IQueryDefinition query ) throws BirtException
-	{
-		DataRequestSession session = getDataRequestSession( dataSet );
-
-		getDataSetDesign( dataSet, true, true );
-		return session.prepare( query, null );
-	}
-
-	/**
-	 * 
-	 * @param dataSet
-	 * @return
-	 * @throws BirtException
-	 */
-	public IPreparedQuery prepareQuery( DataSetHandle dataSet,
-			IQueryDefinition query, boolean useColumnHints, boolean useFilters )
-			throws BirtException
-	{
-		DataRequestSession session = getDataRequestSession( dataSet );
-
-		getDataSetDesign( dataSet, useColumnHints, useFilters );
-		return session.prepare( query, null );
-	}
-
-	/**
-	 * Gets prepared query, given Data set, Parameter binding, and
-	 * useColumnHints, useFilters information.
-	 * 
-	 * @param dataSet
-	 *            Given DataSet providing SQL query and parameters.
-	 * @param bindingParams
-	 *            Given Parameter bindings providing binded parameters, null if
-	 *            no binded parameters.
-	 * @param useColumnHints
-	 *            Using column hints flag.
-	 * @param useFilters
-	 *            Using filters flag.
-	 * @return IPreparedQeury
-	 * @throws BirtException
-	 */
-	public final IPreparedQuery prepareQuery( DataSetHandle dataSet,
-			ParamBindingHandle[] bindingParams, boolean useColumnHints,
-			boolean useFilters ) throws BirtException
-	{
-		DataRequestSession session = getDataRequestSession( dataSet );
-		IBaseDataSetDesign dataSetDesign = getDataSetDesign( dataSet,
-				useColumnHints,
-				useFilters );
-
-		return session.prepare( getQueryDefinition( dataSetDesign,
-				bindingParams ),
-				null );
+			IPreparedQuery query = session.prepare( queryDefn, null );
+			return query.getParameterMetaData( );
+		}
+		finally
+		{
+			if ( session != null )
+			{
+				session.shutdown( );
+			}
+		}
 	}
 
 	/**
@@ -1379,5 +978,25 @@ public final class DataSetProvider
 	private static List<URL> getWorkspaceProjectURLs( String reportFilePath )
 	{
 		return DatasetClassPathHelper.getWorkspaceClassPath( reportFilePath );
+	}
+	
+	/**
+	 * clear cached metadata for specified dataSetHandle
+	 * @param dataSetHandle
+	 */
+	public void clear( DataSetHandle dataSetHandle )
+	{
+		if( dataSetHandle!= null )
+		{
+			htColumns.remove( dataSetHandle );
+		}
+	}
+	
+	/**
+	 * clear all cached metadata
+	 */
+	public void clearAll( )
+	{
+		htColumns.clear( );
 	}
 }

@@ -21,20 +21,28 @@ import java.security.PrivilegedAction;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -62,6 +70,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -70,7 +79,7 @@ public class PreparedQueryUtil
 {
 	private static final int BASED_ON_DATASET = 2;
 	private static final int BASED_ON_PRESENTATION = 3;
-	
+	private static Logger logger = Logger.getLogger( PreparedQueryUtil.class.getName() );
 	/**
 	 * Creates a new instance of the proper subclass based on the type of the
 	 * query passed in.
@@ -249,17 +258,122 @@ public class PreparedQueryUtil
 	 * @param queryDefn
 	 * @throws DataException
 	 */
-	private static void validateQuery(DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn) throws DataException
+	private static void validateQuery( DataEngineImpl dataEngine,
+			IQueryDefinition queryDefn ) throws DataException
 	{
-		String dataSetName = queryDefn.getDataSetName( );
-		IBaseDataSetDesign dataSet = dataEngine.getDataSetDesign( dataSetName );
-		if (dataSet != null)
+		try
 		{
-			validateComputedColumns(dataSet);
+			//Need not validate query while in Presentation Mode.
+			if (dataEngine.getContext().getMode() == DataEngineContext.MODE_PRESENTATION )
+				return;
+			String dataSetName = queryDefn.getDataSetName( );
+			IBaseDataSetDesign dataSet = dataEngine.getDataSetDesign( dataSetName );
+			if ( dataSet != null )
+			{
+				validateComputedColumns( dataSet );
+			}
+
+			validateSort(queryDefn, dataSet);
 		}
-		//validateSorts( queryDefn );
-		//validateSummaryQuery( queryDefn );
+		catch ( Exception e )
+		{
+			throw new DataException( e.getLocalizedMessage(), e );
+		}
+		// validateSorts( queryDefn );
+		// validateSummaryQuery( queryDefn );
+	}
+
+	//Just validate the sort against the column binding. No need to validate sort against data set column.
+	private static void validateSort(IQueryDefinition queryDefn, IBaseDataSetDesign dataSet )
+			throws BirtException {
+		Map bindings = populateValidBinding(queryDefn);
+		List<ISortDefinition> toBeRemoved = new ArrayList<ISortDefinition>( );
+		List<ISortDefinition> sorts = queryDefn.getSorts( );
+		for ( ISortDefinition sort : sorts )
+		{
+			IScriptExpression sortExpr = sort.getExpression( );
+			if ( sort.getColumn() != null )
+				continue;
+			if ( sortExpr == null )
+				toBeRemoved.add( sort );
+			else 
+			{
+				List referedColumns = ExpressionUtil
+						.extractColumnExpressions(sortExpr.getText());
+				for (int i = 0; i < referedColumns.size(); i++) 
+				{
+					IColumnBinding cb = (IColumnBinding) referedColumns.get(i);
+					
+					boolean shouldBeRemoved = !bindings.containsKey(
+							cb.getResultSetColumnName()) && !"__rownum".equals( cb.getResultSetColumnName() );
+					if( queryDefn.needAutoBinding() && shouldBeRemoved && dataSet != null )
+					{
+						List resultSetHint = dataSet.getResultSetHints();
+						for( int j = 0; j < resultSetHint.size(); j++ )
+						{
+							if( resultSetHint.get(j) instanceof IColumnDefinition )
+							{
+								IColumnDefinition hint = (IColumnDefinition) resultSetHint.get( j );
+								if( ScriptEvalUtil.compare( hint.getColumnName(), cb.getResultSetColumnName()) == 0 || ScriptEvalUtil.compare( hint.getAlias(), cb.getResultSetColumnName() ) == 0 )
+								{
+									shouldBeRemoved = false;
+									break;
+								}
+							}
+						}
+						
+						if( shouldBeRemoved )
+						{
+							List computedColumns = dataSet.getComputedColumns();
+							for( int j = 0; j < computedColumns.size(); j++ )
+							{
+								if( computedColumns.get(j) instanceof IComputedColumn )
+								{
+									IComputedColumn cc = (IComputedColumn) computedColumns.get( j );
+									if( ScriptEvalUtil.compare( cc.getName(), cb.getResultSetColumnName() ) == 0 )
+									{
+										shouldBeRemoved = false;
+										break;
+									}
+								}
+							}
+						}
+						System.out.println();
+					}
+					if ( shouldBeRemoved ) 
+					{
+						toBeRemoved.add(sort);
+						break;
+					}
+				}
+			}
+		}
+		
+		for( int i = 0; i < toBeRemoved.size(); i++ )
+		{
+			IScriptExpression expr = toBeRemoved.get(i).getExpression();
+			if( expr!= null )
+				logger.log( Level.WARNING, "Sort Definition:" + expr.getText() + " is removed because it refers to an inexist column binding." );
+			else
+				logger.log( Level.WARNING, "Empty Sort Definition is removed." );
+		}
+		
+		queryDefn.getSorts().removeAll( toBeRemoved );
+	}
+
+	private static Map populateValidBinding(IQueryDefinition queryDefn) {
+		Map bindings = new HashMap();
+		
+		IQueryDefinition temp = queryDefn;
+		while( temp != null )
+		{	
+			bindings.putAll( temp.getBindings() );
+			if( temp.getSourceQuery() instanceof IQueryDefinition )
+				temp = (IQueryDefinition) temp.getSourceQuery();
+			else
+				temp = null;
+		}
+		return bindings;
 	}
 	
 	private static void validateSummaryQuery( IQueryDefinition queryDefn ) throws DataException
@@ -312,7 +426,6 @@ public class PreparedQueryUtil
 						IBinding binding = (IBinding)bindings.get( bindingName );
 						if ( binding != null )
 						{
-							//sort key expression can't base on Aggregation
 							if( binding.getAggrFunction( ) != null )
 								return true;
 							
@@ -330,14 +443,22 @@ public class PreparedQueryUtil
 		return false;
 	}
 	
-	private static boolean existAggregationBinding( List bindingName, Map bindings ) throws DataException
+	public static boolean existAggregationBinding( Collection<String> bindingNames, Map bindings ) throws DataException
 	{
-		for( int i = 0; i < bindingName.size( ); i++ )
+		for( String bindingName : bindingNames  )
 		{
-			Object binding = bindings.get( bindingName.get( i ) );
-			if( binding != null && OlapExpressionUtil.isAggregationBinding( ( IBinding )binding ) )
+			Object binding = bindings.get( bindingName );
+			if( binding != null )
 			{
-				return true;
+				if( OlapExpressionUtil.isAggregationBinding( ( IBinding )binding )  )
+					return true;
+				
+				//Need not worry about the cycling reference here as that is already
+				//handled by previous logic 
+				if( existAggregationBinding( ExpressionCompilerUtil.extractColumnExpression( ((IBinding)binding).getExpression( ), ScriptConstants.DATA_SET_BINDING_SCRIPTABLE ), bindings ))
+				{
+					return true;
+				}
 			}
 		}
 		return false;

@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -337,8 +338,9 @@ public class InputParameterDialog extends BaseDialog
 
 			if ( paramValues.containsKey( textParam.getHandle( ).getName( ) ) )
 			{
-				value = paramValues.get( textParam.getHandle( ).getName( ) )
-						.toString( );
+//				value = paramValues.get( textParam.getHandle( ).getName( ) )
+//						.toString( );
+				value = getStringFormat( paramValues.get( textParam.getHandle( ).getName( ) ) );
 			}
 
 			if ( value != null )
@@ -471,6 +473,18 @@ public class InputParameterDialog extends BaseDialog
 
 		return container;
 	}
+	
+	private String getStringFormat(Object obj)
+	{
+		if (obj instanceof Date) {
+			try {
+				return DataTypeUtil.toString(obj);
+			} catch (BirtException e) {
+				//do nothing
+			}
+		}
+		return obj.toString();
+	}
 
 	private void checkParam( final String defaultValueLabel,
 			final Object defaultValue, List list )
@@ -590,18 +604,18 @@ public class InputParameterDialog extends BaseDialog
 				if ( !isRequired && !nullAdded )
 				{
 					combo.add( NULL_VALUE_STR );
-					combo.setData( NULL_VALUE_STR, null );
+					combo.setData( String.valueOf(combo.getItemCount() - 1), null );
 					nullAdded = true;
 				}
 			}
 			else
 			{
 				combo.add( label );
-				combo.setData( label, choice.getValue( ) );
+				combo.setData( String.valueOf(combo.getItemCount() - 1), choice.getValue( ) );
 			}
 		}
 
-		if ( value == null || listParam.getDefaultObject( ) == null)
+		if ( value == null || listParam.getDefaultObject( ) == null )
 		{
 			if ( !isRequired )
 			{
@@ -690,7 +704,7 @@ public class InputParameterDialog extends BaseDialog
 				if ( combo.getSelectionIndex( ) != -1 )
 				{
 					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getData( combo.getItem( combo.getSelectionIndex( ) ) ) );
+							combo.getData( String.valueOf(combo.getSelectionIndex( )) ));
 				}
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
 				{
@@ -1091,6 +1105,10 @@ public class InputParameterDialog extends BaseDialog
 
 	private String formatString( String str, ScalarParameter para )
 	{
+		if(str == null || "".equals(str.trim()))//$NON-NLS-1$
+		{
+			return "";//$NON-NLS-1$
+		}
 		ScalarParameterHandle paraHandle = para.getHandle( );
 		String formatCategroy = paraHandle.getCategory( );
 		String formatPattern = paraHandle.getPattern( );
@@ -1143,7 +1161,17 @@ public class InputParameterDialog extends BaseDialog
 					|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 			{
 				double value = Double.parseDouble( str );
-				formatStr = new NumberFormatter( formatPattern, formatLocale ).format( value );
+				if ( Double.isInfinite( value ) )
+					formatStr = str;
+				else
+				{
+					if ( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED.equals( formatPattern ) )
+					{
+						formatPattern = null;
+					}
+					formatStr = new NumberFormatter( formatPattern,
+							formatLocale ).format( value );
+				}
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 			{

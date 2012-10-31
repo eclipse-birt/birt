@@ -181,13 +181,13 @@ public class ChartUIFactory implements IChartUIFactory
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createFontDefinitionDialog(org.eclipse.swt.widgets.Shell, org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext, org.eclipse.birt.chart.model.attribute.FontDefinition, org.eclipse.birt.chart.model.attribute.ColorDefinition, boolean)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createFontDefinitionDialog(org.eclipse.swt.widgets.Shell, org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext, org.eclipse.birt.chart.model.attribute.FontDefinition, org.eclipse.birt.chart.model.attribute.ColorDefinition, int)
 	 */
 	public IFontDefinitionDialog createFontDefinitionDialog( Shell shellParent,
 			ChartWizardContext wizardContext, FontDefinition fdCurrent,
-			ColorDefinition cdCurrent, boolean isAlignmentEnabled )
+			ColorDefinition cdCurrent, int optionalStyle )
 	{
-		return new FontDefinitionDialog( shellParent, wizardContext, fdCurrent, cdCurrent, isAlignmentEnabled );
+		return new FontDefinitionDialog( shellParent, wizardContext, fdCurrent, cdCurrent, optionalStyle );
 	}
 
 	/* (non-Javadoc)

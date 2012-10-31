@@ -1215,7 +1215,7 @@ public abstract class ContainerArea extends AbstractArea
 
 	public boolean isPageBreakInsideAvoid( )
 	{
-		if ( localProperties != null )
+		if ( pageBreakInside != null )
 		{
 			return ( IStyle.AVOID_VALUE == pageBreakInside );
 		}

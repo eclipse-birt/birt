@@ -175,6 +175,14 @@ public final class LegendItemHints
 	}
 
 	/**
+	 * @return legend item value.
+	 */
+	public Object getItemValue( )
+	{
+		return series.getSeriesIdentifier( );
+	}
+	
+	/**
 	 * Set the item text.
 	 * 
 	 * @param itemText

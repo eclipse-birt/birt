@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.ColumnData;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.RowData;
@@ -1162,6 +1163,14 @@ public class TableLayout extends XYLayout
 	
 	protected boolean isDistroy()
 	{
+		// TODO this is a temp fix to check the validity of the layout owner, may
+		// need refactor ITableLayoutOwner interface to provide this info.
+		if ( owner instanceof ReportElementEditPart
+				&& ( (ReportElementEditPart) owner ).isDelete( ) )
+		{
+			return false;
+		}
+		
 		return !(data != null && data.columnWidths != null
 			&& data.columnWidths.length == getColumnCount( )
 			&& data.rowHeights != null
