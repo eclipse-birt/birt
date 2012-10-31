@@ -3127,4 +3127,24 @@ public class UIUtil
 		}
 		return null;
 	}
+	
+	public static String stripMnemonic( String string )
+	{
+		int index = 0;
+		int length = string.length( );
+		do
+		{
+			while ( ( index < length ) && ( string.charAt( index ) != '&' ) )
+				index++;
+			if ( ++index >= length )
+				return string;
+			if ( string.charAt( index ) != '&' )
+			{
+				return string.substring( 0, index - 1 )
+						+ string.substring( index, length );
+			}
+			index++;
+		} while ( index < length );
+		return string;
+	}
 }
