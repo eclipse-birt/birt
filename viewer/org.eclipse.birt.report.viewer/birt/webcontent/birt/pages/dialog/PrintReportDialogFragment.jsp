@@ -52,6 +52,11 @@
 				<TABLE>
 					<TR>
 						<TD>
+						<label for="exportPages"><%=BirtResources.getMessage( "birt.viewer.dialog.page" )%></label>
+						</TD>
+					</TR>
+					<TR>
+						<TD>
 							<INPUT TYPE="radio" ID="printPageAll" NAME="printPages" CHECKED/>
 							<label for="printPageAll"><%=BirtResources.getMessage( "birt.viewer.dialog.page.all" )%></label>
 						</TD>
