@@ -14,6 +14,7 @@ package org.eclipse.birt.report.debug.internal.ui.script.launcher;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.debug.internal.core.launcher.IReportLaunchConstants;
@@ -23,6 +24,7 @@ import org.eclipse.birt.report.debug.ui.DebugUI;
 import org.eclipse.birt.report.debug.ui.i18n.Messages;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -534,6 +536,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 						temp.add( info.getFormat( ) );
 					}
 				}
+				Collections.sort(temp, new AlphabeticallyComparator());
 				supportedFormats = temp.toArray(new String[temp.size( )] );
 			}
 			cmbOutputFormat.setItems( supportedFormats );

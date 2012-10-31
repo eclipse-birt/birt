@@ -22,12 +22,12 @@ public interface ICrosstabConstants
 	/**
 	 * Major version of current crosstab.
 	 */
-	int CURRENT_CROSSTAB_MAJOR_VERSION = 2;
+	int CURRENT_CROSSTAB_MAJOR_VERSION = 3;
 
 	/**
 	 * Minor version of current crosstab.
 	 */
-	int CURRENT_CROSSTAB_MINOR_VERSION = 5;
+	int CURRENT_CROSSTAB_MINOR_VERSION = 7;
 
 	/**
 	 * Update version of current crosstab.

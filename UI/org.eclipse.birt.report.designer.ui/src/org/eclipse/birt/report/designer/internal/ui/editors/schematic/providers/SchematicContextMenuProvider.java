@@ -945,6 +945,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					"org.eclipse.birt.report.designer.internal.ui.action.NewThemeAction", //$NON-NLS-1$
 					obj,
 					Messages.getString( "ThemesNodeProvider.action.New" ), ReportDesignConstants.THEME_ITEM ) ); //$NON-NLS-1$
+
 		}
 
 		MenuManager subMenu = new MenuManager( APPLY_THEME_MENU_ITEM_TEXT );

@@ -434,7 +434,7 @@ class DataSetParameterAdapter
 		// also need to be updated.
 
 		String name = setParam.getName( );
-		if ( StringUtil.isBlank( name ) || !name.equalsIgnoreCase( nativeName ) )
+		if ( StringUtil.isBlank( name ) || ( !name.equalsIgnoreCase( nativeName ) && !StringUtil.isBlank( nativeName ) ) )
 		{
 			setParam.setName( nativeName );
 		}
@@ -1278,12 +1278,10 @@ class DataSetParameterAdapter
 		if ( userDefinedParams == null )
 			return paramList;
 
-		Iterator iterator = paramList.iterator( );
-
 		List positionList = new ArrayList( );
-		while ( iterator.hasNext( ) )
+		for ( Object paramObj : paramList )
 		{
-			OdaDataSetParameter param = (OdaDataSetParameter) iterator.next( );
+			OdaDataSetParameter param = (OdaDataSetParameter) paramObj;
 			Integer pos = param.getPosition( );
 			OdaDataSetParameterHandle userParam = findDataSetParameterByPosition(
 					userDefinedParams.iterator( ), pos );
@@ -1291,23 +1289,32 @@ class DataSetParameterAdapter
 
 			// use driver-defined to update user-defined. just update
 			// parameterDataType property
-
 			if ( userParam == null )
 			{
 				resultList.add( param );
 			}
 			else
 			{
-				if ( userParam.getNativeDataType( ) != null
-						&& !userParam.getNativeDataType( ).equals(
-								param.getNativeDataType( ) ) )
+				// only update when the native names match
+				if ( userParam.getNativeName( ) != null
+						&& userParam.getNativeName( ).equals(
+								param.getNativeName( ) ) )
 				{
-					userParam.setParameterDataType( param
-							.getParameterDataType( ) );
-					userParam.setNativeDataType( param.getNativeDataType( ) );
+					if ( userParam.getNativeDataType( ) != null
+							&& !userParam.getNativeDataType( ).equals(
+									param.getNativeDataType( ) ) )
+					{
+						userParam.setParameterDataType( param
+								.getParameterDataType( ) );
+						userParam
+								.setNativeDataType( param.getNativeDataType( ) );
+					}
+					resultList.add( userParam.getStructure( ) );
 				}
-
-				resultList.add( userParam.getStructure( ) );
+				else
+				{
+					resultList.add( param );
+				}
 			}
 		}
 

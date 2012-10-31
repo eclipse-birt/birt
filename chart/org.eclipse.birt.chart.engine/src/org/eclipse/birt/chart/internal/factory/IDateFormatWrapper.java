@@ -21,4 +21,7 @@ public interface IDateFormatWrapper
 {
 
 	String format( Date date );
+	
+	/** Returns localized pattern of this format. */
+	String toLocalizedPattern( );
 }

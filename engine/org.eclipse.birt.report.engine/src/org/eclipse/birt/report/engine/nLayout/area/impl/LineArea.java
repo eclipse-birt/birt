@@ -18,7 +18,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -491,7 +490,7 @@ public class LineArea extends InlineStackingArea
 			}
 			children = new ArrayList( );
 			parent.add( area );
-			checkPageBreak( );
+			area.checkPageBreak( );
 			parent.update( area );
 			area.finished = true;
 			// setPosition(parent.currentIP + parent.getOffsetX( ),
@@ -556,6 +555,10 @@ public class LineArea extends InlineStackingArea
 					}
 					result.addChild( splitChildArea );
 					splitChildArea.setParent( result );
+				}
+				else
+				{
+					child.setY( Math.max( 0, child.getY( ) - height ) );
 				}
 			}
 

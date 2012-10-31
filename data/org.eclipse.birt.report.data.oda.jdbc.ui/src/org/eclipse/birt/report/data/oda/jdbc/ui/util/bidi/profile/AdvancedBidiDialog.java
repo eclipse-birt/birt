@@ -100,8 +100,8 @@ public class AdvancedBidiDialog extends TitleAreaDialog
 		initializeDialogUnits( area );
 		if ( disabledContentBidiFormat != null
 				&& disabledMetadataBidiFormat != null
-				&& !BidiConstants.EMPTY_STR.equals( disabledContentBidiFormat )
-				&& !BidiConstants.EMPTY_STR.equals( disabledMetadataBidiFormat ) )
+				&& !BidiConstants.EMPTY_STR.equals( disabledContentBidiFormat.toString( ) )
+				&& !BidiConstants.EMPTY_STR.equals( disabledMetadataBidiFormat.toString( ) ) )
 		{
 			disableTransform = true;
 		}

@@ -40,6 +40,11 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 	private AddingNestAggregations cubeOperation;
 	private CubeNestAggrDefn[] aggrDefns;
 	private CalculatedMember[] newMembers;
+	private List<AggregationDefinition> ads;
+	
+	public PreparedAddingNestAggregations( ) throws DataException
+	{
+	}
 	
 	public PreparedAddingNestAggregations( AddingNestAggregations cubeOperation ) throws DataException
 	{
@@ -47,15 +52,30 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		this.cubeOperation = cubeOperation;
 	}
 	
-	public void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings ) throws DataException
+	public void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings, ICubeQueryDefinition cubeQueryDefn ) throws DataException
 	{
 		aggrDefns = OlapExpressionUtil.getAggrDefnsByNestBinding( Arrays.asList( cubeOperation.getNewBindings( ) ),
 				basedBindings );
 		newMembers = CubeQueryDefinitionUtil.addCalculatedMembers( aggrDefns, manager, scope, cx );
+		
+		ads = new ArrayList<AggregationDefinition>( );
+		for( int i=0; i< aggrDefns.length; i++ )
+		{
+			AggregationDefinition[] aggrs = CubeQueryDefinitionUtil.createAggregationDefinitons( 
+					new CalculatedMember[]{newMembers[i]}, cubeQueryDefn, scope, cx );
+			ads.add( aggrs[0] );			
+		}
+	}
+	
+	public void prepare( Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, CubeNestAggrDefn[] aggrDefns, List<AggregationDefinition> aggregationList ) throws DataException
+	{
+		this.aggrDefns = aggrDefns;
+		this.newMembers = CubeQueryDefinitionUtil.addCalculatedMembers( aggrDefns, manager, scope, cx );
+		this.ads = aggregationList;
 	}
 
 	@SuppressWarnings("unchecked")
-	public IAggregationResultSet[] execute( ICubeQueryDefinition cubeQueryDefn,
+	public IAggregationResultSet[] execute(
 			IAggregationResultSet[] sources, 
 			Scriptable scope,
 			ScriptContext cx, StopSign stopSign )
@@ -78,6 +98,8 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 			}
 			String firstReference = referencedBindings.get( 0 );
 			IAggregationResultSet newArs = null;
+			
+			boolean matchedAggrOns = true;
 			for ( int i=0; i<sources.length && !stopSign.isStopped( ); i++ )
 			{
 				IAggregationResultSet ars = sources[i];
@@ -86,12 +108,25 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 				{
 					IAggregationResultSet based = new AggregationResultSetWithOneMoreDummyAggr(
 							ars, cnaf.getName( ), cnaf.getBasedExpression( ), scope, cx );
-					AggregationDefinition[] ads = CubeQueryDefinitionUtil.createAggregationDefinitons( 
-							new CalculatedMember[]{newMembers[index]}, cubeQueryDefn, scope, cx );
-					checkAggregateOns( ads[0], based);
-					newArs = AggregationHelper.execute( based, ads, stopSign )[0];
-					break;
+					matchedAggrOns = checkAggregateOns( ads.get( index ), based );
+					if ( matchedAggrOns )
+					{
+						newArs = AggregationHelper.execute( based,
+								new AggregationDefinition[]{
+									ads.get( index )
+								},
+								stopSign )[0];
+						break;
+					}
 				}
+			}
+			
+			if( !matchedAggrOns )
+			{
+				throw new DataException( ResourceConstants.INVALID_NEST_AGGREGATION_ON,
+						new Object[]{
+							cnaf.getName( )
+						} );
 			}
 			//referenced binding does not exist or not a aggregation which is not running type 
 			if ( newArs == null )
@@ -99,7 +134,7 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION );
 			}
 			boolean merged = false;
-			if ( !isResultForRunningAggregation( newArs )) //no merge step for running type nest aggregation
+			if ( !isResultForRunningAggregation( newArs ) ) //no merge step for running type nest aggregation
 			{
 				for ( int i=0; i<currentSources.size( ) && !stopSign.isStopped( ); i++ )
 				{
@@ -124,13 +159,16 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		
 		return currentSources.toArray( new IAggregationResultSet[0] );
 	}
-
+	
 	public ICubeOperation getCubeOperation( )
 	{
 		return cubeOperation;
 	}
 
-
+	public List<AggregationDefinition> getAggregationDefintions( )
+	{
+		return this.ads;
+	}
 
 	public CubeAggrDefn[] getNewCubeAggrDefns( )
 	{
@@ -154,19 +192,19 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation
 		return false;
 	}
 	
-	private static void checkAggregateOns( AggregationDefinition ad, IAggregationResultSet based ) throws DataException
+	private static boolean checkAggregateOns( AggregationDefinition ad, IAggregationResultSet based ) throws DataException
 	{
 		if ( ad.getLevels( ) == null )
 		{
-			return;
+			return true;
 		}
 		for ( DimLevel dl : ad.getLevels( ))
 		{
 			if ( based.getLevelIndex( dl ) < 0 )
 			{
-				throw new DataException(ResourceConstants.INVALID_NEST_AGGREGATION_ON, 
-						new Object[]{dl, ad.getAggregationFunctions( )[0].getName( )});
+				return false;
 			}
 		}
+		return true;
 	}
 }

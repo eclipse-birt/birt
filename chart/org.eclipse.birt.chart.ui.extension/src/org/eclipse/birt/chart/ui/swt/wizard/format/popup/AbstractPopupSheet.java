@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.ToolItem;
 public abstract class AbstractPopupSheet implements ITaskPopupSheet
 {
 
-	private transient ChartWizardContext context;
+	protected transient ChartWizardContext context;
 
 	private transient Composite cmpTop = null;
 

@@ -195,6 +195,16 @@ public class GroupElementCommand extends ContentCommand
 
 	private void handleColumnBinding( DesignElement content )
 	{
+		//needn't handle shared column binding.
+		if ( element instanceof ListingElement
+				&& content instanceof GroupElement )
+		{
+			ListingElement tmpContainer = (ListingElement) element;
+			if ( tmpContainer.isDataBindingReferring( module ) )
+			{
+				return;
+			}
+		}
 		List<Object> boundColumns = element.getListProperty( module,
 				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 

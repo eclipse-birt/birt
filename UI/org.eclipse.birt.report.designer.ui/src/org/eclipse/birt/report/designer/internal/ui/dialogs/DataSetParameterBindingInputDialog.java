@@ -111,6 +111,9 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		valueEditor = new Text( valueComposite, SWT.BORDER | SWT.WRAP );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.minimumWidth = 250;
+		gd.heightHint = valueEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- valueEditor.getBorderWidth( )
+				* 2;
 		valueEditor.setLayoutData( gd );
 
 		ExpressionButtonUtil.createExpressionButton( valueComposite,

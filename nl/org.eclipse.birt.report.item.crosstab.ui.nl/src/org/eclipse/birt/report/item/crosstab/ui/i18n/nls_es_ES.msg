@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=Mostrar como
 ShowAsViewAction.TransName=Mostrar como
 
 MeasureComboPropertyDescriptorProvider.TransName=Cambiar la orientación de la tabla de referencias cruzadas
+MeasureHandleDropAdapter_trans_name=Añadir medida
 
 ###########################################################
 # Crosstab Command trans name
@@ -39,6 +40,10 @@ ChangeAreaCommand.TransName=Suprimir dimensión
 ChangeMeasureOrderCommand.TransName=Cambiar orden de medida
 CreateDimensionViewCommand.TransName=Crear dimensión
 CreateMeasureViewCommand.TransName=Crear medida
+
+MergeCrosstabHeaderCellAction_name=&Combinar celdas de encabezado
+SplitCrosstabHeadCellAction_name=&Dividir celda de encabezado
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

@@ -236,9 +236,26 @@ public class Area extends Line
 					bStacked );
 			List<Location> lst = new ArrayList<Location>( );
 
+			// #44030 Keep the invalid point before the first valid point if it is not the first of loa list.
+			// Set invalid point value to the minimum value of the Y-axis.
+			if ( seeker.next( ) )
+			{
+				if ( seeker.getIndex( ) > 0 )
+				{
+					lst.add( loa[seeker.getIndex( ) - 1] );
+				}
+				lst.add( loa[seeker.getIndex( )] );
+			}
+
 			while ( seeker.next( ) )
 			{
 				lst.add( loa[seeker.getIndex( )] );
+			}
+			// Keep the invalid point after the last valid point if it is not the last of the loa list.
+			// Set invalid point value to the minimum value of the Y-axis.
+			if ( seeker.getIndex( ) < seeker.size( ) - 1 )
+			{
+				lst.add( loa[seeker.getIndex( ) + 1] );
 			}
 
 			loa = isDimension3D( ) ? new Location3D[lst.size( )]

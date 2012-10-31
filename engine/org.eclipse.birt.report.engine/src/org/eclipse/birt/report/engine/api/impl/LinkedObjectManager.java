@@ -77,6 +77,8 @@ public class LinkedObjectManager<T> implements Iterable<T>
 		{
 			last = previous;
 		}
+		entry.setNext( null );
+		entry.setPrevious( null );
 		modCount--;
 	}
 

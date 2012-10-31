@@ -30,6 +30,7 @@ exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
 invalid.measure.expression=度量“{0}”的度量表达式不能为空。
 invalid.data.type=无效数据类型: {0}。 
+invalid.binding.expression=无效表达式: {0}。
 
 cube.error.createhierarchy=创建层次结构时出现错误: {0}。
 cube.error.createdimension=创建维时出现错误: {0}。

@@ -42,6 +42,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerReleaser;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
@@ -132,7 +133,8 @@ public class TestTimeDimension extends TestCase
 		hier2.createLevel( "month" );
 		hier2.createLevel( "day" );
 
-		cqd.createMeasure( "m1" );
+		IMeasureDefinition measure = cqd.createMeasure( "m1" );
+		measure.setAggrFunction( "SUM" );
 
 		IBinding binding1 = new Binding( "edge1level1" );
 		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"l1\"]" ) );

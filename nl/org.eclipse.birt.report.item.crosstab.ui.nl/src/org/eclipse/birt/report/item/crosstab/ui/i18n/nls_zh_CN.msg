@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=显示为
 ShowAsViewAction.TransName=显示为
 
 MeasureComboPropertyDescriptorProvider.TransName=更改交叉表方向
+MeasureHandleDropAdapter_trans_name=添加度量
 
 ###########################################################
 # Crosstab Command trans name
@@ -39,6 +40,10 @@ ChangeAreaCommand.TransName=废弃维
 ChangeMeasureOrderCommand.TransName=更改度量顺序
 CreateDimensionViewCommand.TransName=创建维
 CreateMeasureViewCommand.TransName=创建度量
+
+MergeCrosstabHeaderCellAction_name=合并标题单元格(&M)
+SplitCrosstabHeadCellAction_name=拆分标题单元格(&S)
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

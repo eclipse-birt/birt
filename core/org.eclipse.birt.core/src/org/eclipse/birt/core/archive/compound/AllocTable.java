@@ -15,7 +15,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
 
@@ -50,7 +49,7 @@ class AllocTable implements ArchiveConstants
 
 	protected AllocEntry freeEntry;
 
-	protected HashMap entries = new HashMap( );
+	protected HashMap<Integer, AllocEntry> entries = new HashMap<Integer, AllocEntry>( );
 
 	AllocTable( ArchiveFileV2 af )
 	{
@@ -80,10 +79,10 @@ class AllocTable implements ArchiveConstants
 	{
 		AllocTableLoader loader = new AllocTableLoader( );
 		loader.load( af );
-		ArrayList loadedEntries = loader.getEntryies( );
+		ArrayList<AllocEntry> loadedEntries = loader.getEntryies( );
 		for ( int i = 0; i < loadedEntries.size( ); i++ )
 		{
-			AllocEntry entry = (AllocEntry) loadedEntries.get( i );
+			AllocEntry entry = loadedEntries.get( i );
 			int blockId = entry.getFirstBlock( );
 			if ( blockId == ALLOC_TABLE_BLOCK )
 			{
@@ -108,10 +107,8 @@ class AllocTable implements ArchiveConstants
 	synchronized void flush( ) throws IOException
 	{
 		// flush all entries in the table
-		Iterator iter = entries.values( ).iterator( );
-		while ( iter.hasNext( ) )
+		for ( AllocEntry entry : entries.values( ) )
 		{
-			AllocEntry entry = (AllocEntry) iter.next( );
 			entry.flush( this );
 		}
 
@@ -135,10 +132,8 @@ class AllocTable implements ArchiveConstants
 		// the free blocks is only used by the writer, so we needn't refresh it.
 
 		// refresh all entries in the table
-		Iterator iter = entries.values( ).iterator( );
-		while ( iter.hasNext( ) )
+		for ( AllocEntry entry : entries.values( ) )
 		{
-			AllocEntry entry = (AllocEntry) iter.next( );
 			entry.refresh( this );
 		}
 	}
@@ -255,10 +250,8 @@ class AllocTable implements ArchiveConstants
 			System.out.print( freeEntry.getBlock( i ) + "," );
 		}
 		System.out.println( );
-		Iterator iter = entries.values( ).iterator( );
-		while ( iter.hasNext( ) )
+		for ( AllocEntry entry : entries.values( ) )
 		{
-			AllocEntry entry = (AllocEntry) iter.next( );
 			for ( int i = 0; i < entry.getTotalBlocks( ); i++ )
 			{
 				System.out.print( entry.getBlock( i ) + "," );

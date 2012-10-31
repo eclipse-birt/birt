@@ -38,14 +38,17 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
 import org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper;
 import org.eclipse.birt.data.engine.executor.aggregation.ProgressiveAggregationHelper;
+import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
+import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
+import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
@@ -61,7 +64,9 @@ import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.mozilla.javascript.Scriptable;
+import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+import org.eclipse.birt.data.engine.script.JSResultSetRow;
+import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 
 /**
  * A Result Set that directly fetch data from ODA w/o using any cache.
@@ -80,13 +85,22 @@ public class SimpleResultSet implements IResultIterator
 	private DataOutputStream dataSetLenStream;
 	private long offset = 4;
 	private long rowCountOffset = 0;
-	private Set resultSetNameSet = null;
+	private Set<String> resultSetNameSet = null;
 	private IBaseQueryDefinition query;
 	private IResultClass resultClass;
 	private IGroupCalculator groupCalculator;
 	private IProgressiveAggregationHelper aggrHelper;
 	private boolean isClosed;
 	private ICloseable closeable;
+	private boolean forceLookForward;
+	private BaseQuery dataSourceQuery;
+	private DataEngineSession session;
+	private ComputedColumnHelper ccHelper;
+	private FilterByRow filterByRow;
+	private List<OnFetchScriptHelper> onFetchEvents;
+	
+	//TODO: refactor me. Add this for emergence -- release.
+	private boolean isFirstNextCall = true;
 	
 	/**
 	 * 
@@ -98,113 +112,225 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public SimpleResultSet( BaseQuery dataSourceQuery,
 			final ResultSet resultSet, IResultClass resultClass,
-			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
+			IEventHandler handler, GroupSpec[] groupSpecs,
+			DataEngineSession session, boolean forceLookingForward )
+			throws DataException
 	{
-		SmartCacheRequest scRequest =  new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
+		SmartCacheRequest scRequest = new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( resultSet, resultClass ),
 				resultClass,
 				false );
-		populateRowResultSet( handler, scRequest );
 
-		this.closeable = new ICloseable(){
+		this.closeable = new ICloseable( ) {
 
 			public void close( ) throws DataException
 			{
 				resultSet.close( );
-				
-			}};
-		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session, forceLookingForward );
-				
-	}
 
-	private void populateRowResultSet( IEventHandler handler,
-			SmartCacheRequest scRequest )
-	{
-		DataSetRuntime runtime = handler.getDataSetRuntime( );
-		this.rowResultSet = runtime == null?new RowResultSet( scRequest ):new RowResultSetWithDataSetScopeAwareness( scRequest, runtime );
+			}
+		};
+
+		this.handler = handler;
+		this.initialize( dataSourceQuery,
+				handler,
+				scRequest,
+				resultClass,
+				groupSpecs,
+				session,
+				forceLookingForward );
 	}
 
 	public SimpleResultSet( BaseQuery dataSourceQuery,
 			IDataSetPopulator populator, IResultClass resultClass,
-			IEventHandler handler, GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
+			IEventHandler handler, GroupSpec[] groupSpecs,
+			DataEngineSession session, boolean forceLookingForward )
+			throws DataException
 	{
 		SmartCacheRequest scRequest = new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( populator ),
 				resultClass,
 				false );
-		populateRowResultSet( handler, scRequest );
-	
-		this.closeable = (populator instanceof ICloseable)?(ICloseable)populator:null; 
-		initialize( dataSourceQuery, resultClass, handler, groupSpecs, session, forceLookingForward );
-				
+
+		this.closeable = ( populator instanceof ICloseable )
+				? (ICloseable) populator : null;
+		this.handler = handler;
+		this.initialize( dataSourceQuery,
+				handler,
+				scRequest,
+				resultClass,
+				groupSpecs,
+				session,
+				forceLookingForward );
 	}
-	
+
 	public SimpleResultSet( CandidateQuery dataSourceQuery,
-			final ICustomDataSet customDataSet, IResultClass resultMetadata,
-			IEventHandler handler, GroupSpec[] grouping,
-			DataEngineSession session, boolean forceLookingForward ) throws DataException
+			final ICustomDataSet customDataSet, IResultClass resultClass,
+			IEventHandler handler, GroupSpec[] groupSpecs,
+			DataEngineSession session, boolean forceLookingForward )
+			throws DataException
 	{
 		SmartCacheRequest scRequest = new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
 				dataSourceQuery.getFetchEvents( ),
 				new OdiAdapter( customDataSet ),
-				resultMetadata,
-				false ); 
-		DataSetRuntime runtime = handler.getDataSetRuntime( );
-		this.rowResultSet = runtime == null?new RowResultSet( scRequest ):new RowResultSetWithDataSetScopeAwareness( scRequest, runtime );
+				resultClass,
+				false );
 
-		this.closeable = new ICloseable(){
+		this.closeable = new ICloseable( ) {
 
 			public void close( ) throws DataException
 			{
 				customDataSet.close( );
-				
-			}};
-		initialize( dataSourceQuery, resultMetadata, handler, grouping, session, forceLookingForward );
+
+			}
+		};
+
+		this.handler = handler;
+		this.initialize( dataSourceQuery,
+				handler,
+				scRequest,
+				resultClass,
+				groupSpecs,
+				session,
+				forceLookingForward );
+	}
+	
+	private void initialize( BaseQuery baseQuery, IEventHandler handler,
+			SmartCacheRequest scRequest, IResultClass resultMetadata,
+			GroupSpec[] groupSpecs, DataEngineSession session,
+			boolean forceLookingForward ) throws DataException
+	{
+		this.dataSourceQuery = baseQuery;
+		this.query = baseQuery.getQueryDefinition( );
+		this.session = session;
+		this.forceLookForward = forceLookingForward;
+		boolean needLookForward = needLookingForwardFor1Row( groupSpecs,
+				forceLookingForward );
+
+		populateComputedColumnHelper( baseQuery );
+		populateRowResultSet( handler, scRequest, needLookForward );
+		populateDataSetColumns( handler, this.query, resultMetadata );
+		populateAggregationHelper( handler, session, groupSpecs, needLookForward );
+		populateGroupCalculator( groupSpecs,
+				needLookForward,
+				session,
+				this.rowResultSet.getMetaData( ),
+				this.aggrHelper );
 	}
 
-	private void initialize( BaseQuery dataSourceQuery,
-			IResultClass resultClass, IEventHandler handler,
-			GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward ) throws DataException
+	private void populateComputedColumnHelper( BaseQuery baseQuery )
 	{
-		this.query = dataSourceQuery.getQueryDefinition( );
-		this.groupCalculator = needLookingForwardFor1Row( groupSpecs, forceLookingForward )
-				? new SimpleGroupCalculator( session,
-						groupSpecs,
-						this.rowResultSet.getMetaData( ) )
-				: new DummyGroupCalculator( );
-		this.currResultObj = this.rowResultSet.next( );
-		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
-		this.groupCalculator.registerNextResultObject( this.rowResultSet );
-		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
-		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
-		this.handler = handler;
-		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
-		if( query instanceof IQueryDefinition && ((IQueryDefinition)query).needAutoBinding( ))
+		if ( baseQuery.getFetchEvents( ) == null )
+			return;
+		this.onFetchEvents = new ArrayList<OnFetchScriptHelper>(); 
+		for ( int i = 0; i < baseQuery.getFetchEvents( ).size( ); i++ )
 		{
-			for( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+			IResultObjectEvent event = (IResultObjectEvent) baseQuery.getFetchEvents( )
+					.get( i );
+			if ( event instanceof ComputedColumnHelper )
+			{
+				this.ccHelper = (ComputedColumnHelper) event;
+			}
+			else if ( event instanceof OnFetchScriptHelper )
+			{
+				onFetchEvents.add( (OnFetchScriptHelper) event );
+			}
+			else if ( event instanceof FilterByRow )
+			{
+				this.filterByRow = (FilterByRow) event;
+			}
+		}
+	}
+
+	private void updateFetchEventMode( int mode ) throws DataException
+	{
+		if ( this.ccHelper != null )
+			this.ccHelper.setModel( mode );
+		if ( this.filterByRow != null )
+			this.filterByRow.setWorkingFilterSet( mode ==  TransformationConstants.DATA_SET_MODEL ? filterByRow.DATASET_FILTER : filterByRow.QUERY_FILTER );
+	}
+	
+	private void populateRowResultSet( IEventHandler handler,
+			SmartCacheRequest scRequest, boolean lookingForward )
+	{
+		DataSetRuntime runtime = handler.getDataSetRuntime( );
+		if ( runtime == null )
+			this.rowResultSet = new RowResultSet( scRequest );
+		else 
+			this.rowResultSet = new RowResultSetWithResultSetScope( scRequest,
+					runtime );
+	}
+
+	@SuppressWarnings("unchecked")
+	private void populateDataSetColumns( IEventHandler handler,
+			IBaseQueryDefinition query, IResultClass resultClass )
+			throws DataException
+	{
+		this.resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( handler.getAllColumnBindings( ) );
+		if ( query instanceof IQueryDefinition
+				&& ( (IQueryDefinition) query ).needAutoBinding( ) )
+		{
+			for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
 			{
 				this.resultSetNameSet.add( resultClass.getFieldName( i ) );
 				this.resultSetNameSet.add( resultClass.getFieldAlias( i ) );
 			}
 		}
-		
-		Scriptable scope = session.getSharedScope( );
-		
-		AggrDefnManager manager = new AggrDefnManager( this.handler.getAggrDefinitions( ));
-		this.aggrHelper = needLookingForwardFor1Row( groupSpecs, forceLookingForward )? new ProgressiveAggregationHelper( manager,
-				session.getTempDir( ),
-				scope,
-				session.getEngineContext( )
-						.getScriptContext( ) ): new DummyAggregationHelper();
-		this.groupCalculator.setAggrHelper( this.aggrHelper );
+	}
+
+	private void populateAggregationHelper( IEventHandler handler,
+			DataEngineSession session, GroupSpec[] groupSpecs,
+			boolean lookForward ) throws DataException
+	{
+		AggrDefnManager manager = new AggrDefnManager( handler.getAggrDefinitions( ) );
+		this.aggrHelper = lookForward
+				? new ProgressiveAggregationHelper( manager,
+						session.getTempDir( ),
+						session.getSharedScope( ),
+						session.getEngineContext( ).getScriptContext( ),
+						handler.getExecutorHelper( ) )
+				: new DummyAggregationHelper( );
+	}
+
+	private void populateGroupCalculator( GroupSpec[] groupSpecs,
+			boolean lookForward, DataEngineSession session,
+			IResultClass resultMeta, IProgressiveAggregationHelper aggrHelper )
+			throws DataException
+	{
+		this.groupCalculator = lookForward
+				? new SimpleGroupCalculator( session, groupSpecs, resultMeta )
+				: new DummyGroupCalculator( );
+		this.groupCalculator.setAggrHelper( aggrHelper );
+	}
+
+	private void prepareFirstRow(  ) throws DataException
+	{
+		this.currResultObj = this.rowResultSet.next( );
+		this.groupCalculator.registerCurrentResultObject( this.currResultObj );
+		this.groupCalculator.registerNextResultObject( this.rowResultSet );
+		this.initialRowCount = ( this.currResultObj != null ) ? -1 : 0;
+		this.rowCount = ( this.currResultObj != null ) ? 1 : 0;
+		this.groupCalculator.next( 0 );
 	}
 
 	private boolean needLookingForwardFor1Row( GroupSpec[] groupSpecs,
 			boolean forceLookingForward )
 	{
 		return ( forceLookingForward || groupSpecs.length > 0 || this.query.cacheQueryResults( ) );
+	}
+	
+	public IResultIterator getResultSetIterator( ) throws DataException
+	{
+		IResultIterator itr = this.forceLookForward
+				? new ResultSetWrapper( this.session, this ) : this;
+		this.handler.handleEndOfDataSetProcess( itr );
+		this.prepareFirstRow( );
+		if ( this.forceLookForward )
+		{
+			( (ResultSetWrapper) itr ).initialize( );
+		}
+		return itr;
 	}
 	
 	/*
@@ -282,6 +408,16 @@ public class SimpleResultSet implements IResultIterator
 			}
 			dataSetLenStream = null;
 		}
+		this.rowResultSet = null;
+		this.ccHelper = null;
+		this.aggrHelper = null;
+		this.handler = null;
+		this.session = null;
+		this.filterByRow = null;
+		this.dataSourceQuery = null;
+		this.resultSetNameSet.clear( );
+		if ( onFetchEvents != null )
+			onFetchEvents.clear( );
 		this.isClosed = true;
 	}
 	
@@ -333,6 +469,7 @@ public class SimpleResultSet implements IResultIterator
 	{
 		this.streamsWrapper = streamsWrapper;
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
+		
 		try
 		{
 			if ( streamsWrapper.getStreamForResultClass( ) != null )
@@ -356,7 +493,6 @@ public class SimpleResultSet implements IResultIterator
 		{
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
-		this.groupCalculator.next( 0 );
 	}
 
 	private IResultClass populateResultClass( IResultClass meta )
@@ -534,35 +670,28 @@ public class SimpleResultSet implements IResultIterator
 	{
 		if ( currResultObj == null ) 
 			return false;
-		if ( this.streamsWrapper != null && currResultObj != null )
+		
+		if( this.isFirstNextCall )
 		{
-			try 
-			{
-				if ( dataSetStream != null )
-				{
-					int colCount = this.populateResultClass( this.currResultObj.getResultClass( ) )
-							.getFieldCount( );
-					IOUtil.writeLong( dataSetLenStream, offset );
-
-					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
-							currResultObj,
-							colCount,
-							resultSetNameSet,
-							streamsWrapper.getOutputStringTable( getResultClass( ) ),
-							streamsWrapper.getStreamForIndex( getResultClass( ), handler.getAppContext( ) ),
-							this.rowCount-1 );
-				}
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( e.getLocalizedMessage( ), e );
-			}
-		}
+			this.isFirstNextCall = false;
+			saveDataSetResultSet( currResultObj, 0 );			
+		}		
+		doNext( );
+		
+		if ( currResultObj != null )
+			saveDataSetResultSet( currResultObj, rowCount - 1 );
+		return this.currResultObj != null;
+	}
+	
+	private void doNext( ) throws DataException
+	{
 		try
 		{
 			this.groupCalculator.registerPreviousResultObject( this.currResultObj );
 			this.currResultObj = this.rowResultSet.next( );
+			
 			this.groupCalculator.registerCurrentResultObject( this.currResultObj );
+			
 			this.groupCalculator.registerNextResultObject( this.rowResultSet );
 			if ( this.currResultObj != null )
 				this.groupCalculator.next( this.rowResultSet.getIndex( ));
@@ -575,7 +704,35 @@ public class SimpleResultSet implements IResultIterator
 
 		if ( this.currResultObj != null )
 			rowCount++;
-		return this.currResultObj != null;
+	}
+	
+	private void saveDataSetResultSet( IResultObject rs, int index ) throws DataException
+	{
+		if ( this.streamsWrapper != null && rs != null )
+		{
+			try
+			{
+				if ( dataSetStream != null )
+				{
+					int colCount = this.populateResultClass( rs.getResultClass( ) )
+							.getFieldCount( );
+					IOUtil.writeLong( dataSetLenStream, offset );
+
+					offset += ResultSetUtil.writeResultObject( new DataOutputStream( dataSetStream ),
+							currResultObj,
+							colCount,
+							resultSetNameSet,
+							streamsWrapper.getOutputStringTable( getResultClass( ) ),
+							streamsWrapper.getStreamForIndex( getResultClass( ),
+									handler.getAppContext( ) ),
+							index, streamsWrapper.getStreamManager( ).getVersion( ) );
+				}
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ), e );
+			}
+		}
 	}
 	
 	public boolean aggrValueAvailable( String aggrName, int index ) throws DataException
@@ -640,7 +797,6 @@ public class SimpleResultSet implements IResultIterator
 	
 	private class DummyGroupCalculator implements IGroupCalculator
 	{
-
 		public void registerPreviousResultObject( IResultObject previous )
 		{
 			// TODO Auto-generated method stub
@@ -657,7 +813,6 @@ public class SimpleResultSet implements IResultIterator
 				throws DataException
 		{
 			// TODO Auto-generated method stub
-			
 		}
 
 		public void next( int rowId ) throws DataException
@@ -721,7 +876,7 @@ public class SimpleResultSet implements IResultIterator
 		public RowResultSetWithDataSetScopeAwareness(
 				SmartCacheRequest smartCacheRequest, DataSetRuntime runtime )
 		{
-			super( smartCacheRequest );
+			super( smartCacheRequest, 0 );
 			this.runtime = runtime;
 		}
 		
@@ -736,5 +891,217 @@ public class SimpleResultSet implements IResultIterator
 			this.runtime.setMode( this.cachedMode );
 		}
 		
+		protected void beforeProcessFetchEvent( IResultObject resultObject, int currentIndex )
+				throws DataException
+		{
+			updateFetchEventMode(  TransformationConstants.DATA_SET_MODEL );
+		}
+
+		protected void afterProcessFetchEvent( IResultObject resultObject, int currentIndex )
+				throws DataException
+		{
+			updateFetchEventMode(  TransformationConstants.RESULT_SET_MODEL );
+		}
+	}
+	
+	/**
+	 * This class help evaluate row[xx] object.
+	 *
+	 */
+	private class RowResultSetWithResultSetScope extends RowResultSet
+	{
+
+		private IRowResultSet rowResultSet;
+		private IResultObject current;
+		private JSResultSetRow savedJSResultSetRow;
+		private JSResultSetRow evalJSResultSetRow;
+		private DataSetRuntime runtime;
+		private IResultClass rsMeta;
+		private boolean initialized = false;
+
+		RowResultSetWithResultSetScope( SmartCacheRequest smartCacheRequest,
+				DataSetRuntime runtime )
+		{
+			super( smartCacheRequest );
+			this.rowResultSet = new RowResultSetWithDataSetScopeAwareness( smartCacheRequest,
+					runtime );
+			this.runtime = runtime;
+			this.rsMeta = smartCacheRequest.getResultClass( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.executor.cache.RowResultSet#fetch()
+		 */
+		protected IResultObject fetch( ) throws DataException
+		{
+			return this.rowResultSet.next( );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.cache.RowResultSet#beforeProcess
+		 * (org.eclipse.birt.data.engine.odi.IResultObject, int)
+		 */
+		protected void beforeProcessFetchEvent( IResultObject resultObject,
+				int currentIndex ) throws DataException
+		{
+			initialize( );
+			updateFetchEventMode( TransformationConstants.RESULT_SET_MODEL );
+			this.runtime.setJSResultSetRow( this.evalJSResultSetRow );
+			this.current = resultObject;
+			removeOnFetchScriptHelper( );
+		}
+		
+		private void removeOnFetchScriptHelper( )
+		{
+			if ( SimpleResultSet.this.dataSourceQuery.getFetchEvents( ) == null )
+				return;
+			SimpleResultSet.this.dataSourceQuery.getFetchEvents( )
+					.removeAll( SimpleResultSet.this.onFetchEvents );
+		}
+
+		private void restoreOnFetchScriptHelper( )
+		{
+			if ( SimpleResultSet.this.dataSourceQuery.getFetchEvents( ) == null )
+				return;
+			SimpleResultSet.this.dataSourceQuery.getFetchEvents( )
+					.addAll( SimpleResultSet.this.onFetchEvents );
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.cache.RowResultSet#afterProcess
+		 * (org.eclipse.birt.data.engine.odi.IResultObject, int)
+		 */
+		protected void afterProcessFetchEvent( IResultObject rsRow,
+				int currentIndex ) throws DataException
+		{
+			updateFetchEventMode( TransformationConstants.DATA_SET_MODEL );
+			this.runtime.setJSResultSetRow( this.savedJSResultSetRow );
+			restoreOnFetchScriptHelper( );
+		}
+
+		private void initialize( )
+		{
+			if ( this.initialized )
+				return;
+
+			this.initialized = true;
+			if ( ! (this.runtime.getJSResultRowObject( ) instanceof JSResultSetRow) )
+				return;
+			
+			this.savedJSResultSetRow = (JSResultSetRow) this.runtime.getJSResultRowObject( );
+			IResultIterator itr = new IResultIterator( ) {
+
+				public IResultClass getResultClass( ) throws DataException
+				{
+					return RowResultSetWithResultSetScope.this.rsMeta;
+				}
+
+				public Object getAggrValue( String aggrName )
+						throws DataException
+				{
+					return SimpleResultSet.this.aggrHelper.getAggrValue( aggrName,
+							this );
+				}
+
+				public IResultObject getCurrentResult( ) throws DataException
+				{
+					return RowResultSetWithResultSetScope.this.current;
+				}
+
+				public int getCurrentResultIndex( ) throws DataException
+				{
+					return RowResultSetWithResultSetScope.this.rowResultSet.getIndex( );
+				}
+
+				public boolean next( ) throws DataException
+				{
+					// Dummy stuff
+					return false;
+				}
+
+				public void first( int groupingLevel ) throws DataException
+				{
+					// Dummy stuff
+				}
+
+				public void last( int groupingLevel ) throws DataException
+				{
+					// Dummy stuff
+				}
+
+				public int getCurrentGroupIndex( int groupLevel )
+						throws DataException
+				{
+					// Dummy stuff
+					return 0;
+				}
+
+				public int getStartingGroupLevel( ) throws DataException
+				{
+					// Dummy stuff
+					return 0;
+				}
+
+				public int getEndingGroupLevel( ) throws DataException
+				{
+					// Dummy stuff
+					return 0;
+				}
+
+				public void close( ) throws DataException
+				{
+					// Dummy stuff
+				}
+
+				public int[] getGroupStartAndEndIndex( int groupLevel )
+						throws DataException
+				{
+					// Dummy stuff
+					return null;
+				}
+
+				public ResultSetCache getResultSetCache( )
+				{
+					// Dummy stuff
+					return null;
+				}
+
+				public int getRowCount( ) throws DataException
+				{
+					// Dummy stuff
+					return 0;
+				}
+
+				public IExecutorHelper getExecutorHelper( )
+				{
+					// Dummy stuff
+					return null;
+				}
+
+				public void doSave( StreamWrapper streamsWrapper,
+						boolean isSubQuery ) throws DataException
+				{
+					// Dummy stuff
+				}
+
+				public void incrementalUpdate( StreamWrapper streamsWrapper,
+						int rowCount, boolean isSubQuery ) throws DataException
+				{
+					// Dummy stuff
+				}
+
+			};
+
+			this.evalJSResultSetRow = new JSResultSetRow( itr, this.savedJSResultSetRow );
+		}
+
 	}
 }

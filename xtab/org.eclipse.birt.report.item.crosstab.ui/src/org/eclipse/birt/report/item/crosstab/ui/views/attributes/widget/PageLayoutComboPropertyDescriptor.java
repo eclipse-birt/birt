@@ -43,6 +43,9 @@ SimpleComboPropertyDescriptor {
 					combo.setEnabled( false );
 				}
 
+				boolean isEditable =  ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) ;
+				setComboEditable( isEditable );
+				
 				int sindex = Arrays.asList( items ).indexOf( oldValue );
 
 				if ( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isSpecialProperty( )

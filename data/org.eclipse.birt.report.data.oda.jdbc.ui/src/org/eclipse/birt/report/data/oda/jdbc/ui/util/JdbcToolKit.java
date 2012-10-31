@@ -101,7 +101,7 @@ public class JdbcToolKit
 	 * @param driverName
 	 * @return
 	 */
-	public static List getJdbcDriversFromODADir( String driverName )
+	public synchronized static List getJdbcDriversFromODADir( String driverName )
 	{
 		if ( jdbcDriverInfos != null )
 		{

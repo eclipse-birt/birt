@@ -2700,6 +2700,26 @@ public class DEUtil
 		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		return exp;
 	}
+	
+	public static String getRowNumExpression( DesignElementHandle baseElement, DesignElementHandle elementHandle )
+	{
+		return getRowNumExpression( baseElement, elementHandle, true );
+	}
+
+	public static String getRowNumExpression( DesignElementHandle baseElement, DesignElementHandle elementHandle, boolean checkOutLevel )
+	{
+		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
+		if ( checkOutLevel )
+		{
+			for ( int i = 0; i < getBindingLevel( elementHandle,
+					baseElement ); i++ )
+			{
+				exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
+			}
+		}
+		exp += ".__rownum"; //$NON-NLS-2$
+		return exp;
+	}
 
 	public static boolean isBindingCube( DesignElementHandle element )
 	{

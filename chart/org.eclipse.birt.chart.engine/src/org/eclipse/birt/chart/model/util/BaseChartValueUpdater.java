@@ -9839,8 +9839,9 @@ public class BaseChartValueUpdater
 		}
 		else if ( eDefObj != null )
 		{
-			eObj.getEntries( )
-					.addAll( ChartElementUtil.copyInstance( eDefObj.getEntries( ) ) );
+			Palette p = eDefObj.copyInstance( );
+			ChartDefaultValueUtil.shiftPaletteColors( p, -axisIndex );
+			eObj.getEntries( ).addAll( p.getEntries( ) );
 		}
 
 	}

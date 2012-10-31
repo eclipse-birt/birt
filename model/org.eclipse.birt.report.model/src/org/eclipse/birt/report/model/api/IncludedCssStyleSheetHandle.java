@@ -83,5 +83,25 @@ public class IncludedCssStyleSheetHandle extends StructureHandle
 		setProperty( IncludedCssStyleSheet.EXTERNAL_CSS_URI_MEMBER,
 				externalCssURI );
 	}
+	
+	public void setUseExternalCss( boolean useExternalCss )
+			throws SemanticException
+	{
+		setProperty( IncludedCssStyleSheet.USE_EXTERNAL_CSS,
+				useExternalCss );
+	}
+	
+	public boolean isUseExternalCss()
+	{
+		Object value = getProperty( IncludedCssStyleSheet.USE_EXTERNAL_CSS );
+		if(value!=null && value instanceof Boolean)
+		{
+			if(((Boolean)value).booleanValue( ))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.data.ui.dataset.AppContextPopulator;
 import org.eclipse.birt.report.designer.data.ui.dataset.AppContextResourceReleaser;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetPreviewer;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetPreviewer.PreviewType;
-import org.eclipse.birt.report.designer.data.ui.dataset.ExternalUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.data.ui.util.DummyEngineTask;
@@ -48,10 +47,9 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
@@ -92,10 +90,19 @@ public class DistinctValueSelector
 		{
 			if ( !useDataSetFilter )
 			{
-				IDesignElement element = dataSetHandle.copy( );
-				( (DataSet) element ).setProperty( IDataSetModel.FILTER_PROP,
-						new ArrayList( ) );	
-				targetHandle =ExternalUIUtil.newDataSetHandle( dataSetHandle, (DesignElement)element );
+				ModuleHandle moduleHandle = ( (Module) dataSetHandle.getRoot( )
+						.copy( ) ).getModuleHandle( );
+				SlotHandle dataSets = moduleHandle.getDataSets( );
+				for ( int i = 0; i < dataSets.getCount( ); i++ )
+				{
+					if ( dataSetHandle.getName( ).equals( dataSets.get( i )
+							.getName( ) ) )
+					{
+						targetHandle = (DataSetHandle) dataSets.get( i );
+						targetHandle.clearProperty( IDataSetModel.FILTER_PROP );
+						break;
+					}
+				}
 			}
 			previewer = new DataSetPreviewer( targetHandle,
 					0,

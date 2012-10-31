@@ -14,8 +14,8 @@
 
 connection_CONNECTION_PROPERTIES_MISSING=缺少连接属性。
 #connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=Cannot open Excel file under directory:
-connection_MISSING_FILELOCATION=未定义 Excel 数据源文件夹属性; 需要 Excel 输入文件的主文件夹路径或 URI。 
-connection_invalidSource=为 Excel 数据源文件夹指定的 URI 无效或格式有误。
+connection_MISSING_FILELOCATION=未定义 Excel 数据源文件属性；需要 Excel 输入文件的文件路径或 URI。 
+connection_invalidSource=为 Excel 数据源文件指定的 URI 无效或格式错误。
 connection_missingResourceIdentifier=无法找到资源标识符来解析 Excel 数据源的相对路径: 
 fileSource_excelFileNotFound=无法定位指定的 Excel 数据源文件夹或文件 ({0})。 
 
@@ -26,7 +26,7 @@ query_ARGUMENT_ERROR=参数应为 'NAME' 或 'TYPE'。
 query_IO_EXCEPTION=读取文件时发生 I/O 异常。
 query_SOURCE_DATA_ERROR=源数据中发现重复列名称。
 query_COLUMN_NAME_ERROR=列名称错误
-query_INVALID_EXCEL_FILE=该工作表不包含任何数据。 请选择另一个工作表。
+query_INVALID_EXCEL_FILE=该工作表未包含任何数据。 请选择另一个工作表。
 query_text_error=查询文本格式错误
 query_WORKSHEET_CANNOT_BE_NULL=工作表名称不能为空。
 resultSet_COLUMN_NOT_FOUND=未找到列:

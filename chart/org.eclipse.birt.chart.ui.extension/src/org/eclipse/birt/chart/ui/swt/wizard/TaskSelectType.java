@@ -1098,7 +1098,7 @@ public class TaskSelectType extends SimpleTask implements
 				cbDimension.add( dimensionArray[i] );
 			}
 		}
-		cbDimension.setDefualtItem( chartType.getDefaultDimension( ) );
+		cbDimension.setDefaultItem( chartType.getDefaultDimension( ) );
 		cbDimension.setItemData( cbDimension.getItems( ) );
 		
 		String cache = ChartCacheManager.getInstance( )
@@ -1300,9 +1300,9 @@ public class TaskSelectType extends SimpleTask implements
 						cbSeriesType.setText( sDisplayName );
 					}
 
-					String seriesName = oseries.getSeriesIdentifier( )
-							.toString( );
-					if ( seriesName.trim( ).length( ) != 0 )
+					String seriesName = ChartUtil.stringValue( oseries.getSeriesIdentifier( ) );
+					if ( seriesName != null
+							&& seriesName.trim( ).length( ) != 0 )
 					{
 						Iterator<Entry<String, Series>> itr = htSeriesNames.entrySet( )
 								.iterator( );

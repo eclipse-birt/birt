@@ -119,9 +119,9 @@ public class WebViewer
 	public final static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
 	/** Preference key for max cube fetch levels. */
-	public final static String PREVIEW_MAXCUBEROWLEVEL = "preview_maxrowlevelmember"; //$NON-NLS-1$
+//	public final static String PREVIEW_MAXCUBEROWLEVEL = "preview_maxrowlevelmember"; //$NON-NLS-1$
 
-	public final static String PREVIEW_MAXCUBECOLUMNLEVEL = "preview_maxcolumnlevelmember"; //$NON-NLS-1$
+//	public final static String PREVIEW_MAXCUBECOLUMNLEVEL = "preview_maxcolumnlevelmember"; //$NON-NLS-1$
 
 	/** Preference key for max in-memory cube size. */
 	public final static String PREVIEW_MAXINMEMORYCUBESIZE = "preview_maxinmemorycubesize"; //$NON-NLS-1$
@@ -207,9 +207,9 @@ public class WebViewer
 	/**
 	 * Key to indicate the 'maxLevelMember'
 	 */
-	public final static String MAX_CUBE_ROW_LEVELS_KEY = "MAX_CUBE_ROW_LEVELS_KEY"; //$NON-NLS-1$
+//	public final static String MAX_CUBE_ROW_LEVELS_KEY = "MAX_CUBE_ROW_LEVELS_KEY"; //$NON-NLS-1$
 
-	public final static String MAX_CUBE_COLUMN_LEVELS_KEY = "MAX_CUBE_COLUMN_LEVELS_KEY"; //$NON-NLS-1$
+//	public final static String MAX_CUBE_COLUMN_LEVELS_KEY = "MAX_CUBE_COLUMN_LEVELS_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Property to indicate whether it is a report debug mode
@@ -394,15 +394,15 @@ public class WebViewer
 		String maxrows = (String) params.get( MAX_ROWS_KEY );
 
 		// max level member setting
-		String maxrowlevels = (String) params.get( MAX_CUBE_ROW_LEVELS_KEY );
-		String maxcolumnlevels = (String) params.get( MAX_CUBE_COLUMN_LEVELS_KEY );
+//		String maxrowlevels = (String) params.get( MAX_CUBE_ROW_LEVELS_KEY );
+//		String maxcolumnlevels = (String) params.get( MAX_CUBE_COLUMN_LEVELS_KEY );
 
 		// process common parameters
 		Map<String, String> urlParams = prepareCommonURLParams( format,
 				resourceFolder,
 				maxrows,
-				maxrowlevels,
-				maxcolumnlevels );
+				null,
+				null );
 
 		// if document mode, append document parameter in URL
 		String documentName = (String) params.get( DOCUMENT_NAME_KEY );
@@ -722,16 +722,16 @@ public class WebViewer
 		{
 			params.put( ParameterAccessor.PARAM_MAXROWS, maxrows.trim( ) );
 		}
-		if ( !StringUtil.isBlank( maxrowlevels ) )
-		{
-			params.put( ParameterAccessor.PARAM_MAXCUBE_ROWLEVELS,
-					maxrowlevels.trim( ) );
-		}
-		if ( !StringUtil.isBlank( maxcolumnlevels ) )
-		{
-			params.put( ParameterAccessor.PARAM_MAXCUBE_COLUMNLEVELS,
-					maxcolumnlevels.trim( ) );
-		}
+//		if ( !StringUtil.isBlank( maxrowlevels ) )
+//		{
+//			params.put( ParameterAccessor.PARAM_MAXCUBE_ROWLEVELS,
+//					maxrowlevels.trim( ) );
+//		}
+//		if ( !StringUtil.isBlank( maxcolumnlevels ) )
+//		{
+//			params.put( ParameterAccessor.PARAM_MAXCUBE_COLUMNLEVELS,
+//					maxcolumnlevels.trim( ) );
+//		}
 		if ( !StringUtil.isBlank( cubeMemorySize ) )
 		{
 			params.put( ParameterAccessor.PARAM_CUBEMEMSIZE,

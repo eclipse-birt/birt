@@ -93,7 +93,7 @@ public interface IDocArchiveWriter
 	 * @return a list of strings representing the underlying stream names. The
 	 *         return values are in the relative path format too.
 	 */
-	public List listStreams( String relativeStoragePath ) throws IOException;
+	public List<String> listStreams( String relativeStoragePath ) throws IOException;
 
 	/**
 	 * get all the stream in the archive file.
@@ -101,7 +101,7 @@ public interface IDocArchiveWriter
 	 * @return
 	 * @throws IOException
 	 */
-	public List listAllStreams( ) throws IOException;
+	public List<String> listAllStreams( ) throws IOException;
 
 	/**
 	 * Set the stream sorter (if needed). The stream sorter will be used to sort

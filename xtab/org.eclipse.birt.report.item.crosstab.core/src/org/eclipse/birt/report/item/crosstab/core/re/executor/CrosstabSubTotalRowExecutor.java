@@ -206,7 +206,7 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 
 		}
 
-		return rowIndex == 0;
+		return isFirstTotalRow;
 	}
 
 	protected boolean checkMeasureVerticalSpanOverlapped( ColumnEvent ev )

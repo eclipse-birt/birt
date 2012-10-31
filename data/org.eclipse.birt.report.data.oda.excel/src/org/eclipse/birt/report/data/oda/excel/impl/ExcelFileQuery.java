@@ -73,8 +73,6 @@ public class ExcelFileQuery implements IQuery {
 
 	private String worksheetNames;
 
-	private String savedSelectedColInfo;
-
 	private String preparedColumnNames;
 
 	private String[] columnLabels;
@@ -129,7 +127,6 @@ public class ExcelFileQuery implements IQuery {
 
 		QueryTextUtil qtu = new QueryTextUtil(queryText);
 		String query = formatQueryText(qtu.getQuery());
-		savedSelectedColInfo = qtu.getColumnsInfo();
 		validateNonEmptyQueryText(query);
 		String[] queryFragments = parsePreparedQueryText(query);
 		validateSingleTableQuery(queryFragments);
@@ -207,30 +204,25 @@ public class ExcelFileQuery implements IQuery {
 					queryColumnNames, queryColumnTypes, queryColumnLables);
 			this.resultSetMetaData = new ResultSetMetaData(
 					this.resultSetMetaDataHelper);
-		} else {
-			queryColumnNames = ExcelFileSource
-					.getStringArrayFromList(stripFormatInfoFromQueryColumnNames(getQueryColumnNamesVector((preparedColumnNames))));
-			validateColumnName(queryColumnNames, allColumnNames);
-			if (savedSelectedColInfo == null
-					|| savedSelectedColInfo.length() == 0) {
-				queryColumnTypes = this.hasTypeLine ? getQueryColumnTypes(
-						allColumnNames, allColumnTypes, queryColumnNames)
-						: createTempColumnTypes(queryColumnNames.length);
-				queryColumnLables = this.hasColumnNames ? columnLabels
-						: queryColumnNames;
-				if (queryColumnLables == null)
-					queryColumnLables = queryColumnNames;
-				this.resultSetMetaDataHelper = new ResultSetMetaDataHelper(
-						queryColumnNames, queryColumnTypes, queryColumnLables);
-				this.resultSetMetaData = new ResultSetMetaData(
-						this.resultSetMetaDataHelper);
-			} else {
-				this.resultSetMetaDataHelper = new ResultSetMetaDataHelper(
-						savedSelectedColInfo);
-				this.resultSetMetaData = new ResultSetMetaData(
-						this.resultSetMetaDataHelper);
+		}
+		else
+		{
+			queryColumnNames = ExcelFileSource.getStringArrayFromList( stripFormatInfoFromQueryColumnNames( getQueryColumnNamesVector( ( preparedColumnNames ) ) ) );
+			validateColumnName( queryColumnNames, allColumnNames );
+			queryColumnTypes = this.hasTypeLine
+					? getQueryColumnTypes( allColumnNames,
+							allColumnTypes,
+							queryColumnNames )
+					: createTempColumnTypes( queryColumnNames.length );
+			queryColumnLables = this.hasColumnNames ? columnLabels
+					: queryColumnNames;
+			if ( queryColumnLables == null )
+				queryColumnLables = queryColumnNames;
+			this.resultSetMetaDataHelper = new ResultSetMetaDataHelper( queryColumnNames,
+					queryColumnTypes,
+					queryColumnLables );
+			this.resultSetMetaData = new ResultSetMetaData( this.resultSetMetaDataHelper );
 
-			}
 		}
 	}
 

@@ -623,7 +623,14 @@ public class EmitterUtil
 					if ( tblColumns[i] == -1 )
 					{
 						tblColumns[i] = average;
+						remainWidth -= average;
 					}
+				}
+				//For rounding issue there may still have Width remaining after distributed averagely
+				//which will cause column width summed up less than parent width and lead to an extra column 
+				if (remainWidth > 0)
+				{
+					tblColumns[tblColumns.length - 1] += remainWidth;
 				}
 			}
 			else if ( tblColumns.length > 0 )

@@ -355,6 +355,7 @@ public class EngineFragment extends BirtBaseFragment
 		else
 		{
 			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+			response.setHeader("Content-Disposition", "inline" );  //$NON-NLS-1$//$NON-NLS-2$
 			BirtUtility.appendErrorMessage( response.getOutputStream( ), e );
 		}
 	}

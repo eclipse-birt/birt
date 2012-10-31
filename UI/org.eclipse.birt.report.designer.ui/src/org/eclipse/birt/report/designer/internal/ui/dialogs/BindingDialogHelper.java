@@ -349,8 +349,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	public void initDialog( )
 	{
 		cmbType.setItems( dataTypes );
-		txtDisplayName.setFocus( );
+		// txtDisplayName.setFocus( );
 		// initiate function firstly then data type field.
+		// Expression gets the comment.
+		if(txtExpression!=null&&!txtExpression.isDisposed())//add if/else block to fix TED 52776:NPE thrown
+		{
+			txtExpression.setFocus( );
+		}else{
+			txtDisplayName.setFocus( );
+		}
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -896,6 +903,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER | SWT.WRAP );
 		gd = new GridData( GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL );
+		gd.heightHint = txtFilter.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtFilter.getBorderWidth( )
+				* 2;
 		gd.horizontalSpan = 2;
 		txtFilter.setLayoutData( gd );
 
@@ -1000,9 +1010,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private void createCommonSection( Composite composite )
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
+
 		txtExpression = new Text( composite, SWT.BORDER | SWT.WRAP );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
+		gd.heightHint = txtExpression.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+				- txtExpression.getBorderWidth( )
+				* 2;
 		txtExpression.setLayoutData( gd );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
@@ -1294,6 +1308,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+						gd.heightHint = txtParam.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
+								- txtParam.getBorderWidth( )
+								* 2;
 						gridData.horizontalIndent = 0;
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );

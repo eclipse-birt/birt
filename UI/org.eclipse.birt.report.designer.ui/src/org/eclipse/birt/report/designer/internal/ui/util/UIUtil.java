@@ -2972,7 +2972,6 @@ public class UIUtil
 
 		return null;
 	}
-	
 	/**Gets the object from the context through the key.If the value is a Object return null.
 	 * @param context
 	 * @param key

@@ -270,4 +270,9 @@ public class BindingValueFetcher implements IBindingValueFetcher
 		}
 	}
 
+	public boolean existBinding( String bindingName ) throws DataException
+	{
+		return  this.bindingNames.contains( bindingName );
+	}
+
 }

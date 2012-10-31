@@ -22,7 +22,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 /**
  * Support the add the reprot project nature to the any project.
@@ -31,17 +30,14 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 public class SetupReportProjectAction implements IViewActionDelegate
 {
 
-	private ResourceNavigator navigator;
+	private IViewPart navigator;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
 	 */
 	public void init( IViewPart view )
 	{
-		if ( view instanceof ResourceNavigator )
-		{
-			navigator = (ResourceNavigator) view;
-		}
+		navigator = view;
 	}
 
 	/* (non-Javadoc)
@@ -105,8 +101,7 @@ public class SetupReportProjectAction implements IViewActionDelegate
 	{
 		if ( navigator != null )
 		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getTreeViewer( )
-					.getSelection( );
+			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite( ).getSelectionProvider( ).getSelection( );
 			return selection.toArray( );
 		}
 

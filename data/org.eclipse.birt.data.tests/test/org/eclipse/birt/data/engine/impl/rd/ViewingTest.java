@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -1389,6 +1390,12 @@ public class ViewingTest extends RDTestCase
 		binding4.setExpression( new ScriptExpression( "row.Count_on_2nd_group_1+2") );
 		IBinding binding5 = new Binding( "Count_on_1st_group_10");
 		binding5.setExpression( new ScriptExpression( "row.Count_on_1st_group + 10") );
+		
+		binding1.setDataType( DataType.INTEGER_TYPE );
+		binding2.setDataType( DataType.INTEGER_TYPE );
+		binding3.setDataType( DataType.DOUBLE_TYPE );
+		binding4.setDataType( DataType.DOUBLE_TYPE );
+		binding5.setDataType( DataType.DOUBLE_TYPE );
 		
 		genquery.addBinding( binding1 );
 		genquery.addBinding(  binding2 );

@@ -420,7 +420,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		}
 	}
 
-	public void setOffsetOfBookmark( String bookmark, long offset )
+	public void setOffsetOfBookmark( String bookmark, long offset ) throws IOException
 	{
 		try
 		{
@@ -436,10 +436,11 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		catch ( IOException ex )
 		{
 			logger.log( Level.WARNING, "Failed to save the bookmark", ex );
+			throw ex;
 		}
 	}
 
-	public void setOffsetOfInstance( String instanceId, long offset )
+	public void setOffsetOfInstance( String instanceId, long offset ) throws IOException
 	{
 		try
 		{
@@ -455,6 +456,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		catch ( IOException ex )
 		{
 			logger.log( Level.WARNING, "Failed to save the bookmark", ex );
+			throw ex;
 		}
 	}
 }

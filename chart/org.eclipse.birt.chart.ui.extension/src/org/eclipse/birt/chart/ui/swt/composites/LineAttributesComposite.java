@@ -423,11 +423,11 @@ public class LineAttributesComposite extends Composite implements
 		}
 		if ( bEnableStyles )
 		{
-			cmbStyle.setLineStyle( getSWTLineStyle( laCurrent.getStyle( ) ) );
+			cmbStyle.setLineStyle( laCurrent.getStyle( ), laCurrent );
 		}
 		if ( this.bEnableWidths )
 		{
-			cmbWidth.setLineWidth( laCurrent.getThickness( ) );
+			cmbWidth.setLineWidth( laCurrent.getThickness( ), laCurrent );
 		}
 		if ( this.bEnableColor )
 		{

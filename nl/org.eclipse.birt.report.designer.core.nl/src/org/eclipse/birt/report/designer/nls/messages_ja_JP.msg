@@ -515,6 +515,7 @@ dataset.editor.dataSource=データソース
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新しい列の名前またはエイリアス ({0}) は、すでにインデックス {1} の列で使用されています。
 dataset.editor.error.computedColumnNameAlreadyUsed=新しい計算列の名前 ({0}) は、すでに [出力列] の列のエイリアス ({1}) として使用されています。
 dataset.editor.error.duplicateParameterName=パラメタ名が重複しています。
+dataset.editor.error.nonemptyDefaultvalue=デフォルト値をなくすことはできません。
 dataset.editor.error.emptyName=名前は空白にできません。 
 dataset.editor.error.missingComputedColumnExpression=計算列 {0} の式は null または空白にできません。
 dataset.editor.error.missingComputedColumnName=計算列名は null または空白にできません。
@@ -632,6 +633,7 @@ DerivedDataSet.action.error.message.InvalidNumber.DataSet=使用可能なデータセット
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=計算列の定義。
 DataSetComputedColumnsPage.description=計算列の定義 :
 DataSetComputedColumnsPage.duplicatedName=列名が重複しています。
+DataSetComputedColumnsPage.numberName=列名を数字にすることはできません。
 DataSetComputedColumnsPage.toolTipText.Down=計算列を下に移動します。
 DataSetComputedColumnsPage.toolTipText.Up=計算列を上に移動します。
 DataSetComputedColumnsPage.toolTipText.Remove=計算列を削除します。
@@ -1808,6 +1810,7 @@ FormPage.Button.Up=上に移動(&U)
 FormPage.Button.Up.Alt1=上に移動(&P)
 FormPage.Button.Up.Alt2=上に移動(&E)
 FormPage.Button.Binding.Refresh=再表示(&F)
+FormPage.Button.Binding.Clear=クリア(&C)
 FormPage.Menu.ModifyProperty=プロパティの変更
 FormPage.toolTipText.Up=上に移動
 FormPage.toolTipText.Down=下に移動
@@ -2512,7 +2515,7 @@ MapPreferencePage.displayname.Title=マップ
 MapPreferencePage.text.Add=追加(&A)...
 MapPreferencePage.text.Delete=削除(&R)
 MapPreferencePage.text.Description=マップ規則 :
-MapPreferencePage.text.Edit=編集(&D)...
+MapPreferencePage.text.Edit=編集(&E)...
 MapPreferencePage.toolTipText.Up=マップの規則を上に移動
 MapPreferencePage.toolTipText.Down=マップの規則を下に移動
 MapPreferencePage.text.Duplicate=複製(&D)
@@ -3636,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
+CssStyleSheetNodeProvider.Label.FromServer=サーバから
 CssStyleSheetNodeProvider.Tooltip.URI=(表示時に適用)
 
 
@@ -4119,6 +4123,7 @@ WizardTemplateChoicePage.label.Description=説明 :
 WizardTemplateChoicePage.label.Preview=プレビュー :
 WizardTemplateChoicePage.label.ReportTemplates=レポートテンプレート :
 WizardTemplateChoicePage.label.ShowCheatSheets=レポート作成ガイドの表示(&S)
+WizardTemplateChoicePage.label.EnableDefaultThemes=&Include the default themes
 WizardTemplateChoicePage.message.BlankReport=内容が定義されていない空白のレポートを作成します。
 WizardTemplateChoicePage.message.ChartListing=グループ化されたレポートを作成します。グラフは、それぞれのグループのデータを視覚的に表します。
 WizardTemplateChoicePage.message.DualColumnChartListing=グラフとリストのサブグループを 2 つ持つグループ化されたレポートを作成します。
@@ -4306,7 +4311,8 @@ GeneralPage.Library.Included=ライブラリ :
 GeneralPage.Library.Modified.Note=注 : このレポート項目はライブラリで編集されています。元に戻すには、{0}[プロパティの復元] をクリックしてください。
 
 #BookMarkPage
-BookMarkPage.Modified.Note=ブックマークに、A～Z、a～z、0～9、-、_、:、. 以外の特殊文字が含まれており、このために実行時に問題が発生する可能性があります。
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4615,7 +4621,8 @@ BindingDialogHelper.text.Grid=グリッド
 BindingDialogHelper.text.Group=グループ(&O)
 BindingDialogHelper.text.Expression=式(&E) :
 BindingDialogHelper.text.displayName=表示名(&N) :
-BindingDialogHelper.text.allowExport=エクスポートを許可する(&O) :
+BindingDialogHelper.text.allowExport=Exp&ort:
+BindingDialogHelper.text.allowExport.button=Allow Export
 BindingDialogHelper.text.displayNameID=表示名 ID(&S) :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
@@ -4632,7 +4639,7 @@ BindingDialogHelper.warning.button.no=いいえ
 #Scripts Node
 Scripts.Node.DisplayName=スクリプト
 ScriptElementNode.Action.Text=レポート要素にジャンプ(&G)
-ScriptObjectNode_0=スクリプトのリセット(&R)
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=サムネイルの管理
 
@@ -4642,10 +4649,11 @@ CrosstabBindingDialogHelper.AggOn.All=すべて
 CrosstabBindingDialogHelper.bindngName.timeperiod=期間
 CrosstabBindingDialogHelper.calculation.label=期間(&P) :
 CrosstabBindingDialogHelper.calculation.group=期間
-CrosstabBindingDialogHelper.recentday.description=期間内の最後の日付
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=参照日(&R) :
 CrosstabBindingDialogHelper.thisdate.label=使用する日付 :
-CrosstabBindingDialogHelper.thisdate.example.label=日付は、yyyy-MM-dd の形式で入力してください
+CrosstabBindingDialogHelper.thisdate.example.label=指定された日付値を二重引用符で囲んでください。\n例 : "2012-01-23"、"1/23/2012"。
+CrosstabBindingDialogHelper.thisdate.example.label.constant=例 : 2012-01-23、1/23/2012。
 CrosstabBindingDialogHelper.timedimension.label=時間のディメンション(&M) :
 CrosstabBindingDialogHelper.timeperiod.wrongdate=このディメンションは最近の参照日をサポートしていません 
 CrosstabBindingDialogHelper.today.label=今日
@@ -4753,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的な
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする(&G) 
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする(&N)
 GeneralConfigurationBlock.group.label=確認する
-GeneralConfigurationBlock.group.defaultThemes=デフォルトのテーマライブラリ
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=ライブラリのファイルを開いた後に確認メッセージを表示する(&P)
-GeneralConfigurationBlock.button.text.defaultTheme.enable=デフォルトのテーマライブラリを有効にする(&T)
-GeneralConfigurationBlock.button.text.defaultTheme.include=デフォルトのテーマを含める(&I)
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=パフォーマンスを向上させるためにローカルバインドを親に移動する
 GeneralConfigurationBlock.move.binding.always=常に続行する(&W)
 GeneralConfigurationBlock.move.binding.never=続行しない(&V)
@@ -4873,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=デフォルトの構文(&F) :
 ExpressionEditor.Error.EmptyExpression=式は空白にできません。
 ExpressionEditor.Label.Expression=式(&E) :
 ExpressionEditor.Title=式の編集
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
+ExpressionSyntaxColoringPage.Button.Bold=&Bold
+ExpressionSyntaxColoringPage.Button.Enable=Enable
+ExpressionSyntaxColoringPage.Button.Italic=&Italic
+ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Button.Underline=下線(&U)
+ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
+ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Element.Default=デフォルト
+ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.String=文字列
+ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
+ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
+ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
 
 ###########################################################
 #VariableDropAdapter

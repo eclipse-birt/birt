@@ -138,11 +138,19 @@ public class ExtensionValidator extends AbstractElementValidator
 
 		if ( toValidate.getExtendedElement( ) != null )
 		{
-			List<? extends SemanticException> exceptions = toValidate
-					.getExtendedElement( ).validate( );
+			try
+			{
+				List<? extends SemanticException> exceptions = toValidate
+						.getExtendedElement( ).validate( );
 
-			if ( exceptions != null )
-				list.addAll( exceptions );
+				if ( exceptions != null )
+					list.addAll( exceptions );
+			}
+			catch ( Exception e )
+			{
+				list.add( new SemanticException( toValidate, e
+						.getLocalizedMessage( ) ) );
+			}
 		}
 		return list;
 	}

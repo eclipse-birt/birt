@@ -11,13 +11,13 @@
 #
 # User messages for the Excel File ODA Designer
 
-wizard.defaultMessage.selectExcelFile=Select or enter an Excel data source file path or URI.
-wizard.defaultMessage.selectDataSet=Select the worksheet and columns for the data set.
+wizard.defaultMessage.selectExcelFile=Excel 데이터 원본 파일 경로 또는 URI를 선택하거나 입력하십시오.
+wizard.defaultMessage.selectDataSet=데이터 집합에 대한 워크시트 및 열을 선택합니다.
 connection_CANNOT_OPEN_EXCEL_FILE_DB_DIR=선택한 폴더의 Excel 데이터 원본 파일을 열 수 없습니다. 
-ui.ExcelFileNotFound=지정한 Excel 데이터 원본 파일 또는 폴더를 찾을 수 없습니다. 
+ui.ExcelFileNotFound=지정한 Excel 데이터 원본 파일을 찾을 수 없습니다. 
 label.selectFolder=폴더 선택(&E): 
 label.selectFile=파일 선택(&I):
-label.selectworksheet=워크시트:
+label.selectworksheet=워크시트 선택(&W):
 label.includeTypeLine=데이터 형식 표시기로 두 번째 줄을 사용(&D)
 label.includeColumnNameLine = 열 이름 표시기로 첫 번째 줄 사용(&A)
 
@@ -49,13 +49,13 @@ tooltip.button.down=선택한 항목을 아래로 이동합니다.
 tooltip.button.delete=선택한 항목을 삭제합니다.
 tooltip.trailNull=데이터 선을 읽는 동안 널(null) 열을 추적합니다. 
 error.selectFolder=올바른 폴더를 선택하십시오.
-error.selectWorksheet=Please select a worksheet for the data set.
-error.selectColumns=Please select at least one column for this data set.
+error.selectWorksheet=데이터 집합 워크시트를 선택하십시오.
+error.selectColumns=이 데이터 집합에 대한 열을 한 개 이상 선택하십시오.
 error.emptyPath=경로를 입력하십시오.
 error.unexpectedError=예기치 않은 오류가 발생했습니다.
 error.invalidConnectionFilePath=지정된 연결 프로필 원본 경로 "{0}"이(가) 없습니다.
 error.errorExist=현재 페이지에 오류가 있습니다.  저장하시겠습니까?
-error.noFile=The Excel data source file ({0}) does not exist.
+error.noFile=Excel 데이터 원본 파일({0})이 없습니다.
 error.invalidFilePath=파일 경로가 잘못되었습니다.  계속하시겠습니까?
 error.emptyFilePath=파일 경로가 비어 있습니다.  계속하시겠습니까?
 error.duplicatedNameValueOrEmpty=중복된 이름 값 또는 비어 있음

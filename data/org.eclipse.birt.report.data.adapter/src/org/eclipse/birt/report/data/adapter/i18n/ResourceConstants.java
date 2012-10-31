@@ -32,8 +32,10 @@ public class ResourceConstants
 	public final static String MISSING_JOIN_CONDITION="missing.join.condition";
 	public final static String EXCEPTION_ERROR = "exception.error";
 	public final static String INVALID_LEVEL_EXPRESSION = "invalid.level.expression";
+	public final static String INVALID_FILTER_OPERANDS = "invalid.filter.operands";
 	public final static String INVALID_MEASURE_EXPRESSION = "invalid.measure.expression";
 	public final static String INVALID_DATA_TYPE = "invlid.data.type"; 
+	public final static String INVALID_BINDING_EXPRESSION = "invalid.binding.expression";
 	public final static String CUBE_HIERARCHY_CREATION_ERROR = "cube.error.createhierarchy";
 	public final static String CUBE_DIMENSION_CREATION_ERROR = "cube.error.createdimension";
 	public final static String CUBE_MEASURE_CREATION_ERROR = "cube.error.createmeasure";

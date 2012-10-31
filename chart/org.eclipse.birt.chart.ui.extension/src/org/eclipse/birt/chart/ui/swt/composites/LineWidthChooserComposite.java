@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.ui.swt.AbstractLineWidthChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -88,6 +89,12 @@ public class LineWidthChooserComposite extends AbstractLineWidthChooserComposite
 	public void setLineWidth( int iWidth )
 	{
 		setChoiceValue( Integer.valueOf( iWidth ) );
+	}
+
+	@Override
+	public void setLineWidth( int iWidth, EObject eParent )
+	{
+		setLineWidth( iWidth );
 	}
 
 }

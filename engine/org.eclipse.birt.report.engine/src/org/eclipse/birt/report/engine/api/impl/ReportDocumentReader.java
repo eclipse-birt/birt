@@ -676,7 +676,7 @@ public class ReportDocumentReader
 		String extensions = (String) properties.get( BIRT_ENGINE_EXTENSIONS );
 		if ( extensions != null && extensions.length( ) > 0 )
 		{
-			String[] extIds = extensions.split( "," );
+			String[] extIds = extensions.split( ";" );
 			for ( String extId : extIds )
 			{
 				IReportEngineExtension ext = engine.getEngineExtension( extId );
@@ -820,6 +820,26 @@ public class ReportDocumentReader
 			{
 				manager.remove( engineCacheEntry );
 			}
+		}
+		this.bodyData = null;
+		this.engine = null;
+		this.cachedTreeV0 = null;
+		if ( globalVariables != null )
+		{
+			globalVariables.clear( );
+			globalVariables = null;
+		}
+		if ( moduleOptions != null )
+		{
+			moduleOptions.clear( );
+			moduleOptions = null;
+		}
+		this.preparedRunnable = null;
+		this.reportRunnable = null;
+		if ( parameters != null )
+		{
+			parameters.clear( );
+			parameters = null;
 		}
 	}
 

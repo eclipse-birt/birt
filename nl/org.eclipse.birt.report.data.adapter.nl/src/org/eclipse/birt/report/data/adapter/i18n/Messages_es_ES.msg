@@ -30,6 +30,7 @@ exception.error=Se ha producido una excepción durante el procesamiento. Consulte
 invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
 invalid.measure.expression=La expresión de medida para la medida "{0}" no puede ser nula.
 invalid.data.type=Tipo de datos no válido: {0}. 
+invalid.binding.expression=Expresión no válida: {0}.
 
 cube.error.createhierarchy=Se produce un error al crear la jerarquía:{0}.
 cube.error.createdimension=Se produce un error al crear la dimensión:{0}.

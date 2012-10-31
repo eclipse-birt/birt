@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDrillFilter;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -30,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -115,7 +118,8 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 			else
 				recalculateAggregation( tempBufferArray, aggregationRsFromDrill );
 			
-			sortAggregationRow( tempBufferArray );
+			if( !this.isResultForRunningAggregation( aggregationRsFromCube ) )
+				sortAggregationRow( tempBufferArray );
 
 			Iterator<IAggregationResultRow> iter = tempBufferArray.iterator( );
 			while ( iter.hasNext( ) )
@@ -218,7 +222,7 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 
 	private Object[] findAggregationValue(
 			IAggregationResultRow iAggregationResultRow,
-			IAggregationResultSet[] aggregationRsFromDrill ) throws IOException
+			IAggregationResultSet[] aggregationRsFromDrill ) throws IOException, DataException
 	{
 		Map<DimLevel, Object> targetValueMap = new HashMap<DimLevel, Object>( );
 		List<DimLevel> levels = new ArrayList<DimLevel>( );
@@ -253,7 +257,17 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		}
 		if ( targetRs == null )
 			return iAggregationResultRow.getAggregationValues( );
-		if ( findValueMatcher( targetRs, targetValueMap, levels ) )
+		
+		boolean find = false;
+		if( isResultForRunningAggregation( targetRs) )
+		{
+			find = findValueOneByOne( targetRs, targetValueMap, levels );
+		}
+		else
+		{
+			find = findValueMatcher( targetRs, targetValueMap, levels );
+		}
+		if ( find )
 		{
 			Object[] value = new Object[aggregationRsFromCube.getAggregationCount( )];
 			for ( int i = 0; i < value.length; i++ )
@@ -267,6 +281,23 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		}
 		else
 			return null;
+	}
+	
+	private static boolean isResultForRunningAggregation( IAggregationResultSet ars ) throws DataException
+	{
+		AggregationDefinition ad = ars.getAggregationDefinition( );
+		if ( ad != null )
+		{
+			AggregationFunctionDefinition[] afds = ad.getAggregationFunctions( );
+			if ( afds != null 
+					&& afds.length == 1 )
+			{
+				String functionName = afds[0].getFunctionName( );
+				IAggrFunction af = AggregationManager.getInstance( ).getAggregation( functionName );
+				return af != null && af.getType( ) == IAggrFunction.RUNNING_AGGR;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -353,6 +384,48 @@ public class DrilledAggregateResultSet implements IAggregationResultSet
 		return find;
 	}
 
+	private boolean findValueOneByOne( IAggregationResultSet targetRs,
+			Map<DimLevel, Object> targetLevelValue, List levels ) throws IOException
+	{
+		int position = 0;
+		if ( targetRs.length( ) <= 0 || levels.isEmpty( ))
+			return true;
+		while ( position < targetRs.length( ) )
+		{
+			targetRs.seek( position );
+			boolean match = true;
+			for ( int i = 0; i < levels.size( ); i++ )
+			{
+				DimLevel level = (DimLevel) levels.get( i );
+				Object value1 = targetLevelValue.get( level );
+				Object value2 = null;
+				int index = targetRs.getLevelIndex( level );
+				Object[] keyValues = targetRs.getLevelKeyValue( index );
+				if ( keyValues != null )
+					value2 = keyValues[targetRs.getLevelKeyColCount( index ) - 1];;
+				if ( value1 == value2 )
+				{
+					continue;
+				}
+				if (  value1== null || value2== null ||!value1.equals( value2 ) )
+				{
+					match = false;
+					break;
+				}
+			}
+			if ( match )
+			{
+				return true;
+			}
+			else
+			{
+				++position;
+			}
+		}
+
+		return false;
+	}
+		
 	static int compare( Object value1, Object value2 )
 	{
 		if ( value1 == value2 )

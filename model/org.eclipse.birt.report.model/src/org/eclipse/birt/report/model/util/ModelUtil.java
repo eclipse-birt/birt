@@ -1080,22 +1080,34 @@ public class ModelUtil extends ModelUtilBase
 	 * @return externalized value.
 	 */
 
-	public static String getExternalizedStructValue( Module module,
+	public static String getExternalizedStructValue( DesignElement element,
 			IStructure structure, String propIDName, String propName,
 			ULocale locale )
 	{
 		if ( structure == null )
 			return null;
 
-		String textKey = (String) structure.getProperty( module, propIDName );
+		String textKey = (String) structure.getProperty( element.getRoot( ), propIDName );
 		if ( !StringUtil.isBlank( textKey ) )
 		{
-			String externalizedText = module.getMessage( textKey, locale );
-			if ( !StringUtil.isBlank( externalizedText ) )
-				return externalizedText;
+			DesignElement temp = element;
+			String externalizedText = null;
+
+			while ( temp != null )
+			{
+				externalizedText = temp.getRoot( ).getMessage( textKey,
+						locale );
+				if ( !StringUtil.isBlank( externalizedText ) )
+					return externalizedText;
+
+				if ( DesignElement.NO_BASE_ID != temp.getBaseId( ) )
+					temp = temp.getVirtualParent( );
+				else
+					temp = temp.getExtendsElement( );
+			}
 		}
 
-		return (String) structure.getProperty( module, propName );
+		return (String) structure.getProperty( element.getRoot( ), propName );
 	}
 
 	/**
