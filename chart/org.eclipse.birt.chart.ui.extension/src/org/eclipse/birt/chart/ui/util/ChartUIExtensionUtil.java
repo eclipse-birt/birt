@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Series;
@@ -27,6 +28,7 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 
 /**
@@ -113,5 +115,29 @@ public class ChartUIExtensionUtil
 	{
 		return context.getUIFactory( ).supportAutoUI( ) ? CurveFittingImpl.createDefault( )
 				: CurveFittingImpl.create( );
+	}
+	
+	/**
+	 * Converts the specified model line style to an appropriate SWT line style
+	 * constant
+	 */
+	public static int getSWTLineStyle( LineStyle style )
+	{
+		if ( LineStyle.DASHED_LITERAL.equals( style ) )
+		{
+			return SWT.LINE_DASH;
+		}
+		else if ( LineStyle.DASH_DOTTED_LITERAL.equals( style ) )
+		{
+			return SWT.LINE_DASHDOT;
+		}
+		else if ( LineStyle.DOTTED_LITERAL.equals( style ) )
+		{
+			return SWT.LINE_DOT;
+		}
+		else
+		{
+			return SWT.LINE_SOLID;
+		}
 	}
 }

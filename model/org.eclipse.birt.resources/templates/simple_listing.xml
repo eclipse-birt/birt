@@ -6,8 +6,9 @@
   </intro>
   <item href="/org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html"
   		title="Create a Data Source" skip="true">
-     <description>- In the Data Explorer view, right-click Data Sources and choose New Data Source. New Data Source displays Classic Models Inc. Sample Database as the selected data source.<br/>
-      - Choose Next.<br/>
+     <description>- In the Data Explorer view, right-click Data Sources and choose New Data Source.<br/>
+      - Select Classic Models Inc. Sample Database.<br/>
+	  - Choose Next.<br/>
       - Choose Finish. 
      </description>
      <action class="org.eclipse.birt.report.designer.data.ui.actions.NewDataSourceAction"

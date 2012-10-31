@@ -83,6 +83,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * @param handle
 	 * @throws ChartException
 	 */
+	@SuppressWarnings("unchecked")
 	public BaseGroupedQueryResultSetEvaluator( IResultIterator resultIterator,
 			boolean hasSummaryAggregation, Chart cm, ExtendedItemHandle handle )
 			throws ChartException
@@ -120,6 +121,9 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * @throws ChartException
 	 * @since 2.3
 	 */
+	@SuppressWarnings({
+			"rawtypes", "unchecked"
+	})
 	public BaseGroupedQueryResultSetEvaluator(
 			IResultIterator resultIterator, boolean hasAggregation,
 			boolean isSubQuery, Chart cm,
@@ -263,6 +267,10 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		{
 			// Here, the expression should be binding name.
 			exprCodec.decode( expression );
+			if ( exprCodec.isConstant( ) )
+			{
+				return exprCodec.getExpression( );
+			}
 			return fResultIterator.getValue( exprCodec.getExpression( ) );
 		}
 		catch ( BirtException e )
@@ -277,6 +285,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
 	 */
+	@SuppressWarnings("deprecation")
 	public Object evaluateGlobal( String expression )
 	{
 		return evaluate( expression );

@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.btree.BTreeCursor;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
 public class IndexReader implements IndexConstants
@@ -48,8 +49,13 @@ public class IndexReader implements IndexConstants
 			RAInputStream input = archive.getInputStream( name );
 			try
 			{
-				int version = input.readInt( );
-				if ( version == VERSION_0 )
+				// The first Integer is originally supposed to be the IndexReader version.
+				// Ignore it as it is not properly stored.
+				input.readInt( );
+				if ( ReportDocumentConstants.REPORTLET_ID_INDEX_STREAM
+						.equals( name )
+						|| ReportDocumentConstants.REPORTLET_BOOKMARK_INDEX_STREAM
+								.equals( name ) )
 				{
 					valueType = BTreeMap.LONG_VALUE;
 					int type = input.readInt( );
@@ -71,7 +77,7 @@ public class IndexReader implements IndexConstants
 						btree = BTreeMap.openTreeMap( archive, name, valueType );
 					}
 				}
-				else if ( version == VERSION_1 )
+				else if ( ReportDocumentConstants.BOOKMARK_STREAM.equals( name ) )
 				{
 					valueType = BTreeMap.BOOKMARK_VALUE;
 					int type = input.readInt( );
@@ -95,8 +101,7 @@ public class IndexReader implements IndexConstants
 				}
 				else
 				{
-					throw new IOException( "unsupported index version "
-							+ version );
+					throw new IOException( "unsupported index version" );
 				}
 			}
 			finally

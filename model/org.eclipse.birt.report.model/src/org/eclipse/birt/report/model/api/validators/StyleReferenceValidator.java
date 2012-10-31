@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleException;
+import org.eclipse.birt.report.model.api.util.StyleUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -104,8 +105,11 @@ public class StyleReferenceValidator extends AbstractElementValidator
 			// );
 			if ( resolvedElement == null )
 			{
-				list.add( new StyleException( toValidate, styleName,
-						StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
+				if ( !StyleUtil.hasExternalCSSURI( module ) )
+				{
+					list.add( new StyleException( toValidate, styleName,
+							StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
+				}
 			}
 			else
 			{
@@ -116,4 +120,5 @@ public class StyleReferenceValidator extends AbstractElementValidator
 
 		return list;
 	}
+	
 }

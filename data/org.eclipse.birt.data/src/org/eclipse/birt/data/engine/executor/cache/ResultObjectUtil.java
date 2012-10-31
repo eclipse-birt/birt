@@ -321,7 +321,7 @@ public class ResultObjectUtil
 			IOUtil.writeString( dos, fieldValue.toString( ) );
 		else if ( fieldType.equals( IClob.class )
 				|| fieldType.equals( Clob.class ) )
-			IOUtil.writeString( dos, fieldValue.toString( ) );
+			IOUtil.writeString( dos,fieldValue.toString( ) );
 		else if ( fieldType.equals( IBlob.class )
 				|| fieldType.equals( Blob.class ) )
 		{

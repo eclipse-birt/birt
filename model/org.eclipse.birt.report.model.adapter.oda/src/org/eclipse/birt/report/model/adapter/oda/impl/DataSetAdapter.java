@@ -1106,9 +1106,9 @@ class DataSetAdapter extends AbstractDataAdapter
 		ResultSetColumnInfo.updateResultSetColumnList( structList, columns,
 				hints );
 
+		setHandle.setProperty( OdaDataSetHandle.RESULT_SET_PROP, new ArrayList( ) );
 		PropertyHandle propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-		propHandle.clearValue( );
 
 		if ( !columns.isEmpty( ) )
 		{
@@ -1116,9 +1116,10 @@ class DataSetAdapter extends AbstractDataAdapter
 				propHandle.addItem( columns.get( i ) );
 		}
 
+		setHandle.setProperty( OdaDataSetHandle.COLUMN_HINTS_PROP, new ArrayList( ) );
 		propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
-		propHandle.clearValue( );
+
 		if ( !hints.isEmpty( ) )
 		{			
 			for ( int i = 0; i < hints.size( ); i++ )

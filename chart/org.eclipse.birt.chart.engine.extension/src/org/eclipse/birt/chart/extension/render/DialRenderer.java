@@ -179,10 +179,14 @@ public final class DialRenderer
 
 		if ( validIndex == -1 )
 		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
+			// If no data, do not throw exception but still display dummy dial
+			logger.log( new ChartException( ChartEngineExtensionPlugin.ID,
 					ChartException.RENDERING,
 					"exception.invalid.datapoint.dial", //$NON-NLS-1$
-					Messages.getResourceBundle( dial.getRunTimeContext( ).getULocale( ) ) );
+					Messages.getResourceBundle( dial.getRunTimeContext( )
+							.getULocale( ) ) ) );
+
+			validIndex = 0;
 		}
 		
 		// Save first valid index of non-value in series data set, it is used to set needle color. - Henry
@@ -922,7 +926,7 @@ public final class DialRenderer
 						dphValue );
 
 		// Convert MultipleFill if needed
-		fl = ChartUtil.convertFill( fl,
+		fl = FillUtil.convertFill( fl,
 				( (Number) dphValue.getOrthogonalValue( ) ).doubleValue( ),
 				null );
 		if ( fl instanceof ColorDefinition )

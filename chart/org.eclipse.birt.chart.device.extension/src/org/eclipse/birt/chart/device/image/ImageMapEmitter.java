@@ -596,7 +596,7 @@ public class ImageMapEmitter implements IImageMapEmitter
 		{
 			if ( ac instanceof MultipleActions )
 			{
-				if ( ( (MultipleActions) ac ).getActions( ).size( ) > 1 )
+				if ( ( (MultipleActions) ac ).getActions( ).size( ) > 0 )
 				{
 					sb.append( wrapJSMethod( functionName,
 							generateJSContent( ac ) ) );
@@ -734,6 +734,7 @@ public class ImageMapEmitter implements IImageMapEmitter
 				+ ScriptHandler.BASE_VALUE + ", "//$NON-NLS-1$
 				+ ScriptHandler.ORTHOGONAL_VALUE + ", "//$NON-NLS-1$
 				+ ScriptHandler.SERIES_VALUE + ", "//$NON-NLS-1$
+				+ IActionRenderer.LEGEND_ITEM_DATA + ", "//$NON-NLS-1$
 				+ IActionRenderer.LEGEND_ITEM_TEXT + ", "//$NON-NLS-1$
 				+ IActionRenderer.LEGEND_ITEM_VALUE + ", "//$NON-NLS-1$
 				+ IActionRenderer.AXIS_LABEL + "){"//$NON-NLS-1$

@@ -6,14 +6,14 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 ###############################################################################
 # NLS String
 dataset.editor.page.query=クエリ
-datasource.name=Classic Models Inc. のサンプルデータベース
+datasource.name=Classic Models Inc. サンプルデータベース
 select.dataset.name=SQL Select クエリ
 jdbc.driver.name=Classic Models Inc. SampleDB Driver
 dataset.property.queryTimeOut=クエリのタイムアウト (秒)(&Q)
 dataset.property.rowFetchSize=フェッチする行サイズ(&R)
 #
-oda.data.source.name=Classic Models Inc. のサンプルデータベース
-connection.profile.name=BIRT サンプルデータベースのデータソース接続プロファイル
+oda.data.source.name=Classic Models Inc. サンプルデータベース
+connection.profile.name=BIRT サンプルデータベースデータソース接続プロファイル
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #

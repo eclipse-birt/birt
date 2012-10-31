@@ -177,7 +177,8 @@ public class DataSetToCache
 		{
 			int saved = 0;
 			IResultObject resultObject = null;
-			this.saveInit( );
+			IDataSetCacheObject dataSetCachedObject = getCacheObject( );
+			this.saveInit( dataSetCachedObject );
 			itr.first( 0 );
 			while ( itr.getCurrentResult( ) != null )
 			{
@@ -198,7 +199,7 @@ public class DataSetToCache
 				}
 				itr.next( );
 			} 
-			this.saveClose( );
+			this.saveClose( dataSetCachedObject );
 		}
 		catch ( DataException de )
 		{
@@ -258,18 +259,19 @@ public class DataSetToCache
 	 * Init save util
 	 * @throws DataException 
 	 */
-	private void saveInit( ) throws DataException
+	private void saveInit( IDataSetCacheObject dataSetCachedObject ) throws DataException
 	{
-		saveUtil = CacheUtilFactory.createSaveUtil( getCacheObject(), this.rsMeta, this.session );
+		saveUtil = CacheUtilFactory.createSaveUtil( dataSetCachedObject, this.rsMeta, this.session );
 	}
 	
 	/**
 	 * @throws DataException
 	 */
-	private void saveClose( ) throws DataException
+	private void saveClose( IDataSetCacheObject dataSetCachedObject ) throws DataException
 	{
 		if ( saveUtil != null )
 		{
+			getDataSetCacheManager( ).saveFinished( dataSetCachedObject );
 			saveUtil.close( );
 			saveUtil = null;
 		}
@@ -302,6 +304,6 @@ public class DataSetToCache
 	 */
 	private IDataSetCacheObject getCacheObject() throws DataException
 	{
-		return getDataSetCacheManager( ).getCacheObject( );
+		return getDataSetCacheManager( ).getSavedCacheObject( );
 	}
 }

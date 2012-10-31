@@ -26,6 +26,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
@@ -62,6 +63,7 @@ public class DataSetIterator implements IDatasetIterator
 	private long nullTime;
 	private String dimName;
 	
+	private IQueryResults queryResult;
 	/**
 	 * 
 	 * @param session
@@ -81,7 +83,8 @@ public class DataSetIterator implements IDatasetIterator
 					.getLocale( ) );
 			ScriptableObject.putProperty( scope, tt.getClassName( ), tt );
 
-			this.it = session.prepare( query, appContext ).execute( scope ).getResultIterator( );
+			queryResult = session.prepare( query, appContext ).execute( scope );
+			this.it = queryResult.getResultIterator( );
 		}
 		catch ( BirtException e )
 		{
@@ -201,8 +204,10 @@ public class DataSetIterator implements IDatasetIterator
 	 */
 	public void close( ) throws BirtException
 	{
-		it.close( );
-
+		if ( this.queryResult != null )
+			this.queryResult.close( );
+		if ( it != null )
+			it.close( );
 	}
 
 	/*

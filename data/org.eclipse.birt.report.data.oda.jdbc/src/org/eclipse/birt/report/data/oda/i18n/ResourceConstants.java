@@ -98,6 +98,7 @@ public class ResourceConstants
 	public final static String RESULTSET_NULLABILITY_CANNOT_DETERMINE = "odajdbc.CannotDetermineColumnSupportForNull";
 
 	public final static String STATEMENT_CANNOT_PREPARE = "odajdbc.StatementCannotPrepared";
+	public final static String STATEMENT_CANNOT_GET_METADATA = "odajdbc.CannotGetMetaData";
 	public final static String PREPAREDSTATEMENT_CANNOT_CLOSE = "odajdbc.CannotClosePreparedStatement";
 	public final static String PREPAREDSTATEMENT_METADATA_CANNOT_GET = "odajdbc.CannotGetPreparedStatementMetadata";
 	public final static String RESULTSET_CANNOT_RETURN = "odajdbc.ResultSetCannotReturn";

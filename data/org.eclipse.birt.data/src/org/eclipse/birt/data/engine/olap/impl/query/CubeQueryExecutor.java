@@ -80,6 +80,7 @@ public class CubeQueryExecutor
 	private List<SimpleLevelFilter> dimensionSimpleFilter;
 	private List<IAggrMeasureFilterEvalHelper> aggrMeasureFilterEvalHelpers;
 	private List<IJSFacttableFilterEvalHelper> advancedFacttableBasedFilterEvalHelper;
+	private boolean populateFilter = false;
 	
 	public static final int DIMENSION_FILTER = 0;
 	public static final int AGGR_MEASURE_FILTER = 1;
@@ -306,8 +307,10 @@ public class CubeQueryExecutor
 		return filter.updateAggregation();
 	}
 	
-	private void populateFilterHelpers( ) throws DataException
+	public void populateFilterHelpers( ) throws DataException
 	{
+		if( populateFilter )
+			return;
 		List filters = defn.getFilters( );
 		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery( );
 		validateFilter( filters, defn.getBindings( ) );
@@ -378,7 +381,8 @@ public class CubeQueryExecutor
 							filter, this.outResults, this.defn ) );
 				}
 			}
-		}		
+		}
+		populateFilter = true;
 	}
 
 	public int getFilterType( IFilterDefinition filter, Set<DimLevel> dimLevelInCubeQuery ) throws DataException
@@ -422,7 +426,11 @@ public class CubeQueryExecutor
 			List bindingName = ExpressionCompilerUtil.extractColumnExpression( filter.getExpression( ), ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			if( bindingName.size( ) > 0 )
 			{
-				if( existAggregationBinding( bindingName, this.defn.getBindings( ) ) )
+				List bindingList = new ArrayList( );
+				bindingList.addAll( this.defn.getBindings( ) );
+				if ( this.defn instanceof PreparedCubeQueryDefinition )
+					bindingList.addAll( ( (PreparedCubeQueryDefinition) this.defn ).getBindingsForNestAggregation( ) );
+				if( existAggregationBinding( bindingName, bindingList ) )
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
 			
 				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel( filter.getExpression( ), this.defn.getBindings( ) );
@@ -454,6 +462,27 @@ public class CubeQueryExecutor
 					}
 				}
 		
+			
+				List derivedBindingNameList = new ArrayList( );
+				for ( int i = 0; i < bindingName.size( ); i++ )
+				{
+					IBinding binding = getBinding( bindingName.get( i )
+							.toString( ), this.defn.getBindings( ) );
+					if ( binding != null )
+					{
+						List temp = ExpressionCompilerUtil.extractColumnExpression( binding.getExpression( ),
+								ScriptConstants.DATA_BINDING_SCRIPTABLE );
+						if ( temp != null && temp.size( ) > 0 )
+							derivedBindingNameList.addAll( temp );
+					}
+				}
+				if ( derivedBindingNameList.size( ) > 0 )
+				{
+					if ( existAggregationBinding( derivedBindingNameList,
+							this.defn.getBindings( ) ) )
+						return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+				}
+			
 				return CubeQueryExecutor.FACTTABLE_FILTER;
 			}
 			else

@@ -62,7 +62,7 @@ public class InsertHandler extends AbstractHandler
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
 				UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_POSITION ) );
 		request.setExtendedData( extendsData );
-		Object selection = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_SELECTION );
+		Object selection = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_ACTION_SELECTION );
 		boolean bool = false;
 		try
 		{

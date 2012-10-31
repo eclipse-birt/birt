@@ -102,7 +102,7 @@ public class DataID
 		{
 			dataSet.append( buffer );
 		}
-		buffer.append( ":" );
+		buffer.append( ':' );
 		if ( rowId != -1 )
 		{
 			buffer.append( rowId );

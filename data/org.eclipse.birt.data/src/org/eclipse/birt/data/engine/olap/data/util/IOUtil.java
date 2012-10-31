@@ -12,10 +12,10 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.math.BigDecimal;
 
 /**
  * 
@@ -48,8 +48,10 @@ public class IOUtil
 				return new DateRandomWriter( );
 			case DataType.SQL_TIME_TYPE :
 				return new DateRandomWriter( );
+			case DataType.JAVA_OBJECT_TYPE :
+				return new ObjectRandomWriter( );
 			default :
-				return null;
+				return new ObjectRandomWriter( );
 		}
 	}
 
@@ -77,8 +79,10 @@ public class IOUtil
 				return new DateRandomReader( );
 			case DataType.SQL_TIME_TYPE :
 				return new TimeRandomReader( );
+			case DataType.JAVA_OBJECT_TYPE :
+				return new ObjectRandomReader( );
 			default :
-				return null;
+				return new ObjectRandomReader( );
 		}
 	}
 }
@@ -226,6 +230,24 @@ class BigDecimalRandomWriter implements IObjectWriter
 	}
 }
 
+class ObjectRandomWriter implements IObjectWriter
+{
+	private static Logger logger = Logger.getLogger( BigDecimalRandomWriter.class.getName( ) );
+
+	public void write( BufferedRandomAccessFile file, Object obj )
+			throws IOException
+	{
+		try
+		{
+			file.writeObject( obj );
+		}
+		catch( ClassCastException ce )
+		{
+			logger.log( Level.FINE, ce.getMessage( ), ce );
+		}
+	}
+}
+
 class IntegerRandomReader implements IObjectReader
 {
 
@@ -321,3 +343,12 @@ class BigDecimalRandomReader implements IObjectReader
 		return file.readBigDecimal( );
 	}
 }
+
+class ObjectRandomReader implements IObjectReader
+{
+	public Object read( BufferedRandomAccessFile file ) throws IOException
+	{
+		return file.readObject( );
+	}
+}
+

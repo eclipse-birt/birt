@@ -1951,3 +1951,4 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private boolean hasModified = false;
 	private Button btnAllowExport;
 }
+

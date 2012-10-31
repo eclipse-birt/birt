@@ -70,15 +70,15 @@ public interface IDocArchiveReader {
 	 * @return a list of strings representing the underlying stream 
 	 * names. The return values are in the relative path format too.  
 	 */
-	public List listStreams(String relativeStoragePath) throws IOException;
-	
+	public List<String> listStreams(String relativeStoragePath) throws IOException;
+
 	/**
 	 * get all the stream in the archive file.
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public List listAllStreams( ) throws IOException;
+	public List<String> listAllStreams( ) throws IOException;
 
 	/**
 	 * This function must be called after the reader is used.

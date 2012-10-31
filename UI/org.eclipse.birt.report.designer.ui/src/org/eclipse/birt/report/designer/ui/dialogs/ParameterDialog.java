@@ -4617,20 +4617,36 @@ public class ParameterDialog extends BaseTitleAreaDialog
 		}
 		String value = defaultValueChooser.getText( );
 		String type = (String) defaultValueChooser.getData( ExpressionButtonUtil.EXPR_TYPE );
+
+		if ( !isStatic( ) )
+		{
+			if ( value.equals( EMPTY_VALUE ) )
+				value = ""; //$NON-NLS-1$
+			else if ( value.equals( NULL_VALUE ) || value.equals( "" ) )
+				value = null;
+		}
+
 		// if ( value.equals( CHOICE_NULL_VALUE )
 		// || value.equals( CHOICE_BLANK_VALUE ) )
 		// return;
 		if ( defaultValueList != null )
 			defaultValueList.clear( );
-		String modelValue = UIUtil.convertToModelString( value, false );
-		if ( modelValue != null )
+		if ( "".equals( value ) && canUseEmptyValue( ) )
 		{
-			setFirstDefaultValue( modelValue, type );
+			setFirstDefaultValue( value, type );
 		}
 		else
 		{
-			updateMessageLine( );
-			updateFormatField( );
+			String modelValue = UIUtil.convertToModelString( value, false );
+			if ( modelValue != null )
+			{
+				setFirstDefaultValue( modelValue, type );
+			}
+			else
+			{
+				updateMessageLine( );
+				updateFormatField( );
+			}
 		}
 		if ( isStatic( ) )
 		{

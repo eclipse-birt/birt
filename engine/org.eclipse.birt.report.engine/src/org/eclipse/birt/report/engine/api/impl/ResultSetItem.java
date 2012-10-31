@@ -97,4 +97,9 @@ public class ResultSetItem implements IResultSetItem {
 		}
 		return resultSetName;
 	}
+	
+	public DesignElementHandle getHandle( )
+	{
+		return handle;
+	}
 }

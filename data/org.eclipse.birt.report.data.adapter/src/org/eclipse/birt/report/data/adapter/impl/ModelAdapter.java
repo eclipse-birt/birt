@@ -410,6 +410,10 @@ public class ModelAdapter implements IModelAdapter
 				binding.setAggrFunction( handle.getAggregateFunction( ) == null
 						? null
 						: DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
+				binding.setDisplayName( handle.getExternalizedValue( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_ID_MEMBER,
+						org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.DISPLAY_NAME_MEMBER,
+						this.context.getDataEngineContext( ).getLocale( ) ) );
+				
 				binding.setExpression( adaptExpression( (Expression) handle.getExpressionProperty( org.eclipse.birt.report.model.api.elements.structures.ComputedColumn.EXPRESSION_MEMBER )
 					.getValue( ),
 					ExpressionLocation.CUBE ) );

@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
@@ -20,7 +21,9 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
+import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.nLayout.area.ILayout;
+import org.w3c.dom.css.CSSValue;
 
 public class BlockTextArea extends BlockContainerArea implements ILayout
 {
@@ -104,9 +107,50 @@ public class BlockTextArea extends BlockContainerArea implements ILayout
 	public void close( ) throws BirtException
 	{
 		super.close( );
+		verticalAlign();
 		addToExtension( this );
 		updateTextContent( );
 		checkDisplayNone( );
+	}
+
+	private void verticalAlign() {
+		CSSValue verticalAlign = content.getComputedStyle( ).getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		if ( IStyle.BOTTOM_VALUE.equals( verticalAlign )
+				|| IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
+		{
+			int totalHeight = 0;
+			Iterator<IArea> iter = this.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea child = (AbstractArea) iter.next( );
+				totalHeight += child.getAllocatedHeight( );
+			}
+			int offset = this.getContentHeight( ) - totalHeight;
+			if ( offset > 0 )
+			{
+				if ( IStyle.BOTTOM_VALUE.equals( verticalAlign ) )
+				{
+					iter = this.getChildren( );
+					while ( iter.hasNext( ) )
+					{
+						AbstractArea child = (AbstractArea) iter.next( );
+						child.setAllocatedPosition( child.getAllocatedX( ),
+								child.getAllocatedY( ) + offset );
+					}
+				}
+				else if ( IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
+				{
+					iter = this.getChildren( );
+					while ( iter.hasNext( ) )
+					{
+						AbstractArea child = (AbstractArea) iter.next( );
+						child.setAllocatedPosition( child.getAllocatedX( ),
+								child.getAllocatedY( ) + offset / 2 );
+					}
+				}
+
+			}
+		}
 	}
 
 	private void addToExtension( BlockTextArea area )

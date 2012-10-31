@@ -49,7 +49,7 @@ public final class SwingTextMetrics extends TextAdapter
 
 	private String[] fsa = null;
 
-
+	private double[] faWidth = null;
 
 	private Label la = null;
 
@@ -215,6 +215,7 @@ public final class SwingTextMetrics extends TextAdapter
 			return cachedwidth;
 		}
 
+		faWidth = new double[iLineCount];
 		cachedwidth = 0;
 
 		Rectangle2D r2d;
@@ -238,8 +239,8 @@ public final class SwingTextMetrics extends TextAdapter
 				 * no problem with full pitch characters now.
 				 */
 				r2d = tla[i].getBounds( );
-
 				dWidth = r2d.getWidth( );
+				faWidth[i] = Math.max( 0, dWidth );
 				if ( dWidth > dMaxWidth )
 				{
 					dMaxWidth = dWidth;
@@ -267,6 +268,7 @@ public final class SwingTextMetrics extends TextAdapter
 			 * blank, e.g. " ", it will return an negative result.
 			 */
 			cachedwidth = Math.max( 0, w );
+			faWidth[0] = cachedwidth;
 		}
 
 		return cachedwidth;
@@ -296,6 +298,16 @@ public final class SwingTextMetrics extends TextAdapter
 		return stringWidth( ) + ( ins.getLeft( ) + ins.getRight( ) );
 	}
 
+	@Override
+	public double getWidth( int iIndex )
+	{
+		if ( faWidth == null )
+		{
+			stringWidth( );
+		}
+		return faWidth[iIndex];
+	}
+	
 	/**
 	 * 
 	 * @return The number of lines created due to the hard breaks inserted

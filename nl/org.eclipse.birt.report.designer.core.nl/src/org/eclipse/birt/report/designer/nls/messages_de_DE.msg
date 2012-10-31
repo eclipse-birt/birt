@@ -3639,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Label.FromServer=Vom Server
 CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
@@ -4310,7 +4311,8 @@ GeneralPage.Library.Included=Bibliothek:
 GeneralPage.Library.Modified.Note=HINWEIS: Dieses Berichtobjekt aus der Bibliothek wurde geändert. Klicken Sie zum Wiederherstellen des Objekts aus der Bibliothek auf{0}"Eigenschaften wiederherstellen".
 
 #BookMarkPage
-BookMarkPage.Modified.Note=Das Lesezeichen enthält Sonderzeichen statt der Zeichen \"A-Z a-z 0-9 - _ : .\". Dies kann zu Problemen während der Laufzeit führen.
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4619,7 +4621,8 @@ BindingDialogHelper.text.Grid=Raster
 BindingDialogHelper.text.Group=Gr&uppe
 BindingDialogHelper.text.Expression=&Ausdruck:
 BindingDialogHelper.text.displayName=Anzeige&name:
-BindingDialogHelper.text.allowExport=Exp&ort zulassen:
+BindingDialogHelper.text.allowExport=Exp&ort:
+BindingDialogHelper.text.allowExport.button=Allow Export
 BindingDialogHelper.text.displayNameID=Namen-ID an&zeigen:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
@@ -4636,7 +4639,7 @@ BindingDialogHelper.warning.button.no=Nein
 #Scripts Node
 Scripts.Node.DisplayName=Skripte
 ScriptElementNode.Action.Text=Zu Berichtselement &wechseln
-ScriptObjectNode_0=&Skript zurücksetzen
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=Miniatur verwalten
 
@@ -4646,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=Alles
 CrosstabBindingDialogHelper.bindngName.timeperiod=Periode
 CrosstabBindingDialogHelper.calculation.label=Zeit&intervall:
 CrosstabBindingDialogHelper.calculation.group=Zeitintervall
-CrosstabBindingDialogHelper.recentday.description=Letztes Datum im Zeitintervall
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=&Bezugsdatum
 CrosstabBindingDialogHelper.thisdate.label=Dieses Datum:
 CrosstabBindingDialogHelper.thisdate.example.label=Bitte schließen Sie den angegebenen Datumswert in Anführungszeichen ein.\nBeispiel: "2012-01-23", "1/23/2012".
@@ -4758,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen f
 GeneralConfigurationBlock.button.text.enable.gradient=&Verlaufsauswahl aktivieren 
 GeneralConfigurationBlock.button.text.enable.animation=A&nimierte Auswahl aktivieren
 GeneralConfigurationBlock.group.label=Eingabeaufforderung
-GeneralConfigurationBlock.group.defaultThemes=Bibliothek der Standardthemen
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=&Eingabeaufforderung nach Öffnen der Bibliotheksdatei anzeigen
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Bibliothek der Standard&themen aktivieren
-GeneralConfigurationBlock.button.text.defaultTheme.include=Standardthemen e&inschließen
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=Lokale Bindungen für eine verbesserte Leistung zu übergeordnetem Element verschieben
 GeneralConfigurationBlock.move.binding.always=I&mmer
 GeneralConfigurationBlock.move.binding.never=N&ie
@@ -4878,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=&Standardsyntax:
 ExpressionEditor.Error.EmptyExpression=Ausdruck darf nicht leer sein.
 ExpressionEditor.Label.Expression=&Ausdruck:
 ExpressionEditor.Title=Ausdruck bearbeiten
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
+ExpressionSyntaxColoringPage.Button.Bold=&Bold
+ExpressionSyntaxColoringPage.Button.Enable=Enable
+ExpressionSyntaxColoringPage.Button.Italic=&Italic
+ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Button.Underline=&Unterstrichen
+ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
+ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Element.Default=Standard
+ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.String=Zeichenfolge
+ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
+ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
+ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
 
 ###########################################################
 #VariableDropAdapter

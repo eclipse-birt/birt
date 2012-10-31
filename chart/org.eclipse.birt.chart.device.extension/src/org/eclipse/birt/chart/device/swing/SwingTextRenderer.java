@@ -372,7 +372,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -380,7 +380,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -449,12 +449,11 @@ final class SwingTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < itm.getLineCount( ); i++ )
 						{
-							tl = ( (SwingTextMetrics) itm ).getLayout( iLC -
-									i -
-									1 );
+							int index = iLC - i - 1;
+							tl = ( (SwingTextMetrics) itm ).getLayout( index );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -462,7 +461,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -531,7 +530,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -539,7 +538,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -600,7 +599,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -608,7 +607,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 
@@ -669,7 +668,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -677,7 +676,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -798,7 +797,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -806,7 +805,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -876,7 +875,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -884,7 +883,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -947,7 +946,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -955,7 +954,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1019,7 +1018,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1027,7 +1026,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1091,7 +1090,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1099,7 +1098,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1216,7 +1215,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1224,7 +1223,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1293,7 +1292,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1301,7 +1300,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1360,7 +1359,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1368,7 +1367,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1431,7 +1430,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1439,7 +1438,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1505,7 +1504,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1513,7 +1512,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1629,13 +1628,12 @@ final class SwingTextRenderer extends TextRendererAdapter
 						{
 							// tl = new TextLayout(itm.getLine(iLC - i - 1),
 							// g2d.getFont(), g2d.getFontRenderContext());
-							tl = ( (SwingTextMetrics) itm ).getLayout( iLC -
-									i -
-									1 );
+							int index = iLC - i - 1;
+							tl = ( (SwingTextMetrics) itm ).getLayout( index );
 
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1643,7 +1641,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1772,12 +1770,11 @@ final class SwingTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < itm.getLineCount( ); i++ )
 						{
-							tl = ( (SwingTextMetrics) itm ).getLayout( iLC -
-									i -
-									1 );
+							int index = iLC - i - 1;
+							tl = ( (SwingTextMetrics) itm ).getLayout( index );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1785,7 +1782,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1854,7 +1851,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1862,7 +1859,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -1927,7 +1924,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -1935,7 +1932,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -2065,7 +2062,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -2073,7 +2070,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -2136,12 +2133,11 @@ final class SwingTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < itm.getLineCount( ); i++ )
 						{
-							tl = ( (SwingTextMetrics) itm ).getLayout( iLC -
-									i -
-									1 );
+							int index = iLC - i - 1;
+							tl = ( (SwingTextMetrics) itm ).getLayout( index );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -2149,7 +2145,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( index );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -2212,7 +2208,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -2220,7 +2216,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,
@@ -2281,7 +2277,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -2289,7 +2285,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 
@@ -2350,7 +2346,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							tl = ( (SwingTextMetrics) itm ).getLayout( i );
 							if ( bRightAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) +
 										dFW -
 										dW -
@@ -2358,7 +2354,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 							}
 							else if ( bCenterAligned )
 							{
-								dW = tl.getBounds( ).getWidth( );
+								dW = itm.getWidth( i );
 								dXOffset = -ins.getLeft( ) + ( dFW - dW ) / 2;
 							}
 							tl.draw( g2d,

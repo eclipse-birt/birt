@@ -2515,7 +2515,7 @@ MapPreferencePage.displayname.Title=Asignar
 MapPreferencePage.text.Add=&Añadir...
 MapPreferencePage.text.Delete=&Quitar
 MapPreferencePage.text.Description=Reglas de asignación:
-MapPreferencePage.text.Edit=E&ditar...
+MapPreferencePage.text.Edit=&Editar...
 MapPreferencePage.toolTipText.Up=Mover regla de asignación hacia arriba
 MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
 MapPreferencePage.text.Duplicate=&Duplicado
@@ -3639,6 +3639,7 @@ UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
 UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los estilos del archivo CSS.
+CssStyleSheetNodeProvider.Label.FromServer=Del servidor
 CssStyleSheetNodeProvider.Tooltip.URI=(Aplicado en el momento de la visualización)
 
 
@@ -4310,7 +4311,8 @@ GeneralPage.Library.Included=Librería:
 GeneralPage.Library.Modified.Note=NOTA: Se ha modificado el elemento del informe de la librería. Para restaurar el elemento de informe original, haga clic en {0} "Restaurar propiedades"
 
 #BookMarkPage
-BookMarkPage.Modified.Note=El marcador contiene caracteres especiales distintos de \"A-Z a-z 0-9 - _ : .\", esto puede provocar problemas de tiempo de ejecución.
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
 
 ###########################################################
 # LOCALE SPECIAL:
@@ -4619,7 +4621,8 @@ BindingDialogHelper.text.Grid=Cuadrícula
 BindingDialogHelper.text.Group=Gr&upo
 BindingDialogHelper.text.Expression=&Expresión:
 BindingDialogHelper.text.displayName=&Nombre en pantalla:
-BindingDialogHelper.text.allowExport=Permitir exp&ortación:
+BindingDialogHelper.text.allowExport=Exp&ort:
+BindingDialogHelper.text.allowExport.button=Allow Export
 BindingDialogHelper.text.displayNameID=ID de &nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
@@ -4636,7 +4639,7 @@ BindingDialogHelper.warning.button.no=No
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=&Ir a Elemento de informe
-ScriptObjectNode_0=&Restablecer script
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=Administrar miniaturas
 
@@ -4646,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=Todos
 CrosstabBindingDialogHelper.bindngName.timeperiod=Período
 CrosstabBindingDialogHelper.calculation.label=&Periodo de tiempo:
 CrosstabBindingDialogHelper.calculation.group=Periodo de tiempo
-CrosstabBindingDialogHelper.recentday.description=Última fecha del período
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=&Fecha de referencia:
 CrosstabBindingDialogHelper.thisdate.label=Esta fecha:
 CrosstabBindingDialogHelper.thisdate.example.label=Incluya el valor de la fecha proporcionada entre comillas.\nPor ejemplo: "2012-01-23", "1/23/2012".
@@ -4758,10 +4761,10 @@ GeneralConfigurationBlock.message.general.description=Ajustes generales para Rep
 GeneralConfigurationBlock.button.text.enable.gradient=Activar &selección gradiente 
 GeneralConfigurationBlock.button.text.enable.animation=Activar selección a&nimada
 GeneralConfigurationBlock.group.label=Solicitar
-GeneralConfigurationBlock.group.defaultThemes=Librería de temas predeterminados
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=Mostrar &solicitud después de abrir el archivo de la librería
-GeneralConfigurationBlock.button.text.defaultTheme.enable=Activar librería de &temas predeterminados
-GeneralConfigurationBlock.button.text.defaultTheme.include=&Incluir los temas predeterminados
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=Mover enlaces locales al principal para disponer de un mejor rendimiento
 GeneralConfigurationBlock.move.binding.always=Sie&mpre
 GeneralConfigurationBlock.move.binding.never=Nu&nca
@@ -4878,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Sintaxis &predeterminada:
 ExpressionEditor.Error.EmptyExpression=La expresión no puede estar vacía.
 ExpressionEditor.Label.Expression=&Expresión:
 ExpressionEditor.Title=Editar expresión
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
+ExpressionSyntaxColoringPage.Button.Bold=&Bold
+ExpressionSyntaxColoringPage.Button.Enable=Enable
+ExpressionSyntaxColoringPage.Button.Italic=&Italic
+ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Button.Underline=&Subrayado
+ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
+ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Element.Default=Predeterminado
+ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.String=String
+ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
+ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
+ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
 
 ###########################################################
 #VariableDropAdapter

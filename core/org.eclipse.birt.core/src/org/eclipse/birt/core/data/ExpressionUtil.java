@@ -642,7 +642,9 @@ public final class ExpressionUtil
 	/**
 	 * 
 	 * @param expr
+	 * 
 	 * @deprecated replaced by getAllReferencedMeasures
+	 * 
 	 * @return get the first measure name in this expression
 	 * @throws CoreException
 	 */

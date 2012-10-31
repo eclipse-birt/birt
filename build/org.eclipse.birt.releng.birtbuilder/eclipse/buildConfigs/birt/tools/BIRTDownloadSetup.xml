@@ -136,7 +136,7 @@
 		<include name="org.eclipse.birt.chart_*/**" />
 		<include name="org.eclipse.birt.core_*.jar" />
 		<include name="org.eclipse.birt.core.ui_*.jar" />
-		<include name="org.mozilla.javascript*/**" />
+		<include name="org.mozilla.javascript_*/**" />
 		<include name="org.apache.commons.codec_*.jar" />
 	</patternset>
 
@@ -1329,7 +1329,7 @@
 		<delete dir="${runtime.download.tmp}" failonerror="false"/>
 	</target>
 	
-	<target name="createGenReport" unless="HQ.BIRT.skip">
+	<target name="createGenReport">
 		<echo message="genReportGenerator lib dir: ${OutputDir}/runtime_nonosgi "/>
 		<echo message="genReport.sh/bat output dir: ${template.dir}/engine.runtime.bin"/>
 		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">

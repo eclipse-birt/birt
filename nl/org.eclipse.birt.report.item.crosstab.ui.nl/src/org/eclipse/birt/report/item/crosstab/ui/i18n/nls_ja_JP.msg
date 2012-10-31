@@ -28,6 +28,7 @@ ShowAsViewAction.DisplayName=表示形式
 ShowAsViewAction.TransName=表示形式
 
 MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
+MeasureHandleDropAdapter_trans_name=メジャーの追加
 
 ###########################################################
 # Crosstab Command trans name
@@ -39,6 +40,10 @@ ChangeAreaCommand.TransName=ディメンジョンの削除
 ChangeMeasureOrderCommand.TransName=メジャー順の変更
 CreateDimensionViewCommand.TransName=ディメンジョンの作成
 CreateMeasureViewCommand.TransName=メジャーの作成
+
+MergeCrosstabHeaderCellAction_name=ヘッダセルの結合(&M)
+SplitCrosstabHeadCellAction_name=ヘッダセルの分割(&S)
+
 ###########################################################
 # Crosstab EditPart
 ###########################################################

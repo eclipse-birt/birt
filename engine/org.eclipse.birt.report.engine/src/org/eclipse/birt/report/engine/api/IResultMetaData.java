@@ -77,4 +77,12 @@ public interface IResultMetaData
 	 */
 	public String getColumnLabel( int index ) throws BirtException;
 	
+	/**
+	 * Gets if the column can be exported
+	 * @param index	The projected column index.
+	 * @return		If the column can be exported
+	 * @throws BirtException	if given index is invalid.
+	 */
+	public boolean getAllowExport( int index ) throws BirtException;
+	
 }

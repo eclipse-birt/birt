@@ -479,7 +479,7 @@ public final class PluginSettings
 	/**
 	 * Returns extra chart model packages.
 	 * 
-	 * @return
+	 * @return map of chart extension package definition.
 	 * @throws ChartException
 	 * @since 2.6
 	 */
@@ -900,7 +900,7 @@ public final class PluginSettings
 	 * Returns the localized display name of given Series Class.
 	 * 
 	 * @param seriesClassName
-	 * @return
+	 * @return display name of series.
 	 */
 	public final String getSeriesDisplayName( final String seriesClassName )
 	{
@@ -1052,7 +1052,7 @@ public final class PluginSettings
      * Returns Summary or Running aggregates name.
      *
 	 * @param aggregateType
-	 * @return
+	 * @return supported function names of specified aggregate type.
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
@@ -1134,7 +1134,7 @@ public final class PluginSettings
 	 * Returns Summary or Running aggregates display name.
      *
 	 * @param aggregateType
-	 * @return
+	 * @return display names of aggregate function of specified aggregate type.
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */

@@ -1317,6 +1317,7 @@
     <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.right.width" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Member displayNameID="Structure.HighlightRule.border.right.color" name="borderRightColor" since="1.0" type="color"/>
     <Member displayNameID="Structure.HighlightRule.background.color" name="backgroundColor" since="1.0" type="color"/>
+	<Member displayNameID="Structure.HighlightRule.background.image" name="backgroundImage" since="1.0" type="uri"/>
     <Member detailType="DateTimeFormatValue" displayNameID="Structure.HighlightRule.format.dateTime" name="dateTimeFormat" since="1.0" type="structure"/>
     <Member detailType="NumberFormatValue" displayNameID="Structure.HighlightRule.format.number" name="numberFormat" since="1.0" type="structure"/>
     <Member detailType="textAlign" displayNameID="Structure.HighlightRule.format.number.align" name="numberAlign" since="1.0" type="choice"/>
@@ -1341,6 +1342,7 @@
 	<Member displayNameID="Structure.HighlightRule.padding.left" name="paddingLeft" since="1.0" type="dimension"/>
 	<Member displayNameID="Structure.HighlightRule.padding.bottom" name="paddingBottom" since="1.0" type="dimension"/>
 	<Member displayNameID="Structure.HighlightRule.padding.right" name="paddingRight" since="1.0" type="dimension"/>
+	<Member detailType="backgroundRepeat" displayNameID="Structure.HighlightRule.backgroundRepeat" name="backgroundRepeat" since="2.3" type="choice" />       
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
@@ -1599,7 +1601,10 @@
     <Member displayNameID="Structure.IncludedLibrary.namespace" isIntrinsic="true" name="namespace" since="2.0" type="string" valueRequired="true"/>
   </Structure>
   <Structure displayNameID="Structure.IncludedCssStyleSheet" name="IncludedCssStyleSheet" since="2.2">
-  	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="memberKey"/>
+  	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="string"/>
+  	<Member displayNameID="Structure.IncludedCssStyleSheet.useExternalCss" isIntrinsic="true" name="useExternalCss" since="3.7.2" type="boolean">
+ 		<Default>false</Default>
+ 	</Member>
   	<Member displayNameID="Structure.IncludedCssStyleSheet.externalCssURI" isIntrinsic="true" name="externalCssURI" since="2.3" type="uri"/>
   </Structure>
   <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData" since="1.0">
@@ -2591,7 +2596,8 @@
 	<PropertyVisibility name="multiViews" visibility="hide"/>
     <PropertyVisibility name="cascadeACL" visibility="hide"/>
     <PropertyVisibility name="ACLExpression" visibility="hide"/>
-    <PropertyVisibility name="cube" visibility="hide"/> 	       
+    <PropertyVisibility name="cube" visibility="hide"/> 	
+    <PropertyVisibility name="dataBindingRef" visibility="hide"/>           
   </Element>
   <Element canExtend="true" displayNameID="Element.AutoText" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.AutoText"  name="AutoText" since="2.1" xmlName="auto-text">
     <Property detailType="autoTextType"  displayNameID="Element.AutoText.type" name="type" since="2.1" type="choice" />

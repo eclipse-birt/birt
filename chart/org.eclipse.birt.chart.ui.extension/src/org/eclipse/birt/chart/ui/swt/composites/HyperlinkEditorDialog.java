@@ -24,6 +24,8 @@ import org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.dialogs.TrayDialog;
@@ -99,6 +101,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.HYPERLINK_EDITOR );
 		getShell( ).setText( Messages.getString("HyperlinkEditorDialog.Title.HyperlinkEditor") ); //$NON-NLS-1$
 		Composite c = (Composite) super.createDialogArea( parent );
 		createURLComposite( c );

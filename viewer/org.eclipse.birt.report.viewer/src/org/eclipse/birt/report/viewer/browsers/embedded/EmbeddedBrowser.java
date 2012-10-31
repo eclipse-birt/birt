@@ -86,7 +86,6 @@ public class EmbeddedBrowser
 		shell = new Shell( SWT.SHELL_TRIM | Window.getDefaultOrientation( ) );
 
 		initializeShell( shell );
-		
 		shell.addDisposeListener( new DisposeListener( ) {
 			public void widgetDisposed( DisposeEvent e )
 			{
@@ -449,7 +448,8 @@ public class EmbeddedBrowser
 						}
 					}
 				}
-				Image image = null;
+
+				Image image = null;				
 				if ( imageURL != null )
 				{
 					String key = imageURL.toString( );

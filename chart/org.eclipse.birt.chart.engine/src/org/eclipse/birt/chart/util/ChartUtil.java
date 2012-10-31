@@ -399,6 +399,22 @@ public class ChartUtil
 		}
 		return String.valueOf( value );
 	}
+	
+	/**
+	 * Returns the string representation for given object. Null outputs blank
+	 * string.
+	 * 
+	 * @param value
+	 * @return string value
+	 */
+	public static String stringBlankValue( Object value )
+	{
+		if ( value == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
+		return stringValue( value );
+	}
 
 	/**
 	 * Converts Fill if possible. If Fill is MultipleFill type, convert to

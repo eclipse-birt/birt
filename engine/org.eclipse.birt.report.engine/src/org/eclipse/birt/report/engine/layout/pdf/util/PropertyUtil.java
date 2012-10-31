@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
@@ -106,6 +107,10 @@ public class PropertyUtil
 
 	public static boolean isInlineElement( IContent content )
 	{
+		if (content instanceof IPageContent )
+		{
+			return false;
+		}
 		IStyle style = content.getStyle( );
 		if ( style != null )
 		{

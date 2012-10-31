@@ -17,21 +17,30 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.TreeMap;
 
+/**
+ * The entry table maintains a {@link TreeMap} ordered by entry name key
+ * {@link String} with {@link Ext2Entry} values that represent the underlying
+ * {@link Ext2FileSystem}.
+ * <p>
+ * This implementation provides constant time pre-sorted iteration order for
+ * {@link #listAllEntries()} and {@link #listEntries(String)}, and log(n) time
+ * cost for {@link #addEntry(Ext2Entry)}, {@link #getEntry(String)}, and
+ * {@link #removeEntry(String)}.
+ */
 public class EntryTable
 {
 
-	private Ext2FileSystem fs;
-	private HashMap<String, Ext2Entry> entries;
+	private final Ext2FileSystem fs;
+	private final TreeMap<String, Ext2Entry> entries;
 	private boolean dirty;
 
 	EntryTable( Ext2FileSystem fs )
 	{
 		this.fs = fs;
-		this.entries = new HashMap<String, Ext2Entry>( );
+		this.entries = new TreeMap<String, Ext2Entry>( );
 		this.dirty = true;
 	}
 
@@ -57,6 +66,10 @@ public class EntryTable
 			{
 				// expect the EOF exception
 			}
+			finally
+			{
+				in.close();
+			}
 
 		}
 		finally
@@ -75,19 +88,8 @@ public class EntryTable
 		dirty = false;
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
 		DataOutputStream out = new DataOutputStream( buffer );
-		String[] names = entries.keySet( )
-				.toArray( new String[entries.size( )] );
-		Arrays.sort( names, 0, names.length, new Comparator<String>( ) {
-
-			public int compare( String o1, String o2 )
-			{
-
-				return o1.compareTo( o2 );
-			}
-		} );
-		for ( int i = 0; i < names.length; i++ )
+		for( Ext2Entry entry : entries.values() )
 		{
-			Ext2Entry entry = entries.get( names[i] );
 			out.writeUTF( entry.name );
 			out.writeInt( entry.inode );
 		}
@@ -126,8 +128,28 @@ public class EntryTable
 		entries.put( entry.name, entry );
 	}
 
-	String[] listEntries( )
+	/**
+	 * @return sorted view of all entry names
+	 */
+	Iterable<String> listAllEntries( )
 	{
-		return entries.keySet( ).toArray( new String[entries.size( )] );
+		return Collections.unmodifiableSet( entries.keySet() );
 	}
+
+	/**
+	 * @param fromName entry name low end point
+	 * @return sorted set view of entry names, beginning from the specified low
+	 *         end point to the end of the entries.
+	 */
+	Iterable<String> listEntries( String fromName )
+	{
+		return PrefixedIterable.filteredByPrefix(entries, fromName);
+	}
+
+	void clear()
+	{
+		dirty = true;
+		entries.clear();
+	}
+
 }

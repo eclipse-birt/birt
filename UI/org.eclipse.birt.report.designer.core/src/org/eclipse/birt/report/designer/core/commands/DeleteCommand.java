@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.IDropValidator;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
-import org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.designer.util.ImageManager;

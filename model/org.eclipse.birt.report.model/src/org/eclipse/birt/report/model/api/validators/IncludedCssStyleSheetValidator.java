@@ -105,7 +105,11 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
 					.next( );
 			String fileName = includedCssStyleSheet.getFileName( );
-
+			String externalCSSURI = includedCssStyleSheet.getExternalCssURI( );
+			if ( externalCSSURI != null )
+			{
+				continue;
+			}
 			if ( !cssFileNameList.contains( fileName ) )
 			{
 

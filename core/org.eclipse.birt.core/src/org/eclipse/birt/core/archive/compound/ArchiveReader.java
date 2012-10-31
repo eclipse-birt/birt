@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
@@ -98,20 +97,19 @@ public class ArchiveReader implements IDocArchiveReader
 		return getStream( relativePath );
 	}
 
-	public List listAllStreams( ) throws IOException
+	public List<String> listAllStreams( ) throws IOException
 	{
 		ArrayList<String> list = new ArrayList<String>( );
 		list.addAll( archive.listEntries( "/" ) );
 		return list;
 	}
 
-	public List listStreams( String namePattern ) throws IOException
+	public List<String> listStreams( String namePattern ) throws IOException
 	{
-		ArrayList list = new ArrayList( );
-		Iterator iter = archive.listEntries( "/" ).iterator( );
-		while ( iter.hasNext( ) )
+		ArrayList<String> list = new ArrayList<String>( );
+		List<String> archiveEntries = archive.listEntries( namePattern );
+		for ( String name : archiveEntries )
 		{
-			String name = (String) iter.next( );
 			if ( name.startsWith( namePattern )
 					&& !name.equalsIgnoreCase( namePattern ) )
 			{
