@@ -355,7 +355,13 @@ public class SimpleResultSet implements IResultIterator
 				if ( dataSetStream instanceof RAOutputStream )
 				{
 					( (RAOutputStream) dataSetStream ).seek( rowCountOffset );
-					IOUtil.writeInt( dataSetStream, rowCount );
+					//if there is no rows saved in document, save rowCount as 0
+					if ( isFirstNextCall )
+					{
+						IOUtil.writeInt( dataSetStream, 0 );
+					}
+					else
+						IOUtil.writeInt( dataSetStream, rowCount );
 				}
 				
 				if ( this.streamsWrapper.getStreamForIndex( this.getResultClass( ), handler.getAppContext( ) )!= null )
