@@ -46,6 +46,12 @@
 		</TD>
 	</TR>
 	<TR HEIGHT="5px"><TD></TD></TR>
+	<TR HEIGHT="5px"><TD><HR/></TD></TR>
+	<TR>
+		<TD>
+		<label for="exportPages"><%=BirtResources.getMessage( "birt.viewer.dialog.page" )%></label>
+		</TD>
+	</TR>
 	<TR>
 		<TD>
 			<DIV ID="exportPageSetting">
@@ -77,6 +83,11 @@
 		<TD>
 			<DIV ID="exportFitSetting">
 				<TABLE>
+					<TR>
+						<TD>
+							<label for="exportFitToAuto"><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fitto" )%></label>
+						</TD>
+					</TR>
 					<TR>
 						<TD>
 							<INPUT TYPE="radio" ID="exportFitToAuto" NAME="exportFit" CHECKED/>
