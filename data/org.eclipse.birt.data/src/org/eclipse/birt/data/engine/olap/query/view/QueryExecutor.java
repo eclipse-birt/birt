@@ -32,12 +32,9 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
-import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
@@ -153,6 +150,7 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.setCubeQueryExecutor( executor );
 		
 		cubeQueryExecutorHelper.setMemoryCacheSize( CacheUtil.computeMemoryBufferSize( view.getAppContext( ) ) );
+		cubeQueryExecutorHelper.setAppContext( view.getAppContext( ));
 		cubeQueryExecutorHelper.setMaxDataObjectRows( CacheUtil.getMaxRows( view.getAppContext( ) ) );
 		
 		cubeQueryExecutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );

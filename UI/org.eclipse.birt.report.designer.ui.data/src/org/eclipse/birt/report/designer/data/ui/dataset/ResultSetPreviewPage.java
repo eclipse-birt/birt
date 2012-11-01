@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -239,8 +238,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 		getContainer( ).setMessage( Messages.getString( "dataset.editor.preview" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 
-		if ( modelChanged
-				|| ( (DataSetEditor) this.getContainer( ) ).modelChanged( ) )
+		if ( modelChanged )
 		{
 			modelChanged = false;
 

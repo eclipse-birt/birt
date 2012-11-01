@@ -60,7 +60,8 @@ public final class Stock extends AxesRenderer
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine.extension/render" ); //$NON-NLS-1$
-
+	private final static int MIN_HOTSPOT_WIDTH = 12;
+	
 	/**
 	 * The constructor.
 	 */
@@ -75,7 +76,6 @@ public final class Stock extends AxesRenderer
 	 * @see org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.chart.output.IRenderer,
 	 *      Chart.Plot)
 	 */
-	@SuppressWarnings("deprecation")
 	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
 			ISeriesRenderingHints isrh ) throws ChartException
 	{
@@ -303,13 +303,27 @@ public final class Stock extends AxesRenderer
 				dX += dSpacing + dWidth / 2 + iSharedUnitIndex * dWidth;
 			}
 			
-			StructureSource iSource = WrappedStructureSource.createSeriesDataPoint( ss,
-					dpha[i] );
-			lre = ( (EventObjectCache) ipr ).getEventObject( iSource,
+			lre = ( (EventObjectCache) ipr ).getEventObject( WrappedStructureSource.createSeriesDataPoint( ss,
+					dpha[i] ),
 					LineRenderEvent.class );
 			if ( ss.isShowAsBarStick( ) )
 			{
 				int stickLength = ss.getStickLength( );
+				
+				// For stick sub type, the front face is used to create the hotspot
+				// of the tooltip. To make it easier for user to show the tooltip, just
+				// use topmost, bottommost, rightmost and leftmost point as the hotspot
+				// boundaries. Use a cap width in case the stick length is too small.
+				// #41900
+				
+				int hotspotHalfWidth = Math.min(stickLength, MIN_HOTSPOT_WIDTH / 2);
+				double hotspotHigh = Math.max( dHigh, dLow);
+				double hotspotLow = Math.min(dHigh, dLow);                
+
+				loaFrontFace[0].set( dX - hotspotHalfWidth, hotspotHigh );
+				loaFrontFace[1].set( dX - hotspotHalfWidth, hotspotLow );
+				loaFrontFace[2].set( dX + hotspotHalfWidth, hotspotLow );
+				loaFrontFace[3].set( dX + hotspotHalfWidth, hotspotHigh );
 
 				Location loStart2 = goFactory.createLocation( 0, 0 ), loEnd2 = goFactory.createLocation( 0,
 						0 );
@@ -371,7 +385,8 @@ public final class Stock extends AxesRenderer
 
 				// RENDER THE RECTANGLE (EXTRUDED IF > 2D)
 				renderPlane( ipr,
-						iSource,
+						WrappedStructureSource.createSeriesDataPoint( ss,
+								dpha[i] ),
 						loaFrontFace,
 						convertFill( fPaletteEntry, se.getClose( ) > se.getOpen( ) ),
 						lia,
@@ -396,6 +411,8 @@ public final class Stock extends AxesRenderer
 				final EList<Trigger> elTriggers = ss.getTriggers( );
 				if ( !elTriggers.isEmpty( ) )
 				{
+					final StructureSource iSource = WrappedStructureSource.createSeriesDataPoint( ss,
+							dpha[i] );
 					final InteractionEvent iev = ( (EventObjectCache) ipr ).getEventObject( iSource,
 							InteractionEvent.class );
 					iev.setCursor( ss.getCursor( ) );
@@ -408,28 +425,8 @@ public final class Stock extends AxesRenderer
 						iev.addTrigger( tg );
 					}
 
-					final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( iSource,
+					final PolygonRenderEvent pre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ss ),
 							PolygonRenderEvent.class );
-					if ( ss.isShowAsBarStick( ) )
-					{
-						// To mimic a polygon from line for hotspots
-						int stickLength = ss.getStickLength( );
-						Location[] loaHotspot = new Location[4];
-						loaHotspot[0] = goFactory.createLocation( loUpper.getX( )
-								- stickLength,
-								loUpper.getY( ) );
-						loaHotspot[1] = goFactory.createLocation( loUpper.getX( )
-								+ stickLength,
-								loUpper.getY( ) );
-						loaHotspot[2] = goFactory.createLocation( loLower.getX( )
-								+ stickLength,
-								loLower.getY( ) );
-						loaHotspot[3] = goFactory.createLocation( loLower.getX( )
-								- stickLength,
-								loLower.getY( ) );
-
-						loaFrontFace = loaHotspot;
-					}
 					pre.setPoints( loaFrontFace );
 					iev.setHotSpot( pre );
 					ipr.enableInteraction( iev );

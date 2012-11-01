@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.data.ui.datasource;
 
 import org.eclipse.jface.wizard.Wizard;
 
-
 /**
  * TODO: Please document
  * 
@@ -22,24 +21,24 @@ import org.eclipse.jface.wizard.Wizard;
 public class DefaultDataSourceWizard extends Wizard
 {
 
-    private DataSourceSelectionPage page = new DataSourceSelectionPage("datasourceselection");	//$NON-NLS-1$  
+	private DataSourceSelectionPage page = new DataSourceSelectionPage( "datasourceselection" ); //$NON-NLS-1$  
 
-    /**
-     * Constructor
-     */
-    public DefaultDataSourceWizard()
-    {
-        super();
-        addPage(page);
-        setForcePreviousAndNextButtons( true );
-    }
+	/**
+	 * Constructor
+	 */
+	public DefaultDataSourceWizard( )
+	{
+		super( );
+		addPage( page );
+		setForcePreviousAndNextButtons( true );
+	}
 
-    /*
+	/*
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	public boolean performFinish( )
 	{
-		return page.createSelectedDataSource( );
+		return page.performFinish( );
 	}
 }

@@ -2515,7 +2515,7 @@ MapPreferencePage.displayname.Title=Mappage
 MapPreferencePage.text.Add=&Ajouter...
 MapPreferencePage.text.Delete=&Supprimer
 MapPreferencePage.text.Description=Règles de mappage :
-MapPreferencePage.text.Edit=&Modifier...
+MapPreferencePage.text.Edit=Modifi&er...
 MapPreferencePage.toolTipText.Up=Déplacer la règle de mappage vers le haut
 MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 MapPreferencePage.text.Duplicate=Du&pliquer
@@ -4310,6 +4310,10 @@ ResourceSelectionValidator.ExtErrorSplitter=\ ou
 GeneralPage.Library.Included=Bibliothèque :
 GeneralPage.Library.Modified.Note=REMARQUE : cet élément d'état provenant de la bibliothèque a été modifié. Pour restaurer l'élément d'état d'origine, cliquez sur {0} "Restaurer les propriétés"
 
+#BookMarkPage
+BookMarkPage.Modified.Note=The bookmark contains special characters other than \"A-Z a-z 0-9 - _ : .\", this may cause issue at runtime.
+BookMarkPage.Modified.WithoutQuotes=The bookmark must by surrounded by double quotes.
+
 ###########################################################
 # LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
@@ -4617,7 +4621,8 @@ BindingDialogHelper.text.Grid=Grille
 BindingDialogHelper.text.Group=Gr&oupe
 BindingDialogHelper.text.Expression=&Expression :
 BindingDialogHelper.text.displayName=&Nom d'affichage :
-BindingDialogHelper.text.allowExport=Autoriser l'exp&ortation :
+BindingDialogHelper.text.allowExport=Exp&ort:
+BindingDialogHelper.text.allowExport.button=Allow Export
 BindingDialogHelper.text.displayNameID=ID du nom d'affi&chage :
 BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
@@ -4634,6 +4639,7 @@ BindingDialogHelper.warning.button.no=Non
 #Scripts Node
 Scripts.Node.DisplayName=Scripts
 ScriptElementNode.Action.Text=Attein&dre l'élément d'état
+ScriptObjectNode_0=&Reset Script
 
 ReportPage.PreviewImage.Button.ToolTip=Gérer la miniature
 
@@ -4643,7 +4649,7 @@ CrosstabBindingDialogHelper.AggOn.All=Tous
 CrosstabBindingDialogHelper.bindngName.timeperiod=Période
 CrosstabBindingDialogHelper.calculation.label=Intervalle de tem&ps :
 CrosstabBindingDialogHelper.calculation.group=Intervalle de temps
-CrosstabBindingDialogHelper.recentday.description=Dernière date de la période
+CrosstabBindingDialogHelper.recentday.description=Last date in the period
 CrosstabBindingDialogHelper.referencedate.label=Date de &référence :
 CrosstabBindingDialogHelper.thisdate.label=Cette date :
 CrosstabBindingDialogHelper.thisdate.example.label=Veuillez insérer la valeur de date fournie entre guillemets.\nPar exemple : "2012-01-23", "1/23/2012".
@@ -4717,6 +4723,11 @@ PasteFormatAction.text=Coller le &format
 #InsertAggregationAction
 InsertAggregationAction.text=&Agrégation
 
+
+###########################################################
+#InsertRelativeTimePeriodAction
+InsertRelativeTimePeriodAction.text=Relati&ve Time Period
+
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Définir la vue actuelle
@@ -4750,7 +4761,10 @@ GeneralConfigurationBlock.message.general.description=Paramètres généraux pour l
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du &dégradé 
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments a&nimés
 GeneralConfigurationBlock.group.label=Invite
+GeneralConfigurationBlock.group.defaultThemes=Default themes library
 GeneralConfigurationBlock.button.text.prompt=Afficher l'&invite après ouverture du fichier de bibliothèque.
+GeneralConfigurationBlock.button.text.defaultTheme.enable=Enable default &themes library.
+GeneralConfigurationBlock.button.text.defaultTheme.include=&Include the default themes.
 GeneralConfigurationBlock.move.binding.group=Déplacer les liaisons locales vers le parent pour améliorer les performances
 GeneralConfigurationBlock.move.binding.always=&Toujours
 GeneralConfigurationBlock.move.binding.never=Ja&mais
@@ -4867,6 +4881,24 @@ ExpressionBuilderConfigurationBlock.DefaultSyntax=Syntaxe par déf&aut :
 ExpressionEditor.Error.EmptyExpression=L'expression doit être renseignée.
 ExpressionEditor.Label.Expression=&Expression :
 ExpressionEditor.Title=Modifier l'expression
+ExpressionSyntaxColoringPage.Accessible.Name.Background=Background Color Selector
+ExpressionSyntaxColoringPage.Accessible.Name.Foreground=Foreground Color Selector
+ExpressionSyntaxColoringPage.Button.Bold=&Bold
+ExpressionSyntaxColoringPage.Button.Enable=Enable
+ExpressionSyntaxColoringPage.Button.Italic=&Italic
+ExpressionSyntaxColoringPage.Button.Restore=&Restore Default
+ExpressionSyntaxColoringPage.Button.Strikethrough=&Strikethrough
+ExpressionSyntaxColoringPage.Button.Underline=&Texte souligné
+ExpressionSyntaxColoringPage.Decscription=Customize the syntax highlighting by selecting the type of text whose style you want to customize from either the list or the example text area.
+ExpressionSyntaxColoringPage.Element.Comment=Comment
+ExpressionSyntaxColoringPage.Element.Default=Par défaut
+ExpressionSyntaxColoringPage.Element.Keyword=Keyword
+ExpressionSyntaxColoringPage.Element.String=Chaîne
+ExpressionSyntaxColoringPage.Label.Background=Backgr&ound:
+ExpressionSyntaxColoringPage.Label.Foreground=&Foreground:
+ExpressionSyntaxColoringPage.Label.SampleText=&Sample text:
+ExpressionSyntaxColoringPage.Label.SyntaxElement=S&yntax Element:
+ExpressionSyntaxColoringPage.Link.ColorAndFont=Default colors and font can be configured on the <a href="org.eclipse.ui.preferencePages.GeneralTextEditor">Text Editors</a> and on the <a href="org.eclipse.ui.preferencePages.ColorsAndFonts">Colors and Fonts</a> preference pages.
 
 ###########################################################
 #VariableDropAdapter
