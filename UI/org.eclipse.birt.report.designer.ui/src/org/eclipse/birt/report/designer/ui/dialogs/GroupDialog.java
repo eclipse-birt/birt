@@ -351,18 +351,15 @@ public class GroupDialog extends BaseDialog implements Listener
 		bookmakrComposite.setLayout( layout );
 
 		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) ); //$NON-NLS-1$
-		bookmarkEditor = new Text( bookmakrComposite, SWT.WRAP | SWT.BORDER );
+		bookmarkEditor = new Text( bookmakrComposite, SWT.SINGLE | SWT.BORDER );
 		gd = new GridData( );
 		gd.widthHint = 180;
-		gd.heightHint = bookmarkEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- bookmarkEditor.getBorderWidth( )
-				* 2;
 		bookmarkEditor.setLayoutData( gd );
 
 		ExpressionButtonUtil.createExpressionButton( bookmakrComposite,
 				bookmarkEditor,
 				new ExpressionProvider( inputGroup ),
-				inputGroup.getContainer( ) );
+				inputGroup );
 	}
 
 	private void createTOCArea( Composite parent )
@@ -383,12 +380,9 @@ public class GroupDialog extends BaseDialog implements Listener
 		tocArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
 		// Creates expression editor
-		tocEditor = new Text( tocArea, SWT.WRAP | SWT.BORDER );
+		tocEditor = new Text( tocArea, SWT.SINGLE | SWT.BORDER );
 		GridData gd = new GridData( );
 		gd.widthHint = 200;
-		gd.heightHint = tocEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- tocEditor.getBorderWidth( )
-				* 2;
 		tocEditor.setLayoutData( gd );
 		tocEditor.addModifyListener( new ModifyListener( ) {
 
@@ -411,7 +405,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( tocArea,
 				tocEditor,
 				new ExpressionProvider( inputGroup ),
-				inputGroup.getContainer( ) );
+				inputGroup );
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "GroupDialog.Dialog.TOCStyle" ) ); //$NON-NLS-1$
 
@@ -623,7 +617,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		ExpressionButtonUtil.createExpressionButton( keyArea,
 				keyChooser,
 				null,
-				inputGroup.getContainer( ),
+				inputGroup,
 				null,
 				false,
 				SWT.PUSH,
@@ -1112,14 +1106,7 @@ public class GroupDialog extends BaseDialog implements Listener
 		checkReadOnlyControl( IStyleModel.PAGE_BREAK_AFTER_PROP,
 				pagebreakAfterCombo );
 
-		String pagebreakInside = getPageBreakInsideLocalValue( );
-
-		if ( pagebreakInside == null )
-		{
-			index = getPagebreakInsideIndex( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
-		}
-		else
-			index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
+		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
 
 		if ( index < 0 || index >= pagebreakInsideCombo.getItemCount( ) )
 		{
@@ -1142,15 +1129,6 @@ public class GroupDialog extends BaseDialog implements Listener
 		hideDetail.setSelection( inputGroup.hideDetail( ) );
 		checkReadOnlyControl( IGroupElementModel.HIDE_DETAIL_PROP, hideDetail );
 		return true;
-	}
-
-	private String getPageBreakInsideLocalValue( )
-	{
-		List modelList = new ArrayList( );
-		modelList.add( inputGroup );
-		String pagebreakInside = DEUtil.getGroupElementHandle( modelList )
-				.getLocalStringProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP );
-		return pagebreakInside;
 	}
 
 	private void refreshColumnList( )
@@ -1477,18 +1455,8 @@ public class GroupDialog extends BaseDialog implements Listener
 				inputGroup.setPageBreakAfter( choice );
 
 			choice = pagebreakInsideChoicesAll[pagebreakInsideCombo.getSelectionIndex( )].getName( );
-			if ( getPageBreakInsideLocalValue( ) != null )
-			{
-				if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
-					inputGroup.setPageBreakInside( choice );
-			}
-			else
-			{
-				if ( !choice.equals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID ) )
-				{
-					inputGroup.setPageBreakInside( choice );
-				}
-			}
+			if ( !choice.equals( inputGroup.getPageBreakInside( ) ) )
+				inputGroup.setPageBreakInside( choice );
 
 			if ( inputGroup.repeatHeader( ) != repeatHeaderButton.getSelection( ) )
 			{
