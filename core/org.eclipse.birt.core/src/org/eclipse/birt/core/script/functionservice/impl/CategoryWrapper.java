@@ -22,6 +22,8 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * This class wraps a function that defined by user using java to a scriptable object
  * that processable by Rhino.
@@ -64,7 +66,20 @@ public class CategoryWrapper extends ScriptableObject
 					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
 					try
 					{
-						return function.execute( convertedArgs, getIScriptFunctionContext( scope ) );
+						final IScriptFunctionContext scriptFunctionContext = getIScriptFunctionContext( scope );
+						final Collator collator = getCollator( scope );
+
+						IScriptFunctionContext wrappedScriptFunctionContext = new IScriptFunctionContext( ) {
+
+							public Object findProperty( String name )
+							{
+								if( "compare_locale".equals( name ) )
+									return collator;
+								return scriptFunctionContext.findProperty( name );
+							}
+						};
+						return function.execute( convertedArgs,
+								wrappedScriptFunctionContext );
 					}
 					catch ( BirtException e )
 					{
@@ -84,6 +99,17 @@ public class CategoryWrapper extends ScriptableObject
 						return getIScriptFunctionContext( scope.getParentScope( ) );
 					}
 					return ( IScriptFunctionContext )JavascriptEvalUtil.convertJavascriptValue(obj);
+				}
+				private Collator getCollator( Scriptable scope )
+				{
+					if ( scope == null )
+						return null;
+					Object obj = scope.getPrototype( ).get( "compare_locale", scope.getPrototype( ) );
+					if ( obj == org.mozilla.javascript.UniqueTag.NOT_FOUND )
+					{
+						return getCollator( scope.getParentScope( ) );
+					}
+					return ( Collator )JavascriptEvalUtil.convertJavascriptValue(obj);
 				}
 			},0 );
 		}
