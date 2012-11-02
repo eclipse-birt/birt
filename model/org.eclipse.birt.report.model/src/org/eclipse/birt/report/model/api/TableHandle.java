@@ -857,6 +857,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 */
 	public void setWidthToFitColumns( int dpi ) throws SemanticException
 	{
+		if ( null == getWidth( ).getValue( ) )
+			return;
+
 		DimensionValue absoluteWidths = null;
 		DimensionValue relativeWidths = null;
 		if ( element.getSlot( COLUMN_SLOT ).getCount( ) == 0 )
