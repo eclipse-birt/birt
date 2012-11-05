@@ -150,6 +150,7 @@ public class QueryExecutor
 		cubeQueryExecutorHelper.setCubeQueryExecutor( executor );
 		
 		cubeQueryExecutorHelper.setMemoryCacheSize( CacheUtil.computeMemoryBufferSize( view.getAppContext( ) ) );
+		cubeQueryExecutorHelper.setAppContext( view.getAppContext( ));
 		cubeQueryExecutorHelper.setMaxDataObjectRows( CacheUtil.getMaxRows( view.getAppContext( ) ) );
 		
 		cubeQueryExecutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );

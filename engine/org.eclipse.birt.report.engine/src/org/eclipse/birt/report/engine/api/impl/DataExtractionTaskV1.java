@@ -80,6 +80,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -226,9 +227,20 @@ public class DataExtractionTaskV1 extends EngineTask
 			// load the report variables
 			hintsReader = new PageHintReader( reportDocReader );
 			Collection<PageVariable> vars = hintsReader.getPageVariables( );
-			if ( vars != null )
+			if ( vars != null && !vars.isEmpty() )
 			{
 				executionContext.addPageVariables( vars );
+			}
+			//currently always load page variable in the first page. Perhaps we need disable the exporting.
+			IPageHint pageHint = hintsReader.getPageHint( 1 );
+			if ( pageHint != null )
+			{
+				Collection<PageVariable> pageVariables = pageHint
+						.getPageVariables( );
+				if ( pageVariables != null && !pageVariables.isEmpty( ) )
+				{
+					executionContext.addPageVariables( pageVariables );
+				}
 			}
 		}
 		catch ( IOException ex )
