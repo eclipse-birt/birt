@@ -17,8 +17,8 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.Tab;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyList.ListElement;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTitle;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
@@ -182,8 +182,8 @@ public class BaseAttributePage extends TabPage
 		{
 			return;
 		}
-		ListElement element = (ListElement) categoryList.getElementAt( categoryList.getSelectionIndex( ) );
-		title.setTitle( element.getText( ), null );
+		title.setTitle( getCategoryTitle( categoryList.getSelectionIndex( ) ),
+				null );
 		TabPage page = getCategoryPane( categoryList.getSelectionIndex( ) );
 		if ( page == null )
 		{
@@ -302,6 +302,19 @@ public class BaseAttributePage extends TabPage
 		page.refresh( );
 		pageMap.put( key, page );
 		return page;
+	}
+
+	private String getCategoryTitle( int index )
+	{
+		ICategoryPage page = categoryProvider.getCategories( )[index];
+		String title = null;
+		if ( page instanceof CategoryPage )
+		{
+			title = ( (CategoryPage) page ).getDisplayTitle( );
+		}
+		if ( title == null )
+			title = page.getDisplayLabel( );
+		return title;
 	}
 
 	public void dispose( )
