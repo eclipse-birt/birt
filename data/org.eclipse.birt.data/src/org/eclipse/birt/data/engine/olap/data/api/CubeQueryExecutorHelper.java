@@ -819,7 +819,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	private void applyAggrFilters( AggregationDefinition[] aggregations,
+	public void applyAggrFilters( AggregationDefinition[] aggregations,
 			IAggregationResultSet[] resultSet, StopSign stopSign )
 			throws IOException, DataException, BirtException
 	{
@@ -878,7 +878,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet[] temp = onePassExecute( aggregations,
 					stopSign );
 			// overwrite result with the second pass aggregation result set
-			System.arraycopy( temp, 0, resultSet, 0, resultSet.length );
+			System.arraycopy( temp, 0, resultSet, 0, temp.length );
 		}
 	}
 
