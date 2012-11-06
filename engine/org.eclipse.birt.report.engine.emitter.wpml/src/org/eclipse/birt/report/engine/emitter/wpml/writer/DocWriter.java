@@ -564,7 +564,7 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 			writer.openTag( "w:p" );
 		}
 
-		if ( color != null || !color.isEmpty( ) )
+		if ( color != null  )
 		{
 			writer.openTag( "w:pPr" );
 			writer.openTag( "w:shd" );
