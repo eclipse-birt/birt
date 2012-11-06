@@ -23,12 +23,12 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
+import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.InlineFlag;
+import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.emitter.wpml.HyperlinkInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.IWordWriter;
 import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 import org.eclipse.birt.report.engine.emitter.wpml.WordUtil;
-import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.InlineFlag;
-import org.eclipse.birt.report.engine.emitter.wpml.AbstractEmitterImpl.TextFlag;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
@@ -553,20 +553,40 @@ public class DocWriter extends AbstractWordXmlWriter implements IWordWriter
 
 	public void writeTOC( String tocText, int level )
 	{
-		writeTOC( tocText, level, false );
+		writeTOC( tocText, null, level, false );
 	}
 	
-	public void writeTOC( String tocText, int level, boolean middleInline )
+	public void writeTOC( String tocText, String color, int level,
+			boolean middleInline )
 	{
 		if ( !middleInline )
 		{
 			writer.openTag( "w:p" );
 		}
 
-		writer.openTag( "w:rPr" );
-		writer.openTag( "w:vanish" );
-		writer.closeTag( "w:vanish" );
-		writer.closeTag( "w:rPr" );
+		if ( color != null || !color.isEmpty( ) )
+		{
+			writer.openTag( "w:pPr" );
+			writer.openTag( "w:shd" );
+			writer.attribute( "w:val", "clear" );
+			writer.attribute( "w:color", "auto" );
+			writer.attribute( "w:fill", color );
+			writer.closeTag( "w:shd" );
+			writer.openTag( "w:rPr" );
+			writer.openTag( "w:vanish" );
+			writer.closeTag( "w:vanish" );
+			writer.closeTag( "w:rPr" );
+			writer.closeTag( "w:pPr" );
+		}
+		else
+		{
+			writer.openTag( "w:pPr" );
+			writer.openTag( "w:rPr" );
+			writer.openTag( "w:vanish" );
+			writer.closeTag( "w:vanish" );
+			writer.closeTag( "w:rPr" );
+			writer.closeTag( "w:pPr" );
+		}
 
 		writer.openTag( "aml:annotation" );
 		writer.attribute( "aml:id", bookmarkId );
