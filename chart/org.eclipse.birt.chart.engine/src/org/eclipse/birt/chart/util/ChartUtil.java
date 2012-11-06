@@ -2546,4 +2546,28 @@ public class ChartUtil
 		return Messages.getString( chart.getType( )
 				.replaceAll( " ", "" ) + ".Title" );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
+	
+	/**
+	 * Checks if current series is only an instance of specified series type,
+	 * neither super class nor sub class.
+	 * 
+	 * @param series
+	 *            series instance
+	 * @param clazz
+	 *            series type
+	 * @return true means an instance of this direct interface.
+	 */
+	public static boolean isSpecifiedSeriesType( Series series,
+			Class<? extends Series> clazz )
+	{
+		Class<?>[] list = series.getClass( ).getInterfaces( );
+		for ( Class<?> c : list )
+		{
+			if ( c == clazz )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
